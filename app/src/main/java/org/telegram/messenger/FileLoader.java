@@ -1038,6 +1038,11 @@ public class FileLoader extends BaseController {
                                     public void saveFilePath(FilePathDatabase.PathData pathData, File file5) {
                                         FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, file5 != null ? file5.toString() : null);
                                     }
+
+                                    @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
+                                    public boolean hasAnotherRefOnFile(String str8) {
+                                        return FileLoader.this.getFileDatabase().hasAnotherRefOnFile(str8);
+                                    }
                                 });
                                 int datacenterId2 = fileLoadOperation.getDatacenterId();
                                 String str8 = str4;
@@ -1156,6 +1161,11 @@ public class FileLoader extends BaseController {
                             public void saveFilePath(FilePathDatabase.PathData pathData, File file5) {
                                 FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, file5 != null ? file5.toString() : null);
                             }
+
+                            @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
+                            public boolean hasAnotherRefOnFile(String str82) {
+                                return FileLoader.this.getFileDatabase().hasAnotherRefOnFile(str82);
+                            }
                         });
                         int datacenterId22 = fileLoadOperation.getDatacenterId();
                         String str82 = str4;
@@ -1222,6 +1232,11 @@ public class FileLoader extends BaseController {
                         @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
                         public void saveFilePath(FilePathDatabase.PathData pathData, File file5) {
                             FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, file5 != null ? file5.toString() : null);
+                        }
+
+                        @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
+                        public boolean hasAnotherRefOnFile(String str822) {
+                            return FileLoader.this.getFileDatabase().hasAnotherRefOnFile(str822);
                         }
                     });
                     int datacenterId222 = fileLoadOperation.getDatacenterId();

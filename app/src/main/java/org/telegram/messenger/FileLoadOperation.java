@@ -154,6 +154,8 @@ public class FileLoadOperation {
 
         void didFinishLoadingFile(FileLoadOperation fileLoadOperation, File file);
 
+        boolean hasAnotherRefOnFile(String str);
+
         void saveFilePath(FilePathDatabase.PathData pathData, File file);
     }
 
@@ -864,21 +866,21 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:104:0x0394  */
     /* JADX WARN: Removed duplicated region for block: B:105:0x03ba  */
     /* JADX WARN: Removed duplicated region for block: B:111:0x03db  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x03fb  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x05d7  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x0601  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x0673  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x067d  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x06d6  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x0701  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x072d  */
-    /* JADX WARN: Removed duplicated region for block: B:264:0x076a  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x07ba  */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x07dd A[Catch: Exception -> 0x07e2, TRY_LEAVE, TryCatch #12 {Exception -> 0x07e2, blocks: (B:285:0x07cc, B:287:0x07dd), top: B:328:0x07cc }] */
-    /* JADX WARN: Removed duplicated region for block: B:293:0x07eb  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x07f0  */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x07fe  */
-    /* JADX WARN: Removed duplicated region for block: B:313:0x05e2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0409  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x05e5  */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x060f  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x0681  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x068b  */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x06e4  */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x070f  */
+    /* JADX WARN: Removed duplicated region for block: B:262:0x073b  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x0778  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x07c8  */
+    /* JADX WARN: Removed duplicated region for block: B:290:0x07eb A[Catch: Exception -> 0x07f0, TRY_LEAVE, TryCatch #0 {Exception -> 0x07f0, blocks: (B:288:0x07da, B:290:0x07eb), top: B:308:0x07da }] */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x07f9  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x07fe  */
+    /* JADX WARN: Removed duplicated region for block: B:299:0x080c  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x05f0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -993,7 +995,9 @@ public class FileLoadOperation {
                     if (j6 != 0) {
                     }
                 }
-                this.cacheFileFinal.delete();
+                if (!this.delegate.hasAnotherRefOnFile(this.cacheFileFinal.toString())) {
+                    this.cacheFileFinal.delete();
+                }
                 exists = false;
             }
             if (exists) {
@@ -1114,49 +1118,50 @@ public class FileLoadOperation {
                                     str6 = str11;
                                     try {
                                         z3 = z2;
-                                        try {
-                                            this.moovFound = this.nextPreloadDownloadOffset > this.totalBytesCount / 2 ? 2 : 1;
-                                            this.preloadNotRequestedBytesCount = readLong3;
-                                        } catch (Exception e7) {
-                                            e2 = e7;
-                                            FileLog.e(e2);
-                                            if (!this.isPreloadVideoOperation) {
-                                                this.cacheFilePreload = null;
-                                                try {
-                                                    randomAccessFile = this.preloadStream;
-                                                    if (randomAccessFile != null) {
-                                                    }
-                                                } catch (Exception e8) {
-                                                    FileLog.e(e8);
+                                    } catch (Exception e7) {
+                                        e2 = e7;
+                                        z3 = z2;
+                                        FileLog.e(e2);
+                                        if (!this.isPreloadVideoOperation) {
+                                            this.cacheFilePreload = null;
+                                            try {
+                                                randomAccessFile = this.preloadStream;
+                                                if (randomAccessFile != null) {
                                                 }
-                                            }
-                                            if (str4 == null) {
-                                            }
-                                            if (!this.cacheFileTemp.exists()) {
-                                            }
-                                            arrayList = this.notLoadedBytesRanges;
-                                            if (arrayList != null) {
-                                            }
-                                            if (BuildVars.LOGS_ENABLED) {
-                                            }
-                                            if (str5 != null) {
-                                            }
-                                            j2 = 0;
-                                            if (!this.isPreloadVideoOperation) {
-                                            }
-                                            updateProgress();
-                                            RandomAccessFile randomAccessFile32 = new RandomAccessFile(this.cacheFileTemp, str7);
-                                            this.fileOutputStream = randomAccessFile32;
-                                            j3 = this.downloadedBytes;
-                                            if (j3 != 0) {
-                                            }
-                                            z4 = false;
-                                            if (this.fileOutputStream == null) {
+                                            } catch (Exception e8) {
+                                                FileLog.e(e8);
                                             }
                                         }
+                                        if (str4 == null) {
+                                        }
+                                        if (!this.cacheFileTemp.exists()) {
+                                        }
+                                        arrayList = this.notLoadedBytesRanges;
+                                        if (arrayList != null) {
+                                        }
+                                        if (BuildVars.LOGS_ENABLED) {
+                                        }
+                                        if (str5 != null) {
+                                        }
+                                        j2 = 0;
+                                        if (!this.isPreloadVideoOperation) {
+                                            copyNotLoadedRanges();
+                                        }
+                                        updateProgress();
+                                        RandomAccessFile randomAccessFile32 = new RandomAccessFile(this.cacheFileTemp, str7);
+                                        this.fileOutputStream = randomAccessFile32;
+                                        j3 = this.downloadedBytes;
+                                        if (j3 != 0) {
+                                        }
+                                        z4 = false;
+                                        if (this.fileOutputStream == null) {
+                                        }
+                                    }
+                                    try {
+                                        this.moovFound = this.nextPreloadDownloadOffset > this.totalBytesCount / 2 ? 2 : 1;
+                                        this.preloadNotRequestedBytesCount = readLong3;
                                     } catch (Exception e9) {
                                         e2 = e9;
-                                        z3 = z2;
                                         FileLog.e(e2);
                                         if (!this.isPreloadVideoOperation) {
                                         }
@@ -1232,54 +1237,53 @@ public class FileLoadOperation {
                     this.cacheFileParts = new File(this.tempPath, str4);
                     try {
                         str7 = str6;
-                    } catch (Exception e12) {
-                        e = e12;
-                        str7 = str6;
-                    }
-                    try {
-                        RandomAccessFile randomAccessFile5 = new RandomAccessFile(this.cacheFileParts, str7);
-                        this.filePartsStream = randomAccessFile5;
-                        long length3 = randomAccessFile5.length();
-                        if (length3 % 8 == 4) {
-                            int readInt = this.filePartsStream.readInt();
-                            if (readInt <= (length3 - 4) / 2) {
-                                int i4 = 0;
-                                while (i4 < readInt) {
-                                    long readLong4 = this.filePartsStream.readLong();
-                                    long readLong5 = this.filePartsStream.readLong();
-                                    int i5 = readInt;
-                                    this.notLoadedBytesRanges.add(new Range(readLong4, readLong5));
-                                    this.notRequestedBytesRanges.add(new Range(readLong4, readLong5));
-                                    i4++;
-                                    readInt = i5;
+                        try {
+                            RandomAccessFile randomAccessFile5 = new RandomAccessFile(this.cacheFileParts, str7);
+                            this.filePartsStream = randomAccessFile5;
+                            long length3 = randomAccessFile5.length();
+                            if (length3 % 8 == 4) {
+                                int readInt = this.filePartsStream.readInt();
+                                if (readInt <= (length3 - 4) / 2) {
+                                    int i4 = 0;
+                                    while (i4 < readInt) {
+                                        long readLong4 = this.filePartsStream.readLong();
+                                        long readLong5 = this.filePartsStream.readLong();
+                                        int i5 = readInt;
+                                        this.notLoadedBytesRanges.add(new Range(readLong4, readLong5));
+                                        this.notRequestedBytesRanges.add(new Range(readLong4, readLong5));
+                                        i4++;
+                                        readInt = i5;
+                                    }
                                 }
+                            }
+                        } catch (Exception e12) {
+                            e = e12;
+                            FileLog.e(e);
+                            if (!this.cacheFileTemp.exists()) {
+                            }
+                            arrayList = this.notLoadedBytesRanges;
+                            if (arrayList != null) {
+                            }
+                            if (BuildVars.LOGS_ENABLED) {
+                            }
+                            if (str5 != null) {
+                            }
+                            j2 = 0;
+                            if (!this.isPreloadVideoOperation) {
+                            }
+                            updateProgress();
+                            RandomAccessFile randomAccessFile3222 = new RandomAccessFile(this.cacheFileTemp, str7);
+                            this.fileOutputStream = randomAccessFile3222;
+                            j3 = this.downloadedBytes;
+                            if (j3 != 0) {
+                            }
+                            z4 = false;
+                            if (this.fileOutputStream == null) {
                             }
                         }
                     } catch (Exception e13) {
                         e = e13;
-                        FileLog.e(e);
-                        if (!this.cacheFileTemp.exists()) {
-                        }
-                        arrayList = this.notLoadedBytesRanges;
-                        if (arrayList != null) {
-                        }
-                        if (BuildVars.LOGS_ENABLED) {
-                        }
-                        if (str5 != null) {
-                        }
-                        j2 = 0;
-                        if (!this.isPreloadVideoOperation) {
-                            copyNotLoadedRanges();
-                        }
-                        updateProgress();
-                        RandomAccessFile randomAccessFile3222 = new RandomAccessFile(this.cacheFileTemp, str7);
-                        this.fileOutputStream = randomAccessFile3222;
-                        j3 = this.downloadedBytes;
-                        if (j3 != 0) {
-                        }
-                        z4 = false;
-                        if (this.fileOutputStream == null) {
-                        }
+                        str7 = str6;
                     }
                 } else {
                     str7 = str6;
