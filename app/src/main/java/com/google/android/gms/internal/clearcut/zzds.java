@@ -1,15 +1,17 @@
 package com.google.android.gms.internal.clearcut;
 
+import androidx.core.text.HtmlCompat;
 import com.google.android.gms.internal.clearcut.zzcg;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.googlecode.mp4parser.authoring.tracks.h265.NalUnitTypes;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.telegram.messenger.R;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.ui.Components.UndoView;
 import sun.misc.Unsafe;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 final class zzds<T> implements zzef<T> {
     private static final Unsafe zzmh = zzfd.zzef();
     private final int[] zzmi;
@@ -19,6 +21,7 @@ final class zzds<T> implements zzef<T> {
     private final int zzmm;
     private final zzdo zzmn;
     private final boolean zzmo;
+    private final boolean zzmp;
     private final boolean zzmq;
     private final boolean zzmr;
     private final int[] zzms;
@@ -36,7 +39,7 @@ final class zzds<T> implements zzef<T> {
         this.zzmk = i;
         this.zzml = i2;
         this.zzmm = i3;
-        boolean z3 = zzdoVar instanceof zzcg;
+        this.zzmp = zzdoVar instanceof zzcg;
         this.zzmq = z;
         this.zzmo = zzbuVar != null && zzbuVar.zze(zzdoVar);
         this.zzmr = false;
@@ -156,7 +159,7 @@ final class zzds<T> implements zzef<T> {
                     return i9;
                 }
                 return i;
-            case 56:
+            case UndoView.ACTION_USERNAME_COPIED /* 56 */:
             case VoIPService.CALL_MIN_LAYER /* 65 */:
                 if (i5 == 1) {
                     obj = Long.valueOf(zzax.zzd(bArr, i));
@@ -166,7 +169,7 @@ final class zzds<T> implements zzef<T> {
                     return i9;
                 }
                 return i;
-            case 57:
+            case UndoView.ACTION_HASHTAG_COPIED /* 57 */:
             case 64:
                 if (i5 == 5) {
                     obj2 = Integer.valueOf(zzax.zzc(bArr, i));
@@ -176,7 +179,7 @@ final class zzds<T> implements zzef<T> {
                     return i9;
                 }
                 return i;
-            case 58:
+            case UndoView.ACTION_TEXT_COPIED /* 58 */:
                 if (i5 == 0) {
                     i9 = zzax.zzb(bArr, i, zzayVar);
                     obj3 = Boolean.valueOf(zzayVar.zzfe != 0);
@@ -204,7 +207,7 @@ final class zzds<T> implements zzef<T> {
                     }
                 }
                 return i;
-            case 60:
+            case UndoView.ACTION_PHONE_COPIED /* 60 */:
                 if (i5 == 2) {
                     i9 = zza(zzad(i8), bArr, i, i2, zzayVar);
                     Object object = unsafe.getInt(t, j3) == i4 ? unsafe.getObject(t, j) : null;
@@ -217,7 +220,7 @@ final class zzds<T> implements zzef<T> {
                     return i9;
                 }
                 return i;
-            case 61:
+            case UndoView.ACTION_SHARE_BACKGROUND /* 61 */:
                 if (i5 == 2) {
                     i9 = zzax.zza(bArr, i, zzayVar);
                     i11 = zzayVar.zzfd;
@@ -233,7 +236,7 @@ final class zzds<T> implements zzef<T> {
                     return i9;
                 }
                 return i;
-            case 63:
+            case HtmlCompat.FROM_HTML_MODE_COMPACT /* 63 */:
                 if (i5 == 0) {
                     int zza = zzax.zza(bArr, i, zzayVar);
                     int i12 = zzayVar.zzfd;
@@ -372,7 +375,7 @@ final class zzds<T> implements zzef<T> {
             unsafe.putObject(t, j2, zzcnVar);
         }
         switch (i7) {
-            case R.styleable.MapAttrs_uiScrollGesturesDuringRotateOrZoom /* 18 */:
+            case 18:
             case 35:
                 if (i5 == 2) {
                     zzbq zzbqVar = (zzbq) zzcnVar;
@@ -403,7 +406,7 @@ final class zzds<T> implements zzef<T> {
                     }
                 }
                 return i8;
-            case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
+            case 19:
             case 36:
                 if (i5 == 2) {
                     zzce zzceVar = (zzce) zzcnVar;
@@ -434,8 +437,8 @@ final class zzds<T> implements zzef<T> {
                     }
                 }
                 return i8;
-            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
-            case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
+            case 20:
+            case 21:
             case 37:
             case 38:
                 if (i5 == 2) {
@@ -464,8 +467,8 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i8;
-            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-            case 29:
+            case 22:
+            case NalUnitTypes.NAL_TYPE_RSV_VCL29 /* 29 */:
             case 39:
             case 43:
                 if (i5 == 2) {
@@ -475,8 +478,8 @@ final class zzds<T> implements zzef<T> {
                     return zzax.zza(i3, bArr, i, i2, zzcnVar, zzayVar);
                 }
                 return i8;
-            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
-            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+            case 23:
+            case 32:
             case 40:
             case 46:
                 if (i5 == 2) {
@@ -743,14 +746,50 @@ final class zzds<T> implements zzef<T> {
             unsafe.putObject(t, j, zzk);
             object = zzk;
         }
-        this.zzmz.zzl(zzae);
-        this.zzmz.zzg(object);
+        zzdh<?, ?> zzl = this.zzmz.zzl(zzae);
+        Map<?, ?> zzg = this.zzmz.zzg(object);
         int zza = zzax.zza(bArr, i, zzayVar);
         int i5 = zzayVar.zzfd;
         if (i5 < 0 || i5 > i2 - zza) {
             throw zzco.zzbl();
         }
-        throw null;
+        int i6 = i5 + zza;
+        Object obj = (K) zzl.zzmc;
+        Object obj2 = (V) zzl.zzdu;
+        while (zza < i6) {
+            int i7 = zza + 1;
+            int i8 = bArr[zza];
+            if (i8 < 0) {
+                i7 = zzax.zza(i8, bArr, i7, zzayVar);
+                i8 = zzayVar.zzfd;
+            }
+            int i9 = i7;
+            int i10 = i8 & 7;
+            switch (i8 >>> 3) {
+                case 1:
+                    if (i10 != zzl.zzmb.zzel()) {
+                        break;
+                    } else {
+                        zza = zza(bArr, i9, i2, zzl.zzmb, (Class<?>) null, zzayVar);
+                        obj = (K) zzayVar.zzff;
+                        continue;
+                    }
+                case 2:
+                    if (i10 != zzl.zzmd.zzel()) {
+                        break;
+                    } else {
+                        zza = zza(bArr, i9, i2, zzl.zzmd, zzl.zzdu.getClass(), zzayVar);
+                        obj2 = (V) zzayVar.zzff;
+                        continue;
+                    }
+            }
+            zza = zzax.zza(i8, bArr, i9, i2, zzayVar);
+        }
+        if (zza != i6) {
+            throw zzco.zzbo();
+        }
+        zzg.put(obj, obj2);
+        return i6;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:130:0x0370 A[ADDED_TO_REGION] */
@@ -1569,6 +1608,75 @@ final class zzds<T> implements zzef<T> {
         return i5;
     }
 
+    private static int zza(byte[] bArr, int i, int i2, zzfl zzflVar, Class<?> cls, zzay zzayVar) throws IOException {
+        int zzb;
+        Object valueOf;
+        Object obj;
+        Object obj2;
+        int i3;
+        long j;
+        switch (zzdt.zzgq[zzflVar.ordinal()]) {
+            case 1:
+                zzb = zzax.zzb(bArr, i, zzayVar);
+                valueOf = Boolean.valueOf(zzayVar.zzfe != 0);
+                zzayVar.zzff = valueOf;
+                return zzb;
+            case 2:
+                return zzax.zze(bArr, i, zzayVar);
+            case 3:
+                obj = Double.valueOf(zzax.zze(bArr, i));
+                zzayVar.zzff = obj;
+                return i + 8;
+            case 4:
+            case 5:
+                obj2 = Integer.valueOf(zzax.zzc(bArr, i));
+                zzayVar.zzff = obj2;
+                return i + 4;
+            case 6:
+            case 7:
+                obj = Long.valueOf(zzax.zzd(bArr, i));
+                zzayVar.zzff = obj;
+                return i + 8;
+            case 8:
+                obj2 = Float.valueOf(zzax.zzf(bArr, i));
+                zzayVar.zzff = obj2;
+                return i + 4;
+            case 9:
+            case 10:
+            case 11:
+                zzb = zzax.zza(bArr, i, zzayVar);
+                i3 = zzayVar.zzfd;
+                valueOf = Integer.valueOf(i3);
+                zzayVar.zzff = valueOf;
+                return zzb;
+            case 12:
+            case 13:
+                zzb = zzax.zzb(bArr, i, zzayVar);
+                j = zzayVar.zzfe;
+                valueOf = Long.valueOf(j);
+                zzayVar.zzff = valueOf;
+                return zzb;
+            case 14:
+                return zza((zzef) zzea.zzcm().zze(cls), bArr, i, i2, zzayVar);
+            case 15:
+                zzb = zzax.zza(bArr, i, zzayVar);
+                i3 = zzbk.zzm(zzayVar.zzfd);
+                valueOf = Integer.valueOf(i3);
+                zzayVar.zzff = valueOf;
+                return zzb;
+            case 16:
+                zzb = zzax.zzb(bArr, i, zzayVar);
+                j = zzbk.zza(zzayVar.zzfe);
+                valueOf = Long.valueOf(j);
+                zzayVar.zzff = valueOf;
+                return zzb;
+            case 17:
+                return zzax.zzd(bArr, i, zzayVar);
+            default:
+                throw new RuntimeException("unsupported field type.");
+        }
+    }
+
     public static <T> zzds<T> zza(Class<T> cls, zzdm zzdmVar, zzdw zzdwVar, zzcy zzcyVar, zzex<?, ?> zzexVar, zzbu<?> zzbuVar, zzdj zzdjVar) {
         int i;
         int i2;
@@ -1725,7 +1833,7 @@ final class zzds<T> implements zzef<T> {
         long j = zzag & 1048575;
         switch ((zzag & 267386880) >>> 20) {
             case 0:
-                return zzfd.zzn(t, j) != 0.0d;
+                return zzfd.zzn(t, j) != FirebaseRemoteConfig.DEFAULT_VALUE_FOR_DOUBLE;
             case 1:
                 return zzfd.zzm(t, j) != 0.0f;
             case 2:
@@ -2028,27 +2136,27 @@ final class zzds<T> implements zzef<T> {
                                 continue;
                             }
                             i = i10 + 4;
-                        case R.styleable.MapAttrs_uiScrollGesturesDuringRotateOrZoom /* 18 */:
+                        case 18:
                             zzeh.zza(this.zzmi[i10], (List<Double>) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
+                        case 19:
                             zzeh.zzb(this.zzmi[i10], (List<Float>) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                        case 20:
                             zzeh.zzc(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
+                        case 21:
                             zzeh.zzd(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                        case 22:
                             zzeh.zzh(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                        case 23:
                             zzeh.zzf(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
@@ -2069,7 +2177,7 @@ final class zzds<T> implements zzef<T> {
                         case 28:
                             zzeh.zzb(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar);
                             break;
-                        case 29:
+                        case NalUnitTypes.NAL_TYPE_RSV_VCL29 /* 29 */:
                             zzeh.zzi(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
@@ -2081,7 +2189,7 @@ final class zzds<T> implements zzef<T> {
                             zzeh.zzl(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                        case 32:
                             zzeh.zzg(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
@@ -2171,19 +2279,19 @@ final class zzds<T> implements zzef<T> {
                                 break;
                             }
                             break;
-                        case 56:
+                        case UndoView.ACTION_USERNAME_COPIED /* 56 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzc(i6, zzh(t, j));
                                 break;
                             }
                             break;
-                        case 57:
+                        case UndoView.ACTION_HASHTAG_COPIED /* 57 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzf(i6, zzg(t, j));
                                 break;
                             }
                             break;
-                        case 58:
+                        case UndoView.ACTION_TEXT_COPIED /* 58 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzb(i6, zzi(t, j));
                                 break;
@@ -2195,13 +2303,13 @@ final class zzds<T> implements zzef<T> {
                                 break;
                             }
                             break;
-                        case 60:
+                        case UndoView.ACTION_PHONE_COPIED /* 60 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zza(i6, unsafe.getObject(t, j), zzad(i10));
                                 break;
                             }
                             break;
-                        case 61:
+                        case UndoView.ACTION_SHARE_BACKGROUND /* 61 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zza(i6, (zzbb) unsafe.getObject(t, j));
                                 break;
@@ -2213,7 +2321,7 @@ final class zzds<T> implements zzef<T> {
                                 break;
                             }
                             break;
-                        case 63:
+                        case HtmlCompat.FROM_HTML_MODE_COMPACT /* 63 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzn(i6, zzg(t, j));
                                 break;
@@ -2517,21 +2625,21 @@ final class zzds<T> implements zzef<T> {
                     }
                     z = false;
                     break;
-                case R.styleable.MapAttrs_uiScrollGesturesDuringRotateOrZoom /* 18 */:
-                case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
-                case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
                 case 24:
                 case 25:
                 case 26:
                 case 27:
                 case 28:
-                case 29:
+                case NalUnitTypes.NAL_TYPE_RSV_VCL29 /* 29 */:
                 case 30:
                 case 31:
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                 case 33:
                 case 34:
                 case 35:
@@ -2557,14 +2665,14 @@ final class zzds<T> implements zzef<T> {
                 case 53:
                 case 54:
                 case 55:
-                case 56:
-                case 57:
-                case 58:
+                case UndoView.ACTION_USERNAME_COPIED /* 56 */:
+                case UndoView.ACTION_HASHTAG_COPIED /* 57 */:
+                case UndoView.ACTION_TEXT_COPIED /* 58 */:
                 case 59:
-                case 60:
-                case 61:
+                case UndoView.ACTION_PHONE_COPIED /* 60 */:
+                case UndoView.ACTION_SHARE_BACKGROUND /* 61 */:
                 case 62:
-                case 63:
+                case HtmlCompat.FROM_HTML_MODE_COMPACT /* 63 */:
                 case 64:
                 case VoIPService.CALL_MIN_LAYER /* 65 */:
                 case 66:
@@ -2666,21 +2774,21 @@ final class zzds<T> implements zzef<T> {
                     obj = zzfd.zzo(t, j2);
                     break;
                 case 10:
-                case R.styleable.MapAttrs_uiScrollGesturesDuringRotateOrZoom /* 18 */:
-                case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
-                case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
                 case 24:
                 case 25:
                 case 26:
                 case 27:
                 case 28:
-                case 29:
+                case NalUnitTypes.NAL_TYPE_RSV_VCL29 /* 29 */:
                 case 30:
                 case 31:
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                 case 33:
                 case 34:
                 case 35:
@@ -2754,7 +2862,7 @@ final class zzds<T> implements zzef<T> {
                     i = zzg(t, j2);
                     i3 = i2 + i;
                     break;
-                case 56:
+                case UndoView.ACTION_USERNAME_COPIED /* 56 */:
                     if (!zza((zzds<T>) t, i5, i4)) {
                         break;
                     }
@@ -2763,7 +2871,7 @@ final class zzds<T> implements zzef<T> {
                     i = zzci.zzl(j);
                     i3 = i2 + i;
                     break;
-                case 57:
+                case UndoView.ACTION_HASHTAG_COPIED /* 57 */:
                     if (!zza((zzds<T>) t, i5, i4)) {
                         break;
                     }
@@ -2771,7 +2879,7 @@ final class zzds<T> implements zzef<T> {
                     i = zzg(t, j2);
                     i3 = i2 + i;
                     break;
-                case 58:
+                case UndoView.ACTION_TEXT_COPIED /* 58 */:
                     if (zza((zzds<T>) t, i5, i4)) {
                         i2 = i3 * 53;
                         z = zzi(t, j2);
@@ -2789,7 +2897,7 @@ final class zzds<T> implements zzef<T> {
                     i = ((String) zzfd.zzo(t, j2)).hashCode();
                     i3 = i2 + i;
                     break;
-                case 60:
+                case UndoView.ACTION_PHONE_COPIED /* 60 */:
                     if (!zza((zzds<T>) t, i5, i4)) {
                         break;
                     }
@@ -2798,7 +2906,7 @@ final class zzds<T> implements zzef<T> {
                     i = obj2.hashCode();
                     i3 = i2 + i;
                     break;
-                case 61:
+                case UndoView.ACTION_SHARE_BACKGROUND /* 61 */:
                     if (!zza((zzds<T>) t, i5, i4)) {
                         break;
                     }
@@ -2815,7 +2923,7 @@ final class zzds<T> implements zzef<T> {
                     i = zzg(t, j2);
                     i3 = i2 + i;
                     break;
-                case 63:
+                case HtmlCompat.FROM_HTML_MODE_COMPACT /* 63 */:
                     if (!zza((zzds<T>) t, i5, i4)) {
                         break;
                     }
@@ -3072,22 +3180,22 @@ final class zzds<T> implements zzef<T> {
                                 }
                                 zzfrVar.zzb(i14, zzfd.zzo(t, zzag & 1048575), zzad(length2));
                                 break;
-                            case R.styleable.MapAttrs_uiScrollGesturesDuringRotateOrZoom /* 18 */:
+                            case 18:
                                 zzeh.zza(this.zzmi[length2], (List<Double>) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
+                            case 19:
                                 zzeh.zzb(this.zzmi[length2], (List<Float>) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                            case 20:
                                 zzeh.zzc(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
+                            case 21:
                                 zzeh.zzd(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                            case 22:
                                 zzeh.zzh(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                            case 23:
                                 zzeh.zzf(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
                             case 24:
@@ -3105,7 +3213,7 @@ final class zzds<T> implements zzef<T> {
                             case 28:
                                 zzeh.zzb(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar);
                                 break;
-                            case 29:
+                            case NalUnitTypes.NAL_TYPE_RSV_VCL29 /* 29 */:
                                 zzeh.zzi(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
                             case 30:
@@ -3114,7 +3222,7 @@ final class zzds<T> implements zzef<T> {
                             case 31:
                                 zzeh.zzl(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                            case 32:
                                 zzeh.zzg(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
                             case 33:
@@ -3211,7 +3319,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 56:
+                            case UndoView.ACTION_USERNAME_COPIED /* 56 */:
                                 if (zza((zzds<T>) t, i14, length2)) {
                                     j8 = zzh(t, zzag & 1048575);
                                     zzfrVar.zzc(i14, j8);
@@ -3219,7 +3327,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 57:
+                            case UndoView.ACTION_HASHTAG_COPIED /* 57 */:
                                 if (zza((zzds<T>) t, i14, length2)) {
                                     i9 = zzg(t, zzag & 1048575);
                                     zzfrVar.zzf(i14, i9);
@@ -3227,7 +3335,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 58:
+                            case UndoView.ACTION_TEXT_COPIED /* 58 */:
                                 if (zza((zzds<T>) t, i14, length2)) {
                                     z2 = zzi(t, zzag & 1048575);
                                     zzfrVar.zzb(i14, z2);
@@ -3241,13 +3349,13 @@ final class zzds<T> implements zzef<T> {
                                 }
                                 zza(i14, zzfd.zzo(t, zzag & 1048575), zzfrVar);
                                 break;
-                            case 60:
+                            case UndoView.ACTION_PHONE_COPIED /* 60 */:
                                 if (!zza((zzds<T>) t, i14, length2)) {
                                     break;
                                 }
                                 zzfrVar.zza(i14, zzfd.zzo(t, zzag & 1048575), zzad(length2));
                                 break;
-                            case 61:
+                            case UndoView.ACTION_SHARE_BACKGROUND /* 61 */:
                                 if (!zza((zzds<T>) t, i14, length2)) {
                                     break;
                                 }
@@ -3261,7 +3369,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 63:
+                            case HtmlCompat.FROM_HTML_MODE_COMPACT /* 63 */:
                                 if (zza((zzds<T>) t, i14, length2)) {
                                     i11 = zzg(t, zzag & 1048575);
                                     zzfrVar.zzn(i14, i11);
@@ -3474,22 +3582,22 @@ final class zzds<T> implements zzef<T> {
                                 }
                                 zzfrVar.zzb(i15, zzfd.zzo(t, zzag2 & 1048575), zzad(i));
                                 break;
-                            case R.styleable.MapAttrs_uiScrollGesturesDuringRotateOrZoom /* 18 */:
+                            case 18:
                                 zzeh.zza(this.zzmi[i], (List<Double>) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
+                            case 19:
                                 zzeh.zzb(this.zzmi[i], (List<Float>) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                            case 20:
                                 zzeh.zzc(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
+                            case 21:
                                 zzeh.zzd(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                            case 22:
                                 zzeh.zzh(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                            case 23:
                                 zzeh.zzf(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
                             case 24:
@@ -3507,7 +3615,7 @@ final class zzds<T> implements zzef<T> {
                             case 28:
                                 zzeh.zzb(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar);
                                 break;
-                            case 29:
+                            case NalUnitTypes.NAL_TYPE_RSV_VCL29 /* 29 */:
                                 zzeh.zzi(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
                             case 30:
@@ -3516,7 +3624,7 @@ final class zzds<T> implements zzef<T> {
                             case 31:
                                 zzeh.zzl(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                            case 32:
                                 zzeh.zzg(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
                             case 33:
@@ -3613,7 +3721,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 56:
+                            case UndoView.ACTION_USERNAME_COPIED /* 56 */:
                                 if (zza((zzds<T>) t, i15, i)) {
                                     j3 = zzh(t, zzag2 & 1048575);
                                     zzfrVar.zzc(i15, j3);
@@ -3621,7 +3729,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 57:
+                            case UndoView.ACTION_HASHTAG_COPIED /* 57 */:
                                 if (zza((zzds<T>) t, i15, i)) {
                                     i3 = zzg(t, zzag2 & 1048575);
                                     zzfrVar.zzf(i15, i3);
@@ -3629,7 +3737,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 58:
+                            case UndoView.ACTION_TEXT_COPIED /* 58 */:
                                 if (zza((zzds<T>) t, i15, i)) {
                                     z = zzi(t, zzag2 & 1048575);
                                     zzfrVar.zzb(i15, z);
@@ -3643,13 +3751,13 @@ final class zzds<T> implements zzef<T> {
                                 }
                                 zza(i15, zzfd.zzo(t, zzag2 & 1048575), zzfrVar);
                                 break;
-                            case 60:
+                            case UndoView.ACTION_PHONE_COPIED /* 60 */:
                                 if (!zza((zzds<T>) t, i15, i)) {
                                     break;
                                 }
                                 zzfrVar.zza(i15, zzfd.zzo(t, zzag2 & 1048575), zzad(i));
                                 break;
-                            case 61:
+                            case UndoView.ACTION_SHARE_BACKGROUND /* 61 */:
                                 if (!zza((zzds<T>) t, i15, i)) {
                                     break;
                                 }
@@ -3663,7 +3771,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 63:
+                            case HtmlCompat.FROM_HTML_MODE_COMPACT /* 63 */:
                                 if (zza((zzds<T>) t, i15, i)) {
                                     i5 = zzg(t, zzag2 & 1048575);
                                     zzfrVar.zzn(i15, i5);
@@ -3994,209 +4102,213 @@ final class zzds<T> implements zzef<T> {
 
     @Override // com.google.android.gms.internal.clearcut.zzef
     public final void zzc(T t, T t2) {
-        t2.getClass();
-        for (int i = 0; i < this.zzmi.length; i += 4) {
-            int zzag = zzag(i);
-            long j = 1048575 & zzag;
-            int i2 = this.zzmi[i];
-            switch ((zzag & 267386880) >>> 20) {
-                case 0:
-                    if (zza((zzds<T>) t2, i)) {
-                        zzfd.zza(t, j, zzfd.zzn(t2, j));
+        if (t2 != null) {
+            for (int i = 0; i < this.zzmi.length; i += 4) {
+                int zzag = zzag(i);
+                long j = 1048575 & zzag;
+                int i2 = this.zzmi[i];
+                switch ((zzag & 267386880) >>> 20) {
+                    case 0:
+                        if (zza((zzds<T>) t2, i)) {
+                            zzfd.zza(t, j, zzfd.zzn(t2, j));
+                            zzb((zzds<T>) t, i);
+                            break;
+                        } else {
+                            break;
+                        }
+                    case 1:
+                        if (zza((zzds<T>) t2, i)) {
+                            zzfd.zza((Object) t, j, zzfd.zzm(t2, j));
+                            zzb((zzds<T>) t, i);
+                            break;
+                        } else {
+                            break;
+                        }
+                    case 2:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzk(t2, j));
                         zzb((zzds<T>) t, i);
                         break;
-                    } else {
-                        break;
-                    }
-                case 1:
-                    if (zza((zzds<T>) t2, i)) {
-                        zzfd.zza((Object) t, j, zzfd.zzm(t2, j));
+                    case 3:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzk(t2, j));
                         zzb((zzds<T>) t, i);
                         break;
-                    } else {
-                        break;
-                    }
-                case 2:
-                    if (!zza((zzds<T>) t2, i)) {
-                        break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzk(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 3:
-                    if (!zza((zzds<T>) t2, i)) {
-                        break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzk(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 4:
-                    if (!zza((zzds<T>) t2, i)) {
-                        break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 5:
-                    if (!zza((zzds<T>) t2, i)) {
-                        break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzk(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 6:
-                    if (!zza((zzds<T>) t2, i)) {
-                        break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 7:
-                    if (zza((zzds<T>) t2, i)) {
-                        zzfd.zza(t, j, zzfd.zzl(t2, j));
+                    case 4:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
                         zzb((zzds<T>) t, i);
                         break;
-                    } else {
+                    case 5:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzk(t2, j));
+                        zzb((zzds<T>) t, i);
                         break;
-                    }
-                case 8:
-                    if (!zza((zzds<T>) t2, i)) {
+                    case 6:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
+                        zzb((zzds<T>) t, i);
                         break;
-                    }
-                    zzfd.zza(t, j, zzfd.zzo(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 9:
-                case 17:
-                    zza(t, t2, i);
-                    break;
-                case 10:
-                    if (!zza((zzds<T>) t2, i)) {
+                    case 7:
+                        if (zza((zzds<T>) t2, i)) {
+                            zzfd.zza(t, j, zzfd.zzl(t2, j));
+                            zzb((zzds<T>) t, i);
+                            break;
+                        } else {
+                            break;
+                        }
+                    case 8:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza(t, j, zzfd.zzo(t2, j));
+                        zzb((zzds<T>) t, i);
                         break;
-                    }
-                    zzfd.zza(t, j, zzfd.zzo(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 11:
-                    if (!zza((zzds<T>) t2, i)) {
+                    case 9:
+                    case 17:
+                        zza(t, t2, i);
                         break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 12:
-                    if (!zza((zzds<T>) t2, i)) {
+                    case 10:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza(t, j, zzfd.zzo(t2, j));
+                        zzb((zzds<T>) t, i);
                         break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 13:
-                    if (!zza((zzds<T>) t2, i)) {
+                    case 11:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
+                        zzb((zzds<T>) t, i);
                         break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 14:
-                    if (!zza((zzds<T>) t2, i)) {
+                    case 12:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
+                        zzb((zzds<T>) t, i);
                         break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzk(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 15:
-                    if (!zza((zzds<T>) t2, i)) {
+                    case 13:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
+                        zzb((zzds<T>) t, i);
                         break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case 16:
-                    if (!zza((zzds<T>) t2, i)) {
+                    case 14:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzk(t2, j));
+                        zzb((zzds<T>) t, i);
                         break;
-                    }
-                    zzfd.zza((Object) t, j, zzfd.zzk(t2, j));
-                    zzb((zzds<T>) t, i);
-                    break;
-                case R.styleable.MapAttrs_uiScrollGesturesDuringRotateOrZoom /* 18 */:
-                case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
-                case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 46:
-                case 47:
-                case 48:
-                case 49:
-                    this.zzmw.zza(t, t2, j);
-                    break;
-                case 50:
-                    zzeh.zza(this.zzmz, t, t2, j);
-                    break;
-                case 51:
-                case 52:
-                case 53:
-                case 54:
-                case 55:
-                case 56:
-                case 57:
-                case 58:
-                case 59:
-                    if (!zza((zzds<T>) t2, i2, i)) {
+                    case 15:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzj(t2, j));
+                        zzb((zzds<T>) t, i);
                         break;
-                    }
-                    zzfd.zza(t, j, zzfd.zzo(t2, j));
-                    zzb((zzds<T>) t, i2, i);
-                    break;
-                case 60:
-                case 68:
-                    zzb(t, t2, i);
-                    break;
-                case 61:
-                case 62:
-                case 63:
-                case 64:
-                case VoIPService.CALL_MIN_LAYER /* 65 */:
-                case 66:
-                case 67:
-                    if (!zza((zzds<T>) t2, i2, i)) {
+                    case 16:
+                        if (!zza((zzds<T>) t2, i)) {
+                            break;
+                        }
+                        zzfd.zza((Object) t, j, zzfd.zzk(t2, j));
+                        zzb((zzds<T>) t, i);
                         break;
-                    }
-                    zzfd.zza(t, j, zzfd.zzo(t2, j));
-                    zzb((zzds<T>) t, i2, i);
-                    break;
+                    case 18:
+                    case 19:
+                    case 20:
+                    case 21:
+                    case 22:
+                    case 23:
+                    case 24:
+                    case 25:
+                    case 26:
+                    case 27:
+                    case 28:
+                    case NalUnitTypes.NAL_TYPE_RSV_VCL29 /* 29 */:
+                    case 30:
+                    case 31:
+                    case 32:
+                    case 33:
+                    case 34:
+                    case 35:
+                    case 36:
+                    case 37:
+                    case 38:
+                    case 39:
+                    case 40:
+                    case 41:
+                    case 42:
+                    case 43:
+                    case 44:
+                    case 45:
+                    case 46:
+                    case 47:
+                    case 48:
+                    case 49:
+                        this.zzmw.zza(t, t2, j);
+                        break;
+                    case 50:
+                        zzeh.zza(this.zzmz, t, t2, j);
+                        break;
+                    case 51:
+                    case 52:
+                    case 53:
+                    case 54:
+                    case 55:
+                    case UndoView.ACTION_USERNAME_COPIED /* 56 */:
+                    case UndoView.ACTION_HASHTAG_COPIED /* 57 */:
+                    case UndoView.ACTION_TEXT_COPIED /* 58 */:
+                    case 59:
+                        if (!zza((zzds<T>) t2, i2, i)) {
+                            break;
+                        }
+                        zzfd.zza(t, j, zzfd.zzo(t2, j));
+                        zzb((zzds<T>) t, i2, i);
+                        break;
+                    case UndoView.ACTION_PHONE_COPIED /* 60 */:
+                    case 68:
+                        zzb(t, t2, i);
+                        break;
+                    case UndoView.ACTION_SHARE_BACKGROUND /* 61 */:
+                    case 62:
+                    case HtmlCompat.FROM_HTML_MODE_COMPACT /* 63 */:
+                    case 64:
+                    case VoIPService.CALL_MIN_LAYER /* 65 */:
+                    case 66:
+                    case 67:
+                        if (!zza((zzds<T>) t2, i2, i)) {
+                            break;
+                        }
+                        zzfd.zza(t, j, zzfd.zzo(t2, j));
+                        zzb((zzds<T>) t, i2, i);
+                        break;
+                }
             }
-        }
-        if (!this.zzmq) {
+            if (this.zzmq) {
+                return;
+            }
             zzeh.zza(this.zzmx, t, t2);
             if (!this.zzmo) {
                 return;
             }
             zzeh.zza(this.zzmy, t, t2);
+            return;
         }
+        throw new NullPointerException();
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
@@ -4428,7 +4540,7 @@ final class zzds<T> implements zzef<T> {
                     case 0:
                         j = 0;
                         if ((i18 & i) != 0) {
-                            i17 += zzbn.zzb(i19, 0.0d);
+                            i17 += zzbn.zzb(i19, (double) FirebaseRemoteConfig.DEFAULT_VALUE_FOR_DOUBLE);
                             break;
                         }
                         break;
@@ -4524,31 +4636,31 @@ final class zzds<T> implements zzef<T> {
                         break;
                     case 17:
                         break;
-                    case R.styleable.MapAttrs_uiScrollGesturesDuringRotateOrZoom /* 18 */:
-                    case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
-                    case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                    case 18:
+                    case 23:
+                    case 32:
                         zzc = zzeh.zzw(i19, (List) unsafe.getObject(t, j6), false);
                         i17 += zzc;
                         j = 0;
                         break;
-                    case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
+                    case 19:
                     case 24:
                     case 31:
                         zzc = zzeh.zzv(i19, (List) unsafe.getObject(t, j6), false);
                         i17 += zzc;
                         j = 0;
                         break;
-                    case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                    case 20:
                         zzc = zzeh.zzo(i19, (List) unsafe.getObject(t, j6), false);
                         i17 += zzc;
                         j = 0;
                         break;
-                    case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
+                    case 21:
                         zzc = zzeh.zzp(i19, (List) unsafe.getObject(t, j6), false);
                         i17 += zzc;
                         j = 0;
                         break;
-                    case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                    case 22:
                         zzc = zzeh.zzs(i19, (List) unsafe.getObject(t, j6), false);
                         i17 += zzc;
                         j = 0;
@@ -4573,7 +4685,7 @@ final class zzds<T> implements zzef<T> {
                         i17 += zzc;
                         j = 0;
                         break;
-                    case 29:
+                    case NalUnitTypes.NAL_TYPE_RSV_VCL29 /* 29 */:
                         zzc = zzeh.zzt(i19, (List) unsafe.getObject(t, j6), false);
                         i17 += zzc;
                         j = 0;
@@ -4703,7 +4815,7 @@ final class zzds<T> implements zzef<T> {
                         break;
                     case 51:
                         if (zza((zzds<T>) t, i19, i16)) {
-                            zzc = zzbn.zzb(i19, 0.0d);
+                            zzc = zzbn.zzb(i19, (double) FirebaseRemoteConfig.DEFAULT_VALUE_FOR_DOUBLE);
                             i17 += zzc;
                         }
                         j = 0;
@@ -4736,21 +4848,21 @@ final class zzds<T> implements zzef<T> {
                         }
                         j = 0;
                         break;
-                    case 56:
+                    case UndoView.ACTION_USERNAME_COPIED /* 56 */:
                         if (zza((zzds<T>) t, i19, i16)) {
                             zzc = zzbn.zzg(i19, 0L);
                             i17 += zzc;
                         }
                         j = 0;
                         break;
-                    case 57:
+                    case UndoView.ACTION_HASHTAG_COPIED /* 57 */:
                         if (zza((zzds<T>) t, i19, i16)) {
                             i6 = zzbn.zzj(i19, 0);
                             i17 += i6;
                         }
                         j = 0;
                         break;
-                    case 58:
+                    case UndoView.ACTION_TEXT_COPIED /* 58 */:
                         break;
                     case 59:
                         if (zza((zzds<T>) t, i19, i16)) {
@@ -4759,9 +4871,9 @@ final class zzds<T> implements zzef<T> {
                         }
                         j = 0;
                         break;
-                    case 60:
+                    case UndoView.ACTION_PHONE_COPIED /* 60 */:
                         break;
-                    case 61:
+                    case UndoView.ACTION_SHARE_BACKGROUND /* 61 */:
                         break;
                     case 62:
                         if (zza((zzds<T>) t, i19, i16)) {
@@ -4771,7 +4883,7 @@ final class zzds<T> implements zzef<T> {
                         }
                         j = 0;
                         break;
-                    case 63:
+                    case HtmlCompat.FROM_HTML_MODE_COMPACT /* 63 */:
                         if (zza((zzds<T>) t, i19, i16)) {
                             i5 = zzg(t, j6);
                             zzc = zzbn.zzl(i19, i5);
@@ -4826,7 +4938,7 @@ final class zzds<T> implements zzef<T> {
                         i23 += 4;
                         i14 = 267386880;
                     }
-                    zzb = zzbn.zzb(i26, 0.0d);
+                    zzb = zzbn.zzb(i26, (double) FirebaseRemoteConfig.DEFAULT_VALUE_FOR_DOUBLE);
                     break;
                 case 1:
                     if (!zza((zzds<T>) t, i23)) {
@@ -4980,23 +5092,23 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzb = zzbn.zzc(i26, (zzdo) zzfd.zzo(t, j7), zzad(i23));
                     break;
-                case R.styleable.MapAttrs_uiScrollGesturesDuringRotateOrZoom /* 18 */:
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 18:
+                case 23:
+                case 32:
                     zzb = zzeh.zzw(i26, zzd(t, j7), false);
                     break;
-                case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
+                case 19:
                 case 24:
                 case 31:
                     zzb = zzeh.zzv(i26, zzd(t, j7), false);
                     break;
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                     zzb = zzeh.zzo(i26, zzd(t, j7), false);
                     break;
-                case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
+                case 21:
                     zzb = zzeh.zzp(i26, zzd(t, j7), false);
                     break;
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                case 22:
                     zzb = zzeh.zzs(i26, zzd(t, j7), false);
                     break;
                 case 25:
@@ -5011,7 +5123,7 @@ final class zzds<T> implements zzef<T> {
                 case 28:
                     zzb = zzeh.zzd(i26, zzd(t, j7));
                     break;
-                case 29:
+                case NalUnitTypes.NAL_TYPE_RSV_VCL29 /* 29 */:
                     zzb = zzeh.zzt(i26, zzd(t, j7), false);
                     break;
                 case 30:
@@ -5161,7 +5273,7 @@ final class zzds<T> implements zzef<T> {
                         i23 += 4;
                         i14 = 267386880;
                     }
-                    zzb = zzbn.zzb(i26, 0.0d);
+                    zzb = zzbn.zzb(i26, (double) FirebaseRemoteConfig.DEFAULT_VALUE_FOR_DOUBLE);
                     break;
                 case 52:
                     if (!zza((zzds<T>) t, i26, i23)) {
@@ -5201,7 +5313,7 @@ final class zzds<T> implements zzef<T> {
                         i23 += 4;
                         i14 = 267386880;
                     }
-                case 56:
+                case UndoView.ACTION_USERNAME_COPIED /* 56 */:
                     if (!zza((zzds<T>) t, i26, i23)) {
                         continue;
                         i23 += 4;
@@ -5209,7 +5321,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzb = zzbn.zzg(i26, 0L);
                     break;
-                case 57:
+                case UndoView.ACTION_HASHTAG_COPIED /* 57 */:
                     if (!zza((zzds<T>) t, i26, i23)) {
                         continue;
                         i23 += 4;
@@ -5217,7 +5329,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzb = zzbn.zzj(i26, 0);
                     break;
-                case 58:
+                case UndoView.ACTION_TEXT_COPIED /* 58 */:
                     if (!zza((zzds<T>) t, i26, i23)) {
                         continue;
                         i23 += 4;
@@ -5234,7 +5346,7 @@ final class zzds<T> implements zzef<T> {
                         i23 += 4;
                         i14 = 267386880;
                     }
-                case 60:
+                case UndoView.ACTION_PHONE_COPIED /* 60 */:
                     if (!zza((zzds<T>) t, i26, i23)) {
                         continue;
                         i23 += 4;
@@ -5242,7 +5354,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzb = zzeh.zzc(i26, zzfd.zzo(t, j7), zzad(i23));
                     break;
-                case 61:
+                case UndoView.ACTION_SHARE_BACKGROUND /* 61 */:
                     if (!zza((zzds<T>) t, i26, i23)) {
                         continue;
                         i23 += 4;
@@ -5261,7 +5373,7 @@ final class zzds<T> implements zzef<T> {
                         i23 += 4;
                         i14 = 267386880;
                     }
-                case 63:
+                case HtmlCompat.FROM_HTML_MODE_COMPACT /* 63 */:
                     if (zza((zzds<T>) t, i26, i23)) {
                         i11 = zzg(t, j7);
                         zzb = zzbn.zzl(i26, i11);
@@ -5327,11 +5439,23 @@ final class zzds<T> implements zzef<T> {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x00c2 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x00f0 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0104 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0104 A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r7v15 */
+    /* JADX WARN: Type inference failed for: r7v17, types: [com.google.android.gms.internal.clearcut.zzef] */
+    /* JADX WARN: Type inference failed for: r7v20 */
+    /* JADX WARN: Type inference failed for: r7v7, types: [com.google.android.gms.internal.clearcut.zzef] */
     @Override // com.google.android.gms.internal.clearcut.zzef
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public final boolean zzo(T t) {
         int i;
         int i2;
         boolean z;
+        boolean z2;
         int[] iArr = this.zzms;
         if (iArr != null && iArr.length != 0) {
             int i3 = -1;
@@ -5359,36 +5483,61 @@ final class zzds<T> implements zzef<T> {
                 if (((268435456 & zzag) != 0) && !zza((zzds<T>) t, zzai, i4, i2)) {
                     return false;
                 }
-                int i9 = (267386880 & zzag) >>> 20;
-                if (i9 != 9 && i9 != 17) {
-                    if (i9 != 27) {
-                        if (i9 == 60 || i9 == 68) {
-                            if (zza((zzds<T>) t, i6, zzai) && !zza(t, zzag, zzad(zzai))) {
-                                return false;
-                            }
-                        } else if (i9 != 49) {
-                            if (i9 == 50 && !this.zzmz.zzh(zzfd.zzo(t, zzag & 1048575)).isEmpty()) {
-                                this.zzmz.zzl(zzae(zzai));
-                                throw null;
+                switch ((267386880 & zzag) >>> 20) {
+                    case 9:
+                    case 17:
+                        if (zza((zzds<T>) t, zzai, i4, i2) && !zza(t, zzag, zzad(zzai))) {
+                            return false;
+                        }
+                        break;
+                    case 27:
+                    case 49:
+                        List list = (List) zzfd.zzo(t, zzag & 1048575);
+                        if (!list.isEmpty()) {
+                            ?? zzad = zzad(zzai);
+                            for (int i9 = 0; i9 < list.size(); i9++) {
+                                if (!zzad.zzo(list.get(i9))) {
+                                    z = false;
+                                    if (z) {
+                                        return false;
+                                    }
+                                    break;
+                                }
                             }
                         }
-                    }
-                    List list = (List) zzfd.zzo(t, zzag & 1048575);
-                    if (!list.isEmpty()) {
-                        zzef zzad = zzad(zzai);
-                        for (int i10 = 0; i10 < list.size(); i10++) {
-                            if (!zzad.zzo(list.get(i10))) {
-                                z = false;
-                                break;
+                        z = true;
+                        if (z) {
+                        }
+                    case 50:
+                        Map<?, ?> zzh = this.zzmz.zzh(zzfd.zzo(t, zzag & 1048575));
+                        if (!zzh.isEmpty()) {
+                            if (this.zzmz.zzl(zzae(zzai)).zzmd.zzek() == zzfq.MESSAGE) {
+                                zzef<T> zzefVar = 0;
+                                for (Object obj : zzh.values()) {
+                                    if (zzefVar == null) {
+                                        zzefVar = zzea.zzcm().zze(obj.getClass());
+                                    }
+                                    boolean zzo = zzefVar.zzo(obj);
+                                    zzefVar = zzefVar;
+                                    if (!zzo) {
+                                        z2 = false;
+                                        if (z2) {
+                                            return false;
+                                        }
+                                        break;
+                                    }
+                                }
                             }
                         }
-                    }
-                    z = true;
-                    if (!z) {
-                        return false;
-                    }
-                } else if (zza((zzds<T>) t, zzai, i4, i2) && !zza(t, zzag, zzad(zzai))) {
-                    return false;
+                        z2 = true;
+                        if (z2) {
+                        }
+                    case UndoView.ACTION_PHONE_COPIED /* 60 */:
+                    case 68:
+                        if (zza((zzds<T>) t, i6, zzai) && !zza(t, zzag, zzad(zzai))) {
+                            return false;
+                        }
+                        break;
                 }
             }
             if (this.zzmo && !this.zzmy.zza(t).isInitialized()) {

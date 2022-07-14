@@ -7,28 +7,28 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SvgHelper;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
-/* loaded from: classes3.dex */
+import org.telegram.tgnet.TLRPC;
+import org.telegram.ui.ActionBar.Theme;
+/* loaded from: classes5.dex */
 public class StickerImageView extends BackupImageView implements NotificationCenter.NotificationCenterDelegate {
     int currentAccount;
     int stickerNum;
     String stickerPackName = AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME;
 
-    public StickerImageView(Context context, int i) {
+    public StickerImageView(Context context, int currentAccount) {
         super(context);
-        this.currentAccount = i;
+        this.currentAccount = currentAccount;
     }
 
-    public void setStickerNum(int i) {
-        if (this.stickerNum != i) {
-            this.stickerNum = i;
+    public void setStickerNum(int stickerNum) {
+        if (this.stickerNum != stickerNum) {
+            this.stickerNum = stickerNum;
             setSticker();
         }
     }
 
-    public void setStickerPackName(String str) {
-        this.stickerPackName = str;
+    public void setStickerPackName(String stickerPackName) {
+        this.stickerPackName = stickerPackName;
     }
 
     @Override // org.telegram.ui.Components.BackupImageView, android.view.View
@@ -45,59 +45,39 @@ public class StickerImageView extends BackupImageView implements NotificationCen
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.diceStickersDidLoad) {
-            if (!this.stickerPackName.equals((String) objArr[0])) {
-                return;
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.diceStickersDidLoad) {
+            String name = (String) args[0];
+            if (this.stickerPackName.equals(name)) {
+                setSticker();
             }
-            setSticker();
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0034  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0042  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0049  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0056  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void setSticker() {
-        TLRPC$Document tLRPC$Document;
-        SvgHelper.SvgDrawable svgDrawable;
-        TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(this.stickerPackName);
-        if (stickerSetByName == null) {
-            stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(this.stickerPackName);
+        SvgHelper.SvgDrawable svgThumb;
+        TLRPC.Document document = null;
+        TLRPC.TL_messages_stickerSet set = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(this.stickerPackName);
+        if (set == null) {
+            set = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(this.stickerPackName);
         }
-        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSetByName;
-        SvgHelper.SvgDrawable svgDrawable2 = null;
-        if (tLRPC$TL_messages_stickerSet != null) {
-            int size = tLRPC$TL_messages_stickerSet.documents.size();
-            int i = this.stickerNum;
-            if (size > i) {
-                tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(i);
-                if (tLRPC$Document != null) {
-                    svgDrawable2 = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "emptyListPlaceholder", 0.2f);
-                }
-                svgDrawable = svgDrawable2;
-                if (svgDrawable != null) {
-                    svgDrawable.overrideWidthAndHeight(512, 512);
-                }
-                if (tLRPC$Document == null) {
-                    setImage(ImageLocation.getForDocument(tLRPC$Document), "130_130", "tgs", svgDrawable, tLRPC$TL_messages_stickerSet);
-                    return;
-                }
-                this.imageReceiver.clearImage();
-                MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(this.stickerPackName, false, tLRPC$TL_messages_stickerSet == null);
-                return;
-            }
+        if (set != null && set.documents.size() > this.stickerNum) {
+            document = set.documents.get(this.stickerNum);
         }
-        tLRPC$Document = null;
-        if (tLRPC$Document != null) {
+        if (document == null) {
+            svgThumb = null;
+        } else {
+            svgThumb = DocumentObject.getSvgThumb(document.thumbs, Theme.key_emptyListPlaceholder, 0.2f);
         }
-        svgDrawable = svgDrawable2;
-        if (svgDrawable != null) {
+        if (svgThumb != null) {
+            svgThumb.overrideWidthAndHeight(512, 512);
         }
-        if (tLRPC$Document == null) {
+        if (document != null) {
+            ImageLocation imageLocation = ImageLocation.getForDocument(document);
+            setImage(imageLocation, "130_130", "tgs", svgThumb, set);
+            return;
         }
+        this.imageReceiver.clearImage();
+        MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(this.stickerPackName, false, set == null);
     }
 }

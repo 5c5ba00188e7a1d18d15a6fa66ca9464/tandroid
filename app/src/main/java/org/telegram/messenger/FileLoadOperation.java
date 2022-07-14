@@ -3,6 +3,7 @@ package org.telegram.messenger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,36 +17,9 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$InputFileLocation;
-import org.telegram.tgnet.TLRPC$InputWebFileLocation;
-import org.telegram.tgnet.TLRPC$TL_document;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
-import org.telegram.tgnet.TLRPC$TL_documentEncrypted;
-import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_fileHash;
-import org.telegram.tgnet.TLRPC$TL_fileLocationToBeDeprecated;
-import org.telegram.tgnet.TLRPC$TL_inputDocumentFileLocation;
-import org.telegram.tgnet.TLRPC$TL_inputPeerPhotoFileLocation;
-import org.telegram.tgnet.TLRPC$TL_inputPhotoFileLocation;
-import org.telegram.tgnet.TLRPC$TL_inputStickerSetThumb;
-import org.telegram.tgnet.TLRPC$TL_secureFile;
-import org.telegram.tgnet.TLRPC$TL_theme;
-import org.telegram.tgnet.TLRPC$TL_upload_cdnFile;
-import org.telegram.tgnet.TLRPC$TL_upload_cdnFileReuploadNeeded;
-import org.telegram.tgnet.TLRPC$TL_upload_file;
-import org.telegram.tgnet.TLRPC$TL_upload_fileCdnRedirect;
-import org.telegram.tgnet.TLRPC$TL_upload_getCdnFile;
-import org.telegram.tgnet.TLRPC$TL_upload_getCdnFileHashes;
-import org.telegram.tgnet.TLRPC$TL_upload_getFile;
-import org.telegram.tgnet.TLRPC$TL_upload_getWebFile;
-import org.telegram.tgnet.TLRPC$TL_upload_reuploadCdnFile;
-import org.telegram.tgnet.TLRPC$TL_upload_webFile;
-import org.telegram.tgnet.TLRPC$Vector;
-import org.telegram.tgnet.TLRPC$WebPage;
-/* loaded from: classes.dex */
+import org.telegram.tgnet.TLRPC;
+/* loaded from: classes4.dex */
 public class FileLoadOperation {
-    private static final Object lockObject = new Object();
     private static final int preloadMaxBytes = 2097152;
     private static final int stateDownloading = 1;
     private static final int stateFailed = 2;
@@ -63,7 +37,7 @@ public class FileLoadOperation {
     private byte[] cdnCheckBytes;
     private int cdnChunkCheckSize;
     private int cdnDatacenterId;
-    private HashMap<Long, TLRPC$TL_fileHash> cdnHashes;
+    private HashMap<Long, TLRPC.TL_fileHash> cdnHashes;
     private byte[] cdnIv;
     private byte[] cdnKey;
     private byte[] cdnToken;
@@ -76,7 +50,6 @@ public class FileLoadOperation {
     private ArrayList<RequestInfo> delayedRequestInfos;
     private FileLoadOperationDelegate delegate;
     private int downloadChunkSize;
-    private int downloadChunkSizeAnimation;
     private int downloadChunkSizeBig;
     private long downloadedBytes;
     private boolean encryptFile;
@@ -88,19 +61,18 @@ public class FileLoadOperation {
     private RandomAccessFile filePartsStream;
     private RandomAccessFile fileReadStream;
     private RandomAccessFile fiv;
+    private boolean forceBig;
     private long foundMoovSize;
     private int initialDatacenterId;
     private boolean isCdn;
     private boolean isForceRequest;
     private boolean isPreloadVideoOperation;
-    private boolean isStream;
     private byte[] iv;
     private byte[] key;
     protected long lastProgressUpdateTime;
-    protected TLRPC$InputFileLocation location;
+    protected TLRPC.InputFileLocation location;
     private int maxCdnParts;
     private int maxDownloadRequests;
-    private int maxDownloadRequestsAnimation;
     private int maxDownloadRequestsBig;
     private int moovFound;
     private long nextAtomOffset;
@@ -130,7 +102,6 @@ public class FileLoadOperation {
     protected boolean requestingReference;
     private int requestsCount;
     private boolean reuploadingCdn;
-    private long startTime;
     private boolean started;
     private volatile int state;
     private String storeFileName;
@@ -144,9 +115,9 @@ public class FileLoadOperation {
     private int totalPreloadedBytes;
     private boolean ungzip;
     private WebFile webFile;
-    private TLRPC$InputWebFileLocation webLocation;
+    private TLRPC.InputWebFileLocation webLocation;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface FileLoadOperationDelegate {
         void didChangedLoadProgress(FileLoadOperation fileLoadOperation, long j, long j2);
 
@@ -154,42 +125,40 @@ public class FileLoadOperation {
 
         void didFinishLoadingFile(FileLoadOperation fileLoadOperation, File file);
 
-        boolean hasAnotherRefOnFile(String str);
-
         void saveFilePath(FilePathDatabase.PathData pathData, File file);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class RequestInfo {
         private long offset;
         private int requestToken;
-        private TLRPC$TL_upload_file response;
-        private TLRPC$TL_upload_cdnFile responseCdn;
-        private TLRPC$TL_upload_webFile responseWeb;
+        private TLRPC.TL_upload_file response;
+        private TLRPC.TL_upload_cdnFile responseCdn;
+        private TLRPC.TL_upload_webFile responseWeb;
 
         protected RequestInfo() {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class Range {
         private long end;
         private long start;
 
-        private Range(long j, long j2) {
-            this.start = j;
-            this.end = j2;
+        private Range(long s, long e) {
+            this.start = s;
+            this.end = e;
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class PreloadRange {
         private long fileOffset;
         private long length;
 
-        private PreloadRange(long j, long j2) {
-            this.fileOffset = j;
-            this.length = j2;
+        private PreloadRange(long o, long l) {
+            this.fileOffset = o;
+            this.length = l;
         }
     }
 
@@ -206,141 +175,94 @@ public class FileLoadOperation {
         this.maxCdnParts = (int) (FileLoader.DEFAULT_MAX_FILE_SIZE / this.downloadChunkSizeBig);
     }
 
-    public FileLoadOperation(ImageLocation imageLocation, Object obj, String str, long j) {
+    public FileLoadOperation(ImageLocation imageLocation, Object parent, String extension, long size) {
         this.downloadChunkSize = 32768;
         this.downloadChunkSizeBig = 131072;
         this.cdnChunkCheckSize = 131072;
         this.maxDownloadRequests = 4;
         this.maxDownloadRequestsBig = 4;
-        this.bigFileSizeFrom = 10485760;
+        this.bigFileSizeFrom = 1048576;
         this.maxCdnParts = (int) (FileLoader.DEFAULT_MAX_FILE_SIZE / 131072);
-        this.downloadChunkSizeAnimation = 131072;
-        this.maxDownloadRequestsAnimation = 4;
         this.preloadTempBuffer = new byte[24];
         boolean z = false;
         this.state = 0;
         updateParams();
-        this.parentObject = obj;
-        this.isStream = imageLocation.imageType == 2;
+        this.parentObject = parent;
+        this.forceBig = imageLocation.imageType == 2;
         if (imageLocation.isEncrypted()) {
-            TLRPC$InputFileLocation tLRPC$InputFileLocation = new TLRPC$InputFileLocation() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFileLocation
-                public static int constructor = -182231723;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void readParams(AbstractSerializedData abstractSerializedData, boolean z2) {
-                    this.id = abstractSerializedData.readInt64(z2);
-                    this.access_hash = abstractSerializedData.readInt64(z2);
-                }
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
-                    abstractSerializedData.writeInt64(this.id);
-                    abstractSerializedData.writeInt64(this.access_hash);
-                }
-            };
-            this.location = tLRPC$InputFileLocation;
-            TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated = imageLocation.location;
-            long j2 = tLRPC$TL_fileLocationToBeDeprecated.volume_id;
-            tLRPC$InputFileLocation.id = j2;
-            tLRPC$InputFileLocation.volume_id = j2;
-            tLRPC$InputFileLocation.local_id = tLRPC$TL_fileLocationToBeDeprecated.local_id;
-            tLRPC$InputFileLocation.access_hash = imageLocation.access_hash;
-            byte[] bArr = new byte[32];
-            this.iv = bArr;
-            System.arraycopy(imageLocation.iv, 0, bArr, 0, bArr.length);
+            TLRPC.TL_inputEncryptedFileLocation tL_inputEncryptedFileLocation = new TLRPC.TL_inputEncryptedFileLocation();
+            this.location = tL_inputEncryptedFileLocation;
+            tL_inputEncryptedFileLocation.id = imageLocation.location.volume_id;
+            this.location.volume_id = imageLocation.location.volume_id;
+            this.location.local_id = imageLocation.location.local_id;
+            this.location.access_hash = imageLocation.access_hash;
+            this.iv = new byte[32];
+            byte[] bArr = imageLocation.iv;
+            byte[] bArr2 = this.iv;
+            System.arraycopy(bArr, 0, bArr2, 0, bArr2.length);
             this.key = imageLocation.key;
         } else if (imageLocation.photoPeer != null) {
-            TLRPC$TL_inputPeerPhotoFileLocation tLRPC$TL_inputPeerPhotoFileLocation = new TLRPC$TL_inputPeerPhotoFileLocation();
-            TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated2 = imageLocation.location;
-            long j3 = tLRPC$TL_fileLocationToBeDeprecated2.volume_id;
-            tLRPC$TL_inputPeerPhotoFileLocation.id = j3;
-            tLRPC$TL_inputPeerPhotoFileLocation.volume_id = j3;
-            tLRPC$TL_inputPeerPhotoFileLocation.local_id = tLRPC$TL_fileLocationToBeDeprecated2.local_id;
-            tLRPC$TL_inputPeerPhotoFileLocation.photo_id = imageLocation.photoId;
-            tLRPC$TL_inputPeerPhotoFileLocation.big = imageLocation.photoPeerType == 0;
-            tLRPC$TL_inputPeerPhotoFileLocation.peer = imageLocation.photoPeer;
-            this.location = tLRPC$TL_inputPeerPhotoFileLocation;
+            TLRPC.TL_inputPeerPhotoFileLocation inputPeerPhotoFileLocation = new TLRPC.TL_inputPeerPhotoFileLocation();
+            inputPeerPhotoFileLocation.id = imageLocation.location.volume_id;
+            inputPeerPhotoFileLocation.volume_id = imageLocation.location.volume_id;
+            inputPeerPhotoFileLocation.local_id = imageLocation.location.local_id;
+            inputPeerPhotoFileLocation.photo_id = imageLocation.photoId;
+            inputPeerPhotoFileLocation.big = imageLocation.photoPeerType == 0;
+            inputPeerPhotoFileLocation.peer = imageLocation.photoPeer;
+            this.location = inputPeerPhotoFileLocation;
         } else if (imageLocation.stickerSet != null) {
-            TLRPC$TL_inputStickerSetThumb tLRPC$TL_inputStickerSetThumb = new TLRPC$TL_inputStickerSetThumb();
-            TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated3 = imageLocation.location;
-            long j4 = tLRPC$TL_fileLocationToBeDeprecated3.volume_id;
-            tLRPC$TL_inputStickerSetThumb.id = j4;
-            tLRPC$TL_inputStickerSetThumb.volume_id = j4;
-            tLRPC$TL_inputStickerSetThumb.local_id = tLRPC$TL_fileLocationToBeDeprecated3.local_id;
-            tLRPC$TL_inputStickerSetThumb.thumb_version = imageLocation.thumbVersion;
-            tLRPC$TL_inputStickerSetThumb.stickerset = imageLocation.stickerSet;
-            this.location = tLRPC$TL_inputStickerSetThumb;
+            TLRPC.TL_inputStickerSetThumb inputStickerSetThumb = new TLRPC.TL_inputStickerSetThumb();
+            inputStickerSetThumb.id = imageLocation.location.volume_id;
+            inputStickerSetThumb.volume_id = imageLocation.location.volume_id;
+            inputStickerSetThumb.local_id = imageLocation.location.local_id;
+            inputStickerSetThumb.thumb_version = imageLocation.thumbVersion;
+            inputStickerSetThumb.stickerset = imageLocation.stickerSet;
+            this.location = inputStickerSetThumb;
         } else if (imageLocation.thumbSize != null) {
             if (imageLocation.photoId != 0) {
-                TLRPC$TL_inputPhotoFileLocation tLRPC$TL_inputPhotoFileLocation = new TLRPC$TL_inputPhotoFileLocation();
-                this.location = tLRPC$TL_inputPhotoFileLocation;
-                tLRPC$TL_inputPhotoFileLocation.id = imageLocation.photoId;
-                TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated4 = imageLocation.location;
-                tLRPC$TL_inputPhotoFileLocation.volume_id = tLRPC$TL_fileLocationToBeDeprecated4.volume_id;
-                tLRPC$TL_inputPhotoFileLocation.local_id = tLRPC$TL_fileLocationToBeDeprecated4.local_id;
-                tLRPC$TL_inputPhotoFileLocation.access_hash = imageLocation.access_hash;
-                tLRPC$TL_inputPhotoFileLocation.file_reference = imageLocation.file_reference;
-                tLRPC$TL_inputPhotoFileLocation.thumb_size = imageLocation.thumbSize;
+                TLRPC.TL_inputPhotoFileLocation tL_inputPhotoFileLocation = new TLRPC.TL_inputPhotoFileLocation();
+                this.location = tL_inputPhotoFileLocation;
+                tL_inputPhotoFileLocation.id = imageLocation.photoId;
+                this.location.volume_id = imageLocation.location.volume_id;
+                this.location.local_id = imageLocation.location.local_id;
+                this.location.access_hash = imageLocation.access_hash;
+                this.location.file_reference = imageLocation.file_reference;
+                this.location.thumb_size = imageLocation.thumbSize;
                 if (imageLocation.imageType == 2) {
                     this.allowDisordererFileSave = true;
                 }
             } else {
-                TLRPC$TL_inputDocumentFileLocation tLRPC$TL_inputDocumentFileLocation = new TLRPC$TL_inputDocumentFileLocation();
-                this.location = tLRPC$TL_inputDocumentFileLocation;
-                tLRPC$TL_inputDocumentFileLocation.id = imageLocation.documentId;
-                TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated5 = imageLocation.location;
-                tLRPC$TL_inputDocumentFileLocation.volume_id = tLRPC$TL_fileLocationToBeDeprecated5.volume_id;
-                tLRPC$TL_inputDocumentFileLocation.local_id = tLRPC$TL_fileLocationToBeDeprecated5.local_id;
-                tLRPC$TL_inputDocumentFileLocation.access_hash = imageLocation.access_hash;
-                tLRPC$TL_inputDocumentFileLocation.file_reference = imageLocation.file_reference;
-                tLRPC$TL_inputDocumentFileLocation.thumb_size = imageLocation.thumbSize;
+                TLRPC.TL_inputDocumentFileLocation tL_inputDocumentFileLocation = new TLRPC.TL_inputDocumentFileLocation();
+                this.location = tL_inputDocumentFileLocation;
+                tL_inputDocumentFileLocation.id = imageLocation.documentId;
+                this.location.volume_id = imageLocation.location.volume_id;
+                this.location.local_id = imageLocation.location.local_id;
+                this.location.access_hash = imageLocation.access_hash;
+                this.location.file_reference = imageLocation.file_reference;
+                this.location.thumb_size = imageLocation.thumbSize;
             }
-            TLRPC$InputFileLocation tLRPC$InputFileLocation2 = this.location;
-            if (tLRPC$InputFileLocation2.file_reference == null) {
-                tLRPC$InputFileLocation2.file_reference = new byte[0];
+            if (this.location.file_reference == null) {
+                this.location.file_reference = new byte[0];
             }
         } else {
-            TLRPC$InputFileLocation tLRPC$InputFileLocation3 = new TLRPC$InputFileLocation() { // from class: org.telegram.tgnet.TLRPC$TL_inputFileLocation
-                public static int constructor = -539317279;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void readParams(AbstractSerializedData abstractSerializedData, boolean z2) {
-                    this.volume_id = abstractSerializedData.readInt64(z2);
-                    this.local_id = abstractSerializedData.readInt32(z2);
-                    this.secret = abstractSerializedData.readInt64(z2);
-                    this.file_reference = abstractSerializedData.readByteArray(z2);
-                }
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
-                    abstractSerializedData.writeInt64(this.volume_id);
-                    abstractSerializedData.writeInt32(this.local_id);
-                    abstractSerializedData.writeInt64(this.secret);
-                    abstractSerializedData.writeByteArray(this.file_reference);
-                }
-            };
-            this.location = tLRPC$InputFileLocation3;
-            TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated6 = imageLocation.location;
-            tLRPC$InputFileLocation3.volume_id = tLRPC$TL_fileLocationToBeDeprecated6.volume_id;
-            tLRPC$InputFileLocation3.local_id = tLRPC$TL_fileLocationToBeDeprecated6.local_id;
-            tLRPC$InputFileLocation3.secret = imageLocation.access_hash;
-            byte[] bArr2 = imageLocation.file_reference;
-            tLRPC$InputFileLocation3.file_reference = bArr2;
-            if (bArr2 == null) {
-                tLRPC$InputFileLocation3.file_reference = new byte[0];
+            TLRPC.TL_inputFileLocation tL_inputFileLocation = new TLRPC.TL_inputFileLocation();
+            this.location = tL_inputFileLocation;
+            tL_inputFileLocation.volume_id = imageLocation.location.volume_id;
+            this.location.local_id = imageLocation.location.local_id;
+            this.location.secret = imageLocation.access_hash;
+            this.location.file_reference = imageLocation.file_reference;
+            if (this.location.file_reference == null) {
+                this.location.file_reference = new byte[0];
             }
             this.allowDisordererFileSave = true;
         }
-        int i = imageLocation.imageType;
-        this.ungzip = (i == 1 || i == 3) ? true : z;
-        int i2 = imageLocation.dc_id;
-        this.datacenterId = i2;
-        this.initialDatacenterId = i2;
-        this.currentType = ConnectionsManager.FileTypePhoto;
-        this.totalBytesCount = j;
-        this.ext = str == null ? "jpg" : str;
+        this.ungzip = (imageLocation.imageType == 1 || imageLocation.imageType == 3) ? true : z;
+        int i = imageLocation.dc_id;
+        this.datacenterId = i;
+        this.initialDatacenterId = i;
+        this.currentType = 16777216;
+        this.totalBytesCount = size;
+        this.ext = extension != null ? extension : "jpg";
     }
 
     public FileLoadOperation(SecureDocument secureDocument) {
@@ -349,210 +271,173 @@ public class FileLoadOperation {
         this.cdnChunkCheckSize = 131072;
         this.maxDownloadRequests = 4;
         this.maxDownloadRequestsBig = 4;
-        this.bigFileSizeFrom = 10485760;
+        this.bigFileSizeFrom = 1048576;
         this.maxCdnParts = (int) (FileLoader.DEFAULT_MAX_FILE_SIZE / 131072);
-        this.downloadChunkSizeAnimation = 131072;
-        this.maxDownloadRequestsAnimation = 4;
         this.preloadTempBuffer = new byte[24];
         this.state = 0;
         updateParams();
-        TLRPC$InputFileLocation tLRPC$InputFileLocation = new TLRPC$InputFileLocation() { // from class: org.telegram.tgnet.TLRPC$TL_inputSecureFileLocation
-            public static int constructor = -876089816;
-
-            @Override // org.telegram.tgnet.TLObject
-            public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-                this.id = abstractSerializedData.readInt64(z);
-                this.access_hash = abstractSerializedData.readInt64(z);
-            }
-
-            @Override // org.telegram.tgnet.TLObject
-            public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
-                abstractSerializedData.writeInt64(this.id);
-                abstractSerializedData.writeInt64(this.access_hash);
-            }
-        };
-        this.location = tLRPC$InputFileLocation;
-        TLRPC$TL_secureFile tLRPC$TL_secureFile = secureDocument.secureFile;
-        tLRPC$InputFileLocation.id = tLRPC$TL_secureFile.id;
-        tLRPC$InputFileLocation.access_hash = tLRPC$TL_secureFile.access_hash;
-        this.datacenterId = tLRPC$TL_secureFile.dc_id;
-        this.totalBytesCount = tLRPC$TL_secureFile.size;
+        TLRPC.TL_inputSecureFileLocation tL_inputSecureFileLocation = new TLRPC.TL_inputSecureFileLocation();
+        this.location = tL_inputSecureFileLocation;
+        tL_inputSecureFileLocation.id = secureDocument.secureFile.id;
+        this.location.access_hash = secureDocument.secureFile.access_hash;
+        this.datacenterId = secureDocument.secureFile.dc_id;
+        this.totalBytesCount = secureDocument.secureFile.size;
         this.allowDisordererFileSave = true;
         this.currentType = ConnectionsManager.FileTypeFile;
         this.ext = ".jpg";
     }
 
-    public FileLoadOperation(int i, WebFile webFile) {
+    public FileLoadOperation(int instance, WebFile webDocument) {
         this.downloadChunkSize = 32768;
         this.downloadChunkSizeBig = 131072;
         this.cdnChunkCheckSize = 131072;
         this.maxDownloadRequests = 4;
         this.maxDownloadRequestsBig = 4;
-        this.bigFileSizeFrom = 10485760;
+        this.bigFileSizeFrom = 1048576;
         this.maxCdnParts = (int) (FileLoader.DEFAULT_MAX_FILE_SIZE / 131072);
-        this.downloadChunkSizeAnimation = 131072;
-        this.maxDownloadRequestsAnimation = 4;
         this.preloadTempBuffer = new byte[24];
         this.state = 0;
         updateParams();
-        this.currentAccount = i;
-        this.webFile = webFile;
-        this.webLocation = webFile.location;
-        this.totalBytesCount = webFile.size;
-        int i2 = MessagesController.getInstance(i).webFileDatacenterId;
-        this.datacenterId = i2;
-        this.initialDatacenterId = i2;
-        String mimeTypePart = FileLoader.getMimeTypePart(webFile.mime_type);
-        if (webFile.mime_type.startsWith("image/")) {
-            this.currentType = ConnectionsManager.FileTypePhoto;
-        } else if (webFile.mime_type.equals("audio/ogg")) {
+        this.currentAccount = instance;
+        this.webFile = webDocument;
+        this.webLocation = webDocument.location;
+        this.totalBytesCount = webDocument.size;
+        int i = MessagesController.getInstance(this.currentAccount).webFileDatacenterId;
+        this.datacenterId = i;
+        this.initialDatacenterId = i;
+        String defaultExt = FileLoader.getMimeTypePart(webDocument.mime_type);
+        if (webDocument.mime_type.startsWith("image/")) {
+            this.currentType = 16777216;
+        } else if (webDocument.mime_type.equals("audio/ogg")) {
             this.currentType = ConnectionsManager.FileTypeAudio;
-        } else if (webFile.mime_type.startsWith("video/")) {
+        } else if (webDocument.mime_type.startsWith("video/")) {
             this.currentType = ConnectionsManager.FileTypeVideo;
         } else {
             this.currentType = ConnectionsManager.FileTypeFile;
         }
         this.allowDisordererFileSave = true;
-        this.ext = ImageLoader.getHttpUrlExtension(webFile.url, mimeTypePart);
+        this.ext = ImageLoader.getHttpUrlExtension(webDocument.url, defaultExt);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00f9 A[Catch: Exception -> 0x0120, TryCatch #0 {Exception -> 0x0120, blocks: (B:3:0x0030, B:6:0x0038, B:7:0x005e, B:9:0x0062, B:11:0x0079, B:12:0x007d, B:14:0x008e, B:16:0x0098, B:17:0x009b, B:18:0x009e, B:20:0x00a8, B:25:0x00b6, B:27:0x00c0, B:29:0x00ca, B:30:0x00d2, B:32:0x00da, B:35:0x00e4, B:36:0x00ed, B:37:0x00ef, B:39:0x00f9, B:40:0x00fe, B:42:0x0106, B:43:0x010b, B:44:0x010f, B:46:0x0117), top: B:50:0x0030 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00fe A[Catch: Exception -> 0x0120, TryCatch #0 {Exception -> 0x0120, blocks: (B:3:0x0030, B:6:0x0038, B:7:0x005e, B:9:0x0062, B:11:0x0079, B:12:0x007d, B:14:0x008e, B:16:0x0098, B:17:0x009b, B:18:0x009e, B:20:0x00a8, B:25:0x00b6, B:27:0x00c0, B:29:0x00ca, B:30:0x00d2, B:32:0x00da, B:35:0x00e4, B:36:0x00ed, B:37:0x00ef, B:39:0x00f9, B:40:0x00fe, B:42:0x0106, B:43:0x010b, B:44:0x010f, B:46:0x0117), top: B:50:0x0030 }] */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0117 A[Catch: Exception -> 0x0120, TRY_LEAVE, TryCatch #0 {Exception -> 0x0120, blocks: (B:3:0x0030, B:6:0x0038, B:7:0x005e, B:9:0x0062, B:11:0x0079, B:12:0x007d, B:14:0x008e, B:16:0x0098, B:17:0x009b, B:18:0x009e, B:20:0x00a8, B:25:0x00b6, B:27:0x00c0, B:29:0x00ca, B:30:0x00d2, B:32:0x00da, B:35:0x00e4, B:36:0x00ed, B:37:0x00ef, B:39:0x00f9, B:40:0x00fe, B:42:0x0106, B:43:0x010b, B:44:0x010f, B:46:0x0117), top: B:50:0x0030 }] */
-    /* JADX WARN: Removed duplicated region for block: B:54:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0107 A[Catch: Exception -> 0x012e, TryCatch #0 {Exception -> 0x012e, blocks: (B:3:0x002c, B:6:0x0034, B:7:0x005e, B:9:0x0062, B:11:0x0083, B:12:0x0089, B:14:0x009a, B:16:0x00a4, B:17:0x00a7, B:18:0x00aa, B:20:0x00b4, B:25:0x00c2, B:27:0x00cc, B:29:0x00d7, B:30:0x00df, B:32:0x00e7, B:35:0x00f2, B:36:0x00fb, B:37:0x00fd, B:39:0x0107, B:40:0x010c, B:42:0x0114, B:43:0x0119, B:44:0x011d, B:46:0x0125), top: B:50:0x002c }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x010c A[Catch: Exception -> 0x012e, TryCatch #0 {Exception -> 0x012e, blocks: (B:3:0x002c, B:6:0x0034, B:7:0x005e, B:9:0x0062, B:11:0x0083, B:12:0x0089, B:14:0x009a, B:16:0x00a4, B:17:0x00a7, B:18:0x00aa, B:20:0x00b4, B:25:0x00c2, B:27:0x00cc, B:29:0x00d7, B:30:0x00df, B:32:0x00e7, B:35:0x00f2, B:36:0x00fb, B:37:0x00fd, B:39:0x0107, B:40:0x010c, B:42:0x0114, B:43:0x0119, B:44:0x011d, B:46:0x0125), top: B:50:0x002c }] */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0125 A[Catch: Exception -> 0x012e, TRY_LEAVE, TryCatch #0 {Exception -> 0x012e, blocks: (B:3:0x002c, B:6:0x0034, B:7:0x005e, B:9:0x0062, B:11:0x0083, B:12:0x0089, B:14:0x009a, B:16:0x00a4, B:17:0x00a7, B:18:0x00aa, B:20:0x00b4, B:25:0x00c2, B:27:0x00cc, B:29:0x00d7, B:30:0x00df, B:32:0x00e7, B:35:0x00f2, B:36:0x00fb, B:37:0x00fd, B:39:0x0107, B:40:0x010c, B:42:0x0114, B:43:0x0119, B:44:0x011d, B:46:0x0125), top: B:50:0x002c }] */
+    /* JADX WARN: Removed duplicated region for block: B:55:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public FileLoadOperation(TLRPC$Document tLRPC$Document, Object obj) {
+    public FileLoadOperation(TLRPC.Document documentLocation, Object parent) {
         boolean z;
         long j;
         String documentFileName;
-        int lastIndexOf;
+        int idx;
         this.downloadChunkSize = 32768;
         this.downloadChunkSizeBig = 131072;
         this.cdnChunkCheckSize = 131072;
         this.maxDownloadRequests = 4;
         this.maxDownloadRequestsBig = 4;
-        this.bigFileSizeFrom = 10485760;
+        this.bigFileSizeFrom = 1048576;
         this.maxCdnParts = (int) (FileLoader.DEFAULT_MAX_FILE_SIZE / 131072);
-        this.downloadChunkSizeAnimation = 131072;
-        this.maxDownloadRequestsAnimation = 4;
         this.preloadTempBuffer = new byte[24];
         this.state = 0;
         updateParams();
         try {
-            this.parentObject = obj;
-            if (tLRPC$Document instanceof TLRPC$TL_documentEncrypted) {
-                TLRPC$InputFileLocation tLRPC$InputFileLocation = new TLRPC$InputFileLocation() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFileLocation
-                    public static int constructor = -182231723;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData, boolean z2) {
-                        this.id = abstractSerializedData.readInt64(z2);
-                        this.access_hash = abstractSerializedData.readInt64(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                        abstractSerializedData.writeInt32(constructor);
-                        abstractSerializedData.writeInt64(this.id);
-                        abstractSerializedData.writeInt64(this.access_hash);
-                    }
-                };
-                this.location = tLRPC$InputFileLocation;
-                tLRPC$InputFileLocation.id = tLRPC$Document.id;
-                tLRPC$InputFileLocation.access_hash = tLRPC$Document.access_hash;
-                int i = tLRPC$Document.dc_id;
+            this.parentObject = parent;
+            if (documentLocation instanceof TLRPC.TL_documentEncrypted) {
+                TLRPC.TL_inputEncryptedFileLocation tL_inputEncryptedFileLocation = new TLRPC.TL_inputEncryptedFileLocation();
+                this.location = tL_inputEncryptedFileLocation;
+                tL_inputEncryptedFileLocation.id = documentLocation.id;
+                this.location.access_hash = documentLocation.access_hash;
+                int i = documentLocation.dc_id;
                 this.datacenterId = i;
                 this.initialDatacenterId = i;
-                byte[] bArr = new byte[32];
-                this.iv = bArr;
-                System.arraycopy(tLRPC$Document.iv, 0, bArr, 0, bArr.length);
-                this.key = tLRPC$Document.key;
-            } else if (tLRPC$Document instanceof TLRPC$TL_document) {
-                TLRPC$TL_inputDocumentFileLocation tLRPC$TL_inputDocumentFileLocation = new TLRPC$TL_inputDocumentFileLocation();
-                this.location = tLRPC$TL_inputDocumentFileLocation;
-                tLRPC$TL_inputDocumentFileLocation.id = tLRPC$Document.id;
-                tLRPC$TL_inputDocumentFileLocation.access_hash = tLRPC$Document.access_hash;
-                byte[] bArr2 = tLRPC$Document.file_reference;
-                tLRPC$TL_inputDocumentFileLocation.file_reference = bArr2;
-                tLRPC$TL_inputDocumentFileLocation.thumb_size = "";
-                if (bArr2 == null) {
-                    tLRPC$TL_inputDocumentFileLocation.file_reference = new byte[0];
+                this.iv = new byte[32];
+                byte[] bArr = documentLocation.iv;
+                byte[] bArr2 = this.iv;
+                System.arraycopy(bArr, 0, bArr2, 0, bArr2.length);
+                this.key = documentLocation.key;
+            } else if (documentLocation instanceof TLRPC.TL_document) {
+                TLRPC.TL_inputDocumentFileLocation tL_inputDocumentFileLocation = new TLRPC.TL_inputDocumentFileLocation();
+                this.location = tL_inputDocumentFileLocation;
+                tL_inputDocumentFileLocation.id = documentLocation.id;
+                this.location.access_hash = documentLocation.access_hash;
+                this.location.file_reference = documentLocation.file_reference;
+                this.location.thumb_size = "";
+                if (this.location.file_reference == null) {
+                    this.location.file_reference = new byte[0];
                 }
-                int i2 = tLRPC$Document.dc_id;
+                int i2 = documentLocation.dc_id;
                 this.datacenterId = i2;
                 this.initialDatacenterId = i2;
                 this.allowDisordererFileSave = true;
-                int size = tLRPC$Document.attributes.size();
-                int i3 = 0;
+                int a = 0;
+                int N = documentLocation.attributes.size();
                 while (true) {
-                    if (i3 >= size) {
+                    if (a >= N) {
                         break;
-                    } else if (tLRPC$Document.attributes.get(i3) instanceof TLRPC$TL_documentAttributeVideo) {
+                    } else if (!(documentLocation.attributes.get(a) instanceof TLRPC.TL_documentAttributeVideo)) {
+                        a++;
+                    } else {
                         this.supportsPreloading = true;
                         break;
-                    } else {
-                        i3++;
                     }
                 }
             }
-            if (!"application/x-tgsticker".equals(tLRPC$Document.mime_type) && !"application/x-tgwallpattern".equals(tLRPC$Document.mime_type)) {
+            if (!"application/x-tgsticker".equals(documentLocation.mime_type) && !"application/x-tgwallpattern".equals(documentLocation.mime_type)) {
                 z = false;
                 this.ungzip = z;
-                j = tLRPC$Document.size;
+                j = documentLocation.size;
                 this.totalBytesCount = j;
                 if (this.key != null && j % 16 != 0) {
                     long j2 = 16 - (j % 16);
                     this.bytesCountPadding = j2;
                     this.totalBytesCount = j + j2;
                 }
-                documentFileName = FileLoader.getDocumentFileName(tLRPC$Document);
+                documentFileName = FileLoader.getDocumentFileName(documentLocation);
                 this.ext = documentFileName;
-                if (documentFileName != null && (lastIndexOf = documentFileName.lastIndexOf(46)) != -1) {
-                    this.ext = this.ext.substring(lastIndexOf);
-                    if (!"audio/ogg".equals(tLRPC$Document.mime_type)) {
+                if (documentFileName != null && (idx = documentFileName.lastIndexOf(46)) != -1) {
+                    this.ext = this.ext.substring(idx);
+                    if (!"audio/ogg".equals(documentLocation.mime_type)) {
                         this.currentType = ConnectionsManager.FileTypeAudio;
-                    } else if (FileLoader.isVideoMimeType(tLRPC$Document.mime_type)) {
+                    } else if (FileLoader.isVideoMimeType(documentLocation.mime_type)) {
                         this.currentType = ConnectionsManager.FileTypeVideo;
                     } else {
                         this.currentType = ConnectionsManager.FileTypeFile;
                     }
-                    if (this.ext.length() <= 1) {
+                    if (this.ext.length() > 1) {
+                        this.ext = FileLoader.getExtensionByMimeType(documentLocation.mime_type);
                         return;
                     }
-                    this.ext = FileLoader.getExtensionByMimeType(tLRPC$Document.mime_type);
                     return;
                 }
                 this.ext = "";
-                if (!"audio/ogg".equals(tLRPC$Document.mime_type)) {
+                if (!"audio/ogg".equals(documentLocation.mime_type)) {
                 }
-                if (this.ext.length() <= 1) {
+                if (this.ext.length() > 1) {
                 }
             }
             z = true;
             this.ungzip = z;
-            j = tLRPC$Document.size;
+            j = documentLocation.size;
             this.totalBytesCount = j;
             if (this.key != null) {
                 long j22 = 16 - (j % 16);
                 this.bytesCountPadding = j22;
                 this.totalBytesCount = j + j22;
             }
-            documentFileName = FileLoader.getDocumentFileName(tLRPC$Document);
+            documentFileName = FileLoader.getDocumentFileName(documentLocation);
             this.ext = documentFileName;
             if (documentFileName != null) {
-                this.ext = this.ext.substring(lastIndexOf);
-                if (!"audio/ogg".equals(tLRPC$Document.mime_type)) {
+                this.ext = this.ext.substring(idx);
+                if (!"audio/ogg".equals(documentLocation.mime_type)) {
                 }
-                if (this.ext.length() <= 1) {
+                if (this.ext.length() > 1) {
                 }
             }
             this.ext = "";
-            if (!"audio/ogg".equals(tLRPC$Document.mime_type)) {
+            if (!"audio/ogg".equals(documentLocation.mime_type)) {
             }
-            if (this.ext.length() <= 1) {
+            if (this.ext.length() > 1) {
             }
         } catch (Exception e) {
             FileLog.e(e);
@@ -560,9 +445,9 @@ public class FileLoadOperation {
         }
     }
 
-    public void setEncryptFile(boolean z) {
-        this.encryptFile = z;
-        if (z) {
+    public void setEncryptFile(boolean value) {
+        this.encryptFile = value;
+        if (value) {
             this.allowDisordererFileSave = false;
         }
     }
@@ -571,29 +456,29 @@ public class FileLoadOperation {
         return this.initialDatacenterId;
     }
 
-    public void setForceRequest(boolean z) {
-        this.isForceRequest = z;
+    public void setForceRequest(boolean forceRequest) {
+        this.isForceRequest = forceRequest;
     }
 
     public boolean isForceRequest() {
         return this.isForceRequest;
     }
 
-    public void setPriority(int i) {
-        this.priority = i;
+    public void setPriority(int value) {
+        this.priority = value;
     }
 
     public int getPriority() {
         return this.priority;
     }
 
-    public void setPaths(int i, String str, int i2, File file, File file2, String str2) {
-        this.storePath = file;
-        this.tempPath = file2;
-        this.currentAccount = i;
-        this.fileName = str;
-        this.storeFileName = str2;
-        this.currentQueueType = i2;
+    public void setPaths(int instance, String name, int queueType, File store, File temp, String finalName) {
+        this.storePath = store;
+        this.tempPath = temp;
+        this.currentAccount = instance;
+        this.fileName = name;
+        this.storeFileName = finalName;
+        this.currentQueueType = queueType;
     }
 
     public int getQueueType() {
@@ -608,113 +493,125 @@ public class FileLoadOperation {
         return this.currentType;
     }
 
-    private void removePart(ArrayList<Range> arrayList, long j, long j2) {
-        boolean z;
-        if (arrayList == null || j2 < j) {
+    private void removePart(ArrayList<Range> ranges, long start, long end) {
+        if (ranges == null || end < start) {
             return;
         }
-        int size = arrayList.size();
-        int i = 0;
-        for (int i2 = 0; i2 < size; i2++) {
-            Range range = arrayList.get(i2);
-            if (j == range.end) {
-                range.end = j2;
-            } else if (j2 == range.start) {
-                range.start = j;
-            }
-            z = true;
-        }
-        z = false;
-        Collections.sort(arrayList, FileLoadOperation$$ExternalSyntheticLambda11.INSTANCE);
-        while (i < arrayList.size() - 1) {
-            Range range2 = arrayList.get(i);
-            int i3 = i + 1;
-            Range range3 = arrayList.get(i3);
-            if (range2.end == range3.start) {
-                range2.end = range3.end;
-                arrayList.remove(i3);
-                i--;
-            }
-            i++;
-        }
-        if (z) {
-            return;
-        }
-        arrayList.add(new Range(j, j2));
-    }
-
-    public static /* synthetic */ int lambda$removePart$0(Range range, Range range2) {
-        if (range.start > range2.start) {
-            return 1;
-        }
-        return range.start < range2.start ? -1 : 0;
-    }
-
-    private void addPart(ArrayList<Range> arrayList, long j, long j2, boolean z) {
-        boolean z2;
-        if (arrayList == null || j2 < j) {
-            return;
-        }
-        int size = arrayList.size();
-        int i = 0;
+        int count = ranges.size();
+        boolean modified = false;
+        int a = 0;
         while (true) {
-            z2 = true;
-            if (i >= size) {
-                z2 = false;
+            if (a >= count) {
                 break;
             }
-            Range range = arrayList.get(i);
-            if (j <= range.start) {
-                if (j2 < range.end) {
-                    if (j2 > range.start) {
-                        range.start = j2;
+            Range range = ranges.get(a);
+            if (start == range.end) {
+                range.end = end;
+                modified = true;
+                break;
+            } else if (end == range.start) {
+                range.start = start;
+                modified = true;
+                break;
+            } else {
+                a++;
+            }
+        }
+        Collections.sort(ranges, FileLoadOperation$$ExternalSyntheticLambda2.INSTANCE);
+        int a2 = 0;
+        while (a2 < ranges.size() - 1) {
+            Range r1 = ranges.get(a2);
+            Range r2 = ranges.get(a2 + 1);
+            if (r1.end == r2.start) {
+                r1.end = r2.end;
+                ranges.remove(a2 + 1);
+                a2--;
+            }
+            a2++;
+        }
+        if (!modified) {
+            ranges.add(new Range(start, end));
+        }
+    }
+
+    public static /* synthetic */ int lambda$removePart$0(Range o1, Range o2) {
+        if (o1.start <= o2.start) {
+            if (o1.start < o2.start) {
+                return -1;
+            }
+            return 0;
+        }
+        return 1;
+    }
+
+    private void addPart(ArrayList<Range> ranges, long start, long end, boolean save) {
+        boolean modified;
+        if (ranges == null || end < start) {
+            return;
+        }
+        int count = ranges.size();
+        int a = 0;
+        while (true) {
+            if (a >= count) {
+                modified = false;
+                break;
+            }
+            Range range = ranges.get(a);
+            if (start <= range.start) {
+                if (end < range.end) {
+                    if (end > range.start) {
+                        range.start = end;
+                        modified = true;
                         break;
                     }
-                    i++;
+                    a++;
                 } else {
-                    arrayList.remove(i);
+                    ranges.remove(a);
+                    modified = true;
                     break;
                 }
-            } else if (j2 >= range.end) {
-                if (j < range.end) {
-                    range.end = j;
+            } else if (end >= range.end) {
+                if (start < range.end) {
+                    range.end = start;
+                    modified = true;
                     break;
                 }
-                i++;
+                a++;
             } else {
-                arrayList.add(0, new Range(range.start, j));
-                range.start = j2;
+                Range newRange = new Range(range.start, start);
+                ranges.add(0, newRange);
+                range.start = end;
+                modified = true;
                 break;
             }
         }
-        if (!z) {
-            return;
-        }
-        if (z2) {
-            try {
-                this.filePartsStream.seek(0L);
-                int size2 = arrayList.size();
-                this.filePartsStream.writeInt(size2);
-                for (int i2 = 0; i2 < size2; i2++) {
-                    Range range2 = arrayList.get(i2);
-                    this.filePartsStream.writeLong(range2.start);
-                    this.filePartsStream.writeLong(range2.end);
+        if (save) {
+            if (modified) {
+                try {
+                    this.filePartsStream.seek(0L);
+                    int count2 = ranges.size();
+                    this.filePartsStream.writeInt(count2);
+                    for (int a2 = 0; a2 < count2; a2++) {
+                        Range range2 = ranges.get(a2);
+                        this.filePartsStream.writeLong(range2.start);
+                        this.filePartsStream.writeLong(range2.end);
+                    }
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
-            } catch (Exception e) {
-                FileLog.e(e);
+                notifyStreamListeners();
+            } else if (BuildVars.LOGS_ENABLED) {
+                FileLog.e(this.cacheFileFinal + " downloaded duplicate file part " + start + " - " + end);
             }
-            notifyStreamListeners();
-        } else if (BuildVars.LOGS_ENABLED) {
-            FileLog.e(this.cacheFileFinal + " downloaded duplicate file part " + j + " - " + j2);
         }
     }
 
     private void notifyStreamListeners() {
         ArrayList<FileLoadOperationStream> arrayList = this.streamListeners;
         if (arrayList != null) {
-            int size = arrayList.size();
-            for (int i = 0; i < size; i++) {
-                this.streamListeners.get(i).newDataAvailable();
+            int count = arrayList.size();
+            for (int a = 0; a < count; a++) {
+                this.streamListeners.get(a).newDataAvailable();
             }
         }
     }
@@ -725,11 +622,11 @@ public class FileLoadOperation {
 
     public File getCurrentFile() {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        final File[] fileArr = new File[1];
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda9
+        final File[] result = new File[1];
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoadOperation.this.lambda$getCurrentFile$1(fileArr, countDownLatch);
+                FileLoadOperation.this.m206lambda$getCurrentFile$1$orgtelegrammessengerFileLoadOperation(result, countDownLatch);
             }
         });
         try {
@@ -737,86 +634,89 @@ public class FileLoadOperation {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        return fileArr[0];
+        return result[0];
     }
 
-    public /* synthetic */ void lambda$getCurrentFile$1(File[] fileArr, CountDownLatch countDownLatch) {
+    /* renamed from: lambda$getCurrentFile$1$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m206lambda$getCurrentFile$1$orgtelegrammessengerFileLoadOperation(File[] result, CountDownLatch countDownLatch) {
         if (this.state == 3) {
-            fileArr[0] = this.cacheFileFinal;
+            result[0] = this.cacheFileFinal;
         } else {
-            fileArr[0] = this.cacheFileTemp;
+            result[0] = this.cacheFileTemp;
         }
         countDownLatch.countDown();
     }
 
-    private long getDownloadedLengthFromOffsetInternal(ArrayList<Range> arrayList, long j, long j2) {
-        long j3;
-        if (arrayList == null || this.state == 3 || arrayList.isEmpty()) {
+    private long getDownloadedLengthFromOffsetInternal(ArrayList<Range> ranges, long offset, long length) {
+        if (ranges == null || this.state == 3 || ranges.isEmpty()) {
             if (this.state == 3) {
-                return j2;
+                return length;
             }
-            long j4 = this.downloadedBytes;
-            if (j4 != 0) {
-                return Math.min(j2, Math.max(j4 - j, 0L));
+            long j = this.downloadedBytes;
+            if (j != 0) {
+                return Math.min(length, Math.max(j - offset, 0L));
             }
             return 0L;
         }
-        int size = arrayList.size();
-        Range range = null;
-        int i = 0;
+        int count = ranges.size();
+        Range minRange = null;
+        long availableLength = length;
+        int a = 0;
         while (true) {
-            if (i >= size) {
-                j3 = j2;
+            if (a >= count) {
                 break;
             }
-            Range range2 = arrayList.get(i);
-            if (j <= range2.start && (range == null || range2.start < range.start)) {
-                range = range2;
+            Range range = ranges.get(a);
+            if (offset <= range.start && (minRange == null || range.start < minRange.start)) {
+                minRange = range;
             }
-            if (range2.start <= j && range2.end > j) {
-                j3 = 0;
+            if (range.start > offset || range.end <= offset) {
+                a++;
+            } else {
+                availableLength = 0;
                 break;
             }
-            i++;
         }
-        if (j3 == 0) {
+        int a2 = (availableLength > 0L ? 1 : (availableLength == 0L ? 0 : -1));
+        if (a2 == 0) {
             return 0L;
         }
-        if (range != null) {
-            return Math.min(j2, range.start - j);
+        if (minRange != null) {
+            return Math.min(length, minRange.start - offset);
         }
-        return Math.min(j2, Math.max(this.totalBytesCount - j, 0L));
+        return Math.min(length, Math.max(this.totalBytesCount - offset, 0L));
     }
 
-    public float getDownloadedLengthFromOffset(float f) {
-        ArrayList<Range> arrayList = this.notLoadedBytesRangesCopy;
+    public float getDownloadedLengthFromOffset(float progress) {
+        ArrayList<Range> ranges = this.notLoadedBytesRangesCopy;
         long j = this.totalBytesCount;
-        if (j == 0 || arrayList == null) {
+        if (j == 0 || ranges == null) {
             return 0.0f;
         }
-        return f + (((float) getDownloadedLengthFromOffsetInternal(arrayList, (int) (((float) j) * f), j)) / ((float) this.totalBytesCount));
+        return (((float) getDownloadedLengthFromOffsetInternal(ranges, (int) (((float) j) * progress), j)) / ((float) this.totalBytesCount)) + progress;
     }
 
-    public long[] getDownloadedLengthFromOffset(final int i, final long j) {
+    public long[] getDownloadedLengthFromOffset(final int offset, final long length) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        final long[] jArr = new long[2];
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda8
+        final long[] result = new long[2];
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoadOperation.this.lambda$getDownloadedLengthFromOffset$2(jArr, i, j, countDownLatch);
+                FileLoadOperation.this.m207xcb1e2f1b(result, offset, length, countDownLatch);
             }
         });
         try {
             countDownLatch.await();
-        } catch (Exception unused) {
+        } catch (Exception e) {
         }
-        return jArr;
+        return result;
     }
 
-    public /* synthetic */ void lambda$getDownloadedLengthFromOffset$2(long[] jArr, int i, long j, CountDownLatch countDownLatch) {
-        jArr[0] = getDownloadedLengthFromOffsetInternal(this.notLoadedBytesRanges, i, j);
+    /* renamed from: lambda$getDownloadedLengthFromOffset$2$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m207xcb1e2f1b(long[] result, int offset, long length, CountDownLatch countDownLatch) {
+        result[0] = getDownloadedLengthFromOffsetInternal(this.notLoadedBytesRanges, offset, length);
         if (this.state == 3) {
-            jArr[1] = 1;
+            result[1] = 1;
         }
         countDownLatch.countDown();
     }
@@ -825,21 +725,22 @@ public class FileLoadOperation {
         return this.fileName;
     }
 
-    public void removeStreamListener(final FileLoadOperationStream fileLoadOperationStream) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda3
+    public void removeStreamListener(final FileLoadOperationStream operation) {
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoadOperation.this.lambda$removeStreamListener$3(fileLoadOperationStream);
+                FileLoadOperation.this.m210xc3d0b3c8(operation);
             }
         });
     }
 
-    public /* synthetic */ void lambda$removeStreamListener$3(FileLoadOperationStream fileLoadOperationStream) {
+    /* renamed from: lambda$removeStreamListener$3$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m210xc3d0b3c8(FileLoadOperationStream operation) {
         ArrayList<FileLoadOperationStream> arrayList = this.streamListeners;
         if (arrayList == null) {
             return;
         }
-        arrayList.remove(fileLoadOperationStream);
+        arrayList.remove(operation);
     }
 
     private void copyNotLoadedRanges() {
@@ -860,79 +761,72 @@ public class FileLoadOperation {
         return start(null, 0L, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:116:0x03f1, code lost:
-        if (r6 != r30.cacheFileFinal.length()) goto L117;
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x0415, code lost:
+        if (r5 != r39.cacheFileFinal.length()) goto L118;
      */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x0394  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x03ba  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x03db  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x0409  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x05e5  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x060f  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x0681  */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x068b  */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x06e4  */
-    /* JADX WARN: Removed duplicated region for block: B:256:0x070f  */
-    /* JADX WARN: Removed duplicated region for block: B:262:0x073b  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x0778  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x07c8  */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x07eb A[Catch: Exception -> 0x07f0, TRY_LEAVE, TryCatch #0 {Exception -> 0x07f0, blocks: (B:288:0x07da, B:290:0x07eb), top: B:308:0x07da }] */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x07f9  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x07fe  */
-    /* JADX WARN: Removed duplicated region for block: B:299:0x080c  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x05f0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:210:0x0692, code lost:
+        r35 = r4;
+        r36 = r5;
+        r33 = r6;
+        r38 = r10;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0422  */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x070b  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x0746  */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x07b1  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x07bb  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x0815  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x0840  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x086c  */
+    /* JADX WARN: Removed duplicated region for block: B:284:0x08a9  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x08fa  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x0902  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x0925 A[Catch: Exception -> 0x092a, TRY_LEAVE, TryCatch #4 {Exception -> 0x092a, blocks: (B:306:0x0914, B:308:0x0925), top: B:335:0x0914 }] */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x0933  */
+    /* JADX WARN: Removed duplicated region for block: B:316:0x0938  */
+    /* JADX WARN: Removed duplicated region for block: B:317:0x0948  */
+    /* JADX WARN: Removed duplicated region for block: B:341:0x0716 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean start(final FileLoadOperationStream fileLoadOperationStream, final long j, final boolean z) {
+    public boolean start(final FileLoadOperationStream stream, final long streamOffset, final boolean steamPriority) {
+        String fileNameFinal;
+        String fileNameTemp;
+        String fileNameParts;
+        boolean finalFileExist;
         String str;
+        boolean[] preloaded;
+        String fileNameIv;
+        boolean newKeyGenerated;
         String str2;
-        String str3;
-        String str4;
-        String str5;
-        Object obj;
-        boolean exists;
-        boolean z2;
-        int i;
-        String str6;
-        boolean z3;
-        String str7;
         ArrayList<Range> arrayList;
+        long j;
+        boolean z;
         long j2;
-        boolean z4;
-        long j3;
         Exception e;
         RandomAccessFile randomAccessFile;
         Exception e2;
-        Exception e3;
-        RandomAccessFile randomAccessFile2;
-        String str8;
-        String str9;
-        this.startTime = System.currentTimeMillis();
+        String fileNameFinal2;
+        boolean z2;
+        boolean z3;
         updateParams();
         if (this.currentDownloadChunkSize == 0) {
-            boolean z5 = this.isStream;
-            if (z5) {
-                this.currentDownloadChunkSize = this.downloadChunkSizeAnimation;
-                this.currentMaxDownloadRequests = this.maxDownloadRequestsAnimation;
-            }
-            long j4 = this.totalBytesCount;
-            int i2 = this.bigFileSizeFrom;
-            this.currentDownloadChunkSize = (j4 >= ((long) i2) || z5) ? this.downloadChunkSizeBig : this.downloadChunkSize;
-            this.currentMaxDownloadRequests = (j4 >= ((long) i2) || z5) ? this.maxDownloadRequestsBig : this.maxDownloadRequests;
+            long j3 = this.totalBytesCount;
+            int i = this.bigFileSizeFrom;
+            this.currentDownloadChunkSize = (j3 >= ((long) i) || this.forceBig) ? this.downloadChunkSizeBig : this.downloadChunkSize;
+            this.currentMaxDownloadRequests = (j3 >= ((long) i) || this.forceBig) ? this.maxDownloadRequestsBig : this.maxDownloadRequests;
         }
-        boolean z6 = this.state != 0;
-        boolean z7 = this.paused;
+        final boolean alreadyStarted = this.state != 0;
+        boolean wasPaused = this.paused;
         this.paused = false;
-        if (fileLoadOperationStream != null) {
-            final boolean z8 = z6;
-            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda7
+        if (stream != null) {
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda12
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FileLoadOperation.this.lambda$start$4(z, j, fileLoadOperationStream, z8);
+                    FileLoadOperation.this.m213lambda$start$4$orgtelegrammessengerFileLoadOperation(steamPriority, streamOffset, stream, alreadyStarted);
                 }
             });
-        } else if (z7 && z6) {
+        } else if (wasPaused && alreadyStarted) {
             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -940,447 +834,120 @@ public class FileLoadOperation {
                 }
             });
         }
-        if (z6) {
-            return z7;
+        if (alreadyStarted) {
+            return wasPaused;
         }
         if (this.location == null && this.webLocation == null) {
             onFail(true, 0);
             return false;
         }
-        int i3 = this.currentDownloadChunkSize;
-        this.streamStartOffset = (j / i3) * i3;
+        int i2 = this.currentDownloadChunkSize;
+        this.streamStartOffset = (streamOffset / i2) * i2;
         if (this.allowDisordererFileSave) {
-            long j5 = this.totalBytesCount;
-            if (j5 > 0 && j5 > i3) {
+            long j4 = this.totalBytesCount;
+            if (j4 > 0 && j4 > i2) {
                 this.notLoadedBytesRanges = new ArrayList<>();
                 this.notRequestedBytesRanges = new ArrayList<>();
             }
         }
-        if (this.webLocation != null) {
-            String MD5 = Utilities.MD5(this.webFile.url);
-            if (this.encryptFile) {
-                str2 = MD5 + ".temp.enc";
-                str = MD5 + "." + this.ext + ".enc";
-                if (this.key != null) {
-                    str9 = MD5 + "_64.iv.enc";
-                }
-                str9 = null;
-            } else {
-                String str10 = MD5 + ".temp";
-                str = MD5 + "." + this.ext;
-                if (this.key != null) {
-                    str9 = MD5 + "_64.iv";
-                    str2 = str10;
-                } else {
-                    str2 = str10;
-                    str9 = null;
-                }
-            }
-            str4 = null;
-            str3 = null;
-            this.requestInfos = new ArrayList<>(this.currentMaxDownloadRequests);
-            this.delayedRequestInfos = new ArrayList<>(this.currentMaxDownloadRequests - 1);
-            this.state = 1;
-            if (!(this.parentObject instanceof TLRPC$TL_theme)) {
-                this.cacheFileFinal = new File(ApplicationLoader.getFilesDirFixed(), "remote" + ((TLRPC$TL_theme) obj).id + ".attheme");
-            } else if (!this.encryptFile) {
-                this.cacheFileFinal = new File(this.storePath, this.storeFileName);
-            } else {
-                this.cacheFileFinal = new File(this.storePath, str);
-            }
-            exists = this.cacheFileFinal.exists();
-            if (exists) {
-                if (!(this.parentObject instanceof TLRPC$TL_theme)) {
-                    long j6 = this.totalBytesCount;
-                    if (j6 != 0) {
-                    }
-                }
-                if (!this.delegate.hasAnotherRefOnFile(this.cacheFileFinal.toString())) {
-                    this.cacheFileFinal.delete();
-                }
-                exists = false;
-            }
-            if (exists) {
-                this.cacheFileTemp = new File(this.tempPath, str2);
-                if (this.ungzip) {
-                    this.cacheFileGzipTemp = new File(this.tempPath, str2 + ".gz");
-                }
-                String str11 = "rws";
-                if (this.encryptFile) {
-                    File file = new File(FileLoader.getInternalCacheDir(), str + ".key");
-                    try {
-                        randomAccessFile2 = new RandomAccessFile(file, str11);
-                        long length = file.length();
-                        byte[] bArr = new byte[32];
-                        this.encryptKey = bArr;
-                        this.encryptIv = new byte[16];
-                        if (length > 0 && length % 48 == 0) {
-                            randomAccessFile2.read(bArr, 0, 32);
-                            randomAccessFile2.read(this.encryptIv, 0, 16);
-                            z2 = false;
-                        } else {
-                            Utilities.random.nextBytes(bArr);
-                            Utilities.random.nextBytes(this.encryptIv);
-                            randomAccessFile2.write(this.encryptKey);
-                            randomAccessFile2.write(this.encryptIv);
-                            z2 = true;
-                        }
-                    } catch (Exception e4) {
-                        e3 = e4;
-                        z2 = false;
-                    }
-                    try {
-                        try {
-                            randomAccessFile2.getChannel().close();
-                        } catch (Exception e5) {
-                            FileLog.e(e5);
-                        }
-                        randomAccessFile2.close();
-                    } catch (Exception e6) {
-                        e3 = e6;
-                        FileLog.e(e3);
-                        i = 1;
-                        final boolean[] zArr = new boolean[i];
-                        zArr[0] = false;
-                        long j7 = 8;
-                        if (this.supportsPreloading) {
-                        }
-                        str6 = str11;
-                        z3 = z2;
-                        if (str4 == null) {
-                        }
-                        if (!this.cacheFileTemp.exists()) {
-                        }
-                        arrayList = this.notLoadedBytesRanges;
-                        if (arrayList != null) {
-                        }
-                        if (BuildVars.LOGS_ENABLED) {
-                        }
-                        if (str5 != null) {
-                        }
-                        j2 = 0;
-                        if (!this.isPreloadVideoOperation) {
-                        }
-                        updateProgress();
-                        RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.cacheFileTemp, str7);
-                        this.fileOutputStream = randomAccessFile3;
-                        j3 = this.downloadedBytes;
-                        if (j3 != 0) {
-                        }
-                        z4 = false;
-                        if (this.fileOutputStream == null) {
-                        }
-                    }
-                    i = 1;
-                } else {
-                    i = 1;
-                    z2 = false;
-                }
-                final boolean[] zArr2 = new boolean[i];
-                zArr2[0] = false;
-                long j72 = 8;
-                if (this.supportsPreloading || str3 == null) {
-                    str6 = str11;
-                    z3 = z2;
-                } else {
-                    this.cacheFilePreload = new File(this.tempPath, str3);
-                    try {
-                        RandomAccessFile randomAccessFile4 = new RandomAccessFile(this.cacheFilePreload, str11);
-                        this.preloadStream = randomAccessFile4;
-                        long length2 = randomAccessFile4.length();
-                        this.preloadStreamFileOffset = 1;
-                        long j8 = 1;
-                        if (length2 - 0 > 1) {
-                            zArr2[0] = this.preloadStream.readByte() != 0;
-                            while (j8 < length2) {
-                                if (length2 - j8 < j72) {
-                                    break;
-                                }
-                                long readLong = this.preloadStream.readLong();
-                                long j9 = j8 + j72;
-                                if (length2 - j9 < j72 || readLong < 0 || readLong > this.totalBytesCount) {
-                                    break;
-                                }
-                                long readLong2 = this.preloadStream.readLong();
-                                long j10 = j9 + j72;
-                                if (length2 - j10 < readLong2 || readLong2 > this.currentDownloadChunkSize) {
-                                    break;
-                                }
-                                PreloadRange preloadRange = new PreloadRange(j10, readLong2);
-                                long j11 = j10 + readLong2;
-                                this.preloadStream.seek(j11);
-                                if (length2 - j11 < 24) {
-                                    break;
-                                }
-                                long readLong3 = this.preloadStream.readLong();
-                                this.foundMoovSize = readLong3;
-                                if (readLong3 != 0) {
-                                    str6 = str11;
-                                    try {
-                                        z3 = z2;
-                                    } catch (Exception e7) {
-                                        e2 = e7;
-                                        z3 = z2;
-                                        FileLog.e(e2);
-                                        if (!this.isPreloadVideoOperation) {
-                                            this.cacheFilePreload = null;
-                                            try {
-                                                randomAccessFile = this.preloadStream;
-                                                if (randomAccessFile != null) {
-                                                }
-                                            } catch (Exception e8) {
-                                                FileLog.e(e8);
-                                            }
-                                        }
-                                        if (str4 == null) {
-                                        }
-                                        if (!this.cacheFileTemp.exists()) {
-                                        }
-                                        arrayList = this.notLoadedBytesRanges;
-                                        if (arrayList != null) {
-                                        }
-                                        if (BuildVars.LOGS_ENABLED) {
-                                        }
-                                        if (str5 != null) {
-                                        }
-                                        j2 = 0;
-                                        if (!this.isPreloadVideoOperation) {
-                                            copyNotLoadedRanges();
-                                        }
-                                        updateProgress();
-                                        RandomAccessFile randomAccessFile32 = new RandomAccessFile(this.cacheFileTemp, str7);
-                                        this.fileOutputStream = randomAccessFile32;
-                                        j3 = this.downloadedBytes;
-                                        if (j3 != 0) {
-                                        }
-                                        z4 = false;
-                                        if (this.fileOutputStream == null) {
-                                        }
-                                    }
-                                    try {
-                                        this.moovFound = this.nextPreloadDownloadOffset > this.totalBytesCount / 2 ? 2 : 1;
-                                        this.preloadNotRequestedBytesCount = readLong3;
-                                    } catch (Exception e9) {
-                                        e2 = e9;
-                                        FileLog.e(e2);
-                                        if (!this.isPreloadVideoOperation) {
-                                        }
-                                        if (str4 == null) {
-                                        }
-                                        if (!this.cacheFileTemp.exists()) {
-                                        }
-                                        arrayList = this.notLoadedBytesRanges;
-                                        if (arrayList != null) {
-                                        }
-                                        if (BuildVars.LOGS_ENABLED) {
-                                        }
-                                        if (str5 != null) {
-                                        }
-                                        j2 = 0;
-                                        if (!this.isPreloadVideoOperation) {
-                                        }
-                                        updateProgress();
-                                        RandomAccessFile randomAccessFile322 = new RandomAccessFile(this.cacheFileTemp, str7);
-                                        this.fileOutputStream = randomAccessFile322;
-                                        j3 = this.downloadedBytes;
-                                        if (j3 != 0) {
-                                        }
-                                        z4 = false;
-                                        if (this.fileOutputStream == null) {
-                                        }
-                                    }
-                                } else {
-                                    str6 = str11;
-                                    z3 = z2;
-                                }
-                                this.nextPreloadDownloadOffset = this.preloadStream.readLong();
-                                this.nextAtomOffset = this.preloadStream.readLong();
-                                long j12 = j11 + 24;
-                                if (this.preloadedBytesRanges == null) {
-                                    this.preloadedBytesRanges = new HashMap<>();
-                                }
-                                if (this.requestedPreloadedBytesRanges == null) {
-                                    this.requestedPreloadedBytesRanges = new HashMap<>();
-                                }
-                                this.preloadedBytesRanges.put(Long.valueOf(readLong), preloadRange);
-                                this.requestedPreloadedBytesRanges.put(Long.valueOf(readLong), 1);
-                                this.totalPreloadedBytes = (int) (this.totalPreloadedBytes + readLong2);
-                                this.preloadStreamFileOffset = (int) (this.preloadStreamFileOffset + readLong2 + 36);
-                                j8 = j12;
-                                z2 = z3;
-                                j72 = 8;
-                                str11 = str6;
-                            }
-                        }
-                        str6 = str11;
-                        z3 = z2;
-                        this.preloadStream.seek(this.preloadStreamFileOffset);
-                    } catch (Exception e10) {
-                        e2 = e10;
-                        str6 = str11;
-                    }
-                    if (!this.isPreloadVideoOperation && this.preloadedBytesRanges == null) {
-                        this.cacheFilePreload = null;
-                        randomAccessFile = this.preloadStream;
-                        if (randomAccessFile != null) {
-                            try {
-                                randomAccessFile.getChannel().close();
-                            } catch (Exception e11) {
-                                FileLog.e(e11);
-                            }
-                            this.preloadStream.close();
-                            this.preloadStream = null;
-                        }
-                    }
-                }
-                if (str4 == null) {
-                    this.cacheFileParts = new File(this.tempPath, str4);
-                    try {
-                        str7 = str6;
-                        try {
-                            RandomAccessFile randomAccessFile5 = new RandomAccessFile(this.cacheFileParts, str7);
-                            this.filePartsStream = randomAccessFile5;
-                            long length3 = randomAccessFile5.length();
-                            if (length3 % 8 == 4) {
-                                int readInt = this.filePartsStream.readInt();
-                                if (readInt <= (length3 - 4) / 2) {
-                                    int i4 = 0;
-                                    while (i4 < readInt) {
-                                        long readLong4 = this.filePartsStream.readLong();
-                                        long readLong5 = this.filePartsStream.readLong();
-                                        int i5 = readInt;
-                                        this.notLoadedBytesRanges.add(new Range(readLong4, readLong5));
-                                        this.notRequestedBytesRanges.add(new Range(readLong4, readLong5));
-                                        i4++;
-                                        readInt = i5;
-                                    }
-                                }
-                            }
-                        } catch (Exception e12) {
-                            e = e12;
-                            FileLog.e(e);
-                            if (!this.cacheFileTemp.exists()) {
-                            }
-                            arrayList = this.notLoadedBytesRanges;
-                            if (arrayList != null) {
-                            }
-                            if (BuildVars.LOGS_ENABLED) {
-                            }
-                            if (str5 != null) {
-                            }
-                            j2 = 0;
-                            if (!this.isPreloadVideoOperation) {
-                            }
-                            updateProgress();
-                            RandomAccessFile randomAccessFile3222 = new RandomAccessFile(this.cacheFileTemp, str7);
-                            this.fileOutputStream = randomAccessFile3222;
-                            j3 = this.downloadedBytes;
-                            if (j3 != 0) {
-                            }
-                            z4 = false;
-                            if (this.fileOutputStream == null) {
-                            }
-                        }
-                    } catch (Exception e13) {
-                        e = e13;
-                        str7 = str6;
-                    }
-                } else {
-                    str7 = str6;
-                }
-                if (!this.cacheFileTemp.exists()) {
-                    ArrayList<Range> arrayList2 = this.notLoadedBytesRanges;
-                    if (arrayList2 != null && arrayList2.isEmpty()) {
-                        this.notLoadedBytesRanges.add(new Range(0L, this.totalBytesCount));
-                        this.notRequestedBytesRanges.add(new Range(0L, this.totalBytesCount));
-                    }
-                } else if (z3) {
-                    this.cacheFileTemp.delete();
-                } else {
-                    long length4 = this.cacheFileTemp.length();
-                    if (str5 != null && length4 % this.currentDownloadChunkSize != 0) {
-                        this.requestedBytesCount = 0L;
-                    } else {
-                        long length5 = this.cacheFileTemp.length();
-                        int i6 = this.currentDownloadChunkSize;
-                        long j13 = (length5 / i6) * i6;
-                        this.downloadedBytes = j13;
-                        this.requestedBytesCount = j13;
-                    }
-                    ArrayList<Range> arrayList3 = this.notLoadedBytesRanges;
-                    if (arrayList3 != null && arrayList3.isEmpty()) {
-                        this.notLoadedBytesRanges.add(new Range(this.downloadedBytes, this.totalBytesCount));
-                        this.notRequestedBytesRanges.add(new Range(this.downloadedBytes, this.totalBytesCount));
-                    }
-                }
-                arrayList = this.notLoadedBytesRanges;
-                if (arrayList != null) {
-                    this.downloadedBytes = this.totalBytesCount;
-                    int size = arrayList.size();
-                    for (int i7 = 0; i7 < size; i7++) {
-                        Range range = this.notLoadedBytesRanges.get(i7);
-                        this.downloadedBytes -= range.end - range.start;
-                    }
-                    this.requestedBytesCount = this.downloadedBytes;
-                }
-                if (BuildVars.LOGS_ENABLED) {
-                    if (this.isPreloadVideoOperation) {
-                        FileLog.d("start preloading file to temp = " + this.cacheFileTemp);
-                    } else {
-                        FileLog.d("start loading file to temp = " + this.cacheFileTemp + " final = " + this.cacheFileFinal);
-                    }
-                }
-                if (str5 != null) {
-                    this.cacheIvTemp = new File(this.tempPath, str5);
-                    try {
-                        this.fiv = new RandomAccessFile(this.cacheIvTemp, str7);
-                        if (this.downloadedBytes != 0 && !z3) {
-                            long length6 = this.cacheIvTemp.length();
-                            if (length6 > 0 && length6 % 64 == 0) {
-                                this.fiv.read(this.iv, 0, 64);
+        String fileNamePreload = null;
+        String fileNameIv2 = null;
+        if (this.webLocation == null) {
+            if (this.location.volume_id != 0 && this.location.local_id != 0) {
+                if (this.datacenterId != Integer.MIN_VALUE && this.location.volume_id != -2147483648L) {
+                    if (this.datacenterId != 0) {
+                        if (this.encryptFile) {
+                            fileNameTemp = this.location.volume_id + "_" + this.location.local_id + ".temp.enc";
+                            fileNameFinal = this.location.volume_id + "_" + this.location.local_id + "." + this.ext + ".enc";
+                            if (this.key != null) {
+                                fileNameIv2 = this.location.volume_id + "_" + this.location.local_id + "_64.iv.enc";
+                                fileNameParts = null;
                             } else {
-                                this.downloadedBytes = 0L;
-                                this.requestedBytesCount = 0L;
+                                fileNameParts = null;
+                                fileNameIv2 = null;
                             }
+                        } else {
+                            String fileNameTemp2 = this.location.volume_id + "_" + this.location.local_id + ".temp";
+                            fileNameFinal = this.location.volume_id + "_" + this.location.local_id + "." + this.ext;
+                            fileNameIv2 = this.key != null ? this.location.volume_id + "_" + this.location.local_id + "_64.iv" : null;
+                            fileNameParts = this.notLoadedBytesRanges != null ? this.location.volume_id + "_" + this.location.local_id + "_64.pt" : null;
+                            fileNamePreload = this.location.volume_id + "_" + this.location.local_id + "_64.preload";
+                            fileNameTemp = fileNameTemp2;
                         }
-                    } catch (Exception e14) {
-                        FileLog.e(e14);
-                        j2 = 0;
-                        this.downloadedBytes = 0L;
-                        this.requestedBytesCount = 0L;
                     }
                 }
-                j2 = 0;
-                if (!this.isPreloadVideoOperation && this.downloadedBytes != j2 && this.totalBytesCount > j2) {
-                    copyNotLoadedRanges();
+                onFail(true, 0);
+                return false;
+            }
+            if (this.datacenterId == 0) {
+                z3 = true;
+                z2 = false;
+            } else if (this.location.id == 0) {
+                z3 = true;
+                z2 = false;
+            } else if (this.encryptFile) {
+                fileNameTemp = this.datacenterId + "_" + this.location.id + ".temp.enc";
+                fileNameFinal = this.datacenterId + "_" + this.location.id + this.ext + ".enc";
+                if (this.key != null) {
+                    fileNameIv2 = this.datacenterId + "_" + this.location.id + "_64.iv.enc";
+                    fileNameParts = null;
+                } else {
+                    fileNameParts = null;
+                    fileNameIv2 = null;
                 }
-                updateProgress();
-                try {
-                    RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str7);
-                    this.fileOutputStream = randomAccessFile32222;
-                    j3 = this.downloadedBytes;
-                    if (j3 != 0) {
-                        randomAccessFile32222.seek(j3);
-                    }
-                    z4 = false;
-                } catch (Exception e15) {
-                    z4 = false;
-                    FileLog.e((Throwable) e15, false);
-                }
-                if (this.fileOutputStream == null) {
-                    int i8 = z4 ? 1 : 0;
-                    int i9 = z4 ? 1 : 0;
-                    onFail(true, i8);
-                    return z4;
-                }
-                this.started = true;
-                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda10
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        FileLoadOperation.this.lambda$start$5(zArr2);
-                    }
-                });
             } else {
+                String fileNameTemp3 = this.datacenterId + "_" + this.location.id + ".temp";
+                fileNameFinal = this.datacenterId + "_" + this.location.id + this.ext;
+                fileNameIv2 = this.key != null ? this.datacenterId + "_" + this.location.id + "_64.iv" : null;
+                fileNameParts = this.notLoadedBytesRanges != null ? this.datacenterId + "_" + this.location.id + "_64.pt" : null;
+                fileNamePreload = this.datacenterId + "_" + this.location.id + "_64.preload";
+                fileNameTemp = fileNameTemp3;
+            }
+            int i3 = z2 ? 1 : 0;
+            int i4 = z2 ? 1 : 0;
+            onFail(z3, i3);
+            return z2;
+        }
+        String md5 = Utilities.MD5(this.webFile.url);
+        if (this.encryptFile) {
+            fileNameTemp = md5 + ".temp.enc";
+            fileNameFinal = md5 + "." + this.ext + ".enc";
+            if (this.key != null) {
+                fileNameIv2 = md5 + "_64.iv.enc";
+            }
+        } else {
+            String fileNameTemp4 = md5 + ".temp";
+            fileNameFinal = md5 + "." + this.ext;
+            if (this.key != null) {
+                fileNameIv2 = md5 + "_64.iv";
+                fileNameTemp = fileNameTemp4;
+            } else {
+                fileNameTemp = fileNameTemp4;
+            }
+        }
+        fileNameParts = null;
+        this.requestInfos = new ArrayList<>(this.currentMaxDownloadRequests);
+        this.delayedRequestInfos = new ArrayList<>(this.currentMaxDownloadRequests - 1);
+        this.state = 1;
+        Object obj = this.parentObject;
+        if (obj instanceof TLRPC.TL_theme) {
+            TLRPC.TL_theme theme = (TLRPC.TL_theme) obj;
+            this.cacheFileFinal = new File(ApplicationLoader.getFilesDirFixed(), "remote" + theme.id + ".attheme");
+        } else if (!this.encryptFile) {
+            this.cacheFileFinal = new File(this.storePath, this.storeFileName);
+        } else {
+            this.cacheFileFinal = new File(this.storePath, fileNameFinal);
+        }
+        boolean finalFileExist2 = this.cacheFileFinal.exists();
+        if (finalFileExist2) {
+            if (!(this.parentObject instanceof TLRPC.TL_theme)) {
+                long j5 = this.totalBytesCount;
+                if (j5 != 0) {
+                }
+            }
+            this.cacheFileFinal.delete();
+            finalFileExist = false;
+            if (!finalFileExist) {
                 this.started = true;
                 try {
                     onFinishLoadingFile(false);
@@ -1388,129 +955,452 @@ public class FileLoadOperation {
                     if (pathData != null) {
                         this.delegate.saveFilePath(pathData, null);
                     }
-                } catch (Exception unused) {
+                    return true;
+                } catch (Exception e3) {
                     onFail(true, 0);
                     return true;
                 }
             }
-            return true;
-        }
-        TLRPC$InputFileLocation tLRPC$InputFileLocation = this.location;
-        long j14 = tLRPC$InputFileLocation.volume_id;
-        if (j14 != 0 && tLRPC$InputFileLocation.local_id != 0) {
-            int i10 = this.datacenterId;
-            if (i10 == Integer.MIN_VALUE || j14 == -2147483648L || i10 == 0) {
-                onFail(true, 0);
-                return false;
-            } else if (this.encryptFile) {
-                str2 = this.location.volume_id + "_" + this.location.local_id + ".temp.enc";
-                str = this.location.volume_id + "_" + this.location.local_id + "." + this.ext + ".enc";
-                if (this.key != null) {
-                    str9 = this.location.volume_id + "_" + this.location.local_id + "_64.iv.enc";
+            this.cacheFileTemp = new File(this.tempPath, fileNameTemp);
+            if (this.ungzip) {
+                this.cacheFileGzipTemp = new File(this.tempPath, fileNameTemp + ".gz");
+            }
+            boolean newKeyGenerated2 = false;
+            String str3 = "rws";
+            if (this.encryptFile) {
+                File keyFile = new File(FileLoader.getInternalCacheDir(), fileNameFinal + ".key");
+                try {
+                    RandomAccessFile file = new RandomAccessFile(keyFile, str3);
+                    long len = keyFile.length();
+                    byte[] bArr = new byte[32];
+                    this.encryptKey = bArr;
+                    this.encryptIv = new byte[16];
+                    if (len <= 0 || len % 48 != 0) {
+                        Utilities.random.nextBytes(this.encryptKey);
+                        Utilities.random.nextBytes(this.encryptIv);
+                        file.write(this.encryptKey);
+                        file.write(this.encryptIv);
+                        newKeyGenerated2 = true;
+                    } else {
+                        file.read(bArr, 0, 32);
+                        file.read(this.encryptIv, 0, 16);
+                    }
+                    try {
+                        file.getChannel().close();
+                    } catch (Exception e4) {
+                        FileLog.e(e4);
+                    }
+                    file.close();
+                } catch (Exception e5) {
+                    FileLog.e(e5);
                 }
-                str5 = null;
-                str4 = null;
-                str3 = null;
-                this.requestInfos = new ArrayList<>(this.currentMaxDownloadRequests);
-                this.delayedRequestInfos = new ArrayList<>(this.currentMaxDownloadRequests - 1);
-                this.state = 1;
-                if (!(this.parentObject instanceof TLRPC$TL_theme)) {
-                }
-                exists = this.cacheFileFinal.exists();
-                if (exists) {
-                }
-                if (exists) {
-                }
-                return true;
+            }
+            boolean[] preloaded2 = {false};
+            if (!this.supportsPreloading || fileNamePreload == null) {
+                fileNameIv = fileNameIv2;
+                preloaded = preloaded2;
+                newKeyGenerated = newKeyGenerated2;
+                str = str3;
             } else {
-                str8 = this.location.volume_id + "_" + this.location.local_id + ".temp";
-                str = this.location.volume_id + "_" + this.location.local_id + "." + this.ext;
-                str5 = this.key != null ? this.location.volume_id + "_" + this.location.local_id + "_64.iv" : null;
-                str4 = this.notLoadedBytesRanges != null ? this.location.volume_id + "_" + this.location.local_id + "_64.pt" : null;
-                str3 = this.location.volume_id + "_" + this.location.local_id + "_64.preload";
-                str2 = str8;
-                this.requestInfos = new ArrayList<>(this.currentMaxDownloadRequests);
-                this.delayedRequestInfos = new ArrayList<>(this.currentMaxDownloadRequests - 1);
-                this.state = 1;
-                if (!(this.parentObject instanceof TLRPC$TL_theme)) {
+                this.cacheFilePreload = new File(this.tempPath, fileNamePreload);
+                try {
+                    RandomAccessFile randomAccessFile2 = new RandomAccessFile(this.cacheFilePreload, str3);
+                    this.preloadStream = randomAccessFile2;
+                    long len2 = randomAccessFile2.length();
+                    try {
+                        this.preloadStreamFileOffset = 1;
+                        if (len2 - 0 > 1) {
+                            preloaded2[0] = this.preloadStream.readByte() != 0;
+                            long readOffset = 0 + 1;
+                            while (true) {
+                                if (readOffset >= len2) {
+                                    fileNameIv = fileNameIv2;
+                                    preloaded = preloaded2;
+                                    newKeyGenerated = newKeyGenerated2;
+                                    str = str3;
+                                    break;
+                                } else if (len2 - readOffset < 8) {
+                                    fileNameIv = fileNameIv2;
+                                    preloaded = preloaded2;
+                                    newKeyGenerated = newKeyGenerated2;
+                                    str = str3;
+                                    break;
+                                } else {
+                                    long offset = this.preloadStream.readLong();
+                                    long readOffset2 = readOffset + 8;
+                                    if (len2 - readOffset2 < 8 || offset < 0) {
+                                        break;
+                                    }
+                                    boolean alreadyStarted2 = alreadyStarted;
+                                    boolean wasPaused2 = wasPaused;
+                                    try {
+                                        if (offset > this.totalBytesCount) {
+                                            fileNameIv = fileNameIv2;
+                                            preloaded = preloaded2;
+                                            newKeyGenerated = newKeyGenerated2;
+                                            str = str3;
+                                            break;
+                                        }
+                                        long size = this.preloadStream.readLong();
+                                        long readOffset3 = readOffset2 + 8;
+                                        if (len2 - readOffset3 < size) {
+                                            fileNameIv = fileNameIv2;
+                                            preloaded = preloaded2;
+                                            newKeyGenerated = newKeyGenerated2;
+                                            str = str3;
+                                            break;
+                                        }
+                                        boolean finalFileExist3 = finalFileExist;
+                                        try {
+                                            fileNameIv = fileNameIv2;
+                                            preloaded = preloaded2;
+                                            if (size > this.currentDownloadChunkSize) {
+                                                newKeyGenerated = newKeyGenerated2;
+                                                str = str3;
+                                                break;
+                                            }
+                                            try {
+                                                PreloadRange range = new PreloadRange(readOffset3, size);
+                                                long readOffset4 = readOffset3 + size;
+                                                String fileNameTemp5 = fileNameTemp;
+                                                try {
+                                                    this.preloadStream.seek(readOffset4);
+                                                    if (len2 - readOffset4 < 24) {
+                                                        newKeyGenerated = newKeyGenerated2;
+                                                        str = str3;
+                                                        break;
+                                                    }
+                                                    long len3 = len2;
+                                                    long len4 = this.preloadStream.readLong();
+                                                    this.foundMoovSize = len4;
+                                                    if (len4 != 0) {
+                                                        newKeyGenerated = newKeyGenerated2;
+                                                        try {
+                                                            fileNameFinal2 = fileNameFinal;
+                                                            str = str3;
+                                                        } catch (Exception e6) {
+                                                            e2 = e6;
+                                                            str = str3;
+                                                            FileLog.e(e2);
+                                                            if (!this.isPreloadVideoOperation) {
+                                                                this.cacheFilePreload = null;
+                                                                try {
+                                                                    randomAccessFile = this.preloadStream;
+                                                                    if (randomAccessFile != null) {
+                                                                    }
+                                                                } catch (Exception e7) {
+                                                                    FileLog.e(e7);
+                                                                }
+                                                            }
+                                                            if (fileNameParts != null) {
+                                                            }
+                                                            if (this.cacheFileTemp.exists()) {
+                                                            }
+                                                            arrayList = this.notLoadedBytesRanges;
+                                                            if (arrayList != null) {
+                                                            }
+                                                            if (BuildVars.LOGS_ENABLED) {
+                                                            }
+                                                            if (fileNameIv == null) {
+                                                            }
+                                                            if (!this.isPreloadVideoOperation) {
+                                                                copyNotLoadedRanges();
+                                                            }
+                                                            updateProgress();
+                                                            RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.cacheFileTemp, str2);
+                                                            this.fileOutputStream = randomAccessFile3;
+                                                            j2 = this.downloadedBytes;
+                                                            if (j2 != 0) {
+                                                            }
+                                                            z = false;
+                                                            if (this.fileOutputStream != null) {
+                                                            }
+                                                        }
+                                                        try {
+                                                            this.moovFound = this.nextPreloadDownloadOffset > this.totalBytesCount / 2 ? 2 : 1;
+                                                            this.preloadNotRequestedBytesCount = len4;
+                                                        } catch (Exception e8) {
+                                                            e2 = e8;
+                                                            FileLog.e(e2);
+                                                            if (!this.isPreloadVideoOperation) {
+                                                            }
+                                                            if (fileNameParts != null) {
+                                                            }
+                                                            if (this.cacheFileTemp.exists()) {
+                                                            }
+                                                            arrayList = this.notLoadedBytesRanges;
+                                                            if (arrayList != null) {
+                                                            }
+                                                            if (BuildVars.LOGS_ENABLED) {
+                                                            }
+                                                            if (fileNameIv == null) {
+                                                            }
+                                                            if (!this.isPreloadVideoOperation) {
+                                                            }
+                                                            updateProgress();
+                                                            RandomAccessFile randomAccessFile32 = new RandomAccessFile(this.cacheFileTemp, str2);
+                                                            this.fileOutputStream = randomAccessFile32;
+                                                            j2 = this.downloadedBytes;
+                                                            if (j2 != 0) {
+                                                            }
+                                                            z = false;
+                                                            if (this.fileOutputStream != null) {
+                                                            }
+                                                        }
+                                                    } else {
+                                                        newKeyGenerated = newKeyGenerated2;
+                                                        fileNameFinal2 = fileNameFinal;
+                                                        str = str3;
+                                                    }
+                                                    this.nextPreloadDownloadOffset = this.preloadStream.readLong();
+                                                    this.nextAtomOffset = this.preloadStream.readLong();
+                                                    readOffset = readOffset4 + 24;
+                                                    if (this.preloadedBytesRanges == null) {
+                                                        this.preloadedBytesRanges = new HashMap<>();
+                                                    }
+                                                    if (this.requestedPreloadedBytesRanges == null) {
+                                                        this.requestedPreloadedBytesRanges = new HashMap<>();
+                                                    }
+                                                    this.preloadedBytesRanges.put(Long.valueOf(offset), range);
+                                                    this.requestedPreloadedBytesRanges.put(Long.valueOf(offset), 1);
+                                                    this.totalPreloadedBytes = (int) (this.totalPreloadedBytes + size);
+                                                    this.preloadStreamFileOffset = (int) (this.preloadStreamFileOffset + 36 + size);
+                                                    alreadyStarted = alreadyStarted2;
+                                                    wasPaused = wasPaused2;
+                                                    fileNameTemp = fileNameTemp5;
+                                                    len2 = len3;
+                                                    newKeyGenerated2 = newKeyGenerated;
+                                                    finalFileExist = finalFileExist3;
+                                                    fileNameIv2 = fileNameIv;
+                                                    preloaded2 = preloaded;
+                                                    fileNameFinal = fileNameFinal2;
+                                                    str3 = str;
+                                                } catch (Exception e9) {
+                                                    e2 = e9;
+                                                    newKeyGenerated = newKeyGenerated2;
+                                                    str = str3;
+                                                }
+                                            } catch (Exception e10) {
+                                                e2 = e10;
+                                                newKeyGenerated = newKeyGenerated2;
+                                                str = str3;
+                                            }
+                                        } catch (Exception e11) {
+                                            e2 = e11;
+                                            fileNameIv = fileNameIv2;
+                                            preloaded = preloaded2;
+                                            newKeyGenerated = newKeyGenerated2;
+                                            str = str3;
+                                        }
+                                    } catch (Exception e12) {
+                                        e2 = e12;
+                                        fileNameIv = fileNameIv2;
+                                        preloaded = preloaded2;
+                                        newKeyGenerated = newKeyGenerated2;
+                                        str = str3;
+                                    }
+                                }
+                            }
+                        } else {
+                            fileNameIv = fileNameIv2;
+                            preloaded = preloaded2;
+                            newKeyGenerated = newKeyGenerated2;
+                            str = str3;
+                        }
+                        this.preloadStream.seek(this.preloadStreamFileOffset);
+                    } catch (Exception e13) {
+                        e2 = e13;
+                        fileNameIv = fileNameIv2;
+                        preloaded = preloaded2;
+                        newKeyGenerated = newKeyGenerated2;
+                        str = str3;
+                    }
+                } catch (Exception e14) {
+                    e2 = e14;
+                    fileNameIv = fileNameIv2;
+                    preloaded = preloaded2;
+                    newKeyGenerated = newKeyGenerated2;
+                    str = str3;
                 }
-                exists = this.cacheFileFinal.exists();
-                if (exists) {
+                if (!this.isPreloadVideoOperation && this.preloadedBytesRanges == null) {
+                    this.cacheFilePreload = null;
+                    randomAccessFile = this.preloadStream;
+                    if (randomAccessFile != null) {
+                        try {
+                            randomAccessFile.getChannel().close();
+                        } catch (Exception e15) {
+                            FileLog.e(e15);
+                        }
+                        this.preloadStream.close();
+                        this.preloadStream = null;
+                    }
                 }
-                if (exists) {
+            }
+            if (fileNameParts != null) {
+                this.cacheFileParts = new File(this.tempPath, fileNameParts);
+                try {
+                    str2 = str;
+                } catch (Exception e16) {
+                    e = e16;
+                    str2 = str;
                 }
-                return true;
+                try {
+                    RandomAccessFile randomAccessFile4 = new RandomAccessFile(this.cacheFileParts, str2);
+                    this.filePartsStream = randomAccessFile4;
+                    long len5 = randomAccessFile4.length();
+                    if (len5 % 8 == 4) {
+                        int count = this.filePartsStream.readInt();
+                        if (count <= (len5 - 4) / 2) {
+                            for (int a = 0; a < count; a++) {
+                                long start = this.filePartsStream.readLong();
+                                long end = this.filePartsStream.readLong();
+                                this.notLoadedBytesRanges.add(new Range(start, end));
+                                this.notRequestedBytesRanges.add(new Range(start, end));
+                            }
+                        }
+                    }
+                } catch (Exception e17) {
+                    e = e17;
+                    FileLog.e(e);
+                    if (this.cacheFileTemp.exists()) {
+                    }
+                    arrayList = this.notLoadedBytesRanges;
+                    if (arrayList != null) {
+                    }
+                    if (BuildVars.LOGS_ENABLED) {
+                    }
+                    if (fileNameIv == null) {
+                    }
+                    if (!this.isPreloadVideoOperation) {
+                    }
+                    updateProgress();
+                    RandomAccessFile randomAccessFile322 = new RandomAccessFile(this.cacheFileTemp, str2);
+                    this.fileOutputStream = randomAccessFile322;
+                    j2 = this.downloadedBytes;
+                    if (j2 != 0) {
+                    }
+                    z = false;
+                    if (this.fileOutputStream != null) {
+                    }
+                }
+            } else {
+                str2 = str;
             }
-        } else if (this.datacenterId == 0 || tLRPC$InputFileLocation.id == 0) {
-            onFail(true, 0);
-            return false;
-        } else if (this.encryptFile) {
-            str2 = this.datacenterId + "_" + this.location.id + ".temp.enc";
-            str = this.datacenterId + "_" + this.location.id + this.ext + ".enc";
-            if (this.key != null) {
-                str9 = this.datacenterId + "_" + this.location.id + "_64.iv.enc";
+            if (this.cacheFileTemp.exists()) {
+                ArrayList<Range> arrayList2 = this.notLoadedBytesRanges;
+                if (arrayList2 != null && arrayList2.isEmpty()) {
+                    this.notLoadedBytesRanges.add(new Range(0L, this.totalBytesCount));
+                    this.notRequestedBytesRanges.add(new Range(0L, this.totalBytesCount));
+                }
+            } else if (newKeyGenerated) {
+                this.cacheFileTemp.delete();
+            } else {
+                long totalDownloadedLen = this.cacheFileTemp.length();
+                if (fileNameIv == null || totalDownloadedLen % this.currentDownloadChunkSize == 0) {
+                    long length = this.cacheFileTemp.length();
+                    int i5 = this.currentDownloadChunkSize;
+                    long j6 = (length / i5) * i5;
+                    this.downloadedBytes = j6;
+                    this.requestedBytesCount = j6;
+                } else {
+                    this.requestedBytesCount = 0L;
+                }
+                ArrayList<Range> arrayList3 = this.notLoadedBytesRanges;
+                if (arrayList3 != null && arrayList3.isEmpty()) {
+                    this.notLoadedBytesRanges.add(new Range(this.downloadedBytes, this.totalBytesCount));
+                    this.notRequestedBytesRanges.add(new Range(this.downloadedBytes, this.totalBytesCount));
+                }
             }
-            str5 = null;
-            str4 = null;
-            str3 = null;
-            this.requestInfos = new ArrayList<>(this.currentMaxDownloadRequests);
-            this.delayedRequestInfos = new ArrayList<>(this.currentMaxDownloadRequests - 1);
-            this.state = 1;
-            if (!(this.parentObject instanceof TLRPC$TL_theme)) {
+            arrayList = this.notLoadedBytesRanges;
+            if (arrayList != null) {
+                this.downloadedBytes = this.totalBytesCount;
+                int size2 = arrayList.size();
+                for (int a2 = 0; a2 < size2; a2++) {
+                    Range range2 = this.notLoadedBytesRanges.get(a2);
+                    this.downloadedBytes -= range2.end - range2.start;
+                }
+                this.requestedBytesCount = this.downloadedBytes;
             }
-            exists = this.cacheFileFinal.exists();
-            if (exists) {
+            if (BuildVars.LOGS_ENABLED) {
+                if (this.isPreloadVideoOperation) {
+                    FileLog.d("start preloading file to temp = " + this.cacheFileTemp);
+                } else {
+                    FileLog.d("start loading file to temp = " + this.cacheFileTemp + " final = " + this.cacheFileFinal);
+                }
             }
-            if (exists) {
+            if (fileNameIv == null) {
+                this.cacheIvTemp = new File(this.tempPath, fileNameIv);
+                try {
+                    this.fiv = new RandomAccessFile(this.cacheIvTemp, str2);
+                    if (this.downloadedBytes != 0 && !newKeyGenerated) {
+                        long len6 = this.cacheIvTemp.length();
+                        if (len6 <= 0 || len6 % 64 != 0) {
+                            this.downloadedBytes = 0L;
+                            this.requestedBytesCount = 0L;
+                        } else {
+                            this.fiv.read(this.iv, 0, 64);
+                        }
+                    }
+                    j = 0;
+                } catch (Exception e18) {
+                    FileLog.e(e18);
+                    j = 0;
+                    this.downloadedBytes = 0L;
+                    this.requestedBytesCount = 0L;
+                }
+            } else {
+                j = 0;
             }
+            if (!this.isPreloadVideoOperation && this.downloadedBytes != j && this.totalBytesCount > j) {
+                copyNotLoadedRanges();
+            }
+            updateProgress();
+            try {
+                RandomAccessFile randomAccessFile3222 = new RandomAccessFile(this.cacheFileTemp, str2);
+                this.fileOutputStream = randomAccessFile3222;
+                j2 = this.downloadedBytes;
+                if (j2 != 0) {
+                    randomAccessFile3222.seek(j2);
+                }
+                z = false;
+            } catch (Exception e19) {
+                z = false;
+                FileLog.e((Throwable) e19, false);
+            }
+            if (this.fileOutputStream != null) {
+                int i6 = z ? 1 : 0;
+                int i7 = z ? 1 : 0;
+                onFail(true, i6);
+                return z;
+            }
+            this.started = true;
+            final boolean[] preloaded3 = preloaded;
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FileLoadOperation.this.m214lambda$start$5$orgtelegrammessengerFileLoadOperation(preloaded3);
+                }
+            });
             return true;
-        } else {
-            str8 = this.datacenterId + "_" + this.location.id + ".temp";
-            str = this.datacenterId + "_" + this.location.id + this.ext;
-            str5 = this.key != null ? this.datacenterId + "_" + this.location.id + "_64.iv" : null;
-            str4 = this.notLoadedBytesRanges != null ? this.datacenterId + "_" + this.location.id + "_64.pt" : null;
-            str3 = this.datacenterId + "_" + this.location.id + "_64.preload";
-            str2 = str8;
-            this.requestInfos = new ArrayList<>(this.currentMaxDownloadRequests);
-            this.delayedRequestInfos = new ArrayList<>(this.currentMaxDownloadRequests - 1);
-            this.state = 1;
-            if (!(this.parentObject instanceof TLRPC$TL_theme)) {
-            }
-            exists = this.cacheFileFinal.exists();
-            if (exists) {
-            }
-            if (exists) {
-            }
-            return true;
         }
-        str5 = str9;
-        str4 = null;
-        str3 = null;
-        this.requestInfos = new ArrayList<>(this.currentMaxDownloadRequests);
-        this.delayedRequestInfos = new ArrayList<>(this.currentMaxDownloadRequests - 1);
-        this.state = 1;
-        if (!(this.parentObject instanceof TLRPC$TL_theme)) {
+        finalFileExist = finalFileExist2;
+        if (!finalFileExist) {
         }
-        exists = this.cacheFileFinal.exists();
-        if (exists) {
-        }
-        if (exists) {
-        }
-        return true;
     }
 
-    public /* synthetic */ void lambda$start$4(boolean z, long j, FileLoadOperationStream fileLoadOperationStream, boolean z2) {
+    /* renamed from: lambda$start$4$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m213lambda$start$4$orgtelegrammessengerFileLoadOperation(boolean steamPriority, long streamOffset, FileLoadOperationStream stream, boolean alreadyStarted) {
         if (this.streamListeners == null) {
             this.streamListeners = new ArrayList<>();
         }
-        if (z) {
+        if (steamPriority) {
             int i = this.currentDownloadChunkSize;
-            long j2 = (j / i) * i;
+            long offset = (streamOffset / i) * i;
             RequestInfo requestInfo = this.priorityRequestInfo;
-            if (requestInfo != null && requestInfo.offset != j2) {
+            if (requestInfo != null && requestInfo.offset != offset) {
                 this.requestInfos.remove(this.priorityRequestInfo);
                 this.requestedBytesCount -= this.currentDownloadChunkSize;
-                removePart(this.notRequestedBytesRanges, this.priorityRequestInfo.offset, this.currentDownloadChunkSize + this.priorityRequestInfo.offset);
+                removePart(this.notRequestedBytesRanges, this.priorityRequestInfo.offset, this.priorityRequestInfo.offset + this.currentDownloadChunkSize);
                 if (this.priorityRequestInfo.requestToken != 0) {
                     ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.priorityRequestInfo.requestToken, true);
                     this.requestsCount--;
@@ -1521,14 +1411,14 @@ public class FileLoadOperation {
                 this.priorityRequestInfo = null;
             }
             if (this.priorityRequestInfo == null) {
-                this.streamPriorityStartOffset = j2;
+                this.streamPriorityStartOffset = offset;
             }
         } else {
             int i2 = this.currentDownloadChunkSize;
-            this.streamStartOffset = (j / i2) * i2;
+            this.streamStartOffset = (streamOffset / i2) * i2;
         }
-        this.streamListeners.add(fileLoadOperationStream);
-        if (z2) {
+        this.streamListeners.add(stream);
+        if (alreadyStarted) {
             if (this.preloadedBytesRanges != null && getDownloadedLengthFromOffsetInternal(this.notLoadedBytesRanges, this.streamStartOffset, 1L) == 0 && this.preloadedBytesRanges.get(Long.valueOf(this.streamStartOffset)) != null) {
                 this.nextPartWasPreloaded = true;
             }
@@ -1537,13 +1427,14 @@ public class FileLoadOperation {
         }
     }
 
-    public /* synthetic */ void lambda$start$5(boolean[] zArr) {
+    /* renamed from: lambda$start$5$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m214lambda$start$5$orgtelegrammessengerFileLoadOperation(boolean[] preloaded) {
         long j = this.totalBytesCount;
-        if (j != 0 && ((this.isPreloadVideoOperation && zArr[0]) || this.downloadedBytes == j)) {
+        if (j != 0 && ((this.isPreloadVideoOperation && preloaded[0]) || this.downloadedBytes == j)) {
             try {
                 onFinishLoadingFile(false);
                 return;
-            } catch (Exception unused) {
+            } catch (Exception e) {
                 onFail(true, 0);
                 return;
             }
@@ -1556,10 +1447,9 @@ public class FileLoadOperation {
         if (fileLoadOperationDelegate != null) {
             long j = this.downloadedBytes;
             long j2 = this.totalBytesCount;
-            if (j == j2 || j2 <= 0) {
-                return;
+            if (j != j2 && j2 > 0) {
+                fileLoadOperationDelegate.didChangedLoadProgress(this, j, j2);
             }
-            fileLoadOperationDelegate.didChangedLoadProgress(this, j, j2);
         }
     }
 
@@ -1567,40 +1457,41 @@ public class FileLoadOperation {
         return this.paused;
     }
 
-    public void setIsPreloadVideoOperation(final boolean z) {
-        boolean z2 = this.isPreloadVideoOperation;
-        if (z2 != z) {
-            if (z && this.totalBytesCount <= 2097152) {
+    public void setIsPreloadVideoOperation(final boolean value) {
+        boolean z = this.isPreloadVideoOperation;
+        if (z != value) {
+            if (value && this.totalBytesCount <= 2097152) {
                 return;
             }
-            if (!z && z2) {
+            if (!value && z) {
                 if (this.state == 3) {
-                    this.isPreloadVideoOperation = z;
+                    this.isPreloadVideoOperation = value;
                     this.state = 0;
                     this.preloadFinished = false;
                     start();
                     return;
                 } else if (this.state == 1) {
-                    Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda6
+                    Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda11
                         @Override // java.lang.Runnable
                         public final void run() {
-                            FileLoadOperation.this.lambda$setIsPreloadVideoOperation$6(z);
+                            FileLoadOperation.this.m212xc9269a74(value);
                         }
                     });
                     return;
                 } else {
-                    this.isPreloadVideoOperation = z;
+                    this.isPreloadVideoOperation = value;
                     return;
                 }
             }
-            this.isPreloadVideoOperation = z;
+            this.isPreloadVideoOperation = value;
         }
     }
 
-    public /* synthetic */ void lambda$setIsPreloadVideoOperation$6(boolean z) {
+    /* renamed from: lambda$setIsPreloadVideoOperation$6$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m212xc9269a74(boolean value) {
         this.requestedBytesCount = 0L;
         clearOperaion(null, true);
-        this.isPreloadVideoOperation = z;
+        this.isPreloadVideoOperation = value;
         startDownloadRequest();
     }
 
@@ -1616,20 +1507,21 @@ public class FileLoadOperation {
         cancel(false);
     }
 
-    public void cancel(final boolean z) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda5
+    public void cancel(final boolean deleteFiles) {
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoadOperation.this.lambda$cancel$7(z);
+                FileLoadOperation.this.m205lambda$cancel$7$orgtelegrammessengerFileLoadOperation(deleteFiles);
             }
         });
     }
 
-    public /* synthetic */ void lambda$cancel$7(boolean z) {
+    /* renamed from: lambda$cancel$7$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m205lambda$cancel$7$orgtelegrammessengerFileLoadOperation(boolean deleteFiles) {
         if (this.state != 3 && this.state != 2) {
             if (this.requestInfos != null) {
-                for (int i = 0; i < this.requestInfos.size(); i++) {
-                    RequestInfo requestInfo = this.requestInfos.get(i);
+                for (int a = 0; a < this.requestInfos.size(); a++) {
+                    RequestInfo requestInfo = this.requestInfos.get(a);
                     if (requestInfo.requestToken != 0) {
                         ConnectionsManager.getInstance(this.currentAccount).cancelRequest(requestInfo.requestToken, true);
                     }
@@ -1637,7 +1529,7 @@ public class FileLoadOperation {
             }
             onFail(false, 1);
         }
-        if (z) {
+        if (deleteFiles) {
             File file = this.cacheFileFinal;
             if (file != null) {
                 try {
@@ -1679,16 +1571,14 @@ public class FileLoadOperation {
                 }
             }
             File file5 = this.cacheFilePreload;
-            if (file5 == null) {
-                return;
-            }
-            try {
-                if (file5.delete()) {
-                    return;
+            if (file5 != null) {
+                try {
+                    if (!file5.delete()) {
+                        this.cacheFilePreload.deleteOnExit();
+                    }
+                } catch (Exception e5) {
+                    FileLog.e(e5);
                 }
-                this.cacheFilePreload.deleteOnExit();
-            } catch (Exception e5) {
-                FileLog.e(e5);
             }
         }
     }
@@ -1760,8 +1650,8 @@ public class FileLoadOperation {
             FileLog.e(e9);
         }
         if (this.delayedRequestInfos != null) {
-            for (int i = 0; i < this.delayedRequestInfos.size(); i++) {
-                RequestInfo requestInfo = this.delayedRequestInfos.get(i);
+            for (int a = 0; a < this.delayedRequestInfos.size(); a++) {
+                RequestInfo requestInfo = this.delayedRequestInfos.get(a);
                 if (requestInfo.response != null) {
                     requestInfo.response.disableFree = false;
                     requestInfo.response.freeResources();
@@ -1777,9 +1667,9 @@ public class FileLoadOperation {
         }
     }
 
-    private void onFinishLoadingFile(final boolean z) {
-        int lastIndexOf;
-        String str;
+    private void onFinishLoadingFile(final boolean increment) {
+        boolean renameResult;
+        String newFileName;
         if (this.state != 1) {
             return;
         }
@@ -1808,65 +1698,65 @@ public class FileLoadOperation {
                 this.cacheFilePreload = null;
             }
             if (this.cacheFileTemp != null) {
-                boolean z2 = false;
                 if (this.ungzip) {
                     try {
-                        GZIPInputStream gZIPInputStream = new GZIPInputStream(new FileInputStream(this.cacheFileTemp));
-                        FileLoader.copyFile(gZIPInputStream, this.cacheFileGzipTemp, preloadMaxBytes);
-                        gZIPInputStream.close();
+                        GZIPInputStream gzipInputStream = new GZIPInputStream(new FileInputStream(this.cacheFileTemp));
+                        FileLoader.copyFile(gzipInputStream, this.cacheFileGzipTemp, 2097152);
+                        gzipInputStream.close();
                         this.cacheFileTemp.delete();
                         this.cacheFileTemp = this.cacheFileGzipTemp;
                         this.ungzip = false;
-                    } catch (ZipException unused) {
+                    } catch (ZipException e) {
                         this.ungzip = false;
-                    } catch (Throwable th) {
-                        FileLog.e(th);
+                    } catch (Throwable e2) {
+                        FileLog.e(e2);
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.e("unable to ungzip temp = " + this.cacheFileTemp + " to final = " + this.cacheFileFinal);
                         }
                     }
                 }
                 if (!this.ungzip) {
-                    if (this.parentObject instanceof TLRPC$TL_theme) {
+                    if (this.parentObject instanceof TLRPC.TL_theme) {
                         try {
-                            z2 = AndroidUtilities.copyFile(this.cacheFileTemp, this.cacheFileFinal);
-                        } catch (Exception e) {
-                            FileLog.e(e);
+                            renameResult = AndroidUtilities.copyFile(this.cacheFileTemp, this.cacheFileFinal);
+                        } catch (Exception e3) {
+                            FileLog.e(e3);
+                            renameResult = false;
                         }
                     } else {
                         try {
                             if (this.pathSaveData != null) {
-                                synchronized (lockObject) {
-                                    this.cacheFileFinal = new File(this.storePath, this.storeFileName);
-                                    int i = 1;
-                                    while (this.cacheFileFinal.exists()) {
-                                        if (this.storeFileName.lastIndexOf(46) > 0) {
-                                            str = this.storeFileName.substring(0, lastIndexOf) + " (" + i + ")" + this.storeFileName.substring(lastIndexOf);
-                                        } else {
-                                            str = this.storeFileName + " (" + i + ")";
-                                        }
-                                        this.cacheFileFinal = new File(this.storePath, str);
-                                        i++;
+                                this.cacheFileFinal = new File(this.storePath, this.storeFileName);
+                                int count = 1;
+                                while (this.cacheFileFinal.exists()) {
+                                    int lastDotIndex = this.storeFileName.lastIndexOf(46);
+                                    if (lastDotIndex > 0) {
+                                        newFileName = this.storeFileName.substring(0, lastDotIndex) + " (" + count + ")" + this.storeFileName.substring(lastDotIndex);
+                                    } else {
+                                        newFileName = this.storeFileName + " (" + count + ")";
                                     }
+                                    this.cacheFileFinal = new File(this.storePath, newFileName);
+                                    count++;
                                 }
                             }
-                            z2 = this.cacheFileTemp.renameTo(this.cacheFileFinal);
-                        } catch (Exception e2) {
-                            FileLog.e(e2);
+                            renameResult = this.cacheFileTemp.renameTo(this.cacheFileFinal);
+                        } catch (Exception e4) {
+                            FileLog.e(e4);
+                            renameResult = false;
                         }
                     }
-                    if (!z2) {
+                    if (!renameResult) {
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.e("unable to rename temp = " + this.cacheFileTemp + " to final = " + this.cacheFileFinal + " retry = " + this.renameRetryCount);
                         }
-                        int i2 = this.renameRetryCount + 1;
-                        this.renameRetryCount = i2;
-                        if (i2 < 3) {
+                        int i = this.renameRetryCount + 1;
+                        this.renameRetryCount = i;
+                        if (i < 3) {
                             this.state = 1;
-                            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda4
+                            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda10
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    FileLoadOperation.this.lambda$onFinishLoadingFile$8(z);
+                                    FileLoadOperation.this.m209x905dc9cf(increment);
                                 }
                             }, 200L);
                             return;
@@ -1881,17 +1771,17 @@ public class FileLoadOperation {
                 }
             }
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("finished downloading file to " + this.cacheFileFinal + " time = " + (System.currentTimeMillis() - this.startTime));
+                FileLog.d("finished downloading file to " + this.cacheFileFinal);
             }
-            if (z) {
-                int i3 = this.currentType;
-                if (i3 == 50331648) {
+            if (increment) {
+                int i2 = this.currentType;
+                if (i2 == 50331648) {
                     StatsController.getInstance(this.currentAccount).incrementReceivedItemsCount(ApplicationLoader.getCurrentNetworkType(), 3, 1);
-                } else if (i3 == 33554432) {
+                } else if (i2 == 33554432) {
                     StatsController.getInstance(this.currentAccount).incrementReceivedItemsCount(ApplicationLoader.getCurrentNetworkType(), 2, 1);
-                } else if (i3 == 16777216) {
+                } else if (i2 == 16777216) {
                     StatsController.getInstance(this.currentAccount).incrementReceivedItemsCount(ApplicationLoader.getCurrentNetworkType(), 4, 1);
-                } else if (i3 == 67108864) {
+                } else if (i2 == 67108864) {
                     StatsController.getInstance(this.currentAccount).incrementReceivedItemsCount(ApplicationLoader.getCurrentNetworkType(), 5, 1);
                 }
             }
@@ -1899,10 +1789,11 @@ public class FileLoadOperation {
         this.delegate.didFinishLoadingFile(this, this.cacheFileFinal);
     }
 
-    public /* synthetic */ void lambda$onFinishLoadingFile$8(boolean z) {
+    /* renamed from: lambda$onFinishLoadingFile$8$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m209x905dc9cf(boolean increment) {
         try {
-            onFinishLoadingFile(z);
-        } catch (Exception unused) {
+            onFinishLoadingFile(increment);
+        } catch (Exception e) {
             onFail(false, 0);
         }
     }
@@ -1913,540 +1804,565 @@ public class FileLoadOperation {
             requestInfo.response.disableFree = true;
         } else if (requestInfo.responseWeb != null) {
             requestInfo.responseWeb.disableFree = true;
-        } else if (requestInfo.responseCdn == null) {
-        } else {
+        } else if (requestInfo.responseCdn != null) {
             requestInfo.responseCdn.disableFree = true;
         }
     }
 
-    private long findNextPreloadDownloadOffset(long j, long j2, NativeByteBuffer nativeByteBuffer) {
-        long j3;
-        int limit = nativeByteBuffer.limit();
-        long j4 = j;
-        do {
-            if (j4 >= j2 - (this.preloadTempBuffer != null ? 16 : 0)) {
-                j3 = j2 + limit;
-                if (j4 < j3) {
-                    if (j4 >= j3 - 16) {
-                        long j5 = j3 - j4;
-                        if (j5 > 2147483647L) {
-                            throw new RuntimeException("!!!");
-                        }
-                        this.preloadTempBufferCount = (int) j5;
-                        nativeByteBuffer.position(nativeByteBuffer.limit() - this.preloadTempBufferCount);
-                        nativeByteBuffer.readBytes(this.preloadTempBuffer, 0, this.preloadTempBufferCount, false);
-                        return j3;
-                    }
-                    if (this.preloadTempBufferCount != 0) {
-                        nativeByteBuffer.position(0);
-                        byte[] bArr = this.preloadTempBuffer;
-                        int i = this.preloadTempBufferCount;
-                        nativeByteBuffer.readBytes(bArr, i, 16 - i, false);
-                        this.preloadTempBufferCount = 0;
-                    } else {
-                        long j6 = j4 - j2;
-                        if (j6 > 2147483647L) {
-                            throw new RuntimeException("!!!");
-                        }
-                        nativeByteBuffer.position((int) j6);
-                        nativeByteBuffer.readBytes(this.preloadTempBuffer, 0, 16, false);
-                    }
-                    byte[] bArr2 = this.preloadTempBuffer;
-                    int i2 = ((bArr2[0] & 255) << 24) + ((bArr2[1] & 255) << 16) + ((bArr2[2] & 255) << 8) + (bArr2[3] & 255);
-                    if (i2 == 0) {
-                        return 0L;
-                    }
-                    if (i2 == 1) {
-                        i2 = ((bArr2[12] & 255) << 24) + ((bArr2[13] & 255) << 16) + ((bArr2[14] & 255) << 8) + (bArr2[15] & 255);
-                    }
-                    if (bArr2[4] == 109 && bArr2[5] == 111 && bArr2[6] == 111 && bArr2[7] == 118) {
-                        return -i2;
-                    }
-                    j4 += i2;
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x00f6, code lost:
+        return 0;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private long findNextPreloadDownloadOffset(long atomOffset, long partOffset, NativeByteBuffer partBuffer) {
+        int partSize = partBuffer.limit();
+        long atomOffset2 = atomOffset;
+        while (true) {
+            if (atomOffset2 < partOffset - (this.preloadTempBuffer != null ? 16 : 0) || atomOffset2 >= partOffset + partSize) {
+                break;
+            } else if (atomOffset2 >= (partOffset + partSize) - 16) {
+                long count = (partOffset + partSize) - atomOffset2;
+                if (count <= 2147483647L) {
+                    this.preloadTempBufferCount = (int) count;
+                    long position = partBuffer.limit() - this.preloadTempBufferCount;
+                    partBuffer.position((int) position);
+                    partBuffer.readBytes(this.preloadTempBuffer, 0, this.preloadTempBufferCount, false);
+                    return partOffset + partSize;
                 }
+                throw new RuntimeException("!!!");
+            } else {
+                if (this.preloadTempBufferCount != 0) {
+                    partBuffer.position(0);
+                    byte[] bArr = this.preloadTempBuffer;
+                    int i = this.preloadTempBufferCount;
+                    partBuffer.readBytes(bArr, i, 16 - i, false);
+                    this.preloadTempBufferCount = 0;
+                } else {
+                    long count2 = atomOffset2 - partOffset;
+                    if (count2 > 2147483647L) {
+                        throw new RuntimeException("!!!");
+                    }
+                    partBuffer.position((int) count2);
+                    partBuffer.readBytes(this.preloadTempBuffer, 0, 16, false);
+                }
+                byte[] bArr2 = this.preloadTempBuffer;
+                int atomSize = ((bArr2[0] & 255) << 24) + ((bArr2[1] & 255) << 16) + ((bArr2[2] & 255) << 8) + (bArr2[3] & 255);
+                if (atomSize == 0) {
+                    return 0L;
+                }
+                if (atomSize == 1) {
+                    atomSize = ((bArr2[12] & 255) << 24) + ((bArr2[13] & 255) << 16) + ((bArr2[14] & 255) << 8) + (bArr2[15] & 255);
+                }
+                if (bArr2[4] == 109 && bArr2[5] == 111 && bArr2[6] == 111 && bArr2[7] == 118) {
+                    return -atomSize;
+                }
+                if (atomSize + atomOffset2 >= partOffset + partSize) {
+                    return atomSize + atomOffset2;
+                }
+                atomOffset2 += atomSize;
             }
-            return 0L;
-        } while (j4 < j3);
-        return j4;
+        }
     }
 
-    private void requestFileOffsets(long j) {
+    private void requestFileOffsets(long offset) {
         if (this.requestingCdnOffsets) {
             return;
         }
         this.requestingCdnOffsets = true;
-        TLRPC$TL_upload_getCdnFileHashes tLRPC$TL_upload_getCdnFileHashes = new TLRPC$TL_upload_getCdnFileHashes();
-        tLRPC$TL_upload_getCdnFileHashes.file_token = this.cdnToken;
-        tLRPC$TL_upload_getCdnFileHashes.offset = j;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_getCdnFileHashes, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda12
+        TLRPC.TL_upload_getCdnFileHashes req = new TLRPC.TL_upload_getCdnFileHashes();
+        req.file_token = this.cdnToken;
+        req.offset = offset;
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(req, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                FileLoadOperation.this.lambda$requestFileOffsets$9(tLObject, tLRPC$TL_error);
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                FileLoadOperation.this.m211x6ac3f205(tLObject, tL_error);
             }
         }, null, null, 0, this.datacenterId, 1, true);
     }
 
-    public /* synthetic */ void lambda$requestFileOffsets$9(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLRPC$TL_error != null) {
+    /* renamed from: lambda$requestFileOffsets$9$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m211x6ac3f205(TLObject response, TLRPC.TL_error error) {
+        if (error != null) {
             onFail(false, 0);
             return;
         }
         this.requestingCdnOffsets = false;
-        TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
-        if (!tLRPC$Vector.objects.isEmpty()) {
+        TLRPC.Vector vector = (TLRPC.Vector) response;
+        if (!vector.objects.isEmpty()) {
             if (this.cdnHashes == null) {
                 this.cdnHashes = new HashMap<>();
             }
-            for (int i = 0; i < tLRPC$Vector.objects.size(); i++) {
-                TLRPC$TL_fileHash tLRPC$TL_fileHash = (TLRPC$TL_fileHash) tLRPC$Vector.objects.get(i);
-                this.cdnHashes.put(Long.valueOf(tLRPC$TL_fileHash.offset), tLRPC$TL_fileHash);
+            for (int a = 0; a < vector.objects.size(); a++) {
+                TLRPC.TL_fileHash hash = (TLRPC.TL_fileHash) vector.objects.get(a);
+                this.cdnHashes.put(Long.valueOf(hash.offset), hash);
             }
         }
-        for (int i2 = 0; i2 < this.delayedRequestInfos.size(); i2++) {
-            RequestInfo requestInfo = this.delayedRequestInfos.get(i2);
-            if (this.notLoadedBytesRanges != null || this.downloadedBytes == requestInfo.offset) {
-                this.delayedRequestInfos.remove(i2);
-                if (processRequestResult(requestInfo, null)) {
+        for (int a2 = 0; a2 < this.delayedRequestInfos.size(); a2++) {
+            RequestInfo delayedRequestInfo = this.delayedRequestInfos.get(a2);
+            if (this.notLoadedBytesRanges != null || this.downloadedBytes == delayedRequestInfo.offset) {
+                this.delayedRequestInfos.remove(a2);
+                if (!processRequestResult(delayedRequestInfo, null)) {
+                    if (delayedRequestInfo.response == null) {
+                        if (delayedRequestInfo.responseWeb == null) {
+                            if (delayedRequestInfo.responseCdn != null) {
+                                delayedRequestInfo.responseCdn.disableFree = false;
+                                delayedRequestInfo.responseCdn.freeResources();
+                                return;
+                            }
+                            return;
+                        }
+                        delayedRequestInfo.responseWeb.disableFree = false;
+                        delayedRequestInfo.responseWeb.freeResources();
+                        return;
+                    }
+                    delayedRequestInfo.response.disableFree = false;
+                    delayedRequestInfo.response.freeResources();
                     return;
                 }
-                if (requestInfo.response != null) {
-                    requestInfo.response.disableFree = false;
-                    requestInfo.response.freeResources();
-                    return;
-                } else if (requestInfo.responseWeb != null) {
-                    requestInfo.responseWeb.disableFree = false;
-                    requestInfo.responseWeb.freeResources();
-                    return;
-                } else if (requestInfo.responseCdn == null) {
-                    return;
-                } else {
-                    requestInfo.responseCdn.disableFree = false;
-                    requestInfo.responseCdn.freeResources();
-                    return;
-                }
+                return;
             }
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:141:0x03a4, code lost:
-        if (r0 == (r4 - r5)) goto L145;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:144:0x03aa, code lost:
-        if (r9 != false) goto L145;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x04df A[Catch: Exception -> 0x0585, TryCatch #3 {Exception -> 0x0585, blocks: (B:10:0x0048, B:12:0x004c, B:14:0x0056, B:16:0x005a, B:18:0x0060, B:19:0x0067, B:21:0x006d, B:22:0x0074, B:24:0x007a, B:27:0x0084, B:30:0x008c, B:32:0x0094, B:34:0x00a4, B:37:0x00b2, B:39:0x00b9, B:41:0x00d1, B:42:0x0103, B:44:0x0107, B:46:0x012b, B:47:0x0153, B:49:0x0157, B:50:0x015e, B:52:0x0189, B:54:0x019d, B:56:0x01b2, B:57:0x01be, B:58:0x01c7, B:59:0x01cc, B:60:0x01d4, B:62:0x01da, B:64:0x01fb, B:66:0x01ff, B:68:0x0205, B:70:0x020b, B:76:0x0217, B:77:0x0224, B:79:0x0228, B:80:0x0232, B:85:0x0248, B:89:0x0250, B:100:0x0268, B:102:0x026d, B:104:0x0286, B:106:0x028e, B:111:0x02a2, B:112:0x02b8, B:113:0x02b9, B:114:0x02bd, B:116:0x02c1, B:117:0x02f3, B:119:0x02f7, B:121:0x0304, B:122:0x0324, B:124:0x0345, B:126:0x0357, B:128:0x0367, B:131:0x0371, B:134:0x0377, B:136:0x0393, B:138:0x039a, B:140:0x03a0, B:145:0x03ac, B:147:0x03bc, B:148:0x03cd, B:153:0x03de, B:154:0x03e5, B:155:0x03e6, B:157:0x03f3, B:159:0x042f, B:161:0x043e, B:163:0x0442, B:165:0x0446, B:166:0x0493, B:168:0x0497, B:173:0x04c2, B:175:0x04db, B:177:0x04df, B:178:0x04eb, B:180:0x04f3, B:182:0x04f8, B:185:0x0508, B:187:0x0510, B:189:0x051c, B:192:0x0527, B:193:0x052a, B:195:0x0536, B:197:0x053c, B:198:0x054b, B:200:0x0551, B:201:0x0560, B:203:0x0566, B:205:0x0576, B:206:0x057b, B:207:0x057f), top: B:249:0x0048 }] */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x0576 A[Catch: Exception -> 0x0585, TryCatch #3 {Exception -> 0x0585, blocks: (B:10:0x0048, B:12:0x004c, B:14:0x0056, B:16:0x005a, B:18:0x0060, B:19:0x0067, B:21:0x006d, B:22:0x0074, B:24:0x007a, B:27:0x0084, B:30:0x008c, B:32:0x0094, B:34:0x00a4, B:37:0x00b2, B:39:0x00b9, B:41:0x00d1, B:42:0x0103, B:44:0x0107, B:46:0x012b, B:47:0x0153, B:49:0x0157, B:50:0x015e, B:52:0x0189, B:54:0x019d, B:56:0x01b2, B:57:0x01be, B:58:0x01c7, B:59:0x01cc, B:60:0x01d4, B:62:0x01da, B:64:0x01fb, B:66:0x01ff, B:68:0x0205, B:70:0x020b, B:76:0x0217, B:77:0x0224, B:79:0x0228, B:80:0x0232, B:85:0x0248, B:89:0x0250, B:100:0x0268, B:102:0x026d, B:104:0x0286, B:106:0x028e, B:111:0x02a2, B:112:0x02b8, B:113:0x02b9, B:114:0x02bd, B:116:0x02c1, B:117:0x02f3, B:119:0x02f7, B:121:0x0304, B:122:0x0324, B:124:0x0345, B:126:0x0357, B:128:0x0367, B:131:0x0371, B:134:0x0377, B:136:0x0393, B:138:0x039a, B:140:0x03a0, B:145:0x03ac, B:147:0x03bc, B:148:0x03cd, B:153:0x03de, B:154:0x03e5, B:155:0x03e6, B:157:0x03f3, B:159:0x042f, B:161:0x043e, B:163:0x0442, B:165:0x0446, B:166:0x0493, B:168:0x0497, B:173:0x04c2, B:175:0x04db, B:177:0x04df, B:178:0x04eb, B:180:0x04f3, B:182:0x04f8, B:185:0x0508, B:187:0x0510, B:189:0x051c, B:192:0x0527, B:193:0x052a, B:195:0x0536, B:197:0x053c, B:198:0x054b, B:200:0x0551, B:201:0x0560, B:203:0x0566, B:205:0x0576, B:206:0x057b, B:207:0x057f), top: B:249:0x0048 }] */
-    /* JADX WARN: Removed duplicated region for block: B:206:0x057b A[Catch: Exception -> 0x0585, TryCatch #3 {Exception -> 0x0585, blocks: (B:10:0x0048, B:12:0x004c, B:14:0x0056, B:16:0x005a, B:18:0x0060, B:19:0x0067, B:21:0x006d, B:22:0x0074, B:24:0x007a, B:27:0x0084, B:30:0x008c, B:32:0x0094, B:34:0x00a4, B:37:0x00b2, B:39:0x00b9, B:41:0x00d1, B:42:0x0103, B:44:0x0107, B:46:0x012b, B:47:0x0153, B:49:0x0157, B:50:0x015e, B:52:0x0189, B:54:0x019d, B:56:0x01b2, B:57:0x01be, B:58:0x01c7, B:59:0x01cc, B:60:0x01d4, B:62:0x01da, B:64:0x01fb, B:66:0x01ff, B:68:0x0205, B:70:0x020b, B:76:0x0217, B:77:0x0224, B:79:0x0228, B:80:0x0232, B:85:0x0248, B:89:0x0250, B:100:0x0268, B:102:0x026d, B:104:0x0286, B:106:0x028e, B:111:0x02a2, B:112:0x02b8, B:113:0x02b9, B:114:0x02bd, B:116:0x02c1, B:117:0x02f3, B:119:0x02f7, B:121:0x0304, B:122:0x0324, B:124:0x0345, B:126:0x0357, B:128:0x0367, B:131:0x0371, B:134:0x0377, B:136:0x0393, B:138:0x039a, B:140:0x03a0, B:145:0x03ac, B:147:0x03bc, B:148:0x03cd, B:153:0x03de, B:154:0x03e5, B:155:0x03e6, B:157:0x03f3, B:159:0x042f, B:161:0x043e, B:163:0x0442, B:165:0x0446, B:166:0x0493, B:168:0x0497, B:173:0x04c2, B:175:0x04db, B:177:0x04df, B:178:0x04eb, B:180:0x04f3, B:182:0x04f8, B:185:0x0508, B:187:0x0510, B:189:0x051c, B:192:0x0527, B:193:0x052a, B:195:0x0536, B:197:0x053c, B:198:0x054b, B:200:0x0551, B:201:0x0560, B:203:0x0566, B:205:0x0576, B:206:0x057b, B:207:0x057f), top: B:249:0x0048 }] */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0217 A[Catch: Exception -> 0x0585, TryCatch #3 {Exception -> 0x0585, blocks: (B:10:0x0048, B:12:0x004c, B:14:0x0056, B:16:0x005a, B:18:0x0060, B:19:0x0067, B:21:0x006d, B:22:0x0074, B:24:0x007a, B:27:0x0084, B:30:0x008c, B:32:0x0094, B:34:0x00a4, B:37:0x00b2, B:39:0x00b9, B:41:0x00d1, B:42:0x0103, B:44:0x0107, B:46:0x012b, B:47:0x0153, B:49:0x0157, B:50:0x015e, B:52:0x0189, B:54:0x019d, B:56:0x01b2, B:57:0x01be, B:58:0x01c7, B:59:0x01cc, B:60:0x01d4, B:62:0x01da, B:64:0x01fb, B:66:0x01ff, B:68:0x0205, B:70:0x020b, B:76:0x0217, B:77:0x0224, B:79:0x0228, B:80:0x0232, B:85:0x0248, B:89:0x0250, B:100:0x0268, B:102:0x026d, B:104:0x0286, B:106:0x028e, B:111:0x02a2, B:112:0x02b8, B:113:0x02b9, B:114:0x02bd, B:116:0x02c1, B:117:0x02f3, B:119:0x02f7, B:121:0x0304, B:122:0x0324, B:124:0x0345, B:126:0x0357, B:128:0x0367, B:131:0x0371, B:134:0x0377, B:136:0x0393, B:138:0x039a, B:140:0x03a0, B:145:0x03ac, B:147:0x03bc, B:148:0x03cd, B:153:0x03de, B:154:0x03e5, B:155:0x03e6, B:157:0x03f3, B:159:0x042f, B:161:0x043e, B:163:0x0442, B:165:0x0446, B:166:0x0493, B:168:0x0497, B:173:0x04c2, B:175:0x04db, B:177:0x04df, B:178:0x04eb, B:180:0x04f3, B:182:0x04f8, B:185:0x0508, B:187:0x0510, B:189:0x051c, B:192:0x0527, B:193:0x052a, B:195:0x0536, B:197:0x053c, B:198:0x054b, B:200:0x0551, B:201:0x0560, B:203:0x0566, B:205:0x0576, B:206:0x057b, B:207:0x057f), top: B:249:0x0048 }] */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0224 A[Catch: Exception -> 0x0585, TryCatch #3 {Exception -> 0x0585, blocks: (B:10:0x0048, B:12:0x004c, B:14:0x0056, B:16:0x005a, B:18:0x0060, B:19:0x0067, B:21:0x006d, B:22:0x0074, B:24:0x007a, B:27:0x0084, B:30:0x008c, B:32:0x0094, B:34:0x00a4, B:37:0x00b2, B:39:0x00b9, B:41:0x00d1, B:42:0x0103, B:44:0x0107, B:46:0x012b, B:47:0x0153, B:49:0x0157, B:50:0x015e, B:52:0x0189, B:54:0x019d, B:56:0x01b2, B:57:0x01be, B:58:0x01c7, B:59:0x01cc, B:60:0x01d4, B:62:0x01da, B:64:0x01fb, B:66:0x01ff, B:68:0x0205, B:70:0x020b, B:76:0x0217, B:77:0x0224, B:79:0x0228, B:80:0x0232, B:85:0x0248, B:89:0x0250, B:100:0x0268, B:102:0x026d, B:104:0x0286, B:106:0x028e, B:111:0x02a2, B:112:0x02b8, B:113:0x02b9, B:114:0x02bd, B:116:0x02c1, B:117:0x02f3, B:119:0x02f7, B:121:0x0304, B:122:0x0324, B:124:0x0345, B:126:0x0357, B:128:0x0367, B:131:0x0371, B:134:0x0377, B:136:0x0393, B:138:0x039a, B:140:0x03a0, B:145:0x03ac, B:147:0x03bc, B:148:0x03cd, B:153:0x03de, B:154:0x03e5, B:155:0x03e6, B:157:0x03f3, B:159:0x042f, B:161:0x043e, B:163:0x0442, B:165:0x0446, B:166:0x0493, B:168:0x0497, B:173:0x04c2, B:175:0x04db, B:177:0x04df, B:178:0x04eb, B:180:0x04f3, B:182:0x04f8, B:185:0x0508, B:187:0x0510, B:189:0x051c, B:192:0x0527, B:193:0x052a, B:195:0x0536, B:197:0x053c, B:198:0x054b, B:200:0x0551, B:201:0x0560, B:203:0x0566, B:205:0x0576, B:206:0x057b, B:207:0x057f), top: B:249:0x0048 }] */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x05e5 A[Catch: Exception -> 0x05f6, TryCatch #2 {Exception -> 0x05f6, blocks: (B:10:0x0044, B:12:0x0048, B:14:0x0052, B:16:0x0056, B:18:0x005c, B:19:0x0064, B:21:0x006a, B:22:0x0072, B:24:0x0078, B:27:0x0084, B:30:0x008e, B:32:0x0097, B:34:0x00a6, B:37:0x00b4, B:39:0x00bc, B:41:0x00d0, B:42:0x010a, B:44:0x010e, B:46:0x0132, B:47:0x015a, B:49:0x015e, B:50:0x0165, B:52:0x018b, B:54:0x01a0, B:56:0x01b5, B:57:0x01c1, B:58:0x01cb, B:59:0x01d0, B:60:0x01d8, B:62:0x01df, B:64:0x0200, B:66:0x0204, B:68:0x020a, B:70:0x0210, B:76:0x021c, B:77:0x0228, B:79:0x022c, B:81:0x023a, B:88:0x0256, B:92:0x025e, B:105:0x027a, B:107:0x027e, B:109:0x0299, B:111:0x02a1, B:116:0x02b5, B:117:0x02cb, B:118:0x02cc, B:119:0x02d0, B:121:0x02d4, B:123:0x0313, B:125:0x0317, B:127:0x0324, B:128:0x0344, B:130:0x0375, B:132:0x038a, B:134:0x039a, B:137:0x03a6, B:140:0x03ad, B:142:0x03c9, B:144:0x03d0, B:146:0x03d8, B:156:0x03f4, B:158:0x0405, B:160:0x041f, B:165:0x0430, B:166:0x0437, B:167:0x0438, B:169:0x0447, B:171:0x0487, B:173:0x0497, B:175:0x049b, B:177:0x049f, B:178:0x04e8, B:180:0x04ec, B:181:0x050a, B:183:0x0514, B:187:0x0549, B:189:0x054d, B:190:0x0559, B:192:0x0561, B:194:0x0566, B:197:0x0577, B:199:0x057f, B:201:0x058b, B:204:0x0596, B:205:0x0599, B:207:0x05a5, B:209:0x05ab, B:210:0x05ba, B:212:0x05c0, B:213:0x05cf, B:215:0x05d5, B:217:0x05e5, B:218:0x05ea, B:220:0x05f0), top: B:262:0x0044 }] */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x05ea A[Catch: Exception -> 0x05f6, TryCatch #2 {Exception -> 0x05f6, blocks: (B:10:0x0044, B:12:0x0048, B:14:0x0052, B:16:0x0056, B:18:0x005c, B:19:0x0064, B:21:0x006a, B:22:0x0072, B:24:0x0078, B:27:0x0084, B:30:0x008e, B:32:0x0097, B:34:0x00a6, B:37:0x00b4, B:39:0x00bc, B:41:0x00d0, B:42:0x010a, B:44:0x010e, B:46:0x0132, B:47:0x015a, B:49:0x015e, B:50:0x0165, B:52:0x018b, B:54:0x01a0, B:56:0x01b5, B:57:0x01c1, B:58:0x01cb, B:59:0x01d0, B:60:0x01d8, B:62:0x01df, B:64:0x0200, B:66:0x0204, B:68:0x020a, B:70:0x0210, B:76:0x021c, B:77:0x0228, B:79:0x022c, B:81:0x023a, B:88:0x0256, B:92:0x025e, B:105:0x027a, B:107:0x027e, B:109:0x0299, B:111:0x02a1, B:116:0x02b5, B:117:0x02cb, B:118:0x02cc, B:119:0x02d0, B:121:0x02d4, B:123:0x0313, B:125:0x0317, B:127:0x0324, B:128:0x0344, B:130:0x0375, B:132:0x038a, B:134:0x039a, B:137:0x03a6, B:140:0x03ad, B:142:0x03c9, B:144:0x03d0, B:146:0x03d8, B:156:0x03f4, B:158:0x0405, B:160:0x041f, B:165:0x0430, B:166:0x0437, B:167:0x0438, B:169:0x0447, B:171:0x0487, B:173:0x0497, B:175:0x049b, B:177:0x049f, B:178:0x04e8, B:180:0x04ec, B:181:0x050a, B:183:0x0514, B:187:0x0549, B:189:0x054d, B:190:0x0559, B:192:0x0561, B:194:0x0566, B:197:0x0577, B:199:0x057f, B:201:0x058b, B:204:0x0596, B:205:0x0599, B:207:0x05a5, B:209:0x05ab, B:210:0x05ba, B:212:0x05c0, B:213:0x05cf, B:215:0x05d5, B:217:0x05e5, B:218:0x05ea, B:220:0x05f0), top: B:262:0x0044 }] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x021c A[Catch: Exception -> 0x05f6, TryCatch #2 {Exception -> 0x05f6, blocks: (B:10:0x0044, B:12:0x0048, B:14:0x0052, B:16:0x0056, B:18:0x005c, B:19:0x0064, B:21:0x006a, B:22:0x0072, B:24:0x0078, B:27:0x0084, B:30:0x008e, B:32:0x0097, B:34:0x00a6, B:37:0x00b4, B:39:0x00bc, B:41:0x00d0, B:42:0x010a, B:44:0x010e, B:46:0x0132, B:47:0x015a, B:49:0x015e, B:50:0x0165, B:52:0x018b, B:54:0x01a0, B:56:0x01b5, B:57:0x01c1, B:58:0x01cb, B:59:0x01d0, B:60:0x01d8, B:62:0x01df, B:64:0x0200, B:66:0x0204, B:68:0x020a, B:70:0x0210, B:76:0x021c, B:77:0x0228, B:79:0x022c, B:81:0x023a, B:88:0x0256, B:92:0x025e, B:105:0x027a, B:107:0x027e, B:109:0x0299, B:111:0x02a1, B:116:0x02b5, B:117:0x02cb, B:118:0x02cc, B:119:0x02d0, B:121:0x02d4, B:123:0x0313, B:125:0x0317, B:127:0x0324, B:128:0x0344, B:130:0x0375, B:132:0x038a, B:134:0x039a, B:137:0x03a6, B:140:0x03ad, B:142:0x03c9, B:144:0x03d0, B:146:0x03d8, B:156:0x03f4, B:158:0x0405, B:160:0x041f, B:165:0x0430, B:166:0x0437, B:167:0x0438, B:169:0x0447, B:171:0x0487, B:173:0x0497, B:175:0x049b, B:177:0x049f, B:178:0x04e8, B:180:0x04ec, B:181:0x050a, B:183:0x0514, B:187:0x0549, B:189:0x054d, B:190:0x0559, B:192:0x0561, B:194:0x0566, B:197:0x0577, B:199:0x057f, B:201:0x058b, B:204:0x0596, B:205:0x0599, B:207:0x05a5, B:209:0x05ab, B:210:0x05ba, B:212:0x05c0, B:213:0x05cf, B:215:0x05d5, B:217:0x05e5, B:218:0x05ea, B:220:0x05f0), top: B:262:0x0044 }] */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0228 A[Catch: Exception -> 0x05f6, TryCatch #2 {Exception -> 0x05f6, blocks: (B:10:0x0044, B:12:0x0048, B:14:0x0052, B:16:0x0056, B:18:0x005c, B:19:0x0064, B:21:0x006a, B:22:0x0072, B:24:0x0078, B:27:0x0084, B:30:0x008e, B:32:0x0097, B:34:0x00a6, B:37:0x00b4, B:39:0x00bc, B:41:0x00d0, B:42:0x010a, B:44:0x010e, B:46:0x0132, B:47:0x015a, B:49:0x015e, B:50:0x0165, B:52:0x018b, B:54:0x01a0, B:56:0x01b5, B:57:0x01c1, B:58:0x01cb, B:59:0x01d0, B:60:0x01d8, B:62:0x01df, B:64:0x0200, B:66:0x0204, B:68:0x020a, B:70:0x0210, B:76:0x021c, B:77:0x0228, B:79:0x022c, B:81:0x023a, B:88:0x0256, B:92:0x025e, B:105:0x027a, B:107:0x027e, B:109:0x0299, B:111:0x02a1, B:116:0x02b5, B:117:0x02cb, B:118:0x02cc, B:119:0x02d0, B:121:0x02d4, B:123:0x0313, B:125:0x0317, B:127:0x0324, B:128:0x0344, B:130:0x0375, B:132:0x038a, B:134:0x039a, B:137:0x03a6, B:140:0x03ad, B:142:0x03c9, B:144:0x03d0, B:146:0x03d8, B:156:0x03f4, B:158:0x0405, B:160:0x041f, B:165:0x0430, B:166:0x0437, B:167:0x0438, B:169:0x0447, B:171:0x0487, B:173:0x0497, B:175:0x049b, B:177:0x049f, B:178:0x04e8, B:180:0x04ec, B:181:0x050a, B:183:0x0514, B:187:0x0549, B:189:0x054d, B:190:0x0559, B:192:0x0561, B:194:0x0566, B:197:0x0577, B:199:0x057f, B:201:0x058b, B:204:0x0596, B:205:0x0599, B:207:0x05a5, B:209:0x05ab, B:210:0x05ba, B:212:0x05c0, B:213:0x05cf, B:215:0x05d5, B:217:0x05e5, B:218:0x05ea, B:220:0x05f0), top: B:262:0x0044 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean processRequestResult(RequestInfo requestInfo, TLRPC$TL_error tLRPC$TL_error) {
+    public boolean processRequestResult(RequestInfo requestInfo, TLRPC.TL_error error) {
+        NativeByteBuffer bytes;
+        boolean finishedDownloading;
+        boolean finishedDownloading2;
+        String str;
+        String str2;
+        boolean finishedDownloading3;
+        boolean checked;
+        long fileOffset;
+        int size;
+        long fileOffset2;
         boolean z;
-        Exception e;
-        boolean z2;
-        boolean z3;
-        boolean z4;
-        RandomAccessFile randomAccessFile;
-        boolean z5;
         long j;
-        long j2;
-        long j3;
-        Integer num;
+        NativeByteBuffer bytes2;
+        int currentBytesSize;
+        Integer val;
         if (this.state != 1) {
             if (BuildVars.DEBUG_VERSION) {
-                FileLog.e(new Exception("trying to write to finished file " + this.cacheFileFinal + " offset " + requestInfo.offset));
+                FileLog.d("trying to write to finished file " + this.cacheFileFinal + " offset " + requestInfo.offset);
             }
             return false;
         }
         this.requestInfos.remove(requestInfo);
-        if (tLRPC$TL_error == null) {
-            try {
-                if (this.notLoadedBytesRanges != null || this.downloadedBytes == requestInfo.offset) {
-                    NativeByteBuffer nativeByteBuffer = requestInfo.response != null ? requestInfo.response.bytes : requestInfo.responseWeb != null ? requestInfo.responseWeb.bytes : requestInfo.responseCdn != null ? requestInfo.responseCdn.bytes : null;
-                    if (nativeByteBuffer != null && nativeByteBuffer.limit() != 0) {
-                        int limit = nativeByteBuffer.limit();
-                        if (this.isCdn) {
-                            long j4 = requestInfo.offset;
-                            int i = this.cdnChunkCheckSize;
-                            long j5 = i * (j4 / i);
-                            HashMap<Long, TLRPC$TL_fileHash> hashMap = this.cdnHashes;
-                            if ((hashMap != null ? hashMap.get(Long.valueOf(j5)) : null) == null) {
-                                delayRequestInfo(requestInfo);
-                                requestFileOffsets(j5);
-                                return true;
-                            }
-                        }
-                        if (requestInfo.responseCdn != null) {
-                            long j6 = requestInfo.offset / 16;
-                            byte[] bArr = this.cdnIv;
-                            bArr[15] = (byte) (j6 & 255);
-                            bArr[14] = (byte) ((j6 >> 8) & 255);
-                            bArr[13] = (byte) ((j6 >> 16) & 255);
-                            bArr[12] = (byte) ((j6 >> 24) & 255);
-                            Utilities.aesCtrDecryption(nativeByteBuffer.buffer, this.cdnKey, bArr, 0, nativeByteBuffer.limit());
-                        }
-                        if (this.isPreloadVideoOperation) {
-                            this.preloadStream.writeLong(requestInfo.offset);
-                            long j7 = limit;
-                            this.preloadStream.writeLong(j7);
-                            this.preloadStreamFileOffset += 16;
-                            this.preloadStream.getChannel().write(nativeByteBuffer.buffer);
-                            if (BuildVars.DEBUG_VERSION) {
-                                FileLog.d("save preload file part " + this.cacheFilePreload + " offset " + requestInfo.offset + " size " + limit);
-                            }
-                            if (this.preloadedBytesRanges == null) {
-                                this.preloadedBytesRanges = new HashMap<>();
-                            }
-                            this.preloadedBytesRanges.put(Long.valueOf(requestInfo.offset), new PreloadRange(this.preloadStreamFileOffset, j7));
-                            this.totalPreloadedBytes += limit;
-                            this.preloadStreamFileOffset += limit;
-                            if (this.moovFound == 0) {
-                                j3 = 0;
-                                long findNextPreloadDownloadOffset = findNextPreloadDownloadOffset(this.nextAtomOffset, requestInfo.offset, nativeByteBuffer);
-                                if (findNextPreloadDownloadOffset < 0) {
-                                    findNextPreloadDownloadOffset *= -1;
-                                    long j8 = this.nextPreloadDownloadOffset + this.currentDownloadChunkSize;
-                                    this.nextPreloadDownloadOffset = j8;
-                                    if (j8 < this.totalBytesCount / 2) {
-                                        long j9 = 1048576 + findNextPreloadDownloadOffset;
-                                        this.foundMoovSize = j9;
-                                        this.preloadNotRequestedBytesCount = j9;
-                                        this.moovFound = 1;
-                                    } else {
-                                        this.foundMoovSize = 2097152L;
-                                        this.preloadNotRequestedBytesCount = 2097152L;
-                                        this.moovFound = 2;
-                                    }
-                                    this.nextPreloadDownloadOffset = -1L;
-                                } else {
-                                    this.nextPreloadDownloadOffset += this.currentDownloadChunkSize;
-                                }
-                                this.nextAtomOffset = findNextPreloadDownloadOffset;
-                            } else {
-                                j3 = 0;
-                            }
-                            this.preloadStream.writeLong(this.foundMoovSize);
-                            this.preloadStream.writeLong(this.nextPreloadDownloadOffset);
-                            this.preloadStream.writeLong(this.nextAtomOffset);
-                            this.preloadStreamFileOffset += 24;
-                            long j10 = this.nextPreloadDownloadOffset;
-                            if (j10 != j3 && ((this.moovFound == 0 || this.foundMoovSize >= j3) && this.totalPreloadedBytes <= preloadMaxBytes && j10 < this.totalBytesCount)) {
-                                z2 = false;
-                                if (!z2) {
-                                    this.preloadStream.seek(j3);
-                                    this.preloadStream.write(1);
-                                } else if (this.moovFound != 0) {
-                                    this.foundMoovSize -= this.currentDownloadChunkSize;
-                                }
-                            }
-                            z2 = true;
-                            if (!z2) {
-                            }
+        if (error != null) {
+            if (error.text.contains("FILE_MIGRATE_")) {
+                String errorMsg = error.text.replace("FILE_MIGRATE_", "");
+                Scanner scanner = new Scanner(errorMsg);
+                scanner.useDelimiter("");
+                try {
+                    val = Integer.valueOf(scanner.nextInt());
+                } catch (Exception e) {
+                    val = null;
+                }
+                if (val == null) {
+                    onFail(false, 0);
+                } else {
+                    this.datacenterId = val.intValue();
+                    this.downloadedBytes = 0L;
+                    this.requestedBytesCount = 0L;
+                    startDownloadRequest();
+                }
+                return false;
+            } else if (error.text.contains("OFFSET_INVALID")) {
+                if (this.downloadedBytes % this.currentDownloadChunkSize == 0) {
+                    try {
+                        onFinishLoadingFile(true);
+                        return false;
+                    } catch (Exception e2) {
+                        FileLog.e(e2);
+                        onFail(false, 0);
+                        return false;
+                    }
+                }
+                onFail(false, 0);
+                return false;
+            } else if (error.text.contains("RETRY_LIMIT")) {
+                onFail(false, 2);
+                return false;
+            } else {
+                if (BuildVars.LOGS_ENABLED) {
+                    if (this.location != null) {
+                        FileLog.e(error.text + " " + this.location + " id = " + this.location.id + " local_id = " + this.location.local_id + " access_hash = " + this.location.access_hash + " volume_id = " + this.location.volume_id + " secret = " + this.location.secret);
+                    } else if (this.webLocation != null) {
+                        FileLog.e(error.text + " " + this.webLocation + " id = " + this.fileName);
+                    }
+                }
+                onFail(false, 0);
+                return false;
+            }
+        }
+        try {
+        } catch (Exception e3) {
+            onFail(false, 0);
+            FileLog.e(e3);
+        }
+        if (this.notLoadedBytesRanges != null || this.downloadedBytes == requestInfo.offset) {
+            if (requestInfo.response != null) {
+                bytes = requestInfo.response.bytes;
+            } else {
+                bytes = requestInfo.responseWeb != null ? requestInfo.responseWeb.bytes : requestInfo.responseCdn != null ? requestInfo.responseCdn.bytes : null;
+            }
+            if (bytes != null && bytes.limit() != 0) {
+                int currentBytesSize2 = bytes.limit();
+                if (this.isCdn) {
+                    long j2 = requestInfo.offset;
+                    int i = this.cdnChunkCheckSize;
+                    long fileOffset3 = i * (j2 / i);
+                    HashMap<Long, TLRPC.TL_fileHash> hashMap = this.cdnHashes;
+                    TLRPC.TL_fileHash hash = hashMap != null ? hashMap.get(Long.valueOf(fileOffset3)) : null;
+                    if (hash == null) {
+                        delayRequestInfo(requestInfo);
+                        requestFileOffsets(fileOffset3);
+                        return true;
+                    }
+                }
+                if (requestInfo.responseCdn != null) {
+                    long offset = requestInfo.offset / 16;
+                    byte[] bArr = this.cdnIv;
+                    bArr[15] = (byte) (offset & 255);
+                    bArr[14] = (byte) ((offset >> 8) & 255);
+                    bArr[13] = (byte) ((offset >> 16) & 255);
+                    bArr[12] = (byte) ((offset >> 24) & 255);
+                    Utilities.aesCtrDecryption(bytes.buffer, this.cdnKey, this.cdnIv, 0, bytes.limit());
+                }
+                if (this.isPreloadVideoOperation) {
+                    this.preloadStream.writeLong(requestInfo.offset);
+                    this.preloadStream.writeLong(currentBytesSize2);
+                    this.preloadStreamFileOffset += 16;
+                    FileChannel channel = this.preloadStream.getChannel();
+                    channel.write(bytes.buffer);
+                    if (BuildVars.DEBUG_VERSION) {
+                        FileLog.d("save preload file part " + this.cacheFilePreload + " offset " + requestInfo.offset + " size " + currentBytesSize2);
+                    }
+                    if (this.preloadedBytesRanges == null) {
+                        this.preloadedBytesRanges = new HashMap<>();
+                    }
+                    this.preloadedBytesRanges.put(Long.valueOf(requestInfo.offset), new PreloadRange(this.preloadStreamFileOffset, currentBytesSize2));
+                    this.totalPreloadedBytes += currentBytesSize2;
+                    this.preloadStreamFileOffset += currentBytesSize2;
+                    if (this.moovFound == 0) {
+                        j = 0;
+                        currentBytesSize = currentBytesSize2;
+                        bytes2 = bytes;
+                        long offset2 = findNextPreloadDownloadOffset(this.nextAtomOffset, requestInfo.offset, bytes);
+                        if (offset2 >= 0) {
+                            this.nextPreloadDownloadOffset += this.currentDownloadChunkSize;
                         } else {
-                            long j11 = limit;
-                            long j12 = this.downloadedBytes + j11;
-                            this.downloadedBytes = j12;
-                            long j13 = this.totalBytesCount;
-                            if (j13 > 0) {
-                                if (j12 >= j13) {
-                                    z3 = true;
-                                }
-                                z3 = false;
+                            offset2 *= -1;
+                            long j3 = this.nextPreloadDownloadOffset + this.currentDownloadChunkSize;
+                            this.nextPreloadDownloadOffset = j3;
+                            if (j3 >= this.totalBytesCount / 2) {
+                                this.foundMoovSize = 2097152L;
+                                this.preloadNotRequestedBytesCount = 2097152L;
+                                this.moovFound = 2;
                             } else {
-                                int i2 = this.currentDownloadChunkSize;
-                                if (limit == i2) {
-                                    if (j13 != j12) {
-                                        j2 = 0;
-                                        if (j12 % i2 != 0) {
-                                        }
-                                        z3 = false;
-                                    } else {
-                                        j2 = 0;
-                                    }
-                                    if (j13 > j2) {
-                                        if (j13 <= j12) {
-                                        }
-                                        z3 = false;
-                                    }
-                                }
-                                z3 = true;
+                                long j4 = 1048576 + offset2;
+                                this.foundMoovSize = j4;
+                                this.preloadNotRequestedBytesCount = j4;
+                                this.moovFound = 1;
                             }
-                            boolean z6 = z3;
-                            byte[] bArr2 = this.key;
-                            if (bArr2 != null) {
-                                Utilities.aesIgeEncryption(nativeByteBuffer.buffer, bArr2, this.iv, false, true, 0, nativeByteBuffer.limit());
-                                if (z6 && this.bytesCountPadding != 0) {
-                                    long limit2 = nativeByteBuffer.limit() - this.bytesCountPadding;
-                                    if (BuildVars.DEBUG_VERSION && limit2 > 2147483647L) {
-                                        throw new RuntimeException("Out of limit" + limit2);
-                                    }
-                                    nativeByteBuffer.limit((int) limit2);
-                                }
-                            }
-                            if (this.encryptFile) {
-                                long j14 = requestInfo.offset / 16;
-                                byte[] bArr3 = this.encryptIv;
-                                bArr3[15] = (byte) (j14 & 255);
-                                bArr3[14] = (byte) ((j14 >> 8) & 255);
-                                bArr3[13] = (byte) ((j14 >> 16) & 255);
-                                bArr3[12] = (byte) ((j14 >> 24) & 255);
-                                Utilities.aesCtrDecryption(nativeByteBuffer.buffer, this.encryptKey, bArr3, 0, nativeByteBuffer.limit());
-                            }
-                            if (this.notLoadedBytesRanges != null) {
-                                this.fileOutputStream.seek(requestInfo.offset);
-                                if (BuildVars.DEBUG_VERSION) {
-                                    FileLog.d("save file part " + this.cacheFileFinal + " offset " + requestInfo.offset);
-                                }
-                            }
-                            this.fileOutputStream.getChannel().write(nativeByteBuffer.buffer);
-                            addPart(this.notLoadedBytesRanges, requestInfo.offset, j11 + requestInfo.offset, true);
-                            if (this.isCdn) {
-                                long j15 = requestInfo.offset / this.cdnChunkCheckSize;
-                                int size = this.notCheckedCdnRanges.size();
-                                int i3 = 0;
-                                while (true) {
-                                    if (i3 >= size) {
-                                        z5 = true;
-                                        break;
-                                    }
-                                    Range range = this.notCheckedCdnRanges.get(i3);
-                                    if (range.start <= j15 && j15 <= range.end) {
-                                        z5 = false;
-                                        break;
-                                    }
-                                    i3++;
-                                }
-                                if (!z5) {
-                                    int i4 = this.cdnChunkCheckSize;
-                                    long j16 = j15 * i4;
-                                    long downloadedLengthFromOffsetInternal = getDownloadedLengthFromOffsetInternal(this.notLoadedBytesRanges, j16, i4);
-                                    if (downloadedLengthFromOffsetInternal != 0) {
-                                        if (downloadedLengthFromOffsetInternal != this.cdnChunkCheckSize) {
-                                            long j17 = this.totalBytesCount;
-                                            if (j17 > 0) {
-                                            }
-                                            if (j17 <= 0) {
-                                            }
-                                        }
-                                        TLRPC$TL_fileHash tLRPC$TL_fileHash = this.cdnHashes.get(Long.valueOf(j16));
-                                        if (this.fileReadStream == null) {
-                                            this.cdnCheckBytes = new byte[this.cdnChunkCheckSize];
-                                            this.fileReadStream = new RandomAccessFile(this.cacheFileTemp, "r");
-                                        }
-                                        this.fileReadStream.seek(j16);
-                                        if (BuildVars.DEBUG_VERSION && downloadedLengthFromOffsetInternal > 2147483647L) {
-                                            throw new RuntimeException("!!!");
-                                        }
-                                        this.fileReadStream.readFully(this.cdnCheckBytes, 0, (int) downloadedLengthFromOffsetInternal);
-                                        if (this.encryptFile) {
-                                            long j18 = j16 / 16;
-                                            byte[] bArr4 = this.encryptIv;
-                                            z4 = z6;
-                                            j = j16;
-                                            bArr4[15] = (byte) (j18 & 255);
-                                            bArr4[14] = (byte) ((j18 >> 8) & 255);
-                                            bArr4[13] = (byte) ((j18 >> 16) & 255);
-                                            bArr4[12] = (byte) ((j18 >> 24) & 255);
-                                            Utilities.aesCtrDecryptionByteArray(this.cdnCheckBytes, this.encryptKey, bArr4, 0, downloadedLengthFromOffsetInternal, 0);
-                                        } else {
-                                            z4 = z6;
-                                            j = j16;
-                                        }
-                                        if (!Arrays.equals(Utilities.computeSHA256(this.cdnCheckBytes, 0, downloadedLengthFromOffsetInternal), tLRPC$TL_fileHash.hash)) {
-                                            if (BuildVars.LOGS_ENABLED) {
-                                                if (this.location != null) {
-                                                    FileLog.e("invalid cdn hash " + this.location + " id = " + this.location.id + " local_id = " + this.location.local_id + " access_hash = " + this.location.access_hash + " volume_id = " + this.location.volume_id + " secret = " + this.location.secret);
-                                                } else if (this.webLocation != null) {
-                                                    FileLog.e("invalid cdn hash  " + this.webLocation + " id = " + this.fileName);
-                                                }
-                                            }
-                                            z = false;
-                                            try {
-                                                onFail(false, 0);
-                                                this.cacheFileTemp.delete();
-                                                return false;
-                                            } catch (Exception e2) {
-                                                e = e2;
-                                                int i5 = z ? 1 : 0;
-                                                int i6 = z ? 1 : 0;
-                                                onFail(z, i5);
-                                                FileLog.e(e);
-                                                return false;
-                                            }
-                                        }
-                                        this.cdnHashes.remove(Long.valueOf(j));
-                                        addPart(this.notCheckedCdnRanges, j15, j15 + 1, false);
-                                        randomAccessFile = this.fiv;
-                                        if (randomAccessFile != null) {
-                                            randomAccessFile.seek(0L);
-                                            this.fiv.write(this.iv);
-                                        }
-                                        if (this.totalBytesCount > 0 && this.state == 1) {
-                                            copyNotLoadedRanges();
-                                            this.delegate.didChangedLoadProgress(this, this.downloadedBytes, this.totalBytesCount);
-                                        }
-                                        z2 = z4;
-                                    }
-                                }
-                            }
-                            z4 = z6;
-                            randomAccessFile = this.fiv;
-                            if (randomAccessFile != null) {
-                            }
-                            if (this.totalBytesCount > 0) {
-                                copyNotLoadedRanges();
-                                this.delegate.didChangedLoadProgress(this, this.downloadedBytes, this.totalBytesCount);
-                            }
-                            z2 = z4;
+                            this.nextPreloadDownloadOffset = -1L;
                         }
-                        for (int i7 = 0; i7 < this.delayedRequestInfos.size(); i7++) {
-                            RequestInfo requestInfo2 = this.delayedRequestInfos.get(i7);
-                            if (this.notLoadedBytesRanges == null && this.downloadedBytes != requestInfo2.offset) {
-                            }
-                            this.delayedRequestInfos.remove(i7);
-                            if (!processRequestResult(requestInfo2, null)) {
-                                if (requestInfo2.response != null) {
-                                    requestInfo2.response.disableFree = false;
-                                    requestInfo2.response.freeResources();
-                                } else if (requestInfo2.responseWeb != null) {
-                                    requestInfo2.responseWeb.disableFree = false;
-                                    requestInfo2.responseWeb.freeResources();
-                                } else if (requestInfo2.responseCdn != null) {
-                                    requestInfo2.responseCdn.disableFree = false;
-                                    requestInfo2.responseCdn.freeResources();
-                                }
-                            }
-                            if (!z2) {
-                                onFinishLoadingFile(true);
-                            } else {
-                                startDownloadRequest();
-                            }
-                        }
-                        if (!z2) {
+                        this.nextAtomOffset = offset2;
+                    } else {
+                        currentBytesSize = currentBytesSize2;
+                        bytes2 = bytes;
+                        j = 0;
+                    }
+                    this.preloadStream.writeLong(this.foundMoovSize);
+                    this.preloadStream.writeLong(this.nextPreloadDownloadOffset);
+                    this.preloadStream.writeLong(this.nextAtomOffset);
+                    this.preloadStreamFileOffset += 24;
+                    long j5 = this.nextPreloadDownloadOffset;
+                    if (j5 != j && ((this.moovFound == 0 || this.foundMoovSize >= j) && this.totalPreloadedBytes <= 2097152 && j5 < this.totalBytesCount)) {
+                        finishedDownloading = false;
+                        if (!finishedDownloading) {
+                            this.preloadStream.seek(j);
+                            this.preloadStream.write(1);
+                        } else if (this.moovFound != 0) {
+                            this.foundMoovSize -= this.currentDownloadChunkSize;
                         }
                     }
-                    onFinishLoadingFile(true);
+                    finishedDownloading = true;
+                    if (!finishedDownloading) {
+                    }
+                } else {
+                    NativeByteBuffer bytes3 = bytes;
+                    long j6 = this.downloadedBytes + currentBytesSize2;
+                    this.downloadedBytes = j6;
+                    long j7 = this.totalBytesCount;
+                    if (j7 > 0) {
+                        finishedDownloading2 = j6 >= j7;
+                        str = " id = ";
+                    } else {
+                        int i2 = this.currentDownloadChunkSize;
+                        if (currentBytesSize2 == i2) {
+                            if (j7 != j6) {
+                                str = " id = ";
+                                if (j6 % i2 != 0) {
+                                }
+                                z = false;
+                                finishedDownloading2 = z;
+                            } else {
+                                str = " id = ";
+                            }
+                            if (j7 > 0) {
+                                if (j7 <= j6) {
+                                }
+                                z = false;
+                                finishedDownloading2 = z;
+                            }
+                        } else {
+                            str = " id = ";
+                        }
+                        z = true;
+                        finishedDownloading2 = z;
+                    }
+                    if (this.key != null) {
+                        Utilities.aesIgeEncryption(bytes3.buffer, this.key, this.iv, false, true, 0, bytes3.limit());
+                        if (finishedDownloading2 && this.bytesCountPadding != 0) {
+                            long limit = bytes3.limit() - this.bytesCountPadding;
+                            if (BuildVars.DEBUG_VERSION && limit > 2147483647L) {
+                                throw new RuntimeException("Out of limit" + limit);
+                            }
+                            bytes3.limit((int) limit);
+                        }
+                    }
+                    if (this.encryptFile) {
+                        long offset3 = requestInfo.offset / 16;
+                        byte[] bArr2 = this.encryptIv;
+                        str2 = str;
+                        bArr2[15] = (byte) (offset3 & 255);
+                        bArr2[14] = (byte) ((offset3 >> 8) & 255);
+                        bArr2[13] = (byte) ((offset3 >> 16) & 255);
+                        bArr2[12] = (byte) ((offset3 >> 24) & 255);
+                        Utilities.aesCtrDecryption(bytes3.buffer, this.encryptKey, this.encryptIv, 0, bytes3.limit());
+                    } else {
+                        str2 = str;
+                    }
+                    if (this.notLoadedBytesRanges != null) {
+                        this.fileOutputStream.seek(requestInfo.offset);
+                        if (BuildVars.DEBUG_VERSION) {
+                            FileLog.d("save file part " + this.cacheFileFinal + " offset " + requestInfo.offset);
+                        }
+                    }
+                    FileChannel channel2 = this.fileOutputStream.getChannel();
+                    channel2.write(bytes3.buffer);
+                    String str3 = str2;
+                    addPart(this.notLoadedBytesRanges, requestInfo.offset, requestInfo.offset + currentBytesSize2, true);
+                    if (this.isCdn) {
+                        long cdnCheckPart = requestInfo.offset / this.cdnChunkCheckSize;
+                        int size2 = this.notCheckedCdnRanges.size();
+                        int a = 0;
+                        while (true) {
+                            if (a >= size2) {
+                                checked = true;
+                                break;
+                            }
+                            Range range = this.notCheckedCdnRanges.get(a);
+                            if (range.start > cdnCheckPart || cdnCheckPart > range.end) {
+                                a++;
+                            } else {
+                                checked = false;
+                                break;
+                            }
+                        }
+                        if (!checked) {
+                            int i3 = this.cdnChunkCheckSize;
+                            long fileOffset4 = cdnCheckPart * i3;
+                            long availableSize = getDownloadedLengthFromOffsetInternal(this.notLoadedBytesRanges, fileOffset4, i3);
+                            if (availableSize != 0) {
+                                if (availableSize != this.cdnChunkCheckSize) {
+                                    long j8 = this.totalBytesCount;
+                                    if (j8 > 0) {
+                                        fileOffset = fileOffset4;
+                                        if (availableSize != j8 - fileOffset) {
+                                        }
+                                    } else {
+                                        fileOffset = fileOffset4;
+                                    }
+                                    if (j8 > 0 || !finishedDownloading2) {
+                                        finishedDownloading3 = finishedDownloading2;
+                                    }
+                                } else {
+                                    fileOffset = fileOffset4;
+                                }
+                                TLRPC.TL_fileHash hash2 = this.cdnHashes.get(Long.valueOf(fileOffset));
+                                if (this.fileReadStream == null) {
+                                    this.cdnCheckBytes = new byte[this.cdnChunkCheckSize];
+                                    size = size2;
+                                    finishedDownloading3 = finishedDownloading2;
+                                    this.fileReadStream = new RandomAccessFile(this.cacheFileTemp, "r");
+                                } else {
+                                    size = size2;
+                                    finishedDownloading3 = finishedDownloading2;
+                                }
+                                this.fileReadStream.seek(fileOffset);
+                                if (BuildVars.DEBUG_VERSION && availableSize > 2147483647L) {
+                                    throw new RuntimeException("!!!");
+                                }
+                                this.fileReadStream.readFully(this.cdnCheckBytes, 0, (int) availableSize);
+                                if (!this.encryptFile) {
+                                    fileOffset2 = fileOffset;
+                                } else {
+                                    long offset4 = fileOffset / 16;
+                                    byte[] bArr3 = this.encryptIv;
+                                    fileOffset2 = fileOffset;
+                                    bArr3[15] = (byte) (offset4 & 255);
+                                    bArr3[14] = (byte) ((offset4 >> 8) & 255);
+                                    bArr3[13] = (byte) ((offset4 >> 16) & 255);
+                                    bArr3[12] = (byte) ((offset4 >> 24) & 255);
+                                    Utilities.aesCtrDecryptionByteArray(this.cdnCheckBytes, this.encryptKey, bArr3, 0, availableSize, 0);
+                                }
+                                byte[] sha256 = Utilities.computeSHA256(this.cdnCheckBytes, 0, availableSize);
+                                if (!Arrays.equals(sha256, hash2.hash)) {
+                                    if (BuildVars.LOGS_ENABLED) {
+                                        if (this.location != null) {
+                                            FileLog.e("invalid cdn hash " + this.location + str3 + this.location.id + " local_id = " + this.location.local_id + " access_hash = " + this.location.access_hash + " volume_id = " + this.location.volume_id + " secret = " + this.location.secret);
+                                        } else if (this.webLocation != null) {
+                                            FileLog.e("invalid cdn hash  " + this.webLocation + str3 + this.fileName);
+                                        }
+                                    }
+                                    onFail(false, 0);
+                                    this.cacheFileTemp.delete();
+                                    return false;
+                                }
+                                this.cdnHashes.remove(Long.valueOf(fileOffset2));
+                                addPart(this.notCheckedCdnRanges, cdnCheckPart, cdnCheckPart + 1, false);
+                            } else {
+                                finishedDownloading3 = finishedDownloading2;
+                            }
+                        } else {
+                            finishedDownloading3 = finishedDownloading2;
+                        }
+                    } else {
+                        finishedDownloading3 = finishedDownloading2;
+                    }
+                    RandomAccessFile randomAccessFile = this.fiv;
+                    if (randomAccessFile != null) {
+                        randomAccessFile.seek(0L);
+                        this.fiv.write(this.iv);
+                    }
+                    if (this.totalBytesCount > 0 && this.state == 1) {
+                        copyNotLoadedRanges();
+                        this.delegate.didChangedLoadProgress(this, this.downloadedBytes, this.totalBytesCount);
+                    }
+                    finishedDownloading = finishedDownloading3;
+                }
+                for (int a2 = 0; a2 < this.delayedRequestInfos.size(); a2++) {
+                    RequestInfo delayedRequestInfo = this.delayedRequestInfos.get(a2);
+                    if (this.notLoadedBytesRanges == null && this.downloadedBytes != delayedRequestInfo.offset) {
+                    }
+                    this.delayedRequestInfos.remove(a2);
+                    if (!processRequestResult(delayedRequestInfo, null)) {
+                        if (delayedRequestInfo.response != null) {
+                            delayedRequestInfo.response.disableFree = false;
+                            delayedRequestInfo.response.freeResources();
+                        } else if (delayedRequestInfo.responseWeb != null) {
+                            delayedRequestInfo.responseWeb.disableFree = false;
+                            delayedRequestInfo.responseWeb.freeResources();
+                        } else if (delayedRequestInfo.responseCdn != null) {
+                            delayedRequestInfo.responseCdn.disableFree = false;
+                            delayedRequestInfo.responseCdn.freeResources();
+                        }
+                    }
+                    if (!finishedDownloading) {
+                        onFinishLoadingFile(true);
+                    } else {
+                        startDownloadRequest();
+                    }
                     return false;
                 }
-                delayRequestInfo(requestInfo);
+                if (!finishedDownloading) {
+                }
                 return false;
-            } catch (Exception e3) {
-                e = e3;
-                z = false;
             }
-        } else if (tLRPC$TL_error.text.contains("FILE_MIGRATE_")) {
-            Scanner scanner = new Scanner(tLRPC$TL_error.text.replace("FILE_MIGRATE_", ""));
-            scanner.useDelimiter("");
-            try {
-                num = Integer.valueOf(scanner.nextInt());
-            } catch (Exception unused) {
-                num = null;
-            }
-            if (num == null) {
-                onFail(false, 0);
-            } else {
-                this.datacenterId = num.intValue();
-                this.downloadedBytes = 0L;
-                this.requestedBytesCount = 0L;
-                startDownloadRequest();
-            }
-        } else if (tLRPC$TL_error.text.contains("OFFSET_INVALID")) {
-            if (this.downloadedBytes % this.currentDownloadChunkSize == 0) {
-                try {
-                    onFinishLoadingFile(true);
-                } catch (Exception e4) {
-                    FileLog.e(e4);
-                    onFail(false, 0);
-                }
-            } else {
-                onFail(false, 0);
-            }
-        } else if (tLRPC$TL_error.text.contains("RETRY_LIMIT")) {
-            onFail(false, 2);
-        } else {
-            if (BuildVars.LOGS_ENABLED) {
-                if (this.location != null) {
-                    FileLog.e(tLRPC$TL_error.text + " " + this.location + " id = " + this.location.id + " local_id = " + this.location.local_id + " access_hash = " + this.location.access_hash + " volume_id = " + this.location.volume_id + " secret = " + this.location.secret);
-                } else if (this.webLocation != null) {
-                    FileLog.e(tLRPC$TL_error.text + " " + this.webLocation + " id = " + this.fileName);
-                }
-            }
-            onFail(false, 0);
+            onFinishLoadingFile(true);
             return false;
         }
+        delayRequestInfo(requestInfo);
         return false;
     }
 
-    public void onFail(boolean z, final int i) {
+    public void onFail(boolean thread, final int reason) {
         cleanup();
         this.state = 2;
         FileLoadOperationDelegate fileLoadOperationDelegate = this.delegate;
         if (fileLoadOperationDelegate != null) {
-            if (z) {
-                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda1
+            if (thread) {
+                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
-                        FileLoadOperation.this.lambda$onFail$10(i);
+                        FileLoadOperation.this.m208lambda$onFail$10$orgtelegrammessengerFileLoadOperation(reason);
                     }
                 });
             } else {
-                fileLoadOperationDelegate.didFailedLoadingFile(this, i);
+                fileLoadOperationDelegate.didFailedLoadingFile(this, reason);
             }
         }
     }
 
-    public /* synthetic */ void lambda$onFail$10(int i) {
-        this.delegate.didFailedLoadingFile(this, i);
+    /* renamed from: lambda$onFail$10$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m208lambda$onFail$10$orgtelegrammessengerFileLoadOperation(int reason) {
+        this.delegate.didFailedLoadingFile(this, reason);
     }
 
-    private void clearOperaion(RequestInfo requestInfo, boolean z) {
-        long j = Long.MAX_VALUE;
-        for (int i = 0; i < this.requestInfos.size(); i++) {
-            RequestInfo requestInfo2 = this.requestInfos.get(i);
-            j = Math.min(requestInfo2.offset, j);
+    private void clearOperaion(RequestInfo currentInfo, boolean preloadChanged) {
+        long minOffset = Long.MAX_VALUE;
+        for (int a = 0; a < this.requestInfos.size(); a++) {
+            RequestInfo info = this.requestInfos.get(a);
+            minOffset = Math.min(info.offset, minOffset);
             if (this.isPreloadVideoOperation) {
-                this.requestedPreloadedBytesRanges.remove(Long.valueOf(requestInfo2.offset));
+                this.requestedPreloadedBytesRanges.remove(Long.valueOf(info.offset));
             } else {
-                removePart(this.notRequestedBytesRanges, requestInfo2.offset, this.currentDownloadChunkSize + requestInfo2.offset);
+                removePart(this.notRequestedBytesRanges, info.offset, this.currentDownloadChunkSize + info.offset);
             }
-            if (requestInfo != requestInfo2 && requestInfo2.requestToken != 0) {
-                ConnectionsManager.getInstance(this.currentAccount).cancelRequest(requestInfo2.requestToken, true);
+            if (currentInfo != info && info.requestToken != 0) {
+                ConnectionsManager.getInstance(this.currentAccount).cancelRequest(info.requestToken, true);
             }
         }
         this.requestInfos.clear();
-        for (int i2 = 0; i2 < this.delayedRequestInfos.size(); i2++) {
-            RequestInfo requestInfo3 = this.delayedRequestInfos.get(i2);
+        for (int a2 = 0; a2 < this.delayedRequestInfos.size(); a2++) {
+            RequestInfo info2 = this.delayedRequestInfos.get(a2);
             if (this.isPreloadVideoOperation) {
-                this.requestedPreloadedBytesRanges.remove(Long.valueOf(requestInfo3.offset));
+                this.requestedPreloadedBytesRanges.remove(Long.valueOf(info2.offset));
             } else {
-                removePart(this.notRequestedBytesRanges, requestInfo3.offset, this.currentDownloadChunkSize + requestInfo3.offset);
+                removePart(this.notRequestedBytesRanges, info2.offset, this.currentDownloadChunkSize + info2.offset);
             }
-            if (requestInfo3.response != null) {
-                requestInfo3.response.disableFree = false;
-                requestInfo3.response.freeResources();
-            } else if (requestInfo3.responseWeb != null) {
-                requestInfo3.responseWeb.disableFree = false;
-                requestInfo3.responseWeb.freeResources();
-            } else if (requestInfo3.responseCdn != null) {
-                requestInfo3.responseCdn.disableFree = false;
-                requestInfo3.responseCdn.freeResources();
+            if (info2.response != null) {
+                info2.response.disableFree = false;
+                info2.response.freeResources();
+            } else if (info2.responseWeb != null) {
+                info2.responseWeb.disableFree = false;
+                info2.responseWeb.freeResources();
+            } else if (info2.responseCdn != null) {
+                info2.responseCdn.disableFree = false;
+                info2.responseCdn.freeResources();
             }
-            j = Math.min(requestInfo3.offset, j);
+            minOffset = Math.min(info2.offset, minOffset);
         }
         this.delayedRequestInfos.clear();
         this.requestsCount = 0;
-        if (!z && this.isPreloadVideoOperation) {
+        if (!preloadChanged && this.isPreloadVideoOperation) {
             this.requestedBytesCount = this.totalPreloadedBytes;
         } else if (this.notLoadedBytesRanges == null) {
-            this.downloadedBytes = j;
-            this.requestedBytesCount = j;
+            this.downloadedBytes = minOffset;
+            this.requestedBytesCount = minOffset;
         }
     }
 
     private void requestReference(RequestInfo requestInfo) {
-        TLRPC$WebPage tLRPC$WebPage;
         if (this.requestingReference) {
             return;
         }
@@ -2455,8 +2371,8 @@ public class FileLoadOperation {
         Object obj = this.parentObject;
         if (obj instanceof MessageObject) {
             MessageObject messageObject = (MessageObject) obj;
-            if (messageObject.getId() < 0 && (tLRPC$WebPage = messageObject.messageOwner.media.webpage) != null) {
-                this.parentObject = tLRPC$WebPage;
+            if (messageObject.getId() < 0 && messageObject.messageOwner.media.webpage != null) {
+                this.parentObject = messageObject.messageOwner.media.webpage;
             }
         }
         FileRefController.getInstance(this.currentAccount).requestReference(this.parentObject, this.location, this, requestInfo);
@@ -2464,229 +2380,241 @@ public class FileLoadOperation {
 
     /* JADX WARN: Multi-variable type inference failed */
     public void startDownloadRequest() {
-        int i;
-        long j;
-        final TLRPC$TL_upload_getFile tLRPC$TL_upload_getFile;
-        long j2;
+        int count;
+        int count2;
+        long downloadOffset;
+        final TLRPC.TL_upload_getFile tL_upload_getFile;
+        int flags;
         HashMap<Long, PreloadRange> hashMap;
-        PreloadRange preloadRange;
         ArrayList<Range> arrayList;
-        long j3;
-        boolean z;
-        if (this.paused || this.reuploadingCdn) {
-            return;
-        }
-        int i2 = 1;
-        if (this.state != 1) {
-            return;
-        }
-        long j4 = 0;
-        if (this.streamPriorityStartOffset == 0) {
-            if (!this.nextPartWasPreloaded && this.requestInfos.size() + this.delayedRequestInfos.size() >= this.currentMaxDownloadRequests) {
-                return;
-            }
-            if (this.isPreloadVideoOperation) {
-                if (this.requestedBytesCount > 2097152) {
-                    return;
-                }
-                if (this.moovFound != 0 && this.requestInfos.size() > 0) {
-                    return;
-                }
-            }
-        }
-        boolean z2 = false;
-        int max = (this.streamPriorityStartOffset != 0 || this.nextPartWasPreloaded || (this.isPreloadVideoOperation && this.moovFound == 0) || this.totalBytesCount <= 0) ? 1 : Math.max(0, this.currentMaxDownloadRequests - this.requestInfos.size());
-        int i3 = 0;
-        while (i3 < max) {
-            int i4 = 2;
-            if (this.isPreloadVideoOperation) {
-                if (this.moovFound != 0 && this.preloadNotRequestedBytesCount <= j4) {
-                    return;
-                }
-                long j5 = this.nextPreloadDownloadOffset;
-                if (j5 == -1) {
-                    int i5 = (preloadMaxBytes / this.currentDownloadChunkSize) + 2;
-                    long j6 = j4;
-                    while (i5 != 0) {
-                        if (!this.requestedPreloadedBytesRanges.containsKey(Long.valueOf(j6))) {
-                            j5 = j6;
-                            z = true;
-                            break;
-                        }
-                        int i6 = this.currentDownloadChunkSize;
-                        j6 += i6;
-                        long j7 = this.totalBytesCount;
-                        if (j6 > j7) {
-                            break;
-                        }
-                        if (this.moovFound == i4 && j6 == i6 * 8) {
-                            j6 = ((j7 - 1048576) / i6) * i6;
-                        }
-                        i5--;
-                        i4 = 2;
-                    }
-                    j5 = j6;
-                    z = false;
-                    if (!z && this.requestInfos.isEmpty()) {
-                        onFinishLoadingFile(z2);
-                    }
-                }
-                if (this.requestedPreloadedBytesRanges == null) {
-                    this.requestedPreloadedBytesRanges = new HashMap<>();
-                }
-                this.requestedPreloadedBytesRanges.put(Long.valueOf(j5), Integer.valueOf(i2));
-                if (BuildVars.DEBUG_VERSION) {
-                    FileLog.d("start next preload from " + j5 + " size " + this.totalBytesCount + " for " + this.cacheFilePreload);
-                }
-                this.preloadNotRequestedBytesCount -= this.currentDownloadChunkSize;
-                j = j5;
-                i = max;
-            } else {
-                ArrayList<Range> arrayList2 = this.notRequestedBytesRanges;
-                if (arrayList2 != null) {
-                    long j8 = this.streamPriorityStartOffset;
-                    if (j8 == j4) {
-                        j8 = this.streamStartOffset;
-                    }
-                    int size = arrayList2.size();
-                    long j9 = Long.MAX_VALUE;
-                    i = max;
-                    int i7 = 0;
-                    long j10 = Long.MAX_VALUE;
-                    while (true) {
-                        if (i7 >= size) {
-                            j8 = j9;
-                            break;
-                        }
-                        Range range = this.notRequestedBytesRanges.get(i7);
-                        if (j8 != j4) {
-                            if (range.start <= j8 && range.end > j8) {
-                                j10 = Long.MAX_VALUE;
-                                break;
-                            } else if (j8 < range.start && range.start < j9) {
-                                j9 = range.start;
+        long downloadOffset2;
+        long downloadOffset3;
+        if (!this.paused && !this.reuploadingCdn && this.state == 1) {
+            long j = 0;
+            if (this.streamPriorityStartOffset == 0) {
+                if (this.nextPartWasPreloaded || this.requestInfos.size() + this.delayedRequestInfos.size() < this.currentMaxDownloadRequests) {
+                    if (this.isPreloadVideoOperation) {
+                        if (this.requestedBytesCount <= 2097152) {
+                            if (this.moovFound != 0 && this.requestInfos.size() > 0) {
+                                return;
                             }
+                        } else {
+                            return;
                         }
-                        j10 = Math.min(j10, range.start);
-                        i7++;
-                        j4 = 0;
-                    }
-                    if (j8 != Long.MAX_VALUE) {
-                        j3 = j8;
-                    } else if (j10 == Long.MAX_VALUE) {
-                        return;
-                    } else {
-                        j3 = j10;
                     }
                 } else {
-                    i = max;
-                    j3 = this.requestedBytesCount;
+                    return;
                 }
-                j = j3;
             }
-            if (!this.isPreloadVideoOperation && (arrayList = this.notRequestedBytesRanges) != null) {
-                addPart(arrayList, j, j + this.currentDownloadChunkSize, false);
-            }
-            long j11 = this.totalBytesCount;
-            if (j11 > 0 && j >= j11) {
-                return;
-            }
-            boolean z3 = j11 <= 0 || i3 == i + (-1) || (j11 > 0 && ((long) this.currentDownloadChunkSize) + j >= j11);
-            int i8 = this.requestsCount % 2 == 0 ? 2 : ConnectionsManager.ConnectionTypeDownload2;
-            int i9 = this.isForceRequest ? 32 : 0;
-            if (this.isCdn) {
-                TLRPC$TL_upload_getCdnFile tLRPC$TL_upload_getCdnFile = new TLRPC$TL_upload_getCdnFile();
-                tLRPC$TL_upload_getCdnFile.file_token = this.cdnToken;
-                tLRPC$TL_upload_getCdnFile.offset = j;
-                tLRPC$TL_upload_getCdnFile.limit = this.currentDownloadChunkSize;
-                i9 |= 1;
-                tLRPC$TL_upload_getFile = tLRPC$TL_upload_getCdnFile;
-            } else if (this.webLocation != null) {
-                TLRPC$TL_upload_getWebFile tLRPC$TL_upload_getWebFile = new TLRPC$TL_upload_getWebFile();
-                tLRPC$TL_upload_getWebFile.location = this.webLocation;
-                tLRPC$TL_upload_getWebFile.offset = (int) j;
-                tLRPC$TL_upload_getWebFile.limit = this.currentDownloadChunkSize;
-                tLRPC$TL_upload_getFile = tLRPC$TL_upload_getWebFile;
+            boolean z = false;
+            if (this.streamPriorityStartOffset == 0 && !this.nextPartWasPreloaded && ((!this.isPreloadVideoOperation || this.moovFound != 0) && this.totalBytesCount > 0)) {
+                int count3 = Math.max(0, this.currentMaxDownloadRequests - this.requestInfos.size());
+                count = count3;
             } else {
-                TLRPC$TL_upload_getFile tLRPC$TL_upload_getFile2 = new TLRPC$TL_upload_getFile();
-                tLRPC$TL_upload_getFile2.location = this.location;
-                tLRPC$TL_upload_getFile2.offset = j;
-                tLRPC$TL_upload_getFile2.limit = this.currentDownloadChunkSize;
-                tLRPC$TL_upload_getFile2.cdn_supported = true;
-                tLRPC$TL_upload_getFile = tLRPC$TL_upload_getFile2;
+                count = 1;
             }
-            int i10 = i9;
-            this.requestedBytesCount += this.currentDownloadChunkSize;
-            final RequestInfo requestInfo = new RequestInfo();
-            this.requestInfos.add(requestInfo);
-            requestInfo.offset = j;
-            if (!this.isPreloadVideoOperation && this.supportsPreloading && this.preloadStream != null && (hashMap = this.preloadedBytesRanges) != null && (preloadRange = hashMap.get(Long.valueOf(requestInfo.offset))) != null) {
-                requestInfo.response = new TLRPC$TL_upload_file();
-                try {
-                    if (BuildVars.DEBUG_VERSION && preloadRange.length > 2147483647L) {
-                        throw new RuntimeException("cast long to integer");
-                        break;
+            int a = 0;
+            while (a < count) {
+                if (this.isPreloadVideoOperation) {
+                    if (this.moovFound != 0 && this.preloadNotRequestedBytesCount <= j) {
+                        return;
                     }
-                    NativeByteBuffer nativeByteBuffer = new NativeByteBuffer((int) preloadRange.length);
-                    this.preloadStream.seek(preloadRange.fileOffset);
-                    this.preloadStream.getChannel().read(nativeByteBuffer.buffer);
-                    try {
-                        nativeByteBuffer.buffer.position(0);
-                        requestInfo.response.bytes = nativeByteBuffer;
-                        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda2
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                FileLoadOperation.this.lambda$startDownloadRequest$11(requestInfo);
+                    if (this.nextPreloadDownloadOffset == -1) {
+                        downloadOffset3 = 0;
+                        boolean found = false;
+                        int tries = (2097152 / this.currentDownloadChunkSize) + 2;
+                        while (true) {
+                            if (tries == 0) {
+                                break;
+                            } else if (!this.requestedPreloadedBytesRanges.containsKey(Long.valueOf(downloadOffset3))) {
+                                found = true;
+                                break;
+                            } else {
+                                int i = this.currentDownloadChunkSize;
+                                downloadOffset3 += i;
+                                long j2 = this.totalBytesCount;
+                                if (downloadOffset3 > j2) {
+                                    break;
+                                }
+                                if (this.moovFound == 2 && downloadOffset3 == i * 8) {
+                                    downloadOffset3 = ((j2 - 1048576) / i) * i;
+                                }
+                                tries--;
                             }
-                        });
-                        j2 = 0;
-                    } catch (Exception unused) {
+                        }
+                        if (!found && this.requestInfos.isEmpty()) {
+                            onFinishLoadingFile(z);
+                        }
+                    } else {
+                        downloadOffset3 = this.nextPreloadDownloadOffset;
                     }
-                } catch (Exception unused2) {
-                }
-                i3++;
-                j4 = j2;
-                max = i;
-                i2 = 1;
-                z2 = false;
-            }
-            if (this.streamPriorityStartOffset != 0) {
-                if (BuildVars.DEBUG_VERSION) {
-                    FileLog.d("frame get offset = " + this.streamPriorityStartOffset);
-                }
-                j2 = 0;
-                this.streamPriorityStartOffset = 0L;
-                this.priorityRequestInfo = requestInfo;
-            } else {
-                j2 = 0;
-            }
-            TLRPC$InputFileLocation tLRPC$InputFileLocation = this.location;
-            if (!(tLRPC$InputFileLocation instanceof TLRPC$TL_inputPeerPhotoFileLocation) || ((TLRPC$TL_inputPeerPhotoFileLocation) tLRPC$InputFileLocation).photo_id != j2) {
-                requestInfo.requestToken = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_getFile, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda14
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        FileLoadOperation.this.lambda$startDownloadRequest$13(requestInfo, tLRPC$TL_upload_getFile, tLObject, tLRPC$TL_error);
+                    if (this.requestedPreloadedBytesRanges == null) {
+                        this.requestedPreloadedBytesRanges = new HashMap<>();
                     }
-                }, null, null, i10, this.isCdn ? this.cdnDatacenterId : this.datacenterId, i8, z3);
-                this.requestsCount++;
-            } else {
-                requestReference(requestInfo);
+                    this.requestedPreloadedBytesRanges.put(Long.valueOf(downloadOffset3), 1);
+                    if (BuildVars.DEBUG_VERSION) {
+                        FileLog.d("start next preload from " + downloadOffset3 + " size " + this.totalBytesCount + " for " + this.cacheFilePreload);
+                    }
+                    this.preloadNotRequestedBytesCount -= this.currentDownloadChunkSize;
+                    count2 = count;
+                    downloadOffset = downloadOffset3;
+                } else {
+                    ArrayList<Range> arrayList2 = this.notRequestedBytesRanges;
+                    if (arrayList2 != null) {
+                        long streamOffset = this.streamPriorityStartOffset;
+                        if (streamOffset == 0) {
+                            streamOffset = this.streamStartOffset;
+                        }
+                        int size = arrayList2.size();
+                        long minStart = Long.MAX_VALUE;
+                        long minStreamStart = Long.MAX_VALUE;
+                        int b = 0;
+                        while (true) {
+                            if (b >= size) {
+                                count2 = count;
+                                break;
+                            }
+                            Range range = this.notRequestedBytesRanges.get(b);
+                            if (streamOffset != 0) {
+                                if (range.start > streamOffset || range.end <= streamOffset) {
+                                    if (streamOffset < range.start && range.start < minStreamStart) {
+                                        minStreamStart = range.start;
+                                    }
+                                } else {
+                                    minStreamStart = streamOffset;
+                                    minStart = Long.MAX_VALUE;
+                                    count2 = count;
+                                    break;
+                                }
+                            }
+                            minStart = Math.min(minStart, range.start);
+                            b++;
+                            count = count;
+                        }
+                        if (minStreamStart != Long.MAX_VALUE) {
+                            downloadOffset2 = minStreamStart;
+                        } else if (minStart != Long.MAX_VALUE) {
+                            downloadOffset2 = minStart;
+                        } else {
+                            return;
+                        }
+                        downloadOffset = downloadOffset2;
+                    } else {
+                        count2 = count;
+                        downloadOffset = this.requestedBytesCount;
+                    }
+                }
+                if (!this.isPreloadVideoOperation && (arrayList = this.notRequestedBytesRanges) != null) {
+                    addPart(arrayList, downloadOffset, downloadOffset + this.currentDownloadChunkSize, false);
+                }
+                long j3 = this.totalBytesCount;
+                if (j3 <= 0 || downloadOffset < j3) {
+                    boolean isLast = j3 <= 0 || a == count2 + (-1) || (j3 > 0 && ((long) this.currentDownloadChunkSize) + downloadOffset >= j3);
+                    int connectionType = this.requestsCount % 2 == 0 ? 2 : ConnectionsManager.ConnectionTypeDownload2;
+                    int flags2 = this.isForceRequest ? 32 : 0;
+                    if (this.isCdn) {
+                        TLRPC.TL_upload_getCdnFile req = new TLRPC.TL_upload_getCdnFile();
+                        req.file_token = this.cdnToken;
+                        req.offset = downloadOffset;
+                        req.limit = this.currentDownloadChunkSize;
+                        tL_upload_getFile = req;
+                        flags = flags2 | 1;
+                    } else if (this.webLocation != null) {
+                        TLRPC.TL_upload_getWebFile req2 = new TLRPC.TL_upload_getWebFile();
+                        req2.location = this.webLocation;
+                        req2.offset = (int) downloadOffset;
+                        req2.limit = this.currentDownloadChunkSize;
+                        tL_upload_getFile = req2;
+                        flags = flags2;
+                    } else {
+                        TLRPC.TL_upload_getFile req3 = new TLRPC.TL_upload_getFile();
+                        req3.location = this.location;
+                        req3.offset = downloadOffset;
+                        req3.limit = this.currentDownloadChunkSize;
+                        req3.cdn_supported = true;
+                        tL_upload_getFile = req3;
+                        flags = flags2;
+                    }
+                    this.requestedBytesCount += this.currentDownloadChunkSize;
+                    final RequestInfo requestInfo = new RequestInfo();
+                    this.requestInfos.add(requestInfo);
+                    requestInfo.offset = downloadOffset;
+                    if (!this.isPreloadVideoOperation && this.supportsPreloading && this.preloadStream != null && (hashMap = this.preloadedBytesRanges) != null) {
+                        PreloadRange range2 = hashMap.get(Long.valueOf(requestInfo.offset));
+                        if (range2 != null) {
+                            requestInfo.response = new TLRPC.TL_upload_file();
+                            try {
+                                if (BuildVars.DEBUG_VERSION && range2.length > 2147483647L) {
+                                    throw new RuntimeException("cast long to integer");
+                                    break;
+                                }
+                                NativeByteBuffer buffer = new NativeByteBuffer((int) range2.length);
+                                this.preloadStream.seek(range2.fileOffset);
+                                this.preloadStream.getChannel().read(buffer.buffer);
+                                try {
+                                    buffer.buffer.position(0);
+                                    requestInfo.response.bytes = buffer;
+                                    Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda7
+                                        @Override // java.lang.Runnable
+                                        public final void run() {
+                                            FileLoadOperation.this.m215xe3dafa6a(requestInfo);
+                                        }
+                                    });
+                                    j = 0;
+                                } catch (Exception e) {
+                                }
+                            } catch (Exception e2) {
+                            }
+                            a++;
+                            count = count2;
+                            z = false;
+                        }
+                    }
+                    if (this.streamPriorityStartOffset != 0) {
+                        if (BuildVars.DEBUG_VERSION) {
+                            FileLog.d("frame get offset = " + this.streamPriorityStartOffset);
+                        }
+                        this.streamPriorityStartOffset = 0L;
+                        this.priorityRequestInfo = requestInfo;
+                    }
+                    TLRPC.InputFileLocation inputFileLocation = this.location;
+                    if (!(inputFileLocation instanceof TLRPC.TL_inputPeerPhotoFileLocation)) {
+                        j = 0;
+                    } else {
+                        TLRPC.TL_inputPeerPhotoFileLocation inputPeerPhotoFileLocation = (TLRPC.TL_inputPeerPhotoFileLocation) inputFileLocation;
+                        j = 0;
+                        if (inputPeerPhotoFileLocation.photo_id == 0) {
+                            requestReference(requestInfo);
+                            a++;
+                            count = count2;
+                            z = false;
+                        }
+                    }
+                    requestInfo.requestToken = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_upload_getFile, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda5
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                            FileLoadOperation.this.m217xf2a564a8(requestInfo, tL_upload_getFile, tLObject, tL_error);
+                        }
+                    }, null, null, flags, this.isCdn ? this.cdnDatacenterId : this.datacenterId, connectionType, isLast);
+                    this.requestsCount++;
+                    a++;
+                    count = count2;
+                    z = false;
+                } else {
+                    return;
+                }
             }
-            i3++;
-            j4 = j2;
-            max = i;
-            i2 = 1;
-            z2 = false;
         }
     }
 
-    public /* synthetic */ void lambda$startDownloadRequest$11(RequestInfo requestInfo) {
+    /* renamed from: lambda$startDownloadRequest$11$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m215xe3dafa6a(RequestInfo requestInfo) {
         processRequestResult(requestInfo, null);
         requestInfo.response.freeResources();
     }
 
-    public /* synthetic */ void lambda$startDownloadRequest$13(final RequestInfo requestInfo, TLObject tLObject, TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-        byte[] bArr;
+    /* renamed from: lambda$startDownloadRequest$13$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m217xf2a564a8(final RequestInfo requestInfo, TLObject request, TLObject response, TLRPC.TL_error error) {
         if (!this.requestInfos.contains(requestInfo)) {
             return;
         }
@@ -2696,34 +2624,33 @@ public class FileLoadOperation {
             }
             this.priorityRequestInfo = null;
         }
-        if (tLRPC$TL_error != null) {
-            if (FileRefController.isFileRefError(tLRPC$TL_error.text)) {
+        if (error != null) {
+            if (FileRefController.isFileRefError(error.text)) {
                 requestReference(requestInfo);
                 return;
-            } else if ((tLObject instanceof TLRPC$TL_upload_getCdnFile) && tLRPC$TL_error.text.equals("FILE_TOKEN_INVALID")) {
+            } else if ((request instanceof TLRPC.TL_upload_getCdnFile) && error.text.equals("FILE_TOKEN_INVALID")) {
                 this.isCdn = false;
                 clearOperaion(requestInfo, false);
                 startDownloadRequest();
                 return;
             }
         }
-        if (tLObject2 instanceof TLRPC$TL_upload_fileCdnRedirect) {
-            TLRPC$TL_upload_fileCdnRedirect tLRPC$TL_upload_fileCdnRedirect = (TLRPC$TL_upload_fileCdnRedirect) tLObject2;
-            if (!tLRPC$TL_upload_fileCdnRedirect.file_hashes.isEmpty()) {
+        if (response instanceof TLRPC.TL_upload_fileCdnRedirect) {
+            TLRPC.TL_upload_fileCdnRedirect res = (TLRPC.TL_upload_fileCdnRedirect) response;
+            if (!res.file_hashes.isEmpty()) {
                 if (this.cdnHashes == null) {
                     this.cdnHashes = new HashMap<>();
                 }
-                for (int i = 0; i < tLRPC$TL_upload_fileCdnRedirect.file_hashes.size(); i++) {
-                    TLRPC$TL_fileHash tLRPC$TL_fileHash = tLRPC$TL_upload_fileCdnRedirect.file_hashes.get(i);
-                    this.cdnHashes.put(Long.valueOf(tLRPC$TL_fileHash.offset), tLRPC$TL_fileHash);
+                for (int a1 = 0; a1 < res.file_hashes.size(); a1++) {
+                    TLRPC.TL_fileHash hash = res.file_hashes.get(a1);
+                    this.cdnHashes.put(Long.valueOf(hash.offset), hash);
                 }
             }
-            byte[] bArr2 = tLRPC$TL_upload_fileCdnRedirect.encryption_iv;
-            if (bArr2 == null || (bArr = tLRPC$TL_upload_fileCdnRedirect.encryption_key) == null || bArr2.length != 16 || bArr.length != 32) {
-                TLRPC$TL_error tLRPC$TL_error2 = new TLRPC$TL_error();
-                tLRPC$TL_error2.text = "bad redirect response";
-                tLRPC$TL_error2.code = 400;
-                processRequestResult(requestInfo, tLRPC$TL_error2);
+            if (res.encryption_iv == null || res.encryption_key == null || res.encryption_iv.length != 16 || res.encryption_key.length != 32) {
+                TLRPC.TL_error error2 = new TLRPC.TL_error();
+                error2.text = "bad redirect response";
+                error2.code = 400;
+                processRequestResult(requestInfo, error2);
                 return;
             }
             this.isCdn = true;
@@ -2732,69 +2659,69 @@ public class FileLoadOperation {
                 this.notCheckedCdnRanges = arrayList;
                 arrayList.add(new Range(0L, this.maxCdnParts));
             }
-            this.cdnDatacenterId = tLRPC$TL_upload_fileCdnRedirect.dc_id;
-            this.cdnIv = tLRPC$TL_upload_fileCdnRedirect.encryption_iv;
-            this.cdnKey = tLRPC$TL_upload_fileCdnRedirect.encryption_key;
-            this.cdnToken = tLRPC$TL_upload_fileCdnRedirect.file_token;
+            this.cdnDatacenterId = res.dc_id;
+            this.cdnIv = res.encryption_iv;
+            this.cdnKey = res.encryption_key;
+            this.cdnToken = res.file_token;
             clearOperaion(requestInfo, false);
             startDownloadRequest();
-        } else if (tLObject2 instanceof TLRPC$TL_upload_cdnFileReuploadNeeded) {
-            if (this.reuploadingCdn) {
-                return;
+        } else if (response instanceof TLRPC.TL_upload_cdnFileReuploadNeeded) {
+            if (!this.reuploadingCdn) {
+                clearOperaion(requestInfo, false);
+                this.reuploadingCdn = true;
+                TLRPC.TL_upload_reuploadCdnFile req = new TLRPC.TL_upload_reuploadCdnFile();
+                req.file_token = this.cdnToken;
+                req.request_token = ((TLRPC.TL_upload_cdnFileReuploadNeeded) response).request_token;
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(req, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda4
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        FileLoadOperation.this.m216xeb402f89(requestInfo, tLObject, tL_error);
+                    }
+                }, null, null, 0, this.datacenterId, 1, true);
             }
-            clearOperaion(requestInfo, false);
-            this.reuploadingCdn = true;
-            TLRPC$TL_upload_reuploadCdnFile tLRPC$TL_upload_reuploadCdnFile = new TLRPC$TL_upload_reuploadCdnFile();
-            tLRPC$TL_upload_reuploadCdnFile.file_token = this.cdnToken;
-            tLRPC$TL_upload_reuploadCdnFile.request_token = ((TLRPC$TL_upload_cdnFileReuploadNeeded) tLObject2).request_token;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_reuploadCdnFile, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda13
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject3, TLRPC$TL_error tLRPC$TL_error3) {
-                    FileLoadOperation.this.lambda$startDownloadRequest$12(requestInfo, tLObject3, tLRPC$TL_error3);
-                }
-            }, null, null, 0, this.datacenterId, 1, true);
         } else {
-            if (tLObject2 instanceof TLRPC$TL_upload_file) {
-                requestInfo.response = (TLRPC$TL_upload_file) tLObject2;
-            } else if (tLObject2 instanceof TLRPC$TL_upload_webFile) {
-                requestInfo.responseWeb = (TLRPC$TL_upload_webFile) tLObject2;
+            if (response instanceof TLRPC.TL_upload_file) {
+                requestInfo.response = (TLRPC.TL_upload_file) response;
+            } else if (response instanceof TLRPC.TL_upload_webFile) {
+                requestInfo.responseWeb = (TLRPC.TL_upload_webFile) response;
                 if (this.totalBytesCount == 0 && requestInfo.responseWeb.size != 0) {
                     this.totalBytesCount = requestInfo.responseWeb.size;
                 }
             } else {
-                requestInfo.responseCdn = (TLRPC$TL_upload_cdnFile) tLObject2;
+                requestInfo.responseCdn = (TLRPC.TL_upload_cdnFile) response;
             }
-            if (tLObject2 != null) {
-                int i2 = this.currentType;
-                if (i2 == 50331648) {
-                    StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 3, tLObject2.getObjectSize() + 4);
-                } else if (i2 == 33554432) {
-                    StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 2, tLObject2.getObjectSize() + 4);
-                } else if (i2 == 16777216) {
-                    StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 4, tLObject2.getObjectSize() + 4);
-                } else if (i2 == 67108864) {
-                    StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 5, tLObject2.getObjectSize() + 4);
+            if (response != null) {
+                int i = this.currentType;
+                if (i == 50331648) {
+                    StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(response.networkType, 3, response.getObjectSize() + 4);
+                } else if (i == 33554432) {
+                    StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(response.networkType, 2, response.getObjectSize() + 4);
+                } else if (i == 16777216) {
+                    StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(response.networkType, 4, response.getObjectSize() + 4);
+                } else if (i == 67108864) {
+                    StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(response.networkType, 5, response.getObjectSize() + 4);
                 }
             }
-            processRequestResult(requestInfo, tLRPC$TL_error);
+            processRequestResult(requestInfo, error);
         }
     }
 
-    public /* synthetic */ void lambda$startDownloadRequest$12(RequestInfo requestInfo, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    /* renamed from: lambda$startDownloadRequest$12$org-telegram-messenger-FileLoadOperation */
+    public /* synthetic */ void m216xeb402f89(RequestInfo requestInfo, TLObject response1, TLRPC.TL_error error1) {
         this.reuploadingCdn = false;
-        if (tLRPC$TL_error == null) {
-            TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
-            if (!tLRPC$Vector.objects.isEmpty()) {
+        if (error1 == null) {
+            TLRPC.Vector vector = (TLRPC.Vector) response1;
+            if (!vector.objects.isEmpty()) {
                 if (this.cdnHashes == null) {
                     this.cdnHashes = new HashMap<>();
                 }
-                for (int i = 0; i < tLRPC$Vector.objects.size(); i++) {
-                    TLRPC$TL_fileHash tLRPC$TL_fileHash = (TLRPC$TL_fileHash) tLRPC$Vector.objects.get(i);
-                    this.cdnHashes.put(Long.valueOf(tLRPC$TL_fileHash.offset), tLRPC$TL_fileHash);
+                for (int a1 = 0; a1 < vector.objects.size(); a1++) {
+                    TLRPC.TL_fileHash hash = (TLRPC.TL_fileHash) vector.objects.get(a1);
+                    this.cdnHashes.put(Long.valueOf(hash.offset), hash);
                 }
             }
             startDownloadRequest();
-        } else if (tLRPC$TL_error.text.equals("FILE_TOKEN_INVALID") || tLRPC$TL_error.text.equals("REQUEST_TOKEN_INVALID")) {
+        } else if (error1.text.equals("FILE_TOKEN_INVALID") || error1.text.equals("REQUEST_TOKEN_INVALID")) {
             this.isCdn = false;
             clearOperaion(requestInfo, false);
             startDownloadRequest();
@@ -2803,7 +2730,7 @@ public class FileLoadOperation {
         }
     }
 
-    public void setDelegate(FileLoadOperationDelegate fileLoadOperationDelegate) {
-        this.delegate = fileLoadOperationDelegate;
+    public void setDelegate(FileLoadOperationDelegate delegate) {
+        this.delegate = delegate;
     }
 }

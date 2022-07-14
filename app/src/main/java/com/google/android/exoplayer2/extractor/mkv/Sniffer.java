@@ -2,87 +2,89 @@ package com.google.android.exoplayer2.extractor.mkv;
 
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import com.microsoft.appcenter.distribute.DistributeConstants;
 import java.io.IOException;
-import org.telegram.tgnet.ConnectionsManager;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 final class Sniffer {
+    private static final int ID_EBML = 440786851;
+    private static final int SEARCH_LENGTH = 1024;
     private int peekLength;
     private final ParsableByteArray scratch = new ParsableByteArray(8);
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x009c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x00a9, code lost:
         return false;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        long length = extractorInput.getLength();
-        long j = 1024;
-        if (length != -1 && length <= 1024) {
-            j = length;
+    public boolean sniff(ExtractorInput input) throws IOException, InterruptedException {
+        long inputLength = input.getLength();
+        long j = DistributeConstants.KIBIBYTE_IN_BYTES;
+        if (inputLength != -1 && inputLength <= DistributeConstants.KIBIBYTE_IN_BYTES) {
+            j = inputLength;
         }
-        int i = (int) j;
-        extractorInput.peekFully(this.scratch.data, 0, 4);
-        long readUnsignedInt = this.scratch.readUnsignedInt();
+        int bytesToSearch = (int) j;
+        input.peekFully(this.scratch.data, 0, 4);
+        long tag = this.scratch.readUnsignedInt();
         this.peekLength = 4;
-        while (readUnsignedInt != 440786851) {
-            int i2 = this.peekLength + 1;
-            this.peekLength = i2;
-            if (i2 == i) {
+        while (tag != 440786851) {
+            int i = this.peekLength + 1;
+            this.peekLength = i;
+            if (i == bytesToSearch) {
                 return false;
             }
-            extractorInput.peekFully(this.scratch.data, 0, 1);
-            readUnsignedInt = ((readUnsignedInt << 8) & (-256)) | (this.scratch.data[0] & 255);
+            input.peekFully(this.scratch.data, 0, 1);
+            tag = ((tag << 8) & (-256)) | (this.scratch.data[0] & 255);
         }
-        long readUint = readUint(extractorInput);
-        long j2 = this.peekLength;
-        if (readUint != Long.MIN_VALUE) {
-            if (length != -1 && j2 + readUint >= length) {
-                return false;
-            }
+        long headerSize = readUint(input);
+        long headerStart = this.peekLength;
+        if (headerSize != Long.MIN_VALUE && (inputLength == -1 || headerStart + headerSize < inputLength)) {
             while (true) {
-                int i3 = this.peekLength;
-                long j3 = j2 + readUint;
-                if (i3 >= j3) {
-                    return ((long) i3) == j3;
-                } else if (readUint(extractorInput) == Long.MIN_VALUE) {
-                    return false;
-                } else {
-                    long readUint2 = readUint(extractorInput);
-                    if (readUint2 < 0 || readUint2 > 2147483647L) {
-                        break;
-                    } else if (readUint2 != 0) {
-                        int i4 = (int) readUint2;
-                        extractorInput.advancePeekPosition(i4);
-                        this.peekLength += i4;
-                    }
+                int i2 = this.peekLength;
+                int bytesToSearch2 = bytesToSearch;
+                if (i2 >= headerStart + headerSize) {
+                    return ((long) i2) == headerStart + headerSize;
                 }
+                long id = readUint(input);
+                if (id == Long.MIN_VALUE) {
+                    return false;
+                }
+                long tag2 = tag;
+                long size = readUint(input);
+                if (size < 0 || size > 2147483647L) {
+                    break;
+                }
+                if (size != 0) {
+                    int sizeInt = (int) size;
+                    input.advancePeekPosition(sizeInt);
+                    this.peekLength += sizeInt;
+                }
+                bytesToSearch = bytesToSearch2;
+                tag = tag2;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
-    private long readUint(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        int i = 0;
-        extractorInput.peekFully(this.scratch.data, 0, 1);
-        int i2 = this.scratch.data[0] & 255;
-        if (i2 == 0) {
+    private long readUint(ExtractorInput input) throws IOException, InterruptedException {
+        input.peekFully(this.scratch.data, 0, 1);
+        int value = this.scratch.data[0] & 255;
+        if (value == 0) {
             return Long.MIN_VALUE;
         }
-        int i3 = ConnectionsManager.RequestFlagNeedQuickAck;
-        int i4 = 0;
-        while ((i2 & i3) == 0) {
-            i3 >>= 1;
-            i4++;
+        int mask = 128;
+        int length = 0;
+        while ((value & mask) == 0) {
+            mask >>= 1;
+            length++;
         }
-        int i5 = i2 & (i3 ^ (-1));
-        extractorInput.peekFully(this.scratch.data, 1, i4);
-        while (i < i4) {
-            i++;
-            i5 = (this.scratch.data[i] & 255) + (i5 << 8);
+        int value2 = value & (mask ^ (-1));
+        input.peekFully(this.scratch.data, 1, length);
+        for (int i = 0; i < length; i++) {
+            value2 = (value2 << 8) + (this.scratch.data[i + 1] & 255);
         }
-        this.peekLength += i4 + 1;
-        return i5;
+        int i2 = this.peekLength;
+        this.peekLength = i2 + length + 1;
+        return value2;
     }
 }

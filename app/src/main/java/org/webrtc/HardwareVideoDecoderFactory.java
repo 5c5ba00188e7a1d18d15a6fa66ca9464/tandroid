@@ -1,11 +1,12 @@
 package org.webrtc;
 
 import android.media.MediaCodecInfo;
+import com.google.android.exoplayer2.util.MimeTypes;
 import org.telegram.messenger.voip.Instance;
 import org.telegram.messenger.voip.VoIPService;
 import org.webrtc.EglBase;
 import org.webrtc.Predicate;
-/* loaded from: classes3.dex */
+/* loaded from: classes5.dex */
 public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
     private static final Predicate<MediaCodecInfo> defaultAllowedPredicate = new Predicate<MediaCodecInfo>() { // from class: org.webrtc.HardwareVideoDecoderFactory.1
         @Override // org.webrtc.Predicate
@@ -24,49 +25,48 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:22:0x0047, code lost:
-            if (r3.equals(org.telegram.messenger.MediaController.VIDEO_MIME_TYPE) == false) goto L14;
+        /* JADX WARN: Code restructure failed: missing block: B:15:0x002d, code lost:
+            if (r4.equals(com.google.android.exoplayer2.util.MimeTypes.VIDEO_VP9) != false) goto L26;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public boolean test(MediaCodecInfo mediaCodecInfo) {
-            String[] supportedTypes;
-            if (!MediaCodecUtils.isHardwareAccelerated(mediaCodecInfo) || (supportedTypes = mediaCodecInfo.getSupportedTypes()) == null || supportedTypes.length == 0) {
+        public boolean test(MediaCodecInfo arg) {
+            String[] types;
+            if (!MediaCodecUtils.isHardwareAccelerated(arg) || (types = arg.getSupportedTypes()) == null || types.length == 0) {
                 return false;
             }
-            Instance.ServerConfig globalServerConfig = Instance.getGlobalServerConfig();
-            int i = 0;
+            Instance.ServerConfig config = Instance.getGlobalServerConfig();
+            int a = 0;
             while (true) {
                 char c = 1;
-                if (i >= supportedTypes.length) {
+                if (a >= types.length) {
                     return true;
                 }
-                String str = supportedTypes[i];
-                str.hashCode();
+                String str = types[a];
                 switch (str.hashCode()) {
                     case -1662541442:
-                        if (str.equals("video/hevc")) {
-                            c = 0;
+                        if (str.equals(MimeTypes.VIDEO_H265)) {
+                            c = 3;
                             break;
                         }
                         c = 65535;
                         break;
                     case 1331836730:
-                        break;
-                    case 1599127256:
-                        if (str.equals("video/x-vnd.on2.vp8")) {
+                        if (str.equals("video/avc")) {
                             c = 2;
                             break;
                         }
                         c = 65535;
                         break;
-                    case 1599127257:
-                        if (str.equals("video/x-vnd.on2.vp9")) {
-                            c = 3;
+                    case 1599127256:
+                        if (str.equals(MimeTypes.VIDEO_VP8)) {
+                            c = 0;
                             break;
                         }
                         c = 65535;
+                        break;
+                    case 1599127257:
                         break;
                     default:
                         c = 65535;
@@ -74,21 +74,21 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
                 }
                 switch (c) {
                     case 0:
-                        return globalServerConfig.enable_h265_decoder;
-                    case 1:
                         if (VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().groupCall != null) {
                             return false;
                         }
-                        return globalServerConfig.enable_h264_decoder;
+                        return config.enable_vp8_decoder;
+                    case 1:
+                        return config.enable_vp9_decoder;
                     case 2:
                         if (VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().groupCall != null) {
                             return false;
                         }
-                        return globalServerConfig.enable_vp8_decoder;
+                        return config.enable_h264_decoder;
                     case 3:
-                        return globalServerConfig.enable_vp9_decoder;
+                        return config.enable_h265_decoder;
                     default:
-                        i++;
+                        a++;
                 }
             }
         }
@@ -109,21 +109,11 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
         this(null);
     }
 
-    public HardwareVideoDecoderFactory(EglBase.Context context) {
-        this(context, null);
+    public HardwareVideoDecoderFactory(EglBase.Context sharedContext) {
+        this(sharedContext, null);
     }
 
-    /* JADX WARN: Illegal instructions before constructor call */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public HardwareVideoDecoderFactory(EglBase.Context context, Predicate<MediaCodecInfo> predicate) {
-        super(context, r3);
-        Predicate<MediaCodecInfo> predicate2;
-        if (predicate == null) {
-            predicate2 = defaultAllowedPredicate;
-        } else {
-            predicate2 = predicate.and(defaultAllowedPredicate);
-        }
+    public HardwareVideoDecoderFactory(EglBase.Context sharedContext, Predicate<MediaCodecInfo> codecAllowedPredicate) {
+        super(sharedContext, codecAllowedPredicate == null ? defaultAllowedPredicate : codecAllowedPredicate.and(defaultAllowedPredicate));
     }
 }

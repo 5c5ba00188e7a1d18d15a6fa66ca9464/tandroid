@@ -6,8 +6,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final class zzft<K, V> extends LinkedHashMap<K, V> {
+    private static final zzft zzb;
     private boolean zza = true;
 
     private zzft() {
@@ -59,7 +60,7 @@ public final class zzft<K, V> extends LinkedHashMap<K, V> {
         return (V) super.remove(obj);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x005c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x005f A[RETURN] */
     @Override // java.util.AbstractMap, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -70,24 +71,29 @@ public final class zzft<K, V> extends LinkedHashMap<K, V> {
         if (obj instanceof Map) {
             Map map = (Map) obj;
             if (this != map) {
-                if (size() == map.size()) {
+                if (size() != map.size()) {
+                    z = false;
+                } else {
                     for (Map.Entry<K, V> entry : entrySet()) {
-                        if (map.containsKey(entry.getKey())) {
-                            V value = entry.getValue();
-                            Object obj2 = map.get(entry.getKey());
-                            if ((value instanceof byte[]) && (obj2 instanceof byte[])) {
-                                z2 = Arrays.equals((byte[]) value, (byte[]) obj2);
-                                continue;
-                            } else {
-                                z2 = value.equals(obj2);
-                                continue;
-                            }
-                            if (!z2) {
-                            }
+                        if (!map.containsKey(entry.getKey())) {
+                            z = false;
+                            break;
+                        }
+                        V value = entry.getValue();
+                        Object obj2 = map.get(entry.getKey());
+                        if ((value instanceof byte[]) && (obj2 instanceof byte[])) {
+                            z2 = Arrays.equals((byte[]) value, (byte[]) obj2);
+                            continue;
+                        } else {
+                            z2 = value.equals(obj2);
+                            continue;
+                        }
+                        if (!z2) {
+                            z = false;
+                            break;
                         }
                     }
                 }
-                z = false;
                 if (!z) {
                     return true;
                 }
@@ -131,13 +137,14 @@ public final class zzft<K, V> extends LinkedHashMap<K, V> {
     }
 
     private final void zzd() {
-        if (this.zza) {
-            return;
+        if (!this.zza) {
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
     }
 
     static {
-        new zzft().zza = false;
+        zzft zzftVar = new zzft();
+        zzb = zzftVar;
+        zzftVar.zza = false;
     }
 }

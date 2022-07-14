@@ -1,19 +1,17 @@
 package com.google.android.gms.common.internal;
 
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.util.IOUtils;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class LibraryVersion {
     private static final GmsLogger zza = new GmsLogger("LibraryVersion", "");
     private static LibraryVersion zzb = new LibraryVersion();
     private ConcurrentHashMap<String, String> zzc = new ConcurrentHashMap<>();
 
-    @RecentlyNonNull
     public static LibraryVersion getInstance() {
         return zzb;
     }
@@ -21,12 +19,11 @@ public class LibraryVersion {
     protected LibraryVersion() {
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00b7  */
-    @RecentlyNonNull
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00ba  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public String getVersion(@RecentlyNonNull String str) {
+    public String getVersion(String str) {
         Throwable th;
         String str2;
         IOException e;

@@ -16,10 +16,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     }
 
     static zzu zzj(Object[] objArr, int i) {
-        if (i == 0) {
-            return zzaa.zza;
-        }
-        return new zzaa(objArr, i);
+        return i == 0 ? zzaa.zza : new zzaa(objArr, i);
     }
 
     public static zzu zzk(Collection collection) {
@@ -62,40 +59,40 @@ public abstract class zzu extends zzr implements List, RandomAccess {
         return indexOf(obj) >= 0;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0042  */
     @Override // java.util.Collection, java.util.List
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public final boolean equals(@CheckForNull Object obj) {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof List) {
-            List list = (List) obj;
-            int size = size();
-            if (size == list.size()) {
-                if (list instanceof RandomAccess) {
-                    for (int i = 0; i < size; i++) {
-                        if (zzl.zza(get(i), list.get(i))) {
-                        }
-                    }
-                    return true;
-                }
-                Iterator it = iterator();
-                Iterator it2 = list.iterator();
-                while (true) {
-                    if (it.hasNext()) {
-                        if (it2.hasNext()) {
-                            if (!zzl.zza(it.next(), it2.next())) {
-                                break;
-                            }
-                        } else {
-                            break;
-                        }
-                    } else if (!it2.hasNext()) {
-                        return true;
-                    }
+        if (!(obj instanceof List)) {
+            return false;
+        }
+        List list = (List) obj;
+        int size = size();
+        if (size != list.size()) {
+            return false;
+        }
+        if (list instanceof RandomAccess) {
+            for (int i = 0; i < size; i++) {
+                if (!zzl.zza(get(i), list.get(i))) {
+                    return false;
                 }
             }
+            return true;
         }
-        return false;
+        Iterator it = list.iterator();
+        for (Object obj2 : this) {
+            if (!it.hasNext() || !zzl.zza(obj2, it.next())) {
+                return false;
+            }
+            while (r2.hasNext()) {
+            }
+        }
+        return !it.hasNext();
     }
 
     @Override // java.util.Collection, java.util.List

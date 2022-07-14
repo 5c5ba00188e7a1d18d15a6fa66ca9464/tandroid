@@ -1,9 +1,8 @@
 package com.google.android.gms.common;
 
-import com.google.android.gms.common.annotation.KeepName;
+import org.telegram.ui.GroupCallActivity;
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
-@KeepName
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final class GooglePlayServicesIncorrectManifestValueException extends GooglePlayServicesManifestException {
     /* JADX WARN: Illegal instructions before constructor call */
     /*
@@ -12,7 +11,7 @@ public final class GooglePlayServicesIncorrectManifestValueException extends Goo
     public GooglePlayServicesIncorrectManifestValueException(int i) {
         super(i, r1.toString());
         int i2 = GoogleApiAvailabilityLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
-        StringBuilder sb = new StringBuilder(320);
+        StringBuilder sb = new StringBuilder((int) GroupCallActivity.TABLET_LIST_SIZE);
         sb.append("The meta-data tag in your app's AndroidManifest.xml does not have the right value.  Expected ");
         sb.append(i2);
         sb.append(" but found ");

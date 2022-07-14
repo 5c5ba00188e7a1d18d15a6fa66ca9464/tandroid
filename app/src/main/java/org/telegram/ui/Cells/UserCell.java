@@ -11,6 +11,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.google.android.exoplayer2.C;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
@@ -18,17 +19,11 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatPhoto;
-import org.telegram.tgnet.TLRPC$EncryptedChat;
-import org.telegram.tgnet.TLRPC$FileLocation;
-import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$UserProfilePhoto;
-import org.telegram.tgnet.TLRPC$UserStatus;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
@@ -38,7 +33,7 @@ import org.telegram.ui.Components.CheckBoxSquare;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.NotificationsSettingsActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private TextView addButton;
     private TextView adminTextView;
@@ -52,8 +47,9 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private CharSequence currentName;
     private Object currentObject;
     private CharSequence currentStatus;
+    private TLRPC.EncryptedChat encryptedChat;
     private ImageView imageView;
-    private TLRPC$FileLocation lastAvatar;
+    private TLRPC.FileLocation lastAvatar;
     private String lastName;
     private int lastStatus;
     private SimpleTextView nameTextView;
@@ -64,200 +60,181 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private int statusOnlineColor;
     private SimpleTextView statusTextView;
 
-    @Override // android.view.View
-    public boolean hasOverlappingRendering() {
-        return false;
+    public UserCell(Context context, int padding, int checkbox, boolean admin) {
+        this(context, padding, checkbox, admin, false, null);
     }
 
-    public UserCell(Context context, int i, int i2, boolean z) {
-        this(context, i, i2, z, false, null);
+    public UserCell(Context context, int padding, int checkbox, boolean admin, Theme.ResourcesProvider resourcesProvider) {
+        this(context, padding, checkbox, admin, false, resourcesProvider);
     }
 
-    public UserCell(Context context, int i, int i2, boolean z, Theme.ResourcesProvider resourcesProvider) {
-        this(context, i, i2, z, false, resourcesProvider);
+    public UserCell(Context context, int padding, int checkbox, boolean admin, boolean needAddButton) {
+        this(context, padding, checkbox, admin, needAddButton, null);
     }
 
-    public UserCell(Context context, int i, int i2, boolean z, boolean z2) {
-        this(context, i, i2, z, z2, null);
-    }
-
-    public UserCell(Context context, int i, int i2, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
+    public UserCell(Context context, int padding, int checkbox, boolean admin, boolean needAddButton, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        int i3;
-        int i4;
-        int i5;
+        int additionalPadding;
+        int i;
+        int i2;
         this.currentAccount = UserConfig.selectedAccount;
         this.resourcesProvider = resourcesProvider;
-        if (z2) {
+        if (needAddButton) {
             TextView textView = new TextView(context);
             this.addButton = textView;
             textView.setGravity(17);
-            this.addButton.setTextColor(Theme.getColor("featuredStickers_buttonText", resourcesProvider));
+            this.addButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText, resourcesProvider));
             this.addButton.setTextSize(1, 14.0f);
             this.addButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-            this.addButton.setBackgroundDrawable(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 4.0f));
+            this.addButton.setBackgroundDrawable(Theme.AdaptiveRipple.filledRect(Theme.key_featuredStickers_addButton, 4.0f));
             this.addButton.setText(LocaleController.getString("Add", R.string.Add));
             this.addButton.setPadding(AndroidUtilities.dp(17.0f), 0, AndroidUtilities.dp(17.0f), 0);
-            View view = this.addButton;
-            boolean z3 = LocaleController.isRTL;
-            addView(view, LayoutHelper.createFrame(-2, 28.0f, (z3 ? 3 : 5) | 48, z3 ? 14.0f : 0.0f, 15.0f, z3 ? 0.0f : 14.0f, 0.0f));
-            i3 = (int) Math.ceil((this.addButton.getPaint().measureText(this.addButton.getText().toString()) + AndroidUtilities.dp(48.0f)) / AndroidUtilities.density);
+            addView(this.addButton, LayoutHelper.createFrame(-2, 28.0f, (LocaleController.isRTL ? 3 : 5) | 48, LocaleController.isRTL ? 14.0f : 0.0f, 15.0f, LocaleController.isRTL ? 0.0f : 14.0f, 0.0f));
+            additionalPadding = (int) Math.ceil((this.addButton.getPaint().measureText(this.addButton.getText().toString()) + AndroidUtilities.dp(48.0f)) / AndroidUtilities.density);
         } else {
-            i3 = 0;
+            additionalPadding = 0;
         }
-        this.statusColor = Theme.getColor("windowBackgroundWhiteGrayText", resourcesProvider);
-        this.statusOnlineColor = Theme.getColor("windowBackgroundWhiteBlueText", resourcesProvider);
+        this.statusColor = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider);
+        this.statusOnlineColor = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider);
         this.avatarDrawable = new AvatarDrawable();
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarImageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(24.0f));
-        View view2 = this.avatarImageView;
-        boolean z4 = LocaleController.isRTL;
-        addView(view2, LayoutHelper.createFrame(46, 46.0f, (z4 ? 5 : 3) | 48, z4 ? 0.0f : i + 7, 6.0f, z4 ? i + 7 : 0.0f, 0.0f));
+        addView(this.avatarImageView, LayoutHelper.createFrame(46, 46.0f, (LocaleController.isRTL ? 5 : 3) | 48, LocaleController.isRTL ? 0.0f : padding + 7, 6.0f, LocaleController.isRTL ? padding + 7 : 0.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
-        simpleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", resourcesProvider));
+        simpleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.nameTextView.setTextSize(16);
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-        View view3 = this.nameTextView;
-        boolean z5 = LocaleController.isRTL;
-        int i6 = (z5 ? 5 : 3) | 48;
-        int i7 = 18;
-        if (z5) {
-            i4 = (i2 == 2 ? 18 : 0) + 28 + i3;
+        View view = this.nameTextView;
+        int i3 = (LocaleController.isRTL ? 5 : 3) | 48;
+        int i4 = 18;
+        if (LocaleController.isRTL) {
+            i = (checkbox == 2 ? 18 : 0) + 28 + additionalPadding;
         } else {
-            i4 = i + 64;
+            i = padding + 64;
         }
-        float f = i4;
-        if (z5) {
-            i5 = i + 64;
+        float f = i;
+        if (LocaleController.isRTL) {
+            i2 = padding + 64;
         } else {
-            i5 = (i2 != 2 ? 0 : i7) + 28 + i3;
+            i2 = (checkbox != 2 ? 0 : i4) + 28 + additionalPadding;
         }
-        addView(view3, LayoutHelper.createFrame(-1, 20.0f, i6, f, 10.0f, i5, 0.0f));
+        addView(view, LayoutHelper.createFrame(-1, 20.0f, i3, f, 10.0f, i2, 0.0f));
         SimpleTextView simpleTextView2 = new SimpleTextView(context);
         this.statusTextView = simpleTextView2;
         simpleTextView2.setTextSize(15);
         this.statusTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-        View view4 = this.statusTextView;
-        boolean z6 = LocaleController.isRTL;
-        addView(view4, LayoutHelper.createFrame(-1, 20.0f, (z6 ? 5 : 3) | 48, z6 ? i3 + 28 : i + 64, 32.0f, z6 ? i + 64 : i3 + 28, 0.0f));
+        addView(this.statusTextView, LayoutHelper.createFrame(-1, 20.0f, (LocaleController.isRTL ? 5 : 3) | 48, LocaleController.isRTL ? additionalPadding + 28 : padding + 64, 32.0f, LocaleController.isRTL ? padding + 64 : additionalPadding + 28, 0.0f));
         ImageView imageView = new ImageView(context);
         this.imageView = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon", resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
         this.imageView.setVisibility(8);
-        View view5 = this.imageView;
-        boolean z7 = LocaleController.isRTL;
-        addView(view5, LayoutHelper.createFrame(-2, -2.0f, (z7 ? 5 : 3) | 16, z7 ? 0.0f : 16.0f, 0.0f, z7 ? 16.0f : 0.0f, 0.0f));
-        if (i2 == 2) {
+        addView(this.imageView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 16, LocaleController.isRTL ? 0.0f : 16.0f, 0.0f, LocaleController.isRTL ? 16.0f : 0.0f, 0.0f));
+        if (checkbox == 2) {
             CheckBoxSquare checkBoxSquare = new CheckBoxSquare(context, false);
             this.checkBoxBig = checkBoxSquare;
-            boolean z8 = LocaleController.isRTL;
-            addView(checkBoxSquare, LayoutHelper.createFrame(18, 18.0f, (z8 ? 3 : 5) | 16, z8 ? 19.0f : 0.0f, 0.0f, z8 ? 0.0f : 19.0f, 0.0f));
-        } else if (i2 == 1) {
+            addView(checkBoxSquare, LayoutHelper.createFrame(18, 18.0f, (LocaleController.isRTL ? 3 : 5) | 16, LocaleController.isRTL ? 19.0f : 0.0f, 0.0f, LocaleController.isRTL ? 0.0f : 19.0f, 0.0f));
+        } else if (checkbox == 1) {
             CheckBox checkBox = new CheckBox(context, R.drawable.round_check2);
             this.checkBox = checkBox;
             checkBox.setVisibility(4);
-            this.checkBox.setColor(Theme.getColor("checkbox", resourcesProvider), Theme.getColor("checkboxCheck", resourcesProvider));
-            View view6 = this.checkBox;
-            boolean z9 = LocaleController.isRTL;
-            addView(view6, LayoutHelper.createFrame(22, 22.0f, (z9 ? 5 : 3) | 48, z9 ? 0.0f : i + 37, 40.0f, z9 ? i + 37 : 0.0f, 0.0f));
+            this.checkBox.setColor(Theme.getColor(Theme.key_checkbox, resourcesProvider), Theme.getColor(Theme.key_checkboxCheck, resourcesProvider));
+            addView(this.checkBox, LayoutHelper.createFrame(22, 22.0f, (LocaleController.isRTL ? 5 : 3) | 48, LocaleController.isRTL ? 0.0f : padding + 37, 40.0f, LocaleController.isRTL ? padding + 37 : 0.0f, 0.0f));
         }
-        if (z) {
+        if (admin) {
             TextView textView2 = new TextView(context);
             this.adminTextView = textView2;
             textView2.setTextSize(1, 14.0f);
-            this.adminTextView.setTextColor(Theme.getColor("profile_creatorIcon", resourcesProvider));
-            View view7 = this.adminTextView;
-            boolean z10 = LocaleController.isRTL;
-            addView(view7, LayoutHelper.createFrame(-2, -2.0f, (z10 ? 3 : 5) | 48, z10 ? 23.0f : 0.0f, 10.0f, z10 ? 0.0f : 23.0f, 0.0f));
+            this.adminTextView.setTextColor(Theme.getColor(Theme.key_profile_creatorIcon, resourcesProvider));
+            addView(this.adminTextView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 3 : 5) | 48, LocaleController.isRTL ? 23.0f : 0.0f, 10.0f, LocaleController.isRTL ? 0.0f : 23.0f, 0.0f));
         }
         setFocusable(true);
     }
 
-    public void setAvatarPadding(int i) {
-        int i2;
+    public void setAvatarPadding(int padding) {
+        int i;
         float f;
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.avatarImageView.getLayoutParams();
         float f2 = 0.0f;
-        layoutParams.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : i + 7);
-        layoutParams.rightMargin = AndroidUtilities.dp(LocaleController.isRTL ? i + 7 : 0.0f);
+        layoutParams.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : padding + 7);
+        layoutParams.rightMargin = AndroidUtilities.dp(LocaleController.isRTL ? padding + 7 : 0.0f);
         this.avatarImageView.setLayoutParams(layoutParams);
         FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) this.nameTextView.getLayoutParams();
-        int i3 = 18;
+        int i2 = 18;
         if (LocaleController.isRTL) {
-            i2 = (this.checkBoxBig != null ? 18 : 0) + 28;
+            i = (this.checkBoxBig != null ? 18 : 0) + 28;
         } else {
-            i2 = i + 64;
+            i = padding + 64;
         }
-        layoutParams2.leftMargin = AndroidUtilities.dp(i2);
+        layoutParams2.leftMargin = AndroidUtilities.dp(i);
         if (LocaleController.isRTL) {
-            f = i + 64;
+            f = padding + 64;
         } else {
             if (this.checkBoxBig == null) {
-                i3 = 0;
+                i2 = 0;
             }
-            f = i3 + 28;
+            f = i2 + 28;
         }
         layoutParams2.rightMargin = AndroidUtilities.dp(f);
         FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) this.statusTextView.getLayoutParams();
         float f3 = 28.0f;
-        layoutParams3.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 28.0f : i + 64);
+        layoutParams3.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 28.0f : padding + 64);
         if (LocaleController.isRTL) {
-            f3 = i + 64;
+            f3 = padding + 64;
         }
         layoutParams3.rightMargin = AndroidUtilities.dp(f3);
         CheckBox checkBox = this.checkBox;
         if (checkBox != null) {
             FrameLayout.LayoutParams layoutParams4 = (FrameLayout.LayoutParams) checkBox.getLayoutParams();
-            layoutParams4.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : i + 37);
+            layoutParams4.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : padding + 37);
             if (LocaleController.isRTL) {
-                f2 = i + 37;
+                f2 = padding + 37;
             }
             layoutParams4.rightMargin = AndroidUtilities.dp(f2);
         }
     }
 
-    public void setAddButtonVisible(boolean z) {
+    public void setAddButtonVisible(boolean value) {
         TextView textView = this.addButton;
         if (textView == null) {
             return;
         }
-        textView.setVisibility(z ? 0 : 8);
+        textView.setVisibility(value ? 0 : 8);
     }
 
-    public void setAdminRole(String str) {
+    public void setAdminRole(String role) {
         TextView textView = this.adminTextView;
         if (textView == null) {
             return;
         }
-        textView.setVisibility(str != null ? 0 : 8);
-        this.adminTextView.setText(str);
-        if (str != null) {
-            CharSequence text = this.adminTextView.getText();
-            int ceil = (int) Math.ceil(this.adminTextView.getPaint().measureText(text, 0, text.length()));
-            this.nameTextView.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(6.0f) + ceil : 0, 0, !LocaleController.isRTL ? ceil + AndroidUtilities.dp(6.0f) : 0, 0);
+        textView.setVisibility(role != null ? 0 : 8);
+        this.adminTextView.setText(role);
+        if (role == null) {
+            this.nameTextView.setPadding(0, 0, 0, 0);
             return;
         }
-        this.nameTextView.setPadding(0, 0, 0, 0);
+        CharSequence text = this.adminTextView.getText();
+        int size = (int) Math.ceil(this.adminTextView.getPaint().measureText(text, 0, text.length()));
+        this.nameTextView.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(6.0f) + size : 0, 0, !LocaleController.isRTL ? AndroidUtilities.dp(6.0f) + size : 0, 0);
     }
 
     public CharSequence getName() {
         return this.nameTextView.getText();
     }
 
-    public void setData(Object obj, CharSequence charSequence, CharSequence charSequence2, int i) {
-        setData(obj, null, charSequence, charSequence2, i, false);
+    public void setData(Object object, CharSequence name, CharSequence status, int resId) {
+        setData(object, null, name, status, resId, false);
     }
 
-    public void setData(Object obj, CharSequence charSequence, CharSequence charSequence2, int i, boolean z) {
-        setData(obj, null, charSequence, charSequence2, i, z);
+    public void setData(Object object, CharSequence name, CharSequence status, int resId, boolean divider) {
+        setData(object, null, name, status, resId, divider);
     }
 
-    public void setData(Object obj, TLRPC$EncryptedChat tLRPC$EncryptedChat, CharSequence charSequence, CharSequence charSequence2, int i, boolean z) {
-        if (obj == null && charSequence == null && charSequence2 == null) {
+    public void setData(Object object, TLRPC.EncryptedChat ec, CharSequence name, CharSequence status, int resId, boolean divider) {
+        if (object == null && name == null && status == null) {
             this.currentStatus = null;
             this.currentName = null;
             this.currentObject = null;
@@ -266,21 +243,22 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             this.avatarImageView.setImageDrawable(null);
             return;
         }
-        this.currentStatus = charSequence2;
-        if (charSequence != null) {
+        this.encryptedChat = ec;
+        this.currentStatus = status;
+        if (name != null) {
             try {
                 SimpleTextView simpleTextView = this.nameTextView;
                 if (simpleTextView != null) {
-                    charSequence = Emoji.replaceEmoji(charSequence, simpleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(18.0f), false);
+                    name = Emoji.replaceEmoji(name, simpleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(18.0f), false);
                 }
-            } catch (Exception unused) {
+            } catch (Exception e) {
             }
         }
-        this.currentName = charSequence;
-        this.currentObject = obj;
-        this.currentDrawable = i;
-        this.needDivider = z;
-        setWillNotDraw(!z);
+        this.currentName = name;
+        this.currentObject = object;
+        this.currentDrawable = resId;
+        this.needDivider = divider;
+        setWillNotDraw(!divider);
         update(0);
     }
 
@@ -288,54 +266,65 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         return this.currentObject;
     }
 
-    public void setException(NotificationsSettingsActivity.NotificationException notificationException, CharSequence charSequence, boolean z) {
-        String str;
-        TLRPC$User user;
-        boolean z2 = notificationException.hasCustom;
-        int i = notificationException.notify;
-        int i2 = notificationException.muteUntil;
-        boolean z3 = true;
-        if (i != 3 || i2 == Integer.MAX_VALUE) {
-            if (i != 0 && i != 1) {
-                z3 = false;
-            }
-            if (z3 && z2) {
-                str = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
+    public void setException(NotificationsSettingsActivity.NotificationException exception, CharSequence name, boolean divider) {
+        String text;
+        String text2;
+        TLRPC.User user;
+        boolean enabled;
+        boolean custom = exception.hasCustom;
+        int value = exception.notify;
+        int delta = exception.muteUntil;
+        if (value == 3 && delta != Integer.MAX_VALUE) {
+            int delta2 = delta - ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
+            if (delta2 <= 0) {
+                if (custom) {
+                    text = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
+                } else {
+                    text = LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted);
+                }
+            } else if (delta2 < 3600) {
+                text = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Minutes", delta2 / 60, new Object[0]));
+            } else if (delta2 < 86400) {
+                text = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Hours", (int) Math.ceil((delta2 / 60.0f) / 60.0f), new Object[0]));
             } else {
-                str = z3 ? LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted) : LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
+                text = delta2 < 31536000 ? LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Days", (int) Math.ceil(((delta2 / 60.0f) / 60.0f) / 24.0f), new Object[0])) : null;
             }
         } else {
-            int currentTime = i2 - ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
-            if (currentTime > 0) {
-                str = currentTime < 3600 ? LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0])) : currentTime < 86400 ? LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0])) : currentTime < 31536000 ? LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0])) : null;
-            } else if (z2) {
-                str = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
+            if (value == 0) {
+                enabled = true;
+            } else if (value == 1) {
+                enabled = true;
+            } else if (value == 2) {
+                enabled = false;
             } else {
-                str = LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted);
+                enabled = false;
+            }
+            if (enabled && custom) {
+                text = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
+            } else {
+                text = enabled ? LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted) : LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
             }
         }
-        if (str == null) {
-            str = LocaleController.getString("NotificationsOff", R.string.NotificationsOff);
-        }
-        String str2 = str;
-        if (DialogObject.isEncryptedDialog(notificationException.did)) {
-            TLRPC$EncryptedChat encryptedChat = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(notificationException.did)));
-            if (encryptedChat == null || (user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(encryptedChat.user_id))) == null) {
-                return;
-            }
-            setData(user, encryptedChat, charSequence, str2, 0, false);
-        } else if (DialogObject.isUserDialog(notificationException.did)) {
-            TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(notificationException.did));
-            if (user2 == null) {
-                return;
-            }
-            setData(user2, null, charSequence, str2, 0, z);
+        if (text != null) {
+            text2 = text;
         } else {
-            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-notificationException.did));
-            if (chat == null) {
-                return;
+            text2 = LocaleController.getString("NotificationsOff", R.string.NotificationsOff);
+        }
+        if (DialogObject.isEncryptedDialog(exception.did)) {
+            TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(exception.did)));
+            if (encryptedChat != null && (user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(encryptedChat.user_id))) != null) {
+                setData(user, encryptedChat, name, text2, 0, false);
             }
-            setData(chat, null, charSequence, str2, 0, z);
+        } else if (DialogObject.isUserDialog(exception.did)) {
+            TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(exception.did));
+            if (user2 != null) {
+                setData(user2, null, name, text2, 0, divider);
+            }
+        } else {
+            TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-exception.did));
+            if (chat != null) {
+                setData(chat, null, name, text2, 0, divider);
+            }
         }
     }
 
@@ -343,39 +332,43 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.nameTextView.setTypeface(typeface);
     }
 
-    public void setCurrentId(int i) {
-        this.currentId = i;
+    public void setCurrentId(int id) {
+        this.currentId = id;
     }
 
-    public void setChecked(boolean z, boolean z2) {
+    public void setChecked(boolean checked, boolean animated) {
         CheckBox checkBox = this.checkBox;
         if (checkBox != null) {
             if (checkBox.getVisibility() != 0) {
                 this.checkBox.setVisibility(0);
             }
-            this.checkBox.setChecked(z, z2);
+            this.checkBox.setChecked(checked, animated);
             return;
         }
-        CheckBoxSquare checkBoxSquare = this.checkBoxBig;
-        if (checkBoxSquare == null) {
-            return;
-        }
-        if (checkBoxSquare.getVisibility() != 0) {
-            this.checkBoxBig.setVisibility(0);
-        }
-        this.checkBoxBig.setChecked(z, z2);
-    }
-
-    public void setCheckDisabled(boolean z) {
         CheckBoxSquare checkBoxSquare = this.checkBoxBig;
         if (checkBoxSquare != null) {
-            checkBoxSquare.setDisabled(z);
+            if (checkBoxSquare.getVisibility() != 0) {
+                this.checkBoxBig.setVisibility(0);
+            }
+            this.checkBoxBig.setChecked(checked, animated);
+        }
+    }
+
+    public void setCheckDisabled(boolean disabled) {
+        CheckBoxSquare checkBoxSquare = this.checkBoxBig;
+        if (checkBoxSquare != null) {
+            checkBoxSquare.setDisabled(disabled);
         }
     }
 
     @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(58.0f) + (this.needDivider ? 1 : 0), 1073741824));
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(widthMeasureSpec), C.BUFFER_FLAG_ENCRYPTED), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(58.0f) + (this.needDivider ? 1 : 0), C.BUFFER_FLAG_ENCRYPTED));
+    }
+
+    public void setStatusColors(int color, int onlineColor) {
+        this.statusColor = color;
+        this.statusOnlineColor = onlineColor;
     }
 
     @Override // android.view.View
@@ -388,136 +381,130 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x010a, code lost:
-        if (r7.equals("groups") == false) goto L64;
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x0102, code lost:
+        if (r0.equals("non_contacts") != false) goto L82;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r1v5, types: [org.telegram.ui.Components.BackupImageView] */
-    /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLObject] */
-    /* JADX WARN: Type inference failed for: r2v23 */
-    /* JADX WARN: Type inference failed for: r2v24 */
-    /* JADX WARN: Type inference failed for: r5v21, types: [org.telegram.ui.Components.AvatarDrawable] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void update(int i) {
-        TLRPC$FileLocation tLRPC$FileLocation;
-        TLRPC$Chat tLRPC$Chat;
-        TLRPC$User tLRPC$User;
-        String str;
-        TLRPC$UserStatus tLRPC$UserStatus;
+    public void update(int mask) {
+        TLRPC.Chat currentChat;
+        TLRPC.User currentUser;
+        TLRPC.FileLocation photo;
         TextView textView;
-        TLRPC$FileLocation tLRPC$FileLocation2;
-        TLRPC$FileLocation tLRPC$FileLocation3;
+        TLRPC.FileLocation fileLocation;
+        String newName = null;
         Object obj = this.currentObject;
-        if (obj instanceof TLRPC$User) {
-            tLRPC$User = (TLRPC$User) obj;
-            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
-            if (tLRPC$UserProfilePhoto != null) {
-                tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
-                tLRPC$Chat = 0;
+        if (obj instanceof TLRPC.User) {
+            TLRPC.User currentUser2 = (TLRPC.User) obj;
+            if (currentUser2.photo != null) {
+                currentChat = null;
+                currentUser = currentUser2;
+                photo = currentUser2.photo.photo_small;
             } else {
-                tLRPC$FileLocation3 = null;
-                tLRPC$FileLocation = tLRPC$FileLocation3;
-                tLRPC$Chat = tLRPC$FileLocation3;
+                currentChat = null;
+                currentUser = currentUser2;
+                photo = null;
             }
-        } else if (obj instanceof TLRPC$Chat) {
-            TLRPC$Chat tLRPC$Chat2 = (TLRPC$Chat) obj;
-            TLRPC$ChatPhoto tLRPC$ChatPhoto = tLRPC$Chat2.photo;
-            if (tLRPC$ChatPhoto != null) {
-                tLRPC$FileLocation = tLRPC$ChatPhoto.photo_small;
-                tLRPC$Chat = tLRPC$Chat2;
-                tLRPC$User = null;
-            } else {
-                tLRPC$Chat = tLRPC$Chat2;
-                tLRPC$User = null;
-                tLRPC$FileLocation = null;
-            }
+        } else if (!(obj instanceof TLRPC.Chat)) {
+            currentChat = null;
+            currentUser = null;
+            photo = null;
         } else {
-            tLRPC$User = null;
-            tLRPC$FileLocation3 = null;
-            tLRPC$FileLocation = tLRPC$FileLocation3;
-            tLRPC$Chat = tLRPC$FileLocation3;
-        }
-        char c = 1;
-        if (i != 0) {
-            boolean z = (i & MessagesController.UPDATE_MASK_AVATAR) != 0 && (((tLRPC$FileLocation2 = this.lastAvatar) != null && tLRPC$FileLocation == null) || ((tLRPC$FileLocation2 == null && tLRPC$FileLocation != null) || !(tLRPC$FileLocation2 == null || (tLRPC$FileLocation2.volume_id == tLRPC$FileLocation.volume_id && tLRPC$FileLocation2.local_id == tLRPC$FileLocation.local_id))));
-            if (tLRPC$User != null && !z && (i & MessagesController.UPDATE_MASK_STATUS) != 0) {
-                TLRPC$UserStatus tLRPC$UserStatus2 = tLRPC$User.status;
-                if ((tLRPC$UserStatus2 != null ? tLRPC$UserStatus2.expires : 0) != this.lastStatus) {
-                    z = true;
-                }
-            }
-            if (z || this.currentName != null || this.lastName == null || (i & MessagesController.UPDATE_MASK_NAME) == 0) {
-                str = null;
+            TLRPC.Chat currentChat2 = (TLRPC.Chat) obj;
+            if (currentChat2.photo == null) {
+                currentChat = currentChat2;
+                currentUser = null;
+                photo = null;
             } else {
-                if (tLRPC$User != null) {
-                    str = UserObject.getUserName(tLRPC$User);
-                } else {
-                    str = tLRPC$Chat.title;
+                TLRPC.FileLocation photo2 = currentChat2.photo.photo_small;
+                currentChat = currentChat2;
+                currentUser = null;
+                photo = photo2;
+            }
+        }
+        if (mask != 0) {
+            boolean continueUpdate = false;
+            if ((mask & MessagesController.UPDATE_MASK_AVATAR) != 0 && (((fileLocation = this.lastAvatar) != null && photo == null) || ((fileLocation == null && photo != null) || (fileLocation != null && (fileLocation.volume_id != photo.volume_id || this.lastAvatar.local_id != photo.local_id))))) {
+                continueUpdate = true;
+            }
+            if (currentUser != null && !continueUpdate && (mask & MessagesController.UPDATE_MASK_STATUS) != 0) {
+                int newStatus = 0;
+                if (currentUser.status != null) {
+                    newStatus = currentUser.status.expires;
                 }
-                if (!str.equals(this.lastName)) {
-                    z = true;
+                if (newStatus != this.lastStatus) {
+                    continueUpdate = true;
                 }
             }
-            if (!z) {
+            if (!continueUpdate && this.currentName == null && this.lastName != null && (mask & MessagesController.UPDATE_MASK_NAME) != 0) {
+                if (currentUser != null) {
+                    newName = UserObject.getUserName(currentUser);
+                } else {
+                    newName = currentChat.title;
+                }
+                if (!newName.equals(this.lastName)) {
+                    continueUpdate = true;
+                }
+            }
+            if (!continueUpdate) {
                 return;
             }
-        } else {
-            str = null;
         }
+        char c = 1;
+        int i = 8;
         if (this.currentObject instanceof String) {
             ((FrameLayout.LayoutParams) this.nameTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(19.0f);
-            String str2 = (String) this.currentObject;
-            str2.hashCode();
-            switch (str2.hashCode()) {
+            String str = (String) this.currentObject;
+            switch (str.hashCode()) {
                 case -1716307998:
-                    if (str2.equals("archived")) {
-                        c = 0;
+                    if (str.equals("archived")) {
+                        c = 7;
                         break;
                     }
                     c = 65535;
                     break;
                 case -1237460524:
-                    break;
-                case -1197490811:
-                    if (str2.equals("non_contacts")) {
+                    if (str.equals("groups")) {
                         c = 2;
                         break;
                     }
                     c = 65535;
                     break;
+                case -1197490811:
+                    break;
                 case -567451565:
-                    if (str2.equals("contacts")) {
-                        c = 3;
+                    if (str.equals("contacts")) {
+                        c = 0;
                         break;
                     }
                     c = 65535;
                     break;
                 case 3029900:
-                    if (str2.equals("bots")) {
+                    if (str.equals("bots")) {
                         c = 4;
                         break;
                     }
                     c = 65535;
                     break;
                 case 3496342:
-                    if (str2.equals("read")) {
-                        c = 5;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 104264043:
-                    if (str2.equals("muted")) {
+                    if (str.equals("read")) {
                         c = 6;
                         break;
                     }
                     c = 65535;
                     break;
+                case 104264043:
+                    if (str.equals("muted")) {
+                        c = 5;
+                        break;
+                    }
+                    c = 65535;
+                    break;
                 case 1432626128:
-                    if (str2.equals("channels")) {
-                        c = 7;
+                    if (str.equals("channels")) {
+                        c = 3;
                         break;
                     }
                     c = 65535;
@@ -528,52 +515,51 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             }
             switch (c) {
                 case 0:
-                    this.avatarDrawable.setAvatarType(11);
+                    this.avatarDrawable.setAvatarType(4);
                     break;
                 case 1:
-                    this.avatarDrawable.setAvatarType(6);
-                    break;
-                case 2:
                     this.avatarDrawable.setAvatarType(5);
                     break;
+                case 2:
+                    this.avatarDrawable.setAvatarType(6);
+                    break;
                 case 3:
-                    this.avatarDrawable.setAvatarType(4);
+                    this.avatarDrawable.setAvatarType(7);
                     break;
                 case 4:
                     this.avatarDrawable.setAvatarType(8);
                     break;
                 case 5:
-                    this.avatarDrawable.setAvatarType(10);
-                    break;
-                case 6:
                     this.avatarDrawable.setAvatarType(9);
                     break;
+                case 6:
+                    this.avatarDrawable.setAvatarType(10);
+                    break;
                 case 7:
-                    this.avatarDrawable.setAvatarType(7);
+                    this.avatarDrawable.setAvatarType(11);
                     break;
             }
             this.avatarImageView.setImage(null, "50_50", this.avatarDrawable);
             this.currentStatus = "";
         } else {
             ((FrameLayout.LayoutParams) this.nameTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(10.0f);
-            if (tLRPC$User != null) {
-                if (this.selfAsSavedMessages && UserObject.isUserSelf(tLRPC$User)) {
+            if (currentUser != null) {
+                if (this.selfAsSavedMessages && UserObject.isUserSelf(currentUser)) {
                     this.nameTextView.setText(LocaleController.getString("SavedMessages", R.string.SavedMessages), true);
                     this.statusTextView.setText(null);
                     this.avatarDrawable.setAvatarType(1);
-                    this.avatarImageView.setImage((ImageLocation) null, "50_50", this.avatarDrawable, tLRPC$User);
+                    this.avatarImageView.setImage((ImageLocation) null, "50_50", this.avatarDrawable, currentUser);
                     ((FrameLayout.LayoutParams) this.nameTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(19.0f);
                     return;
                 }
-                this.avatarDrawable.setInfo(tLRPC$User);
-                TLRPC$UserStatus tLRPC$UserStatus3 = tLRPC$User.status;
-                if (tLRPC$UserStatus3 != null) {
-                    this.lastStatus = tLRPC$UserStatus3.expires;
+                this.avatarDrawable.setInfo(currentUser);
+                if (currentUser.status != null) {
+                    this.lastStatus = currentUser.status.expires;
                 } else {
                     this.lastStatus = 0;
                 }
-            } else if (tLRPC$Chat != 0) {
-                this.avatarDrawable.setInfo(tLRPC$Chat);
+            } else if (currentChat != null) {
+                this.avatarDrawable.setInfo(currentChat);
             } else {
                 CharSequence charSequence = this.currentName;
                 if (charSequence != null) {
@@ -588,29 +574,23 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             this.lastName = null;
             this.nameTextView.setText(charSequence2);
         } else {
-            if (tLRPC$User != null) {
-                if (str == null) {
-                    str = UserObject.getUserName(tLRPC$User);
-                }
-                this.lastName = str;
-            } else if (tLRPC$Chat != 0) {
-                if (str == null) {
-                    str = tLRPC$Chat.title;
-                }
-                this.lastName = str;
+            if (currentUser != null) {
+                this.lastName = newName == null ? UserObject.getUserName(currentUser) : newName;
+            } else if (currentChat != null) {
+                this.lastName = newName == null ? currentChat.title : newName;
             } else {
                 this.lastName = "";
             }
-            CharSequence charSequence3 = this.lastName;
-            if (charSequence3 != null) {
+            CharSequence name = this.lastName;
+            if (name != null) {
                 try {
-                    charSequence3 = Emoji.replaceEmoji(charSequence3, this.nameTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(18.0f), false);
-                } catch (Exception unused) {
+                    name = Emoji.replaceEmoji(this.lastName, this.nameTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(18.0f), false);
+                } catch (Exception e) {
                 }
             }
-            this.nameTextView.setText(charSequence3);
+            this.nameTextView.setText(name);
         }
-        if (tLRPC$User != null && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User)) {
+        if (currentUser != null && MessagesController.getInstance(this.currentAccount).isPremiumUser(currentUser)) {
             this.nameTextView.setRightDrawable(PremiumGradient.getInstance().premiumStarDrawableMini);
             this.nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));
         } else {
@@ -620,43 +600,52 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         if (this.currentStatus != null) {
             this.statusTextView.setTextColor(this.statusColor);
             this.statusTextView.setText(this.currentStatus);
-        } else if (tLRPC$User != null) {
-            if (tLRPC$User.bot) {
+        } else if (currentUser != null) {
+            if (currentUser.bot) {
                 this.statusTextView.setTextColor(this.statusColor);
-                if (tLRPC$User.bot_chat_history || ((textView = this.adminTextView) != null && textView.getVisibility() == 0)) {
+                if (currentUser.bot_chat_history || ((textView = this.adminTextView) != null && textView.getVisibility() == 0)) {
                     this.statusTextView.setText(LocaleController.getString("BotStatusRead", R.string.BotStatusRead));
                 } else {
                     this.statusTextView.setText(LocaleController.getString("BotStatusCantRead", R.string.BotStatusCantRead));
                 }
-            } else if (tLRPC$User.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || (((tLRPC$UserStatus = tLRPC$User.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(tLRPC$User.id)))) {
+            } else if (currentUser.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || ((currentUser.status != null && currentUser.status.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(currentUser.id)))) {
                 this.statusTextView.setTextColor(this.statusOnlineColor);
                 this.statusTextView.setText(LocaleController.getString("Online", R.string.Online));
             } else {
                 this.statusTextView.setTextColor(this.statusColor);
-                this.statusTextView.setText(LocaleController.formatUserStatus(this.currentAccount, tLRPC$User));
+                this.statusTextView.setText(LocaleController.formatUserStatus(this.currentAccount, currentUser));
             }
         }
         if ((this.imageView.getVisibility() == 0 && this.currentDrawable == 0) || (this.imageView.getVisibility() == 8 && this.currentDrawable != 0)) {
-            this.imageView.setVisibility(this.currentDrawable == 0 ? 8 : 0);
+            ImageView imageView = this.imageView;
+            if (this.currentDrawable != 0) {
+                i = 0;
+            }
+            imageView.setVisibility(i);
             this.imageView.setImageResource(this.currentDrawable);
         }
-        this.lastAvatar = tLRPC$FileLocation;
-        if (tLRPC$User != null) {
-            this.avatarImageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
-        } else if (tLRPC$Chat != 0) {
-            this.avatarImageView.setForUserOrChat(tLRPC$Chat, this.avatarDrawable);
+        this.lastAvatar = photo;
+        if (currentUser != null) {
+            this.avatarImageView.setForUserOrChat(currentUser, this.avatarDrawable);
+        } else if (currentChat != null) {
+            this.avatarImageView.setForUserOrChat(currentChat, this.avatarDrawable);
         } else {
             this.avatarImageView.setImageDrawable(this.avatarDrawable);
         }
-        this.nameTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
+        this.nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
         TextView textView2 = this.adminTextView;
         if (textView2 != null) {
-            textView2.setTextColor(Theme.getColor("profile_creatorIcon", this.resourcesProvider));
+            textView2.setTextColor(Theme.getColor(Theme.key_profile_creatorIcon, this.resourcesProvider));
         }
     }
 
-    public void setSelfAsSavedMessages(boolean z) {
-        this.selfAsSavedMessages = z;
+    public void setSelfAsSavedMessages(boolean value) {
+        this.selfAsSavedMessages = value;
+    }
+
+    @Override // android.view.View
+    public boolean hasOverlappingRendering() {
+        return false;
     }
 
     @Override // android.view.View
@@ -667,27 +656,26 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     }
 
     @Override // android.view.View
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
         CheckBoxSquare checkBoxSquare = this.checkBoxBig;
         if (checkBoxSquare != null && checkBoxSquare.getVisibility() == 0) {
-            accessibilityNodeInfo.setCheckable(true);
-            accessibilityNodeInfo.setChecked(this.checkBoxBig.isChecked());
-            accessibilityNodeInfo.setClassName("android.widget.CheckBox");
+            info.setCheckable(true);
+            info.setChecked(this.checkBoxBig.isChecked());
+            info.setClassName("android.widget.CheckBox");
             return;
         }
         CheckBox checkBox = this.checkBox;
-        if (checkBox == null || checkBox.getVisibility() != 0) {
-            return;
+        if (checkBox != null && checkBox.getVisibility() == 0) {
+            info.setCheckable(true);
+            info.setChecked(this.checkBox.isChecked());
+            info.setClassName("android.widget.CheckBox");
         }
-        accessibilityNodeInfo.setCheckable(true);
-        accessibilityNodeInfo.setChecked(this.checkBox.isChecked());
-        accessibilityNodeInfo.setClassName("android.widget.CheckBox");
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.emojiLoaded) {
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.emojiLoaded) {
             this.nameTextView.invalidate();
         }
     }

@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
@@ -19,7 +18,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Property;
@@ -30,7 +28,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.core.net.MailTo;
 import androidx.core.widget.NestedScrollView;
+import com.google.android.exoplayer2.C;
+import com.google.firebase.messaging.Constants;
+import com.microsoft.appcenter.ingestion.models.CommonProperties;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -39,12 +41,9 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.R;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
-import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLRPC$TL_restrictionReason;
-import org.telegram.tgnet.TLRPC$TL_userContact_old2;
-import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -54,14 +53,14 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.ChatAttachAlertContactsLayout;
-/* loaded from: classes3.dex */
+/* loaded from: classes5.dex */
 public class PhonebookShareAlert extends BottomSheet {
     private ActionBar actionBar;
     private AnimatorSet actionBarAnimation;
     private View actionBarShadow;
     private Paint backgroundPaint;
     private TextView buttonTextView;
-    private TLRPC$User currentUser;
+    private TLRPC.User currentUser;
     private ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate delegate;
     private boolean inLayout;
     private boolean isImport;
@@ -81,53 +80,53 @@ public class PhonebookShareAlert extends BottomSheet {
     private int vcardEndRow;
     private int vcardStartRow;
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
-        return false;
-    }
-
-    /* loaded from: classes3.dex */
+    /* loaded from: classes5.dex */
     public class UserCell extends LinearLayout {
-        public UserCell(PhonebookShareAlert phonebookShareAlert, Context context) {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        public UserCell(Context context) {
             super(context);
-            boolean z;
-            String str;
+            String status;
+            PhonebookShareAlert.this = this$0;
             setOrientation(1);
-            if (phonebookShareAlert.phones.size() != 1 || phonebookShareAlert.other.size() != 0) {
-                str = (phonebookShareAlert.currentUser.status == null || phonebookShareAlert.currentUser.status.expires == 0) ? null : LocaleController.formatUserStatus(((BottomSheet) phonebookShareAlert).currentAccount, phonebookShareAlert.currentUser);
-                z = true;
+            boolean needPadding = true;
+            if (this$0.phones.size() != 1 || this$0.other.size() != 0) {
+                if (this$0.currentUser.status != null && this$0.currentUser.status.expires != 0) {
+                    status = LocaleController.formatUserStatus(this$0.currentAccount, this$0.currentUser);
+                } else {
+                    status = null;
+                }
             } else {
-                str = ((AndroidUtilities.VcardItem) phonebookShareAlert.phones.get(0)).getValue(true);
-                z = false;
+                status = ((AndroidUtilities.VcardItem) this$0.phones.get(0)).getValue(true);
+                needPadding = false;
             }
             AvatarDrawable avatarDrawable = new AvatarDrawable();
             avatarDrawable.setTextSize(AndroidUtilities.dp(30.0f));
-            avatarDrawable.setInfo(phonebookShareAlert.currentUser);
-            BackupImageView backupImageView = new BackupImageView(context);
-            backupImageView.setRoundRadius(AndroidUtilities.dp(40.0f));
-            backupImageView.setForUserOrChat(phonebookShareAlert.currentUser, avatarDrawable);
-            addView(backupImageView, LayoutHelper.createLinear(80, 80, 49, 0, 32, 0, 0));
+            avatarDrawable.setInfo(this$0.currentUser);
+            BackupImageView avatarImageView = new BackupImageView(context);
+            avatarImageView.setRoundRadius(AndroidUtilities.dp(40.0f));
+            avatarImageView.setForUserOrChat(this$0.currentUser, avatarDrawable);
+            addView(avatarImageView, LayoutHelper.createLinear(80, 80, 49, 0, 32, 0, 0));
             TextView textView = new TextView(context);
             textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             textView.setTextSize(1, 17.0f);
-            textView.setTextColor(phonebookShareAlert.getThemedColor("dialogTextBlack"));
+            textView.setTextColor(this$0.getThemedColor(Theme.key_dialogTextBlack));
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
-            textView.setText(ContactsController.formatName(phonebookShareAlert.currentUser.first_name, phonebookShareAlert.currentUser.last_name));
-            addView(textView, LayoutHelper.createLinear(-2, -2, 49, 10, 10, 10, str != null ? 0 : 27));
-            if (str != null) {
+            textView.setText(ContactsController.formatName(this$0.currentUser.first_name, this$0.currentUser.last_name));
+            addView(textView, LayoutHelper.createLinear(-2, -2, 49, 10, 10, 10, status != null ? 0 : 27));
+            if (status != null) {
                 TextView textView2 = new TextView(context);
                 textView2.setTextSize(1, 14.0f);
-                textView2.setTextColor(phonebookShareAlert.getThemedColor("dialogTextGray3"));
+                textView2.setTextColor(this$0.getThemedColor(Theme.key_dialogTextGray3));
                 textView2.setSingleLine(true);
                 textView2.setEllipsize(TextUtils.TruncateAt.END);
-                textView2.setText(str);
-                addView(textView2, LayoutHelper.createLinear(-2, -2, 49, 10, 3, 10, z ? 27 : 11));
+                textView2.setText(status);
+                addView(textView2, LayoutHelper.createLinear(-2, -2, 49, 10, 3, 10, needPadding ? 27 : 11));
             }
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes5.dex */
     public class TextCheckBoxCell extends FrameLayout {
         private Switch checkBox;
         private ImageView imageView;
@@ -135,68 +134,66 @@ public class PhonebookShareAlert extends BottomSheet {
         private TextView textView;
         private TextView valueTextView;
 
-        public TextCheckBoxCell(PhonebookShareAlert phonebookShareAlert, Context context) {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        public TextCheckBoxCell(Context context) {
             super(context);
             float f;
             float f2;
             float f3;
             float f4;
+            PhonebookShareAlert.this = this$0;
             TextView textView = new TextView(context);
             this.textView = textView;
-            textView.setTextColor(phonebookShareAlert.getThemedColor("windowBackgroundWhiteBlackText"));
+            textView.setTextColor(this$0.getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             this.textView.setTextSize(1, 16.0f);
             this.textView.setSingleLine(false);
             int i = 5;
             this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
             this.textView.setEllipsize(TextUtils.TruncateAt.END);
             TextView textView2 = this.textView;
-            boolean z = LocaleController.isRTL;
-            int i2 = (z ? 5 : 3) | 48;
+            int i2 = (LocaleController.isRTL ? 5 : 3) | 48;
             int i3 = 17;
-            if (z) {
-                f = phonebookShareAlert.isImport ? 17 : 64;
+            if (LocaleController.isRTL) {
+                f = this$0.isImport ? 17 : 64;
             } else {
                 f = 72.0f;
             }
             if (LocaleController.isRTL) {
                 f2 = 72.0f;
             } else {
-                f2 = phonebookShareAlert.isImport ? 17 : 64;
+                f2 = this$0.isImport ? 17 : 64;
             }
             addView(textView2, LayoutHelper.createFrame(-1, -1.0f, i2, f, 10.0f, f2, 0.0f));
             TextView textView3 = new TextView(context);
             this.valueTextView = textView3;
-            textView3.setTextColor(phonebookShareAlert.getThemedColor("windowBackgroundWhiteGrayText2"));
+            textView3.setTextColor(this$0.getThemedColor(Theme.key_windowBackgroundWhiteGrayText2));
             this.valueTextView.setTextSize(1, 13.0f);
             this.valueTextView.setLines(1);
             this.valueTextView.setMaxLines(1);
             this.valueTextView.setSingleLine(true);
             this.valueTextView.setGravity(LocaleController.isRTL ? 5 : 3);
             TextView textView4 = this.valueTextView;
-            boolean z2 = LocaleController.isRTL;
-            int i4 = z2 ? 5 : 3;
-            if (z2) {
-                f3 = phonebookShareAlert.isImport ? 17 : 64;
+            int i4 = LocaleController.isRTL ? 5 : 3;
+            if (LocaleController.isRTL) {
+                f3 = this$0.isImport ? 17 : 64;
             } else {
                 f3 = 72.0f;
             }
             if (LocaleController.isRTL) {
                 f4 = 72.0f;
             } else {
-                f4 = !phonebookShareAlert.isImport ? 64 : i3;
+                f4 = !this$0.isImport ? 64 : i3;
             }
             addView(textView4, LayoutHelper.createFrame(-2, -2.0f, i4, f3, 35.0f, f4, 0.0f));
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
             imageView.setScaleType(ImageView.ScaleType.CENTER);
-            this.imageView.setColorFilter(new PorterDuffColorFilter(phonebookShareAlert.getThemedColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.MULTIPLY));
-            ImageView imageView2 = this.imageView;
-            boolean z3 = LocaleController.isRTL;
-            addView(imageView2, LayoutHelper.createFrame(-2, -2.0f, (z3 ? 5 : 3) | 48, z3 ? 0.0f : 20.0f, 20.0f, z3 ? 20.0f : 0.0f, 0.0f));
-            if (!phonebookShareAlert.isImport) {
-                Switch r1 = new Switch(context);
-                this.checkBox = r1;
-                r1.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
+            this.imageView.setColorFilter(new PorterDuffColorFilter(this$0.getThemedColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
+            addView(this.imageView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, LocaleController.isRTL ? 0.0f : 20.0f, 20.0f, LocaleController.isRTL ? 20.0f : 0.0f, 0.0f));
+            if (!this$0.isImport) {
+                Switch r3 = new Switch(context);
+                this.checkBox = r3;
+                r3.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhite);
                 addView(this.checkBox, LayoutHelper.createFrame(37, 40.0f, (LocaleController.isRTL ? 3 : i) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
             }
         }
@@ -211,46 +208,51 @@ public class PhonebookShareAlert extends BottomSheet {
         }
 
         @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            measureChildWithMargins(this.textView, i, 0, i2, 0);
-            measureChildWithMargins(this.valueTextView, i, 0, i2, 0);
-            measureChildWithMargins(this.imageView, i, 0, i2, 0);
+        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+            measureChildWithMargins(this.textView, widthMeasureSpec, 0, heightMeasureSpec, 0);
+            measureChildWithMargins(this.valueTextView, widthMeasureSpec, 0, heightMeasureSpec, 0);
+            measureChildWithMargins(this.imageView, widthMeasureSpec, 0, heightMeasureSpec, 0);
             Switch r7 = this.checkBox;
             if (r7 != null) {
-                measureChildWithMargins(r7, i, 0, i2, 0);
+                measureChildWithMargins(r7, widthMeasureSpec, 0, heightMeasureSpec, 0);
             }
-            setMeasuredDimension(View.MeasureSpec.getSize(i), Math.max(AndroidUtilities.dp(64.0f), this.textView.getMeasuredHeight() + this.valueTextView.getMeasuredHeight() + AndroidUtilities.dp(20.0f)) + (this.needDivider ? 1 : 0));
+            setMeasuredDimension(View.MeasureSpec.getSize(widthMeasureSpec), Math.max(AndroidUtilities.dp(64.0f), this.textView.getMeasuredHeight() + this.valueTextView.getMeasuredHeight() + AndroidUtilities.dp(20.0f)) + (this.needDivider ? 1 : 0));
         }
 
         @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            super.onLayout(z, i, i2, i3, i4);
-            int measuredHeight = this.textView.getMeasuredHeight() + AndroidUtilities.dp(13.0f);
+        protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+            super.onLayout(changed, left, top, right, bottom);
+            int y = this.textView.getMeasuredHeight() + AndroidUtilities.dp(13.0f);
             TextView textView = this.valueTextView;
-            textView.layout(textView.getLeft(), measuredHeight, this.valueTextView.getRight(), this.valueTextView.getMeasuredHeight() + measuredHeight);
+            textView.layout(textView.getLeft(), y, this.valueTextView.getRight(), this.valueTextView.getMeasuredHeight() + y);
         }
 
-        public void setVCardItem(AndroidUtilities.VcardItem vcardItem, int i, boolean z) {
-            this.textView.setText(vcardItem.getValue(true));
-            this.valueTextView.setText(vcardItem.getType());
+        public void setVCardItem(AndroidUtilities.VcardItem item, int icon, boolean divider) {
+            this.textView.setText(item.getValue(true));
+            this.valueTextView.setText(item.getType());
             Switch r0 = this.checkBox;
             if (r0 != null) {
-                r0.setChecked(vcardItem.checked, false);
+                r0.setChecked(item.checked, false);
             }
-            if (i != 0) {
-                this.imageView.setImageResource(i);
+            if (icon != 0) {
+                this.imageView.setImageResource(icon);
             } else {
                 this.imageView.setImageDrawable(null);
             }
-            this.needDivider = z;
-            setWillNotDraw(!z);
+            this.needDivider = divider;
+            setWillNotDraw(!divider);
         }
 
-        public void setChecked(boolean z) {
+        public void setChecked(boolean checked) {
             Switch r0 = this.checkBox;
             if (r0 != null) {
-                r0.setChecked(z, true);
+                r0.setChecked(checked, true);
             }
+        }
+
+        public boolean isChecked() {
+            Switch r0 = this.checkBox;
+            return r0 != null && r0.isChecked();
         }
 
         @Override // android.view.View
@@ -261,162 +263,172 @@ public class PhonebookShareAlert extends BottomSheet {
         }
     }
 
-    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2) {
-        this(baseFragment, contact, tLRPC$User, uri, file, str, str2, null);
+    public PhonebookShareAlert(BaseFragment parent, ContactsController.Contact contact, TLRPC.User user, Uri uri, File file, String firstName, String lastName) {
+        this(parent, contact, user, uri, file, firstName, lastName, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0126  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x01a7  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x023b  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x02e6  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x02f0  */
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0108  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0137  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x01b5  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0259  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0303  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0310  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2, final Theme.ResourcesProvider resourcesProvider) {
-        super(baseFragment.getParentActivity(), false, resourcesProvider);
-        ArrayList<TLRPC$User> arrayList;
-        String str3;
-        ArrayList<TLRPC$TL_restrictionReason> arrayList2;
-        String str4;
-        int itemCount;
-        final int i;
-        boolean z;
+    public PhonebookShareAlert(BaseFragment parent, ContactsController.Contact contact, TLRPC.User user, Uri uri, File file, String firstName, String lastName, final Theme.ResourcesProvider resourcesProvider) {
+        super(parent.getParentActivity(), false, resourcesProvider);
+        TLRPC.User user2;
+        String lastName2;
+        String firstName2;
+        int a;
+        int N;
+        Uri uri2 = uri;
         this.backgroundPaint = new Paint(1);
         this.other = new ArrayList<>();
         this.phones = new ArrayList<>();
-        String formatName = ContactsController.formatName(str, str2);
-        ArrayList arrayList3 = new ArrayList();
-        if (uri != null) {
-            arrayList = AndroidUtilities.loadVCardFromStream(uri, this.currentAccount, false, arrayList3, formatName);
+        String name = ContactsController.formatName(firstName, lastName);
+        ArrayList<TLRPC.User> result = null;
+        ArrayList<AndroidUtilities.VcardItem> items = new ArrayList<>();
+        ArrayList<TLRPC.TL_restrictionReason> vcard = null;
+        if (uri2 != null) {
+            result = AndroidUtilities.loadVCardFromStream(uri2, this.currentAccount, false, items, name);
         } else if (file != null) {
-            arrayList = AndroidUtilities.loadVCardFromStream(Uri.fromFile(file), this.currentAccount, false, arrayList3, formatName);
+            result = AndroidUtilities.loadVCardFromStream(Uri.fromFile(file), this.currentAccount, false, items, name);
             file.delete();
             this.isImport = true;
+        } else if (contact.key != null) {
+            uri2 = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, contact.key);
+            result = AndroidUtilities.loadVCardFromStream(uri2, this.currentAccount, true, items, name);
         } else {
-            String str5 = contact.key;
-            if (str5 != null) {
-                arrayList = AndroidUtilities.loadVCardFromStream(Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, str5), this.currentAccount, true, arrayList3, formatName);
-            } else {
-                AndroidUtilities.VcardItem vcardItem = new AndroidUtilities.VcardItem();
-                vcardItem.type = 0;
-                ArrayList<String> arrayList4 = vcardItem.vcardData;
-                String str6 = "TEL;MOBILE:+" + contact.user.phone;
-                vcardItem.fullData = str6;
-                arrayList4.add(str6);
-                this.phones.add(vcardItem);
-                arrayList = null;
-            }
+            AndroidUtilities.VcardItem item = new AndroidUtilities.VcardItem();
+            item.type = 0;
+            ArrayList<String> arrayList = item.vcardData;
+            String str = "TEL;MOBILE:+" + contact.user.phone;
+            item.fullData = str;
+            arrayList.add(str);
+            this.phones.add(item);
         }
-        TLRPC$User tLRPC$User2 = (tLRPC$User != null || contact == null) ? tLRPC$User : contact.user;
-        if (arrayList != null) {
-            for (int i2 = 0; i2 < arrayList3.size(); i2++) {
-                AndroidUtilities.VcardItem vcardItem2 = (AndroidUtilities.VcardItem) arrayList3.get(i2);
-                if (vcardItem2.type == 0) {
-                    int i3 = 0;
+        if (user == null && contact != null) {
+            user2 = contact.user;
+        } else {
+            user2 = user;
+        }
+        if (result != null) {
+            for (int a2 = 0; a2 < items.size(); a2++) {
+                AndroidUtilities.VcardItem item2 = items.get(a2);
+                if (item2.type == 0) {
+                    boolean exists = false;
+                    int b = 0;
                     while (true) {
-                        if (i3 >= this.phones.size()) {
-                            z = false;
-                            break;
-                        } else if (this.phones.get(i3).getValue(false).equals(vcardItem2.getValue(false))) {
-                            z = true;
-                            break;
+                        if (b < this.phones.size()) {
+                            if (!this.phones.get(b).getValue(false).equals(item2.getValue(false))) {
+                                b++;
+                            } else {
+                                exists = true;
+                                break;
+                            }
                         } else {
-                            i3++;
+                            break;
                         }
                     }
-                    if (z) {
-                        vcardItem2.checked = false;
+                    if (exists) {
+                        item2.checked = false;
                     } else {
-                        this.phones.add(vcardItem2);
+                        this.phones.add(item2);
                     }
                 } else {
-                    this.other.add(vcardItem2);
+                    this.other.add(item2);
                 }
             }
-            if (!arrayList.isEmpty()) {
-                TLRPC$User tLRPC$User3 = arrayList.get(0);
-                arrayList2 = tLRPC$User3.restriction_reason;
-                if (TextUtils.isEmpty(str)) {
-                    str3 = tLRPC$User3.first_name;
-                    str4 = tLRPC$User3.last_name;
+            if (!result.isEmpty()) {
+                TLRPC.User u = result.get(0);
+                vcard = u.restriction_reason;
+                if (!TextUtils.isEmpty(firstName)) {
+                    firstName2 = firstName;
+                    lastName2 = lastName;
                 } else {
-                    str3 = str;
-                    str4 = str2;
+                    firstName2 = u.first_name;
+                    lastName2 = u.last_name;
                 }
-                TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old2 = new TLRPC$TL_userContact_old2();
-                this.currentUser = tLRPC$TL_userContact_old2;
-                if (tLRPC$User2 == null) {
-                    tLRPC$TL_userContact_old2.id = tLRPC$User2.id;
-                    tLRPC$TL_userContact_old2.access_hash = tLRPC$User2.access_hash;
-                    tLRPC$TL_userContact_old2.photo = tLRPC$User2.photo;
-                    tLRPC$TL_userContact_old2.status = tLRPC$User2.status;
-                    tLRPC$TL_userContact_old2.first_name = tLRPC$User2.first_name;
-                    tLRPC$TL_userContact_old2.last_name = tLRPC$User2.last_name;
-                    tLRPC$TL_userContact_old2.phone = tLRPC$User2.phone;
-                    if (arrayList2 != null) {
-                        tLRPC$TL_userContact_old2.restriction_reason = arrayList2;
+                TLRPC.TL_userContact_old2 tL_userContact_old2 = new TLRPC.TL_userContact_old2();
+                this.currentUser = tL_userContact_old2;
+                if (user2 == null) {
+                    tL_userContact_old2.id = user2.id;
+                    this.currentUser.access_hash = user2.access_hash;
+                    this.currentUser.photo = user2.photo;
+                    this.currentUser.status = user2.status;
+                    this.currentUser.first_name = user2.first_name;
+                    this.currentUser.last_name = user2.last_name;
+                    this.currentUser.phone = user2.phone;
+                    if (vcard != null) {
+                        this.currentUser.restriction_reason = vcard;
                     }
                 } else {
-                    tLRPC$TL_userContact_old2.first_name = str3;
-                    tLRPC$TL_userContact_old2.last_name = str4;
+                    tL_userContact_old2.first_name = firstName2;
+                    this.currentUser.last_name = lastName2;
                 }
-                this.parentFragment = baseFragment;
-                final Activity parentActivity = baseFragment.getParentActivity();
+                this.parentFragment = parent;
+                final Context context = parent.getParentActivity();
                 updateRows();
-                FrameLayout frameLayout = new FrameLayout(parentActivity) { // from class: org.telegram.ui.Components.PhonebookShareAlert.1
+                FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.PhonebookShareAlert.1
                     private boolean ignoreLayout;
                     private RectF rect = new RectF();
 
                     @Override // android.view.ViewGroup
-                    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                        if (motionEvent.getAction() == 0 && PhonebookShareAlert.this.scrollOffsetY != 0 && motionEvent.getY() < PhonebookShareAlert.this.scrollOffsetY && PhonebookShareAlert.this.actionBar.getAlpha() == 0.0f) {
+                    public boolean onInterceptTouchEvent(MotionEvent ev) {
+                        if (ev.getAction() == 0 && PhonebookShareAlert.this.scrollOffsetY != 0 && ev.getY() < PhonebookShareAlert.this.scrollOffsetY && PhonebookShareAlert.this.actionBar.getAlpha() == 0.0f) {
                             PhonebookShareAlert.this.dismiss();
                             return true;
                         }
-                        return super.onInterceptTouchEvent(motionEvent);
+                        return super.onInterceptTouchEvent(ev);
                     }
 
                     @Override // android.view.View
-                    public boolean onTouchEvent(MotionEvent motionEvent) {
-                        return !PhonebookShareAlert.this.isDismissed() && super.onTouchEvent(motionEvent);
+                    public boolean onTouchEvent(MotionEvent event) {
+                        return !PhonebookShareAlert.this.isDismissed() && super.onTouchEvent(event);
                     }
 
                     @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i4, int i5) {
-                        int size = View.MeasureSpec.getSize(i5);
+                    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                        int padding;
+                        int totalHeight = View.MeasureSpec.getSize(heightMeasureSpec);
                         if (Build.VERSION.SDK_INT >= 21) {
                             this.ignoreLayout = true;
-                            setPadding(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, 0);
+                            setPadding(PhonebookShareAlert.this.backgroundPaddingLeft, AndroidUtilities.statusBarHeight, PhonebookShareAlert.this.backgroundPaddingLeft, 0);
                             this.ignoreLayout = false;
                         }
-                        int paddingTop = size - getPaddingTop();
-                        View.MeasureSpec.getSize(i4);
-                        int unused = ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft;
-                        ((FrameLayout.LayoutParams) PhonebookShareAlert.this.actionBarShadow.getLayoutParams()).topMargin = ActionBar.getCurrentActionBarHeight();
+                        int availableHeight = totalHeight - getPaddingTop();
+                        int size = View.MeasureSpec.getSize(widthMeasureSpec) - (PhonebookShareAlert.this.backgroundPaddingLeft * 2);
+                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) PhonebookShareAlert.this.actionBarShadow.getLayoutParams();
+                        layoutParams.topMargin = ActionBar.getCurrentActionBarHeight();
                         this.ignoreLayout = true;
-                        int dp = AndroidUtilities.dp(80.0f);
-                        int itemCount2 = PhonebookShareAlert.this.listAdapter.getItemCount();
-                        for (int i6 = 0; i6 < itemCount2; i6++) {
-                            View createView = PhonebookShareAlert.this.listAdapter.createView(parentActivity, i6);
-                            createView.measure(i4, View.MeasureSpec.makeMeasureSpec(0, 0));
-                            dp += createView.getMeasuredHeight();
+                        int contentSize = AndroidUtilities.dp(80.0f);
+                        int count = PhonebookShareAlert.this.listAdapter.getItemCount();
+                        for (int a3 = 0; a3 < count; a3++) {
+                            View view = PhonebookShareAlert.this.listAdapter.createView(context, a3);
+                            view.measure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(0, 0));
+                            contentSize += view.getMeasuredHeight();
                         }
-                        int i7 = dp < paddingTop ? paddingTop - dp : paddingTop / 5;
-                        if (PhonebookShareAlert.this.scrollView.getPaddingTop() != i7) {
-                            PhonebookShareAlert.this.scrollView.getPaddingTop();
-                            PhonebookShareAlert.this.scrollView.setPadding(0, i7, 0, 0);
+                        if (contentSize < availableHeight) {
+                            padding = availableHeight - contentSize;
+                        } else {
+                            padding = availableHeight / 5;
+                        }
+                        if (PhonebookShareAlert.this.scrollView.getPaddingTop() != padding) {
+                            int paddingTop = PhonebookShareAlert.this.scrollView.getPaddingTop() - padding;
+                            PhonebookShareAlert.this.scrollView.setPadding(0, padding, 0, 0);
                         }
                         this.ignoreLayout = false;
-                        super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+                        super.onMeasure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(totalHeight, C.BUFFER_FLAG_ENCRYPTED));
                     }
 
                     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                    protected void onLayout(boolean z2, int i4, int i5, int i6, int i7) {
+                    protected void onLayout(boolean changed, int l, int t, int r, int b2) {
                         PhonebookShareAlert.this.inLayout = true;
-                        super.onLayout(z2, i4, i5, i6, i7);
+                        super.onLayout(changed, l, t, r, b2);
                         PhonebookShareAlert.this.inLayout = false;
                         PhonebookShareAlert.this.updateLayout(false);
                     }
@@ -431,26 +443,28 @@ public class PhonebookShareAlert extends BottomSheet {
 
                     @Override // android.view.View
                     protected void onDraw(Canvas canvas) {
-                        int i4 = PhonebookShareAlert.this.scrollOffsetY - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop;
-                        int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(30.0f) + ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop;
-                        float dp = AndroidUtilities.dp(12.0f);
-                        float min = ((float) (((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4)) < dp ? 1.0f - Math.min(1.0f, ((dp - i4) - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop) / dp) : 1.0f;
+                        int top = PhonebookShareAlert.this.scrollOffsetY - PhonebookShareAlert.this.backgroundPaddingTop;
+                        int height = getMeasuredHeight() + AndroidUtilities.dp(30.0f) + PhonebookShareAlert.this.backgroundPaddingTop;
+                        float rad = 1.0f;
+                        float r = AndroidUtilities.dp(12.0f);
+                        if (PhonebookShareAlert.this.backgroundPaddingTop + top < r) {
+                            rad = 1.0f - Math.min(1.0f, ((r - top) - PhonebookShareAlert.this.backgroundPaddingTop) / r);
+                        }
                         if (Build.VERSION.SDK_INT >= 21) {
-                            int i5 = AndroidUtilities.statusBarHeight;
-                            i4 += i5;
-                            measuredHeight -= i5;
+                            top += AndroidUtilities.statusBarHeight;
+                            height -= AndroidUtilities.statusBarHeight;
                         }
-                        ((BottomSheet) PhonebookShareAlert.this).shadowDrawable.setBounds(0, i4, getMeasuredWidth(), measuredHeight);
-                        ((BottomSheet) PhonebookShareAlert.this).shadowDrawable.draw(canvas);
-                        if (min != 1.0f) {
-                            PhonebookShareAlert.this.backgroundPaint.setColor(PhonebookShareAlert.this.getThemedColor("dialogBackground"));
-                            this.rect.set(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4, getMeasuredWidth() - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4 + AndroidUtilities.dp(24.0f));
-                            float f = dp * min;
-                            canvas.drawRoundRect(this.rect, f, f, PhonebookShareAlert.this.backgroundPaint);
+                        PhonebookShareAlert.this.shadowDrawable.setBounds(0, top, getMeasuredWidth(), height);
+                        PhonebookShareAlert.this.shadowDrawable.draw(canvas);
+                        if (rad != 1.0f) {
+                            PhonebookShareAlert.this.backgroundPaint.setColor(PhonebookShareAlert.this.getThemedColor(Theme.key_dialogBackground));
+                            this.rect.set(PhonebookShareAlert.this.backgroundPaddingLeft, PhonebookShareAlert.this.backgroundPaddingTop + top, getMeasuredWidth() - PhonebookShareAlert.this.backgroundPaddingLeft, PhonebookShareAlert.this.backgroundPaddingTop + top + AndroidUtilities.dp(24.0f));
+                            canvas.drawRoundRect(this.rect, r * rad, r * rad, PhonebookShareAlert.this.backgroundPaint);
                         }
-                        int themedColor = PhonebookShareAlert.this.getThemedColor("dialogBackground");
-                        PhonebookShareAlert.this.backgroundPaint.setColor(Color.argb((int) (PhonebookShareAlert.this.actionBar.getAlpha() * 255.0f), (int) (Color.red(themedColor) * 0.8f), (int) (Color.green(themedColor) * 0.8f), (int) (Color.blue(themedColor) * 0.8f)));
-                        canvas.drawRect(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, 0.0f, getMeasuredWidth() - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, PhonebookShareAlert.this.backgroundPaint);
+                        int color1 = PhonebookShareAlert.this.getThemedColor(Theme.key_dialogBackground);
+                        int finalColor = Color.argb((int) (PhonebookShareAlert.this.actionBar.getAlpha() * 255.0f), (int) (Color.red(color1) * 0.8f), (int) (Color.green(color1) * 0.8f), (int) (Color.blue(color1) * 0.8f));
+                        PhonebookShareAlert.this.backgroundPaint.setColor(finalColor);
+                        canvas.drawRect(PhonebookShareAlert.this.backgroundPaddingLeft, 0.0f, getMeasuredWidth() - PhonebookShareAlert.this.backgroundPaddingLeft, AndroidUtilities.statusBarHeight, PhonebookShareAlert.this.backgroundPaint);
                     }
                 };
                 frameLayout.setWillNotDraw(false);
@@ -458,13 +472,13 @@ public class PhonebookShareAlert extends BottomSheet {
                 setApplyTopPadding(false);
                 setApplyBottomPadding(false);
                 this.listAdapter = new ListAdapter();
-                NestedScrollView nestedScrollView = new NestedScrollView(parentActivity) { // from class: org.telegram.ui.Components.PhonebookShareAlert.2
+                NestedScrollView nestedScrollView = new NestedScrollView(context) { // from class: org.telegram.ui.Components.PhonebookShareAlert.2
                     private View focusingView;
 
                     @Override // androidx.core.widget.NestedScrollView, android.view.ViewGroup, android.view.ViewParent
-                    public void requestChildFocus(View view, View view2) {
-                        this.focusingView = view2;
-                        super.requestChildFocus(view, view2);
+                    public void requestChildFocus(View child, View focused) {
+                        this.focusingView = focused;
+                        super.requestChildFocus(child, focused);
                     }
 
                     @Override // androidx.core.widget.NestedScrollView
@@ -472,60 +486,71 @@ public class PhonebookShareAlert extends BottomSheet {
                         if (this.focusingView == null || PhonebookShareAlert.this.linearLayout.getTop() != getPaddingTop()) {
                             return 0;
                         }
-                        int computeScrollDeltaToGetChildRectOnScreen = super.computeScrollDeltaToGetChildRectOnScreen(rect);
-                        int currentActionBarHeight = ActionBar.getCurrentActionBarHeight() - (((this.focusingView.getTop() - getScrollY()) + rect.top) + computeScrollDeltaToGetChildRectOnScreen);
-                        return currentActionBarHeight > 0 ? computeScrollDeltaToGetChildRectOnScreen - (currentActionBarHeight + AndroidUtilities.dp(10.0f)) : computeScrollDeltaToGetChildRectOnScreen;
+                        int delta = super.computeScrollDeltaToGetChildRectOnScreen(rect);
+                        int currentViewY = (this.focusingView.getTop() - getScrollY()) + rect.top + delta;
+                        int diff = ActionBar.getCurrentActionBarHeight() - currentViewY;
+                        if (diff > 0) {
+                            return delta - (AndroidUtilities.dp(10.0f) + diff);
+                        }
+                        return delta;
                     }
                 };
                 this.scrollView = nestedScrollView;
                 nestedScrollView.setClipToPadding(false);
                 this.scrollView.setVerticalScrollBarEnabled(false);
                 frameLayout.addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 77.0f));
-                LinearLayout linearLayout = new LinearLayout(parentActivity);
+                LinearLayout linearLayout = new LinearLayout(context);
                 this.linearLayout = linearLayout;
                 linearLayout.setOrientation(1);
+                int i = -1;
                 this.scrollView.addView(this.linearLayout, LayoutHelper.createScroll(-1, -1, 51));
                 this.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda4
                     @Override // androidx.core.widget.NestedScrollView.OnScrollChangeListener
-                    public final void onScrollChange(NestedScrollView nestedScrollView22, int i4, int i5, int i6, int i7) {
-                        PhonebookShareAlert.this.lambda$new$0(nestedScrollView22, i4, i5, i6, i7);
+                    public final void onScrollChange(NestedScrollView nestedScrollView22, int i22, int i3, int i4, int i5) {
+                        PhonebookShareAlert.this.m2808lambda$new$0$orgtelegramuiComponentsPhonebookShareAlert(nestedScrollView22, i22, i3, i4, i5);
                     }
                 });
-                itemCount = this.listAdapter.getItemCount();
-                for (i = 0; i < itemCount; i++) {
-                    final View createView = this.listAdapter.createView(parentActivity, i);
-                    this.linearLayout.addView(createView, LayoutHelper.createLinear(-1, -2));
-                    if ((i >= this.phoneStartRow && i < this.phoneEndRow) || (i >= this.vcardStartRow && i < this.vcardEndRow)) {
-                        createView.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                        createView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda1
+                a = 0;
+                N = this.listAdapter.getItemCount();
+                while (a < N) {
+                    final View view = this.listAdapter.createView(context, a);
+                    final int position = a;
+                    String name2 = name;
+                    int N2 = N;
+                    this.linearLayout.addView(view, LayoutHelper.createLinear(i, -2));
+                    if ((position >= this.phoneStartRow && position < this.phoneEndRow) || (position >= this.vcardStartRow && position < this.vcardEndRow)) {
+                        view.setBackgroundDrawable(Theme.getSelectorDrawable(false));
+                        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda1
                             @Override // android.view.View.OnClickListener
-                            public final void onClick(View view) {
-                                PhonebookShareAlert.this.lambda$new$2(i, createView, view);
+                            public final void onClick(View view2) {
+                                PhonebookShareAlert.this.m2810lambda$new$2$orgtelegramuiComponentsPhonebookShareAlert(position, view, view2);
                             }
                         });
-                        createView.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda3
+                        view.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda3
                             @Override // android.view.View.OnLongClickListener
-                            public final boolean onLongClick(View view) {
-                                boolean lambda$new$3;
-                                lambda$new$3 = PhonebookShareAlert.this.lambda$new$3(i, resourcesProvider, parentActivity, view);
-                                return lambda$new$3;
+                            public final boolean onLongClick(View view2) {
+                                return PhonebookShareAlert.this.m2811lambda$new$3$orgtelegramuiComponentsPhonebookShareAlert(position, resourcesProvider, context, view2);
                             }
                         });
                     }
+                    a++;
+                    N = N2;
+                    name = name2;
+                    i = -1;
                 }
-                ActionBar actionBar = new ActionBar(parentActivity) { // from class: org.telegram.ui.Components.PhonebookShareAlert.3
+                ActionBar actionBar = new ActionBar(context) { // from class: org.telegram.ui.Components.PhonebookShareAlert.3
                     @Override // android.view.View
-                    public void setAlpha(float f) {
-                        super.setAlpha(f);
-                        ((BottomSheet) PhonebookShareAlert.this).containerView.invalidate();
+                    public void setAlpha(float alpha) {
+                        super.setAlpha(alpha);
+                        PhonebookShareAlert.this.containerView.invalidate();
                     }
                 };
                 this.actionBar = actionBar;
-                actionBar.setBackgroundColor(getThemedColor("dialogBackground"));
+                actionBar.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
                 this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-                this.actionBar.setItemsColor(getThemedColor("dialogTextBlack"), false);
-                this.actionBar.setItemsBackgroundColor(getThemedColor("dialogButtonSelector"), false);
-                this.actionBar.setTitleColor(getThemedColor("dialogTextBlack"));
+                this.actionBar.setItemsColor(getThemedColor(Theme.key_dialogTextBlack), false);
+                this.actionBar.setItemsBackgroundColor(getThemedColor(Theme.key_dialogButtonSelector), false);
+                this.actionBar.setTitleColor(getThemedColor(Theme.key_dialogTextBlack));
                 this.actionBar.setOccupyStatusBar(false);
                 this.actionBar.setAlpha(0.0f);
                 if (!this.isImport) {
@@ -536,27 +561,27 @@ public class PhonebookShareAlert extends BottomSheet {
                 this.containerView.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
                 this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Components.PhonebookShareAlert.4
                     @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-                    public void onItemClick(int i4) {
-                        if (i4 == -1) {
+                    public void onItemClick(int id) {
+                        if (id == -1) {
                             PhonebookShareAlert.this.dismiss();
                         }
                     }
                 });
-                View view = new View(parentActivity);
-                this.actionBarShadow = view;
-                view.setAlpha(0.0f);
-                this.actionBarShadow.setBackgroundColor(getThemedColor("dialogShadowLine"));
+                View view2 = new View(context);
+                this.actionBarShadow = view2;
+                view2.setAlpha(0.0f);
+                this.actionBarShadow.setBackgroundColor(getThemedColor(Theme.key_dialogShadowLine));
                 this.containerView.addView(this.actionBarShadow, LayoutHelper.createFrame(-1, 1.0f));
-                View view2 = new View(parentActivity);
-                this.shadow = view2;
-                view2.setBackgroundColor(getThemedColor("dialogShadowLine"));
+                View view3 = new View(context);
+                this.shadow = view3;
+                view3.setBackgroundColor(getThemedColor(Theme.key_dialogShadowLine));
                 this.shadow.setAlpha(0.0f);
                 this.containerView.addView(this.shadow, LayoutHelper.createFrame(-1, 1.0f, 83, 0.0f, 0.0f, 0.0f, 77.0f));
-                TextView textView = new TextView(parentActivity);
+                TextView textView = new TextView(context);
                 this.buttonTextView = textView;
                 textView.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
                 this.buttonTextView.setGravity(17);
-                this.buttonTextView.setTextColor(getThemedColor("featuredStickers_buttonText"));
+                this.buttonTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
                 this.buttonTextView.setTextSize(1, 14.0f);
                 if (!this.isImport) {
                     this.buttonTextView.setText(LocaleController.getString("AddContactPhonebookTitle", R.string.AddContactPhonebookTitle));
@@ -564,77 +589,81 @@ public class PhonebookShareAlert extends BottomSheet {
                     this.buttonTextView.setText(LocaleController.getString("ShareContactTitle", R.string.ShareContactTitle));
                 }
                 this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor("featuredStickers_addButton"), getThemedColor("featuredStickers_addButtonPressed")));
+                this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
                 frameLayout.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 42.0f, 83, 16.0f, 16.0f, 16.0f, 16.0f));
                 this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view32) {
-                        PhonebookShareAlert.this.lambda$new$5(resourcesProvider, view32);
+                    public final void onClick(View view4) {
+                        PhonebookShareAlert.this.m2813lambda$new$5$orgtelegramuiComponentsPhonebookShareAlert(resourcesProvider, view4);
                     }
                 });
             }
         }
-        str3 = str;
-        str4 = str2;
-        arrayList2 = null;
-        TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old22 = new TLRPC$TL_userContact_old2();
-        this.currentUser = tLRPC$TL_userContact_old22;
-        if (tLRPC$User2 == null) {
+        firstName2 = firstName;
+        lastName2 = lastName;
+        TLRPC.TL_userContact_old2 tL_userContact_old22 = new TLRPC.TL_userContact_old2();
+        this.currentUser = tL_userContact_old22;
+        if (user2 == null) {
         }
-        this.parentFragment = baseFragment;
-        final Context parentActivity2 = baseFragment.getParentActivity();
+        this.parentFragment = parent;
+        final Context context2 = parent.getParentActivity();
         updateRows();
-        FrameLayout frameLayout2 = new FrameLayout(parentActivity2) { // from class: org.telegram.ui.Components.PhonebookShareAlert.1
+        FrameLayout frameLayout2 = new FrameLayout(context2) { // from class: org.telegram.ui.Components.PhonebookShareAlert.1
             private boolean ignoreLayout;
             private RectF rect = new RectF();
 
             @Override // android.view.ViewGroup
-            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                if (motionEvent.getAction() == 0 && PhonebookShareAlert.this.scrollOffsetY != 0 && motionEvent.getY() < PhonebookShareAlert.this.scrollOffsetY && PhonebookShareAlert.this.actionBar.getAlpha() == 0.0f) {
+            public boolean onInterceptTouchEvent(MotionEvent ev) {
+                if (ev.getAction() == 0 && PhonebookShareAlert.this.scrollOffsetY != 0 && ev.getY() < PhonebookShareAlert.this.scrollOffsetY && PhonebookShareAlert.this.actionBar.getAlpha() == 0.0f) {
                     PhonebookShareAlert.this.dismiss();
                     return true;
                 }
-                return super.onInterceptTouchEvent(motionEvent);
+                return super.onInterceptTouchEvent(ev);
             }
 
             @Override // android.view.View
-            public boolean onTouchEvent(MotionEvent motionEvent) {
-                return !PhonebookShareAlert.this.isDismissed() && super.onTouchEvent(motionEvent);
+            public boolean onTouchEvent(MotionEvent event) {
+                return !PhonebookShareAlert.this.isDismissed() && super.onTouchEvent(event);
             }
 
             @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i4, int i5) {
-                int size = View.MeasureSpec.getSize(i5);
+            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                int padding;
+                int totalHeight = View.MeasureSpec.getSize(heightMeasureSpec);
                 if (Build.VERSION.SDK_INT >= 21) {
                     this.ignoreLayout = true;
-                    setPadding(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, 0);
+                    setPadding(PhonebookShareAlert.this.backgroundPaddingLeft, AndroidUtilities.statusBarHeight, PhonebookShareAlert.this.backgroundPaddingLeft, 0);
                     this.ignoreLayout = false;
                 }
-                int paddingTop = size - getPaddingTop();
-                View.MeasureSpec.getSize(i4);
-                int unused = ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft;
-                ((FrameLayout.LayoutParams) PhonebookShareAlert.this.actionBarShadow.getLayoutParams()).topMargin = ActionBar.getCurrentActionBarHeight();
+                int availableHeight = totalHeight - getPaddingTop();
+                int size = View.MeasureSpec.getSize(widthMeasureSpec) - (PhonebookShareAlert.this.backgroundPaddingLeft * 2);
+                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) PhonebookShareAlert.this.actionBarShadow.getLayoutParams();
+                layoutParams.topMargin = ActionBar.getCurrentActionBarHeight();
                 this.ignoreLayout = true;
-                int dp = AndroidUtilities.dp(80.0f);
-                int itemCount2 = PhonebookShareAlert.this.listAdapter.getItemCount();
-                for (int i6 = 0; i6 < itemCount2; i6++) {
-                    View createView2 = PhonebookShareAlert.this.listAdapter.createView(parentActivity2, i6);
-                    createView2.measure(i4, View.MeasureSpec.makeMeasureSpec(0, 0));
-                    dp += createView2.getMeasuredHeight();
+                int contentSize = AndroidUtilities.dp(80.0f);
+                int count = PhonebookShareAlert.this.listAdapter.getItemCount();
+                for (int a3 = 0; a3 < count; a3++) {
+                    View view4 = PhonebookShareAlert.this.listAdapter.createView(context2, a3);
+                    view4.measure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(0, 0));
+                    contentSize += view4.getMeasuredHeight();
                 }
-                int i7 = dp < paddingTop ? paddingTop - dp : paddingTop / 5;
-                if (PhonebookShareAlert.this.scrollView.getPaddingTop() != i7) {
-                    PhonebookShareAlert.this.scrollView.getPaddingTop();
-                    PhonebookShareAlert.this.scrollView.setPadding(0, i7, 0, 0);
+                if (contentSize < availableHeight) {
+                    padding = availableHeight - contentSize;
+                } else {
+                    padding = availableHeight / 5;
+                }
+                if (PhonebookShareAlert.this.scrollView.getPaddingTop() != padding) {
+                    int paddingTop = PhonebookShareAlert.this.scrollView.getPaddingTop() - padding;
+                    PhonebookShareAlert.this.scrollView.setPadding(0, padding, 0, 0);
                 }
                 this.ignoreLayout = false;
-                super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+                super.onMeasure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(totalHeight, C.BUFFER_FLAG_ENCRYPTED));
             }
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z2, int i4, int i5, int i6, int i7) {
+            protected void onLayout(boolean changed, int l, int t, int r, int b2) {
                 PhonebookShareAlert.this.inLayout = true;
-                super.onLayout(z2, i4, i5, i6, i7);
+                super.onLayout(changed, l, t, r, b2);
                 PhonebookShareAlert.this.inLayout = false;
                 PhonebookShareAlert.this.updateLayout(false);
             }
@@ -649,26 +678,28 @@ public class PhonebookShareAlert extends BottomSheet {
 
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
-                int i4 = PhonebookShareAlert.this.scrollOffsetY - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop;
-                int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(30.0f) + ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop;
-                float dp = AndroidUtilities.dp(12.0f);
-                float min = ((float) (((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4)) < dp ? 1.0f - Math.min(1.0f, ((dp - i4) - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop) / dp) : 1.0f;
+                int top = PhonebookShareAlert.this.scrollOffsetY - PhonebookShareAlert.this.backgroundPaddingTop;
+                int height = getMeasuredHeight() + AndroidUtilities.dp(30.0f) + PhonebookShareAlert.this.backgroundPaddingTop;
+                float rad = 1.0f;
+                float r = AndroidUtilities.dp(12.0f);
+                if (PhonebookShareAlert.this.backgroundPaddingTop + top < r) {
+                    rad = 1.0f - Math.min(1.0f, ((r - top) - PhonebookShareAlert.this.backgroundPaddingTop) / r);
+                }
                 if (Build.VERSION.SDK_INT >= 21) {
-                    int i5 = AndroidUtilities.statusBarHeight;
-                    i4 += i5;
-                    measuredHeight -= i5;
+                    top += AndroidUtilities.statusBarHeight;
+                    height -= AndroidUtilities.statusBarHeight;
                 }
-                ((BottomSheet) PhonebookShareAlert.this).shadowDrawable.setBounds(0, i4, getMeasuredWidth(), measuredHeight);
-                ((BottomSheet) PhonebookShareAlert.this).shadowDrawable.draw(canvas);
-                if (min != 1.0f) {
-                    PhonebookShareAlert.this.backgroundPaint.setColor(PhonebookShareAlert.this.getThemedColor("dialogBackground"));
-                    this.rect.set(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4, getMeasuredWidth() - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4 + AndroidUtilities.dp(24.0f));
-                    float f = dp * min;
-                    canvas.drawRoundRect(this.rect, f, f, PhonebookShareAlert.this.backgroundPaint);
+                PhonebookShareAlert.this.shadowDrawable.setBounds(0, top, getMeasuredWidth(), height);
+                PhonebookShareAlert.this.shadowDrawable.draw(canvas);
+                if (rad != 1.0f) {
+                    PhonebookShareAlert.this.backgroundPaint.setColor(PhonebookShareAlert.this.getThemedColor(Theme.key_dialogBackground));
+                    this.rect.set(PhonebookShareAlert.this.backgroundPaddingLeft, PhonebookShareAlert.this.backgroundPaddingTop + top, getMeasuredWidth() - PhonebookShareAlert.this.backgroundPaddingLeft, PhonebookShareAlert.this.backgroundPaddingTop + top + AndroidUtilities.dp(24.0f));
+                    canvas.drawRoundRect(this.rect, r * rad, r * rad, PhonebookShareAlert.this.backgroundPaint);
                 }
-                int themedColor = PhonebookShareAlert.this.getThemedColor("dialogBackground");
-                PhonebookShareAlert.this.backgroundPaint.setColor(Color.argb((int) (PhonebookShareAlert.this.actionBar.getAlpha() * 255.0f), (int) (Color.red(themedColor) * 0.8f), (int) (Color.green(themedColor) * 0.8f), (int) (Color.blue(themedColor) * 0.8f)));
-                canvas.drawRect(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, 0.0f, getMeasuredWidth() - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, PhonebookShareAlert.this.backgroundPaint);
+                int color1 = PhonebookShareAlert.this.getThemedColor(Theme.key_dialogBackground);
+                int finalColor = Color.argb((int) (PhonebookShareAlert.this.actionBar.getAlpha() * 255.0f), (int) (Color.red(color1) * 0.8f), (int) (Color.green(color1) * 0.8f), (int) (Color.blue(color1) * 0.8f));
+                PhonebookShareAlert.this.backgroundPaint.setColor(finalColor);
+                canvas.drawRect(PhonebookShareAlert.this.backgroundPaddingLeft, 0.0f, getMeasuredWidth() - PhonebookShareAlert.this.backgroundPaddingLeft, AndroidUtilities.statusBarHeight, PhonebookShareAlert.this.backgroundPaint);
             }
         };
         frameLayout2.setWillNotDraw(false);
@@ -676,13 +707,13 @@ public class PhonebookShareAlert extends BottomSheet {
         setApplyTopPadding(false);
         setApplyBottomPadding(false);
         this.listAdapter = new ListAdapter();
-        NestedScrollView nestedScrollView2 = new NestedScrollView(parentActivity2) { // from class: org.telegram.ui.Components.PhonebookShareAlert.2
+        NestedScrollView nestedScrollView2 = new NestedScrollView(context2) { // from class: org.telegram.ui.Components.PhonebookShareAlert.2
             private View focusingView;
 
             @Override // androidx.core.widget.NestedScrollView, android.view.ViewGroup, android.view.ViewParent
-            public void requestChildFocus(View view3, View view22) {
-                this.focusingView = view22;
-                super.requestChildFocus(view3, view22);
+            public void requestChildFocus(View child, View focused) {
+                this.focusingView = focused;
+                super.requestChildFocus(child, focused);
             }
 
             @Override // androidx.core.widget.NestedScrollView
@@ -690,41 +721,47 @@ public class PhonebookShareAlert extends BottomSheet {
                 if (this.focusingView == null || PhonebookShareAlert.this.linearLayout.getTop() != getPaddingTop()) {
                     return 0;
                 }
-                int computeScrollDeltaToGetChildRectOnScreen = super.computeScrollDeltaToGetChildRectOnScreen(rect);
-                int currentActionBarHeight = ActionBar.getCurrentActionBarHeight() - (((this.focusingView.getTop() - getScrollY()) + rect.top) + computeScrollDeltaToGetChildRectOnScreen);
-                return currentActionBarHeight > 0 ? computeScrollDeltaToGetChildRectOnScreen - (currentActionBarHeight + AndroidUtilities.dp(10.0f)) : computeScrollDeltaToGetChildRectOnScreen;
+                int delta = super.computeScrollDeltaToGetChildRectOnScreen(rect);
+                int currentViewY = (this.focusingView.getTop() - getScrollY()) + rect.top + delta;
+                int diff = ActionBar.getCurrentActionBarHeight() - currentViewY;
+                if (diff > 0) {
+                    return delta - (AndroidUtilities.dp(10.0f) + diff);
+                }
+                return delta;
             }
         };
         this.scrollView = nestedScrollView2;
         nestedScrollView2.setClipToPadding(false);
         this.scrollView.setVerticalScrollBarEnabled(false);
         frameLayout2.addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 77.0f));
-        LinearLayout linearLayout2 = new LinearLayout(parentActivity2);
+        LinearLayout linearLayout2 = new LinearLayout(context2);
         this.linearLayout = linearLayout2;
         linearLayout2.setOrientation(1);
+        int i2 = -1;
         this.scrollView.addView(this.linearLayout, LayoutHelper.createScroll(-1, -1, 51));
         this.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda4
             @Override // androidx.core.widget.NestedScrollView.OnScrollChangeListener
-            public final void onScrollChange(NestedScrollView nestedScrollView22, int i4, int i5, int i6, int i7) {
-                PhonebookShareAlert.this.lambda$new$0(nestedScrollView22, i4, i5, i6, i7);
+            public final void onScrollChange(NestedScrollView nestedScrollView22, int i22, int i3, int i4, int i5) {
+                PhonebookShareAlert.this.m2808lambda$new$0$orgtelegramuiComponentsPhonebookShareAlert(nestedScrollView22, i22, i3, i4, i5);
             }
         });
-        itemCount = this.listAdapter.getItemCount();
-        while (i < itemCount) {
+        a = 0;
+        N = this.listAdapter.getItemCount();
+        while (a < N) {
         }
-        ActionBar actionBar2 = new ActionBar(parentActivity2) { // from class: org.telegram.ui.Components.PhonebookShareAlert.3
+        ActionBar actionBar2 = new ActionBar(context2) { // from class: org.telegram.ui.Components.PhonebookShareAlert.3
             @Override // android.view.View
-            public void setAlpha(float f) {
-                super.setAlpha(f);
-                ((BottomSheet) PhonebookShareAlert.this).containerView.invalidate();
+            public void setAlpha(float alpha) {
+                super.setAlpha(alpha);
+                PhonebookShareAlert.this.containerView.invalidate();
             }
         };
         this.actionBar = actionBar2;
-        actionBar2.setBackgroundColor(getThemedColor("dialogBackground"));
+        actionBar2.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-        this.actionBar.setItemsColor(getThemedColor("dialogTextBlack"), false);
-        this.actionBar.setItemsBackgroundColor(getThemedColor("dialogButtonSelector"), false);
-        this.actionBar.setTitleColor(getThemedColor("dialogTextBlack"));
+        this.actionBar.setItemsColor(getThemedColor(Theme.key_dialogTextBlack), false);
+        this.actionBar.setItemsBackgroundColor(getThemedColor(Theme.key_dialogButtonSelector), false);
+        this.actionBar.setTitleColor(getThemedColor(Theme.key_dialogTextBlack));
         this.actionBar.setOccupyStatusBar(false);
         this.actionBar.setAlpha(0.0f);
         if (!this.isImport) {
@@ -732,63 +769,67 @@ public class PhonebookShareAlert extends BottomSheet {
         this.containerView.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Components.PhonebookShareAlert.4
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i4) {
-                if (i4 == -1) {
+            public void onItemClick(int id) {
+                if (id == -1) {
                     PhonebookShareAlert.this.dismiss();
                 }
             }
         });
-        View view3 = new View(parentActivity2);
-        this.actionBarShadow = view3;
-        view3.setAlpha(0.0f);
-        this.actionBarShadow.setBackgroundColor(getThemedColor("dialogShadowLine"));
+        View view22 = new View(context2);
+        this.actionBarShadow = view22;
+        view22.setAlpha(0.0f);
+        this.actionBarShadow.setBackgroundColor(getThemedColor(Theme.key_dialogShadowLine));
         this.containerView.addView(this.actionBarShadow, LayoutHelper.createFrame(-1, 1.0f));
-        View view22 = new View(parentActivity2);
-        this.shadow = view22;
-        view22.setBackgroundColor(getThemedColor("dialogShadowLine"));
+        View view32 = new View(context2);
+        this.shadow = view32;
+        view32.setBackgroundColor(getThemedColor(Theme.key_dialogShadowLine));
         this.shadow.setAlpha(0.0f);
         this.containerView.addView(this.shadow, LayoutHelper.createFrame(-1, 1.0f, 83, 0.0f, 0.0f, 0.0f, 77.0f));
-        TextView textView2 = new TextView(parentActivity2);
+        TextView textView2 = new TextView(context2);
         this.buttonTextView = textView2;
         textView2.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         this.buttonTextView.setGravity(17);
-        this.buttonTextView.setTextColor(getThemedColor("featuredStickers_buttonText"));
+        this.buttonTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
         this.buttonTextView.setTextSize(1, 14.0f);
         if (!this.isImport) {
         }
         this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor("featuredStickers_addButton"), getThemedColor("featuredStickers_addButtonPressed")));
+        this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
         frameLayout2.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 42.0f, 83, 16.0f, 16.0f, 16.0f, 16.0f));
         this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
-            public final void onClick(View view32) {
-                PhonebookShareAlert.this.lambda$new$5(resourcesProvider, view32);
+            public final void onClick(View view4) {
+                PhonebookShareAlert.this.m2813lambda$new$5$orgtelegramuiComponentsPhonebookShareAlert(resourcesProvider, view4);
             }
         });
     }
 
-    public /* synthetic */ void lambda$new$0(NestedScrollView nestedScrollView, int i, int i2, int i3, int i4) {
+    /* renamed from: lambda$new$0$org-telegram-ui-Components-PhonebookShareAlert */
+    public /* synthetic */ void m2808lambda$new$0$orgtelegramuiComponentsPhonebookShareAlert(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
         updateLayout(!this.inLayout);
     }
 
-    public /* synthetic */ void lambda$new$2(int i, View view, View view2) {
-        final AndroidUtilities.VcardItem vcardItem;
-        int i2 = this.phoneStartRow;
-        if (i >= i2 && i < this.phoneEndRow) {
-            vcardItem = this.phones.get(i - i2);
+    /* renamed from: lambda$new$2$org-telegram-ui-Components-PhonebookShareAlert */
+    public /* synthetic */ void m2810lambda$new$2$orgtelegramuiComponentsPhonebookShareAlert(int position, View view, View v) {
+        final AndroidUtilities.VcardItem item;
+        int i = this.phoneStartRow;
+        if (position >= i && position < this.phoneEndRow) {
+            item = this.phones.get(position - i);
         } else {
-            int i3 = this.vcardStartRow;
-            vcardItem = (i < i3 || i >= this.vcardEndRow) ? null : this.other.get(i - i3);
+            int i2 = this.vcardStartRow;
+            if (position >= i2 && position < this.vcardEndRow) {
+                item = this.other.get(position - i2);
+            } else {
+                item = null;
+            }
         }
-        if (vcardItem == null) {
+        if (item == null) {
             return;
         }
-        boolean z = true;
         if (this.isImport) {
-            int i4 = vcardItem.type;
-            if (i4 == 0) {
+            if (item.type == 0) {
                 try {
-                    Intent intent = new Intent("android.intent.action.DIAL", Uri.parse("tel:" + vcardItem.getValue(false)));
+                    Intent intent = new Intent("android.intent.action.DIAL", Uri.parse("tel:" + item.getValue(false)));
                     intent.addFlags(268435456);
                     this.parentFragment.getParentActivity().startActivityForResult(intent, 500);
                     return;
@@ -796,412 +837,478 @@ public class PhonebookShareAlert extends BottomSheet {
                     FileLog.e(e);
                     return;
                 }
-            } else if (i4 == 1) {
-                Browser.openUrl(this.parentFragment.getParentActivity(), "mailto:" + vcardItem.getValue(false));
+            } else if (item.type == 1) {
+                Browser.openUrl(this.parentFragment.getParentActivity(), MailTo.MAILTO_SCHEME + item.getValue(false));
                 return;
-            } else if (i4 == 3) {
-                String value = vcardItem.getValue(false);
-                if (!value.startsWith("http")) {
-                    value = "http://" + value;
+            } else if (item.type == 3) {
+                String url = item.getValue(false);
+                if (!url.startsWith("http")) {
+                    url = "http://" + url;
                 }
-                Browser.openUrl(this.parentFragment.getParentActivity(), value);
+                Browser.openUrl(this.parentFragment.getParentActivity(), url);
                 return;
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this.parentFragment.getParentActivity());
                 builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i5) {
-                        PhonebookShareAlert.this.lambda$new$1(vcardItem, dialogInterface, i5);
+                    public final void onClick(DialogInterface dialogInterface, int i3) {
+                        PhonebookShareAlert.this.m2809lambda$new$1$orgtelegramuiComponentsPhonebookShareAlert(item, dialogInterface, i3);
                     }
                 });
                 builder.show();
                 return;
             }
         }
-        vcardItem.checked = !vcardItem.checked;
-        if (i >= this.phoneStartRow && i < this.phoneEndRow) {
-            int i5 = 0;
+        item.checked = !item.checked;
+        if (position >= this.phoneStartRow && position < this.phoneEndRow) {
+            boolean hasChecked = false;
+            int b = 0;
             while (true) {
-                if (i5 >= this.phones.size()) {
-                    z = false;
+                if (b >= this.phones.size()) {
                     break;
-                } else if (this.phones.get(i5).checked) {
-                    break;
+                } else if (!this.phones.get(b).checked) {
+                    b++;
                 } else {
-                    i5++;
+                    hasChecked = true;
+                    break;
                 }
             }
-            int themedColor = getThemedColor("featuredStickers_buttonText");
-            this.buttonTextView.setEnabled(z);
-            TextView textView = this.buttonTextView;
-            if (!z) {
-                themedColor &= ConnectionsManager.DEFAULT_DATACENTER_ID;
-            }
-            textView.setTextColor(themedColor);
+            int color = getThemedColor(Theme.key_featuredStickers_buttonText);
+            this.buttonTextView.setEnabled(hasChecked);
+            this.buttonTextView.setTextColor(hasChecked ? color : Integer.MAX_VALUE & color);
         }
-        ((TextCheckBoxCell) view).setChecked(vcardItem.checked);
+        TextCheckBoxCell cell = (TextCheckBoxCell) view;
+        cell.setChecked(item.checked);
     }
 
-    public /* synthetic */ void lambda$new$1(AndroidUtilities.VcardItem vcardItem, DialogInterface dialogInterface, int i) {
+    /* renamed from: lambda$new$1$org-telegram-ui-Components-PhonebookShareAlert */
+    public /* synthetic */ void m2809lambda$new$1$orgtelegramuiComponentsPhonebookShareAlert(AndroidUtilities.VcardItem item, DialogInterface dialogInterface, int i) {
         if (i == 0) {
             try {
-                ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", vcardItem.getValue(false)));
-                if (Build.VERSION.SDK_INT >= 31) {
-                    return;
+                ClipboardManager clipboard = (ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard");
+                ClipData clip = ClipData.newPlainText(Constants.ScionAnalytics.PARAM_LABEL, item.getValue(false));
+                clipboard.setPrimaryClip(clip);
+                if (Build.VERSION.SDK_INT < 31) {
+                    Toast.makeText(this.parentFragment.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
                 }
-                Toast.makeText(this.parentFragment.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
     }
 
-    public /* synthetic */ boolean lambda$new$3(int i, Theme.ResourcesProvider resourcesProvider, Context context, View view) {
-        AndroidUtilities.VcardItem vcardItem;
-        int i2 = this.phoneStartRow;
-        if (i >= i2 && i < this.phoneEndRow) {
-            vcardItem = this.phones.get(i - i2);
+    /* renamed from: lambda$new$3$org-telegram-ui-Components-PhonebookShareAlert */
+    public /* synthetic */ boolean m2811lambda$new$3$orgtelegramuiComponentsPhonebookShareAlert(int position, Theme.ResourcesProvider resourcesProvider, Context context, View v) {
+        AndroidUtilities.VcardItem item;
+        int i = this.phoneStartRow;
+        if (position >= i && position < this.phoneEndRow) {
+            item = this.phones.get(position - i);
         } else {
-            int i3 = this.vcardStartRow;
-            vcardItem = (i < i3 || i >= this.vcardEndRow) ? null : this.other.get(i - i3);
+            int i2 = this.vcardStartRow;
+            if (position >= i2 && position < this.vcardEndRow) {
+                item = this.other.get(position - i2);
+            } else {
+                item = null;
+            }
         }
-        if (vcardItem == null) {
+        if (item == null) {
             return false;
         }
-        ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", vcardItem.getValue(false)));
+        ClipboardManager clipboard = (ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard");
+        ClipData clip = ClipData.newPlainText(Constants.ScionAnalytics.PARAM_LABEL, item.getValue(false));
+        clipboard.setPrimaryClip(clip);
         if (BulletinFactory.canShowBulletin(this.parentFragment)) {
-            if (vcardItem.type == 3) {
+            if (item.type == 3) {
                 BulletinFactory.of((FrameLayout) this.containerView, resourcesProvider).createCopyLinkBulletin().show();
             } else {
-                Bulletin.SimpleLayout simpleLayout = new Bulletin.SimpleLayout(context, resourcesProvider);
-                int i4 = vcardItem.type;
-                if (i4 == 0) {
-                    simpleLayout.textView.setText(LocaleController.getString("PhoneCopied", R.string.PhoneCopied));
-                    simpleLayout.imageView.setImageResource(R.drawable.msg_calls);
-                } else if (i4 == 1) {
-                    simpleLayout.textView.setText(LocaleController.getString("EmailCopied", R.string.EmailCopied));
-                    simpleLayout.imageView.setImageResource(R.drawable.msg_mention);
+                Bulletin.SimpleLayout layout = new Bulletin.SimpleLayout(context, resourcesProvider);
+                if (item.type == 0) {
+                    layout.textView.setText(LocaleController.getString("PhoneCopied", R.string.PhoneCopied));
+                    layout.imageView.setImageResource(R.drawable.msg_calls);
+                } else if (item.type == 1) {
+                    layout.textView.setText(LocaleController.getString("EmailCopied", R.string.EmailCopied));
+                    layout.imageView.setImageResource(R.drawable.msg_mention);
                 } else {
-                    simpleLayout.textView.setText(LocaleController.getString("TextCopied", R.string.TextCopied));
-                    simpleLayout.imageView.setImageResource(R.drawable.msg_info);
+                    layout.textView.setText(LocaleController.getString("TextCopied", R.string.TextCopied));
+                    layout.imageView.setImageResource(R.drawable.msg_info);
                 }
                 if (Build.VERSION.SDK_INT < 31) {
-                    Bulletin.make((FrameLayout) this.containerView, simpleLayout, 1500).show();
+                    Bulletin.make((FrameLayout) this.containerView, layout, 1500).show();
                 }
             }
         }
         return true;
     }
 
-    public /* synthetic */ void lambda$new$5(Theme.ResourcesProvider resourcesProvider, View view) {
-        StringBuilder sb;
+    /* renamed from: lambda$new$5$org-telegram-ui-Components-PhonebookShareAlert */
+    public /* synthetic */ void m2813lambda$new$5$orgtelegramuiComponentsPhonebookShareAlert(Theme.ResourcesProvider resourcesProvider, View v) {
+        StringBuilder builder;
         if (this.isImport) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle(LocaleController.getString("AddContactTitle", R.string.AddContactTitle));
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-            builder.setItems(new CharSequence[]{LocaleController.getString("CreateNewContact", R.string.CreateNewContact), LocaleController.getString("AddToExistingContact", R.string.AddToExistingContact)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert.5
-                private void fillRowWithType(String str, ContentValues contentValues) {
-                    if (str.startsWith("X-")) {
-                        contentValues.put("data2", (Integer) 0);
-                        contentValues.put("data3", str.substring(2));
-                    } else if ("PREF".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 12);
-                    } else if ("HOME".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 1);
-                    } else if ("MOBILE".equalsIgnoreCase(str) || "CELL".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 2);
-                    } else if ("OTHER".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 7);
-                    } else if ("WORK".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 3);
-                    } else if ("RADIO".equalsIgnoreCase(str) || "VOICE".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 14);
-                    } else if ("PAGER".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 6);
-                    } else if ("CALLBACK".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 8);
-                    } else if ("CAR".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 9);
-                    } else if ("ASSISTANT".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 19);
-                    } else if ("MMS".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 20);
-                    } else if (str.startsWith("FAX")) {
-                        contentValues.put("data2", (Integer) 4);
+            AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+            builder2.setTitle(LocaleController.getString("AddContactTitle", R.string.AddContactTitle));
+            builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder2.setItems(new CharSequence[]{LocaleController.getString("CreateNewContact", R.string.CreateNewContact), LocaleController.getString("AddToExistingContact", R.string.AddToExistingContact)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert.5
+                private void fillRowWithType(String type, ContentValues row) {
+                    if (type.startsWith("X-")) {
+                        row.put("data2", (Integer) 0);
+                        row.put("data3", type.substring(2));
+                    } else if ("PREF".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 12);
+                    } else if ("HOME".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 1);
+                    } else if ("MOBILE".equalsIgnoreCase(type) || "CELL".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 2);
+                    } else if ("OTHER".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 7);
+                    } else if ("WORK".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 3);
+                    } else if ("RADIO".equalsIgnoreCase(type) || "VOICE".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 14);
+                    } else if ("PAGER".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 6);
+                    } else if ("CALLBACK".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 8);
+                    } else if ("CAR".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 9);
+                    } else if ("ASSISTANT".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 19);
+                    } else if ("MMS".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 20);
+                    } else if (type.startsWith("FAX")) {
+                        row.put("data2", (Integer) 4);
                     } else {
-                        contentValues.put("data2", (Integer) 0);
-                        contentValues.put("data3", str);
+                        row.put("data2", (Integer) 0);
+                        row.put("data3", type);
                     }
                 }
 
-                private void fillUrlRowWithType(String str, ContentValues contentValues) {
-                    if (str.startsWith("X-")) {
-                        contentValues.put("data2", (Integer) 0);
-                        contentValues.put("data3", str.substring(2));
-                    } else if ("HOMEPAGE".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 1);
-                    } else if ("BLOG".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 2);
-                    } else if ("PROFILE".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 3);
-                    } else if ("HOME".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 4);
-                    } else if ("WORK".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 5);
-                    } else if ("FTP".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 6);
-                    } else if ("OTHER".equalsIgnoreCase(str)) {
-                        contentValues.put("data2", (Integer) 7);
+                private void fillUrlRowWithType(String type, ContentValues row) {
+                    if (type.startsWith("X-")) {
+                        row.put("data2", (Integer) 0);
+                        row.put("data3", type.substring(2));
+                    } else if ("HOMEPAGE".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 1);
+                    } else if ("BLOG".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 2);
+                    } else if ("PROFILE".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 3);
+                    } else if ("HOME".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 4);
+                    } else if ("WORK".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 5);
+                    } else if ("FTP".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 6);
+                    } else if ("OTHER".equalsIgnoreCase(type)) {
+                        row.put("data2", (Integer) 7);
                     } else {
-                        contentValues.put("data2", (Integer) 0);
-                        contentValues.put("data3", str);
+                        row.put("data2", (Integer) 0);
+                        row.put("data3", type);
                     }
                 }
 
                 @Override // android.content.DialogInterface.OnClickListener
-                public void onClick(DialogInterface dialogInterface, int i) {
+                public void onClick(DialogInterface dialog, int which) {
                     Intent intent;
-                    int i2;
-                    Intent intent2;
+                    String str;
                     boolean z;
+                    int a;
+                    Intent intent2;
+                    String str2;
+                    boolean orgAdded;
+                    AndroidUtilities.VcardItem item;
+                    String str3;
                     AnonymousClass5 anonymousClass5 = this;
-                    int i3 = 1;
-                    if (i == 0) {
-                        intent = new Intent("android.intent.action.INSERT");
-                        intent.setType("vnd.android.cursor.dir/raw_contact");
-                    } else if (i == 1) {
-                        intent = new Intent("android.intent.action.INSERT_OR_EDIT");
-                        intent.setType("vnd.android.cursor.item/contact");
-                    } else {
+                    int i = 1;
+                    if (which == 0) {
+                        Intent intent3 = new Intent("android.intent.action.INSERT");
+                        intent3.setType("vnd.android.cursor.dir/raw_contact");
+                        intent = intent3;
+                    } else if (which != 1) {
                         intent = null;
+                    } else {
+                        Intent intent4 = new Intent("android.intent.action.INSERT_OR_EDIT");
+                        intent4.setType("vnd.android.cursor.item/contact");
+                        intent = intent4;
                     }
-                    intent.putExtra("name", ContactsController.formatName(PhonebookShareAlert.this.currentUser.first_name, PhonebookShareAlert.this.currentUser.last_name));
-                    ArrayList<? extends Parcelable> arrayList = new ArrayList<>();
-                    boolean z2 = false;
-                    for (int i4 = 0; i4 < PhonebookShareAlert.this.phones.size(); i4++) {
-                        AndroidUtilities.VcardItem vcardItem = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.phones.get(i4);
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put("mimetype", "vnd.android.cursor.item/phone_v2");
-                        contentValues.put("data1", vcardItem.getValue(false));
-                        anonymousClass5.fillRowWithType(vcardItem.getRawType(false), contentValues);
-                        arrayList.add(contentValues);
+                    intent.putExtra(CommonProperties.NAME, ContactsController.formatName(PhonebookShareAlert.this.currentUser.first_name, PhonebookShareAlert.this.currentUser.last_name));
+                    ArrayList data = new ArrayList();
+                    int a2 = 0;
+                    while (true) {
+                        str = "mimetype";
+                        z = false;
+                        if (a2 >= PhonebookShareAlert.this.phones.size()) {
+                            break;
+                        }
+                        AndroidUtilities.VcardItem item2 = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.phones.get(a2);
+                        ContentValues row = new ContentValues();
+                        row.put(str, "vnd.android.cursor.item/phone_v2");
+                        row.put("data1", item2.getValue(false));
+                        anonymousClass5.fillRowWithType(item2.getRawType(false), row);
+                        data.add(row);
+                        a2++;
                     }
-                    int i5 = 0;
-                    boolean z3 = false;
-                    while (i5 < PhonebookShareAlert.this.other.size()) {
-                        AndroidUtilities.VcardItem vcardItem2 = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(i5);
-                        int i6 = vcardItem2.type;
-                        if (i6 == i3) {
-                            ContentValues contentValues2 = new ContentValues();
-                            contentValues2.put("mimetype", "vnd.android.cursor.item/email_v2");
-                            contentValues2.put("data1", vcardItem2.getValue(z2));
-                            anonymousClass5.fillRowWithType(vcardItem2.getRawType(z2), contentValues2);
-                            arrayList.add(contentValues2);
-                        } else if (i6 == 3) {
-                            ContentValues contentValues3 = new ContentValues();
-                            contentValues3.put("mimetype", "vnd.android.cursor.item/website");
-                            contentValues3.put("data1", vcardItem2.getValue(z2));
-                            anonymousClass5.fillUrlRowWithType(vcardItem2.getRawType(z2), contentValues3);
-                            arrayList.add(contentValues3);
-                        } else if (i6 == 4) {
-                            ContentValues contentValues4 = new ContentValues();
-                            contentValues4.put("mimetype", "vnd.android.cursor.item/note");
-                            contentValues4.put("data1", vcardItem2.getValue(z2));
-                            arrayList.add(contentValues4);
-                        } else if (i6 == 5) {
-                            ContentValues contentValues5 = new ContentValues();
-                            contentValues5.put("mimetype", "vnd.android.cursor.item/contact_event");
-                            contentValues5.put("data1", vcardItem2.getValue(z2));
-                            contentValues5.put("data2", (Integer) 3);
-                            arrayList.add(contentValues5);
+                    boolean orgAdded2 = false;
+                    int a3 = 0;
+                    while (a3 < PhonebookShareAlert.this.other.size()) {
+                        AndroidUtilities.VcardItem item3 = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(a3);
+                        if (item3.type == i) {
+                            ContentValues row2 = new ContentValues();
+                            row2.put(str, "vnd.android.cursor.item/email_v2");
+                            row2.put("data1", item3.getValue(z));
+                            anonymousClass5.fillRowWithType(item3.getRawType(z), row2);
+                            data.add(row2);
+                            a = a3;
+                            intent2 = intent;
+                            orgAdded = orgAdded2;
+                            str2 = str;
+                        } else if (item3.type == 3) {
+                            ContentValues row3 = new ContentValues();
+                            row3.put(str, "vnd.android.cursor.item/website");
+                            row3.put("data1", item3.getValue(z));
+                            anonymousClass5.fillUrlRowWithType(item3.getRawType(z), row3);
+                            data.add(row3);
+                            a = a3;
+                            intent2 = intent;
+                            orgAdded = orgAdded2;
+                            str2 = str;
+                        } else if (item3.type == 4) {
+                            ContentValues row4 = new ContentValues();
+                            row4.put(str, "vnd.android.cursor.item/note");
+                            row4.put("data1", item3.getValue(z));
+                            data.add(row4);
+                            a = a3;
+                            intent2 = intent;
+                            orgAdded = orgAdded2;
+                            str2 = str;
+                        } else if (item3.type == 5) {
+                            ContentValues row5 = new ContentValues();
+                            row5.put(str, "vnd.android.cursor.item/contact_event");
+                            row5.put("data1", item3.getValue(z));
+                            row5.put("data2", (Integer) 3);
+                            data.add(row5);
+                            a = a3;
+                            intent2 = intent;
+                            orgAdded = orgAdded2;
+                            str2 = str;
                         } else {
                             intent2 = intent;
-                            i2 = i5;
-                            if (i6 == 2) {
-                                ContentValues contentValues6 = new ContentValues();
-                                contentValues6.put("mimetype", "vnd.android.cursor.item/postal-address_v2");
-                                String[] rawValue = vcardItem2.getRawValue();
-                                z = z3;
-                                if (rawValue.length > 0) {
-                                    contentValues6.put("data5", rawValue[0]);
+                            String str4 = "data5";
+                            if (item3.type == 2) {
+                                ContentValues row6 = new ContentValues();
+                                row6.put(str, "vnd.android.cursor.item/postal-address_v2");
+                                String[] args = item3.getRawValue();
+                                a = a3;
+                                int a4 = args.length;
+                                if (a4 <= 0) {
+                                    orgAdded = orgAdded2;
+                                } else {
+                                    orgAdded = orgAdded2;
+                                    row6.put(str4, args[0]);
                                 }
-                                if (rawValue.length > 1) {
-                                    contentValues6.put("data6", rawValue[1]);
+                                if (args.length > 1) {
+                                    row6.put("data6", args[1]);
                                 }
-                                if (rawValue.length > 2) {
-                                    contentValues6.put("data4", rawValue[2]);
+                                if (args.length > 2) {
+                                    row6.put("data4", args[2]);
                                 }
-                                if (rawValue.length > 3) {
-                                    contentValues6.put("data7", rawValue[3]);
+                                if (args.length > 3) {
+                                    row6.put("data7", args[3]);
                                 }
-                                if (rawValue.length > 4) {
-                                    contentValues6.put("data8", rawValue[4]);
+                                if (args.length > 4) {
+                                    row6.put("data8", args[4]);
                                 }
-                                if (rawValue.length > 5) {
-                                    contentValues6.put("data9", rawValue[5]);
+                                if (args.length > 5) {
+                                    row6.put("data9", args[5]);
                                 }
-                                if (rawValue.length > 6) {
-                                    contentValues6.put("data10", rawValue[6]);
+                                if (args.length > 6) {
+                                    row6.put("data10", args[6]);
                                 }
-                                String rawType = vcardItem2.getRawType(false);
-                                if ("HOME".equalsIgnoreCase(rawType)) {
-                                    contentValues6.put("data2", (Integer) 1);
-                                } else if ("WORK".equalsIgnoreCase(rawType)) {
-                                    contentValues6.put("data2", (Integer) 2);
-                                } else if ("OTHER".equalsIgnoreCase(rawType)) {
-                                    contentValues6.put("data2", (Integer) 3);
+                                String type = item3.getRawType(false);
+                                if ("HOME".equalsIgnoreCase(type)) {
+                                    row6.put("data2", (Integer) 1);
+                                } else if ("WORK".equalsIgnoreCase(type)) {
+                                    row6.put("data2", (Integer) 2);
+                                } else if ("OTHER".equalsIgnoreCase(type)) {
+                                    row6.put("data2", (Integer) 3);
                                 }
-                                arrayList.add(contentValues6);
+                                data.add(row6);
+                                anonymousClass5 = this;
+                                str2 = str;
                             } else {
-                                z = z3;
-                                if (i6 == 20) {
-                                    ContentValues contentValues7 = new ContentValues();
-                                    contentValues7.put("mimetype", "vnd.android.cursor.item/im");
-                                    String rawType2 = vcardItem2.getRawType(true);
-                                    String rawType3 = vcardItem2.getRawType(false);
-                                    contentValues7.put("data1", vcardItem2.getValue(false));
-                                    if ("AIM".equalsIgnoreCase(rawType2)) {
-                                        contentValues7.put("data5", (Integer) 0);
-                                    } else if ("MSN".equalsIgnoreCase(rawType2)) {
-                                        contentValues7.put("data5", (Integer) 1);
-                                    } else if ("YAHOO".equalsIgnoreCase(rawType2)) {
-                                        contentValues7.put("data5", (Integer) 2);
-                                    } else if ("SKYPE".equalsIgnoreCase(rawType2)) {
-                                        contentValues7.put("data5", (Integer) 3);
-                                    } else if ("QQ".equalsIgnoreCase(rawType2)) {
-                                        contentValues7.put("data5", (Integer) 4);
-                                    } else if ("GOOGLE-TALK".equalsIgnoreCase(rawType2)) {
-                                        contentValues7.put("data5", (Integer) 5);
-                                    } else if ("ICQ".equalsIgnoreCase(rawType2)) {
-                                        contentValues7.put("data5", (Integer) 6);
-                                    } else if ("JABBER".equalsIgnoreCase(rawType2)) {
-                                        contentValues7.put("data5", (Integer) 7);
-                                    } else if ("NETMEETING".equalsIgnoreCase(rawType2)) {
-                                        contentValues7.put("data5", (Integer) 8);
+                                a = a3;
+                                orgAdded = orgAdded2;
+                                int a5 = item3.type;
+                                if (a5 == 20) {
+                                    ContentValues row7 = new ContentValues();
+                                    row7.put(str, "vnd.android.cursor.item/im");
+                                    String imType = item3.getRawType(true);
+                                    String type2 = item3.getRawType(false);
+                                    row7.put("data1", item3.getValue(false));
+                                    if ("AIM".equalsIgnoreCase(imType)) {
+                                        row7.put(str4, (Integer) 0);
+                                    } else if ("MSN".equalsIgnoreCase(imType)) {
+                                        row7.put(str4, (Integer) 1);
+                                    } else if ("YAHOO".equalsIgnoreCase(imType)) {
+                                        row7.put(str4, (Integer) 2);
+                                    } else if ("SKYPE".equalsIgnoreCase(imType)) {
+                                        row7.put(str4, (Integer) 3);
+                                    } else if ("QQ".equalsIgnoreCase(imType)) {
+                                        row7.put(str4, (Integer) 4);
+                                    } else if ("GOOGLE-TALK".equalsIgnoreCase(imType)) {
+                                        row7.put(str4, (Integer) 5);
+                                    } else if ("ICQ".equalsIgnoreCase(imType)) {
+                                        row7.put(str4, (Integer) 6);
+                                    } else if ("JABBER".equalsIgnoreCase(imType)) {
+                                        row7.put(str4, (Integer) 7);
+                                    } else if ("NETMEETING".equalsIgnoreCase(imType)) {
+                                        row7.put(str4, (Integer) 8);
                                     } else {
-                                        contentValues7.put("data5", (Integer) (-1));
-                                        contentValues7.put("data6", vcardItem2.getRawType(true));
+                                        row7.put(str4, (Integer) (-1));
+                                        row7.put("data6", item3.getRawType(true));
                                     }
-                                    if ("HOME".equalsIgnoreCase(rawType3)) {
-                                        contentValues7.put("data2", (Integer) 1);
-                                    } else if ("WORK".equalsIgnoreCase(rawType3)) {
-                                        contentValues7.put("data2", (Integer) 2);
-                                    } else if ("OTHER".equalsIgnoreCase(rawType3)) {
-                                        contentValues7.put("data2", (Integer) 3);
+                                    if ("HOME".equalsIgnoreCase(type2)) {
+                                        row7.put("data2", (Integer) 1);
+                                    } else if ("WORK".equalsIgnoreCase(type2)) {
+                                        row7.put("data2", (Integer) 2);
+                                    } else if ("OTHER".equalsIgnoreCase(type2)) {
+                                        row7.put("data2", (Integer) 3);
                                     }
-                                    arrayList.add(contentValues7);
-                                } else if (i6 == 6 && !z) {
-                                    ContentValues contentValues8 = new ContentValues();
-                                    contentValues8.put("mimetype", "vnd.android.cursor.item/organization");
+                                    data.add(row7);
                                     anonymousClass5 = this;
-                                    for (int i7 = i2; i7 < PhonebookShareAlert.this.other.size(); i7++) {
-                                        AndroidUtilities.VcardItem vcardItem3 = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(i7);
-                                        if (vcardItem3.type == 6) {
-                                            String rawType4 = vcardItem3.getRawType(true);
-                                            if ("ORG".equalsIgnoreCase(rawType4)) {
-                                                String[] rawValue2 = vcardItem3.getRawValue();
-                                                if (rawValue2.length != 0) {
-                                                    if (rawValue2.length >= 1) {
-                                                        contentValues8.put("data1", rawValue2[0]);
+                                    str2 = str;
+                                } else if (item3.type != 6) {
+                                    anonymousClass5 = this;
+                                    str2 = str;
+                                } else if (orgAdded) {
+                                    anonymousClass5 = this;
+                                    str2 = str;
+                                } else {
+                                    boolean orgAdded3 = true;
+                                    ContentValues row8 = new ContentValues();
+                                    row8.put(str, "vnd.android.cursor.item/organization");
+                                    int b = a;
+                                    while (true) {
+                                        String str5 = str4;
+                                        anonymousClass5 = this;
+                                        if (b >= PhonebookShareAlert.this.other.size()) {
+                                            break;
+                                        }
+                                        AndroidUtilities.VcardItem orgItem = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(b);
+                                        boolean orgAdded4 = orgAdded3;
+                                        if (orgItem.type != 6) {
+                                            str3 = str;
+                                            item = item3;
+                                        } else {
+                                            String type3 = orgItem.getRawType(true);
+                                            if ("ORG".equalsIgnoreCase(type3)) {
+                                                String[] value = orgItem.getRawValue();
+                                                str3 = str;
+                                                if (value.length == 0) {
+                                                    item = item3;
+                                                } else {
+                                                    item = item3;
+                                                    if (value.length >= 1) {
+                                                        row8.put("data1", value[0]);
                                                     }
-                                                    if (rawValue2.length >= 2) {
-                                                        contentValues8.put("data5", rawValue2[1]);
+                                                    if (value.length >= 2) {
+                                                        row8.put(str5, value[1]);
                                                     }
                                                 }
-                                            } else if ("TITLE".equalsIgnoreCase(rawType4)) {
-                                                contentValues8.put("data4", vcardItem3.getValue(false));
-                                            } else if ("ROLE".equalsIgnoreCase(rawType4)) {
-                                                contentValues8.put("data4", vcardItem3.getValue(false));
+                                            } else {
+                                                str3 = str;
+                                                item = item3;
+                                                if ("TITLE".equalsIgnoreCase(type3)) {
+                                                    row8.put("data4", orgItem.getValue(false));
+                                                } else if ("ROLE".equalsIgnoreCase(type3)) {
+                                                    row8.put("data4", orgItem.getValue(false));
+                                                }
                                             }
-                                            String rawType5 = vcardItem3.getRawType(true);
-                                            if ("WORK".equalsIgnoreCase(rawType5)) {
-                                                contentValues8.put("data2", (Integer) 1);
-                                            } else if ("OTHER".equalsIgnoreCase(rawType5)) {
-                                                contentValues8.put("data2", (Integer) 2);
+                                            String orgType = orgItem.getRawType(true);
+                                            if ("WORK".equalsIgnoreCase(orgType)) {
+                                                row8.put("data2", (Integer) 1);
+                                            } else if ("OTHER".equalsIgnoreCase(orgType)) {
+                                                row8.put("data2", (Integer) 2);
                                             }
                                         }
+                                        b++;
+                                        str4 = str5;
+                                        orgAdded3 = orgAdded4;
+                                        str = str3;
+                                        item3 = item;
                                     }
-                                    arrayList.add(contentValues8);
-                                    z3 = true;
-                                    i5 = i2 + 1;
+                                    str2 = str;
+                                    data.add(row8);
+                                    orgAdded2 = orgAdded3;
+                                    a3 = a + 1;
+                                    str = str2;
                                     intent = intent2;
-                                    i3 = 1;
-                                    z2 = false;
+                                    i = 1;
+                                    z = false;
                                 }
                             }
-                            anonymousClass5 = this;
-                            z3 = z;
-                            i5 = i2 + 1;
-                            intent = intent2;
-                            i3 = 1;
-                            z2 = false;
                         }
-                        intent2 = intent;
-                        i2 = i5;
-                        z = z3;
-                        z3 = z;
-                        i5 = i2 + 1;
+                        orgAdded2 = orgAdded;
+                        a3 = a + 1;
+                        str = str2;
                         intent = intent2;
-                        i3 = 1;
-                        z2 = false;
+                        i = 1;
+                        z = false;
                     }
-                    Intent intent3 = intent;
-                    intent3.putExtra("finishActivityOnSaveCompleted", true);
-                    intent3.putParcelableArrayListExtra("data", arrayList);
+                    Intent intent5 = intent;
+                    intent5.putExtra("finishActivityOnSaveCompleted", true);
+                    intent5.putParcelableArrayListExtra("data", data);
                     try {
-                        PhonebookShareAlert.this.parentFragment.getParentActivity().startActivity(intent3);
+                        PhonebookShareAlert.this.parentFragment.getParentActivity().startActivity(intent5);
                         PhonebookShareAlert.this.dismiss();
                     } catch (Exception e) {
                         FileLog.e(e);
                     }
                 }
             });
-            builder.show();
+            builder2.show();
             return;
         }
         if (!this.currentUser.restriction_reason.isEmpty()) {
-            sb = new StringBuilder(this.currentUser.restriction_reason.get(0).text);
+            builder = new StringBuilder(this.currentUser.restriction_reason.get(0).text);
         } else {
-            Locale locale = Locale.US;
-            TLRPC$User tLRPC$User = this.currentUser;
-            sb = new StringBuilder(String.format(locale, "BEGIN:VCARD\nVERSION:3.0\nFN:%1$s\nEND:VCARD", ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name)));
+            builder = new StringBuilder(String.format(Locale.US, "BEGIN:VCARD\nVERSION:3.0\nFN:%1$s\nEND:VCARD", ContactsController.formatName(this.currentUser.first_name, this.currentUser.last_name)));
         }
-        int lastIndexOf = sb.lastIndexOf("END:VCARD");
-        if (lastIndexOf >= 0) {
+        int idx = builder.lastIndexOf("END:VCARD");
+        if (idx >= 0) {
             this.currentUser.phone = null;
-            for (int size = this.phones.size() - 1; size >= 0; size--) {
-                AndroidUtilities.VcardItem vcardItem = this.phones.get(size);
-                if (vcardItem.checked) {
-                    TLRPC$User tLRPC$User2 = this.currentUser;
-                    if (tLRPC$User2.phone == null) {
-                        tLRPC$User2.phone = vcardItem.getValue(false);
+            for (int a = this.phones.size() - 1; a >= 0; a--) {
+                AndroidUtilities.VcardItem item = this.phones.get(a);
+                if (item.checked) {
+                    if (this.currentUser.phone == null) {
+                        this.currentUser.phone = item.getValue(false);
                     }
-                    for (int i = 0; i < vcardItem.vcardData.size(); i++) {
-                        sb.insert(lastIndexOf, vcardItem.vcardData.get(i) + "\n");
+                    for (int b = 0; b < item.vcardData.size(); b++) {
+                        builder.insert(idx, item.vcardData.get(b) + "\n");
                     }
                 }
             }
-            for (int size2 = this.other.size() - 1; size2 >= 0; size2--) {
-                AndroidUtilities.VcardItem vcardItem2 = this.other.get(size2);
-                if (vcardItem2.checked) {
-                    for (int size3 = vcardItem2.vcardData.size() - 1; size3 >= 0; size3 += -1) {
-                        sb.insert(lastIndexOf, vcardItem2.vcardData.get(size3) + "\n");
+            for (int a2 = this.other.size() - 1; a2 >= 0; a2--) {
+                AndroidUtilities.VcardItem item2 = this.other.get(a2);
+                if (item2.checked) {
+                    for (int b2 = item2.vcardData.size() - 1; b2 >= 0; b2 += -1) {
+                        builder.insert(idx, item2.vcardData.get(b2) + "\n");
                     }
                 }
             }
             this.currentUser.restriction_reason.clear();
-            TLRPC$TL_restrictionReason tLRPC$TL_restrictionReason = new TLRPC$TL_restrictionReason();
-            tLRPC$TL_restrictionReason.text = sb.toString();
-            tLRPC$TL_restrictionReason.reason = "";
-            tLRPC$TL_restrictionReason.platform = "";
-            this.currentUser.restriction_reason.add(tLRPC$TL_restrictionReason);
+            TLRPC.TL_restrictionReason reason = new TLRPC.TL_restrictionReason();
+            reason.text = builder.toString();
+            reason.reason = "";
+            reason.platform = "";
+            this.currentUser.restriction_reason.add(reason);
         }
         BaseFragment baseFragment = this.parentFragment;
         if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).isInScheduleMode()) {
-            AlertsCreator.createScheduleDatePickerDialog(getContext(), ((ChatActivity) this.parentFragment).getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda5
+            ChatActivity chatActivity = (ChatActivity) this.parentFragment;
+            AlertsCreator.createScheduleDatePickerDialog(getContext(), chatActivity.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
-                public final void didSelectDate(boolean z, int i2) {
-                    PhonebookShareAlert.this.lambda$new$4(z, i2);
+                public final void didSelectDate(boolean z, int i) {
+                    PhonebookShareAlert.this.m2812lambda$new$4$orgtelegramuiComponentsPhonebookShareAlert(z, i);
                 }
             }, resourcesProvider);
             return;
@@ -1210,15 +1317,16 @@ public class PhonebookShareAlert extends BottomSheet {
         dismiss();
     }
 
-    public /* synthetic */ void lambda$new$4(boolean z, int i) {
-        this.delegate.didSelectContact(this.currentUser, z, i);
+    /* renamed from: lambda$new$4$org-telegram-ui-Components-PhonebookShareAlert */
+    public /* synthetic */ void m2812lambda$new$4$orgtelegramuiComponentsPhonebookShareAlert(boolean notify, int scheduleDate) {
+        this.delegate.didSelectContact(this.currentUser, notify, scheduleDate);
         dismiss();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onStart() {
         super.onStart();
-        Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.PhonebookShareAlert.6
+        Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.PhonebookShareAlert.6
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ void onHide(Bulletin bulletin) {
                 Bulletin.Delegate.CC.$default$onHide(this, bulletin);
@@ -1235,7 +1343,7 @@ public class PhonebookShareAlert extends BottomSheet {
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public int getBottomOffset(int i) {
+            public int getBottomOffset(int tag) {
                 return AndroidUtilities.dp(74.0f);
             }
         });
@@ -1251,22 +1359,23 @@ public class PhonebookShareAlert extends BottomSheet {
         this.delegate = phonebookShareAlertDelegate;
     }
 
-    public void updateLayout(boolean z) {
-        View childAt = this.scrollView.getChildAt(0);
-        int top = childAt.getTop() - this.scrollView.getScrollY();
-        if (top < 0) {
-            top = 0;
+    public void updateLayout(boolean animated) {
+        View child = this.scrollView.getChildAt(0);
+        int top = child.getTop() - this.scrollView.getScrollY();
+        int newOffset = 0;
+        if (top >= 0) {
+            newOffset = top;
         }
-        boolean z2 = top <= 0;
-        float f = 1.0f;
-        if ((z2 && this.actionBar.getTag() == null) || (!z2 && this.actionBar.getTag() != null)) {
-            this.actionBar.setTag(z2 ? 1 : null);
+        boolean show = newOffset <= 0;
+        float f = 0.0f;
+        if ((show && this.actionBar.getTag() == null) || (!show && this.actionBar.getTag() != null)) {
+            this.actionBar.setTag(show ? 1 : null);
             AnimatorSet animatorSet = this.actionBarAnimation;
             if (animatorSet != null) {
                 animatorSet.cancel();
                 this.actionBarAnimation = null;
             }
-            if (z) {
+            if (animated) {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.actionBarAnimation = animatorSet2;
                 animatorSet2.setDuration(180L);
@@ -1275,71 +1384,72 @@ public class PhonebookShareAlert extends BottomSheet {
                 ActionBar actionBar = this.actionBar;
                 Property property = View.ALPHA;
                 float[] fArr = new float[1];
-                fArr[0] = z2 ? 1.0f : 0.0f;
+                fArr[0] = show ? 1.0f : 0.0f;
                 animatorArr[0] = ObjectAnimator.ofFloat(actionBar, property, fArr);
                 View view = this.actionBarShadow;
                 Property property2 = View.ALPHA;
                 float[] fArr2 = new float[1];
-                fArr2[0] = z2 ? 1.0f : 0.0f;
+                fArr2[0] = show ? 1.0f : 0.0f;
                 animatorArr[1] = ObjectAnimator.ofFloat(view, property2, fArr2);
                 animatorSet3.playTogether(animatorArr);
                 this.actionBarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhonebookShareAlert.7
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
+                    public void onAnimationEnd(Animator animation) {
                         PhonebookShareAlert.this.actionBarAnimation = null;
                     }
                 });
                 this.actionBarAnimation.start();
             } else {
-                this.actionBar.setAlpha(z2 ? 1.0f : 0.0f);
-                this.actionBarShadow.setAlpha(z2 ? 1.0f : 0.0f);
+                this.actionBar.setAlpha(show ? 1.0f : 0.0f);
+                this.actionBarShadow.setAlpha(show ? 1.0f : 0.0f);
             }
         }
-        if (this.scrollOffsetY != top) {
-            this.scrollOffsetY = top;
+        if (this.scrollOffsetY != newOffset) {
+            this.scrollOffsetY = newOffset;
             this.containerView.invalidate();
         }
-        childAt.getBottom();
+        child.getBottom();
         this.scrollView.getMeasuredHeight();
-        boolean z3 = childAt.getBottom() - this.scrollView.getScrollY() > this.scrollView.getMeasuredHeight();
-        if ((!z3 || this.shadow.getTag() != null) && (z3 || this.shadow.getTag() == null)) {
-            return;
-        }
-        this.shadow.setTag(z3 ? 1 : null);
-        AnimatorSet animatorSet4 = this.shadowAnimation;
-        if (animatorSet4 != null) {
-            animatorSet4.cancel();
-            this.shadowAnimation = null;
-        }
-        if (z) {
-            AnimatorSet animatorSet5 = new AnimatorSet();
-            this.shadowAnimation = animatorSet5;
-            animatorSet5.setDuration(180L);
-            AnimatorSet animatorSet6 = this.shadowAnimation;
-            Animator[] animatorArr2 = new Animator[1];
-            View view2 = this.shadow;
-            Property property3 = View.ALPHA;
-            float[] fArr3 = new float[1];
-            if (!z3) {
-                f = 0.0f;
+        boolean show2 = child.getBottom() - this.scrollView.getScrollY() > this.scrollView.getMeasuredHeight();
+        if ((show2 && this.shadow.getTag() == null) || (!show2 && this.shadow.getTag() != null)) {
+            this.shadow.setTag(show2 ? 1 : null);
+            AnimatorSet animatorSet4 = this.shadowAnimation;
+            if (animatorSet4 != null) {
+                animatorSet4.cancel();
+                this.shadowAnimation = null;
             }
-            fArr3[0] = f;
-            animatorArr2[0] = ObjectAnimator.ofFloat(view2, property3, fArr3);
-            animatorSet6.playTogether(animatorArr2);
-            this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhonebookShareAlert.8
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    PhonebookShareAlert.this.shadowAnimation = null;
-                }
-            });
-            this.shadowAnimation.start();
-            return;
+            if (animated) {
+                AnimatorSet animatorSet5 = new AnimatorSet();
+                this.shadowAnimation = animatorSet5;
+                animatorSet5.setDuration(180L);
+                AnimatorSet animatorSet6 = this.shadowAnimation;
+                Animator[] animatorArr2 = new Animator[1];
+                View view2 = this.shadow;
+                Property property3 = View.ALPHA;
+                float[] fArr3 = new float[1];
+                fArr3[0] = show2 ? 1.0f : 0.0f;
+                animatorArr2[0] = ObjectAnimator.ofFloat(view2, property3, fArr3);
+                animatorSet6.playTogether(animatorArr2);
+                this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhonebookShareAlert.8
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animation) {
+                        PhonebookShareAlert.this.shadowAnimation = null;
+                    }
+                });
+                this.shadowAnimation.start();
+                return;
+            }
+            View view3 = this.shadow;
+            if (show2) {
+                f = 1.0f;
+            }
+            view3.setAlpha(f);
         }
-        View view3 = this.shadow;
-        if (!z3) {
-            f = 0.0f;
-        }
-        view3.setAlpha(f);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet
+    protected boolean canDismissWithSwipe() {
+        return false;
     }
 
     private void updateRows() {
@@ -1376,7 +1486,7 @@ public class PhonebookShareAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes5.dex */
     public class ListAdapter {
         private ListAdapter() {
             PhonebookShareAlert.this = r1;
@@ -1386,54 +1496,84 @@ public class PhonebookShareAlert extends BottomSheet {
             return PhonebookShareAlert.this.rowCount;
         }
 
-        public void onBindViewHolder(View view, int i, int i2) {
-            AndroidUtilities.VcardItem vcardItem;
+        public void onBindViewHolder(View itemView, int position, int type) {
+            int icon;
+            AndroidUtilities.VcardItem item;
             boolean z = true;
-            if (i2 == 1) {
-                TextCheckBoxCell textCheckBoxCell = (TextCheckBoxCell) view;
-                int i3 = PhonebookShareAlert.this.phoneStartRow;
-                int i4 = R.drawable.msg_info;
-                if (i < i3 || i >= PhonebookShareAlert.this.phoneEndRow) {
-                    vcardItem = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(i - PhonebookShareAlert.this.vcardStartRow);
-                    int i5 = vcardItem.type;
-                    if (i5 == 1) {
-                        i4 = R.drawable.msg_mention;
-                    } else if (i5 == 2) {
-                        i4 = R.drawable.msg_location;
-                    } else if (i5 == 3) {
-                        i4 = R.drawable.msg_link;
-                    } else if (i5 != 4) {
-                        if (i5 == 5) {
-                            i4 = R.drawable.msg_calendar2;
-                        } else if (i5 == 6) {
-                            i4 = "ORG".equalsIgnoreCase(vcardItem.getRawType(true)) ? R.drawable.msg_work : R.drawable.msg_jobtitle;
+            if (type == 1) {
+                TextCheckBoxCell cell = (TextCheckBoxCell) itemView;
+                if (position < PhonebookShareAlert.this.phoneStartRow || position >= PhonebookShareAlert.this.phoneEndRow) {
+                    item = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(position - PhonebookShareAlert.this.vcardStartRow);
+                    if (item.type == 1) {
+                        icon = R.drawable.msg_mention;
+                    } else {
+                        int icon2 = item.type;
+                        if (icon2 == 2) {
+                            icon = R.drawable.msg_location;
+                        } else {
+                            int icon3 = item.type;
+                            if (icon3 == 3) {
+                                icon = R.drawable.msg_link;
+                            } else {
+                                int icon4 = item.type;
+                                if (icon4 == 4) {
+                                    icon = R.drawable.msg_info;
+                                } else {
+                                    int icon5 = item.type;
+                                    if (icon5 == 5) {
+                                        icon = R.drawable.msg_calendar2;
+                                    } else {
+                                        int icon6 = item.type;
+                                        if (icon6 == 6) {
+                                            if ("ORG".equalsIgnoreCase(item.getRawType(true))) {
+                                                icon = R.drawable.msg_work;
+                                            } else {
+                                                icon = R.drawable.msg_jobtitle;
+                                            }
+                                        } else {
+                                            int icon7 = item.type;
+                                            if (icon7 == 20) {
+                                                icon = R.drawable.msg_info;
+                                            } else {
+                                                icon = R.drawable.msg_info;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 } else {
-                    vcardItem = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.phones.get(i - PhonebookShareAlert.this.phoneStartRow);
-                    i4 = R.drawable.msg_calls;
+                    item = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.phones.get(position - PhonebookShareAlert.this.phoneStartRow);
+                    icon = R.drawable.msg_calls;
                 }
-                if (i == getItemCount() - 1) {
+                if (position == getItemCount() - 1) {
                     z = false;
                 }
-                textCheckBoxCell.setVCardItem(vcardItem, i4, z);
+                cell.setVCardItem(item, icon, z);
             }
         }
 
-        public View createView(Context context, int i) {
+        public View createView(Context context, int position) {
             View view;
-            int itemViewType = getItemViewType(i);
-            if (itemViewType == 0) {
-                view = new UserCell(PhonebookShareAlert.this, context);
-            } else {
-                view = new TextCheckBoxCell(PhonebookShareAlert.this, context);
+            int viewType = getItemViewType(position);
+            switch (viewType) {
+                case 0:
+                    view = new UserCell(context);
+                    break;
+                default:
+                    view = new TextCheckBoxCell(context);
+                    break;
             }
-            onBindViewHolder(view, i, itemViewType);
+            onBindViewHolder(view, position, viewType);
             return view;
         }
 
-        public int getItemViewType(int i) {
-            return i == PhonebookShareAlert.this.userRow ? 0 : 1;
+        public int getItemViewType(int position) {
+            if (position == PhonebookShareAlert.this.userRow) {
+                return 0;
+            }
+            return 1;
         }
     }
 }

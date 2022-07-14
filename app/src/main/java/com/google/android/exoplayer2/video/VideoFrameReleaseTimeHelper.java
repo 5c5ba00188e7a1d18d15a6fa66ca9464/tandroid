@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2.video;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.display.DisplayManager;
 import android.os.Handler;
@@ -9,9 +8,15 @@ import android.os.Message;
 import android.view.Choreographer;
 import android.view.Display;
 import android.view.WindowManager;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.util.Util;
-/* loaded from: classes.dex */
+import com.google.firebase.messaging.Constants;
+/* loaded from: classes3.dex */
 public final class VideoFrameReleaseTimeHelper {
+    private static final long CHOREOGRAPHER_SAMPLE_DELAY_MILLIS = 500;
+    private static final long MAX_ALLOWED_DRIFT_NS = 20000000;
+    private static final int MIN_FRAMES_FOR_ADJUSTMENT = 6;
+    private static final long VSYNC_OFFSET_PERCENTAGE = 80;
     private long adjustedLastFrameTimeNs;
     private final DefaultDisplayListener displayListener;
     private long frameCount;
@@ -24,6 +29,10 @@ public final class VideoFrameReleaseTimeHelper {
     private long vsyncOffsetNs;
     private final VSyncSampler vsyncSampler;
     private final WindowManager windowManager;
+
+    public VideoFrameReleaseTimeHelper() {
+        this(null);
+    }
 
     public VideoFrameReleaseTimeHelper(Context context) {
         DefaultDisplayListener defaultDisplayListener = null;
@@ -40,8 +49,8 @@ public final class VideoFrameReleaseTimeHelper {
             this.displayListener = null;
             this.vsyncSampler = null;
         }
-        this.vsyncDurationNs = -9223372036854775807L;
-        this.vsyncOffsetNs = -9223372036854775807L;
+        this.vsyncDurationNs = C.TIME_UNSET;
+        this.vsyncOffsetNs = C.TIME_UNSET;
     }
 
     public void enable() {
@@ -66,106 +75,101 @@ public final class VideoFrameReleaseTimeHelper {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0048  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public long adjustReleaseTime(long j, long j2) {
-        long j3;
-        long j4;
-        VSyncSampler vSyncSampler;
-        long j5 = 1000 * j;
-        if (this.haveSync) {
-            if (j != this.lastFramePresentationTimeUs) {
+    public long adjustReleaseTime(long framePresentationTimeUs, long unadjustedReleaseTimeNs) {
+        long adjustedReleaseTimeNs;
+        long framePresentationTimeNs = 1000 * framePresentationTimeUs;
+        long adjustedFrameTimeNs = framePresentationTimeNs;
+        long adjustedReleaseTimeNs2 = unadjustedReleaseTimeNs;
+        if (!this.haveSync) {
+            adjustedReleaseTimeNs = adjustedReleaseTimeNs2;
+        } else {
+            if (framePresentationTimeUs != this.lastFramePresentationTimeUs) {
                 this.frameCount++;
                 this.adjustedLastFrameTimeNs = this.pendingAdjustedFrameTimeNs;
             }
-            long j6 = this.frameCount;
-            if (j6 >= 6) {
-                j4 = this.adjustedLastFrameTimeNs + ((j5 - this.syncFramePresentationTimeNs) / j6);
-                if (isDriftTooLarge(j4, j2)) {
-                    this.haveSync = false;
+            long j = this.frameCount;
+            if (j >= 6) {
+                long averageFrameDurationNs = (framePresentationTimeNs - this.syncFramePresentationTimeNs) / j;
+                long candidateAdjustedFrameTimeNs = this.adjustedLastFrameTimeNs + averageFrameDurationNs;
+                if (!isDriftTooLarge(candidateAdjustedFrameTimeNs, unadjustedReleaseTimeNs)) {
+                    adjustedReleaseTimeNs2 = (this.syncUnadjustedReleaseTimeNs + candidateAdjustedFrameTimeNs) - this.syncFramePresentationTimeNs;
+                    adjustedFrameTimeNs = candidateAdjustedFrameTimeNs;
                 } else {
-                    j3 = (this.syncUnadjustedReleaseTimeNs + j4) - this.syncFramePresentationTimeNs;
-                    if (!this.haveSync) {
-                        this.syncFramePresentationTimeNs = j5;
-                        this.syncUnadjustedReleaseTimeNs = j2;
-                        this.frameCount = 0L;
-                        this.haveSync = true;
-                    }
-                    this.lastFramePresentationTimeUs = j;
-                    this.pendingAdjustedFrameTimeNs = j4;
-                    vSyncSampler = this.vsyncSampler;
-                    if (vSyncSampler != null || this.vsyncDurationNs == -9223372036854775807L) {
-                        return j3;
-                    }
-                    long j7 = vSyncSampler.sampledVsyncTimeNs;
-                    return j7 == -9223372036854775807L ? j3 : closestVsync(j3, j7, this.vsyncDurationNs) - this.vsyncOffsetNs;
+                    this.haveSync = false;
                 }
-            } else if (isDriftTooLarge(j5, j2)) {
-                this.haveSync = false;
+                adjustedReleaseTimeNs = adjustedReleaseTimeNs2;
+            } else {
+                adjustedReleaseTimeNs = adjustedReleaseTimeNs2;
+                if (isDriftTooLarge(framePresentationTimeNs, unadjustedReleaseTimeNs)) {
+                    this.haveSync = false;
+                }
             }
         }
-        j3 = j2;
-        j4 = j5;
         if (!this.haveSync) {
+            this.syncFramePresentationTimeNs = framePresentationTimeNs;
+            this.syncUnadjustedReleaseTimeNs = unadjustedReleaseTimeNs;
+            this.frameCount = 0L;
+            this.haveSync = true;
         }
-        this.lastFramePresentationTimeUs = j;
-        this.pendingAdjustedFrameTimeNs = j4;
-        vSyncSampler = this.vsyncSampler;
-        if (vSyncSampler != null) {
+        this.lastFramePresentationTimeUs = framePresentationTimeUs;
+        this.pendingAdjustedFrameTimeNs = adjustedFrameTimeNs;
+        VSyncSampler vSyncSampler = this.vsyncSampler;
+        if (vSyncSampler == null || this.vsyncDurationNs == C.TIME_UNSET) {
+            return adjustedReleaseTimeNs;
         }
-        return j3;
+        long sampledVsyncTimeNs = vSyncSampler.sampledVsyncTimeNs;
+        if (sampledVsyncTimeNs == C.TIME_UNSET) {
+            return adjustedReleaseTimeNs;
+        }
+        long snappedTimeNs = closestVsync(adjustedReleaseTimeNs, sampledVsyncTimeNs, this.vsyncDurationNs);
+        return snappedTimeNs - this.vsyncOffsetNs;
     }
 
-    @TargetApi(17)
     private DefaultDisplayListener maybeBuildDefaultDisplayListenerV17(Context context) {
-        DisplayManager displayManager = (DisplayManager) context.getSystemService("display");
-        if (displayManager == null) {
+        DisplayManager manager = (DisplayManager) context.getSystemService(Constants.ScionAnalytics.MessageType.DISPLAY_NOTIFICATION);
+        if (manager == null) {
             return null;
         }
-        return new DefaultDisplayListener(displayManager);
+        return new DefaultDisplayListener(manager);
     }
 
     public void updateDefaultDisplayRefreshRateParams() {
         Display defaultDisplay = this.windowManager.getDefaultDisplay();
         if (defaultDisplay != null) {
-            double refreshRate = defaultDisplay.getRefreshRate();
-            Double.isNaN(refreshRate);
-            long j = (long) (1.0E9d / refreshRate);
+            double defaultDisplayRefreshRate = defaultDisplay.getRefreshRate();
+            Double.isNaN(defaultDisplayRefreshRate);
+            long j = (long) (1.0E9d / defaultDisplayRefreshRate);
             this.vsyncDurationNs = j;
-            this.vsyncOffsetNs = (j * 80) / 100;
+            this.vsyncOffsetNs = (j * VSYNC_OFFSET_PERCENTAGE) / 100;
         }
     }
 
-    private boolean isDriftTooLarge(long j, long j2) {
-        return Math.abs((j2 - this.syncUnadjustedReleaseTimeNs) - (j - this.syncFramePresentationTimeNs)) > 20000000;
+    private boolean isDriftTooLarge(long frameTimeNs, long releaseTimeNs) {
+        long elapsedFrameTimeNs = frameTimeNs - this.syncFramePresentationTimeNs;
+        long elapsedReleaseTimeNs = releaseTimeNs - this.syncUnadjustedReleaseTimeNs;
+        return Math.abs(elapsedReleaseTimeNs - elapsedFrameTimeNs) > MAX_ALLOWED_DRIFT_NS;
     }
 
-    private static long closestVsync(long j, long j2, long j3) {
-        long j4;
-        long j5 = j2 + (((j - j2) / j3) * j3);
-        if (j <= j5) {
-            j4 = j5 - j3;
+    private static long closestVsync(long releaseTime, long sampledVsyncTime, long vsyncDuration) {
+        long snappedAfterNs;
+        long snappedBeforeNs;
+        long vsyncCount = (releaseTime - sampledVsyncTime) / vsyncDuration;
+        long snappedTimeNs = sampledVsyncTime + (vsyncDuration * vsyncCount);
+        if (releaseTime <= snappedTimeNs) {
+            snappedBeforeNs = snappedTimeNs - vsyncDuration;
+            snappedAfterNs = snappedTimeNs;
         } else {
-            j5 = j3 + j5;
-            j4 = j5;
+            snappedBeforeNs = snappedTimeNs;
+            snappedAfterNs = snappedTimeNs + vsyncDuration;
         }
-        return j5 - j < j - j4 ? j5 : j4;
+        long snappedAfterDiff = snappedAfterNs - releaseTime;
+        long snappedBeforeDiff = releaseTime - snappedBeforeNs;
+        return snappedAfterDiff < snappedBeforeDiff ? snappedAfterNs : snappedBeforeNs;
     }
 
-    @TargetApi(17)
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public final class DefaultDisplayListener implements DisplayManager.DisplayListener {
         private final DisplayManager displayManager;
-
-        @Override // android.hardware.display.DisplayManager.DisplayListener
-        public void onDisplayAdded(int i) {
-        }
-
-        @Override // android.hardware.display.DisplayManager.DisplayListener
-        public void onDisplayRemoved(int i) {
-        }
 
         public DefaultDisplayListener(DisplayManager displayManager) {
             VideoFrameReleaseTimeHelper.this = r1;
@@ -181,22 +185,33 @@ public final class VideoFrameReleaseTimeHelper {
         }
 
         @Override // android.hardware.display.DisplayManager.DisplayListener
-        public void onDisplayChanged(int i) {
-            if (i == 0) {
+        public void onDisplayAdded(int displayId) {
+        }
+
+        @Override // android.hardware.display.DisplayManager.DisplayListener
+        public void onDisplayRemoved(int displayId) {
+        }
+
+        @Override // android.hardware.display.DisplayManager.DisplayListener
+        public void onDisplayChanged(int displayId) {
+            if (displayId == 0) {
                 VideoFrameReleaseTimeHelper.this.updateDefaultDisplayRefreshRateParams();
             }
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class VSyncSampler implements Choreographer.FrameCallback, Handler.Callback {
+        private static final int CREATE_CHOREOGRAPHER = 0;
         private static final VSyncSampler INSTANCE = new VSyncSampler();
+        private static final int MSG_ADD_OBSERVER = 1;
+        private static final int MSG_REMOVE_OBSERVER = 2;
         private Choreographer choreographer;
         private final HandlerThread choreographerOwnerThread;
         private final Handler handler;
         private int observerCount;
-        public volatile long sampledVsyncTimeNs = -9223372036854775807L;
+        public volatile long sampledVsyncTimeNs = C.TIME_UNSET;
 
         public static VSyncSampler getInstance() {
             return INSTANCE;
@@ -220,25 +235,25 @@ public final class VideoFrameReleaseTimeHelper {
         }
 
         @Override // android.view.Choreographer.FrameCallback
-        public void doFrame(long j) {
-            this.sampledVsyncTimeNs = j;
+        public void doFrame(long vsyncTimeNs) {
+            this.sampledVsyncTimeNs = vsyncTimeNs;
             this.choreographer.postFrameCallbackDelayed(this, 500L);
         }
 
         @Override // android.os.Handler.Callback
         public boolean handleMessage(Message message) {
-            int i = message.what;
-            if (i == 0) {
-                createChoreographerInstanceInternal();
-                return true;
-            } else if (i == 1) {
-                addObserverInternal();
-                return true;
-            } else if (i != 2) {
-                return false;
-            } else {
-                removeObserverInternal();
-                return true;
+            switch (message.what) {
+                case 0:
+                    createChoreographerInstanceInternal();
+                    return true;
+                case 1:
+                    addObserverInternal();
+                    return true;
+                case 2:
+                    removeObserverInternal();
+                    return true;
+                default:
+                    return false;
             }
         }
 
@@ -259,7 +274,7 @@ public final class VideoFrameReleaseTimeHelper {
             this.observerCount = i;
             if (i == 0) {
                 this.choreographer.removeFrameCallback(this);
-                this.sampledVsyncTimeNs = -9223372036854775807L;
+                this.sampledVsyncTimeNs = C.TIME_UNSET;
             }
         }
     }

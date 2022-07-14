@@ -24,7 +24,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-import java.util.concurrent.atomic.AtomicReference;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DownloadController;
 import org.telegram.messenger.FileLoader;
@@ -35,27 +34,18 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Message;
-import org.telegram.tgnet.TLRPC$MessageMedia;
-import org.telegram.tgnet.TLRPC$Photo;
-import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$TL_chatInviteExported;
-import org.telegram.tgnet.TLRPC$TL_documentEmpty;
-import org.telegram.tgnet.TLRPC$TL_messageActionUserUpdatedPhoto;
-import org.telegram.tgnet.TLRPC$TL_photoEmpty;
-import org.telegram.tgnet.TLRPC$TL_photoStrippedSize;
-import org.telegram.tgnet.TLRPC$VideoSize;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatActionCell extends BaseCell implements DownloadController.FileDownloadProgressListener, NotificationCenter.NotificationCenterDelegate {
     private int TAG;
     private SpannableStringBuilder accessibilityText;
@@ -80,6 +70,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     private ArrayList<Integer> lineWidths;
     private String overrideBackground;
     private Paint overrideBackgroundPaint;
+    private int overrideColor;
     private String overrideText;
     private TextPaint overrideTextPaint;
     private URLSpan pressedLink;
@@ -99,73 +90,61 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     private boolean visiblePartSet;
     private boolean wasLayout;
 
-    /* loaded from: classes3.dex */
-    public interface ChatActionCellDelegate {
-
-        /* renamed from: org.telegram.ui.Cells.ChatActionCell$ChatActionCellDelegate$-CC */
-        /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
-            public static void $default$didClickImage(ChatActionCellDelegate chatActionCellDelegate, ChatActionCell chatActionCell) {
-            }
-
-            public static boolean $default$didLongPress(ChatActionCellDelegate chatActionCellDelegate, ChatActionCell chatActionCell, float f, float f2) {
-                return false;
-            }
-
-            public static void $default$didPressReplyMessage(ChatActionCellDelegate chatActionCellDelegate, ChatActionCell chatActionCell, int i) {
-            }
-
-            public static void $default$needOpenInviteLink(ChatActionCellDelegate chatActionCellDelegate, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-            }
-
-            public static void $default$needOpenUserProfile(ChatActionCellDelegate chatActionCellDelegate, long j) {
-            }
-        }
-
-        void didClickImage(ChatActionCell chatActionCell);
-
-        boolean didLongPress(ChatActionCell chatActionCell, float f, float f2);
-
-        void didPressReplyMessage(ChatActionCell chatActionCell, int i);
-
-        void needOpenInviteLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported);
-
-        void needOpenUserProfile(long j);
-    }
-
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ThemeDelegate extends Theme.ResourcesProvider {
-    }
-
-    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
-    public void onFailedDownload(String str, boolean z) {
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-    }
-
-    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
-    public void onProgressDownload(String str, long j, long j2) {
-    }
-
-    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
-    public void onProgressUpload(String str, long j, long j2, boolean z) {
+        int getCurrentColor();
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.startSpoilers) {
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.startSpoilers) {
             setSpoilersSuppressed(false);
-        } else if (i != NotificationCenter.stopSpoilers) {
-        } else {
+        } else if (id == NotificationCenter.stopSpoilers) {
             setSpoilersSuppressed(true);
         }
     }
 
-    public void setSpoilersSuppressed(boolean z) {
-        for (SpoilerEffect spoilerEffect : this.spoilers) {
-            spoilerEffect.setSuppressUpdates(z);
+    public void setSpoilersSuppressed(boolean s) {
+        for (SpoilerEffect eff : this.spoilers) {
+            eff.setSuppressUpdates(s);
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    public interface ChatActionCellDelegate {
+        void didClickImage(ChatActionCell chatActionCell);
+
+        boolean didLongPress(ChatActionCell chatActionCell, float f, float f2);
+
+        void didPressBotButton(MessageObject messageObject, TLRPC.KeyboardButton keyboardButton);
+
+        void didPressReplyMessage(ChatActionCell chatActionCell, int i);
+
+        void needOpenInviteLink(TLRPC.TL_chatInviteExported tL_chatInviteExported);
+
+        void needOpenUserProfile(long j);
+
+        /* renamed from: org.telegram.ui.Cells.ChatActionCell$ChatActionCellDelegate$-CC */
+        /* loaded from: classes4.dex */
+        public final /* synthetic */ class CC {
+            public static void $default$didClickImage(ChatActionCellDelegate _this, ChatActionCell cell) {
+            }
+
+            public static boolean $default$didLongPress(ChatActionCellDelegate _this, ChatActionCell cell, float x, float y) {
+                return false;
+            }
+
+            public static void $default$needOpenUserProfile(ChatActionCellDelegate _this, long uid) {
+            }
+
+            public static void $default$didPressBotButton(ChatActionCellDelegate _this, MessageObject messageObject, TLRPC.KeyboardButton button) {
+            }
+
+            public static void $default$didPressReplyMessage(ChatActionCellDelegate _this, ChatActionCell cell, int id) {
+            }
+
+            public static void $default$needOpenInviteLink(ChatActionCellDelegate _this, TLRPC.TL_chatInviteExported invite) {
+            }
         }
     }
 
@@ -173,7 +152,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this(context, false, null);
     }
 
-    public ChatActionCell(Context context, boolean z, ThemeDelegate themeDelegate) {
+    public ChatActionCell(Context context, boolean canDrawInParent, ThemeDelegate themeDelegate) {
         super(context);
         this.currentAccount = UserConfig.selectedAccount;
         this.spoilers = new ArrayList();
@@ -184,7 +163,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.rect = new RectF();
         this.invalidatePath = true;
         this.invalidateColors = false;
-        this.canDrawInParent = z;
+        this.canDrawInParent = canDrawInParent;
         this.themeDelegate = themeDelegate;
         ImageReceiver imageReceiver = new ImageReceiver(this);
         this.imageReceiver = imageReceiver;
@@ -193,119 +172,126 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.TAG = DownloadController.getInstance(this.currentAccount).generateObserverTag();
     }
 
-    public void setDelegate(ChatActionCellDelegate chatActionCellDelegate) {
-        this.delegate = chatActionCellDelegate;
+    public void setDelegate(ChatActionCellDelegate delegate) {
+        this.delegate = delegate;
     }
 
-    public void setCustomDate(int i, boolean z, boolean z2) {
-        String str;
-        int i2 = this.customDate;
-        if (i2 == i || i2 / 3600 == i / 3600) {
+    public void setCustomDate(int date, boolean scheduled, boolean inLayout) {
+        CharSequence newText;
+        int i = this.customDate;
+        if (i == date || i / 3600 == date / 3600) {
             return;
         }
-        if (z) {
-            str = i == 2147483646 ? LocaleController.getString("MessageScheduledUntilOnline", R.string.MessageScheduledUntilOnline) : LocaleController.formatString("MessageScheduledOn", R.string.MessageScheduledOn, LocaleController.formatDateChat(i));
+        if (scheduled) {
+            if (date == 2147483646) {
+                newText = LocaleController.getString("MessageScheduledUntilOnline", R.string.MessageScheduledUntilOnline);
+            } else {
+                newText = LocaleController.formatString("MessageScheduledOn", R.string.MessageScheduledOn, LocaleController.formatDateChat(date));
+            }
         } else {
-            str = LocaleController.formatDateChat(i);
+            newText = LocaleController.formatDateChat(date);
         }
-        this.customDate = i;
+        this.customDate = date;
         CharSequence charSequence = this.customText;
-        if (charSequence != null && TextUtils.equals(str, charSequence)) {
+        if (charSequence != null && TextUtils.equals(newText, charSequence)) {
             return;
         }
-        this.customText = str;
+        this.customText = newText;
         this.accessibilityText = null;
-        updateTextInternal(z2);
+        updateTextInternal(inLayout);
     }
 
-    private void updateTextInternal(boolean z) {
+    private void updateTextInternal(boolean inLayout) {
         if (getMeasuredWidth() != 0) {
             createLayout(this.customText, getMeasuredWidth());
             invalidate();
         }
-        if (this.wasLayout) {
-            buildLayout();
-        } else if (z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ChatActionCell$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatActionCell.this.requestLayout();
-                }
-            });
-        } else {
-            requestLayout();
+        if (!this.wasLayout) {
+            if (inLayout) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ChatActionCell$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatActionCell.this.requestLayout();
+                    }
+                });
+                return;
+            } else {
+                requestLayout();
+                return;
+            }
         }
+        buildLayout();
     }
 
-    public void setCustomText(CharSequence charSequence) {
-        this.customText = charSequence;
-        if (charSequence != null) {
+    public void setCustomText(CharSequence text) {
+        this.customText = text;
+        if (text != null) {
             updateTextInternal(false);
         }
     }
 
-    public void setOverrideColor(String str, String str2) {
-        this.overrideBackground = str;
-        this.overrideText = str2;
+    public void setOverrideColor(String background, String text) {
+        this.overrideBackground = background;
+        this.overrideText = text;
     }
 
     public void setMessageObject(MessageObject messageObject) {
-        TLRPC$PhotoSize tLRPC$PhotoSize;
-        AtomicReference<WeakReference<View>> atomicReference;
         StaticLayout staticLayout;
         if (this.currentMessageObject != messageObject || (((staticLayout = this.textLayout) != null && !TextUtils.equals(staticLayout.getText(), messageObject.messageText)) || (!this.hasReplyMessage && messageObject.replyMessageObject != null))) {
-            TLRPC$VideoSize tLRPC$VideoSize = null;
             this.accessibilityText = null;
             this.currentMessageObject = messageObject;
-            if (messageObject != null && (atomicReference = messageObject.viewRef) != null && (atomicReference.get() == null || this.currentMessageObject.viewRef.get().get() != this)) {
+            if (messageObject != null && messageObject.viewRef != null && (this.currentMessageObject.viewRef.get() == null || this.currentMessageObject.viewRef.get().get() != this)) {
                 this.currentMessageObject.viewRef.set(new WeakReference<>(this));
             }
             this.hasReplyMessage = messageObject.replyMessageObject != null;
             DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
             this.previousWidth = 0;
-            if (this.currentMessageObject.type == 11) {
-                this.avatarDrawable.setInfo(messageObject.getDialogId(), null, null);
-                MessageObject messageObject2 = this.currentMessageObject;
-                if (messageObject2.messageOwner.action instanceof TLRPC$TL_messageActionUserUpdatedPhoto) {
-                    this.imageReceiver.setImage(null, null, this.avatarDrawable, null, messageObject2, 0);
+            if (this.currentMessageObject.type != 11) {
+                this.imageReceiver.setImageBitmap((Bitmap) null);
+            } else {
+                long id = messageObject.getDialogId();
+                this.avatarDrawable.setInfo(id, null, null);
+                if (this.currentMessageObject.messageOwner.action instanceof TLRPC.TL_messageActionUserUpdatedPhoto) {
+                    this.imageReceiver.setImage(null, null, this.avatarDrawable, null, this.currentMessageObject, 0);
                 } else {
-                    int size = messageObject2.photoThumbs.size();
-                    int i = 0;
+                    TLRPC.PhotoSize strippedPhotoSize = null;
+                    int a = 0;
+                    int N = this.currentMessageObject.photoThumbs.size();
                     while (true) {
-                        if (i >= size) {
-                            tLRPC$PhotoSize = null;
+                        if (a >= N) {
                             break;
                         }
-                        tLRPC$PhotoSize = this.currentMessageObject.photoThumbs.get(i);
-                        if (tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) {
+                        TLRPC.PhotoSize photoSize = this.currentMessageObject.photoThumbs.get(a);
+                        if (!(photoSize instanceof TLRPC.TL_photoStrippedSize)) {
+                            a++;
+                        } else {
+                            strippedPhotoSize = photoSize;
                             break;
                         }
-                        i++;
                     }
-                    TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.currentMessageObject.photoThumbs, 640);
-                    if (closestPhotoSizeWithSize != null) {
-                        TLRPC$Photo tLRPC$Photo = messageObject.messageOwner.action.photo;
-                        if (!tLRPC$Photo.video_sizes.isEmpty() && SharedConfig.autoplayGifs) {
-                            TLRPC$VideoSize tLRPC$VideoSize2 = tLRPC$Photo.video_sizes.get(0);
-                            if (messageObject.mediaExists || DownloadController.getInstance(this.currentAccount).canDownloadMedia(4, tLRPC$VideoSize2.size)) {
-                                tLRPC$VideoSize = tLRPC$VideoSize2;
-                            } else {
-                                this.currentVideoLocation = ImageLocation.getForPhoto(tLRPC$VideoSize2, tLRPC$Photo);
-                                DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(FileLoader.getAttachFileName(tLRPC$VideoSize2), this.currentMessageObject, this);
+                    TLRPC.PhotoSize photoSize2 = FileLoader.getClosestPhotoSizeWithSize(this.currentMessageObject.photoThumbs, 640);
+                    if (photoSize2 == null) {
+                        this.imageReceiver.setImageBitmap(this.avatarDrawable);
+                    } else {
+                        TLRPC.Photo photo = messageObject.messageOwner.action.photo;
+                        TLRPC.VideoSize videoSize = null;
+                        if (!photo.video_sizes.isEmpty() && SharedConfig.autoplayGifs) {
+                            videoSize = photo.video_sizes.get(0);
+                            if (!messageObject.mediaExists && !DownloadController.getInstance(this.currentAccount).canDownloadMedia(4, videoSize.size)) {
+                                this.currentVideoLocation = ImageLocation.getForPhoto(videoSize, photo);
+                                String fileName = FileLoader.getAttachFileName(videoSize);
+                                DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(fileName, this.currentMessageObject, this);
+                                videoSize = null;
                             }
                         }
-                        if (tLRPC$VideoSize != null) {
-                            this.imageReceiver.setImage(ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$Photo), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(tLRPC$PhotoSize, this.currentMessageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, this.currentMessageObject, 1);
+                        if (videoSize != null) {
+                            this.imageReceiver.setImage(ImageLocation.getForPhoto(videoSize, photo), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(strippedPhotoSize, this.currentMessageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, this.currentMessageObject, 1);
                         } else {
-                            this.imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize, this.currentMessageObject.photoThumbsObject), "150_150", ImageLocation.getForObject(tLRPC$PhotoSize, this.currentMessageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, this.currentMessageObject, 1);
+                            this.imageReceiver.setImage(ImageLocation.getForObject(photoSize2, this.currentMessageObject.photoThumbsObject), "150_150", ImageLocation.getForObject(strippedPhotoSize, this.currentMessageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, this.currentMessageObject, 1);
                         }
-                    } else {
-                        this.imageReceiver.setImageBitmap(this.avatarDrawable);
                     }
                 }
                 this.imageReceiver.setVisible(!PhotoViewer.isShowingImage(this.currentMessageObject), false);
-            } else {
-                this.imageReceiver.setImageBitmap((Bitmap) null);
             }
             requestLayout();
         }
@@ -319,10 +305,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return this.imageReceiver;
     }
 
-    public void setVisiblePart(float f, int i) {
+    public void setVisiblePart(float visibleTop, int parentH) {
         this.visiblePartSet = true;
-        this.backgroundHeight = i;
-        this.viewTop = f;
+        this.backgroundHeight = parentH;
+        this.viewTop = visibleTop;
     }
 
     @Override // org.telegram.ui.Cells.BaseCell
@@ -332,6 +318,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             return chatActionCellDelegate.didLongPress(this, this.lastTouchX, this.lastTouchY);
         }
         return false;
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -348,149 +338,131 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.imageReceiver.onAttachedToWindow();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0092  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0107  */
-    /* JADX WARN: Removed duplicated region for block: B:74:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        boolean z;
-        int i;
+    public boolean onTouchEvent(MotionEvent event) {
         if (this.currentMessageObject == null) {
-            return super.onTouchEvent(motionEvent);
+            return super.onTouchEvent(event);
         }
-        float x = motionEvent.getX();
+        float x = event.getX();
         this.lastTouchX = x;
-        float y = motionEvent.getY();
+        float y = event.getY();
         this.lastTouchY = y;
-        boolean z2 = true;
-        if (motionEvent.getAction() == 0) {
+        boolean result = false;
+        if (event.getAction() == 0) {
             if (this.delegate != null) {
-                if (this.currentMessageObject.type != 11 || !this.imageReceiver.isInsideImage(x, y)) {
-                    z = false;
-                } else {
+                if (this.currentMessageObject.type == 11 && this.imageReceiver.isInsideImage(x, y)) {
                     this.imagePressed = true;
-                    z = true;
+                    result = true;
                 }
-                if (z) {
+                if (result) {
                     startCheckLongPress();
                 }
-                if (!z && (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1))) {
-                    i = this.textX;
-                    if (x >= i) {
-                        int i2 = this.textY;
-                        if (y >= i2 && x <= i + this.textWidth && y <= this.textHeight + i2) {
-                            float f = x - this.textXLeft;
-                            int lineForVertical = this.textLayout.getLineForVertical((int) (y - i2));
-                            int offsetForHorizontal = this.textLayout.getOffsetForHorizontal(lineForVertical, f);
-                            float lineLeft = this.textLayout.getLineLeft(lineForVertical);
-                            if (lineLeft <= f && lineLeft + this.textLayout.getLineWidth(lineForVertical) >= f) {
-                                CharSequence charSequence = this.currentMessageObject.messageText;
-                                if (charSequence instanceof Spannable) {
-                                    URLSpan[] uRLSpanArr = (URLSpan[]) ((Spannable) charSequence).getSpans(offsetForHorizontal, offsetForHorizontal, URLSpan.class);
-                                    if (uRLSpanArr.length != 0) {
-                                        if (motionEvent.getAction() == 0) {
-                                            this.pressedLink = uRLSpanArr[0];
-                                        } else {
-                                            URLSpan uRLSpan = uRLSpanArr[0];
-                                            URLSpan uRLSpan2 = this.pressedLink;
-                                            if (uRLSpan == uRLSpan2) {
-                                                openLink(uRLSpan2);
-                                            }
-                                        }
-                                        z = z2;
-                                    } else {
-                                        this.pressedLink = null;
-                                    }
-                                    z2 = z;
-                                    z = z2;
-                                }
-                            }
-                            this.pressedLink = null;
-                        }
-                    }
-                    this.pressedLink = null;
-                }
-                return z ? super.onTouchEvent(motionEvent) : z;
             }
         } else {
-            if (motionEvent.getAction() != 2) {
+            if (event.getAction() != 2) {
                 cancelCheckLongPress();
             }
             if (this.imagePressed) {
-                if (motionEvent.getAction() == 1) {
+                if (event.getAction() == 1) {
                     this.imagePressed = false;
                     ChatActionCellDelegate chatActionCellDelegate = this.delegate;
                     if (chatActionCellDelegate != null) {
                         chatActionCellDelegate.didClickImage(this);
                         playSoundEffect(0);
                     }
-                } else if (motionEvent.getAction() == 3) {
+                } else if (event.getAction() == 3) {
                     this.imagePressed = false;
-                } else if (motionEvent.getAction() == 2 && !this.imageReceiver.isInsideImage(x, y)) {
+                } else if (event.getAction() == 2 && !this.imageReceiver.isInsideImage(x, y)) {
                     this.imagePressed = false;
                 }
             }
         }
-        z = false;
-        if (!z) {
-            i = this.textX;
+        if (!result && (event.getAction() == 0 || (this.pressedLink != null && event.getAction() == 1))) {
+            int i = this.textX;
             if (x >= i) {
+                int i2 = this.textY;
+                if (y >= i2 && x <= i + this.textWidth && y <= this.textHeight + i2) {
+                    float x2 = x - this.textXLeft;
+                    int line = this.textLayout.getLineForVertical((int) (y - i2));
+                    int off = this.textLayout.getOffsetForHorizontal(line, x2);
+                    float left = this.textLayout.getLineLeft(line);
+                    if (left <= x2 && this.textLayout.getLineWidth(line) + left >= x2 && (this.currentMessageObject.messageText instanceof Spannable)) {
+                        Spannable buffer = (Spannable) this.currentMessageObject.messageText;
+                        URLSpan[] link = (URLSpan[]) buffer.getSpans(off, off, URLSpan.class);
+                        if (link.length != 0) {
+                            if (event.getAction() == 0) {
+                                this.pressedLink = link[0];
+                                result = true;
+                            } else {
+                                URLSpan uRLSpan = link[0];
+                                URLSpan uRLSpan2 = this.pressedLink;
+                                if (uRLSpan == uRLSpan2) {
+                                    openLink(uRLSpan2);
+                                    result = true;
+                                }
+                            }
+                        } else {
+                            this.pressedLink = null;
+                        }
+                    } else {
+                        this.pressedLink = null;
+                    }
+                }
             }
             this.pressedLink = null;
         }
-        if (z) {
+        if (!result) {
+            return super.onTouchEvent(event);
         }
+        return result;
     }
 
-    public void openLink(CharacterStyle characterStyle) {
-        if (this.delegate == null || !(characterStyle instanceof URLSpan)) {
-            return;
-        }
-        String url = ((URLSpan) characterStyle).getURL();
-        if (url.startsWith("invite")) {
-            URLSpan uRLSpan = this.pressedLink;
-            if (uRLSpan instanceof URLSpanNoUnderline) {
-                TLObject object = ((URLSpanNoUnderline) uRLSpan).getObject();
-                if (!(object instanceof TLRPC$TL_chatInviteExported)) {
+    public void openLink(CharacterStyle link) {
+        if (this.delegate != null && (link instanceof URLSpan)) {
+            String url = ((URLSpan) link).getURL();
+            if (url.startsWith("invite")) {
+                URLSpan uRLSpan = this.pressedLink;
+                if (uRLSpan instanceof URLSpanNoUnderline) {
+                    URLSpanNoUnderline spanNoUnderline = (URLSpanNoUnderline) uRLSpan;
+                    TLObject object = spanNoUnderline.getObject();
+                    if (object instanceof TLRPC.TL_chatInviteExported) {
+                        TLRPC.TL_chatInviteExported invite = (TLRPC.TL_chatInviteExported) object;
+                        this.delegate.needOpenInviteLink(invite);
+                        return;
+                    }
                     return;
                 }
-                this.delegate.needOpenInviteLink((TLRPC$TL_chatInviteExported) object);
-                return;
             }
-        }
-        if (url.startsWith("game")) {
-            this.delegate.didPressReplyMessage(this, this.currentMessageObject.getReplyMsgId());
-        } else if (url.startsWith("http")) {
-            Browser.openUrl(getContext(), url);
-        } else {
-            this.delegate.needOpenUserProfile(Long.parseLong(url));
+            if (url.startsWith("game")) {
+                this.delegate.didPressReplyMessage(this, this.currentMessageObject.getReplyMsgId());
+            } else if (url.startsWith("http")) {
+                Browser.openUrl(getContext(), url);
+            } else {
+                this.delegate.needOpenUserProfile(Long.parseLong(url));
+            }
         }
     }
 
-    private void createLayout(CharSequence charSequence, int i) {
-        int dp = i - AndroidUtilities.dp(30.0f);
+    private void createLayout(CharSequence text, int width) {
+        int maxWidth = width - AndroidUtilities.dp(30.0f);
         this.invalidatePath = true;
-        this.textLayout = new StaticLayout(charSequence, (TextPaint) getThemedPaint("paintChatActionText"), dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        this.textLayout = new StaticLayout(text, (TextPaint) getThemedPaint(Theme.key_paint_chatActionText), maxWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         this.spoilersPool.addAll(this.spoilers);
         this.spoilers.clear();
-        if (charSequence instanceof Spannable) {
-            SpoilerEffect.addSpoilers(this, this.textLayout, (Spannable) charSequence, this.spoilersPool, this.spoilers);
+        if (text instanceof Spannable) {
+            SpoilerEffect.addSpoilers(this, this.textLayout, (Spannable) text, this.spoilersPool, this.spoilers);
         }
         this.textHeight = 0;
         this.textWidth = 0;
         try {
-            int lineCount = this.textLayout.getLineCount();
-            for (int i2 = 0; i2 < lineCount; i2++) {
+            int linesCount = this.textLayout.getLineCount();
+            for (int a = 0; a < linesCount; a++) {
                 try {
-                    float lineWidth = this.textLayout.getLineWidth(i2);
-                    float f = dp;
-                    if (lineWidth > f) {
-                        lineWidth = f;
+                    float lineWidth = this.textLayout.getLineWidth(a);
+                    if (lineWidth > maxWidth) {
+                        lineWidth = maxWidth;
                     }
-                    this.textHeight = (int) Math.max(this.textHeight, Math.ceil(this.textLayout.getLineBottom(i2)));
+                    this.textHeight = (int) Math.max(this.textHeight, Math.ceil(this.textLayout.getLineBottom(a)));
                     this.textWidth = (int) Math.max(this.textWidth, Math.ceil(lineWidth));
                 } catch (Exception e) {
                     FileLog.e(e);
@@ -500,55 +472,51 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         } catch (Exception e2) {
             FileLog.e(e2);
         }
-        this.textX = (i - this.textWidth) / 2;
+        this.textX = (width - this.textWidth) / 2;
         this.textY = AndroidUtilities.dp(7.0f);
-        this.textXLeft = (i - this.textLayout.getWidth()) / 2;
+        this.textXLeft = (width - this.textLayout.getWidth()) / 2;
     }
 
     @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (this.currentMessageObject == null && this.customText == null) {
-            setMeasuredDimension(View.MeasureSpec.getSize(i), this.textHeight + AndroidUtilities.dp(14.0f));
+            setMeasuredDimension(View.MeasureSpec.getSize(widthMeasureSpec), this.textHeight + AndroidUtilities.dp(14.0f));
             return;
         }
-        int max = Math.max(AndroidUtilities.dp(30.0f), View.MeasureSpec.getSize(i));
-        if (this.previousWidth != max) {
+        int width = Math.max(AndroidUtilities.dp(30.0f), View.MeasureSpec.getSize(widthMeasureSpec));
+        if (this.previousWidth != width) {
             this.wasLayout = true;
-            this.previousWidth = max;
+            this.previousWidth = width;
             buildLayout();
         }
-        int i3 = this.textHeight;
+        int i = this.textHeight;
         MessageObject messageObject = this.currentMessageObject;
-        setMeasuredDimension(max, i3 + ((messageObject == null || messageObject.type != 11) ? 0 : AndroidUtilities.roundMessageSize + AndroidUtilities.dp(10.0f)) + AndroidUtilities.dp(14.0f));
+        setMeasuredDimension(width, i + ((messageObject == null || messageObject.type != 11) ? 0 : AndroidUtilities.roundMessageSize + AndroidUtilities.dp(10.0f)) + AndroidUtilities.dp(14.0f));
     }
 
     private void buildLayout() {
-        CharSequence charSequence;
-        TLRPC$MessageMedia tLRPC$MessageMedia;
+        CharSequence text;
         MessageObject messageObject = this.currentMessageObject;
         if (messageObject != null) {
-            TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-            if (tLRPC$Message != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && tLRPC$MessageMedia.ttl_seconds != 0) {
-                if (tLRPC$MessageMedia.photo instanceof TLRPC$TL_photoEmpty) {
-                    charSequence = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
-                } else if (tLRPC$MessageMedia.document instanceof TLRPC$TL_documentEmpty) {
-                    charSequence = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
+            if (messageObject.messageOwner != null && this.currentMessageObject.messageOwner.media != null && this.currentMessageObject.messageOwner.media.ttl_seconds != 0) {
+                if (this.currentMessageObject.messageOwner.media.photo instanceof TLRPC.TL_photoEmpty) {
+                    text = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
+                } else if (this.currentMessageObject.messageOwner.media.document instanceof TLRPC.TL_documentEmpty) {
+                    text = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
                 } else {
-                    charSequence = messageObject.messageText;
+                    text = this.currentMessageObject.messageText;
                 }
             } else {
-                charSequence = messageObject.messageText;
+                text = this.currentMessageObject.messageText;
             }
         } else {
-            charSequence = this.customText;
+            text = this.customText;
         }
-        createLayout(charSequence, this.previousWidth);
+        createLayout(text, this.previousWidth);
         MessageObject messageObject2 = this.currentMessageObject;
-        if (messageObject2 == null || messageObject2.type != 11) {
-            return;
+        if (messageObject2 != null && messageObject2.type == 11) {
+            this.imageReceiver.setImageCoords((this.previousWidth - AndroidUtilities.roundMessageSize) / 2, this.textHeight + AndroidUtilities.dp(19.0f), AndroidUtilities.roundMessageSize, AndroidUtilities.roundMessageSize);
         }
-        int i = AndroidUtilities.roundMessageSize;
-        this.imageReceiver.setImageCoords((this.previousWidth - AndroidUtilities.roundMessageSize) / 2, this.textHeight + AndroidUtilities.dp(19.0f), i, i);
     }
 
     public int getCustomDate() {
@@ -565,221 +533,281 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             return;
         }
         drawBackground(canvas, false);
-        if (this.textPaint == null) {
-            return;
+        if (this.textPaint != null) {
+            canvas.save();
+            canvas.translate(this.textXLeft, this.textY);
+            if (this.textLayout.getPaint() != this.textPaint) {
+                buildLayout();
+            }
+            canvas.save();
+            SpoilerEffect.clipOutCanvas(canvas, this.spoilers);
+            this.textLayout.draw(canvas);
+            canvas.restore();
+            for (SpoilerEffect eff : this.spoilers) {
+                eff.setColor(this.textLayout.getPaint().getColor());
+                eff.draw(canvas);
+            }
+            canvas.restore();
         }
-        canvas.save();
-        canvas.translate(this.textXLeft, this.textY);
-        if (this.textLayout.getPaint() != this.textPaint) {
-            buildLayout();
-        }
-        canvas.save();
-        SpoilerEffect.clipOutCanvas(canvas, this.spoilers);
-        this.textLayout.draw(canvas);
-        canvas.restore();
-        for (SpoilerEffect spoilerEffect : this.spoilers) {
-            spoilerEffect.setColor(this.textLayout.getPaint().getColor());
-            spoilerEffect.draw(canvas);
-        }
-        canvas.restore();
     }
 
-    public void drawBackground(Canvas canvas, boolean z) {
-        Paint paint;
-        Paint paint2;
-        int i;
-        int i2;
-        int i3;
-        Paint paint3;
-        int i4;
-        float f;
-        int i5;
-        int i6;
-        int i7;
-        int i8;
-        float f2;
-        float f3;
-        int i9;
-        int i10;
-        int i11;
+    /* JADX WARN: Removed duplicated region for block: B:119:0x034c  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x036f  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01e1  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x01f2  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x0226  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x024b  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void drawBackground(Canvas canvas, boolean fromParent) {
+        Paint backgroundPaint;
+        Paint backgroundPaint2;
+        int innerCornerRad;
+        Paint backgroundPaint3;
+        int nextLineWidth;
+        int innerCornerRad2;
+        int nextLineWidth2;
+        int prevLineWidth;
+        int x;
+        int cornerInSmall;
+        int cornerIn;
+        int nextLineWidth3;
+        int diff;
         if (this.canDrawInParent) {
-            if (hasGradientService() && !z) {
+            if (hasGradientService() && !fromParent) {
                 return;
             }
-            if (!hasGradientService() && z) {
+            if (!hasGradientService() && fromParent) {
                 return;
             }
         }
-        Paint themedPaint = getThemedPaint("paintChatActionBackground");
-        this.textPaint = (TextPaint) getThemedPaint("paintChatActionText");
+        Paint backgroundPaint4 = getThemedPaint(Theme.key_paint_chatActionBackground);
+        this.textPaint = (TextPaint) getThemedPaint(Theme.key_paint_chatActionText);
         String str = this.overrideBackground;
         if (str != null) {
-            int themedColor = getThemedColor(str);
+            int color = getThemedColor(str);
             if (this.overrideBackgroundPaint == null) {
-                Paint paint4 = new Paint(1);
-                this.overrideBackgroundPaint = paint4;
-                paint4.setColor(themedColor);
+                Paint paint = new Paint(1);
+                this.overrideBackgroundPaint = paint;
+                paint.setColor(color);
                 TextPaint textPaint = new TextPaint(1);
                 this.overrideTextPaint = textPaint;
                 textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 this.overrideTextPaint.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize) - 2));
                 this.overrideTextPaint.setColor(getThemedColor(this.overrideText));
             }
-            themedPaint = this.overrideBackgroundPaint;
+            backgroundPaint4 = this.overrideBackgroundPaint;
             this.textPaint = this.overrideTextPaint;
         }
         if (this.invalidatePath) {
             this.invalidatePath = false;
             this.lineWidths.clear();
-            int lineCount = this.textLayout.getLineCount();
-            int dp = AndroidUtilities.dp(11.0f);
-            int dp2 = AndroidUtilities.dp(8.0f);
-            int i12 = 0;
-            for (int i13 = 0; i13 < lineCount; i13++) {
-                int ceil = (int) Math.ceil(this.textLayout.getLineWidth(i13));
-                if (i13 == 0 || (i11 = i12 - ceil) <= 0 || i11 > dp + dp2) {
-                    i12 = ceil;
+            int count = this.textLayout.getLineCount();
+            int corner = AndroidUtilities.dp(11.0f);
+            int cornerIn2 = AndroidUtilities.dp(8.0f);
+            int prevLineWidth2 = 0;
+            for (int a = 0; a < count; a++) {
+                int lineWidth = (int) Math.ceil(this.textLayout.getLineWidth(a));
+                if (a != 0 && (diff = prevLineWidth2 - lineWidth) > 0 && diff <= corner + cornerIn2) {
+                    lineWidth = prevLineWidth2;
                 }
-                this.lineWidths.add(Integer.valueOf(i12));
+                this.lineWidths.add(Integer.valueOf(lineWidth));
+                prevLineWidth2 = lineWidth;
             }
-            for (int i14 = lineCount - 2; i14 >= 0; i14--) {
-                int intValue = this.lineWidths.get(i14).intValue();
-                int i15 = i12 - intValue;
-                if (i15 <= 0 || i15 > dp + dp2) {
-                    i12 = intValue;
+            for (int a2 = count - 2; a2 >= 0; a2--) {
+                int lineWidth2 = this.lineWidths.get(a2).intValue();
+                int diff2 = prevLineWidth2 - lineWidth2;
+                if (diff2 > 0 && diff2 <= corner + cornerIn2) {
+                    lineWidth2 = prevLineWidth2;
                 }
-                this.lineWidths.set(i14, Integer.valueOf(i12));
+                this.lineWidths.set(a2, Integer.valueOf(lineWidth2));
+                prevLineWidth2 = lineWidth2;
             }
-            int dp3 = AndroidUtilities.dp(4.0f);
-            int measuredWidth = getMeasuredWidth() / 2;
-            int dp4 = AndroidUtilities.dp(3.0f);
-            int dp5 = AndroidUtilities.dp(6.0f);
-            int i16 = dp - dp4;
+            int y = AndroidUtilities.dp(4.0f);
+            int x2 = getMeasuredWidth() / 2;
+            int previousLineBottom = 0;
+            int cornerOffset = AndroidUtilities.dp(3.0f);
+            int cornerInSmall2 = AndroidUtilities.dp(6.0f);
+            int cornerRest = corner - cornerOffset;
             this.lineHeights.clear();
             this.backgroundPath.reset();
-            float f4 = measuredWidth;
-            this.backgroundPath.moveTo(f4, dp3);
-            int i17 = 0;
-            int i18 = 0;
-            while (i17 < lineCount) {
-                int intValue2 = this.lineWidths.get(i17).intValue();
-                int i19 = dp2;
-                int lineBottom = this.textLayout.getLineBottom(i17);
-                int i20 = dp5;
-                int i21 = lineCount - 1;
-                if (i17 < i21) {
-                    paint3 = themedPaint;
-                    i4 = this.lineWidths.get(i17 + 1).intValue();
+            this.backgroundPath.moveTo(x2, y);
+            int a3 = 0;
+            while (a3 < count) {
+                int lineWidth3 = this.lineWidths.get(a3).intValue();
+                int lineBottom = this.textLayout.getLineBottom(a3);
+                if (a3 < count - 1) {
+                    backgroundPaint3 = backgroundPaint4;
+                    nextLineWidth = this.lineWidths.get(a3 + 1).intValue();
                 } else {
-                    paint3 = themedPaint;
-                    i4 = 0;
+                    backgroundPaint3 = backgroundPaint4;
+                    nextLineWidth = 0;
                 }
-                int i22 = lineBottom - i18;
-                if (i17 == 0 || intValue2 > i12) {
-                    f = 3.0f;
-                    i22 += AndroidUtilities.dp(3.0f);
+                int height = lineBottom - previousLineBottom;
+                if (a3 == 0 || lineWidth3 > prevLineWidth2) {
+                    height += AndroidUtilities.dp(3.0f);
+                }
+                int previousLineBottom2 = count - 1;
+                if (a3 == previousLineBottom2 || lineWidth3 > nextLineWidth) {
+                    height += AndroidUtilities.dp(3.0f);
+                }
+                float startX = x2 + (lineWidth3 / 2.0f);
+                if (a3 != count - 1 && lineWidth3 < nextLineWidth && a3 != 0 && lineWidth3 < prevLineWidth2) {
+                    innerCornerRad2 = cornerInSmall2;
                 } else {
-                    f = 3.0f;
+                    innerCornerRad2 = cornerIn2;
                 }
-                if (i17 == i21 || intValue2 > i4) {
-                    i22 += AndroidUtilities.dp(f);
-                }
-                float f5 = (intValue2 / 2.0f) + f4;
-                int i23 = (i17 == i21 || intValue2 >= i4 || i17 == 0 || intValue2 >= i12) ? i19 : i20;
-                if (i17 == 0 || intValue2 > i12) {
-                    f2 = f4;
-                    i6 = lineCount;
-                    i8 = lineBottom;
-                    i5 = i12;
-                    i7 = measuredWidth;
-                    this.rect.set((f5 - dp4) - dp, dp3, i16 + f5, (dp * 2) + dp3);
-                    this.backgroundPath.arcTo(this.rect, -90.0f, 90.0f);
+                if (a3 == 0) {
+                    nextLineWidth2 = nextLineWidth;
+                    cornerIn = cornerIn2;
+                    prevLineWidth = prevLineWidth2;
+                    x = x2;
+                    cornerInSmall = cornerInSmall2;
+                } else if (lineWidth3 > prevLineWidth2) {
+                    nextLineWidth2 = nextLineWidth;
+                    cornerIn = cornerIn2;
+                    prevLineWidth = prevLineWidth2;
+                    x = x2;
+                    cornerInSmall = cornerInSmall2;
                 } else {
-                    f2 = f4;
-                    if (intValue2 < i12) {
-                        i8 = lineBottom;
-                        float f6 = i16 + f5;
-                        i7 = measuredWidth;
-                        i6 = lineCount;
-                        i5 = i12;
-                        this.rect.set(f6, dp3, (i23 * 2) + f6, i10 + dp3);
-                        this.backgroundPath.arcTo(this.rect, -90.0f, -90.0f);
+                    if (lineWidth3 >= prevLineWidth2) {
+                        nextLineWidth2 = nextLineWidth;
+                        cornerIn = cornerIn2;
+                        prevLineWidth = prevLineWidth2;
+                        x = x2;
+                        cornerInSmall = cornerInSmall2;
                     } else {
-                        i6 = lineCount;
-                        i8 = lineBottom;
-                        i5 = i12;
-                        i7 = measuredWidth;
+                        cornerIn = cornerIn2;
+                        cornerInSmall = cornerInSmall2;
+                        x = x2;
+                        prevLineWidth = prevLineWidth2;
+                        nextLineWidth2 = nextLineWidth;
+                        this.rect.set(cornerRest + startX, y, cornerRest + startX + (innerCornerRad2 * 2), (innerCornerRad2 * 2) + y);
+                        this.backgroundPath.arcTo(this.rect, -90.0f, -90.0f);
                     }
-                }
-                dp3 += i22;
-                if (i17 == i21 || intValue2 >= i4) {
-                    f3 = 3.0f;
-                } else {
-                    f3 = 3.0f;
-                    dp3 -= AndroidUtilities.dp(3.0f);
-                    i22 -= AndroidUtilities.dp(3.0f);
-                }
-                if (i17 != 0 && intValue2 < i5) {
-                    dp3 -= AndroidUtilities.dp(f3);
-                    i22 -= AndroidUtilities.dp(f3);
-                }
-                this.lineHeights.add(Integer.valueOf(i22));
-                if (i17 == i21 || intValue2 > i4) {
-                    this.rect.set((f5 - dp4) - dp, dp3 - (dp * 2), f5 + i16, dp3);
+                    y += height;
+                    if (a3 == count - 1) {
+                        nextLineWidth3 = nextLineWidth2;
+                        if (lineWidth3 < nextLineWidth3) {
+                            y -= AndroidUtilities.dp(3.0f);
+                            height -= AndroidUtilities.dp(3.0f);
+                        }
+                    } else {
+                        nextLineWidth3 = nextLineWidth2;
+                    }
+                    if (a3 != 0 && lineWidth3 < prevLineWidth) {
+                        y -= AndroidUtilities.dp(3.0f);
+                        height -= AndroidUtilities.dp(3.0f);
+                    }
+                    this.lineHeights.add(Integer.valueOf(height));
+                    if (a3 != count - 1 && lineWidth3 <= nextLineWidth3) {
+                        if (lineWidth3 >= nextLineWidth3) {
+                            int yOffset = y - (innerCornerRad2 * 2);
+                            this.rect.set(cornerRest + startX, yOffset, cornerRest + startX + (innerCornerRad2 * 2), y);
+                            this.backgroundPath.arcTo(this.rect, 180.0f, -90.0f);
+                        }
+                        prevLineWidth2 = lineWidth3;
+                        a3++;
+                        backgroundPaint4 = backgroundPaint3;
+                        previousLineBottom = lineBottom;
+                        cornerIn2 = cornerIn;
+                        cornerInSmall2 = cornerInSmall;
+                        x2 = x;
+                    }
+                    this.rect.set((startX - cornerOffset) - corner, y - (corner * 2), cornerRest + startX, y);
                     this.backgroundPath.arcTo(this.rect, 0.0f, 90.0f);
-                } else if (intValue2 < i4) {
-                    float f7 = f5 + i16;
-                    this.rect.set(f7, dp3 - i9, (i23 * 2) + f7, dp3);
-                    this.backgroundPath.arcTo(this.rect, 180.0f, -90.0f);
+                    prevLineWidth2 = lineWidth3;
+                    a3++;
+                    backgroundPaint4 = backgroundPaint3;
+                    previousLineBottom = lineBottom;
+                    cornerIn2 = cornerIn;
+                    cornerInSmall2 = cornerInSmall;
+                    x2 = x;
                 }
-                i17++;
-                i12 = intValue2;
-                dp2 = i19;
-                dp5 = i20;
-                themedPaint = paint3;
-                f4 = f2;
-                i18 = i8;
-                measuredWidth = i7;
-                lineCount = i6;
+                this.rect.set((startX - cornerOffset) - corner, y, cornerRest + startX, (corner * 2) + y);
+                this.backgroundPath.arcTo(this.rect, -90.0f, 90.0f);
+                y += height;
+                if (a3 == count - 1) {
+                }
+                if (a3 != 0) {
+                    y -= AndroidUtilities.dp(3.0f);
+                    height -= AndroidUtilities.dp(3.0f);
+                }
+                this.lineHeights.add(Integer.valueOf(height));
+                if (a3 != count - 1) {
+                    if (lineWidth3 >= nextLineWidth3) {
+                    }
+                    prevLineWidth2 = lineWidth3;
+                    a3++;
+                    backgroundPaint4 = backgroundPaint3;
+                    previousLineBottom = lineBottom;
+                    cornerIn2 = cornerIn;
+                    cornerInSmall2 = cornerInSmall;
+                    x2 = x;
+                }
+                this.rect.set((startX - cornerOffset) - corner, y - (corner * 2), cornerRest + startX, y);
+                this.backgroundPath.arcTo(this.rect, 0.0f, 90.0f);
+                prevLineWidth2 = lineWidth3;
+                a3++;
+                backgroundPaint4 = backgroundPaint3;
+                previousLineBottom = lineBottom;
+                cornerIn2 = cornerIn;
+                cornerInSmall2 = cornerInSmall;
+                x2 = x;
             }
-            paint = themedPaint;
-            int i24 = dp2;
-            int i25 = measuredWidth;
-            int i26 = dp5;
-            int i27 = lineCount - 1;
-            int i28 = i27;
-            while (i28 >= 0) {
-                int intValue3 = i28 != 0 ? this.lineWidths.get(i28 - 1).intValue() : 0;
-                int intValue4 = this.lineWidths.get(i28).intValue();
-                int intValue5 = i28 != i27 ? this.lineWidths.get(i28 + 1).intValue() : 0;
-                this.textLayout.getLineBottom(i28);
-                float f8 = i25 - (intValue4 / 2);
-                int i29 = (i28 == i27 || intValue4 >= intValue5 || i28 == 0 || intValue4 >= intValue3) ? i24 : i26;
-                if (i28 == i27 || intValue4 > intValue5) {
-                    this.rect.set(f8 - i16, dp3 - (dp * 2), dp4 + f8 + dp, dp3);
-                    this.backgroundPath.arcTo(this.rect, 90.0f, 90.0f);
-                } else if (intValue4 < intValue5) {
-                    float f9 = f8 - i16;
-                    this.rect.set(f9 - (i29 * 2), dp3 - i3, f9, dp3);
-                    this.backgroundPath.arcTo(this.rect, 90.0f, -90.0f);
+            backgroundPaint = backgroundPaint4;
+            int cornerIn3 = cornerIn2;
+            int x3 = x2;
+            int cornerInSmall3 = cornerInSmall2;
+            int a4 = count - 1;
+            while (a4 >= 0) {
+                int prevLineWidth3 = a4 != 0 ? this.lineWidths.get(a4 - 1).intValue() : 0;
+                int lineWidth4 = this.lineWidths.get(a4).intValue();
+                int nextLineWidth4 = a4 != count + (-1) ? this.lineWidths.get(a4 + 1).intValue() : 0;
+                this.textLayout.getLineBottom(a4);
+                float startX2 = x3 - (lineWidth4 / 2);
+                if (a4 != count - 1 && lineWidth4 < nextLineWidth4 && a4 != 0 && lineWidth4 < prevLineWidth3) {
+                    innerCornerRad = cornerInSmall3;
+                } else {
+                    innerCornerRad = cornerIn3;
                 }
-                dp3 -= this.lineHeights.get(i28).intValue();
-                if (i28 == 0 || intValue4 > intValue3) {
-                    this.rect.set(f8 - i16, dp3, f8 + dp4 + dp, (dp * 2) + dp3);
+                if (a4 != count - 1 && lineWidth4 <= nextLineWidth4) {
+                    if (lineWidth4 < nextLineWidth4) {
+                        this.rect.set((startX2 - cornerRest) - (innerCornerRad * 2), y - (innerCornerRad * 2), startX2 - cornerRest, y);
+                        this.backgroundPath.arcTo(this.rect, 90.0f, -90.0f);
+                    }
+                    y -= this.lineHeights.get(a4).intValue();
+                    if (a4 != 0 && lineWidth4 <= prevLineWidth3) {
+                        if (lineWidth4 >= prevLineWidth3) {
+                            this.rect.set((startX2 - cornerRest) - (innerCornerRad * 2), y, startX2 - cornerRest, (innerCornerRad * 2) + y);
+                            this.backgroundPath.arcTo(this.rect, 0.0f, -90.0f);
+                        }
+                        a4--;
+                    }
+                    this.rect.set(startX2 - cornerRest, y, cornerOffset + startX2 + corner, (corner * 2) + y);
                     this.backgroundPath.arcTo(this.rect, 180.0f, 90.0f);
-                } else if (intValue4 < intValue3) {
-                    float f10 = f8 - i16;
-                    this.rect.set(f10 - (i29 * 2), dp3, f10, i2 + dp3);
-                    this.backgroundPath.arcTo(this.rect, 0.0f, -90.0f);
+                    a4--;
                 }
-                i28--;
+                this.rect.set(startX2 - cornerRest, y - (corner * 2), cornerOffset + startX2 + corner, y);
+                this.backgroundPath.arcTo(this.rect, 90.0f, 90.0f);
+                y -= this.lineHeights.get(a4).intValue();
+                if (a4 != 0) {
+                    if (lineWidth4 >= prevLineWidth3) {
+                    }
+                    a4--;
+                }
+                this.rect.set(startX2 - cornerRest, y, cornerOffset + startX2 + corner, (corner * 2) + y);
+                this.backgroundPath.arcTo(this.rect, 180.0f, 90.0f);
+                a4--;
             }
             this.backgroundPath.close();
         } else {
-            paint = themedPaint;
+            backgroundPaint = backgroundPaint4;
         }
         if (!this.visiblePartSet) {
-            this.backgroundHeight = ((ViewGroup) getParent()).getMeasuredHeight();
+            ViewGroup parent = (ViewGroup) getParent();
+            this.backgroundHeight = parent.getMeasuredHeight();
         }
         ThemeDelegate themeDelegate = this.themeDelegate;
         if (themeDelegate != null) {
@@ -787,24 +815,24 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         } else {
             Theme.applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, 0.0f, this.viewTop + AndroidUtilities.dp(4.0f));
         }
-        int i30 = -1;
-        if (!z || getAlpha() == 1.0f) {
-            paint2 = paint;
-            i = -1;
+        int oldAlpha = -1;
+        int oldAlpha2 = -1;
+        if (!fromParent || getAlpha() == 1.0f) {
+            backgroundPaint2 = backgroundPaint;
         } else {
-            i30 = paint.getAlpha();
-            i = Theme.chat_actionBackgroundGradientDarkenPaint.getAlpha();
-            paint2 = paint;
-            paint2.setAlpha((int) (i30 * getAlpha()));
-            Theme.chat_actionBackgroundGradientDarkenPaint.setAlpha((int) (i * getAlpha()));
+            oldAlpha = backgroundPaint.getAlpha();
+            oldAlpha2 = Theme.chat_actionBackgroundGradientDarkenPaint.getAlpha();
+            backgroundPaint2 = backgroundPaint;
+            backgroundPaint2.setAlpha((int) (oldAlpha * getAlpha()));
+            Theme.chat_actionBackgroundGradientDarkenPaint.setAlpha((int) (oldAlpha2 * getAlpha()));
         }
-        canvas.drawPath(this.backgroundPath, paint2);
+        canvas.drawPath(this.backgroundPath, backgroundPaint2);
         if (hasGradientService()) {
             canvas.drawPath(this.backgroundPath, Theme.chat_actionBackgroundGradientDarkenPaint);
         }
-        if (i30 >= 0) {
-            paint2.setAlpha(i30);
-            Theme.chat_actionBackgroundGradientDarkenPaint.setAlpha(i);
+        if (oldAlpha >= 0) {
+            backgroundPaint2.setAlpha(oldAlpha);
+            Theme.chat_actionBackgroundGradientDarkenPaint.setAlpha(oldAlpha2);
         }
     }
 
@@ -814,27 +842,39 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
-    public void onSuccessDownload(String str) {
+    public void onFailedDownload(String fileName, boolean canceled) {
+    }
+
+    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
+    public void onSuccessDownload(String fileName) {
         MessageObject messageObject = this.currentMessageObject;
-        if (messageObject == null || messageObject.type != 11) {
-            return;
-        }
-        TLRPC$PhotoSize tLRPC$PhotoSize = null;
-        int i = 0;
-        int size = messageObject.photoThumbs.size();
-        while (true) {
-            if (i >= size) {
-                break;
+        if (messageObject != null && messageObject.type == 11) {
+            TLRPC.PhotoSize strippedPhotoSize = null;
+            int a = 0;
+            int N = this.currentMessageObject.photoThumbs.size();
+            while (true) {
+                if (a >= N) {
+                    break;
+                }
+                TLRPC.PhotoSize photoSize = this.currentMessageObject.photoThumbs.get(a);
+                if (!(photoSize instanceof TLRPC.TL_photoStrippedSize)) {
+                    a++;
+                } else {
+                    strippedPhotoSize = photoSize;
+                    break;
+                }
             }
-            TLRPC$PhotoSize tLRPC$PhotoSize2 = this.currentMessageObject.photoThumbs.get(i);
-            if (tLRPC$PhotoSize2 instanceof TLRPC$TL_photoStrippedSize) {
-                tLRPC$PhotoSize = tLRPC$PhotoSize2;
-                break;
-            }
-            i++;
+            this.imageReceiver.setImage(this.currentVideoLocation, ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(strippedPhotoSize, this.currentMessageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, this.currentMessageObject, 1);
+            DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
         }
-        this.imageReceiver.setImage(this.currentVideoLocation, ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(tLRPC$PhotoSize, this.currentMessageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, this.currentMessageObject, 1);
-        DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
+    }
+
+    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
+    public void onProgressDownload(String fileName, long downloadSize, long totalSize) {
+    }
+
+    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
+    public void onProgressUpload(String fileName, long downloadSize, long totalSize, boolean isEncrypted) {
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
@@ -843,57 +883,60 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     }
 
     @Override // android.view.View
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        CharacterStyle[] characterStyleArr;
-        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-        if (!TextUtils.isEmpty(this.customText) || this.currentMessageObject != null) {
-            if (this.accessibilityText == null) {
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(!TextUtils.isEmpty(this.customText) ? this.customText : this.currentMessageObject.messageText);
-                for (final CharacterStyle characterStyle : (CharacterStyle[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), ClickableSpan.class)) {
-                    int spanStart = spannableStringBuilder.getSpanStart(characterStyle);
-                    int spanEnd = spannableStringBuilder.getSpanEnd(characterStyle);
-                    spannableStringBuilder.removeSpan(characterStyle);
-                    spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Cells.ChatActionCell.1
-                        {
-                            ChatActionCell.this = this;
-                        }
-
-                        @Override // android.text.style.ClickableSpan
-                        public void onClick(View view) {
-                            if (ChatActionCell.this.delegate != null) {
-                                ChatActionCell.this.openLink(characterStyle);
-                            }
-                        }
-                    }, spanStart, spanEnd, 33);
-                }
-                this.accessibilityText = spannableStringBuilder;
-            }
-            if (Build.VERSION.SDK_INT < 24) {
-                accessibilityNodeInfo.setContentDescription(this.accessibilityText.toString());
-            } else {
-                accessibilityNodeInfo.setText(this.accessibilityText);
-            }
-            accessibilityNodeInfo.setEnabled(true);
-        }
-    }
-
-    public void setInvalidateColors(boolean z) {
-        if (this.invalidateColors == z) {
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        if (TextUtils.isEmpty(this.customText) && this.currentMessageObject == null) {
             return;
         }
-        this.invalidateColors = z;
+        if (this.accessibilityText == null) {
+            CharSequence text = !TextUtils.isEmpty(this.customText) ? this.customText : this.currentMessageObject.messageText;
+            SpannableStringBuilder sb = new SpannableStringBuilder(text);
+            CharacterStyle[] links = (CharacterStyle[]) sb.getSpans(0, sb.length(), ClickableSpan.class);
+            for (final CharacterStyle link : links) {
+                int start = sb.getSpanStart(link);
+                int end = sb.getSpanEnd(link);
+                sb.removeSpan(link);
+                ClickableSpan underlineSpan = new ClickableSpan() { // from class: org.telegram.ui.Cells.ChatActionCell.1
+                    {
+                        ChatActionCell.this = this;
+                    }
+
+                    @Override // android.text.style.ClickableSpan
+                    public void onClick(View view) {
+                        if (ChatActionCell.this.delegate != null) {
+                            ChatActionCell.this.openLink(link);
+                        }
+                    }
+                };
+                sb.setSpan(underlineSpan, start, end, 33);
+            }
+            this.accessibilityText = sb;
+        }
+        if (Build.VERSION.SDK_INT < 24) {
+            info.setContentDescription(this.accessibilityText.toString());
+        } else {
+            info.setText(this.accessibilityText);
+        }
+        info.setEnabled(true);
+    }
+
+    public void setInvalidateColors(boolean invalidate) {
+        if (this.invalidateColors == invalidate) {
+            return;
+        }
+        this.invalidateColors = invalidate;
         invalidate();
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(String key) {
         ThemeDelegate themeDelegate = this.themeDelegate;
-        Integer color = themeDelegate != null ? themeDelegate.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer color = themeDelegate != null ? themeDelegate.getColor(key) : null;
+        return color != null ? color.intValue() : Theme.getColor(key);
     }
 
-    private Paint getThemedPaint(String str) {
+    private Paint getThemedPaint(String paintKey) {
         ThemeDelegate themeDelegate = this.themeDelegate;
-        Paint paint = themeDelegate != null ? themeDelegate.getPaint(str) : null;
-        return paint != null ? paint : Theme.getThemePaint(str);
+        Paint paint = themeDelegate != null ? themeDelegate.getPaint(paintKey) : null;
+        return paint != null ? paint : Theme.getThemePaint(paintKey);
     }
 }

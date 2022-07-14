@@ -3,7 +3,7 @@ package com.google.android.gms.internal.clearcut;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 final class zzdu<T> implements zzef<T> {
     private final zzdo zzmn;
     private final boolean zzmo;
@@ -58,8 +58,9 @@ final class zzdu<T> implements zzef<T> {
         zzexVar.zzc(zzexVar.zzq(t), zzfrVar);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x005c  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0061 A[EDGE_INSN: B:50:0x0061->B:26:0x0061 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x005a  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x005f A[SYNTHETIC] */
     @Override // com.google.android.gms.internal.clearcut.zzef
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -83,25 +84,37 @@ final class zzdu<T> implements zzef<T> {
                 while (zza < i2) {
                     zza = zzax.zza(bArr, zza, zzayVar);
                     int i5 = zzayVar.zzfd;
-                    int i6 = i5 >>> 3;
-                    int i7 = i5 & 7;
-                    if (i6 != 2) {
-                        if (i6 == 3 && i7 == 2) {
-                            zza = zzax.zze(bArr, zza, zzayVar);
-                            zzbbVar = (zzbb) zzayVar.zzff;
-                        }
-                        if (i5 != 12) {
+                    int i6 = i5 & 7;
+                    switch (i5 >>> 3) {
+                        case 2:
+                            if (i6 != 0) {
+                                if (i5 == 12) {
+                                    break;
+                                } else {
+                                    zza = zzax.zza(i5, bArr, zza, i2, zzayVar);
+                                }
+                            } else {
+                                zza = zzax.zza(bArr, zza, zzayVar);
+                                i4 = zzayVar.zzfd;
+                            }
+                        case 3:
+                            if (i6 == 2) {
+                                zza = zzax.zze(bArr, zza, zzayVar);
+                                zzbbVar = (zzbb) zzayVar.zzff;
+                            } else if (i5 == 12) {
+                            }
                             break;
-                        }
-                        zza = zzax.zza(i5, bArr, zza, i2, zzayVar);
-                    } else if (i7 == 0) {
-                        zza = zzax.zza(bArr, zza, zzayVar);
-                        i4 = zzayVar.zzfd;
-                    } else if (i5 != 12) {
+                        default:
+                            if (i5 == 12) {
+                            }
+                            break;
                     }
+                    if (zzbbVar != null) {
+                        zzeyVar2.zzb((i4 << 3) | 2, zzbbVar);
+                    }
+                    i = zza;
                 }
                 if (zzbbVar != null) {
-                    zzeyVar2.zzb((i4 << 3) | 2, zzbbVar);
                 }
                 i = zza;
             }

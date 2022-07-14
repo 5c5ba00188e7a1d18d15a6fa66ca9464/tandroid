@@ -1,5 +1,6 @@
 package org.telegram.messenger.voip;
 
+import android.content.SharedPreferences;
 import android.media.audiofx.AcousticEchoCanceler;
 import android.media.audiofx.NoiseSuppressor;
 import android.os.Build;
@@ -14,7 +15,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.MessagesController;
 import org.telegram.ui.Components.voip.VoIPHelper;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class VoIPController {
     public static final int DATA_SAVING_ALWAYS = 2;
     public static final int DATA_SAVING_MOBILE = 1;
@@ -50,7 +51,7 @@ public class VoIPController {
     protected ConnectionStateListener listener;
     protected long nativeInst = nativeInit(new File(ApplicationLoader.applicationContext.getFilesDir(), "voip_persistent_state.json").getAbsolutePath());
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface ConnectionStateListener {
         void onConnectionStateChanged(int i, boolean z);
 
@@ -113,16 +114,16 @@ public class VoIPController {
         nativeConnect(this.nativeInst);
     }
 
-    public void setEncryptionKey(byte[] bArr, boolean z) {
-        if (bArr.length != 256) {
-            throw new IllegalArgumentException("key length must be exactly 256 bytes but is " + bArr.length);
+    public void setEncryptionKey(byte[] key, boolean isOutgoing) {
+        if (key.length != 256) {
+            throw new IllegalArgumentException("key length must be exactly 256 bytes but is " + key.length);
         }
         ensureNativeInstance();
-        nativeSetEncryptionKey(this.nativeInst, bArr, z);
+        nativeSetEncryptionKey(this.nativeInst, key, isOutgoing);
     }
 
-    public static void setNativeBufferSize(int i) {
-        nativeSetNativeBufferSize(i);
+    public static void setNativeBufferSize(int size) {
+        nativeSetNativeBufferSize(size);
     }
 
     public void release() {
@@ -137,93 +138,82 @@ public class VoIPController {
     }
 
     protected void ensureNativeInstance() {
-        if (this.nativeInst != 0) {
-            return;
+        if (this.nativeInst == 0) {
+            throw new IllegalStateException("Native instance is not valid");
         }
-        throw new IllegalStateException("Native instance is not valid");
     }
 
     public void setConnectionStateListener(ConnectionStateListener connectionStateListener) {
         this.listener = connectionStateListener;
     }
 
-    private void handleStateChange(int i) {
-        if (i == 3 && this.callStartTime == 0) {
+    private void handleStateChange(int state) {
+        if (state == 3 && this.callStartTime == 0) {
             this.callStartTime = SystemClock.elapsedRealtime();
         }
         ConnectionStateListener connectionStateListener = this.listener;
         if (connectionStateListener != null) {
-            connectionStateListener.onConnectionStateChanged(i, false);
+            connectionStateListener.onConnectionStateChanged(state, false);
         }
     }
 
-    private void handleSignalBarsChange(int i) {
+    private void handleSignalBarsChange(int count) {
         ConnectionStateListener connectionStateListener = this.listener;
         if (connectionStateListener != null) {
-            connectionStateListener.onSignalBarCountChanged(i);
+            connectionStateListener.onSignalBarCountChanged(count);
         }
     }
 
-    public void setNetworkType(int i) {
+    public void setNetworkType(int type) {
         ensureNativeInstance();
-        nativeSetNetworkType(this.nativeInst, i);
+        nativeSetNetworkType(this.nativeInst, type);
     }
 
     public long getCallDuration() {
         return SystemClock.elapsedRealtime() - this.callStartTime;
     }
 
-    public void setMicMute(boolean z) {
+    public void setMicMute(boolean mute) {
         ensureNativeInstance();
-        nativeSetMicMute(this.nativeInst, z);
+        nativeSetMicMute(this.nativeInst, mute);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x005d  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void setConfig(double d, double d2, int i, long j) {
-        boolean isAvailable;
-        boolean isAvailable2;
+    public void setConfig(double recvTimeout, double initTimeout, int dataSavingOption, long callID) {
+        boolean sysAecAvailable;
+        boolean sysNsAvailable;
         String str;
         ensureNativeInstance();
-        if (Build.VERSION.SDK_INT >= 16) {
+        boolean sysAecAvailable2 = false;
+        if (Build.VERSION.SDK_INT < 16) {
+            sysAecAvailable = false;
+            sysNsAvailable = false;
+        } else {
             try {
-                isAvailable = AcousticEchoCanceler.isAvailable();
-                try {
-                    isAvailable2 = NoiseSuppressor.isAvailable();
-                } catch (Throwable unused) {
-                }
-            } catch (Throwable unused2) {
+                sysAecAvailable2 = AcousticEchoCanceler.isAvailable();
+                boolean sysNsAvailable2 = NoiseSuppressor.isAvailable();
+                sysAecAvailable = sysAecAvailable2;
+                sysNsAvailable = sysNsAvailable2;
+            } catch (Throwable th) {
+                sysAecAvailable = sysAecAvailable2;
+                sysNsAvailable = false;
             }
-            boolean z = MessagesController.getGlobalMainSettings().getBoolean("dbg_dump_call_stats", false);
-            long j2 = this.nativeInst;
-            boolean z2 = isAvailable || !VoIPServerConfig.getBoolean("use_system_aec", true);
-            boolean z3 = isAvailable2 || !VoIPServerConfig.getBoolean("use_system_ns", true);
-            if (!BuildVars.DEBUG_VERSION) {
-                str = getLogFilePath("voip" + j);
-            } else {
-                str = getLogFilePath(j);
-            }
-            nativeSetConfig(j2, d, d2, i, z2, z3, true, str, (BuildVars.DEBUG_VERSION || !z) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
         }
-        isAvailable = false;
-        isAvailable2 = false;
-        boolean z4 = MessagesController.getGlobalMainSettings().getBoolean("dbg_dump_call_stats", false);
-        long j22 = this.nativeInst;
-        if (isAvailable) {
+        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+        boolean dump = preferences.getBoolean("dbg_dump_call_stats", false);
+        long j = this.nativeInst;
+        boolean z = !sysAecAvailable || !VoIPServerConfig.getBoolean("use_system_aec", true);
+        boolean z2 = !sysNsAvailable || !VoIPServerConfig.getBoolean("use_system_ns", true);
+        if (BuildVars.DEBUG_VERSION) {
+            str = getLogFilePath("voip" + callID);
+        } else {
+            str = getLogFilePath(callID);
         }
-        if (isAvailable2) {
-        }
-        if (!BuildVars.DEBUG_VERSION) {
-        }
-        nativeSetConfig(j22, d, d2, i, z2, z3, true, str, (BuildVars.DEBUG_VERSION || !z4) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
+        nativeSetConfig(j, recvTimeout, initTimeout, dataSavingOption, z, z2, true, str, (!BuildVars.DEBUG_VERSION || !dump) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
     }
 
-    public void debugCtl(int i, int i2) {
+    public void debugCtl(int request, int param) {
         ensureNativeInstance();
-        nativeDebugCtl(this.nativeInst, i, i2);
+        nativeDebugCtl(this.nativeInst, request, param);
     }
 
     public long getPreferredRelayID() {
@@ -248,29 +238,30 @@ public class VoIPController {
         return nativeGetVersion();
     }
 
-    private String getLogFilePath(String str) {
-        Calendar calendar = Calendar.getInstance();
-        return new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), String.format(Locale.US, "logs/%02d_%02d_%04d_%02d_%02d_%02d_%s.txt", Integer.valueOf(calendar.get(5)), Integer.valueOf(calendar.get(2) + 1), Integer.valueOf(calendar.get(1)), Integer.valueOf(calendar.get(11)), Integer.valueOf(calendar.get(12)), Integer.valueOf(calendar.get(13)), str)).getAbsolutePath();
+    private String getLogFilePath(String name) {
+        Calendar c = Calendar.getInstance();
+        return new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), String.format(Locale.US, "logs/%02d_%02d_%04d_%02d_%02d_%02d_%s.txt", Integer.valueOf(c.get(5)), Integer.valueOf(c.get(2) + 1), Integer.valueOf(c.get(1)), Integer.valueOf(c.get(11)), Integer.valueOf(c.get(12)), Integer.valueOf(c.get(13)), name)).getAbsolutePath();
     }
 
-    private String getLogFilePath(long j) {
-        File logsDir = VoIPHelper.getLogsDir();
+    private String getLogFilePath(long callID) {
+        File dir = VoIPHelper.getLogsDir();
         if (!BuildVars.DEBUG_VERSION) {
-            ArrayList arrayList = new ArrayList(Arrays.asList(logsDir.listFiles()));
-            while (arrayList.size() > 20) {
-                File file = (File) arrayList.get(0);
-                Iterator it = arrayList.iterator();
+            File[] _logs = dir.listFiles();
+            ArrayList<File> logs = new ArrayList<>(Arrays.asList(_logs));
+            while (logs.size() > 20) {
+                File oldest = logs.get(0);
+                Iterator<File> it = logs.iterator();
                 while (it.hasNext()) {
-                    File file2 = (File) it.next();
-                    if (file2.getName().endsWith(".log") && file2.lastModified() < file.lastModified()) {
-                        file = file2;
+                    File file = it.next();
+                    if (file.getName().endsWith(".log") && file.lastModified() < oldest.lastModified()) {
+                        oldest = file;
                     }
                 }
-                file.delete();
-                arrayList.remove(file);
+                oldest.delete();
+                logs.remove(oldest);
             }
         }
-        return new File(logsDir, j + ".log").getAbsolutePath();
+        return new File(dir, callID + ".log").getAbsolutePath();
     }
 
     public String getDebugLog() {
@@ -278,17 +269,17 @@ public class VoIPController {
         return nativeGetDebugLog(this.nativeInst);
     }
 
-    public void setProxy(String str, int i, String str2, String str3) {
+    public void setProxy(String address, int port, String username, String password) {
         ensureNativeInstance();
-        if (str == null) {
+        if (address == null) {
             throw new NullPointerException("address can't be null");
         }
-        nativeSetProxy(this.nativeInst, str, i, str2, str3);
+        nativeSetProxy(this.nativeInst, address, port, username, password);
     }
 
-    public void setAudioOutputGainControlEnabled(boolean z) {
+    public void setAudioOutputGainControlEnabled(boolean enabled) {
         ensureNativeInstance();
-        nativeSetAudioOutputGainControlEnabled(this.nativeInst, z);
+        nativeSetAudioOutputGainControlEnabled(this.nativeInst, enabled);
     }
 
     public int getPeerCapabilities() {
@@ -301,9 +292,9 @@ public class VoIPController {
         nativeRequestCallUpgrade(this.nativeInst);
     }
 
-    public void setEchoCancellationStrength(int i) {
+    public void setEchoCancellationStrength(int strength) {
         ensureNativeInstance();
-        nativeSetEchoCancellationStrength(this.nativeInst, i);
+        nativeSetEchoCancellationStrength(this.nativeInst, strength);
     }
 
     public boolean needRate() {
@@ -311,7 +302,7 @@ public class VoIPController {
         return nativeNeedRate(this.nativeInst);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class Stats {
         public long bytesRecvdMobile;
         public long bytesRecvdWifi;

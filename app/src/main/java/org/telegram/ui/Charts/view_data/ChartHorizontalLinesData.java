@@ -1,7 +1,7 @@
 package org.telegram.ui.Charts.view_data;
 
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChartHorizontalLinesData {
     public int alpha;
     public int fixedAlpha;
@@ -9,106 +9,94 @@ public class ChartHorizontalLinesData {
     public String[] valuesStr;
     public String[] valuesStr2;
 
-    public ChartHorizontalLinesData(int i, int i2, boolean z) {
-        this(i, i2, z, 0.0f);
+    public ChartHorizontalLinesData(int newMaxHeight, int newMinHeight, boolean useMinHeight) {
+        this(newMaxHeight, newMinHeight, useMinHeight, 0.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0099  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x009c  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public ChartHorizontalLinesData(int i, int i2, boolean z, float f) {
-        float f2;
+    public ChartHorizontalLinesData(int newMaxHeight, int newMinHeight, boolean useMinHeight, float k) {
+        float step;
+        int n;
+        int n2;
         this.fixedAlpha = 255;
-        int i3 = 6;
-        int i4 = 1;
-        if (!z) {
-            i = i > 100 ? round(i) : i;
-            int max = Math.max(1, (int) Math.ceil(i / 5.0f));
-            if (i < 6) {
-                i3 = Math.max(2, i + 1);
-            } else {
-                int i5 = i / 2;
-                if (i5 < 6) {
-                    i3 = i5 + 1;
-                    if (i % 2 != 0) {
-                        i3++;
-                    }
+        boolean skipFloatValues = false;
+        if (!useMinHeight) {
+            int v = newMaxHeight > 100 ? round(newMaxHeight) : newMaxHeight;
+            int step2 = Math.max(1, (int) Math.ceil(v / 5.0f));
+            if (v < 6) {
+                n2 = Math.max(2, v + 1);
+            } else if (v / 2 < 6) {
+                n2 = (v / 2) + 1;
+                if (v % 2 != 0) {
+                    n2++;
                 }
+            } else {
+                n2 = 6;
             }
-            this.values = new int[i3];
-            this.valuesStr = new String[i3];
-            while (i4 < i3) {
+            this.values = new int[n2];
+            this.valuesStr = new String[n2];
+            for (int i = 1; i < n2; i++) {
                 int[] iArr = this.values;
-                iArr[i4] = i4 * max;
-                this.valuesStr[i4] = AndroidUtilities.formatWholeNumber(iArr[i4], 0);
-                i4++;
+                iArr[i] = i * step2;
+                this.valuesStr[i] = AndroidUtilities.formatWholeNumber(iArr[i], 0);
             }
             return;
         }
-        int i6 = i - i2;
-        if (i6 == 0) {
-            i2--;
-            i3 = 3;
-        } else if (i6 < 6) {
-            i3 = Math.max(2, i6 + 1);
+        int dif = newMaxHeight - newMinHeight;
+        if (dif == 0) {
+            newMinHeight--;
+            n = 3;
+            step = 1.0f;
+        } else if (dif < 6) {
+            n = Math.max(2, dif + 1);
+            step = 1.0f;
+        } else if (dif / 2 < 6) {
+            n = (dif / 2) + (dif % 2) + 1;
+            step = 2.0f;
         } else {
-            int i7 = i6 / 2;
-            if (i7 < 6) {
-                i3 = i7 + (i6 % 2) + 1;
-                f2 = 2.0f;
+            step = (newMaxHeight - newMinHeight) / 5.0f;
+            if (step <= 0.0f) {
+                step = 1.0f;
+                n = Math.max(2, (newMaxHeight - newMinHeight) + 1);
             } else {
-                f2 = i6 / 5.0f;
-                if (f2 <= 0.0f) {
-                    i3 = Math.max(2, i6 + 1);
-                }
+                n = 6;
             }
-            this.values = new int[i3];
-            this.valuesStr = new String[i3];
-            if (f > 0.0f) {
-                this.valuesStr2 = new String[i3];
-            }
-            i4 = f2 / f >= 1.0f ? 0 : i4;
-            for (int i8 = 0; i8 < i3; i8++) {
-                int[] iArr2 = this.values;
-                iArr2[i8] = ((int) (i8 * f2)) + i2;
-                this.valuesStr[i8] = AndroidUtilities.formatWholeNumber(iArr2[i8], i6);
-                if (f > 0.0f) {
-                    float f3 = this.values[i8] / f;
-                    if (i4 != 0) {
-                        int i9 = (int) f3;
-                        if (f3 - i9 < 0.01f) {
-                            this.valuesStr2[i8] = AndroidUtilities.formatWholeNumber(i9, (int) (i6 / f));
-                        } else {
-                            this.valuesStr2[i8] = "";
-                        }
+        }
+        this.values = new int[n];
+        this.valuesStr = new String[n];
+        if (k > 0.0f) {
+            this.valuesStr2 = new String[n];
+        }
+        skipFloatValues = step / k < 1.0f ? true : skipFloatValues;
+        for (int i2 = 0; i2 < n; i2++) {
+            int[] iArr2 = this.values;
+            iArr2[i2] = ((int) (i2 * step)) + newMinHeight;
+            this.valuesStr[i2] = AndroidUtilities.formatWholeNumber(iArr2[i2], dif);
+            if (k > 0.0f) {
+                float v2 = this.values[i2] / k;
+                if (skipFloatValues) {
+                    if (v2 - ((int) v2) < 0.01f) {
+                        this.valuesStr2[i2] = AndroidUtilities.formatWholeNumber((int) v2, (int) (dif / k));
                     } else {
-                        this.valuesStr2[i8] = AndroidUtilities.formatWholeNumber((int) f3, (int) (i6 / f));
+                        this.valuesStr2[i2] = "";
                     }
+                } else {
+                    this.valuesStr2[i2] = AndroidUtilities.formatWholeNumber((int) v2, (int) (dif / k));
                 }
             }
         }
-        f2 = 1.0f;
-        this.values = new int[i3];
-        this.valuesStr = new String[i3];
-        if (f > 0.0f) {
-        }
-        if (f2 / f >= 1.0f) {
-        }
-        while (i8 < i3) {
-        }
     }
 
-    public static int lookupHeight(int i) {
-        if (i > 100) {
-            i = round(i);
+    public static int lookupHeight(int maxValue) {
+        int v = maxValue;
+        if (maxValue > 100) {
+            v = round(maxValue);
         }
-        return ((int) Math.ceil(i / 5.0f)) * 5;
+        int step = (int) Math.ceil(v / 5.0f);
+        return step * 5;
     }
 
-    private static int round(int i) {
-        return ((float) (i / 5)) % 10.0f == 0.0f ? i : ((i / 10) + 1) * 10;
+    private static int round(int maxValue) {
+        float k = maxValue / 5;
+        return k % 10.0f == 0.0f ? maxValue : ((maxValue / 10) + 1) * 10;
     }
 }

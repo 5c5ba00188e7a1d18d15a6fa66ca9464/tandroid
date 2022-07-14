@@ -7,7 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.view.WindowManager;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes5.dex */
 public class WallpaperParallaxEffect implements SensorEventListener {
     private Sensor accelerometer;
     private int bufferOffset;
@@ -18,13 +18,9 @@ public class WallpaperParallaxEffect implements SensorEventListener {
     private float[] rollBuffer = new float[3];
     private float[] pitchBuffer = new float[3];
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes5.dex */
     public interface Callback {
         void onOffsetsChanged(int i, int i2, float f);
-    }
-
-    @Override // android.hardware.SensorEventListener
-    public void onAccuracyChanged(Sensor sensor, int i) {
     }
 
     public WallpaperParallaxEffect(Context context) {
@@ -34,14 +30,14 @@ public class WallpaperParallaxEffect implements SensorEventListener {
         this.accelerometer = sensorManager.getDefaultSensor(1);
     }
 
-    public void setEnabled(boolean z) {
-        if (this.enabled != z) {
-            this.enabled = z;
+    public void setEnabled(boolean enabled) {
+        if (this.enabled != enabled) {
+            this.enabled = enabled;
             Sensor sensor = this.accelerometer;
             if (sensor == null) {
                 return;
             }
-            if (z) {
+            if (enabled) {
                 this.sensorManager.registerListener(this, sensor, 1);
             } else {
                 this.sensorManager.unregisterListener(this);
@@ -53,101 +49,79 @@ public class WallpaperParallaxEffect implements SensorEventListener {
         this.callback = callback;
     }
 
-    public float getScale(int i, int i2) {
-        float f = i;
-        float dp = AndroidUtilities.dp(16.0f) * 2;
-        float f2 = (f + dp) / f;
-        float f3 = i2;
-        return Math.max(f2, (dp + f3) / f3);
+    public float getScale(int boundsWidth, int boundsHeight) {
+        int offset = AndroidUtilities.dp(16.0f);
+        return Math.max((boundsWidth + (offset * 2)) / boundsWidth, (boundsHeight + (offset * 2)) / boundsHeight);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00f4  */
-    /* JADX WARN: Removed duplicated region for block: B:29:? A[RETURN, SYNTHETIC] */
     @Override // android.hardware.SensorEventListener
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        float[] fArr;
-        float atan2;
-        Callback callback;
-        float f;
+    public void onSensorChanged(SensorEvent event) {
         int rotation = this.wm.getDefaultDisplay().getRotation();
-        float[] fArr2 = sensorEvent.values;
-        float f2 = fArr2[0] / 9.80665f;
-        float f3 = fArr2[1] / 9.80665f;
-        float f4 = fArr2[2] / 9.80665f;
-        float f5 = f4 * f4;
-        float atan22 = (float) ((Math.atan2(f2, Math.sqrt((f3 * f3) + f5)) / 3.141592653589793d) * 2.0d);
-        float atan23 = (float) ((Math.atan2(f3, Math.sqrt((f2 * f2) + f5)) / 3.141592653589793d) * 2.0d);
-        if (rotation != 1) {
-            if (rotation == 2) {
-                float f6 = -atan23;
-                atan23 = -atan22;
-                atan22 = f6;
-            } else if (rotation != 3) {
-                atan22 = atan23;
-                atan23 = atan22;
-            } else {
-                atan22 = -atan22;
-            }
-        }
-        float[] fArr3 = this.rollBuffer;
-        int i = this.bufferOffset;
-        fArr3[i] = atan22;
-        this.pitchBuffer[i] = atan23;
-        this.bufferOffset = (i + 1) % fArr3.length;
-        float f7 = 0.0f;
-        int i2 = 0;
-        float f8 = 0.0f;
-        while (true) {
-            fArr = this.rollBuffer;
-            if (i2 >= fArr.length) {
+        float x = event.values[0] / 9.80665f;
+        float y = event.values[1] / 9.80665f;
+        float z = event.values[2] / 9.80665f;
+        float pitch = (float) ((Math.atan2(x, Math.sqrt((y * y) + (z * z))) / 3.141592653589793d) * 2.0d);
+        float roll = (float) ((Math.atan2(y, Math.sqrt((x * x) + (z * z))) / 3.141592653589793d) * 2.0d);
+        switch (rotation) {
+            case 1:
+                pitch = roll;
+                roll = pitch;
                 break;
-            }
-            f7 += fArr[i2];
-            f8 += this.pitchBuffer[i2];
-            i2++;
+            case 2:
+                roll = -roll;
+                pitch = -pitch;
+                break;
+            case 3:
+                float tmp = -pitch;
+                pitch = roll;
+                roll = tmp;
+                break;
         }
-        float length = f7 / fArr.length;
-        float length2 = f8 / fArr.length;
-        if (length <= 1.0f) {
-            if (length < -1.0f) {
-                f = -2.0f;
-            }
-            int round = Math.round(AndroidUtilities.dpf2(16.0f) * length2);
-            int round2 = Math.round(AndroidUtilities.dpf2(16.0f) * length);
-            float max = Math.max(-1.0f, Math.min(1.0f, (-length2) / 0.45f));
-            float max2 = Math.max(-1.0f, Math.min(1.0f, (-length) / 0.45f));
-            float sqrt = (float) Math.sqrt((max * max) + (max2 * max2));
-            float f9 = max / sqrt;
-            float f10 = max2 / sqrt;
-            atan2 = (float) (Math.atan2((f9 * (-1.0f)) - (f10 * 0.0f), (f9 * 0.0f) + (f10 * (-1.0f))) / 0.017453292519943295d);
-            if (atan2 < 0.0f) {
-                atan2 += 360.0f;
-            }
-            callback = this.callback;
-            if (callback != null) {
+        float[] fArr = this.rollBuffer;
+        int i = this.bufferOffset;
+        fArr[i] = roll;
+        this.pitchBuffer[i] = pitch;
+        this.bufferOffset = (i + 1) % fArr.length;
+        float pitch2 = 0.0f;
+        float roll2 = 0.0f;
+        int i2 = 0;
+        while (true) {
+            float[] fArr2 = this.rollBuffer;
+            if (i2 < fArr2.length) {
+                roll2 += fArr2[i2];
+                pitch2 += this.pitchBuffer[i2];
+                i2++;
+            } else {
+                int i3 = fArr2.length;
+                float roll3 = roll2 / i3;
+                float pitch3 = pitch2 / fArr2.length;
+                if (roll3 > 1.0f) {
+                    roll3 = 2.0f - roll3;
+                } else if (roll3 < -1.0f) {
+                    roll3 = (-2.0f) - roll3;
+                }
+                int offsetX = Math.round(AndroidUtilities.dpf2(16.0f) * pitch3);
+                int offsetY = Math.round(AndroidUtilities.dpf2(16.0f) * roll3);
+                float vx = Math.max(-1.0f, Math.min(1.0f, (-pitch3) / 0.45f));
+                float vy = Math.max(-1.0f, Math.min(1.0f, (-roll3) / 0.45f));
+                float len = (float) Math.sqrt((vx * vx) + (vy * vy));
+                float vx2 = vx / len;
+                float vy2 = vy / len;
+                float angle = (float) (Math.atan2((vx2 * (-1.0f)) - (vy2 * 0.0f), (vx2 * 0.0f) + (vy2 * (-1.0f))) / 0.017453292519943295d);
+                if (angle < 0.0f) {
+                    angle += 360.0f;
+                }
+                Callback callback = this.callback;
+                if (callback != null) {
+                    callback.onOffsetsChanged(offsetX, offsetY, angle);
+                    return;
+                }
                 return;
             }
-            callback.onOffsetsChanged(round, round2, atan2);
-            return;
         }
-        f = 2.0f;
-        length = f - length;
-        int round3 = Math.round(AndroidUtilities.dpf2(16.0f) * length2);
-        int round22 = Math.round(AndroidUtilities.dpf2(16.0f) * length);
-        float max3 = Math.max(-1.0f, Math.min(1.0f, (-length2) / 0.45f));
-        float max22 = Math.max(-1.0f, Math.min(1.0f, (-length) / 0.45f));
-        float sqrt2 = (float) Math.sqrt((max3 * max3) + (max22 * max22));
-        float f92 = max3 / sqrt2;
-        float f102 = max22 / sqrt2;
-        atan2 = (float) (Math.atan2((f92 * (-1.0f)) - (f102 * 0.0f), (f92 * 0.0f) + (f102 * (-1.0f))) / 0.017453292519943295d);
-        if (atan2 < 0.0f) {
-        }
-        callback = this.callback;
-        if (callback != null) {
-        }
+    }
+
+    @Override // android.hardware.SensorEventListener
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 }

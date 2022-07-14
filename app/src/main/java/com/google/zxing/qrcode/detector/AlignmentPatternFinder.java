@@ -5,7 +5,7 @@ import com.google.zxing.ResultPointCallback;
 import com.google.zxing.common.BitMatrix;
 import java.util.ArrayList;
 import java.util.List;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 final class AlignmentPatternFinder {
     private final int height;
     private final BitMatrix image;
@@ -17,58 +17,60 @@ final class AlignmentPatternFinder {
     private final List<AlignmentPattern> possibleCenters = new ArrayList(5);
     private final int[] crossCheckStateCount = new int[3];
 
-    public AlignmentPatternFinder(BitMatrix bitMatrix, int i, int i2, int i3, int i4, float f, ResultPointCallback resultPointCallback) {
-        this.image = bitMatrix;
-        this.startX = i;
-        this.startY = i2;
-        this.width = i3;
-        this.height = i4;
-        this.moduleSize = f;
+    public AlignmentPatternFinder(BitMatrix image, int startX, int startY, int width, int height, float moduleSize, ResultPointCallback resultPointCallback) {
+        this.image = image;
+        this.startX = startX;
+        this.startY = startY;
+        this.width = width;
+        this.height = height;
+        this.moduleSize = moduleSize;
         this.resultPointCallback = resultPointCallback;
     }
 
     public AlignmentPattern find() throws NotFoundException {
-        AlignmentPattern handlePossibleCenter;
-        AlignmentPattern handlePossibleCenter2;
-        int i = this.startX;
-        int i2 = this.height;
-        int i3 = this.width + i;
-        int i4 = this.startY + (i2 / 2);
-        int[] iArr = new int[3];
-        for (int i5 = 0; i5 < i2; i5++) {
-            int i6 = ((i5 & 1) == 0 ? (i5 + 1) / 2 : -((i5 + 1) / 2)) + i4;
-            iArr[0] = 0;
-            iArr[1] = 0;
-            iArr[2] = 0;
-            int i7 = i;
-            while (i7 < i3 && !this.image.get(i7, i6)) {
-                i7++;
+        AlignmentPattern confirmed;
+        AlignmentPattern confirmed2;
+        int startX = this.startX;
+        int height = this.height;
+        int maxJ = this.width + startX;
+        int middleI = this.startY + (height / 2);
+        int[] stateCount = new int[3];
+        for (int iGen = 0; iGen < height; iGen++) {
+            int i = ((iGen & 1) == 0 ? (iGen + 1) / 2 : -((iGen + 1) / 2)) + middleI;
+            stateCount[0] = 0;
+            stateCount[1] = 0;
+            stateCount[2] = 0;
+            int j = startX;
+            while (j < maxJ && !this.image.get(j, i)) {
+                j++;
             }
-            int i8 = 0;
-            while (i7 < i3) {
-                if (!this.image.get(i7, i6)) {
-                    if (i8 == 1) {
-                        i8++;
+            int currentState = 0;
+            while (j < maxJ) {
+                if (this.image.get(j, i)) {
+                    if (currentState == 1) {
+                        stateCount[1] = stateCount[1] + 1;
+                    } else if (currentState == 2) {
+                        if (foundPatternCross(stateCount) && (confirmed2 = handlePossibleCenter(stateCount, i, j)) != null) {
+                            return confirmed2;
+                        }
+                        stateCount[0] = stateCount[2];
+                        stateCount[1] = 1;
+                        stateCount[2] = 0;
+                        currentState = 1;
+                    } else {
+                        currentState++;
+                        stateCount[currentState] = stateCount[currentState] + 1;
                     }
-                    iArr[i8] = iArr[i8] + 1;
-                } else if (i8 == 1) {
-                    iArr[1] = iArr[1] + 1;
-                } else if (i8 == 2) {
-                    if (foundPatternCross(iArr) && (handlePossibleCenter2 = handlePossibleCenter(iArr, i6, i7)) != null) {
-                        return handlePossibleCenter2;
-                    }
-                    iArr[0] = iArr[2];
-                    iArr[1] = 1;
-                    iArr[2] = 0;
-                    i8 = 1;
                 } else {
-                    i8++;
-                    iArr[i8] = iArr[i8] + 1;
+                    if (currentState == 1) {
+                        currentState++;
+                    }
+                    stateCount[currentState] = stateCount[currentState] + 1;
                 }
-                i7++;
+                j++;
             }
-            if (foundPatternCross(iArr) && (handlePossibleCenter = handlePossibleCenter(iArr, i6, i3)) != null) {
-                return handlePossibleCenter;
+            if (foundPatternCross(stateCount) && (confirmed = handlePossibleCenter(stateCount, i, maxJ)) != null) {
+                return confirmed;
             }
         }
         if (!this.possibleCenters.isEmpty()) {
@@ -77,112 +79,112 @@ final class AlignmentPatternFinder {
         throw NotFoundException.getNotFoundInstance();
     }
 
-    private static float centerFromEnd(int[] iArr, int i) {
-        return (i - iArr[2]) - (iArr[1] / 2.0f);
+    private static float centerFromEnd(int[] stateCount, int end) {
+        return (end - stateCount[2]) - (stateCount[1] / 2.0f);
     }
 
-    private boolean foundPatternCross(int[] iArr) {
-        float f = this.moduleSize;
-        float f2 = f / 2.0f;
+    private boolean foundPatternCross(int[] stateCount) {
+        float moduleSize = this.moduleSize;
+        float maxVariance = moduleSize / 2.0f;
         for (int i = 0; i < 3; i++) {
-            if (Math.abs(f - iArr[i]) >= f2) {
+            if (Math.abs(moduleSize - stateCount[i]) >= maxVariance) {
                 return false;
             }
         }
         return true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0062, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x0063, code lost:
         if (r2[1] <= r12) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0065, code lost:
-        if (r10 >= r1) goto L57;
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0066, code lost:
+        if (r6 >= r1) goto L60;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x006b, code lost:
-        if (r0.get(r11, r10) != false) goto L58;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x006c, code lost:
+        if (r0.get(r11, r6) != false) goto L61;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x006f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x0070, code lost:
         if (r2[2] > r12) goto L59;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0071, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0072, code lost:
         r2[2] = r2[2] + 1;
-        r10 = r10 + 1;
+        r6 = r6 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x007b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x007c, code lost:
         if (r2[2] <= r12) goto L41;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x007d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x007e, code lost:
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x008f, code lost:
-        if ((java.lang.Math.abs(((r2[0] + r2[1]) + r2[2]) - r13) * 5) < (r13 * 2)) goto L44;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x007f, code lost:
+        r3 = (r2[0] + r2[1]) + r2[2];
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0091, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x0091, code lost:
+        if ((java.lang.Math.abs(r3 - r13) * 5) < (r13 * 2)) goto L44;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0093, code lost:
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x0096, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x0098, code lost:
         if (foundPatternCross(r2) == false) goto L62;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x009c, code lost:
-        return centerFromEnd(r2, r10);
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x009e, code lost:
+        return centerFromEnd(r2, r6);
      */
     /* JADX WARN: Code restructure failed: missing block: B:62:?, code lost:
-        return Float.NaN;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:64:?, code lost:
         return Float.NaN;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private float crossCheckVertical(int i, int i2, int i3, int i4) {
-        BitMatrix bitMatrix = this.image;
-        int height = bitMatrix.getHeight();
-        int[] iArr = this.crossCheckStateCount;
-        iArr[0] = 0;
-        iArr[1] = 0;
-        iArr[2] = 0;
-        int i5 = i;
-        while (i5 >= 0 && bitMatrix.get(i2, i5) && iArr[1] <= i3) {
-            iArr[1] = iArr[1] + 1;
-            i5--;
+    private float crossCheckVertical(int startI, int centerJ, int maxCount, int originalStateCountTotal) {
+        BitMatrix image = this.image;
+        int maxI = image.getHeight();
+        int[] stateCount = this.crossCheckStateCount;
+        stateCount[0] = 0;
+        stateCount[1] = 0;
+        stateCount[2] = 0;
+        int i = startI;
+        while (i >= 0 && image.get(centerJ, i) && stateCount[1] <= maxCount) {
+            stateCount[1] = stateCount[1] + 1;
+            i--;
         }
-        if (i5 < 0 || iArr[1] > i3) {
+        if (i < 0 || stateCount[1] > maxCount) {
             return Float.NaN;
         }
-        while (i5 >= 0 && !bitMatrix.get(i2, i5) && iArr[0] <= i3) {
-            iArr[0] = iArr[0] + 1;
-            i5--;
+        while (i >= 0 && !image.get(centerJ, i) && stateCount[0] <= maxCount) {
+            stateCount[0] = stateCount[0] + 1;
+            i--;
         }
-        if (iArr[0] > i3) {
+        if (stateCount[0] > maxCount) {
             return Float.NaN;
         }
-        int i6 = i + 1;
-        while (i6 < height && bitMatrix.get(i2, i6) && iArr[1] <= i3) {
-            iArr[1] = iArr[1] + 1;
-            i6++;
+        int i2 = startI + 1;
+        while (i2 < maxI && image.get(centerJ, i2) && stateCount[1] <= maxCount) {
+            stateCount[1] = stateCount[1] + 1;
+            i2++;
         }
         return Float.NaN;
     }
 
-    private AlignmentPattern handlePossibleCenter(int[] iArr, int i, int i2) {
-        int i3 = iArr[0] + iArr[1] + iArr[2];
-        float centerFromEnd = centerFromEnd(iArr, i2);
-        float crossCheckVertical = crossCheckVertical(i, (int) centerFromEnd, iArr[1] * 2, i3);
-        if (!Float.isNaN(crossCheckVertical)) {
-            float f = ((iArr[0] + iArr[1]) + iArr[2]) / 3.0f;
-            for (AlignmentPattern alignmentPattern : this.possibleCenters) {
-                if (alignmentPattern.aboutEquals(f, crossCheckVertical, centerFromEnd)) {
-                    return alignmentPattern.combineEstimate(crossCheckVertical, centerFromEnd, f);
+    private AlignmentPattern handlePossibleCenter(int[] stateCount, int i, int j) {
+        int stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2];
+        float centerJ = centerFromEnd(stateCount, j);
+        float centerI = crossCheckVertical(i, (int) centerJ, stateCount[1] * 2, stateCountTotal);
+        if (!Float.isNaN(centerI)) {
+            float estimatedModuleSize = ((stateCount[0] + stateCount[1]) + stateCount[2]) / 3.0f;
+            for (AlignmentPattern center : this.possibleCenters) {
+                if (center.aboutEquals(estimatedModuleSize, centerI, centerJ)) {
+                    return center.combineEstimate(centerI, centerJ, estimatedModuleSize);
                 }
             }
-            AlignmentPattern alignmentPattern2 = new AlignmentPattern(centerFromEnd, crossCheckVertical, f);
-            this.possibleCenters.add(alignmentPattern2);
+            AlignmentPattern point = new AlignmentPattern(centerJ, centerI, estimatedModuleSize);
+            this.possibleCenters.add(point);
             ResultPointCallback resultPointCallback = this.resultPointCallback;
-            if (resultPointCallback == null) {
+            if (resultPointCallback != null) {
+                resultPointCallback.foundPossibleResultPoint(point);
                 return null;
             }
-            resultPointCallback.foundPossibleResultPoint(alignmentPattern2);
             return null;
         }
         return null;

@@ -2,20 +2,29 @@ package com.google.android.gms.internal.vision;
 
 import java.io.PrintStream;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final class zzfe {
     private static final zzfd zza;
+    private static final int zzb;
 
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     static final class zza extends zzfd {
         zza() {
+        }
+
+        @Override // com.google.android.gms.internal.vision.zzfd
+        public final void zza(Throwable th, Throwable th2) {
         }
 
         @Override // com.google.android.gms.internal.vision.zzfd
         public final void zza(Throwable th) {
             th.printStackTrace();
         }
+    }
+
+    public static void zza(Throwable th, Throwable th2) {
+        zza.zza(th, th2);
     }
 
     public static void zza(Throwable th) {
@@ -32,12 +41,12 @@ public final class zzfe {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0064  */
-    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x006a  */
     static {
         zzfd zzfdVar;
         Integer num;
         Throwable th;
+        int i = 1;
         try {
             num = zza();
         } catch (Throwable th2) {
@@ -50,7 +59,7 @@ public final class zzfe {
                 th = th3;
                 PrintStream printStream = System.err;
                 String name = zza.class.getName();
-                StringBuilder sb = new StringBuilder(name.length() + 133);
+                StringBuilder sb = new StringBuilder(String.valueOf(name).length() + 133);
                 sb.append("An error has occurred when initializing the try-with-resources desuguring strategy. The default strategy ");
                 sb.append(name);
                 sb.append("will be used. The error is: ");
@@ -58,17 +67,17 @@ public final class zzfe {
                 th.printStackTrace(System.err);
                 zzfdVar = new zza();
                 zza = zzfdVar;
-                if (num == null) {
+                if (num != null) {
                 }
+                zzb = i;
             }
             if (num.intValue() >= 19) {
                 zzfdVar = new zzfj();
                 zza = zzfdVar;
-                if (num == null) {
-                    return;
+                if (num != null) {
+                    i = num.intValue();
                 }
-                num.intValue();
-                return;
+                zzb = i;
             }
         }
         if (!Boolean.getBoolean("com.google.devtools.build.android.desugar.runtime.twr_disable_mimic")) {
@@ -77,7 +86,8 @@ public final class zzfe {
             zzfdVar = new zza();
         }
         zza = zzfdVar;
-        if (num == null) {
+        if (num != null) {
         }
+        zzb = i;
     }
 }

@@ -1,6 +1,8 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzjb;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.microsoft.appcenter.ingestion.models.CommonProperties;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
@@ -9,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final class zzkp {
     public static String zza(zzkk zzkkVar, String str) {
         StringBuilder sb = new StringBuilder();
@@ -19,24 +21,6 @@ public final class zzkp {
         return sb.toString();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x01e5, code lost:
-        if (((java.lang.Boolean) r6).booleanValue() == false) goto L84;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x01e7, code lost:
-        r4 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x01f8, code lost:
-        if (((java.lang.Integer) r6).intValue() == 0) goto L84;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x0209, code lost:
-        if (((java.lang.Float) r6).floatValue() == 0.0f) goto L84;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x021b, code lost:
-        if (((java.lang.Double) r6).doubleValue() == 0.0d) goto L84;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private static void zza(zzkk zzkkVar, StringBuilder sb, int i) {
         Method[] declaredMethods;
         boolean z;
@@ -73,34 +57,41 @@ public final class zzkp {
                     zza(sb, i, zza(concat2), zzjb.zza(method3, zzkkVar, new Object[0]));
                 }
             }
-            if (((Method) hashMap2.get(substring.length() != 0 ? "set".concat(substring) : new String("set"))) != null) {
+            String valueOf5 = String.valueOf(substring);
+            if (((Method) hashMap2.get(valueOf5.length() != 0 ? "set".concat(valueOf5) : new String("set"))) != null) {
                 if (substring.endsWith("Bytes")) {
-                    String valueOf5 = String.valueOf(substring.substring(0, substring.length() - 5));
-                    if (!hashMap.containsKey(valueOf5.length() != 0 ? "get".concat(valueOf5) : new String("get"))) {
+                    String valueOf6 = String.valueOf(substring.substring(0, substring.length() - 5));
+                    if (!hashMap.containsKey(valueOf6.length() != 0 ? "get".concat(valueOf6) : new String("get"))) {
                     }
                 }
-                String valueOf6 = String.valueOf(substring.substring(0, 1).toLowerCase());
-                String valueOf7 = String.valueOf(substring.substring(1));
-                String concat3 = valueOf7.length() != 0 ? valueOf6.concat(valueOf7) : new String(valueOf6);
-                Method method4 = (Method) hashMap.get(substring.length() != 0 ? "get".concat(substring) : new String("get"));
-                Method method5 = (Method) hashMap.get(substring.length() != 0 ? "has".concat(substring) : new String("has"));
+                String valueOf7 = String.valueOf(substring.substring(0, 1).toLowerCase());
+                String valueOf8 = String.valueOf(substring.substring(1));
+                String concat3 = valueOf8.length() != 0 ? valueOf7.concat(valueOf8) : new String(valueOf7);
+                String valueOf9 = String.valueOf(substring);
+                Method method4 = (Method) hashMap.get(valueOf9.length() != 0 ? "get".concat(valueOf9) : new String("get"));
+                String valueOf10 = String.valueOf(substring);
+                Method method5 = (Method) hashMap.get(valueOf10.length() != 0 ? "has".concat(valueOf10) : new String("has"));
                 if (method4 != null) {
                     Object zza = zzjb.zza(method4, zzkkVar, new Object[0]);
                     if (method5 == null) {
-                        if (!(zza instanceof Boolean)) {
-                            if (!(zza instanceof Integer)) {
-                                if (!(zza instanceof Float)) {
-                                    if (!(zza instanceof Double)) {
-                                        if (zza instanceof String) {
-                                            z = zza.equals("");
-                                        } else if (zza instanceof zzht) {
-                                            z = zza.equals(zzht.zza);
-                                        } else {
-                                            z = !(zza instanceof zzkk) ? false : false;
-                                        }
-                                    }
-                                }
-                            }
+                        if (zza instanceof Boolean) {
+                            z = !((Boolean) zza).booleanValue();
+                        } else if (zza instanceof Integer) {
+                            z = ((Integer) zza).intValue() == 0;
+                        } else if (zza instanceof Float) {
+                            z = ((Float) zza).floatValue() == 0.0f;
+                        } else if (zza instanceof Double) {
+                            z = ((Double) zza).doubleValue() == FirebaseRemoteConfig.DEFAULT_VALUE_FOR_DOUBLE;
+                        } else if (zza instanceof String) {
+                            z = zza.equals("");
+                        } else if (zza instanceof zzht) {
+                            z = zza.equals(zzht.zza);
+                        } else if (zza instanceof zzkk) {
+                            z = zza == ((zzkk) zza).zzr();
+                        } else if (zza instanceof Enum) {
+                            z = ((Enum) zza).ordinal() == 0;
+                        } else {
+                            z = false;
                         }
                         if (z) {
                             z2 = false;
@@ -126,9 +117,9 @@ public final class zzkp {
                 zza(sb, i, sb2.toString(), next.getValue());
             }
         }
-        zzlx zzlxVar = ((zzjb) zzkkVar).zzb;
-        if (zzlxVar != null) {
-            zzlxVar.zza(sb, i);
+        zzjb zzjbVar = (zzjb) zzkkVar;
+        if (zzjbVar.zzb != null) {
+            zzjbVar.zzb.zza(sb, i);
         }
     }
 
@@ -170,7 +161,7 @@ public final class zzkp {
                 Map.Entry entry2 = (Map.Entry) obj;
                 int i4 = i + 2;
                 zza(sb, i4, "key", entry2.getKey());
-                zza(sb, i4, "value", entry2.getValue());
+                zza(sb, i4, CommonProperties.VALUE, entry2.getValue());
                 sb.append("\n");
                 while (i2 < i) {
                     sb.append(' ');

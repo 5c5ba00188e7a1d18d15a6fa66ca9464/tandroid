@@ -1,8 +1,12 @@
 package androidx.core.util;
 
 import java.io.PrintWriter;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final class TimeUtils {
+    public static final int HUNDRED_DAY_FIELD_LEN = 19;
+    private static final int SECONDS_PER_DAY = 86400;
+    private static final int SECONDS_PER_HOUR = 3600;
+    private static final int SECONDS_PER_MINUTE = 60;
     private static final Object sFormatSync = new Object();
     private static char[] sFormatStr = new char[24];
 
@@ -13,113 +17,143 @@ public final class TimeUtils {
         if (amt > 9 || (always && zeropad >= 2)) {
             return suffix + 2;
         }
-        if (!always && amt <= 0) {
-            return 0;
+        if (always || amt > 0) {
+            return suffix + 1;
         }
-        return suffix + 1;
+        return 0;
     }
 
     private static int printField(char[] formatStr, int amt, char suffix, int pos, boolean always, int zeropad) {
-        int i;
         if (always || amt > 0) {
-            if ((!always || zeropad < 3) && amt <= 99) {
-                i = pos;
-            } else {
-                int i2 = amt / 100;
-                formatStr[pos] = (char) (i2 + 48);
-                i = pos + 1;
-                amt -= i2 * 100;
+            if ((always && zeropad >= 3) || amt > 99) {
+                int dig = amt / 100;
+                formatStr[pos] = (char) (dig + 48);
+                pos++;
+                amt -= dig * 100;
             }
-            if ((always && zeropad >= 2) || amt > 9 || pos != i) {
-                int i3 = amt / 10;
-                formatStr[i] = (char) (i3 + 48);
-                i++;
-                amt -= i3 * 10;
+            if ((always && zeropad >= 2) || amt > 9 || pos != pos) {
+                int dig2 = amt / 10;
+                formatStr[pos] = (char) (dig2 + 48);
+                pos++;
+                amt -= dig2 * 10;
             }
-            formatStr[i] = (char) (amt + 48);
-            int i4 = i + 1;
-            formatStr[i4] = suffix;
-            return i4 + 1;
+            formatStr[pos] = (char) (amt + 48);
+            int pos2 = pos + 1;
+            formatStr[pos2] = suffix;
+            return pos2 + 1;
         }
         return pos;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x0132, code lost:
+        if (r9 != r7) goto L77;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private static int formatDurationLocked(long duration, int fieldLen) {
-        char c;
-        int i;
-        int i2;
-        int i3;
-        int i4;
-        int i5;
-        long j = duration;
+        char prefix;
+        int days;
+        int hours;
+        int minutes;
+        int seconds;
+        int start;
+        long duration2 = duration;
         if (sFormatStr.length < fieldLen) {
             sFormatStr = new char[fieldLen];
         }
-        char[] cArr = sFormatStr;
-        if (j == 0) {
-            int i6 = fieldLen - 1;
-            while (i6 > 0) {
-                cArr[0] = ' ';
+        char[] formatStr = sFormatStr;
+        if (duration2 == 0) {
+            int fieldLen2 = fieldLen - 1;
+            while (0 < fieldLen2) {
+                formatStr[0] = ' ';
             }
-            cArr[0] = '0';
-            return 1;
+            formatStr[0] = '0';
+            return 0 + 1;
         }
-        if (j > 0) {
-            c = '+';
+        if (duration2 > 0) {
+            prefix = '+';
         } else {
-            c = '-';
-            j = -j;
+            duration2 = -duration2;
+            prefix = '-';
         }
-        int i7 = (int) (j % 1000);
-        int floor = (int) Math.floor(j / 1000);
-        if (floor > 86400) {
-            i = floor / 86400;
-            floor -= 86400 * i;
+        int millis = (int) (duration2 % 1000);
+        int seconds2 = (int) Math.floor(duration2 / 1000);
+        if (seconds2 <= SECONDS_PER_DAY) {
+            days = 0;
         } else {
-            i = 0;
+            int days2 = seconds2 / SECONDS_PER_DAY;
+            seconds2 -= SECONDS_PER_DAY * days2;
+            days = days2;
         }
-        if (floor > 3600) {
-            i2 = floor / 3600;
-            floor -= i2 * 3600;
+        if (seconds2 <= SECONDS_PER_HOUR) {
+            hours = 0;
         } else {
-            i2 = 0;
+            int hours2 = seconds2 / SECONDS_PER_HOUR;
+            seconds2 -= hours2 * SECONDS_PER_HOUR;
+            hours = hours2;
         }
-        if (floor > 60) {
-            int i8 = floor / 60;
-            i3 = floor - (i8 * 60);
-            i4 = i8;
+        if (seconds2 <= 60) {
+            seconds = seconds2;
+            minutes = 0;
         } else {
-            i3 = floor;
-            i4 = 0;
+            int minutes2 = seconds2 / 60;
+            seconds = seconds2 - (minutes2 * 60);
+            minutes = minutes2;
         }
+        int pos = 0;
+        int pos2 = 3;
+        boolean z = false;
         if (fieldLen != 0) {
-            int accumField = accumField(i, 1, false, 0);
-            int accumField2 = accumField + accumField(i2, 1, accumField > 0, 2);
-            int accumField3 = accumField2 + accumField(i4, 1, accumField2 > 0, 2);
-            int accumField4 = accumField3 + accumField(i3, 1, accumField3 > 0, 2);
-            i5 = 0;
-            for (int accumField5 = accumField4 + accumField(i7, 2, true, accumField4 > 0 ? 3 : 0) + 1; accumField5 < fieldLen; accumField5++) {
-                cArr[i5] = ' ';
-                i5++;
+            int myLen = accumField(days, 1, false, 0);
+            if (myLen > 0) {
+                z = true;
             }
-        } else {
-            i5 = 0;
+            int myLen2 = myLen + accumField(hours, 1, z, 2);
+            int myLen3 = myLen2 + accumField(minutes, 1, myLen2 > 0, 2);
+            int myLen4 = myLen3 + accumField(seconds, 1, myLen3 > 0, 2);
+            for (int myLen5 = myLen4 + accumField(millis, 2, true, myLen4 > 0 ? 3 : 0) + 1; myLen5 < fieldLen; myLen5++) {
+                formatStr[pos] = ' ';
+                pos++;
+            }
         }
-        cArr[i5] = c;
-        int i9 = i5 + 1;
-        boolean z = fieldLen != 0;
-        int printField = printField(cArr, i, 'd', i9, false, 0);
-        int printField2 = printField(cArr, i2, 'h', printField, printField != i9, z ? 2 : 0);
-        int printField3 = printField(cArr, i4, 'm', printField2, printField2 != i9, z ? 2 : 0);
-        int printField4 = printField(cArr, i3, 's', printField3, printField3 != i9, z ? 2 : 0);
-        int printField5 = printField(cArr, i7, 'm', printField4, true, (!z || printField4 == i9) ? 0 : 3);
-        cArr[printField5] = 's';
-        return printField5 + 1;
+        formatStr[pos] = prefix;
+        int pos3 = pos + 1;
+        boolean zeropad = fieldLen != 0;
+        boolean z2 = true;
+        int pos4 = 2;
+        int pos5 = printField(formatStr, days, 'd', pos3, false, 0);
+        int pos6 = printField(formatStr, hours, 'h', pos5, pos5 != pos3, zeropad ? 2 : 0);
+        int pos7 = printField(formatStr, minutes, 'm', pos6, pos6 != pos3, zeropad ? 2 : 0);
+        if (pos7 == pos3) {
+            z2 = false;
+        }
+        if (!zeropad) {
+            pos4 = 0;
+        }
+        int pos8 = printField(formatStr, seconds, 's', pos7, z2, pos4);
+        if (zeropad) {
+            start = pos3;
+        } else {
+            start = pos3;
+        }
+        pos2 = 0;
+        int pos9 = printField(formatStr, millis, 'm', pos8, true, pos2);
+        formatStr[pos9] = 's';
+        return pos9 + 1;
+    }
+
+    public static void formatDuration(long duration, StringBuilder builder) {
+        synchronized (sFormatSync) {
+            int len = formatDurationLocked(duration, 0);
+            builder.append(sFormatStr, 0, len);
+        }
     }
 
     public static void formatDuration(long duration, PrintWriter pw, int fieldLen) {
         synchronized (sFormatSync) {
-            pw.print(new String(sFormatStr, 0, formatDurationLocked(duration, fieldLen)));
+            int len = formatDurationLocked(duration, fieldLen);
+            pw.print(new String(sFormatStr, 0, len));
         }
     }
 
@@ -133,5 +167,8 @@ public final class TimeUtils {
         } else {
             formatDuration(time - now, pw, 0);
         }
+    }
+
+    private TimeUtils() {
     }
 }
