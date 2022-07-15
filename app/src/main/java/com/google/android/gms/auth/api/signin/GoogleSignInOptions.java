@@ -4,9 +4,10 @@ import android.accounts.Account;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import androidx.annotation.RecentlyNonNull;
+import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.auth.api.signin.internal.GoogleSignInOptionsExtensionParcelable;
 import com.google.android.gms.auth.api.signin.internal.HashAccumulator;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.internal.Preconditions;
@@ -26,9 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
-/* loaded from: classes3.dex */
-public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.ApiOptions.Optional, ReflectedParcelable {
-    public static final GoogleSignInOptions DEFAULT_GAMES_SIGN_IN;
+/* loaded from: classes.dex */
+public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.ApiOptions, ReflectedParcelable {
+    @RecentlyNonNull
     public static final Scope zad;
     private final int zaf;
     private final ArrayList<Scope> zag;
@@ -40,17 +41,20 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     private String zam;
     private ArrayList<GoogleSignInOptionsExtensionParcelable> zan;
     private String zao;
-    private Map<Integer, GoogleSignInOptionsExtensionParcelable> zap;
-    public static final Scope zaa = new Scope(Scopes.PROFILE);
-    public static final Scope zab = new Scope("email");
-    public static final Scope zac = new Scope(Scopes.OPEN_ID);
-    public static final Scope zae = new Scope(Scopes.GAMES);
+    @RecentlyNonNull
+    public static final Scope zaa = new Scope("profile");
+    @RecentlyNonNull
+    public static final Scope zac = new Scope("openid");
+    @RecentlyNonNull
+    public static final Scope zae = new Scope("https://www.googleapis.com/auth/games");
+    @RecentlyNonNull
     public static final GoogleSignInOptions DEFAULT_SIGN_IN = new Builder().requestId().requestProfile().build();
+    @RecentlyNonNull
     public static final Parcelable.Creator<GoogleSignInOptions> CREATOR = new zad();
     private static Comparator<Scope> zaq = new zac();
 
+    @RecentlyNullable
     public static GoogleSignInOptions zaa(String str) throws JSONException {
-        Account account;
         String str2 = null;
         if (TextUtils.isEmpty(str)) {
             return null;
@@ -63,11 +67,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
             hashSet.add(new Scope(jSONArray.getString(i)));
         }
         String optString = jSONObject.has("accountName") ? jSONObject.optString("accountName") : null;
-        if (TextUtils.isEmpty(optString)) {
-            account = null;
-        } else {
-            account = new Account(optString, "com.google");
-        }
+        Account account = !TextUtils.isEmpty(optString) ? new Account(optString, "com.google") : null;
         ArrayList arrayList = new ArrayList(hashSet);
         boolean z = jSONObject.getBoolean("idTokenRequested");
         boolean z2 = jSONObject.getBoolean("serverAuthRequested");
@@ -80,7 +80,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     }
 
     /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static final class Builder {
         private Set<Scope> zaa;
         private boolean zab;
@@ -97,7 +97,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
             this.zah = new HashMap();
         }
 
-        public Builder(GoogleSignInOptions googleSignInOptions) {
+        public Builder(@RecentlyNonNull GoogleSignInOptions googleSignInOptions) {
             this.zaa = new HashSet();
             this.zah = new HashMap();
             Preconditions.checkNotNull(googleSignInOptions);
@@ -112,86 +112,44 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
             this.zai = googleSignInOptions.zao;
         }
 
+        @RecentlyNonNull
         public final Builder requestId() {
             this.zaa.add(GoogleSignInOptions.zac);
             return this;
         }
 
-        public final Builder requestEmail() {
-            this.zaa.add(GoogleSignInOptions.zab);
-            return this;
-        }
-
+        @RecentlyNonNull
         public final Builder requestProfile() {
             this.zaa.add(GoogleSignInOptions.zaa);
             return this;
         }
 
-        public final Builder requestScopes(Scope scope, Scope... scopeArr) {
+        @RecentlyNonNull
+        public final Builder requestScopes(@RecentlyNonNull Scope scope, @RecentlyNonNull Scope... scopeArr) {
             this.zaa.add(scope);
             this.zaa.addAll(Arrays.asList(scopeArr));
             return this;
         }
 
-        public final Builder requestIdToken(String str) {
-            this.zad = true;
-            this.zae = zaa(str);
-            return this;
-        }
-
-        public final Builder requestServerAuthCode(String str) {
-            return requestServerAuthCode(str, false);
-        }
-
-        public final Builder requestServerAuthCode(String str, boolean z) {
-            this.zab = true;
-            this.zae = zaa(str);
-            this.zac = z;
-            return this;
-        }
-
-        public final Builder setAccountName(String str) {
-            this.zaf = new Account(Preconditions.checkNotEmpty(str), "com.google");
-            return this;
-        }
-
-        public final Builder setHostedDomain(String str) {
-            this.zag = Preconditions.checkNotEmpty(str);
-            return this;
-        }
-
-        public final Builder setLogSessionId(String str) {
+        @RecentlyNonNull
+        public final Builder setLogSessionId(@RecentlyNonNull String str) {
             this.zai = str;
             return this;
         }
 
-        public final Builder addExtension(GoogleSignInOptionsExtension googleSignInOptionsExtension) {
-            if (this.zah.containsKey(Integer.valueOf(googleSignInOptionsExtension.getExtensionType()))) {
-                throw new IllegalStateException("Only one extension per type may be added");
-            }
-            List<Scope> impliedScopes = googleSignInOptionsExtension.getImpliedScopes();
-            if (impliedScopes != null) {
-                this.zaa.addAll(impliedScopes);
-            }
-            this.zah.put(Integer.valueOf(googleSignInOptionsExtension.getExtensionType()), new GoogleSignInOptionsExtensionParcelable(googleSignInOptionsExtension));
-            return this;
-        }
-
+        @RecentlyNonNull
         public final GoogleSignInOptions build() {
-            if (this.zaa.contains(GoogleSignInOptions.zae) && this.zaa.contains(GoogleSignInOptions.zad)) {
-                this.zaa.remove(GoogleSignInOptions.zad);
+            if (this.zaa.contains(GoogleSignInOptions.zae)) {
+                Set<Scope> set = this.zaa;
+                Scope scope = GoogleSignInOptions.zad;
+                if (set.contains(scope)) {
+                    this.zaa.remove(scope);
+                }
             }
             if (this.zad && (this.zaf == null || !this.zaa.isEmpty())) {
                 requestId();
             }
             return new GoogleSignInOptions(3, new ArrayList(this.zaa), this.zaf, this.zad, this.zab, this.zac, this.zae, this.zag, this.zah, this.zai, null);
-        }
-
-        private final String zaa(String str) {
-            Preconditions.checkNotEmpty(str);
-            String str2 = this.zae;
-            Preconditions.checkArgument(str2 == null || str2.equals(str), "two different server client ids provided");
-            return str;
         }
     }
 
@@ -209,19 +167,15 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         this.zal = str;
         this.zam = str2;
         this.zan = new ArrayList<>(map.values());
-        this.zap = map;
         this.zao = str3;
     }
 
+    @RecentlyNonNull
     public ArrayList<Scope> getScopes() {
         return new ArrayList<>(this.zag);
     }
 
-    public Scope[] getScopeArray() {
-        ArrayList<Scope> arrayList = this.zag;
-        return (Scope[]) arrayList.toArray(new Scope[arrayList.size()]);
-    }
-
+    @RecentlyNullable
     public Account getAccount() {
         return this.zah;
     }
@@ -238,14 +192,17 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         return this.zak;
     }
 
+    @RecentlyNullable
     public String getServerClientId() {
         return this.zal;
     }
 
+    @RecentlyNullable
     public String getLogSessionId() {
         return this.zao;
     }
 
+    @RecentlyNonNull
     public ArrayList<GoogleSignInOptionsExtensionParcelable> getExtensions() {
         return this.zan;
     }
@@ -262,7 +219,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeInt(parcel, 1, this.zaf);
         SafeParcelWriter.writeTypedList(parcel, 2, getScopes(), false);
@@ -277,42 +234,38 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x003d, code lost:
-        if (r4.getAccount() == null) goto L19;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0048, code lost:
+        if (r1.equals(r4.getAccount()) != false) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0068, code lost:
-        if (r3.zal.equals(r4.getServerClientId()) != false) goto L30;
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0067, code lost:
+        if (r3.zal.equals(r4.getServerClientId()) != false) goto L29;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean equals(Object obj) {
-        GoogleSignInOptions googleSignInOptions;
         if (obj == null) {
             return false;
         }
         try {
-            googleSignInOptions = (GoogleSignInOptions) obj;
-        } catch (ClassCastException e) {
-            return false;
-        }
-        if (this.zan.size() <= 0 && googleSignInOptions.zan.size() <= 0 && this.zag.size() == googleSignInOptions.getScopes().size() && this.zag.containsAll(googleSignInOptions.getScopes())) {
-            Account account = this.zah;
-            if (account != null) {
-                if (account.equals(googleSignInOptions.getAccount())) {
-                    if (TextUtils.isEmpty(this.zal)) {
-                        if (TextUtils.isEmpty(googleSignInOptions.getServerClientId())) {
-                            if (this.zak == googleSignInOptions.isForceCodeForRefreshToken() && this.zai == googleSignInOptions.isIdTokenRequested() && this.zaj == googleSignInOptions.isServerAuthCodeRequested()) {
-                                if (TextUtils.equals(this.zao, googleSignInOptions.getLogSessionId())) {
-                                    return true;
-                                }
-                            }
-                        }
+            GoogleSignInOptions googleSignInOptions = (GoogleSignInOptions) obj;
+            if (this.zan.size() <= 0 && googleSignInOptions.zan.size() <= 0 && this.zag.size() == googleSignInOptions.getScopes().size() && this.zag.containsAll(googleSignInOptions.getScopes())) {
+                Account account = this.zah;
+                if (account == null) {
+                    if (googleSignInOptions.getAccount() == null) {
                     }
                 }
-                return false;
+                if (TextUtils.isEmpty(this.zal)) {
+                    if (TextUtils.isEmpty(googleSignInOptions.getServerClientId())) {
+                    }
+                }
+                if (this.zak == googleSignInOptions.isForceCodeForRefreshToken() && this.zai == googleSignInOptions.isIdTokenRequested() && this.zaj == googleSignInOptions.isServerAuthCodeRequested()) {
+                    if (TextUtils.equals(this.zao, googleSignInOptions.getLogSessionId())) {
+                        return true;
+                    }
+                }
             }
-            return false;
+        } catch (ClassCastException unused) {
         }
         return false;
     }
@@ -331,6 +284,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         return new HashAccumulator().addObject(arrayList).addObject(this.zah).addObject(this.zal).zaa(this.zak).zaa(this.zai).zaa(this.zaj).addObject(this.zao).hash();
     }
 
+    @RecentlyNonNull
     public final String zaa() {
         return zab().toString();
     }
@@ -373,8 +327,9 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     }
 
     static {
-        Scope scope = new Scope(Scopes.GAMES_LITE);
+        new Scope("email");
+        Scope scope = new Scope("https://www.googleapis.com/auth/games_lite");
         zad = scope;
-        DEFAULT_GAMES_SIGN_IN = new Builder().requestScopes(scope, new Scope[0]).build();
+        new Builder().requestScopes(scope, new Scope[0]).build();
     }
 }

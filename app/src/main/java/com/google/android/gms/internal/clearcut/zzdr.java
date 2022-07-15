@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
-import com.microsoft.appcenter.ingestion.models.CommonProperties;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
@@ -9,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final class zzdr {
     public static String zza(zzdo zzdoVar, String str) {
         StringBuilder sb = new StringBuilder();
@@ -19,20 +18,20 @@ public final class zzdr {
         return sb.toString();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x01f2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:79:0x01e6, code lost:
         if (((java.lang.Boolean) r11).booleanValue() == false) goto L80;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x01f4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x01e8, code lost:
         r7 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x0203, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x01f7, code lost:
         if (((java.lang.Integer) r11).intValue() == 0) goto L80;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x0214, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0208, code lost:
         if (((java.lang.Float) r11).floatValue() == 0.0f) goto L80;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x0226, code lost:
-        if (((java.lang.Double) r11).doubleValue() == com.google.firebase.remoteconfig.FirebaseRemoteConfig.DEFAULT_VALUE_FOR_DOUBLE) goto L80;
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x021a, code lost:
+        if (((java.lang.Double) r11).doubleValue() == 0.0d) goto L80;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -74,20 +73,17 @@ public final class zzdr {
                     zza(sb, i, zzj(concat2), zzcg.zza(method3, zzdoVar, new Object[0]));
                 }
             }
-            String valueOf5 = String.valueOf(replaceFirst);
-            if (((Method) hashMap2.get(valueOf5.length() != 0 ? "set".concat(valueOf5) : new String("set"))) != null) {
+            if (((Method) hashMap2.get(replaceFirst.length() != 0 ? "set".concat(replaceFirst) : new String("set"))) != null) {
                 if (replaceFirst.endsWith("Bytes")) {
-                    String valueOf6 = String.valueOf(replaceFirst.substring(0, replaceFirst.length() - 5));
-                    if (!hashMap.containsKey(valueOf6.length() != 0 ? "get".concat(valueOf6) : new String("get"))) {
+                    String valueOf5 = String.valueOf(replaceFirst.substring(0, replaceFirst.length() - 5));
+                    if (!hashMap.containsKey(valueOf5.length() != 0 ? "get".concat(valueOf5) : new String("get"))) {
                     }
                 }
-                String valueOf7 = String.valueOf(replaceFirst.substring(0, 1).toLowerCase());
-                String valueOf8 = String.valueOf(replaceFirst.substring(1));
-                String concat3 = valueOf8.length() != 0 ? valueOf7.concat(valueOf8) : new String(valueOf7);
-                String valueOf9 = String.valueOf(replaceFirst);
-                Method method4 = (Method) hashMap.get(valueOf9.length() != 0 ? "get".concat(valueOf9) : new String("get"));
-                String valueOf10 = String.valueOf(replaceFirst);
-                Method method5 = (Method) hashMap.get(valueOf10.length() != 0 ? "has".concat(valueOf10) : new String("has"));
+                String valueOf6 = String.valueOf(replaceFirst.substring(0, 1).toLowerCase());
+                String valueOf7 = String.valueOf(replaceFirst.substring(1));
+                String concat3 = valueOf7.length() != 0 ? valueOf6.concat(valueOf7) : new String(valueOf6);
+                Method method4 = (Method) hashMap.get(replaceFirst.length() != 0 ? "get".concat(replaceFirst) : new String("get"));
+                Method method5 = (Method) hashMap.get(replaceFirst.length() != 0 ? "has".concat(replaceFirst) : new String("has"));
                 if (method4 != null) {
                     Object zza = zzcg.zza(method4, zzdoVar, new Object[0]);
                     if (method5 == null) {
@@ -132,9 +128,9 @@ public final class zzdr {
                 zza(sb, i, sb2.toString(), next.getValue());
             }
         }
-        zzcg zzcgVar = (zzcg) zzdoVar;
-        if (zzcgVar.zzjp != null) {
-            zzcgVar.zzjp.zza(sb, i);
+        zzey zzeyVar = ((zzcg) zzdoVar).zzjp;
+        if (zzeyVar != null) {
+            zzeyVar.zza(sb, i);
         }
     }
 
@@ -179,7 +175,7 @@ public final class zzdr {
                 Map.Entry entry2 = (Map.Entry) obj;
                 int i4 = i + 2;
                 zza(sb, i4, "key", entry2.getKey());
-                zza(sb, i4, CommonProperties.VALUE, entry2.getValue());
+                zza(sb, i4, "value", entry2.getValue());
                 sb.append("\n");
                 while (i2 < i) {
                     sb.append(' ');

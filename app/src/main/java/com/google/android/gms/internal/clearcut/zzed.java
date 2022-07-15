@@ -2,7 +2,8 @@ package com.google.android.gms.internal.clearcut;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-/* loaded from: classes3.dex */
+import org.telegram.tgnet.ConnectionsManager;
+/* loaded from: classes.dex */
 final class zzed {
     private final int flags;
     private final Object[] zzmj;
@@ -20,7 +21,7 @@ final class zzed {
     private final int zzno;
     private int zznp;
     private int zznq;
-    private int zznr = Integer.MAX_VALUE;
+    private int zznr = ConnectionsManager.DEFAULT_DATACENTER_ID;
     private int zzns = Integer.MIN_VALUE;
     private int zznt = 0;
     private int zznu = 0;
@@ -76,7 +77,7 @@ final class zzed {
     private static Field zza(Class<?> cls, String str) {
         try {
             return cls.getDeclaredField(str);
-        } catch (NoSuchFieldException e) {
+        } catch (NoSuchFieldException unused) {
             Field[] declaredFields = cls.getDeclaredFields();
             for (Field field : declaredFields) {
                 if (str.equals(field.getName())) {
@@ -85,7 +86,7 @@ final class zzed {
             }
             String name = cls.getName();
             String arrays = Arrays.toString(declaredFields);
-            StringBuilder sb = new StringBuilder(String.valueOf(str).length() + 40 + String.valueOf(name).length() + String.valueOf(arrays).length());
+            StringBuilder sb = new StringBuilder(String.valueOf(str).length() + 40 + name.length() + String.valueOf(arrays).length());
             sb.append("Field ");
             sb.append(str);
             sb.append(" for ");
@@ -111,12 +112,12 @@ final class zzed {
         if (zzcz() != false) goto L39;
      */
     /* JADX WARN: Code restructure failed: missing block: B:39:0x00c8, code lost:
-        r5.zzof = zzcw();
+        r6.zzof = zzcw();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x0154, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x0152, code lost:
         if (r1 != false) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:66:0x015b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x0159, code lost:
         if (zzcz() != false) goto L39;
      */
     /*
@@ -141,7 +142,8 @@ final class zzed {
         if (i3 > this.zzns) {
             this.zzns = i3;
         }
-        if (i2 == zzcb.MAP.id()) {
+        zzcb zzcbVar = zzcb.MAP;
+        if (i2 == zzcbVar.id()) {
             this.zznt++;
         } else if (this.zzoa >= zzcb.DOUBLE_LIST.id() && this.zzoa <= zzcb.GROUP_LIST.id()) {
             this.zznu++;
@@ -183,7 +185,7 @@ final class zzed {
             } else {
                 if (this.zzoa != zzcb.MESSAGE_LIST.id() && this.zzoa != zzcb.GROUP_LIST.id()) {
                     if (this.zzoa != zzcb.ENUM.id() && this.zzoa != zzcb.ENUM_LIST.id() && this.zzoa != zzcb.ENUM_LIST_PACKED.id()) {
-                        if (this.zzoa == zzcb.MAP.id()) {
+                        if (this.zzoa == zzcbVar.id()) {
                             this.zzog = zzcw();
                             if ((this.zznz & 2048) != 0) {
                                 z = true;

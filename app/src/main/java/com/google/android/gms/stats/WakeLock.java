@@ -1,5 +1,6 @@
 package com.google.android.gms.stats;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.PowerManager;
 import android.os.WorkSource;
@@ -14,32 +15,25 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-/* loaded from: classes3.dex */
+import javax.annotation.concurrent.ThreadSafe;
+@ThreadSafe
+/* loaded from: classes.dex */
 public class WakeLock {
     private static ScheduledExecutorService zzn;
-    private static volatile zza zzo = new com.google.android.gms.stats.zza();
     private final Object zza;
     private final PowerManager.WakeLock zzb;
     private WorkSource zzc;
     private final int zzd;
     private final String zze;
     private final String zzf;
-    private final String zzg;
     private final Context zzh;
     private boolean zzi;
     private final Map<String, Integer[]> zzj;
-    private final Set<Future<?>> zzk;
     private int zzl;
     private AtomicInteger zzm;
-
-    /* loaded from: classes3.dex */
-    public interface zza {
-    }
 
     public WakeLock(Context context, int i, String str) {
         this(context, i, str, null, context == null ? null : context.getPackageName());
@@ -49,23 +43,22 @@ public class WakeLock {
         this(context, i, str, null, str3, null);
     }
 
+    @SuppressLint({"UnwrappedWakeLock"})
     private WakeLock(Context context, int i, String str, String str2, String str3, String str4) {
         this.zza = this;
         this.zzi = true;
         this.zzj = new HashMap();
-        this.zzk = Collections.synchronizedSet(new HashSet());
+        Collections.synchronizedSet(new HashSet());
         this.zzm = new AtomicInteger(0);
         Preconditions.checkNotNull(context, "WakeLock: context must not be null");
         Preconditions.checkNotEmpty(str, "WakeLock: wakeLockName must not be empty");
         this.zzd = i;
         this.zzf = null;
-        this.zzg = null;
         Context applicationContext = context.getApplicationContext();
         this.zzh = applicationContext;
         if (!"com.google.android.gms".equals(context.getPackageName())) {
-            String valueOf = String.valueOf("*gcore*:");
-            String valueOf2 = String.valueOf(str);
-            this.zze = valueOf2.length() != 0 ? valueOf.concat(valueOf2) : new String(valueOf);
+            String valueOf = String.valueOf(str);
+            this.zze = valueOf.length() != 0 ? "*gcore*:".concat(valueOf) : new String("*gcore*:");
         } else {
             this.zze = str;
         }
@@ -97,13 +90,13 @@ public class WakeLock {
         return WorkSourceUtil.getNames(this.zzc);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0058, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0054, code lost:
         if (r2 == false) goto L18;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0060, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x005c, code lost:
         if (r13.zzl == 0) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0062, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x005e, code lost:
         com.google.android.gms.common.stats.WakeLockTracker.getInstance().registerEvent(r13.zzh, com.google.android.gms.common.stats.StatsUtils.getEventKey(r13.zzb, r6), 7, r13.zze, r6, null, r13.zzd, zza(), r14);
         r13.zzl++;
      */
@@ -112,7 +105,7 @@ public class WakeLock {
     */
     public void acquire(long j) {
         this.zzm.incrementAndGet();
-        String zza2 = zza((String) null);
+        String zza = zza((String) null);
         synchronized (this.zza) {
             boolean z = false;
             if ((!this.zzj.isEmpty() || this.zzl > 0) && !this.zzb.isHeld()) {
@@ -120,9 +113,9 @@ public class WakeLock {
                 this.zzl = 0;
             }
             if (this.zzi) {
-                Integer[] numArr = this.zzj.get(zza2);
+                Integer[] numArr = this.zzj.get(zza);
                 if (numArr == null) {
-                    this.zzj.put(zza2, new Integer[]{1});
+                    this.zzj.put(zza, new Integer[]{1});
                     z = true;
                 } else {
                     numArr[0] = Integer.valueOf(numArr[0].intValue() + 1);
@@ -137,13 +130,13 @@ public class WakeLock {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0053, code lost:
-        if (r1 == false) goto L17;
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0050, code lost:
+        if (r1 != false) goto L21;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x005b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0058, code lost:
         if (r12.zzl == 1) goto L21;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x005d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x005a, code lost:
         com.google.android.gms.common.stats.WakeLockTracker.getInstance().registerEvent(r12.zzh, com.google.android.gms.common.stats.StatsUtils.getEventKey(r12.zzb, r6), 8, r12.zze, r6, null, r12.zzd, zza());
         r12.zzl--;
      */
@@ -155,19 +148,19 @@ public class WakeLock {
         if (this.zzm.decrementAndGet() < 0) {
             Log.e("WakeLock", String.valueOf(this.zze).concat(" release without a matched acquire!"));
         }
-        String zza2 = zza((String) null);
+        String zza = zza((String) null);
         synchronized (this.zza) {
             if (this.zzi) {
-                Integer[] numArr = this.zzj.get(zza2);
-                if (numArr == null) {
-                    z = false;
-                } else if (numArr[0].intValue() == 1) {
-                    this.zzj.remove(zza2);
-                    z = true;
-                } else {
-                    numArr[0] = Integer.valueOf(numArr[0].intValue() - 1);
-                    z = false;
+                Integer[] numArr = this.zzj.get(zza);
+                if (numArr != null) {
+                    if (numArr[0].intValue() == 1) {
+                        this.zzj.remove(zza);
+                        z = true;
+                    } else {
+                        numArr[0] = Integer.valueOf(numArr[0].intValue() - 1);
+                    }
                 }
+                z = false;
             }
             if (!this.zzi) {
             }
@@ -199,7 +192,7 @@ public class WakeLock {
         this.zzi = z;
     }
 
-    public boolean isHeld() {
-        return this.zzb.isHeld();
+    static {
+        new zza();
     }
 }

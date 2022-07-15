@@ -1,16 +1,13 @@
 package com.android.billingclient.api;
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final class ConsumeParams {
     private String zza;
 
     /* compiled from: com.android.billingclient:billing@@5.0.0 */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static final class Builder {
         private String zza;
-
-        private Builder() {
-        }
 
         /* synthetic */ Builder(zzbc zzbcVar) {
         }
@@ -29,9 +26,6 @@ public final class ConsumeParams {
             this.zza = str;
             return this;
         }
-    }
-
-    private ConsumeParams() {
     }
 
     /* synthetic */ ConsumeParams(zzbd zzbdVar) {

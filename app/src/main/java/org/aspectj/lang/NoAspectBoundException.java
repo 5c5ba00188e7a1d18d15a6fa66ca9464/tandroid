@@ -1,5 +1,5 @@
 package org.aspectj.lang;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class NoAspectBoundException extends RuntimeException {
     Throwable cause;
 
@@ -7,23 +7,17 @@ public class NoAspectBoundException extends RuntimeException {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public NoAspectBoundException(String aspectName, Throwable inner) {
-        super(r0);
-        String str;
-        if (inner == null) {
-            str = aspectName;
-        } else {
+    public NoAspectBoundException(String str, Throwable th) {
+        super(str);
+        if (th != null) {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append("Exception while initializing ");
-            stringBuffer.append(aspectName);
+            stringBuffer.append(str);
             stringBuffer.append(": ");
-            stringBuffer.append(inner);
+            stringBuffer.append(th);
             str = stringBuffer.toString();
         }
-        this.cause = inner;
-    }
-
-    public NoAspectBoundException() {
+        this.cause = th;
     }
 
     @Override // java.lang.Throwable

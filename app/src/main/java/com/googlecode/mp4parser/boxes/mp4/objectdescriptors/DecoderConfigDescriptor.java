@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 @Descriptor(tags = {4})
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class DecoderConfigDescriptor extends BaseDescriptor {
     private static Logger log = Logger.getLogger(DecoderConfigDescriptor.class.getName());
     AudioSpecificConfig audioSpecificInfo;
@@ -24,57 +24,54 @@ public class DecoderConfigDescriptor extends BaseDescriptor {
     int streamType;
     int upStream;
 
-    /* JADX WARN: Incorrect condition in loop: B:20:0x0091 */
     @Override // com.googlecode.mp4parser.boxes.mp4.objectdescriptors.BaseDescriptor
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void parseDetail(ByteBuffer bb) throws IOException {
+    public void parseDetail(ByteBuffer byteBuffer) throws IOException {
         int size;
-        this.objectTypeIndication = IsoTypeReader.readUInt8(bb);
-        int data = IsoTypeReader.readUInt8(bb);
-        this.streamType = data >>> 2;
-        this.upStream = (data >> 1) & 1;
-        this.bufferSizeDB = IsoTypeReader.readUInt24(bb);
-        this.maxBitRate = IsoTypeReader.readUInt32(bb);
-        this.avgBitRate = IsoTypeReader.readUInt32(bb);
-        if (bb.remaining() > 2) {
-            int begin = bb.position();
-            BaseDescriptor descriptor = ObjectDescriptorFactory.createFrom(this.objectTypeIndication, bb);
-            int read = bb.position() - begin;
+        this.objectTypeIndication = IsoTypeReader.readUInt8(byteBuffer);
+        int readUInt8 = IsoTypeReader.readUInt8(byteBuffer);
+        this.streamType = readUInt8 >>> 2;
+        this.upStream = (readUInt8 >> 1) & 1;
+        this.bufferSizeDB = IsoTypeReader.readUInt24(byteBuffer);
+        this.maxBitRate = IsoTypeReader.readUInt32(byteBuffer);
+        this.avgBitRate = IsoTypeReader.readUInt32(byteBuffer);
+        if (byteBuffer.remaining() > 2) {
+            int position = byteBuffer.position();
+            BaseDescriptor createFrom = ObjectDescriptorFactory.createFrom(this.objectTypeIndication, byteBuffer);
+            int position2 = byteBuffer.position() - position;
             Logger logger = log;
             StringBuilder sb = new StringBuilder();
-            sb.append(descriptor);
+            sb.append(createFrom);
             sb.append(" - DecoderConfigDescr1 read: ");
-            sb.append(read);
+            sb.append(position2);
             sb.append(", size: ");
-            sb.append(descriptor != null ? Integer.valueOf(descriptor.getSize()) : null);
+            sb.append(createFrom != null ? Integer.valueOf(createFrom.getSize()) : null);
             logger.finer(sb.toString());
-            if (descriptor != null && read < (size = descriptor.getSize())) {
-                byte[] bArr = new byte[size - read];
+            if (createFrom != null && position2 < (size = createFrom.getSize())) {
+                byte[] bArr = new byte[size - position2];
                 this.configDescriptorDeadBytes = bArr;
-                bb.get(bArr);
+                byteBuffer.get(bArr);
             }
-            if (descriptor instanceof DecoderSpecificInfo) {
-                this.decoderSpecificInfo = (DecoderSpecificInfo) descriptor;
+            if (createFrom instanceof DecoderSpecificInfo) {
+                this.decoderSpecificInfo = (DecoderSpecificInfo) createFrom;
             }
-            if (descriptor instanceof AudioSpecificConfig) {
-                this.audioSpecificInfo = (AudioSpecificConfig) descriptor;
+            if (createFrom instanceof AudioSpecificConfig) {
+                this.audioSpecificInfo = (AudioSpecificConfig) createFrom;
             }
         }
-        while (begin > 2) {
-            long begin2 = bb.position();
-            BaseDescriptor descriptor2 = ObjectDescriptorFactory.createFrom(this.objectTypeIndication, bb);
+        while (byteBuffer.remaining() > 2) {
+            long position3 = byteBuffer.position();
+            BaseDescriptor createFrom2 = ObjectDescriptorFactory.createFrom(this.objectTypeIndication, byteBuffer);
+            long position4 = byteBuffer.position() - position3;
             Logger logger2 = log;
             StringBuilder sb2 = new StringBuilder();
-            sb2.append(descriptor2);
+            sb2.append(createFrom2);
             sb2.append(" - DecoderConfigDescr2 read: ");
-            sb2.append(bb.position() - begin2);
+            sb2.append(position4);
             sb2.append(", size: ");
-            sb2.append(descriptor2 != null ? Integer.valueOf(descriptor2.getSize()) : null);
+            sb2.append(createFrom2 != null ? Integer.valueOf(createFrom2.getSize()) : null);
             logger2.finer(sb2.toString());
-            if (descriptor2 instanceof ProfileLevelIndicationDescriptor) {
-                this.profileLevelIndicationDescriptors.add((ProfileLevelIndicationDescriptor) descriptor2);
+            if (createFrom2 instanceof ProfileLevelIndicationDescriptor) {
+                this.profileLevelIndicationDescriptors.add((ProfileLevelIndicationDescriptor) createFrom2);
             }
         }
     }
@@ -85,84 +82,43 @@ public class DecoderConfigDescriptor extends BaseDescriptor {
     }
 
     public ByteBuffer serialize() {
-        ByteBuffer out = ByteBuffer.allocate(serializedSize());
-        IsoTypeWriter.writeUInt8(out, 4);
-        IsoTypeWriter.writeUInt8(out, serializedSize() - 2);
-        IsoTypeWriter.writeUInt8(out, this.objectTypeIndication);
-        int flags = (this.streamType << 2) | (this.upStream << 1) | 1;
-        IsoTypeWriter.writeUInt8(out, flags);
-        IsoTypeWriter.writeUInt24(out, this.bufferSizeDB);
-        IsoTypeWriter.writeUInt32(out, this.maxBitRate);
-        IsoTypeWriter.writeUInt32(out, this.avgBitRate);
+        ByteBuffer allocate = ByteBuffer.allocate(serializedSize());
+        IsoTypeWriter.writeUInt8(allocate, 4);
+        IsoTypeWriter.writeUInt8(allocate, serializedSize() - 2);
+        IsoTypeWriter.writeUInt8(allocate, this.objectTypeIndication);
+        IsoTypeWriter.writeUInt8(allocate, (this.streamType << 2) | (this.upStream << 1) | 1);
+        IsoTypeWriter.writeUInt24(allocate, this.bufferSizeDB);
+        IsoTypeWriter.writeUInt32(allocate, this.maxBitRate);
+        IsoTypeWriter.writeUInt32(allocate, this.avgBitRate);
         AudioSpecificConfig audioSpecificConfig = this.audioSpecificInfo;
         if (audioSpecificConfig != null) {
-            out.put(audioSpecificConfig.serialize().array());
+            allocate.put(audioSpecificConfig.serialize().array());
         }
-        return out;
+        return allocate;
     }
 
-    public DecoderSpecificInfo getDecoderSpecificInfo() {
-        return this.decoderSpecificInfo;
+    public void setAudioSpecificInfo(AudioSpecificConfig audioSpecificConfig) {
+        this.audioSpecificInfo = audioSpecificConfig;
     }
 
-    public AudioSpecificConfig getAudioSpecificInfo() {
-        return this.audioSpecificInfo;
+    public void setObjectTypeIndication(int i) {
+        this.objectTypeIndication = i;
     }
 
-    public void setAudioSpecificInfo(AudioSpecificConfig audioSpecificInfo) {
-        this.audioSpecificInfo = audioSpecificInfo;
+    public void setStreamType(int i) {
+        this.streamType = i;
     }
 
-    public List<ProfileLevelIndicationDescriptor> getProfileLevelIndicationDescriptors() {
-        return this.profileLevelIndicationDescriptors;
+    public void setBufferSizeDB(int i) {
+        this.bufferSizeDB = i;
     }
 
-    public int getObjectTypeIndication() {
-        return this.objectTypeIndication;
+    public void setMaxBitRate(long j) {
+        this.maxBitRate = j;
     }
 
-    public void setObjectTypeIndication(int objectTypeIndication) {
-        this.objectTypeIndication = objectTypeIndication;
-    }
-
-    public int getStreamType() {
-        return this.streamType;
-    }
-
-    public void setStreamType(int streamType) {
-        this.streamType = streamType;
-    }
-
-    public int getUpStream() {
-        return this.upStream;
-    }
-
-    public void setUpStream(int upStream) {
-        this.upStream = upStream;
-    }
-
-    public int getBufferSizeDB() {
-        return this.bufferSizeDB;
-    }
-
-    public void setBufferSizeDB(int bufferSizeDB) {
-        this.bufferSizeDB = bufferSizeDB;
-    }
-
-    public long getMaxBitRate() {
-        return this.maxBitRate;
-    }
-
-    public void setMaxBitRate(long maxBitRate) {
-        this.maxBitRate = maxBitRate;
-    }
-
-    public long getAvgBitRate() {
-        return this.avgBitRate;
-    }
-
-    public void setAvgBitRate(long avgBitRate) {
-        this.avgBitRate = avgBitRate;
+    public void setAvgBitRate(long j) {
+        this.avgBitRate = j;
     }
 
     @Override // com.googlecode.mp4parser.boxes.mp4.objectdescriptors.BaseDescriptor

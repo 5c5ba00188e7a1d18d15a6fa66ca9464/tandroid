@@ -5,9 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 abstract class zzhj<E> extends AbstractList<E> implements zzjl<E> {
     private boolean zza = true;
+
+    @Override // java.util.AbstractList, java.util.List
+    public abstract E remove(int i);
 
     @Override // java.util.AbstractList, java.util.Collection, java.util.List
     public boolean equals(Object obj) {
@@ -49,12 +52,6 @@ abstract class zzhj<E> extends AbstractList<E> implements zzjl<E> {
         return super.add(e);
     }
 
-    @Override // java.util.AbstractList, java.util.List
-    public void add(int i, E e) {
-        zzc();
-        super.add(i, e);
-    }
-
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
     public boolean addAll(Collection<? extends E> collection) {
         zzc();
@@ -83,12 +80,6 @@ abstract class zzhj<E> extends AbstractList<E> implements zzjl<E> {
         this.zza = false;
     }
 
-    @Override // java.util.AbstractList, java.util.List
-    public E remove(int i) {
-        zzc();
-        return (E) super.remove(i);
-    }
-
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
     public boolean remove(Object obj) {
         zzc();
@@ -112,15 +103,10 @@ abstract class zzhj<E> extends AbstractList<E> implements zzjl<E> {
         return super.retainAll(collection);
     }
 
-    @Override // java.util.AbstractList, java.util.List
-    public E set(int i, E e) {
-        zzc();
-        return (E) super.set(i, e);
-    }
-
     public final void zzc() {
-        if (!this.zza) {
-            throw new UnsupportedOperationException();
+        if (this.zza) {
+            return;
         }
+        throw new UnsupportedOperationException();
     }
 }

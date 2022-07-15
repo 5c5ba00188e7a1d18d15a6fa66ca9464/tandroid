@@ -2,13 +2,12 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.io.PrintStream;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final class zzq {
     private static final zzt zza;
-    private static final int zzb;
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     static final class zza extends zzt {
         zza() {
         }
@@ -32,12 +31,12 @@ public final class zzq {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x006a  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
     static {
         zzt zztVar;
         Integer num;
         Throwable th;
-        int i = 1;
         try {
             num = zza();
         } catch (Throwable th2) {
@@ -50,7 +49,7 @@ public final class zzq {
                 th = th3;
                 PrintStream printStream = System.err;
                 String name = zza.class.getName();
-                StringBuilder sb = new StringBuilder(String.valueOf(name).length() + 133);
+                StringBuilder sb = new StringBuilder(name.length() + 133);
                 sb.append("An error has occurred when initializing the try-with-resources desuguring strategy. The default strategy ");
                 sb.append(name);
                 sb.append("will be used. The error is: ");
@@ -58,17 +57,17 @@ public final class zzq {
                 th.printStackTrace(System.err);
                 zztVar = new zza();
                 zza = zztVar;
-                if (num != null) {
+                if (num == null) {
                 }
-                zzb = i;
             }
             if (num.intValue() >= 19) {
                 zztVar = new zzw();
                 zza = zztVar;
-                if (num != null) {
-                    i = num.intValue();
+                if (num == null) {
+                    return;
                 }
-                zzb = i;
+                num.intValue();
+                return;
             }
         }
         if (!Boolean.getBoolean("com.google.devtools.build.android.desugar.runtime.twr_disable_mimic")) {
@@ -77,8 +76,7 @@ public final class zzq {
             zztVar = new zza();
         }
         zza = zztVar;
-        if (num != null) {
+        if (num == null) {
         }
-        zzb = i;
     }
 }

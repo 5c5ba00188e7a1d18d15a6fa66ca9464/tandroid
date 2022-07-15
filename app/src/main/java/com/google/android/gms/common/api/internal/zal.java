@@ -10,7 +10,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.concurrent.atomic.AtomicReference;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public abstract class zal extends LifecycleCallback implements DialogInterface.OnCancelListener {
     protected volatile boolean zaa;
     protected final AtomicReference<zak> zab;
@@ -25,7 +25,7 @@ public abstract class zal extends LifecycleCallback implements DialogInterface.O
 
     public abstract void zaa(ConnectionResult connectionResult, int i);
 
-    public zal(LifecycleFragment lifecycleFragment, GoogleApiAvailability googleApiAvailability) {
+    zal(LifecycleFragment lifecycleFragment, GoogleApiAvailability googleApiAvailability) {
         super(lifecycleFragment);
         this.zab = new AtomicReference<>(null);
         this.zad = new com.google.android.gms.internal.base.zas(Looper.getMainLooper());
@@ -40,16 +40,9 @@ public abstract class zal extends LifecycleCallback implements DialogInterface.O
 
     @Override // com.google.android.gms.common.api.internal.LifecycleCallback
     public void onCreate(Bundle bundle) {
-        zak zakVar;
         super.onCreate(bundle);
         if (bundle != null) {
-            AtomicReference<zak> atomicReference = this.zab;
-            if (bundle.getBoolean("resolving_error", false)) {
-                zakVar = new zak(new ConnectionResult(bundle.getInt("failed_status"), (PendingIntent) bundle.getParcelable("failed_resolution")), bundle.getInt("failed_client_id", -1));
-            } else {
-                zakVar = null;
-            }
-            atomicReference.set(zakVar);
+            this.zab.set(bundle.getBoolean("resolving_error", false) ? new zak(new ConnectionResult(bundle.getInt("failed_status"), (PendingIntent) bundle.getParcelable("failed_resolution")), bundle.getInt("failed_client_id", -1)) : null);
         }
     }
 
@@ -71,33 +64,17 @@ public abstract class zal extends LifecycleCallback implements DialogInterface.O
         this.zaa = true;
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0067  */
     @Override // com.google.android.gms.common.api.internal.LifecycleCallback
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void onActivityResult(int i, int i2, Intent intent) {
         zak zakVar = this.zab.get();
         boolean z = true;
-        switch (i) {
-            case 1:
-                if (i2 != -1) {
-                    if (i2 == 0) {
-                        if (zakVar == null) {
-                            return;
-                        }
-                        int i3 = 13;
-                        if (intent != null) {
-                            i3 = intent.getIntExtra("<<ResolutionFailureErrorDetail>>", 13);
-                        }
-                        zak zakVar2 = new zak(new ConnectionResult(i3, null, zakVar.zab().toString()), zaa(zakVar));
-                        this.zab.set(zakVar2);
-                        zakVar = zakVar2;
-                        z = false;
-                        break;
-                    }
-                    z = false;
-                    break;
-                }
-                break;
-            case 2:
+        if (i != 1) {
+            if (i == 2) {
                 int isGooglePlayServicesAvailable = this.zac.isGooglePlayServicesAvailable(getActivity());
                 if (isGooglePlayServicesAvailable != 0) {
                     z = false;
@@ -108,15 +85,37 @@ public abstract class zal extends LifecycleCallback implements DialogInterface.O
                 if (zakVar.zab().getErrorCode() == 18 && isGooglePlayServicesAvailable == 18) {
                     return;
                 }
-                break;
-            default:
+                if (z) {
+                    zab();
+                    return;
+                } else if (zakVar == null) {
+                    return;
+                } else {
+                    zaa(zakVar.zab(), zakVar.zaa());
+                    return;
+                }
+            }
+            z = false;
+            if (z) {
+            }
+        } else {
+            if (i2 != -1) {
+                if (i2 == 0) {
+                    if (zakVar == null) {
+                        return;
+                    }
+                    int i3 = 13;
+                    if (intent != null) {
+                        i3 = intent.getIntExtra("<<ResolutionFailureErrorDetail>>", 13);
+                    }
+                    zak zakVar2 = new zak(new ConnectionResult(i3, null, zakVar.zab().toString()), zaa(zakVar));
+                    this.zab.set(zakVar2);
+                    zakVar = zakVar2;
+                }
                 z = false;
-                break;
-        }
-        if (z) {
-            zab();
-        } else if (zakVar != null) {
-            zaa(zakVar.zab(), zakVar.zaa());
+            }
+            if (z) {
+            }
         }
     }
 

@@ -1,85 +1,100 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
+import android.text.SpannableStringBuilder;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
-import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.TLRPC$Chat;
+import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Bulletin;
-/* loaded from: classes5.dex */
+/* loaded from: classes3.dex */
 public final class BulletinFactory {
-    public static final int ICON_TYPE_NOT_FOUND = 0;
-    public static final int ICON_TYPE_WARNING = 1;
     private final FrameLayout containerLayout;
     private final BaseFragment fragment;
     private final Theme.ResourcesProvider resourcesProvider;
 
-    public static BulletinFactory of(BaseFragment fragment) {
-        return new BulletinFactory(fragment);
+    public static BulletinFactory of(BaseFragment baseFragment) {
+        return new BulletinFactory(baseFragment);
     }
 
-    public static BulletinFactory of(FrameLayout containerLayout, Theme.ResourcesProvider resourcesProvider) {
-        return new BulletinFactory(containerLayout, resourcesProvider);
+    public static BulletinFactory of(FrameLayout frameLayout, Theme.ResourcesProvider resourcesProvider) {
+        return new BulletinFactory(frameLayout, resourcesProvider);
     }
 
-    public static boolean canShowBulletin(BaseFragment fragment) {
-        return (fragment == null || fragment.getParentActivity() == null || fragment.getLayoutContainer() == null) ? false : true;
+    public static boolean canShowBulletin(BaseFragment baseFragment) {
+        return (baseFragment == null || baseFragment.getParentActivity() == null || baseFragment.getLayoutContainer() == null) ? false : true;
     }
 
-    /* loaded from: classes5.dex */
+    /* JADX WARN: Init of enum AUDIO can be incorrect */
+    /* JADX WARN: Init of enum AUDIOS can be incorrect */
+    /* JADX WARN: Init of enum GIF_TO_DOWNLOADS can be incorrect */
+    /* JADX WARN: Init of enum MEDIA can be incorrect */
+    /* JADX WARN: Init of enum PHOTO can be incorrect */
+    /* JADX WARN: Init of enum PHOTOS can be incorrect */
+    /* JADX WARN: Init of enum PHOTO_TO_DOWNLOADS can be incorrect */
+    /* JADX WARN: Init of enum UNKNOWN can be incorrect */
+    /* JADX WARN: Init of enum UNKNOWNS can be incorrect */
+    /* JADX WARN: Init of enum VIDEO can be incorrect */
+    /* JADX WARN: Init of enum VIDEOS can be incorrect */
+    /* JADX WARN: Init of enum VIDEO_TO_DOWNLOADS can be incorrect */
+    /* loaded from: classes3.dex */
     public enum FileType {
-        PHOTO("PhotoSavedHint", R.string.PhotoSavedHint, Icon.SAVED_TO_GALLERY),
-        PHOTOS("PhotosSavedHint", Icon.SAVED_TO_GALLERY),
-        VIDEO("VideoSavedHint", R.string.VideoSavedHint, Icon.SAVED_TO_GALLERY),
-        VIDEOS("VideosSavedHint", Icon.SAVED_TO_GALLERY),
-        MEDIA("MediaSavedHint", Icon.SAVED_TO_GALLERY),
-        PHOTO_TO_DOWNLOADS("PhotoSavedToDownloadsHint", R.string.PhotoSavedToDownloadsHint, Icon.SAVED_TO_DOWNLOADS),
-        VIDEO_TO_DOWNLOADS("VideoSavedToDownloadsHint", R.string.VideoSavedToDownloadsHint, Icon.SAVED_TO_DOWNLOADS),
+        PHOTO("PhotoSavedHint", R.string.PhotoSavedHint, r7),
+        PHOTOS("PhotosSavedHint", r7),
+        VIDEO("VideoSavedHint", R.string.VideoSavedHint, r7),
+        VIDEOS("VideosSavedHint", r7),
+        MEDIA("MediaSavedHint", r7),
+        PHOTO_TO_DOWNLOADS("PhotoSavedToDownloadsHint", R.string.PhotoSavedToDownloadsHint, r5),
+        VIDEO_TO_DOWNLOADS("VideoSavedToDownloadsHint", R.string.VideoSavedToDownloadsHint, r5),
         GIF("GifSavedHint", R.string.GifSavedHint, Icon.SAVED_TO_GIFS),
-        GIF_TO_DOWNLOADS("GifSavedToDownloadsHint", R.string.GifSavedToDownloadsHint, Icon.SAVED_TO_DOWNLOADS),
-        AUDIO("AudioSavedHint", R.string.AudioSavedHint, Icon.SAVED_TO_MUSIC),
-        AUDIOS("AudiosSavedHint", Icon.SAVED_TO_MUSIC),
-        UNKNOWN("FileSavedHint", R.string.FileSavedHint, Icon.SAVED_TO_DOWNLOADS),
-        UNKNOWNS("FilesSavedHint", Icon.SAVED_TO_DOWNLOADS);
+        GIF_TO_DOWNLOADS("GifSavedToDownloadsHint", R.string.GifSavedToDownloadsHint, r5),
+        AUDIO("AudioSavedHint", R.string.AudioSavedHint, r11),
+        AUDIOS("AudiosSavedHint", r11),
+        UNKNOWN("FileSavedHint", R.string.FileSavedHint, r5),
+        UNKNOWNS("FilesSavedHint", r5);
         
         private final Icon icon;
         private final String localeKey;
         private final int localeRes;
         private final boolean plural;
 
-        FileType(String localeKey, int localeRes, Icon icon) {
-            this.localeKey = localeKey;
-            this.localeRes = localeRes;
+        static {
+            Icon icon = Icon.SAVED_TO_GALLERY;
+            Icon icon2 = Icon.SAVED_TO_DOWNLOADS;
+            Icon icon3 = Icon.SAVED_TO_MUSIC;
+        }
+
+        FileType(String str, int i, Icon icon) {
+            this.localeKey = str;
+            this.localeRes = i;
             this.icon = icon;
             this.plural = false;
         }
 
-        FileType(String localeKey, Icon icon) {
-            this.localeKey = localeKey;
+        FileType(String str, Icon icon) {
+            this.localeKey = str;
             this.icon = icon;
             this.localeRes = 0;
             this.plural = true;
         }
 
-        private String getText() {
-            return getText(1);
-        }
-
-        public String getText(int amount) {
+        public String getText(int i) {
             if (this.plural) {
-                return LocaleController.formatPluralString(this.localeKey, amount, new Object[0]);
+                return LocaleController.formatPluralString(this.localeKey, i, new Object[0]);
             }
             return LocaleController.getString(this.localeKey, this.localeRes);
         }
 
-        /* loaded from: classes5.dex */
+        /* loaded from: classes3.dex */
         public enum Icon {
             SAVED_TO_DOWNLOADS(R.raw.ic_download, 2, "Box", "Arrow"),
             SAVED_TO_GALLERY(R.raw.ic_save_to_gallery, 0, "Box", "Arrow", "Mask", "Arrow 2", "Splash"),
@@ -90,42 +105,45 @@ public final class BulletinFactory {
             private final int paddingBottom;
             private final int resId;
 
-            Icon(int resId, int paddingBottom, String... layers) {
-                this.resId = resId;
-                this.paddingBottom = paddingBottom;
-                this.layers = layers;
+            Icon(int i, int i2, String... strArr) {
+                this.resId = i;
+                this.paddingBottom = i2;
+                this.layers = strArr;
             }
         }
     }
 
-    private BulletinFactory(BaseFragment fragment) {
-        this.fragment = fragment;
+    private BulletinFactory(BaseFragment baseFragment) {
+        this.fragment = baseFragment;
         Theme.ResourcesProvider resourcesProvider = null;
         this.containerLayout = null;
-        this.resourcesProvider = fragment != null ? fragment.getResourceProvider() : resourcesProvider;
+        this.resourcesProvider = baseFragment != null ? baseFragment.getResourceProvider() : resourcesProvider;
     }
 
-    private BulletinFactory(FrameLayout containerLayout, Theme.ResourcesProvider resourcesProvider) {
-        this.containerLayout = containerLayout;
+    private BulletinFactory(FrameLayout frameLayout, Theme.ResourcesProvider resourcesProvider) {
+        this.containerLayout = frameLayout;
         this.fragment = null;
         this.resourcesProvider = resourcesProvider;
     }
 
-    public Bulletin createSimpleBulletin(int iconRawId, String text) {
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(getContext(), this.resourcesProvider);
-        layout.setAnimation(iconRawId, 36, 36, new String[0]);
-        layout.textView.setText(text);
-        layout.textView.setSingleLine(false);
-        layout.textView.setMaxLines(2);
-        return create(layout, 1500);
+    public Bulletin createSimpleBulletin(int i, String str) {
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), this.resourcesProvider);
+        lottieLayout.setAnimation(i, 36, 36, new String[0]);
+        lottieLayout.textView.setText(str);
+        lottieLayout.textView.setSingleLine(false);
+        lottieLayout.textView.setMaxLines(2);
+        return create(lottieLayout, 1500);
     }
 
-    public Bulletin createSimpleBulletin(int iconRawId, CharSequence text, CharSequence subtext) {
-        Bulletin.TwoLineLottieLayout layout = new Bulletin.TwoLineLottieLayout(getContext(), this.resourcesProvider);
-        layout.setAnimation(iconRawId, 36, 36, new String[0]);
-        layout.titleTextView.setText(text);
-        layout.subtitleTextView.setText(subtext);
-        return create(layout, 1500);
+    public Bulletin createEmojiBulletin(TLRPC$Document tLRPC$Document, CharSequence charSequence, CharSequence charSequence2, Runnable runnable) {
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), this.resourcesProvider);
+        lottieLayout.setAnimation(tLRPC$Document, 36, 36, new String[0]);
+        lottieLayout.textView.setText(charSequence);
+        lottieLayout.textView.setTextSize(1, 14.0f);
+        lottieLayout.textView.setSingleLine(false);
+        lottieLayout.textView.setMaxLines(2);
+        lottieLayout.setButton(new Bulletin.UndoButton(getContext(), true, this.resourcesProvider).setText(charSequence2).setUndoAction(runnable));
+        return create(lottieLayout, 2750);
     }
 
     public Bulletin createDownloadBulletin(FileType fileType) {
@@ -136,108 +154,108 @@ public final class BulletinFactory {
         return createDownloadBulletin(fileType, 1, resourcesProvider);
     }
 
-    public Bulletin createDownloadBulletin(FileType fileType, int filesAmount, Theme.ResourcesProvider resourcesProvider) {
-        return createDownloadBulletin(fileType, filesAmount, 0, 0, resourcesProvider);
+    public Bulletin createDownloadBulletin(FileType fileType, int i, Theme.ResourcesProvider resourcesProvider) {
+        return createDownloadBulletin(fileType, i, 0, 0, resourcesProvider);
     }
 
     public Bulletin createReportSent(Theme.ResourcesProvider resourcesProvider) {
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
-        layout.setAnimation(R.raw.chats_infotip, new String[0]);
-        layout.textView.setText(LocaleController.getString("ReportChatSent", R.string.ReportChatSent));
-        return create(layout, 1500);
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
+        lottieLayout.setAnimation(R.raw.chats_infotip, new String[0]);
+        lottieLayout.textView.setText(LocaleController.getString("ReportChatSent", R.string.ReportChatSent));
+        return create(lottieLayout, 1500);
     }
 
-    public Bulletin createDownloadBulletin(FileType fileType, int filesAmount, int backgroundColor, int textColor) {
-        return createDownloadBulletin(fileType, filesAmount, backgroundColor, textColor, null);
+    public Bulletin createDownloadBulletin(FileType fileType, int i, int i2, int i3) {
+        return createDownloadBulletin(fileType, i, i2, i3, null);
     }
 
-    public Bulletin createDownloadBulletin(FileType fileType, int filesAmount, int backgroundColor, int textColor, Theme.ResourcesProvider resourcesProvider) {
-        Bulletin.LottieLayout layout;
-        if (backgroundColor != 0 && textColor != 0) {
-            layout = new Bulletin.LottieLayout(getContext(), resourcesProvider, backgroundColor, textColor);
+    public Bulletin createDownloadBulletin(FileType fileType, int i, int i2, int i3, Theme.ResourcesProvider resourcesProvider) {
+        Bulletin.LottieLayout lottieLayout;
+        if (i2 != 0 && i3 != 0) {
+            lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider, i2, i3);
         } else {
-            layout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
+            lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
         }
-        layout.setAnimation(fileType.icon.resId, fileType.icon.layers);
-        layout.textView.setText(fileType.getText(filesAmount));
+        lottieLayout.setAnimation(fileType.icon.resId, fileType.icon.layers);
+        lottieLayout.textView.setText(fileType.getText(i));
         if (fileType.icon.paddingBottom != 0) {
-            layout.setIconPaddingBottom(fileType.icon.paddingBottom);
+            lottieLayout.setIconPaddingBottom(fileType.icon.paddingBottom);
         }
-        return create(layout, 1500);
+        return create(lottieLayout, 1500);
     }
 
-    public Bulletin createErrorBulletin(CharSequence errorMessage) {
-        return createErrorBulletin(errorMessage, null);
+    public Bulletin createErrorBulletin(CharSequence charSequence) {
+        return createErrorBulletin(charSequence, null);
     }
 
-    public Bulletin createErrorBulletin(CharSequence errorMessage, Theme.ResourcesProvider resourcesProvider) {
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
-        layout.setAnimation(R.raw.chats_infotip, new String[0]);
-        layout.textView.setText(errorMessage);
-        layout.textView.setSingleLine(false);
-        layout.textView.setMaxLines(2);
-        return create(layout, 1500);
+    public Bulletin createErrorBulletin(CharSequence charSequence, Theme.ResourcesProvider resourcesProvider) {
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
+        lottieLayout.setAnimation(R.raw.chats_infotip, new String[0]);
+        lottieLayout.textView.setText(charSequence);
+        lottieLayout.textView.setSingleLine(false);
+        lottieLayout.textView.setMaxLines(2);
+        return create(lottieLayout, 1500);
     }
 
-    public Bulletin createErrorBulletinSubtitle(CharSequence errorMessage, CharSequence errorDescription, Theme.ResourcesProvider resourcesProvider) {
-        Bulletin.TwoLineLottieLayout layout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
-        layout.setAnimation(R.raw.chats_infotip, new String[0]);
-        layout.titleTextView.setText(errorMessage);
-        layout.subtitleTextView.setText(errorDescription);
-        return create(layout, 1500);
+    public Bulletin createErrorBulletinSubtitle(CharSequence charSequence, CharSequence charSequence2, Theme.ResourcesProvider resourcesProvider) {
+        Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
+        twoLineLottieLayout.setAnimation(R.raw.chats_infotip, new String[0]);
+        twoLineLottieLayout.titleTextView.setText(charSequence);
+        twoLineLottieLayout.subtitleTextView.setText(charSequence2);
+        return create(twoLineLottieLayout, 1500);
     }
 
     public Bulletin createCopyLinkBulletin() {
         return createCopyLinkBulletin(false, this.resourcesProvider);
     }
 
-    public Bulletin createCopyBulletin(String message) {
-        return createCopyBulletin(message, null);
+    public Bulletin createCopyBulletin(String str) {
+        return createCopyBulletin(str, null);
     }
 
-    public Bulletin createCopyBulletin(String message, Theme.ResourcesProvider resourcesProvider) {
+    public Bulletin createCopyBulletin(String str, Theme.ResourcesProvider resourcesProvider) {
         if (!AndroidUtilities.shouldShowClipboardToast()) {
             return new Bulletin.EmptyBulletin();
         }
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(getContext(), null);
-        layout.setAnimation(R.raw.copy, 36, 36, "NULL ROTATION", "Back", "Front");
-        layout.textView.setText(message);
-        return create(layout, 1500);
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), null);
+        lottieLayout.setAnimation(R.raw.copy, 36, 36, "NULL ROTATION", "Back", "Front");
+        lottieLayout.textView.setText(str);
+        return create(lottieLayout, 1500);
     }
 
-    public Bulletin createCopyLinkBulletin(boolean isPrivate, Theme.ResourcesProvider resourcesProvider) {
+    public Bulletin createCopyLinkBulletin(boolean z, Theme.ResourcesProvider resourcesProvider) {
         if (!AndroidUtilities.shouldShowClipboardToast()) {
             return new Bulletin.EmptyBulletin();
         }
-        if (isPrivate) {
-            Bulletin.TwoLineLottieLayout layout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
-            layout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
-            layout.titleTextView.setText(LocaleController.getString("LinkCopied", R.string.LinkCopied));
-            layout.subtitleTextView.setText(LocaleController.getString("LinkCopiedPrivateInfo", R.string.LinkCopiedPrivateInfo));
-            return create(layout, Bulletin.DURATION_LONG);
+        if (z) {
+            Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
+            twoLineLottieLayout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
+            twoLineLottieLayout.titleTextView.setText(LocaleController.getString("LinkCopied", R.string.LinkCopied));
+            twoLineLottieLayout.subtitleTextView.setText(LocaleController.getString("LinkCopiedPrivateInfo", R.string.LinkCopiedPrivateInfo));
+            return create(twoLineLottieLayout, 2750);
         }
-        Bulletin.LottieLayout layout2 = new Bulletin.LottieLayout(getContext(), resourcesProvider);
-        layout2.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
-        layout2.textView.setText(LocaleController.getString("LinkCopied", R.string.LinkCopied));
-        return create(layout2, 1500);
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
+        lottieLayout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
+        lottieLayout.textView.setText(LocaleController.getString("LinkCopied", R.string.LinkCopied));
+        return create(lottieLayout, 1500);
     }
 
-    public Bulletin createCopyLinkBulletin(String text, Theme.ResourcesProvider resourcesProvider) {
+    public Bulletin createCopyLinkBulletin(String str, Theme.ResourcesProvider resourcesProvider) {
         if (!AndroidUtilities.shouldShowClipboardToast()) {
             return new Bulletin.EmptyBulletin();
         }
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
-        layout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
-        layout.textView.setText(text);
-        return create(layout, 1500);
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
+        lottieLayout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
+        lottieLayout.textView.setText(str);
+        return create(lottieLayout, 1500);
     }
 
-    private Bulletin create(Bulletin.Layout layout, int duration) {
+    private Bulletin create(Bulletin.Layout layout, int i) {
         BaseFragment baseFragment = this.fragment;
         if (baseFragment != null) {
-            return Bulletin.make(baseFragment, layout, duration);
+            return Bulletin.make(baseFragment, layout, i);
         }
-        return Bulletin.make(this.containerLayout, layout, duration);
+        return Bulletin.make(this.containerLayout, layout, i);
     }
 
     private Context getContext() {
@@ -245,243 +263,273 @@ public final class BulletinFactory {
         return baseFragment != null ? baseFragment.getParentActivity() : this.containerLayout.getContext();
     }
 
-    public static Bulletin createMuteBulletin(BaseFragment fragment, int setting) {
-        return createMuteBulletin(fragment, setting, 0, null);
+    public static Bulletin createMuteBulletin(BaseFragment baseFragment, int i) {
+        return createMuteBulletin(baseFragment, i, 0, null);
     }
 
-    public static Bulletin createMuteBulletin(BaseFragment fragment, int setting, int timeInSeconds, Theme.ResourcesProvider resourcesProvider) {
-        boolean mute;
-        String text;
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), resourcesProvider);
-        boolean muteFor = false;
-        switch (setting) {
-            case 0:
-                text = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 1, new Object[0]));
-                mute = true;
-                break;
-            case 1:
-                text = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 8, new Object[0]));
-                mute = true;
-                break;
-            case 2:
-                text = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Days", 2, new Object[0]));
-                mute = true;
-                break;
-            case 3:
-                text = LocaleController.getString("NotificationsMutedHint", R.string.NotificationsMutedHint);
-                mute = true;
-                break;
-            case 4:
-                text = LocaleController.getString("NotificationsUnmutedHint", R.string.NotificationsUnmutedHint);
-                mute = false;
-                break;
-            case 5:
-                text = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatTTLString(timeInSeconds));
-                mute = true;
-                muteFor = true;
-                break;
-            default:
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0080  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0089  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static Bulletin createMuteBulletin(BaseFragment baseFragment, int i, int i2, Theme.ResourcesProvider resourcesProvider) {
+        boolean z;
+        boolean z2;
+        String str;
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
+        if (i == 0) {
+            str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 1, new Object[0]));
+        } else if (i == 1) {
+            str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 8, new Object[0]));
+        } else if (i == 2) {
+            str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Days", 2, new Object[0]));
+        } else if (i != 3) {
+            if (i == 4) {
+                str = LocaleController.getString("NotificationsUnmutedHint", R.string.NotificationsUnmutedHint);
+                z2 = false;
+                z = false;
+                if (z2) {
+                }
+                lottieLayout.textView.setText(str);
+                return Bulletin.make(baseFragment, lottieLayout, 1500);
+            } else if (i != 5) {
                 throw new IllegalArgumentException();
-        }
-        if (muteFor) {
-            layout.setAnimation(R.raw.mute_for, new String[0]);
-        } else if (mute) {
-            layout.setAnimation(R.raw.ic_mute, "Body Main", "Body Top", "Line", "Curve Big", "Curve Small");
+            } else {
+                str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatTTLString(i2));
+                z2 = true;
+                z = true;
+                if (z2) {
+                    lottieLayout.setAnimation(R.raw.mute_for, new String[0]);
+                } else if (z) {
+                    lottieLayout.setAnimation(R.raw.ic_mute, "Body Main", "Body Top", "Line", "Curve Big", "Curve Small");
+                } else {
+                    lottieLayout.setAnimation(R.raw.ic_unmute, "BODY", "Wibe Big", "Wibe Big 3", "Wibe Small");
+                }
+                lottieLayout.textView.setText(str);
+                return Bulletin.make(baseFragment, lottieLayout, 1500);
+            }
         } else {
-            layout.setAnimation(R.raw.ic_unmute, "BODY", "Wibe Big", "Wibe Big 3", "Wibe Small");
+            str = LocaleController.getString("NotificationsMutedHint", R.string.NotificationsMutedHint);
         }
-        layout.textView.setText(text);
-        return Bulletin.make(fragment, layout, 1500);
+        z2 = false;
+        z = true;
+        if (z2) {
+        }
+        lottieLayout.textView.setText(str);
+        return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
-    public static Bulletin createMuteBulletin(BaseFragment fragment, boolean muted, Theme.ResourcesProvider resourcesProvider) {
-        return createMuteBulletin(fragment, muted ? 3 : 4, 0, resourcesProvider);
-    }
-
-    public static Bulletin createDeleteMessagesBulletin(BaseFragment fragment, int count, Theme.ResourcesProvider resourcesProvider) {
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), resourcesProvider);
-        layout.setAnimation(R.raw.ic_delete, "Envelope", "Cover", "Bucket");
-        layout.textView.setText(LocaleController.formatPluralString("MessagesDeletedHint", count, new Object[0]));
-        return Bulletin.make(fragment, layout, 1500);
+    public static Bulletin createMuteBulletin(BaseFragment baseFragment, boolean z, Theme.ResourcesProvider resourcesProvider) {
+        return createMuteBulletin(baseFragment, z ? 3 : 4, 0, resourcesProvider);
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    public static Bulletin createUnpinAllMessagesBulletin(BaseFragment fragment, int count, boolean hide, Runnable undoAction, Runnable delayedAction, Theme.ResourcesProvider resourcesProvider) {
-        Bulletin.ButtonLayout buttonLayout;
-        if (fragment.getParentActivity() == null) {
-            if (delayedAction != null) {
-                delayedAction.run();
+    public static Bulletin createUnpinAllMessagesBulletin(BaseFragment baseFragment, int i, boolean z, Runnable runnable, Runnable runnable2, Theme.ResourcesProvider resourcesProvider) {
+        Bulletin.LottieLayout lottieLayout;
+        if (baseFragment.getParentActivity() == null) {
+            if (runnable2 == null) {
                 return null;
             }
+            runnable2.run();
             return null;
         }
-        if (hide) {
-            Bulletin.TwoLineLottieLayout layout = new Bulletin.TwoLineLottieLayout(fragment.getParentActivity(), resourcesProvider);
-            layout.setAnimation(R.raw.ic_unpin, 28, 28, "Pin", "Line");
-            layout.titleTextView.setText(LocaleController.getString("PinnedMessagesHidden", R.string.PinnedMessagesHidden));
-            layout.subtitleTextView.setText(LocaleController.getString("PinnedMessagesHiddenInfo", R.string.PinnedMessagesHiddenInfo));
-            buttonLayout = layout;
+        if (z) {
+            Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(baseFragment.getParentActivity(), resourcesProvider);
+            twoLineLottieLayout.setAnimation(R.raw.ic_unpin, 28, 28, "Pin", "Line");
+            twoLineLottieLayout.titleTextView.setText(LocaleController.getString("PinnedMessagesHidden", R.string.PinnedMessagesHidden));
+            twoLineLottieLayout.subtitleTextView.setText(LocaleController.getString("PinnedMessagesHiddenInfo", R.string.PinnedMessagesHiddenInfo));
+            lottieLayout = twoLineLottieLayout;
         } else {
-            Bulletin.LottieLayout layout2 = new Bulletin.LottieLayout(fragment.getParentActivity(), resourcesProvider);
-            layout2.setAnimation(R.raw.ic_unpin, 28, 28, "Pin", "Line");
-            layout2.textView.setText(LocaleController.formatPluralString("MessagesUnpinned", count, new Object[0]));
-            buttonLayout = layout2;
+            Bulletin.LottieLayout lottieLayout2 = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
+            lottieLayout2.setAnimation(R.raw.ic_unpin, 28, 28, "Pin", "Line");
+            lottieLayout2.textView.setText(LocaleController.formatPluralString("MessagesUnpinned", i, new Object[0]));
+            lottieLayout = lottieLayout2;
         }
-        buttonLayout.setButton(new Bulletin.UndoButton(fragment.getParentActivity(), true, resourcesProvider).setUndoAction(undoAction).setDelayedAction(delayedAction));
-        return Bulletin.make(fragment, buttonLayout, 5000);
+        lottieLayout.setButton(new Bulletin.UndoButton(baseFragment.getParentActivity(), true, resourcesProvider).setUndoAction(runnable).setDelayedAction(runnable2));
+        return Bulletin.make(baseFragment, lottieLayout, 5000);
     }
 
-    public static Bulletin createSaveToGalleryBulletin(BaseFragment fragment, boolean video, Theme.ResourcesProvider resourcesProvider) {
-        return of(fragment).createDownloadBulletin(video ? FileType.VIDEO : FileType.PHOTO, resourcesProvider);
+    public static Bulletin createSaveToGalleryBulletin(BaseFragment baseFragment, boolean z, Theme.ResourcesProvider resourcesProvider) {
+        return of(baseFragment).createDownloadBulletin(z ? FileType.VIDEO : FileType.PHOTO, resourcesProvider);
     }
 
-    public static Bulletin createSaveToGalleryBulletin(FrameLayout containerLayout, boolean video, int backgroundColor, int textColor) {
-        return of(containerLayout, null).createDownloadBulletin(video ? FileType.VIDEO : FileType.PHOTO, 1, backgroundColor, textColor);
+    public static Bulletin createSaveToGalleryBulletin(FrameLayout frameLayout, boolean z, int i, int i2) {
+        return of(frameLayout, null).createDownloadBulletin(z ? FileType.VIDEO : FileType.PHOTO, 1, i, i2);
     }
 
-    public static Bulletin createPromoteToAdminBulletin(BaseFragment fragment, String userFirstName) {
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), fragment.getResourceProvider());
-        layout.setAnimation(R.raw.ic_admin, "Shield");
-        layout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserSetAsAdminHint", R.string.UserSetAsAdminHint, userFirstName)));
-        return Bulletin.make(fragment, layout, 1500);
+    public static Bulletin createPromoteToAdminBulletin(BaseFragment baseFragment, String str) {
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
+        lottieLayout.setAnimation(R.raw.ic_admin, "Shield");
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserSetAsAdminHint", R.string.UserSetAsAdminHint, str)));
+        return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
-    public static Bulletin createAddedAsAdminBulletin(BaseFragment fragment, String userFirstName) {
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), fragment.getResourceProvider());
-        layout.setAnimation(R.raw.ic_admin, "Shield");
-        layout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserAddedAsAdminHint", R.string.UserAddedAsAdminHint, userFirstName)));
-        return Bulletin.make(fragment, layout, 1500);
+    public static Bulletin createAddedAsAdminBulletin(BaseFragment baseFragment, String str) {
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
+        lottieLayout.setAnimation(R.raw.ic_admin, "Shield");
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserAddedAsAdminHint", R.string.UserAddedAsAdminHint, str)));
+        return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
-    public static Bulletin createForwardedBulletin(Context context, FrameLayout containerLayout, int dialogsCount, long did, int messagesCount, int backgroundColor, int textColor) {
-        CharSequence text;
-        CharSequence text2;
-        CharSequence text3;
-        final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(context, null, backgroundColor, textColor);
-        int hapticDelay = -1;
-        if (dialogsCount > 1) {
-            if (messagesCount <= 1) {
-                text2 = AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToChats", R.string.FwdMessageToChats, LocaleController.formatPluralString("Chats", dialogsCount, new Object[0])));
-            } else {
-                text2 = AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToChats", R.string.FwdMessagesToChats, LocaleController.formatPluralString("Chats", dialogsCount, new Object[0])));
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00ae  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static Bulletin createInviteSentBulletin(Context context, FrameLayout frameLayout, int i, long j, int i2, int i3, int i4) {
+        int i5;
+        SpannableStringBuilder spannableStringBuilder;
+        SpannableStringBuilder spannableStringBuilder2;
+        final Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
+        if (i <= 1) {
+            if (j == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId) {
+                spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("InvLinkToSavedMessages", R.string.InvLinkToSavedMessages));
+                lottieLayout.setAnimation(R.raw.saved_messages, 30, 30, new String[0]);
+                i5 = -1;
+                lottieLayout.textView.setText(spannableStringBuilder);
+                if (i5 > 0) {
+                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda1
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            Bulletin.LottieLayout.this.performHapticFeedback(3, 2);
+                        }
+                    }, i5);
+                }
+                return Bulletin.make(frameLayout, lottieLayout, 1500);
             }
-            layout.setAnimation(R.raw.forward, 30, 30, new String[0]);
-            hapticDelay = 300;
-            text = text2;
-        } else if (did == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId) {
-            if (messagesCount <= 1) {
-                text = AndroidUtilities.replaceTags(LocaleController.getString("FwdMessageToSavedMessages", R.string.FwdMessageToSavedMessages));
-            } else {
-                text = AndroidUtilities.replaceTags(LocaleController.getString("FwdMessagesToSavedMessages", R.string.FwdMessagesToSavedMessages));
-            }
-            layout.setAnimation(R.raw.saved_messages, 30, 30, new String[0]);
+            spannableStringBuilder2 = DialogObject.isChatDialog(j) ? AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToGroup", R.string.InvLinkToGroup, MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-j)).title)) : AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToUser", R.string.InvLinkToUser, UserObject.getFirstName(MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j)))));
+            lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
         } else {
-            if (DialogObject.isChatDialog(did)) {
-                TLRPC.Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-did));
-                if (messagesCount <= 1) {
-                    text3 = AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToGroup", R.string.FwdMessageToGroup, chat.title));
+            spannableStringBuilder2 = AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToChats", R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
+            lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
+        }
+        spannableStringBuilder = spannableStringBuilder2;
+        i5 = 300;
+        lottieLayout.textView.setText(spannableStringBuilder);
+        if (i5 > 0) {
+        }
+        return Bulletin.make(frameLayout, lottieLayout, 1500);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0107  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static Bulletin createForwardedBulletin(Context context, FrameLayout frameLayout, int i, long j, int i2, int i3, int i4) {
+        int i5;
+        SpannableStringBuilder spannableStringBuilder;
+        SpannableStringBuilder spannableStringBuilder2;
+        final Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
+        if (i <= 1) {
+            if (j == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId) {
+                if (i2 <= 1) {
+                    spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("FwdMessageToSavedMessages", R.string.FwdMessageToSavedMessages));
                 } else {
-                    text3 = AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToGroup", R.string.FwdMessagesToGroup, chat.title));
+                    spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("FwdMessagesToSavedMessages", R.string.FwdMessagesToSavedMessages));
                 }
-            } else {
-                TLRPC.User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(did));
-                if (messagesCount <= 1) {
-                    text3 = AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToUser", R.string.FwdMessageToUser, UserObject.getFirstName(user)));
-                } else {
-                    text3 = AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToUser", R.string.FwdMessagesToUser, UserObject.getFirstName(user)));
+                lottieLayout.setAnimation(R.raw.saved_messages, 30, 30, new String[0]);
+                i5 = -1;
+                lottieLayout.textView.setText(spannableStringBuilder);
+                if (i5 > 0) {
+                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            Bulletin.LottieLayout.this.performHapticFeedback(3, 2);
+                        }
+                    }, i5);
                 }
+                return Bulletin.make(frameLayout, lottieLayout, 1500);
             }
-            layout.setAnimation(R.raw.forward, 30, 30, new String[0]);
-            hapticDelay = 300;
-            text = text3;
-        }
-        layout.textView.setText(text);
-        if (hapticDelay > 0) {
-            layout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    Bulletin.LottieLayout.this.performHapticFeedback(3, 2);
-                }
-            }, hapticDelay);
-        }
-        return Bulletin.make(containerLayout, layout, 1500);
-    }
-
-    public static Bulletin createRemoveFromChatBulletin(BaseFragment fragment, TLRPC.User user, String chatName) {
-        String name;
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), fragment.getResourceProvider());
-        layout.setAnimation(R.raw.ic_ban, "Hand");
-        if (user.deleted) {
-            name = LocaleController.formatString("HiddenName", R.string.HiddenName, new Object[0]);
+            if (DialogObject.isChatDialog(j)) {
+                TLRPC$Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-j));
+                spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToGroup", R.string.FwdMessageToGroup, chat.title)) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToGroup", R.string.FwdMessagesToGroup, chat.title));
+            } else {
+                TLRPC$User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j));
+                spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToUser", R.string.FwdMessageToUser, UserObject.getFirstName(user))) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToUser", R.string.FwdMessagesToUser, UserObject.getFirstName(user)));
+            }
+            lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
         } else {
-            name = user.first_name;
+            spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToChats", R.string.FwdMessageToChats, LocaleController.formatPluralString("Chats", i, new Object[0]))) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToChats", R.string.FwdMessagesToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
+            lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
         }
-        layout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserRemovedFromChatHint", R.string.UserRemovedFromChatHint, name, chatName)));
-        return Bulletin.make(fragment, layout, 1500);
+        spannableStringBuilder = spannableStringBuilder2;
+        i5 = 300;
+        lottieLayout.textView.setText(spannableStringBuilder);
+        if (i5 > 0) {
+        }
+        return Bulletin.make(frameLayout, lottieLayout, 1500);
     }
 
-    public static Bulletin createBanBulletin(BaseFragment fragment, boolean banned) {
-        String text;
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), fragment.getResourceProvider());
-        if (banned) {
-            layout.setAnimation(R.raw.ic_ban, "Hand");
-            text = LocaleController.getString("UserBlocked", R.string.UserBlocked);
+    public static Bulletin createRemoveFromChatBulletin(BaseFragment baseFragment, TLRPC$User tLRPC$User, String str) {
+        String str2;
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
+        lottieLayout.setAnimation(R.raw.ic_ban, "Hand");
+        if (tLRPC$User.deleted) {
+            str2 = LocaleController.formatString("HiddenName", R.string.HiddenName, new Object[0]);
         } else {
-            layout.setAnimation(R.raw.ic_unban, "Main", "Finger 1", "Finger 2", "Finger 3", "Finger 4");
-            text = LocaleController.getString("UserUnblocked", R.string.UserUnblocked);
+            str2 = tLRPC$User.first_name;
         }
-        layout.textView.setText(AndroidUtilities.replaceTags(text));
-        return Bulletin.make(fragment, layout, 1500);
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserRemovedFromChatHint", R.string.UserRemovedFromChatHint, str2, str)));
+        return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
-    public static Bulletin createCopyLinkBulletin(BaseFragment fragment) {
-        return of(fragment).createCopyLinkBulletin();
-    }
-
-    public static Bulletin createCopyLinkBulletin(FrameLayout containerView) {
-        return of(containerView, null).createCopyLinkBulletin();
-    }
-
-    public static Bulletin createPinMessageBulletin(BaseFragment fragment, Theme.ResourcesProvider resourcesProvider) {
-        return createPinMessageBulletin(fragment, true, null, null, resourcesProvider);
-    }
-
-    public static Bulletin createUnpinMessageBulletin(BaseFragment fragment, Runnable undoAction, Runnable delayedAction, Theme.ResourcesProvider resourcesProvider) {
-        return createPinMessageBulletin(fragment, false, undoAction, delayedAction, resourcesProvider);
-    }
-
-    private static Bulletin createPinMessageBulletin(BaseFragment fragment, boolean pinned, Runnable undoAction, Runnable delayedAction, Theme.ResourcesProvider resourcesProvider) {
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), resourcesProvider);
-        layout.setAnimation(pinned ? R.raw.ic_pin : R.raw.ic_unpin, 28, 28, "Pin", "Line");
-        layout.textView.setText(LocaleController.getString(pinned ? "MessagePinnedHint" : "MessageUnpinnedHint", pinned ? R.string.MessagePinnedHint : R.string.MessageUnpinnedHint));
-        if (!pinned) {
-            layout.setButton(new Bulletin.UndoButton(fragment.getParentActivity(), true, resourcesProvider).setUndoAction(undoAction).setDelayedAction(delayedAction));
-        }
-        return Bulletin.make(fragment, layout, pinned ? 1500 : 5000);
-    }
-
-    public static Bulletin createSoundEnabledBulletin(BaseFragment fragment, int setting, Theme.ResourcesProvider resourcesProvider) {
-        boolean soundOn;
-        String text;
-        Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), resourcesProvider);
-        switch (setting) {
-            case 0:
-                text = LocaleController.getString("SoundOnHint", R.string.SoundOnHint);
-                soundOn = true;
-                break;
-            case 1:
-                text = LocaleController.getString("SoundOffHint", R.string.SoundOffHint);
-                soundOn = false;
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-        if (soundOn) {
-            layout.setAnimation(R.raw.sound_on, new String[0]);
+    public static Bulletin createBanBulletin(BaseFragment baseFragment, boolean z) {
+        String str;
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
+        if (z) {
+            lottieLayout.setAnimation(R.raw.ic_ban, "Hand");
+            str = LocaleController.getString("UserBlocked", R.string.UserBlocked);
         } else {
-            layout.setAnimation(R.raw.sound_off, new String[0]);
+            lottieLayout.setAnimation(R.raw.ic_unban, "Main", "Finger 1", "Finger 2", "Finger 3", "Finger 4");
+            str = LocaleController.getString("UserUnblocked", R.string.UserUnblocked);
         }
-        layout.textView.setText(text);
-        return Bulletin.make(fragment, layout, 1500);
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(str));
+        return Bulletin.make(baseFragment, lottieLayout, 1500);
+    }
+
+    public static Bulletin createCopyLinkBulletin(BaseFragment baseFragment) {
+        return of(baseFragment).createCopyLinkBulletin();
+    }
+
+    public static Bulletin createCopyLinkBulletin(FrameLayout frameLayout) {
+        return of(frameLayout, null).createCopyLinkBulletin();
+    }
+
+    public static Bulletin createPinMessageBulletin(BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
+        return createPinMessageBulletin(baseFragment, true, null, null, resourcesProvider);
+    }
+
+    public static Bulletin createUnpinMessageBulletin(BaseFragment baseFragment, Runnable runnable, Runnable runnable2, Theme.ResourcesProvider resourcesProvider) {
+        return createPinMessageBulletin(baseFragment, false, runnable, runnable2, resourcesProvider);
+    }
+
+    private static Bulletin createPinMessageBulletin(BaseFragment baseFragment, boolean z, Runnable runnable, Runnable runnable2, Theme.ResourcesProvider resourcesProvider) {
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
+        lottieLayout.setAnimation(z ? R.raw.ic_pin : R.raw.ic_unpin, 28, 28, "Pin", "Line");
+        lottieLayout.textView.setText(LocaleController.getString(z ? "MessagePinnedHint" : "MessageUnpinnedHint", z ? R.string.MessagePinnedHint : R.string.MessageUnpinnedHint));
+        if (!z) {
+            lottieLayout.setButton(new Bulletin.UndoButton(baseFragment.getParentActivity(), true, resourcesProvider).setUndoAction(runnable).setDelayedAction(runnable2));
+        }
+        return Bulletin.make(baseFragment, lottieLayout, z ? 1500 : 5000);
+    }
+
+    public static Bulletin createSoundEnabledBulletin(BaseFragment baseFragment, int i, Theme.ResourcesProvider resourcesProvider) {
+        String str;
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
+        boolean z = true;
+        if (i == 0) {
+            str = LocaleController.getString("SoundOnHint", R.string.SoundOnHint);
+        } else if (i == 1) {
+            str = LocaleController.getString("SoundOffHint", R.string.SoundOffHint);
+            z = false;
+        } else {
+            throw new IllegalArgumentException();
+        }
+        if (z) {
+            lottieLayout.setAnimation(R.raw.sound_on, new String[0]);
+        } else {
+            lottieLayout.setAnimation(R.raw.sound_off, new String[0]);
+        }
+        lottieLayout.textView.setText(str);
+        return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 }

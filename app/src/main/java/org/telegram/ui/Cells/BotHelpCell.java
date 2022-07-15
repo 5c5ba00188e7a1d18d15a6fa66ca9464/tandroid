@@ -2,6 +2,7 @@ package org.telegram.ui.Cells;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
@@ -14,8 +15,7 @@ import android.text.style.URLSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
-import androidx.core.graphics.ColorUtils$$ExternalSyntheticBackport0;
-import com.google.android.exoplayer2.C;
+import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
@@ -27,15 +27,20 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.TLRPC$BotInfo;
+import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$Photo;
+import org.telegram.tgnet.TLRPC$PhotoSize;
+import org.telegram.tgnet.TLRPC$TL_photo;
+import org.telegram.tgnet.TLRPC$TL_photoStrippedSize;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LinkPath;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanNoUnderline;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class BotHelpCell extends View {
     private boolean animating;
     private String currentPhotoKey;
@@ -51,12 +56,11 @@ public class BotHelpCell extends View {
     private StaticLayout textLayout;
     private int textX;
     private int textY;
-    public boolean wasDraw;
     private int width;
     private LinkPath urlPath = new LinkPath();
     private int imagePadding = AndroidUtilities.dp(4.0f);
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes3.dex */
     public interface BotHelpCellDelegate {
         void didPressUrl(String str);
     }
@@ -82,156 +86,172 @@ public class BotHelpCell extends View {
         invalidate();
     }
 
-    public void setText(boolean bot, String text) {
-        setText(bot, text, null, null);
+    public void setText(boolean z, String str) {
+        setText(z, str, null, null);
     }
 
-    public void setText(boolean bot, String text, TLObject imageOrAnimation, TLRPC.BotInfo botInfo) {
-        String text2;
-        int maxWidth;
-        boolean photoVisible = imageOrAnimation != null;
-        boolean textVisible = !TextUtils.isEmpty(text);
-        if ((text == null || text.length() == 0) && !photoVisible) {
+    public void setText(boolean z, String str, TLObject tLObject, TLRPC$BotInfo tLRPC$BotInfo) {
+        int i;
+        boolean z2 = tLObject != null;
+        boolean z3 = !TextUtils.isEmpty(str);
+        if ((str == null || str.length() == 0) && !z2) {
             setVisibility(8);
             return;
         }
-        if (text != null) {
-            text2 = text;
-        } else {
-            text2 = "";
-        }
-        if (text2 != null && text2.equals(this.oldText) && this.isPhotoVisible == photoVisible) {
+        String str2 = str == null ? "" : str;
+        if (str2.equals(this.oldText) && this.isPhotoVisible == z2) {
             return;
         }
-        this.isPhotoVisible = photoVisible;
-        this.isTextVisible = textVisible;
-        if (photoVisible) {
-            String photoKey = FileRefController.getKeyForParentObject(botInfo);
-            if (!ColorUtils$$ExternalSyntheticBackport0.m(this.currentPhotoKey, photoKey)) {
-                this.currentPhotoKey = photoKey;
-                if (imageOrAnimation instanceof TLRPC.TL_photo) {
-                    TLRPC.Photo photo = (TLRPC.Photo) imageOrAnimation;
-                    this.imageReceiver.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 400), photo), "400_400", null, "jpg", botInfo, 0);
-                } else if (imageOrAnimation instanceof TLRPC.Document) {
-                    TLRPC.Document doc = (TLRPC.Document) imageOrAnimation;
-                    TLRPC.PhotoSize photoThumb = FileLoader.getClosestPhotoSizeWithSize(doc.thumbs, 400);
-                    BitmapDrawable strippedThumb = null;
+        this.isPhotoVisible = z2;
+        this.isTextVisible = z3;
+        if (z2) {
+            String keyForParentObject = FileRefController.getKeyForParentObject(tLRPC$BotInfo);
+            if (!ObjectsCompat$$ExternalSyntheticBackport0.m(this.currentPhotoKey, keyForParentObject)) {
+                this.currentPhotoKey = keyForParentObject;
+                if (tLObject instanceof TLRPC$TL_photo) {
+                    TLRPC$Photo tLRPC$Photo = (TLRPC$Photo) tLObject;
+                    this.imageReceiver.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 400), tLRPC$Photo), "400_400", null, "jpg", tLRPC$BotInfo, 0);
+                } else if (tLObject instanceof TLRPC$Document) {
+                    TLRPC$Document tLRPC$Document = (TLRPC$Document) tLObject;
+                    TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 400);
+                    BitmapDrawable bitmapDrawable = null;
                     if (SharedConfig.getDevicePerformanceClass() != 0) {
-                        Iterator<TLRPC.PhotoSize> it = doc.thumbs.iterator();
+                        Iterator<TLRPC$PhotoSize> it = tLRPC$Document.thumbs.iterator();
                         while (it.hasNext()) {
-                            TLRPC.PhotoSize photoSize = it.next();
-                            if (photoSize instanceof TLRPC.TL_photoStrippedSize) {
-                                strippedThumb = new BitmapDrawable(getResources(), ImageLoader.getStrippedPhotoBitmap(photoSize.bytes, "b"));
+                            TLRPC$PhotoSize next = it.next();
+                            if (next instanceof TLRPC$TL_photoStrippedSize) {
+                                bitmapDrawable = new BitmapDrawable(getResources(), ImageLoader.getStrippedPhotoBitmap(next.bytes, "b"));
                             }
                         }
                     }
-                    this.imageReceiver.setImage(ImageLocation.getForDocument(doc), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForDocument(MessageObject.getDocumentVideoThumb(doc), doc), null, ImageLocation.getForDocument(photoThumb, doc), "86_86_b", strippedThumb, doc.size, "mp4", botInfo, 0);
+                    this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForDocument(MessageObject.getDocumentVideoThumb(tLRPC$Document), tLRPC$Document), null, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), "86_86_b", bitmapDrawable, tLRPC$Document.size, "mp4", tLRPC$BotInfo, 0);
                 }
-                int topRadius = AndroidUtilities.dp(SharedConfig.bubbleRadius) - AndroidUtilities.dp(2.0f);
-                int bottomRadius = AndroidUtilities.dp(4.0f);
+                int dp = AndroidUtilities.dp(SharedConfig.bubbleRadius) - AndroidUtilities.dp(2.0f);
+                int dp2 = AndroidUtilities.dp(4.0f);
                 if (!this.isTextVisible) {
-                    bottomRadius = topRadius;
+                    dp2 = dp;
                 }
-                this.imageReceiver.setRoundRadius(topRadius, topRadius, bottomRadius, bottomRadius);
+                this.imageReceiver.setRoundRadius(dp, dp, dp2, dp2);
             }
         }
-        this.oldText = AndroidUtilities.getSafeString(text2);
+        this.oldText = AndroidUtilities.getSafeString(str2);
         setVisibility(0);
         if (AndroidUtilities.isTablet()) {
-            maxWidth = (int) (AndroidUtilities.getMinTabletSide() * 0.7f);
+            i = AndroidUtilities.getMinTabletSide();
         } else {
-            maxWidth = (int) (Math.min(AndroidUtilities.displaySize.x, AndroidUtilities.displaySize.y) * 0.7f);
+            Point point = AndroidUtilities.displaySize;
+            i = Math.min(point.x, point.y);
         }
+        int i2 = (int) (i * 0.7f);
         if (this.isTextVisible) {
-            String[] lines = text2.split("\n");
-            SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-            String help = LocaleController.getString((int) R.string.BotInfoTitle);
-            if (bot) {
-                stringBuilder.append((CharSequence) help);
-                stringBuilder.append((CharSequence) "\n\n");
+            String[] split = str2.split("\n");
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+            String string = LocaleController.getString((int) R.string.BotInfoTitle);
+            if (z) {
+                spannableStringBuilder.append((CharSequence) string);
+                spannableStringBuilder.append((CharSequence) "\n\n");
             }
-            for (int a = 0; a < lines.length; a++) {
-                stringBuilder.append((CharSequence) lines[a].trim());
-                if (a != lines.length - 1) {
-                    stringBuilder.append((CharSequence) "\n");
+            for (int i3 = 0; i3 < split.length; i3++) {
+                spannableStringBuilder.append((CharSequence) split[i3].trim());
+                if (i3 != split.length - 1) {
+                    spannableStringBuilder.append((CharSequence) "\n");
                 }
             }
-            MessageObject.addLinks(false, stringBuilder);
-            if (bot) {
-                stringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, help.length(), 33);
+            MessageObject.addLinks(false, spannableStringBuilder);
+            if (z) {
+                spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, string.length(), 33);
             }
-            Emoji.replaceEmoji(stringBuilder, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+            Emoji.replaceEmoji(spannableStringBuilder, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
             try {
-                StaticLayout staticLayout = new StaticLayout(stringBuilder, Theme.chat_msgTextPaint, maxWidth - (this.isPhotoVisible ? AndroidUtilities.dp(5.0f) : 0), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                StaticLayout staticLayout = new StaticLayout(spannableStringBuilder, Theme.chat_msgTextPaint, i2 - (this.isPhotoVisible ? AndroidUtilities.dp(5.0f) : 0), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 this.textLayout = staticLayout;
                 this.width = 0;
                 this.height = staticLayout.getHeight() + AndroidUtilities.dp(22.0f);
-                int count = this.textLayout.getLineCount();
-                for (int a2 = 0; a2 < count; a2++) {
-                    this.width = (int) Math.ceil(Math.max(this.width, this.textLayout.getLineWidth(a2) + this.textLayout.getLineLeft(a2)));
+                int lineCount = this.textLayout.getLineCount();
+                for (int i4 = 0; i4 < lineCount; i4++) {
+                    this.width = (int) Math.ceil(Math.max(this.width, this.textLayout.getLineWidth(i4) + this.textLayout.getLineLeft(i4)));
                 }
-                int a3 = this.width;
-                if (a3 > maxWidth || this.isPhotoVisible) {
-                    this.width = maxWidth;
+                if (this.width > i2 || this.isPhotoVisible) {
+                    this.width = i2;
                 }
             } catch (Exception e) {
                 FileLog.e(e);
             }
         } else if (this.isPhotoVisible) {
-            this.width = maxWidth;
+            this.width = i2;
         }
-        int dp = this.width + AndroidUtilities.dp(22.0f);
-        this.width = dp;
-        if (this.isPhotoVisible) {
-            int i = this.height;
-            double d = dp;
-            Double.isNaN(d);
-            int i2 = (int) (d * 0.5625d);
-            this.photoHeight = i2;
-            this.height = i + i2 + AndroidUtilities.dp(4.0f);
+        int dp3 = this.width + AndroidUtilities.dp(22.0f);
+        this.width = dp3;
+        if (!this.isPhotoVisible) {
+            return;
         }
+        int i5 = this.height;
+        double d = dp3;
+        Double.isNaN(d);
+        int i6 = (int) (d * 0.5625d);
+        this.photoHeight = i6;
+        this.height = i5 + i6 + AndroidUtilities.dp(4.0f);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00ff  */
     @Override // android.view.View
-    public boolean onTouchEvent(MotionEvent event) {
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        boolean z;
         BotHelpCellDelegate botHelpCellDelegate;
-        float x = event.getX();
-        float y = event.getY();
-        boolean result = false;
+        boolean z2;
+        Exception e;
+        int lineForVertical;
+        float f;
+        int offsetForHorizontal;
+        float lineLeft;
+        float x = motionEvent.getX();
+        float y = motionEvent.getY();
         if (this.textLayout != null) {
-            if (event.getAction() == 0 || (this.pressedLink != null && event.getAction() == 1)) {
-                if (event.getAction() == 0) {
+            if (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1)) {
+                if (motionEvent.getAction() == 0) {
                     resetPressedLink();
                     try {
-                        int x2 = (int) (x - this.textX);
-                        int y2 = (int) (y - this.textY);
-                        int line = this.textLayout.getLineForVertical(y2);
-                        int off = this.textLayout.getOffsetForHorizontal(line, x2);
-                        float left = this.textLayout.getLineLeft(line);
-                        if (left <= x2 && this.textLayout.getLineWidth(line) + left >= x2) {
-                            Spannable buffer = (Spannable) this.textLayout.getText();
-                            ClickableSpan[] link = (ClickableSpan[]) buffer.getSpans(off, off, ClickableSpan.class);
-                            if (link.length != 0) {
-                                resetPressedLink();
-                                ClickableSpan clickableSpan = link[0];
-                                this.pressedLink = clickableSpan;
-                                result = true;
-                                try {
-                                    int start = buffer.getSpanStart(clickableSpan);
-                                    this.urlPath.setCurrentLayout(this.textLayout, start, 0.0f);
-                                    this.textLayout.getSelectionPath(start, buffer.getSpanEnd(this.pressedLink), this.urlPath);
-                                } catch (Exception e) {
-                                    FileLog.e(e);
-                                }
-                            } else {
-                                resetPressedLink();
-                            }
-                        } else {
-                            resetPressedLink();
-                        }
+                        lineForVertical = this.textLayout.getLineForVertical((int) (y - this.textY));
+                        f = (int) (x - this.textX);
+                        offsetForHorizontal = this.textLayout.getOffsetForHorizontal(lineForVertical, f);
+                        lineLeft = this.textLayout.getLineLeft(lineForVertical);
                     } catch (Exception e2) {
+                        e = e2;
+                        z2 = false;
+                    }
+                    if (lineLeft <= f && lineLeft + this.textLayout.getLineWidth(lineForVertical) >= f) {
+                        Spannable spannable = (Spannable) this.textLayout.getText();
+                        ClickableSpan[] clickableSpanArr = (ClickableSpan[]) spannable.getSpans(offsetForHorizontal, offsetForHorizontal, ClickableSpan.class);
+                        if (clickableSpanArr.length != 0) {
+                            resetPressedLink();
+                            ClickableSpan clickableSpan = clickableSpanArr[0];
+                            this.pressedLink = clickableSpan;
+                            try {
+                                int spanStart = spannable.getSpanStart(clickableSpan);
+                                this.urlPath.setCurrentLayout(this.textLayout, spanStart, 0.0f);
+                                this.textLayout.getSelectionPath(spanStart, spannable.getSpanEnd(this.pressedLink), this.urlPath);
+                            } catch (Exception e3) {
+                                try {
+                                    FileLog.e(e3);
+                                } catch (Exception e4) {
+                                    e = e4;
+                                    z2 = true;
+                                    resetPressedLink();
+                                    FileLog.e(e);
+                                    z = z2;
+                                    if (!z) {
+                                    }
+                                }
+                            }
+                            z = true;
+                            return !z || super.onTouchEvent(motionEvent);
+                        }
                         resetPressedLink();
-                        FileLog.e(e2);
+                    } else {
+                        resetPressedLink();
                     }
                 } else {
                     ClickableSpan clickableSpan2 = this.pressedLink;
@@ -250,57 +270,63 @@ public class BotHelpCell extends View {
                             } else {
                                 clickableSpan2.onClick(this);
                             }
-                        } catch (Exception e3) {
-                            FileLog.e(e3);
+                        } catch (Exception e5) {
+                            FileLog.e(e5);
                         }
                         resetPressedLink();
-                        result = true;
+                        z = true;
+                        if (!z) {
+                        }
                     }
                 }
-            } else if (event.getAction() == 3) {
+            } else if (motionEvent.getAction() == 3) {
                 resetPressedLink();
             }
         }
-        return result || super.onTouchEvent(event);
+        z = false;
+        if (!z) {
+        }
     }
 
     @Override // android.view.View
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(widthMeasureSpec), C.BUFFER_FLAG_ENCRYPTED), this.height + AndroidUtilities.dp(8.0f));
+    protected void onMeasure(int i, int i2) {
+        setMeasuredDimension(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), this.height + AndroidUtilities.dp(8.0f));
     }
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
-        int x = (getWidth() - this.width) / 2;
-        int y = this.photoHeight + AndroidUtilities.dp(2.0f);
+        int i;
+        int width = (getWidth() - this.width) / 2;
+        int dp = this.photoHeight + AndroidUtilities.dp(2.0f);
         Drawable shadowDrawable = Theme.chat_msgInMediaDrawable.getShadowDrawable();
         if (shadowDrawable != null) {
-            shadowDrawable.setBounds(x, y, this.width + x, this.height + y);
+            shadowDrawable.setBounds(width, dp, this.width + width, this.height + dp);
             shadowDrawable.draw(canvas);
         }
-        int w = AndroidUtilities.displaySize.x;
-        int h = AndroidUtilities.displaySize.y;
+        Point point = AndroidUtilities.displaySize;
+        int i2 = point.x;
+        int i3 = point.y;
         if (getParent() instanceof View) {
             View view = (View) getParent();
-            w = view.getMeasuredWidth();
-            h = view.getMeasuredHeight();
+            i2 = view.getMeasuredWidth();
+            i3 = view.getMeasuredHeight();
         }
-        Theme.MessageDrawable drawable = (Theme.MessageDrawable) getThemedDrawable(Theme.key_drawable_msgInMedia);
-        drawable.setTop((int) getY(), w, h, false, false);
-        drawable.setBounds(x, 0, this.width + x, this.height);
-        drawable.draw(canvas);
-        ImageReceiver imageReceiver = this.imageReceiver;
-        int i = this.imagePadding;
-        imageReceiver.setImageCoords(x + i, i, this.width - (i * 2), this.photoHeight - i);
+        int i4 = i3;
+        Theme.MessageDrawable messageDrawable = (Theme.MessageDrawable) getThemedDrawable("drawableMsgInMedia");
+        messageDrawable.setTop((int) getY(), i2, i4, false, false);
+        messageDrawable.setBounds(width, 0, this.width + width, this.height);
+        messageDrawable.draw(canvas);
+        this.imageReceiver.setImageCoords(width + i, this.imagePadding, this.width - (i * 2), this.photoHeight - i);
         this.imageReceiver.draw(canvas);
-        Theme.chat_msgTextPaint.setColor(getThemedColor(Theme.key_chat_messageTextIn));
-        Theme.chat_msgTextPaint.linkColor = getThemedColor(Theme.key_chat_messageLinkIn);
+        Theme.chat_msgTextPaint.setColor(getThemedColor("chat_messageTextIn"));
+        Theme.chat_msgTextPaint.linkColor = getThemedColor("chat_messageLinkIn");
         canvas.save();
-        int dp = AndroidUtilities.dp(this.isPhotoVisible ? 14.0f : 11.0f) + x;
-        this.textX = dp;
-        int dp2 = AndroidUtilities.dp(11.0f) + y;
-        this.textY = dp2;
-        canvas.translate(dp, dp2);
+        int dp2 = AndroidUtilities.dp(this.isPhotoVisible ? 14.0f : 11.0f) + width;
+        this.textX = dp2;
+        float f = dp2;
+        int dp3 = AndroidUtilities.dp(11.0f) + dp;
+        this.textY = dp3;
+        canvas.translate(f, dp3);
         if (this.pressedLink != null) {
             canvas.drawPath(this.urlPath, Theme.chat_urlPaint);
         }
@@ -309,7 +335,6 @@ public class BotHelpCell extends View {
             staticLayout.draw(canvas);
         }
         canvas.restore();
-        this.wasDraw = true;
     }
 
     @Override // android.view.View
@@ -322,32 +347,31 @@ public class BotHelpCell extends View {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.imageReceiver.onDetachedFromWindow();
-        this.wasDraw = false;
     }
 
     @Override // android.view.View
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-        super.onInitializeAccessibilityNodeInfo(info);
-        info.setText(this.textLayout.getText());
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+        accessibilityNodeInfo.setText(this.textLayout.getText());
     }
 
     public boolean animating() {
         return this.animating;
     }
 
-    public void setAnimating(boolean animating) {
-        this.animating = animating;
+    public void setAnimating(boolean z) {
+        this.animating = z;
     }
 
-    private int getThemedColor(String key) {
+    private int getThemedColor(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
-        return color != null ? color.intValue() : Theme.getColor(key);
+        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
+        return color != null ? color.intValue() : Theme.getColor(str);
     }
 
-    private Drawable getThemedDrawable(String drawableKey) {
+    private Drawable getThemedDrawable(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Drawable drawable = resourcesProvider != null ? resourcesProvider.getDrawable(drawableKey) : null;
-        return drawable != null ? drawable : Theme.getThemeDrawable(drawableKey);
+        Drawable drawable = resourcesProvider != null ? resourcesProvider.getDrawable(str) : null;
+        return drawable != null ? drawable : Theme.getThemeDrawable(str);
     }
 }

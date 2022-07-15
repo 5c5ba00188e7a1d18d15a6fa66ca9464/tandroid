@@ -2,7 +2,7 @@ package com.android.billingclient.api;
 
 import java.util.concurrent.Callable;
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final class zzai implements Callable {
     final /* synthetic */ String zza;
     final /* synthetic */ PurchasesResponseListener zzb;

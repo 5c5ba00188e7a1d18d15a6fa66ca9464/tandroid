@@ -21,8 +21,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.core.view.ViewCompat;
-import com.google.android.exoplayer2.C;
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -30,10 +28,10 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
-import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
@@ -46,7 +44,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.SnowflakesEffect;
 import org.telegram.ui.ThemeActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes3.dex */
 public class DrawerProfileCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     public static boolean switchingTheme;
     private boolean accountsShown;
@@ -54,7 +52,6 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private BackupImageView avatarImageView;
     private Integer currentColor;
     private Integer currentMoonColor;
-    private int darkThemeBackgroundColor;
     private RLottieImageView darkThemeView;
     public boolean drawPremium;
     public float drawPremiumProgress;
@@ -67,11 +64,11 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private Rect srcRect = new Rect();
     private Rect destRect = new Rect();
     private Paint paint = new Paint();
-    private Paint backPaint = new Paint(1);
-    private RLottieDrawable sunDrawable = new RLottieDrawable(R.raw.sun, "2131558540", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+    private RLottieDrawable sunDrawable = new RLottieDrawable(R.raw.sun, "2131558549", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
 
     public DrawerProfileCell(Context context, final DrawerLayoutContainer drawerLayoutContainer) {
         super(context);
+        new Paint(1);
         ImageView imageView = new ImageView(context);
         this.shadowView = imageView;
         imageView.setVisibility(4);
@@ -106,29 +103,29 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         this.arrowView.setImageResource(R.drawable.msg_expand);
         addView(this.arrowView, LayoutHelper.createFrame(59, 59, 85));
         setArrowState(false);
-        if (!Theme.isCurrentThemeDay()) {
+        if (Theme.isCurrentThemeDay()) {
+            this.sunDrawable.setCustomEndFrame(36);
+        } else {
             this.sunDrawable.setCustomEndFrame(0);
             this.sunDrawable.setCurrentFrame(36);
-        } else {
-            this.sunDrawable.setCustomEndFrame(36);
         }
         this.sunDrawable.setPlayInDirectionOfCustomEndFrame(true);
-        RLottieImageView rLottieImageView = new RLottieImageView(context) { // from class: org.telegram.ui.Cells.DrawerProfileCell.1
+        RLottieImageView rLottieImageView = new RLottieImageView(this, context) { // from class: org.telegram.ui.Cells.DrawerProfileCell.1
             @Override // android.view.View
-            public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-                super.onInitializeAccessibilityNodeInfo(info);
+            public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+                super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
                 if (Theme.isCurrentThemeDark()) {
-                    info.setText(LocaleController.getString("AccDescrSwitchToDayTheme", R.string.AccDescrSwitchToDayTheme));
+                    accessibilityNodeInfo.setText(LocaleController.getString("AccDescrSwitchToDayTheme", R.string.AccDescrSwitchToDayTheme));
                 } else {
-                    info.setText(LocaleController.getString("AccDescrSwitchToNightTheme", R.string.AccDescrSwitchToNightTheme));
+                    accessibilityNodeInfo.setText(LocaleController.getString("AccDescrSwitchToNightTheme", R.string.AccDescrSwitchToNightTheme));
                 }
             }
         };
         this.darkThemeView = rLottieImageView;
         rLottieImageView.setFocusable(true);
-        this.darkThemeView.setBackground(Theme.createCircleSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 0, 0));
+        this.darkThemeView.setBackground(Theme.createCircleSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0, 0));
         this.sunDrawable.beginApplyLayerColors();
-        int color = Theme.getColor(Theme.key_chats_menuName);
+        int color = Theme.getColor("chats_menuName");
         this.sunDrawable.setLayerColor("Sunny.**", color);
         this.sunDrawable.setLayerColor("Path 6.**", color);
         this.sunDrawable.setLayerColor("Path.**", color);
@@ -137,86 +134,99 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         this.darkThemeView.setScaleType(ImageView.ScaleType.CENTER);
         this.darkThemeView.setAnimation(this.sunDrawable);
         if (Build.VERSION.SDK_INT >= 21) {
-            RLottieImageView rLottieImageView2 = this.darkThemeView;
-            int color2 = Theme.getColor(Theme.key_listSelector);
-            this.darkThemeBackgroundColor = color2;
-            rLottieImageView2.setBackgroundDrawable(Theme.createSelectorDrawable(color2, 1, AndroidUtilities.dp(17.0f)));
+            this.darkThemeView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 1, AndroidUtilities.dp(17.0f)));
             Theme.setRippleDrawableForceSoftware((RippleDrawable) this.darkThemeView.getBackground());
         }
         this.darkThemeView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DrawerProfileCell$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                DrawerProfileCell.this.m1647lambda$new$0$orgtelegramuiCellsDrawerProfileCell(view);
+                DrawerProfileCell.this.lambda$new$0(view);
             }
         });
         this.darkThemeView.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Cells.DrawerProfileCell$$ExternalSyntheticLambda1
             @Override // android.view.View.OnLongClickListener
             public final boolean onLongClick(View view) {
-                return DrawerProfileCell.lambda$new$1(DrawerLayoutContainer.this, view);
+                boolean lambda$new$1;
+                lambda$new$1 = DrawerProfileCell.lambda$new$1(DrawerLayoutContainer.this, view);
+                return lambda$new$1;
             }
         });
         addView(this.darkThemeView, LayoutHelper.createFrame(48, 48.0f, 85, 0.0f, 0.0f, 6.0f, 90.0f));
         if (Theme.getEventType() == 0) {
             SnowflakesEffect snowflakesEffect = new SnowflakesEffect(0);
             this.snowflakesEffect = snowflakesEffect;
-            snowflakesEffect.setColorKey(Theme.key_chats_menuName);
+            snowflakesEffect.setColorKey("chats_menuName");
         }
     }
 
-    /* renamed from: lambda$new$0$org-telegram-ui-Cells-DrawerProfileCell */
-    public /* synthetic */ void m1647lambda$new$0$orgtelegramuiCellsDrawerProfileCell(View v) {
+    /* JADX WARN: Removed duplicated region for block: B:28:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x008d  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public /* synthetic */ void lambda$new$0(View view) {
+        boolean equals;
         Theme.ThemeInfo themeInfo;
         if (switchingTheme) {
             return;
         }
         switchingTheme = true;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
-        String dayThemeName = preferences.getString("lastDayTheme", "Blue");
-        if (Theme.getTheme(dayThemeName) == null || Theme.getTheme(dayThemeName).isDark()) {
-            dayThemeName = "Blue";
+        SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
+        String str = "Blue";
+        String string = sharedPreferences.getString("lastDayTheme", str);
+        if (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) {
+            string = str;
         }
-        String nightThemeName = preferences.getString("lastDarkTheme", "Dark Blue");
-        if (Theme.getTheme(nightThemeName) == null || !Theme.getTheme(nightThemeName).isDark()) {
-            nightThemeName = "Dark Blue";
+        String str2 = "Dark Blue";
+        String string2 = sharedPreferences.getString("lastDarkTheme", str2);
+        if (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) {
+            string2 = str2;
         }
-        Theme.ThemeInfo themeInfo2 = Theme.getActiveTheme();
-        if (dayThemeName.equals(nightThemeName)) {
-            if (themeInfo2.isDark() || dayThemeName.equals("Dark Blue") || dayThemeName.equals("Night")) {
-                dayThemeName = "Blue";
+        Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
+        if (!string.equals(string2)) {
+            str2 = string2;
+        } else if (activeTheme.isDark() || string.equals(str2) || string.equals("Night")) {
+            str2 = string2;
+            equals = str.equals(activeTheme.getKey());
+            if (!equals) {
+                themeInfo = Theme.getTheme(str2);
+                this.sunDrawable.setCustomEndFrame(36);
             } else {
-                nightThemeName = "Dark Blue";
+                themeInfo = Theme.getTheme(str);
+                this.sunDrawable.setCustomEndFrame(0);
             }
+            this.darkThemeView.playAnimation();
+            if (Theme.selectedAutoNightType != 0) {
+                Toast.makeText(getContext(), LocaleController.getString("AutoNightModeOff", R.string.AutoNightModeOff), 0).show();
+                Theme.selectedAutoNightType = 0;
+                Theme.saveAutoNightThemeConfig();
+                Theme.cancelAutoNightThemeCallbacks();
+            }
+            switchTheme(themeInfo, equals);
         }
-        boolean toDark = dayThemeName.equals(themeInfo2.getKey());
-        if (toDark) {
-            themeInfo = Theme.getTheme(nightThemeName);
-            this.sunDrawable.setCustomEndFrame(36);
-        } else {
-            themeInfo = Theme.getTheme(dayThemeName);
-            this.sunDrawable.setCustomEndFrame(0);
+        str = string;
+        equals = str.equals(activeTheme.getKey());
+        if (!equals) {
         }
         this.darkThemeView.playAnimation();
         if (Theme.selectedAutoNightType != 0) {
-            Toast.makeText(getContext(), LocaleController.getString("AutoNightModeOff", R.string.AutoNightModeOff), 0).show();
-            Theme.selectedAutoNightType = 0;
-            Theme.saveAutoNightThemeConfig();
-            Theme.cancelAutoNightThemeCallbacks();
         }
-        switchTheme(themeInfo, toDark);
+        switchTheme(themeInfo, equals);
     }
 
-    public static /* synthetic */ boolean lambda$new$1(DrawerLayoutContainer drawerLayoutContainer, View e) {
-        if (drawerLayoutContainer == null) {
-            return false;
+    public static /* synthetic */ boolean lambda$new$1(DrawerLayoutContainer drawerLayoutContainer, View view) {
+        if (drawerLayoutContainer != null) {
+            drawerLayoutContainer.presentFragment(new ThemeActivity(0));
+            return true;
         }
-        drawerLayoutContainer.presentFragment(new ThemeActivity(0));
-        return true;
+        return false;
     }
 
-    private void switchTheme(Theme.ThemeInfo themeInfo, boolean toDark) {
-        this.darkThemeView.getLocationInWindow(pos);
-        int[] pos = {pos[0] + (this.darkThemeView.getMeasuredWidth() / 2), pos[1] + (this.darkThemeView.getMeasuredHeight() / 2)};
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, false, pos, -1, Boolean.valueOf(toDark), this.darkThemeView);
+    private void switchTheme(Theme.ThemeInfo themeInfo, boolean z) {
+        this.darkThemeView.getLocationInWindow(r1);
+        int[] iArr = {iArr[0] + (this.darkThemeView.getMeasuredWidth() / 2), iArr[1] + (this.darkThemeView.getMeasuredHeight() / 2)};
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), this.darkThemeView);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -233,29 +243,30 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     }
 
     @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(int i, int i2) {
         if (Build.VERSION.SDK_INT >= 21) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(widthMeasureSpec), C.BUFFER_FLAG_ENCRYPTED), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(148.0f) + AndroidUtilities.statusBarHeight, C.BUFFER_FLAG_ENCRYPTED));
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(148.0f) + AndroidUtilities.statusBarHeight, 1073741824));
             return;
         }
         try {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(widthMeasureSpec), C.BUFFER_FLAG_ENCRYPTED), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(148.0f), C.BUFFER_FLAG_ENCRYPTED));
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(148.0f), 1073741824));
         } catch (Exception e) {
-            setMeasuredDimension(View.MeasureSpec.getSize(widthMeasureSpec), AndroidUtilities.dp(148.0f));
+            setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(148.0f));
             FileLog.e(e);
         }
     }
 
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        super.onLayout(z, i, i2, i3, i4);
         if (this.drawPremium) {
             if (this.starParticlesDrawable == null) {
                 StarParticlesView.Drawable drawable = new StarParticlesView.Drawable(15);
                 this.starParticlesDrawable = drawable;
                 drawable.init();
-                this.starParticlesDrawable.speedScale = 0.8f;
-                this.starParticlesDrawable.minLifeTime = 3000L;
+                StarParticlesView.Drawable drawable2 = this.starParticlesDrawable;
+                drawable2.speedScale = 0.8f;
+                drawable2.minLifeTime = 3000L;
             }
             this.starParticlesDrawable.rect.set(this.avatarImageView.getLeft(), this.avatarImageView.getTop(), this.avatarImageView.getRight(), this.avatarImageView.getBottom());
             this.starParticlesDrawable.rect.inset(-AndroidUtilities.dp(20.0f), -AndroidUtilities.dp(20.0f));
@@ -263,40 +274,41 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:73:0x01eb  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0262  */
-    /* JADX WARN: Removed duplicated region for block: B:86:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:81:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onDraw(Canvas canvas) {
-        boolean drawCatsShadow;
-        int color;
+        boolean z;
+        int i;
         float clamp;
         SnowflakesEffect snowflakesEffect;
-        Drawable backgroundDrawable = Theme.getCachedWallpaper();
-        String backgroundKey = applyBackground(false);
-        boolean useImageBackground = !backgroundKey.equals(Theme.key_chats_menuTopBackground) && Theme.isCustomTheme() && !Theme.isPatternWallpaper() && backgroundDrawable != null && !(backgroundDrawable instanceof ColorDrawable) && !(backgroundDrawable instanceof GradientDrawable);
-        if (!useImageBackground && Theme.hasThemeKey(Theme.key_chats_menuTopShadowCats)) {
-            color = Theme.getColor(Theme.key_chats_menuTopShadowCats);
-            drawCatsShadow = true;
-        } else if (Theme.hasThemeKey(Theme.key_chats_menuTopShadow)) {
-            color = Theme.getColor(Theme.key_chats_menuTopShadow);
-            drawCatsShadow = false;
+        Drawable cachedWallpaper = Theme.getCachedWallpaper();
+        int i2 = 0;
+        boolean z2 = !applyBackground(false).equals("chats_menuTopBackground") && Theme.isCustomTheme() && !Theme.isPatternWallpaper() && cachedWallpaper != null && !(cachedWallpaper instanceof ColorDrawable) && !(cachedWallpaper instanceof GradientDrawable);
+        if (!z2 && Theme.hasThemeKey("chats_menuTopShadowCats")) {
+            i = Theme.getColor("chats_menuTopShadowCats");
+            z = true;
         } else {
-            color = Theme.getServiceMessageColor() | (-16777216);
-            drawCatsShadow = false;
+            if (Theme.hasThemeKey("chats_menuTopShadow")) {
+                i = Theme.getColor("chats_menuTopShadow");
+            } else {
+                i = Theme.getServiceMessageColor() | (-16777216);
+            }
+            z = false;
         }
         Integer num = this.currentColor;
-        if (num == null || num.intValue() != color) {
-            this.currentColor = Integer.valueOf(color);
-            this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+        if (num == null || num.intValue() != i) {
+            this.currentColor = Integer.valueOf(i);
+            this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
         }
-        int color2 = Theme.getColor(Theme.key_chats_menuName);
+        int color = Theme.getColor("chats_menuName");
         Integer num2 = this.currentMoonColor;
-        if (num2 == null || num2.intValue() != color2) {
-            this.currentMoonColor = Integer.valueOf(color2);
+        if (num2 == null || num2.intValue() != color) {
+            this.currentMoonColor = Integer.valueOf(color);
             this.sunDrawable.beginApplyLayerColors();
             this.sunDrawable.setLayerColor("Sunny.**", this.currentMoonColor.intValue());
             this.sunDrawable.setLayerColor("Path 6.**", this.currentMoonColor.intValue());
@@ -304,46 +316,45 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             this.sunDrawable.setLayerColor("Path 5.**", this.currentMoonColor.intValue());
             this.sunDrawable.commitApplyLayerColors();
         }
-        this.nameTextView.setTextColor(Theme.getColor(Theme.key_chats_menuName));
-        if (useImageBackground) {
-            this.phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhone));
+        this.nameTextView.setTextColor(Theme.getColor("chats_menuName"));
+        if (z2) {
+            this.phoneTextView.setTextColor(Theme.getColor("chats_menuPhone"));
             if (this.shadowView.getVisibility() != 0) {
                 this.shadowView.setVisibility(0);
             }
-            if (!(backgroundDrawable instanceof ColorDrawable) && !(backgroundDrawable instanceof GradientDrawable)) {
-                if (backgroundDrawable instanceof BitmapDrawable) {
-                    Bitmap bitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
-                    float scaleX = getMeasuredWidth() / bitmap.getWidth();
-                    float scaleY = getMeasuredHeight() / bitmap.getHeight();
-                    float scale = Math.max(scaleX, scaleY);
-                    int width = (int) (getMeasuredWidth() / scale);
-                    int height = (int) (getMeasuredHeight() / scale);
-                    int x = (bitmap.getWidth() - width) / 2;
-                    int darkBackColor = (bitmap.getHeight() - height) / 2;
-                    this.srcRect.set(x, darkBackColor, x + width, darkBackColor + height);
-                    this.destRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                    try {
-                        canvas.drawBitmap(bitmap, this.srcRect, this.destRect, this.paint);
-                    } catch (Throwable e) {
-                        FileLog.e(e);
-                    }
-                    int y = (Theme.getServiceMessageColor() & ViewCompat.MEASURED_SIZE_MASK) | 1342177280;
+            if ((cachedWallpaper instanceof ColorDrawable) || (cachedWallpaper instanceof GradientDrawable)) {
+                cachedWallpaper.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                cachedWallpaper.draw(canvas);
+                Theme.getColor("listSelectorSDK21");
+            } else if (cachedWallpaper instanceof BitmapDrawable) {
+                Bitmap bitmap = ((BitmapDrawable) cachedWallpaper).getBitmap();
+                float max = Math.max(getMeasuredWidth() / bitmap.getWidth(), getMeasuredHeight() / bitmap.getHeight());
+                int measuredWidth = (int) (getMeasuredWidth() / max);
+                int measuredHeight = (int) (getMeasuredHeight() / max);
+                int width = (bitmap.getWidth() - measuredWidth) / 2;
+                int height = (bitmap.getHeight() - measuredHeight) / 2;
+                this.srcRect.set(width, height, measuredWidth + width, measuredHeight + height);
+                this.destRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                try {
+                    canvas.drawBitmap(bitmap, this.srcRect, this.destRect, this.paint);
+                } catch (Throwable th) {
+                    FileLog.e(th);
                 }
+                Theme.getServiceMessageColor();
             }
-            backgroundDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-            backgroundDrawable.draw(canvas);
-            Theme.getColor(Theme.key_listSelector);
         } else {
-            int visibility = drawCatsShadow ? 0 : 4;
-            if (this.shadowView.getVisibility() != visibility) {
-                this.shadowView.setVisibility(visibility);
+            if (!z) {
+                i2 = 4;
             }
-            this.phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhoneCats));
+            if (this.shadowView.getVisibility() != i2) {
+                this.shadowView.setVisibility(i2);
+            }
+            this.phoneTextView.setTextColor(Theme.getColor("chats_menuPhoneCats"));
             super.onDraw(canvas);
-            Theme.getColor(Theme.key_listSelector);
+            Theme.getColor("listSelectorSDK21");
         }
-        boolean z = this.drawPremium;
-        if (z) {
+        boolean z3 = this.drawPremium;
+        if (z3) {
             float f = this.drawPremiumProgress;
             if (f != 1.0f) {
                 this.drawPremiumProgress = f + 0.07272727f;
@@ -351,13 +362,13 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                 this.drawPremiumProgress = clamp;
                 if (clamp != 0.0f) {
                     if (this.gradientTools == null) {
-                        PremiumGradient.GradientTools gradientTools = new PremiumGradient.GradientTools(Theme.key_premiumGradientBottomSheet1, Theme.key_premiumGradientBottomSheet2, Theme.key_premiumGradientBottomSheet3, null);
+                        PremiumGradient.GradientTools gradientTools = new PremiumGradient.GradientTools("premiumGradientBottomSheet1", "premiumGradientBottomSheet2", "premiumGradientBottomSheet3", null);
                         this.gradientTools = gradientTools;
                         gradientTools.x1 = 0.0f;
-                        this.gradientTools.y1 = 1.1f;
-                        this.gradientTools.x2 = 1.5f;
-                        this.gradientTools.y2 = -0.2f;
-                        this.gradientTools.exactly = true;
+                        gradientTools.y1 = 1.1f;
+                        gradientTools.x2 = 1.5f;
+                        gradientTools.y2 = -0.2f;
+                        gradientTools.exactly = true;
                     }
                     this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), 0.0f, 0.0f);
                     this.gradientTools.paint.setAlpha((int) (this.drawPremiumProgress * 255.0f));
@@ -369,14 +380,14 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                     invalidate();
                 }
                 snowflakesEffect = this.snowflakesEffect;
-                if (snowflakesEffect == null) {
-                    snowflakesEffect.onDraw(this, canvas);
+                if (snowflakesEffect != null) {
                     return;
                 }
+                snowflakesEffect.onDraw(this, canvas);
                 return;
             }
         }
-        if (!z) {
+        if (!z3) {
             float f2 = this.drawPremiumProgress;
             if (f2 != 0.0f) {
                 this.drawPremiumProgress = f2 - 0.07272727f;
@@ -387,66 +398,59 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         if (clamp != 0.0f) {
         }
         snowflakesEffect = this.snowflakesEffect;
-        if (snowflakesEffect == null) {
+        if (snowflakesEffect != null) {
         }
     }
 
-    public boolean isInAvatar(float x, float y) {
-        return x >= ((float) this.avatarImageView.getLeft()) && x <= ((float) this.avatarImageView.getRight()) && y >= ((float) this.avatarImageView.getTop()) && y <= ((float) this.avatarImageView.getBottom());
+    public boolean isInAvatar(float f, float f2) {
+        return f >= ((float) this.avatarImageView.getLeft()) && f <= ((float) this.avatarImageView.getRight()) && f2 >= ((float) this.avatarImageView.getTop()) && f2 <= ((float) this.avatarImageView.getBottom());
     }
 
     public boolean hasAvatar() {
         return this.avatarImageView.getImageReceiver().hasNotThumb();
     }
 
-    public boolean isAccountsShown() {
-        return this.accountsShown;
-    }
-
-    public void setAccountsShown(boolean value, boolean animated) {
-        if (this.accountsShown == value) {
+    public void setAccountsShown(boolean z, boolean z2) {
+        if (this.accountsShown == z) {
             return;
         }
-        this.accountsShown = value;
-        setArrowState(animated);
+        this.accountsShown = z;
+        setArrowState(z2);
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    public void setUser(TLRPC.User user, boolean accounts) {
-        if (user == null) {
+    public void setUser(TLRPC$User tLRPC$User, boolean z) {
+        if (tLRPC$User == null) {
             return;
         }
-        this.accountsShown = accounts;
+        this.accountsShown = z;
         setArrowState(false);
-        CharSequence text = UserObject.getUserName(user);
+        CharSequence userName = UserObject.getUserName(tLRPC$User);
         try {
-            text = Emoji.replaceEmoji(text, this.nameTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(22.0f), false);
-        } catch (Exception e) {
+            userName = Emoji.replaceEmoji(userName, this.nameTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(22.0f), false);
+        } catch (Exception unused) {
         }
         this.drawPremium = false;
-        if (text != null) {
-        }
-        this.nameTextView.setText(text);
+        this.nameTextView.setText(userName);
         TextView textView = this.phoneTextView;
         PhoneFormat phoneFormat = PhoneFormat.getInstance();
-        textView.setText(phoneFormat.format("+" + user.phone));
-        AvatarDrawable avatarDrawable = new AvatarDrawable(user);
-        avatarDrawable.setColor(Theme.getColor(Theme.key_avatar_backgroundInProfileBlue));
-        this.avatarImageView.setForUserOrChat(user, avatarDrawable);
+        textView.setText(phoneFormat.format("+" + tLRPC$User.phone));
+        AvatarDrawable avatarDrawable = new AvatarDrawable(tLRPC$User);
+        avatarDrawable.setColor(Theme.getColor("avatar_backgroundInProfileBlue"));
+        this.avatarImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
         applyBackground(true);
     }
 
-    public String applyBackground(boolean force) {
-        String currentTag = (String) getTag();
-        String backgroundKey = Theme.key_chats_menuTopBackground;
-        if (!Theme.hasThemeKey(backgroundKey) || Theme.getColor(backgroundKey) == 0) {
-            backgroundKey = Theme.key_chats_menuTopBackgroundCats;
+    public String applyBackground(boolean z) {
+        String str = (String) getTag();
+        String str2 = "chats_menuTopBackground";
+        if (!Theme.hasThemeKey(str2) || Theme.getColor(str2) == 0) {
+            str2 = "chats_menuTopBackgroundCats";
         }
-        if (force || !backgroundKey.equals(currentTag)) {
-            setBackgroundColor(Theme.getColor(backgroundKey));
-            setTag(backgroundKey);
+        if (z || !str2.equals(str)) {
+            setBackgroundColor(Theme.getColor(str2));
+            setTag(str2);
         }
-        return backgroundKey;
+        return str2;
     }
 
     public void updateColors() {
@@ -456,15 +460,15 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    private void setArrowState(boolean animated) {
+    private void setArrowState(boolean z) {
         String str;
         int i;
-        float rotation = this.accountsShown ? 180.0f : 0.0f;
-        if (animated) {
-            this.arrowView.animate().rotation(rotation).setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();
+        float f = this.accountsShown ? 180.0f : 0.0f;
+        if (z) {
+            this.arrowView.animate().rotation(f).setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();
         } else {
             this.arrowView.animate().cancel();
-            this.arrowView.setRotation(rotation);
+            this.arrowView.setRotation(f);
         }
         ImageView imageView = this.arrowView;
         if (this.accountsShown) {
@@ -478,8 +482,8 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int id, int account, Object... args) {
-        if (id == NotificationCenter.emojiLoaded) {
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.emojiLoaded) {
             this.nameTextView.invalidate();
         }
     }

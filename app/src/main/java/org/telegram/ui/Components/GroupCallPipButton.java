@@ -15,25 +15,18 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import androidx.core.internal.view.SupportMenu;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import java.util.Random;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes5.dex */
+/* loaded from: classes3.dex */
 public class GroupCallPipButton extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, VoIPService.StateListener {
-    public static final float MAX_AMPLITUDE = 8500.0f;
-    public static final int MUTE_BUTTON_STATE_MUTE = 1;
-    public static final int MUTE_BUTTON_STATE_MUTED_BY_ADMIN = 3;
-    public static final int MUTE_BUTTON_STATE_RECONNECT = 2;
-    public static final int MUTE_BUTTON_STATE_UNMUTE = 0;
     float amplitude;
     float animateAmplitudeDiff;
     float animateToAmplitude;
@@ -92,12 +85,12 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         VoIPService.StateListener.CC.$default$onVideoAvailableChange(this, z);
     }
 
-    public GroupCallPipButton(Context context, int currentAccount, boolean stub) {
+    public GroupCallPipButton(Context context, int i, boolean z) {
         super(context);
-        this.stub = stub;
-        this.currentAccount = currentAccount;
-        for (int i = 0; i < 4; i++) {
-            this.states[i] = new WeavingState(i);
+        this.stub = z;
+        this.currentAccount = i;
+        for (int i2 = 0; i2 < 4; i2++) {
+            this.states[i2] = new WeavingState(i2);
         }
         this.blobDrawable.maxRadius = AndroidUtilities.dp(37.0f);
         this.blobDrawable.minRadius = AndroidUtilities.dp(32.0f);
@@ -105,7 +98,7 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         this.blobDrawable2.minRadius = AndroidUtilities.dp(32.0f);
         this.blobDrawable.generateBlob();
         this.blobDrawable2.generateBlob();
-        this.bigMicDrawable = new RLottieDrawable(R.raw.voice_outlined, "2131558578", AndroidUtilities.dp(22.0f), AndroidUtilities.dp(30.0f), true, null);
+        this.bigMicDrawable = new RLottieDrawable(R.raw.voice_outlined, "2131558588", AndroidUtilities.dp(22.0f), AndroidUtilities.dp(30.0f), true, null);
         setWillNotDraw(false);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.muteButton = rLottieImageView;
@@ -113,20 +106,20 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         this.muteButton.setScaleType(ImageView.ScaleType.CENTER);
         addView(this.muteButton);
         this.prepareToRemoveShader = new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(350.0f), 0.0f, new int[]{-2801343, -561538, 0}, new float[]{0.0f, 0.4f, 1.0f}, Shader.TileMode.CLAMP);
-        if (stub) {
+        if (z) {
             setState(0);
         }
     }
 
-    public void setPressedState(boolean pressedState) {
-        this.pressedState = pressedState;
+    public void setPressedState(boolean z) {
+        this.pressedState = z;
     }
 
-    public void setPinnedProgress(float pinnedProgress) {
-        this.pinnedProgress = pinnedProgress;
+    public void setPinnedProgress(float f) {
+        this.pinnedProgress = f;
     }
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public static class WeavingState {
         int color1;
         int color2;
@@ -141,45 +134,44 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         private float targetY = -1.0f;
         private final Matrix matrix = new Matrix();
 
-        public WeavingState(int state) {
-            this.currentState = state;
+        public WeavingState(int i) {
+            this.currentState = i;
         }
 
-        public void update(long dt, float amplitude) {
-            float s;
+        public void update(long j, float f) {
             int i = this.currentState;
             if (i == 0) {
-                if (this.color1 != Theme.getColor(Theme.key_voipgroup_overlayGreen1) || this.color2 != Theme.getColor(Theme.key_voipgroup_overlayGreen2)) {
-                    int color = Theme.getColor(Theme.key_voipgroup_overlayGreen1);
+                if (this.color1 != Theme.getColor("voipgroup_overlayGreen1") || this.color2 != Theme.getColor("voipgroup_overlayGreen2")) {
+                    int color = Theme.getColor("voipgroup_overlayGreen1");
                     this.color1 = color;
-                    int color2 = Theme.getColor(Theme.key_voipgroup_overlayGreen2);
+                    int color2 = Theme.getColor("voipgroup_overlayGreen2");
                     this.color2 = color2;
                     this.shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{color, color2}, (float[]) null, Shader.TileMode.CLAMP);
                 }
             } else if (i == 1) {
-                if (this.color1 != Theme.getColor(Theme.key_voipgroup_overlayBlue1) || this.color2 != Theme.getColor(Theme.key_voipgroup_overlayBlue2)) {
-                    int color3 = Theme.getColor(Theme.key_voipgroup_overlayBlue1);
+                if (this.color1 != Theme.getColor("voipgroup_overlayBlue1") || this.color2 != Theme.getColor("voipgroup_overlayBlue2")) {
+                    int color3 = Theme.getColor("voipgroup_overlayBlue1");
                     this.color1 = color3;
-                    int color4 = Theme.getColor(Theme.key_voipgroup_overlayBlue2);
+                    int color4 = Theme.getColor("voipgroup_overlayBlue2");
                     this.color2 = color4;
                     this.shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{color3, color4}, (float[]) null, Shader.TileMode.CLAMP);
                 }
-            } else if (i == 3) {
-                if (this.color1 != Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient) || this.color2 != Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient2) || this.color3 != Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient3)) {
-                    int color5 = Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient2);
+            } else if (i != 3) {
+                return;
+            } else {
+                if (this.color1 != Theme.getColor("voipgroup_mutedByAdminGradient") || this.color2 != Theme.getColor("voipgroup_mutedByAdminGradient2") || this.color3 != Theme.getColor("voipgroup_mutedByAdminGradient3")) {
+                    int color5 = Theme.getColor("voipgroup_mutedByAdminGradient2");
                     this.color2 = color5;
-                    int color6 = Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient3);
+                    int color6 = Theme.getColor("voipgroup_mutedByAdminGradient3");
                     this.color3 = color6;
-                    int color7 = Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient);
+                    int color7 = Theme.getColor("voipgroup_mutedByAdminGradient");
                     this.color1 = color7;
                     this.shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{color5, color6, color7}, (float[]) null, Shader.TileMode.CLAMP);
                 }
-            } else {
-                return;
             }
-            int width = AndroidUtilities.dp(130.0f);
-            float f = this.duration;
-            if (f == 0.0f || this.time >= f) {
+            int dp = AndroidUtilities.dp(130.0f);
+            float f2 = this.duration;
+            if (f2 == 0.0f || this.time >= f2) {
                 this.duration = Utilities.random.nextInt(700) + 500;
                 this.time = 0.0f;
                 if (this.targetX == -1.0f) {
@@ -189,29 +181,27 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                 this.startY = this.targetY;
                 updateTargets();
             }
-            float f2 = this.time + (((float) dt) * (BlobDrawable.GRADIENT_SPEED_MIN + 0.5f)) + (((float) dt) * BlobDrawable.GRADIENT_SPEED_MAX * 2.0f * amplitude);
-            this.time = f2;
-            float f3 = this.duration;
-            if (f2 > f3) {
-                this.time = f3;
+            float f3 = (float) j;
+            float f4 = 2.0f;
+            float f5 = this.time + ((BlobDrawable.GRADIENT_SPEED_MIN + 0.5f) * f3) + (f3 * BlobDrawable.GRADIENT_SPEED_MAX * 2.0f * f);
+            this.time = f5;
+            float f6 = this.duration;
+            if (f5 > f6) {
+                this.time = f6;
             }
-            float interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(this.time / this.duration);
-            float f4 = this.startX;
-            float x = (width * (f4 + ((this.targetX - f4) * interpolation))) - 200.0f;
-            float f5 = this.startY;
-            float y = (width * (f5 + ((this.targetY - f5) * interpolation))) - 200.0f;
-            int i2 = this.currentState;
-            if (i2 == 3) {
-                s = 2.0f;
-            } else if (i2 == 0) {
-                s = 1.5f;
-            } else {
-                s = 1.5f;
+            float interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(this.time / f6);
+            float f7 = dp;
+            float f8 = this.startX;
+            float f9 = ((f8 + ((this.targetX - f8) * interpolation)) * f7) - 200.0f;
+            float f10 = this.startY;
+            float f11 = ((f10 + ((this.targetY - f10) * interpolation)) * f7) - 200.0f;
+            if (this.currentState != 3) {
+                f4 = 1.5f;
             }
-            float scale = (width / 400.0f) * s;
+            float f12 = (f7 / 400.0f) * f4;
             this.matrix.reset();
-            this.matrix.postTranslate(x, y);
-            this.matrix.postScale(scale, scale, x + 200.0f, 200.0f + y);
+            this.matrix.postTranslate(f9, f11);
+            this.matrix.postScale(f12, f12, f9 + 200.0f, f11 + 200.0f);
             this.shader.setLocalMatrix(this.matrix);
         }
 
@@ -232,33 +222,33 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         public void setToPaint(Paint paint) {
             if (this.currentState == 2) {
                 paint.setShader(null);
-                paint.setColor(Theme.getColor(Theme.key_voipgroup_topPanelGray));
+                paint.setColor(Theme.getColor("voipgroup_topPanelGray"));
                 return;
             }
             paint.setShader(this.shader);
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:109:0x023f  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x024e  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0260  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x02bd  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x02c8  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x0304  */
-    /* JADX WARN: Removed duplicated region for block: B:135:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00a4  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00c2  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00da  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x010d  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0118  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x012a  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0155  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0159  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0167  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x016b  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0174  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x022e  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x02ac  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x02db  */
+    /* JADX WARN: Removed duplicated region for block: B:130:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00f1  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x012b  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0156  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x015a  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0168  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x016c  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0174  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -267,19 +257,18 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         float f;
         float f2;
         boolean z;
-        boolean showWaves;
         int i;
         int i2;
-        float alpha;
+        boolean z2;
+        float f3;
         super.onDraw(canvas);
-        float f3 = 0.0f;
         if (getAlpha() == 0.0f) {
             return;
         }
-        float cx = getMeasuredWidth() >> 1;
-        float cy = getMeasuredHeight() >> 1;
-        boolean z2 = this.pressedState;
-        if (z2) {
+        float measuredWidth = getMeasuredWidth() >> 1;
+        float measuredHeight = getMeasuredHeight() >> 1;
+        boolean z3 = this.pressedState;
+        if (z3) {
             float f4 = this.pressedProgress;
             if (f4 != 1.0f) {
                 float f5 = f4 + 0.10666667f;
@@ -287,13 +276,14 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                 if (f5 > 1.0f) {
                     this.pressedProgress = 1.0f;
                 }
-                float pressedProgress = CubicBezierInterpolator.DEFAULT.getInterpolation(this.pressedProgress);
-                this.muteButton.setScaleY((pressedProgress * 0.1f) + 1.0f);
-                this.muteButton.setScaleX((pressedProgress * 0.1f) + 1.0f);
+                float interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(this.pressedProgress) * 0.1f;
+                float f6 = interpolation + 1.0f;
+                this.muteButton.setScaleY(f6);
+                this.muteButton.setScaleX(f6);
                 if (this.stub) {
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - this.lastStubUpdateAmplitude > 1000) {
-                        this.lastStubUpdateAmplitude = currentTime;
+                    long currentTimeMillis = System.currentTimeMillis();
+                    if (currentTimeMillis - this.lastStubUpdateAmplitude > 1000) {
+                        this.lastStubUpdateAmplitude = currentTimeMillis;
                         float abs = ((Math.abs(this.random.nextInt() % 100) * 0.5f) / 100.0f) + 0.5f;
                         this.animateToAmplitude = abs;
                         this.animateAmplitudeDiff = (abs - this.amplitude) / ((BlobDrawable.AMPLITUDE_SPEED * 1500.0f) + 100.0f);
@@ -302,166 +292,162 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                 f = this.animateToAmplitude;
                 f2 = this.amplitude;
                 if (f != f2) {
-                    float f6 = this.animateAmplitudeDiff;
-                    float f7 = f2 + (16.0f * f6);
-                    this.amplitude = f7;
-                    if (f6 > 0.0f) {
-                        if (f7 > f) {
+                    float f7 = this.animateAmplitudeDiff;
+                    float f8 = f2 + (16.0f * f7);
+                    this.amplitude = f8;
+                    if (f7 > 0.0f) {
+                        if (f8 > f) {
                             this.amplitude = f;
                         }
-                    } else if (f7 < f) {
+                    } else if (f8 < f) {
                         this.amplitude = f;
                     }
                 }
                 if (this.previousState != null) {
-                    float f8 = this.progressToState + 0.064f;
-                    this.progressToState = f8;
-                    if (f8 > 1.0f) {
+                    float f9 = this.progressToState + 0.064f;
+                    this.progressToState = f9;
+                    if (f9 > 1.0f) {
                         this.progressToState = 1.0f;
                         this.previousState = null;
                     }
                 }
                 z = this.prepareToRemove;
                 if (z) {
-                    float f9 = this.progressToPrepareRemove;
-                    if (f9 != 1.0f) {
-                        float f10 = f9 + 0.045714285f;
-                        this.progressToPrepareRemove = f10;
-                        if (f10 > 1.0f) {
+                    float f10 = this.progressToPrepareRemove;
+                    if (f10 != 1.0f) {
+                        float f11 = f10 + 0.045714285f;
+                        this.progressToPrepareRemove = f11;
+                        if (f11 > 1.0f) {
                             this.progressToPrepareRemove = 1.0f;
                         }
                         if (this.removed) {
                             invalidate();
                         }
-                        showWaves = true;
-                        if (this.currentState.currentState != 3 || this.currentState.currentState == 2) {
-                            showWaves = false;
-                        }
-                        if (showWaves) {
-                            float f11 = this.wavesEnter;
-                            if (f11 != 1.0f) {
-                                float f12 = f11 + 0.045714285f;
-                                this.wavesEnter = f12;
-                                if (f12 > 1.0f) {
+                        i = 0;
+                        z2 = this.currentState.currentState == 3 && this.currentState.currentState != 2;
+                        if (z2) {
+                            float f12 = this.wavesEnter;
+                            if (f12 != 1.0f) {
+                                float f13 = f12 + 0.045714285f;
+                                this.wavesEnter = f13;
+                                if (f13 > 1.0f) {
                                     this.wavesEnter = 1.0f;
                                 }
-                                float wavesEnter = (this.overshootInterpolator.getInterpolation(this.wavesEnter) * 0.35f) + 0.65f;
+                                float interpolation2 = (this.overshootInterpolator.getInterpolation(this.wavesEnter) * 0.35f) + 0.65f;
                                 this.blobDrawable.update(this.amplitude, !this.stub ? 0.1f : 0.8f);
                                 this.blobDrawable2.update(this.amplitude, !this.stub ? 0.1f : 0.8f);
-                                i2 = 0;
-                                for (i = 3; i2 < i; i = 3) {
-                                    if (i2 != 0 || this.previousState != null) {
-                                        if (i2 == 0) {
+                                for (i2 = 3; i < i2; i2 = 3) {
+                                    if (i != 0 || this.previousState != null) {
+                                        if (i == 0) {
                                             if (this.progressToPrepareRemove != 1.0f) {
-                                                alpha = 1.0f - this.progressToState;
+                                                f3 = 1.0f - this.progressToState;
                                                 this.previousState.update(16L, this.amplitude);
                                                 this.previousState.setToPaint(this.paint);
                                                 this.blobDrawable.maxRadius = AndroidUtilities.dp(40.0f);
                                                 this.blobDrawable.minRadius = AndroidUtilities.dp(32.0f);
                                                 this.blobDrawable2.maxRadius = AndroidUtilities.dp(38.0f);
                                                 this.blobDrawable2.minRadius = AndroidUtilities.dp(33.0f);
-                                                if (i2 != 2) {
-                                                    this.paint.setAlpha((int) (76.0f * alpha * (1.0f - this.progressToPrepareRemove)));
+                                                if (i != 2) {
+                                                    this.paint.setAlpha((int) (76.0f * f3 * (1.0f - this.progressToPrepareRemove)));
                                                 } else {
-                                                    this.paint.setAlpha((int) (76.0f * alpha * this.progressToPrepareRemove));
+                                                    this.paint.setAlpha((int) (76.0f * f3 * this.progressToPrepareRemove));
                                                 }
-                                                if (this.wavesEnter != f3) {
-                                                    float scale = Math.min(((this.amplitude * 0.3f) + 1.0f + (pressedProgress * 0.1f)) * (1.0f - this.pinnedProgress), 1.3f) * wavesEnter;
+                                                if (this.wavesEnter != 0.0f) {
+                                                    float min = Math.min(((this.amplitude * 0.3f) + 1.0f + interpolation) * (1.0f - this.pinnedProgress), 1.3f) * interpolation2;
                                                     canvas.save();
-                                                    canvas.scale(scale, scale, cx, cy);
-                                                    this.blobDrawable.draw(cx, cy, canvas, this.paint);
+                                                    canvas.scale(min, min, measuredWidth, measuredHeight);
+                                                    this.blobDrawable.draw(measuredWidth, measuredHeight, canvas, this.paint);
                                                     canvas.restore();
-                                                    float scale2 = Math.min(((this.amplitude * 0.26f) + 1.0f + (pressedProgress * 0.1f)) * (1.0f - this.pinnedProgress), 1.3f) * wavesEnter;
+                                                    float min2 = Math.min(((this.amplitude * 0.26f) + 1.0f + interpolation) * (1.0f - this.pinnedProgress), 1.3f) * interpolation2;
                                                     canvas.save();
-                                                    canvas.scale(scale2, scale2, cx, cy);
-                                                    this.blobDrawable2.draw(cx, cy, canvas, this.paint);
+                                                    canvas.scale(min2, min2, measuredWidth, measuredHeight);
+                                                    this.blobDrawable2.draw(measuredWidth, measuredHeight, canvas, this.paint);
                                                     canvas.restore();
                                                 }
-                                                if (i2 == 2) {
+                                                if (i == 2) {
                                                     this.paint.setAlpha((int) (this.progressToPrepareRemove * 255.0f));
-                                                } else if (i2 == 1) {
-                                                    this.paint.setAlpha((int) (255.0f * alpha));
+                                                } else if (i == 1) {
+                                                    this.paint.setAlpha((int) (f3 * 255.0f));
                                                 } else {
                                                     this.paint.setAlpha(255);
                                                 }
                                                 canvas.save();
-                                                canvas.scale((pressedProgress * 0.1f) + 1.0f, (pressedProgress * 0.1f) + 1.0f, cx, cy);
-                                                canvas.drawCircle(cx, cy, AndroidUtilities.dp(32.0f), this.paint);
+                                                canvas.scale(f6, f6, measuredWidth, measuredHeight);
+                                                canvas.drawCircle(measuredWidth, measuredHeight, AndroidUtilities.dp(32.0f), this.paint);
                                                 canvas.restore();
                                             }
-                                        } else if (i2 == 1) {
+                                        } else if (i == 1) {
                                             WeavingState weavingState = this.currentState;
                                             if (weavingState == null) {
                                                 return;
                                             }
                                             if (this.progressToPrepareRemove != 1.0f) {
-                                                alpha = this.previousState != null ? this.progressToState : 1.0f;
+                                                f3 = this.previousState != null ? this.progressToState : 1.0f;
                                                 weavingState.update(16L, this.amplitude);
                                                 this.currentState.setToPaint(this.paint);
                                                 this.blobDrawable.maxRadius = AndroidUtilities.dp(40.0f);
                                                 this.blobDrawable.minRadius = AndroidUtilities.dp(32.0f);
                                                 this.blobDrawable2.maxRadius = AndroidUtilities.dp(38.0f);
                                                 this.blobDrawable2.minRadius = AndroidUtilities.dp(33.0f);
-                                                if (i2 != 2) {
+                                                if (i != 2) {
                                                 }
-                                                if (this.wavesEnter != f3) {
+                                                if (this.wavesEnter != 0.0f) {
                                                 }
-                                                if (i2 == 2) {
+                                                if (i == 2) {
                                                 }
                                                 canvas.save();
-                                                canvas.scale((pressedProgress * 0.1f) + 1.0f, (pressedProgress * 0.1f) + 1.0f, cx, cy);
-                                                canvas.drawCircle(cx, cy, AndroidUtilities.dp(32.0f), this.paint);
+                                                canvas.scale(f6, f6, measuredWidth, measuredHeight);
+                                                canvas.drawCircle(measuredWidth, measuredHeight, AndroidUtilities.dp(32.0f), this.paint);
                                                 canvas.restore();
                                             }
-                                        } else if (this.progressToPrepareRemove != f3) {
-                                            alpha = 1.0f;
-                                            this.paint.setColor(SupportMenu.CATEGORY_MASK);
+                                        } else if (this.progressToPrepareRemove != 0.0f) {
+                                            this.paint.setColor(-65536);
                                             this.matrix.reset();
-                                            this.matrix.postTranslate((-AndroidUtilities.dp(250.0f)) * (1.0f - this.progressToPrepareRemove), f3);
-                                            this.matrix.postRotate(this.removeAngle, cx, cy);
+                                            this.matrix.postTranslate((-AndroidUtilities.dp(250.0f)) * (1.0f - this.progressToPrepareRemove), 0.0f);
+                                            this.matrix.postRotate(this.removeAngle, measuredWidth, measuredHeight);
                                             this.prepareToRemoveShader.setLocalMatrix(this.matrix);
                                             this.paint.setShader(this.prepareToRemoveShader);
+                                            f3 = 1.0f;
                                             this.blobDrawable.maxRadius = AndroidUtilities.dp(40.0f);
                                             this.blobDrawable.minRadius = AndroidUtilities.dp(32.0f);
                                             this.blobDrawable2.maxRadius = AndroidUtilities.dp(38.0f);
                                             this.blobDrawable2.minRadius = AndroidUtilities.dp(33.0f);
-                                            if (i2 != 2) {
+                                            if (i != 2) {
                                             }
-                                            if (this.wavesEnter != f3) {
+                                            if (this.wavesEnter != 0.0f) {
                                             }
-                                            if (i2 == 2) {
+                                            if (i == 2) {
                                             }
                                             canvas.save();
-                                            canvas.scale((pressedProgress * 0.1f) + 1.0f, (pressedProgress * 0.1f) + 1.0f, cx, cy);
-                                            canvas.drawCircle(cx, cy, AndroidUtilities.dp(32.0f), this.paint);
+                                            canvas.scale(f6, f6, measuredWidth, measuredHeight);
+                                            canvas.drawCircle(measuredWidth, measuredHeight, AndroidUtilities.dp(32.0f), this.paint);
                                             canvas.restore();
                                         }
+                                        i++;
                                     }
-                                    i2++;
-                                    f3 = 0.0f;
+                                    i++;
                                 }
-                                if (this.removed && this.wavesEnter > 0.0f) {
-                                    invalidate();
+                                if (this.removed || this.wavesEnter <= 0.0f) {
                                     return;
                                 }
+                                invalidate();
                                 return;
                             }
                         }
-                        if (!showWaves) {
-                            float f13 = this.wavesEnter;
-                            if (f13 != 0.0f) {
-                                float f14 = f13 - 0.045714285f;
-                                this.wavesEnter = f14;
-                                if (f14 < 0.0f) {
+                        if (!z2) {
+                            float f14 = this.wavesEnter;
+                            if (f14 != 0.0f) {
+                                float f15 = f14 - 0.045714285f;
+                                this.wavesEnter = f15;
+                                if (f15 < 0.0f) {
                                     this.wavesEnter = 0.0f;
                                 }
                             }
                         }
-                        float wavesEnter2 = (this.overshootInterpolator.getInterpolation(this.wavesEnter) * 0.35f) + 0.65f;
+                        float interpolation22 = (this.overshootInterpolator.getInterpolation(this.wavesEnter) * 0.35f) + 0.65f;
                         this.blobDrawable.update(this.amplitude, !this.stub ? 0.1f : 0.8f);
                         this.blobDrawable2.update(this.amplitude, !this.stub ? 0.1f : 0.8f);
-                        i2 = 0;
-                        while (i2 < i) {
+                        while (i < i2) {
                         }
                         if (this.removed) {
                             return;
@@ -470,46 +456,45 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                     }
                 }
                 if (!z) {
-                    float f15 = this.progressToPrepareRemove;
-                    if (f15 != 0.0f) {
-                        float f16 = f15 - 0.045714285f;
-                        this.progressToPrepareRemove = f16;
-                        if (f16 < 0.0f) {
+                    float f16 = this.progressToPrepareRemove;
+                    if (f16 != 0.0f) {
+                        float f17 = f16 - 0.045714285f;
+                        this.progressToPrepareRemove = f17;
+                        if (f17 < 0.0f) {
                             this.progressToPrepareRemove = 0.0f;
                         }
                     }
                 }
-                showWaves = true;
-                if (this.currentState.currentState != 3) {
+                i = 0;
+                if (this.currentState.currentState == 3) {
                 }
-                showWaves = false;
-                if (showWaves) {
+                if (z2) {
                 }
-                if (!showWaves) {
+                if (!z2) {
                 }
-                float wavesEnter22 = (this.overshootInterpolator.getInterpolation(this.wavesEnter) * 0.35f) + 0.65f;
+                float interpolation222 = (this.overshootInterpolator.getInterpolation(this.wavesEnter) * 0.35f) + 0.65f;
                 this.blobDrawable.update(this.amplitude, !this.stub ? 0.1f : 0.8f);
                 this.blobDrawable2.update(this.amplitude, !this.stub ? 0.1f : 0.8f);
-                i2 = 0;
-                while (i2 < i) {
+                while (i < i2) {
                 }
                 if (this.removed) {
                 }
             }
         }
-        if (!z2) {
-            float f17 = this.pressedProgress;
-            if (f17 != 0.0f) {
-                float f18 = f17 - 0.10666667f;
-                this.pressedProgress = f18;
-                if (f18 < 0.0f) {
+        if (!z3) {
+            float f18 = this.pressedProgress;
+            if (f18 != 0.0f) {
+                float f19 = f18 - 0.10666667f;
+                this.pressedProgress = f19;
+                if (f19 < 0.0f) {
                     this.pressedProgress = 0.0f;
                 }
             }
         }
-        float pressedProgress2 = CubicBezierInterpolator.DEFAULT.getInterpolation(this.pressedProgress);
-        this.muteButton.setScaleY((pressedProgress2 * 0.1f) + 1.0f);
-        this.muteButton.setScaleX((pressedProgress2 * 0.1f) + 1.0f);
+        float interpolation3 = CubicBezierInterpolator.DEFAULT.getInterpolation(this.pressedProgress) * 0.1f;
+        float f62 = interpolation3 + 1.0f;
+        this.muteButton.setScaleY(f62);
+        this.muteButton.setScaleX(f62);
         if (this.stub) {
         }
         f = this.animateToAmplitude;
@@ -523,101 +508,98 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         }
         if (!z) {
         }
-        showWaves = true;
-        if (this.currentState.currentState != 3) {
+        i = 0;
+        if (this.currentState.currentState == 3) {
         }
-        showWaves = false;
-        if (showWaves) {
+        if (z2) {
         }
-        if (!showWaves) {
+        if (!z2) {
         }
-        float wavesEnter222 = (this.overshootInterpolator.getInterpolation(this.wavesEnter) * 0.35f) + 0.65f;
+        float interpolation2222 = (this.overshootInterpolator.getInterpolation(this.wavesEnter) * 0.35f) + 0.65f;
         this.blobDrawable.update(this.amplitude, !this.stub ? 0.1f : 0.8f);
         this.blobDrawable2.update(this.amplitude, !this.stub ? 0.1f : 0.8f);
-        i2 = 0;
-        while (i2 < i) {
+        while (i < i2) {
         }
         if (this.removed) {
         }
     }
 
-    private void setAmplitude(double value) {
-        float min = (float) (Math.min(8500.0d, value) / 8500.0d);
+    private void setAmplitude(double d) {
+        float min = (float) (Math.min(8500.0d, d) / 8500.0d);
         this.animateToAmplitude = min;
         this.animateAmplitudeDiff = (min - this.amplitude) / ((BlobDrawable.AMPLITUDE_SPEED * 500.0f) + 100.0f);
     }
 
-    public void setState(int state) {
-        String contentDescription;
+    public void setState(int i) {
+        String str;
         WeavingState weavingState = this.currentState;
-        if (weavingState != null && weavingState.currentState == state) {
-            return;
-        }
-        WeavingState weavingState2 = this.currentState;
-        this.previousState = weavingState2;
-        WeavingState weavingState3 = this.states[state];
-        this.currentState = weavingState3;
-        float f = 0.0f;
-        if (weavingState2 != null) {
-            this.progressToState = 0.0f;
-        } else {
-            this.progressToState = 1.0f;
-            boolean showWaves = true;
-            if (weavingState3.currentState == 3 || this.currentState.currentState == 2) {
-                showWaves = false;
+        if (weavingState == null || weavingState.currentState != i) {
+            WeavingState weavingState2 = this.currentState;
+            this.previousState = weavingState2;
+            WeavingState weavingState3 = this.states[i];
+            this.currentState = weavingState3;
+            float f = 0.0f;
+            if (weavingState2 != null) {
+                this.progressToState = 0.0f;
+            } else {
+                this.progressToState = 1.0f;
+                boolean z = true;
+                if (weavingState3.currentState == 3 || this.currentState.currentState == 2) {
+                    z = false;
+                }
+                if (z) {
+                    f = 1.0f;
+                }
+                this.wavesEnter = f;
             }
-            if (showWaves) {
-                f = 1.0f;
+            VoIPService sharedInstance = VoIPService.getSharedInstance();
+            if (sharedInstance != null && ChatObject.isChannelOrGiga(sharedInstance.getChat())) {
+                str = LocaleController.getString("VoipChannelVoiceChat", R.string.VoipChannelVoiceChat);
+            } else {
+                str = LocaleController.getString("VoipGroupVoiceChat", R.string.VoipGroupVoiceChat);
             }
-            this.wavesEnter = f;
+            if (i == 0) {
+                str = str + ", " + LocaleController.getString("VoipTapToMute", R.string.VoipTapToMute);
+            } else if (i == 2) {
+                str = str + ", " + LocaleController.getString("Connecting", R.string.Connecting);
+            } else if (i == 3) {
+                str = str + ", " + LocaleController.getString("VoipMutedByAdmin", R.string.VoipMutedByAdmin);
+            }
+            setContentDescription(str);
+            invalidate();
         }
-        VoIPService voIPService = VoIPService.getSharedInstance();
-        if (voIPService != null && ChatObject.isChannelOrGiga(voIPService.getChat())) {
-            contentDescription = LocaleController.getString("VoipChannelVoiceChat", R.string.VoipChannelVoiceChat);
-        } else {
-            contentDescription = LocaleController.getString("VoipGroupVoiceChat", R.string.VoipGroupVoiceChat);
-        }
-        if (state == 0) {
-            contentDescription = contentDescription + ", " + LocaleController.getString("VoipTapToMute", R.string.VoipTapToMute);
-        } else if (state == 2) {
-            contentDescription = contentDescription + ", " + LocaleController.getString("Connecting", R.string.Connecting);
-        } else if (state == 3) {
-            contentDescription = contentDescription + ", " + LocaleController.getString("VoipMutedByAdmin", R.string.VoipMutedByAdmin);
-        }
-        setContentDescription(contentDescription);
-        invalidate();
     }
 
     @Override // android.view.View
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         String str;
         int i;
-        super.onInitializeAccessibilityNodeInfo(info);
-        if (Build.VERSION.SDK_INT >= 21 && GroupCallPip.getInstance() != null) {
-            if (GroupCallPip.getInstance().showAlert) {
-                i = R.string.AccDescrCloseMenu;
-                str = "AccDescrCloseMenu";
-            } else {
-                i = R.string.AccDescrOpenMenu2;
-                str = "AccDescrOpenMenu2";
-            }
-            String label = LocaleController.getString(str, i);
-            info.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, label));
+        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+        if (Build.VERSION.SDK_INT < 21 || GroupCallPip.getInstance() == null) {
+            return;
         }
+        if (GroupCallPip.getInstance().showAlert) {
+            i = R.string.AccDescrCloseMenu;
+            str = "AccDescrCloseMenu";
+        } else {
+            i = R.string.AccDescrOpenMenu2;
+            str = "AccDescrOpenMenu2";
+        }
+        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString(str, i)));
     }
 
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (!this.stub) {
-            setAmplitude(FirebaseRemoteConfig.DEFAULT_VALUE_FOR_DOUBLE);
+            setAmplitude(0.0d);
             NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.webRtcMicAmplitudeEvent);
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupCallUpdated);
-            boolean isMuted = VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().isMicMute();
+            boolean z = VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().isMicMute();
             if (VoIPService.getSharedInstance() != null) {
                 VoIPService.getSharedInstance().registerStateListener(this);
             }
-            this.bigMicDrawable.setCustomEndFrame(isMuted ? 13 : 24);
+            this.bigMicDrawable.setCustomEndFrame(z ? 13 : 24);
             RLottieDrawable rLottieDrawable = this.bigMicDrawable;
             rLottieDrawable.setCurrentFrame(rLottieDrawable.getCustomEndFrame() - 1, false, true);
             updateButtonState();
@@ -625,30 +607,30 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
     }
 
     private void updateButtonState() {
-        VoIPService voIPService = VoIPService.getSharedInstance();
-        if (voIPService != null && voIPService.groupCall != null) {
-            int currentCallState = voIPService.getCallState();
-            if (currentCallState == 1 || currentCallState == 2 || currentCallState == 6 || currentCallState == 5) {
-                setState(2);
-                return;
-            }
-            TLRPC.TL_groupCallParticipant participant = voIPService.groupCall.participants.get(voIPService.getSelfId());
-            if (participant != null && !participant.can_self_unmute && participant.muted && !ChatObject.canManageCalls(voIPService.getChat())) {
-                if (!voIPService.isMicMute()) {
-                    voIPService.setMicMute(true, false, false);
-                }
-                setState(3);
-                long now = SystemClock.uptimeMillis();
-                MotionEvent e = MotionEvent.obtain(now, now, 3, 0.0f, 0.0f, 0);
-                if (getParent() != null) {
-                    View parentView = (View) getParent();
-                    parentView.dispatchTouchEvent(e);
-                    return;
-                }
-                return;
-            }
-            setState(voIPService.isMicMute() ? 1 : 0);
+        VoIPService sharedInstance = VoIPService.getSharedInstance();
+        if (sharedInstance == null || sharedInstance.groupCall == null) {
+            return;
         }
+        int callState = sharedInstance.getCallState();
+        if (callState == 1 || callState == 2 || callState == 6 || callState == 5) {
+            setState(2);
+            return;
+        }
+        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = sharedInstance.groupCall.participants.get(sharedInstance.getSelfId());
+        if (tLRPC$TL_groupCallParticipant != null && !tLRPC$TL_groupCallParticipant.can_self_unmute && tLRPC$TL_groupCallParticipant.muted && !ChatObject.canManageCalls(sharedInstance.getChat())) {
+            if (!sharedInstance.isMicMute()) {
+                sharedInstance.setMicMute(true, false, false);
+            }
+            setState(3);
+            long uptimeMillis = SystemClock.uptimeMillis();
+            MotionEvent obtain = MotionEvent.obtain(uptimeMillis, uptimeMillis, 3, 0.0f, 0.0f, 0);
+            if (getParent() == null) {
+                return;
+            }
+            ((View) getParent()).dispatchTouchEvent(obtain);
+            return;
+        }
+        setState(sharedInstance.isMicMute() ? 1 : 0);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -657,28 +639,28 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         if (!this.stub) {
             NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.webRtcMicAmplitudeEvent);
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupCallUpdated);
-            if (VoIPService.getSharedInstance() != null) {
-                VoIPService.getSharedInstance().unregisterStateListener(this);
+            if (VoIPService.getSharedInstance() == null) {
+                return;
             }
+            VoIPService.getSharedInstance().unregisterStateListener(this);
         }
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int id, int account, Object... args) {
-        if (id == NotificationCenter.webRtcMicAmplitudeEvent) {
-            float amplitude = ((Float) args[0]).floatValue();
-            setAmplitude(4000.0f * amplitude);
-        } else if (id == NotificationCenter.groupCallUpdated) {
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.webRtcMicAmplitudeEvent) {
+            setAmplitude(((Float) objArr[0]).floatValue() * 4000.0f);
+        } else if (i != NotificationCenter.groupCallUpdated) {
+        } else {
             updateButtonState();
         }
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public void onAudioSettingsChanged() {
-        boolean isMuted = VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().isMicMute();
-        boolean changed = this.bigMicDrawable.setCustomEndFrame(isMuted ? 13 : 24);
-        if (changed) {
-            if (isMuted) {
+        boolean z = VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().isMicMute();
+        if (this.bigMicDrawable.setCustomEndFrame(z ? 13 : 24)) {
+            if (z) {
                 this.bigMicDrawable.setCurrentFrame(0);
             } else {
                 this.bigMicDrawable.setCurrentFrame(12);
@@ -689,18 +671,18 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
-    public void onStateChanged(int state) {
+    public void onStateChanged(int i) {
         updateButtonState();
     }
 
-    public void setRemoveAngle(double angle) {
-        this.removeAngle = (float) angle;
+    public void setRemoveAngle(double d) {
+        this.removeAngle = (float) d;
     }
 
-    public void prepareToRemove(boolean prepare) {
-        if (this.prepareToRemove != prepare) {
+    public void prepareToRemove(boolean z) {
+        if (this.prepareToRemove != z) {
             invalidate();
         }
-        this.prepareToRemove = prepare;
+        this.prepareToRemove = z;
     }
 }

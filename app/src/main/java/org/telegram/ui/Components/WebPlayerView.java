@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -30,17 +31,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import androidx.core.internal.view.SupportMenu;
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
-import com.google.android.exoplayer2.metadata.icy.IcyHeaders;
-import com.google.android.exoplayer2.offline.DownloadRequest;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.google.android.exoplayer2.util.MimeTypes;
-import com.google.android.gms.common.internal.ImagesContract;
-import com.google.android.gms.wearable.WearableStatusCodes;
-import com.google.firebase.messaging.Constants;
-import com.microsoft.appcenter.ingestion.models.CommonProperties;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -70,21 +62,18 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
-import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.ActionBar.Theme;
+import org.telegram.tgnet.TLRPC$Photo;
+import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Components.WebPlayerView;
-/* loaded from: classes5.dex */
+import org.webrtc.MediaStreamTrack;
+/* loaded from: classes3.dex */
 public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerDelegate, AudioManager.OnAudioFocusChangeListener {
-    private static final int AUDIO_FOCUSED = 2;
-    private static final int AUDIO_NO_FOCUS_CAN_DUCK = 1;
-    private static final int AUDIO_NO_FOCUS_NO_DUCK = 0;
-    private static final String exprName = "[a-zA-Z_$][a-zA-Z_$0-9]*";
+    private static int lastContainerId = 4001;
     private boolean allowInlineAnimation;
     private AspectRatioFrameLayout aspectRatioFrameLayout;
-    private int audioFocus;
     private Paint backgroundPaint;
     private TextureView changedTextureView;
     private boolean changingTextureView;
@@ -96,18 +85,15 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     private WebPlayerViewDelegate delegate;
     private boolean drawImage;
     private boolean firstFrameRendered;
-    private int fragment_container_id;
     private ImageView fullscreenButton;
     private boolean hasAudioFocus;
     private boolean inFullscreen;
-    private boolean initFailed;
     private boolean initied;
     private ImageView inlineButton;
     private String interfaceName;
     private boolean isAutoplay;
     private boolean isCompleted;
     private boolean isInline;
-    private boolean isLoading;
     private boolean isStream;
     private long lastUpdateTime;
     private String playAudioType;
@@ -132,7 +118,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     private int videoWidth;
     private int waitingForFirstTextureUpload;
     private WebView webView;
-    private static int lastContainerId = WearableStatusCodes.DUPLICATE_LISTENER;
     private static final Pattern youtubeIdRegex = Pattern.compile("(?:youtube(?:-nocookie)?\\.com/(?:[^/\\n\\s]+/\\S+/|(?:v|e(?:mbed)?)/|\\S*?[?&]v=)|youtu\\.be/)([a-zA-Z0-9_-]{11})");
     private static final Pattern vimeoIdRegex = Pattern.compile("https?://(?:(?:www|(player))\\.)?vimeo(pro)?\\.com/(?!(?:channels|album)/[^/?#]+/?(?:$|[?#])|[^/]+/review/|ondemand/)(?:.*?/)?(?:(?:play_redirect_hls|moogaloop\\.swf)\\?clip_id=)?(?:videos?/)?([0-9]+)(?:/[\\da-f]+)?/?(?:[?&].*)?(?:[#].*)?$");
     private static final Pattern coubIdRegex = Pattern.compile("(?:coub:|https?://(?:coub\\.com/(?:view|embed|coubs)/|c-cdn\\.coub\\.com/fb-player\\.swf\\?.*\\bcoub(?:ID|id)=))([\\da-z]+)");
@@ -150,12 +135,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     private static final Pattern exprParensPattern = Pattern.compile("[()]");
     private static final Pattern playerIdPattern = Pattern.compile(".*?-([a-zA-Z0-9_-]+)(?:/watch_as3|/html5player(?:-new)?|(?:/[a-z]{2}_[A-Z]{2})?/base)?\\.([a-z]+)$");
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public interface CallJavaResultInterface {
         void jsCallFinished(String str);
     }
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public interface WebPlayerViewDelegate {
         boolean checkInlinePermissions();
 
@@ -193,158 +178,148 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
     }
 
-    static /* synthetic */ float access$4724(WebPlayerView x0, float x1) {
-        float f = x0.currentAlpha - x1;
-        x0.currentAlpha = f;
-        return f;
+    static /* synthetic */ float access$4724(WebPlayerView webPlayerView, float f) {
+        float f2 = webPlayerView.currentAlpha - f;
+        webPlayerView.currentAlpha = f2;
+        return f2;
     }
 
-    /* loaded from: classes5.dex */
-    private static abstract class function {
-        public abstract Object run(Object[] objArr);
-
-        private function() {
-        }
-    }
-
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public static class JSExtractor {
         private String jsCode;
         ArrayList<String> codeLines = new ArrayList<>();
         private String[] operators = {"|", "^", "&", ">>", "<<", "-", "+", "%", "/", "*"};
         private String[] assign_operators = {"|=", "^=", "&=", ">>=", "<<=", "-=", "+=", "%=", "/=", "*=", "="};
 
-        public JSExtractor(String js) {
-            this.jsCode = js;
+        public JSExtractor(String str) {
+            this.jsCode = str;
         }
 
-        private void interpretExpression(String expr, HashMap<String, String> localVars, int allowRecursion) throws Exception {
-            String expr2 = expr.trim();
-            if (TextUtils.isEmpty(expr2)) {
+        private void interpretExpression(String str, HashMap<String, String> hashMap, int i) throws Exception {
+            String trim = str.trim();
+            if (TextUtils.isEmpty(trim)) {
                 return;
             }
-            if (expr2.charAt(0) == '(') {
-                int parens_count = 0;
-                Matcher matcher = WebPlayerView.exprParensPattern.matcher(expr2);
+            if (trim.charAt(0) == '(') {
+                Matcher matcher = WebPlayerView.exprParensPattern.matcher(trim);
+                int i2 = 0;
                 while (true) {
                     if (!matcher.find()) {
                         break;
-                    }
-                    String group = matcher.group(0);
-                    if (group.indexOf(48) == 40) {
-                        parens_count++;
+                    } else if (matcher.group(0).indexOf(48) == 40) {
+                        i2++;
                     } else {
-                        parens_count--;
-                        if (parens_count == 0) {
-                            String sub_expr = expr2.substring(1, matcher.start());
-                            interpretExpression(sub_expr, localVars, allowRecursion);
-                            String remaining_expr = expr2.substring(matcher.end()).trim();
-                            if (TextUtils.isEmpty(remaining_expr)) {
+                        i2--;
+                        if (i2 == 0) {
+                            interpretExpression(trim.substring(1, matcher.start()), hashMap, i);
+                            trim = trim.substring(matcher.end()).trim();
+                            if (TextUtils.isEmpty(trim)) {
                                 return;
                             }
-                            expr2 = remaining_expr;
                         }
                     }
                 }
-                if (parens_count != 0) {
-                    throw new Exception(String.format("Premature end of parens in %s", expr2));
+                if (i2 != 0) {
+                    throw new Exception(String.format("Premature end of parens in %s", trim));
                 }
             }
-            int a = 0;
+            int i3 = 0;
             while (true) {
                 String[] strArr = this.assign_operators;
-                if (a < strArr.length) {
-                    Matcher matcher2 = Pattern.compile(String.format(Locale.US, "(?x)(%s)(?:\\[([^\\]]+?)\\])?\\s*%s(.*)$", WebPlayerView.exprName, Pattern.quote(strArr[a]))).matcher(expr2);
-                    if (!matcher2.find()) {
-                        a++;
-                    } else {
-                        interpretExpression(matcher2.group(3), localVars, allowRecursion - 1);
-                        String index = matcher2.group(2);
-                        if (!TextUtils.isEmpty(index)) {
-                            interpretExpression(index, localVars, allowRecursion);
+                if (i3 < strArr.length) {
+                    Matcher matcher2 = Pattern.compile(String.format(Locale.US, "(?x)(%s)(?:\\[([^\\]]+?)\\])?\\s*%s(.*)$", "[a-zA-Z_$][a-zA-Z_$0-9]*", Pattern.quote(strArr[i3]))).matcher(trim);
+                    if (matcher2.find()) {
+                        interpretExpression(matcher2.group(3), hashMap, i - 1);
+                        String group = matcher2.group(2);
+                        if (!TextUtils.isEmpty(group)) {
+                            interpretExpression(group, hashMap, i);
                             return;
                         } else {
-                            localVars.put(matcher2.group(1), "");
+                            hashMap.put(matcher2.group(1), "");
                             return;
                         }
                     }
+                    i3++;
                 } else {
                     try {
-                        Integer.parseInt(expr2);
+                        Integer.parseInt(trim);
                         return;
-                    } catch (Exception e) {
-                        if (Pattern.compile(String.format(Locale.US, "(?!if|return|true|false)(%s)$", WebPlayerView.exprName)).matcher(expr2).find()) {
+                    } catch (Exception unused) {
+                        if (Pattern.compile(String.format(Locale.US, "(?!if|return|true|false)(%s)$", "[a-zA-Z_$][a-zA-Z_$0-9]*")).matcher(trim).find()) {
                             return;
                         }
-                        if (expr2.charAt(0) == '\"' && expr2.charAt(expr2.length() - 1) == '\"') {
+                        if (trim.charAt(0) == '\"' && trim.charAt(trim.length() - 1) == '\"') {
                             return;
                         }
                         try {
-                            new JSONObject(expr2).toString();
+                            new JSONObject(trim).toString();
                             return;
-                        } catch (Exception e2) {
-                            Matcher matcher3 = Pattern.compile(String.format(Locale.US, "(%s)\\[(.+)\\]$", WebPlayerView.exprName)).matcher(expr2);
+                        } catch (Exception unused2) {
+                            Locale locale = Locale.US;
+                            Matcher matcher3 = Pattern.compile(String.format(locale, "(%s)\\[(.+)\\]$", "[a-zA-Z_$][a-zA-Z_$0-9]*")).matcher(trim);
                             if (matcher3.find()) {
                                 matcher3.group(1);
-                                interpretExpression(matcher3.group(2), localVars, allowRecursion - 1);
+                                interpretExpression(matcher3.group(2), hashMap, i - 1);
                                 return;
                             }
-                            Matcher matcher4 = Pattern.compile(String.format(Locale.US, "(%s)(?:\\.([^(]+)|\\[([^]]+)\\])\\s*(?:\\(+([^()]*)\\))?$", WebPlayerView.exprName)).matcher(expr2);
+                            Matcher matcher4 = Pattern.compile(String.format(locale, "(%s)(?:\\.([^(]+)|\\[([^]]+)\\])\\s*(?:\\(+([^()]*)\\))?$", "[a-zA-Z_$][a-zA-Z_$0-9]*")).matcher(trim);
                             if (matcher4.find()) {
-                                String variable = matcher4.group(1);
-                                String m1 = matcher4.group(2);
-                                String m2 = matcher4.group(3);
-                                (TextUtils.isEmpty(m1) ? m2 : m1).replace("\"", "");
-                                String arg_str = matcher4.group(4);
-                                if (localVars.get(variable) == null) {
-                                    extractObject(variable);
+                                String group2 = matcher4.group(1);
+                                String group3 = matcher4.group(2);
+                                String group4 = matcher4.group(3);
+                                if (TextUtils.isEmpty(group3)) {
+                                    group3 = group4;
                                 }
-                                if (arg_str == null) {
+                                group3.replace("\"", "");
+                                String group5 = matcher4.group(4);
+                                if (hashMap.get(group2) == null) {
+                                    extractObject(group2);
+                                }
+                                if (group5 == null) {
                                     return;
                                 }
-                                if (expr2.charAt(expr2.length() - 1) != ')') {
+                                if (trim.charAt(trim.length() - 1) != ')') {
                                     throw new Exception("last char not ')'");
                                 }
-                                if (arg_str.length() != 0) {
-                                    String[] args = arg_str.split(",");
-                                    for (String str : args) {
-                                        interpretExpression(str, localVars, allowRecursion);
-                                    }
+                                if (group5.length() == 0) {
                                     return;
+                                }
+                                for (String str2 : group5.split(",")) {
+                                    interpretExpression(str2, hashMap, i);
                                 }
                                 return;
                             }
-                            Matcher matcher5 = Pattern.compile(String.format(Locale.US, "(%s)\\[(.+)\\]$", WebPlayerView.exprName)).matcher(expr2);
+                            Matcher matcher5 = Pattern.compile(String.format(locale, "(%s)\\[(.+)\\]$", "[a-zA-Z_$][a-zA-Z_$0-9]*")).matcher(trim);
                             if (matcher5.find()) {
-                                localVars.get(matcher5.group(1));
-                                interpretExpression(matcher5.group(2), localVars, allowRecursion - 1);
+                                hashMap.get(matcher5.group(1));
+                                interpretExpression(matcher5.group(2), hashMap, i - 1);
                                 return;
                             }
-                            int a2 = 0;
+                            int i4 = 0;
                             while (true) {
                                 String[] strArr2 = this.operators;
-                                if (a2 < strArr2.length) {
-                                    String func = strArr2[a2];
-                                    Matcher matcher6 = Pattern.compile(String.format(Locale.US, "(.+?)%s(.+)", Pattern.quote(func))).matcher(expr2);
+                                if (i4 < strArr2.length) {
+                                    String str3 = strArr2[i4];
+                                    Matcher matcher6 = Pattern.compile(String.format(Locale.US, "(.+?)%s(.+)", Pattern.quote(str3))).matcher(trim);
                                     if (matcher6.find()) {
-                                        boolean[] abort = new boolean[1];
-                                        interpretStatement(matcher6.group(1), localVars, abort, allowRecursion - 1);
-                                        if (abort[0]) {
-                                            throw new Exception(String.format("Premature left-side return of %s in %s", func, expr2));
+                                        boolean[] zArr = new boolean[1];
+                                        int i5 = i - 1;
+                                        interpretStatement(matcher6.group(1), hashMap, zArr, i5);
+                                        if (zArr[0]) {
+                                            throw new Exception(String.format("Premature left-side return of %s in %s", str3, trim));
                                         }
-                                        interpretStatement(matcher6.group(2), localVars, abort, allowRecursion - 1);
-                                        if (abort[0]) {
-                                            throw new Exception(String.format("Premature right-side return of %s in %s", func, expr2));
+                                        interpretStatement(matcher6.group(2), hashMap, zArr, i5);
+                                        if (zArr[0]) {
+                                            throw new Exception(String.format("Premature right-side return of %s in %s", str3, trim));
                                         }
                                     }
-                                    a2++;
+                                    i4++;
                                 } else {
-                                    Matcher matcher7 = Pattern.compile(String.format(Locale.US, "^(%s)\\(([a-zA-Z0-9_$,]*)\\)$", WebPlayerView.exprName)).matcher(expr2);
+                                    Matcher matcher7 = Pattern.compile(String.format(Locale.US, "^(%s)\\(([a-zA-Z0-9_$,]*)\\)$", "[a-zA-Z_$][a-zA-Z_$0-9]*")).matcher(trim);
                                     if (matcher7.find()) {
-                                        String fname = matcher7.group(1);
-                                        extractFunction(fname);
+                                        extractFunction(matcher7.group(1));
                                     }
-                                    throw new Exception(String.format("Unsupported JS expression %s", expr2));
+                                    throw new Exception(String.format("Unsupported JS expression %s", trim));
                                 }
                             }
                         }
@@ -353,73 +328,70 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
         }
 
-        private void interpretStatement(String stmt, HashMap<String, String> localVars, boolean[] abort, int allowRecursion) throws Exception {
-            String expr;
-            if (allowRecursion < 0) {
+        private void interpretStatement(String str, HashMap<String, String> hashMap, boolean[] zArr, int i) throws Exception {
+            if (i < 0) {
                 throw new Exception("recursion limit reached");
             }
-            abort[0] = false;
-            String stmt2 = stmt.trim();
-            Matcher matcher = WebPlayerView.stmtVarPattern.matcher(stmt2);
+            zArr[0] = false;
+            String trim = str.trim();
+            Matcher matcher = WebPlayerView.stmtVarPattern.matcher(trim);
             if (!matcher.find()) {
-                Matcher matcher2 = WebPlayerView.stmtReturnPattern.matcher(stmt2);
+                Matcher matcher2 = WebPlayerView.stmtReturnPattern.matcher(trim);
                 if (matcher2.find()) {
-                    String expr2 = stmt2.substring(matcher2.group(0).length());
-                    abort[0] = true;
-                    expr = expr2;
-                } else {
-                    expr = stmt2;
+                    trim = trim.substring(matcher2.group(0).length());
+                    zArr[0] = true;
                 }
             } else {
-                expr = stmt2.substring(matcher.group(0).length());
+                trim = trim.substring(matcher.group(0).length());
             }
-            interpretExpression(expr, localVars, allowRecursion);
+            interpretExpression(trim, hashMap, i);
         }
 
-        private HashMap<String, Object> extractObject(String objname) throws Exception {
-            HashMap<String, Object> obj = new HashMap<>();
-            Matcher matcher = Pattern.compile(String.format(Locale.US, "(?:var\\s+)?%s\\s*=\\s*\\{\\s*((%s\\s*:\\s*function\\(.*?\\)\\s*\\{.*?\\}(?:,\\s*)?)*)\\}\\s*;", Pattern.quote(objname), "(?:[a-zA-Z$0-9]+|\"[a-zA-Z$0-9]+\"|'[a-zA-Z$0-9]+')")).matcher(this.jsCode);
-            String fields = null;
+        private HashMap<String, Object> extractObject(String str) throws Exception {
+            HashMap<String, Object> hashMap = new HashMap<>();
+            Matcher matcher = Pattern.compile(String.format(Locale.US, "(?:var\\s+)?%s\\s*=\\s*\\{\\s*((%s\\s*:\\s*function\\(.*?\\)\\s*\\{.*?\\}(?:,\\s*)?)*)\\}\\s*;", Pattern.quote(str), "(?:[a-zA-Z$0-9]+|\"[a-zA-Z$0-9]+\"|'[a-zA-Z$0-9]+')")).matcher(this.jsCode);
+            String str2 = null;
             while (true) {
                 if (!matcher.find()) {
                     break;
                 }
-                String code = matcher.group();
-                fields = matcher.group(2);
-                if (!TextUtils.isEmpty(fields)) {
-                    if (!this.codeLines.contains(code)) {
+                String group = matcher.group();
+                String group2 = matcher.group(2);
+                if (TextUtils.isEmpty(group2)) {
+                    str2 = group2;
+                } else {
+                    if (!this.codeLines.contains(group)) {
                         this.codeLines.add(matcher.group());
                     }
+                    str2 = group2;
                 }
             }
-            Matcher matcher2 = Pattern.compile(String.format("(%s)\\s*:\\s*function\\(([a-z,]+)\\)\\{([^}]+)\\}", "(?:[a-zA-Z$0-9]+|\"[a-zA-Z$0-9]+\"|'[a-zA-Z$0-9]+')")).matcher(fields);
+            Matcher matcher2 = Pattern.compile(String.format("(%s)\\s*:\\s*function\\(([a-z,]+)\\)\\{([^}]+)\\}", "(?:[a-zA-Z$0-9]+|\"[a-zA-Z$0-9]+\"|'[a-zA-Z$0-9]+')")).matcher(str2);
             while (matcher2.find()) {
-                String[] argnames = matcher2.group(2).split(",");
-                buildFunction(argnames, matcher2.group(3));
+                buildFunction(matcher2.group(2).split(","), matcher2.group(3));
             }
-            return obj;
+            return hashMap;
         }
 
-        private void buildFunction(String[] argNames, String funcCode) throws Exception {
-            HashMap<String, String> localVars = new HashMap<>();
-            for (String str : argNames) {
-                localVars.put(str, "");
+        private void buildFunction(String[] strArr, String str) throws Exception {
+            HashMap<String, String> hashMap = new HashMap<>();
+            for (String str2 : strArr) {
+                hashMap.put(str2, "");
             }
-            String[] stmts = funcCode.split(";");
-            boolean[] abort = new boolean[1];
-            for (String str2 : stmts) {
-                interpretStatement(str2, localVars, abort, 100);
-                if (abort[0]) {
+            String[] split = str.split(";");
+            boolean[] zArr = new boolean[1];
+            for (String str3 : split) {
+                interpretStatement(str3, hashMap, zArr, 100);
+                if (zArr[0]) {
                     return;
                 }
             }
         }
 
-        public String extractFunction(String funcName) {
+        public String extractFunction(String str) {
             try {
-                String quote = Pattern.quote(funcName);
-                Pattern funcPattern = Pattern.compile(String.format(Locale.US, "(?x)(?:function\\s+%s|[{;,]\\s*%s\\s*=\\s*function|var\\s+%s\\s*=\\s*function)\\s*\\(([^)]*)\\)\\s*\\{([^}]+)\\}", quote, quote, quote));
-                Matcher matcher = funcPattern.matcher(this.jsCode);
+                String quote = Pattern.quote(str);
+                Matcher matcher = Pattern.compile(String.format(Locale.US, "(?x)(?:function\\s+%s|[{;,]\\s*%s\\s*=\\s*function|var\\s+%s\\s*=\\s*function)\\s*\\(([^)]*)\\)\\s*\\{([^}]+)\\}", quote, quote, quote)).matcher(this.jsCode);
                 if (matcher.find()) {
                     String group = matcher.group();
                     if (!this.codeLines.contains(group)) {
@@ -436,695 +408,546 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
     }
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public static class JavaScriptInterface {
         private final CallJavaResultInterface callJavaResultInterface;
 
-        public JavaScriptInterface(CallJavaResultInterface callJavaResult) {
-            this.callJavaResultInterface = callJavaResult;
+        public JavaScriptInterface(CallJavaResultInterface callJavaResultInterface) {
+            this.callJavaResultInterface = callJavaResultInterface;
         }
 
         @JavascriptInterface
-        public void returnResultToJava(String value) {
-            this.callJavaResultInterface.jsCallFinished(value);
+        public void returnResultToJava(String str) {
+            this.callJavaResultInterface.jsCallFinished(str);
         }
     }
 
-    protected String downloadUrlContent(AsyncTask parentTask, String url) {
-        return downloadUrlContent(parentTask, url, null, true);
+    protected String downloadUrlContent(AsyncTask asyncTask, String str) {
+        return downloadUrlContent(asyncTask, str, null, true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:124:0x01e7, code lost:
-        r10 = r20;
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x0168, code lost:
+        if (r3 == (-1)) goto L85;
      */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x020e  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x0214  */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x0219 A[ORIG_RETURN, RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x0202 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x01a2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x0118 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x013b A[Catch: all -> 0x0144, TRY_LEAVE, TryCatch #0 {all -> 0x0144, blocks: (B:22:0x0066, B:58:0x0113, B:60:0x0118, B:65:0x0127, B:67:0x012e, B:68:0x013b), top: B:141:0x0066, inners: #16 }] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x016b  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0174  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0195  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x019a A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0186 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0129 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0190  */
+    /* JADX WARN: Type inference failed for: r12v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    protected String downloadUrlContent(AsyncTask parentTask, String url, HashMap<String, String> headers, boolean tryGzip) {
-        StringBuilder result;
-        boolean done;
-        boolean canRetry;
-        StringBuilder result2;
-        boolean done2;
-        Throwable e;
-        boolean canRetry2;
-        Throwable e2;
-        URL downloadUrl;
-        InputStream httpConnectionStream;
-        URLConnection httpConnection;
-        InputStream httpConnectionStream2 = null;
-        boolean done3 = false;
-        StringBuilder result3 = null;
-        HttpURLConnection httpConnection2 = null;
+    protected String downloadUrlContent(AsyncTask asyncTask, String str, HashMap<String, String> hashMap, boolean z) {
+        HttpURLConnection httpURLConnection;
+        InputStream inputStream;
+        boolean z2;
+        boolean z3;
+        StringBuilder sb;
+        Throwable th;
+        Exception e;
+        URLConnection uRLConnection;
+        Throwable th2;
+        InputStream inputStream2;
+        boolean z4 = true;
         try {
+            URL url = new URL(str);
+            uRLConnection = url.openConnection();
             try {
-                downloadUrl = new URL(url);
-                httpConnection2 = downloadUrl.openConnection();
-                try {
-                    httpConnection2.addRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20150101 Firefox/47.0 (Chrome)");
-                    canRetry2 = true;
-                    if (tryGzip) {
-                        try {
-                            httpConnection2.addRequestProperty("Accept-Encoding", "gzip, deflate");
-                        } catch (Throwable th) {
-                            e2 = th;
-                            done = false;
-                            result = null;
-                            if (e2 instanceof SocketTimeoutException) {
-                            }
-                            if (canRetry) {
-                            }
-                            if (done2) {
+                uRLConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20150101 Firefox/47.0 (Chrome)");
+                if (z) {
+                    uRLConnection.addRequestProperty("Accept-Encoding", "gzip, deflate");
+                }
+                uRLConnection.addRequestProperty("Accept-Language", "en-us,en;q=0.5");
+                uRLConnection.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+                uRLConnection.addRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
+                if (hashMap != null) {
+                    for (Map.Entry<String, String> entry : hashMap.entrySet()) {
+                        uRLConnection.addRequestProperty(entry.getKey(), entry.getValue());
+                    }
+                }
+                uRLConnection.setConnectTimeout(5000);
+                uRLConnection.setReadTimeout(5000);
+                if (uRLConnection instanceof HttpURLConnection) {
+                    HttpURLConnection httpURLConnection2 = (HttpURLConnection) uRLConnection;
+                    httpURLConnection2.setInstanceFollowRedirects(true);
+                    int responseCode = httpURLConnection2.getResponseCode();
+                    if (responseCode == 302 || responseCode == 301 || responseCode == 303) {
+                        String headerField = httpURLConnection2.getHeaderField("Location");
+                        String headerField2 = httpURLConnection2.getHeaderField("Set-Cookie");
+                        url = new URL(headerField);
+                        uRLConnection = url.openConnection();
+                        uRLConnection.setRequestProperty("Cookie", headerField2);
+                        uRLConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20150101 Firefox/47.0 (Chrome)");
+                        if (z) {
+                            uRLConnection.addRequestProperty("Accept-Encoding", "gzip, deflate");
+                        }
+                        uRLConnection.addRequestProperty("Accept-Language", "en-us,en;q=0.5");
+                        uRLConnection.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+                        uRLConnection.addRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
+                        if (hashMap != null) {
+                            for (Map.Entry<String, String> entry2 : hashMap.entrySet()) {
+                                uRLConnection.addRequestProperty(entry2.getKey(), entry2.getValue());
                             }
                         }
                     }
+                }
+                uRLConnection.connect();
+                if (z) {
                     try {
-                        httpConnection2.addRequestProperty("Accept-Language", "en-us,en;q=0.5");
-                        httpConnection2.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-                        httpConnection2.addRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
-                        if (headers != null) {
-                            try {
-                                for (Map.Entry<String, String> entry : headers.entrySet()) {
-                                    done = done3;
-                                    try {
-                                        result = result3;
-                                        try {
-                                            httpConnection2.addRequestProperty(entry.getKey(), entry.getValue());
-                                            done3 = done;
-                                            result3 = result;
-                                        } catch (Throwable th2) {
-                                            e2 = th2;
-                                            if (e2 instanceof SocketTimeoutException) {
-                                                if (ApplicationLoader.isNetworkOnline()) {
-                                                    canRetry = false;
-                                                    FileLog.e(e2);
-                                                }
-                                                canRetry = canRetry2;
-                                                FileLog.e(e2);
-                                            } else {
-                                                boolean canRetry3 = e2 instanceof UnknownHostException;
-                                                if (canRetry3) {
-                                                    canRetry = false;
-                                                } else {
-                                                    boolean canRetry4 = e2 instanceof SocketException;
-                                                    if (canRetry4) {
-                                                        if (e2.getMessage() != null && e2.getMessage().contains("ECONNRESET")) {
-                                                            canRetry = false;
-                                                        }
-                                                        canRetry = canRetry2;
-                                                    } else {
-                                                        boolean canRetry5 = e2 instanceof FileNotFoundException;
-                                                        if (canRetry5) {
-                                                            canRetry = false;
-                                                        }
-                                                        canRetry = canRetry2;
-                                                    }
-                                                }
-                                                FileLog.e(e2);
-                                            }
-                                            if (canRetry) {
-                                            }
-                                            if (done2) {
-                                            }
-                                        }
-                                    } catch (Throwable th3) {
-                                        e2 = th3;
-                                        result = result3;
-                                        if (e2 instanceof SocketTimeoutException) {
-                                        }
-                                        if (canRetry) {
-                                        }
-                                        if (done2) {
-                                        }
-                                    }
-                                }
-                                done = done3;
-                                result = result3;
-                            } catch (Throwable th4) {
-                                e2 = th4;
-                                done = done3;
-                                result = result3;
-                            }
-                        } else {
-                            done = false;
-                            result = null;
-                        }
-                        try {
-                            httpConnection2.setConnectTimeout(5000);
-                            httpConnection2.setReadTimeout(5000);
-                        } catch (Throwable th5) {
-                            e2 = th5;
-                        }
-                    } catch (Throwable th6) {
-                        e2 = th6;
-                        done = false;
-                        result = null;
-                    }
-                } catch (Throwable th7) {
-                    e2 = th7;
-                    canRetry2 = true;
-                    done = false;
-                    result = null;
-                }
-            } catch (Throwable th8) {
-                e2 = th8;
-                canRetry2 = true;
-                done = false;
-                result = null;
-                if (e2 instanceof SocketTimeoutException) {
-                }
-                if (canRetry) {
-                }
-                if (done2) {
-                }
-            }
-        } catch (Throwable th9) {
-            e2 = th9;
-        }
-        if (httpConnection2 instanceof HttpURLConnection) {
-            HttpURLConnection httpURLConnection = (HttpURLConnection) httpConnection2;
-            httpURLConnection.setInstanceFollowRedirects(true);
-            int status = httpURLConnection.getResponseCode();
-            httpConnection = httpConnection2;
-            if (status == 302 || status == 301 || status == 303) {
-                try {
-                    String newUrl = httpURLConnection.getHeaderField("Location");
-                    String cookies = httpURLConnection.getHeaderField("Set-Cookie");
-                    downloadUrl = new URL(newUrl);
-                    URLConnection httpConnection3 = downloadUrl.openConnection();
-                    try {
-                        httpConnection3.setRequestProperty("Cookie", cookies);
-                        httpConnection3.addRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20150101 Firefox/47.0 (Chrome)");
-                        if (tryGzip) {
-                            httpConnection3.addRequestProperty("Accept-Encoding", "gzip, deflate");
-                        }
-                        httpConnection3.addRequestProperty("Accept-Language", "en-us,en;q=0.5");
-                        httpConnection3.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-                        httpConnection3.addRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
-                        if (headers != null) {
-                            for (Map.Entry<String, String> entry2 : headers.entrySet()) {
-                                httpConnection3.addRequestProperty(entry2.getKey(), entry2.getValue());
-                            }
-                        }
-                        httpConnection2 = httpConnection3;
-                        httpConnection2.connect();
-                        if (!tryGzip) {
-                            try {
-                                httpConnectionStream = new GZIPInputStream(httpConnection2.getInputStream());
-                            } catch (Exception e3) {
-                                if (0 != 0) {
-                                    try {
-                                        httpConnectionStream2.close();
-                                    } catch (Exception e4) {
-                                    }
-                                }
-                                httpConnection2 = downloadUrl.openConnection();
-                                httpConnection2.connect();
-                                httpConnectionStream = httpConnection2.getInputStream();
-                            }
-                            httpConnectionStream2 = httpConnectionStream;
-                        } else {
-                            httpConnectionStream2 = httpConnection2.getInputStream();
-                        }
-                        canRetry = true;
-                    } catch (Throwable th10) {
-                        e2 = th10;
-                        httpConnection2 = httpConnection3;
-                        if (e2 instanceof SocketTimeoutException) {
-                        }
-                        if (canRetry) {
-                        }
-                        if (done2) {
-                        }
-                    }
-                } catch (Throwable th11) {
-                    e2 = th11;
-                    httpConnection2 = httpConnection;
-                }
-                if (canRetry) {
-                    try {
-                        if (httpConnection2 instanceof HttpURLConnection) {
-                            int code = httpConnection2.getResponseCode();
-                            if (code != 200) {
-                            }
-                        }
-                    } catch (Exception e5) {
-                        FileLog.e(e5);
-                    }
-                    if (httpConnectionStream2 != null) {
-                        try {
-                            byte[] data = new byte[32768];
-                            result2 = result;
-                            while (true) {
-                                try {
-                                    if (parentTask.isCancelled()) {
-                                        break;
-                                    }
-                                    try {
-                                        int read = httpConnectionStream2.read(data);
-                                        if (read > 0) {
-                                            if (result2 == null) {
-                                                result2 = new StringBuilder();
-                                            }
-                                            result2.append(new String(data, 0, read, "UTF-8"));
-                                        } else if (read == -1) {
-                                            done2 = true;
-                                        }
-                                    } catch (Exception e6) {
-                                        FileLog.e(e6);
-                                        done2 = done;
-                                    }
-                                } catch (Throwable th12) {
-                                    e = th12;
-                                    FileLog.e(e);
-                                    done2 = done;
-                                    if (httpConnectionStream2 != null) {
-                                    }
-                                    if (done2) {
-                                    }
-                                }
-                            }
-                        } catch (Throwable th13) {
-                            e = th13;
-                            result2 = result;
-                        }
-                    } else {
-                        done2 = done;
-                        result2 = result;
-                    }
-                    if (httpConnectionStream2 != null) {
-                        try {
-                            httpConnectionStream2.close();
-                        } catch (Throwable e7) {
-                            FileLog.e(e7);
-                        }
+                        inputStream2 = new GZIPInputStream(uRLConnection.getInputStream());
+                    } catch (Exception unused) {
+                        uRLConnection = url.openConnection();
+                        uRLConnection.connect();
+                        inputStream2 = uRLConnection.getInputStream();
                     }
                 } else {
-                    done2 = done;
-                    result2 = result;
+                    inputStream2 = uRLConnection.getInputStream();
                 }
-                if (done2) {
-                    return null;
+                inputStream = inputStream2;
+                z2 = true;
+                httpURLConnection = uRLConnection;
+            } catch (Throwable th3) {
+                th2 = th3;
+                boolean z5 = !(th2 instanceof SocketTimeoutException) ? !(th2 instanceof UnknownHostException) && (!(th2 instanceof SocketException) ? !(th2 instanceof FileNotFoundException) : th2.getMessage() == null || !th2.getMessage().contains("ECONNRESET")) : !ApplicationLoader.isNetworkOnline();
+                FileLog.e(th2);
+                z2 = z5;
+                inputStream = null;
+                httpURLConnection = uRLConnection;
+                if (!z2) {
                 }
-                return result2.toString();
+                if (!z3) {
+                }
+            }
+        } catch (Throwable th4) {
+            th2 = th4;
+            uRLConnection = null;
+        }
+        if (!z2) {
+            try {
+                if (httpURLConnection instanceof HttpURLConnection) {
+                    httpURLConnection.getResponseCode();
+                }
+            } catch (Exception e2) {
+                FileLog.e(e2);
+            }
+            if (inputStream != null) {
+                try {
+                    byte[] bArr = new byte[32768];
+                    sb = null;
+                    while (true) {
+                        try {
+                            if (asyncTask.isCancelled()) {
+                                break;
+                            }
+                            try {
+                                int read = inputStream.read(bArr);
+                                if (read > 0) {
+                                    if (sb == null) {
+                                        sb = new StringBuilder();
+                                    }
+                                    try {
+                                        try {
+                                            sb.append(new String(bArr, 0, read, "UTF-8"));
+                                        } catch (Throwable th5) {
+                                            th = th5;
+                                            FileLog.e(th);
+                                            z3 = false;
+                                            if (inputStream != null) {
+                                            }
+                                            if (!z3) {
+                                            }
+                                        }
+                                    } catch (Exception e3) {
+                                        e = e3;
+                                        FileLog.e(e);
+                                        z4 = false;
+                                        z3 = z4;
+                                        if (inputStream != null) {
+                                        }
+                                        if (!z3) {
+                                        }
+                                    }
+                                }
+                            } catch (Exception e4) {
+                                e = e4;
+                            }
+                        } catch (Throwable th6) {
+                            th = th6;
+                        }
+                    }
+                    z3 = z4;
+                } catch (Throwable th7) {
+                    th = th7;
+                    sb = null;
+                }
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (Throwable th8) {
+                        FileLog.e(th8);
+                    }
+                }
+            } else {
+                sb = null;
+            }
+            z3 = false;
+            if (inputStream != null) {
             }
         } else {
-            httpConnection = httpConnection2;
+            sb = null;
+            z3 = false;
         }
-        httpConnection2 = httpConnection;
-        httpConnection2.connect();
-        if (!tryGzip) {
+        if (!z3) {
+            return sb.toString();
         }
-        canRetry = true;
-        if (canRetry) {
-        }
-        if (done2) {
-        }
+        return null;
     }
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public class YoutubeVideoTask extends AsyncTask<Void, Void, String[]> {
-        private boolean canRetry = true;
         private CountDownLatch countDownLatch = new CountDownLatch(1);
         private String[] result = new String[2];
         private String sig;
         private String videoId;
 
-        public YoutubeVideoTask(String vid) {
+        public YoutubeVideoTask(String str) {
             WebPlayerView.this = r2;
-            this.videoId = vid;
+            this.videoId = str;
         }
 
-        public String[] doInBackground(Void... voids) {
-            char c;
-            int index2;
-            String playerId;
-            String functionName;
-            String functionCode;
-            String[] extra;
-            String params;
-            String[] extra2;
-            String params2;
-            boolean encrypted;
+        /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Removed duplicated region for block: B:121:0x02eb  */
+        /* JADX WARN: Removed duplicated region for block: B:158:0x03e8  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public String[] doInBackground(Void... voidArr) {
+            boolean z;
+            String[] strArr;
+            String str;
+            Matcher matcher;
+            String str2;
+            String str3;
+            String str4;
+            final String str5;
+            String str6;
+            boolean z2;
+            boolean z3;
+            String str7;
+            String str8;
             Exception e;
-            String embedCode = WebPlayerView.this.downloadUrlContent(this, "https://www.youtube.com/embed/" + this.videoId);
-            String[] strArr = null;
+            Matcher matcher2;
+            String downloadUrlContent = WebPlayerView.this.downloadUrlContent(this, "https://www.youtube.com/embed/" + this.videoId);
+            String[] strArr2 = null;
             if (isCancelled()) {
                 return null;
             }
-            String params3 = "video_id=" + this.videoId + "&ps=default&gl=US&hl=en";
+            String str9 = "video_id=" + this.videoId + "&ps=default&gl=US&hl=en";
             try {
-                params3 = params3 + "&eurl=" + URLEncoder.encode("https://youtube.googleapis.com/v/" + this.videoId, "UTF-8");
+                StringBuilder sb = new StringBuilder();
+                sb.append(str9);
+                sb.append("&eurl=");
+                sb.append(URLEncoder.encode("https://youtube.googleapis.com/v/" + this.videoId, "UTF-8"));
+                str9 = sb.toString();
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
-            if (embedCode != null) {
-                Matcher matcher = WebPlayerView.stsPattern.matcher(embedCode);
-                if (matcher.find()) {
-                    params3 = params3 + "&sts=" + embedCode.substring(matcher.start() + 6, matcher.end());
+            if (downloadUrlContent != null) {
+                if (WebPlayerView.stsPattern.matcher(downloadUrlContent).find()) {
+                    str9 = str9 + "&sts=" + downloadUrlContent.substring(matcher2.start() + 6, matcher2.end());
                 } else {
-                    params3 = params3 + "&sts=";
+                    str9 = str9 + "&sts=";
                 }
             }
-            this.result[1] = DownloadRequest.TYPE_DASH;
-            boolean encrypted2 = false;
-            String otherUrl = null;
-            int i = 2;
-            String[] extra3 = {"", "&el=leanback", "&el=embedded", "&el=detailpage", "&el=vevo"};
-            int i2 = 0;
-            while (i2 < extra3.length) {
-                String videoInfo = WebPlayerView.this.downloadUrlContent(this, "https://www.youtube.com/get_video_info?" + params3 + extra3[i2]);
+            char c = 1;
+            this.result[1] = "dash";
+            int i = 5;
+            char c2 = 0;
+            int i2 = 2;
+            String[] strArr3 = {"", "&el=leanback", "&el=embedded", "&el=detailpage", "&el=vevo"};
+            String str10 = null;
+            boolean z4 = false;
+            int i3 = 0;
+            while (i3 < i) {
+                String downloadUrlContent2 = WebPlayerView.this.downloadUrlContent(this, "https://www.youtube.com/get_video_info?" + str9 + strArr3[i3]);
                 if (isCancelled()) {
-                    return strArr;
+                    return strArr2;
                 }
-                boolean exists = false;
-                String hls = null;
-                boolean isLive = false;
-                if (videoInfo == null) {
-                    params = params3;
-                    extra = extra3;
-                } else {
-                    String[] args = videoInfo.split("&");
-                    int a = 0;
-                    boolean isLive2 = false;
-                    String hls2 = null;
-                    boolean exists2 = false;
-                    String otherUrl2 = otherUrl;
-                    boolean encrypted3 = encrypted2;
-                    while (a < args.length) {
-                        if (args[a].startsWith("dashmpd")) {
-                            exists2 = true;
-                            String[] args2 = args[a].split("=");
-                            if (args2.length == i) {
+                if (downloadUrlContent2 != null) {
+                    String[] split = downloadUrlContent2.split("&");
+                    boolean z5 = z4;
+                    Object obj = strArr2;
+                    int i4 = 0;
+                    z3 = false;
+                    z2 = false;
+                    while (i4 < split.length) {
+                        if (split[i4].startsWith("dashmpd")) {
+                            String[] split2 = split[i4].split("=");
+                            if (split2.length == i2) {
                                 try {
-                                    this.result[0] = URLDecoder.decode(args2[1], "UTF-8");
+                                    this.result[c2] = URLDecoder.decode(split2[c], "UTF-8");
                                 } catch (Exception e3) {
                                     FileLog.e(e3);
                                 }
                             }
-                            params2 = params3;
-                            extra2 = extra3;
-                        } else if (args[a].startsWith("url_encoded_fmt_stream_map")) {
-                            String[] args22 = args[a].split("=");
-                            params2 = params3;
-                            if (args22.length != 2) {
-                                encrypted = encrypted3;
-                                extra2 = extra3;
-                            } else {
+                            str8 = str9;
+                            z2 = true;
+                        } else if (split[i4].startsWith("url_encoded_fmt_stream_map")) {
+                            String[] split3 = split[i4].split("=");
+                            if (split3.length == i2) {
                                 try {
-                                    String[] args3 = URLDecoder.decode(args22[1], "UTF-8").split("[&,]");
-                                    boolean isMp4 = false;
-                                    String currentUrl = null;
-                                    int c2 = 0;
-                                    while (true) {
-                                        encrypted = encrypted3;
+                                    String[] split4 = URLDecoder.decode(split3[c], "UTF-8").split("[&,]");
+                                    String str11 = null;
+                                    int i5 = 0;
+                                    boolean z6 = false;
+                                    while (i5 < split4.length) {
+                                        String[] split5 = split4[i5].split("=");
+                                        String[] strArr4 = split4;
+                                        str8 = str9;
                                         try {
-                                            if (c2 >= args3.length) {
-                                                extra2 = extra3;
+                                            if (split5[0].startsWith("type")) {
+                                                if (URLDecoder.decode(split5[1], "UTF-8").contains("video/mp4")) {
+                                                    z6 = true;
+                                                }
+                                            } else if (split5[0].startsWith("url")) {
+                                                str11 = URLDecoder.decode(split5[1], "UTF-8");
+                                            } else if (split5[0].startsWith("itag")) {
+                                                str11 = null;
+                                                z6 = false;
+                                            }
+                                            if (z6 && str11 != null) {
+                                                str10 = str11;
                                                 break;
                                             }
-                                            String[] args4 = args3[c2].split("=");
-                                            String[] args32 = args3;
-                                            extra2 = extra3;
-                                            try {
-                                                if (args4[0].startsWith(CommonProperties.TYPE)) {
-                                                    String type = URLDecoder.decode(args4[1], "UTF-8");
-                                                    if (type.contains(MimeTypes.VIDEO_MP4)) {
-                                                        isMp4 = true;
-                                                    }
-                                                } else if (args4[0].startsWith(ImagesContract.URL)) {
-                                                    currentUrl = URLDecoder.decode(args4[1], "UTF-8");
-                                                } else if (args4[0].startsWith("itag")) {
-                                                    currentUrl = null;
-                                                    isMp4 = false;
-                                                }
-                                                if (!isMp4 || currentUrl == null) {
-                                                    c2++;
-                                                    encrypted3 = encrypted;
-                                                    args3 = args32;
-                                                    extra3 = extra2;
-                                                } else {
-                                                    String otherUrl3 = currentUrl;
-                                                    otherUrl2 = otherUrl3;
-                                                    break;
-                                                }
-                                            } catch (Exception e4) {
-                                                e = e4;
-                                                FileLog.e(e);
-                                                encrypted3 = encrypted;
-                                                a++;
-                                                params3 = params2;
-                                                extra3 = extra2;
-                                                i = 2;
-                                            }
-                                        } catch (Exception e5) {
-                                            e = e5;
-                                            extra2 = extra3;
+                                            i5++;
+                                            split4 = strArr4;
+                                            str9 = str8;
+                                        } catch (Exception e4) {
+                                            e = e4;
+                                            FileLog.e(e);
+                                            i4++;
+                                            str9 = str8;
+                                            c = 1;
+                                            c2 = 0;
+                                            i2 = 2;
                                         }
                                     }
-                                } catch (Exception e6) {
-                                    e = e6;
-                                    encrypted = encrypted3;
-                                    extra2 = extra3;
+                                } catch (Exception e5) {
+                                    e = e5;
+                                    str8 = str9;
                                 }
                             }
-                            encrypted3 = encrypted;
+                            str8 = str9;
                         } else {
-                            params2 = params3;
-                            boolean encrypted4 = encrypted3;
-                            extra2 = extra3;
-                            if (args[a].startsWith("use_cipher_signature")) {
-                                String[] args23 = args[a].split("=");
-                                if (args23.length == 2 && args23[1].toLowerCase().equals("true")) {
-                                    encrypted3 = true;
-                                } else {
-                                    encrypted3 = encrypted4;
+                            str8 = str9;
+                            if (split[i4].startsWith("use_cipher_signature")) {
+                                String[] split6 = split[i4].split("=");
+                                if (split6.length == 2 && split6[1].toLowerCase().equals("true")) {
+                                    z5 = true;
                                 }
-                            } else if (!args[a].startsWith("hlsvp")) {
-                                if (args[a].startsWith("livestream")) {
-                                    String[] args24 = args[a].split("=");
-                                    if (args24.length == 2 && args24[1].toLowerCase().equals(IcyHeaders.REQUEST_HEADER_ENABLE_METADATA_VALUE)) {
-                                        isLive2 = true;
-                                        encrypted3 = encrypted4;
-                                    }
-                                }
-                                encrypted3 = encrypted4;
-                            } else {
-                                String[] args25 = args[a].split("=");
-                                if (args25.length == 2) {
+                            } else if (split[i4].startsWith("hlsvp")) {
+                                String[] split7 = split[i4].split("=");
+                                if (split7.length == 2) {
                                     try {
-                                        String hls3 = URLDecoder.decode(args25[1], "UTF-8");
-                                        hls2 = hls3;
-                                    } catch (Exception e7) {
-                                        FileLog.e(e7);
+                                        obj = URLDecoder.decode(split7[1], "UTF-8");
+                                    } catch (Exception e6) {
+                                        FileLog.e(e6);
                                     }
                                 }
-                                encrypted3 = encrypted4;
+                            } else if (split[i4].startsWith("livestream")) {
+                                String[] split8 = split[i4].split("=");
+                                if (split8.length == 2 && split8[1].toLowerCase().equals("1")) {
+                                    z3 = true;
+                                }
                             }
                         }
-                        a++;
-                        params3 = params2;
-                        extra3 = extra2;
-                        i = 2;
+                        i4++;
+                        str9 = str8;
+                        c = 1;
+                        c2 = 0;
+                        i2 = 2;
                     }
-                    params = params3;
-                    boolean encrypted5 = encrypted3;
-                    extra = extra3;
-                    otherUrl = otherUrl2;
-                    exists = exists2;
-                    hls = hls2;
-                    isLive = isLive2;
-                    encrypted2 = encrypted5;
+                    str6 = str9;
+                    z4 = z5;
+                    str7 = obj;
+                } else {
+                    str6 = str9;
+                    str7 = 0;
+                    z3 = false;
+                    z2 = false;
                 }
-                if (isLive) {
-                    if (hls == null || encrypted2 || hls.contains("/s/")) {
+                if (z3) {
+                    if (str7 == 0 || z4 || str7.contains("/s/")) {
                         return null;
                     }
-                    String[] strArr2 = this.result;
-                    strArr2[0] = hls;
-                    strArr2[1] = DownloadRequest.TYPE_HLS;
+                    String[] strArr5 = this.result;
+                    strArr5[0] = str7;
+                    strArr5[1] = "hls";
                 }
-                if (exists) {
+                if (z2) {
                     break;
                 }
-                i2++;
-                params3 = params;
-                extra3 = extra;
+                i3++;
+                str9 = str6;
+                strArr2 = null;
+                i = 5;
+                c = 1;
+                c2 = 0;
+                i2 = 2;
+            }
+            String[] strArr6 = this.result;
+            if (strArr6[0] == null && str10 != null) {
+                strArr6[0] = str10;
+                strArr6[1] = "other";
+            }
+            if (strArr6[0] == null || ((!z4 && !strArr6[0].contains("/s/")) || downloadUrlContent == null)) {
                 strArr = null;
-                i = 2;
-            }
-            String[] strArr3 = this.result;
-            if (strArr3[0] == null && otherUrl != null) {
-                strArr3[0] = otherUrl;
-                strArr3[1] = "other";
-            }
-            if (strArr3[0] != null && ((encrypted2 || strArr3[0].contains("/s/")) && embedCode != null)) {
-                int index = this.result[0].indexOf("/s/");
-                int index22 = this.result[0].indexOf(47, index + 10);
-                if (index != -1) {
-                    if (index22 != -1) {
-                        c = 0;
-                        index2 = index22;
-                    } else {
-                        c = 0;
-                        index2 = this.result[0].length();
+                z = z4;
+            } else {
+                int indexOf = this.result[0].indexOf("/s/");
+                int indexOf2 = this.result[0].indexOf(47, indexOf + 10);
+                if (indexOf != -1) {
+                    if (indexOf2 == -1) {
+                        indexOf2 = this.result[0].length();
                     }
-                    this.sig = this.result[c].substring(index, index2);
-                    String jsUrl = null;
-                    Matcher matcher2 = WebPlayerView.jsPattern.matcher(embedCode);
-                    if (matcher2.find()) {
+                    this.sig = this.result[0].substring(indexOf, indexOf2);
+                    Matcher matcher3 = WebPlayerView.jsPattern.matcher(downloadUrlContent);
+                    if (matcher3.find()) {
                         try {
-                            JSONTokener tokener = new JSONTokener(matcher2.group(1));
-                            Object value = tokener.nextValue();
-                            if (value instanceof String) {
-                                jsUrl = (String) value;
+                            Object nextValue = new JSONTokener(matcher3.group(1)).nextValue();
+                            str = nextValue instanceof String ? (String) nextValue : null;
+                        } catch (Exception e7) {
+                            FileLog.e(e7);
+                        }
+                        if (str != null) {
+                            if (WebPlayerView.playerIdPattern.matcher(str).find()) {
+                                str2 = matcher.group(1) + matcher.group(2);
+                            } else {
+                                str2 = null;
                             }
-                        } catch (Exception e8) {
-                            FileLog.e(e8);
+                            SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("youtubecode", 0);
+                            if (str2 != null) {
+                                str4 = sharedPreferences.getString(str2, null);
+                                str3 = sharedPreferences.getString(str2 + "n", null);
+                            } else {
+                                str4 = null;
+                                str3 = null;
+                            }
+                            if (str4 == null) {
+                                if (str.startsWith("//")) {
+                                    str = "https:" + str;
+                                } else if (str.startsWith("/")) {
+                                    str = "https://www.youtube.com" + str;
+                                }
+                                String downloadUrlContent3 = WebPlayerView.this.downloadUrlContent(this, str);
+                                if (isCancelled()) {
+                                    return null;
+                                }
+                                strArr = null;
+                                if (downloadUrlContent3 != null) {
+                                    Matcher matcher4 = WebPlayerView.sigPattern.matcher(downloadUrlContent3);
+                                    if (!matcher4.find()) {
+                                        Matcher matcher5 = WebPlayerView.sigPattern2.matcher(downloadUrlContent3);
+                                        if (matcher5.find()) {
+                                            str3 = matcher5.group(1);
+                                        }
+                                    } else {
+                                        str3 = matcher4.group(1);
+                                    }
+                                    if (str3 != null) {
+                                        try {
+                                            str4 = new JSExtractor(downloadUrlContent3).extractFunction(str3);
+                                            if (!TextUtils.isEmpty(str4) && str2 != null) {
+                                                sharedPreferences.edit().putString(str2, str4).putString(str2 + "n", str3).commit();
+                                            }
+                                        } catch (Exception e8) {
+                                            FileLog.e(e8);
+                                        }
+                                    }
+                                    if (!TextUtils.isEmpty(str4)) {
+                                        if (Build.VERSION.SDK_INT >= 21) {
+                                            str5 = str4 + str3 + "('" + this.sig.substring(3) + "');";
+                                        } else {
+                                            str5 = str4 + "window." + WebPlayerView.this.interfaceName + ".returnResultToJava(" + str3 + "('" + this.sig.substring(3) + "'));";
+                                        }
+                                        try {
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda1
+                                                @Override // java.lang.Runnable
+                                                public final void run() {
+                                                    WebPlayerView.YoutubeVideoTask.this.lambda$doInBackground$1(str5);
+                                                }
+                                            });
+                                            this.countDownLatch.await();
+                                            z = false;
+                                        } catch (Exception e9) {
+                                            FileLog.e(e9);
+                                        }
+                                    }
+                                    z = true;
+                                }
+                            } else {
+                                strArr = null;
+                            }
+                            if (!TextUtils.isEmpty(str4)) {
+                            }
+                            z = true;
                         }
                     }
-                    if (jsUrl != null) {
-                        Matcher matcher3 = WebPlayerView.playerIdPattern.matcher(jsUrl);
-                        if (matcher3.find()) {
-                            playerId = matcher3.group(1) + matcher3.group(2);
-                        } else {
-                            playerId = null;
-                        }
-                        String functionCode2 = null;
-                        String functionName2 = null;
-                        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("youtubecode", 0);
-                        if (playerId != null) {
-                            functionCode2 = preferences.getString(playerId, null);
-                            functionName2 = preferences.getString(playerId + "n", null);
-                        }
-                        if (functionCode2 != null) {
-                            functionName = functionName2;
-                        } else {
-                            if (jsUrl.startsWith("//")) {
-                                jsUrl = "https:" + jsUrl;
-                            } else if (jsUrl.startsWith("/")) {
-                                jsUrl = "https://www.youtube.com" + jsUrl;
-                            }
-                            String jsCode = WebPlayerView.this.downloadUrlContent(this, jsUrl);
-                            if (isCancelled()) {
-                                return null;
-                            }
-                            if (jsCode != null) {
-                                Matcher matcher4 = WebPlayerView.sigPattern.matcher(jsCode);
-                                if (!matcher4.find()) {
-                                    Matcher matcher5 = WebPlayerView.sigPattern2.matcher(jsCode);
-                                    if (!matcher5.find()) {
-                                        functionName = functionName2;
-                                    } else {
-                                        String functionName3 = matcher5.group(1);
-                                        functionName = functionName3;
-                                    }
-                                } else {
-                                    String functionName4 = matcher4.group(1);
-                                    functionName = functionName4;
-                                }
-                                if (functionName != null) {
-                                    try {
-                                        JSExtractor extractor = new JSExtractor(jsCode);
-                                        functionCode2 = extractor.extractFunction(functionName);
-                                        if (!TextUtils.isEmpty(functionCode2) && playerId != null) {
-                                            preferences.edit().putString(playerId, functionCode2).putString(playerId + "n", functionName).commit();
-                                        }
-                                    } catch (Exception e9) {
-                                        FileLog.e(e9);
-                                    }
-                                }
-                            } else {
-                                functionName = functionName2;
-                            }
-                        }
-                        if (!TextUtils.isEmpty(functionCode2)) {
-                            if (Build.VERSION.SDK_INT >= 21) {
-                                functionCode = functionCode2 + functionName + "('" + this.sig.substring(3) + "');";
-                            } else {
-                                functionCode = functionCode2 + "window." + WebPlayerView.this.interfaceName + ".returnResultToJava(" + functionName + "('" + this.sig.substring(3) + "'));";
-                            }
-                            final String functionCodeFinal = functionCode;
-                            try {
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda1
-                                    @Override // java.lang.Runnable
-                                    public final void run() {
-                                        WebPlayerView.YoutubeVideoTask.this.m3220x81fc3c6c(functionCodeFinal);
-                                    }
-                                });
-                                this.countDownLatch.await();
-                                encrypted2 = false;
-                            } catch (Exception e10) {
-                                FileLog.e(e10);
-                            }
-                        }
+                    str = null;
+                    if (str != null) {
                     }
                 }
-                encrypted2 = true;
+                strArr = null;
+                z = true;
             }
-            boolean encrypted6 = isCancelled();
-            if (!encrypted6 && !encrypted2) {
-                return this.result;
-            }
-            return null;
+            return (isCancelled() || z) ? strArr : this.result;
         }
 
-        /* renamed from: lambda$doInBackground$1$org-telegram-ui-Components-WebPlayerView$YoutubeVideoTask */
-        public /* synthetic */ void m3220x81fc3c6c(String functionCodeFinal) {
+        public /* synthetic */ void lambda$doInBackground$1(String str) {
             if (Build.VERSION.SDK_INT >= 21) {
-                WebPlayerView.this.webView.evaluateJavascript(functionCodeFinal, new ValueCallback() { // from class: org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda0
+                WebPlayerView.this.webView.evaluateJavascript(str, new ValueCallback() { // from class: org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda0
                     @Override // android.webkit.ValueCallback
                     public final void onReceiveValue(Object obj) {
-                        WebPlayerView.YoutubeVideoTask.this.m3219x71466fab((String) obj);
+                        WebPlayerView.YoutubeVideoTask.this.lambda$doInBackground$0((String) obj);
                     }
                 });
                 return;
             }
             try {
-                String javascript = "<script>" + functionCodeFinal + "</script>";
-                byte[] data = javascript.getBytes("UTF-8");
-                String base64 = Base64.encodeToString(data, 0);
-                WebPlayerView.this.webView.loadUrl("data:text/html;charset=utf-8;base64," + base64);
+                String encodeToString = Base64.encodeToString(("<script>" + str + "</script>").getBytes("UTF-8"), 0);
+                WebView webView = WebPlayerView.this.webView;
+                webView.loadUrl("data:text/html;charset=utf-8;base64," + encodeToString);
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
 
-        /* renamed from: lambda$doInBackground$0$org-telegram-ui-Components-WebPlayerView$YoutubeVideoTask */
-        public /* synthetic */ void m3219x71466fab(String value) {
+        public /* synthetic */ void lambda$doInBackground$0(String str) {
             String[] strArr = this.result;
-            String str = strArr[0];
-            String str2 = this.sig;
-            strArr[0] = str.replace(str2, "/signature/" + value.substring(1, value.length() - 1));
+            String str2 = strArr[0];
+            String str3 = this.sig;
+            strArr[0] = str2.replace(str3, "/signature/" + str.substring(1, str.length() - 1));
             this.countDownLatch.countDown();
         }
 
-        public void onInterfaceResult(String value) {
+        public void onInterfaceResult(String str) {
             String[] strArr = this.result;
-            String str = strArr[0];
-            String str2 = this.sig;
-            strArr[0] = str.replace(str2, "/signature/" + value);
+            String str2 = strArr[0];
+            String str3 = this.sig;
+            strArr[0] = str2.replace(str3, "/signature/" + str);
             this.countDownLatch.countDown();
         }
 
-        public void onPostExecute(String[] result) {
-            if (result[0] != null) {
+        public void onPostExecute(String[] strArr) {
+            if (strArr[0] != null) {
                 if (BuildVars.LOGS_ENABLED) {
-                    FileLog.d("start play youtube video " + result[1] + " " + result[0]);
+                    FileLog.d("start play youtube video " + strArr[1] + " " + strArr[0]);
                 }
                 WebPlayerView.this.initied = true;
-                WebPlayerView.this.playVideoUrl = result[0];
-                WebPlayerView.this.playVideoType = result[1];
-                if (WebPlayerView.this.playVideoType.equals(DownloadRequest.TYPE_HLS)) {
+                WebPlayerView.this.playVideoUrl = strArr[0];
+                WebPlayerView.this.playVideoType = strArr[1];
+                if (WebPlayerView.this.playVideoType.equals("hls")) {
                     WebPlayerView.this.isStream = true;
                 }
                 if (WebPlayerView.this.isAutoplay) {
@@ -1132,49 +955,44 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 }
                 WebPlayerView.this.showProgress(false, true);
                 WebPlayerView.this.controlsView.show(true, true);
-            } else if (!isCancelled()) {
+            } else if (isCancelled()) {
+            } else {
                 WebPlayerView.this.onInitFailed();
             }
         }
     }
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public class VimeoVideoTask extends AsyncTask<Void, Void, String> {
-        private boolean canRetry = true;
         private String[] results = new String[2];
         private String videoId;
 
-        public VimeoVideoTask(String vid) {
+        public VimeoVideoTask(String str) {
             WebPlayerView.this = r1;
-            this.videoId = vid;
+            this.videoId = str;
         }
 
-        public String doInBackground(Void... voids) {
-            String playerCode = WebPlayerView.this.downloadUrlContent(this, String.format(Locale.US, "https://player.vimeo.com/video/%s/config", this.videoId));
+        public String doInBackground(Void... voidArr) {
+            String downloadUrlContent = WebPlayerView.this.downloadUrlContent(this, String.format(Locale.US, "https://player.vimeo.com/video/%s/config", this.videoId));
             if (isCancelled()) {
                 return null;
             }
             try {
-                JSONObject json = new JSONObject(playerCode);
-                JSONObject files = json.getJSONObject("request").getJSONObject("files");
-                if (files.has(DownloadRequest.TYPE_HLS)) {
-                    JSONObject hls = files.getJSONObject(DownloadRequest.TYPE_HLS);
+                JSONObject jSONObject = new JSONObject(downloadUrlContent).getJSONObject("request").getJSONObject("files");
+                if (jSONObject.has("hls")) {
+                    JSONObject jSONObject2 = jSONObject.getJSONObject("hls");
                     try {
-                        this.results[0] = hls.getString(ImagesContract.URL);
-                    } catch (Exception e) {
-                        String defaultCdn = hls.getString("default_cdn");
-                        JSONObject cdns = hls.getJSONObject("cdns");
-                        this.results[0] = cdns.getJSONObject(defaultCdn).getString(ImagesContract.URL);
+                        this.results[0] = jSONObject2.getString("url");
+                    } catch (Exception unused) {
+                        this.results[0] = jSONObject2.getJSONObject("cdns").getJSONObject(jSONObject2.getString("default_cdn")).getString("url");
                     }
-                    this.results[1] = DownloadRequest.TYPE_HLS;
-                } else if (files.has(DownloadRequest.TYPE_PROGRESSIVE)) {
+                    this.results[1] = "hls";
+                } else if (jSONObject.has("progressive")) {
                     this.results[1] = "other";
-                    JSONArray progressive = files.getJSONArray(DownloadRequest.TYPE_PROGRESSIVE);
-                    JSONObject format = progressive.getJSONObject(0);
-                    this.results[0] = format.getString(ImagesContract.URL);
+                    this.results[0] = jSONObject.getJSONArray("progressive").getJSONObject(0).getString("url");
                 }
-            } catch (Exception e2) {
-                FileLog.e(e2);
+            } catch (Exception e) {
+                FileLog.e(e);
             }
             if (!isCancelled()) {
                 return this.results[0];
@@ -1182,49 +1000,48 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             return null;
         }
 
-        public void onPostExecute(String result) {
-            if (result != null) {
+        public void onPostExecute(String str) {
+            if (str != null) {
                 WebPlayerView.this.initied = true;
-                WebPlayerView.this.playVideoUrl = result;
+                WebPlayerView.this.playVideoUrl = str;
                 WebPlayerView.this.playVideoType = this.results[1];
                 if (WebPlayerView.this.isAutoplay) {
                     WebPlayerView.this.preparePlayer();
                 }
                 WebPlayerView.this.showProgress(false, true);
                 WebPlayerView.this.controlsView.show(true, true);
-            } else if (!isCancelled()) {
+            } else if (isCancelled()) {
+            } else {
                 WebPlayerView.this.onInitFailed();
             }
         }
     }
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public class AparatVideoTask extends AsyncTask<Void, Void, String> {
-        private boolean canRetry = true;
         private String[] results = new String[2];
         private String videoId;
 
-        public AparatVideoTask(String vid) {
+        public AparatVideoTask(String str) {
             WebPlayerView.this = r1;
-            this.videoId = vid;
+            this.videoId = str;
         }
 
-        public String doInBackground(Void... voids) {
-            String playerCode = WebPlayerView.this.downloadUrlContent(this, String.format(Locale.US, "http://www.aparat.com/video/video/embed/vt/frame/showvideo/yes/videohash/%s", this.videoId));
+        public String doInBackground(Void... voidArr) {
+            String downloadUrlContent = WebPlayerView.this.downloadUrlContent(this, String.format(Locale.US, "http://www.aparat.com/video/video/embed/vt/frame/showvideo/yes/videohash/%s", this.videoId));
             if (isCancelled()) {
                 return null;
             }
             try {
-                Matcher filelist = WebPlayerView.aparatFileListPattern.matcher(playerCode);
-                if (filelist.find()) {
-                    String jsonCode = filelist.group(1);
-                    JSONArray json = new JSONArray(jsonCode);
-                    for (int a = 0; a < json.length(); a++) {
-                        JSONArray array = json.getJSONArray(a);
-                        if (array.length() != 0) {
-                            JSONObject object = array.getJSONObject(0);
-                            if (object.has("file")) {
-                                this.results[0] = object.getString("file");
+                Matcher matcher = WebPlayerView.aparatFileListPattern.matcher(downloadUrlContent);
+                if (matcher.find()) {
+                    JSONArray jSONArray = new JSONArray(matcher.group(1));
+                    for (int i = 0; i < jSONArray.length(); i++) {
+                        JSONArray jSONArray2 = jSONArray.getJSONArray(i);
+                        if (jSONArray2.length() != 0) {
+                            JSONObject jSONObject = jSONArray2.getJSONObject(0);
+                            if (jSONObject.has("file")) {
+                                this.results[0] = jSONObject.getString("file");
                                 this.results[1] = "other";
                             }
                         }
@@ -1239,48 +1056,42 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             return null;
         }
 
-        public void onPostExecute(String result) {
-            if (result != null) {
+        public void onPostExecute(String str) {
+            if (str != null) {
                 WebPlayerView.this.initied = true;
-                WebPlayerView.this.playVideoUrl = result;
+                WebPlayerView.this.playVideoUrl = str;
                 WebPlayerView.this.playVideoType = this.results[1];
                 if (WebPlayerView.this.isAutoplay) {
                     WebPlayerView.this.preparePlayer();
                 }
                 WebPlayerView.this.showProgress(false, true);
                 WebPlayerView.this.controlsView.show(true, true);
-            } else if (!isCancelled()) {
+            } else if (isCancelled()) {
+            } else {
                 WebPlayerView.this.onInitFailed();
             }
         }
     }
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public class TwitchClipVideoTask extends AsyncTask<Void, Void, String> {
         private String currentUrl;
-        private String videoId;
-        private boolean canRetry = true;
         private String[] results = new String[2];
 
-        public TwitchClipVideoTask(String url, String vid) {
+        public TwitchClipVideoTask(String str, String str2) {
             WebPlayerView.this = r1;
-            this.videoId = vid;
-            this.currentUrl = url;
+            this.currentUrl = str;
         }
 
-        public String doInBackground(Void... voids) {
-            String playerCode = WebPlayerView.this.downloadUrlContent(this, this.currentUrl, null, false);
+        public String doInBackground(Void... voidArr) {
+            String downloadUrlContent = WebPlayerView.this.downloadUrlContent(this, this.currentUrl, null, false);
             if (isCancelled()) {
                 return null;
             }
             try {
-                Matcher filelist = WebPlayerView.twitchClipFilePattern.matcher(playerCode);
-                if (filelist.find()) {
-                    String jsonCode = filelist.group(1);
-                    JSONObject json = new JSONObject(jsonCode);
-                    JSONArray array = json.getJSONArray("quality_options");
-                    JSONObject obj = array.getJSONObject(0);
-                    this.results[0] = obj.getString(Constants.ScionAnalytics.PARAM_SOURCE);
+                Matcher matcher = WebPlayerView.twitchClipFilePattern.matcher(downloadUrlContent);
+                if (matcher.find()) {
+                    this.results[0] = new JSONObject(matcher.group(1)).getJSONArray("quality_options").getJSONObject(0).getString("source");
                     this.results[1] = "other";
                 }
             } catch (Exception e) {
@@ -1292,59 +1103,56 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             return null;
         }
 
-        public void onPostExecute(String result) {
-            if (result != null) {
+        public void onPostExecute(String str) {
+            if (str != null) {
                 WebPlayerView.this.initied = true;
-                WebPlayerView.this.playVideoUrl = result;
+                WebPlayerView.this.playVideoUrl = str;
                 WebPlayerView.this.playVideoType = this.results[1];
                 if (WebPlayerView.this.isAutoplay) {
                     WebPlayerView.this.preparePlayer();
                 }
                 WebPlayerView.this.showProgress(false, true);
                 WebPlayerView.this.controlsView.show(true, true);
-            } else if (!isCancelled()) {
+            } else if (isCancelled()) {
+            } else {
                 WebPlayerView.this.onInitFailed();
             }
         }
     }
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public class TwitchStreamVideoTask extends AsyncTask<Void, Void, String> {
-        private String currentUrl;
-        private String videoId;
-        private boolean canRetry = true;
         private String[] results = new String[2];
+        private String videoId;
 
-        public TwitchStreamVideoTask(String url, String vid) {
+        public TwitchStreamVideoTask(String str, String str2) {
             WebPlayerView.this = r1;
-            this.videoId = vid;
-            this.currentUrl = url;
+            this.videoId = str2;
         }
 
-        public String doInBackground(Void... voids) {
-            HashMap<String, String> headers = new HashMap<>();
-            headers.put("Client-ID", "jzkbprff40iqj646a697cyrvl0zt2m6");
-            int idx = this.videoId.indexOf(38);
-            if (idx > 0) {
-                this.videoId = this.videoId.substring(0, idx);
+        public String doInBackground(Void... voidArr) {
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put("Client-ID", "jzkbprff40iqj646a697cyrvl0zt2m6");
+            int indexOf = this.videoId.indexOf(38);
+            if (indexOf > 0) {
+                this.videoId = this.videoId.substring(0, indexOf);
             }
-            String streamCode = WebPlayerView.this.downloadUrlContent(this, String.format(Locale.US, "https://api.twitch.tv/kraken/streams/%s?stream_type=all", this.videoId), headers, false);
+            WebPlayerView webPlayerView = WebPlayerView.this;
+            Locale locale = Locale.US;
+            String downloadUrlContent = webPlayerView.downloadUrlContent(this, String.format(locale, "https://api.twitch.tv/kraken/streams/%s?stream_type=all", this.videoId), hashMap, false);
             if (isCancelled()) {
                 return null;
             }
             try {
-                JSONObject obj = new JSONObject(streamCode);
-                obj.getJSONObject("stream");
-                String accessTokenCode = WebPlayerView.this.downloadUrlContent(this, String.format(Locale.US, "https://api.twitch.tv/api/channels/%s/access_token", this.videoId), headers, false);
-                JSONObject accessToken = new JSONObject(accessTokenCode);
-                String sig = URLEncoder.encode(accessToken.getString("sig"), "UTF-8");
-                String token = URLEncoder.encode(accessToken.getString("token"), "UTF-8");
+                new JSONObject(downloadUrlContent).getJSONObject("stream");
+                JSONObject jSONObject = new JSONObject(WebPlayerView.this.downloadUrlContent(this, String.format(locale, "https://api.twitch.tv/api/channels/%s/access_token", this.videoId), hashMap, false));
+                String encode = URLEncoder.encode(jSONObject.getString("sig"), "UTF-8");
+                String encode2 = URLEncoder.encode(jSONObject.getString("token"), "UTF-8");
                 URLEncoder.encode("https://youtube.googleapis.com/v/" + this.videoId, "UTF-8");
-                String params = "allow_source=true&allow_audio_only=true&allow_spectre=true&player=twitchweb&segment_preference=4&p=" + ((int) (Math.random() * 1.0E7d)) + "&sig=" + sig + "&token=" + token;
-                String m3uUrl = String.format(Locale.US, "https://usher.ttvnw.net/api/channel/hls/%s.m3u8?%s", this.videoId, params);
+                String format = String.format(locale, "https://usher.ttvnw.net/api/channel/hls/%s.m3u8?%s", this.videoId, "allow_source=true&allow_audio_only=true&allow_spectre=true&player=twitchweb&segment_preference=4&p=" + ((int) (Math.random() * 1.0E7d)) + "&sig=" + encode + "&token=" + encode2);
                 String[] strArr = this.results;
-                strArr[0] = m3uUrl;
-                strArr[1] = DownloadRequest.TYPE_HLS;
+                strArr[0] = format;
+                strArr[1] = "hls";
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -1354,61 +1162,47 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             return null;
         }
 
-        public void onPostExecute(String result) {
-            if (result != null) {
+        public void onPostExecute(String str) {
+            if (str != null) {
                 WebPlayerView.this.initied = true;
-                WebPlayerView.this.playVideoUrl = result;
+                WebPlayerView.this.playVideoUrl = str;
                 WebPlayerView.this.playVideoType = this.results[1];
                 if (WebPlayerView.this.isAutoplay) {
                     WebPlayerView.this.preparePlayer();
                 }
                 WebPlayerView.this.showProgress(false, true);
                 WebPlayerView.this.controlsView.show(true, true);
-            } else if (!isCancelled()) {
+            } else if (isCancelled()) {
+            } else {
                 WebPlayerView.this.onInitFailed();
             }
         }
     }
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public class CoubVideoTask extends AsyncTask<Void, Void, String> {
-        private boolean canRetry = true;
         private String[] results = new String[4];
         private String videoId;
 
-        public CoubVideoTask(String vid) {
+        public CoubVideoTask(String str) {
             WebPlayerView.this = r1;
-            this.videoId = vid;
+            this.videoId = str;
         }
 
-        private String decodeUrl(String input) {
-            StringBuilder source = new StringBuilder(input);
-            for (int a = 0; a < source.length(); a++) {
-                char c = source.charAt(a);
-                char lower = Character.toLowerCase(c);
-                source.setCharAt(a, c == lower ? Character.toUpperCase(c) : lower);
-            }
-            try {
-                return new String(Base64.decode(source.toString(), 0), "UTF-8");
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        public String doInBackground(Void... voids) {
-            String playerCode = WebPlayerView.this.downloadUrlContent(this, String.format(Locale.US, "https://coub.com/api/v2/coubs/%s.json", this.videoId));
+        public String doInBackground(Void... voidArr) {
+            String downloadUrlContent = WebPlayerView.this.downloadUrlContent(this, String.format(Locale.US, "https://coub.com/api/v2/coubs/%s.json", this.videoId));
             if (isCancelled()) {
                 return null;
             }
             try {
-                JSONObject json = new JSONObject(playerCode).getJSONObject("file_versions").getJSONObject("mobile");
-                String video = json.getString("video");
-                String audio = json.getJSONArray("audio").getString(0);
-                if (video != null && audio != null) {
+                JSONObject jSONObject = new JSONObject(downloadUrlContent).getJSONObject("file_versions").getJSONObject("mobile");
+                String string = jSONObject.getString(MediaStreamTrack.VIDEO_TRACK_KIND);
+                String string2 = jSONObject.getJSONArray(MediaStreamTrack.AUDIO_TRACK_KIND).getString(0);
+                if (string != null && string2 != null) {
                     String[] strArr = this.results;
-                    strArr[0] = video;
+                    strArr[0] = string;
                     strArr[1] = "other";
-                    strArr[2] = audio;
+                    strArr[2] = string2;
                     strArr[3] = "other";
                 }
             } catch (Exception e) {
@@ -1420,10 +1214,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             return null;
         }
 
-        public void onPostExecute(String result) {
-            if (result != null) {
+        public void onPostExecute(String str) {
+            if (str != null) {
                 WebPlayerView.this.initied = true;
-                WebPlayerView.this.playVideoUrl = result;
+                WebPlayerView.this.playVideoUrl = str;
                 WebPlayerView.this.playVideoType = this.results[1];
                 WebPlayerView.this.playAudioUrl = this.results[2];
                 WebPlayerView.this.playAudioType = this.results[3];
@@ -1432,13 +1226,14 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 }
                 WebPlayerView.this.showProgress(false, true);
                 WebPlayerView.this.controlsView.show(true, true);
-            } else if (!isCancelled()) {
+            } else if (isCancelled()) {
+            } else {
                 WebPlayerView.this.onInitFailed();
             }
         }
     }
 
-    /* loaded from: classes5.dex */
+    /* loaded from: classes3.dex */
     public class ControlsView extends FrameLayout {
         private int bufferedPosition;
         private AnimatorSet currentAnimation;
@@ -1458,20 +1253,19 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         private Runnable hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$ControlsView$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                WebPlayerView.ControlsView.this.m3218x5bbf40d1();
+                WebPlayerView.ControlsView.this.lambda$new$0();
             }
         };
         private ImageReceiver imageReceiver = new ImageReceiver(this);
 
-        /* renamed from: lambda$new$0$org-telegram-ui-Components-WebPlayerView$ControlsView */
-        public /* synthetic */ void m3218x5bbf40d1() {
+        public /* synthetic */ void lambda$new$0() {
             show(false, true);
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public ControlsView(Context context) {
             super(context);
-            WebPlayerView.this = r4;
+            WebPlayerView.this = r3;
             setWillNotDraw(false);
             TextPaint textPaint = new TextPaint(1);
             this.textPaint = textPaint;
@@ -1488,11 +1282,11 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             paint3.setColor(-1);
         }
 
-        public void setDuration(int value) {
-            if (this.duration == value || value < 0 || WebPlayerView.this.isStream) {
+        public void setDuration(int i) {
+            if (this.duration == i || i < 0 || WebPlayerView.this.isStream) {
                 return;
             }
-            this.duration = value;
+            this.duration = i;
             StaticLayout staticLayout = new StaticLayout(AndroidUtilities.formatShortDuration(this.duration), this.textPaint, AndroidUtilities.dp(1000.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.durationLayout = staticLayout;
             if (staticLayout.getLineCount() > 0) {
@@ -1501,31 +1295,31 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             invalidate();
         }
 
-        public void setBufferedProgress(int position) {
-            this.bufferedPosition = position;
+        public void setBufferedProgress(int i) {
+            this.bufferedPosition = i;
             invalidate();
         }
 
-        public void setProgress(int value) {
-            if (this.progressPressed || value < 0 || WebPlayerView.this.isStream) {
+        public void setProgress(int i) {
+            if (this.progressPressed || i < 0 || WebPlayerView.this.isStream) {
                 return;
             }
-            this.progress = value;
+            this.progress = i;
             this.progressLayout = new StaticLayout(AndroidUtilities.formatShortDuration(this.progress), this.textPaint, AndroidUtilities.dp(1000.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             invalidate();
         }
 
-        public void show(boolean value, boolean animated) {
-            if (this.isVisible == value) {
+        public void show(boolean z, boolean z2) {
+            if (this.isVisible == z) {
                 return;
             }
-            this.isVisible = value;
+            this.isVisible = z;
             AnimatorSet animatorSet = this.currentAnimation;
             if (animatorSet != null) {
                 animatorSet.cancel();
             }
             if (this.isVisible) {
-                if (animated) {
+                if (z2) {
                     AnimatorSet animatorSet2 = new AnimatorSet();
                     this.currentAnimation = animatorSet2;
                     animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 1.0f));
@@ -1540,7 +1334,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 } else {
                     setAlpha(1.0f);
                 }
-            } else if (animated) {
+            } else if (z2) {
                 AnimatorSet animatorSet3 = new AnimatorSet();
                 this.currentAnimation = animatorSet3;
                 animatorSet3.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f));
@@ -1560,55 +1354,56 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
 
         public void checkNeedHide() {
             AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
-            if (this.isVisible && WebPlayerView.this.videoPlayer.isPlaying()) {
-                AndroidUtilities.runOnUIThread(this.hideRunnable, 3000L);
+            if (!this.isVisible || !WebPlayerView.this.videoPlayer.isPlaying()) {
+                return;
             }
+            AndroidUtilities.runOnUIThread(this.hideRunnable, 3000L);
         }
 
         @Override // android.view.ViewGroup
-        public boolean onInterceptTouchEvent(MotionEvent ev) {
-            if (ev.getAction() == 0) {
+        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+            if (motionEvent.getAction() == 0) {
                 if (!this.isVisible) {
                     show(true, true);
                     return true;
                 }
-                onTouchEvent(ev);
+                onTouchEvent(motionEvent);
                 return this.progressPressed;
             }
-            return super.onInterceptTouchEvent(ev);
+            return super.onInterceptTouchEvent(motionEvent);
         }
 
         @Override // android.view.ViewGroup, android.view.ViewParent
-        public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-            super.requestDisallowInterceptTouchEvent(disallowIntercept);
+        public void requestDisallowInterceptTouchEvent(boolean z) {
+            super.requestDisallowInterceptTouchEvent(z);
             checkNeedHide();
         }
 
         @Override // android.view.View
-        public boolean onTouchEvent(MotionEvent event) {
-            int progressY;
-            int progressLineEndX;
-            int progressLineX;
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            int i;
+            int i2;
+            int i3;
             if (WebPlayerView.this.inFullscreen) {
-                progressLineX = AndroidUtilities.dp(36.0f) + this.durationWidth;
-                progressLineEndX = (getMeasuredWidth() - AndroidUtilities.dp(76.0f)) - this.durationWidth;
-                progressY = getMeasuredHeight() - AndroidUtilities.dp(28.0f);
+                i3 = AndroidUtilities.dp(36.0f) + this.durationWidth;
+                i2 = (getMeasuredWidth() - AndroidUtilities.dp(76.0f)) - this.durationWidth;
+                i = getMeasuredHeight() - AndroidUtilities.dp(28.0f);
             } else {
-                progressLineX = 0;
-                progressLineEndX = getMeasuredWidth();
-                progressY = getMeasuredHeight() - AndroidUtilities.dp(12.0f);
+                i2 = getMeasuredWidth();
+                i = getMeasuredHeight() - AndroidUtilities.dp(12.0f);
+                i3 = 0;
             }
-            int i = this.duration;
-            int progressX = (i != 0 ? (int) ((progressLineEndX - progressLineX) * (this.progress / i)) : 0) + progressLineX;
-            if (event.getAction() == 0) {
+            int i4 = this.duration;
+            int i5 = (i4 != 0 ? (int) ((i2 - i3) * (this.progress / i4)) : 0) + i3;
+            if (motionEvent.getAction() == 0) {
                 if (this.isVisible && !WebPlayerView.this.isInline && !WebPlayerView.this.isStream) {
                     if (this.duration != 0) {
-                        int x = (int) event.getX();
-                        int y = (int) event.getY();
-                        if (x >= progressX - AndroidUtilities.dp(10.0f) && x <= AndroidUtilities.dp(10.0f) + progressX && y >= progressY - AndroidUtilities.dp(10.0f) && y <= AndroidUtilities.dp(10.0f) + progressY) {
+                        int x = (int) motionEvent.getX();
+                        int y = (int) motionEvent.getY();
+                        if (x >= i5 - AndroidUtilities.dp(10.0f) && x <= AndroidUtilities.dp(10.0f) + i5 && y >= i - AndroidUtilities.dp(10.0f) && y <= i + AndroidUtilities.dp(10.0f)) {
                             this.progressPressed = true;
                             this.lastProgressX = x;
-                            this.currentProgressX = progressX;
+                            this.currentProgressX = i5;
                             getParent().requestDisallowInterceptTouchEvent(true);
                             invalidate();
                         }
@@ -1617,49 +1412,60 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     show(true, true);
                 }
                 AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
-            } else if (event.getAction() == 1 || event.getAction() == 3) {
+            } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
                 if (WebPlayerView.this.initied && WebPlayerView.this.videoPlayer.isPlaying()) {
                     AndroidUtilities.runOnUIThread(this.hideRunnable, 3000L);
                 }
                 if (this.progressPressed) {
                     this.progressPressed = false;
                     if (WebPlayerView.this.initied) {
-                        this.progress = (int) (this.duration * ((this.currentProgressX - progressLineX) / (progressLineEndX - progressLineX)));
+                        this.progress = (int) (this.duration * ((this.currentProgressX - i3) / (i2 - i3)));
                         WebPlayerView.this.videoPlayer.seekTo(this.progress * 1000);
                     }
                 }
-            } else if (event.getAction() == 2 && this.progressPressed) {
-                int x2 = (int) event.getX();
-                int i2 = this.currentProgressX - (this.lastProgressX - x2);
-                this.currentProgressX = i2;
+            } else if (motionEvent.getAction() == 2 && this.progressPressed) {
+                int x2 = (int) motionEvent.getX();
+                int i6 = this.currentProgressX - (this.lastProgressX - x2);
+                this.currentProgressX = i6;
                 this.lastProgressX = x2;
-                if (i2 < progressLineX) {
-                    this.currentProgressX = progressLineX;
-                } else if (i2 > progressLineEndX) {
-                    this.currentProgressX = progressLineEndX;
+                if (i6 < i3) {
+                    this.currentProgressX = i3;
+                } else if (i6 > i2) {
+                    this.currentProgressX = i2;
                 }
-                setProgress((int) (this.duration * 1000 * ((this.currentProgressX - progressLineX) / (progressLineEndX - progressLineX))));
+                setProgress((int) (this.duration * 1000 * ((this.currentProgressX - i3) / (i2 - i3))));
                 invalidate();
             }
-            super.onTouchEvent(event);
+            super.onTouchEvent(motionEvent);
             return true;
         }
 
+        /* JADX WARN: Removed duplicated region for block: B:44:0x014a  */
+        /* JADX WARN: Removed duplicated region for block: B:47:0x015e  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x0161  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x0190  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x0193  */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x01b9  */
+        /* JADX WARN: Removed duplicated region for block: B:68:? A[RETURN, SYNTHETIC] */
         @Override // android.view.View
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         protected void onDraw(Canvas canvas) {
-            int cy;
-            int progressLineEndX;
-            int progressLineX;
-            int progressLineY;
-            int progressX;
-            int progressX2;
             int i;
+            int i2;
+            int i3;
+            int i4;
+            int i5;
+            int i6;
+            int i7;
+            int dp;
+            int dp2;
             if (WebPlayerView.this.drawImage) {
                 if (WebPlayerView.this.firstFrameRendered && WebPlayerView.this.currentAlpha != 0.0f) {
-                    long newTime = System.currentTimeMillis();
-                    long dt = newTime - WebPlayerView.this.lastUpdateTime;
-                    WebPlayerView.this.lastUpdateTime = newTime;
-                    WebPlayerView.access$4724(WebPlayerView.this, ((float) dt) / 150.0f);
+                    long currentTimeMillis = System.currentTimeMillis();
+                    WebPlayerView.this.lastUpdateTime = currentTimeMillis;
+                    WebPlayerView.access$4724(WebPlayerView.this, ((float) (currentTimeMillis - WebPlayerView.this.lastUpdateTime)) / 150.0f);
                     if (WebPlayerView.this.currentAlpha < 0.0f) {
                         WebPlayerView.this.currentAlpha = 0.0f;
                     }
@@ -1668,106 +1474,128 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 this.imageReceiver.setAlpha(WebPlayerView.this.currentAlpha);
                 this.imageReceiver.draw(canvas);
             }
-            if (WebPlayerView.this.videoPlayer.isPlayerPrepared() && !WebPlayerView.this.isStream) {
-                int width = getMeasuredWidth();
-                int height = getMeasuredHeight();
-                if (!WebPlayerView.this.isInline) {
-                    int i2 = 6;
-                    if (this.durationLayout != null) {
-                        canvas.save();
-                        canvas.translate((width - AndroidUtilities.dp(58.0f)) - this.durationWidth, height - AndroidUtilities.dp((WebPlayerView.this.inFullscreen ? 6 : 10) + 29));
-                        this.durationLayout.draw(canvas);
-                        canvas.restore();
-                    }
-                    if (this.progressLayout != null) {
-                        canvas.save();
-                        float dp = AndroidUtilities.dp(18.0f);
-                        if (!WebPlayerView.this.inFullscreen) {
-                            i2 = 10;
-                        }
-                        canvas.translate(dp, height - AndroidUtilities.dp(i2 + 29));
-                        this.progressLayout.draw(canvas);
-                        canvas.restore();
-                    }
+            if (!WebPlayerView.this.videoPlayer.isPlayerPrepared() || WebPlayerView.this.isStream) {
+                return;
+            }
+            int measuredWidth = getMeasuredWidth();
+            int measuredHeight = getMeasuredHeight();
+            if (!WebPlayerView.this.isInline) {
+                int i8 = 6;
+                if (this.durationLayout != null) {
+                    canvas.save();
+                    canvas.translate((measuredWidth - AndroidUtilities.dp(58.0f)) - this.durationWidth, measuredHeight - AndroidUtilities.dp((WebPlayerView.this.inFullscreen ? 6 : 10) + 29));
+                    this.durationLayout.draw(canvas);
+                    canvas.restore();
                 }
-                if (this.duration != 0) {
-                    if (!WebPlayerView.this.isInline) {
-                        if (WebPlayerView.this.inFullscreen) {
-                            int progressLineX2 = AndroidUtilities.dp(36.0f) + this.durationWidth;
-                            int progressLineEndX2 = (width - AndroidUtilities.dp(76.0f)) - this.durationWidth;
-                            progressLineY = height - AndroidUtilities.dp(29.0f);
-                            progressLineX = progressLineX2;
-                            progressLineEndX = progressLineEndX2;
-                            cy = height - AndroidUtilities.dp(28.0f);
-                        } else {
-                            progressLineY = height - AndroidUtilities.dp(13.0f);
-                            progressLineX = 0;
-                            progressLineEndX = width;
-                            cy = height - AndroidUtilities.dp(12.0f);
-                        }
-                    } else {
-                        progressLineY = height - AndroidUtilities.dp(3.0f);
-                        progressLineX = 0;
-                        progressLineEndX = width;
-                        cy = height - AndroidUtilities.dp(7.0f);
+                if (this.progressLayout != null) {
+                    canvas.save();
+                    float dp3 = AndroidUtilities.dp(18.0f);
+                    if (!WebPlayerView.this.inFullscreen) {
+                        i8 = 10;
                     }
+                    canvas.translate(dp3, measuredHeight - AndroidUtilities.dp(i8 + 29));
+                    this.progressLayout.draw(canvas);
+                    canvas.restore();
+                }
+            }
+            if (this.duration == 0) {
+                return;
+            }
+            float f = 7.0f;
+            if (!WebPlayerView.this.isInline) {
+                if (WebPlayerView.this.inFullscreen) {
+                    int dp4 = measuredHeight - AndroidUtilities.dp(29.0f);
+                    int dp5 = AndroidUtilities.dp(36.0f) + this.durationWidth;
+                    i4 = (measuredWidth - AndroidUtilities.dp(76.0f)) - this.durationWidth;
+                    i3 = measuredHeight - AndroidUtilities.dp(28.0f);
+                    i2 = dp4;
+                    i = dp5;
                     if (WebPlayerView.this.inFullscreen) {
-                        canvas.drawRect(progressLineX, progressLineY, progressLineEndX, AndroidUtilities.dp(3.0f) + progressLineY, this.progressInnerPaint);
+                        canvas.drawRect(i, i2, i4, AndroidUtilities.dp(3.0f) + i2, this.progressInnerPaint);
                     }
                     if (!this.progressPressed) {
-                        progressX = ((int) ((progressLineEndX - progressLineX) * (this.progress / this.duration))) + progressLineX;
+                        i5 = this.currentProgressX;
                     } else {
-                        progressX = this.currentProgressX;
+                        i5 = ((int) ((i4 - i) * (this.progress / this.duration))) + i;
                     }
-                    int i3 = this.bufferedPosition;
-                    if (i3 != 0 && (i = this.duration) != 0) {
-                        progressX2 = progressX;
-                        canvas.drawRect(progressLineX, progressLineY, progressLineX + ((progressLineEndX - progressLineX) * (i3 / i)), AndroidUtilities.dp(3.0f) + progressLineY, WebPlayerView.this.inFullscreen ? this.progressBufferedPaint : this.progressInnerPaint);
-                    } else {
-                        progressX2 = progressX;
+                    int i9 = i5;
+                    i6 = this.bufferedPosition;
+                    if (i6 != 0 && (i7 = this.duration) != 0) {
+                        float f2 = i;
+                        canvas.drawRect(f2, i2, ((i4 - i) * (i6 / i7)) + f2, AndroidUtilities.dp(3.0f) + i2, !WebPlayerView.this.inFullscreen ? this.progressBufferedPaint : this.progressInnerPaint);
                     }
-                    canvas.drawRect(progressLineX, progressLineY, progressX2, AndroidUtilities.dp(3.0f) + progressLineY, this.progressPaint);
+                    float f3 = i9;
+                    canvas.drawRect(i, i2, f3, i2 + AndroidUtilities.dp(3.0f), this.progressPaint);
                     if (!WebPlayerView.this.isInline) {
-                        canvas.drawCircle(progressX2, cy, AndroidUtilities.dp(this.progressPressed ? 7.0f : 5.0f), this.progressPaint);
+                        return;
                     }
+                    float f4 = i3;
+                    if (!this.progressPressed) {
+                        f = 5.0f;
+                    }
+                    canvas.drawCircle(f3, f4, AndroidUtilities.dp(f), this.progressPaint);
+                    return;
                 }
+                dp = measuredHeight - AndroidUtilities.dp(13.0f);
+                dp2 = AndroidUtilities.dp(12.0f);
+            } else {
+                dp = measuredHeight - AndroidUtilities.dp(3.0f);
+                dp2 = AndroidUtilities.dp(7.0f);
+            }
+            i4 = measuredWidth;
+            i3 = measuredHeight - dp2;
+            i2 = dp;
+            i = 0;
+            if (WebPlayerView.this.inFullscreen) {
+            }
+            if (!this.progressPressed) {
+            }
+            int i92 = i5;
+            i6 = this.bufferedPosition;
+            if (i6 != 0) {
+                float f22 = i;
+                canvas.drawRect(f22, i2, ((i4 - i) * (i6 / i7)) + f22, AndroidUtilities.dp(3.0f) + i2, !WebPlayerView.this.inFullscreen ? this.progressBufferedPaint : this.progressInnerPaint);
+            }
+            float f32 = i92;
+            canvas.drawRect(i, i2, f32, i2 + AndroidUtilities.dp(3.0f), this.progressPaint);
+            if (!WebPlayerView.this.isInline) {
             }
         }
     }
 
-    public WebPlayerView(Context context, boolean allowInline, boolean allowShare, WebPlayerViewDelegate webPlayerViewDelegate) {
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
+    public WebPlayerView(Context context, boolean z, boolean z2, WebPlayerViewDelegate webPlayerViewDelegate) {
         super(context);
-        int i = lastContainerId;
-        lastContainerId = i + 1;
-        this.fragment_container_id = i;
+        lastContainerId++;
         this.allowInlineAnimation = Build.VERSION.SDK_INT >= 21;
         this.backgroundPaint = new Paint();
         this.progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView.1
             @Override // java.lang.Runnable
             public void run() {
-                if (WebPlayerView.this.videoPlayer != null && WebPlayerView.this.videoPlayer.isPlaying()) {
-                    WebPlayerView.this.controlsView.setProgress((int) (WebPlayerView.this.videoPlayer.getCurrentPosition() / 1000));
-                    WebPlayerView.this.controlsView.setBufferedProgress((int) (WebPlayerView.this.videoPlayer.getBufferedPosition() / 1000));
-                    AndroidUtilities.runOnUIThread(WebPlayerView.this.progressRunnable, 1000L);
+                if (WebPlayerView.this.videoPlayer == null || !WebPlayerView.this.videoPlayer.isPlaying()) {
+                    return;
                 }
+                WebPlayerView.this.controlsView.setProgress((int) (WebPlayerView.this.videoPlayer.getCurrentPosition() / 1000));
+                WebPlayerView.this.controlsView.setBufferedProgress((int) (WebPlayerView.this.videoPlayer.getBufferedPosition() / 1000));
+                AndroidUtilities.runOnUIThread(WebPlayerView.this.progressRunnable, 1000L);
             }
         };
         this.surfaceTextureListener = new TextureView.SurfaceTextureListener() { // from class: org.telegram.ui.Components.WebPlayerView.2
             @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
             }
 
             @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
             }
 
             @Override // android.view.TextureView.SurfaceTextureListener
-            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
                 if (WebPlayerView.this.changingTextureView) {
                     if (WebPlayerView.this.switchingInlineMode) {
                         WebPlayerView.this.waitingForFirstTextureUpload = 2;
                     }
-                    WebPlayerView.this.textureView.setSurfaceTexture(surface);
+                    WebPlayerView.this.textureView.setSurfaceTexture(surfaceTexture);
                     WebPlayerView.this.textureView.setVisibility(0);
                     WebPlayerView.this.changingTextureView = false;
                     return false;
@@ -1776,10 +1604,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
 
             /* renamed from: org.telegram.ui.Components.WebPlayerView$2$1 */
-            /* loaded from: classes5.dex */
+            /* loaded from: classes3.dex */
             public class AnonymousClass1 implements ViewTreeObserver.OnPreDrawListener {
                 AnonymousClass1() {
-                    AnonymousClass2.this = this$1;
+                    AnonymousClass2.this = r1;
                 }
 
                 @Override // android.view.ViewTreeObserver.OnPreDrawListener
@@ -1796,21 +1624,20 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$2$1$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            WebPlayerView.AnonymousClass2.AnonymousClass1.this.m3217lambda$onPreDraw$0$orgtelegramuiComponentsWebPlayerView$2$1();
+                            WebPlayerView.AnonymousClass2.AnonymousClass1.this.lambda$onPreDraw$0();
                         }
                     });
                     WebPlayerView.this.waitingForFirstTextureUpload = 0;
                     return true;
                 }
 
-                /* renamed from: lambda$onPreDraw$0$org-telegram-ui-Components-WebPlayerView$2$1 */
-                public /* synthetic */ void m3217lambda$onPreDraw$0$orgtelegramuiComponentsWebPlayerView$2$1() {
+                public /* synthetic */ void lambda$onPreDraw$0() {
                     WebPlayerView.this.delegate.onInlineSurfaceTextureReady();
                 }
             }
 
             @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
                 if (WebPlayerView.this.waitingForFirstTextureUpload == 1) {
                     WebPlayerView.this.changedTextureView.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass1());
                     WebPlayerView.this.changedTextureView.invalidate();
@@ -1831,12 +1658,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                         WebPlayerView webPlayerView = WebPlayerView.this;
                         webPlayerView.currentBitmap = Bitmaps.createBitmap(webPlayerView.textureView.getWidth(), WebPlayerView.this.textureView.getHeight(), Bitmap.Config.ARGB_8888);
                         WebPlayerView.this.textureView.getBitmap(WebPlayerView.this.currentBitmap);
-                    } catch (Throwable e) {
+                    } catch (Throwable th) {
                         if (WebPlayerView.this.currentBitmap != null) {
                             WebPlayerView.this.currentBitmap.recycle();
                             WebPlayerView.this.currentBitmap = null;
                         }
-                        FileLog.e(e);
+                        FileLog.e(th);
                     }
                     if (WebPlayerView.this.currentBitmap != null) {
                         WebPlayerView.this.textureImageView.setVisibility(0);
@@ -1857,9 +1684,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 WebPlayerView webPlayerView2 = WebPlayerView.this;
                 webPlayerView2.changedTextureView = webPlayerView2.delegate.onSwitchInlineMode(WebPlayerView.this.controlsView, WebPlayerView.this.isInline, WebPlayerView.this.videoWidth, WebPlayerView.this.videoHeight, WebPlayerView.this.aspectRatioFrameLayout.getVideoRotation(), WebPlayerView.this.allowInlineAnimation);
                 WebPlayerView.this.changedTextureView.setVisibility(4);
-                ViewGroup parent = (ViewGroup) WebPlayerView.this.textureView.getParent();
-                if (parent != null) {
-                    parent.removeView(WebPlayerView.this.textureView);
+                ViewGroup viewGroup2 = (ViewGroup) WebPlayerView.this.textureView.getParent();
+                if (viewGroup2 != null) {
+                    viewGroup2.removeView(WebPlayerView.this.textureView);
                 }
                 WebPlayerView.this.controlsView.show(false, false);
             }
@@ -1869,17 +1696,18 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         this.backgroundPaint.setColor(-16777216);
         AspectRatioFrameLayout aspectRatioFrameLayout = new AspectRatioFrameLayout(context) { // from class: org.telegram.ui.Components.WebPlayerView.4
             @Override // com.google.android.exoplayer2.ui.AspectRatioFrameLayout, android.widget.FrameLayout, android.view.View
-            public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            public void onMeasure(int i, int i2) {
+                super.onMeasure(i, i2);
                 if (WebPlayerView.this.textureViewContainer != null) {
                     ViewGroup.LayoutParams layoutParams = WebPlayerView.this.textureView.getLayoutParams();
                     layoutParams.width = getMeasuredWidth();
                     layoutParams.height = getMeasuredHeight();
-                    if (WebPlayerView.this.textureImageView != null) {
-                        ViewGroup.LayoutParams layoutParams2 = WebPlayerView.this.textureImageView.getLayoutParams();
-                        layoutParams2.width = getMeasuredWidth();
-                        layoutParams2.height = getMeasuredHeight();
+                    if (WebPlayerView.this.textureImageView == null) {
+                        return;
                     }
+                    ViewGroup.LayoutParams layoutParams2 = WebPlayerView.this.textureImageView.getLayoutParams();
+                    layoutParams2.width = getMeasuredWidth();
+                    layoutParams2.height = getMeasuredHeight();
                 }
             }
         };
@@ -1891,27 +1719,27 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         webView.addJavascriptInterface(new JavaScriptInterface(new CallJavaResultInterface() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.WebPlayerView.CallJavaResultInterface
             public final void jsCallFinished(String str) {
-                WebPlayerView.this.m3211lambda$new$0$orgtelegramuiComponentsWebPlayerView(str);
+                WebPlayerView.this.lambda$new$0(str);
             }
         }), this.interfaceName);
-        WebSettings webSettings = this.webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDefaultTextEncodingName("utf-8");
+        WebSettings settings = this.webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDefaultTextEncodingName("utf-8");
         this.textureViewContainer = this.delegate.getTextureViewContainer();
         TextureView textureView = new TextureView(context);
         this.textureView = textureView;
         textureView.setPivotX(0.0f);
         this.textureView.setPivotY(0.0f);
         ViewGroup viewGroup = this.textureViewContainer;
-        if (viewGroup == null) {
-            this.aspectRatioFrameLayout.addView(this.textureView, LayoutHelper.createFrame(-1, -1, 17));
-        } else {
+        if (viewGroup != null) {
             viewGroup.addView(this.textureView);
+        } else {
+            this.aspectRatioFrameLayout.addView(this.textureView, LayoutHelper.createFrame(-1, -1, 17));
         }
         if (this.allowInlineAnimation && this.textureViewContainer != null) {
             ImageView imageView = new ImageView(context);
             this.textureImageView = imageView;
-            imageView.setBackgroundColor(SupportMenu.CATEGORY_MASK);
+            imageView.setBackgroundColor(-65536);
             this.textureImageView.setPivotX(0.0f);
             this.textureImageView.setPivotY(0.0f);
             this.textureImageView.setVisibility(4);
@@ -1924,10 +1752,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         ControlsView controlsView = new ControlsView(context);
         this.controlsView = controlsView;
         ViewGroup viewGroup2 = this.textureViewContainer;
-        if (viewGroup2 == null) {
-            addView(controlsView, LayoutHelper.createFrame(-1, -1.0f));
-        } else {
+        if (viewGroup2 != null) {
             viewGroup2.addView(controlsView);
+        } else {
+            addView(controlsView, LayoutHelper.createFrame(-1, -1.0f));
         }
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.progressView = radialProgressView;
@@ -1937,23 +1765,23 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         this.fullscreenButton = imageView2;
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
         this.controlsView.addView(this.fullscreenButton, LayoutHelper.createFrame(56, 56.0f, 85, 0.0f, 0.0f, 0.0f, 5.0f));
-        this.fullscreenButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda0
+        this.fullscreenButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                WebPlayerView.this.m3212lambda$new$1$orgtelegramuiComponentsWebPlayerView(view);
+                WebPlayerView.this.lambda$new$1(view);
             }
         });
         ImageView imageView3 = new ImageView(context);
         this.playButton = imageView3;
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
         this.controlsView.addView(this.playButton, LayoutHelper.createFrame(48, 48, 17));
-        this.playButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda1
+        this.playButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                WebPlayerView.this.m3213lambda$new$2$orgtelegramuiComponentsWebPlayerView(view);
+                WebPlayerView.this.lambda$new$2(view);
             }
         });
-        if (allowInline) {
+        if (z) {
             ImageView imageView4 = new ImageView(context);
             this.inlineButton = imageView4;
             imageView4.setScaleType(ImageView.ScaleType.CENTER);
@@ -1961,20 +1789,20 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             this.inlineButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    WebPlayerView.this.m3214lambda$new$3$orgtelegramuiComponentsWebPlayerView(view);
+                    WebPlayerView.this.lambda$new$3(view);
                 }
             });
         }
-        if (allowShare) {
+        if (z2) {
             ImageView imageView5 = new ImageView(context);
             this.shareButton = imageView5;
             imageView5.setScaleType(ImageView.ScaleType.CENTER);
             this.shareButton.setImageResource(R.drawable.ic_share_video);
             this.controlsView.addView(this.shareButton, LayoutHelper.createFrame(56, 48, 53));
-            this.shareButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda3
+            this.shareButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    WebPlayerView.this.m3215lambda$new$4$orgtelegramuiComponentsWebPlayerView(view);
+                    WebPlayerView.this.lambda$new$4(view);
                 }
             });
         }
@@ -1984,19 +1812,19 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         updateShareButton();
     }
 
-    /* renamed from: lambda$new$0$org-telegram-ui-Components-WebPlayerView */
-    public /* synthetic */ void m3211lambda$new$0$orgtelegramuiComponentsWebPlayerView(String value) {
+    public /* synthetic */ void lambda$new$0(String str) {
         AsyncTask asyncTask = this.currentTask;
-        if (asyncTask != null && !asyncTask.isCancelled()) {
-            AsyncTask asyncTask2 = this.currentTask;
-            if (asyncTask2 instanceof YoutubeVideoTask) {
-                ((YoutubeVideoTask) asyncTask2).onInterfaceResult(value);
-            }
+        if (asyncTask == null || asyncTask.isCancelled()) {
+            return;
         }
+        AsyncTask asyncTask2 = this.currentTask;
+        if (!(asyncTask2 instanceof YoutubeVideoTask)) {
+            return;
+        }
+        ((YoutubeVideoTask) asyncTask2).onInterfaceResult(str);
     }
 
-    /* renamed from: lambda$new$1$org-telegram-ui-Components-WebPlayerView */
-    public /* synthetic */ void m3212lambda$new$1$orgtelegramuiComponentsWebPlayerView(View v) {
+    public /* synthetic */ void lambda$new$1(View view) {
         if (!this.initied || this.changingTextureView || this.switchingInlineMode || !this.firstFrameRendered) {
             return;
         }
@@ -2004,8 +1832,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         updateFullscreenState(true);
     }
 
-    /* renamed from: lambda$new$2$org-telegram-ui-Components-WebPlayerView */
-    public /* synthetic */ void m3213lambda$new$2$orgtelegramuiComponentsWebPlayerView(View v) {
+    public /* synthetic */ void lambda$new$2(View view) {
         if (!this.initied || this.playVideoUrl == null) {
             return;
         }
@@ -2021,8 +1848,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         updatePlayButton();
     }
 
-    /* renamed from: lambda$new$3$org-telegram-ui-Components-WebPlayerView */
-    public /* synthetic */ void m3214lambda$new$3$orgtelegramuiComponentsWebPlayerView(View v) {
+    public /* synthetic */ void lambda$new$3(View view) {
         if (this.textureView == null || !this.delegate.checkInlinePermissions() || this.changingTextureView || this.switchingInlineMode || !this.firstFrameRendered) {
             return;
         }
@@ -2032,13 +1858,13 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             this.delegate.prepareToSwitchInlineMode(true, this.switchToInlineRunnable, this.aspectRatioFrameLayout.getAspectRatio(), this.allowInlineAnimation);
             return;
         }
-        ViewGroup parent = (ViewGroup) this.aspectRatioFrameLayout.getParent();
-        if (parent != this) {
-            if (parent != null) {
-                parent.removeView(this.aspectRatioFrameLayout);
+        ViewGroup viewGroup = (ViewGroup) this.aspectRatioFrameLayout.getParent();
+        if (viewGroup != this) {
+            if (viewGroup != null) {
+                viewGroup.removeView(this.aspectRatioFrameLayout);
             }
             addView(this.aspectRatioFrameLayout, 0, LayoutHelper.createFrame(-1, -1, 17));
-            this.aspectRatioFrameLayout.measure(View.MeasureSpec.makeMeasureSpec(getMeasuredWidth(), C.BUFFER_FLAG_ENCRYPTED), View.MeasureSpec.makeMeasureSpec(getMeasuredHeight() - AndroidUtilities.dp(10.0f), C.BUFFER_FLAG_ENCRYPTED));
+            this.aspectRatioFrameLayout.measure(View.MeasureSpec.makeMeasureSpec(getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(getMeasuredHeight() - AndroidUtilities.dp(10.0f), 1073741824));
         }
         Bitmap bitmap = this.currentBitmap;
         if (bitmap != null) {
@@ -2052,30 +1878,29 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         updateFullscreenButton();
         updateInlineButton();
         this.textureView.setVisibility(4);
-        ViewGroup viewGroup = this.textureViewContainer;
-        if (viewGroup != null) {
-            viewGroup.addView(this.textureView);
+        ViewGroup viewGroup2 = this.textureViewContainer;
+        if (viewGroup2 != null) {
+            viewGroup2.addView(this.textureView);
         } else {
             this.aspectRatioFrameLayout.addView(this.textureView);
         }
-        ViewGroup parent2 = (ViewGroup) this.controlsView.getParent();
-        if (parent2 != this) {
-            if (parent2 != null) {
-                parent2.removeView(this.controlsView);
+        ViewGroup viewGroup3 = (ViewGroup) this.controlsView.getParent();
+        if (viewGroup3 != this) {
+            if (viewGroup3 != null) {
+                viewGroup3.removeView(this.controlsView);
             }
-            ViewGroup viewGroup2 = this.textureViewContainer;
-            if (viewGroup2 == null) {
-                addView(this.controlsView, 1);
+            ViewGroup viewGroup4 = this.textureViewContainer;
+            if (viewGroup4 != null) {
+                viewGroup4.addView(this.controlsView);
             } else {
-                viewGroup2.addView(this.controlsView);
+                addView(this.controlsView, 1);
             }
         }
         this.controlsView.show(false, false);
         this.delegate.prepareToSwitchInlineMode(false, null, this.aspectRatioFrameLayout.getAspectRatio(), this.allowInlineAnimation);
     }
 
-    /* renamed from: lambda$new$4$org-telegram-ui-Components-WebPlayerView */
-    public /* synthetic */ void m3215lambda$new$4$orgtelegramuiComponentsWebPlayerView(View v) {
+    public /* synthetic */ void lambda$new$4(View view) {
         WebPlayerViewDelegate webPlayerViewDelegate = this.delegate;
         if (webPlayerViewDelegate != null) {
             webPlayerViewDelegate.onSharePressed();
@@ -2097,20 +1922,20 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             Bitmap createBitmap = Bitmaps.createBitmap(this.textureView.getWidth(), this.textureView.getHeight(), Bitmap.Config.ARGB_8888);
             this.currentBitmap = createBitmap;
             this.changedTextureView.getBitmap(createBitmap);
-        } catch (Throwable e) {
+        } catch (Throwable th) {
             Bitmap bitmap = this.currentBitmap;
             if (bitmap != null) {
                 bitmap.recycle();
                 this.currentBitmap = null;
             }
-            FileLog.e(e);
+            FileLog.e(th);
         }
-        if (this.currentBitmap == null) {
-            this.textureImageView.setImageDrawable(null);
+        if (this.currentBitmap != null) {
+            this.textureImageView.setVisibility(0);
+            this.textureImageView.setImageBitmap(this.currentBitmap);
             return;
         }
-        this.textureImageView.setVisibility(0);
-        this.textureImageView.setImageBitmap(this.currentBitmap);
+        this.textureImageView.setImageDrawable(null);
     }
 
     public String getYoutubeId() {
@@ -2118,22 +1943,23 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     }
 
     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-    public void onStateChanged(boolean playWhenReady, int playbackState) {
-        if (playbackState != 2) {
-            if (this.videoPlayer.getDuration() == C.TIME_UNSET) {
-                this.controlsView.setDuration(0);
-            } else {
+    public void onStateChanged(boolean z, int i) {
+        if (i != 2) {
+            if (this.videoPlayer.getDuration() != -9223372036854775807L) {
                 this.controlsView.setDuration((int) (this.videoPlayer.getDuration() / 1000));
+            } else {
+                this.controlsView.setDuration(0);
             }
         }
-        if (playbackState == 4 || playbackState == 1 || !this.videoPlayer.isPlaying()) {
-            this.delegate.onPlayStateChanged(this, false);
-        } else {
+        if (i != 4 && i != 1 && this.videoPlayer.isPlaying()) {
             this.delegate.onPlayStateChanged(this, true);
+        } else {
+            this.delegate.onPlayStateChanged(this, false);
         }
-        if (this.videoPlayer.isPlaying() && playbackState != 4) {
+        if (this.videoPlayer.isPlaying() && i != 4) {
             updatePlayButton();
-        } else if (playbackState == 4) {
+        } else if (i != 4) {
+        } else {
             this.isCompleted = true;
             this.videoPlayer.pause();
             this.videoPlayer.seekTo(0L);
@@ -2148,26 +1974,28 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     }
 
     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-    public void onError(VideoPlayer player, Exception e) {
-        FileLog.e(e);
+    public void onError(VideoPlayer videoPlayer, Exception exc) {
+        FileLog.e(exc);
         onInitFailed();
     }
 
     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-    public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
+    public void onVideoSizeChanged(int i, int i2, int i3, float f) {
         AspectRatioFrameLayout aspectRatioFrameLayout = this.aspectRatioFrameLayout;
         if (aspectRatioFrameLayout != null) {
-            if (unappliedRotationDegrees == 90 || unappliedRotationDegrees == 270) {
-                width = height;
-                height = width;
+            if (i3 == 90 || i3 == 270) {
+                i2 = i;
+                i = i2;
             }
-            this.videoWidth = (int) (width * pixelWidthHeightRatio);
-            this.videoHeight = height;
-            float ratio = height == 0 ? 1.0f : (width * pixelWidthHeightRatio) / height;
-            aspectRatioFrameLayout.setAspectRatio(ratio, unappliedRotationDegrees);
-            if (this.inFullscreen) {
-                this.delegate.onVideoSizeChanged(ratio, unappliedRotationDegrees);
+            float f2 = i * f;
+            this.videoWidth = (int) f2;
+            this.videoHeight = i2;
+            float f3 = i2 == 0 ? 1.0f : f2 / i2;
+            aspectRatioFrameLayout.setAspectRatio(f3, i3);
+            if (!this.inFullscreen) {
+                return;
             }
+            this.delegate.onVideoSizeChanged(f3, i3);
         }
     }
 
@@ -2215,32 +2043,34 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     }
 
     @Override // android.view.ViewGroup, android.view.View
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int x = ((r - l) - this.aspectRatioFrameLayout.getMeasuredWidth()) / 2;
-        int y = (((b - t) - AndroidUtilities.dp(10.0f)) - this.aspectRatioFrameLayout.getMeasuredHeight()) / 2;
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        int i5 = i3 - i;
+        int measuredWidth = (i5 - this.aspectRatioFrameLayout.getMeasuredWidth()) / 2;
+        int i6 = i4 - i2;
+        int dp = ((i6 - AndroidUtilities.dp(10.0f)) - this.aspectRatioFrameLayout.getMeasuredHeight()) / 2;
         AspectRatioFrameLayout aspectRatioFrameLayout = this.aspectRatioFrameLayout;
-        aspectRatioFrameLayout.layout(x, y, aspectRatioFrameLayout.getMeasuredWidth() + x, this.aspectRatioFrameLayout.getMeasuredHeight() + y);
+        aspectRatioFrameLayout.layout(measuredWidth, dp, aspectRatioFrameLayout.getMeasuredWidth() + measuredWidth, this.aspectRatioFrameLayout.getMeasuredHeight() + dp);
         if (this.controlsView.getParent() == this) {
             ControlsView controlsView = this.controlsView;
             controlsView.layout(0, 0, controlsView.getMeasuredWidth(), this.controlsView.getMeasuredHeight());
         }
-        int x2 = ((r - l) - this.progressView.getMeasuredWidth()) / 2;
-        int y2 = ((b - t) - this.progressView.getMeasuredHeight()) / 2;
+        int measuredWidth2 = (i5 - this.progressView.getMeasuredWidth()) / 2;
+        int measuredHeight = (i6 - this.progressView.getMeasuredHeight()) / 2;
         RadialProgressView radialProgressView = this.progressView;
-        radialProgressView.layout(x2, y2, radialProgressView.getMeasuredWidth() + x2, this.progressView.getMeasuredHeight() + y2);
+        radialProgressView.layout(measuredWidth2, measuredHeight, radialProgressView.getMeasuredWidth() + measuredWidth2, this.progressView.getMeasuredHeight() + measuredHeight);
         this.controlsView.imageReceiver.setImageCoords(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight() - AndroidUtilities.dp(10.0f));
     }
 
     @Override // android.view.View
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = View.MeasureSpec.getSize(widthMeasureSpec);
-        int height = View.MeasureSpec.getSize(heightMeasureSpec);
-        this.aspectRatioFrameLayout.measure(View.MeasureSpec.makeMeasureSpec(width, C.BUFFER_FLAG_ENCRYPTED), View.MeasureSpec.makeMeasureSpec(height - AndroidUtilities.dp(10.0f), C.BUFFER_FLAG_ENCRYPTED));
+    protected void onMeasure(int i, int i2) {
+        int size = View.MeasureSpec.getSize(i);
+        int size2 = View.MeasureSpec.getSize(i2);
+        this.aspectRatioFrameLayout.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2 - AndroidUtilities.dp(10.0f), 1073741824));
         if (this.controlsView.getParent() == this) {
-            this.controlsView.measure(View.MeasureSpec.makeMeasureSpec(width, C.BUFFER_FLAG_ENCRYPTED), View.MeasureSpec.makeMeasureSpec(height, C.BUFFER_FLAG_ENCRYPTED));
+            this.controlsView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
         }
-        this.progressView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f), C.BUFFER_FLAG_ENCRYPTED), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f), C.BUFFER_FLAG_ENCRYPTED));
-        setMeasuredDimension(width, height);
+        this.progressView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f), 1073741824));
+        setMeasuredDimension(size, size2);
     }
 
     public void updatePlayButton() {
@@ -2262,48 +2092,39 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
 
     private void checkAudioFocus() {
         if (!this.hasAudioFocus) {
-            AudioManager audioManager = (AudioManager) ApplicationLoader.applicationContext.getSystemService("audio");
             this.hasAudioFocus = true;
-            if (audioManager.requestAudioFocus(this, 3, 1) == 1) {
-                this.audioFocus = 2;
-            }
+            ((AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND)).requestAudioFocus(this, 3, 1);
         }
     }
 
     @Override // android.media.AudioManager.OnAudioFocusChangeListener
-    public void onAudioFocusChange(final int focusChange) {
+    public void onAudioFocusChange(final int i) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                WebPlayerView.this.m3216xfb493dbe(focusChange);
+                WebPlayerView.this.lambda$onAudioFocusChange$5(i);
             }
         });
     }
 
-    /* renamed from: lambda$onAudioFocusChange$5$org-telegram-ui-Components-WebPlayerView */
-    public /* synthetic */ void m3216xfb493dbe(int focusChange) {
-        if (focusChange == -1) {
+    public /* synthetic */ void lambda$onAudioFocusChange$5(int i) {
+        if (i == -1) {
             if (this.videoPlayer.isPlaying()) {
                 this.videoPlayer.pause();
                 updatePlayButton();
             }
             this.hasAudioFocus = false;
-            this.audioFocus = 0;
-        } else if (focusChange == 1) {
-            this.audioFocus = 2;
-            if (this.resumeAudioOnFocusGain) {
-                this.resumeAudioOnFocusGain = false;
-                this.videoPlayer.play();
+        } else if (i == 1) {
+            if (!this.resumeAudioOnFocusGain) {
+                return;
             }
-        } else if (focusChange == -3) {
-            this.audioFocus = 1;
-        } else if (focusChange == -2) {
-            this.audioFocus = 0;
-            if (this.videoPlayer.isPlaying()) {
-                this.resumeAudioOnFocusGain = true;
-                this.videoPlayer.pause();
-                updatePlayButton();
-            }
+            this.resumeAudioOnFocusGain = false;
+            this.videoPlayer.play();
+        } else if (i == -3 || i != -2 || !this.videoPlayer.isPlaying()) {
+        } else {
+            this.resumeAudioOnFocusGain = true;
+            this.videoPlayer.pause();
+            updatePlayButton();
         }
     }
 
@@ -2363,20 +2184,20 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             this.videoPlayer.preparePlayer(Uri.parse(str), this.playVideoType);
         }
         this.videoPlayer.setPlayWhenReady(this.isAutoplay);
-        this.isLoading = false;
-        if (this.videoPlayer.getDuration() == C.TIME_UNSET) {
-            this.controlsView.setDuration(0);
-        } else {
+        if (this.videoPlayer.getDuration() != -9223372036854775807L) {
             this.controlsView.setDuration((int) (this.videoPlayer.getDuration() / 1000));
+        } else {
+            this.controlsView.setDuration(0);
         }
         updateFullscreenButton();
         updateShareButton();
         updateInlineButton();
         this.controlsView.invalidate();
         int i = this.seekToTime;
-        if (i != -1) {
-            this.videoPlayer.seekTo(i * 1000);
+        if (i == -1) {
+            return;
         }
+        this.videoPlayer.seekTo(i * 1000);
     }
 
     public void pause() {
@@ -2385,65 +2206,65 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         this.controlsView.show(true, true);
     }
 
-    private void updateFullscreenState(boolean byButton) {
-        ViewGroup parent;
+    private void updateFullscreenState(boolean z) {
+        ViewGroup viewGroup;
         if (this.textureView == null) {
             return;
         }
         updateFullscreenButton();
-        ViewGroup viewGroup = this.textureViewContainer;
-        if (viewGroup == null) {
+        ViewGroup viewGroup2 = this.textureViewContainer;
+        if (viewGroup2 == null) {
             this.changingTextureView = true;
             if (!this.inFullscreen) {
-                if (viewGroup != null) {
-                    viewGroup.addView(this.textureView);
+                if (viewGroup2 != null) {
+                    viewGroup2.addView(this.textureView);
                 } else {
                     this.aspectRatioFrameLayout.addView(this.textureView);
                 }
             }
             if (this.inFullscreen) {
-                ViewGroup viewGroup2 = (ViewGroup) this.controlsView.getParent();
-                if (viewGroup2 != null) {
-                    viewGroup2.removeView(this.controlsView);
+                ViewGroup viewGroup3 = (ViewGroup) this.controlsView.getParent();
+                if (viewGroup3 != null) {
+                    viewGroup3.removeView(this.controlsView);
                 }
             } else {
-                ViewGroup parent2 = (ViewGroup) this.controlsView.getParent();
-                if (parent2 != this) {
-                    if (parent2 != null) {
-                        parent2.removeView(this.controlsView);
+                ViewGroup viewGroup4 = (ViewGroup) this.controlsView.getParent();
+                if (viewGroup4 != this) {
+                    if (viewGroup4 != null) {
+                        viewGroup4.removeView(this.controlsView);
                     }
-                    ViewGroup viewGroup3 = this.textureViewContainer;
-                    if (viewGroup3 == null) {
-                        addView(this.controlsView, 1);
+                    ViewGroup viewGroup5 = this.textureViewContainer;
+                    if (viewGroup5 != null) {
+                        viewGroup5.addView(this.controlsView);
                     } else {
-                        viewGroup3.addView(this.controlsView);
+                        addView(this.controlsView, 1);
                     }
                 }
             }
-            TextureView onSwitchToFullscreen = this.delegate.onSwitchToFullscreen(this.controlsView, this.inFullscreen, this.aspectRatioFrameLayout.getAspectRatio(), this.aspectRatioFrameLayout.getVideoRotation(), byButton);
+            TextureView onSwitchToFullscreen = this.delegate.onSwitchToFullscreen(this.controlsView, this.inFullscreen, this.aspectRatioFrameLayout.getAspectRatio(), this.aspectRatioFrameLayout.getVideoRotation(), z);
             this.changedTextureView = onSwitchToFullscreen;
             onSwitchToFullscreen.setVisibility(4);
-            if (this.inFullscreen && this.changedTextureView != null && (parent = (ViewGroup) this.textureView.getParent()) != null) {
-                parent.removeView(this.textureView);
+            if (this.inFullscreen && this.changedTextureView != null && (viewGroup = (ViewGroup) this.textureView.getParent()) != null) {
+                viewGroup.removeView(this.textureView);
             }
             this.controlsView.checkNeedHide();
             return;
         }
         if (this.inFullscreen) {
-            ViewGroup viewGroup4 = (ViewGroup) this.aspectRatioFrameLayout.getParent();
-            if (viewGroup4 != null) {
-                viewGroup4.removeView(this.aspectRatioFrameLayout);
+            ViewGroup viewGroup6 = (ViewGroup) this.aspectRatioFrameLayout.getParent();
+            if (viewGroup6 != null) {
+                viewGroup6.removeView(this.aspectRatioFrameLayout);
             }
         } else {
-            ViewGroup parent3 = (ViewGroup) this.aspectRatioFrameLayout.getParent();
-            if (parent3 != this) {
-                if (parent3 != null) {
-                    parent3.removeView(this.aspectRatioFrameLayout);
+            ViewGroup viewGroup7 = (ViewGroup) this.aspectRatioFrameLayout.getParent();
+            if (viewGroup7 != this) {
+                if (viewGroup7 != null) {
+                    viewGroup7.removeView(this.aspectRatioFrameLayout);
                 }
                 addView(this.aspectRatioFrameLayout, 0);
             }
         }
-        this.delegate.onSwitchToFullscreen(this.controlsView, this.inFullscreen, this.aspectRatioFrameLayout.getAspectRatio(), this.aspectRatioFrameLayout.getVideoRotation(), byButton);
+        this.delegate.onSwitchToFullscreen(this.controlsView, this.inFullscreen, this.aspectRatioFrameLayout.getAspectRatio(), this.aspectRatioFrameLayout.getVideoRotation(), z);
     }
 
     public void exitFullscreen() {
@@ -2476,87 +2297,66 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         return this.inFullscreen;
     }
 
-    public static String getYouTubeVideoId(String url) {
-        Matcher matcher = youtubeIdRegex.matcher(url);
-        if (!matcher.find()) {
-            return null;
+    public static String getYouTubeVideoId(String str) {
+        Matcher matcher = youtubeIdRegex.matcher(str);
+        if (matcher.find()) {
+            return matcher.group(1);
         }
-        String id = matcher.group(1);
-        return id;
+        return null;
     }
 
-    public boolean canHandleUrl(String url) {
-        if (url != null) {
-            if (url.endsWith(".mp4")) {
+    public boolean canHandleUrl(String str) {
+        if (str != null) {
+            if (str.endsWith(".mp4")) {
                 return true;
             }
+            String str2 = null;
             try {
-                Matcher matcher = youtubeIdRegex.matcher(url);
-                String id = null;
-                if (matcher.find()) {
-                    id = matcher.group(1);
-                }
-                if (id != null) {
+                Matcher matcher = youtubeIdRegex.matcher(str);
+                if ((matcher.find() ? matcher.group(1) : null) != null) {
                     return true;
                 }
             } catch (Exception e) {
                 FileLog.e(e);
             }
             try {
-                Matcher matcher2 = vimeoIdRegex.matcher(url);
-                String id2 = null;
-                if (matcher2.find()) {
-                    id2 = matcher2.group(3);
-                }
-                if (id2 != null) {
+                Matcher matcher2 = vimeoIdRegex.matcher(str);
+                if ((matcher2.find() ? matcher2.group(3) : null) != null) {
                     return true;
                 }
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
             try {
-                Matcher matcher3 = aparatIdRegex.matcher(url);
-                String id3 = null;
-                if (matcher3.find()) {
-                    id3 = matcher3.group(1);
-                }
-                if (id3 != null) {
+                Matcher matcher3 = aparatIdRegex.matcher(str);
+                if ((matcher3.find() ? matcher3.group(1) : null) != null) {
                     return true;
                 }
             } catch (Exception e3) {
                 FileLog.e(e3);
             }
             try {
-                Matcher matcher4 = twitchClipIdRegex.matcher(url);
-                String id4 = null;
-                if (matcher4.find()) {
-                    id4 = matcher4.group(1);
-                }
-                if (id4 != null) {
+                Matcher matcher4 = twitchClipIdRegex.matcher(str);
+                if ((matcher4.find() ? matcher4.group(1) : null) != null) {
                     return true;
                 }
             } catch (Exception e4) {
                 FileLog.e(e4);
             }
             try {
-                Matcher matcher5 = twitchStreamIdRegex.matcher(url);
-                String id5 = null;
-                if (matcher5.find()) {
-                    id5 = matcher5.group(1);
-                }
-                if (id5 != null) {
+                Matcher matcher5 = twitchStreamIdRegex.matcher(str);
+                if ((matcher5.find() ? matcher5.group(1) : null) != null) {
                     return true;
                 }
             } catch (Exception e5) {
                 FileLog.e(e5);
             }
             try {
-                Matcher matcher6 = coubIdRegex.matcher(url);
-                String id6 = null;
+                Matcher matcher6 = coubIdRegex.matcher(str);
                 if (matcher6.find()) {
-                    id6 = matcher6.group(1);
+                    str2 = matcher6.group(1);
                 }
-                return id6 != null;
+                return str2 != null;
             } catch (Exception e6) {
                 FileLog.e(e6);
                 return false;
@@ -2571,237 +2371,415 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         showProgress(true, false);
     }
 
-    public boolean loadVideo(String url, TLRPC.Photo thumb, Object parentObject, String originalUrl, boolean autoplay) {
-        boolean z;
-        String youtubeId = null;
-        String vimeoId = null;
-        String coubId = getCoubId(url);
+    /* JADX WARN: Removed duplicated region for block: B:101:0x0197  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x019c  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x01b5  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x024e A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x00b2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x00d1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x00f0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x010f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x014a  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0185  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x018b  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean loadVideo(String str, TLRPC$Photo tLRPC$Photo, Object obj, String str2, boolean z) {
+        String str3;
+        String str4;
+        String str5;
+        String str6;
+        String str7;
+        String str8;
+        AsyncTask asyncTask;
+        AnimatorSet animatorSet;
+        String coubId = getCoubId(str);
         if (coubId == null) {
-            coubId = getCoubId(originalUrl);
+            coubId = getCoubId(str2);
         }
-        String twitchClipId = null;
-        String twitchStreamId = null;
-        String mp4File = null;
-        String aparatId = null;
         this.seekToTime = -1;
-        if (coubId == null && url != null) {
-            if (url.endsWith(".mp4")) {
-                mp4File = url;
-            } else {
+        if (coubId != null || str == null) {
+            str8 = null;
+            str7 = null;
+        } else if (!str.endsWith(".mp4")) {
+            try {
+                if (str2 != null) {
+                    try {
+                        Uri parse = Uri.parse(str2);
+                        String queryParameter = parse.getQueryParameter("t");
+                        if (queryParameter == null) {
+                            queryParameter = parse.getQueryParameter("time_continue");
+                        }
+                        if (queryParameter != null) {
+                            if (queryParameter.contains("m")) {
+                                String[] split = queryParameter.split("m");
+                                this.seekToTime = (Utilities.parseInt((CharSequence) split[0]).intValue() * 60) + Utilities.parseInt((CharSequence) split[1]).intValue();
+                            } else {
+                                this.seekToTime = Utilities.parseInt((CharSequence) queryParameter).intValue();
+                            }
+                        }
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                }
+                Matcher matcher = youtubeIdRegex.matcher(str);
+                String group = matcher.find() ? matcher.group(1) : null;
+                if (group == null) {
+                    group = null;
+                }
+                str7 = group;
+            } catch (Exception e2) {
+                FileLog.e(e2);
+                str7 = null;
+            }
+            if (str7 == null) {
                 try {
-                    if (originalUrl != null) {
-                        try {
-                            Uri uri = Uri.parse(originalUrl);
-                            String t = uri.getQueryParameter(Theme.THEME_BACKGROUND_SLUG);
-                            if (t == null) {
-                                t = uri.getQueryParameter("time_continue");
-                            }
-                            if (t != null) {
-                                if (!t.contains("m")) {
-                                    this.seekToTime = Utilities.parseInt((CharSequence) t).intValue();
-                                } else {
-                                    String[] args = t.split("m");
-                                    this.seekToTime = (Utilities.parseInt((CharSequence) args[0]).intValue() * 60) + Utilities.parseInt((CharSequence) args[1]).intValue();
-                                }
-                            }
-                        } catch (Exception e) {
-                            FileLog.e(e);
-                        }
+                    Matcher matcher2 = vimeoIdRegex.matcher(str);
+                    String group2 = matcher2.find() ? matcher2.group(3) : null;
+                    if (group2 == null) {
+                        group2 = null;
                     }
-                    Matcher matcher = youtubeIdRegex.matcher(url);
-                    String id = null;
-                    if (matcher.find()) {
-                        id = matcher.group(1);
-                    }
-                    if (id != null) {
-                        youtubeId = id;
-                    }
-                } catch (Exception e2) {
-                    FileLog.e(e2);
+                    str6 = group2;
+                } catch (Exception e3) {
+                    FileLog.e(e3);
                 }
-                if (youtubeId == null) {
+                if (str6 == null) {
                     try {
-                        Matcher matcher2 = vimeoIdRegex.matcher(url);
-                        String id2 = null;
-                        if (matcher2.find()) {
-                            id2 = matcher2.group(3);
+                        Matcher matcher3 = aparatIdRegex.matcher(str);
+                        String group3 = matcher3.find() ? matcher3.group(1) : null;
+                        if (group3 == null) {
+                            group3 = null;
                         }
-                        if (id2 != null) {
-                            vimeoId = id2;
-                        }
-                    } catch (Exception e3) {
-                        FileLog.e(e3);
-                    }
-                }
-                if (vimeoId == null) {
-                    try {
-                        Matcher matcher3 = aparatIdRegex.matcher(url);
-                        String id3 = null;
-                        if (matcher3.find()) {
-                            id3 = matcher3.group(1);
-                        }
-                        if (id3 != null) {
-                            aparatId = id3;
-                        }
+                        str5 = group3;
                     } catch (Exception e4) {
                         FileLog.e(e4);
                     }
-                }
-                if (aparatId == null) {
-                    try {
-                        Matcher matcher4 = twitchClipIdRegex.matcher(url);
-                        String id4 = null;
-                        if (matcher4.find()) {
-                            id4 = matcher4.group(1);
+                    if (str5 == null) {
+                        try {
+                            Matcher matcher4 = twitchClipIdRegex.matcher(str);
+                            String group4 = matcher4.find() ? matcher4.group(1) : null;
+                            if (group4 == null) {
+                                group4 = null;
+                            }
+                            str4 = group4;
+                        } catch (Exception e5) {
+                            FileLog.e(e5);
                         }
-                        if (id4 != null) {
-                            twitchClipId = id4;
+                        if (str4 == null) {
+                            try {
+                                Matcher matcher5 = twitchStreamIdRegex.matcher(str);
+                                String group5 = matcher5.find() ? matcher5.group(1) : null;
+                                if (group5 == null) {
+                                    group5 = null;
+                                }
+                                str3 = group5;
+                            } catch (Exception e6) {
+                                FileLog.e(e6);
+                            }
+                            if (str3 == null) {
+                                try {
+                                    Matcher matcher6 = coubIdRegex.matcher(str);
+                                    String group6 = matcher6.find() ? matcher6.group(1) : null;
+                                    if (group6 != null) {
+                                        coubId = group6;
+                                    }
+                                } catch (Exception e7) {
+                                    FileLog.e(e7);
+                                }
+                            }
+                            str8 = null;
+                            this.initied = false;
+                            this.isCompleted = false;
+                            this.isAutoplay = z;
+                            this.playVideoUrl = null;
+                            this.playAudioUrl = null;
+                            destroy();
+                            this.firstFrameRendered = false;
+                            this.currentAlpha = 1.0f;
+                            asyncTask = this.currentTask;
+                            if (asyncTask != null) {
+                                asyncTask.cancel(true);
+                                this.currentTask = null;
+                            }
+                            updateFullscreenButton();
+                            updateShareButton();
+                            updateInlineButton();
+                            updatePlayButton();
+                            if (tLRPC$Photo == null) {
+                                TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 80, true);
+                                if (closestPhotoSizeWithSize != null) {
+                                    this.controlsView.imageReceiver.setImage(null, null, ImageLocation.getForPhoto(closestPhotoSizeWithSize, tLRPC$Photo), "80_80_b", 0L, null, obj, 1);
+                                    this.drawImage = true;
+                                }
+                            } else {
+                                this.drawImage = false;
+                            }
+                            animatorSet = this.progressAnimation;
+                            if (animatorSet != null) {
+                                animatorSet.cancel();
+                                this.progressAnimation = null;
+                            }
+                            this.controlsView.setProgress(0);
+                            if (str7 != null) {
+                                this.currentYoutubeId = str7;
+                                str7 = null;
+                            }
+                            if (str8 == null) {
+                                this.initied = true;
+                                this.playVideoUrl = str8;
+                                this.playVideoType = "other";
+                                if (this.isAutoplay) {
+                                    preparePlayer();
+                                }
+                                showProgress(false, false);
+                                this.controlsView.show(true, true);
+                            } else {
+                                if (str7 != null) {
+                                    YoutubeVideoTask youtubeVideoTask = new YoutubeVideoTask(str7);
+                                    youtubeVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                    this.currentTask = youtubeVideoTask;
+                                } else if (str6 != null) {
+                                    VimeoVideoTask vimeoVideoTask = new VimeoVideoTask(str6);
+                                    vimeoVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                    this.currentTask = vimeoVideoTask;
+                                } else if (coubId != null) {
+                                    CoubVideoTask coubVideoTask = new CoubVideoTask(coubId);
+                                    coubVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                    this.currentTask = coubVideoTask;
+                                    this.isStream = true;
+                                } else if (str5 != null) {
+                                    AparatVideoTask aparatVideoTask = new AparatVideoTask(str5);
+                                    aparatVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                    this.currentTask = aparatVideoTask;
+                                } else if (str4 != null) {
+                                    TwitchClipVideoTask twitchClipVideoTask = new TwitchClipVideoTask(str, str4);
+                                    twitchClipVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                    this.currentTask = twitchClipVideoTask;
+                                } else if (str3 != null) {
+                                    TwitchStreamVideoTask twitchStreamVideoTask = new TwitchStreamVideoTask(str, str3);
+                                    twitchStreamVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                    this.currentTask = twitchStreamVideoTask;
+                                    this.isStream = true;
+                                }
+                                this.controlsView.show(false, false);
+                                showProgress(true, false);
+                            }
+                            if (str7 == null || str6 != null || coubId != null || str5 != null || str8 != null || str4 != null || str3 != null) {
+                                this.controlsView.setVisibility(0);
+                                return true;
+                            }
+                            this.controlsView.setVisibility(8);
+                            return false;
                         }
-                    } catch (Exception e5) {
-                        FileLog.e(e5);
+                        str3 = null;
+                        if (str3 == null) {
+                        }
+                        str8 = null;
+                        this.initied = false;
+                        this.isCompleted = false;
+                        this.isAutoplay = z;
+                        this.playVideoUrl = null;
+                        this.playAudioUrl = null;
+                        destroy();
+                        this.firstFrameRendered = false;
+                        this.currentAlpha = 1.0f;
+                        asyncTask = this.currentTask;
+                        if (asyncTask != null) {
+                        }
+                        updateFullscreenButton();
+                        updateShareButton();
+                        updateInlineButton();
+                        updatePlayButton();
+                        if (tLRPC$Photo == null) {
+                        }
+                        animatorSet = this.progressAnimation;
+                        if (animatorSet != null) {
+                        }
+                        this.controlsView.setProgress(0);
+                        if (str7 != null) {
+                        }
+                        if (str8 == null) {
+                        }
+                        if (str7 == null) {
+                        }
+                        this.controlsView.setVisibility(0);
+                        return true;
                     }
-                }
-                if (twitchClipId == null) {
-                    try {
-                        Matcher matcher5 = twitchStreamIdRegex.matcher(url);
-                        String id5 = null;
-                        if (matcher5.find()) {
-                            id5 = matcher5.group(1);
-                        }
-                        if (id5 != null) {
-                            twitchStreamId = id5;
-                        }
-                    } catch (Exception e6) {
-                        FileLog.e(e6);
+                    str4 = null;
+                    if (str4 == null) {
                     }
-                }
-                if (twitchStreamId == null) {
-                    try {
-                        Matcher matcher6 = coubIdRegex.matcher(url);
-                        String id6 = null;
-                        if (matcher6.find()) {
-                            id6 = matcher6.group(1);
-                        }
-                        if (id6 != null) {
-                            coubId = id6;
-                        }
-                    } catch (Exception e7) {
-                        FileLog.e(e7);
+                    str3 = null;
+                    if (str3 == null) {
                     }
+                    str8 = null;
+                    this.initied = false;
+                    this.isCompleted = false;
+                    this.isAutoplay = z;
+                    this.playVideoUrl = null;
+                    this.playAudioUrl = null;
+                    destroy();
+                    this.firstFrameRendered = false;
+                    this.currentAlpha = 1.0f;
+                    asyncTask = this.currentTask;
+                    if (asyncTask != null) {
+                    }
+                    updateFullscreenButton();
+                    updateShareButton();
+                    updateInlineButton();
+                    updatePlayButton();
+                    if (tLRPC$Photo == null) {
+                    }
+                    animatorSet = this.progressAnimation;
+                    if (animatorSet != null) {
+                    }
+                    this.controlsView.setProgress(0);
+                    if (str7 != null) {
+                    }
+                    if (str8 == null) {
+                    }
+                    if (str7 == null) {
+                    }
+                    this.controlsView.setVisibility(0);
+                    return true;
                 }
+                str5 = null;
+                if (str5 == null) {
+                }
+                str4 = null;
+                if (str4 == null) {
+                }
+                str3 = null;
+                if (str3 == null) {
+                }
+                str8 = null;
+                this.initied = false;
+                this.isCompleted = false;
+                this.isAutoplay = z;
+                this.playVideoUrl = null;
+                this.playAudioUrl = null;
+                destroy();
+                this.firstFrameRendered = false;
+                this.currentAlpha = 1.0f;
+                asyncTask = this.currentTask;
+                if (asyncTask != null) {
+                }
+                updateFullscreenButton();
+                updateShareButton();
+                updateInlineButton();
+                updatePlayButton();
+                if (tLRPC$Photo == null) {
+                }
+                animatorSet = this.progressAnimation;
+                if (animatorSet != null) {
+                }
+                this.controlsView.setProgress(0);
+                if (str7 != null) {
+                }
+                if (str8 == null) {
+                }
+                if (str7 == null) {
+                }
+                this.controlsView.setVisibility(0);
+                return true;
             }
+            str6 = null;
+            if (str6 == null) {
+            }
+            str5 = null;
+            if (str5 == null) {
+            }
+            str4 = null;
+            if (str4 == null) {
+            }
+            str3 = null;
+            if (str3 == null) {
+            }
+            str8 = null;
+            this.initied = false;
+            this.isCompleted = false;
+            this.isAutoplay = z;
+            this.playVideoUrl = null;
+            this.playAudioUrl = null;
+            destroy();
+            this.firstFrameRendered = false;
+            this.currentAlpha = 1.0f;
+            asyncTask = this.currentTask;
+            if (asyncTask != null) {
+            }
+            updateFullscreenButton();
+            updateShareButton();
+            updateInlineButton();
+            updatePlayButton();
+            if (tLRPC$Photo == null) {
+            }
+            animatorSet = this.progressAnimation;
+            if (animatorSet != null) {
+            }
+            this.controlsView.setProgress(0);
+            if (str7 != null) {
+            }
+            if (str8 == null) {
+            }
+            if (str7 == null) {
+            }
+            this.controlsView.setVisibility(0);
+            return true;
+        } else {
+            str8 = str;
+            str7 = null;
         }
+        str6 = str7;
+        str5 = str6;
+        str4 = str5;
+        str3 = str4;
         this.initied = false;
         this.isCompleted = false;
-        this.isAutoplay = autoplay;
+        this.isAutoplay = z;
         this.playVideoUrl = null;
         this.playAudioUrl = null;
         destroy();
         this.firstFrameRendered = false;
         this.currentAlpha = 1.0f;
-        AsyncTask asyncTask = this.currentTask;
+        asyncTask = this.currentTask;
         if (asyncTask != null) {
-            asyncTask.cancel(true);
-            this.currentTask = null;
         }
         updateFullscreenButton();
         updateShareButton();
         updateInlineButton();
         updatePlayButton();
-        if (thumb == null) {
-            this.drawImage = false;
-        } else {
-            TLRPC.PhotoSize photoSize = FileLoader.getClosestPhotoSizeWithSize(thumb.sizes, 80, true);
-            if (photoSize != null) {
-                this.controlsView.imageReceiver.setImage(null, null, ImageLocation.getForPhoto(photoSize, thumb), "80_80_b", 0L, null, parentObject, 1);
-                this.drawImage = true;
-            }
+        if (tLRPC$Photo == null) {
         }
-        AnimatorSet animatorSet = this.progressAnimation;
+        animatorSet = this.progressAnimation;
         if (animatorSet != null) {
-            animatorSet.cancel();
-            this.progressAnimation = null;
         }
-        this.isLoading = true;
         this.controlsView.setProgress(0);
-        if (youtubeId != null) {
-            this.currentYoutubeId = youtubeId;
-            youtubeId = null;
+        if (str7 != null) {
         }
-        if (mp4File != null) {
-            this.initied = true;
-            this.playVideoUrl = mp4File;
-            this.playVideoType = "other";
-            if (this.isAutoplay) {
-                preparePlayer();
-            }
-            showProgress(false, false);
-            this.controlsView.show(true, true);
-        } else {
-            if (youtubeId != null) {
-                YoutubeVideoTask task = new YoutubeVideoTask(youtubeId);
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                this.currentTask = task;
-                z = true;
-            } else if (vimeoId != null) {
-                VimeoVideoTask task2 = new VimeoVideoTask(vimeoId);
-                task2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                this.currentTask = task2;
-                z = true;
-            } else if (coubId != null) {
-                CoubVideoTask task3 = new CoubVideoTask(coubId);
-                task3.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                this.currentTask = task3;
-                this.isStream = true;
-                z = true;
-            } else if (aparatId != null) {
-                AparatVideoTask task4 = new AparatVideoTask(aparatId);
-                task4.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                this.currentTask = task4;
-                z = true;
-            } else if (twitchClipId != null) {
-                TwitchClipVideoTask task5 = new TwitchClipVideoTask(url, twitchClipId);
-                task5.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                this.currentTask = task5;
-                z = true;
-            } else if (twitchStreamId != null) {
-                TwitchStreamVideoTask task6 = new TwitchStreamVideoTask(url, twitchStreamId);
-                z = true;
-                task6.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                this.currentTask = task6;
-                this.isStream = true;
-            } else {
-                z = true;
-            }
-            this.controlsView.show(false, false);
-            showProgress(z, false);
+        if (str8 == null) {
         }
-        if (youtubeId != null || vimeoId != null || coubId != null || aparatId != null || mp4File != null || twitchClipId != null || twitchStreamId != null) {
-            this.controlsView.setVisibility(0);
-            return true;
+        if (str7 == null) {
         }
-        this.controlsView.setVisibility(8);
-        return false;
+        this.controlsView.setVisibility(0);
+        return true;
     }
 
-    public String getCoubId(String url) {
-        String id;
-        if (TextUtils.isEmpty(url)) {
+    public String getCoubId(String str) {
+        String group;
+        if (TextUtils.isEmpty(str)) {
             return null;
         }
         try {
-            Matcher matcher = coubIdRegex.matcher(url);
-            id = null;
-            if (matcher.find()) {
-                id = matcher.group(1);
-            }
+            Matcher matcher = coubIdRegex.matcher(str);
+            group = matcher.find() ? matcher.group(1) : null;
         } catch (Exception e) {
             FileLog.e(e);
         }
-        if (id == null) {
+        if (group == null) {
             return null;
         }
-        return id;
+        return group;
     }
 
     public View getAspectRatioView() {
@@ -2830,9 +2808,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         this.webView.stopLoading();
     }
 
-    public void showProgress(boolean show, boolean animated) {
+    public void showProgress(boolean z, boolean z2) {
         float f = 1.0f;
-        if (animated) {
+        if (z2) {
             AnimatorSet animatorSet = this.progressAnimation;
             if (animatorSet != null) {
                 animatorSet.cancel();
@@ -2842,7 +2820,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             Animator[] animatorArr = new Animator[1];
             RadialProgressView radialProgressView = this.progressView;
             float[] fArr = new float[1];
-            if (!show) {
+            if (!z) {
                 f = 0.0f;
             }
             fArr[0] = f;
@@ -2859,7 +2837,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             return;
         }
         RadialProgressView radialProgressView2 = this.progressView;
-        if (!show) {
+        if (!z) {
             f = 0.0f;
         }
         radialProgressView2.setAlpha(f);

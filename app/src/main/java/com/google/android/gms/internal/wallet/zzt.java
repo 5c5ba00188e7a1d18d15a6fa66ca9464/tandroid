@@ -9,7 +9,7 @@ import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.PaymentData;
 import com.google.android.gms.wallet.zzan;
 /* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public abstract class zzt extends zzb implements zzu {
     public zzt() {
         super("com.google.android.gms.wallet.internal.IWalletServiceCallbacks");

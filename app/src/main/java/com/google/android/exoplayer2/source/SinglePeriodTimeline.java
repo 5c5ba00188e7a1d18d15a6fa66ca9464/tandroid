@@ -1,9 +1,8 @@
 package com.google.android.exoplayer2.source;
 
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.util.Assertions;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final class SinglePeriodTimeline extends Timeline {
     private static final Object UID = new Object();
     private final boolean isDynamic;
@@ -18,30 +17,9 @@ public final class SinglePeriodTimeline extends Timeline {
     private final long windowPositionInPeriodUs;
     private final long windowStartTimeMs;
 
-    public SinglePeriodTimeline(long durationUs, boolean isSeekable, boolean isDynamic, boolean isLive) {
-        this(durationUs, isSeekable, isDynamic, isLive, null, null);
-    }
-
-    public SinglePeriodTimeline(long durationUs, boolean isSeekable, boolean isDynamic, boolean isLive, Object manifest, Object tag) {
-        this(durationUs, durationUs, 0L, 0L, isSeekable, isDynamic, isLive, manifest, tag);
-    }
-
-    public SinglePeriodTimeline(long periodDurationUs, long windowDurationUs, long windowPositionInPeriodUs, long windowDefaultStartPositionUs, boolean isSeekable, boolean isDynamic, boolean isLive, Object manifest, Object tag) {
-        this(C.TIME_UNSET, C.TIME_UNSET, periodDurationUs, windowDurationUs, windowPositionInPeriodUs, windowDefaultStartPositionUs, isSeekable, isDynamic, isLive, manifest, tag);
-    }
-
-    public SinglePeriodTimeline(long presentationStartTimeMs, long windowStartTimeMs, long periodDurationUs, long windowDurationUs, long windowPositionInPeriodUs, long windowDefaultStartPositionUs, boolean isSeekable, boolean isDynamic, boolean isLive, Object manifest, Object tag) {
-        this.presentationStartTimeMs = presentationStartTimeMs;
-        this.windowStartTimeMs = windowStartTimeMs;
-        this.periodDurationUs = periodDurationUs;
-        this.windowDurationUs = windowDurationUs;
-        this.windowPositionInPeriodUs = windowPositionInPeriodUs;
-        this.windowDefaultStartPositionUs = windowDefaultStartPositionUs;
-        this.isSeekable = isSeekable;
-        this.isDynamic = isDynamic;
-        this.isLive = isLive;
-        this.manifest = manifest;
-        this.tag = tag;
+    @Override // com.google.android.exoplayer2.Timeline
+    public int getPeriodCount() {
+        return 1;
     }
 
     @Override // com.google.android.exoplayer2.Timeline
@@ -49,44 +27,66 @@ public final class SinglePeriodTimeline extends Timeline {
         return 1;
     }
 
+    public SinglePeriodTimeline(long j, boolean z, boolean z2, boolean z3, Object obj, Object obj2) {
+        this(j, j, 0L, 0L, z, z2, z3, obj, obj2);
+    }
+
+    public SinglePeriodTimeline(long j, long j2, long j3, long j4, boolean z, boolean z2, boolean z3, Object obj, Object obj2) {
+        this(-9223372036854775807L, -9223372036854775807L, j, j2, j3, j4, z, z2, z3, obj, obj2);
+    }
+
+    public SinglePeriodTimeline(long j, long j2, long j3, long j4, long j5, long j6, boolean z, boolean z2, boolean z3, Object obj, Object obj2) {
+        this.presentationStartTimeMs = j;
+        this.windowStartTimeMs = j2;
+        this.periodDurationUs = j3;
+        this.windowDurationUs = j4;
+        this.windowPositionInPeriodUs = j5;
+        this.windowDefaultStartPositionUs = j6;
+        this.isSeekable = z;
+        this.isDynamic = z2;
+        this.isLive = z3;
+        this.manifest = obj;
+        this.tag = obj2;
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0026, code lost:
+        if (r1 > r5) goto L8;
+     */
     @Override // com.google.android.exoplayer2.Timeline
-    public Timeline.Window getWindow(int windowIndex, Timeline.Window window, long defaultPositionProjectionUs) {
-        Assertions.checkIndex(windowIndex, 0, 1);
-        long windowDefaultStartPositionUs = this.windowDefaultStartPositionUs;
-        if (this.isDynamic && defaultPositionProjectionUs != 0) {
-            long j = this.windowDurationUs;
-            if (j == C.TIME_UNSET) {
-                windowDefaultStartPositionUs = C.TIME_UNSET;
-            } else {
-                windowDefaultStartPositionUs += defaultPositionProjectionUs;
-                if (windowDefaultStartPositionUs > j) {
-                    windowDefaultStartPositionUs = C.TIME_UNSET;
-                }
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public Timeline.Window getWindow(int i, Timeline.Window window, long j) {
+        long j2;
+        Assertions.checkIndex(i, 0, 1);
+        long j3 = this.windowDefaultStartPositionUs;
+        boolean z = this.isDynamic;
+        if (z && j != 0) {
+            long j4 = this.windowDurationUs;
+            if (j4 != -9223372036854775807L) {
+                j3 += j;
             }
+            j2 = -9223372036854775807L;
+            return window.set(Timeline.Window.SINGLE_WINDOW_UID, this.tag, this.manifest, this.presentationStartTimeMs, this.windowStartTimeMs, this.isSeekable, z, this.isLive, j2, this.windowDurationUs, 0, 0, this.windowPositionInPeriodUs);
         }
-        return window.set(Timeline.Window.SINGLE_WINDOW_UID, this.tag, this.manifest, this.presentationStartTimeMs, this.windowStartTimeMs, this.isSeekable, this.isDynamic, this.isLive, windowDefaultStartPositionUs, this.windowDurationUs, 0, 0, this.windowPositionInPeriodUs);
+        j2 = j3;
+        return window.set(Timeline.Window.SINGLE_WINDOW_UID, this.tag, this.manifest, this.presentationStartTimeMs, this.windowStartTimeMs, this.isSeekable, z, this.isLive, j2, this.windowDurationUs, 0, 0, this.windowPositionInPeriodUs);
     }
 
     @Override // com.google.android.exoplayer2.Timeline
-    public int getPeriodCount() {
-        return 1;
+    public Timeline.Period getPeriod(int i, Timeline.Period period, boolean z) {
+        Assertions.checkIndex(i, 0, 1);
+        return period.set(null, z ? UID : null, 0, this.periodDurationUs, -this.windowPositionInPeriodUs);
     }
 
     @Override // com.google.android.exoplayer2.Timeline
-    public Timeline.Period getPeriod(int periodIndex, Timeline.Period period, boolean setIds) {
-        Assertions.checkIndex(periodIndex, 0, 1);
-        Object uid = setIds ? UID : null;
-        return period.set(null, uid, 0, this.periodDurationUs, -this.windowPositionInPeriodUs);
+    public int getIndexOfPeriod(Object obj) {
+        return UID.equals(obj) ? 0 : -1;
     }
 
     @Override // com.google.android.exoplayer2.Timeline
-    public int getIndexOfPeriod(Object uid) {
-        return UID.equals(uid) ? 0 : -1;
-    }
-
-    @Override // com.google.android.exoplayer2.Timeline
-    public Object getUidOfPeriod(int periodIndex) {
-        Assertions.checkIndex(periodIndex, 0, 1);
+    public Object getUidOfPeriod(int i) {
+        Assertions.checkIndex(i, 0, 1);
         return UID;
     }
 }

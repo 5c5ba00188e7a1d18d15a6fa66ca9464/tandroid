@@ -1,11 +1,10 @@
 package com.google.android.exoplayer2.extractor.ts;
 
-import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.ConstantBitrateSeekMap;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
-import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
@@ -14,16 +13,8 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.EOFException;
 import java.io.IOException;
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final class AdtsExtractor implements Extractor {
-    public static final ExtractorsFactory FACTORY = AdtsExtractor$$ExternalSyntheticLambda0.INSTANCE;
-    public static final int FLAG_ENABLE_CONSTANT_BITRATE_SEEKING = 1;
-    private static final int MAX_PACKET_SIZE = 2048;
-    private static final int MAX_SNIFF_BYTES = 8192;
-    private static final int NUM_FRAMES_FOR_AVERAGE_FRAME_SIZE = 1000;
     private int averageFrameSize;
     private ExtractorOutput extractorOutput;
     private long firstFramePosition;
@@ -37,22 +28,16 @@ public final class AdtsExtractor implements Extractor {
     private final ParsableBitArray scratchBits;
     private boolean startedPacket;
 
-    @Documented
-    @Retention(RetentionPolicy.SOURCE)
-    /* loaded from: classes.dex */
-    public @interface Flags {
-    }
-
-    public static /* synthetic */ Extractor[] lambda$static$0() {
-        return new Extractor[]{new AdtsExtractor()};
+    @Override // com.google.android.exoplayer2.extractor.Extractor
+    public void release() {
     }
 
     public AdtsExtractor() {
         this(0);
     }
 
-    public AdtsExtractor(int flags) {
-        this.flags = flags;
+    public AdtsExtractor(int i) {
+        this.flags = i;
         this.reader = new AdtsReader(true);
         this.packetBuffer = new ParsableByteArray(2048);
         this.averageFrameSize = -1;
@@ -62,75 +47,78 @@ public final class AdtsExtractor implements Extractor {
         this.scratchBits = new ParsableBitArray(parsableByteArray.data);
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0021, code lost:
+        r9.resetPeekPosition();
+        r3 = r3 + 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x002a, code lost:
+        if ((r3 - r0) < 8192) goto L9;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x002c, code lost:
+        return false;
+     */
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput input) throws IOException, InterruptedException {
-        int startPosition = peekId3Header(input);
-        int headerPosition = startPosition;
-        int totalValidFramesSize = 0;
-        int validFramesCount = 0;
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
+        int peekId3Header = peekId3Header(extractorInput);
+        int i = peekId3Header;
         while (true) {
-            input.peekFully(this.scratch.data, 0, 2);
-            this.scratch.setPosition(0);
-            int syncBytes = this.scratch.readUnsignedShort();
-            if (!AdtsReader.isAdtsSyncWord(syncBytes)) {
-                validFramesCount = 0;
-                totalValidFramesSize = 0;
-                input.resetPeekPosition();
-                headerPosition++;
-                if (headerPosition - startPosition >= 8192) {
-                    return false;
+            int i2 = 0;
+            int i3 = 0;
+            while (true) {
+                extractorInput.peekFully(this.scratch.data, 0, 2);
+                this.scratch.setPosition(0);
+                if (!AdtsReader.isAdtsSyncWord(this.scratch.readUnsignedShort())) {
+                    break;
                 }
-                input.advancePeekPosition(headerPosition);
-            } else {
-                validFramesCount++;
-                if (validFramesCount >= 4 && totalValidFramesSize > 188) {
+                i2++;
+                if (i2 >= 4 && i3 > 188) {
                     return true;
                 }
-                input.peekFully(this.scratch.data, 0, 4);
+                extractorInput.peekFully(this.scratch.data, 0, 4);
                 this.scratchBits.setPosition(14);
-                int frameSize = this.scratchBits.readBits(13);
-                if (frameSize <= 6) {
+                int readBits = this.scratchBits.readBits(13);
+                if (readBits <= 6) {
                     return false;
                 }
-                input.advancePeekPosition(frameSize - 6);
-                totalValidFramesSize += frameSize;
+                extractorInput.advancePeekPosition(readBits - 6);
+                i3 += readBits;
             }
+            extractorInput.advancePeekPosition(i);
         }
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public void init(ExtractorOutput output) {
-        this.extractorOutput = output;
-        this.reader.createTracks(output, new TsPayloadReader.TrackIdGenerator(0, 1));
-        output.endTracks();
+    public void init(ExtractorOutput extractorOutput) {
+        this.extractorOutput = extractorOutput;
+        this.reader.createTracks(extractorOutput, new TsPayloadReader.TrackIdGenerator(0, 1));
+        extractorOutput.endTracks();
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public void seek(long position, long timeUs) {
+    public void seek(long j, long j2) {
         this.startedPacket = false;
         this.reader.seek();
-        this.firstSampleTimestampUs = timeUs;
+        this.firstSampleTimestampUs = j2;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public void release() {
-    }
-
-    @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput input, PositionHolder seekPosition) throws IOException, InterruptedException {
-        long inputLength = input.getLength();
-        boolean canUseConstantBitrateSeeking = ((this.flags & 1) == 0 || inputLength == -1) ? false : true;
-        if (canUseConstantBitrateSeeking) {
-            calculateAverageFrameSize(input);
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+        long length = extractorInput.getLength();
+        boolean z = ((this.flags & 1) == 0 || length == -1) ? false : true;
+        if (z) {
+            calculateAverageFrameSize(extractorInput);
         }
-        int bytesRead = input.read(this.packetBuffer.data, 0, 2048);
-        boolean readEndOfStream = bytesRead == -1;
-        maybeOutputSeekMap(inputLength, canUseConstantBitrateSeeking, readEndOfStream);
-        if (readEndOfStream) {
+        int read = extractorInput.read(this.packetBuffer.data, 0, 2048);
+        boolean z2 = read == -1;
+        maybeOutputSeekMap(length, z, z2);
+        if (z2) {
             return -1;
         }
         this.packetBuffer.setPosition(0);
-        this.packetBuffer.setLimit(bytesRead);
+        this.packetBuffer.setLimit(read);
         if (!this.startedPacket) {
             this.reader.packetStarted(this.firstSampleTimestampUs, 4);
             this.startedPacket = true;
@@ -139,107 +127,98 @@ public final class AdtsExtractor implements Extractor {
         return 0;
     }
 
-    private int peekId3Header(ExtractorInput input) throws IOException, InterruptedException {
-        int firstFramePosition = 0;
+    private int peekId3Header(ExtractorInput extractorInput) throws IOException, InterruptedException {
+        int i = 0;
         while (true) {
-            input.peekFully(this.scratch.data, 0, 10);
+            extractorInput.peekFully(this.scratch.data, 0, 10);
             this.scratch.setPosition(0);
             if (this.scratch.readUnsignedInt24() != 4801587) {
                 break;
             }
             this.scratch.skipBytes(3);
-            int length = this.scratch.readSynchSafeInt();
-            firstFramePosition += length + 10;
-            input.advancePeekPosition(length);
+            int readSynchSafeInt = this.scratch.readSynchSafeInt();
+            i += readSynchSafeInt + 10;
+            extractorInput.advancePeekPosition(readSynchSafeInt);
         }
-        input.resetPeekPosition();
-        input.advancePeekPosition(firstFramePosition);
+        extractorInput.resetPeekPosition();
+        extractorInput.advancePeekPosition(i);
         if (this.firstFramePosition == -1) {
-            this.firstFramePosition = firstFramePosition;
+            this.firstFramePosition = i;
         }
-        return firstFramePosition;
+        return i;
     }
 
-    private void maybeOutputSeekMap(long inputLength, boolean canUseConstantBitrateSeeking, boolean readEndOfStream) {
+    private void maybeOutputSeekMap(long j, boolean z, boolean z2) {
         if (this.hasOutputSeekMap) {
             return;
         }
-        boolean useConstantBitrateSeeking = canUseConstantBitrateSeeking && this.averageFrameSize > 0;
-        if (useConstantBitrateSeeking && this.reader.getSampleDurationUs() == C.TIME_UNSET && !readEndOfStream) {
+        boolean z3 = z && this.averageFrameSize > 0;
+        if (z3 && this.reader.getSampleDurationUs() == -9223372036854775807L && !z2) {
             return;
         }
         ExtractorOutput extractorOutput = (ExtractorOutput) Assertions.checkNotNull(this.extractorOutput);
-        if (useConstantBitrateSeeking && this.reader.getSampleDurationUs() != C.TIME_UNSET) {
-            extractorOutput.seekMap(getConstantBitrateSeekMap(inputLength));
+        if (z3 && this.reader.getSampleDurationUs() != -9223372036854775807L) {
+            extractorOutput.seekMap(getConstantBitrateSeekMap(j));
         } else {
-            extractorOutput.seekMap(new SeekMap.Unseekable(C.TIME_UNSET));
+            extractorOutput.seekMap(new SeekMap.Unseekable(-9223372036854775807L));
         }
         this.hasOutputSeekMap = true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x006c, code lost:
-        r9.hasCalculatedAverageFrameSize = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0075, code lost:
-        throw new com.google.android.exoplayer2.ParserException("Malformed ADTS stream");
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    private void calculateAverageFrameSize(ExtractorInput input) throws IOException, InterruptedException {
+    private void calculateAverageFrameSize(ExtractorInput extractorInput) throws IOException, InterruptedException {
+        int readBits;
         if (this.hasCalculatedAverageFrameSize) {
             return;
         }
         this.averageFrameSize = -1;
-        input.resetPeekPosition();
-        if (input.getPosition() == 0) {
-            peekId3Header(input);
+        extractorInput.resetPeekPosition();
+        long j = 0;
+        if (extractorInput.getPosition() == 0) {
+            peekId3Header(extractorInput);
         }
-        int numValidFrames = 0;
-        long totalValidFramesSize = 0;
-        while (true) {
+        int i = 0;
+        int i2 = 0;
+        do {
             try {
-                if (!input.peekFully(this.scratch.data, 0, 2, true)) {
+                if (!extractorInput.peekFully(this.scratch.data, 0, 2, true)) {
                     break;
                 }
                 this.scratch.setPosition(0);
-                int syncBytes = this.scratch.readUnsignedShort();
-                if (AdtsReader.isAdtsSyncWord(syncBytes)) {
-                    if (input.peekFully(this.scratch.data, 0, 4, true)) {
-                        this.scratchBits.setPosition(14);
-                        int currentFrameSize = this.scratchBits.readBits(13);
-                        if (currentFrameSize <= 6) {
-                            break;
-                        }
-                        totalValidFramesSize += currentFrameSize;
-                        numValidFrames++;
-                        if (numValidFrames != 1000 && input.advancePeekPosition(currentFrameSize - 6, true)) {
-                        }
-                    } else {
+                if (!AdtsReader.isAdtsSyncWord(this.scratch.readUnsignedShort())) {
+                    break;
+                } else if (!extractorInput.peekFully(this.scratch.data, 0, 4, true)) {
+                    break;
+                } else {
+                    this.scratchBits.setPosition(14);
+                    readBits = this.scratchBits.readBits(13);
+                    if (readBits <= 6) {
+                        this.hasCalculatedAverageFrameSize = true;
+                        throw new ParserException("Malformed ADTS stream");
+                    }
+                    j += readBits;
+                    i2++;
+                    if (i2 == 1000) {
                         break;
                     }
-                } else {
-                    numValidFrames = 0;
-                    break;
                 }
-            } catch (EOFException e) {
+            } catch (EOFException unused) {
             }
-        }
-        input.resetPeekPosition();
-        if (numValidFrames > 0) {
-            this.averageFrameSize = (int) (totalValidFramesSize / numValidFrames);
+        } while (extractorInput.advancePeekPosition(readBits - 6, true));
+        i = i2;
+        extractorInput.resetPeekPosition();
+        if (i > 0) {
+            this.averageFrameSize = (int) (j / i);
         } else {
             this.averageFrameSize = -1;
         }
         this.hasCalculatedAverageFrameSize = true;
     }
 
-    private SeekMap getConstantBitrateSeekMap(long inputLength) {
-        int bitrate = getBitrateFromFrameSize(this.averageFrameSize, this.reader.getSampleDurationUs());
-        return new ConstantBitrateSeekMap(inputLength, this.firstFramePosition, bitrate, this.averageFrameSize);
+    private SeekMap getConstantBitrateSeekMap(long j) {
+        return new ConstantBitrateSeekMap(j, this.firstFramePosition, getBitrateFromFrameSize(this.averageFrameSize, this.reader.getSampleDurationUs()), this.averageFrameSize);
     }
 
-    private static int getBitrateFromFrameSize(int frameSize, long durationUsPerFrame) {
-        return (int) (((frameSize * 8) * 1000000) / durationUsPerFrame);
+    private static int getBitrateFromFrameSize(int i, long j) {
+        return (int) (((i * 8) * 1000000) / j);
     }
 }

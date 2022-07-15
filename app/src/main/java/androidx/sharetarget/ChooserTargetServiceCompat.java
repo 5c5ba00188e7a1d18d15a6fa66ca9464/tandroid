@@ -3,12 +3,12 @@ package androidx.sharetarget;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.service.chooser.ChooserTarget;
 import android.service.chooser.ChooserTargetService;
 import android.util.Log;
 import androidx.core.content.pm.ShortcutInfoCompat;
-import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
 import androidx.sharetarget.ShareTargetCompat;
 import java.util.ArrayList;
@@ -16,109 +16,93 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class ChooserTargetServiceCompat extends ChooserTargetService {
-    static final String TAG = "ChooserServiceCompat";
-
     @Override // android.service.chooser.ChooserTargetService
     public List<ChooserTarget> onGetChooserTargets(ComponentName targetActivityName, IntentFilter matchedFilter) {
-        Context context = getApplicationContext();
-        List<ShareTargetCompat> targets = ShareTargetXmlParser.getShareTargets(context);
-        List<ShareTargetCompat> matchedTargets = new ArrayList<>();
-        for (ShareTargetCompat target : targets) {
-            if (target.mTargetClass.equals(targetActivityName.getClassName())) {
-                ShareTargetCompat.TargetData[] targetDataArr = target.mTargetData;
+        Context applicationContext = getApplicationContext();
+        ArrayList<ShareTargetCompat> shareTargets = ShareTargetXmlParser.getShareTargets(applicationContext);
+        ArrayList arrayList = new ArrayList();
+        for (ShareTargetCompat shareTargetCompat : shareTargets) {
+            if (shareTargetCompat.mTargetClass.equals(targetActivityName.getClassName())) {
+                ShareTargetCompat.TargetData[] targetDataArr = shareTargetCompat.mTargetData;
                 int length = targetDataArr.length;
                 int i = 0;
                 while (true) {
-                    if (i < length) {
-                        ShareTargetCompat.TargetData data = targetDataArr[i];
-                        if (!matchedFilter.hasDataType(data.mMimeType)) {
-                            i++;
-                        } else {
-                            matchedTargets.add(target);
-                            break;
-                        }
+                    if (i >= length) {
+                        break;
+                    } else if (matchedFilter.hasDataType(targetDataArr[i].mMimeType)) {
+                        arrayList.add(shareTargetCompat);
+                        break;
+                    } else {
+                        i++;
                     }
                 }
             }
         }
-        if (matchedTargets.isEmpty()) {
+        if (arrayList.isEmpty()) {
             return Collections.emptyList();
         }
-        ShortcutInfoCompatSaverImpl shortcutSaver = ShortcutInfoCompatSaverImpl.getInstance(context);
+        ShortcutInfoCompatSaverImpl shortcutInfoCompatSaverImpl = ShortcutInfoCompatSaverImpl.getInstance(applicationContext);
         try {
-            List<ShortcutInfoCompat> shortcuts = shortcutSaver.getShortcuts();
+            List<ShortcutInfoCompat> shortcuts = shortcutInfoCompatSaverImpl.getShortcuts();
             if (shortcuts == null || shortcuts.isEmpty()) {
                 return Collections.emptyList();
             }
-            List<ShortcutHolder> matchedShortcuts = new ArrayList<>();
-            for (ShortcutInfoCompat shortcut : shortcuts) {
-                Iterator<ShareTargetCompat> it = matchedTargets.iterator();
+            ArrayList arrayList2 = new ArrayList();
+            for (ShortcutInfoCompat shortcutInfoCompat : shortcuts) {
+                Iterator it = arrayList.iterator();
                 while (true) {
                     if (it.hasNext()) {
-                        ShareTargetCompat item = it.next();
-                        if (shortcut.getCategories().containsAll(Arrays.asList(item.mCategories))) {
-                            matchedShortcuts.add(new ShortcutHolder(shortcut, new ComponentName(context.getPackageName(), item.mTargetClass)));
+                        ShareTargetCompat shareTargetCompat2 = (ShareTargetCompat) it.next();
+                        if (shortcutInfoCompat.getCategories().containsAll(Arrays.asList(shareTargetCompat2.mCategories))) {
+                            arrayList2.add(new ShortcutHolder(shortcutInfoCompat, new ComponentName(applicationContext.getPackageName(), shareTargetCompat2.mTargetClass)));
                             break;
                         }
                     }
                 }
             }
-            return convertShortcutsToChooserTargets(shortcutSaver, matchedShortcuts);
+            return convertShortcutsToChooserTargets(shortcutInfoCompatSaverImpl, arrayList2);
         } catch (Exception e) {
-            Log.e(TAG, "Failed to retrieve shortcuts: ", e);
+            Log.e("ChooserServiceCompat", "Failed to retrieve shortcuts: ", e);
             return Collections.emptyList();
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x006c  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x007c  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x007e  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     static List<ChooserTarget> convertShortcutsToChooserTargets(ShortcutInfoCompatSaverImpl shortcutSaver, List<ShortcutHolder> matchedShortcuts) {
-        IconCompat shortcutIcon;
-        Exception e;
+        IconCompat iconCompat;
         if (matchedShortcuts.isEmpty()) {
             return new ArrayList();
         }
         Collections.sort(matchedShortcuts);
-        ArrayList<ChooserTarget> chooserTargets = new ArrayList<>();
-        int lastRank = matchedShortcuts.get(0).getShortcut().getRank();
-        int lastRank2 = lastRank;
-        float currentScore = 1.0f;
-        for (ShortcutHolder holder : matchedShortcuts) {
-            ShortcutInfoCompat shortcut = holder.getShortcut();
+        ArrayList arrayList = new ArrayList();
+        float f = 1.0f;
+        int rank = matchedShortcuts.get(0).getShortcut().getRank();
+        for (ShortcutHolder shortcutHolder : matchedShortcuts) {
+            ShortcutInfoCompat shortcut = shortcutHolder.getShortcut();
+            Icon icon = null;
             try {
-            } catch (Exception e2) {
-                e = e2;
+                iconCompat = shortcutSaver.getShortcutIcon(shortcut.getId());
+            } catch (Exception e) {
+                Log.e("ChooserServiceCompat", "Failed to retrieve shortcut icon: ", e);
+                iconCompat = null;
             }
-            try {
-                shortcutIcon = shortcutSaver.getShortcutIcon(shortcut.getId());
-            } catch (Exception e3) {
-                e = e3;
-                Log.e(TAG, "Failed to retrieve shortcut icon: ", e);
-                shortcutIcon = null;
-                Bundle extras = new Bundle();
-                extras.putString(ShortcutManagerCompat.EXTRA_SHORTCUT_ID, shortcut.getId());
-                if (lastRank2 != shortcut.getRank()) {
-                }
-                chooserTargets.add(new ChooserTarget(shortcut.getShortLabel(), shortcutIcon != null ? null : shortcutIcon.toIcon(), currentScore, holder.getTargetClass(), extras));
+            Bundle bundle = new Bundle();
+            bundle.putString("android.intent.extra.shortcut.ID", shortcut.getId());
+            if (rank != shortcut.getRank()) {
+                f -= 0.01f;
+                rank = shortcut.getRank();
             }
-            Bundle extras2 = new Bundle();
-            extras2.putString(ShortcutManagerCompat.EXTRA_SHORTCUT_ID, shortcut.getId());
-            if (lastRank2 != shortcut.getRank()) {
-                currentScore -= 0.01f;
-                lastRank2 = shortcut.getRank();
+            CharSequence shortLabel = shortcut.getShortLabel();
+            if (iconCompat != null) {
+                icon = iconCompat.toIcon();
             }
-            chooserTargets.add(new ChooserTarget(shortcut.getShortLabel(), shortcutIcon != null ? null : shortcutIcon.toIcon(), currentScore, holder.getTargetClass(), extras2));
+            arrayList.add(new ChooserTarget(shortLabel, icon, f, shortcutHolder.getTargetClass(), bundle));
         }
-        return chooserTargets;
+        return arrayList;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class ShortcutHolder implements Comparable<ShortcutHolder> {
         private final ShortcutInfoCompat mShortcut;
         private final ComponentName mTargetClass;

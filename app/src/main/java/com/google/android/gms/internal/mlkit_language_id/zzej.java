@@ -1,14 +1,13 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzel;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final class zzej<T extends zzel<T>> {
     private static final zzej zzd = new zzej(true);
     final zzgq<T, Object> zza;
@@ -49,10 +48,10 @@ public final class zzej<T extends zzel<T>> {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzej)) {
-            return false;
+        if (obj instanceof zzej) {
+            return this.zza.equals(((zzej) obj).zza);
         }
-        return this.zza.equals(((zzej) obj).zza);
+        return false;
     }
 
     public final int hashCode() {
@@ -89,11 +88,10 @@ public final class zzej<T extends zzel<T>> {
             }
             ArrayList arrayList = new ArrayList();
             arrayList.addAll((List) obj);
-            ArrayList arrayList2 = arrayList;
-            int size = arrayList2.size();
+            int size = arrayList.size();
             int i = 0;
             while (i < size) {
-                Object obj2 = arrayList2.get(i);
+                Object obj2 = arrayList.get(i);
                 i++;
                 zza(t.zzb(), obj2);
             }
@@ -107,6 +105,19 @@ public final class zzej<T extends zzel<T>> {
         this.zza.zza((zzgq<T, Object>) t, (T) obj);
     }
 
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0025, code lost:
+        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzet) == false) goto L4;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x002e, code lost:
+        if ((r3 instanceof byte[]) == false) goto L4;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x001c, code lost:
+        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzfa) == false) goto L4;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private static void zza(zzhv zzhvVar, Object obj) {
         zzeq.zza(obj);
         boolean z = true;
@@ -130,20 +141,17 @@ public final class zzej<T extends zzel<T>> {
                 z = obj instanceof String;
                 break;
             case 7:
-                if (!(obj instanceof zzdn) && !(obj instanceof byte[])) {
-                    z = false;
+                if (!(obj instanceof zzdn)) {
                     break;
                 }
                 break;
             case 8:
-                if (!(obj instanceof Integer) && !(obj instanceof zzet)) {
-                    z = false;
+                if (!(obj instanceof Integer)) {
                     break;
                 }
                 break;
             case 9:
-                if (!(obj instanceof zzfz) && !(obj instanceof zzfa)) {
-                    z = false;
+                if (!(obj instanceof zzfz)) {
                     break;
                 }
                 break;
@@ -151,9 +159,10 @@ public final class zzej<T extends zzel<T>> {
                 z = false;
                 break;
         }
-        if (!z) {
-            throw new IllegalArgumentException("Wrong object type used with protocol message reflection.");
+        if (z) {
+            return;
         }
+        throw new IllegalArgumentException("Wrong object type used with protocol message reflection.");
     }
 
     public final boolean zzf() {
@@ -208,13 +217,13 @@ public final class zzej<T extends zzel<T>> {
         if (obj instanceof zzgf) {
             return ((zzgf) obj).zza();
         }
-        if (obj instanceof byte[]) {
-            byte[] bArr = (byte[]) obj;
-            byte[] bArr2 = new byte[bArr.length];
-            System.arraycopy(bArr, 0, bArr2, 0, bArr.length);
-            return bArr2;
+        if (!(obj instanceof byte[])) {
+            return obj;
         }
-        return obj;
+        byte[] bArr = (byte[]) obj;
+        byte[] bArr2 = new byte[bArr.length];
+        System.arraycopy(bArr, 0, bArr2, 0, bArr.length);
+        return bArr2;
     }
 
     private final void zzb(Map.Entry<T, Object> entry) {
@@ -251,91 +260,6 @@ public final class zzej<T extends zzel<T>> {
         }
     }
 
-    public static void zza(zzea zzeaVar, zzhv zzhvVar, int i, Object obj) throws IOException {
-        if (zzhvVar == zzhv.GROUP) {
-            zzfz zzfzVar = (zzfz) obj;
-            zzeq.zza(zzfzVar);
-            zzeaVar.zza(i, 3);
-            zzfzVar.zza(zzeaVar);
-            zzeaVar.zza(i, 4);
-            return;
-        }
-        zzeaVar.zza(i, zzhvVar.zzb());
-        switch (zzei.zzb[zzhvVar.ordinal()]) {
-            case 1:
-                zzeaVar.zza(((Double) obj).doubleValue());
-                return;
-            case 2:
-                zzeaVar.zza(((Float) obj).floatValue());
-                return;
-            case 3:
-                zzeaVar.zza(((Long) obj).longValue());
-                return;
-            case 4:
-                zzeaVar.zza(((Long) obj).longValue());
-                return;
-            case 5:
-                zzeaVar.zza(((Integer) obj).intValue());
-                return;
-            case 6:
-                zzeaVar.zzc(((Long) obj).longValue());
-                return;
-            case 7:
-                zzeaVar.zzd(((Integer) obj).intValue());
-                return;
-            case 8:
-                zzeaVar.zza(((Boolean) obj).booleanValue());
-                return;
-            case 9:
-                ((zzfz) obj).zza(zzeaVar);
-                return;
-            case 10:
-                zzeaVar.zza((zzfz) obj);
-                return;
-            case 11:
-                if (obj instanceof zzdn) {
-                    zzeaVar.zza((zzdn) obj);
-                    return;
-                } else {
-                    zzeaVar.zza((String) obj);
-                    return;
-                }
-            case 12:
-                if (obj instanceof zzdn) {
-                    zzeaVar.zza((zzdn) obj);
-                    return;
-                }
-                byte[] bArr = (byte[]) obj;
-                zzeaVar.zzb(bArr, 0, bArr.length);
-                return;
-            case 13:
-                zzeaVar.zzb(((Integer) obj).intValue());
-                return;
-            case 14:
-                zzeaVar.zzd(((Integer) obj).intValue());
-                return;
-            case 15:
-                zzeaVar.zzc(((Long) obj).longValue());
-                return;
-            case 16:
-                zzeaVar.zzc(((Integer) obj).intValue());
-                return;
-            case 17:
-                zzeaVar.zzb(((Long) obj).longValue());
-                return;
-            case 18:
-                if (obj instanceof zzet) {
-                    zzeaVar.zza(((zzet) obj).zza());
-                    return;
-                } else {
-                    zzeaVar.zza(((Integer) obj).intValue());
-                    return;
-                }
-            default:
-                return;
-        }
-    }
-
     public final int zzg() {
         int i = 0;
         for (int i2 = 0; i2 < this.zza.zzc(); i2++) {
@@ -359,7 +283,7 @@ public final class zzej<T extends zzel<T>> {
         return zza((zzel<?>) key, value);
     }
 
-    public static int zza(zzhv zzhvVar, int i, Object obj) {
+    static int zza(zzhv zzhvVar, int i, Object obj) {
         int zze = zzea.zze(i);
         if (zzhvVar == zzhv.GROUP) {
             zzeq.zza((zzfz) obj);
