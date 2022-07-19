@@ -28,9 +28,9 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.ActionBar.Theme;
@@ -64,7 +64,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private Rect srcRect = new Rect();
     private Rect destRect = new Rect();
     private Paint paint = new Paint();
-    private RLottieDrawable sunDrawable = new RLottieDrawable(R.raw.sun, "2131558549", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+    private RLottieDrawable sunDrawable = new RLottieDrawable(R.raw.sun, "2131558561", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
 
     public DrawerProfileCell(Context context, final DrawerLayoutContainer drawerLayoutContainer) {
         super(context);

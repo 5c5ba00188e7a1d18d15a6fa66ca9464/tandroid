@@ -15,8 +15,8 @@ import com.google.zxing.qrcode.encoder.ByteMatrix;
 import com.google.zxing.qrcode.encoder.Encoder;
 import java.util.Arrays;
 import java.util.Map;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes.dex */
 public final class QRCodeWriter {

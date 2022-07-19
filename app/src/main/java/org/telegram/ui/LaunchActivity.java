@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StatFs;
+import android.os.StrictMode;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -55,6 +56,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.appindexing.FirebaseUserActions;
 import com.google.firebase.appindexing.builders.AssistActionBuilder;
+import com.huawei.hms.actions.SearchIntents;
+import com.huawei.hms.opendevice.c;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -90,12 +94,12 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.telegram.messenger.voip.VoIPPendingCall;
@@ -199,6 +203,7 @@ import org.telegram.ui.Components.ChatAttachAlertContactsLayout;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.EmbedBottomSheet;
+import org.telegram.ui.Components.EmojiPacksAlert;
 import org.telegram.ui.Components.FireworksOverlay;
 import org.telegram.ui.Components.GroupCallPip;
 import org.telegram.ui.Components.JoinGroupAlert;
@@ -309,6 +314,9 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         boolean z;
         Intent intent;
         Uri data;
+        if (BuildVars.DEBUG_VERSION) {
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy()).detectLeakedClosableObjects().build());
+        }
         ApplicationLoader.postInitApplication();
         AndroidUtilities.checkDisplaySize(this, getResources().getConfiguration());
         int i = UserConfig.selectedAccount;
@@ -1558,7 +1566,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
     /* JADX WARN: Type inference failed for: r1v157, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
     /* JADX WARN: Type inference failed for: r1v385, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
     /* JADX WARN: Type inference failed for: r2v109, types: [java.lang.Long] */
-    /* JADX WARN: Type inference failed for: r3v0, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v0, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v11 */
     /* JADX WARN: Type inference failed for: r3v14 */
     /* JADX WARN: Type inference failed for: r3v15 */
@@ -2524,7 +2532,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                             String queryParameter8 = parse2.getQueryParameter("slug");
                                             tLRPC$TL_wallPaper.slug = queryParameter8;
                                             if (queryParameter8 == null) {
-                                                tLRPC$TL_wallPaper.slug = parse2.getQueryParameter("color");
+                                                tLRPC$TL_wallPaper.slug = parse2.getQueryParameter(RemoteMessageConst.Notification.COLOR);
                                             }
                                             String str84 = tLRPC$TL_wallPaper.slug;
                                             if (str84 != null && str84.length() == 6) {
@@ -2727,7 +2735,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                                         str30 = Uri.parse(str47.replace("tg:addemoji", "tg://telegram.org").replace("tg://addemoji", "tg://telegram.org")).getQueryParameter("set");
                                                     } else if (str47.startsWith("tg:msg") || str47.startsWith("tg://msg") || str47.startsWith("tg://share") || str47.startsWith("tg:share")) {
                                                         Uri parse3 = Uri.parse(str47.replace("tg:msg", "tg://telegram.org").replace("tg://msg", "tg://telegram.org").replace("tg://share", "tg://telegram.org").replace("tg:share", "tg://telegram.org"));
-                                                        String queryParameter11 = parse3.getQueryParameter("url");
+                                                        String queryParameter11 = parse3.getQueryParameter(RemoteMessageConst.Notification.URL);
                                                         if (queryParameter11 != null) {
                                                             str79 = queryParameter11;
                                                         }
@@ -3307,7 +3315,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                                             str17 = null;
                                                             i7 = -1;
                                                         } else if (str47.startsWith("tg:search") || str47.startsWith("tg://search")) {
-                                                            String queryParameter18 = Uri.parse(str47.replace("tg:search", "tg://telegram.org").replace("tg://search", "tg://telegram.org")).getQueryParameter("query");
+                                                            String queryParameter18 = Uri.parse(str47.replace("tg:search", "tg://telegram.org").replace("tg://search", "tg://telegram.org")).getQueryParameter(SearchIntents.EXTRA_QUERY);
                                                             if (queryParameter18 != null) {
                                                                 str79 = queryParameter18.trim();
                                                             }
@@ -4338,7 +4346,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                                 hashMap = null;
                                                 z28 = false;
                                             } else if (substring2.startsWith("msg/") || substring2.startsWith("share/")) {
-                                                String queryParameter26 = data.getQueryParameter("url");
+                                                String queryParameter26 = data.getQueryParameter(RemoteMessageConst.Notification.URL);
                                                 if (queryParameter26 != null) {
                                                     str79 = queryParameter26;
                                                 }
@@ -6757,24 +6765,25 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:118:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x030d  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x040f  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x04b8  */
+    /* JADX WARN: Removed duplicated region for block: B:122:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x03b5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void runLinkRequest(final int i, final String str, final String str2, final String str3, final String str4, final String str5, final String str6, final String str7, final String str8, final String str9, final boolean z, final Integer num, final Long l, final Integer num2, final Integer num3, final String str10, final HashMap<String, String> hashMap, final String str11, final String str12, final String str13, final String str14, final TLRPC$TL_wallPaper tLRPC$TL_wallPaper, final String str15, final String str16, final String str17, final String str18, int i2, final int i3, final String str19, final String str20, final String str21) {
+        final Runnable runnable;
         final AlertDialog alertDialog;
         final int i4;
         char c;
         final int[] iArr;
-        final Runnable runnable;
         Runnable runnable2;
-        StickersAlert stickersAlert;
         BaseFragment baseFragment;
-        Exception e;
         WallpapersListActivity.ColorWallpaper colorWallpaper;
+        EmojiPacksAlert emojiPacksAlert;
+        StickersAlert stickersAlert;
         TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername;
+        String str22 = str3;
         if (i2 == 0 && UserConfig.getActivatedAccountsCount() >= 2 && hashMap != null) {
             AlertsCreator.createAccountSelectDialog(this, new AlertsCreator.AccountSelectDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda91
                 @Override // org.telegram.ui.Components.AlertsCreator.AccountSelectDelegate
@@ -6818,10 +6827,10 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     }
                 });
                 iArr = iArr2;
+                alertDialog = alertDialog2;
                 runnable2 = null;
                 i4 = i;
                 c = 0;
-                alertDialog = alertDialog2;
             } else {
                 if (str != null) {
                     if (AndroidUtilities.isNumeric(str)) {
@@ -6849,12 +6858,12 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     if (str2 == null) {
                         i4 = i;
                         alertDialog = alertDialog2;
-                        if (str3 != null || str4 != null) {
+                        if (str22 != null) {
                             if (mainFragmentsStack.isEmpty()) {
                                 return;
                             }
                             TLRPC$TL_inputStickerSetShortName tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetShortName();
-                            tLRPC$TL_inputStickerSetShortName.short_name = str3 != null ? str3 : str4;
+                            tLRPC$TL_inputStickerSetShortName.short_name = str22;
                             ArrayList<BaseFragment> arrayList = mainFragmentsStack;
                             BaseFragment baseFragment2 = arrayList.get(arrayList.size() - 1);
                             if (baseFragment2 instanceof ChatActivity) {
@@ -6870,109 +6879,116 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                             stickersAlert.probablyEmojis = z2;
                             baseFragment2.showDialog(stickersAlert);
                             return;
-                        } else if (str9 != null) {
-                            Bundle bundle = new Bundle();
-                            bundle.putBoolean("onlySelect", true);
-                            bundle.putInt("dialogsType", 3);
-                            DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-                            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda101
-                                @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                                public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z3) {
-                                    LaunchActivity.this.lambda$runLinkRequest$50(z, i4, str9, dialogsActivity2, arrayList2, charSequence, z3);
-                                }
-                            });
-                            presentFragment(dialogsActivity, false, true);
-                        } else if (hashMap != null) {
-                            int intValue = Utilities.parseInt((CharSequence) hashMap.get("bot_id")).intValue();
-                            if (intValue == 0) {
+                        } else if (str4 != null) {
+                            if (mainFragmentsStack.isEmpty()) {
                                 return;
                             }
-                            final String str22 = hashMap.get("payload");
-                            final String str23 = hashMap.get("nonce");
-                            final String str24 = hashMap.get("callback_url");
-                            final TLRPC$TL_account_getAuthorizationForm tLRPC$TL_account_getAuthorizationForm = new TLRPC$TL_account_getAuthorizationForm();
-                            tLRPC$TL_account_getAuthorizationForm.bot_id = intValue;
-                            tLRPC$TL_account_getAuthorizationForm.scope = hashMap.get("scope");
-                            tLRPC$TL_account_getAuthorizationForm.public_key = hashMap.get("public_key");
-                            iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getAuthorizationForm, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda87
-                                @Override // org.telegram.tgnet.RequestDelegate
-                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                    LaunchActivity.this.lambda$runLinkRequest$54(iArr, i, alertDialog, tLRPC$TL_account_getAuthorizationForm, str22, str23, str24, tLObject, tLRPC$TL_error);
-                                }
-                            });
-                        } else if (str12 != null) {
-                            TLRPC$TL_help_getDeepLinkInfo tLRPC$TL_help_getDeepLinkInfo = new TLRPC$TL_help_getDeepLinkInfo();
-                            tLRPC$TL_help_getDeepLinkInfo.path = str12;
-                            iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_getDeepLinkInfo, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda78
-                                @Override // org.telegram.tgnet.RequestDelegate
-                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                    LaunchActivity.this.lambda$runLinkRequest$56(alertDialog, tLObject, tLRPC$TL_error);
-                                }
-                            });
-                        } else if (str11 != null) {
-                            TLRPC$TL_langpack_getLanguage tLRPC$TL_langpack_getLanguage = new TLRPC$TL_langpack_getLanguage();
-                            tLRPC$TL_langpack_getLanguage.lang_code = str11;
-                            tLRPC$TL_langpack_getLanguage.lang_pack = "android";
-                            iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getLanguage, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda80
-                                @Override // org.telegram.tgnet.RequestDelegate
-                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                    LaunchActivity.this.lambda$runLinkRequest$58(alertDialog, tLObject, tLRPC$TL_error);
-                                }
-                            });
-                        } else if (tLRPC$TL_wallPaper != null) {
-                            if (TextUtils.isEmpty(tLRPC$TL_wallPaper.slug)) {
-                                try {
-                                    TLRPC$WallPaperSettings tLRPC$WallPaperSettings = tLRPC$TL_wallPaper.settings;
-                                    int i6 = tLRPC$WallPaperSettings.third_background_color;
-                                    if (i6 != 0) {
-                                        colorWallpaper = new WallpapersListActivity.ColorWallpaper("c", tLRPC$WallPaperSettings.background_color, tLRPC$WallPaperSettings.second_background_color, i6, tLRPC$WallPaperSettings.fourth_background_color);
-                                    } else {
-                                        colorWallpaper = new WallpapersListActivity.ColorWallpaper("c", tLRPC$WallPaperSettings.background_color, tLRPC$WallPaperSettings.second_background_color, AndroidUtilities.getWallpaperRotation(tLRPC$WallPaperSettings.rotation, false));
-                                    }
-                                    runnable2 = null;
-                                } catch (Exception e2) {
-                                    e = e2;
-                                    runnable2 = null;
-                                }
-                                try {
-                                    final ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(colorWallpaper, null, true, false);
-                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda62
-                                        @Override // java.lang.Runnable
-                                        public final void run() {
-                                            LaunchActivity.this.lambda$runLinkRequest$59(themePreviewActivity);
-                                        }
-                                    });
-                                } catch (Exception e3) {
-                                    e = e3;
-                                    FileLog.e(e);
-                                    z2 = false;
-                                    if (!z2) {
-                                    }
-                                    runnable = runnable2;
-                                    if (iArr[c] == 0) {
-                                    }
-                                }
-                                if (!z2) {
-                                    TLRPC$TL_account_getWallPaper tLRPC$TL_account_getWallPaper = new TLRPC$TL_account_getWallPaper();
-                                    TLRPC$TL_inputWallPaperSlug tLRPC$TL_inputWallPaperSlug = new TLRPC$TL_inputWallPaperSlug();
-                                    tLRPC$TL_inputWallPaperSlug.slug = tLRPC$TL_wallPaper.slug;
-                                    tLRPC$TL_account_getWallPaper.wallpaper = tLRPC$TL_inputWallPaperSlug;
-                                    iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda83
-                                        @Override // org.telegram.tgnet.RequestDelegate
-                                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                            LaunchActivity.this.lambda$runLinkRequest$61(alertDialog, tLRPC$TL_wallPaper, tLObject, tLRPC$TL_error);
-                                        }
-                                    });
-                                }
+                            TLRPC$TL_inputStickerSetShortName tLRPC$TL_inputStickerSetShortName2 = new TLRPC$TL_inputStickerSetShortName();
+                            if (str22 == null) {
+                                str22 = str4;
+                            }
+                            tLRPC$TL_inputStickerSetShortName2.short_name = str22;
+                            ArrayList arrayList2 = new ArrayList(1);
+                            arrayList2.add(tLRPC$TL_inputStickerSetShortName2);
+                            ArrayList<BaseFragment> arrayList3 = mainFragmentsStack;
+                            BaseFragment baseFragment3 = arrayList3.get(arrayList3.size() - 1);
+                            if (baseFragment3 instanceof ChatActivity) {
+                                ChatActivity chatActivity2 = (ChatActivity) baseFragment3;
+                                emojiPacksAlert = new EmojiPacksAlert(baseFragment3, this, chatActivity2.getResourceProvider(), arrayList2);
+                                emojiPacksAlert.setCalcMandatoryInsets(chatActivity2.isKeyboardVisible());
                             } else {
-                                runnable2 = null;
+                                emojiPacksAlert = new EmojiPacksAlert(baseFragment3, this, null, arrayList2);
                             }
-                            z2 = false;
-                            if (!z2) {
-                            }
+                            baseFragment3.showDialog(emojiPacksAlert);
+                            return;
                         } else {
                             runnable2 = null;
-                            if (str16 != null) {
+                            if (str9 != null) {
+                                Bundle bundle = new Bundle();
+                                bundle.putBoolean("onlySelect", true);
+                                bundle.putInt("dialogsType", 3);
+                                DialogsActivity dialogsActivity = new DialogsActivity(bundle);
+                                dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda101
+                                    @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
+                                    public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z3) {
+                                        LaunchActivity.this.lambda$runLinkRequest$50(z, i4, str9, dialogsActivity2, arrayList4, charSequence, z3);
+                                    }
+                                });
+                                presentFragment(dialogsActivity, false, true);
+                            } else if (hashMap != null) {
+                                int intValue = Utilities.parseInt((CharSequence) hashMap.get("bot_id")).intValue();
+                                if (intValue == 0) {
+                                    return;
+                                }
+                                final String str23 = hashMap.get("payload");
+                                final String str24 = hashMap.get("nonce");
+                                final String str25 = hashMap.get("callback_url");
+                                final TLRPC$TL_account_getAuthorizationForm tLRPC$TL_account_getAuthorizationForm = new TLRPC$TL_account_getAuthorizationForm();
+                                tLRPC$TL_account_getAuthorizationForm.bot_id = intValue;
+                                tLRPC$TL_account_getAuthorizationForm.scope = hashMap.get("scope");
+                                tLRPC$TL_account_getAuthorizationForm.public_key = hashMap.get("public_key");
+                                iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getAuthorizationForm, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda87
+                                    @Override // org.telegram.tgnet.RequestDelegate
+                                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                        LaunchActivity.this.lambda$runLinkRequest$54(iArr, i, alertDialog, tLRPC$TL_account_getAuthorizationForm, str23, str24, str25, tLObject, tLRPC$TL_error);
+                                    }
+                                });
+                            } else if (str12 != null) {
+                                TLRPC$TL_help_getDeepLinkInfo tLRPC$TL_help_getDeepLinkInfo = new TLRPC$TL_help_getDeepLinkInfo();
+                                tLRPC$TL_help_getDeepLinkInfo.path = str12;
+                                iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_getDeepLinkInfo, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda78
+                                    @Override // org.telegram.tgnet.RequestDelegate
+                                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                        LaunchActivity.this.lambda$runLinkRequest$56(alertDialog, tLObject, tLRPC$TL_error);
+                                    }
+                                });
+                            } else if (str11 != null) {
+                                TLRPC$TL_langpack_getLanguage tLRPC$TL_langpack_getLanguage = new TLRPC$TL_langpack_getLanguage();
+                                tLRPC$TL_langpack_getLanguage.lang_code = str11;
+                                tLRPC$TL_langpack_getLanguage.lang_pack = "android";
+                                iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getLanguage, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda80
+                                    @Override // org.telegram.tgnet.RequestDelegate
+                                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                        LaunchActivity.this.lambda$runLinkRequest$58(alertDialog, tLObject, tLRPC$TL_error);
+                                    }
+                                });
+                            } else if (tLRPC$TL_wallPaper != null) {
+                                if (TextUtils.isEmpty(tLRPC$TL_wallPaper.slug)) {
+                                    try {
+                                        TLRPC$WallPaperSettings tLRPC$WallPaperSettings = tLRPC$TL_wallPaper.settings;
+                                        int i6 = tLRPC$WallPaperSettings.third_background_color;
+                                        if (i6 != 0) {
+                                            colorWallpaper = new WallpapersListActivity.ColorWallpaper(c.a, tLRPC$WallPaperSettings.background_color, tLRPC$WallPaperSettings.second_background_color, i6, tLRPC$WallPaperSettings.fourth_background_color);
+                                        } else {
+                                            colorWallpaper = new WallpapersListActivity.ColorWallpaper(c.a, tLRPC$WallPaperSettings.background_color, tLRPC$WallPaperSettings.second_background_color, AndroidUtilities.getWallpaperRotation(tLRPC$WallPaperSettings.rotation, false));
+                                        }
+                                        final ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(colorWallpaper, null, true, false);
+                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda62
+                                            @Override // java.lang.Runnable
+                                            public final void run() {
+                                                LaunchActivity.this.lambda$runLinkRequest$59(themePreviewActivity);
+                                            }
+                                        });
+                                    } catch (Exception e) {
+                                        FileLog.e(e);
+                                    }
+                                    if (!z2) {
+                                        TLRPC$TL_account_getWallPaper tLRPC$TL_account_getWallPaper = new TLRPC$TL_account_getWallPaper();
+                                        TLRPC$TL_inputWallPaperSlug tLRPC$TL_inputWallPaperSlug = new TLRPC$TL_inputWallPaperSlug();
+                                        tLRPC$TL_inputWallPaperSlug.slug = tLRPC$TL_wallPaper.slug;
+                                        tLRPC$TL_account_getWallPaper.wallpaper = tLRPC$TL_inputWallPaperSlug;
+                                        iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda83
+                                            @Override // org.telegram.tgnet.RequestDelegate
+                                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                                LaunchActivity.this.lambda$runLinkRequest$61(alertDialog, tLRPC$TL_wallPaper, tLObject, tLRPC$TL_error);
+                                            }
+                                        });
+                                    }
+                                }
+                                z2 = false;
+                                if (!z2) {
+                                }
+                            } else if (str16 != null) {
                                 runnable = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda29
                                     @Override // java.lang.Runnable
                                     public final void run() {
@@ -6990,7 +7006,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                         LaunchActivity.this.lambda$runLinkRequest$64(alertDialog, tLObject, tLRPC$TL_error);
                                     }
                                 });
-                                if (iArr[c] == 0) {
+                                if (iArr[c] != 0) {
                                     return;
                                 }
                                 alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda1
@@ -7027,17 +7043,17 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                     bundle2.putLong("chat_id", l.longValue());
                                     bundle2.putInt("message_id", num.intValue());
                                     if (!mainFragmentsStack.isEmpty()) {
-                                        ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
-                                        baseFragment = arrayList2.get(arrayList2.size() - 1);
+                                        ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
+                                        baseFragment = arrayList4.get(arrayList4.size() - 1);
                                     } else {
                                         baseFragment = null;
                                     }
                                     if (baseFragment == null || MessagesController.getInstance(i).checkCanOpenChat(bundle2, baseFragment)) {
-                                        final BaseFragment baseFragment3 = baseFragment;
+                                        final BaseFragment baseFragment4 = baseFragment;
                                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda36
                                             @Override // java.lang.Runnable
                                             public final void run() {
-                                                LaunchActivity.this.lambda$runLinkRequest$69(bundle2, l, iArr, alertDialog, baseFragment3, i);
+                                                LaunchActivity.this.lambda$runLinkRequest$69(bundle2, l, iArr, alertDialog, baseFragment4, i);
                                             }
                                         });
                                     }
@@ -7073,7 +7089,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 runnable2 = null;
             }
             runnable = runnable2;
-            if (iArr[c] == 0) {
+            if (iArr[c] != 0) {
             }
         }
     }

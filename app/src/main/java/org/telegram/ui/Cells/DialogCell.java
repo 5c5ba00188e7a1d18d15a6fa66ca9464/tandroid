@@ -46,10 +46,10 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Dialog;
@@ -2411,7 +2411,7 @@ public class DialogCell extends BaseCell {
                 StaticLayout staticLayout4 = this.messageLayout;
                 if (staticLayout4 != null && (lineCount2 = staticLayout4.getLineCount()) > 0) {
                     int i45 = 0;
-                    int i46 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                    int i46 = Integer.MAX_VALUE;
                     while (true) {
                         if (i45 >= lineCount2) {
                             break;

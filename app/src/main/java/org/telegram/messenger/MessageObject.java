@@ -19,6 +19,8 @@ import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.Base64;
 import androidx.collection.LongSparseArray;
+import com.huawei.hms.framework.common.ContainerUtils;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.StringReader;
@@ -68,6 +70,7 @@ import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$PollResults;
 import org.telegram.tgnet.TLRPC$SecureValueType;
+import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEvent;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionChangeAbout;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions;
@@ -221,6 +224,7 @@ import org.telegram.tgnet.TLRPC$TL_message_old2;
 import org.telegram.tgnet.TLRPC$TL_message_old3;
 import org.telegram.tgnet.TLRPC$TL_message_old4;
 import org.telegram.tgnet.TLRPC$TL_message_secret;
+import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_pageBlockCollage;
 import org.telegram.tgnet.TLRPC$TL_pageBlockPhoto;
 import org.telegram.tgnet.TLRPC$TL_pageBlockSlideshow;
@@ -534,7 +538,7 @@ public class MessageObject {
                                 readLine = str2 + readLine;
                                 str2 = null;
                             }
-                            if (readLine.contains("=QUOTED-PRINTABLE") && readLine.endsWith("=")) {
+                            if (readLine.contains("=QUOTED-PRINTABLE") && readLine.endsWith(ContainerUtils.KEY_VALUE_DELIMITER)) {
                                 str2 = readLine.substring(0, readLine.length() - 1);
                             } else {
                                 int indexOf = readLine.indexOf(":");
@@ -548,7 +552,7 @@ public class MessageObject {
                                         String str3 = null;
                                         String str4 = null;
                                         while (i2 < length) {
-                                            String[] split2 = split[i2].split("=");
+                                            String[] split2 = split[i2].split(ContainerUtils.KEY_VALUE_DELIMITER);
                                             if (split2.length == i) {
                                                 if (split2[0].equals("CHARSET")) {
                                                     str4 = split2[1];
@@ -1571,9 +1575,9 @@ public class MessageObject {
         if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeTitle) {
             String str16 = ((TLRPC$TL_channelAdminLogEventActionChangeTitle) tLRPC$ChannelAdminLogEventAction).new_value;
             if (tLRPC$Chat.megagroup) {
-                messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogEditedGroupTitle", R.string.EventLogEditedGroupTitle, str16), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogEditedGroupTitle", org.telegram.messenger.beta.R.string.EventLogEditedGroupTitle, str16), "un1", user);
             } else {
-                messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogEditedChannelTitle", R.string.EventLogEditedChannelTitle, str16), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogEditedChannelTitle", org.telegram.messenger.beta.R.string.EventLogEditedChannelTitle, str16), "un1", user);
             }
         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangePhoto) {
             TLRPC$TL_channelAdminLogEventActionChangePhoto tLRPC$TL_channelAdminLogEventActionChangePhoto = (TLRPC$TL_channelAdminLogEventActionChangePhoto) tLRPC$ChannelAdminLogEventAction;
@@ -1582,30 +1586,30 @@ public class MessageObject {
             if (tLRPC$TL_channelAdminLogEventActionChangePhoto.new_photo instanceof TLRPC$TL_photoEmpty) {
                 tLRPC$TL_messageService.action = new TLRPC$TL_messageActionChatDeletePhoto();
                 if (tLRPC$Chat.megagroup) {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedWGroupPhoto", R.string.EventLogRemovedWGroupPhoto), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedWGroupPhoto", org.telegram.messenger.beta.R.string.EventLogRemovedWGroupPhoto), "un1", user);
                 } else {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedChannelPhoto", R.string.EventLogRemovedChannelPhoto), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedChannelPhoto", org.telegram.messenger.beta.R.string.EventLogRemovedChannelPhoto), "un1", user);
                 }
             } else {
                 tLRPC$TL_messageService.action = new TLRPC$TL_messageActionChatEditPhoto();
                 messageObject.messageOwner.action.photo = tLRPC$TL_channelAdminLogEventActionChangePhoto.new_photo;
                 if (tLRPC$Chat.megagroup) {
                     if (isVideoAvatar()) {
-                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupVideo", R.string.EventLogEditedGroupVideo), "un1", user);
+                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupVideo", org.telegram.messenger.beta.R.string.EventLogEditedGroupVideo), "un1", user);
                     } else {
-                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupPhoto", R.string.EventLogEditedGroupPhoto), "un1", user);
+                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupPhoto", org.telegram.messenger.beta.R.string.EventLogEditedGroupPhoto), "un1", user);
                     }
                 } else if (isVideoAvatar()) {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelVideo", R.string.EventLogEditedChannelVideo), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelVideo", org.telegram.messenger.beta.R.string.EventLogEditedChannelVideo), "un1", user);
                 } else {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelPhoto", R.string.EventLogEditedChannelPhoto), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelPhoto", org.telegram.messenger.beta.R.string.EventLogEditedChannelPhoto), "un1", user);
                 }
             }
         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoin) {
             if (tLRPC$Chat.megagroup) {
-                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogGroupJoined", R.string.EventLogGroupJoined), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogGroupJoined", org.telegram.messenger.beta.R.string.EventLogGroupJoined), "un1", user);
             } else {
-                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChannelJoined", R.string.EventLogChannelJoined), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChannelJoined", org.telegram.messenger.beta.R.string.EventLogChannelJoined), "un1", user);
             }
         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantLeave) {
             TLRPC$TL_messageService tLRPC$TL_messageService2 = new TLRPC$TL_messageService();
@@ -1613,9 +1617,9 @@ public class MessageObject {
             tLRPC$TL_messageService2.action = new TLRPC$TL_messageActionChatDeleteUser();
             messageObject.messageOwner.action.user_id = tLRPC$TL_channelAdminLogEvent.user_id;
             if (tLRPC$Chat.megagroup) {
-                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogLeftGroup", R.string.EventLogLeftGroup), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogLeftGroup", org.telegram.messenger.beta.R.string.EventLogLeftGroup), "un1", user);
             } else {
-                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogLeftChannel", R.string.EventLogLeftChannel), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogLeftChannel", org.telegram.messenger.beta.R.string.EventLogLeftChannel), "un1", user);
             }
         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantInvite) {
             TLRPC$TL_messageService tLRPC$TL_messageService3 = new TLRPC$TL_messageService();
@@ -1630,12 +1634,12 @@ public class MessageObject {
             TLRPC$Peer tLRPC$Peer2 = messageObject.messageOwner.from_id;
             if ((tLRPC$Peer2 instanceof TLRPC$TL_peerUser) && peerId == tLRPC$Peer2.user_id) {
                 if (tLRPC$Chat.megagroup) {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogGroupJoined", R.string.EventLogGroupJoined), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogGroupJoined", org.telegram.messenger.beta.R.string.EventLogGroupJoined), "un1", user);
                 } else {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChannelJoined", R.string.EventLogChannelJoined), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChannelJoined", org.telegram.messenger.beta.R.string.EventLogChannelJoined), "un1", user);
                 }
             } else {
-                CharSequence replaceWithLink = replaceWithLink(LocaleController.getString("EventLogAdded", R.string.EventLogAdded), "un2", tLObject5);
+                CharSequence replaceWithLink = replaceWithLink(LocaleController.getString("EventLogAdded", org.telegram.messenger.beta.R.string.EventLogAdded), "un2", tLObject5);
                 messageObject.messageText = replaceWithLink;
                 messageObject.messageText = replaceWithLink(replaceWithLink, "un1", user);
             }
@@ -1661,7 +1665,7 @@ public class MessageObject {
                     tLRPC$User = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(-peerId2));
                 }
                 if (!(tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantCreator) && (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator)) {
-                    String string = LocaleController.getString("EventLogChangedOwnership", R.string.EventLogChangedOwnership);
+                    String string = LocaleController.getString("EventLogChangedOwnership", org.telegram.messenger.beta.R.string.EventLogChangedOwnership);
                     sb = new StringBuilder(String.format(string, messageObject.getUserName(tLRPC$User, messageObject.messageOwner.entities, string.indexOf("%1$s"))));
                 } else {
                     TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights = tLRPC$ChannelParticipant2.admin_rights;
@@ -1669,9 +1673,9 @@ public class MessageObject {
                     tLRPC$TL_chatAdminRights = tLRPC$TL_chatAdminRights == null ? new TLRPC$TL_chatAdminRights() : tLRPC$TL_chatAdminRights;
                     tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights2 == null ? new TLRPC$TL_chatAdminRights() : tLRPC$TL_chatAdminRights2;
                     if (tLRPC$TL_chatAdminRights2.other) {
-                        str2 = LocaleController.getString("EventLogPromotedNoRights", R.string.EventLogPromotedNoRights);
+                        str2 = LocaleController.getString("EventLogPromotedNoRights", org.telegram.messenger.beta.R.string.EventLogPromotedNoRights);
                     } else {
-                        str2 = LocaleController.getString("EventLogPromoted", R.string.EventLogPromoted);
+                        str2 = LocaleController.getString("EventLogPromoted", org.telegram.messenger.beta.R.string.EventLogPromoted);
                     }
                     StringBuilder sb3 = new StringBuilder(String.format(str2, messageObject.getUserName(tLRPC$User, messageObject.messageOwner.entities, str2.indexOf("%1$s"))));
                     sb3.append("\n");
@@ -1680,12 +1684,12 @@ public class MessageObject {
                             sb3.append('\n');
                             sb3.append('-');
                             sb3.append(' ');
-                            sb3.append(LocaleController.getString("EventLogPromotedRemovedTitle", R.string.EventLogPromotedRemovedTitle));
+                            sb3.append(LocaleController.getString("EventLogPromotedRemovedTitle", org.telegram.messenger.beta.R.string.EventLogPromotedRemovedTitle));
                         } else {
                             sb3.append('\n');
                             sb3.append('+');
                             sb3.append(' ');
-                            sb3.append(LocaleController.formatString("EventLogPromotedTitle", R.string.EventLogPromotedTitle, tLRPC$ChannelParticipant.rank));
+                            sb3.append(LocaleController.formatString("EventLogPromotedTitle", org.telegram.messenger.beta.R.string.EventLogPromotedTitle, tLRPC$ChannelParticipant.rank));
                         }
                     }
                     if (tLRPC$TL_chatAdminRights.change_info != tLRPC$TL_chatAdminRights2.change_info) {
@@ -1693,10 +1697,10 @@ public class MessageObject {
                         sb3.append(tLRPC$TL_chatAdminRights2.change_info ? '+' : '-');
                         sb3.append(' ');
                         if (tLRPC$Chat2.megagroup) {
-                            i2 = R.string.EventLogPromotedChangeGroupInfo;
+                            i2 = org.telegram.messenger.beta.R.string.EventLogPromotedChangeGroupInfo;
                             str3 = "EventLogPromotedChangeGroupInfo";
                         } else {
-                            i2 = R.string.EventLogPromotedChangeChannelInfo;
+                            i2 = org.telegram.messenger.beta.R.string.EventLogPromotedChangeChannelInfo;
                             str3 = "EventLogPromotedChangeChannelInfo";
                         }
                         sb3.append(LocaleController.getString(str3, i2));
@@ -1706,58 +1710,58 @@ public class MessageObject {
                             sb3.append('\n');
                             sb3.append(tLRPC$TL_chatAdminRights2.post_messages ? '+' : '-');
                             sb3.append(' ');
-                            sb3.append(LocaleController.getString("EventLogPromotedPostMessages", R.string.EventLogPromotedPostMessages));
+                            sb3.append(LocaleController.getString("EventLogPromotedPostMessages", org.telegram.messenger.beta.R.string.EventLogPromotedPostMessages));
                         }
                         if (tLRPC$TL_chatAdminRights.edit_messages != tLRPC$TL_chatAdminRights2.edit_messages) {
                             sb3.append('\n');
                             sb3.append(tLRPC$TL_chatAdminRights2.edit_messages ? '+' : '-');
                             sb3.append(' ');
-                            sb3.append(LocaleController.getString("EventLogPromotedEditMessages", R.string.EventLogPromotedEditMessages));
+                            sb3.append(LocaleController.getString("EventLogPromotedEditMessages", org.telegram.messenger.beta.R.string.EventLogPromotedEditMessages));
                         }
                     }
                     if (tLRPC$TL_chatAdminRights.delete_messages != tLRPC$TL_chatAdminRights2.delete_messages) {
                         sb3.append('\n');
                         sb3.append(tLRPC$TL_chatAdminRights2.delete_messages ? '+' : '-');
                         sb3.append(' ');
-                        sb3.append(LocaleController.getString("EventLogPromotedDeleteMessages", R.string.EventLogPromotedDeleteMessages));
+                        sb3.append(LocaleController.getString("EventLogPromotedDeleteMessages", org.telegram.messenger.beta.R.string.EventLogPromotedDeleteMessages));
                     }
                     if (tLRPC$TL_chatAdminRights.add_admins != tLRPC$TL_chatAdminRights2.add_admins) {
                         sb3.append('\n');
                         sb3.append(tLRPC$TL_chatAdminRights2.add_admins ? '+' : '-');
                         sb3.append(' ');
-                        sb3.append(LocaleController.getString("EventLogPromotedAddAdmins", R.string.EventLogPromotedAddAdmins));
+                        sb3.append(LocaleController.getString("EventLogPromotedAddAdmins", org.telegram.messenger.beta.R.string.EventLogPromotedAddAdmins));
                     }
                     if (tLRPC$TL_chatAdminRights.anonymous != tLRPC$TL_chatAdminRights2.anonymous) {
                         sb3.append('\n');
                         sb3.append(tLRPC$TL_chatAdminRights2.anonymous ? '+' : '-');
                         sb3.append(' ');
-                        sb3.append(LocaleController.getString("EventLogPromotedSendAnonymously", R.string.EventLogPromotedSendAnonymously));
+                        sb3.append(LocaleController.getString("EventLogPromotedSendAnonymously", org.telegram.messenger.beta.R.string.EventLogPromotedSendAnonymously));
                     }
                     if (tLRPC$Chat2.megagroup) {
                         if (tLRPC$TL_chatAdminRights.ban_users != tLRPC$TL_chatAdminRights2.ban_users) {
                             sb3.append('\n');
                             sb3.append(tLRPC$TL_chatAdminRights2.ban_users ? '+' : '-');
                             sb3.append(' ');
-                            sb3.append(LocaleController.getString("EventLogPromotedBanUsers", R.string.EventLogPromotedBanUsers));
+                            sb3.append(LocaleController.getString("EventLogPromotedBanUsers", org.telegram.messenger.beta.R.string.EventLogPromotedBanUsers));
                         }
                         if (tLRPC$TL_chatAdminRights.manage_call != tLRPC$TL_chatAdminRights2.manage_call) {
                             sb3.append('\n');
                             sb3.append(tLRPC$TL_chatAdminRights2.manage_call ? '+' : '-');
                             sb3.append(' ');
-                            sb3.append(LocaleController.getString("EventLogPromotedManageCall", R.string.EventLogPromotedManageCall));
+                            sb3.append(LocaleController.getString("EventLogPromotedManageCall", org.telegram.messenger.beta.R.string.EventLogPromotedManageCall));
                         }
                     }
                     if (tLRPC$TL_chatAdminRights.invite_users != tLRPC$TL_chatAdminRights2.invite_users) {
                         sb3.append('\n');
                         sb3.append(tLRPC$TL_chatAdminRights2.invite_users ? '+' : '-');
                         sb3.append(' ');
-                        sb3.append(LocaleController.getString("EventLogPromotedAddUsers", R.string.EventLogPromotedAddUsers));
+                        sb3.append(LocaleController.getString("EventLogPromotedAddUsers", org.telegram.messenger.beta.R.string.EventLogPromotedAddUsers));
                     }
                     if (tLRPC$Chat2.megagroup && tLRPC$TL_chatAdminRights.pin_messages != tLRPC$TL_chatAdminRights2.pin_messages) {
                         sb3.append('\n');
                         sb3.append(tLRPC$TL_chatAdminRights2.pin_messages ? '+' : '-');
                         sb3.append(' ');
-                        sb3.append(LocaleController.getString("EventLogPromotedPinMessages", R.string.EventLogPromotedPinMessages));
+                        sb3.append(LocaleController.getString("EventLogPromotedPinMessages", org.telegram.messenger.beta.R.string.EventLogPromotedPinMessages));
                     }
                     sb = sb3;
                 }
@@ -1767,7 +1771,7 @@ public class MessageObject {
                 messageObject.messageOwner = new TLRPC$TL_message();
                 TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = tLRPC$TL_channelAdminLogEventActionDefaultBannedRights.prev_banned_rights;
                 TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights2 = tLRPC$TL_channelAdminLogEventActionDefaultBannedRights.new_banned_rights;
-                StringBuilder sb4 = new StringBuilder(LocaleController.getString("EventLogDefaultPermissions", R.string.EventLogDefaultPermissions));
+                StringBuilder sb4 = new StringBuilder(LocaleController.getString("EventLogDefaultPermissions", org.telegram.messenger.beta.R.string.EventLogDefaultPermissions));
                 tLRPC$TL_chatBannedRights = tLRPC$TL_chatBannedRights == null ? new TLRPC$TL_chatBannedRights() : tLRPC$TL_chatBannedRights;
                 tLRPC$TL_chatBannedRights2 = tLRPC$TL_chatBannedRights2 == null ? new TLRPC$TL_chatBannedRights() : tLRPC$TL_chatBannedRights2;
                 if (tLRPC$TL_chatBannedRights.send_messages != tLRPC$TL_chatBannedRights2.send_messages) {
@@ -1775,7 +1779,7 @@ public class MessageObject {
                     sb4.append('\n');
                     sb4.append(!tLRPC$TL_chatBannedRights2.send_messages ? '+' : '-');
                     sb4.append(' ');
-                    sb4.append(LocaleController.getString("EventLogRestrictedSendMessages", R.string.EventLogRestrictedSendMessages));
+                    sb4.append(LocaleController.getString("EventLogRestrictedSendMessages", org.telegram.messenger.beta.R.string.EventLogRestrictedSendMessages));
                     z4 = true;
                 } else {
                     z4 = false;
@@ -1788,7 +1792,7 @@ public class MessageObject {
                     sb4.append('\n');
                     sb4.append(!tLRPC$TL_chatBannedRights2.send_stickers ? '+' : '-');
                     sb4.append(' ');
-                    sb4.append(LocaleController.getString("EventLogRestrictedSendStickers", R.string.EventLogRestrictedSendStickers));
+                    sb4.append(LocaleController.getString("EventLogRestrictedSendStickers", org.telegram.messenger.beta.R.string.EventLogRestrictedSendStickers));
                 }
                 if (tLRPC$TL_chatBannedRights.send_media != tLRPC$TL_chatBannedRights2.send_media) {
                     if (!z4) {
@@ -1798,7 +1802,7 @@ public class MessageObject {
                     sb4.append('\n');
                     sb4.append(!tLRPC$TL_chatBannedRights2.send_media ? '+' : '-');
                     sb4.append(' ');
-                    sb4.append(LocaleController.getString("EventLogRestrictedSendMedia", R.string.EventLogRestrictedSendMedia));
+                    sb4.append(LocaleController.getString("EventLogRestrictedSendMedia", org.telegram.messenger.beta.R.string.EventLogRestrictedSendMedia));
                 }
                 if (tLRPC$TL_chatBannedRights.send_polls != tLRPC$TL_chatBannedRights2.send_polls) {
                     if (!z4) {
@@ -1808,7 +1812,7 @@ public class MessageObject {
                     sb4.append('\n');
                     sb4.append(!tLRPC$TL_chatBannedRights2.send_polls ? '+' : '-');
                     sb4.append(' ');
-                    sb4.append(LocaleController.getString("EventLogRestrictedSendPolls", R.string.EventLogRestrictedSendPolls));
+                    sb4.append(LocaleController.getString("EventLogRestrictedSendPolls", org.telegram.messenger.beta.R.string.EventLogRestrictedSendPolls));
                 }
                 if (tLRPC$TL_chatBannedRights.embed_links != tLRPC$TL_chatBannedRights2.embed_links) {
                     if (!z4) {
@@ -1818,7 +1822,7 @@ public class MessageObject {
                     sb4.append('\n');
                     sb4.append(!tLRPC$TL_chatBannedRights2.embed_links ? '+' : '-');
                     sb4.append(' ');
-                    sb4.append(LocaleController.getString("EventLogRestrictedSendEmbed", R.string.EventLogRestrictedSendEmbed));
+                    sb4.append(LocaleController.getString("EventLogRestrictedSendEmbed", org.telegram.messenger.beta.R.string.EventLogRestrictedSendEmbed));
                 }
                 if (tLRPC$TL_chatBannedRights.change_info != tLRPC$TL_chatBannedRights2.change_info) {
                     if (!z4) {
@@ -1828,7 +1832,7 @@ public class MessageObject {
                     sb4.append('\n');
                     sb4.append(!tLRPC$TL_chatBannedRights2.change_info ? '+' : '-');
                     sb4.append(' ');
-                    sb4.append(LocaleController.getString("EventLogRestrictedChangeInfo", R.string.EventLogRestrictedChangeInfo));
+                    sb4.append(LocaleController.getString("EventLogRestrictedChangeInfo", org.telegram.messenger.beta.R.string.EventLogRestrictedChangeInfo));
                 }
                 if (tLRPC$TL_chatBannedRights.invite_users != tLRPC$TL_chatBannedRights2.invite_users) {
                     if (!z4) {
@@ -1838,7 +1842,7 @@ public class MessageObject {
                     sb4.append('\n');
                     sb4.append(!tLRPC$TL_chatBannedRights2.invite_users ? '+' : '-');
                     sb4.append(' ');
-                    sb4.append(LocaleController.getString("EventLogRestrictedInviteUsers", R.string.EventLogRestrictedInviteUsers));
+                    sb4.append(LocaleController.getString("EventLogRestrictedInviteUsers", org.telegram.messenger.beta.R.string.EventLogRestrictedInviteUsers));
                 }
                 if (tLRPC$TL_chatBannedRights.pin_messages != tLRPC$TL_chatBannedRights2.pin_messages) {
                     if (!z4) {
@@ -1847,7 +1851,7 @@ public class MessageObject {
                     sb4.append('\n');
                     sb4.append(!tLRPC$TL_chatBannedRights2.pin_messages ? '+' : '-');
                     sb4.append(' ');
-                    sb4.append(LocaleController.getString("EventLogRestrictedPinMessages", R.string.EventLogRestrictedPinMessages));
+                    sb4.append(LocaleController.getString("EventLogRestrictedPinMessages", org.telegram.messenger.beta.R.string.EventLogRestrictedPinMessages));
                 }
                 messageObject.messageText = sb4.toString();
             } else {
@@ -1931,9 +1935,9 @@ public class MessageObject {
                             }
                         } else {
                             str4 = "";
-                            sb2 = new StringBuilder(LocaleController.getString("UserRestrictionsUntilForever", R.string.UserRestrictionsUntilForever));
+                            sb2 = new StringBuilder(LocaleController.getString("UserRestrictionsUntilForever", org.telegram.messenger.beta.R.string.UserRestrictionsUntilForever));
                         }
-                        String string2 = LocaleController.getString("EventLogRestrictedUntil", R.string.EventLogRestrictedUntil);
+                        String string2 = LocaleController.getString("EventLogRestrictedUntil", org.telegram.messenger.beta.R.string.EventLogRestrictedUntil);
                         StringBuilder sb5 = new StringBuilder(String.format(string2, messageObject.getUserName(tLObject4, messageObject.messageOwner.entities, string2.indexOf("%1$s")), sb2.toString()));
                         tLRPC$TL_chatBannedRights3 = tLRPC$TL_chatBannedRights3 == null ? new TLRPC$TL_chatBannedRights() : tLRPC$TL_chatBannedRights3;
                         tLRPC$TL_chatBannedRights4 = tLRPC$TL_chatBannedRights4 == null ? new TLRPC$TL_chatBannedRights() : tLRPC$TL_chatBannedRights4;
@@ -1942,7 +1946,7 @@ public class MessageObject {
                             sb5.append('\n');
                             sb5.append(!tLRPC$TL_chatBannedRights4.view_messages ? '+' : '-');
                             sb5.append(' ');
-                            sb5.append(LocaleController.getString("EventLogRestrictedReadMessages", R.string.EventLogRestrictedReadMessages));
+                            sb5.append(LocaleController.getString("EventLogRestrictedReadMessages", org.telegram.messenger.beta.R.string.EventLogRestrictedReadMessages));
                             z3 = true;
                         } else {
                             z3 = false;
@@ -1955,7 +1959,7 @@ public class MessageObject {
                             sb5.append('\n');
                             sb5.append(!tLRPC$TL_chatBannedRights4.send_messages ? '+' : '-');
                             sb5.append(' ');
-                            sb5.append(LocaleController.getString("EventLogRestrictedSendMessages", R.string.EventLogRestrictedSendMessages));
+                            sb5.append(LocaleController.getString("EventLogRestrictedSendMessages", org.telegram.messenger.beta.R.string.EventLogRestrictedSendMessages));
                         }
                         if (tLRPC$TL_chatBannedRights3.send_stickers != tLRPC$TL_chatBannedRights4.send_stickers || tLRPC$TL_chatBannedRights3.send_inline != tLRPC$TL_chatBannedRights4.send_inline || tLRPC$TL_chatBannedRights3.send_gifs != tLRPC$TL_chatBannedRights4.send_gifs || tLRPC$TL_chatBannedRights3.send_games != tLRPC$TL_chatBannedRights4.send_games) {
                             if (!z3) {
@@ -1965,7 +1969,7 @@ public class MessageObject {
                             sb5.append('\n');
                             sb5.append(!tLRPC$TL_chatBannedRights4.send_stickers ? '+' : '-');
                             sb5.append(' ');
-                            sb5.append(LocaleController.getString("EventLogRestrictedSendStickers", R.string.EventLogRestrictedSendStickers));
+                            sb5.append(LocaleController.getString("EventLogRestrictedSendStickers", org.telegram.messenger.beta.R.string.EventLogRestrictedSendStickers));
                         }
                         if (tLRPC$TL_chatBannedRights3.send_media != tLRPC$TL_chatBannedRights4.send_media) {
                             if (!z3) {
@@ -1975,7 +1979,7 @@ public class MessageObject {
                             sb5.append('\n');
                             sb5.append(!tLRPC$TL_chatBannedRights4.send_media ? '+' : '-');
                             sb5.append(' ');
-                            sb5.append(LocaleController.getString("EventLogRestrictedSendMedia", R.string.EventLogRestrictedSendMedia));
+                            sb5.append(LocaleController.getString("EventLogRestrictedSendMedia", org.telegram.messenger.beta.R.string.EventLogRestrictedSendMedia));
                         }
                         if (tLRPC$TL_chatBannedRights3.send_polls != tLRPC$TL_chatBannedRights4.send_polls) {
                             if (!z3) {
@@ -1985,7 +1989,7 @@ public class MessageObject {
                             sb5.append('\n');
                             sb5.append(!tLRPC$TL_chatBannedRights4.send_polls ? '+' : '-');
                             sb5.append(' ');
-                            sb5.append(LocaleController.getString("EventLogRestrictedSendPolls", R.string.EventLogRestrictedSendPolls));
+                            sb5.append(LocaleController.getString("EventLogRestrictedSendPolls", org.telegram.messenger.beta.R.string.EventLogRestrictedSendPolls));
                         }
                         if (tLRPC$TL_chatBannedRights3.embed_links != tLRPC$TL_chatBannedRights4.embed_links) {
                             if (!z3) {
@@ -1995,7 +1999,7 @@ public class MessageObject {
                             sb5.append('\n');
                             sb5.append(!tLRPC$TL_chatBannedRights4.embed_links ? '+' : '-');
                             sb5.append(' ');
-                            sb5.append(LocaleController.getString("EventLogRestrictedSendEmbed", R.string.EventLogRestrictedSendEmbed));
+                            sb5.append(LocaleController.getString("EventLogRestrictedSendEmbed", org.telegram.messenger.beta.R.string.EventLogRestrictedSendEmbed));
                         }
                         if (tLRPC$TL_chatBannedRights3.change_info != tLRPC$TL_chatBannedRights4.change_info) {
                             if (!z3) {
@@ -2005,7 +2009,7 @@ public class MessageObject {
                             sb5.append('\n');
                             sb5.append(!tLRPC$TL_chatBannedRights4.change_info ? '+' : '-');
                             sb5.append(' ');
-                            sb5.append(LocaleController.getString("EventLogRestrictedChangeInfo", R.string.EventLogRestrictedChangeInfo));
+                            sb5.append(LocaleController.getString("EventLogRestrictedChangeInfo", org.telegram.messenger.beta.R.string.EventLogRestrictedChangeInfo));
                         }
                         if (tLRPC$TL_chatBannedRights3.invite_users != tLRPC$TL_chatBannedRights4.invite_users) {
                             if (!z3) {
@@ -2015,7 +2019,7 @@ public class MessageObject {
                             sb5.append('\n');
                             sb5.append(!tLRPC$TL_chatBannedRights4.invite_users ? '+' : '-');
                             sb5.append(' ');
-                            sb5.append(LocaleController.getString("EventLogRestrictedInviteUsers", R.string.EventLogRestrictedInviteUsers));
+                            sb5.append(LocaleController.getString("EventLogRestrictedInviteUsers", org.telegram.messenger.beta.R.string.EventLogRestrictedInviteUsers));
                         }
                         if (tLRPC$TL_chatBannedRights3.pin_messages != tLRPC$TL_chatBannedRights4.pin_messages) {
                             if (!z3) {
@@ -2027,15 +2031,15 @@ public class MessageObject {
                             sb5.append(c3);
                             sb5.append(!tLRPC$TL_chatBannedRights4.pin_messages ? '+' : '-');
                             sb5.append(' ');
-                            sb5.append(LocaleController.getString("EventLogRestrictedPinMessages", R.string.EventLogRestrictedPinMessages));
+                            sb5.append(LocaleController.getString("EventLogRestrictedPinMessages", org.telegram.messenger.beta.R.string.EventLogRestrictedPinMessages));
                         }
                         messageObject.messageText = sb5.toString();
                     } else {
                         str4 = "";
                         if (tLRPC$TL_chatBannedRights4 != null && (tLRPC$TL_chatBannedRights3 == null || tLRPC$TL_chatBannedRights4.view_messages)) {
-                            str14 = LocaleController.getString("EventLogChannelRestricted", R.string.EventLogChannelRestricted);
+                            str14 = LocaleController.getString("EventLogChannelRestricted", org.telegram.messenger.beta.R.string.EventLogChannelRestricted);
                         } else {
-                            str14 = LocaleController.getString("EventLogChannelUnrestricted", R.string.EventLogChannelUnrestricted);
+                            str14 = LocaleController.getString("EventLogChannelUnrestricted", org.telegram.messenger.beta.R.string.EventLogChannelUnrestricted);
                         }
                         messageObject.messageText = String.format(str14, messageObject.getUserName(tLObject4, messageObject.messageOwner.entities, str14.indexOf("%1$s")));
                     }
@@ -2048,38 +2052,38 @@ public class MessageObject {
                             TLRPC$Chat chat = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(tLRPC$TL_channelAdminLogEventActionUpdatePinned.message.fwd_from.from_id.channel_id));
                             TLRPC$Message tLRPC$Message = tLRPC$TL_channelAdminLogEventActionUpdatePinned.message;
                             if ((tLRPC$Message instanceof TLRPC$TL_messageEmpty) || !tLRPC$Message.pinned) {
-                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogUnpinnedMessages", R.string.EventLogUnpinnedMessages), "un1", chat);
+                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogUnpinnedMessages", org.telegram.messenger.beta.R.string.EventLogUnpinnedMessages), "un1", chat);
                             } else {
-                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogPinnedMessages", R.string.EventLogPinnedMessages), "un1", chat);
+                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogPinnedMessages", org.telegram.messenger.beta.R.string.EventLogPinnedMessages), "un1", chat);
                             }
                         } else if ((tLRPC$TL_message instanceof TLRPC$TL_messageEmpty) || !tLRPC$TL_message.pinned) {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogUnpinnedMessages", R.string.EventLogUnpinnedMessages), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogUnpinnedMessages", org.telegram.messenger.beta.R.string.EventLogUnpinnedMessages), "un1", user);
                         } else {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogPinnedMessages", R.string.EventLogPinnedMessages), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogPinnedMessages", org.telegram.messenger.beta.R.string.EventLogPinnedMessages), "un1", user);
                         }
                     } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionStopPoll) {
                         tLRPC$TL_message = ((TLRPC$TL_channelAdminLogEventActionStopPoll) tLRPC$ChannelAdminLogEventAction).message;
                         TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$TL_message.media;
                         if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) && ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia).poll.quiz) {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStopQuiz", R.string.EventLogStopQuiz), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStopQuiz", org.telegram.messenger.beta.R.string.EventLogStopQuiz), "un1", user);
                         } else {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStopPoll", R.string.EventLogStopPoll), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStopPoll", org.telegram.messenger.beta.R.string.EventLogStopPoll), "un1", user);
                         }
                     } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleSignatures) {
                         if (((TLRPC$TL_channelAdminLogEventActionToggleSignatures) tLRPC$ChannelAdminLogEventAction).new_value) {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSignaturesOn", R.string.EventLogToggledSignaturesOn), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSignaturesOn", org.telegram.messenger.beta.R.string.EventLogToggledSignaturesOn), "un1", user);
                         } else {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSignaturesOff", R.string.EventLogToggledSignaturesOff), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSignaturesOff", org.telegram.messenger.beta.R.string.EventLogToggledSignaturesOff), "un1", user);
                         }
                     } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleInvites) {
                         if (((TLRPC$TL_channelAdminLogEventActionToggleInvites) tLRPC$ChannelAdminLogEventAction).new_value) {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesOn", R.string.EventLogToggledInvitesOn), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesOn", org.telegram.messenger.beta.R.string.EventLogToggledInvitesOn), "un1", user);
                         } else {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesOff", R.string.EventLogToggledInvitesOff), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesOff", org.telegram.messenger.beta.R.string.EventLogToggledInvitesOff), "un1", user);
                         }
                     } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) {
                         tLRPC$TL_message = ((TLRPC$TL_channelAdminLogEventActionDeleteMessage) tLRPC$ChannelAdminLogEventAction).message;
-                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogDeletedMessages", R.string.EventLogDeletedMessages), "un1", user);
+                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogDeletedMessages", org.telegram.messenger.beta.R.string.EventLogDeletedMessages), "un1", user);
                     } else {
                         if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeLinkedChat) {
                             long j = ((TLRPC$TL_channelAdminLogEventActionChangeLinkedChat) tLRPC$ChannelAdminLogEventAction).new_value;
@@ -2088,23 +2092,23 @@ public class MessageObject {
                             if (tLRPC$Chat2.megagroup) {
                                 if (j == 0) {
                                     TLRPC$Chat chat2 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j2));
-                                    CharSequence replaceWithLink2 = replaceWithLink(LocaleController.getString("EventLogRemovedLinkedChannel", R.string.EventLogRemovedLinkedChannel), "un1", user);
+                                    CharSequence replaceWithLink2 = replaceWithLink(LocaleController.getString("EventLogRemovedLinkedChannel", org.telegram.messenger.beta.R.string.EventLogRemovedLinkedChannel), "un1", user);
                                     messageObject.messageText = replaceWithLink2;
                                     messageObject.messageText = replaceWithLink(replaceWithLink2, "un2", chat2);
                                 } else {
                                     TLRPC$Chat chat3 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j));
-                                    CharSequence replaceWithLink3 = replaceWithLink(LocaleController.getString("EventLogChangedLinkedChannel", R.string.EventLogChangedLinkedChannel), "un1", user);
+                                    CharSequence replaceWithLink3 = replaceWithLink(LocaleController.getString("EventLogChangedLinkedChannel", org.telegram.messenger.beta.R.string.EventLogChangedLinkedChannel), "un1", user);
                                     messageObject.messageText = replaceWithLink3;
                                     messageObject.messageText = replaceWithLink(replaceWithLink3, "un2", chat3);
                                 }
                             } else if (j == 0) {
                                 TLRPC$Chat chat4 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j2));
-                                CharSequence replaceWithLink4 = replaceWithLink(LocaleController.getString("EventLogRemovedLinkedGroup", R.string.EventLogRemovedLinkedGroup), "un1", user);
+                                CharSequence replaceWithLink4 = replaceWithLink(LocaleController.getString("EventLogRemovedLinkedGroup", org.telegram.messenger.beta.R.string.EventLogRemovedLinkedGroup), "un1", user);
                                 messageObject.messageText = replaceWithLink4;
                                 messageObject.messageText = replaceWithLink(replaceWithLink4, "un2", chat4);
                             } else {
                                 TLRPC$Chat chat5 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j));
-                                CharSequence replaceWithLink5 = replaceWithLink(LocaleController.getString("EventLogChangedLinkedGroup", R.string.EventLogChangedLinkedGroup), "un1", user);
+                                CharSequence replaceWithLink5 = replaceWithLink(LocaleController.getString("EventLogChangedLinkedGroup", org.telegram.messenger.beta.R.string.EventLogChangedLinkedGroup), "un1", user);
                                 messageObject.messageText = replaceWithLink5;
                                 messageObject.messageText = replaceWithLink(replaceWithLink5, "un2", chat5);
                             }
@@ -2112,17 +2116,17 @@ public class MessageObject {
                             tLRPC$Chat2 = tLRPC$Chat;
                             if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionTogglePreHistoryHidden) {
                                 if (((TLRPC$TL_channelAdminLogEventActionTogglePreHistoryHidden) tLRPC$ChannelAdminLogEventAction).new_value) {
-                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesHistoryOff", R.string.EventLogToggledInvitesHistoryOff), "un1", user);
+                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesHistoryOff", org.telegram.messenger.beta.R.string.EventLogToggledInvitesHistoryOff), "un1", user);
                                 } else {
-                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesHistoryOn", R.string.EventLogToggledInvitesHistoryOn), "un1", user);
+                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesHistoryOn", org.telegram.messenger.beta.R.string.EventLogToggledInvitesHistoryOn), "un1", user);
                                 }
                             } else {
                                 if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeAbout) {
                                     if (tLRPC$Chat2.megagroup) {
-                                        i6 = R.string.EventLogEditedGroupDescription;
+                                        i6 = org.telegram.messenger.beta.R.string.EventLogEditedGroupDescription;
                                         str12 = "EventLogEditedGroupDescription";
                                     } else {
-                                        i6 = R.string.EventLogEditedChannelDescription;
+                                        i6 = org.telegram.messenger.beta.R.string.EventLogEditedChannelDescription;
                                         str12 = "EventLogEditedChannelDescription";
                                     }
                                     messageObject.messageText = replaceWithLink(LocaleController.getString(str12, i6), "un1", user);
@@ -2146,7 +2150,7 @@ public class MessageObject {
                                         str5 = str4;
                                         tLRPC$WebPage.display_url = str5;
                                         tLRPC$WebPage.url = str5;
-                                        tLRPC$WebPage.site_name = LocaleController.getString("EventLogPreviousGroupDescription", R.string.EventLogPreviousGroupDescription);
+                                        tLRPC$WebPage.site_name = LocaleController.getString("EventLogPreviousGroupDescription", org.telegram.messenger.beta.R.string.EventLogPreviousGroupDescription);
                                         tLRPC$TL_message.media.webpage.description = ((TLRPC$TL_channelAdminLogEventActionChangeAbout) tLRPC$TL_channelAdminLogEvent3.action).prev_value;
                                     } else {
                                         str5 = str4;
@@ -2157,10 +2161,10 @@ public class MessageObject {
                                     str5 = str4;
                                     if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeTheme) {
                                         if (tLRPC$Chat2.megagroup) {
-                                            i5 = R.string.EventLogEditedGroupTheme;
+                                            i5 = org.telegram.messenger.beta.R.string.EventLogEditedGroupTheme;
                                             str11 = "EventLogEditedGroupTheme";
                                         } else {
-                                            i5 = R.string.EventLogEditedChannelTheme;
+                                            i5 = org.telegram.messenger.beta.R.string.EventLogEditedChannelTheme;
                                             str11 = "EventLogEditedChannelTheme";
                                         }
                                         messageObject.messageText = replaceWithLink(LocaleController.getString(str11, i5), "un1", user);
@@ -2182,7 +2186,7 @@ public class MessageObject {
                                             tLRPC$WebPage2.flags = 10;
                                             tLRPC$WebPage2.display_url = str5;
                                             tLRPC$WebPage2.url = str5;
-                                            tLRPC$WebPage2.site_name = LocaleController.getString("EventLogPreviousGroupTheme", R.string.EventLogPreviousGroupTheme);
+                                            tLRPC$WebPage2.site_name = LocaleController.getString("EventLogPreviousGroupTheme", org.telegram.messenger.beta.R.string.EventLogPreviousGroupTheme);
                                             tLRPC$TL_message.media.webpage.description = ((TLRPC$TL_channelAdminLogEventActionChangeTheme) tLRPC$TL_channelAdminLogEvent3.action).prev_value;
                                         } else {
                                             tLRPC$TL_message.media = new TLRPC$TL_messageMediaEmpty();
@@ -2191,19 +2195,19 @@ public class MessageObject {
                                         String str17 = ((TLRPC$TL_channelAdminLogEventActionChangeUsername) tLRPC$ChannelAdminLogEventAction).new_value;
                                         if (!TextUtils.isEmpty(str17)) {
                                             if (tLRPC$Chat2.megagroup) {
-                                                i4 = R.string.EventLogChangedGroupLink;
+                                                i4 = org.telegram.messenger.beta.R.string.EventLogChangedGroupLink;
                                                 str10 = "EventLogChangedGroupLink";
                                             } else {
-                                                i4 = R.string.EventLogChangedChannelLink;
+                                                i4 = org.telegram.messenger.beta.R.string.EventLogChangedChannelLink;
                                                 str10 = "EventLogChangedChannelLink";
                                             }
                                             messageObject.messageText = replaceWithLink(LocaleController.getString(str10, i4), "un1", user);
                                         } else {
                                             if (tLRPC$Chat2.megagroup) {
-                                                i3 = R.string.EventLogRemovedGroupLink;
+                                                i3 = org.telegram.messenger.beta.R.string.EventLogRemovedGroupLink;
                                                 str9 = "EventLogRemovedGroupLink";
                                             } else {
-                                                i3 = R.string.EventLogRemovedChannelLink;
+                                                i3 = org.telegram.messenger.beta.R.string.EventLogRemovedChannelLink;
                                                 str9 = "EventLogRemovedChannelLink";
                                             }
                                             messageObject.messageText = replaceWithLink(LocaleController.getString(str9, i3), "un1", user);
@@ -2233,7 +2237,7 @@ public class MessageObject {
                                             tLRPC$WebPage3.flags = 10;
                                             tLRPC$WebPage3.display_url = str5;
                                             tLRPC$WebPage3.url = str5;
-                                            tLRPC$WebPage3.site_name = LocaleController.getString("EventLogPreviousLink", R.string.EventLogPreviousLink);
+                                            tLRPC$WebPage3.site_name = LocaleController.getString("EventLogPreviousLink", org.telegram.messenger.beta.R.string.EventLogPreviousLink);
                                             tLRPC$TL_message2.media.webpage.description = "https://" + MessagesController.getInstance(messageObject.currentAccount).linkPrefix + "/" + ((TLRPC$TL_channelAdminLogEventActionChangeUsername) tLRPC$TL_channelAdminLogEvent3.action).prev_value;
                                         } else {
                                             tLRPC$TL_message2.media = new TLRPC$TL_messageMediaEmpty();
@@ -2271,19 +2275,19 @@ public class MessageObject {
                                                     if (tLRPC$Document2 == null || (tLRPC$Document = tLRPC$Message3.media.document) == null || tLRPC$Document2.id == tLRPC$Document.id) {
                                                         z2 = false;
                                                         if (!z2 && z5) {
-                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMediaCaption", R.string.EventLogEditedMediaCaption), "un1", user);
+                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMediaCaption", org.telegram.messenger.beta.R.string.EventLogEditedMediaCaption), "un1", user);
                                                         } else if (!z5) {
-                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedCaption", R.string.EventLogEditedCaption), "un1", user);
+                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedCaption", org.telegram.messenger.beta.R.string.EventLogEditedCaption), "un1", user);
                                                         } else {
-                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMedia", R.string.EventLogEditedMedia), "un1", user);
+                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMedia", org.telegram.messenger.beta.R.string.EventLogEditedMedia), "un1", user);
                                                         }
                                                         TLRPC$MessageMedia tLRPC$MessageMedia4 = tLRPC$Message2.media;
                                                         tLRPC$TL_message.media = tLRPC$MessageMedia4;
                                                         if (z5) {
                                                             tLRPC$MessageMedia4.webpage = new TLRPC$TL_webPage();
-                                                            tLRPC$TL_message.media.webpage.site_name = LocaleController.getString("EventLogOriginalCaption", R.string.EventLogOriginalCaption);
+                                                            tLRPC$TL_message.media.webpage.site_name = LocaleController.getString("EventLogOriginalCaption", org.telegram.messenger.beta.R.string.EventLogOriginalCaption);
                                                             if (TextUtils.isEmpty(tLRPC$Message3.message)) {
-                                                                tLRPC$TL_message.media.webpage.description = LocaleController.getString("EventLogOriginalCaptionEmpty", R.string.EventLogOriginalCaptionEmpty);
+                                                                tLRPC$TL_message.media.webpage.description = LocaleController.getString("EventLogOriginalCaptionEmpty", org.telegram.messenger.beta.R.string.EventLogOriginalCaptionEmpty);
                                                             } else {
                                                                 tLRPC$TL_message.media.webpage.description = tLRPC$Message3.message;
                                                             }
@@ -2303,7 +2307,7 @@ public class MessageObject {
                                                 }
                                             } else {
                                                 str8 = str5;
-                                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMessages", R.string.EventLogEditedMessages), "un1", user);
+                                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMessages", org.telegram.messenger.beta.R.string.EventLogEditedMessages), "un1", user);
                                                 if (tLRPC$Message2.action instanceof TLRPC$TL_messageActionGroupCall) {
                                                     tLRPC$Message2.media = new TLRPC$TL_messageMediaEmpty();
                                                     tLRPC$TL_message = tLRPC$Message2;
@@ -2312,9 +2316,9 @@ public class MessageObject {
                                                     TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage4 = new TLRPC$TL_messageMediaWebPage();
                                                     tLRPC$TL_message.media = tLRPC$TL_messageMediaWebPage4;
                                                     tLRPC$TL_messageMediaWebPage4.webpage = new TLRPC$TL_webPage();
-                                                    tLRPC$TL_message.media.webpage.site_name = LocaleController.getString("EventLogOriginalMessages", R.string.EventLogOriginalMessages);
+                                                    tLRPC$TL_message.media.webpage.site_name = LocaleController.getString("EventLogOriginalMessages", org.telegram.messenger.beta.R.string.EventLogOriginalMessages);
                                                     if (TextUtils.isEmpty(tLRPC$Message3.message)) {
-                                                        tLRPC$TL_message.media.webpage.description = LocaleController.getString("EventLogOriginalCaptionEmpty", R.string.EventLogOriginalCaptionEmpty);
+                                                        tLRPC$TL_message.media.webpage.description = LocaleController.getString("EventLogOriginalCaptionEmpty", org.telegram.messenger.beta.R.string.EventLogOriginalCaptionEmpty);
                                                     } else {
                                                         tLRPC$TL_message.media.webpage.description = tLRPC$Message3.message;
                                                     }
@@ -2336,21 +2340,21 @@ public class MessageObject {
                                                 TLRPC$InputStickerSet tLRPC$InputStickerSet = ((TLRPC$TL_channelAdminLogEventActionChangeStickerSet) tLRPC$ChannelAdminLogEventAction).new_stickerset;
                                                 TLRPC$InputStickerSet tLRPC$InputStickerSet2 = ((TLRPC$TL_channelAdminLogEventActionChangeStickerSet) tLRPC$ChannelAdminLogEventAction).new_stickerset;
                                                 if (tLRPC$InputStickerSet == null || (tLRPC$InputStickerSet instanceof TLRPC$TL_inputStickerSetEmpty)) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedStickersSet", R.string.EventLogRemovedStickersSet), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedStickersSet", org.telegram.messenger.beta.R.string.EventLogRemovedStickersSet), "un1", user);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChangedStickersSet", R.string.EventLogChangedStickersSet), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChangedStickersSet", org.telegram.messenger.beta.R.string.EventLogChangedStickersSet), "un1", user);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeLocation) {
                                                 TLRPC$ChannelLocation tLRPC$ChannelLocation = ((TLRPC$TL_channelAdminLogEventActionChangeLocation) tLRPC$ChannelAdminLogEventAction).new_value;
                                                 if (tLRPC$ChannelLocation instanceof TLRPC$TL_channelLocationEmpty) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedLocation", R.string.EventLogRemovedLocation), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedLocation", org.telegram.messenger.beta.R.string.EventLogRemovedLocation), "un1", user);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogChangedLocation", R.string.EventLogChangedLocation, ((TLRPC$TL_channelLocation) tLRPC$ChannelLocation).address), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogChangedLocation", org.telegram.messenger.beta.R.string.EventLogChangedLocation, ((TLRPC$TL_channelLocation) tLRPC$ChannelLocation).address), "un1", user);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleSlowMode) {
                                                 int i20 = ((TLRPC$TL_channelAdminLogEventActionToggleSlowMode) tLRPC$ChannelAdminLogEventAction).new_value;
                                                 if (i20 == 0) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSlowmodeOff", R.string.EventLogToggledSlowmodeOff), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSlowmodeOff", org.telegram.messenger.beta.R.string.EventLogToggledSlowmodeOff), "un1", user);
                                                 } else {
                                                     if (i20 < 60) {
                                                         c2 = 0;
@@ -2365,19 +2369,19 @@ public class MessageObject {
                                                     }
                                                     Object[] objArr = new Object[1];
                                                     objArr[c2] = str7;
-                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogToggledSlowmodeOn", R.string.EventLogToggledSlowmodeOn, objArr), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogToggledSlowmodeOn", org.telegram.messenger.beta.R.string.EventLogToggledSlowmodeOn, objArr), "un1", user);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionStartGroupCall) {
                                                 if (ChatObject.isChannel(tLRPC$Chat) && (!tLRPC$Chat2.megagroup || tLRPC$Chat2.gigagroup)) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStartedLiveStream", R.string.EventLogStartedLiveStream), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStartedLiveStream", org.telegram.messenger.beta.R.string.EventLogStartedLiveStream), "un1", user);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStartedVoiceChat", R.string.EventLogStartedVoiceChat), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStartedVoiceChat", org.telegram.messenger.beta.R.string.EventLogStartedVoiceChat), "un1", user);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionDiscardGroupCall) {
                                                 if (ChatObject.isChannel(tLRPC$Chat) && (!tLRPC$Chat2.megagroup || tLRPC$Chat2.gigagroup)) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEndedLiveStream", R.string.EventLogEndedLiveStream), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEndedLiveStream", org.telegram.messenger.beta.R.string.EventLogEndedLiveStream), "un1", user);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEndedVoiceChat", R.string.EventLogEndedVoiceChat), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEndedVoiceChat", org.telegram.messenger.beta.R.string.EventLogEndedVoiceChat), "un1", user);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantMute) {
                                                 long peerId4 = getPeerId(((TLRPC$TL_channelAdminLogEventActionParticipantMute) tLRPC$ChannelAdminLogEventAction).participant.peer);
@@ -2386,7 +2390,7 @@ public class MessageObject {
                                                 } else {
                                                     tLObject3 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId4));
                                                 }
-                                                CharSequence replaceWithLink6 = replaceWithLink(LocaleController.getString("EventLogVoiceChatMuted", R.string.EventLogVoiceChatMuted), "un1", user);
+                                                CharSequence replaceWithLink6 = replaceWithLink(LocaleController.getString("EventLogVoiceChatMuted", org.telegram.messenger.beta.R.string.EventLogVoiceChatMuted), "un1", user);
                                                 messageObject.messageText = replaceWithLink6;
                                                 messageObject.messageText = replaceWithLink(replaceWithLink6, "un2", tLObject3);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantUnmute) {
@@ -2396,48 +2400,48 @@ public class MessageObject {
                                                 } else {
                                                     tLObject2 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId5));
                                                 }
-                                                CharSequence replaceWithLink7 = replaceWithLink(LocaleController.getString("EventLogVoiceChatUnmuted", R.string.EventLogVoiceChatUnmuted), "un1", user);
+                                                CharSequence replaceWithLink7 = replaceWithLink(LocaleController.getString("EventLogVoiceChatUnmuted", org.telegram.messenger.beta.R.string.EventLogVoiceChatUnmuted), "un1", user);
                                                 messageObject.messageText = replaceWithLink7;
                                                 messageObject.messageText = replaceWithLink(replaceWithLink7, "un2", tLObject2);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleGroupCallSetting) {
                                                 if (((TLRPC$TL_channelAdminLogEventActionToggleGroupCallSetting) tLRPC$ChannelAdminLogEventAction).join_muted) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogVoiceChatNotAllowedToSpeak", R.string.EventLogVoiceChatNotAllowedToSpeak), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogVoiceChatNotAllowedToSpeak", org.telegram.messenger.beta.R.string.EventLogVoiceChatNotAllowedToSpeak), "un1", user);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogVoiceChatAllowedToSpeak", R.string.EventLogVoiceChatAllowedToSpeak), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogVoiceChatAllowedToSpeak", org.telegram.messenger.beta.R.string.EventLogVoiceChatAllowedToSpeak), "un1", user);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) {
                                                 TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite tLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite = (TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) tLRPC$ChannelAdminLogEventAction;
-                                                messageObject.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", R.string.ActionInviteUser), "un1", user);
+                                                messageObject.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", org.telegram.messenger.beta.R.string.ActionInviteUser), "un1", user);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleNoForwards) {
                                                 TLRPC$TL_channelAdminLogEventActionToggleNoForwards tLRPC$TL_channelAdminLogEventActionToggleNoForwards = (TLRPC$TL_channelAdminLogEventActionToggleNoForwards) tLRPC$ChannelAdminLogEventAction;
                                                 boolean z6 = ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat2.megagroup;
                                                 if (tLRPC$TL_channelAdminLogEventActionToggleNoForwards.new_value) {
                                                     if (z6) {
-                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsRestrictedChannel", R.string.ActionForwardsRestrictedChannel), "un1", user);
+                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsRestrictedChannel", org.telegram.messenger.beta.R.string.ActionForwardsRestrictedChannel), "un1", user);
                                                     } else {
-                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsRestrictedGroup", R.string.ActionForwardsRestrictedGroup), "un1", user);
+                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsRestrictedGroup", org.telegram.messenger.beta.R.string.ActionForwardsRestrictedGroup), "un1", user);
                                                     }
                                                 } else if (z6) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsEnabledChannel", R.string.ActionForwardsEnabledChannel), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsEnabledChannel", org.telegram.messenger.beta.R.string.ActionForwardsEnabledChannel), "un1", user);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsEnabledGroup", R.string.ActionForwardsEnabledGroup), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsEnabledGroup", org.telegram.messenger.beta.R.string.ActionForwardsEnabledGroup), "un1", user);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionExportedInviteDelete) {
-                                                CharSequence replaceWithLink8 = replaceWithLink(LocaleController.formatString("ActionDeletedInviteLinkClickable", R.string.ActionDeletedInviteLinkClickable, new Object[0]), "un1", user);
+                                                CharSequence replaceWithLink8 = replaceWithLink(LocaleController.formatString("ActionDeletedInviteLinkClickable", org.telegram.messenger.beta.R.string.ActionDeletedInviteLinkClickable, new Object[0]), "un1", user);
                                                 messageObject.messageText = replaceWithLink8;
                                                 messageObject.messageText = replaceWithLink(replaceWithLink8, "un2", ((TLRPC$TL_channelAdminLogEventActionExportedInviteDelete) tLRPC$ChannelAdminLogEventAction).invite);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke) {
                                                 TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke = (TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke) tLRPC$ChannelAdminLogEventAction;
-                                                CharSequence replaceWithLink9 = replaceWithLink(LocaleController.formatString("ActionRevokedInviteLinkClickable", R.string.ActionRevokedInviteLinkClickable, tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke.invite.link), "un1", user);
+                                                CharSequence replaceWithLink9 = replaceWithLink(LocaleController.formatString("ActionRevokedInviteLinkClickable", org.telegram.messenger.beta.R.string.ActionRevokedInviteLinkClickable, tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke.invite.link), "un1", user);
                                                 messageObject.messageText = replaceWithLink9;
                                                 messageObject.messageText = replaceWithLink(replaceWithLink9, "un2", tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke.invite);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionExportedInviteEdit) {
                                                 TLRPC$TL_channelAdminLogEventActionExportedInviteEdit tLRPC$TL_channelAdminLogEventActionExportedInviteEdit = (TLRPC$TL_channelAdminLogEventActionExportedInviteEdit) tLRPC$ChannelAdminLogEventAction;
                                                 String str18 = tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.prev_invite.link;
                                                 if (str18 != null && str18.equals(tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.new_invite.link)) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionEditedInviteLinkToSameClickable", R.string.ActionEditedInviteLinkToSameClickable, new Object[0]), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionEditedInviteLinkToSameClickable", org.telegram.messenger.beta.R.string.ActionEditedInviteLinkToSameClickable, new Object[0]), "un1", user);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionEditedInviteLinkClickable", R.string.ActionEditedInviteLinkClickable, new Object[0]), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionEditedInviteLinkClickable", org.telegram.messenger.beta.R.string.ActionEditedInviteLinkClickable, new Object[0]), "un1", user);
                                                 }
                                                 CharSequence replaceWithLink10 = replaceWithLink(messageObject.messageText, "un2", tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.prev_invite);
                                                 messageObject.messageText = replaceWithLink10;
@@ -2455,7 +2459,7 @@ public class MessageObject {
                                                 double d = participantVolume / 100.0d;
                                                 Object[] objArr2 = new Object[1];
                                                 objArr2[0] = Integer.valueOf((int) (d > 0.0d ? Math.max(d, 1.0d) : 0.0d));
-                                                CharSequence replaceWithLink11 = replaceWithLink(LocaleController.formatString("ActionVolumeChanged", R.string.ActionVolumeChanged, objArr2), "un1", user);
+                                                CharSequence replaceWithLink11 = replaceWithLink(LocaleController.formatString("ActionVolumeChanged", org.telegram.messenger.beta.R.string.ActionVolumeChanged, objArr2), "un1", user);
                                                 messageObject.messageText = replaceWithLink11;
                                                 messageObject.messageText = replaceWithLink(replaceWithLink11, "un2", tLObject);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeHistoryTTL) {
@@ -2463,18 +2467,18 @@ public class MessageObject {
                                                 if (!tLRPC$Chat2.megagroup) {
                                                     int i21 = tLRPC$TL_channelAdminLogEventActionChangeHistoryTTL.new_value;
                                                     if (i21 != 0) {
-                                                        messageObject.messageText = LocaleController.formatString("ActionTTLChannelChanged", R.string.ActionTTLChannelChanged, LocaleController.formatTTLString(i21));
+                                                        messageObject.messageText = LocaleController.formatString("ActionTTLChannelChanged", org.telegram.messenger.beta.R.string.ActionTTLChannelChanged, LocaleController.formatTTLString(i21));
                                                     } else {
-                                                        messageObject.messageText = LocaleController.getString("ActionTTLChannelDisabled", R.string.ActionTTLChannelDisabled);
+                                                        messageObject.messageText = LocaleController.getString("ActionTTLChannelDisabled", org.telegram.messenger.beta.R.string.ActionTTLChannelDisabled);
                                                     }
                                                 } else {
                                                     int i22 = tLRPC$TL_channelAdminLogEventActionChangeHistoryTTL.new_value;
                                                     if (i22 == 0) {
-                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionTTLDisabled", R.string.ActionTTLDisabled), "un1", user);
+                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionTTLDisabled", org.telegram.messenger.beta.R.string.ActionTTLDisabled), "un1", user);
                                                     } else {
                                                         if (i22 > 86400) {
                                                             c = 0;
-                                                            str6 = LocaleController.formatPluralString("Days", i22 / 86400, new Object[0]);
+                                                            str6 = LocaleController.formatPluralString("Days", i22 / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
                                                         } else {
                                                             c = 0;
                                                             if (i22 >= 3600) {
@@ -2487,18 +2491,18 @@ public class MessageObject {
                                                         }
                                                         Object[] objArr3 = new Object[1];
                                                         objArr3[c] = str6;
-                                                        messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionTTLChanged", R.string.ActionTTLChanged, objArr3), "un1", user);
+                                                        messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionTTLChanged", org.telegram.messenger.beta.R.string.ActionTTLChanged, objArr3), "un1", user);
                                                     }
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest) {
                                                 TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest tLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest = (TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest) tLRPC$ChannelAdminLogEventAction;
                                                 TLRPC$ExportedChatInvite tLRPC$ExportedChatInvite = tLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest.invite;
                                                 if (((tLRPC$ExportedChatInvite instanceof TLRPC$TL_chatInviteExported) && "https://t.me/+PublicChat".equals(((TLRPC$TL_chatInviteExported) tLRPC$ExportedChatInvite).link)) || (tLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest.invite instanceof TLRPC$TL_chatInvitePublicJoinRequests)) {
-                                                    CharSequence replaceWithLink12 = replaceWithLink(LocaleController.getString("JoinedViaRequestApproved", R.string.JoinedViaRequestApproved), "un1", user);
+                                                    CharSequence replaceWithLink12 = replaceWithLink(LocaleController.getString("JoinedViaRequestApproved", org.telegram.messenger.beta.R.string.JoinedViaRequestApproved), "un1", user);
                                                     messageObject.messageText = replaceWithLink12;
                                                     messageObject.messageText = replaceWithLink(replaceWithLink12, "un2", MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(tLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest.approved_by)));
                                                 } else {
-                                                    CharSequence replaceWithLink13 = replaceWithLink(LocaleController.getString("JoinedViaInviteLinkApproved", R.string.JoinedViaInviteLinkApproved), "un1", user);
+                                                    CharSequence replaceWithLink13 = replaceWithLink(LocaleController.getString("JoinedViaInviteLinkApproved", org.telegram.messenger.beta.R.string.JoinedViaInviteLinkApproved), "un1", user);
                                                     messageObject.messageText = replaceWithLink13;
                                                     CharSequence replaceWithLink14 = replaceWithLink(replaceWithLink13, "un2", tLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest.invite);
                                                     messageObject.messageText = replaceWithLink14;
@@ -2506,10 +2510,10 @@ public class MessageObject {
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionSendMessage) {
                                                 tLRPC$TL_message = ((TLRPC$TL_channelAdminLogEventActionSendMessage) tLRPC$ChannelAdminLogEventAction).message;
-                                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogSendMessages", R.string.EventLogSendMessages), "un1", user);
+                                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogSendMessages", org.telegram.messenger.beta.R.string.EventLogSendMessages), "un1", user);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) {
                                                 tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channelAdminLogEvent;
-                                                messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionReactionsChanged", R.string.ActionReactionsChanged, TextUtils.join(", ", ((TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) tLRPC$ChannelAdminLogEventAction).prev_value), TextUtils.join(", ", ((TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) tLRPC$TL_channelAdminLogEvent2.action).new_value)), "un1", user);
+                                                messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionReactionsChanged", org.telegram.messenger.beta.R.string.ActionReactionsChanged, TextUtils.join(", ", ((TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) tLRPC$ChannelAdminLogEventAction).prev_value), TextUtils.join(", ", ((TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) tLRPC$TL_channelAdminLogEvent2.action).new_value)), "un1", user);
                                             } else {
                                                 tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channelAdminLogEvent;
                                                 messageObject.messageText = "unsupported " + tLRPC$TL_channelAdminLogEvent2.action;
@@ -2737,7 +2741,7 @@ public class MessageObject {
             if (tLObject instanceof TLRPC$User) {
                 TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                 if (tLRPC$User.deleted) {
-                    str4 = LocaleController.getString("HiddenName", R.string.HiddenName);
+                    str4 = LocaleController.getString("HiddenName", org.telegram.messenger.beta.R.string.HiddenName);
                 } else {
                     str4 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                 }
@@ -2832,17 +2836,17 @@ public class MessageObject {
         }
         if (tLRPC$TL_game2 == null) {
             if (tLRPC$User == null || tLRPC$User.id != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                this.messageText = replaceWithLink(LocaleController.formatString("ActionUserScored", R.string.ActionUserScored, LocaleController.formatPluralString("Points", this.messageOwner.action.score, new Object[0])), "un1", tLRPC$User);
+                this.messageText = replaceWithLink(LocaleController.formatString("ActionUserScored", org.telegram.messenger.beta.R.string.ActionUserScored, LocaleController.formatPluralString("Points", this.messageOwner.action.score, new Object[0])), "un1", tLRPC$User);
                 return;
             } else {
-                this.messageText = LocaleController.formatString("ActionYouScored", R.string.ActionYouScored, LocaleController.formatPluralString("Points", this.messageOwner.action.score, new Object[0]));
+                this.messageText = LocaleController.formatString("ActionYouScored", org.telegram.messenger.beta.R.string.ActionYouScored, LocaleController.formatPluralString("Points", this.messageOwner.action.score, new Object[0]));
                 return;
             }
         }
         if (tLRPC$User == null || tLRPC$User.id != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-            this.messageText = replaceWithLink(LocaleController.formatString("ActionUserScoredInGame", R.string.ActionUserScoredInGame, LocaleController.formatPluralString("Points", this.messageOwner.action.score, new Object[0])), "un1", tLRPC$User);
+            this.messageText = replaceWithLink(LocaleController.formatString("ActionUserScoredInGame", org.telegram.messenger.beta.R.string.ActionUserScoredInGame, LocaleController.formatPluralString("Points", this.messageOwner.action.score, new Object[0])), "un1", tLRPC$User);
         } else {
-            this.messageText = LocaleController.formatString("ActionYouScoredInGame", R.string.ActionYouScoredInGame, LocaleController.formatPluralString("Points", this.messageOwner.action.score, new Object[0]));
+            this.messageText = LocaleController.formatString("ActionYouScoredInGame", org.telegram.messenger.beta.R.string.ActionYouScoredInGame, LocaleController.formatPluralString("Points", this.messageOwner.action.score, new Object[0]));
         }
         this.messageText = replaceWithLink(this.messageText, "un2", tLRPC$TL_game2);
     }
@@ -2877,18 +2881,18 @@ public class MessageObject {
             TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
             if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaInvoice) {
                 if (this.messageOwner.action.recurring_init) {
-                    this.messageText = LocaleController.formatString(R.string.PaymentSuccessfullyPaidRecurrent, str, firstName, tLRPC$MessageMedia.title);
+                    this.messageText = LocaleController.formatString(org.telegram.messenger.beta.R.string.PaymentSuccessfullyPaidRecurrent, str, firstName, tLRPC$MessageMedia.title);
                     return;
                 } else {
-                    this.messageText = LocaleController.formatString("PaymentSuccessfullyPaid", R.string.PaymentSuccessfullyPaid, str, firstName, tLRPC$MessageMedia.title);
+                    this.messageText = LocaleController.formatString("PaymentSuccessfullyPaid", org.telegram.messenger.beta.R.string.PaymentSuccessfullyPaid, str, firstName, tLRPC$MessageMedia.title);
                     return;
                 }
             }
         }
         if (this.messageOwner.action.recurring_init) {
-            this.messageText = LocaleController.formatString(R.string.PaymentSuccessfullyPaidNoItemRecurrent, str, firstName);
+            this.messageText = LocaleController.formatString(org.telegram.messenger.beta.R.string.PaymentSuccessfullyPaidNoItemRecurrent, str, firstName);
         } else {
-            this.messageText = LocaleController.formatString("PaymentSuccessfullyPaidNoItem", R.string.PaymentSuccessfullyPaidNoItem, str, firstName);
+            this.messageText = LocaleController.formatString("PaymentSuccessfullyPaidNoItem", org.telegram.messenger.beta.R.string.PaymentSuccessfullyPaidNoItem, str, firstName);
         }
     }
 
@@ -2911,42 +2915,42 @@ public class MessageObject {
             TLRPC$Message tLRPC$Message = messageObject.messageOwner;
             if (!(tLRPC$Message instanceof TLRPC$TL_messageEmpty) && !(tLRPC$Message.action instanceof TLRPC$TL_messageActionHistoryClear)) {
                 if (messageObject.isMusic()) {
-                    String string = LocaleController.getString("ActionPinnedMusic", R.string.ActionPinnedMusic);
+                    String string = LocaleController.getString("ActionPinnedMusic", org.telegram.messenger.beta.R.string.ActionPinnedMusic);
                     if (tLRPC$User == null) {
                         tLRPC$User = tLRPC$Chat;
                     }
                     this.messageText = replaceWithLink(string, "un1", tLRPC$User);
                     return;
                 } else if (this.replyMessageObject.isVideo()) {
-                    String string2 = LocaleController.getString("ActionPinnedVideo", R.string.ActionPinnedVideo);
+                    String string2 = LocaleController.getString("ActionPinnedVideo", org.telegram.messenger.beta.R.string.ActionPinnedVideo);
                     if (tLRPC$User == null) {
                         tLRPC$User = tLRPC$Chat;
                     }
                     this.messageText = replaceWithLink(string2, "un1", tLRPC$User);
                     return;
                 } else if (this.replyMessageObject.isGif()) {
-                    String string3 = LocaleController.getString("ActionPinnedGif", R.string.ActionPinnedGif);
+                    String string3 = LocaleController.getString("ActionPinnedGif", org.telegram.messenger.beta.R.string.ActionPinnedGif);
                     if (tLRPC$User == null) {
                         tLRPC$User = tLRPC$Chat;
                     }
                     this.messageText = replaceWithLink(string3, "un1", tLRPC$User);
                     return;
                 } else if (this.replyMessageObject.isVoice()) {
-                    String string4 = LocaleController.getString("ActionPinnedVoice", R.string.ActionPinnedVoice);
+                    String string4 = LocaleController.getString("ActionPinnedVoice", org.telegram.messenger.beta.R.string.ActionPinnedVoice);
                     if (tLRPC$User == null) {
                         tLRPC$User = tLRPC$Chat;
                     }
                     this.messageText = replaceWithLink(string4, "un1", tLRPC$User);
                     return;
                 } else if (this.replyMessageObject.isRoundVideo()) {
-                    String string5 = LocaleController.getString("ActionPinnedRound", R.string.ActionPinnedRound);
+                    String string5 = LocaleController.getString("ActionPinnedRound", org.telegram.messenger.beta.R.string.ActionPinnedRound);
                     if (tLRPC$User == null) {
                         tLRPC$User = tLRPC$Chat;
                     }
                     this.messageText = replaceWithLink(string5, "un1", tLRPC$User);
                     return;
                 } else if ((this.replyMessageObject.isSticker() || this.replyMessageObject.isAnimatedSticker()) && !this.replyMessageObject.isAnimatedEmoji()) {
-                    String string6 = LocaleController.getString("ActionPinnedSticker", R.string.ActionPinnedSticker);
+                    String string6 = LocaleController.getString("ActionPinnedSticker", org.telegram.messenger.beta.R.string.ActionPinnedSticker);
                     if (tLRPC$User == null) {
                         tLRPC$User = tLRPC$Chat;
                     }
@@ -2956,28 +2960,28 @@ public class MessageObject {
                     MessageObject messageObject2 = this.replyMessageObject;
                     TLRPC$MessageMedia tLRPC$MessageMedia = messageObject2.messageOwner.media;
                     if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaDocument) {
-                        String string7 = LocaleController.getString("ActionPinnedFile", R.string.ActionPinnedFile);
+                        String string7 = LocaleController.getString("ActionPinnedFile", org.telegram.messenger.beta.R.string.ActionPinnedFile);
                         if (tLRPC$User == null) {
                             tLRPC$User = tLRPC$Chat;
                         }
                         this.messageText = replaceWithLink(string7, "un1", tLRPC$User);
                         return;
                     } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGeo) {
-                        String string8 = LocaleController.getString("ActionPinnedGeo", R.string.ActionPinnedGeo);
+                        String string8 = LocaleController.getString("ActionPinnedGeo", org.telegram.messenger.beta.R.string.ActionPinnedGeo);
                         if (tLRPC$User == null) {
                             tLRPC$User = tLRPC$Chat;
                         }
                         this.messageText = replaceWithLink(string8, "un1", tLRPC$User);
                         return;
                     } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGeoLive) {
-                        String string9 = LocaleController.getString("ActionPinnedGeoLive", R.string.ActionPinnedGeoLive);
+                        String string9 = LocaleController.getString("ActionPinnedGeoLive", org.telegram.messenger.beta.R.string.ActionPinnedGeoLive);
                         if (tLRPC$User == null) {
                             tLRPC$User = tLRPC$Chat;
                         }
                         this.messageText = replaceWithLink(string9, "un1", tLRPC$User);
                         return;
                     } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaContact) {
-                        String string10 = LocaleController.getString("ActionPinnedContact", R.string.ActionPinnedContact);
+                        String string10 = LocaleController.getString("ActionPinnedContact", org.telegram.messenger.beta.R.string.ActionPinnedContact);
                         if (tLRPC$User == null) {
                             tLRPC$User = tLRPC$Chat;
                         }
@@ -2985,28 +2989,28 @@ public class MessageObject {
                         return;
                     } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) {
                         if (((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia).poll.quiz) {
-                            String string11 = LocaleController.getString("ActionPinnedQuiz", R.string.ActionPinnedQuiz);
+                            String string11 = LocaleController.getString("ActionPinnedQuiz", org.telegram.messenger.beta.R.string.ActionPinnedQuiz);
                             if (tLRPC$User == null) {
                                 tLRPC$User = tLRPC$Chat;
                             }
                             this.messageText = replaceWithLink(string11, "un1", tLRPC$User);
                             return;
                         }
-                        String string12 = LocaleController.getString("ActionPinnedPoll", R.string.ActionPinnedPoll);
+                        String string12 = LocaleController.getString("ActionPinnedPoll", org.telegram.messenger.beta.R.string.ActionPinnedPoll);
                         if (tLRPC$User == null) {
                             tLRPC$User = tLRPC$Chat;
                         }
                         this.messageText = replaceWithLink(string12, "un1", tLRPC$User);
                         return;
                     } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPhoto) {
-                        String string13 = LocaleController.getString("ActionPinnedPhoto", R.string.ActionPinnedPhoto);
+                        String string13 = LocaleController.getString("ActionPinnedPhoto", org.telegram.messenger.beta.R.string.ActionPinnedPhoto);
                         if (tLRPC$User == null) {
                             tLRPC$User = tLRPC$Chat;
                         }
                         this.messageText = replaceWithLink(string13, "un1", tLRPC$User);
                         return;
                     } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGame) {
-                        String formatString = LocaleController.formatString("ActionPinnedGame", R.string.ActionPinnedGame, "🎮 " + this.replyMessageObject.messageOwner.media.game.title);
+                        String formatString = LocaleController.formatString("ActionPinnedGame", org.telegram.messenger.beta.R.string.ActionPinnedGame, "🎮 " + this.replyMessageObject.messageOwner.media.game.title);
                         if (tLRPC$User == null) {
                             tLRPC$User = tLRPC$Chat;
                         }
@@ -3023,14 +3027,14 @@ public class MessageObject {
                             }
                             CharSequence replaceEmoji = Emoji.replaceEmoji(charSequence2, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                             MediaDataController.addTextStyleRuns(this.replyMessageObject, (Spannable) replaceEmoji);
-                            SpannableStringBuilder formatSpannable = AndroidUtilities.formatSpannable(LocaleController.getString("ActionPinnedText", R.string.ActionPinnedText), replaceEmoji);
+                            SpannableStringBuilder formatSpannable = AndroidUtilities.formatSpannable(LocaleController.getString("ActionPinnedText", org.telegram.messenger.beta.R.string.ActionPinnedText), replaceEmoji);
                             if (tLRPC$User == null) {
                                 tLRPC$User = tLRPC$Chat;
                             }
                             this.messageText = replaceWithLink(formatSpannable, "un1", tLRPC$User);
                             return;
                         }
-                        String string14 = LocaleController.getString("ActionPinnedNoText", R.string.ActionPinnedNoText);
+                        String string14 = LocaleController.getString("ActionPinnedNoText", org.telegram.messenger.beta.R.string.ActionPinnedNoText);
                         if (tLRPC$User == null) {
                             tLRPC$User = tLRPC$Chat;
                         }
@@ -3040,7 +3044,7 @@ public class MessageObject {
                 }
             }
         }
-        String string15 = LocaleController.getString("ActionPinnedNoText", R.string.ActionPinnedNoText);
+        String string15 = LocaleController.getString("ActionPinnedNoText", org.telegram.messenger.beta.R.string.ActionPinnedNoText);
         if (tLRPC$User == null) {
             tLRPC$User = tLRPC$Chat;
         }
@@ -3422,7 +3426,7 @@ public class MessageObject {
                     sb2.append(i2);
                     sb2.append(i4);
                     if ((tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonBuy) && (this.messageOwner.media.flags & 4) != 0) {
-                        charSequence = LocaleController.getString("PaymentReceipt", R.string.PaymentReceipt);
+                        charSequence = LocaleController.getString("PaymentReceipt", org.telegram.messenger.beta.R.string.PaymentReceipt);
                     } else {
                         String str = tLRPC$KeyboardButton.text;
                         if (str == null) {
@@ -3511,7 +3515,7 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:276:0x077e  */
     /* JADX WARN: Removed duplicated region for block: B:280:0x07b8  */
     /* JADX WARN: Removed duplicated region for block: B:500:0x0d76  */
-    /* JADX WARN: Removed duplicated region for block: B:597:0x0f9c  */
+    /* JADX WARN: Removed duplicated region for block: B:597:0x0f9d  */
     /* JADX WARN: Removed duplicated region for block: B:617:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3545,14 +3549,14 @@ public class MessageObject {
                     if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGroupCallScheduled) {
                         TLRPC$TL_messageActionGroupCallScheduled tLRPC$TL_messageActionGroupCallScheduled = (TLRPC$TL_messageActionGroupCallScheduled) tLRPC$MessageAction;
                         if ((tLRPC$Message.peer_id instanceof TLRPC$TL_peerChat) || isSupergroup()) {
-                            this.messageText = LocaleController.formatString("ActionGroupCallScheduled", R.string.ActionGroupCallScheduled, LocaleController.formatStartsTime(tLRPC$TL_messageActionGroupCallScheduled.schedule_date, 3, false));
+                            this.messageText = LocaleController.formatString("ActionGroupCallScheduled", org.telegram.messenger.beta.R.string.ActionGroupCallScheduled, LocaleController.formatStartsTime(tLRPC$TL_messageActionGroupCallScheduled.schedule_date, 3, false));
                         } else {
-                            this.messageText = LocaleController.formatString("ActionChannelCallScheduled", R.string.ActionChannelCallScheduled, LocaleController.formatStartsTime(tLRPC$TL_messageActionGroupCallScheduled.schedule_date, 3, false));
+                            this.messageText = LocaleController.formatString("ActionChannelCallScheduled", org.telegram.messenger.beta.R.string.ActionChannelCallScheduled, LocaleController.formatStartsTime(tLRPC$TL_messageActionGroupCallScheduled.schedule_date, 3, false));
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGroupCall) {
                         int i = tLRPC$MessageAction.duration;
                         if (i != 0) {
-                            int i2 = i / 86400;
+                            int i2 = i / RemoteMessageConst.DEFAULT_TTL;
                             if (i2 > 0) {
                                 str4 = LocaleController.formatPluralString("Days", i2, new Object[0]);
                             } else {
@@ -3570,21 +3574,21 @@ public class MessageObject {
                             }
                             if ((this.messageOwner.peer_id instanceof TLRPC$TL_peerChat) || isSupergroup()) {
                                 if (isOut()) {
-                                    this.messageText = LocaleController.formatString("ActionGroupCallEndedByYou", R.string.ActionGroupCallEndedByYou, str4);
+                                    this.messageText = LocaleController.formatString("ActionGroupCallEndedByYou", org.telegram.messenger.beta.R.string.ActionGroupCallEndedByYou, str4);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.formatString("ActionGroupCallEndedBy", R.string.ActionGroupCallEndedBy, str4), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.formatString("ActionGroupCallEndedBy", org.telegram.messenger.beta.R.string.ActionGroupCallEndedBy, str4), "un1", tLRPC$User3);
                                 }
                             } else {
-                                this.messageText = LocaleController.formatString("ActionChannelCallEnded", R.string.ActionChannelCallEnded, str4);
+                                this.messageText = LocaleController.formatString("ActionChannelCallEnded", org.telegram.messenger.beta.R.string.ActionChannelCallEnded, str4);
                             }
                         } else if ((tLRPC$Message.peer_id instanceof TLRPC$TL_peerChat) || isSupergroup()) {
                             if (isOut()) {
-                                this.messageText = LocaleController.getString("ActionGroupCallStartedByYou", R.string.ActionGroupCallStartedByYou);
+                                this.messageText = LocaleController.getString("ActionGroupCallStartedByYou", org.telegram.messenger.beta.R.string.ActionGroupCallStartedByYou);
                             } else {
-                                this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallStarted", R.string.ActionGroupCallStarted), "un1", tLRPC$User3);
+                                this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallStarted", org.telegram.messenger.beta.R.string.ActionGroupCallStarted), "un1", tLRPC$User3);
                             }
                         } else {
-                            this.messageText = LocaleController.getString("ActionChannelCallJustStarted", R.string.ActionChannelCallJustStarted);
+                            this.messageText = LocaleController.getString("ActionChannelCallJustStarted", org.telegram.messenger.beta.R.string.ActionChannelCallJustStarted);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionInviteToGroupCall) {
                         long j = tLRPC$MessageAction.user_id;
@@ -3594,18 +3598,18 @@ public class MessageObject {
                         if (j != 0) {
                             TLRPC$User user = getUser(abstractMap, longSparseArray, j);
                             if (isOut()) {
-                                this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallYouInvited", R.string.ActionGroupCallYouInvited), "un2", user);
+                                this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallYouInvited", org.telegram.messenger.beta.R.string.ActionGroupCallYouInvited), "un2", user);
                             } else if (j == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                                this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallInvitedYou", R.string.ActionGroupCallInvitedYou), "un1", tLRPC$User3);
+                                this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallInvitedYou", org.telegram.messenger.beta.R.string.ActionGroupCallInvitedYou), "un1", tLRPC$User3);
                             } else {
-                                CharSequence replaceWithLink = replaceWithLink(LocaleController.getString("ActionGroupCallInvited", R.string.ActionGroupCallInvited), "un2", user);
+                                CharSequence replaceWithLink = replaceWithLink(LocaleController.getString("ActionGroupCallInvited", org.telegram.messenger.beta.R.string.ActionGroupCallInvited), "un2", user);
                                 this.messageText = replaceWithLink;
                                 this.messageText = replaceWithLink(replaceWithLink, "un1", tLRPC$User3);
                             }
                         } else if (isOut()) {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallYouInvited", R.string.ActionGroupCallYouInvited), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallYouInvited", org.telegram.messenger.beta.R.string.ActionGroupCallYouInvited), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
                         } else {
-                            CharSequence replaceWithLink2 = replaceWithLink(LocaleController.getString("ActionGroupCallInvited", R.string.ActionGroupCallInvited), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
+                            CharSequence replaceWithLink2 = replaceWithLink(LocaleController.getString("ActionGroupCallInvited", org.telegram.messenger.beta.R.string.ActionGroupCallInvited), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
                             this.messageText = replaceWithLink2;
                             this.messageText = replaceWithLink(replaceWithLink2, "un1", tLRPC$User3);
                         }
@@ -3620,7 +3624,7 @@ public class MessageObject {
                         long peerId2 = getPeerId(tLRPC$TL_messageActionGeoProximityReached.to_id);
                         long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
                         if (peerId2 == clientUserId) {
-                            this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinRadius", R.string.ActionUserWithinRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", tLObject);
+                            this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinRadius", org.telegram.messenger.beta.R.string.ActionUserWithinRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", tLObject);
                         } else {
                             if (peerId2 > 0) {
                                 tLObject2 = getUser(abstractMap, longSparseArray, peerId2);
@@ -3628,9 +3632,9 @@ public class MessageObject {
                                 tLObject2 = getChat(abstractMap2, longSparseArray2, -peerId2);
                             }
                             if (peerId == clientUserId) {
-                                this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinYouRadius", R.string.ActionUserWithinYouRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", tLObject2);
+                                this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinYouRadius", org.telegram.messenger.beta.R.string.ActionUserWithinYouRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", tLObject2);
                             } else {
-                                CharSequence replaceWithLink3 = replaceWithLink(LocaleController.formatString("ActionUserWithinOtherRadius", R.string.ActionUserWithinOtherRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un2", tLObject2);
+                                CharSequence replaceWithLink3 = replaceWithLink(LocaleController.formatString("ActionUserWithinOtherRadius", org.telegram.messenger.beta.R.string.ActionUserWithinOtherRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un2", tLObject2);
                                 this.messageText = replaceWithLink3;
                                 this.messageText = replaceWithLink(replaceWithLink3, "un1", tLObject);
                             }
@@ -3639,28 +3643,28 @@ public class MessageObject {
                         this.messageText = tLRPC$MessageAction.message;
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatCreate) {
                         if (isOut()) {
-                            this.messageText = LocaleController.getString("ActionYouCreateGroup", R.string.ActionYouCreateGroup);
+                            this.messageText = LocaleController.getString("ActionYouCreateGroup", org.telegram.messenger.beta.R.string.ActionYouCreateGroup);
                         } else {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionCreateGroup", R.string.ActionCreateGroup), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionCreateGroup", org.telegram.messenger.beta.R.string.ActionCreateGroup), "un1", tLRPC$User3);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatDeleteUser) {
                         if (isFromUser()) {
                             TLRPC$Message tLRPC$Message2 = this.messageOwner;
                             if (tLRPC$Message2.action.user_id == tLRPC$Message2.from_id.user_id) {
                                 if (isOut()) {
-                                    this.messageText = LocaleController.getString("ActionYouLeftUser", R.string.ActionYouLeftUser);
+                                    this.messageText = LocaleController.getString("ActionYouLeftUser", org.telegram.messenger.beta.R.string.ActionYouLeftUser);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionLeftUser", R.string.ActionLeftUser), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionLeftUser", org.telegram.messenger.beta.R.string.ActionLeftUser), "un1", tLRPC$User3);
                                 }
                             }
                         }
                         TLRPC$User user2 = getUser(abstractMap, longSparseArray, this.messageOwner.action.user_id);
                         if (isOut()) {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionYouKickUser", R.string.ActionYouKickUser), "un2", user2);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionYouKickUser", org.telegram.messenger.beta.R.string.ActionYouKickUser), "un2", user2);
                         } else if (this.messageOwner.action.user_id == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionKickUserYou", R.string.ActionKickUserYou), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionKickUserYou", org.telegram.messenger.beta.R.string.ActionKickUserYou), "un1", tLRPC$User3);
                         } else {
-                            CharSequence replaceWithLink4 = replaceWithLink(LocaleController.getString("ActionKickUser", R.string.ActionKickUser), "un2", user2);
+                            CharSequence replaceWithLink4 = replaceWithLink(LocaleController.getString("ActionKickUser", org.telegram.messenger.beta.R.string.ActionKickUser), "un2", user2);
                             this.messageText = replaceWithLink4;
                             this.messageText = replaceWithLink(replaceWithLink4, "un1", tLRPC$User3);
                         }
@@ -3676,53 +3680,53 @@ public class MessageObject {
                             TLRPC$Peer tLRPC$Peer2 = this.messageOwner.from_id;
                             if (tLRPC$Peer2 != null && j2 == tLRPC$Peer2.user_id) {
                                 if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                                    this.messageText = LocaleController.getString("ChannelJoined", R.string.ChannelJoined);
+                                    this.messageText = LocaleController.getString("ChannelJoined", org.telegram.messenger.beta.R.string.ChannelJoined);
                                 } else if (this.messageOwner.peer_id.channel_id != 0) {
                                     if (j2 == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                                        this.messageText = LocaleController.getString("ChannelMegaJoined", R.string.ChannelMegaJoined);
+                                        this.messageText = LocaleController.getString("ChannelMegaJoined", org.telegram.messenger.beta.R.string.ChannelMegaJoined);
                                     } else {
-                                        this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserSelfMega", R.string.ActionAddUserSelfMega), "un1", tLRPC$User3);
+                                        this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserSelfMega", org.telegram.messenger.beta.R.string.ActionAddUserSelfMega), "un1", tLRPC$User3);
                                     }
                                 } else if (isOut()) {
-                                    this.messageText = LocaleController.getString("ActionAddUserSelfYou", R.string.ActionAddUserSelfYou);
+                                    this.messageText = LocaleController.getString("ActionAddUserSelfYou", org.telegram.messenger.beta.R.string.ActionAddUserSelfYou);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserSelf", R.string.ActionAddUserSelf), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserSelf", org.telegram.messenger.beta.R.string.ActionAddUserSelf), "un1", tLRPC$User3);
                                 }
                             } else if (isOut()) {
-                                this.messageText = replaceWithLink(LocaleController.getString("ActionYouAddUser", R.string.ActionYouAddUser), "un2", user3);
+                                this.messageText = replaceWithLink(LocaleController.getString("ActionYouAddUser", org.telegram.messenger.beta.R.string.ActionYouAddUser), "un2", user3);
                             } else if (j2 == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
                                 if (this.messageOwner.peer_id.channel_id != 0) {
                                     if (chat != null && chat.megagroup) {
-                                        this.messageText = replaceWithLink(LocaleController.getString("MegaAddedBy", R.string.MegaAddedBy), "un1", tLRPC$User3);
+                                        this.messageText = replaceWithLink(LocaleController.getString("MegaAddedBy", org.telegram.messenger.beta.R.string.MegaAddedBy), "un1", tLRPC$User3);
                                     } else {
-                                        this.messageText = replaceWithLink(LocaleController.getString("ChannelAddedBy", R.string.ChannelAddedBy), "un1", tLRPC$User3);
+                                        this.messageText = replaceWithLink(LocaleController.getString("ChannelAddedBy", org.telegram.messenger.beta.R.string.ChannelAddedBy), "un1", tLRPC$User3);
                                     }
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserYou", R.string.ActionAddUserYou), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserYou", org.telegram.messenger.beta.R.string.ActionAddUserYou), "un1", tLRPC$User3);
                                 }
                             } else {
-                                CharSequence replaceWithLink5 = replaceWithLink(LocaleController.getString("ActionAddUser", R.string.ActionAddUser), "un2", user3);
+                                CharSequence replaceWithLink5 = replaceWithLink(LocaleController.getString("ActionAddUser", org.telegram.messenger.beta.R.string.ActionAddUser), "un2", user3);
                                 this.messageText = replaceWithLink5;
                                 this.messageText = replaceWithLink(replaceWithLink5, "un1", tLRPC$User3);
                             }
                         } else if (isOut()) {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionYouAddUser", R.string.ActionYouAddUser), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionYouAddUser", org.telegram.messenger.beta.R.string.ActionYouAddUser), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
                         } else {
-                            CharSequence replaceWithLink6 = replaceWithLink(LocaleController.getString("ActionAddUser", R.string.ActionAddUser), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
+                            CharSequence replaceWithLink6 = replaceWithLink(LocaleController.getString("ActionAddUser", org.telegram.messenger.beta.R.string.ActionAddUser), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
                             this.messageText = replaceWithLink6;
                             this.messageText = replaceWithLink(replaceWithLink6, "un1", tLRPC$User3);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatJoinedByLink) {
                         if (isOut()) {
-                            this.messageText = LocaleController.getString("ActionInviteYou", R.string.ActionInviteYou);
+                            this.messageText = LocaleController.getString("ActionInviteYou", org.telegram.messenger.beta.R.string.ActionInviteYou);
                         } else {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", R.string.ActionInviteUser), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", org.telegram.messenger.beta.R.string.ActionInviteUser), "un1", tLRPC$User3);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGiftPremium) {
                         if ((tLRPC$User3 instanceof TLRPC$User) && tLRPC$User3.self) {
-                            this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString((int) R.string.ActionGiftOutbound)), "un1", getUser(abstractMap, longSparseArray, tLRPC$Message.peer_id.user_id));
+                            this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString((int) org.telegram.messenger.beta.R.string.ActionGiftOutbound)), "un1", getUser(abstractMap, longSparseArray, tLRPC$Message.peer_id.user_id));
                         } else {
-                            this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString((int) R.string.ActionGiftInbound)), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString((int) org.telegram.messenger.beta.R.string.ActionGiftInbound)), "un1", tLRPC$User3);
                         }
                         int indexOf = this.messageText.toString().indexOf("un2");
                         if (indexOf != -1) {
@@ -3738,20 +3742,20 @@ public class MessageObject {
                                 tLRPC$Chat5 = getChat(abstractMap2, longSparseArray2, j4);
                                 if (!ChatObject.isChannel(tLRPC$Chat5) && !tLRPC$Chat5.megagroup) {
                                     if (isVideoAvatar()) {
-                                        this.messageText = LocaleController.getString("ActionChannelChangedVideo", R.string.ActionChannelChangedVideo);
+                                        this.messageText = LocaleController.getString("ActionChannelChangedVideo", org.telegram.messenger.beta.R.string.ActionChannelChangedVideo);
                                     } else {
-                                        this.messageText = LocaleController.getString("ActionChannelChangedPhoto", R.string.ActionChannelChangedPhoto);
+                                        this.messageText = LocaleController.getString("ActionChannelChangedPhoto", org.telegram.messenger.beta.R.string.ActionChannelChangedPhoto);
                                     }
                                 } else if (!isOut()) {
                                     if (isVideoAvatar()) {
-                                        this.messageText = LocaleController.getString("ActionYouChangedVideo", R.string.ActionYouChangedVideo);
+                                        this.messageText = LocaleController.getString("ActionYouChangedVideo", org.telegram.messenger.beta.R.string.ActionYouChangedVideo);
                                     } else {
-                                        this.messageText = LocaleController.getString("ActionYouChangedPhoto", R.string.ActionYouChangedPhoto);
+                                        this.messageText = LocaleController.getString("ActionYouChangedPhoto", org.telegram.messenger.beta.R.string.ActionYouChangedPhoto);
                                     }
                                 } else if (isVideoAvatar()) {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedVideo", R.string.ActionChangedVideo), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedVideo", org.telegram.messenger.beta.R.string.ActionChangedVideo), "un1", tLRPC$User3);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedPhoto", R.string.ActionChangedPhoto), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedPhoto", org.telegram.messenger.beta.R.string.ActionChangedPhoto), "un1", tLRPC$User3);
                                 }
                             }
                         }
@@ -3767,11 +3771,11 @@ public class MessageObject {
                             if (j5 != 0) {
                                 tLRPC$Chat4 = getChat(abstractMap2, longSparseArray2, j5);
                                 if (!ChatObject.isChannel(tLRPC$Chat4) && !tLRPC$Chat4.megagroup) {
-                                    this.messageText = LocaleController.getString("ActionChannelChangedTitle", R.string.ActionChannelChangedTitle).replace("un2", this.messageOwner.action.title);
+                                    this.messageText = LocaleController.getString("ActionChannelChangedTitle", org.telegram.messenger.beta.R.string.ActionChannelChangedTitle).replace("un2", this.messageOwner.action.title);
                                 } else if (!isOut()) {
-                                    this.messageText = LocaleController.getString("ActionYouChangedTitle", R.string.ActionYouChangedTitle).replace("un2", this.messageOwner.action.title);
+                                    this.messageText = LocaleController.getString("ActionYouChangedTitle", org.telegram.messenger.beta.R.string.ActionYouChangedTitle).replace("un2", this.messageOwner.action.title);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedTitle", R.string.ActionChangedTitle).replace("un2", this.messageOwner.action.title), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedTitle", org.telegram.messenger.beta.R.string.ActionChangedTitle).replace("un2", this.messageOwner.action.title), "un1", tLRPC$User3);
                                 }
                             }
                         }
@@ -3787,11 +3791,11 @@ public class MessageObject {
                             if (j6 != 0) {
                                 tLRPC$Chat3 = getChat(abstractMap2, longSparseArray2, j6);
                                 if (!ChatObject.isChannel(tLRPC$Chat3) && !tLRPC$Chat3.megagroup) {
-                                    this.messageText = LocaleController.getString("ActionChannelRemovedPhoto", R.string.ActionChannelRemovedPhoto);
+                                    this.messageText = LocaleController.getString("ActionChannelRemovedPhoto", org.telegram.messenger.beta.R.string.ActionChannelRemovedPhoto);
                                 } else if (!isOut()) {
-                                    this.messageText = LocaleController.getString("ActionYouRemovedPhoto", R.string.ActionYouRemovedPhoto);
+                                    this.messageText = LocaleController.getString("ActionYouRemovedPhoto", org.telegram.messenger.beta.R.string.ActionYouRemovedPhoto);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionRemovedPhoto", R.string.ActionRemovedPhoto), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionRemovedPhoto", org.telegram.messenger.beta.R.string.ActionRemovedPhoto), "un1", tLRPC$User3);
                                 }
                             }
                         }
@@ -3803,14 +3807,14 @@ public class MessageObject {
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionTTLChange) {
                         if (tLRPC$MessageAction.ttl != 0) {
                             if (isOut()) {
-                                this.messageText = LocaleController.formatString("MessageLifetimeChangedOutgoing", R.string.MessageLifetimeChangedOutgoing, LocaleController.formatTTLString(this.messageOwner.action.ttl));
+                                this.messageText = LocaleController.formatString("MessageLifetimeChangedOutgoing", org.telegram.messenger.beta.R.string.MessageLifetimeChangedOutgoing, LocaleController.formatTTLString(this.messageOwner.action.ttl));
                             } else {
-                                this.messageText = LocaleController.formatString("MessageLifetimeChanged", R.string.MessageLifetimeChanged, UserObject.getFirstName(tLRPC$User2), LocaleController.formatTTLString(this.messageOwner.action.ttl));
+                                this.messageText = LocaleController.formatString("MessageLifetimeChanged", org.telegram.messenger.beta.R.string.MessageLifetimeChanged, UserObject.getFirstName(tLRPC$User2), LocaleController.formatTTLString(this.messageOwner.action.ttl));
                             }
                         } else if (isOut()) {
-                            this.messageText = LocaleController.getString("MessageLifetimeYouRemoved", R.string.MessageLifetimeYouRemoved);
+                            this.messageText = LocaleController.getString("MessageLifetimeYouRemoved", org.telegram.messenger.beta.R.string.MessageLifetimeYouRemoved);
                         } else {
-                            this.messageText = LocaleController.formatString("MessageLifetimeRemoved", R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User2));
+                            this.messageText = LocaleController.formatString("MessageLifetimeRemoved", org.telegram.messenger.beta.R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User2));
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetMessagesTTL) {
                         TLRPC$TL_messageActionSetMessagesTTL tLRPC$TL_messageActionSetMessagesTTL = (TLRPC$TL_messageActionSetMessagesTTL) tLRPC$MessageAction;
@@ -3822,20 +3826,20 @@ public class MessageObject {
                                 if (tLRPC$Chat2 == null && !tLRPC$Chat2.megagroup) {
                                     int i5 = tLRPC$TL_messageActionSetMessagesTTL.period;
                                     if (i5 != 0) {
-                                        this.messageText = LocaleController.formatString("ActionTTLChannelChanged", R.string.ActionTTLChannelChanged, LocaleController.formatTTLString(i5));
+                                        this.messageText = LocaleController.formatString("ActionTTLChannelChanged", org.telegram.messenger.beta.R.string.ActionTTLChannelChanged, LocaleController.formatTTLString(i5));
                                     } else {
-                                        this.messageText = LocaleController.getString("ActionTTLChannelDisabled", R.string.ActionTTLChannelDisabled);
+                                        this.messageText = LocaleController.getString("ActionTTLChannelDisabled", org.telegram.messenger.beta.R.string.ActionTTLChannelDisabled);
                                     }
                                 } else if (tLRPC$TL_messageActionSetMessagesTTL.period == 0) {
                                     if (isOut()) {
-                                        this.messageText = LocaleController.formatString("ActionTTLYouChanged", R.string.ActionTTLYouChanged, LocaleController.formatTTLString(tLRPC$TL_messageActionSetMessagesTTL.period));
+                                        this.messageText = LocaleController.formatString("ActionTTLYouChanged", org.telegram.messenger.beta.R.string.ActionTTLYouChanged, LocaleController.formatTTLString(tLRPC$TL_messageActionSetMessagesTTL.period));
                                     } else {
-                                        this.messageText = replaceWithLink(LocaleController.formatString("ActionTTLChanged", R.string.ActionTTLChanged, LocaleController.formatTTLString(tLRPC$TL_messageActionSetMessagesTTL.period)), "un1", tLRPC$User3);
+                                        this.messageText = replaceWithLink(LocaleController.formatString("ActionTTLChanged", org.telegram.messenger.beta.R.string.ActionTTLChanged, LocaleController.formatTTLString(tLRPC$TL_messageActionSetMessagesTTL.period)), "un1", tLRPC$User3);
                                     }
                                 } else if (isOut()) {
-                                    this.messageText = LocaleController.getString("ActionTTLYouDisabled", R.string.ActionTTLYouDisabled);
+                                    this.messageText = LocaleController.getString("ActionTTLYouDisabled", org.telegram.messenger.beta.R.string.ActionTTLYouDisabled);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionTTLDisabled", R.string.ActionTTLDisabled), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionTTLDisabled", org.telegram.messenger.beta.R.string.ActionTTLDisabled), "un1", tLRPC$User3);
                                 }
                             }
                         }
@@ -3846,48 +3850,48 @@ public class MessageObject {
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionLoginUnknownLocation) {
                         long j8 = tLRPC$Message.date * 1000;
-                        String formatString = (LocaleController.getInstance().formatterDay == null || LocaleController.getInstance().formatterYear == null) ? "" + this.messageOwner.date : LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(j8), LocaleController.getInstance().formatterDay.format(j8));
+                        String formatString = (LocaleController.getInstance().formatterDay == null || LocaleController.getInstance().formatterYear == null) ? "" + this.messageOwner.date : LocaleController.formatString("formatDateAtTime", org.telegram.messenger.beta.R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(j8), LocaleController.getInstance().formatterDay.format(j8));
                         TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
                         if (currentUser == null) {
                             currentUser = getUser(abstractMap, longSparseArray, this.messageOwner.peer_id.user_id);
                         }
                         String firstName = currentUser != null ? UserObject.getFirstName(currentUser) : "";
                         TLRPC$MessageAction tLRPC$MessageAction3 = this.messageOwner.action;
-                        this.messageText = LocaleController.formatString("NotificationUnrecognizedDevice", R.string.NotificationUnrecognizedDevice, firstName, formatString, tLRPC$MessageAction3.title, tLRPC$MessageAction3.address);
+                        this.messageText = LocaleController.formatString("NotificationUnrecognizedDevice", org.telegram.messenger.beta.R.string.NotificationUnrecognizedDevice, firstName, formatString, tLRPC$MessageAction3.title, tLRPC$MessageAction3.address);
                     } else if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionUserJoined) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionContactSignUp)) {
-                        this.messageText = LocaleController.formatString("NotificationContactJoined", R.string.NotificationContactJoined, UserObject.getUserName(tLRPC$User2));
+                        this.messageText = LocaleController.formatString("NotificationContactJoined", org.telegram.messenger.beta.R.string.NotificationContactJoined, UserObject.getUserName(tLRPC$User2));
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionUserUpdatedPhoto) {
-                        this.messageText = LocaleController.formatString("NotificationContactNewPhoto", R.string.NotificationContactNewPhoto, UserObject.getUserName(tLRPC$User2));
+                        this.messageText = LocaleController.formatString("NotificationContactNewPhoto", org.telegram.messenger.beta.R.string.NotificationContactNewPhoto, UserObject.getUserName(tLRPC$User2));
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageEncryptedAction) {
                         TLRPC$DecryptedMessageAction tLRPC$DecryptedMessageAction = tLRPC$MessageAction.encryptedAction;
                         if (tLRPC$DecryptedMessageAction instanceof TLRPC$TL_decryptedMessageActionScreenshotMessages) {
                             if (isOut()) {
-                                this.messageText = LocaleController.formatString("ActionTakeScreenshootYou", R.string.ActionTakeScreenshootYou, new Object[0]);
+                                this.messageText = LocaleController.formatString("ActionTakeScreenshootYou", org.telegram.messenger.beta.R.string.ActionTakeScreenshootYou, new Object[0]);
                             } else {
-                                this.messageText = replaceWithLink(LocaleController.getString("ActionTakeScreenshoot", R.string.ActionTakeScreenshoot), "un1", tLRPC$User3);
+                                this.messageText = replaceWithLink(LocaleController.getString("ActionTakeScreenshoot", org.telegram.messenger.beta.R.string.ActionTakeScreenshoot), "un1", tLRPC$User3);
                             }
                         } else if (tLRPC$DecryptedMessageAction instanceof TLRPC$TL_decryptedMessageActionSetMessageTTL) {
                             TLRPC$TL_decryptedMessageActionSetMessageTTL tLRPC$TL_decryptedMessageActionSetMessageTTL = (TLRPC$TL_decryptedMessageActionSetMessageTTL) tLRPC$DecryptedMessageAction;
                             if (tLRPC$TL_decryptedMessageActionSetMessageTTL.ttl_seconds != 0) {
                                 if (isOut()) {
-                                    this.messageText = LocaleController.formatString("MessageLifetimeChangedOutgoing", R.string.MessageLifetimeChangedOutgoing, LocaleController.formatTTLString(tLRPC$TL_decryptedMessageActionSetMessageTTL.ttl_seconds));
+                                    this.messageText = LocaleController.formatString("MessageLifetimeChangedOutgoing", org.telegram.messenger.beta.R.string.MessageLifetimeChangedOutgoing, LocaleController.formatTTLString(tLRPC$TL_decryptedMessageActionSetMessageTTL.ttl_seconds));
                                 } else {
-                                    this.messageText = LocaleController.formatString("MessageLifetimeChanged", R.string.MessageLifetimeChanged, UserObject.getFirstName(tLRPC$User2), LocaleController.formatTTLString(tLRPC$TL_decryptedMessageActionSetMessageTTL.ttl_seconds));
+                                    this.messageText = LocaleController.formatString("MessageLifetimeChanged", org.telegram.messenger.beta.R.string.MessageLifetimeChanged, UserObject.getFirstName(tLRPC$User2), LocaleController.formatTTLString(tLRPC$TL_decryptedMessageActionSetMessageTTL.ttl_seconds));
                                 }
                             } else if (isOut()) {
-                                this.messageText = LocaleController.getString("MessageLifetimeYouRemoved", R.string.MessageLifetimeYouRemoved);
+                                this.messageText = LocaleController.getString("MessageLifetimeYouRemoved", org.telegram.messenger.beta.R.string.MessageLifetimeYouRemoved);
                             } else {
-                                this.messageText = LocaleController.formatString("MessageLifetimeRemoved", R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User2));
+                                this.messageText = LocaleController.formatString("MessageLifetimeRemoved", org.telegram.messenger.beta.R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User2));
                             }
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionScreenshotTaken) {
                         if (isOut()) {
-                            this.messageText = LocaleController.formatString("ActionTakeScreenshootYou", R.string.ActionTakeScreenshootYou, new Object[0]);
+                            this.messageText = LocaleController.formatString("ActionTakeScreenshootYou", org.telegram.messenger.beta.R.string.ActionTakeScreenshootYou, new Object[0]);
                         } else {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionTakeScreenshoot", R.string.ActionTakeScreenshoot), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionTakeScreenshoot", org.telegram.messenger.beta.R.string.ActionTakeScreenshoot), "un1", tLRPC$User3);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionCreatedBroadcastList) {
-                        this.messageText = LocaleController.formatString("YouCreatedBroadcastList", R.string.YouCreatedBroadcastList, new Object[0]);
+                        this.messageText = LocaleController.formatString("YouCreatedBroadcastList", org.telegram.messenger.beta.R.string.YouCreatedBroadcastList, new Object[0]);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChannelCreate) {
                         TLRPC$Peer tLRPC$Peer7 = tLRPC$Message.peer_id;
                         if (tLRPC$Peer7 != null) {
@@ -3895,24 +3899,24 @@ public class MessageObject {
                             if (j9 != 0) {
                                 tLRPC$Chat = getChat(abstractMap2, longSparseArray2, j9);
                                 if (!ChatObject.isChannel(tLRPC$Chat) && tLRPC$Chat.megagroup) {
-                                    this.messageText = LocaleController.getString("ActionCreateMega", R.string.ActionCreateMega);
+                                    this.messageText = LocaleController.getString("ActionCreateMega", org.telegram.messenger.beta.R.string.ActionCreateMega);
                                 } else {
-                                    this.messageText = LocaleController.getString("ActionCreateChannel", R.string.ActionCreateChannel);
+                                    this.messageText = LocaleController.getString("ActionCreateChannel", org.telegram.messenger.beta.R.string.ActionCreateChannel);
                                 }
                             }
                         }
                         tLRPC$Chat = null;
                         if (!ChatObject.isChannel(tLRPC$Chat)) {
                         }
-                        this.messageText = LocaleController.getString("ActionCreateChannel", R.string.ActionCreateChannel);
+                        this.messageText = LocaleController.getString("ActionCreateChannel", org.telegram.messenger.beta.R.string.ActionCreateChannel);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatMigrateTo) {
-                        this.messageText = LocaleController.getString("ActionMigrateFromGroup", R.string.ActionMigrateFromGroup);
+                        this.messageText = LocaleController.getString("ActionMigrateFromGroup", org.telegram.messenger.beta.R.string.ActionMigrateFromGroup);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChannelMigrateFrom) {
-                        this.messageText = LocaleController.getString("ActionMigrateFromGroup", R.string.ActionMigrateFromGroup);
+                        this.messageText = LocaleController.getString("ActionMigrateFromGroup", org.telegram.messenger.beta.R.string.ActionMigrateFromGroup);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPinMessage) {
                         generatePinMessageText(tLRPC$User2, tLRPC$User2 == null ? getChat(abstractMap2, longSparseArray2, tLRPC$Message.peer_id.channel_id) : null);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionHistoryClear) {
-                        this.messageText = LocaleController.getString("HistoryCleared", R.string.HistoryCleared);
+                        this.messageText = LocaleController.getString("HistoryCleared", org.telegram.messenger.beta.R.string.HistoryCleared);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGameScore) {
                         generateGameMessageText(tLRPC$User2);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPhoneCall) {
@@ -3921,36 +3925,36 @@ public class MessageObject {
                         if (!isFromUser() || this.messageOwner.from_id.user_id != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
                             if (z) {
                                 if (tLRPC$TL_messageActionPhoneCall.video) {
-                                    this.messageText = LocaleController.getString("CallMessageVideoIncomingMissed", R.string.CallMessageVideoIncomingMissed);
+                                    this.messageText = LocaleController.getString("CallMessageVideoIncomingMissed", org.telegram.messenger.beta.R.string.CallMessageVideoIncomingMissed);
                                 } else {
-                                    this.messageText = LocaleController.getString("CallMessageIncomingMissed", R.string.CallMessageIncomingMissed);
+                                    this.messageText = LocaleController.getString("CallMessageIncomingMissed", org.telegram.messenger.beta.R.string.CallMessageIncomingMissed);
                                 }
                             } else if (tLRPC$TL_messageActionPhoneCall.reason instanceof TLRPC$TL_phoneCallDiscardReasonBusy) {
                                 if (tLRPC$TL_messageActionPhoneCall.video) {
-                                    this.messageText = LocaleController.getString("CallMessageVideoIncomingDeclined", R.string.CallMessageVideoIncomingDeclined);
+                                    this.messageText = LocaleController.getString("CallMessageVideoIncomingDeclined", org.telegram.messenger.beta.R.string.CallMessageVideoIncomingDeclined);
                                 } else {
-                                    this.messageText = LocaleController.getString("CallMessageIncomingDeclined", R.string.CallMessageIncomingDeclined);
+                                    this.messageText = LocaleController.getString("CallMessageIncomingDeclined", org.telegram.messenger.beta.R.string.CallMessageIncomingDeclined);
                                 }
                             } else if (tLRPC$TL_messageActionPhoneCall.video) {
-                                this.messageText = LocaleController.getString("CallMessageVideoIncoming", R.string.CallMessageVideoIncoming);
+                                this.messageText = LocaleController.getString("CallMessageVideoIncoming", org.telegram.messenger.beta.R.string.CallMessageVideoIncoming);
                             } else {
-                                this.messageText = LocaleController.getString("CallMessageIncoming", R.string.CallMessageIncoming);
+                                this.messageText = LocaleController.getString("CallMessageIncoming", org.telegram.messenger.beta.R.string.CallMessageIncoming);
                             }
                         } else if (z) {
                             if (tLRPC$TL_messageActionPhoneCall.video) {
-                                this.messageText = LocaleController.getString("CallMessageVideoOutgoingMissed", R.string.CallMessageVideoOutgoingMissed);
+                                this.messageText = LocaleController.getString("CallMessageVideoOutgoingMissed", org.telegram.messenger.beta.R.string.CallMessageVideoOutgoingMissed);
                             } else {
-                                this.messageText = LocaleController.getString("CallMessageOutgoingMissed", R.string.CallMessageOutgoingMissed);
+                                this.messageText = LocaleController.getString("CallMessageOutgoingMissed", org.telegram.messenger.beta.R.string.CallMessageOutgoingMissed);
                             }
                         } else if (tLRPC$TL_messageActionPhoneCall.video) {
-                            this.messageText = LocaleController.getString("CallMessageVideoOutgoing", R.string.CallMessageVideoOutgoing);
+                            this.messageText = LocaleController.getString("CallMessageVideoOutgoing", org.telegram.messenger.beta.R.string.CallMessageVideoOutgoing);
                         } else {
-                            this.messageText = LocaleController.getString("CallMessageOutgoing", R.string.CallMessageOutgoing);
+                            this.messageText = LocaleController.getString("CallMessageOutgoing", org.telegram.messenger.beta.R.string.CallMessageOutgoing);
                         }
                         int i6 = tLRPC$TL_messageActionPhoneCall.duration;
                         if (i6 > 0) {
                             String formatCallDuration = LocaleController.formatCallDuration(i6);
-                            String formatString2 = LocaleController.formatString("CallMessageWithDuration", R.string.CallMessageWithDuration, this.messageText, formatCallDuration);
+                            String formatString2 = LocaleController.formatString("CallMessageWithDuration", org.telegram.messenger.beta.R.string.CallMessageWithDuration, this.messageText, formatCallDuration);
                             this.messageText = formatString2;
                             String charSequence = formatString2.toString();
                             int indexOf2 = charSequence.indexOf(formatCallDuration);
@@ -3971,7 +3975,7 @@ public class MessageObject {
                         generatePaymentSentMessageText(getUser(abstractMap, longSparseArray, getDialogId()));
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionBotAllowed) {
                         String str5 = ((TLRPC$TL_messageActionBotAllowed) tLRPC$MessageAction).domain;
-                        String string = LocaleController.getString("ActionBotAllowed", R.string.ActionBotAllowed);
+                        String string = LocaleController.getString("ActionBotAllowed", org.telegram.messenger.beta.R.string.ActionBotAllowed);
                         int indexOf3 = string.indexOf("%1$s");
                         SpannableString spannableString2 = new SpannableString(String.format(string, str5));
                         if (indexOf3 >= 0) {
@@ -3988,66 +3992,66 @@ public class MessageObject {
                                 sb.append(", ");
                             }
                             if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePhone) {
-                                sb.append(LocaleController.getString("ActionBotDocumentPhone", R.string.ActionBotDocumentPhone));
+                                sb.append(LocaleController.getString("ActionBotDocumentPhone", org.telegram.messenger.beta.R.string.ActionBotDocumentPhone));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeEmail) {
-                                sb.append(LocaleController.getString("ActionBotDocumentEmail", R.string.ActionBotDocumentEmail));
+                                sb.append(LocaleController.getString("ActionBotDocumentEmail", org.telegram.messenger.beta.R.string.ActionBotDocumentEmail));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeAddress) {
-                                sb.append(LocaleController.getString("ActionBotDocumentAddress", R.string.ActionBotDocumentAddress));
+                                sb.append(LocaleController.getString("ActionBotDocumentAddress", org.telegram.messenger.beta.R.string.ActionBotDocumentAddress));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails) {
-                                sb.append(LocaleController.getString("ActionBotDocumentIdentity", R.string.ActionBotDocumentIdentity));
+                                sb.append(LocaleController.getString("ActionBotDocumentIdentity", org.telegram.messenger.beta.R.string.ActionBotDocumentIdentity));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassport) {
-                                sb.append(LocaleController.getString("ActionBotDocumentPassport", R.string.ActionBotDocumentPassport));
+                                sb.append(LocaleController.getString("ActionBotDocumentPassport", org.telegram.messenger.beta.R.string.ActionBotDocumentPassport));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeDriverLicense) {
-                                sb.append(LocaleController.getString("ActionBotDocumentDriverLicence", R.string.ActionBotDocumentDriverLicence));
+                                sb.append(LocaleController.getString("ActionBotDocumentDriverLicence", org.telegram.messenger.beta.R.string.ActionBotDocumentDriverLicence));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeIdentityCard) {
-                                sb.append(LocaleController.getString("ActionBotDocumentIdentityCard", R.string.ActionBotDocumentIdentityCard));
+                                sb.append(LocaleController.getString("ActionBotDocumentIdentityCard", org.telegram.messenger.beta.R.string.ActionBotDocumentIdentityCard));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeUtilityBill) {
-                                sb.append(LocaleController.getString("ActionBotDocumentUtilityBill", R.string.ActionBotDocumentUtilityBill));
+                                sb.append(LocaleController.getString("ActionBotDocumentUtilityBill", org.telegram.messenger.beta.R.string.ActionBotDocumentUtilityBill));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeBankStatement) {
-                                sb.append(LocaleController.getString("ActionBotDocumentBankStatement", R.string.ActionBotDocumentBankStatement));
+                                sb.append(LocaleController.getString("ActionBotDocumentBankStatement", org.telegram.messenger.beta.R.string.ActionBotDocumentBankStatement));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeRentalAgreement) {
-                                sb.append(LocaleController.getString("ActionBotDocumentRentalAgreement", R.string.ActionBotDocumentRentalAgreement));
+                                sb.append(LocaleController.getString("ActionBotDocumentRentalAgreement", org.telegram.messenger.beta.R.string.ActionBotDocumentRentalAgreement));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeInternalPassport) {
-                                sb.append(LocaleController.getString("ActionBotDocumentInternalPassport", R.string.ActionBotDocumentInternalPassport));
+                                sb.append(LocaleController.getString("ActionBotDocumentInternalPassport", org.telegram.messenger.beta.R.string.ActionBotDocumentInternalPassport));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassportRegistration) {
-                                sb.append(LocaleController.getString("ActionBotDocumentPassportRegistration", R.string.ActionBotDocumentPassportRegistration));
+                                sb.append(LocaleController.getString("ActionBotDocumentPassportRegistration", org.telegram.messenger.beta.R.string.ActionBotDocumentPassportRegistration));
                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeTemporaryRegistration) {
-                                sb.append(LocaleController.getString("ActionBotDocumentTemporaryRegistration", R.string.ActionBotDocumentTemporaryRegistration));
+                                sb.append(LocaleController.getString("ActionBotDocumentTemporaryRegistration", org.telegram.messenger.beta.R.string.ActionBotDocumentTemporaryRegistration));
                             }
                         }
                         TLRPC$Peer tLRPC$Peer8 = this.messageOwner.peer_id;
-                        this.messageText = LocaleController.formatString("ActionBotDocuments", R.string.ActionBotDocuments, UserObject.getFirstName(tLRPC$Peer8 != null ? getUser(abstractMap, longSparseArray, tLRPC$Peer8.user_id) : null), sb.toString());
+                        this.messageText = LocaleController.formatString("ActionBotDocuments", org.telegram.messenger.beta.R.string.ActionBotDocuments, UserObject.getFirstName(tLRPC$Peer8 != null ? getUser(abstractMap, longSparseArray, tLRPC$Peer8.user_id) : null), sb.toString());
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionWebViewDataSent) {
-                        this.messageText = LocaleController.formatString("ActionBotWebViewData", R.string.ActionBotWebViewData, ((TLRPC$TL_messageActionWebViewDataSent) tLRPC$MessageAction).text);
+                        this.messageText = LocaleController.formatString("ActionBotWebViewData", org.telegram.messenger.beta.R.string.ActionBotWebViewData, ((TLRPC$TL_messageActionWebViewDataSent) tLRPC$MessageAction).text);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetChatTheme) {
                         String str6 = ((TLRPC$TL_messageActionSetChatTheme) tLRPC$MessageAction).emoticon;
                         String firstName2 = UserObject.getFirstName(tLRPC$User2);
                         boolean isUserSelf = UserObject.isUserSelf(tLRPC$User2);
                         if (TextUtils.isEmpty(str6)) {
                             if (isUserSelf) {
-                                str3 = LocaleController.formatString("ChatThemeDisabledYou", R.string.ChatThemeDisabledYou, new Object[0]);
+                                str3 = LocaleController.formatString("ChatThemeDisabledYou", org.telegram.messenger.beta.R.string.ChatThemeDisabledYou, new Object[0]);
                             } else {
-                                str3 = LocaleController.formatString("ChatThemeDisabled", R.string.ChatThemeDisabled, firstName2, str6);
+                                str3 = LocaleController.formatString("ChatThemeDisabled", org.telegram.messenger.beta.R.string.ChatThemeDisabled, firstName2, str6);
                             }
                             this.messageText = str3;
                         } else {
                             if (isUserSelf) {
-                                str2 = LocaleController.formatString("ChatThemeChangedYou", R.string.ChatThemeChangedYou, str6);
+                                str2 = LocaleController.formatString("ChatThemeChangedYou", org.telegram.messenger.beta.R.string.ChatThemeChangedYou, str6);
                             } else {
-                                str2 = LocaleController.formatString("ChatThemeChangedTo", R.string.ChatThemeChangedTo, firstName2, str6);
+                                str2 = LocaleController.formatString("ChatThemeChangedTo", org.telegram.messenger.beta.R.string.ChatThemeChangedTo, firstName2, str6);
                             }
                             this.messageText = str2;
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatJoinedByRequest) {
                         if (UserObject.isUserSelf(tLRPC$User2)) {
                             if (ChatObject.isChannelAndNotMegaGroup(this.messageOwner.peer_id.channel_id, this.currentAccount)) {
-                                str = LocaleController.getString("RequestToJoinChannelApproved", R.string.RequestToJoinChannelApproved);
+                                str = LocaleController.getString("RequestToJoinChannelApproved", org.telegram.messenger.beta.R.string.RequestToJoinChannelApproved);
                             } else {
-                                str = LocaleController.getString("RequestToJoinGroupApproved", R.string.RequestToJoinGroupApproved);
+                                str = LocaleController.getString("RequestToJoinGroupApproved", org.telegram.messenger.beta.R.string.RequestToJoinGroupApproved);
                             }
                             this.messageText = str;
                         } else {
-                            this.messageText = replaceWithLink(LocaleController.getString("UserAcceptedToGroupAction", R.string.UserAcceptedToGroupAction), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("UserAcceptedToGroupAction", org.telegram.messenger.beta.R.string.UserAcceptedToGroupAction), "un1", tLRPC$User3);
                         }
                     }
                 }
@@ -4064,36 +4068,36 @@ public class MessageObject {
                         this.messageText = getDiceEmoji();
                     } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) {
                         if (((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia).poll.quiz) {
-                            this.messageText = LocaleController.getString("QuizPoll", R.string.QuizPoll);
+                            this.messageText = LocaleController.getString("QuizPoll", org.telegram.messenger.beta.R.string.QuizPoll);
                         } else {
-                            this.messageText = LocaleController.getString("Poll", R.string.Poll);
+                            this.messageText = LocaleController.getString("Poll", org.telegram.messenger.beta.R.string.Poll);
                         }
                     } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPhoto) {
                         if (tLRPC$MessageMedia.ttl_seconds != 0 && !(tLRPC$Message3 instanceof TLRPC$TL_message_secret)) {
-                            this.messageText = LocaleController.getString("AttachDestructingPhoto", R.string.AttachDestructingPhoto);
+                            this.messageText = LocaleController.getString("AttachDestructingPhoto", org.telegram.messenger.beta.R.string.AttachDestructingPhoto);
                         } else {
-                            this.messageText = LocaleController.getString("AttachPhoto", R.string.AttachPhoto);
+                            this.messageText = LocaleController.getString("AttachPhoto", org.telegram.messenger.beta.R.string.AttachPhoto);
                         }
                     } else if (isVideo() || ((this.messageOwner.media instanceof TLRPC$TL_messageMediaDocument) && (getDocument() instanceof TLRPC$TL_documentEmpty) && this.messageOwner.media.ttl_seconds != 0)) {
                         TLRPC$Message tLRPC$Message4 = this.messageOwner;
                         if (tLRPC$Message4.media.ttl_seconds != 0 && !(tLRPC$Message4 instanceof TLRPC$TL_message_secret)) {
-                            this.messageText = LocaleController.getString("AttachDestructingVideo", R.string.AttachDestructingVideo);
+                            this.messageText = LocaleController.getString("AttachDestructingVideo", org.telegram.messenger.beta.R.string.AttachDestructingVideo);
                         } else {
-                            this.messageText = LocaleController.getString("AttachVideo", R.string.AttachVideo);
+                            this.messageText = LocaleController.getString("AttachVideo", org.telegram.messenger.beta.R.string.AttachVideo);
                         }
                     } else if (isVoice()) {
-                        this.messageText = LocaleController.getString("AttachAudio", R.string.AttachAudio);
+                        this.messageText = LocaleController.getString("AttachAudio", org.telegram.messenger.beta.R.string.AttachAudio);
                     } else if (isRoundVideo()) {
-                        this.messageText = LocaleController.getString("AttachRound", R.string.AttachRound);
+                        this.messageText = LocaleController.getString("AttachRound", org.telegram.messenger.beta.R.string.AttachRound);
                     } else {
                         TLRPC$Message tLRPC$Message5 = this.messageOwner;
                         TLRPC$MessageMedia tLRPC$MessageMedia2 = tLRPC$Message5.media;
                         if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGeo) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaVenue)) {
-                            this.messageText = LocaleController.getString("AttachLocation", R.string.AttachLocation);
+                            this.messageText = LocaleController.getString("AttachLocation", org.telegram.messenger.beta.R.string.AttachLocation);
                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGeoLive) {
-                            this.messageText = LocaleController.getString("AttachLiveLocation", R.string.AttachLiveLocation);
+                            this.messageText = LocaleController.getString("AttachLiveLocation", org.telegram.messenger.beta.R.string.AttachLiveLocation);
                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaContact) {
-                            this.messageText = LocaleController.getString("AttachContact", R.string.AttachContact);
+                            this.messageText = LocaleController.getString("AttachContact", org.telegram.messenger.beta.R.string.AttachContact);
                             if (!TextUtils.isEmpty(this.messageOwner.media.vcard)) {
                                 this.vCardData = VCardData.parse(this.messageOwner.media.vcard);
                             }
@@ -4102,25 +4106,25 @@ public class MessageObject {
                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaInvoice) {
                             this.messageText = tLRPC$MessageMedia2.description;
                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaUnsupported) {
-                            this.messageText = LocaleController.getString("UnsupportedMedia", R.string.UnsupportedMedia);
+                            this.messageText = LocaleController.getString("UnsupportedMedia", org.telegram.messenger.beta.R.string.UnsupportedMedia);
                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument) {
                             if (isSticker() || isAnimatedStickerDocument(getDocument(), true)) {
                                 String stickerChar = getStickerChar();
                                 if (stickerChar == null || stickerChar.length() <= 0) {
-                                    this.messageText = LocaleController.getString("AttachSticker", R.string.AttachSticker);
+                                    this.messageText = LocaleController.getString("AttachSticker", org.telegram.messenger.beta.R.string.AttachSticker);
                                 } else {
-                                    this.messageText = String.format("%s %s", stickerChar, LocaleController.getString("AttachSticker", R.string.AttachSticker));
+                                    this.messageText = String.format("%s %s", stickerChar, LocaleController.getString("AttachSticker", org.telegram.messenger.beta.R.string.AttachSticker));
                                 }
                             } else if (isMusic()) {
-                                this.messageText = LocaleController.getString("AttachMusic", R.string.AttachMusic);
+                                this.messageText = LocaleController.getString("AttachMusic", org.telegram.messenger.beta.R.string.AttachMusic);
                             } else if (isGif()) {
-                                this.messageText = LocaleController.getString("AttachGif", R.string.AttachGif);
+                                this.messageText = LocaleController.getString("AttachGif", org.telegram.messenger.beta.R.string.AttachGif);
                             } else {
                                 String documentFileName = FileLoader.getDocumentFileName(getDocument());
                                 if (!TextUtils.isEmpty(documentFileName)) {
                                     this.messageText = documentFileName;
                                 } else {
-                                    this.messageText = LocaleController.getString("AttachDocument", R.string.AttachDocument);
+                                    this.messageText = LocaleController.getString("AttachDocument", org.telegram.messenger.beta.R.string.AttachDocument);
                                 }
                             }
                         }
@@ -4880,7 +4884,7 @@ public class MessageObject {
             return null;
         }
         if (TextUtils.isEmpty(str)) {
-            SpannableString spannableString = new SpannableString(LocaleController.getString("NoWordsRecognized", R.string.NoWordsRecognized));
+            SpannableString spannableString = new SpannableString(LocaleController.getString("NoWordsRecognized", org.telegram.messenger.beta.R.string.NoWordsRecognized));
             spannableString.setSpan(new CharacterStyle() { // from class: org.telegram.messenger.MessageObject.1
                 @Override // android.text.style.CharacterStyle
                 public void updateDrawState(TextPaint textPaint) {
@@ -5225,6 +5229,9 @@ public class MessageObject {
 
     public static Spannable replaceAnimatedEmoji(CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, Paint.FontMetricsInt fontMetricsInt) {
         Spannable spannableString = charSequence instanceof Spannable ? (Spannable) charSequence : new SpannableString(charSequence);
+        if (arrayList == null) {
+            return spannableString;
+        }
         Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) spannableString.getSpans(0, spannableString.length(), Emoji.EmojiSpan.class);
         for (int i = 0; i < arrayList.size(); i++) {
             TLRPC$MessageEntity tLRPC$MessageEntity = arrayList.get(i);
@@ -5703,7 +5710,7 @@ public class MessageObject {
                     addLinks(isOutOwner(), this.messageText, true, true);
                 }
                 if (!isYouTubeVideo() || ((messageObject = this.replyMessageObject) != null && messageObject.isYouTubeVideo())) {
-                    addUrlsByPattern(isOutOwner(), this.messageText, false, 3, ConnectionsManager.DEFAULT_DATACENTER_ID, false);
+                    addUrlsByPattern(isOutOwner(), this.messageText, false, 3, Integer.MAX_VALUE, false);
                 } else {
                     MessageObject messageObject2 = this.replyMessageObject;
                     if (messageObject2 != null) {
@@ -6114,7 +6121,7 @@ public class MessageObject {
         }
         if (!isYouTubeVideo()) {
         }
-        addUrlsByPattern(isOutOwner(), this.messageText, false, 3, ConnectionsManager.DEFAULT_DATACENTER_ID, false);
+        addUrlsByPattern(isOutOwner(), this.messageText, false, 3, Integer.MAX_VALUE, false);
         boolean addEntitiesToText2 = addEntitiesToText(this.messageText, z);
         int maxMessageTextWidth2 = getMaxMessageTextWidth();
         if (!(this.messageOwner.media instanceof TLRPC$TL_messageMediaGame)) {
@@ -6855,8 +6862,12 @@ public class MessageObject {
     }
 
     public static String findAnimatedEmojiEmoticon(TLRPC$Document tLRPC$Document) {
+        return findAnimatedEmojiEmoticon(tLRPC$Document, "😀");
+    }
+
+    public static String findAnimatedEmojiEmoticon(TLRPC$Document tLRPC$Document, String str) {
         if (tLRPC$Document == null) {
-            return "😀";
+            return str;
         }
         int size = tLRPC$Document.attributes.size();
         for (int i = 0; i < size; i++) {
@@ -6865,7 +6876,7 @@ public class MessageObject {
                 return tLRPC$DocumentAttribute.alt;
             }
         }
-        return "😀";
+        return str;
     }
 
     public static boolean isFreeEmoji(TLRPC$Document tLRPC$Document) {
@@ -6877,6 +6888,18 @@ public class MessageObject {
             TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i);
             if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeCustomEmoji) {
                 return ((TLRPC$TL_documentAttributeCustomEmoji) tLRPC$DocumentAttribute).free;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isPremiumEmojiPack(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
+        TLRPC$StickerSet tLRPC$StickerSet;
+        if ((tLRPC$TL_messages_stickerSet == null || (tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set) == null || tLRPC$StickerSet.emojis) && tLRPC$TL_messages_stickerSet != null && tLRPC$TL_messages_stickerSet.documents != null) {
+            for (int i = 0; i < tLRPC$TL_messages_stickerSet.documents.size(); i++) {
+                if (!isFreeEmoji(tLRPC$TL_messages_stickerSet.documents.get(i))) {
+                    return true;
+                }
             }
         }
         return false;
@@ -7270,7 +7293,7 @@ public class MessageObject {
                         return str;
                     }
                     String documentFileName = FileLoader.getDocumentFileName(document);
-                    return (!TextUtils.isEmpty(documentFileName) || !z) ? documentFileName : LocaleController.getString("AudioUnknownTitle", R.string.AudioUnknownTitle);
+                    return (!TextUtils.isEmpty(documentFileName) || !z) ? documentFileName : LocaleController.getString("AudioUnknownTitle", org.telegram.messenger.beta.R.string.AudioUnknownTitle);
                 } else if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) && tLRPC$DocumentAttribute.round_message) {
                     return LocaleController.formatDateAudio(this.messageOwner.date, true);
                 }
@@ -7280,7 +7303,7 @@ public class MessageObject {
                 return documentFileName2;
             }
         }
-        return LocaleController.getString("AudioUnknownTitle", R.string.AudioUnknownTitle);
+        return LocaleController.getString("AudioUnknownTitle", org.telegram.messenger.beta.R.string.AudioUnknownTitle);
     }
 
     public int getDuration() {
@@ -7371,7 +7394,7 @@ public class MessageObject {
                 if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeAudio) {
                     if (!tLRPC$DocumentAttribute.voice) {
                         String str2 = tLRPC$DocumentAttribute.performer;
-                        return (!TextUtils.isEmpty(str2) || !z) ? str2 : LocaleController.getString("AudioUnknownArtist", R.string.AudioUnknownArtist);
+                        return (!TextUtils.isEmpty(str2) || !z) ? str2 : LocaleController.getString("AudioUnknownArtist", org.telegram.messenger.beta.R.string.AudioUnknownArtist);
                     }
                 } else {
                     if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) {
@@ -7422,7 +7445,7 @@ public class MessageObject {
                                 return tLRPC$Chat.title;
                             }
                         }
-                        return LocaleController.getString("FromYou", R.string.FromYou);
+                        return LocaleController.getString("FromYou", org.telegram.messenger.beta.R.string.FromYou);
                     }
                 }
                 z2 = true;
@@ -7430,7 +7453,7 @@ public class MessageObject {
                 }
             }
         }
-        return LocaleController.getString("AudioUnknownArtist", R.string.AudioUnknownArtist);
+        return LocaleController.getString("AudioUnknownArtist", org.telegram.messenger.beta.R.string.AudioUnknownArtist);
     }
 
     public TLRPC$InputStickerSet getInputStickerSet() {

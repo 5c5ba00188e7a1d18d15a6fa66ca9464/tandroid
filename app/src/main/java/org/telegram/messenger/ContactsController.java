@@ -359,12 +359,12 @@ public class ContactsController extends BaseController {
             str = "https://telegram.org/dl";
         }
         if (i <= 1) {
-            return LocaleController.formatString("InviteText2", R.string.InviteText2, str);
+            return LocaleController.formatString("InviteText2", org.telegram.messenger.beta.R.string.InviteText2, str);
         }
         try {
             return String.format(LocaleController.getPluralString("InviteTextNum", i), Integer.valueOf(i), str);
         } catch (Exception unused) {
-            return LocaleController.formatString("InviteText2", R.string.InviteText2, str);
+            return LocaleController.formatString("InviteText2", org.telegram.messenger.beta.R.string.InviteText2, str);
         }
     }
 
@@ -680,7 +680,7 @@ public class ContactsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:202:0x0332 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:227:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r9v1 */
-    /* JADX WARN: Type inference failed for: r9v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v4, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -822,19 +822,19 @@ public class ContactsController extends BaseController {
                                                     String string5 = cursor.getString(3);
                                                     ArrayList<String> arrayList2 = contact2.phoneTypes;
                                                     if (string5 == null) {
-                                                        string5 = LocaleController.getString("PhoneMobile", R.string.PhoneMobile);
+                                                        string5 = LocaleController.getString("PhoneMobile", org.telegram.messenger.beta.R.string.PhoneMobile);
                                                     }
                                                     arrayList2.add(string5);
                                                 } else if (i5 == 1) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneHome", R.string.PhoneHome));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneHome", org.telegram.messenger.beta.R.string.PhoneHome));
                                                 } else if (i5 == 2) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMobile", R.string.PhoneMobile));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMobile", org.telegram.messenger.beta.R.string.PhoneMobile));
                                                 } else if (i5 == 3) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneWork", R.string.PhoneWork));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneWork", org.telegram.messenger.beta.R.string.PhoneWork));
                                                 } else if (i5 == 12) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMain", R.string.PhoneMain));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMain", org.telegram.messenger.beta.R.string.PhoneMain));
                                                 } else {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneOther", R.string.PhoneOther));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneOther", org.telegram.messenger.beta.R.string.PhoneOther));
                                                 }
                                                 hashMap4.put(substring, contact2);
                                                 contactsController = this;
@@ -2606,7 +2606,7 @@ public class ContactsController extends BaseController {
         newInsert3.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.profile");
         newInsert3.withValue("data1", Long.valueOf(tLRPC$User.id));
         newInsert3.withValue("data2", "Telegram Profile");
-        newInsert3.withValue("data3", LocaleController.formatString("ContactShortcutMessage", R.string.ContactShortcutMessage, str));
+        newInsert3.withValue("data3", LocaleController.formatString("ContactShortcutMessage", org.telegram.messenger.beta.R.string.ContactShortcutMessage, str));
         newInsert3.withValue("data4", Long.valueOf(tLRPC$User.id));
         arrayList.add(newInsert3.build());
         ContentProviderOperation.Builder newInsert4 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
@@ -2614,7 +2614,7 @@ public class ContactsController extends BaseController {
         newInsert4.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call");
         newInsert4.withValue("data1", Long.valueOf(tLRPC$User.id));
         newInsert4.withValue("data2", "Telegram Voice Call");
-        newInsert4.withValue("data3", LocaleController.formatString("ContactShortcutVoiceCall", R.string.ContactShortcutVoiceCall, str));
+        newInsert4.withValue("data3", LocaleController.formatString("ContactShortcutVoiceCall", org.telegram.messenger.beta.R.string.ContactShortcutVoiceCall, str));
         newInsert4.withValue("data4", Long.valueOf(tLRPC$User.id));
         arrayList.add(newInsert4.build());
         ContentProviderOperation.Builder newInsert5 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
@@ -2622,7 +2622,7 @@ public class ContactsController extends BaseController {
         newInsert5.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call.video");
         newInsert5.withValue("data1", Long.valueOf(tLRPC$User.id));
         newInsert5.withValue("data2", "Telegram Video Call");
-        newInsert5.withValue("data3", LocaleController.formatString("ContactShortcutVideoCall", R.string.ContactShortcutVideoCall, str));
+        newInsert5.withValue("data3", LocaleController.formatString("ContactShortcutVideoCall", org.telegram.messenger.beta.R.string.ContactShortcutVideoCall, str));
         newInsert5.withValue("data4", Long.valueOf(tLRPC$User.id));
         arrayList.add(newInsert5.build());
         try {
@@ -2838,7 +2838,7 @@ public class ContactsController extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
         getNotificationCenter().postNotificationName(NotificationCenter.contactsDidLoad, new Object[0]);
         if (z) {
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("DeletedFromYourContacts", R.string.DeletedFromYourContacts, str));
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("DeletedFromYourContacts", org.telegram.messenger.beta.R.string.DeletedFromYourContacts, str));
         }
     }
 

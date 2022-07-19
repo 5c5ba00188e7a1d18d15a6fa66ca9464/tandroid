@@ -20,7 +20,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$StickerSet;
@@ -71,15 +71,15 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:29:0x00ec, code lost:
-        r0 = null;
+        r5 = null;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList) {
         super(context);
-        String str;
         TLRPC$Document tLRPC$Document;
+        String str;
         TLRPC$TL_messages_stickerSet stickerSet;
         TLRPC$StickerSet tLRPC$StickerSet;
         ArrayList<TLRPC$Document> arrayList2;
@@ -141,7 +141,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                         MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, (i9 - i10) / 2, (int) (f + i10), (i9 + i10) / 2);
                     }
                 }, 0, spannableString.length(), 33);
-                AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(0, tLRPC$Document);
+                AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(i, 0, tLRPC$Document);
                 this.emojiDrawable = make;
                 make.addView(this);
                 SpannableString spannableString2 = new SpannableString(str);
@@ -303,7 +303,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         if (str == null || tLRPC$Document == null) {
             return;
         }
-        AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(0, tLRPC$Document);
+        AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(this.currentAccount, 0, tLRPC$Document);
         this.emojiDrawable = make;
         make.addView(this);
         invalidate();
@@ -332,7 +332,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         spannableString3.setSpan(new BoldAndAccent(), 0, spannableString3.length(), 33);
         this.secondPartText = new SpannableStringBuilder().append((CharSequence) spannableString).append((CharSequence) spannableString2).append(' ').append((CharSequence) spannableString3).append(this.endText);
         int measuredHeight = (getMeasuredHeight() - getPaddingTop()) - getPaddingBottom();
-        int updateLayout = updateLayout(this.lastWidth, true);
+        int updateLayout = updateLayout((this.lastWidth - getPaddingLeft()) - getPaddingRight(), true);
         if (this.loadingBoundsFrom != null && this.secondPartTextLayout != null) {
             if (this.loadingBoundsTo == null) {
                 this.loadingBoundsTo = new android.graphics.Rect();

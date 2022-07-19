@@ -111,14 +111,13 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
@@ -240,7 +239,6 @@ import org.telegram.ui.Components.IdenticonDrawable;
 import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.GiftPremiumBottomSheet;
-import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet;
 import org.telegram.ui.Components.Premium.ProfilePremiumCell;
@@ -3660,7 +3658,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         TLRPC$TL_peerNotifySettings tLRPC$TL_peerNotifySettings = new TLRPC$TL_peerNotifySettings();
                         tLRPC$Dialog2.notify_settings = tLRPC$TL_peerNotifySettings;
                         if (isGlobalNotificationsEnabled) {
-                            tLRPC$TL_peerNotifySettings.mute_until = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                            tLRPC$TL_peerNotifySettings.mute_until = Integer.MAX_VALUE;
                         }
                     }
                 }
@@ -9998,10 +9996,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         public /* synthetic */ void lambda$new$23() {
             if (!ProfileActivity.this.getUserConfig().isPremium()) {
-                ProfileActivity.this.showDialog(new PremiumFeatureBottomSheet(ProfileActivity.this, 10, true));
-            } else {
-                ProfileActivity.this.presentFragment(new PrivacyControlActivity(8, true));
+                try {
+                    ((BaseFragment) ProfileActivity.this).fragmentView.performHapticFeedback(3, 2);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                BulletinFactory.of(ProfileActivity.this).createRestrictVoiceMessagesPremiumBulletin().show();
+                return;
             }
+            ProfileActivity.this.presentFragment(new PrivacyControlActivity(8, true));
         }
 
         public /* synthetic */ void lambda$new$24() {
@@ -11523,7 +11526,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return;
         }
         View view = null;
-        int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int i = Integer.MAX_VALUE;
         int i2 = -1;
         for (int i3 = 0; i3 < this.listView.getChildCount(); i3++) {
             RecyclerListView recyclerListView2 = this.listView;

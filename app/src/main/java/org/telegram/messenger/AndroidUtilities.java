@@ -94,6 +94,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import com.android.internal.telephony.ITelephony;
 import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.huawei.hms.framework.common.ContainerUtils;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.microsoft.appcenter.distribute.Distribute;
@@ -132,6 +134,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.messenger.utils.CustomHtml;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
@@ -308,8 +311,8 @@ public class AndroidUtilities {
         }
         leftBaseline = isTablet() ? 80 : 72;
         checkDisplaySize(ApplicationLoader.applicationContext, null);
-        documentIcons = new int[]{R.drawable.media_doc_blue, R.drawable.media_doc_green, R.drawable.media_doc_red, R.drawable.media_doc_yellow};
-        documentMediaIcons = new int[]{R.drawable.media_doc_blue_b, R.drawable.media_doc_green_b, R.drawable.media_doc_red_b, R.drawable.media_doc_yellow_b};
+        documentIcons = new int[]{org.telegram.messenger.beta.R.drawable.media_doc_blue, org.telegram.messenger.beta.R.drawable.media_doc_green, org.telegram.messenger.beta.R.drawable.media_doc_red, org.telegram.messenger.beta.R.drawable.media_doc_yellow};
+        documentMediaIcons = new int[]{org.telegram.messenger.beta.R.drawable.media_doc_blue_b, org.telegram.messenger.beta.R.drawable.media_doc_green_b, org.telegram.messenger.beta.R.drawable.media_doc_red_b, org.telegram.messenger.beta.R.drawable.media_doc_yellow_b};
         sUrlMatchFilter = AndroidUtilities$$ExternalSyntheticLambda3.INSTANCE;
         hasCallPermissions = Build.VERSION.SDK_INT >= 23;
         numbersSignatureArray = new String[]{"", "K", "M", "G", "T", "P"};
@@ -350,7 +353,7 @@ public class AndroidUtilities {
                 indexOf -= Math.max(0, indexOf - (i2 / 2));
                 charSequence.length();
             }
-            staticLayout = new StaticLayout(charSequence, textPaint, ConnectionsManager.DEFAULT_DATACENTER_ID, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            staticLayout = new StaticLayout(charSequence, textPaint, Integer.MAX_VALUE, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             lineWidth = staticLayout.getLineWidth(0);
             f = i;
         } catch (Exception e) {
@@ -976,14 +979,14 @@ public class AndroidUtilities {
                 return false;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity());
-            builder.setMessage(LocaleController.getString("InstallGoogleMaps", R.string.InstallGoogleMaps));
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda2
+            builder.setMessage(LocaleController.getString("InstallGoogleMaps", org.telegram.messenger.beta.R.string.InstallGoogleMaps));
+            builder.setPositiveButton(LocaleController.getString("OK", org.telegram.messenger.beta.R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     AndroidUtilities.lambda$isGoogleMapsInstalled$4(BaseFragment.this, dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString("Cancel", org.telegram.messenger.beta.R.string.Cancel), null);
             baseFragment.showDialog(builder.create());
             return false;
         }
@@ -1164,7 +1167,7 @@ public class AndroidUtilities {
             String str = null;
             String str2 = "UTF-8";
             for (String str3 : substring.split(";")) {
-                String[] split = str3.split("=");
+                String[] split = str3.split(ContainerUtils.KEY_VALUE_DELIMITER);
                 if (split.length == 2) {
                     if (split[0].equals("CHARSET")) {
                         str2 = split[1];
@@ -1200,7 +1203,7 @@ public class AndroidUtilities {
             String str = null;
             String str2 = "UTF-8";
             for (String str3 : substring.split(";")) {
-                String[] split = str3.split("=");
+                String[] split = str3.split(ContainerUtils.KEY_VALUE_DELIMITER);
                 if (split.length == 2) {
                     if (split[0].equals("CHARSET")) {
                         str2 = split[1];
@@ -1283,13 +1286,13 @@ public class AndroidUtilities {
             int i = this.type;
             char c = 5;
             if (i == 5) {
-                return LocaleController.getString("ContactBirthday", R.string.ContactBirthday);
+                return LocaleController.getString("ContactBirthday", org.telegram.messenger.beta.R.string.ContactBirthday);
             }
             if (i == 6) {
                 if ("ORG".equalsIgnoreCase(getRawType(true))) {
-                    return LocaleController.getString("ContactJob", R.string.ContactJob);
+                    return LocaleController.getString("ContactJob", org.telegram.messenger.beta.R.string.ContactJob);
                 }
-                return LocaleController.getString("ContactJobTitle", R.string.ContactJobTitle);
+                return LocaleController.getString("ContactJobTitle", org.telegram.messenger.beta.R.string.ContactJobTitle);
             }
             int indexOf = this.fullData.indexOf(58);
             if (indexOf < 0) {
@@ -1354,19 +1357,19 @@ public class AndroidUtilities {
                 switch (c) {
                     case 0:
                     case 1:
-                        substring = LocaleController.getString("PhoneMobile", R.string.PhoneMobile);
+                        substring = LocaleController.getString("PhoneMobile", org.telegram.messenger.beta.R.string.PhoneMobile);
                         break;
                     case 2:
-                        substring = LocaleController.getString("PhoneHome", R.string.PhoneHome);
+                        substring = LocaleController.getString("PhoneHome", org.telegram.messenger.beta.R.string.PhoneHome);
                         break;
                     case 3:
-                        substring = LocaleController.getString("PhoneMain", R.string.PhoneMain);
+                        substring = LocaleController.getString("PhoneMain", org.telegram.messenger.beta.R.string.PhoneMain);
                         break;
                     case 4:
-                        substring = LocaleController.getString("PhoneWork", R.string.PhoneWork);
+                        substring = LocaleController.getString("PhoneWork", org.telegram.messenger.beta.R.string.PhoneWork);
                         break;
                     case 5:
-                        substring = LocaleController.getString("PhoneOther", R.string.PhoneOther);
+                        substring = LocaleController.getString("PhoneOther", org.telegram.messenger.beta.R.string.PhoneOther);
                         break;
                 }
             }
@@ -1495,8 +1498,9 @@ public class AndroidUtilities {
                         readLine = str3 + readLine;
                         str3 = null;
                     }
-                    String str4 = "=";
-                    if (readLine.contains("=QUOTED-PRINTABLE") && readLine.endsWith(str4)) {
+                    boolean contains = readLine.contains("=QUOTED-PRINTABLE");
+                    String str4 = ContainerUtils.KEY_VALUE_DELIMITER;
+                    if (contains && readLine.endsWith(str4)) {
                         str3 = readLine.substring(i2, readLine.length() - 1);
                         anonymousClass1 = 0;
                     } else {
@@ -2018,7 +2022,7 @@ public class AndroidUtilities {
 
     public static boolean isTablet() {
         if (isTablet == null) {
-            isTablet = Boolean.valueOf(ApplicationLoader.applicationContext != null && ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isTablet));
+            isTablet = Boolean.valueOf(ApplicationLoader.applicationContext != null && ApplicationLoader.applicationContext.getResources().getBoolean(org.telegram.messenger.beta.R.bool.isTablet));
         }
         return isTablet.booleanValue();
     }
@@ -2523,7 +2527,12 @@ public class AndroidUtilities {
 
     public static void addToClipboard(CharSequence charSequence) {
         try {
-            ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", charSequence));
+            ClipboardManager clipboardManager = (ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard");
+            if (charSequence instanceof Spanned) {
+                clipboardManager.setPrimaryClip(ClipData.newHtmlText("label", charSequence, CustomHtml.toHtml((Spanned) charSequence)));
+            } else {
+                clipboardManager.setPrimaryClip(ClipData.newPlainText("label", charSequence));
+            }
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -2621,7 +2630,7 @@ public class AndroidUtilities {
                         return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
                     }
                 }
-            } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            } else if (RemoteMessageConst.Notification.CONTENT.equalsIgnoreCase(uri.getScheme())) {
                 return getDataColumn(ApplicationLoader.applicationContext, uri, null, null);
             } else {
                 if ("file".equalsIgnoreCase(uri.getScheme())) {
@@ -3023,9 +3032,9 @@ public class AndroidUtilities {
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-            builder.setMessage(LocaleController.getString("IncorrectTheme", R.string.IncorrectTheme));
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+            builder.setTitle(LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName));
+            builder.setMessage(LocaleController.getString("IncorrectTheme", org.telegram.messenger.beta.R.string.IncorrectTheme));
+            builder.setPositiveButton(LocaleController.getString("OK", org.telegram.messenger.beta.R.string.OK), null);
             baseFragment.showDialog(builder.create());
             return;
         }
@@ -3062,9 +3071,9 @@ public class AndroidUtilities {
                 return;
             }
             AlertDialog.Builder builder2 = new AlertDialog.Builder(activity);
-            builder2.setTitle(LocaleController.getString("AppName", R.string.AppName));
-            builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-            builder2.setMessage(LocaleController.formatString("NoHandleAppInstalled", R.string.NoHandleAppInstalled, messageObject.getDocument().mime_type));
+            builder2.setTitle(LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName));
+            builder2.setPositiveButton(LocaleController.getString("OK", org.telegram.messenger.beta.R.string.OK), null);
+            builder2.setMessage(LocaleController.formatString("NoHandleAppInstalled", org.telegram.messenger.beta.R.string.NoHandleAppInstalled, messageObject.getDocument().mime_type));
             if (baseFragment != null) {
                 baseFragment.showDialog(builder2.create());
             } else {
@@ -3486,7 +3495,7 @@ public class AndroidUtilities {
         linearLayout.setOrientation(1);
         if (!TextUtils.isEmpty(str5)) {
             TextView textView = new TextView(activity);
-            textView.setText(LocaleController.getString("UseProxyTelegramInfo2", R.string.UseProxyTelegramInfo2));
+            textView.setText(LocaleController.getString("UseProxyTelegramInfo2", org.telegram.messenger.beta.R.string.UseProxyTelegramInfo2));
             textView.setTextColor(Theme.getColor("dialogTextGray4"));
             textView.setTextSize(1, 14.0f);
             textView.setGravity(49);
@@ -3498,19 +3507,19 @@ public class AndroidUtilities {
         for (int i = 0; i < 5; i++) {
             String str7 = null;
             if (i == 0) {
-                str6 = LocaleController.getString("UseProxyAddress", R.string.UseProxyAddress);
+                str6 = LocaleController.getString("UseProxyAddress", org.telegram.messenger.beta.R.string.UseProxyAddress);
                 str7 = str;
             } else if (i == 1) {
                 str7 = "" + str2;
-                str6 = LocaleController.getString("UseProxyPort", R.string.UseProxyPort);
+                str6 = LocaleController.getString("UseProxyPort", org.telegram.messenger.beta.R.string.UseProxyPort);
             } else if (i == 2) {
-                str6 = LocaleController.getString("UseProxySecret", R.string.UseProxySecret);
+                str6 = LocaleController.getString("UseProxySecret", org.telegram.messenger.beta.R.string.UseProxySecret);
                 str7 = str5;
             } else if (i == 3) {
-                str6 = LocaleController.getString("UseProxyUsername", R.string.UseProxyUsername);
+                str6 = LocaleController.getString("UseProxyUsername", org.telegram.messenger.beta.R.string.UseProxyUsername);
                 str7 = str3;
             } else if (i == 4) {
-                str6 = LocaleController.getString("UseProxyPassword", R.string.UseProxyPassword);
+                str6 = LocaleController.getString("UseProxyPassword", org.telegram.messenger.beta.R.string.UseProxyPassword);
                 str7 = str4;
             } else {
                 str6 = null;
@@ -3531,7 +3540,7 @@ public class AndroidUtilities {
         linearLayout.addView(pickerBottomLayout, LayoutHelper.createFrame(-1, 48, 83));
         pickerBottomLayout.cancelButton.setPadding(dp(18.0f), 0, dp(18.0f), 0);
         pickerBottomLayout.cancelButton.setTextColor(Theme.getColor("dialogTextBlue2"));
-        pickerBottomLayout.cancelButton.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
+        pickerBottomLayout.cancelButton.setText(LocaleController.getString("Cancel", org.telegram.messenger.beta.R.string.Cancel).toUpperCase());
         pickerBottomLayout.cancelButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
@@ -3541,7 +3550,7 @@ public class AndroidUtilities {
         pickerBottomLayout.doneButtonTextView.setTextColor(Theme.getColor("dialogTextBlue2"));
         pickerBottomLayout.doneButton.setPadding(dp(18.0f), 0, dp(18.0f), 0);
         pickerBottomLayout.doneButtonBadgeTextView.setVisibility(8);
-        pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("ConnectingConnectProxy", R.string.ConnectingConnectProxy).toUpperCase());
+        pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("ConnectingConnectProxy", org.telegram.messenger.beta.R.string.ConnectingConnectProxy).toUpperCase());
         pickerBottomLayout.doneButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {

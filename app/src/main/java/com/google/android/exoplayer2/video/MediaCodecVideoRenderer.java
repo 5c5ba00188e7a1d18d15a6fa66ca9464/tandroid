@@ -34,6 +34,8 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
+import com.huawei.hms.adapter.internal.AvailableCode;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
@@ -704,7 +706,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         maybeNotifyRenderedFirstFrame();
     }
 
-    @TargetApi(R.styleable.MapAttrs_uiZoomGestures)
+    @TargetApi(21)
     protected void renderOutputBufferV21(MediaCodec mediaCodec, int i, long j, long j2) {
         maybeNotifyVideoSizeChanged();
         TraceUtil.beginSection("releaseOutputBuffer");
@@ -785,7 +787,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         }
     }
 
-    @TargetApi(29)
+    @TargetApi(AvailableCode.HMS_IS_SPOOF)
     private static void setHdr10PlusInfoV29(MediaCodec mediaCodec, byte[] bArr) {
         Bundle bundle = new Bundle();
         bundle.putByteArray("hdr10-plus-info", bArr);
@@ -797,7 +799,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         mediaCodec.setOutputSurface(surface);
     }
 
-    @TargetApi(R.styleable.MapAttrs_uiZoomGestures)
+    @TargetApi(21)
     private static void configureTunnelingV21(MediaFormat mediaFormat, int i) {
         mediaFormat.setFeatureEnabled("tunneled-playback", true);
         mediaFormat.setInteger("audio-session-id", i);
@@ -821,7 +823,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         mediaFormat.setInteger("max-height", codecMaxValues.height);
         MediaFormatUtil.maybeSetInteger(mediaFormat, "max-input-size", codecMaxValues.inputSize);
         if (Util.SDK_INT >= 23) {
-            mediaFormat.setInteger("priority", 0);
+            mediaFormat.setInteger(RemoteMessageConst.Notification.PRIORITY, 0);
             if (f != -1.0f) {
                 mediaFormat.setFloat("operating-rate", f);
             }
@@ -1937,19 +1939,19 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 16:
                             case 17:
                             case 18:
-                            case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
+                            case 19:
                             case R.styleable.MapAttrs_uiZoomControls /* 20 */:
-                            case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
+                            case 21:
                             case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
                             case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
                             case 24:
-                            case 25:
-                            case 26:
-                            case 27:
-                            case 28:
-                            case 29:
-                            case 30:
-                            case 31:
+                            case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                            case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                            case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                            case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                            case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                            case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                            case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
                             case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                             case '!':
                             case '\"':

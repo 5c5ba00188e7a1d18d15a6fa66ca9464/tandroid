@@ -41,9 +41,9 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -597,7 +597,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         this.stickersTab.setIndicatorColor(-9520403);
         this.stickersTab.setUnderlineColor(-16053493);
         this.stickersTab.setBackgroundColor(-14342875);
-        this.containerView.addView(this.stickersTab, LayoutHelper.createFrame(-1, 48, 51));
+        this.containerView.addView(this.stickersTab, LayoutHelper.createFrame(-1, 36, 51));
         this.stickersTab.setDelegate(new ScrollSlidingTabStrip.ScrollSlidingTabStripDelegate() { // from class: org.telegram.ui.Components.StickerMasksAlert$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.Components.ScrollSlidingTabStrip.ScrollSlidingTabStripDelegate
             public final void onPageSelected(int i2) {
@@ -1428,7 +1428,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                         public final void run(ArrayList arrayList3, String str) {
                             StickerMasksAlert.StickersSearchGridAdapter.AnonymousClass1.this.lambda$run$0(access$4904, allStickers, arrayList3, str);
                         }
-                    });
+                    }, false);
                 }
                 ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(StickerMasksAlert.this.currentAccount).getStickerSets(StickerMasksAlert.this.currentType);
                 int size2 = stickerSets.size();

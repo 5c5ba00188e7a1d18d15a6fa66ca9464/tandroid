@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.Keep;
+import com.huawei.hms.android.HwBuildEx;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -41,10 +42,9 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -1189,7 +1189,7 @@ public class UndoView extends FrameLayout {
                     this.subinfoTextView.setVisibility(8);
                     this.leftImageView.setVisibility(0);
                 } else if (i12 == 18) {
-                    this.timeLeft = Math.max(4000, Math.min((charSequence.length() / 50) * 1600, 10000));
+                    this.timeLeft = Math.max(4000, Math.min((charSequence.length() / 50) * 1600, (int) HwBuildEx.VersionCodes.CUR_DEVELOPMENT));
                     this.infoTextView.setTextSize(1, 14.0f);
                     this.infoTextView.setGravity(16);
                     this.infoTextView.setText((CharSequence) obj);
@@ -1417,7 +1417,7 @@ public class UndoView extends FrameLayout {
                     this.timeReplaceProgress = 0.0f;
                 }
                 this.textWidth = (int) Math.ceil(this.textPaint.measureText(format));
-                this.timeLayout = new StaticLayout(this.timeLeftString, this.textPaint, ConnectionsManager.DEFAULT_DATACENTER_ID, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                this.timeLayout = new StaticLayout(this.timeLeftString, this.textPaint, Integer.MAX_VALUE, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             }
             float f = this.timeReplaceProgress;
             if (f < 1.0f) {

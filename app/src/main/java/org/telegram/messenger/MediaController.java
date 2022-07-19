@@ -44,6 +44,7 @@ import android.widget.FrameLayout;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.gms.internal.mlkit_language_id.zzdp$$ExternalSyntheticBackport0;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
@@ -249,7 +250,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private HashMap<Integer, MessageObject> playlistMap = new HashMap<>();
     private ArrayList<MessageObject> shuffledPlaylist = new ArrayList<>();
     private boolean[] playlistEndReached = {false, false};
-    private int[] playlistMaxId = {ConnectionsManager.DEFAULT_DATACENTER_ID, ConnectionsManager.DEFAULT_DATACENTER_ID};
+    private int[] playlistMaxId = {Integer.MAX_VALUE, Integer.MAX_VALUE};
     private Runnable setLoadingRunnable = new Runnable() { // from class: org.telegram.messenger.MediaController.1
         @Override // java.lang.Runnable
         public void run() {
@@ -328,9 +329,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             return true;
         }
         switch (i) {
-            case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
+            case 19:
             case R.styleable.MapAttrs_uiZoomControls /* 20 */:
-            case R.styleable.MapAttrs_uiZoomGestures /* 21 */:
+            case 21:
                 return true;
             default:
                 return false;
@@ -2582,7 +2583,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (!arrayList.isEmpty() && DialogObject.isEncryptedDialog(arrayList.get(0).getDialogId())) {
             z2 = true;
         }
-        int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int i = Integer.MAX_VALUE;
         int i2 = Integer.MIN_VALUE;
         for (int size = arrayList.size() - 1; size >= 0; size--) {
             MessageObject messageObject2 = arrayList.get(size);
@@ -4492,7 +4493,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.currentAccount.getNotificationCenter().addObserver(this, NotificationCenter.fileLoadFailed);
             AlertDialog alertDialog = new AlertDialog(context, 2);
             this.progressDialog = alertDialog;
-            alertDialog.setMessage(LocaleController.getString("Loading", R.string.Loading));
+            alertDialog.setMessage(LocaleController.getString("Loading", org.telegram.messenger.beta.R.string.Loading));
             this.progressDialog.setCanceledOnTouchOutside(false);
             this.progressDialog.setCancelable(true);
             this.progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.messenger.MediaController$MediaLoader$$ExternalSyntheticLambda0
@@ -4937,7 +4938,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 if (i != 0) {
                     try {
                         final AlertDialog alertDialog2 = new AlertDialog(context, 2);
-                        alertDialog2.setMessage(LocaleController.getString("Loading", R.string.Loading));
+                        alertDialog2.setMessage(LocaleController.getString("Loading", org.telegram.messenger.beta.R.string.Loading));
                         alertDialog2.setCanceledOnTouchOutside(false);
                         alertDialog2.setCancelable(true);
                         alertDialog2.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda1
@@ -5484,7 +5485,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
         String str = null;
         try {
-            if (uri.getScheme().equals("content")) {
+            if (uri.getScheme().equals(RemoteMessageConst.Notification.CONTENT)) {
                 try {
                     Cursor query = ApplicationLoader.applicationContext.getContentResolver().query(uri, new String[]{"_display_name"}, null, null, null);
                     if (query.moveToFirst()) {
@@ -6031,7 +6032,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         PhotoEntry photoEntry = new PhotoEntry(i13, i11, cursor.getLong(columnIndex5), string, (int) (cursor.getLong(columnIndex6) / 1000), true, cursor.getInt(columnIndex7), cursor.getInt(columnIndex8), cursor.getLong(columnIndex9));
                         if (albumEntry5 == null) {
                             i4 = columnIndex6;
-                            albumEntry = new AlbumEntry(0, LocaleController.getString("AllVideos", R.string.AllVideos), photoEntry);
+                            albumEntry = new AlbumEntry(0, LocaleController.getString("AllVideos", org.telegram.messenger.beta.R.string.AllVideos), photoEntry);
                             int i18 = 1;
                             try {
                                 albumEntry.videoOnly = true;
@@ -6072,7 +6073,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         }
                         if (obj2 == null) {
                             i5 = columnIndex7;
-                            albumEntry2 = new AlbumEntry(0, LocaleController.getString("AllMedia", R.string.AllMedia), photoEntry);
+                            albumEntry2 = new AlbumEntry(0, LocaleController.getString("AllMedia", org.telegram.messenger.beta.R.string.AllMedia), photoEntry);
                             try {
                                 arrayList.add(0, albumEntry2);
                             } catch (Throwable th7) {
@@ -6215,7 +6216,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                                 i9 = columnIndex18;
                                                                 i8 = columnIndex17;
                                                                 i7 = columnIndex15;
-                                                                albumEntry3 = new AlbumEntry(0, LocaleController.getString("AllPhotos", R.string.AllPhotos), photoEntry2);
+                                                                albumEntry3 = new AlbumEntry(0, LocaleController.getString("AllPhotos", org.telegram.messenger.beta.R.string.AllPhotos), photoEntry2);
                                                                 try {
                                                                     arrayList2.add(0, albumEntry3);
                                                                 } catch (Throwable th10) {
@@ -6265,7 +6266,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                             }
                                                             if (obj2 == null) {
                                                                 i10 = columnIndex12;
-                                                                albumEntry4 = new AlbumEntry(0, LocaleController.getString("AllMedia", R.string.AllMedia), photoEntry2);
+                                                                albumEntry4 = new AlbumEntry(0, LocaleController.getString("AllMedia", org.telegram.messenger.beta.R.string.AllMedia), photoEntry2);
                                                                 try {
                                                                     arrayList.add(0, albumEntry4);
                                                                 } catch (Throwable th12) {

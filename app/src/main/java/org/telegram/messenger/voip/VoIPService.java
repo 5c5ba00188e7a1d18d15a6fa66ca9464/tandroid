@@ -64,6 +64,8 @@ import android.util.LruCache;
 import android.view.KeyEvent;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+import com.huawei.hms.adapter.internal.AvailableCode;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -98,13 +100,13 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.StatsController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.XiaomiUtilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.voip.Instance;
 import org.telegram.messenger.voip.NativeInstance;
 import org.telegram.messenger.voip.VoIPController;
@@ -4849,7 +4851,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return LaunchActivity.class;
     }
 
-    @TargetApi(26)
+    @TargetApi(AvailableCode.ERROR_NO_ACTIVITY)
     public CallConnection getConnectionAndStartCall() {
         if (this.systemCallConnection == null) {
             if (BuildVars.LOGS_ENABLED) {
@@ -5561,7 +5563,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         if (i5 >= 26) {
             SharedPreferences globalNotificationsSettings = MessagesController.getGlobalNotificationsSettings();
             int i6 = globalNotificationsSettings.getInt("calls_notification_channel", 0);
-            NotificationManager notificationManager = (NotificationManager) getSystemService("notification");
+            NotificationManager notificationManager = (NotificationManager) getSystemService(RemoteMessageConst.NOTIFICATION);
             NotificationChannel notificationChannel = notificationManager.getNotificationChannel("incoming_calls2" + i6);
             if (notificationChannel != null) {
                 notificationManager.deleteNotificationChannel(notificationChannel.getId());
@@ -6126,7 +6128,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return this.remoteVideoState;
     }
 
-    @TargetApi(26)
+    @TargetApi(AvailableCode.ERROR_NO_ACTIVITY)
     private PhoneAccountHandle addAccountToTelecomManager() {
         TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
         ComponentName componentName = new ComponentName(this, TelegramConnectionService.class);

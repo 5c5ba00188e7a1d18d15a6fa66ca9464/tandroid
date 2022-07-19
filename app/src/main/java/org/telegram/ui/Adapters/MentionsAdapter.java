@@ -29,11 +29,11 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -1018,8 +1018,8 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     /* JADX WARN: Removed duplicated region for block: B:229:0x03d6  */
     /* JADX WARN: Removed duplicated region for block: B:231:0x03dc  */
     /* JADX WARN: Type inference failed for: r20v0, types: [org.telegram.ui.Adapters.MentionsAdapter] */
-    /* JADX WARN: Type inference failed for: r6v59 */
     /* JADX WARN: Type inference failed for: r6v60 */
+    /* JADX WARN: Type inference failed for: r6v61 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1361,7 +1361,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             public final void run(ArrayList arrayList6, String str12) {
                                 MentionsAdapter.this.lambda$searchUsernameOrHashtag$8(arrayList6, str12);
                             }
-                        });
+                        }, true);
                         return;
                     } else if (c != 4) {
                         return;

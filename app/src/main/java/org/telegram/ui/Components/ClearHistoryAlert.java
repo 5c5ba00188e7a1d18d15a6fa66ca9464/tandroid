@@ -13,13 +13,14 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.core.widget.NestedScrollView;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$User;
@@ -471,7 +472,7 @@ public class ClearHistoryAlert extends BottomSheet {
             } else if (i2 == 2) {
                 i = 604800;
             } else if (i2 == 1) {
-                i = 86400;
+                i = RemoteMessageConst.DEFAULT_TTL;
             } else {
                 i = 0;
                 i3 = 71;

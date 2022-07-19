@@ -8,9 +8,9 @@ android {
 
     defaultConfig {
         applicationId 'org.telegram.messenger.beta'
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 30
-        versionCode 27259
+        versionCode 27279
         versionName "8.9.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

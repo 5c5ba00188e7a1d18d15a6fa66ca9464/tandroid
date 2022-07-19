@@ -47,6 +47,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import com.huawei.hms.opendevice.c;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -68,10 +69,10 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -675,7 +676,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                     if (!(ThemePreviewActivity.this.currentWallpaper instanceof TLRPC$TL_wallPaper)) {
                         if (ThemePreviewActivity.this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper) {
-                            WallpapersListActivity.ColorWallpaper colorWallpaper = new WallpapersListActivity.ColorWallpaper(ThemePreviewActivity.this.selectedPattern != null ? ThemePreviewActivity.this.selectedPattern.slug : "c", ThemePreviewActivity.this.backgroundColor, ThemePreviewActivity.this.backgroundGradientColor1, ThemePreviewActivity.this.backgroundGradientColor2, ThemePreviewActivity.this.backgroundGradientColor3, ThemePreviewActivity.this.backgroundRotation, ThemePreviewActivity.this.currentIntensity, ThemePreviewActivity.this.isMotion, null);
+                            WallpapersListActivity.ColorWallpaper colorWallpaper = new WallpapersListActivity.ColorWallpaper(ThemePreviewActivity.this.selectedPattern != null ? ThemePreviewActivity.this.selectedPattern.slug : c.a, ThemePreviewActivity.this.backgroundColor, ThemePreviewActivity.this.backgroundGradientColor1, ThemePreviewActivity.this.backgroundGradientColor2, ThemePreviewActivity.this.backgroundGradientColor3, ThemePreviewActivity.this.backgroundRotation, ThemePreviewActivity.this.currentIntensity, ThemePreviewActivity.this.isMotion, null);
                             colorWallpaper.pattern = ThemePreviewActivity.this.selectedPattern;
                             url = colorWallpaper.getUrl();
                         } else if (!BuildVars.DEBUG_PRIVATE_VERSION || (accent = Theme.getActiveTheme().getAccent(false)) == null) {
@@ -2003,7 +2004,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     } else if (obj instanceof WallpapersListActivity.ColorWallpaper) {
                         if (!"d".equals(((WallpapersListActivity.ColorWallpaper) obj).slug)) {
                             TLRPC$TL_wallPaper tLRPC$TL_wallPaper = this.selectedPattern;
-                            String str2 = tLRPC$TL_wallPaper != null ? tLRPC$TL_wallPaper.slug : "c";
+                            String str2 = tLRPC$TL_wallPaper != null ? tLRPC$TL_wallPaper.slug : c.a;
                             int i6 = this.backgroundColor;
                             i3 = this.backgroundGradientColor1;
                             i2 = this.backgroundGradientColor2;
@@ -2027,7 +2028,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             obj2 = this.currentWallpaper;
                             if (obj2 instanceof WallpapersListActivity.ColorWallpaper) {
                                 WallpapersListActivity.ColorWallpaper colorWallpaper2 = (WallpapersListActivity.ColorWallpaper) obj2;
-                                String str3 = ("c".equals(str) || "t".equals(str) || "d".equals(str)) ? null : str;
+                                String str3 = (c.a.equals(str) || "t".equals(str) || "d".equals(str)) ? null : str;
                                 float f = colorWallpaper2.intensity;
                                 if (f < 0.0f && !Theme.getActiveTheme().isDark()) {
                                     f *= -1.0f;
@@ -2675,7 +2676,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             float f = overrideWallpaperInfo.intensity;
             themeAccent.patternIntensity = f;
             this.currentIntensity = f;
-            if (str != null && !"c".equals(str)) {
+            if (str != null && !c.a.equals(str)) {
                 int size = this.patterns.size();
                 int i2 = 0;
                 while (true) {

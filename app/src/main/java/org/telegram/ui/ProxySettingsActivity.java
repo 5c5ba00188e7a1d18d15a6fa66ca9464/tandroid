@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
+import com.huawei.hms.framework.common.ContainerUtils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -35,9 +36,9 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -485,7 +486,7 @@ public class ProxySettingsActivity extends BaseFragment {
             }
             if (!TextUtils.isEmpty(obj4)) {
                 if (sb.length() != 0) {
-                    sb.append("&");
+                    sb.append(ContainerUtils.FIELD_DELIMITER);
                 }
                 sb.append("port=");
                 sb.append(URLEncoder.encode(obj4, "UTF-8"));
@@ -493,7 +494,7 @@ public class ProxySettingsActivity extends BaseFragment {
             if (this.currentType == 1) {
                 str = "https://t.me/proxy?";
                 if (sb.length() != 0) {
-                    sb.append("&");
+                    sb.append(ContainerUtils.FIELD_DELIMITER);
                 }
                 sb.append("secret=");
                 sb.append(URLEncoder.encode(obj5, "UTF-8"));
@@ -501,14 +502,14 @@ public class ProxySettingsActivity extends BaseFragment {
                 str = "https://t.me/socks?";
                 if (!TextUtils.isEmpty(obj3)) {
                     if (sb.length() != 0) {
-                        sb.append("&");
+                        sb.append(ContainerUtils.FIELD_DELIMITER);
                     }
                     sb.append("user=");
                     sb.append(URLEncoder.encode(obj3, "UTF-8"));
                 }
                 if (!TextUtils.isEmpty(obj2)) {
                     if (sb.length() != 0) {
-                        sb.append("&");
+                        sb.append(ContainerUtils.FIELD_DELIMITER);
                     }
                     sb.append("pass=");
                     sb.append(URLEncoder.encode(obj2, "UTF-8"));
@@ -559,7 +560,7 @@ public class ProxySettingsActivity extends BaseFragment {
                     int indexOf = str.indexOf(strArr2[i]);
                     if (indexOf >= 0) {
                         this.pasteType = 0;
-                        strArr = str.substring(indexOf + strArr2[i].length()).split("&");
+                        strArr = str.substring(indexOf + strArr2[i].length()).split(ContainerUtils.FIELD_DELIMITER);
                         break;
                     }
                     i++;
@@ -574,7 +575,7 @@ public class ProxySettingsActivity extends BaseFragment {
                         int indexOf2 = str.indexOf(strArr3[i2]);
                         if (indexOf2 >= 0) {
                             this.pasteType = 1;
-                            strArr = str.substring(indexOf2 + strArr3[i2].length()).split("&");
+                            strArr = str.substring(indexOf2 + strArr3[i2].length()).split(ContainerUtils.FIELD_DELIMITER);
                             break;
                         }
                         i2++;
@@ -582,7 +583,7 @@ public class ProxySettingsActivity extends BaseFragment {
                 }
                 if (strArr != null) {
                     for (String str2 : strArr) {
-                        String[] split = str2.split("=");
+                        String[] split = str2.split(ContainerUtils.KEY_VALUE_DELIMITER);
                         if (split.length == 2) {
                             String lowerCase = split[0].toLowerCase();
                             lowerCase.hashCode();

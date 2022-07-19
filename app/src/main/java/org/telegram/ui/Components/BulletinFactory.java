@@ -2,20 +2,24 @@ package org.telegram.ui.Components;
 
 import android.content.Context;
 import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
+import android.view.View;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Bulletin;
+import org.telegram.ui.PremiumPreviewFragment;
 /* loaded from: classes3.dex */
 public final class BulletinFactory {
     private final FrameLayout containerLayout;
@@ -195,6 +199,32 @@ public final class BulletinFactory {
         lottieLayout.textView.setSingleLine(false);
         lottieLayout.textView.setMaxLines(2);
         return create(lottieLayout, 1500);
+    }
+
+    public Bulletin createRestrictVoiceMessagesPremiumBulletin() {
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), null);
+        lottieLayout.setAnimation(R.raw.voip_muted, new String[0]);
+        String string = LocaleController.getString((int) R.string.PrivacyVoiceMessagesPremiumOnly);
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string);
+        int indexOf = string.indexOf(42);
+        int lastIndexOf = string.lastIndexOf(42);
+        spannableStringBuilder.replace(indexOf, lastIndexOf + 1, (CharSequence) string.substring(indexOf + 1, lastIndexOf));
+        spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.BulletinFactory.1
+            @Override // android.text.style.ClickableSpan
+            public void onClick(View view) {
+                BulletinFactory.this.fragment.presentFragment(new PremiumPreviewFragment("settings"));
+            }
+
+            @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+            public void updateDrawState(TextPaint textPaint) {
+                super.updateDrawState(textPaint);
+                textPaint.setUnderlineText(false);
+            }
+        }, indexOf - 1, lastIndexOf - 1, 33);
+        lottieLayout.textView.setText(spannableStringBuilder);
+        lottieLayout.textView.setSingleLine(false);
+        lottieLayout.textView.setMaxLines(2);
+        return create(lottieLayout, 2750);
     }
 
     public Bulletin createErrorBulletinSubtitle(CharSequence charSequence, CharSequence charSequence2, Theme.ResourcesProvider resourcesProvider) {

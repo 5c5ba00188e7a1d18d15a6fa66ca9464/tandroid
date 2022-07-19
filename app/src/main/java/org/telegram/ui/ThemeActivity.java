@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.internal.mlkit_language_id.zzdp$$ExternalSyntheticBackport0;
+import com.huawei.hms.framework.common.ContainerUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -49,9 +50,9 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.time.SunDate;
 import org.telegram.tgnet.TLRPC$TL_theme;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -977,7 +978,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         if (i == 3) {
             this.actionBar.setTitle(LocaleController.getString("BrowseThemes", R.string.BrowseThemes));
             ActionBarMenu createMenu = this.actionBar.createMenu();
-            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.sun, "2131558549", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.sun, "2131558561", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
             this.sunDrawable = rLottieDrawable;
             if (this.lastIsDarkTheme) {
                 rLottieDrawable.setCurrentFrame(rLottieDrawable.getFramesCount() - 1);
@@ -1913,7 +1914,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     StringBuilder sb = new StringBuilder();
                     for (Map.Entry<String, Integer> entry : Theme.getDefaultColors().entrySet()) {
                         sb.append(entry.getKey());
-                        sb.append("=");
+                        sb.append(ContainerUtils.KEY_VALUE_DELIMITER);
                         sb.append(entry.getValue());
                         sb.append("\n");
                     }
@@ -2337,10 +2338,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     themesHorizontalListCell = defaultThemesPreviewCell;
                     textCell = themesHorizontalListCell;
                     break;
-                case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
+                case 19:
                     textCell = new RadioButtonCell(this.mContext);
                     break;
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case org.telegram.messenger.R.styleable.MapAttrs_uiZoomControls /* 20 */:
                     Context context2 = this.mContext;
                     ThemeActivity themeActivity2 = ThemeActivity.this;
                     textCell = new AppIconsSelectorCell(context2, themeActivity2, ((BaseFragment) themeActivity2).currentAccount);
@@ -2622,7 +2623,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 case 17:
                     ((DefaultThemesPreviewCell) viewHolder.itemView).updateDayNightMode();
                     return;
-                case R.styleable.MapAttrs_uiTiltGestures /* 19 */:
+                case 19:
                     RadioButtonCell radioButtonCell = (RadioButtonCell) viewHolder.itemView;
                     if (i == ThemeActivity.this.saveToGalleryOption1Row) {
                         radioButtonCell.setTextAndValue("save media only from peer chats", "", true, false);

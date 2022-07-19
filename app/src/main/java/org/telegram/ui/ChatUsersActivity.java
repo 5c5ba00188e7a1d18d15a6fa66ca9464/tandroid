@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,9 +42,9 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$ChannelParticipant;
@@ -1223,7 +1224,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 } else {
                     Bundle bundle3 = new Bundle();
                     bundle3.putBoolean("addToGroup", true);
-                    bundle3.putLong(this.isChannel ? "channelId" : "chatId", this.currentChat.id);
+                    bundle3.putLong(this.isChannel ? RemoteMessageConst.Notification.CHANNEL_ID : "chatId", this.currentChat.id);
                     GroupCreateActivity groupCreateActivity = new GroupCreateActivity(bundle3);
                     groupCreateActivity.setInfo(this.info);
                     LongSparseArray<TLObject> longSparseArray = this.contactsMap;

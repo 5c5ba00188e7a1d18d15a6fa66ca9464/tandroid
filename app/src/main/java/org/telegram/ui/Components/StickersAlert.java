@@ -58,10 +58,10 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -118,6 +118,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     private boolean clearsInputField;
     private StickersAlertCustomButtonDelegate customButtonDelegate;
     private StickersAlertDelegate delegate;
+    private TextView descriptionTextView;
     private FrameLayout emptyView;
     private RecyclerListView gridView;
     private boolean ignoreLayout;
@@ -694,6 +695,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                     updateFields();
                     this.adapter.notifyDataSetChanged();
                 }
+                updateDescription();
                 mediaDataController.preloadStickerSetThumb(this.stickerSet);
                 checkPremiumStickers();
             }
@@ -730,11 +732,12 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             mediaDataController.preloadStickerSetThumb(this.stickerSet);
             updateSendButton();
             updateFields();
+            updateDescription();
             this.adapter.notifyDataSetChanged();
             return;
         }
-        Toast.makeText(getContext(), LocaleController.getString("AddStickersNotFound", R.string.AddStickersNotFound), 0).show();
         dismiss();
+        BulletinFactory.of(this.parentFragment).createErrorBulletin(LocaleController.getString("AddStickersNotFound", R.string.AddStickersNotFound)).show();
     }
 
     /* renamed from: org.telegram.ui.Components.StickersAlert$2 */
@@ -821,12 +824,14 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             }
 
             /* JADX WARN: Removed duplicated region for block: B:33:0x0197  */
-            /* JADX WARN: Removed duplicated region for block: B:36:0x01ba  */
-            /* JADX WARN: Removed duplicated region for block: B:37:0x01bc  */
-            /* JADX WARN: Removed duplicated region for block: B:42:0x01ca  */
-            /* JADX WARN: Removed duplicated region for block: B:45:0x01d8  */
-            /* JADX WARN: Removed duplicated region for block: B:48:0x01e9  */
-            /* JADX WARN: Removed duplicated region for block: B:50:0x0216  */
+            /* JADX WARN: Removed duplicated region for block: B:36:0x01ae  */
+            /* JADX WARN: Removed duplicated region for block: B:39:0x01de  */
+            /* JADX WARN: Removed duplicated region for block: B:40:0x01e0  */
+            /* JADX WARN: Removed duplicated region for block: B:45:0x01ee  */
+            /* JADX WARN: Removed duplicated region for block: B:48:0x01fc  */
+            /* JADX WARN: Removed duplicated region for block: B:51:0x0216  */
+            /* JADX WARN: Removed duplicated region for block: B:54:0x0227  */
+            /* JADX WARN: Removed duplicated region for block: B:56:0x0254  */
             @Override // android.widget.FrameLayout, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -866,7 +871,11 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 } else if (StickersAlert.this.stickerSetCovereds != null) {
                     i3 = AndroidUtilities.dp(24.0f) + AndroidUtilities.dp(8.0f) + marginLayoutParams.bottomMargin + (AndroidUtilities.dp(60.0f) * StickersAlert.this.stickerSetCovereds.size()) + (StickersAlert.this.adapter.stickersRowCount * StickersAlert.this.itemHeight) + ((BottomSheet) StickersAlert.this).backgroundPaddingTop;
                     if (StickersAlert.this.isEmoji()) {
-                        i3 = (int) (i3 + (StickersAlert.this.itemHeight * 0.3f));
+                        i3 = (int) (i3 + (StickersAlert.this.itemHeight * 0.15f));
+                    }
+                    if (StickersAlert.this.descriptionTextView != null) {
+                        StickersAlert.this.descriptionTextView.measure(i, View.MeasureSpec.makeMeasureSpec(9999, Integer.MIN_VALUE));
+                        i3 += StickersAlert.this.descriptionTextView.getMeasuredHeight();
                     }
                     float f2 = size / 5.0f;
                     double d = f2;
@@ -877,6 +886,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                     }
                     if (i4 == 0) {
                         i4 = ((BottomSheet) StickersAlert.this).backgroundPaddingTop;
+                    }
+                    if (StickersAlert.this.descriptionTextView != null) {
+                        i4 += AndroidUtilities.dp(32.0f) + StickersAlert.this.descriptionTextView.getMeasuredHeight();
                     }
                     if (StickersAlert.this.stickerSetCovereds != null) {
                         i4 += AndroidUtilities.dp(8.0f);
@@ -903,6 +915,8 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 i3 = max + i5;
                 if (StickersAlert.this.isEmoji()) {
                 }
+                if (StickersAlert.this.descriptionTextView != null) {
+                }
                 float f22 = size / 5.0f;
                 double d2 = f22;
                 Double.isNaN(d2);
@@ -912,6 +926,8 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                     i4 -= size - i3;
                 }
                 if (i4 == 0) {
+                }
+                if (StickersAlert.this.descriptionTextView != null) {
                 }
                 if (StickersAlert.this.stickerSetCovereds != null) {
                 }
@@ -1233,6 +1249,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
         updateFields();
         updateSendButton();
+        updateDescription();
         updateColors();
         this.adapter.notifyDataSetChanged();
     }
@@ -1340,6 +1357,12 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         dismiss();
     }
 
+    private void updateDescription() {
+        if (this.containerView != null && !UserConfig.getInstance(this.currentAccount).isPremium()) {
+            MessageObject.isPremiumEmojiPack(this.stickerSet);
+        }
+    }
+
     private void updateSendButton() {
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet;
         android.graphics.Point point = AndroidUtilities.displaySize;
@@ -1434,18 +1457,26 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     }
 
     /* JADX WARN: Removed duplicated region for block: B:30:0x0086  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0095  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00bb  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0134  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0157  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0096  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00bc  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x019f  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x01c2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void updateFields() {
         SpannableStringBuilder spannableStringBuilder;
-        String str;
-        String str2;
+        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet;
+        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet2;
         boolean z;
+        String str;
+        String formatString;
+        TLRPC$StickerSet tLRPC$StickerSet;
+        TLRPC$StickerSet tLRPC$StickerSet2;
+        TLRPC$StickerSet tLRPC$StickerSet3;
+        boolean z2;
+        TLRPC$StickerSet tLRPC$StickerSet4;
+        boolean z3;
         Exception e;
         TextView textView = this.titleTextView;
         if (textView == null) {
@@ -1481,9 +1512,15 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                                 if (!isEmoji()) {
                                 }
                                 this.layoutManager.setSpanCount(this.adapter.stickersPerRow);
-                                if (!this.stickerSet.set.emojis) {
+                                tLRPC$TL_messages_stickerSet = this.stickerSet;
+                                if (tLRPC$TL_messages_stickerSet == null) {
                                 }
                                 this.premiumButtonView.setVisibility(4);
+                                tLRPC$TL_messages_stickerSet2 = this.stickerSet;
+                                if (tLRPC$TL_messages_stickerSet2 == null) {
+                                }
+                                if (tLRPC$TL_messages_stickerSet2 != null) {
+                                }
                                 if (this.customButtonDelegate == null) {
                                 }
                                 this.adapter.notifyDataSetChanged();
@@ -1527,17 +1564,18 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 this.adapter.stickersPerRow = 5;
             }
             this.layoutManager.setSpanCount(this.adapter.stickersPerRow);
-            if (!this.stickerSet.set.emojis && !UserConfig.getInstance(this.currentAccount).isPremium()) {
+            tLRPC$TL_messages_stickerSet = this.stickerSet;
+            if (tLRPC$TL_messages_stickerSet == null && (tLRPC$StickerSet4 = tLRPC$TL_messages_stickerSet.set) != null && tLRPC$StickerSet4.emojis && !UserConfig.getInstance(this.currentAccount).isPremium()) {
                 if (this.stickerSet.documents != null) {
                     for (int i = 0; i < this.stickerSet.documents.size(); i++) {
                         if (!MessageObject.isFreeEmoji(this.stickerSet.documents.get(i))) {
-                            z = true;
+                            z3 = true;
                             break;
                         }
                     }
                 }
-                z = false;
-                if (z) {
+                z3 = false;
+                if (z3) {
                     this.premiumButtonView.setVisibility(0);
                     this.pickerBottomLayout.setBackground(null);
                     setButton(null, null, null);
@@ -1552,6 +1590,20 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             } else {
                 this.premiumButtonView.setVisibility(4);
             }
+            tLRPC$TL_messages_stickerSet2 = this.stickerSet;
+            if (tLRPC$TL_messages_stickerSet2 == null && (tLRPC$StickerSet3 = tLRPC$TL_messages_stickerSet2.set) != null && tLRPC$StickerSet3.emojis) {
+                ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(this.currentAccount).getStickerSets(5);
+                for (int i2 = 0; stickerSets != null && i2 < stickerSets.size(); i2++) {
+                    if (stickerSets.get(i2) != null && stickerSets.get(i2).set != null && stickerSets.get(i2).set.id == this.stickerSet.set.id) {
+                        z2 = true;
+                        break;
+                    }
+                }
+                z2 = false;
+                z = !z2;
+            } else {
+                z = tLRPC$TL_messages_stickerSet2 != null || tLRPC$TL_messages_stickerSet2.set == null || !MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(this.stickerSet.set.id);
+            }
             if (this.customButtonDelegate == null) {
                 setButton(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda10
                     @Override // android.view.View.OnClickListener
@@ -1559,27 +1611,31 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                         StickersAlert.this.lambda$updateFields$14(view);
                     }
                 }, this.customButtonDelegate.getCustomButtonText(), this.customButtonDelegate.getCustomButtonTextColorKey(), this.customButtonDelegate.getCustomButtonColorKey(), this.customButtonDelegate.getCustomButtonRippleColorKey());
-            } else if (this.stickerSet.set == null || !MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(this.stickerSet.set.id)) {
-                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = this.stickerSet;
-                TLRPC$StickerSet tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set;
-                if (tLRPC$StickerSet == null || !tLRPC$StickerSet.masks) {
-                    str = (tLRPC$StickerSet == null || !tLRPC$StickerSet.emojis) ? LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, LocaleController.formatPluralString("Stickers", tLRPC$TL_messages_stickerSet.documents.size(), new Object[0])) : LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, LocaleController.formatPluralString("EmojiCountButton", tLRPC$TL_messages_stickerSet.documents.size(), new Object[0]));
+            } else if (z) {
+                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet3 = this.stickerSet;
+                if (tLRPC$TL_messages_stickerSet3 != null && (tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet3.set) != null && tLRPC$StickerSet2.masks) {
+                    formatString = LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, LocaleController.formatPluralString("MasksCount", tLRPC$TL_messages_stickerSet3.documents.size(), new Object[0]));
+                } else if (tLRPC$TL_messages_stickerSet3 == null || (tLRPC$StickerSet = tLRPC$TL_messages_stickerSet3.set) == null || !tLRPC$StickerSet.emojis) {
+                    Object[] objArr = new Object[1];
+                    ArrayList<TLRPC$Document> arrayList = tLRPC$TL_messages_stickerSet3.documents;
+                    objArr[0] = LocaleController.formatPluralString("Stickers", arrayList == null ? 0 : arrayList.size(), new Object[0]);
+                    formatString = LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, objArr);
                 } else {
-                    str = LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, LocaleController.formatPluralString("MasksCount", tLRPC$TL_messages_stickerSet.documents.size(), new Object[0]));
+                    formatString = LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, LocaleController.formatPluralString("EmojiCountButton", tLRPC$TL_messages_stickerSet3.documents.size(), new Object[0]));
                 }
                 setButton(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda9
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         StickersAlert.this.lambda$updateFields$17(view);
                     }
-                }, str, "featuredStickers_buttonText", "featuredStickers_addButton", "featuredStickers_addButtonPressed");
+                }, formatString, "featuredStickers_buttonText", "featuredStickers_addButton", "featuredStickers_addButtonPressed");
             } else {
-                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet2 = this.stickerSet;
-                TLRPC$StickerSet tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet2.set;
-                if (tLRPC$StickerSet2.masks) {
-                    str2 = LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("MasksCount", tLRPC$TL_messages_stickerSet2.documents.size(), new Object[0]));
+                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet4 = this.stickerSet;
+                TLRPC$StickerSet tLRPC$StickerSet5 = tLRPC$TL_messages_stickerSet4.set;
+                if (tLRPC$StickerSet5.masks) {
+                    str = LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("MasksCount", tLRPC$TL_messages_stickerSet4.documents.size(), new Object[0]));
                 } else {
-                    str2 = tLRPC$StickerSet2.emojis ? LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("EmojiCountButton", tLRPC$TL_messages_stickerSet2.documents.size(), new Object[0])) : LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("Stickers", tLRPC$TL_messages_stickerSet2.documents.size(), new Object[0]));
+                    str = tLRPC$StickerSet5.emojis ? LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("EmojiCountButton", tLRPC$TL_messages_stickerSet4.documents.size(), new Object[0])) : LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("Stickers", tLRPC$TL_messages_stickerSet4.documents.size(), new Object[0]));
                 }
                 if (this.stickerSet.set.official) {
                     setButton(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda11
@@ -1587,23 +1643,23 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                         public final void onClick(View view) {
                             StickersAlert.this.lambda$updateFields$18(view);
                         }
-                    }, str2, "dialogTextRed");
+                    }, str, "dialogTextRed");
                 } else {
                     setButton(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda5
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             StickersAlert.this.lambda$updateFields$19(view);
                         }
-                    }, str2, "dialogTextRed");
+                    }, str, "dialogTextRed");
                 }
             }
             this.adapter.notifyDataSetChanged();
             return;
         }
-        ArrayList<Parcelable> arrayList = this.importingStickers;
-        if (arrayList != null) {
-            ArrayList<SendMessagesHelper.ImportingSticker> arrayList2 = this.importingStickersPaths;
-            textView.setText(LocaleController.formatPluralString("Stickers", arrayList2 != null ? arrayList2.size() : arrayList.size(), new Object[0]));
+        ArrayList<Parcelable> arrayList2 = this.importingStickers;
+        if (arrayList2 != null) {
+            ArrayList<SendMessagesHelper.ImportingSticker> arrayList3 = this.importingStickersPaths;
+            textView.setText(LocaleController.formatPluralString("Stickers", arrayList3 != null ? arrayList3.size() : arrayList2.size(), new Object[0]));
             HashMap<String, SendMessagesHelper.ImportingSticker> hashMap = this.uploadImportStickers;
             if (hashMap == null || hashMap.isEmpty()) {
                 View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda7
@@ -1612,13 +1668,13 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                         StickersAlert.this.lambda$updateFields$20(view);
                     }
                 };
-                Object[] objArr = new Object[1];
-                ArrayList arrayList3 = this.importingStickersPaths;
-                if (arrayList3 == null) {
-                    arrayList3 = this.importingStickers;
+                Object[] objArr2 = new Object[1];
+                ArrayList arrayList4 = this.importingStickersPaths;
+                if (arrayList4 == null) {
+                    arrayList4 = this.importingStickers;
                 }
-                objArr[0] = LocaleController.formatPluralString("Stickers", arrayList3.size(), new Object[0]);
-                setButton(onClickListener, LocaleController.formatString("ImportStickers", R.string.ImportStickers, objArr), "dialogTextBlue2");
+                objArr2[0] = LocaleController.formatPluralString("Stickers", arrayList4.size(), new Object[0]);
+                setButton(onClickListener, LocaleController.formatString("ImportStickers", R.string.ImportStickers, objArr2), "dialogTextBlue2");
                 this.pickerBottomLayout.setEnabled(true);
                 return;
             }
@@ -2038,6 +2094,10 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         if (this.stickerSetCovereds == null) {
             float f = i;
             this.titleTextView.setTranslationY(f);
+            TextView textView = this.descriptionTextView;
+            if (textView != null) {
+                textView.setTranslationY(f);
+            }
             if (this.importingStickers == null) {
                 this.optionsButton.setTranslationY(f);
             }
@@ -2349,6 +2409,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         arrayList.add(new ThemeDescription(this.shadow[1], ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "dialogShadowLine"));
         arrayList.add(new ThemeDescription(this.gridView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, "dialogScrollGlow"));
         arrayList.add(new ThemeDescription(this.titleTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "dialogTextBlack"));
+        if (this.descriptionTextView != null) {
+            arrayList.add(new ThemeDescription(this.descriptionTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "chat_emojiPanelTrendingDescription"));
+        }
         arrayList.add(new ThemeDescription(this.titleTextView, ThemeDescription.FLAG_LINKCOLOR, null, null, null, null, "dialogTextLink"));
         arrayList.add(new ThemeDescription(this.optionsButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, "player_actionBarSelector"));
         arrayList.add(new ThemeDescription(this.pickerBottomLayout, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "dialogBackground"));

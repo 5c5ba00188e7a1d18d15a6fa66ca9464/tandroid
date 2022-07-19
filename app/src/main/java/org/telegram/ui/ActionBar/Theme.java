@@ -52,6 +52,8 @@ import android.util.SparseArray;
 import android.util.StateSet;
 import android.view.View;
 import androidx.core.graphics.ColorUtils;
+import com.huawei.hms.framework.common.ContainerUtils;
+import com.huawei.hms.opendevice.c;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -88,11 +90,11 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda219;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.time.SunDate;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
@@ -2162,7 +2164,7 @@ public class Theme {
                     String key = entry.getKey();
                     if (str == null || (!"chat_wallpaper".equals(key) && !"chat_wallpaper_gradient_to".equals(key) && !"key_chat_wallpaper_gradient_to2".equals(key) && !"key_chat_wallpaper_gradient_to3".equals(key))) {
                         sb2.append(key);
-                        sb2.append("=");
+                        sb2.append(ContainerUtils.KEY_VALUE_DELIMITER);
                         sb2.append(entry.getValue());
                         sb2.append("\n");
                     }
@@ -2306,7 +2308,7 @@ public class Theme {
         }
 
         public boolean isColor() {
-            return "c".equals(this.slug);
+            return c.a.equals(this.slug);
         }
 
         public boolean isTheme() {
@@ -4442,7 +4444,7 @@ public class Theme {
         } else {
             String string2 = sharedPreferences2.getString("themes", null);
             if (!TextUtils.isEmpty(string2)) {
-                for (String str : string2.split("&")) {
+                for (String str : string2.split(ContainerUtils.FIELD_DELIMITER)) {
                     ThemeInfo createWithString = ThemeInfo.createWithString(str);
                     if (createWithString != null) {
                         otherThemes.add(createWithString);
@@ -4710,7 +4712,7 @@ public class Theme {
                     overrideWallpaperInfo.color = globalMainSettings.getInt("selectedColor", 0);
                     overrideWallpaperInfo.slug = globalMainSettings.getString("selectedBackgroundSlug", "");
                     if (j3 >= -100 && j3 <= -1 && overrideWallpaperInfo.color != 0) {
-                        overrideWallpaperInfo.slug = "c";
+                        overrideWallpaperInfo.slug = c.a;
                         overrideWallpaperInfo.fileName = "";
                         overrideWallpaperInfo.originalFileName = "";
                     } else {
@@ -4975,7 +4977,7 @@ public class Theme {
         if (r2 == 1) goto L22;
      */
     /* JADX WARN: Code restructure failed: missing block: B:22:0x005c, code lost:
-        org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawable = org.telegram.messenger.ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.newyear);
+        org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawable = org.telegram.messenger.ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.beta.R.drawable.newyear);
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawableOffsetX = -org.telegram.messenger.AndroidUtilities.dp(3.0f);
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawableOffsetY = -org.telegram.messenger.AndroidUtilities.dp(1.0f);
      */
@@ -5268,7 +5270,10 @@ public class Theme {
                             int i6 = i2;
                             if (i6 != 7) {
                                 if (i6 == 1 || i6 == 6) {
-                                    i5 = AndroidUtilities.dp(20.0f);
+                                    i5 = i3;
+                                    if (i5 <= 0) {
+                                        i5 = AndroidUtilities.dp(20.0f);
+                                    }
                                 } else if (i6 == 3) {
                                     i5 = Math.max(bounds.width(), bounds.height()) / 2;
                                 } else {
@@ -5439,7 +5444,7 @@ public class Theme {
             Color.colorToHSV(i, tempHSV);
             float[] fArr = tempHSV;
             if (fArr[1] > 0.01f) {
-                fArr[1] = Math.min(1.0f, Math.max(0.0f, fArr[1] + (Theme.isCurrentThemeDark() ? -0.25f : 0.25f)));
+                fArr[1] = Math.min(1.0f, Math.max(0.0f, fArr[1] + (Theme.isCurrentThemeDark() ? 0.25f : -0.25f)));
                 float[] fArr2 = tempHSV;
                 fArr2[2] = Math.min(1.0f, Math.max(0.0f, fArr2[2] + (Theme.isCurrentThemeDark() ? 0.05f : -0.05f)));
             } else {
@@ -6519,7 +6524,7 @@ public class Theme {
             String key = entry.getKey();
             if ((!(drawable instanceof BitmapDrawable) && str == null) || (!"chat_wallpaper".equals(key) && !"chat_wallpaper_gradient_to".equals(key) && !"key_chat_wallpaper_gradient_to2".equals(key) && !"key_chat_wallpaper_gradient_to3".equals(key))) {
                 sb.append(key);
-                sb.append("=");
+                sb.append(ContainerUtils.KEY_VALUE_DELIMITER);
                 sb.append(entry.getValue());
                 sb.append("\n");
             }
@@ -9639,7 +9644,7 @@ public class Theme {
     }
 
     @SuppressLint({"DiscouragedPrivateApi"})
-    @TargetApi(R.styleable.MapAttrs_uiZoomGestures)
+    @TargetApi(21)
     public static void setRippleDrawableForceSoftware(RippleDrawable rippleDrawable) {
         if (rippleDrawable == null) {
             return;

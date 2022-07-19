@@ -22,8 +22,8 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -205,7 +205,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                     public final void run(ArrayList arrayList3, String str) {
                         StickersSearchAdapter.AnonymousClass1.this.lambda$run$0(access$804, allStickers, arrayList3, str);
                     }
-                });
+                }, false);
             }
             ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(StickersSearchAdapter.this.currentAccount).getStickerSets(0);
             int size2 = stickerSets.size();
@@ -669,7 +669,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
         }
         if (z6) {
-            mediaDataController.markFaturedStickersByIdAsRead(tLRPC$StickerSetCovered.set.id);
+            mediaDataController.markFeaturedStickersByIdAsRead(false, tLRPC$StickerSetCovered.set.id);
         }
         boolean z7 = this.installingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;
         boolean z8 = this.removingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;

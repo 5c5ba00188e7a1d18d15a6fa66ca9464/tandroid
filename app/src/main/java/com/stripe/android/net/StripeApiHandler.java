@@ -1,5 +1,6 @@
 package com.stripe.android.net;
 
+import com.huawei.hms.framework.common.ContainerUtils;
 import com.stripe.android.exception.APIConnectionException;
 import com.stripe.android.exception.APIException;
 import com.stripe.android.exception.AuthenticationException;
@@ -38,7 +39,7 @@ public class StripeApiHandler {
         StringBuilder sb = new StringBuilder();
         for (Parameter parameter : flattenParams(map)) {
             if (sb.length() > 0) {
-                sb.append("&");
+                sb.append(ContainerUtils.FIELD_DELIMITER);
             }
             sb.append(urlEncodePair(parameter.key, parameter.value));
         }
@@ -81,7 +82,7 @@ public class StripeApiHandler {
         }
         String str3 = "?";
         if (str.contains(str3)) {
-            str3 = "&";
+            str3 = ContainerUtils.FIELD_DELIMITER;
         }
         return String.format("%s%s%s", str, str3, str2);
     }

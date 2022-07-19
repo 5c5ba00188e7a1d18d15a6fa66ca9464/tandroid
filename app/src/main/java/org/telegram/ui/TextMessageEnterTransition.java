@@ -37,6 +37,7 @@ import org.telegram.tgnet.TLRPC$TL_messageMediaInvoice;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.ChatActivityEnterView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EmptyStubSpan;
@@ -355,12 +356,12 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         return layout.getLineRight(i) == ((float) layout.getWidth()) && layout.getLineLeft(i) != 0.0f;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0359  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0366  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0398  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x03fe  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0443  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0459  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0362  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x036f  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x03a1  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0407  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x044c  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0462  */
     @Override // org.telegram.ui.MessageEnterTransitionContainer.Transition
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -385,6 +386,10 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             this.initBitmaps = true;
             Canvas canvas2 = new Canvas(this.crossfadeTextBitmap);
             canvas2.translate(0.0f, this.crossfadeTextOffset);
+            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.messageView.animatedEmojiStack;
+            if (emojiGroupedSpans != null) {
+                emojiGroupedSpans.clearPositions();
+            }
             ChatMessageCell chatMessageCell = this.messageView;
             chatMessageCell.drawMessageText(canvas2, chatMessageCell.getMessageObject().textLayoutBlocks, true, 1.0f, true);
             this.messageView.drawAnimatedEmojis(canvas2);
