@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$TL_chatAdminRights;
 import org.telegram.ui.ActionBar.Theme;
@@ -48,52 +47,40 @@ public class JoinToSendSettingsView extends LinearLayout {
         setOrientation(1);
         HeaderCell headerCell = new HeaderCell(context, 23);
         this.joinHeaderCell = headerCell;
-        headerCell.setText(LocaleController.getString("ChannelSettingsJoinTitle", R.string.ChannelSettingsJoinTitle));
+        headerCell.setText(LocaleController.getString("ChannelSettingsJoinTitle", 2131624974));
         this.joinHeaderCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         addView(this.joinHeaderCell);
-        TextCheckCell textCheckCell = new TextCheckCell(this, context) { // from class: org.telegram.ui.Components.JoinToSendSettingsView.1
-        };
-        this.joinToSendCell = textCheckCell;
-        textCheckCell.setBackground(Theme.getSelectorDrawable(true));
-        TextCheckCell textCheckCell2 = this.joinToSendCell;
-        String string = LocaleController.getString("ChannelSettingsJoinToSend", R.string.ChannelSettingsJoinToSend);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
+        this.joinToSendCell = anonymousClass1;
+        anonymousClass1.setBackground(Theme.getSelectorDrawable(true));
+        TextCheckCell textCheckCell = this.joinToSendCell;
+        String string = LocaleController.getString("ChannelSettingsJoinToSend", 2131624975);
         boolean z2 = this.isJoinToSend;
-        textCheckCell2.setTextAndCheck(string, z2, z2);
+        textCheckCell.setTextAndCheck(string, z2, z2);
         int i = 0;
         this.joinToSendCell.setEnabled(tLRPC$Chat.creator || ((tLRPC$TL_chatAdminRights2 = tLRPC$Chat.admin_rights) != null && tLRPC$TL_chatAdminRights2.ban_users));
-        this.joinToSendCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda1
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                JoinToSendSettingsView.this.lambda$new$2(view);
-            }
-        });
+        this.joinToSendCell.setOnClickListener(new JoinToSendSettingsView$$ExternalSyntheticLambda1(this));
         addView(this.joinToSendCell);
-        TextCheckCell textCheckCell3 = new TextCheckCell(this, context) { // from class: org.telegram.ui.Components.JoinToSendSettingsView.2
-        };
-        this.joinRequestCell = textCheckCell3;
-        textCheckCell3.setBackground(Theme.getSelectorDrawable(true));
-        this.joinRequestCell.setTextAndCheck(LocaleController.getString("ChannelSettingsJoinRequest", R.string.ChannelSettingsJoinRequest), this.isJoinRequest, false);
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(this, context);
+        this.joinRequestCell = anonymousClass2;
+        anonymousClass2.setBackground(Theme.getSelectorDrawable(true));
+        this.joinRequestCell.setTextAndCheck(LocaleController.getString("ChannelSettingsJoinRequest", 2131624972), this.isJoinRequest, false);
         float f = 0.0f;
         this.joinRequestCell.setPivotY(0.0f);
-        TextCheckCell textCheckCell4 = this.joinRequestCell;
+        TextCheckCell textCheckCell2 = this.joinRequestCell;
         if (!tLRPC$Chat.creator && ((tLRPC$TL_chatAdminRights = tLRPC$Chat.admin_rights) == null || !tLRPC$TL_chatAdminRights.ban_users)) {
             z = false;
         }
-        textCheckCell4.setEnabled(z);
-        this.joinRequestCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda2
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                JoinToSendSettingsView.this.lambda$new$5(view);
-            }
-        });
+        textCheckCell2.setEnabled(z);
+        this.joinRequestCell.setOnClickListener(new JoinToSendSettingsView$$ExternalSyntheticLambda2(this));
         addView(this.joinRequestCell);
         TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
         this.joinToSendInfoCell = textInfoPrivacyCell;
-        textInfoPrivacyCell.setText(LocaleController.getString("ChannelSettingsJoinToSendInfo", R.string.ChannelSettingsJoinToSendInfo));
+        textInfoPrivacyCell.setText(LocaleController.getString("ChannelSettingsJoinToSendInfo", 2131624976));
         addView(this.joinToSendInfoCell);
         TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
         this.joinRequestInfoCell = textInfoPrivacyCell2;
-        textInfoPrivacyCell2.setText(LocaleController.getString("ChannelSettingsJoinRequestInfo", R.string.ChannelSettingsJoinRequestInfo));
+        textInfoPrivacyCell2.setText(LocaleController.getString("ChannelSettingsJoinRequestInfo", 2131624973));
         addView(this.joinRequestInfoCell);
         boolean z3 = this.isJoinToSend;
         this.toggleValue = z3 ? 1.0f : f;
@@ -101,28 +88,25 @@ public class JoinToSendSettingsView extends LinearLayout {
         updateToggleValue(this.toggleValue);
     }
 
+    /* renamed from: org.telegram.ui.Components.JoinToSendSettingsView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends TextCheckCell {
+        AnonymousClass1(JoinToSendSettingsView joinToSendSettingsView, Context context) {
+            super(context);
+        }
+    }
+
     public /* synthetic */ void lambda$new$2(View view) {
-        final boolean z = this.isJoinToSend;
+        boolean z = this.isJoinToSend;
         boolean z2 = !z;
-        final boolean z3 = this.isJoinRequest;
-        if (onJoinToSendToggle(z2, new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                JoinToSendSettingsView.this.lambda$new$1(z3, z);
-            }
-        })) {
+        if (onJoinToSendToggle(z2, new JoinToSendSettingsView$$ExternalSyntheticLambda5(this, this.isJoinRequest, z))) {
             lambda$new$3(false);
             setJoinToSend(z2);
         }
     }
 
-    public /* synthetic */ void lambda$new$1(final boolean z, final boolean z2) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                JoinToSendSettingsView.this.lambda$new$0(z, z2);
-            }
-        });
+    public /* synthetic */ void lambda$new$1(boolean z, boolean z2) {
+        AndroidUtilities.runOnUIThread(new JoinToSendSettingsView$$ExternalSyntheticLambda6(this, z, z2));
     }
 
     public /* synthetic */ void lambda$new$0(boolean z, boolean z2) {
@@ -130,26 +114,24 @@ public class JoinToSendSettingsView extends LinearLayout {
         setJoinToSend(z2);
     }
 
+    /* renamed from: org.telegram.ui.Components.JoinToSendSettingsView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends TextCheckCell {
+        AnonymousClass2(JoinToSendSettingsView joinToSendSettingsView, Context context) {
+            super(context);
+        }
+    }
+
     public /* synthetic */ void lambda$new$5(View view) {
-        final boolean z = this.isJoinRequest;
+        boolean z = this.isJoinRequest;
         boolean z2 = !z;
-        if (onJoinRequestToggle(z2, new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda3
-            @Override // java.lang.Runnable
-            public final void run() {
-                JoinToSendSettingsView.this.lambda$new$4(z);
-            }
-        })) {
+        if (onJoinRequestToggle(z2, new JoinToSendSettingsView$$ExternalSyntheticLambda3(this, z))) {
             lambda$new$3(z2);
         }
     }
 
-    public /* synthetic */ void lambda$new$4(final boolean z) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda4
-            @Override // java.lang.Runnable
-            public final void run() {
-                JoinToSendSettingsView.this.lambda$new$3(z);
-            }
-        });
+    public /* synthetic */ void lambda$new$4(boolean z) {
+        AndroidUtilities.runOnUIThread(new JoinToSendSettingsView$$ExternalSyntheticLambda4(this, z));
     }
 
     public void setChat(TLRPC$Chat tLRPC$Chat) {
@@ -213,23 +195,26 @@ public class JoinToSendSettingsView extends LinearLayout {
         this.toggleAnimator = ofFloat;
         ofFloat.setDuration(200L);
         this.toggleAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.toggleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                JoinToSendSettingsView.this.lambda$setJoinToSend$6(valueAnimator2);
-            }
-        });
-        this.toggleAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.JoinToSendSettingsView.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                JoinToSendSettingsView joinToSendSettingsView = JoinToSendSettingsView.this;
-                if (!joinToSendSettingsView.isJoinToSend) {
-                    joinToSendSettingsView.joinRequestCell.setVisibility(8);
-                }
-            }
-        });
+        this.toggleAnimator.addUpdateListener(new JoinToSendSettingsView$$ExternalSyntheticLambda0(this));
+        this.toggleAnimator.addListener(new AnonymousClass3());
         this.joinRequestCell.setVisibility(0);
         this.toggleAnimator.start();
+    }
+
+    /* renamed from: org.telegram.ui.Components.JoinToSendSettingsView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        AnonymousClass3() {
+            JoinToSendSettingsView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            JoinToSendSettingsView joinToSendSettingsView = JoinToSendSettingsView.this;
+            if (!joinToSendSettingsView.isJoinToSend) {
+                joinToSendSettingsView.joinRequestCell.setVisibility(8);
+            }
+        }
     }
 
     public /* synthetic */ void lambda$setJoinToSend$6(ValueAnimator valueAnimator) {

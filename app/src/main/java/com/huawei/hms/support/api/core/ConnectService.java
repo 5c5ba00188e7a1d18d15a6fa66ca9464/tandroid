@@ -13,7 +13,6 @@ import com.huawei.hms.support.api.entity.core.CheckConnectInfo;
 import com.huawei.hms.support.api.entity.core.CheckConnectResp;
 import com.huawei.hms.support.api.entity.core.ConnectInfo;
 import com.huawei.hms.support.api.entity.core.ConnectResp;
-import com.huawei.hms.support.api.entity.core.CoreNaming;
 import com.huawei.hms.support.api.entity.core.DisconnectInfo;
 import com.huawei.hms.support.api.entity.core.DisconnectResp;
 import com.huawei.hms.support.api.entity.core.JosGetNoticeReq;
@@ -85,19 +84,19 @@ public final class ConnectService {
     }
 
     public static InnerPendingResult<ResolveResult<CheckConnectResp>> checkconnect(ApiClient apiClient, CheckConnectInfo checkConnectInfo) {
-        return ResolvePendingResult.build(apiClient, CoreNaming.CHECKCONNECT, checkConnectInfo, CheckConnectResp.class);
+        return ResolvePendingResult.build(apiClient, "core.checkconnect", checkConnectInfo, CheckConnectResp.class);
     }
 
     public static PendingResult<ResolveResult<ConnectResp>> connect(ApiClient apiClient, ConnectInfo connectInfo) {
-        return new a(apiClient, CoreNaming.CONNECT, connectInfo);
+        return new a(apiClient, "core.connect", connectInfo);
     }
 
     public static ResolvePendingResult<DisconnectResp> disconnect(ApiClient apiClient, DisconnectInfo disconnectInfo) {
-        return ResolvePendingResult.build(apiClient, CoreNaming.DISCONNECT, disconnectInfo, DisconnectResp.class);
+        return ResolvePendingResult.build(apiClient, "core.disconnect", disconnectInfo, DisconnectResp.class);
     }
 
     public static PendingResult<ResolveResult<ConnectResp>> forceConnect(ApiClient apiClient, ConnectInfo connectInfo) {
-        return new b(apiClient, CoreNaming.FORECONNECT, connectInfo);
+        return new b(apiClient, "core.foreconnect", connectInfo);
     }
 
     public static PendingResult<ResolveResult<JosGetNoticeResp>> getNotice(ApiClient apiClient, int i, String str) {
@@ -107,6 +106,6 @@ public final class ConnectService {
         if (!TextUtils.isEmpty(apiClient.getCpID())) {
             josGetNoticeReq.setCpID(apiClient.getCpID());
         }
-        return new c(apiClient, CoreNaming.GETNOTICE, josGetNoticeReq);
+        return new c(apiClient, "core.getNoticeIntent", josGetNoticeReq);
     }
 }

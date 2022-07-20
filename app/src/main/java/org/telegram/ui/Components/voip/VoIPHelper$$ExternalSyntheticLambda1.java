@@ -1,0 +1,20 @@
+package org.telegram.ui.Components.voip;
+
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+/* loaded from: classes3.dex */
+public final /* synthetic */ class VoIPHelper$$ExternalSyntheticLambda1 implements DialogInterface.OnClickListener {
+    public final /* synthetic */ Activity f$0;
+    public final /* synthetic */ Intent f$1;
+
+    public /* synthetic */ VoIPHelper$$ExternalSyntheticLambda1(Activity activity, Intent intent) {
+        this.f$0 = activity;
+        this.f$1 = intent;
+    }
+
+    @Override // android.content.DialogInterface.OnClickListener
+    public final void onClick(DialogInterface dialogInterface, int i) {
+        this.f$0.startActivity(this.f$1);
+    }
+}

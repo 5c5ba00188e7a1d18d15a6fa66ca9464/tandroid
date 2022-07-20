@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.tgnet.ConnectionsManager;
-import org.webrtc.MediaStreamTrack;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -452,10 +450,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         if (TextUtils.isEmpty(attributeValue)) {
             return -1;
         }
-        if (MediaStreamTrack.AUDIO_TRACK_KIND.equals(attributeValue)) {
+        if ("audio".equals(attributeValue)) {
             return 1;
         }
-        if (MediaStreamTrack.VIDEO_TRACK_KIND.equals(attributeValue)) {
+        if ("video".equals(attributeValue)) {
             return 2;
         }
         return "text".equals(attributeValue) ? 3 : -1;
@@ -1248,7 +1246,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
         switch (c) {
             case 0:
-                return ConnectionsManager.RequestFlagNeedQuickAck;
+                return 128;
             case 1:
                 return 512;
             case 2:

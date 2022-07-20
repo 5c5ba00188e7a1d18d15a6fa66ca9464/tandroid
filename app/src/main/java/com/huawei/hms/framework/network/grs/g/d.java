@@ -1,7 +1,6 @@
 package com.huawei.hms.framework.network.grs.g;
 
 import android.text.TextUtils;
-import com.huawei.hms.api.ConnectionResult;
 import com.huawei.hms.framework.common.Logger;
 import com.huawei.hms.framework.common.StringUtils;
 import java.nio.ByteBuffer;
@@ -35,7 +34,7 @@ public class d {
     public d(int i, Map<String, List<String>> map, byte[] bArr, long j) {
         this.c = 0;
         this.h = 2;
-        this.i = ConnectionResult.RESOLUTION_REQUIRED;
+        this.i = 9001;
         this.j = "";
         this.k = 0L;
         this.l = "";
@@ -49,7 +48,7 @@ public class d {
     public d(Exception exc, long j) {
         this.c = 0;
         this.h = 2;
-        this.i = ConnectionResult.RESOLUTION_REQUIRED;
+        this.i = 9001;
         this.j = "";
         this.k = 0L;
         this.l = "";
@@ -214,7 +213,7 @@ public class d {
                     e(str);
                     return;
                 }
-                b(jSONObject.has("errorCode") ? jSONObject.getInt("errorCode") : ConnectionResult.RESOLUTION_REQUIRED);
+                b(jSONObject.has("errorCode") ? jSONObject.getInt("errorCode") : 9001);
                 if (jSONObject.has("errorDesc")) {
                     str = jSONObject.getString("errorDesc");
                 }

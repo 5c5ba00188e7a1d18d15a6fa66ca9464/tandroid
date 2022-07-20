@@ -4,7 +4,7 @@ import com.google.android.exoplayer2.util.Clock;
 import com.google.android.exoplayer2.util.MediaClock;
 import com.google.android.exoplayer2.util.StandaloneMediaClock;
 /* loaded from: classes.dex */
-final class DefaultMediaClock implements MediaClock {
+public final class DefaultMediaClock implements MediaClock {
     private boolean isUsingStandaloneClock = true;
     private final PlaybackParameterListener listener;
     private MediaClock rendererClock;

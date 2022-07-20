@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -59,20 +58,13 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-        this.actionBar.setTitle(LocaleController.getString("VoipQuickReplies", R.string.VoipQuickReplies));
+        this.actionBar.setBackButtonImage(2131165449);
+        this.actionBar.setTitle(LocaleController.getString("VoipQuickReplies", 2131629250));
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
         }
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.QuickRepliesSettingsActivity.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    QuickRepliesSettingsActivity.this.finishFragment();
-                }
-            }
-        });
+        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
@@ -84,6 +76,21 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
         ((FrameLayout) this.fragmentView).addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
         return this.fragmentView;
+    }
+
+    /* renamed from: org.telegram.ui.QuickRepliesSettingsActivity$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
+        AnonymousClass1() {
+            QuickRepliesSettingsActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+        public void onItemClick(int i) {
+            if (i == -1) {
+                QuickRepliesSettingsActivity.this.finishFragment();
+            }
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -145,8 +152,8 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 0) {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
-                textInfoPrivacyCell.setText(LocaleController.getString("VoipQuickRepliesExplain", R.string.VoipQuickRepliesExplain));
+                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
+                textInfoPrivacyCell.setText(LocaleController.getString("VoipQuickRepliesExplain", 2131629251));
                 return;
             }
             boolean z = true;
@@ -164,7 +171,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                             if (i != QuickRepliesSettingsActivity.this.reply2Row) {
                                 if (i != QuickRepliesSettingsActivity.this.reply3Row) {
                                     if (i == QuickRepliesSettingsActivity.this.reply4Row) {
-                                        string = LocaleController.getString("QuickReplyDefault4", R.string.QuickReplyDefault4);
+                                        string = LocaleController.getString("QuickReplyDefault4", 2131627882);
                                         str2 = "quick_reply_msg4";
                                     } else {
                                         str = null;
@@ -176,15 +183,15 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                                         return;
                                     }
                                 } else {
-                                    string = LocaleController.getString("QuickReplyDefault3", R.string.QuickReplyDefault3);
+                                    string = LocaleController.getString("QuickReplyDefault3", 2131627881);
                                     str2 = "quick_reply_msg3";
                                 }
                             } else {
-                                string = LocaleController.getString("QuickReplyDefault2", R.string.QuickReplyDefault2);
+                                string = LocaleController.getString("QuickReplyDefault2", 2131627880);
                                 str2 = "quick_reply_msg2";
                             }
                         } else {
-                            string = LocaleController.getString("QuickReplyDefault1", R.string.QuickReplyDefault1);
+                            string = LocaleController.getString("QuickReplyDefault1", 2131627879);
                             str2 = "quick_reply_msg1";
                         }
                         String str4 = string;
@@ -199,7 +206,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                         return;
                 }
             } else {
-                ((TextCheckCell) viewHolder.itemView).setTextAndCheck(LocaleController.getString("AllowCustomQuickReply", R.string.AllowCustomQuickReply), QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getBoolean("quick_reply_allow_custom", true), false);
+                ((TextCheckCell) viewHolder.itemView).setTextAndCheck(LocaleController.getString("AllowCustomQuickReply", 2131624336), QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getBoolean("quick_reply_allow_custom", true), false);
             }
         }
 

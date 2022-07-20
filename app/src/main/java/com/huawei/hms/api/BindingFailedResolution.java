@@ -10,7 +10,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.view.KeyEvent;
-import com.huawei.hms.activity.BridgeActivity;
 import com.huawei.hms.activity.IBridgeActivityDelegate;
 import com.huawei.hms.api.FailedBinderCallBack;
 import com.huawei.hms.common.internal.BindResolveClients;
@@ -62,7 +61,7 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
             if (message == null || message.what != 2) {
                 return false;
             }
-            HMSLog.e(BindingFailedResolution.TAG, "In connect, bind core try timeout");
+            HMSLog.e("BindingFailedResolution", "In connect, bind core try timeout");
             BindingFailedResolution.this.fireStartResult(false);
             return true;
         }
@@ -112,7 +111,7 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
     private void bindCoreService(boolean z) {
         Activity activity = getActivity();
         if (activity == null) {
-            HMSLog.e(TAG, "In connect, bind core try fail");
+            HMSLog.e("BindingFailedResolution", "In connect, bind core try fail");
             fireStartResult(false);
             noticeBindResult(z, 8);
             return;
@@ -124,7 +123,7 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
                 postConnDelayHandle();
                 return;
             }
-            HMSLog.e(TAG, "In connect, bind core try fail");
+            HMSLog.e("BindingFailedResolution", "In connect, bind core try fail");
             fireStartResult(false);
             noticeBindResult(z, 8);
         }
@@ -145,9 +144,9 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
         if (activity == null || activity.isFinishing()) {
             return;
         }
-        HMSLog.i(TAG, "finishBridgeActivity：" + i);
+        HMSLog.i("BindingFailedResolution", "finishBridgeActivity：" + i);
         Intent intent = new Intent();
-        intent.putExtra(BridgeActivity.EXTRA_RESULT, i);
+        intent.putExtra("intent.extra.RESULT", i);
         activity.setResult(-1, intent);
         Util.unBindServiceCatchException(activity, this);
         activity.finish();
@@ -199,19 +198,19 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
         } else {
             dVar.dismiss();
         }
-        HMSLog.i(TAG, "showPromptdlg to resolve conn error");
+        HMSLog.i("BindingFailedResolution", "showPromptdlg to resolve conn error");
         this.promptdlg.show(activity, new c());
     }
 
     private void tryStartHmsActivity(Activity activity) {
         Intent intent = new Intent();
-        intent.putExtra(BridgeActivity.EXTRA_IS_FULLSCREEN, UIUtil.isActivityFullscreen(activity));
-        intent.setClassName(HMSPackageManager.getInstance(activity.getApplicationContext()).getHMSPackageNameForMultiService(), HuaweiApiAvailability.ACTIVITY_NAME);
-        HMSLog.i(TAG, "onBridgeActivityCreate：try to start HMS");
+        intent.putExtra("intent.extra.isfullscreen", UIUtil.isActivityFullscreen(activity));
+        intent.setClassName(HMSPackageManager.getInstance(activity.getApplicationContext()).getHMSPackageNameForMultiService(), "com.huawei.hms.core.activity.JumpActivity");
+        HMSLog.i("BindingFailedResolution", "onBridgeActivityCreate：try to start HMS");
         try {
             activity.startActivityForResult(intent, getRequestCode());
         } catch (Throwable th) {
-            HMSLog.e(TAG, "ActivityNotFoundException：" + th.getMessage());
+            HMSLog.e("BindingFailedResolution", "ActivityNotFoundException：" + th.getMessage());
             Handler handler = this.selfDestroyHandler;
             if (handler != null) {
                 handler.removeMessages(3);
@@ -227,14 +226,14 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
 
     @Override // com.huawei.hms.activity.IBridgeActivityDelegate
     public int getRequestCode() {
-        return REQUEST_CODE;
+        return 2003;
     }
 
     @Override // com.huawei.hms.activity.IBridgeActivityDelegate
     public void onBridgeActivityCreate(Activity activity) {
         Intent intent = activity.getIntent();
-        if (intent != null && intent.hasExtra(FailedBinderCallBack.CALLER_ID)) {
-            this.callBack = FailedBinderCallBack.getInstance().getCallBack(Long.valueOf(intent.getLongExtra(FailedBinderCallBack.CALLER_ID, 0L)));
+        if (intent != null && intent.hasExtra("callId")) {
+            this.callBack = FailedBinderCallBack.getInstance().getCallBack(Long.valueOf(intent.getLongExtra("callId", 0L)));
         }
         this.curActivity = activity;
         com.huawei.hms.api.a.b.a(activity);
@@ -254,7 +253,7 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
         if (i != getRequestCode()) {
             return false;
         }
-        HMSLog.i(TAG, "onBridgeActivityResult");
+        HMSLog.i("BindingFailedResolution", "onBridgeActivityResult");
         Handler handler = this.selfDestroyHandler;
         if (handler != null) {
             handler.removeMessages(3);
@@ -269,13 +268,13 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
         if (this.promptdlg == null) {
             return;
         }
-        HMSLog.i(TAG, "re show prompt dialog");
+        HMSLog.i("BindingFailedResolution", "re show prompt dialog");
         showPromptdlg();
     }
 
     @Override // com.huawei.hms.activity.IBridgeActivityDelegate
     public void onKeyUp(int i, KeyEvent keyEvent) {
-        HMSLog.i(TAG, "On key up when resolve conn error");
+        HMSLog.i("BindingFailedResolution", "On key up when resolve conn error");
     }
 
     @Override // android.content.ServiceConnection
@@ -285,7 +284,7 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
         if (getActivity() == null) {
             return;
         }
-        HMSLog.i(TAG, "test connect success, try to reConnect and reply message");
+        HMSLog.i("BindingFailedResolution", "test connect success, try to reConnect and reply message");
         BindResolveClients.getInstance().notifyClientReconnect();
     }
 

@@ -91,12 +91,7 @@ public class FlatCheckBox extends View {
         fArr[1] = f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
         this.checkAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.FlatCheckBox$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                FlatCheckBox.this.lambda$setChecked$0(valueAnimator2);
-            }
-        });
+        ofFloat.addUpdateListener(new FlatCheckBox$$ExternalSyntheticLambda0(this));
         this.checkAnimator.setDuration(300L);
         this.checkAnimator.start();
     }

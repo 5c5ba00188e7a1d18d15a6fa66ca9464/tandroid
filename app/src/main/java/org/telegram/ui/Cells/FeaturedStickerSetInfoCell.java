@@ -21,7 +21,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$StickerSetCovered;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
@@ -63,7 +62,7 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
         this.nameTextView = textView;
         textView.setTextColor(getThemedColor("chat_emojiPanelTrendingTitle"));
         this.nameTextView.setTextSize(1, 17.0f);
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.nameTextView.setSingleLine(true);
         if (z) {
@@ -88,7 +87,7 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
             ProgressButton progressButton = new ProgressButton(context);
             this.addButton = progressButton;
             progressButton.setTextColor(getThemedColor("featuredStickers_buttonText"));
-            this.addButton.setText(LocaleController.getString("Add", R.string.Add));
+            this.addButton.setText(LocaleController.getString("Add", 2131624242));
             if (z) {
                 layoutParams3 = LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 14.0f, 0.0f);
             } else {
@@ -100,8 +99,8 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
             textView3.setGravity(17);
             this.delButton.setTextColor(getThemedColor("featuredStickers_removeButtonText"));
             this.delButton.setTextSize(1, 14.0f);
-            this.delButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-            this.delButton.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
+            this.delButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            this.delButton.setText(LocaleController.getString("StickersRemove", 2131628514));
             if (z) {
                 layoutParams4 = LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 14.0f, 0.0f);
             } else {
@@ -243,21 +242,29 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
                 fArr6[0] = f;
                 animatorArr[5] = ObjectAnimator.ofFloat(progressButton3, property6, fArr6);
                 animatorSet3.playTogether(animatorArr);
-                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetInfoCell.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (FeaturedStickerSetInfoCell.this.isInstalled) {
-                            FeaturedStickerSetInfoCell.this.addButton.setVisibility(4);
-                        } else {
-                            FeaturedStickerSetInfoCell.this.delButton.setVisibility(4);
-                        }
-                    }
-                });
+                this.animatorSet.addListener(new AnonymousClass1());
                 this.animatorSet.setInterpolator(new OvershootInterpolator(1.02f));
                 this.animatorSet.start();
                 return;
             }
             this.addButton.setVisibility(8);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.FeaturedStickerSetInfoCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            FeaturedStickerSetInfoCell.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (FeaturedStickerSetInfoCell.this.isInstalled) {
+                FeaturedStickerSetInfoCell.this.addButton.setVisibility(4);
+            } else {
+                FeaturedStickerSetInfoCell.this.delButton.setVisibility(4);
+            }
         }
     }
 

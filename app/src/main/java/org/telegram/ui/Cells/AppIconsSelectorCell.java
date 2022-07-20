@@ -29,10 +29,8 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Cells.AppIconsSelectorCell;
 import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.LayoutHelper;
@@ -45,7 +43,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
     private int currentAccount;
     private LinearLayoutManager linearLayoutManager;
 
-    public AppIconsSelectorCell(final Context context, final BaseFragment baseFragment, int i) {
+    public AppIconsSelectorCell(Context context, BaseFragment baseFragment, int i) {
         super(context);
         this.currentAccount = i;
         setPadding(0, AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f));
@@ -56,52 +54,63 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 0, false);
         this.linearLayoutManager = linearLayoutManager;
         setLayoutManager(linearLayoutManager);
-        setAdapter(new RecyclerView.Adapter() { // from class: org.telegram.ui.Cells.AppIconsSelectorCell.1
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i2) {
-                return new RecyclerListView.Holder(new IconHolderView(viewGroup.getContext()));
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i2) {
-                IconHolderView iconHolderView = (IconHolderView) viewHolder.itemView;
-                LauncherIconController.LauncherIcon launcherIcon = (LauncherIconController.LauncherIcon) AppIconsSelectorCell.this.availableIcons.get(i2);
-                iconHolderView.bind(launcherIcon);
-                iconHolderView.iconView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(18.0f), 0, Theme.getColor("listSelectorSDK21"), -16777216));
-                iconHolderView.iconView.setForeground(launcherIcon.foreground);
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemCount() {
-                return AppIconsSelectorCell.this.availableIcons.size();
-            }
-        });
-        addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Cells.AppIconsSelectorCell.2
-            @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
-            public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
-                int adapterPosition = recyclerView.getChildViewHolder(view).getAdapterPosition();
-                if (adapterPosition == 0) {
-                    rect.left = AndroidUtilities.dp(18.0f);
-                }
-                if (adapterPosition == AppIconsSelectorCell.this.getAdapter().getItemCount() - 1) {
-                    rect.right = AndroidUtilities.dp(18.0f);
-                    return;
-                }
-                int itemCount = AppIconsSelectorCell.this.getAdapter().getItemCount();
-                if (itemCount == 4) {
-                    rect.right = ((AppIconsSelectorCell.this.getWidth() - AndroidUtilities.dp(36.0f)) - (AndroidUtilities.dp(58.0f) * itemCount)) / (itemCount - 1);
-                } else {
-                    rect.right = AndroidUtilities.dp(24.0f);
-                }
-            }
-        });
-        setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Cells.AppIconsSelectorCell$$ExternalSyntheticLambda0
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i2) {
-                AppIconsSelectorCell.this.lambda$new$0(baseFragment, context, view, i2);
-            }
-        });
+        setAdapter(new AnonymousClass1());
+        addItemDecoration(new AnonymousClass2());
+        setOnItemClickListener(new AppIconsSelectorCell$$ExternalSyntheticLambda0(this, baseFragment, context));
         updateIconsVisibility();
+    }
+
+    /* renamed from: org.telegram.ui.Cells.AppIconsSelectorCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends RecyclerView.Adapter {
+        AnonymousClass1() {
+            AppIconsSelectorCell.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            return new RecyclerListView.Holder(new IconHolderView(viewGroup.getContext(), null));
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            IconHolderView iconHolderView = (IconHolderView) viewHolder.itemView;
+            LauncherIconController.LauncherIcon launcherIcon = (LauncherIconController.LauncherIcon) AppIconsSelectorCell.this.availableIcons.get(i);
+            iconHolderView.bind(launcherIcon);
+            iconHolderView.iconView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(18.0f), 0, Theme.getColor("listSelectorSDK21"), -16777216));
+            iconHolderView.iconView.setForeground(launcherIcon.foreground);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemCount() {
+            return AppIconsSelectorCell.this.availableIcons.size();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.AppIconsSelectorCell$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends RecyclerView.ItemDecoration {
+        AnonymousClass2() {
+            AppIconsSelectorCell.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
+        public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
+            int adapterPosition = recyclerView.getChildViewHolder(view).getAdapterPosition();
+            if (adapterPosition == 0) {
+                rect.left = AndroidUtilities.dp(18.0f);
+            }
+            if (adapterPosition == AppIconsSelectorCell.this.getAdapter().getItemCount() - 1) {
+                rect.right = AndroidUtilities.dp(18.0f);
+                return;
+            }
+            int itemCount = AppIconsSelectorCell.this.getAdapter().getItemCount();
+            if (itemCount == 4) {
+                rect.right = ((AppIconsSelectorCell.this.getWidth() - AndroidUtilities.dp(36.0f)) - (AndroidUtilities.dp(58.0f) * itemCount)) / (itemCount - 1);
+            } else {
+                rect.right = AndroidUtilities.dp(24.0f);
+            }
+        }
     }
 
     public /* synthetic */ void lambda$new$0(BaseFragment baseFragment, Context context, View view, int i) {
@@ -110,19 +119,9 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         if (launcherIcon.premium && !UserConfig.hasPremiumOnAccounts()) {
             baseFragment.showDialog(new PremiumFeatureBottomSheet(baseFragment, 10, true));
         } else if (!LauncherIconController.isEnabled(launcherIcon)) {
-            LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(this, context) { // from class: org.telegram.ui.Cells.AppIconsSelectorCell.3
-                @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                public int calculateDtToFit(int i2, int i3, int i4, int i5, int i6) {
-                    return (i4 - i2) + AndroidUtilities.dp(16.0f);
-                }
-
-                @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                public float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
-                    return super.calculateSpeedPerPixel(displayMetrics) * 3.0f;
-                }
-            };
-            linearSmoothScroller.setTargetPosition(i);
-            this.linearLayoutManager.startSmoothScroll(linearSmoothScroller);
+            AnonymousClass3 anonymousClass3 = new AnonymousClass3(this, context);
+            anonymousClass3.setTargetPosition(i);
+            this.linearLayoutManager.startSmoothScroll(anonymousClass3);
             LauncherIconController.setIcon(launcherIcon);
             iconHolderView.setSelected(true, true);
             for (int i2 = 0; i2 < getChildCount(); i2++) {
@@ -132,6 +131,24 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
                 }
             }
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 5, launcherIcon);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.AppIconsSelectorCell$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends LinearSmoothScroller {
+        AnonymousClass3(AppIconsSelectorCell appIconsSelectorCell, Context context) {
+            super(context);
+        }
+
+        @Override // androidx.recyclerview.widget.LinearSmoothScroller
+        public int calculateDtToFit(int i, int i2, int i3, int i4, int i5) {
+            return (i3 - i) + AndroidUtilities.dp(16.0f);
+        }
+
+        @Override // androidx.recyclerview.widget.LinearSmoothScroller
+        public float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
+            return super.calculateSpeedPerPixel(displayMetrics) * 3.0f;
         }
     }
 
@@ -197,6 +214,10 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         private float progress;
         private TextView titleView;
 
+        /* synthetic */ IconHolderView(Context context, AnonymousClass1 anonymousClass1) {
+            this(context);
+        }
+
         private IconHolderView(Context context) {
             super(context);
             this.outlinePaint = new Paint(1);
@@ -243,12 +264,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
                 if (z2) {
                     ValueAnimator duration = ValueAnimator.ofFloat(f2, f).setDuration(250L);
                     duration.setInterpolator(Easings.easeInOutQuad);
-                    duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.AppIconsSelectorCell$IconHolderView$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            AppIconsSelectorCell.IconHolderView.this.lambda$setSelected$0(valueAnimator);
-                        }
-                    });
+                    duration.addUpdateListener(new AppIconsSelectorCell$IconHolderView$$ExternalSyntheticLambda0(this));
                     duration.start();
                     return;
                 }
@@ -265,7 +281,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.titleView.getLayoutParams();
             if (launcherIcon.premium && !UserConfig.hasPremiumOnAccounts()) {
                 SpannableString spannableString = new SpannableString("d " + LocaleController.getString(launcherIcon.title));
-                ColoredImageSpan coloredImageSpan = new ColoredImageSpan((int) R.drawable.msg_mini_premiumlock);
+                ColoredImageSpan coloredImageSpan = new ColoredImageSpan(2131165806);
                 coloredImageSpan.setTopOffset(1);
                 coloredImageSpan.setSize(AndroidUtilities.dp(13.0f));
                 spannableString.setSpan(coloredImageSpan, 0, 1, 33);

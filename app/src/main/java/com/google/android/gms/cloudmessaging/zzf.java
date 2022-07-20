@@ -5,23 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.RemoteException;
 import android.util.Log;
 import android.util.SparseArray;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.stats.ConnectionTracker;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.concurrent.GuardedBy;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 public final class zzf implements ServiceConnection {
@@ -39,19 +35,7 @@ public final class zzf implements ServiceConnection {
     public zzf(zze zzeVar) {
         this.zzf = zzeVar;
         this.zza = 0;
-        this.zzb = new Messenger(new com.google.android.gms.internal.cloudmessaging.zze(Looper.getMainLooper(), new Handler.Callback(this) { // from class: com.google.android.gms.cloudmessaging.zzi
-            private final zzf zza;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-            }
-
-            @Override // android.os.Handler.Callback
-            public final boolean handleMessage(Message message) {
-                return this.zza.zza(message);
-            }
-        }));
+        this.zzb = new Messenger(new com.google.android.gms.internal.cloudmessaging.zze(Looper.getMainLooper(), new zzi(this)));
         this.zzd = new ArrayDeque();
         this.zze = new SparseArray<>();
     }
@@ -75,19 +59,7 @@ public final class zzf implements ServiceConnection {
                 zza(0, "Unable to bind to service");
             } else {
                 scheduledExecutorService = this.zzf.zzc;
-                scheduledExecutorService.schedule(new Runnable(this) { // from class: com.google.android.gms.cloudmessaging.zzh
-                    private final zzf zza;
-
-                    /* JADX INFO: Access modifiers changed from: package-private */
-                    {
-                        this.zza = this;
-                    }
-
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        this.zza.zzc();
-                    }
-                }, 30L, TimeUnit.SECONDS);
+                scheduledExecutorService.schedule(new zzh(this), 30L, TimeUnit.SECONDS);
             }
             return true;
         } else if (i == 1) {
@@ -145,109 +117,13 @@ public final class zzf implements ServiceConnection {
             Log.v("MessengerIpcClient", "Service connected");
         }
         scheduledExecutorService = this.zzf.zzc;
-        scheduledExecutorService.execute(new Runnable(this, iBinder) { // from class: com.google.android.gms.cloudmessaging.zzk
-            private final zzf zza;
-            private final IBinder zzb;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-                this.zzb = iBinder;
-            }
-
-            @Override // java.lang.Runnable
-            public final void run() {
-                zzf zzfVar = this.zza;
-                IBinder iBinder2 = this.zzb;
-                synchronized (zzfVar) {
-                    try {
-                        if (iBinder2 == null) {
-                            zzfVar.zza(0, "Null service connection");
-                            return;
-                        }
-                        try {
-                            zzfVar.zzc = new zzo(iBinder2);
-                            zzfVar.zza = 2;
-                            zzfVar.zza();
-                        } catch (RemoteException e) {
-                            zzfVar.zza(0, e.getMessage());
-                        }
-                    } catch (Throwable th) {
-                        throw th;
-                    }
-                }
-            }
-        });
+        scheduledExecutorService.execute(new zzk(this, iBinder));
     }
 
     public final void zza() {
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = this.zzf.zzc;
-        scheduledExecutorService.execute(new Runnable(this) { // from class: com.google.android.gms.cloudmessaging.zzj
-            private final zzf zza;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-            }
-
-            @Override // java.lang.Runnable
-            public final void run() {
-                final zzq poll;
-                final zzf zzfVar = this.zza;
-                while (true) {
-                    synchronized (zzfVar) {
-                        if (zzfVar.zza != 2) {
-                            return;
-                        }
-                        if (zzfVar.zzd.isEmpty()) {
-                            zzfVar.zzb();
-                            return;
-                        }
-                        poll = zzfVar.zzd.poll();
-                        zzfVar.zze.put(poll.zza, poll);
-                        zze.zzb(zzfVar.zzf).schedule(new Runnable(zzfVar, poll) { // from class: com.google.android.gms.cloudmessaging.zzl
-                            private final zzf zza;
-                            private final zzq zzb;
-
-                            /* JADX INFO: Access modifiers changed from: package-private */
-                            {
-                                this.zza = zzfVar;
-                                this.zzb = poll;
-                            }
-
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                this.zza.zza(this.zzb.zza);
-                            }
-                        }, 30L, TimeUnit.SECONDS);
-                    }
-                    if (Log.isLoggable("MessengerIpcClient", 3)) {
-                        String valueOf = String.valueOf(poll);
-                        StringBuilder sb = new StringBuilder(valueOf.length() + 8);
-                        sb.append("Sending ");
-                        sb.append(valueOf);
-                        Log.d("MessengerIpcClient", sb.toString());
-                    }
-                    Context zza = zze.zza(zzfVar.zzf);
-                    Messenger messenger = zzfVar.zzb;
-                    Message obtain = Message.obtain();
-                    obtain.what = poll.zzc;
-                    obtain.arg1 = poll.zza;
-                    obtain.replyTo = messenger;
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean("oneWay", poll.zza());
-                    bundle.putString("pkg", zza.getPackageName());
-                    bundle.putBundle(RemoteMessageConst.DATA, poll.zzd);
-                    obtain.setData(bundle);
-                    try {
-                        zzfVar.zzc.zza(obtain);
-                    } catch (RemoteException e) {
-                        zzfVar.zza(2, e.getMessage());
-                    }
-                }
-            }
-        });
+        scheduledExecutorService.execute(new zzj(this));
     }
 
     @Override // android.content.ServiceConnection
@@ -257,19 +133,7 @@ public final class zzf implements ServiceConnection {
             Log.v("MessengerIpcClient", "Service disconnected");
         }
         scheduledExecutorService = this.zzf.zzc;
-        scheduledExecutorService.execute(new Runnable(this) { // from class: com.google.android.gms.cloudmessaging.zzm
-            private final zzf zza;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-            }
-
-            @Override // java.lang.Runnable
-            public final void run() {
-                this.zza.zza(2, "Service disconnected");
-            }
-        });
+        scheduledExecutorService.execute(new zzm(this));
     }
 
     public final synchronized void zza(int i, String str) {

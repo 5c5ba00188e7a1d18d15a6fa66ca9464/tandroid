@@ -24,7 +24,6 @@ public final class FingerprintManagerCompat {
         public abstract void onAuthenticationSucceeded(AuthenticationResult authenticationResult);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public interface FingerprintManagerCompatImpl {
         void authenticate(Context context, CryptoObject cryptoObject, int i, CancellationSignal cancellationSignal, AuthenticationCallback authenticationCallback, Handler handler);
@@ -171,28 +170,38 @@ public final class FingerprintManagerCompat {
             return new CryptoObject(cryptoObject.getMac());
         }
 
-        private static FingerprintManagerCompatApi23.AuthenticationCallback wrapCallback(final AuthenticationCallback authenticationCallback) {
-            return new FingerprintManagerCompatApi23.AuthenticationCallback() { // from class: org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.Api23FingerprintManagerCompatImpl.1
-                @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
-                public void onAuthenticationError(int i, CharSequence charSequence) {
-                    authenticationCallback.onAuthenticationError(i, charSequence);
-                }
+        /* renamed from: org.telegram.messenger.support.fingerprint.FingerprintManagerCompat$Api23FingerprintManagerCompatImpl$1 */
+        /* loaded from: classes.dex */
+        public class AnonymousClass1 extends FingerprintManagerCompatApi23.AuthenticationCallback {
+            final /* synthetic */ AuthenticationCallback val$callback;
 
-                @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
-                public void onAuthenticationHelp(int i, CharSequence charSequence) {
-                    authenticationCallback.onAuthenticationHelp(i, charSequence);
-                }
+            AnonymousClass1(AuthenticationCallback authenticationCallback) {
+                this.val$callback = authenticationCallback;
+            }
 
-                @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
-                public void onAuthenticationSucceeded(FingerprintManagerCompatApi23.AuthenticationResultInternal authenticationResultInternal) {
-                    authenticationCallback.onAuthenticationSucceeded(new AuthenticationResult(Api23FingerprintManagerCompatImpl.unwrapCryptoObject(authenticationResultInternal.getCryptoObject())));
-                }
+            @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
+            public void onAuthenticationError(int i, CharSequence charSequence) {
+                this.val$callback.onAuthenticationError(i, charSequence);
+            }
 
-                @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
-                public void onAuthenticationFailed() {
-                    authenticationCallback.onAuthenticationFailed();
-                }
-            };
+            @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
+            public void onAuthenticationHelp(int i, CharSequence charSequence) {
+                this.val$callback.onAuthenticationHelp(i, charSequence);
+            }
+
+            @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
+            public void onAuthenticationSucceeded(FingerprintManagerCompatApi23.AuthenticationResultInternal authenticationResultInternal) {
+                this.val$callback.onAuthenticationSucceeded(new AuthenticationResult(Api23FingerprintManagerCompatImpl.unwrapCryptoObject(authenticationResultInternal.getCryptoObject())));
+            }
+
+            @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
+            public void onAuthenticationFailed() {
+                this.val$callback.onAuthenticationFailed();
+            }
+        }
+
+        private static FingerprintManagerCompatApi23.AuthenticationCallback wrapCallback(AuthenticationCallback authenticationCallback) {
+            return new AnonymousClass1(authenticationCallback);
         }
     }
 }

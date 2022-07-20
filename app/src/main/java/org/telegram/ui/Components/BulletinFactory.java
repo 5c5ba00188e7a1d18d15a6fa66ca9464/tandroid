@@ -12,7 +12,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$User;
@@ -52,18 +51,18 @@ public final class BulletinFactory {
     /* JADX WARN: Init of enum VIDEO_TO_DOWNLOADS can be incorrect */
     /* loaded from: classes3.dex */
     public enum FileType {
-        PHOTO("PhotoSavedHint", R.string.PhotoSavedHint, r7),
+        PHOTO("PhotoSavedHint", 2131627557, r7),
         PHOTOS("PhotosSavedHint", r7),
-        VIDEO("VideoSavedHint", R.string.VideoSavedHint, r7),
+        VIDEO("VideoSavedHint", 2131628964, r7),
         VIDEOS("VideosSavedHint", r7),
         MEDIA("MediaSavedHint", r7),
-        PHOTO_TO_DOWNLOADS("PhotoSavedToDownloadsHint", R.string.PhotoSavedToDownloadsHint, r5),
-        VIDEO_TO_DOWNLOADS("VideoSavedToDownloadsHint", R.string.VideoSavedToDownloadsHint, r5),
-        GIF("GifSavedHint", R.string.GifSavedHint, Icon.SAVED_TO_GIFS),
-        GIF_TO_DOWNLOADS("GifSavedToDownloadsHint", R.string.GifSavedToDownloadsHint, r5),
-        AUDIO("AudioSavedHint", R.string.AudioSavedHint, r11),
+        PHOTO_TO_DOWNLOADS("PhotoSavedToDownloadsHint", 2131627558, r5),
+        VIDEO_TO_DOWNLOADS("VideoSavedToDownloadsHint", 2131628965, r5),
+        GIF("GifSavedHint", 2131626100, Icon.SAVED_TO_GIFS),
+        GIF_TO_DOWNLOADS("GifSavedToDownloadsHint", 2131626101, r5),
+        AUDIO("AudioSavedHint", 2131624522, r11),
         AUDIOS("AudiosSavedHint", r11),
-        UNKNOWN("FileSavedHint", R.string.FileSavedHint, r5),
+        UNKNOWN("FileSavedHint", 2131625847, r5),
         UNKNOWNS("FilesSavedHint", r5);
         
         private final Icon icon;
@@ -100,10 +99,10 @@ public final class BulletinFactory {
 
         /* loaded from: classes3.dex */
         public enum Icon {
-            SAVED_TO_DOWNLOADS(R.raw.ic_download, 2, "Box", "Arrow"),
-            SAVED_TO_GALLERY(R.raw.ic_save_to_gallery, 0, "Box", "Arrow", "Mask", "Arrow 2", "Splash"),
-            SAVED_TO_MUSIC(R.raw.ic_save_to_music, 2, "Box", "Arrow"),
-            SAVED_TO_GIFS(R.raw.ic_save_to_gifs, 0, "gif");
+            SAVED_TO_DOWNLOADS(2131558465, 2, "Box", "Arrow"),
+            SAVED_TO_GALLERY(2131558468, 0, "Box", "Arrow", "Mask", "Arrow 2", "Splash"),
+            SAVED_TO_MUSIC(2131558470, 2, "Box", "Arrow"),
+            SAVED_TO_GIFS(2131558469, 0, "gif");
             
             private final String[] layers;
             private final int paddingBottom;
@@ -164,8 +163,8 @@ public final class BulletinFactory {
 
     public Bulletin createReportSent(Theme.ResourcesProvider resourcesProvider) {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
-        lottieLayout.setAnimation(R.raw.chats_infotip, new String[0]);
-        lottieLayout.textView.setText(LocaleController.getString("ReportChatSent", R.string.ReportChatSent));
+        lottieLayout.setAnimation(2131558424, new String[0]);
+        lottieLayout.textView.setText(LocaleController.getString("ReportChatSent", 2131628000));
         return create(lottieLayout, 1500);
     }
 
@@ -194,7 +193,7 @@ public final class BulletinFactory {
 
     public Bulletin createErrorBulletin(CharSequence charSequence, Theme.ResourcesProvider resourcesProvider) {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
-        lottieLayout.setAnimation(R.raw.chats_infotip, new String[0]);
+        lottieLayout.setAnimation(2131558424, new String[0]);
         lottieLayout.textView.setText(charSequence);
         lottieLayout.textView.setSingleLine(false);
         lottieLayout.textView.setMaxLines(2);
@@ -203,33 +202,41 @@ public final class BulletinFactory {
 
     public Bulletin createRestrictVoiceMessagesPremiumBulletin() {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), null);
-        lottieLayout.setAnimation(R.raw.voip_muted, new String[0]);
-        String string = LocaleController.getString((int) R.string.PrivacyVoiceMessagesPremiumOnly);
+        lottieLayout.setAnimation(2131558614, new String[0]);
+        String string = LocaleController.getString(2131627798);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string);
         int indexOf = string.indexOf(42);
         int lastIndexOf = string.lastIndexOf(42);
         spannableStringBuilder.replace(indexOf, lastIndexOf + 1, (CharSequence) string.substring(indexOf + 1, lastIndexOf));
-        spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.BulletinFactory.1
-            @Override // android.text.style.ClickableSpan
-            public void onClick(View view) {
-                BulletinFactory.this.fragment.presentFragment(new PremiumPreviewFragment("settings"));
-            }
-
-            @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
-            public void updateDrawState(TextPaint textPaint) {
-                super.updateDrawState(textPaint);
-                textPaint.setUnderlineText(false);
-            }
-        }, indexOf - 1, lastIndexOf - 1, 33);
+        spannableStringBuilder.setSpan(new AnonymousClass1(), indexOf - 1, lastIndexOf - 1, 33);
         lottieLayout.textView.setText(spannableStringBuilder);
         lottieLayout.textView.setSingleLine(false);
         lottieLayout.textView.setMaxLines(2);
         return create(lottieLayout, 2750);
     }
 
+    /* renamed from: org.telegram.ui.Components.BulletinFactory$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends ClickableSpan {
+        AnonymousClass1() {
+            BulletinFactory.this = r1;
+        }
+
+        @Override // android.text.style.ClickableSpan
+        public void onClick(View view) {
+            BulletinFactory.this.fragment.presentFragment(new PremiumPreviewFragment("settings"));
+        }
+
+        @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+        public void updateDrawState(TextPaint textPaint) {
+            super.updateDrawState(textPaint);
+            textPaint.setUnderlineText(false);
+        }
+    }
+
     public Bulletin createErrorBulletinSubtitle(CharSequence charSequence, CharSequence charSequence2, Theme.ResourcesProvider resourcesProvider) {
         Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
-        twoLineLottieLayout.setAnimation(R.raw.chats_infotip, new String[0]);
+        twoLineLottieLayout.setAnimation(2131558424, new String[0]);
         twoLineLottieLayout.titleTextView.setText(charSequence);
         twoLineLottieLayout.subtitleTextView.setText(charSequence2);
         return create(twoLineLottieLayout, 1500);
@@ -248,7 +255,7 @@ public final class BulletinFactory {
             return new Bulletin.EmptyBulletin();
         }
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), null);
-        lottieLayout.setAnimation(R.raw.copy, 36, 36, "NULL ROTATION", "Back", "Front");
+        lottieLayout.setAnimation(2131558433, 36, 36, "NULL ROTATION", "Back", "Front");
         lottieLayout.textView.setText(str);
         return create(lottieLayout, 1500);
     }
@@ -259,14 +266,14 @@ public final class BulletinFactory {
         }
         if (z) {
             Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
-            twoLineLottieLayout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
-            twoLineLottieLayout.titleTextView.setText(LocaleController.getString("LinkCopied", R.string.LinkCopied));
-            twoLineLottieLayout.subtitleTextView.setText(LocaleController.getString("LinkCopiedPrivateInfo", R.string.LinkCopiedPrivateInfo));
+            twoLineLottieLayout.setAnimation(2131558613, 36, 36, "Wibe", "Circle");
+            twoLineLottieLayout.titleTextView.setText(LocaleController.getString("LinkCopied", 2131626480));
+            twoLineLottieLayout.subtitleTextView.setText(LocaleController.getString("LinkCopiedPrivateInfo", 2131626482));
             return create(twoLineLottieLayout, 2750);
         }
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
-        lottieLayout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
-        lottieLayout.textView.setText(LocaleController.getString("LinkCopied", R.string.LinkCopied));
+        lottieLayout.setAnimation(2131558613, 36, 36, "Wibe", "Circle");
+        lottieLayout.textView.setText(LocaleController.getString("LinkCopied", 2131626480));
         return create(lottieLayout, 1500);
     }
 
@@ -275,7 +282,7 @@ public final class BulletinFactory {
             return new Bulletin.EmptyBulletin();
         }
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
-        lottieLayout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
+        lottieLayout.setAnimation(2131558613, 36, 36, "Wibe", "Circle");
         lottieLayout.textView.setText(str);
         return create(lottieLayout, 1500);
     }
@@ -308,14 +315,14 @@ public final class BulletinFactory {
         String str;
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
         if (i == 0) {
-            str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 1, new Object[0]));
+            str = LocaleController.formatString("NotificationsMutedForHint", 2131627098, LocaleController.formatPluralString("Hours", 1, new Object[0]));
         } else if (i == 1) {
-            str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 8, new Object[0]));
+            str = LocaleController.formatString("NotificationsMutedForHint", 2131627098, LocaleController.formatPluralString("Hours", 8, new Object[0]));
         } else if (i == 2) {
-            str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Days", 2, new Object[0]));
+            str = LocaleController.formatString("NotificationsMutedForHint", 2131627098, LocaleController.formatPluralString("Days", 2, new Object[0]));
         } else if (i != 3) {
             if (i == 4) {
-                str = LocaleController.getString("NotificationsUnmutedHint", R.string.NotificationsUnmutedHint);
+                str = LocaleController.getString("NotificationsUnmutedHint", 2131627123);
                 z2 = false;
                 z = false;
                 if (z2) {
@@ -325,21 +332,21 @@ public final class BulletinFactory {
             } else if (i != 5) {
                 throw new IllegalArgumentException();
             } else {
-                str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatTTLString(i2));
+                str = LocaleController.formatString("NotificationsMutedForHint", 2131627098, LocaleController.formatTTLString(i2));
                 z2 = true;
                 z = true;
                 if (z2) {
-                    lottieLayout.setAnimation(R.raw.mute_for, new String[0]);
+                    lottieLayout.setAnimation(2131558498, new String[0]);
                 } else if (z) {
-                    lottieLayout.setAnimation(R.raw.ic_mute, "Body Main", "Body Top", "Line", "Curve Big", "Curve Small");
+                    lottieLayout.setAnimation(2131558466, "Body Main", "Body Top", "Line", "Curve Big", "Curve Small");
                 } else {
-                    lottieLayout.setAnimation(R.raw.ic_unmute, "BODY", "Wibe Big", "Wibe Big 3", "Wibe Small");
+                    lottieLayout.setAnimation(2131558472, "BODY", "Wibe Big", "Wibe Big 3", "Wibe Small");
                 }
                 lottieLayout.textView.setText(str);
                 return Bulletin.make(baseFragment, lottieLayout, 1500);
             }
         } else {
-            str = LocaleController.getString("NotificationsMutedHint", R.string.NotificationsMutedHint);
+            str = LocaleController.getString("NotificationsMutedHint", 2131627099);
         }
         z2 = false;
         z = true;
@@ -365,13 +372,13 @@ public final class BulletinFactory {
         }
         if (z) {
             Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(baseFragment.getParentActivity(), resourcesProvider);
-            twoLineLottieLayout.setAnimation(R.raw.ic_unpin, 28, 28, "Pin", "Line");
-            twoLineLottieLayout.titleTextView.setText(LocaleController.getString("PinnedMessagesHidden", R.string.PinnedMessagesHidden));
-            twoLineLottieLayout.subtitleTextView.setText(LocaleController.getString("PinnedMessagesHiddenInfo", R.string.PinnedMessagesHiddenInfo));
+            twoLineLottieLayout.setAnimation(2131558473, 28, 28, "Pin", "Line");
+            twoLineLottieLayout.titleTextView.setText(LocaleController.getString("PinnedMessagesHidden", 2131627607));
+            twoLineLottieLayout.subtitleTextView.setText(LocaleController.getString("PinnedMessagesHiddenInfo", 2131627608));
             lottieLayout = twoLineLottieLayout;
         } else {
             Bulletin.LottieLayout lottieLayout2 = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
-            lottieLayout2.setAnimation(R.raw.ic_unpin, 28, 28, "Pin", "Line");
+            lottieLayout2.setAnimation(2131558473, 28, 28, "Pin", "Line");
             lottieLayout2.textView.setText(LocaleController.formatPluralString("MessagesUnpinned", i, new Object[0]));
             lottieLayout = lottieLayout2;
         }
@@ -389,15 +396,15 @@ public final class BulletinFactory {
 
     public static Bulletin createPromoteToAdminBulletin(BaseFragment baseFragment, String str) {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
-        lottieLayout.setAnimation(R.raw.ic_admin, "Shield");
-        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserSetAsAdminHint", R.string.UserSetAsAdminHint, str)));
+        lottieLayout.setAnimation(2131558462, "Shield");
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserSetAsAdminHint", 2131628913, str)));
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
     public static Bulletin createAddedAsAdminBulletin(BaseFragment baseFragment, String str) {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
-        lottieLayout.setAnimation(R.raw.ic_admin, "Shield");
-        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserAddedAsAdminHint", R.string.UserAddedAsAdminHint, str)));
+        lottieLayout.setAnimation(2131558462, "Shield");
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserAddedAsAdminHint", 2131628873, str)));
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
@@ -409,28 +416,23 @@ public final class BulletinFactory {
         int i5;
         SpannableStringBuilder spannableStringBuilder;
         SpannableStringBuilder spannableStringBuilder2;
-        final Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
         if (i <= 1) {
             if (j == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId) {
-                spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("InvLinkToSavedMessages", R.string.InvLinkToSavedMessages));
-                lottieLayout.setAnimation(R.raw.saved_messages, 30, 30, new String[0]);
+                spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("InvLinkToSavedMessages", 2131626291));
+                lottieLayout.setAnimation(2131558542, 30, 30, new String[0]);
                 i5 = -1;
                 lottieLayout.textView.setText(spannableStringBuilder);
                 if (i5 > 0) {
-                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda1
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            Bulletin.LottieLayout.this.performHapticFeedback(3, 2);
-                        }
-                    }, i5);
+                    lottieLayout.postDelayed(new BulletinFactory$$ExternalSyntheticLambda1(lottieLayout), i5);
                 }
                 return Bulletin.make(frameLayout, lottieLayout, 1500);
             }
-            spannableStringBuilder2 = DialogObject.isChatDialog(j) ? AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToGroup", R.string.InvLinkToGroup, MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-j)).title)) : AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToUser", R.string.InvLinkToUser, UserObject.getFirstName(MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j)))));
-            lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
+            spannableStringBuilder2 = DialogObject.isChatDialog(j) ? AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToGroup", 2131626290, MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-j)).title)) : AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToUser", 2131626292, UserObject.getFirstName(MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j)))));
+            lottieLayout.setAnimation(2131558454, 30, 30, new String[0]);
         } else {
-            spannableStringBuilder2 = AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToChats", R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
-            lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
+            spannableStringBuilder2 = AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToChats", 2131626289, LocaleController.formatPluralString("Chats", i, new Object[0])));
+            lottieLayout.setAnimation(2131558454, 30, 30, new String[0]);
         }
         spannableStringBuilder = spannableStringBuilder2;
         i5 = 300;
@@ -448,38 +450,33 @@ public final class BulletinFactory {
         int i5;
         SpannableStringBuilder spannableStringBuilder;
         SpannableStringBuilder spannableStringBuilder2;
-        final Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
         if (i <= 1) {
             if (j == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId) {
                 if (i2 <= 1) {
-                    spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("FwdMessageToSavedMessages", R.string.FwdMessageToSavedMessages));
+                    spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("FwdMessageToSavedMessages", 2131626080));
                 } else {
-                    spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("FwdMessagesToSavedMessages", R.string.FwdMessagesToSavedMessages));
+                    spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("FwdMessagesToSavedMessages", 2131626084));
                 }
-                lottieLayout.setAnimation(R.raw.saved_messages, 30, 30, new String[0]);
+                lottieLayout.setAnimation(2131558542, 30, 30, new String[0]);
                 i5 = -1;
                 lottieLayout.textView.setText(spannableStringBuilder);
                 if (i5 > 0) {
-                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            Bulletin.LottieLayout.this.performHapticFeedback(3, 2);
-                        }
-                    }, i5);
+                    lottieLayout.postDelayed(new BulletinFactory$$ExternalSyntheticLambda0(lottieLayout), i5);
                 }
                 return Bulletin.make(frameLayout, lottieLayout, 1500);
             }
             if (DialogObject.isChatDialog(j)) {
                 TLRPC$Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-j));
-                spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToGroup", R.string.FwdMessageToGroup, chat.title)) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToGroup", R.string.FwdMessagesToGroup, chat.title));
+                spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToGroup", 2131626079, chat.title)) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToGroup", 2131626083, chat.title));
             } else {
                 TLRPC$User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j));
-                spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToUser", R.string.FwdMessageToUser, UserObject.getFirstName(user))) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToUser", R.string.FwdMessagesToUser, UserObject.getFirstName(user)));
+                spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToUser", 2131626081, UserObject.getFirstName(user))) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToUser", 2131626085, UserObject.getFirstName(user)));
             }
-            lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
+            lottieLayout.setAnimation(2131558454, 30, 30, new String[0]);
         } else {
-            spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToChats", R.string.FwdMessageToChats, LocaleController.formatPluralString("Chats", i, new Object[0]))) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToChats", R.string.FwdMessagesToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
-            lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
+            spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToChats", 2131626078, LocaleController.formatPluralString("Chats", i, new Object[0]))) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToChats", 2131626082, LocaleController.formatPluralString("Chats", i, new Object[0])));
+            lottieLayout.setAnimation(2131558454, 30, 30, new String[0]);
         }
         spannableStringBuilder = spannableStringBuilder2;
         i5 = 300;
@@ -492,13 +489,13 @@ public final class BulletinFactory {
     public static Bulletin createRemoveFromChatBulletin(BaseFragment baseFragment, TLRPC$User tLRPC$User, String str) {
         String str2;
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
-        lottieLayout.setAnimation(R.raw.ic_ban, "Hand");
+        lottieLayout.setAnimation(2131558463, "Hand");
         if (tLRPC$User.deleted) {
-            str2 = LocaleController.formatString("HiddenName", R.string.HiddenName, new Object[0]);
+            str2 = LocaleController.formatString("HiddenName", 2131626178, new Object[0]);
         } else {
             str2 = tLRPC$User.first_name;
         }
-        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserRemovedFromChatHint", R.string.UserRemovedFromChatHint, str2, str)));
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserRemovedFromChatHint", 2131628881, str2, str)));
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
@@ -506,11 +503,11 @@ public final class BulletinFactory {
         String str;
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
         if (z) {
-            lottieLayout.setAnimation(R.raw.ic_ban, "Hand");
-            str = LocaleController.getString("UserBlocked", R.string.UserBlocked);
+            lottieLayout.setAnimation(2131558463, "Hand");
+            str = LocaleController.getString("UserBlocked", 2131628878);
         } else {
-            lottieLayout.setAnimation(R.raw.ic_unban, "Main", "Finger 1", "Finger 2", "Finger 3", "Finger 4");
-            str = LocaleController.getString("UserUnblocked", R.string.UserUnblocked);
+            lottieLayout.setAnimation(2131558471, "Main", "Finger 1", "Finger 2", "Finger 3", "Finger 4");
+            str = LocaleController.getString("UserUnblocked", 2131628914);
         }
         lottieLayout.textView.setText(AndroidUtilities.replaceTags(str));
         return Bulletin.make(baseFragment, lottieLayout, 1500);
@@ -534,8 +531,8 @@ public final class BulletinFactory {
 
     private static Bulletin createPinMessageBulletin(BaseFragment baseFragment, boolean z, Runnable runnable, Runnable runnable2, Theme.ResourcesProvider resourcesProvider) {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
-        lottieLayout.setAnimation(z ? R.raw.ic_pin : R.raw.ic_unpin, 28, 28, "Pin", "Line");
-        lottieLayout.textView.setText(LocaleController.getString(z ? "MessagePinnedHint" : "MessageUnpinnedHint", z ? R.string.MessagePinnedHint : R.string.MessageUnpinnedHint));
+        lottieLayout.setAnimation(z ? 2131558467 : 2131558473, 28, 28, "Pin", "Line");
+        lottieLayout.textView.setText(LocaleController.getString(z ? "MessagePinnedHint" : "MessageUnpinnedHint", z ? 2131626685 : 2131626710));
         if (!z) {
             lottieLayout.setButton(new Bulletin.UndoButton(baseFragment.getParentActivity(), true, resourcesProvider).setUndoAction(runnable).setDelayedAction(runnable2));
         }
@@ -547,17 +544,17 @@ public final class BulletinFactory {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
         boolean z = true;
         if (i == 0) {
-            str = LocaleController.getString("SoundOnHint", R.string.SoundOnHint);
+            str = LocaleController.getString("SoundOnHint", 2131628456);
         } else if (i == 1) {
-            str = LocaleController.getString("SoundOffHint", R.string.SoundOffHint);
+            str = LocaleController.getString("SoundOffHint", 2131628454);
             z = false;
         } else {
             throw new IllegalArgumentException();
         }
         if (z) {
-            lottieLayout.setAnimation(R.raw.sound_on, new String[0]);
+            lottieLayout.setAnimation(2131558553, new String[0]);
         } else {
-            lottieLayout.setAnimation(R.raw.sound_off, new String[0]);
+            lottieLayout.setAnimation(2131558552, new String[0]);
         }
         lottieLayout.textView.setText(str);
         return Bulletin.make(baseFragment, lottieLayout, 1500);

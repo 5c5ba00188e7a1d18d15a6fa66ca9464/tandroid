@@ -3,7 +3,6 @@ package j$.util.stream;
 import j$.util.AbstractC0039a;
 import j$.util.function.Consumer;
 import java.util.Comparator;
-import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class I4 extends J4 implements j$.util.u, Consumer {
@@ -49,7 +48,7 @@ public final class I4 extends J4 implements j$.util.u, Consumer {
             if (r != 1) {
                 if (r == 2) {
                     if (c0119k4 == null) {
-                        c0119k4 = new C0119k4(ConnectionsManager.RequestFlagNeedQuickAck);
+                        c0119k4 = new C0119k4(128);
                     } else {
                         c0119k4.a = 0;
                     }

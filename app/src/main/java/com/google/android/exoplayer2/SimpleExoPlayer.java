@@ -318,19 +318,14 @@ public class SimpleExoPlayer extends BasePlayer {
         this.player.setPlaybackParameters(playbackParameters);
     }
 
-    public void release(final boolean z) {
+    public void release(boolean z) {
         verifyApplicationThread();
         this.audioBecomingNoisyManager.setEnabled(false);
         this.wakeLockManager.setStayAwake(false);
         this.wifiLockManager.setStayAwake(false);
         this.audioFocusManager.release();
         if (z) {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: com.google.android.exoplayer2.SimpleExoPlayer$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SimpleExoPlayer.this.lambda$release$0(z);
-                }
-            });
+            Utilities.globalQueue.postRunnable(new SimpleExoPlayer$$ExternalSyntheticLambda0(this, z));
         } else {
             this.player.release(z);
         }

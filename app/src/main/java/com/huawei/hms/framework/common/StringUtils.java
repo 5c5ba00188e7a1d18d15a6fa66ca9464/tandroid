@@ -65,7 +65,7 @@ public class StringUtils {
         try {
             return str.getBytes("utf-8");
         } catch (UnsupportedEncodingException unused) {
-            Logger.w(TAG, "the content has error while it is converted to bytes");
+            Logger.w("StringUtils", "the content has error while it is converted to bytes");
             return bArr;
         }
     }
@@ -80,7 +80,7 @@ public class StringUtils {
 
     public static String getTraceInfo(Throwable th) {
         StackTraceElement[] stackTrace = th.getStackTrace();
-        StringBuilder sb = new StringBuilder((int) INIT_CAPACITY);
+        StringBuilder sb = new StringBuilder(1024);
         for (StackTraceElement stackTraceElement : stackTrace) {
             sb.append("at ");
             sb.append(stackTraceElement.toString());
@@ -90,11 +90,11 @@ public class StringUtils {
     }
 
     public static String substring(String str, int i) {
-        if (checkCompatible(SAFE_STRING_PATH)) {
+        if (checkCompatible("com.huawei.secure.android.common.util.SafeString")) {
             try {
                 return SafeString.substring(str, i);
             } catch (Throwable unused) {
-                Logger.w(TAG, "SafeString.substring error");
+                Logger.w("StringUtils", "SafeString.substring error");
             }
         }
         if (!TextUtils.isEmpty(str) && str.length() >= i && i >= 0) {
@@ -107,11 +107,11 @@ public class StringUtils {
     }
 
     public static String substring(String str, int i, int i2) {
-        if (IS_AEGIS_STRING_LIBRARY_LOADED || checkCompatible(SAFE_STRING_PATH)) {
+        if (IS_AEGIS_STRING_LIBRARY_LOADED || checkCompatible("com.huawei.secure.android.common.util.SafeString")) {
             try {
                 return SafeString.substring(str, i, i2);
             } catch (Throwable unused) {
-                Logger.w(TAG, "SafeString.substring error");
+                Logger.w("StringUtils", "SafeString.substring error");
             }
         }
         if (!TextUtils.isEmpty(str) && i >= 0 && i2 <= str.length() && i2 >= i) {
@@ -124,11 +124,11 @@ public class StringUtils {
     }
 
     public static String replace(String str, CharSequence charSequence, CharSequence charSequence2) {
-        if (IS_AEGIS_STRING_LIBRARY_LOADED || checkCompatible(SAFE_STRING_PATH)) {
+        if (IS_AEGIS_STRING_LIBRARY_LOADED || checkCompatible("com.huawei.secure.android.common.util.SafeString")) {
             try {
                 return SafeString.replace(str, charSequence, charSequence2);
             } catch (Throwable unused) {
-                Logger.w(TAG, "SafeString.substring error");
+                Logger.w("StringUtils", "SafeString.substring error");
             }
         }
         if (TextUtils.isEmpty(str) || TextUtils.isEmpty(charSequence)) {
@@ -164,7 +164,7 @@ public class StringUtils {
         try {
             return Long.parseLong(str);
         } catch (NumberFormatException e) {
-            Logger.w(TAG, "String to Long catch NumberFormatException." + anonymizeMessage(e.getMessage()));
+            Logger.w("StringUtils", "String to Long catch NumberFormatException." + anonymizeMessage(e.getMessage()));
             return j;
         }
     }
@@ -176,7 +176,7 @@ public class StringUtils {
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException e) {
-            Logger.w(TAG, "String to Integer catch NumberFormatException." + anonymizeMessage(e.getMessage()));
+            Logger.w("StringUtils", "String to Integer catch NumberFormatException." + anonymizeMessage(e.getMessage()));
             return i;
         }
     }
@@ -188,7 +188,7 @@ public class StringUtils {
         try {
             return Boolean.valueOf(str).booleanValue();
         } catch (NumberFormatException e) {
-            Logger.w(TAG, "String to Integer catch NumberFormatException." + anonymizeMessage(e.getMessage()));
+            Logger.w("StringUtils", "String to Integer catch NumberFormatException." + anonymizeMessage(e.getMessage()));
             return z;
         }
     }

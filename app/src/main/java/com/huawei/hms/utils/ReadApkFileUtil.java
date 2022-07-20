@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.zip.ZipFile;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class ReadApkFileUtil {
     public static final String EMUI10_PK = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx4nUogUyMCmzHhaEb420yvpw9zBs+ETzE9Qm77bGxl1Iml9JEkBkNTsUWOstLgUBajNhV+BAMVBHKMEdzoQbL5kIHkTgUVM65yewd+5+BhrcB9OQ3LHp+0BN6aLKZh71T4WvsvHFhfhQpShuGWkRkSaVGLFTHxX70kpWLzeZ3RtqiEUNIufPR2SFCH6EmecJ+HdkmBOh603IblCpGxwSWse0fDI98wZBEmV88RFaiYEgyiezLlWvXzqIj6I/xuyd5nGAegjH2y3cmoDE6CubecoB1jf4KdgACXgdiQ4Oc63MfLGTor3l6RCqeUk4APAMtyhK83jc72W1sdXMd/sj2wIDAQAB";
@@ -71,13 +70,13 @@ public class ReadApkFileUtil {
                             if (a2.startsWith("ApkHash:")) {
                                 e = a(a2.substring(a2.indexOf(":") + 1));
                             }
-                            if (a2.startsWith(KEY_SIGNATURE)) {
+                            if (a2.startsWith("Signature:")) {
                                 b = a(a2.substring(a2.indexOf(":") + 1));
                                 a2 = a(bufferedReader);
-                            } else if (a2.startsWith(KEY_SIGNATURE2)) {
+                            } else if (a2.startsWith("Signature2:")) {
                                 c = a(a2.substring(a2.indexOf(":") + 1));
                                 a2 = a(bufferedReader);
-                            } else if (a2.startsWith(KEY_SIGNATURE3)) {
+                            } else if (a2.startsWith("Signature3:")) {
                                 d = a(a2.substring(a2.indexOf(":") + 1));
                                 a2 = a(bufferedReader);
                             } else {
@@ -143,7 +142,7 @@ public class ReadApkFileUtil {
             String str = a;
             HMSLog.i(str, "verifyMDMSignatureV3 MDM verify Exception!:" + e2.getMessage());
         }
-        if (a(Base64.decode(EMUI11_PK, 0), a(f, "SHA-384"), b(d), "SHA384withRSA")) {
+        if (a(Base64.decode("MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAqq2eRTMYr2JHLtvuZzfgPrgU8oatD4Rar9fOD7E00es2VhtB3vTyaT2BvYPUPA/nbkHRPak3EZX77CfWj9tzLgSHJE8XLk9C+2ESkdrxCDA6z7I8X+cBDnA05OlCJeZFjnUbjYB8SP8M3BttdrvqtVPxTkEJhchC7UXnMLaJ3kQ3ZPjN7ubjYzO4rv7EtEpqr2bX+qjnSLIZZuUXraxqfdBuhGDIYq62dNsqiyrhX1mfvA3+43N4ZIs3BdfSYII8BNFmFxf+gyf1aoq386R2kAjHcrfOOhjAbZh+R1OAGLWPCqi3E9nB8EsZkeoTW/oIP6pJvgL3bnxq+1viT2dmZyipMgcx/3N6FJqkd67j/sPMtPlHJuq8/s0silzs13jAw1WBV6tWHFkLGpkWGs8jp50wQtndtY8cCPl2XPGmdPN72agH+zsHuKqr/HOB2TuzzaO8rKlGIDQlzZcCSHB28nnvOyBVN9xzLkbYiLnHfd6bTwzNPeqjWrTnPwKyH3BPAgMBAAE=", 0), a(f, "SHA-384"), b(d), "SHA384withRSA")) {
             HMSLog.i(a, "verifyMDMSignatureV3 verify successful!");
             return true;
         }
@@ -166,7 +165,7 @@ public class ReadApkFileUtil {
 
     public static String getHmsPath(Context context) {
         try {
-            return context.getPackageManager().getApplicationInfo("com.huawei.hwid", ConnectionsManager.RequestFlagNeedQuickAck).sourceDir;
+            return context.getPackageManager().getApplicationInfo("com.huawei.hwid", 128).sourceDir;
         } catch (PackageManager.NameNotFoundException unused) {
             HMSLog.e(a, "HMS is not found!");
             return null;
@@ -463,7 +462,7 @@ public class ReadApkFileUtil {
             String str = a;
             HMSLog.i(str, "verifyMDMSignatureV2 MDM verify Exception!:" + e2.getMessage());
         }
-        if (a(Base64.decode(EMUI10_PK, 0), a(f, "SHA-256"), b(c), "SHA256withRSA")) {
+        if (a(Base64.decode("MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx4nUogUyMCmzHhaEb420yvpw9zBs+ETzE9Qm77bGxl1Iml9JEkBkNTsUWOstLgUBajNhV+BAMVBHKMEdzoQbL5kIHkTgUVM65yewd+5+BhrcB9OQ3LHp+0BN6aLKZh71T4WvsvHFhfhQpShuGWkRkSaVGLFTHxX70kpWLzeZ3RtqiEUNIufPR2SFCH6EmecJ+HdkmBOh603IblCpGxwSWse0fDI98wZBEmV88RFaiYEgyiezLlWvXzqIj6I/xuyd5nGAegjH2y3cmoDE6CubecoB1jf4KdgACXgdiQ4Oc63MfLGTor3l6RCqeUk4APAMtyhK83jc72W1sdXMd/sj2wIDAQAB", 0), a(f, "SHA-256"), b(c), "SHA256withRSA")) {
             HMSLog.i(a, "verifyMDMSignatureV2 verify successful!");
             return true;
         }

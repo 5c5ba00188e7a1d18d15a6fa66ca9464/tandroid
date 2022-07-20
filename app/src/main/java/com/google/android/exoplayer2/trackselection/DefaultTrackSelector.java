@@ -133,17 +133,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         public final boolean viewportOrientationMayChange;
         public final int viewportWidth;
         public static final Parameters DEFAULT_WITHOUT_CONTEXT = new ParametersBuilder().build();
-        public static final Parcelable.Creator<Parameters> CREATOR = new Parcelable.Creator<Parameters>() { // from class: com.google.android.exoplayer2.trackselection.DefaultTrackSelector.Parameters.1
-            @Override // android.os.Parcelable.Creator
-            public Parameters createFromParcel(Parcel parcel) {
-                return new Parameters(parcel);
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public Parameters[] newArray(int i) {
-                return new Parameters[i];
-            }
-        };
+        public static final Parcelable.Creator<Parameters> CREATOR = new AnonymousClass1();
 
         @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters, android.os.Parcelable
         public int describeContents() {
@@ -263,6 +253,23 @@ public class DefaultTrackSelector extends MappingTrackSelector {
             parcel.writeSparseBooleanArray(this.rendererDisabledFlags);
         }
 
+        /* renamed from: com.google.android.exoplayer2.trackselection.DefaultTrackSelector$Parameters$1 */
+        /* loaded from: classes.dex */
+        class AnonymousClass1 implements Parcelable.Creator<Parameters> {
+            AnonymousClass1() {
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public Parameters createFromParcel(Parcel parcel) {
+                return new Parameters(parcel);
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public Parameters[] newArray(int i) {
+                return new Parameters[i];
+            }
+        }
+
         private static SparseArray<Map<TrackGroupArray, SelectionOverride>> readSelectionOverrides(Parcel parcel) {
             int readInt = parcel.readInt();
             SparseArray<Map<TrackGroupArray, SelectionOverride>> sparseArray = new SparseArray<>(readInt);
@@ -343,17 +350,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
 
     /* loaded from: classes.dex */
     public static final class SelectionOverride implements Parcelable {
-        public static final Parcelable.Creator<SelectionOverride> CREATOR = new Parcelable.Creator<SelectionOverride>() { // from class: com.google.android.exoplayer2.trackselection.DefaultTrackSelector.SelectionOverride.1
-            @Override // android.os.Parcelable.Creator
-            public SelectionOverride createFromParcel(Parcel parcel) {
-                return new SelectionOverride(parcel);
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public SelectionOverride[] newArray(int i) {
-                return new SelectionOverride[i];
-            }
-        };
+        public static final Parcelable.Creator<SelectionOverride> CREATOR = new AnonymousClass1();
         public final int data;
         public final int groupIndex;
         public final int length;
@@ -398,6 +395,23 @@ public class DefaultTrackSelector extends MappingTrackSelector {
             parcel.writeIntArray(this.tracks);
             parcel.writeInt(this.reason);
             parcel.writeInt(this.data);
+        }
+
+        /* renamed from: com.google.android.exoplayer2.trackselection.DefaultTrackSelector$SelectionOverride$1 */
+        /* loaded from: classes.dex */
+        class AnonymousClass1 implements Parcelable.Creator<SelectionOverride> {
+            AnonymousClass1() {
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public SelectionOverride createFromParcel(Parcel parcel) {
+                return new SelectionOverride(parcel);
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public SelectionOverride[] newArray(int i) {
+                return new SelectionOverride[i];
+            }
         }
     }
 

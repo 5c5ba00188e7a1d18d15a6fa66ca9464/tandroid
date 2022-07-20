@@ -29,7 +29,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$MessagesFilter;
@@ -48,7 +47,7 @@ import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class FiltersView extends RecyclerListView {
     LinearLayoutManager layoutManager;
-    public static final MediaFilterData[] filters = {new MediaFilterData(R.drawable.search_media_filled, LocaleController.getString("SharedMediaTab2", R.string.SharedMediaTab2), new TLRPC$TL_inputMessagesFilterPhotoVideo(), 0), new MediaFilterData(R.drawable.search_links_filled, LocaleController.getString("SharedLinksTab2", R.string.SharedLinksTab2), new TLRPC$TL_inputMessagesFilterUrl(), 2), new MediaFilterData(R.drawable.search_files_filled, LocaleController.getString("SharedFilesTab2", R.string.SharedFilesTab2), new TLRPC$TL_inputMessagesFilterDocument(), 1), new MediaFilterData(R.drawable.search_music_filled, LocaleController.getString("SharedMusicTab2", R.string.SharedMusicTab2), new TLRPC$TL_inputMessagesFilterMusic(), 3), new MediaFilterData(R.drawable.search_voice_filled, LocaleController.getString("SharedVoiceTab2", R.string.SharedVoiceTab2), new TLRPC$TL_inputMessagesFilterRoundVoice(), 5)};
+    public static final MediaFilterData[] filters = {new MediaFilterData(2131166129, LocaleController.getString("SharedMediaTab2", 2131628366), new TLRPC$TL_inputMessagesFilterPhotoVideo(), 0), new MediaFilterData(2131166128, LocaleController.getString("SharedLinksTab2", 2131628363), new TLRPC$TL_inputMessagesFilterUrl(), 2), new MediaFilterData(2131166127, LocaleController.getString("SharedFilesTab2", 2131628359), new TLRPC$TL_inputMessagesFilterDocument(), 1), new MediaFilterData(2131166130, LocaleController.getString("SharedMusicTab2", 2131628368), new TLRPC$TL_inputMessagesFilterMusic(), 3), new MediaFilterData(2131166132, LocaleController.getString("SharedVoiceTab2", 2131628372), new TLRPC$TL_inputMessagesFilterRoundVoice(), 5)};
     private static final Pattern yearPatter = Pattern.compile("20[0-9]{1,2}");
     private static final Pattern monthYearOrDayPatter = Pattern.compile("(\\w{3,}) ([0-9]{0,4})");
     private static final Pattern yearOrDayAndMonthPatter = Pattern.compile("([0-9]{0,4}) (\\w{2,})");
@@ -57,173 +56,185 @@ public class FiltersView extends RecyclerListView {
     private static final int[] numberOfDaysEachMonth = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private ArrayList<MediaFilterData> usersFilters = new ArrayList<>();
     private ArrayList<MediaFilterData> oldItems = new ArrayList<>();
-    DiffUtil.Callback diffUtilsCallback = new DiffUtil.Callback() { // from class: org.telegram.ui.Adapters.FiltersView.4
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public boolean areContentsTheSame(int i, int i2) {
-            return true;
-        }
+    DiffUtil.Callback diffUtilsCallback = new AnonymousClass4();
 
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public int getOldListSize() {
-            return FiltersView.this.oldItems.size();
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public int getNewListSize() {
-            return FiltersView.this.usersFilters.size();
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public boolean areItemsTheSame(int i, int i2) {
-            MediaFilterData mediaFilterData = (MediaFilterData) FiltersView.this.oldItems.get(i);
-            MediaFilterData mediaFilterData2 = (MediaFilterData) FiltersView.this.usersFilters.get(i2);
-            if (mediaFilterData.isSameType(mediaFilterData2)) {
-                int i3 = mediaFilterData.filterType;
-                if (i3 == 4) {
-                    TLObject tLObject = mediaFilterData.chat;
-                    if (tLObject instanceof TLRPC$User) {
-                        TLObject tLObject2 = mediaFilterData2.chat;
-                        if (tLObject2 instanceof TLRPC$User) {
-                            return ((TLRPC$User) tLObject).id == ((TLRPC$User) tLObject2).id;
-                        }
-                    }
-                    if (tLObject instanceof TLRPC$Chat) {
-                        TLObject tLObject3 = mediaFilterData2.chat;
-                        return (tLObject3 instanceof TLRPC$Chat) && ((TLRPC$Chat) tLObject).id == ((TLRPC$Chat) tLObject3).id;
-                    }
-                } else if (i3 == 6) {
-                    return mediaFilterData.title.equals(mediaFilterData2.title);
-                } else {
-                    if (i3 == 7) {
-                        return true;
-                    }
-                }
-            }
+    /* renamed from: org.telegram.ui.Adapters.FiltersView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends LinearLayoutManager {
+        @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+        public boolean supportsPredictiveItemAnimations() {
             return false;
         }
-    };
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context) {
+            super(context);
+            FiltersView.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
+        public void onInitializeAccessibilityNodeInfo(RecyclerView.Recycler recycler, RecyclerView.State state, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
+            super.onInitializeAccessibilityNodeInfo(recycler, state, accessibilityNodeInfoCompat);
+            if (!FiltersView.this.isEnabled()) {
+                accessibilityNodeInfoCompat.setVisibleToUser(false);
+            }
+        }
+    }
 
     public FiltersView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context, resourcesProvider);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) { // from class: org.telegram.ui.Adapters.FiltersView.1
-            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public boolean supportsPredictiveItemAnimations() {
-                return false;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public void onInitializeAccessibilityNodeInfo(RecyclerView.Recycler recycler, RecyclerView.State state, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
-                super.onInitializeAccessibilityNodeInfo(recycler, state, accessibilityNodeInfoCompat);
-                if (!FiltersView.this.isEnabled()) {
-                    accessibilityNodeInfoCompat.setVisibleToUser(false);
-                }
-            }
-        };
-        this.layoutManager = linearLayoutManager;
-        linearLayoutManager.setOrientation(0);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
+        this.layoutManager = anonymousClass1;
+        anonymousClass1.setOrientation(0);
         setLayoutManager(this.layoutManager);
-        setAdapter(new Adapter());
-        addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.Adapters.FiltersView.2
-            @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
-            public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
-                super.getItemOffsets(rect, view, recyclerView, state);
-                int childAdapterPosition = recyclerView.getChildAdapterPosition(view);
-                rect.left = AndroidUtilities.dp(8.0f);
-                if (childAdapterPosition == state.getItemCount() - 1) {
-                    rect.right = AndroidUtilities.dp(10.0f);
-                }
-                if (childAdapterPosition == 0) {
-                    rect.left = AndroidUtilities.dp(10.0f);
-                }
-            }
-        });
-        setItemAnimator(new DefaultItemAnimator(this) { // from class: org.telegram.ui.Adapters.FiltersView.3
-            @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            protected long getAddAnimationDelay(long j, long j2, long j3) {
-                return 0L;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.ItemAnimator
-            public long getAddDuration() {
-                return 220L;
-            }
-
-            @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            protected long getMoveAnimationDelay() {
-                return 0L;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.ItemAnimator
-            public long getMoveDuration() {
-                return 220L;
-            }
-
-            @Override // androidx.recyclerview.widget.DefaultItemAnimator, androidx.recyclerview.widget.SimpleItemAnimator
-            public boolean animateAdd(RecyclerView.ViewHolder viewHolder) {
-                boolean animateAdd = super.animateAdd(viewHolder);
-                if (animateAdd) {
-                    viewHolder.itemView.setScaleX(0.0f);
-                    viewHolder.itemView.setScaleY(0.0f);
-                }
-                return animateAdd;
-            }
-
-            @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void animateAddImpl(final RecyclerView.ViewHolder viewHolder) {
-                final View view = viewHolder.itemView;
-                final ViewPropertyAnimator animate = view.animate();
-                this.mAddAnimations.add(viewHolder);
-                animate.alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(getAddDuration()).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Adapters.FiltersView.3.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationStart(Animator animator) {
-                        dispatchAddStarting(viewHolder);
-                    }
-
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationCancel(Animator animator) {
-                        view.setAlpha(1.0f);
-                    }
-
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        animate.setListener(null);
-                        dispatchAddFinished(viewHolder);
-                        ((DefaultItemAnimator) AnonymousClass3.this).mAddAnimations.remove(viewHolder);
-                        dispatchFinishedWhenDone();
-                    }
-                }).start();
-            }
-
-            @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            protected void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder) {
-                final View view = viewHolder.itemView;
-                final ViewPropertyAnimator animate = view.animate();
-                this.mRemoveAnimations.add(viewHolder);
-                animate.setDuration(getRemoveDuration()).alpha(0.0f).scaleX(0.0f).scaleY(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Adapters.FiltersView.3.2
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationStart(Animator animator) {
-                        dispatchRemoveStarting(viewHolder);
-                    }
-
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        animate.setListener(null);
-                        view.setAlpha(1.0f);
-                        view.setTranslationX(0.0f);
-                        view.setTranslationY(0.0f);
-                        view.setScaleX(1.0f);
-                        view.setScaleY(1.0f);
-                        dispatchRemoveFinished(viewHolder);
-                        ((DefaultItemAnimator) AnonymousClass3.this).mRemoveAnimations.remove(viewHolder);
-                        dispatchFinishedWhenDone();
-                    }
-                }).start();
-            }
-        });
+        setAdapter(new Adapter(this, null));
+        addItemDecoration(new AnonymousClass2(this));
+        setItemAnimator(new AnonymousClass3(this));
         setWillNotDraw(false);
         setHideIfEmpty(false);
         setSelectorRadius(AndroidUtilities.dp(28.0f));
         setSelectorDrawableColor(getThemedColor("listSelectorSDK21"));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Adapters.FiltersView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends RecyclerView.ItemDecoration {
+        AnonymousClass2(FiltersView filtersView) {
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
+        public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
+            super.getItemOffsets(rect, view, recyclerView, state);
+            int childAdapterPosition = recyclerView.getChildAdapterPosition(view);
+            rect.left = AndroidUtilities.dp(8.0f);
+            if (childAdapterPosition == state.getItemCount() - 1) {
+                rect.right = AndroidUtilities.dp(10.0f);
+            }
+            if (childAdapterPosition == 0) {
+                rect.left = AndroidUtilities.dp(10.0f);
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Adapters.FiltersView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends DefaultItemAnimator {
+        @Override // androidx.recyclerview.widget.DefaultItemAnimator
+        protected long getAddAnimationDelay(long j, long j2, long j3) {
+            return 0L;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.ItemAnimator
+        public long getAddDuration() {
+            return 220L;
+        }
+
+        @Override // androidx.recyclerview.widget.DefaultItemAnimator
+        protected long getMoveAnimationDelay() {
+            return 0L;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.ItemAnimator
+        public long getMoveDuration() {
+            return 220L;
+        }
+
+        AnonymousClass3(FiltersView filtersView) {
+        }
+
+        @Override // androidx.recyclerview.widget.DefaultItemAnimator, androidx.recyclerview.widget.SimpleItemAnimator
+        public boolean animateAdd(RecyclerView.ViewHolder viewHolder) {
+            boolean animateAdd = super.animateAdd(viewHolder);
+            if (animateAdd) {
+                viewHolder.itemView.setScaleX(0.0f);
+                viewHolder.itemView.setScaleY(0.0f);
+            }
+            return animateAdd;
+        }
+
+        @Override // androidx.recyclerview.widget.DefaultItemAnimator
+        public void animateAddImpl(RecyclerView.ViewHolder viewHolder) {
+            View view = viewHolder.itemView;
+            ViewPropertyAnimator animate = view.animate();
+            this.mAddAnimations.add(viewHolder);
+            animate.alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(getAddDuration()).setListener(new AnonymousClass1(viewHolder, view, animate)).start();
+        }
+
+        /* renamed from: org.telegram.ui.Adapters.FiltersView$3$1 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass1 extends AnimatorListenerAdapter {
+            final /* synthetic */ ViewPropertyAnimator val$animation;
+            final /* synthetic */ RecyclerView.ViewHolder val$holder;
+            final /* synthetic */ View val$view;
+
+            AnonymousClass1(RecyclerView.ViewHolder viewHolder, View view, ViewPropertyAnimator viewPropertyAnimator) {
+                AnonymousClass3.this = r1;
+                this.val$holder = viewHolder;
+                this.val$view = view;
+                this.val$animation = viewPropertyAnimator;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationStart(Animator animator) {
+                AnonymousClass3.this.dispatchAddStarting(this.val$holder);
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationCancel(Animator animator) {
+                this.val$view.setAlpha(1.0f);
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                this.val$animation.setListener(null);
+                AnonymousClass3.this.dispatchAddFinished(this.val$holder);
+                ((DefaultItemAnimator) AnonymousClass3.this).mAddAnimations.remove(this.val$holder);
+                AnonymousClass3.this.dispatchFinishedWhenDone();
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.DefaultItemAnimator
+        protected void animateRemoveImpl(RecyclerView.ViewHolder viewHolder) {
+            View view = viewHolder.itemView;
+            ViewPropertyAnimator animate = view.animate();
+            this.mRemoveAnimations.add(viewHolder);
+            animate.setDuration(getRemoveDuration()).alpha(0.0f).scaleX(0.0f).scaleY(0.0f).setListener(new AnonymousClass2(viewHolder, animate, view)).start();
+        }
+
+        /* renamed from: org.telegram.ui.Adapters.FiltersView$3$2 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass2 extends AnimatorListenerAdapter {
+            final /* synthetic */ ViewPropertyAnimator val$animation;
+            final /* synthetic */ RecyclerView.ViewHolder val$holder;
+            final /* synthetic */ View val$view;
+
+            AnonymousClass2(RecyclerView.ViewHolder viewHolder, ViewPropertyAnimator viewPropertyAnimator, View view) {
+                AnonymousClass3.this = r1;
+                this.val$holder = viewHolder;
+                this.val$animation = viewPropertyAnimator;
+                this.val$view = view;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationStart(Animator animator) {
+                AnonymousClass3.this.dispatchRemoveStarting(this.val$holder);
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                this.val$animation.setListener(null);
+                this.val$view.setAlpha(1.0f);
+                this.val$view.setTranslationX(0.0f);
+                this.val$view.setTranslationY(0.0f);
+                this.val$view.setScaleX(1.0f);
+                this.val$view.setScaleY(1.0f);
+                AnonymousClass3.this.dispatchRemoveFinished(this.val$holder);
+                ((DefaultItemAnimator) AnonymousClass3.this).mRemoveAnimations.remove(this.val$holder);
+                AnonymousClass3.this.dispatchFinishedWhenDone();
+            }
+        }
     }
 
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
@@ -249,11 +260,11 @@ public class FiltersView extends RecyclerListView {
                 if (obj instanceof TLRPC$User) {
                     TLRPC$User tLRPC$User = (TLRPC$User) obj;
                     if (UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser().id == tLRPC$User.id) {
-                        str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                        str = LocaleController.getString("SavedMessages", 2131628139);
                     } else {
                         str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name, 10);
                     }
-                    MediaFilterData mediaFilterData = new MediaFilterData(R.drawable.search_users_filled, str, null, 4);
+                    MediaFilterData mediaFilterData = new MediaFilterData(2131166131, str, null, 4);
                     mediaFilterData.setUser(tLRPC$User);
                     this.usersFilters.add(mediaFilterData);
                 } else if (obj instanceof TLRPC$Chat) {
@@ -262,7 +273,7 @@ public class FiltersView extends RecyclerListView {
                     if (str2.length() > 12) {
                         str2 = String.format("%s...", str2.substring(0, 10));
                     }
-                    MediaFilterData mediaFilterData2 = new MediaFilterData(R.drawable.search_users_filled, str2, null, 4);
+                    MediaFilterData mediaFilterData2 = new MediaFilterData(2131166131, str2, null, 4);
                     mediaFilterData2.setUser(tLRPC$Chat);
                     this.usersFilters.add(mediaFilterData2);
                 }
@@ -271,16 +282,16 @@ public class FiltersView extends RecyclerListView {
         if (arrayList2 != null) {
             for (int i2 = 0; i2 < arrayList2.size(); i2++) {
                 DateData dateData = arrayList2.get(i2);
-                MediaFilterData mediaFilterData3 = new MediaFilterData(R.drawable.search_date_filled, dateData.title, null, 6);
+                MediaFilterData mediaFilterData3 = new MediaFilterData(2131166126, dateData.title, null, 6);
                 mediaFilterData3.setDate(dateData);
                 this.usersFilters.add(mediaFilterData3);
             }
         }
         if (z) {
-            this.usersFilters.add(new MediaFilterData(R.drawable.chats_archive, LocaleController.getString("ArchiveSearchFilter", R.string.ArchiveSearchFilter), null, 7));
+            this.usersFilters.add(new MediaFilterData(2131165331, LocaleController.getString("ArchiveSearchFilter", 2131624414), null, 7));
         }
         if (getAdapter() != null) {
-            UpdateCallback updateCallback = new UpdateCallback(getAdapter());
+            UpdateCallback updateCallback = new UpdateCallback(getAdapter(), null);
             DiffUtil.calculateDiff(this.diffUtilsCallback).dispatchUpdatesTo(updateCallback);
             if (this.usersFilters.isEmpty() || !updateCallback.changed) {
                 return;
@@ -298,7 +309,7 @@ public class FiltersView extends RecyclerListView {
         if (trim.length() < 3) {
             return;
         }
-        if (LocaleController.getString("SearchTipToday", R.string.SearchTipToday).toLowerCase().startsWith(trim) || "today".startsWith(trim)) {
+        if (LocaleController.getString("SearchTipToday", 2131628185).toLowerCase().startsWith(trim) || "today".startsWith(trim)) {
             Calendar calendar = Calendar.getInstance();
             int i = calendar.get(1);
             int i2 = calendar.get(2);
@@ -306,15 +317,15 @@ public class FiltersView extends RecyclerListView {
             calendar.set(i, i2, i3, 0, 0, 0);
             long timeInMillis = calendar.getTimeInMillis();
             calendar.set(i, i2, i3 + 1, 0, 0, 0);
-            arrayList.add(new DateData(LocaleController.getString("SearchTipToday", R.string.SearchTipToday), timeInMillis, calendar.getTimeInMillis() - 1));
-        } else if (LocaleController.getString("SearchTipYesterday", R.string.SearchTipYesterday).toLowerCase().startsWith(trim) || "yesterday".startsWith(trim)) {
+            arrayList.add(new DateData(LocaleController.getString("SearchTipToday", 2131628185), timeInMillis, calendar.getTimeInMillis() - 1, null));
+        } else if (LocaleController.getString("SearchTipYesterday", 2131628186).toLowerCase().startsWith(trim) || "yesterday".startsWith(trim)) {
             Calendar calendar2 = Calendar.getInstance();
             int i4 = calendar2.get(1);
             int i5 = calendar2.get(2);
             int i6 = calendar2.get(5);
             calendar2.set(i4, i5, i6, 0, 0, 0);
             calendar2.set(i4, i5, i6 + 1, 0, 0, 0);
-            arrayList.add(new DateData(LocaleController.getString("SearchTipYesterday", R.string.SearchTipYesterday), calendar2.getTimeInMillis() - 86400000, calendar2.getTimeInMillis() - 86400001));
+            arrayList.add(new DateData(LocaleController.getString("SearchTipYesterday", 2131628186), calendar2.getTimeInMillis() - 86400000, calendar2.getTimeInMillis() - 86400001, null));
         } else {
             int dayOfWeek = getDayOfWeek(trim);
             if (dayOfWeek >= 0) {
@@ -330,7 +341,7 @@ public class FiltersView extends RecyclerListView {
                 calendar3.set(i7, i8, i9, 0, 0, 0);
                 long timeInMillis3 = calendar3.getTimeInMillis();
                 calendar3.set(i7, i8, i9 + 1, 0, 0, 0);
-                arrayList.add(new DateData(LocaleController.getInstance().formatterWeekLong.format(timeInMillis3), timeInMillis3, calendar3.getTimeInMillis() - 1));
+                arrayList.add(new DateData(LocaleController.getInstance().formatterWeekLong.format(timeInMillis3), timeInMillis3, calendar3.getTimeInMillis() - 1, null));
                 return;
             }
             Matcher matcher = shortDate.matcher(trim);
@@ -378,7 +389,7 @@ public class FiltersView extends RecyclerListView {
                 calendar4.set(i11, parseInt4, parseInt3, 0, 0, 0);
                 long timeInMillis4 = calendar4.getTimeInMillis();
                 calendar4.set(i11, parseInt4, parseInt3 + 1, 0, 0, 0);
-                arrayList.add(new DateData(LocaleController.getInstance().formatterYearMax.format(timeInMillis4), timeInMillis4, calendar4.getTimeInMillis() - 1));
+                arrayList.add(new DateData(LocaleController.getInstance().formatterYearMax.format(timeInMillis4), timeInMillis4, calendar4.getTimeInMillis() - 1, null));
             } else if (yearPatter.matcher(trim).matches()) {
                 int intValue = Integer.valueOf(trim).intValue();
                 int i12 = Calendar.getInstance().get(1);
@@ -388,7 +399,7 @@ public class FiltersView extends RecyclerListView {
                         calendar5.set(i12, 0, 1, 0, 0, 0);
                         long timeInMillis5 = calendar5.getTimeInMillis();
                         calendar5.set(i12 + 1, 0, 1, 0, 0, 0);
-                        arrayList.add(new DateData(Integer.toString(i12), timeInMillis5, calendar5.getTimeInMillis() - 1));
+                        arrayList.add(new DateData(Integer.toString(i12), timeInMillis5, calendar5.getTimeInMillis() - 1, null));
                         i12--;
                     }
                 } else if (intValue <= i12) {
@@ -396,7 +407,7 @@ public class FiltersView extends RecyclerListView {
                     calendar6.set(intValue, 0, 1, 0, 0, 0);
                     long timeInMillis6 = calendar6.getTimeInMillis();
                     calendar6.set(intValue + 1, 0, 1, 0, 0, 0);
-                    arrayList.add(new DateData(Integer.toString(intValue), timeInMillis6, calendar6.getTimeInMillis() - 1));
+                    arrayList.add(new DateData(Integer.toString(intValue), timeInMillis6, calendar6.getTimeInMillis() - 1, null));
                 }
             } else {
                 Matcher matcher3 = monthYearOrDayPatter.matcher(trim);
@@ -443,7 +454,7 @@ public class FiltersView extends RecyclerListView {
                     long timeInMillis8 = calendar7.getTimeInMillis();
                     if (timeInMillis8 <= timeInMillis7) {
                         calendar7.add(2, 1);
-                        arrayList.add(new DateData(LocaleController.getInstance().formatterMonthYear.format(timeInMillis8), timeInMillis8, calendar7.getTimeInMillis() - 1));
+                        arrayList.add(new DateData(LocaleController.getInstance().formatterMonthYear.format(timeInMillis8), timeInMillis8, calendar7.getTimeInMillis() - 1, null));
                     }
                 }
             }
@@ -463,7 +474,7 @@ public class FiltersView extends RecyclerListView {
             return;
         }
         calendar.add(2, 1);
-        arrayList.add(new DateData(LocaleController.getInstance().formatterMonthYear.format(timeInMillis2), timeInMillis2, calendar.getTimeInMillis() - 1));
+        arrayList.add(new DateData(LocaleController.getInstance().formatterMonthYear.format(timeInMillis2), timeInMillis2, calendar.getTimeInMillis() - 1, null));
     }
 
     private static void createForDayMonth(ArrayList<DateData> arrayList, int i, int i2) {
@@ -484,9 +495,9 @@ public class FiltersView extends RecyclerListView {
                         calendar.set(i5, i2, i + 2, 0, 0, 0);
                         long timeInMillis3 = calendar.getTimeInMillis() - 1;
                         if (i5 == i4) {
-                            arrayList.add(new DateData(LocaleController.getInstance().formatterDayMonth.format(timeInMillis2), timeInMillis2, timeInMillis3));
+                            arrayList.add(new DateData(LocaleController.getInstance().formatterDayMonth.format(timeInMillis2), timeInMillis2, timeInMillis3, null));
                         } else {
-                            arrayList.add(new DateData(LocaleController.getInstance().formatterYearMax.format(timeInMillis2), timeInMillis2, timeInMillis3));
+                            arrayList.add(new DateData(LocaleController.getInstance().formatterYearMax.format(timeInMillis2), timeInMillis2, timeInMillis3, null));
                         }
                         i5--;
                         timeInMillis = j;
@@ -523,7 +534,7 @@ public class FiltersView extends RecyclerListView {
     }
 
     public static int getMonth(String str) {
-        String[] strArr = {LocaleController.getString("January", R.string.January).toLowerCase(), LocaleController.getString("February", R.string.February).toLowerCase(), LocaleController.getString("March", R.string.March).toLowerCase(), LocaleController.getString("April", R.string.April).toLowerCase(), LocaleController.getString("May", R.string.May).toLowerCase(), LocaleController.getString("June", R.string.June).toLowerCase(), LocaleController.getString("July", R.string.July).toLowerCase(), LocaleController.getString("August", R.string.August).toLowerCase(), LocaleController.getString("September", R.string.September).toLowerCase(), LocaleController.getString("October", R.string.October).toLowerCase(), LocaleController.getString("November", R.string.November).toLowerCase(), LocaleController.getString("December", R.string.December).toLowerCase()};
+        String[] strArr = {LocaleController.getString("January", 2131626358).toLowerCase(), LocaleController.getString("February", 2131625846).toLowerCase(), LocaleController.getString("March", 2131626587).toLowerCase(), LocaleController.getString("April", 2131624400).toLowerCase(), LocaleController.getString("May", 2131626603).toLowerCase(), LocaleController.getString("June", 2131626383).toLowerCase(), LocaleController.getString("July", 2131626381).toLowerCase(), LocaleController.getString("August", 2131624534).toLowerCase(), LocaleController.getString("September", 2131628290).toLowerCase(), LocaleController.getString("October", 2131627128).toLowerCase(), LocaleController.getString("November", 2131627124).toLowerCase(), LocaleController.getString("December", 2131625378).toLowerCase()};
         String[] strArr2 = new String[12];
         Calendar calendar = Calendar.getInstance();
         for (int i = 1; i <= 12; i++) {
@@ -580,6 +591,10 @@ public class FiltersView extends RecyclerListView {
             FiltersView.this = r1;
         }
 
+        /* synthetic */ Adapter(FiltersView filtersView, AnonymousClass1 anonymousClass1) {
+            this();
+        }
+
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ViewHolder viewHolder = new ViewHolder(FiltersView.this, new FilterView(viewGroup.getContext(), ((RecyclerListView) FiltersView.this).resourcesProvider));
@@ -597,6 +612,59 @@ public class FiltersView extends RecyclerListView {
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
             return FiltersView.this.usersFilters.size();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Adapters.FiltersView$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 extends DiffUtil.Callback {
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public boolean areContentsTheSame(int i, int i2) {
+            return true;
+        }
+
+        AnonymousClass4() {
+            FiltersView.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public int getOldListSize() {
+            return FiltersView.this.oldItems.size();
+        }
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public int getNewListSize() {
+            return FiltersView.this.usersFilters.size();
+        }
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public boolean areItemsTheSame(int i, int i2) {
+            MediaFilterData mediaFilterData = (MediaFilterData) FiltersView.this.oldItems.get(i);
+            MediaFilterData mediaFilterData2 = (MediaFilterData) FiltersView.this.usersFilters.get(i2);
+            if (mediaFilterData.isSameType(mediaFilterData2)) {
+                int i3 = mediaFilterData.filterType;
+                if (i3 == 4) {
+                    TLObject tLObject = mediaFilterData.chat;
+                    if (tLObject instanceof TLRPC$User) {
+                        TLObject tLObject2 = mediaFilterData2.chat;
+                        if (tLObject2 instanceof TLRPC$User) {
+                            return ((TLRPC$User) tLObject).id == ((TLRPC$User) tLObject2).id;
+                        }
+                    }
+                    if (tLObject instanceof TLRPC$Chat) {
+                        TLObject tLObject3 = mediaFilterData2.chat;
+                        return (tLObject3 instanceof TLRPC$Chat) && ((TLRPC$Chat) tLObject).id == ((TLRPC$Chat) tLObject3).id;
+                    }
+                } else if (i3 == 6) {
+                    return mediaFilterData.title.equals(mediaFilterData2.title);
+                } else {
+                    if (i3 == 7) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 
@@ -640,7 +708,7 @@ public class FiltersView extends RecyclerListView {
             this.data = mediaFilterData;
             this.avatarImageView.getImageReceiver().clearImage();
             if (mediaFilterData.filterType == 7) {
-                CombinedDrawable createCircleDrawableWithIcon = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(32.0f), R.drawable.chats_archive);
+                CombinedDrawable createCircleDrawableWithIcon = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(32.0f), 2131165331);
                 this.thumbDrawable = createCircleDrawableWithIcon;
                 createCircleDrawableWithIcon.setIconSize(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
                 Theme.setCombinedDrawableColor(this.thumbDrawable, getThemedColor("avatar_backgroundArchived"), false);
@@ -658,7 +726,7 @@ public class FiltersView extends RecyclerListView {
                 if (tLObject instanceof TLRPC$User) {
                     TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                     if (UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser().id == tLRPC$User.id) {
-                        CombinedDrawable createCircleDrawableWithIcon3 = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(32.0f), R.drawable.chats_saved);
+                        CombinedDrawable createCircleDrawableWithIcon3 = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(32.0f), 2131165340);
                         createCircleDrawableWithIcon3.setIconSize(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
                         Theme.setCombinedDrawableColor(createCircleDrawableWithIcon3, getThemedColor("avatar_backgroundSaved"), false);
                         Theme.setCombinedDrawableColor(createCircleDrawableWithIcon3, getThemedColor("avatar_actionBarIconBlue"), true);
@@ -738,6 +806,10 @@ public class FiltersView extends RecyclerListView {
         public final long minDate;
         public final String title;
 
+        /* synthetic */ DateData(String str, long j, long j2, AnonymousClass1 anonymousClass1) {
+            this(str, j, j2);
+        }
+
         private DateData(String str, long j, long j2) {
             this.title = str;
             this.minDate = j;
@@ -768,11 +840,14 @@ public class FiltersView extends RecyclerListView {
         return super.onTouchEvent(motionEvent);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class UpdateCallback implements ListUpdateCallback {
         final RecyclerView.Adapter adapter;
         boolean changed;
+
+        /* synthetic */ UpdateCallback(RecyclerView.Adapter adapter, AnonymousClass1 anonymousClass1) {
+            this(adapter);
+        }
 
         private UpdateCallback(RecyclerView.Adapter adapter) {
             this.adapter = adapter;

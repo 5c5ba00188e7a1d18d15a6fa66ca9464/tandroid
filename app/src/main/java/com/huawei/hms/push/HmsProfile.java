@@ -8,14 +8,12 @@ import com.huawei.hmf.tasks.TaskCompletionSource;
 import com.huawei.hms.aaid.constant.ErrorEnum;
 import com.huawei.hms.aaid.task.PushClientBuilder;
 import com.huawei.hms.api.Api;
-import com.huawei.hms.api.HuaweiApiAvailability;
 import com.huawei.hms.common.ApiException;
 import com.huawei.hms.common.HuaweiApi;
 import com.huawei.hms.common.internal.Preconditions;
 import com.huawei.hms.push.task.ProfileTask;
 import com.huawei.hms.push.utils.PushBiUtil;
 import com.huawei.hms.support.api.entity.push.ProfileReq;
-import com.huawei.hms.support.api.entity.push.PushNaming;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.JsonUtil;
 import com.huawei.secure.android.common.encrypt.hash.SHA;
@@ -31,7 +29,7 @@ public class HmsProfile {
         this.b = null;
         Preconditions.checkNotNull(context);
         this.b = context;
-        HuaweiApi<Api.ApiOptions.NoOptions> huaweiApi = new HuaweiApi<>(context, new Api(HuaweiApiAvailability.HMS_API_NAME_PUSH), (Api.ApiOptions) null, new PushClientBuilder());
+        HuaweiApi<Api.ApiOptions.NoOptions> huaweiApi = new HuaweiApi<>(context, new Api("HuaweiPush.API"), (Api.ApiOptions) null, new PushClientBuilder());
         this.c = huaweiApi;
         huaweiApi.setKitSdkVersion(60500300);
     }
@@ -64,24 +62,24 @@ public class HmsProfile {
         } else {
             profileReq.setOperation(1);
         }
-        String reportEntry = PushBiUtil.reportEntry(this.b, PushNaming.PUSH_PROFILE);
+        String reportEntry = PushBiUtil.reportEntry(this.b, "push.profile");
         try {
             profileReq.setSubjectId(str);
             profileReq.setProfileId(SHA.sha256Encrypt(str2));
             profileReq.setPkgName(this.b.getPackageName());
-            return this.c.doWrite(new ProfileTask(PushNaming.PUSH_PROFILE, JsonUtil.createJsonString(profileReq), reportEntry));
+            return this.c.doWrite(new ProfileTask("push.profile", JsonUtil.createJsonString(profileReq), reportEntry));
         } catch (Exception e) {
             if (e.getCause() instanceof ApiException) {
                 TaskCompletionSource taskCompletionSource3 = new TaskCompletionSource();
                 ApiException apiException = (ApiException) e.getCause();
                 taskCompletionSource3.setException(apiException);
-                PushBiUtil.reportExit(this.b, PushNaming.PUSH_PROFILE, reportEntry, apiException.getStatusCode());
+                PushBiUtil.reportExit(this.b, "push.profile", reportEntry, apiException.getStatusCode());
                 return taskCompletionSource3.getTask();
             }
             TaskCompletionSource taskCompletionSource4 = new TaskCompletionSource();
             Context context = this.b;
             ErrorEnum errorEnum = ErrorEnum.ERROR_INTERNAL_ERROR;
-            PushBiUtil.reportExit(context, PushNaming.PUSH_PROFILE, reportEntry, errorEnum);
+            PushBiUtil.reportExit(context, "push.profile", reportEntry, errorEnum);
             taskCompletionSource4.setException(errorEnum.toApiException());
             return taskCompletionSource4.getTask();
         }

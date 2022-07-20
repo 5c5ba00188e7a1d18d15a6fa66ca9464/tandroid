@@ -9,8 +9,6 @@ import android.content.pm.ServiceInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Pair;
-import com.huawei.hms.common.PackageConstants;
-import com.huawei.hms.framework.common.ContainerUtils;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.PackageManagerHelper;
 import java.security.cert.X509Certificate;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class HMSPackageManager {
     public static HMSPackageManager l;
@@ -46,7 +43,7 @@ public class HMSPackageManager {
         @Override // java.lang.Runnable
         public void run() {
             HMSLog.i("HMSPackageManager", "enter asyncOnceCheckMDMState");
-            for (ResolveInfo resolveInfo : HMSPackageManager.this.a.getPackageManager().queryIntentServices(new Intent("com.huawei.hms.core.aidlservice"), ConnectionsManager.RequestFlagNeedQuickAck)) {
+            for (ResolveInfo resolveInfo : HMSPackageManager.this.a.getPackageManager().queryIntentServices(new Intent("com.huawei.hms.core.aidlservice"), 128)) {
                 if ("com.huawei.hwid".equals(resolveInfo.serviceInfo.applicationInfo.packageName)) {
                     HMSPackageManager.this.c();
                 }
@@ -138,7 +135,7 @@ public class HMSPackageManager {
     }
 
     public final Pair<String, String> f() {
-        List<ResolveInfo> queryIntentServices = this.a.getPackageManager().queryIntentServices(new Intent("com.huawei.hms.core.aidlservice"), ConnectionsManager.RequestFlagNeedQuickAck);
+        List<ResolveInfo> queryIntentServices = this.a.getPackageManager().queryIntentServices(new Intent("com.huawei.hms.core.aidlservice"), 128);
         if (queryIntentServices.size() == 0) {
             return null;
         }
@@ -154,7 +151,7 @@ public class HMSPackageManager {
                 HMSLog.e("HMSPackageManager", "skip package " + str + " for no cert chain");
             } else {
                 String packageSignature = this.b.getPackageSignature(str);
-                if (!a(str + ContainerUtils.FIELD_DELIMITER + packageSignature, bundle.getString("hms_app_signer"), bundle.getString("hms_app_cert_chain"))) {
+                if (!a(str + "&" + packageSignature, bundle.getString("hms_app_signer"), bundle.getString("hms_app_cert_chain"))) {
                     HMSLog.e("HMSPackageManager", "checkSigner failed");
                 } else {
                     return new Pair<>(str, packageSignature);
@@ -184,9 +181,9 @@ public class HMSPackageManager {
             String str3 = next.c;
             String str4 = next.d;
             String packageSignature = this.b.getPackageSignature(str);
-            if (a(str + ContainerUtils.FIELD_DELIMITER + packageSignature + ContainerUtils.FIELD_DELIMITER + str2, str3, str4)) {
+            if (a(str + "&" + packageSignature + "&" + str2, str3, str4)) {
                 HMSLog.i("HMSPackageManager", "result: " + str + ", " + str2 + ", " + next.f);
-                this.h = PackageConstants.GENERAL_SERVICES_ACTION;
+                this.h = "com.huawei.hms.core";
                 b(str2);
                 return new Pair<>(str, packageSignature);
             }
@@ -283,7 +280,7 @@ public class HMSPackageManager {
     }
 
     public String getInnerServiceAction() {
-        return PackageConstants.INTERNAL_SERVICES_ACTION;
+        return "com.huawei.hms.core.internal";
     }
 
     public String getServiceAction() {
@@ -291,7 +288,7 @@ public class HMSPackageManager {
     }
 
     public final ArrayList<b> h() {
-        List<ResolveInfo> queryIntentServices = this.a.getPackageManager().queryIntentServices(new Intent(PackageConstants.GENERAL_SERVICES_ACTION), ConnectionsManager.RequestFlagNeedQuickAck);
+        List<ResolveInfo> queryIntentServices = this.a.getPackageManager().queryIntentServices(new Intent("com.huawei.hms.core"), 128);
         if (queryIntentServices != null && !queryIntentServices.isEmpty()) {
             ArrayList<b> arrayList = new ArrayList<>();
             for (ResolveInfo resolveInfo : queryIntentServices) {
@@ -392,11 +389,11 @@ public class HMSPackageManager {
         } catch (RuntimeException e) {
             HMSLog.e("HMSPackageManager", "In isMinApkVersionEffective, Failed to read meta data for HMSCore API level.", e);
         }
-        if (!TextUtils.isEmpty(this.h) && (this.h.equals(PackageConstants.GENERAL_SERVICES_ACTION) || this.h.equals(PackageConstants.INTERNAL_SERVICES_ACTION))) {
+        if (!TextUtils.isEmpty(this.h) && (this.h.equals("com.huawei.hms.core") || this.h.equals("com.huawei.hms.core.internal"))) {
             HMSLog.i("HMSPackageManager", "action = " + this.h + " exist");
             return false;
         }
-        ApplicationInfo applicationInfo = packageManager.getPackageInfo(getHMSPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).applicationInfo;
+        ApplicationInfo applicationInfo = packageManager.getPackageInfo(getHMSPackageName(), 128).applicationInfo;
         if (applicationInfo != null && (bundle = applicationInfo.metaData) != null && bundle.containsKey("com.huawei.hms.kit.api_level:hmscore") && (getHmsVersionCode() >= 50000000 || getHmsVersionCode() <= 19999999)) {
             HMSLog.i("HMSPackageManager", "MinApkVersion is disabled.");
             return false;

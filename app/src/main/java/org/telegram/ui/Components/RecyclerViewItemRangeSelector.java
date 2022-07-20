@@ -21,22 +21,7 @@ public class RecyclerViewItemRangeSelector implements RecyclerView.OnItemTouchLi
     private RecyclerView recyclerView;
     private int lastDraggedIndex = -1;
     private int hotspotHeight = AndroidUtilities.dp(80.0f);
-    private Runnable autoScrollRunnable = new Runnable() { // from class: org.telegram.ui.Components.RecyclerViewItemRangeSelector.1
-        @Override // java.lang.Runnable
-        public void run() {
-            if (RecyclerViewItemRangeSelector.this.recyclerView == null) {
-                return;
-            }
-            if (RecyclerViewItemRangeSelector.this.inTopHotspot) {
-                RecyclerViewItemRangeSelector.this.recyclerView.scrollBy(0, -RecyclerViewItemRangeSelector.this.autoScrollVelocity);
-                AndroidUtilities.runOnUIThread(this);
-            } else if (!RecyclerViewItemRangeSelector.this.inBottomHotspot) {
-            } else {
-                RecyclerViewItemRangeSelector.this.recyclerView.scrollBy(0, RecyclerViewItemRangeSelector.this.autoScrollVelocity);
-                AndroidUtilities.runOnUIThread(this);
-            }
-        }
-    };
+    private Runnable autoScrollRunnable = new AnonymousClass1();
 
     /* loaded from: classes3.dex */
     public interface RecyclerViewItemRangeSelectorDelegate {
@@ -51,6 +36,30 @@ public class RecyclerViewItemRangeSelector implements RecyclerView.OnItemTouchLi
 
     @Override // androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
     public void onRequestDisallowInterceptTouchEvent(boolean z) {
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.RecyclerViewItemRangeSelector$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            RecyclerViewItemRangeSelector.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            if (RecyclerViewItemRangeSelector.this.recyclerView == null) {
+                return;
+            }
+            if (RecyclerViewItemRangeSelector.this.inTopHotspot) {
+                RecyclerViewItemRangeSelector.this.recyclerView.scrollBy(0, -RecyclerViewItemRangeSelector.this.autoScrollVelocity);
+                AndroidUtilities.runOnUIThread(this);
+            } else if (!RecyclerViewItemRangeSelector.this.inBottomHotspot) {
+            } else {
+                RecyclerViewItemRangeSelector.this.recyclerView.scrollBy(0, RecyclerViewItemRangeSelector.this.autoScrollVelocity);
+                AndroidUtilities.runOnUIThread(this);
+            }
+        }
     }
 
     public RecyclerViewItemRangeSelector(RecyclerViewItemRangeSelectorDelegate recyclerViewItemRangeSelectorDelegate) {

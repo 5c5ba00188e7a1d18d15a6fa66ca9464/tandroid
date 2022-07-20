@@ -302,7 +302,6 @@ public class FilterShaders {
         return sb.toString();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class BlurProgram {
         public int blurHeightHandle;
@@ -371,7 +370,6 @@ public class FilterShaders {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class ToneCurve {
         private float[] blueCurve;
@@ -1457,132 +1455,142 @@ public class FilterShaders {
         this.needUpdateSkinTexture = true;
     }
 
-    public static FilterShadersDelegate getFilterShadersDelegate(final MediaController.SavedFilterState savedFilterState) {
-        return new FilterShadersDelegate() { // from class: org.telegram.ui.Components.FilterShaders.1
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public boolean shouldShowOriginal() {
-                return false;
-            }
+    /* renamed from: org.telegram.ui.Components.FilterShaders$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements FilterShadersDelegate {
+        final /* synthetic */ MediaController.SavedFilterState val$lastState;
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getSoftenSkinValue() {
-                return savedFilterState.softenSkinValue / 100.0f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public boolean shouldShowOriginal() {
+            return false;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getShadowsValue() {
-                return ((savedFilterState.shadowsValue * 0.55f) + 100.0f) / 100.0f;
-            }
+        AnonymousClass1(MediaController.SavedFilterState savedFilterState) {
+            this.val$lastState = savedFilterState;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getHighlightsValue() {
-                return ((savedFilterState.highlightsValue * 0.75f) + 100.0f) / 100.0f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getSoftenSkinValue() {
+            return this.val$lastState.softenSkinValue / 100.0f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getEnhanceValue() {
-                return savedFilterState.enhanceValue / 100.0f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getShadowsValue() {
+            return ((this.val$lastState.shadowsValue * 0.55f) + 100.0f) / 100.0f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getExposureValue() {
-                return savedFilterState.exposureValue / 100.0f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getHighlightsValue() {
+            return ((this.val$lastState.highlightsValue * 0.75f) + 100.0f) / 100.0f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getContrastValue() {
-                return ((savedFilterState.contrastValue / 100.0f) * 0.3f) + 1.0f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getEnhanceValue() {
+            return this.val$lastState.enhanceValue / 100.0f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getWarmthValue() {
-                return savedFilterState.warmthValue / 100.0f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getExposureValue() {
+            return this.val$lastState.exposureValue / 100.0f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getVignetteValue() {
-                return savedFilterState.vignetteValue / 100.0f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getContrastValue() {
+            return ((this.val$lastState.contrastValue / 100.0f) * 0.3f) + 1.0f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getSharpenValue() {
-                return ((savedFilterState.sharpenValue / 100.0f) * 0.6f) + 0.11f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getWarmthValue() {
+            return this.val$lastState.warmthValue / 100.0f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getGrainValue() {
-                return (savedFilterState.grainValue / 100.0f) * 0.04f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getVignetteValue() {
+            return this.val$lastState.vignetteValue / 100.0f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getFadeValue() {
-                return savedFilterState.fadeValue / 100.0f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getSharpenValue() {
+            return ((this.val$lastState.sharpenValue / 100.0f) * 0.6f) + 0.11f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getTintHighlightsIntensityValue() {
-                return savedFilterState.tintHighlightsColor == 0 ? 0.0f : 0.5f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getGrainValue() {
+            return (this.val$lastState.grainValue / 100.0f) * 0.04f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getTintShadowsIntensityValue() {
-                return savedFilterState.tintShadowsColor == 0 ? 0.0f : 0.5f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getFadeValue() {
+            return this.val$lastState.fadeValue / 100.0f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getSaturationValue() {
-                float f = savedFilterState.saturationValue / 100.0f;
-                if (f > 0.0f) {
-                    f *= 1.05f;
-                }
-                return f + 1.0f;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getTintHighlightsIntensityValue() {
+            return this.val$lastState.tintHighlightsColor == 0 ? 0.0f : 0.5f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public int getTintHighlightsColor() {
-                return savedFilterState.tintHighlightsColor;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getTintShadowsIntensityValue() {
+            return this.val$lastState.tintShadowsColor == 0 ? 0.0f : 0.5f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public int getTintShadowsColor() {
-                return savedFilterState.tintShadowsColor;
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getSaturationValue() {
+            float f = this.val$lastState.saturationValue / 100.0f;
+            if (f > 0.0f) {
+                f *= 1.05f;
             }
+            return f + 1.0f;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public int getBlurType() {
-                return savedFilterState.blurType;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public int getTintHighlightsColor() {
+            return this.val$lastState.tintHighlightsColor;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getBlurExcludeSize() {
-                return savedFilterState.blurExcludeSize;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public int getTintShadowsColor() {
+            return this.val$lastState.tintShadowsColor;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getBlurExcludeBlurSize() {
-                return savedFilterState.blurExcludeBlurSize;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public int getBlurType() {
+            return this.val$lastState.blurType;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public float getBlurAngle() {
-                return savedFilterState.blurAngle;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getBlurExcludeSize() {
+            return this.val$lastState.blurExcludeSize;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public Point getBlurExcludePoint() {
-                return savedFilterState.blurExcludePoint;
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getBlurExcludeBlurSize() {
+            return this.val$lastState.blurExcludeBlurSize;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public boolean shouldDrawCurvesPass() {
-                return !savedFilterState.curvesToolValue.shouldBeSkipped();
-            }
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public float getBlurAngle() {
+            return this.val$lastState.blurAngle;
+        }
 
-            @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
-            public ByteBuffer fillAndGetCurveBuffer() {
-                savedFilterState.curvesToolValue.fillBuffer();
-                return savedFilterState.curvesToolValue.curveBuffer;
-            }
-        };
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public Point getBlurExcludePoint() {
+            return this.val$lastState.blurExcludePoint;
+        }
+
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public boolean shouldDrawCurvesPass() {
+            return !this.val$lastState.curvesToolValue.shouldBeSkipped();
+        }
+
+        @Override // org.telegram.ui.Components.FilterShaders.FilterShadersDelegate
+        public ByteBuffer fillAndGetCurveBuffer() {
+            this.val$lastState.curvesToolValue.fillBuffer();
+            return this.val$lastState.curvesToolValue.curveBuffer;
+        }
+    }
+
+    public static FilterShadersDelegate getFilterShadersDelegate(MediaController.SavedFilterState savedFilterState) {
+        return new AnonymousClass1(savedFilterState);
     }
 }

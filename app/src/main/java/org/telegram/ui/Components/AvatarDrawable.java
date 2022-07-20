@@ -65,7 +65,7 @@ public class AvatarDrawable extends Drawable {
         this.resourcesProvider = resourcesProvider;
         TextPaint textPaint = new TextPaint(1);
         this.namePaint = textPaint;
-        textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.namePaint.setTextSize(AndroidUtilities.dp(18.0f));
     }
 

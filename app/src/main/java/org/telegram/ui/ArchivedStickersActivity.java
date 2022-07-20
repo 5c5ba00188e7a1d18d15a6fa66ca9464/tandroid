@@ -15,8 +15,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$StickerSetCovered;
@@ -30,7 +28,6 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
-import org.telegram.ui.ArchivedStickersActivity;
 import org.telegram.ui.Cells.ArchivedStickerSetCell;
 import org.telegram.ui.Cells.LoadingCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
@@ -82,21 +79,14 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
         if (this.currentType == 0) {
-            this.actionBar.setTitle(LocaleController.getString("ArchivedStickers", R.string.ArchivedStickers));
+            this.actionBar.setTitle(LocaleController.getString("ArchivedStickers", 2131624425));
         } else {
-            this.actionBar.setTitle(LocaleController.getString("ArchivedMasks", R.string.ArchivedMasks));
+            this.actionBar.setTitle(LocaleController.getString("ArchivedMasks", 2131624420));
         }
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ArchivedStickersActivity.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    ArchivedStickersActivity.this.finishFragment();
-                }
-            }
-        });
+        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
@@ -105,9 +95,9 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         if (this.currentType == 0) {
-            emptyTextProgressView.setText(LocaleController.getString("ArchivedStickersEmpty", R.string.ArchivedStickersEmpty));
+            emptyTextProgressView.setText(LocaleController.getString("ArchivedStickersEmpty", 2131624428));
         } else {
-            emptyTextProgressView.setText(LocaleController.getString("ArchivedMasksEmpty", R.string.ArchivedMasksEmpty));
+            emptyTextProgressView.setText(LocaleController.getString("ArchivedMasksEmpty", 2131624423));
         }
         frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         if (this.loadingStickers) {
@@ -125,30 +115,32 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         recyclerListView2.setLayoutManager(linearLayoutManager);
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda3
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i) {
-                ArchivedStickersActivity.this.lambda$createView$0(view, i);
-            }
-        });
-        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ArchivedStickersActivity.3
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                if (ArchivedStickersActivity.this.loadingStickers || ArchivedStickersActivity.this.endReached || ArchivedStickersActivity.this.layoutManager.findLastVisibleItemPosition() <= ArchivedStickersActivity.this.stickersLoadingRow - 2) {
-                    return;
-                }
-                ArchivedStickersActivity.this.getStickers();
-            }
-        });
+        this.listView.setOnItemClickListener(new ArchivedStickersActivity$$ExternalSyntheticLambda3(this));
+        this.listView.setOnScrollListener(new AnonymousClass3());
         return this.fragmentView;
     }
 
-    public /* synthetic */ void lambda$createView$0(final View view, int i) {
+    /* renamed from: org.telegram.ui.ArchivedStickersActivity$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
+        AnonymousClass1() {
+            ArchivedStickersActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+        public void onItemClick(int i) {
+            if (i == -1) {
+                ArchivedStickersActivity.this.finishFragment();
+            }
+        }
+    }
+
+    public /* synthetic */ void lambda$createView$0(View view, int i) {
         TLRPC$InputStickerSet tLRPC$InputStickerSet;
         if (i < this.stickersStartRow || i >= this.stickersEndRow || getParentActivity() == null) {
             return;
         }
-        final TLRPC$StickerSetCovered tLRPC$StickerSetCovered = this.sets.get(i - this.stickersStartRow);
+        TLRPC$StickerSetCovered tLRPC$StickerSetCovered = this.sets.get(i - this.stickersStartRow);
         if (tLRPC$StickerSetCovered.set.id != 0) {
             tLRPC$InputStickerSet = new TLRPC$TL_inputStickerSetID();
             tLRPC$InputStickerSet.id = tLRPC$StickerSetCovered.set.id;
@@ -159,20 +151,49 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         TLRPC$InputStickerSet tLRPC$InputStickerSet2 = tLRPC$InputStickerSet;
         tLRPC$InputStickerSet2.access_hash = tLRPC$StickerSetCovered.set.access_hash;
         StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, tLRPC$InputStickerSet2, (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
-        stickersAlert.setInstallDelegate(new StickersAlert.StickersAlertInstallDelegate() { // from class: org.telegram.ui.ArchivedStickersActivity.2
-            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
-            public void onStickerSetUninstalled() {
-            }
-
-            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
-            public void onStickerSetInstalled() {
-                ((ArchivedStickerSetCell) view).setDrawProgress(true, true);
-                LongSparseArray longSparseArray = ArchivedStickersActivity.this.installingStickerSets;
-                TLRPC$StickerSetCovered tLRPC$StickerSetCovered2 = tLRPC$StickerSetCovered;
-                longSparseArray.put(tLRPC$StickerSetCovered2.set.id, tLRPC$StickerSetCovered2);
-            }
-        });
+        stickersAlert.setInstallDelegate(new AnonymousClass2(view, tLRPC$StickerSetCovered));
         showDialog(stickersAlert);
+    }
+
+    /* renamed from: org.telegram.ui.ArchivedStickersActivity$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 implements StickersAlert.StickersAlertInstallDelegate {
+        final /* synthetic */ TLRPC$StickerSetCovered val$stickerSet;
+        final /* synthetic */ View val$view;
+
+        @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
+        public void onStickerSetUninstalled() {
+        }
+
+        AnonymousClass2(View view, TLRPC$StickerSetCovered tLRPC$StickerSetCovered) {
+            ArchivedStickersActivity.this = r1;
+            this.val$view = view;
+            this.val$stickerSet = tLRPC$StickerSetCovered;
+        }
+
+        @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
+        public void onStickerSetInstalled() {
+            ((ArchivedStickerSetCell) this.val$view).setDrawProgress(true, true);
+            LongSparseArray longSparseArray = ArchivedStickersActivity.this.installingStickerSets;
+            TLRPC$StickerSetCovered tLRPC$StickerSetCovered = this.val$stickerSet;
+            longSparseArray.put(tLRPC$StickerSetCovered.set.id, tLRPC$StickerSetCovered);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.ArchivedStickersActivity$3 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass3 extends RecyclerView.OnScrollListener {
+        AnonymousClass3() {
+            ArchivedStickersActivity.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+            if (ArchivedStickersActivity.this.loadingStickers || ArchivedStickersActivity.this.endReached || ArchivedStickersActivity.this.layoutManager.findLastVisibleItemPosition() <= ArchivedStickersActivity.this.stickersLoadingRow - 2) {
+                return;
+            }
+            ArchivedStickersActivity.this.getStickers();
+        }
     }
 
     private void updateRows() {
@@ -239,21 +260,11 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
             z = false;
         }
         tLRPC$TL_messages_getArchivedStickers.masks = z;
-        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getArchivedStickers, new RequestDelegate() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda2
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ArchivedStickersActivity.this.lambda$getStickers$2(tLObject, tLRPC$TL_error);
-            }
-        }), this.classGuid);
+        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getArchivedStickers, new ArchivedStickersActivity$$ExternalSyntheticLambda2(this)), this.classGuid);
     }
 
-    public /* synthetic */ void lambda$getStickers$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                ArchivedStickersActivity.this.lambda$getStickers$1(tLRPC$TL_error, tLObject);
-            }
-        });
+    public /* synthetic */ void lambda$getStickers$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new ArchivedStickersActivity$$ExternalSyntheticLambda0(this, tLRPC$TL_error, tLObject));
     }
 
     public /* synthetic */ void lambda$getStickers$1(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
@@ -263,7 +274,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
     }
 
     /* renamed from: processResponse */
-    public void lambda$processResponse$3(final TLRPC$TL_messages_archivedStickers tLRPC$TL_messages_archivedStickers) {
+    public void lambda$processResponse$3(TLRPC$TL_messages_archivedStickers tLRPC$TL_messages_archivedStickers) {
         if (!this.isInTransition) {
             this.sets.addAll(tLRPC$TL_messages_archivedStickers.sets);
             this.endReached = tLRPC$TL_messages_archivedStickers.sets.size() != 15;
@@ -281,12 +292,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
             listAdapter.notifyDataSetChanged();
             return;
         }
-        this.doOnTransitionEnd = new Runnable() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                ArchivedStickersActivity.this.lambda$processResponse$3(tLRPC$TL_messages_archivedStickers);
-            }
-        };
+        this.doOnTransitionEnd = new ArchivedStickersActivity$$ExternalSyntheticLambda1(this, tLRPC$TL_messages_archivedStickers);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -379,7 +385,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
             if (getItemViewType(i) == 0) {
                 int i2 = i - ArchivedStickersActivity.this.stickersStartRow;
                 ArchivedStickerSetCell archivedStickerSetCell = (ArchivedStickerSetCell) viewHolder.itemView;
-                final TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) ArchivedStickersActivity.this.sets.get(i2);
+                TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) ArchivedStickersActivity.this.sets.get(i2);
                 boolean z = true;
                 archivedStickerSetCell.setStickersSet(tLRPC$StickerSetCovered, i2 != ArchivedStickersActivity.this.sets.size() - 1);
                 boolean isStickerPackInstalled = MediaDataController.getInstance(((BaseFragment) ArchivedStickersActivity.this).currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
@@ -393,19 +399,14 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
                     }
                     archivedStickerSetCell.setDrawProgress(z, false);
                 }
-                archivedStickerSetCell.setOnCheckedChangeListener(new ArchivedStickerSetCell.OnCheckedChangeListener() { // from class: org.telegram.ui.ArchivedStickersActivity$ListAdapter$$ExternalSyntheticLambda0
-                    @Override // org.telegram.ui.Cells.ArchivedStickerSetCell.OnCheckedChangeListener
-                    public final void onCheckedChanged(ArchivedStickerSetCell archivedStickerSetCell2, boolean z2) {
-                        ArchivedStickersActivity.ListAdapter.this.lambda$onBindViewHolder$0(tLRPC$StickerSetCovered, archivedStickerSetCell2, z2);
-                    }
-                });
+                archivedStickerSetCell.setOnCheckedChangeListener(new ArchivedStickersActivity$ListAdapter$$ExternalSyntheticLambda0(this, tLRPC$StickerSetCovered));
             } else if (getItemViewType(i) != 2) {
             } else {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 if (i == ArchivedStickersActivity.this.archiveInfoRow) {
                     textInfoPrivacyCell.setTopPadding(17);
                     textInfoPrivacyCell.setBottomPadding(10);
-                    textInfoPrivacyCell.setText(LocaleController.getString("ArchivedStickersInfo", R.string.ArchivedStickersInfo));
+                    textInfoPrivacyCell.setText(LocaleController.getString("ArchivedStickersInfo", 2131624429));
                     return;
                 }
                 textInfoPrivacyCell.setTopPadding(10);
@@ -440,12 +441,12 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
                 view = archivedStickerSetCell;
             } else if (i == 1) {
                 view = new LoadingCell(this.mContext);
-                view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
             } else if (i != 2) {
                 view = null;
             } else {
                 view = new TextInfoPrivacyCell(this.mContext);
-                view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
             }
             view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
             return new RecyclerListView.Holder(view);

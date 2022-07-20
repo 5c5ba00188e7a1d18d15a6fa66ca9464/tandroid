@@ -74,18 +74,8 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
     private static final Format ICY_FORMAT = Format.createSampleFormat("icy", "application/x-icy", Long.MAX_VALUE);
     private final Loader loader = new Loader("Loader:ProgressiveMediaPeriod");
     private final ConditionVariable loadCondition = new ConditionVariable();
-    private final Runnable maybeFinishPrepareRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.ProgressiveMediaPeriod$$ExternalSyntheticLambda0
-        @Override // java.lang.Runnable
-        public final void run() {
-            ProgressiveMediaPeriod.this.maybeFinishPrepare();
-        }
-    };
-    private final Runnable onContinueLoadingRequestedRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.ProgressiveMediaPeriod$$ExternalSyntheticLambda1
-        @Override // java.lang.Runnable
-        public final void run() {
-            ProgressiveMediaPeriod.this.lambda$new$0();
-        }
-    };
+    private final Runnable maybeFinishPrepareRunnable = new ProgressiveMediaPeriod$$ExternalSyntheticLambda0(this);
+    private final Runnable onContinueLoadingRequestedRunnable = new ProgressiveMediaPeriod$$ExternalSyntheticLambda1(this);
     private final Handler handler = new Handler();
     private TrackId[] sampleQueueTrackIds = new TrackId[0];
     private SampleQueue[] sampleQueues = new SampleQueue[0];

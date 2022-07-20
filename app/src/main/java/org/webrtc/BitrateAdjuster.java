@@ -1,6 +1,6 @@
 package org.webrtc;
 /* loaded from: classes3.dex */
-interface BitrateAdjuster {
+public interface BitrateAdjuster {
     int getAdjustedBitrateBps();
 
     int getCodecConfigFramerate();

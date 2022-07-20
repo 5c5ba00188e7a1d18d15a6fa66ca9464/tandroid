@@ -37,8 +37,8 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
     }
 
     @Override // org.telegram.ui.Components.HintEditText
-    public void setHintText(final String str) {
-        final boolean z = !TextUtils.isEmpty(str);
+    public void setHintText(String str) {
+        boolean z = !TextUtils.isEmpty(str);
         boolean z2 = false;
         Boolean bool = this.wasHintVisible;
         if (bool == null || bool.booleanValue() != z) {
@@ -59,12 +59,7 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
             super.setHintText(str);
         }
         if (z2) {
-            runHintAnimation(str2.length(), z, new Runnable() { // from class: org.telegram.ui.Components.AnimatedPhoneNumberEditText$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    AnimatedPhoneNumberEditText.this.lambda$setHintText$0(z, str);
-                }
-            });
+            runHintAnimation(str2.length(), z, new AnimatedPhoneNumberEditText$$ExternalSyntheticLambda1(this, z, str));
         }
     }
 
@@ -95,16 +90,11 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
                 f = 1.0f;
             }
             float f3 = f * 100.0f;
-            final SpringAnimation startValue = new SpringAnimation(Integer.valueOf(i2), this.hintFadeProperty).setSpring(new SpringForce(f3).setStiffness(500.0f).setDampingRatio(1.0f).setFinalPosition(f3)).setStartValue(100.0f * f2);
+            SpringAnimation startValue = new SpringAnimation(Integer.valueOf(i2), this.hintFadeProperty).setSpring(new SpringForce(f3).setStiffness(500.0f).setDampingRatio(1.0f).setFinalPosition(f3)).setStartValue(100.0f * f2);
             this.hintAnimations.add(startValue);
             this.hintAnimationValues.add(Float.valueOf(f2));
             startValue.getClass();
-            postDelayed(new Runnable() { // from class: org.telegram.ui.Components.AnimatedPhoneNumberEditText$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SpringAnimation.this.start();
-                }
-            }, i2 * 5);
+            postDelayed(new AnimatedPhoneNumberEditText$$ExternalSyntheticLambda0(startValue), i2 * 5);
         }
         this.hintAnimationCallback = runnable;
         postDelayed(runnable, (i * 5) + 150);
@@ -167,17 +157,25 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
             ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", -1.0f, 0.0f);
             this.animator = ofFloat;
             ofFloat.setDuration(150L);
-            this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AnimatedPhoneNumberEditText.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    AnimatedPhoneNumberEditText.this.animator = null;
-                    AnimatedPhoneNumberEditText.this.oldLetters.clear();
-                }
-            });
+            this.animator.addListener(new AnonymousClass1());
             this.animator.start();
         }
         this.oldText = str;
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Components.AnimatedPhoneNumberEditText$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            AnimatedPhoneNumberEditText.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            AnimatedPhoneNumberEditText.this.animator = null;
+            AnimatedPhoneNumberEditText.this.oldLetters.clear();
+        }
     }
 
     @Override // org.telegram.ui.Components.HintEditText

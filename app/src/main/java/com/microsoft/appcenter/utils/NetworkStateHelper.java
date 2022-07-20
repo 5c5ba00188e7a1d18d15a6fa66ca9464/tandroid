@@ -53,20 +53,10 @@ public class NetworkStateHelper implements Closeable {
             if (Build.VERSION.SDK_INT >= 21) {
                 NetworkRequest.Builder builder = new NetworkRequest.Builder();
                 builder.addCapability(12);
-                this.mNetworkCallback = new ConnectivityManager.NetworkCallback() { // from class: com.microsoft.appcenter.utils.NetworkStateHelper.1
-                    @Override // android.net.ConnectivityManager.NetworkCallback
-                    public void onAvailable(Network network) {
-                        NetworkStateHelper.this.onNetworkAvailable(network);
-                    }
-
-                    @Override // android.net.ConnectivityManager.NetworkCallback
-                    public void onLost(Network network) {
-                        NetworkStateHelper.this.onNetworkLost(network);
-                    }
-                };
+                this.mNetworkCallback = new AnonymousClass1();
                 this.mConnectivityManager.registerNetworkCallback(builder.build(), this.mNetworkCallback);
             } else {
-                ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver();
+                ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver(this, null);
                 this.mConnectivityReceiver = connectivityReceiver;
                 this.mContext.registerReceiver(connectivityReceiver, getOldIntentFilter());
                 handleNetworkStateUpdate();
@@ -74,6 +64,24 @@ public class NetworkStateHelper implements Closeable {
         } catch (RuntimeException e) {
             AppCenterLog.error("AppCenter", "Cannot access network state information.", e);
             this.mConnected.set(true);
+        }
+    }
+
+    /* renamed from: com.microsoft.appcenter.utils.NetworkStateHelper$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 extends ConnectivityManager.NetworkCallback {
+        AnonymousClass1() {
+            NetworkStateHelper.this = r1;
+        }
+
+        @Override // android.net.ConnectivityManager.NetworkCallback
+        public void onAvailable(Network network) {
+            NetworkStateHelper.this.onNetworkAvailable(network);
+        }
+
+        @Override // android.net.ConnectivityManager.NetworkCallback
+        public void onLost(Network network) {
+            NetworkStateHelper.this.onNetworkLost(network);
         }
     }
 
@@ -166,6 +174,10 @@ public class NetworkStateHelper implements Closeable {
     public class ConnectivityReceiver extends BroadcastReceiver {
         private ConnectivityReceiver() {
             NetworkStateHelper.this = r1;
+        }
+
+        /* synthetic */ ConnectivityReceiver(NetworkStateHelper networkStateHelper, AnonymousClass1 anonymousClass1) {
+            this();
         }
 
         @Override // android.content.BroadcastReceiver

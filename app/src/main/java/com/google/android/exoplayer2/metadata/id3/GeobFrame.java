@@ -6,17 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class GeobFrame extends Id3Frame {
-    public static final Parcelable.Creator<GeobFrame> CREATOR = new Parcelable.Creator<GeobFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.GeobFrame.1
-        @Override // android.os.Parcelable.Creator
-        public GeobFrame createFromParcel(Parcel parcel) {
-            return new GeobFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public GeobFrame[] newArray(int i) {
-            return new GeobFrame[i];
-        }
-    };
+    public static final Parcelable.Creator<GeobFrame> CREATOR = new AnonymousClass1();
     public final byte[] data;
     public final String description;
     public final String filename;
@@ -73,5 +63,22 @@ public final class GeobFrame extends Id3Frame {
         parcel.writeString(this.filename);
         parcel.writeString(this.description);
         parcel.writeByteArray(this.data);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.metadata.id3.GeobFrame$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<GeobFrame> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public GeobFrame createFromParcel(Parcel parcel) {
+            return new GeobFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public GeobFrame[] newArray(int i) {
+            return new GeobFrame[i];
+        }
     }
 }

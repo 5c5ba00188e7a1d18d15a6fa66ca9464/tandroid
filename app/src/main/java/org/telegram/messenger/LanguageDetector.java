@@ -1,10 +1,7 @@
 package org.telegram.messenger;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.mlkit.common.sdkinternal.MlKitContext;
 import com.google.mlkit.nl.languageid.LanguageIdentification;
-import org.telegram.messenger.LanguageDetector;
 /* loaded from: classes.dex */
 public class LanguageDetector {
 
@@ -26,7 +23,7 @@ public class LanguageDetector {
         detectLanguage(str, stringCallback, exceptionCallback, false);
     }
 
-    public static void detectLanguage(String str, final StringCallback stringCallback, final ExceptionCallback exceptionCallback, boolean z) {
+    public static void detectLanguage(String str, StringCallback stringCallback, ExceptionCallback exceptionCallback, boolean z) {
         if (z) {
             try {
                 MlKitContext.zza(ApplicationLoader.applicationContext);
@@ -54,17 +51,7 @@ public class LanguageDetector {
                 return;
             }
         }
-        LanguageIdentification.getClient().identifyLanguage(str).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.messenger.LanguageDetector$$ExternalSyntheticLambda1
-            @Override // com.google.android.gms.tasks.OnSuccessListener
-            public final void onSuccess(Object obj) {
-                LanguageDetector.lambda$detectLanguage$0(LanguageDetector.StringCallback.this, (String) obj);
-            }
-        }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.messenger.LanguageDetector$$ExternalSyntheticLambda0
-            @Override // com.google.android.gms.tasks.OnFailureListener
-            public final void onFailure(Exception exc) {
-                LanguageDetector.lambda$detectLanguage$1(LanguageDetector.ExceptionCallback.this, exc);
-            }
-        });
+        LanguageIdentification.getClient().identifyLanguage(str).addOnSuccessListener(new LanguageDetector$$ExternalSyntheticLambda1(stringCallback)).addOnFailureListener(new LanguageDetector$$ExternalSyntheticLambda0(exceptionCallback));
     }
 
     public static /* synthetic */ void lambda$detectLanguage$0(StringCallback stringCallback, String str) {

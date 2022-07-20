@@ -12,7 +12,7 @@ public class TLRPC$TL_decryptedMessage_layer45 extends TLRPC$TL_decryptedMessage
         if ((this.flags & 512) != 0) {
             this.media = TLRPC$DecryptedMessageMedia.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if ((this.flags & 128) != 0) {
             int readInt32 = abstractSerializedData.readInt32(z);
             if (readInt32 != 481674261) {
                 if (z) {
@@ -47,7 +47,7 @@ public class TLRPC$TL_decryptedMessage_layer45 extends TLRPC$TL_decryptedMessage
         if ((this.flags & 512) != 0) {
             this.media.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if ((this.flags & 128) != 0) {
             abstractSerializedData.writeInt32(481674261);
             int size = this.entities.size();
             abstractSerializedData.writeInt32(size);

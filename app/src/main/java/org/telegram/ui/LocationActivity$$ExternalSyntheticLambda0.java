@@ -1,0 +1,18 @@
+package org.telegram.ui;
+
+import android.content.DialogInterface;
+/* loaded from: classes3.dex */
+public final /* synthetic */ class LocationActivity$$ExternalSyntheticLambda0 implements DialogInterface.OnCancelListener {
+    public final /* synthetic */ LocationActivity f$0;
+    public final /* synthetic */ int f$1;
+
+    public /* synthetic */ LocationActivity$$ExternalSyntheticLambda0(LocationActivity locationActivity, int i) {
+        this.f$0 = locationActivity;
+        this.f$1 = i;
+    }
+
+    @Override // android.content.DialogInterface.OnCancelListener
+    public final void onCancel(DialogInterface dialogInterface) {
+        this.f$0.lambda$createView$11(this.f$1, dialogInterface);
+    }
+}

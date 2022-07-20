@@ -16,9 +16,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class ImageDownload implements Closeable {
@@ -119,18 +117,6 @@ public class ImageDownload implements Closeable {
     }
 
     public void start(Executor executor) {
-        this.task = Tasks.call(executor, new Callable(this) { // from class: com.google.firebase.messaging.ImageDownload$$Lambda$0
-            private final ImageDownload arg$1;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.arg$1 = this;
-            }
-
-            @Override // java.util.concurrent.Callable
-            public Object call() {
-                return this.arg$1.blockingDownload();
-            }
-        });
+        this.task = Tasks.call(executor, new ImageDownload$$Lambda$0(this));
     }
 }

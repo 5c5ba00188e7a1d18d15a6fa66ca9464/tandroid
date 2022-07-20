@@ -462,7 +462,7 @@ public class Utilities {
     public static String generateRandomString(int i) {
         StringBuilder sb = new StringBuilder();
         for (int i2 = 0; i2 < i; i2++) {
-            sb.append(RANDOM_STRING_CHARS.charAt(fastRandom.nextInt(62)));
+            sb.append("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(fastRandom.nextInt(62)));
         }
         return sb.toString();
     }

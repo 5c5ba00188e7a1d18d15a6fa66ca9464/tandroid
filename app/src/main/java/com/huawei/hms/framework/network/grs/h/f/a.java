@@ -2,7 +2,6 @@ package com.huawei.hms.framework.network.grs.h.f;
 
 import android.content.Context;
 import android.text.TextUtils;
-import com.huawei.hms.android.HwBuildEx;
 import com.huawei.hms.framework.common.IoUtils;
 import com.huawei.hms.framework.common.Logger;
 import java.io.OutputStream;
@@ -27,8 +26,8 @@ public class a {
         } catch (IllegalArgumentException unused) {
             Logger.w("URLConnectionHelper", "init https ssl socket failed.");
         }
-        httpsURLConnection.setConnectTimeout(HwBuildEx.VersionCodes.CUR_DEVELOPMENT);
-        httpsURLConnection.setReadTimeout(HwBuildEx.VersionCodes.CUR_DEVELOPMENT);
+        httpsURLConnection.setConnectTimeout(10000);
+        httpsURLConnection.setReadTimeout(10000);
         httpsURLConnection.setDoOutput(true);
         httpsURLConnection.setUseCaches(false);
         String b = com.huawei.hms.framework.network.grs.h.a.b(context, "NetworkKit-grs", str2);

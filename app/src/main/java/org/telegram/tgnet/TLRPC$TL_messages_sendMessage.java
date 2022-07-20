@@ -32,7 +32,7 @@ public class TLRPC$TL_messages_sendMessage extends TLObject {
         this.flags = i2;
         int i3 = this.background ? i2 | 64 : i2 & (-65);
         this.flags = i3;
-        int i4 = this.clear_draft ? i3 | ConnectionsManager.RequestFlagNeedQuickAck : i3 & (-129);
+        int i4 = this.clear_draft ? i3 | 128 : i3 & (-129);
         this.flags = i4;
         abstractSerializedData.writeInt32(i4);
         this.peer.serializeToStream(abstractSerializedData);

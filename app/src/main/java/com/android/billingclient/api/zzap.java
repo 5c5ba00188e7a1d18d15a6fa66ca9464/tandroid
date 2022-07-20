@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
 import com.google.android.gms.internal.play_billing.zzb;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
@@ -40,21 +39,10 @@ public final class zzap implements ServiceConnection {
         zzb.zzn("BillingClient", "Billing service connected.");
         this.zza.zzf = com.google.android.gms.internal.play_billing.zzd.zzo(iBinder);
         BillingClientImpl billingClientImpl = this.zza;
-        Callable callable = new Callable() { // from class: com.android.billingclient.api.zzam
-            @Override // java.util.concurrent.Callable
-            public final Object call() {
-                zzap.this.zza();
-                return null;
-            }
-        };
-        Runnable runnable = new Runnable() { // from class: com.android.billingclient.api.zzan
-            @Override // java.lang.Runnable
-            public final void run() {
-                zzap.this.zzb();
-            }
-        };
+        zzam zzamVar = new zzam(this);
+        zzan zzanVar = new zzan(this);
         zzF = billingClientImpl.zzF();
-        zzJ = billingClientImpl.zzJ(callable, 30000L, runnable, zzF);
+        zzJ = billingClientImpl.zzJ(zzamVar, 30000L, zzanVar, zzF);
         if (zzJ == null) {
             zzH = this.zza.zzH();
             zzd(zzH);

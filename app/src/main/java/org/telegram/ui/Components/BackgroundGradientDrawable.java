@@ -135,7 +135,7 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         return drawExactBoundsSize(canvas, view, 0.5f);
     }
 
-    public Disposable drawExactBoundsSize(Canvas canvas, final View view, float f) {
+    public Disposable drawExactBoundsSize(Canvas canvas, View view, float f) {
         if (this.disposed) {
             super.draw(canvas);
             return null;
@@ -163,20 +163,25 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         IntSize intSize = new IntSize(width, height);
         this.bitmaps.put(intSize, null);
         this.isForExactBounds.put(intSize, Boolean.TRUE);
-        final Disposable startDitheringInternal = startDitheringInternal(new IntSize[]{intSize}, new ListenerAdapter() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable.1
-            @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-            public void onAllSizesReady() {
-                view.invalidate();
-            }
-        }, 0L);
-        Disposable put = this.disposables.put(view, new Disposable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda2
-            @Override // org.telegram.ui.Components.BackgroundGradientDrawable.Disposable
-            public final void dispose() {
-                BackgroundGradientDrawable.this.lambda$drawExactBoundsSize$0(view, startDitheringInternal);
-            }
-        });
+        Disposable put = this.disposables.put(view, new BackgroundGradientDrawable$$ExternalSyntheticLambda2(this, view, startDitheringInternal(new IntSize[]{intSize}, new AnonymousClass1(view), 0L)));
         super.draw(canvas);
         return put;
+    }
+
+    /* renamed from: org.telegram.ui.Components.BackgroundGradientDrawable$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends ListenerAdapter {
+        final /* synthetic */ View val$ownerView;
+
+        AnonymousClass1(View view) {
+            BackgroundGradientDrawable.this = r1;
+            this.val$ownerView = view;
+        }
+
+        @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
+        public void onAllSizesReady() {
+            this.val$ownerView.invalidate();
+        }
     }
 
     public /* synthetic */ void lambda$drawExactBoundsSize$0(View view, Disposable disposable) {
@@ -230,52 +235,30 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         return null;
     }
 
-    private Disposable startDitheringInternal(final IntSize[] intSizeArr, Listener listener, long j) {
+    private Disposable startDitheringInternal(IntSize[] intSizeArr, Listener listener, long j) {
         if (intSizeArr.length == 0) {
             return null;
         }
-        final Listener[] listenerArr = {listener};
-        final Runnable[] runnableArr = new Runnable[intSizeArr.length];
+        Listener[] listenerArr = {listener};
+        Runnable[] runnableArr = new Runnable[intSizeArr.length];
         this.ditheringRunnables.add(runnableArr);
         for (int i = 0; i < intSizeArr.length; i++) {
-            final IntSize intSize = intSizeArr[i];
+            IntSize intSize = intSizeArr[i];
             if (intSize.width != 0 && intSize.height != 0) {
                 DispatchQueue dispatchQueue = Utilities.globalQueue;
-                final int i2 = i;
-                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        BackgroundGradientDrawable.this.lambda$startDitheringInternal$2(intSize, runnableArr, i2, listenerArr);
-                    }
-                };
-                runnableArr[i] = runnable;
-                dispatchQueue.postRunnable(runnable, j);
+                BackgroundGradientDrawable$$ExternalSyntheticLambda0 backgroundGradientDrawable$$ExternalSyntheticLambda0 = new BackgroundGradientDrawable$$ExternalSyntheticLambda0(this, intSize, runnableArr, i, listenerArr);
+                runnableArr[i] = backgroundGradientDrawable$$ExternalSyntheticLambda0;
+                dispatchQueue.postRunnable(backgroundGradientDrawable$$ExternalSyntheticLambda0, j);
             }
         }
-        return new Disposable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda3
-            @Override // org.telegram.ui.Components.BackgroundGradientDrawable.Disposable
-            public final void dispose() {
-                BackgroundGradientDrawable.this.lambda$startDitheringInternal$3(listenerArr, runnableArr, intSizeArr);
-            }
-        };
+        return new BackgroundGradientDrawable$$ExternalSyntheticLambda3(this, listenerArr, runnableArr, intSizeArr);
     }
 
-    public /* synthetic */ void lambda$startDitheringInternal$2(final IntSize intSize, final Runnable[] runnableArr, final int i, final Listener[] listenerArr) {
+    public /* synthetic */ void lambda$startDitheringInternal$2(IntSize intSize, Runnable[] runnableArr, int i, Listener[] listenerArr) {
         try {
-            final Bitmap createDitheredGradientBitmap = createDitheredGradientBitmap(getOrientation(), this.colors, intSize.width, intSize.height);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    BackgroundGradientDrawable.this.lambda$startDitheringInternal$1(runnableArr, createDitheredGradientBitmap, intSize, i, listenerArr);
-                }
-            });
+            AndroidUtilities.runOnUIThread(new BackgroundGradientDrawable$$ExternalSyntheticLambda1(this, runnableArr, createDitheredGradientBitmap(getOrientation(), this.colors, intSize.width, intSize.height), intSize, i, listenerArr));
         } catch (Throwable th) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    BackgroundGradientDrawable.this.lambda$startDitheringInternal$1(runnableArr, createDitheredGradientBitmap, intSize, i, listenerArr);
-                }
-            });
+            AndroidUtilities.runOnUIThread(new BackgroundGradientDrawable$$ExternalSyntheticLambda1(this, runnableArr, null, intSize, i, listenerArr));
             throw th;
         }
     }

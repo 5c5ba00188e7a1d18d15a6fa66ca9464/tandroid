@@ -1,14 +1,33 @@
 package org.webrtc;
 
 import org.webrtc.VideoProcessor;
-import org.webrtc.VideoSink;
 /* loaded from: classes3.dex */
 public class VideoSource extends MediaSource {
     private boolean isCapturerRunning;
     private final NativeAndroidVideoTrackSource nativeAndroidVideoTrackSource;
     private VideoProcessor videoProcessor;
     private final Object videoProcessorLock = new Object();
-    private final CapturerObserver capturerObserver = new CapturerObserver() { // from class: org.webrtc.VideoSource.1
+    private final CapturerObserver capturerObserver = new AnonymousClass1();
+
+    /* loaded from: classes3.dex */
+    public static class AspectRatio {
+        public static final AspectRatio UNDEFINED = new AspectRatio(0, 0);
+        public final int height;
+        public final int width;
+
+        public AspectRatio(int i, int i2) {
+            this.width = i;
+            this.height = i2;
+        }
+    }
+
+    /* renamed from: org.webrtc.VideoSource$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements CapturerObserver {
+        AnonymousClass1() {
+            VideoSource.this = r1;
+        }
+
         @Override // org.webrtc.CapturerObserver
         public void onCapturerStarted(boolean z) {
             VideoSource.this.nativeAndroidVideoTrackSource.setState(z);
@@ -47,18 +66,6 @@ public class VideoSource extends MediaSource {
                 applyFrameAdaptationParameters.release();
             }
         }
-    };
-
-    /* loaded from: classes3.dex */
-    public static class AspectRatio {
-        public static final AspectRatio UNDEFINED = new AspectRatio(0, 0);
-        public final int height;
-        public final int width;
-
-        public AspectRatio(int i, int i2) {
-            this.width = i;
-            this.height = i2;
-        }
     }
 
     public VideoSource(long j) {
@@ -95,17 +102,7 @@ public class VideoSource extends MediaSource {
             }
             this.videoProcessor = videoProcessor;
             if (videoProcessor != null) {
-                videoProcessor.setSink(new VideoSink() { // from class: org.webrtc.VideoSource$$ExternalSyntheticLambda1
-                    @Override // org.webrtc.VideoSink
-                    public final void onFrame(VideoFrame videoFrame) {
-                        VideoSource.this.lambda$setVideoProcessor$1(videoFrame);
-                    }
-
-                    @Override // org.webrtc.VideoSink
-                    public /* synthetic */ void setParentSink(VideoSink videoSink) {
-                        VideoSink.CC.$default$setParentSink(this, videoSink);
-                    }
-                });
+                videoProcessor.setSink(new VideoSource$$ExternalSyntheticLambda1(this));
                 if (this.isCapturerRunning) {
                     videoProcessor.onCapturerStarted(true);
                 }
@@ -117,13 +114,8 @@ public class VideoSource extends MediaSource {
         this.nativeAndroidVideoTrackSource.onFrameCaptured(videoFrame);
     }
 
-    public /* synthetic */ void lambda$setVideoProcessor$1(final VideoFrame videoFrame) {
-        runWithReference(new Runnable() { // from class: org.webrtc.VideoSource$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                VideoSource.this.lambda$setVideoProcessor$0(videoFrame);
-            }
-        });
+    public /* synthetic */ void lambda$setVideoProcessor$1(VideoFrame videoFrame) {
+        runWithReference(new VideoSource$$ExternalSyntheticLambda0(this, videoFrame));
     }
 
     public CapturerObserver getCapturerObserver() {

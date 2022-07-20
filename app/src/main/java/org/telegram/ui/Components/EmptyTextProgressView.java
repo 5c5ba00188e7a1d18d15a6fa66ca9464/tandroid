@@ -11,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class EmptyTextProgressView extends FrameLayout {
@@ -62,13 +60,13 @@ public class EmptyTextProgressView extends FrameLayout {
         rLottieImageView.setScaleType(ImageView.ScaleType.FIT_XY);
         this.lottieImageView.setImportantForAccessibility(2);
         this.lottieImageView.setVisibility(8);
-        this.textViewLayout.addView(this.lottieImageView, LayoutHelper.createLinear((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, (int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, 17, 0, 0, 0, 20));
+        this.textViewLayout.addView(this.lottieImageView, LayoutHelper.createLinear(150, 150, 17, 0, 0, 0, 20));
         TextView textView = new TextView(context);
         this.textView = textView;
         textView.setTextSize(1, 20.0f);
         this.textView.setTextColor(getThemedColor("emptyListPlaceholder"));
         this.textView.setGravity(1);
-        this.textView.setText(LocaleController.getString("NoResult", R.string.NoResult));
+        this.textView.setText(LocaleController.getString("NoResult", 2131626910));
         this.textViewLayout.addView(this.textView, LayoutHelper.createLinear(-2, -2, 17));
         addView(this.textViewLayout, LayoutHelper.createFrame(-2, -2.0f));
         AndroidUtilities.updateViewVisibilityAnimated(this.textView, false, 2.0f, false);

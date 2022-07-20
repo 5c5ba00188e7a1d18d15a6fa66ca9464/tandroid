@@ -12,7 +12,6 @@ import android.os.Build;
 import android.view.Surface;
 import org.webrtc.EglBase;
 import org.webrtc.EglBase14;
-/* JADX INFO: Access modifiers changed from: package-private */
 @TargetApi(18)
 /* loaded from: classes3.dex */
 public class EglBase14Impl implements EglBase14 {
@@ -32,7 +31,7 @@ public class EglBase14Impl implements EglBase14 {
         sb.append(i);
         sb.append(". isEGL14Supported: ");
         sb.append(i >= 18);
-        Logging.d(TAG, sb.toString());
+        Logging.d("EglBase14Impl", sb.toString());
         return i >= 18;
     }
 
@@ -64,7 +63,7 @@ public class EglBase14Impl implements EglBase14 {
         this.eglDisplay = eglDisplay;
         this.eglConfig = getEglConfig(eglDisplay, iArr);
         int openGlesVersionFromConfig = EglBase.CC.getOpenGlesVersionFromConfig(iArr);
-        Logging.d(TAG, "Using OpenGL ES version " + openGlesVersionFromConfig);
+        Logging.d("EglBase14Impl", "Using OpenGL ES version " + openGlesVersionFromConfig);
         this.eglContext = createEglContext(eGLContext, this.eglDisplay, this.eglConfig, openGlesVersionFromConfig);
     }
 

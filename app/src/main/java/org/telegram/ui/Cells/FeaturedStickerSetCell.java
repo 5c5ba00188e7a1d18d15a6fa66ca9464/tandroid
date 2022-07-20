@@ -25,7 +25,6 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -85,7 +84,7 @@ public class FeaturedStickerSetCell extends FrameLayout {
         addView(backupImageView2, LayoutHelper.createFrame(48, 48.0f, (!z3 ? 3 : i) | 48, z3 ? 0.0f : 12.0f, 8.0f, z3 ? 12.0f : 0.0f, 0.0f));
         ProgressButton progressButton = new ProgressButton(context);
         this.addButton = progressButton;
-        progressButton.setText(LocaleController.getString("Add", R.string.Add));
+        progressButton.setText(LocaleController.getString("Add", 2131624242));
         this.addButton.setTextColor(Theme.getColor("featuredStickers_buttonText"));
         this.addButton.setProgressColor(Theme.getColor("featuredStickers_buttonProgress"));
         this.addButton.setBackgroundRoundRect(Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed"));
@@ -93,7 +92,7 @@ public class FeaturedStickerSetCell extends FrameLayout {
         ImageView imageView = new ImageView(context);
         this.checkImage = imageView;
         imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("featuredStickers_addedIcon"), PorterDuff.Mode.MULTIPLY));
-        this.checkImage.setImageResource(R.drawable.sticker_added);
+        this.checkImage.setImageResource(2131166162);
         addView(this.checkImage, LayoutHelper.createFrame(19, 14.0f));
     }
 
@@ -128,45 +127,14 @@ public class FeaturedStickerSetCell extends FrameLayout {
         this.textView.setText(this.stickersSet.set.title);
         TLRPC$Document tLRPC$Document = null;
         if (z2) {
-            Drawable drawable = new Drawable(this) { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell.1
-                Paint paint = new Paint(1);
-
-                @Override // android.graphics.drawable.Drawable
-                public int getOpacity() {
-                    return -2;
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void setAlpha(int i) {
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void setColorFilter(ColorFilter colorFilter) {
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void draw(Canvas canvas) {
-                    this.paint.setColor(-12277526);
-                    canvas.drawCircle(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(5.0f), AndroidUtilities.dp(3.0f), this.paint);
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public int getIntrinsicWidth() {
-                    return AndroidUtilities.dp(12.0f);
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public int getIntrinsicHeight() {
-                    return AndroidUtilities.dp(8.0f);
-                }
-            };
+            AnonymousClass1 anonymousClass1 = new AnonymousClass1(this);
             TextView textView = this.textView;
             boolean z4 = LocaleController.isRTL;
-            Drawable drawable2 = z4 ? null : drawable;
+            AnonymousClass1 anonymousClass12 = z4 ? null : anonymousClass1;
             if (!z4) {
-                drawable = null;
+                anonymousClass1 = null;
             }
-            textView.setCompoundDrawablesWithIntrinsicBounds(drawable2, (Drawable) null, drawable, (Drawable) null);
+            textView.setCompoundDrawablesWithIntrinsicBounds(anonymousClass12, (Drawable) null, anonymousClass1, (Drawable) null);
         } else {
             this.textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
@@ -222,23 +190,7 @@ public class FeaturedStickerSetCell extends FrameLayout {
                 this.currentAnimation = animatorSet2;
                 animatorSet2.setDuration(200L);
                 this.currentAnimation.playTogether(ObjectAnimator.ofFloat(this.addButton, "alpha", 1.0f, 0.0f), ObjectAnimator.ofFloat(this.addButton, "scaleX", 1.0f, 0.01f), ObjectAnimator.ofFloat(this.addButton, "scaleY", 1.0f, 0.01f), ObjectAnimator.ofFloat(this.checkImage, "alpha", 0.0f, 1.0f), ObjectAnimator.ofFloat(this.checkImage, "scaleX", 0.01f, 1.0f), ObjectAnimator.ofFloat(this.checkImage, "scaleY", 0.01f, 1.0f));
-                this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell.2
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (FeaturedStickerSetCell.this.currentAnimation == null || !FeaturedStickerSetCell.this.currentAnimation.equals(animator)) {
-                            return;
-                        }
-                        FeaturedStickerSetCell.this.addButton.setVisibility(4);
-                    }
-
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationCancel(Animator animator) {
-                        if (FeaturedStickerSetCell.this.currentAnimation == null || !FeaturedStickerSetCell.this.currentAnimation.equals(animator)) {
-                            return;
-                        }
-                        FeaturedStickerSetCell.this.currentAnimation = null;
-                    }
-                });
+                this.currentAnimation.addListener(new AnonymousClass2());
                 this.currentAnimation.start();
                 return;
             } else if (!z6) {
@@ -254,23 +206,7 @@ public class FeaturedStickerSetCell extends FrameLayout {
                 this.currentAnimation = animatorSet4;
                 animatorSet4.setDuration(200L);
                 this.currentAnimation.playTogether(ObjectAnimator.ofFloat(this.checkImage, "alpha", 1.0f, 0.0f), ObjectAnimator.ofFloat(this.checkImage, "scaleX", 1.0f, 0.01f), ObjectAnimator.ofFloat(this.checkImage, "scaleY", 1.0f, 0.01f), ObjectAnimator.ofFloat(this.addButton, "alpha", 0.0f, 1.0f), ObjectAnimator.ofFloat(this.addButton, "scaleX", 0.01f, 1.0f), ObjectAnimator.ofFloat(this.addButton, "scaleY", 0.01f, 1.0f));
-                this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell.3
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (FeaturedStickerSetCell.this.currentAnimation == null || !FeaturedStickerSetCell.this.currentAnimation.equals(animator)) {
-                            return;
-                        }
-                        FeaturedStickerSetCell.this.checkImage.setVisibility(4);
-                    }
-
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationCancel(Animator animator) {
-                        if (FeaturedStickerSetCell.this.currentAnimation == null || !FeaturedStickerSetCell.this.currentAnimation.equals(animator)) {
-                            return;
-                        }
-                        FeaturedStickerSetCell.this.currentAnimation = null;
-                    }
-                });
+                this.currentAnimation.addListener(new AnonymousClass3());
                 this.currentAnimation.start();
                 return;
             }
@@ -296,6 +232,92 @@ public class FeaturedStickerSetCell extends FrameLayout {
         this.addButton.setScaleX(1.0f);
         this.addButton.setScaleY(1.0f);
         this.addButton.setAlpha(1.0f);
+    }
+
+    /* renamed from: org.telegram.ui.Cells.FeaturedStickerSetCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends Drawable {
+        Paint paint = new Paint(1);
+
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            return -2;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+        }
+
+        AnonymousClass1(FeaturedStickerSetCell featuredStickerSetCell) {
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            this.paint.setColor(-12277526);
+            canvas.drawCircle(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(5.0f), AndroidUtilities.dp(3.0f), this.paint);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicWidth() {
+            return AndroidUtilities.dp(12.0f);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicHeight() {
+            return AndroidUtilities.dp(8.0f);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.FeaturedStickerSetCell$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        AnonymousClass2() {
+            FeaturedStickerSetCell.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (FeaturedStickerSetCell.this.currentAnimation == null || !FeaturedStickerSetCell.this.currentAnimation.equals(animator)) {
+                return;
+            }
+            FeaturedStickerSetCell.this.addButton.setVisibility(4);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            if (FeaturedStickerSetCell.this.currentAnimation == null || !FeaturedStickerSetCell.this.currentAnimation.equals(animator)) {
+                return;
+            }
+            FeaturedStickerSetCell.this.currentAnimation = null;
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.FeaturedStickerSetCell$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        AnonymousClass3() {
+            FeaturedStickerSetCell.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (FeaturedStickerSetCell.this.currentAnimation == null || !FeaturedStickerSetCell.this.currentAnimation.equals(animator)) {
+                return;
+            }
+            FeaturedStickerSetCell.this.checkImage.setVisibility(4);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            if (FeaturedStickerSetCell.this.currentAnimation == null || !FeaturedStickerSetCell.this.currentAnimation.equals(animator)) {
+                return;
+            }
+            FeaturedStickerSetCell.this.currentAnimation = null;
+        }
     }
 
     public TLRPC$StickerSetCovered getStickerSet() {

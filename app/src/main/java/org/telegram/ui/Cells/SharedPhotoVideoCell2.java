@@ -24,7 +24,6 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -131,7 +130,7 @@ public class SharedPhotoVideoCell2 extends View {
                     }
                 }
                 if (z) {
-                    this.imageReceiver.setImageBitmap(ContextCompat.getDrawable(getContext(), R.drawable.photo_placeholder_in));
+                    this.imageReceiver.setImageBitmap(ContextCompat.getDrawable(getContext(), 2131166045));
                 }
                 invalidate();
             }
@@ -436,7 +435,7 @@ public class SharedPhotoVideoCell2 extends View {
         return this.crossfadeView;
     }
 
-    public void setChecked(final boolean z, boolean z2) {
+    public void setChecked(boolean z, boolean z2) {
         CheckBoxBase checkBoxBase = this.checkBoxBase;
         if ((checkBoxBase != null && checkBoxBase.isChecked()) == z) {
             return;
@@ -468,26 +467,9 @@ public class SharedPhotoVideoCell2 extends View {
             fArr[1] = f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.animator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.SharedPhotoVideoCell2.1
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    SharedPhotoVideoCell2.this.checkBoxProgress = ((Float) valueAnimator2.getAnimatedValue()).floatValue();
-                    SharedPhotoVideoCell2.this.invalidate();
-                }
-            });
+            ofFloat.addUpdateListener(new AnonymousClass1());
             this.animator.setDuration(200L);
-            this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.SharedPhotoVideoCell2.2
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    ValueAnimator valueAnimator2 = SharedPhotoVideoCell2.this.animator;
-                    if (valueAnimator2 == null || !valueAnimator2.equals(animator)) {
-                        return;
-                    }
-                    SharedPhotoVideoCell2 sharedPhotoVideoCell2 = SharedPhotoVideoCell2.this;
-                    sharedPhotoVideoCell2.checkBoxProgress = z ? 1.0f : 0.0f;
-                    sharedPhotoVideoCell2.animator = null;
-                }
-            });
+            this.animator.addListener(new AnonymousClass2(z));
             this.animator.start();
         } else {
             if (!z) {
@@ -496,6 +478,42 @@ public class SharedPhotoVideoCell2 extends View {
             this.checkBoxProgress = f;
         }
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Cells.SharedPhotoVideoCell2$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements ValueAnimator.AnimatorUpdateListener {
+        AnonymousClass1() {
+            SharedPhotoVideoCell2.this = r1;
+        }
+
+        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+            SharedPhotoVideoCell2.this.checkBoxProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            SharedPhotoVideoCell2.this.invalidate();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.SharedPhotoVideoCell2$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        final /* synthetic */ boolean val$checked;
+
+        AnonymousClass2(boolean z) {
+            SharedPhotoVideoCell2.this = r1;
+            this.val$checked = z;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            ValueAnimator valueAnimator = SharedPhotoVideoCell2.this.animator;
+            if (valueAnimator == null || !valueAnimator.equals(animator)) {
+                return;
+            }
+            SharedPhotoVideoCell2 sharedPhotoVideoCell2 = SharedPhotoVideoCell2.this;
+            sharedPhotoVideoCell2.checkBoxProgress = this.val$checked ? 1.0f : 0.0f;
+            sharedPhotoVideoCell2.animator = null;
+        }
     }
 
     public void setHighlightProgress(float f) {
@@ -516,8 +534,8 @@ public class SharedPhotoVideoCell2 extends View {
         public SharedResources(Context context, Theme.ResourcesProvider resourcesProvider) {
             this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
             this.textPaint.setColor(-1);
-            this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.play_mini_video);
+            this.textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            Drawable drawable = ContextCompat.getDrawable(context, 2131166066);
             this.playDrawable = drawable;
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), this.playDrawable.getIntrinsicHeight());
             this.backgroundPaint.setColor(Theme.getColor("sharedMedia_photoPlaceholder", resourcesProvider));

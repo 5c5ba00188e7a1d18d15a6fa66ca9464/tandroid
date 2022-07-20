@@ -13,17 +13,7 @@ import java.util.List;
 import java.util.UUID;
 /* loaded from: classes.dex */
 public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
-    public static final Parcelable.Creator<DrmInitData> CREATOR = new Parcelable.Creator<DrmInitData>() { // from class: com.google.android.exoplayer2.drm.DrmInitData.1
-        @Override // android.os.Parcelable.Creator
-        public DrmInitData createFromParcel(Parcel parcel) {
-            return new DrmInitData(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public DrmInitData[] newArray(int i) {
-            return new DrmInitData[i];
-        }
-    };
+    public static final Parcelable.Creator<DrmInitData> CREATOR = new AnonymousClass1();
     private int hashCode;
     public final int schemeDataCount;
     private final SchemeData[] schemeDatas;
@@ -150,6 +140,23 @@ public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
         parcel.writeTypedArray(this.schemeDatas, 0);
     }
 
+    /* renamed from: com.google.android.exoplayer2.drm.DrmInitData$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<DrmInitData> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public DrmInitData createFromParcel(Parcel parcel) {
+            return new DrmInitData(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public DrmInitData[] newArray(int i) {
+            return new DrmInitData[i];
+        }
+    }
+
     private static boolean containsSchemeDataWithUuid(ArrayList<SchemeData> arrayList, int i, UUID uuid) {
         for (int i2 = 0; i2 < i; i2++) {
             if (arrayList.get(i2).uuid.equals(uuid)) {
@@ -161,17 +168,7 @@ public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
 
     /* loaded from: classes.dex */
     public static final class SchemeData implements Parcelable {
-        public static final Parcelable.Creator<SchemeData> CREATOR = new Parcelable.Creator<SchemeData>() { // from class: com.google.android.exoplayer2.drm.DrmInitData.SchemeData.1
-            @Override // android.os.Parcelable.Creator
-            public SchemeData createFromParcel(Parcel parcel) {
-                return new SchemeData(parcel);
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public SchemeData[] newArray(int i) {
-                return new SchemeData[i];
-            }
-        };
+        public static final Parcelable.Creator<SchemeData> CREATOR = new AnonymousClass1();
         public final byte[] data;
         private int hashCode;
         public final String licenseServerUrl;
@@ -244,6 +241,23 @@ public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
             parcel.writeString(this.licenseServerUrl);
             parcel.writeString(this.mimeType);
             parcel.writeByteArray(this.data);
+        }
+
+        /* renamed from: com.google.android.exoplayer2.drm.DrmInitData$SchemeData$1 */
+        /* loaded from: classes.dex */
+        class AnonymousClass1 implements Parcelable.Creator<SchemeData> {
+            AnonymousClass1() {
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public SchemeData createFromParcel(Parcel parcel) {
+                return new SchemeData(parcel);
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public SchemeData[] newArray(int i) {
+                return new SchemeData[i];
+            }
         }
     }
 }

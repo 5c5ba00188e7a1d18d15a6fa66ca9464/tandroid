@@ -39,52 +39,52 @@ public class EmuiUtil {
 
     private static void initEmuiType() {
         int eMUIVersionCode = getEMUIVersionCode();
-        Logger.d(TAG, "getEmuiType emuiVersionCode=" + eMUIVersionCode);
+        Logger.d("KPMS_Util_Emui", "getEmuiType emuiVersionCode=" + eMUIVersionCode);
         if (eMUIVersionCode >= 17) {
-            emuiType = TYPE_EMUI_90;
+            emuiType = 90;
         } else if (eMUIVersionCode >= 15) {
-            emuiType = TYPE_EMUI_801;
+            emuiType = 81;
         } else if (eMUIVersionCode >= 14) {
-            emuiType = TYPE_EMUI_60;
+            emuiType = 60;
         } else if (eMUIVersionCode >= 11) {
-            emuiType = TYPE_EMUI_50;
+            emuiType = 50;
         } else if (eMUIVersionCode >= 10) {
-            emuiType = TYPE_EMUI_41;
+            emuiType = 41;
         } else if (eMUIVersionCode >= 9) {
-            emuiType = TYPE_EMUI_40;
+            emuiType = 40;
         } else if (eMUIVersionCode >= 8) {
             emuiType = 31;
         } else if (eMUIVersionCode >= 7) {
             emuiType = 30;
         }
         if (emuiType == -1) {
-            Logger.i(TAG, "emuiType is unkown");
+            Logger.i("KPMS_Util_Emui", "emuiType is unkown");
         }
     }
 
     public static int getEMUIVersionCode() {
         int intValue;
-        Object staticFieldObj = ReflectionUtils.getStaticFieldObj(BUILDEX_VERSION, EMUI_SDK_INT);
+        Object staticFieldObj = ReflectionUtils.getStaticFieldObj("com.huawei.android.os.BuildEx$VERSION", "EMUI_SDK_INT");
         if (staticFieldObj != null) {
             try {
                 intValue = ((Integer) staticFieldObj).intValue();
             } catch (ClassCastException e) {
-                Logger.e(TAG, "getEMUIVersionCode ClassCastException:", e);
+                Logger.e("KPMS_Util_Emui", "getEMUIVersionCode ClassCastException:", e);
             }
-            Logger.d(TAG, "the emui version code is::" + intValue);
+            Logger.d("KPMS_Util_Emui", "the emui version code is::" + intValue);
             return intValue;
         }
         intValue = 0;
-        Logger.d(TAG, "the emui version code is::" + intValue);
+        Logger.d("KPMS_Util_Emui", "the emui version code is::" + intValue);
         return intValue;
     }
 
     public static boolean isUpPVersion() {
-        if (ReflectionUtils.checkCompatible(BUILDEX_NAME)) {
-            Logger.d(TAG, "com.huawei.android.os.BuildEx.VERSION.EMUI_SDK_INT: " + BuildEx.VERSION.EMUI_SDK_INT);
+        if (ReflectionUtils.checkCompatible("com.huawei.android.os.BuildEx")) {
+            Logger.d("KPMS_Util_Emui", "com.huawei.android.os.BuildEx.VERSION.EMUI_SDK_INT: " + BuildEx.VERSION.EMUI_SDK_INT);
             return BuildEx.VERSION.EMUI_SDK_INT >= 17;
         }
-        Logger.w(TAG, "com.huawei.android.os.BuildEx : false");
+        Logger.w("KPMS_Util_Emui", "com.huawei.android.os.BuildEx : false");
         return false;
     }
 }

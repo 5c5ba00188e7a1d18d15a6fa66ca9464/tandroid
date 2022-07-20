@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 /* loaded from: classes3.dex */
 public class SpoilersTextView extends TextView {
     private boolean isSpoilersRevealed;
@@ -23,12 +22,7 @@ public class SpoilersTextView extends TextView {
     private List<SpoilerEffect> spoilers = new ArrayList();
     private Stack<SpoilerEffect> spoilersPool = new Stack<>();
     private Path path = new Path();
-    private SpoilersClickDetector clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda2
-        @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
-        public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
-            SpoilersTextView.this.lambda$new$2(spoilerEffect, f, f2);
-        }
-    });
+    private SpoilersClickDetector clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersTextView$$ExternalSyntheticLambda2(this));
 
     public SpoilersTextView(Context context) {
         super(context);
@@ -38,12 +32,7 @@ public class SpoilersTextView extends TextView {
         if (this.isSpoilersRevealed) {
             return;
         }
-        spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                SpoilersTextView.this.lambda$new$1();
-            }
-        });
+        spoilerEffect.setOnRippleEndCallback(new SpoilersTextView$$ExternalSyntheticLambda0(this));
         float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
         for (SpoilerEffect spoilerEffect2 : this.spoilers) {
             spoilerEffect2.startRipple(f, f2, sqrt);
@@ -51,12 +40,7 @@ public class SpoilersTextView extends TextView {
     }
 
     public /* synthetic */ void lambda$new$1() {
-        post(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                SpoilersTextView.this.lambda$new$0();
-            }
-        });
+        post(new SpoilersTextView$$ExternalSyntheticLambda1(this));
     }
 
     public /* synthetic */ void lambda$new$0() {

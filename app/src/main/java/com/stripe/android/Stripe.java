@@ -13,28 +13,51 @@ import java.util.concurrent.Executor;
 /* loaded from: classes.dex */
 public class Stripe {
     private String defaultPublishableKey;
-    TokenCreator tokenCreator = new TokenCreator() { // from class: com.stripe.android.Stripe.1
-        @Override // com.stripe.android.Stripe.TokenCreator
-        public void create(final Card card, final String str, Executor executor, final TokenCallback tokenCallback) {
-            Stripe.this.executeTokenTask(executor, new AsyncTask<Void, Void, ResponseWrapper>() { // from class: com.stripe.android.Stripe.1.1
-                public ResponseWrapper doInBackground(Void... voidArr) {
-                    try {
-                        return new ResponseWrapper(StripeApiHandler.createToken(StripeNetworkUtils.hashMapFromCard(card), RequestOptions.builder(str).build()), null);
-                    } catch (StripeException e) {
-                        return new ResponseWrapper(null, e);
-                    }
-                }
-
-                public void onPostExecute(ResponseWrapper responseWrapper) {
-                    Stripe.this.tokenTaskPostExecution(responseWrapper, tokenCallback);
-                }
-            });
-        }
-    };
+    TokenCreator tokenCreator = new AnonymousClass1();
 
     /* loaded from: classes.dex */
     public interface TokenCreator {
         void create(Card card, String str, Executor executor, TokenCallback tokenCallback);
+    }
+
+    /* renamed from: com.stripe.android.Stripe$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 implements TokenCreator {
+        AnonymousClass1() {
+            Stripe.this = r1;
+        }
+
+        /* renamed from: com.stripe.android.Stripe$1$1 */
+        /* loaded from: classes.dex */
+        class AsyncTaskC00091 extends AsyncTask<Void, Void, ResponseWrapper> {
+            final /* synthetic */ TokenCallback val$callback;
+            final /* synthetic */ Card val$card;
+            final /* synthetic */ String val$publishableKey;
+
+            AsyncTaskC00091(String str, Card card, TokenCallback tokenCallback) {
+                AnonymousClass1.this = r1;
+                this.val$publishableKey = str;
+                this.val$card = card;
+                this.val$callback = tokenCallback;
+            }
+
+            public ResponseWrapper doInBackground(Void... voidArr) {
+                try {
+                    return new ResponseWrapper(Stripe.this, StripeApiHandler.createToken(StripeNetworkUtils.hashMapFromCard(this.val$card), RequestOptions.builder(this.val$publishableKey).build()), null, null);
+                } catch (StripeException e) {
+                    return new ResponseWrapper(Stripe.this, null, e, null);
+                }
+            }
+
+            public void onPostExecute(ResponseWrapper responseWrapper) {
+                Stripe.this.tokenTaskPostExecution(responseWrapper, this.val$callback);
+            }
+        }
+
+        @Override // com.stripe.android.Stripe.TokenCreator
+        public void create(Card card, String str, Executor executor, TokenCallback tokenCallback) {
+            Stripe.this.executeTokenTask(executor, new AsyncTaskC00091(str, card, tokenCallback));
+        }
     }
 
     public Stripe(String str) throws AuthenticationException {
@@ -104,6 +127,10 @@ public class Stripe {
     public class ResponseWrapper {
         final Exception error;
         final Token token;
+
+        /* synthetic */ ResponseWrapper(Stripe stripe, Token token, Exception exc, AnonymousClass1 anonymousClass1) {
+            this(stripe, token, exc);
+        }
 
         private ResponseWrapper(Stripe stripe, Token token, Exception exc) {
             this.error = exc;

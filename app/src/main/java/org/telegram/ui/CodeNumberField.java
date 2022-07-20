@@ -83,21 +83,29 @@ public class CodeNumberField extends EditTextBoldCursor {
         setBackground(null);
         setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         setMovementMethod(null);
-        addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.CodeNumberField.1
-            @Override // android.text.TextWatcher
-            public void afterTextChanged(Editable editable) {
-            }
+        addTextChangedListener(new AnonymousClass1());
+    }
 
-            @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            }
+    /* renamed from: org.telegram.ui.CodeNumberField$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements TextWatcher {
+        @Override // android.text.TextWatcher
+        public void afterTextChanged(Editable editable) {
+        }
 
-            @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                CodeNumberField.this.startEnterAnimation(charSequence.length() != 0);
-                CodeNumberField.this.hideActionMode();
-            }
-        });
+        @Override // android.text.TextWatcher
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        AnonymousClass1() {
+            CodeNumberField.this = r1;
+        }
+
+        @Override // android.text.TextWatcher
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            CodeNumberField.this.startEnterAnimation(charSequence.length() != 0);
+            CodeNumberField.this.hideActionMode();
+        }
     }
 
     public void setShowSoftInputOnFocusCompat(boolean z) {
@@ -178,12 +186,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         this.exitAnimation = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.exitAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                CodeNumberField.this.lambda$startExitAnimation$8(valueAnimator);
-            }
-        });
+        ofFloat.addUpdateListener(new CodeNumberField$$ExternalSyntheticLambda0(this));
         this.exitAnimator.setDuration(220L);
         this.exitAnimator.start();
     }
@@ -201,12 +204,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         this.enterAnimation = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.enterAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda1
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                CodeNumberField.this.lambda$startEnterAnimation$9(valueAnimator);
-            }
-        });
+        ofFloat.addUpdateListener(new CodeNumberField$$ExternalSyntheticLambda1(this));
         if (!this.replaceAnimation) {
             this.enterAnimator.setInterpolator(new OvershootInterpolator(1.5f));
             this.enterAnimator.setDuration(350L);
@@ -255,32 +253,7 @@ public class CodeNumberField extends EditTextBoldCursor {
                     } catch (Exception unused) {
                     }
                     if (i > 0) {
-                        startActionMode(new ActionMode.Callback() { // from class: org.telegram.ui.CodeNumberField.2
-                            @Override // android.view.ActionMode.Callback
-                            public void onDestroyActionMode(ActionMode actionMode) {
-                            }
-
-                            @Override // android.view.ActionMode.Callback
-                            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-                                return true;
-                            }
-
-                            @Override // android.view.ActionMode.Callback
-                            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-                                menu.add(0, 16908322, 0, 17039371);
-                                return true;
-                            }
-
-                            @Override // android.view.ActionMode.Callback
-                            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-                                if (menuItem.getItemId() != 16908322) {
-                                    return true;
-                                }
-                                CodeNumberField.this.pasteFromClipboard();
-                                CodeNumberField.this.hideActionMode();
-                                return true;
-                            }
-                        });
+                        startActionMode(new AnonymousClass2());
                     }
                 } else {
                     requestFocus();
@@ -293,6 +266,39 @@ public class CodeNumberField extends EditTextBoldCursor {
             this.pressed = false;
         }
         return this.pressed;
+    }
+
+    /* renamed from: org.telegram.ui.CodeNumberField$2 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass2 implements ActionMode.Callback {
+        @Override // android.view.ActionMode.Callback
+        public void onDestroyActionMode(ActionMode actionMode) {
+        }
+
+        @Override // android.view.ActionMode.Callback
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            return true;
+        }
+
+        AnonymousClass2() {
+            CodeNumberField.this = r1;
+        }
+
+        @Override // android.view.ActionMode.Callback
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            menu.add(0, 16908322, 0, 17039371);
+            return true;
+        }
+
+        @Override // android.view.ActionMode.Callback
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            if (menuItem.getItemId() != 16908322) {
+                return true;
+            }
+            CodeNumberField.this.pasteFromClipboard();
+            CodeNumberField.this.hideActionMode();
+            return true;
+        }
     }
 
     public void pasteFromClipboard() {

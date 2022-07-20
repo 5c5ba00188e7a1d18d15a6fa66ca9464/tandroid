@@ -24,12 +24,7 @@ public class VideoEncoderWrapper {
     }
 
     @CalledByNative
-    static VideoEncoder.Callback createEncoderCallback(final long j) {
-        return new VideoEncoder.Callback() { // from class: org.webrtc.VideoEncoderWrapper$$ExternalSyntheticLambda0
-            @Override // org.webrtc.VideoEncoder.Callback
-            public final void onEncodedFrame(EncodedImage encodedImage, VideoEncoder.CodecSpecificInfo codecSpecificInfo) {
-                VideoEncoderWrapper.nativeOnEncodedFrame(j, encodedImage);
-            }
-        };
+    static VideoEncoder.Callback createEncoderCallback(long j) {
+        return new VideoEncoderWrapper$$ExternalSyntheticLambda0(j);
     }
 }

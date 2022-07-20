@@ -1,7 +1,6 @@
 package com.google.android.datatransport.cct.internal;
 
 import java.util.List;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AutoValue_BatchedLogRequest extends BatchedLogRequest {
     private final List<LogRequest> logRequests;

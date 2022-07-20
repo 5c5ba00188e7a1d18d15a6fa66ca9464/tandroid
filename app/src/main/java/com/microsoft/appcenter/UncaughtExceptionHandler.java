@@ -22,15 +22,8 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
     @Override // java.lang.Thread.UncaughtExceptionHandler
     public void uncaughtException(Thread thread, Throwable th) {
         if (AppCenter.getInstance().isInstanceEnabled()) {
-            final Semaphore semaphore = new Semaphore(0);
-            this.mHandler.post(new Runnable() { // from class: com.microsoft.appcenter.UncaughtExceptionHandler.1
-                @Override // java.lang.Runnable
-                public void run() {
-                    UncaughtExceptionHandler.this.mChannel.shutdown();
-                    AppCenterLog.debug("AppCenter", "Channel completed shutdown.");
-                    semaphore.release();
-                }
-            });
+            Semaphore semaphore = new Semaphore(0);
+            this.mHandler.post(new AnonymousClass1(semaphore));
             try {
                 if (!semaphore.tryAcquire(5000L, TimeUnit.MILLISECONDS)) {
                     AppCenterLog.error("AppCenter", "Timeout waiting for looper tasks to complete.");
@@ -44,6 +37,24 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
             uncaughtExceptionHandler.uncaughtException(thread, th);
         } else {
             ShutdownHelper.shutdown(10);
+        }
+    }
+
+    /* renamed from: com.microsoft.appcenter.UncaughtExceptionHandler$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Runnable {
+        final /* synthetic */ Semaphore val$semaphore;
+
+        AnonymousClass1(Semaphore semaphore) {
+            UncaughtExceptionHandler.this = r1;
+            this.val$semaphore = semaphore;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            UncaughtExceptionHandler.this.mChannel.shutdown();
+            AppCenterLog.debug("AppCenter", "Channel completed shutdown.");
+            this.val$semaphore.release();
         }
     }
 

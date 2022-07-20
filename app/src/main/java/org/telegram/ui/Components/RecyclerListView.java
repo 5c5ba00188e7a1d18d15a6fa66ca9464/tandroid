@@ -40,10 +40,8 @@ import java.util.HashSet;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.GestureDetectorFixDoubleTap;
-import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class RecyclerListView extends RecyclerView {
     private static int[] attributes;
@@ -223,6 +221,21 @@ public class RecyclerListView extends RecyclerView {
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
         return false;
+    }
+
+    /* renamed from: org.telegram.ui.Components.RecyclerListView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends View.AccessibilityDelegate {
+        AnonymousClass1(RecyclerListView recyclerListView) {
+        }
+
+        @Override // android.view.View.AccessibilityDelegate
+        public void onInitializeAccessibilityNodeInfo(View view, AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(view, accessibilityNodeInfo);
+            if (view.isEnabled()) {
+                accessibilityNodeInfo.addAction(16);
+            }
+        }
     }
 
     public void setSelectorTransformer(Consumer<Canvas> consumer) {
@@ -459,7 +472,15 @@ public class RecyclerListView extends RecyclerView {
         private Path arrowPath = new Path();
         private float[] radii = new float[8];
         private int[] positionWithOffset = new int[2];
-        Runnable hideFloatingDateRunnable = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView.FastScroll.1
+        Runnable hideFloatingDateRunnable = new AnonymousClass1();
+
+        /* renamed from: org.telegram.ui.Components.RecyclerListView$FastScroll$1 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass1 implements Runnable {
+            AnonymousClass1() {
+                FastScroll.this = r1;
+            }
+
             @Override // java.lang.Runnable
             public void run() {
                 if (!FastScroll.this.pressed) {
@@ -470,7 +491,7 @@ public class RecyclerListView extends RecyclerView {
                 AndroidUtilities.cancelRunOnUIThread(FastScroll.this.hideFloatingDateRunnable);
                 AndroidUtilities.runOnUIThread(FastScroll.this.hideFloatingDateRunnable, 4000L);
             }
-        };
+        }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public FastScroll(Context context, int i) {
@@ -483,9 +504,9 @@ public class RecyclerListView extends RecyclerView {
             } else {
                 this.isRtl = false;
                 this.letterPaint.setTextSize(AndroidUtilities.dp(13.0f));
-                this.letterPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.letterPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 this.paint2.setColor(Theme.getColor("windowBackgroundWhite"));
-                Drawable mutate = ContextCompat.getDrawable(context, R.drawable.calendar_date).mutate();
+                Drawable mutate = ContextCompat.getDrawable(context, 2131165295).mutate();
                 this.fastScrollBackgroundDrawable = mutate;
                 mutate.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhite"), -1, 0.1f), PorterDuff.Mode.MULTIPLY));
             }
@@ -496,7 +517,7 @@ public class RecyclerListView extends RecyclerView {
             updateColors();
             setFocusableInTouchMode(true);
             this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-            this.fastScrollShadowDrawable = ContextCompat.getDrawable(context, R.drawable.fast_scroll_shadow);
+            this.fastScrollShadowDrawable = ContextCompat.getDrawable(context, 2131165397);
         }
 
         public void updateColors() {
@@ -999,133 +1020,158 @@ public class RecyclerListView extends RecyclerView {
         public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
         }
 
+        /* renamed from: org.telegram.ui.Components.RecyclerListView$RecyclerListViewItemClickListener$1 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass1 extends GestureDetectorFixDoubleTap.OnGestureListener {
+            private View doubleTapView;
+
+            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+            public boolean onDown(MotionEvent motionEvent) {
+                return false;
+            }
+
+            AnonymousClass1(RecyclerListView recyclerListView) {
+                RecyclerListViewItemClickListener.this = r1;
+            }
+
+            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                if (RecyclerListView.this.currentChildView != null) {
+                    if (RecyclerListView.this.onItemClickListenerExtended == null || !RecyclerListView.this.onItemClickListenerExtended.hasDoubleTap(RecyclerListView.this.currentChildView, RecyclerListView.this.currentChildPosition)) {
+                        onPressItem(RecyclerListView.this.currentChildView, motionEvent);
+                    } else {
+                        this.doubleTapView = RecyclerListView.this.currentChildView;
+                    }
+                }
+                return false;
+            }
+
+            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
+            public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
+                if (this.doubleTapView == null || RecyclerListView.this.onItemClickListenerExtended == null || !RecyclerListView.this.onItemClickListenerExtended.hasDoubleTap(this.doubleTapView, RecyclerListView.this.currentChildPosition)) {
+                    return false;
+                }
+                onPressItem(this.doubleTapView, motionEvent);
+                this.doubleTapView = null;
+                return true;
+            }
+
+            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
+            public boolean onDoubleTap(MotionEvent motionEvent) {
+                if (this.doubleTapView == null || RecyclerListView.this.onItemClickListenerExtended == null || !RecyclerListView.this.onItemClickListenerExtended.hasDoubleTap(this.doubleTapView, RecyclerListView.this.currentChildPosition)) {
+                    return false;
+                }
+                RecyclerListView.this.onItemClickListenerExtended.onDoubleTap(this.doubleTapView, RecyclerListView.this.currentChildPosition, motionEvent.getX(), motionEvent.getY());
+                this.doubleTapView = null;
+                return true;
+            }
+
+            private void onPressItem(View view, MotionEvent motionEvent) {
+                if (view != null) {
+                    if (RecyclerListView.this.onItemClickListener == null && RecyclerListView.this.onItemClickListenerExtended == null) {
+                        return;
+                    }
+                    float x = motionEvent.getX();
+                    float y = motionEvent.getY();
+                    RecyclerListView.this.onChildPressed(view, x, y, true);
+                    int i = RecyclerListView.this.currentChildPosition;
+                    if (RecyclerListView.this.instantClick && i != -1) {
+                        view.playSoundEffect(0);
+                        view.sendAccessibilityEvent(1);
+                        if (RecyclerListView.this.onItemClickListener != null) {
+                            RecyclerListView.this.onItemClickListener.onItemClick(view, i);
+                        } else if (RecyclerListView.this.onItemClickListenerExtended != null) {
+                            RecyclerListView.this.onItemClickListenerExtended.onItemClick(view, i, x - view.getX(), y - view.getY());
+                        }
+                    }
+                    AndroidUtilities.runOnUIThread(RecyclerListView.this.clickRunnable = new RunnableC00321(view, i, x, y), ViewConfiguration.getPressedStateDuration());
+                    if (RecyclerListView.this.selectChildRunnable == null) {
+                        return;
+                    }
+                    AndroidUtilities.cancelRunOnUIThread(RecyclerListView.this.selectChildRunnable);
+                    RecyclerListView.this.selectChildRunnable = null;
+                    RecyclerListView.this.currentChildView = null;
+                    RecyclerListView.this.interceptedByChild = false;
+                    RecyclerListView.this.removeSelection(view, motionEvent);
+                }
+            }
+
+            /* renamed from: org.telegram.ui.Components.RecyclerListView$RecyclerListViewItemClickListener$1$1 */
+            /* loaded from: classes3.dex */
+            public class RunnableC00321 implements Runnable {
+                final /* synthetic */ int val$position;
+                final /* synthetic */ View val$view;
+                final /* synthetic */ float val$x;
+                final /* synthetic */ float val$y;
+
+                RunnableC00321(View view, int i, float f, float f2) {
+                    AnonymousClass1.this = r1;
+                    this.val$view = view;
+                    this.val$position = i;
+                    this.val$x = f;
+                    this.val$y = f2;
+                }
+
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (this == RecyclerListView.this.clickRunnable) {
+                        RecyclerListView.this.clickRunnable = null;
+                    }
+                    View view = this.val$view;
+                    if (view != null) {
+                        RecyclerListView.this.onChildPressed(view, 0.0f, 0.0f, false);
+                        if (RecyclerListView.this.instantClick) {
+                            return;
+                        }
+                        this.val$view.playSoundEffect(0);
+                        this.val$view.sendAccessibilityEvent(1);
+                        if (this.val$position == -1) {
+                            return;
+                        }
+                        if (RecyclerListView.this.onItemClickListener != null) {
+                            RecyclerListView.this.onItemClickListener.onItemClick(this.val$view, this.val$position);
+                        } else if (RecyclerListView.this.onItemClickListenerExtended == null) {
+                        } else {
+                            OnItemClickListenerExtended onItemClickListenerExtended = RecyclerListView.this.onItemClickListenerExtended;
+                            View view2 = this.val$view;
+                            onItemClickListenerExtended.onItemClick(view2, this.val$position, this.val$x - view2.getX(), this.val$y - this.val$view.getY());
+                        }
+                    }
+                }
+            }
+
+            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+            public void onLongPress(MotionEvent motionEvent) {
+                if (RecyclerListView.this.currentChildView == null || RecyclerListView.this.currentChildPosition == -1) {
+                    return;
+                }
+                if (RecyclerListView.this.onItemLongClickListener == null && RecyclerListView.this.onItemLongClickListenerExtended == null) {
+                    return;
+                }
+                View view = RecyclerListView.this.currentChildView;
+                if (RecyclerListView.this.onItemLongClickListener != null) {
+                    if (!RecyclerListView.this.onItemLongClickListener.onItemClick(RecyclerListView.this.currentChildView, RecyclerListView.this.currentChildPosition)) {
+                        return;
+                    }
+                    view.performHapticFeedback(0);
+                    view.sendAccessibilityEvent(2);
+                } else if (!RecyclerListView.this.onItemLongClickListenerExtended.onItemClick(RecyclerListView.this.currentChildView, RecyclerListView.this.currentChildPosition, motionEvent.getX() - RecyclerListView.this.currentChildView.getX(), motionEvent.getY() - RecyclerListView.this.currentChildView.getY())) {
+                } else {
+                    view.performHapticFeedback(0);
+                    view.sendAccessibilityEvent(2);
+                    RecyclerListView.this.longPressCalled = true;
+                }
+            }
+
+            @Override // org.telegram.ui.Components.GestureDetectorFixDoubleTap.OnGestureListener
+            public boolean hasDoubleTap() {
+                return RecyclerListView.this.onItemLongClickListenerExtended != null;
+            }
+        }
+
         public RecyclerListViewItemClickListener(Context context) {
             RecyclerListView.this = r3;
-            r3.gestureDetector = new GestureDetectorFixDoubleTap(context, new GestureDetectorFixDoubleTap.OnGestureListener(r3) { // from class: org.telegram.ui.Components.RecyclerListView.RecyclerListViewItemClickListener.1
-                private View doubleTapView;
-
-                @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-                public boolean onDown(MotionEvent motionEvent) {
-                    return false;
-                }
-
-                @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-                public boolean onSingleTapUp(MotionEvent motionEvent) {
-                    if (RecyclerListView.this.currentChildView != null) {
-                        if (RecyclerListView.this.onItemClickListenerExtended == null || !RecyclerListView.this.onItemClickListenerExtended.hasDoubleTap(RecyclerListView.this.currentChildView, RecyclerListView.this.currentChildPosition)) {
-                            onPressItem(RecyclerListView.this.currentChildView, motionEvent);
-                        } else {
-                            this.doubleTapView = RecyclerListView.this.currentChildView;
-                        }
-                    }
-                    return false;
-                }
-
-                @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
-                public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
-                    if (this.doubleTapView == null || RecyclerListView.this.onItemClickListenerExtended == null || !RecyclerListView.this.onItemClickListenerExtended.hasDoubleTap(this.doubleTapView, RecyclerListView.this.currentChildPosition)) {
-                        return false;
-                    }
-                    onPressItem(this.doubleTapView, motionEvent);
-                    this.doubleTapView = null;
-                    return true;
-                }
-
-                @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
-                public boolean onDoubleTap(MotionEvent motionEvent) {
-                    if (this.doubleTapView == null || RecyclerListView.this.onItemClickListenerExtended == null || !RecyclerListView.this.onItemClickListenerExtended.hasDoubleTap(this.doubleTapView, RecyclerListView.this.currentChildPosition)) {
-                        return false;
-                    }
-                    RecyclerListView.this.onItemClickListenerExtended.onDoubleTap(this.doubleTapView, RecyclerListView.this.currentChildPosition, motionEvent.getX(), motionEvent.getY());
-                    this.doubleTapView = null;
-                    return true;
-                }
-
-                private void onPressItem(final View view, MotionEvent motionEvent) {
-                    if (view != null) {
-                        if (RecyclerListView.this.onItemClickListener == null && RecyclerListView.this.onItemClickListenerExtended == null) {
-                            return;
-                        }
-                        final float x = motionEvent.getX();
-                        final float y = motionEvent.getY();
-                        RecyclerListView.this.onChildPressed(view, x, y, true);
-                        final int i = RecyclerListView.this.currentChildPosition;
-                        if (RecyclerListView.this.instantClick && i != -1) {
-                            view.playSoundEffect(0);
-                            view.sendAccessibilityEvent(1);
-                            if (RecyclerListView.this.onItemClickListener != null) {
-                                RecyclerListView.this.onItemClickListener.onItemClick(view, i);
-                            } else if (RecyclerListView.this.onItemClickListenerExtended != null) {
-                                RecyclerListView.this.onItemClickListenerExtended.onItemClick(view, i, x - view.getX(), y - view.getY());
-                            }
-                        }
-                        AndroidUtilities.runOnUIThread(RecyclerListView.this.clickRunnable = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView.RecyclerListViewItemClickListener.1.1
-                            @Override // java.lang.Runnable
-                            public void run() {
-                                if (this == RecyclerListView.this.clickRunnable) {
-                                    RecyclerListView.this.clickRunnable = null;
-                                }
-                                View view2 = view;
-                                if (view2 != null) {
-                                    RecyclerListView.this.onChildPressed(view2, 0.0f, 0.0f, false);
-                                    if (RecyclerListView.this.instantClick) {
-                                        return;
-                                    }
-                                    view.playSoundEffect(0);
-                                    view.sendAccessibilityEvent(1);
-                                    if (i == -1) {
-                                        return;
-                                    }
-                                    if (RecyclerListView.this.onItemClickListener != null) {
-                                        RecyclerListView.this.onItemClickListener.onItemClick(view, i);
-                                    } else if (RecyclerListView.this.onItemClickListenerExtended == null) {
-                                    } else {
-                                        OnItemClickListenerExtended onItemClickListenerExtended = RecyclerListView.this.onItemClickListenerExtended;
-                                        View view3 = view;
-                                        onItemClickListenerExtended.onItemClick(view3, i, x - view3.getX(), y - view.getY());
-                                    }
-                                }
-                            }
-                        }, ViewConfiguration.getPressedStateDuration());
-                        if (RecyclerListView.this.selectChildRunnable == null) {
-                            return;
-                        }
-                        AndroidUtilities.cancelRunOnUIThread(RecyclerListView.this.selectChildRunnable);
-                        RecyclerListView.this.selectChildRunnable = null;
-                        RecyclerListView.this.currentChildView = null;
-                        RecyclerListView.this.interceptedByChild = false;
-                        RecyclerListView.this.removeSelection(view, motionEvent);
-                    }
-                }
-
-                @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-                public void onLongPress(MotionEvent motionEvent) {
-                    if (RecyclerListView.this.currentChildView == null || RecyclerListView.this.currentChildPosition == -1) {
-                        return;
-                    }
-                    if (RecyclerListView.this.onItemLongClickListener == null && RecyclerListView.this.onItemLongClickListenerExtended == null) {
-                        return;
-                    }
-                    View view = RecyclerListView.this.currentChildView;
-                    if (RecyclerListView.this.onItemLongClickListener != null) {
-                        if (!RecyclerListView.this.onItemLongClickListener.onItemClick(RecyclerListView.this.currentChildView, RecyclerListView.this.currentChildPosition)) {
-                            return;
-                        }
-                        view.performHapticFeedback(0);
-                        view.sendAccessibilityEvent(2);
-                    } else if (!RecyclerListView.this.onItemLongClickListenerExtended.onItemClick(RecyclerListView.this.currentChildView, RecyclerListView.this.currentChildPosition, motionEvent.getX() - RecyclerListView.this.currentChildView.getX(), motionEvent.getY() - RecyclerListView.this.currentChildView.getY())) {
-                    } else {
-                        view.performHapticFeedback(0);
-                        view.sendAccessibilityEvent(2);
-                        RecyclerListView.this.longPressCalled = true;
-                    }
-                }
-
-                @Override // org.telegram.ui.Components.GestureDetectorFixDoubleTap.OnGestureListener
-                public boolean hasDoubleTap() {
-                    return RecyclerListView.this.onItemLongClickListenerExtended != null;
-                }
-            });
+            r3.gestureDetector = new GestureDetectorFixDoubleTap(context, new AnonymousClass1(r3));
             r3.gestureDetector.setIsLongpressEnabled(false);
         }
 
@@ -1179,14 +1225,9 @@ public class RecyclerListView extends RecyclerView {
             }
             if (actionMasked == 0 || actionMasked == 5) {
                 if (!RecyclerListView.this.interceptedByChild && RecyclerListView.this.currentChildView != null) {
-                    final float x3 = motionEvent.getX();
-                    final float y3 = motionEvent.getY();
-                    RecyclerListView.this.selectChildRunnable = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView$RecyclerListViewItemClickListener$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            RecyclerListView.RecyclerListViewItemClickListener.this.lambda$onInterceptTouchEvent$0(x3, y3);
-                        }
-                    };
+                    float x3 = motionEvent.getX();
+                    float y3 = motionEvent.getY();
+                    RecyclerListView.this.selectChildRunnable = new RecyclerListView$RecyclerListViewItemClickListener$$ExternalSyntheticLambda0(this, x3, y3);
                     AndroidUtilities.runOnUIThread(RecyclerListView.this.selectChildRunnable, ViewConfiguration.getTapTimeout());
                     if (RecyclerListView.this.currentChildView.isEnabled()) {
                         RecyclerListView recyclerListView2 = RecyclerListView.this;
@@ -1333,6 +1374,41 @@ public class RecyclerListView extends RecyclerView {
         this.resetSelectorOnChanged = z;
     }
 
+    /* renamed from: org.telegram.ui.Components.RecyclerListView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends RecyclerView.AdapterDataObserver {
+        AnonymousClass2() {
+            RecyclerListView.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+        public void onChanged() {
+            RecyclerListView.this.checkIfEmpty(true);
+            if (RecyclerListView.this.resetSelectorOnChanged) {
+                RecyclerListView.this.currentFirst = -1;
+                if (RecyclerListView.this.removeHighlighSelectionRunnable == null) {
+                    RecyclerListView.this.selectorRect.setEmpty();
+                }
+            }
+            RecyclerListView.this.invalidate();
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+        public void onItemRangeInserted(int i, int i2) {
+            RecyclerListView.this.checkIfEmpty(true);
+            if (RecyclerListView.this.pinnedHeader == null || RecyclerListView.this.pinnedHeader.getAlpha() != 0.0f) {
+                return;
+            }
+            RecyclerListView.this.currentFirst = -1;
+            RecyclerListView.this.invalidateViews();
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+        public void onItemRangeRemoved(int i, int i2) {
+            RecyclerListView.this.checkIfEmpty(true);
+        }
+    }
+
     public int[] getResourceDeclareStyleableIntArray(String str, String str2) {
         try {
             Field field = Class.forName(str + ".R$styleable").getField(str2);
@@ -1361,66 +1437,10 @@ public class RecyclerListView extends RecyclerView {
         this.lastX = Float.MAX_VALUE;
         this.lastY = Float.MAX_VALUE;
         this.accessibilityEnabled = true;
-        this.accessibilityDelegate = new View.AccessibilityDelegate(this) { // from class: org.telegram.ui.Components.RecyclerListView.1
-            @Override // android.view.View.AccessibilityDelegate
-            public void onInitializeAccessibilityNodeInfo(View view, AccessibilityNodeInfo accessibilityNodeInfo) {
-                super.onInitializeAccessibilityNodeInfo(view, accessibilityNodeInfo);
-                if (view.isEnabled()) {
-                    accessibilityNodeInfo.addAction(16);
-                }
-            }
-        };
+        this.accessibilityDelegate = new AnonymousClass1(this);
         this.resetSelectorOnChanged = true;
-        this.observer = new RecyclerView.AdapterDataObserver() { // from class: org.telegram.ui.Components.RecyclerListView.2
-            @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-            public void onChanged() {
-                RecyclerListView.this.checkIfEmpty(true);
-                if (RecyclerListView.this.resetSelectorOnChanged) {
-                    RecyclerListView.this.currentFirst = -1;
-                    if (RecyclerListView.this.removeHighlighSelectionRunnable == null) {
-                        RecyclerListView.this.selectorRect.setEmpty();
-                    }
-                }
-                RecyclerListView.this.invalidate();
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-            public void onItemRangeInserted(int i, int i2) {
-                RecyclerListView.this.checkIfEmpty(true);
-                if (RecyclerListView.this.pinnedHeader == null || RecyclerListView.this.pinnedHeader.getAlpha() != 0.0f) {
-                    return;
-                }
-                RecyclerListView.this.currentFirst = -1;
-                RecyclerListView.this.invalidateViews();
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-            public void onItemRangeRemoved(int i, int i2) {
-                RecyclerListView.this.checkIfEmpty(true);
-            }
-        };
-        this.scroller = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView.6
-            @Override // java.lang.Runnable
-            public void run() {
-                int i;
-                RecyclerListView recyclerListView = RecyclerListView.this;
-                recyclerListView.multiSelectionListener.getPaddings(recyclerListView.listPaddings);
-                if (RecyclerListView.this.multiselectScrollToTop) {
-                    i = -AndroidUtilities.dp(12.0f);
-                    RecyclerListView recyclerListView2 = RecyclerListView.this;
-                    recyclerListView2.chekMultiselect(0.0f, recyclerListView2.listPaddings[0]);
-                } else {
-                    i = AndroidUtilities.dp(12.0f);
-                    RecyclerListView recyclerListView3 = RecyclerListView.this;
-                    recyclerListView3.chekMultiselect(0.0f, recyclerListView3.getMeasuredHeight() - RecyclerListView.this.listPaddings[1]);
-                }
-                RecyclerListView.this.multiSelectionListener.scrollBy(i);
-                RecyclerListView recyclerListView4 = RecyclerListView.this;
-                if (recyclerListView4.multiselectScrollRunning) {
-                    AndroidUtilities.runOnUIThread(recyclerListView4.scroller);
-                }
-            }
-        };
+        this.observer = new AnonymousClass2();
+        this.scroller = new AnonymousClass6();
         this.resourcesProvider = resourcesProvider;
         setGlowColor(getThemedColor("actionBarDefault"));
         Drawable selectorDrawable = Theme.getSelectorDrawable(getThemedColor("listSelectorSDK21"), false);
@@ -1441,62 +1461,70 @@ public class RecyclerListView extends RecyclerView {
         } catch (Throwable th) {
             FileLog.e(th);
         }
-        super.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.RecyclerListView.3
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i) {
-                boolean z = false;
-                if (i != 0 && RecyclerListView.this.currentChildView != null) {
-                    if (RecyclerListView.this.selectChildRunnable != null) {
-                        AndroidUtilities.cancelRunOnUIThread(RecyclerListView.this.selectChildRunnable);
-                        RecyclerListView.this.selectChildRunnable = null;
-                    }
-                    MotionEvent obtain = MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0);
-                    try {
-                        RecyclerListView.this.gestureDetector.onTouchEvent(obtain);
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                    RecyclerListView.this.currentChildView.onTouchEvent(obtain);
-                    obtain.recycle();
-                    View view = RecyclerListView.this.currentChildView;
-                    RecyclerListView recyclerListView = RecyclerListView.this;
-                    recyclerListView.onChildPressed(recyclerListView.currentChildView, 0.0f, 0.0f, false);
-                    RecyclerListView.this.currentChildView = null;
-                    RecyclerListView.this.removeSelection(view, null);
-                    RecyclerListView.this.interceptedByChild = false;
-                }
-                if (RecyclerListView.this.onScrollListener != null) {
-                    RecyclerListView.this.onScrollListener.onScrollStateChanged(recyclerView, i);
-                }
-                RecyclerListView recyclerListView2 = RecyclerListView.this;
-                if (i == 1 || i == 2) {
-                    z = true;
-                }
-                recyclerListView2.scrollingByUser = z;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                if (RecyclerListView.this.onScrollListener != null) {
-                    RecyclerListView.this.onScrollListener.onScrolled(recyclerView, i, i2);
-                }
-                RecyclerListView recyclerListView = RecyclerListView.this;
-                if (recyclerListView.selectorPosition != -1) {
-                    recyclerListView.selectorRect.offset(-i, -i2);
-                    RecyclerListView recyclerListView2 = RecyclerListView.this;
-                    recyclerListView2.selectorDrawable.setBounds(recyclerListView2.selectorRect);
-                    RecyclerListView.this.invalidate();
-                } else {
-                    recyclerListView.selectorRect.setEmpty();
-                }
-                RecyclerListView.this.checkSection(false);
-                if (i2 == 0 || RecyclerListView.this.fastScroll == null) {
-                    return;
-                }
-                RecyclerListView.this.fastScroll.showFloatingDate();
-            }
-        });
+        super.setOnScrollListener(new AnonymousClass3());
         addOnItemTouchListener(new RecyclerListViewItemClickListener(context));
+    }
+
+    /* renamed from: org.telegram.ui.Components.RecyclerListView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends RecyclerView.OnScrollListener {
+        AnonymousClass3() {
+            RecyclerListView.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrollStateChanged(RecyclerView recyclerView, int i) {
+            boolean z = false;
+            if (i != 0 && RecyclerListView.this.currentChildView != null) {
+                if (RecyclerListView.this.selectChildRunnable != null) {
+                    AndroidUtilities.cancelRunOnUIThread(RecyclerListView.this.selectChildRunnable);
+                    RecyclerListView.this.selectChildRunnable = null;
+                }
+                MotionEvent obtain = MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0);
+                try {
+                    RecyclerListView.this.gestureDetector.onTouchEvent(obtain);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                RecyclerListView.this.currentChildView.onTouchEvent(obtain);
+                obtain.recycle();
+                View view = RecyclerListView.this.currentChildView;
+                RecyclerListView recyclerListView = RecyclerListView.this;
+                recyclerListView.onChildPressed(recyclerListView.currentChildView, 0.0f, 0.0f, false);
+                RecyclerListView.this.currentChildView = null;
+                RecyclerListView.this.removeSelection(view, null);
+                RecyclerListView.this.interceptedByChild = false;
+            }
+            if (RecyclerListView.this.onScrollListener != null) {
+                RecyclerListView.this.onScrollListener.onScrollStateChanged(recyclerView, i);
+            }
+            RecyclerListView recyclerListView2 = RecyclerListView.this;
+            if (i == 1 || i == 2) {
+                z = true;
+            }
+            recyclerListView2.scrollingByUser = z;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+            if (RecyclerListView.this.onScrollListener != null) {
+                RecyclerListView.this.onScrollListener.onScrolled(recyclerView, i, i2);
+            }
+            RecyclerListView recyclerListView = RecyclerListView.this;
+            if (recyclerListView.selectorPosition != -1) {
+                recyclerListView.selectorRect.offset(-i, -i2);
+                RecyclerListView recyclerListView2 = RecyclerListView.this;
+                recyclerListView2.selectorDrawable.setBounds(recyclerListView2.selectorRect);
+                RecyclerListView.this.invalidate();
+            } else {
+                recyclerListView.selectorRect.setEmpty();
+            }
+            RecyclerListView.this.checkSection(false);
+            if (i2 == 0 || RecyclerListView.this.fastScroll == null) {
+                return;
+            }
+            RecyclerListView.this.fastScroll.showFloatingDate();
+        }
     }
 
     @Override // android.view.View
@@ -1899,14 +1927,9 @@ public class RecyclerListView extends RecyclerView {
         if (drawable2 != null && drawable2.isStateful() && this.selectorDrawable.setState(getDrawableStateForSelector())) {
             invalidateDrawable(this.selectorDrawable);
         }
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                RecyclerListView.this.lambda$highlightRowInternal$0();
-            }
-        };
-        this.removeHighlighSelectionRunnable = runnable2;
-        AndroidUtilities.runOnUIThread(runnable2, 700L);
+        RecyclerListView$$ExternalSyntheticLambda0 recyclerListView$$ExternalSyntheticLambda0 = new RecyclerListView$$ExternalSyntheticLambda0(this);
+        this.removeHighlighSelectionRunnable = recyclerListView$$ExternalSyntheticLambda0;
+        AndroidUtilities.runOnUIThread(recyclerListView$$ExternalSyntheticLambda0, 700L);
     }
 
     public /* synthetic */ void lambda$highlightRowInternal$0() {
@@ -1988,14 +2011,7 @@ public class RecyclerListView extends RecyclerView {
                     if (this.emptyViewAnimationType == 1) {
                         alpha.scaleY(0.7f).scaleX(0.7f);
                     }
-                    alpha.setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.RecyclerListView.4
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            if (RecyclerListView.this.emptyView != null) {
-                                RecyclerListView.this.emptyView.setVisibility(8);
-                            }
-                        }
-                    }).start();
+                    alpha.setDuration(150L).setListener(new AnonymousClass4()).start();
                 }
             }
         } else {
@@ -2013,6 +2029,21 @@ public class RecyclerListView extends RecyclerView {
             setVisibility(i);
         }
         this.hiddenByEmptyView = true;
+    }
+
+    /* renamed from: org.telegram.ui.Components.RecyclerListView$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 extends AnimatorListenerAdapter {
+        AnonymousClass4() {
+            RecyclerListView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (RecyclerListView.this.emptyView != null) {
+                RecyclerListView.this.emptyView.setVisibility(8);
+            }
+        }
     }
 
     public boolean emptyViewIsVisible() {
@@ -2444,19 +2475,29 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
+    /* renamed from: org.telegram.ui.Components.RecyclerListView$5 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass5 extends FrameLayout {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass5(Context context) {
+            super(context);
+            RecyclerListView.this = r1;
+        }
+
+        @Override // android.view.View, android.view.ViewParent
+        public void requestLayout() {
+            super.requestLayout();
+            try {
+                measure(View.MeasureSpec.makeMeasureSpec(RecyclerListView.this.getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(RecyclerListView.this.getMeasuredHeight(), 1073741824));
+                layout(0, 0, RecyclerListView.this.overlayContainer.getMeasuredWidth(), RecyclerListView.this.overlayContainer.getMeasuredHeight());
+            } catch (Exception unused) {
+            }
+        }
+    }
+
     public void addOverlayView(View view, FrameLayout.LayoutParams layoutParams) {
         if (this.overlayContainer == null) {
-            this.overlayContainer = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.RecyclerListView.5
-                @Override // android.view.View, android.view.ViewParent
-                public void requestLayout() {
-                    super.requestLayout();
-                    try {
-                        measure(View.MeasureSpec.makeMeasureSpec(RecyclerListView.this.getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(RecyclerListView.this.getMeasuredHeight(), 1073741824));
-                        layout(0, 0, RecyclerListView.this.overlayContainer.getMeasuredWidth(), RecyclerListView.this.overlayContainer.getMeasuredHeight());
-                    } catch (Exception unused) {
-                    }
-                }
-            };
+            this.overlayContainer = new AnonymousClass5(getContext());
         }
         this.overlayContainer.addView(view, layoutParams);
     }
@@ -2652,6 +2693,35 @@ public class RecyclerListView extends RecyclerView {
     private void cancelMultiselectScroll() {
         this.multiselectScrollRunning = false;
         AndroidUtilities.cancelRunOnUIThread(this.scroller);
+    }
+
+    /* renamed from: org.telegram.ui.Components.RecyclerListView$6 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass6 implements Runnable {
+        AnonymousClass6() {
+            RecyclerListView.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            int i;
+            RecyclerListView recyclerListView = RecyclerListView.this;
+            recyclerListView.multiSelectionListener.getPaddings(recyclerListView.listPaddings);
+            if (RecyclerListView.this.multiselectScrollToTop) {
+                i = -AndroidUtilities.dp(12.0f);
+                RecyclerListView recyclerListView2 = RecyclerListView.this;
+                recyclerListView2.chekMultiselect(0.0f, recyclerListView2.listPaddings[0]);
+            } else {
+                i = AndroidUtilities.dp(12.0f);
+                RecyclerListView recyclerListView3 = RecyclerListView.this;
+                recyclerListView3.chekMultiselect(0.0f, recyclerListView3.getMeasuredHeight() - RecyclerListView.this.listPaddings[1]);
+            }
+            RecyclerListView.this.multiSelectionListener.scrollBy(i);
+            RecyclerListView recyclerListView4 = RecyclerListView.this;
+            if (recyclerListView4.multiselectScrollRunning) {
+                AndroidUtilities.runOnUIThread(recyclerListView4.scroller);
+            }
+        }
     }
 
     private void startMultiselectScroll(boolean z) {

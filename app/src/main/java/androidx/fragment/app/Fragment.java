@@ -34,7 +34,6 @@ import androidx.loader.app.LoaderManager;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuListener, LifecycleOwner, ViewModelStoreOwner {
     boolean mAdded;
@@ -253,7 +252,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder((int) ConnectionsManager.RequestFlagNeedQuickAck);
+        StringBuilder sb = new StringBuilder(128);
         DebugUtils.buildShortClassTag(this, sb);
         if (this.mIndex >= 0) {
             sb.append(" #");
@@ -589,14 +588,23 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         if (fragmentManagerImpl == null || fragmentManagerImpl.mHost == null) {
             ensureAnimationInfo().mEnterTransitionPostponed = false;
         } else if (Looper.myLooper() != this.mFragmentManager.mHost.getHandler().getLooper()) {
-            this.mFragmentManager.mHost.getHandler().postAtFrontOfQueue(new Runnable() { // from class: androidx.fragment.app.Fragment.1
-                @Override // java.lang.Runnable
-                public void run() {
-                    Fragment.this.callStartTransitionListener();
-                }
-            });
+            this.mFragmentManager.mHost.getHandler().postAtFrontOfQueue(new AnonymousClass1());
         } else {
             callStartTransitionListener();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: androidx.fragment.app.Fragment$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            Fragment.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            Fragment.this.callStartTransitionListener();
         }
     }
 
@@ -749,26 +757,34 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         }
         FragmentManagerImpl fragmentManagerImpl = new FragmentManagerImpl();
         this.mChildFragmentManager = fragmentManagerImpl;
-        fragmentManagerImpl.attachController(this.mHost, new FragmentContainer() { // from class: androidx.fragment.app.Fragment.2
-            @Override // androidx.fragment.app.FragmentContainer
-            public View onFindViewById(int i) {
-                View view = Fragment.this.mView;
-                if (view == null) {
-                    throw new IllegalStateException("Fragment does not have a view");
-                }
-                return view.findViewById(i);
-            }
+        fragmentManagerImpl.attachController(this.mHost, new AnonymousClass2(), this);
+    }
 
-            @Override // androidx.fragment.app.FragmentContainer
-            public boolean onHasView() {
-                return Fragment.this.mView != null;
-            }
+    /* renamed from: androidx.fragment.app.Fragment$2 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass2 extends FragmentContainer {
+        AnonymousClass2() {
+            Fragment.this = r1;
+        }
 
-            @Override // androidx.fragment.app.FragmentContainer
-            public Fragment instantiate(Context context, String str, Bundle bundle) {
-                return Fragment.this.mHost.instantiate(context, str, bundle);
+        @Override // androidx.fragment.app.FragmentContainer
+        public View onFindViewById(int i) {
+            View view = Fragment.this.mView;
+            if (view == null) {
+                throw new IllegalStateException("Fragment does not have a view");
             }
-        }, this);
+            return view.findViewById(i);
+        }
+
+        @Override // androidx.fragment.app.FragmentContainer
+        public boolean onHasView() {
+            return Fragment.this.mView != null;
+        }
+
+        @Override // androidx.fragment.app.FragmentContainer
+        public Fragment instantiate(Context context, String str, Bundle bundle) {
+            return Fragment.this.mHost.instantiate(context, str, bundle);
+        }
     }
 
     public void performCreate(Bundle bundle) {
@@ -792,16 +808,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
             fragmentManagerImpl.noteStateNotSaved();
         }
         this.mPerformedCreateView = true;
-        this.mViewLifecycleOwner = new LifecycleOwner() { // from class: androidx.fragment.app.Fragment.3
-            @Override // androidx.lifecycle.LifecycleOwner
-            public Lifecycle getLifecycle() {
-                Fragment fragment = Fragment.this;
-                if (fragment.mViewLifecycleRegistry == null) {
-                    fragment.mViewLifecycleRegistry = new LifecycleRegistry(fragment.mViewLifecycleOwner);
-                }
-                return Fragment.this.mViewLifecycleRegistry;
-            }
-        };
+        this.mViewLifecycleOwner = new AnonymousClass3();
         this.mViewLifecycleRegistry = null;
         View onCreateView = onCreateView(layoutInflater, viewGroup, bundle);
         this.mView = onCreateView;
@@ -812,6 +819,24 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
             throw new IllegalStateException("Called getViewLifecycleOwner() but onCreateView() returned null");
         } else {
             this.mViewLifecycleOwner = null;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: androidx.fragment.app.Fragment$3 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass3 implements LifecycleOwner {
+        AnonymousClass3() {
+            Fragment.this = r1;
+        }
+
+        @Override // androidx.lifecycle.LifecycleOwner
+        public Lifecycle getLifecycle() {
+            Fragment fragment = Fragment.this;
+            if (fragment.mViewLifecycleRegistry == null) {
+                fragment.mViewLifecycleRegistry = new LifecycleRegistry(fragment.mViewLifecycleOwner);
+            }
+            return Fragment.this.mViewLifecycleRegistry;
         }
     }
 

@@ -56,7 +56,7 @@ public final class FfmpegAudioRenderer extends SimpleDecoderAudioRenderer {
     @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
     public FfmpegDecoder createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws FfmpegDecoderException {
         int i = format.maxInputSize;
-        FfmpegDecoder ffmpegDecoder = new FfmpegDecoder(16, 16, i != -1 ? i : DEFAULT_INPUT_BUFFER_SIZE, format, shouldUseFloatOutput(format));
+        FfmpegDecoder ffmpegDecoder = new FfmpegDecoder(16, 16, i != -1 ? i : 5760, format, shouldUseFloatOutput(format));
         this.decoder = ffmpegDecoder;
         return ffmpegDecoder;
     }

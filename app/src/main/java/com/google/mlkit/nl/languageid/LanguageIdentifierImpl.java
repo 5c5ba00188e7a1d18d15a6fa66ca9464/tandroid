@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Task;
 import com.google.mlkit.common.sdkinternal.ExecutorSelector;
 import com.google.mlkit.nl.languageid.internal.LanguageIdentificationJni;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
@@ -64,25 +63,7 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
         Preconditions.checkNotNull(str, "Text can not be null");
         LanguageIdentificationJni languageIdentificationJni = this.zzd.get();
         Preconditions.checkState(languageIdentificationJni != null, "LanguageIdentification has been closed");
-        return languageIdentificationJni.zza(this.zzc, new Callable(this, languageIdentificationJni, str, true ^ languageIdentificationJni.isLoaded()) { // from class: com.google.mlkit.nl.languageid.zzd
-            private final LanguageIdentifierImpl zza;
-            private final LanguageIdentificationJni zzb;
-            private final String zzc;
-            private final boolean zzd;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-                this.zzb = languageIdentificationJni;
-                this.zzc = str;
-                this.zzd = isLoaded;
-            }
-
-            @Override // java.util.concurrent.Callable
-            public final Object call() {
-                return this.zza.zza(this.zzb, this.zzc, this.zzd);
-            }
-        }, this.zze.getToken());
+        return languageIdentificationJni.zza(this.zzc, new zzd(this, languageIdentificationJni, str, true ^ languageIdentificationJni.isLoaded()), this.zze.getToken());
     }
 
     @Override // com.google.mlkit.nl.languageid.LanguageIdentifier, java.io.Closeable, java.lang.AutoCloseable
@@ -97,29 +78,7 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
     }
 
     private final void zza(long j, boolean z, zzy$zzau.zzd zzdVar, zzy$zzau.zzc zzcVar, zzai zzaiVar) {
-        this.zzb.zza(new zzcv.zza(this, SystemClock.elapsedRealtime() - j, z, zzaiVar, zzdVar, zzcVar) { // from class: com.google.mlkit.nl.languageid.zzf
-            private final LanguageIdentifierImpl zza;
-            private final long zzb;
-            private final boolean zzc;
-            private final zzai zzd;
-            private final zzy$zzau.zzd zze;
-            private final zzy$zzau.zzc zzf;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-                this.zzb = elapsedRealtime;
-                this.zzc = z;
-                this.zzd = zzaiVar;
-                this.zze = zzdVar;
-                this.zzf = zzcVar;
-            }
-
-            @Override // com.google.android.gms.internal.mlkit_language_id.zzcv.zza
-            public final zzy$zzad.zza zza() {
-                return this.zza.zza(this.zzb, this.zzc, this.zzd, this.zze, this.zzf);
-            }
-        }, zzaj.ON_DEVICE_LANGUAGE_IDENTIFICATION_DETECT);
+        this.zzb.zza(new zzf(this, SystemClock.elapsedRealtime() - j, z, zzaiVar, zzdVar, zzcVar), zzaj.ON_DEVICE_LANGUAGE_IDENTIFICATION_DETECT);
     }
 
     public final /* synthetic */ zzy$zzad.zza zza(long j, boolean z, zzai zzaiVar, zzy$zzau.zzd zzdVar, zzy$zzau.zzc zzcVar) {

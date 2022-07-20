@@ -11,9 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SeekBarView;
@@ -52,69 +50,87 @@ public class MaxFileSizeCell extends FrameLayout {
         this.sizeTextView.setGravity((LocaleController.isRTL ? 3 : 5) | 48);
         this.sizeTextView.setImportantForAccessibility(2);
         addView(this.sizeTextView, LayoutHelper.createFrame(-2, -1.0f, (LocaleController.isRTL ? 3 : i) | 48, 21.0f, 13.0f, 21.0f, 0.0f));
-        SeekBarView seekBarView = new SeekBarView(this, context) { // from class: org.telegram.ui.Cells.MaxFileSizeCell.1
-            @Override // org.telegram.ui.Components.SeekBarView, android.view.View
-            public boolean onTouchEvent(MotionEvent motionEvent) {
-                if (motionEvent.getAction() == 0) {
-                    getParent().requestDisallowInterceptTouchEvent(true);
-                }
-                return super.onTouchEvent(motionEvent);
-            }
-        };
-        this.seekBarView = seekBarView;
-        seekBarView.setReportChanges(true);
-        this.seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.Cells.MaxFileSizeCell.2
-            @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-            public /* synthetic */ int getStepsCount() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getStepsCount(this);
-            }
-
-            @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-            public void onSeekBarPressed(boolean z) {
-            }
-
-            @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-            public void onSeekBarDrag(boolean z, float f) {
-                int i2;
-                float f2;
-                float f3;
-                if (f <= 0.25f) {
-                    f2 = 512000;
-                    f3 = 536576.0f;
-                } else {
-                    f -= 0.25f;
-                    if (f < 0.25f) {
-                        f2 = 1048576;
-                        f3 = 9437184.0f;
-                    } else {
-                        f -= 0.25f;
-                        if (f > 0.25f) {
-                            i2 = (int) (104857600 + (((float) (FileLoader.DEFAULT_MAX_FILE_SIZE - 104857600)) * ((f - 0.25f) / 0.25f)));
-                            long j = i2;
-                            MaxFileSizeCell.this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", R.string.AutodownloadSizeLimitUpTo, AndroidUtilities.formatFileSize(j)));
-                            MaxFileSizeCell.this.currentSize = j;
-                            MaxFileSizeCell.this.didChangedSizeValue(i2);
-                        }
-                        f2 = 10485760;
-                        f3 = 9.437184E7f;
-                    }
-                }
-                i2 = (int) (f2 + ((f / 0.25f) * f3));
-                long j2 = i2;
-                MaxFileSizeCell.this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", R.string.AutodownloadSizeLimitUpTo, AndroidUtilities.formatFileSize(j2)));
-                MaxFileSizeCell.this.currentSize = j2;
-                MaxFileSizeCell.this.didChangedSizeValue(i2);
-            }
-
-            @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-            public CharSequence getContentDescription() {
-                return ((Object) MaxFileSizeCell.this.textView.getText()) + " " + ((Object) MaxFileSizeCell.this.sizeTextView.getText());
-            }
-        });
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
+        this.seekBarView = anonymousClass1;
+        anonymousClass1.setReportChanges(true);
+        this.seekBarView.setDelegate(new AnonymousClass2());
         this.seekBarView.setImportantForAccessibility(2);
         addView(this.seekBarView, LayoutHelper.createFrame(-1, 38.0f, 51, 6.0f, 36.0f, 6.0f, 0.0f));
         setImportantForAccessibility(1);
         setAccessibilityDelegate(this.seekBarView.getSeekBarAccessibilityDelegate());
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Cells.MaxFileSizeCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends SeekBarView {
+        AnonymousClass1(MaxFileSizeCell maxFileSizeCell, Context context) {
+            super(context);
+        }
+
+        @Override // org.telegram.ui.Components.SeekBarView, android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            if (motionEvent.getAction() == 0) {
+                getParent().requestDisallowInterceptTouchEvent(true);
+            }
+            return super.onTouchEvent(motionEvent);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Cells.MaxFileSizeCell$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 implements SeekBarView.SeekBarViewDelegate {
+        @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+        public /* synthetic */ int getStepsCount() {
+            return SeekBarView.SeekBarViewDelegate.CC.$default$getStepsCount(this);
+        }
+
+        @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+        public void onSeekBarPressed(boolean z) {
+        }
+
+        AnonymousClass2() {
+            MaxFileSizeCell.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+        public void onSeekBarDrag(boolean z, float f) {
+            int i;
+            float f2;
+            float f3;
+            if (f <= 0.25f) {
+                f2 = 512000;
+                f3 = 536576.0f;
+            } else {
+                f -= 0.25f;
+                if (f < 0.25f) {
+                    f2 = 1048576;
+                    f3 = 9437184.0f;
+                } else {
+                    f -= 0.25f;
+                    if (f > 0.25f) {
+                        i = (int) (104857600 + (((float) (2097152000 - 104857600)) * ((f - 0.25f) / 0.25f)));
+                        long j = i;
+                        MaxFileSizeCell.this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", 2131624636, AndroidUtilities.formatFileSize(j)));
+                        MaxFileSizeCell.this.currentSize = j;
+                        MaxFileSizeCell.this.didChangedSizeValue(i);
+                    }
+                    f2 = 10485760;
+                    f3 = 9.437184E7f;
+                }
+            }
+            i = (int) (f2 + ((f / 0.25f) * f3));
+            long j2 = i;
+            MaxFileSizeCell.this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", 2131624636, AndroidUtilities.formatFileSize(j2)));
+            MaxFileSizeCell.this.currentSize = j2;
+            MaxFileSizeCell.this.didChangedSizeValue(i);
+        }
+
+        @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+        public CharSequence getContentDescription() {
+            return ((Object) MaxFileSizeCell.this.textView.getText()) + " " + ((Object) MaxFileSizeCell.this.sizeTextView.getText());
+        }
     }
 
     public void setText(String str) {
@@ -163,7 +179,7 @@ public class MaxFileSizeCell extends FrameLayout {
         float f;
         float f2;
         this.currentSize = j;
-        this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", R.string.AutodownloadSizeLimitUpTo, AndroidUtilities.formatFileSize(j)));
+        this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", 2131624636, AndroidUtilities.formatFileSize(j)));
         long j2 = j - 512000;
         if (j2 < 536576) {
             f = Math.max(0.0f, ((float) j2) / 536576.0f) * 0.25f;

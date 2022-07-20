@@ -95,7 +95,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
     private final int currentAccount = UserConfig.selectedAccount;
 
     @SuppressLint({"WrongConstant"})
-    public TextMessageEnterTransition(final ChatMessageCell chatMessageCell, final ChatActivity chatActivity, RecyclerListView recyclerListView, final MessageEnterTransitionContainer messageEnterTransitionContainer, Theme.ResourcesProvider resourcesProvider) {
+    public TextMessageEnterTransition(ChatMessageCell chatMessageCell, ChatActivity chatActivity, RecyclerListView recyclerListView, MessageEnterTransitionContainer messageEnterTransitionContainer, Theme.ResourcesProvider resourcesProvider) {
         boolean z;
         int i;
         int i2;
@@ -114,7 +114,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.container = messageEnterTransitionContainer;
         this.chatActivity = chatActivity;
         this.enterView = chatActivity.getChatActivityEnterView();
-        final ChatActivityEnterView chatActivityEnterView = chatActivity.getChatActivityEnterView();
+        ChatActivityEnterView chatActivityEnterView = chatActivity.getChatActivityEnterView();
         if (chatActivityEnterView == null || chatActivityEnterView.getEditField() == null || chatActivityEnterView.getEditField().getLayout() == null) {
             return;
         }
@@ -311,28 +311,12 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.animator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TextMessageEnterTransition$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                TextMessageEnterTransition.this.lambda$new$0(chatActivityEnterView, messageEnterTransitionContainer, valueAnimator);
-            }
-        });
+        ofFloat.addUpdateListener(new TextMessageEnterTransition$$ExternalSyntheticLambda0(this, chatActivityEnterView, messageEnterTransitionContainer));
         this.animator.setInterpolator(new LinearInterpolator());
         this.animator.setDuration(250L);
         messageEnterTransitionContainer.addTransition(this);
         this.animationIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.animationIndex, null);
-        this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TextMessageEnterTransition.1
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                NotificationCenter.getInstance(TextMessageEnterTransition.this.currentAccount).onAnimationFinish(TextMessageEnterTransition.this.animationIndex);
-                messageEnterTransitionContainer.removeTransition(TextMessageEnterTransition.this);
-                chatMessageCell.setEnterTransitionInProgress(false);
-                chatActivityEnterView.setTextTransitionIsRunning(false);
-                chatActivityEnterView.getEditField().setAlpha(1.0f);
-                chatActivity.getReplyNameTextView().setAlpha(1.0f);
-                chatActivity.getReplyObjectTextView().setAlpha(1.0f);
-            }
-        });
+        this.animator.addListener(new AnonymousClass1(messageEnterTransitionContainer, chatMessageCell, chatActivityEnterView, chatActivity));
         if (SharedConfig.getDevicePerformanceClass() != 2 || (currentBackgroundDrawable = chatMessageCell.getCurrentBackgroundDrawable(true)) == null) {
             return;
         }
@@ -343,6 +327,35 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.progress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         chatActivityEnterView.getEditField().setAlpha(this.progress);
         messageEnterTransitionContainer.invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.TextMessageEnterTransition$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        final /* synthetic */ ChatActivity val$chatActivity;
+        final /* synthetic */ ChatActivityEnterView val$chatActivityEnterView;
+        final /* synthetic */ MessageEnterTransitionContainer val$container;
+        final /* synthetic */ ChatMessageCell val$messageView;
+
+        AnonymousClass1(MessageEnterTransitionContainer messageEnterTransitionContainer, ChatMessageCell chatMessageCell, ChatActivityEnterView chatActivityEnterView, ChatActivity chatActivity) {
+            TextMessageEnterTransition.this = r1;
+            this.val$container = messageEnterTransitionContainer;
+            this.val$messageView = chatMessageCell;
+            this.val$chatActivityEnterView = chatActivityEnterView;
+            this.val$chatActivity = chatActivity;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            NotificationCenter.getInstance(TextMessageEnterTransition.this.currentAccount).onAnimationFinish(TextMessageEnterTransition.this.animationIndex);
+            this.val$container.removeTransition(TextMessageEnterTransition.this);
+            this.val$messageView.setEnterTransitionInProgress(false);
+            this.val$chatActivityEnterView.setTextTransitionIsRunning(false);
+            this.val$chatActivityEnterView.getEditField().setAlpha(1.0f);
+            this.val$chatActivity.getReplyNameTextView().setAlpha(1.0f);
+            this.val$chatActivity.getReplyObjectTextView().setAlpha(1.0f);
+        }
     }
 
     public void start() {

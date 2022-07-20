@@ -59,10 +59,10 @@ public class MediaStreamTrack {
             return null;
         }
         String nativeGetKind = nativeGetKind(j);
-        if (nativeGetKind.equals(AUDIO_TRACK_KIND)) {
+        if (nativeGetKind.equals("audio")) {
             return new AudioTrack(j);
         }
-        if (!nativeGetKind.equals(VIDEO_TRACK_KIND)) {
+        if (!nativeGetKind.equals("video")) {
             return null;
         }
         return new VideoTrack(j);

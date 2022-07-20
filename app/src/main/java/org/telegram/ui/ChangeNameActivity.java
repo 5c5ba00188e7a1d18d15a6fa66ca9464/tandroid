@@ -13,7 +13,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_account_updateProfile;
@@ -47,24 +46,11 @@ public class ChangeNameActivity extends BaseFragment {
     public View createView(Context context) {
         this.actionBar.setItemsBackgroundColor(Theme.getColor("avatar_actionBarSelectorBlue", this.resourcesProvider), false);
         this.actionBar.setItemsColor(Theme.getColor("actionBarDefaultIcon", this.resourcesProvider), false);
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("EditName", R.string.EditName));
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ChangeNameActivity.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i != -1) {
-                    if (i != 1 || ChangeNameActivity.this.firstNameField.getText().length() == 0) {
-                        return;
-                    }
-                    ChangeNameActivity.this.saveName();
-                    ChangeNameActivity.this.finishFragment();
-                    return;
-                }
-                ChangeNameActivity.this.finishFragment();
-            }
-        });
-        this.doneButton = this.actionBar.createMenu().addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", R.string.Done));
+        this.actionBar.setTitle(LocaleController.getString("EditName", 2131625603));
+        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.doneButton = this.actionBar.createMenu().addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", 2131625541));
         TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).getClientUserId()));
         if (user == null) {
             user = UserConfig.getInstance(this.currentAccount).getCurrentUser();
@@ -74,14 +60,9 @@ public class ChangeNameActivity extends BaseFragment {
         linearLayout.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
         ((LinearLayout) this.fragmentView).setOrientation(1);
         this.fragmentView.setOnTouchListener(ChangeNameActivity$$ExternalSyntheticLambda0.INSTANCE);
-        EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ChangeNameActivity.2
-            @Override // org.telegram.ui.Components.EditTextBoldCursor
-            protected Theme.ResourcesProvider getResourcesProvider() {
-                return ChangeNameActivity.this.resourcesProvider;
-            }
-        };
-        this.firstNameField = editTextBoldCursor;
-        editTextBoldCursor.setTextSize(1, 18.0f);
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
+        this.firstNameField = anonymousClass2;
+        anonymousClass2.setTextSize(1, 18.0f);
         this.firstNameField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText", this.resourcesProvider));
         this.firstNameField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
         this.firstNameField.setBackgroundDrawable(null);
@@ -92,27 +73,15 @@ public class ChangeNameActivity extends BaseFragment {
         this.firstNameField.setGravity(LocaleController.isRTL ? 5 : 3);
         this.firstNameField.setInputType(49152);
         this.firstNameField.setImeOptions(5);
-        this.firstNameField.setHint(LocaleController.getString("FirstName", R.string.FirstName));
+        this.firstNameField.setHint(LocaleController.getString("FirstName", 2131625947));
         this.firstNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
         this.firstNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.firstNameField.setCursorWidth(1.5f);
         linearLayout.addView(this.firstNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 24.0f, 24.0f, 0.0f));
-        this.firstNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ChangeNameActivity$$ExternalSyntheticLambda1
-            @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean lambda$createView$1;
-                lambda$createView$1 = ChangeNameActivity.this.lambda$createView$1(textView, i, keyEvent);
-                return lambda$createView$1;
-            }
-        });
-        EditTextBoldCursor editTextBoldCursor2 = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ChangeNameActivity.3
-            @Override // org.telegram.ui.Components.EditTextBoldCursor
-            protected Theme.ResourcesProvider getResourcesProvider() {
-                return ChangeNameActivity.this.resourcesProvider;
-            }
-        };
-        this.lastNameField = editTextBoldCursor2;
-        editTextBoldCursor2.setTextSize(1, 18.0f);
+        this.firstNameField.setOnEditorActionListener(new ChangeNameActivity$$ExternalSyntheticLambda1(this));
+        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
+        this.lastNameField = anonymousClass3;
+        anonymousClass3.setTextSize(1, 18.0f);
         this.lastNameField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText", this.resourcesProvider));
         this.lastNameField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
         this.lastNameField.setBackgroundDrawable(null);
@@ -123,26 +92,55 @@ public class ChangeNameActivity extends BaseFragment {
         this.lastNameField.setGravity(LocaleController.isRTL ? 5 : 3);
         this.lastNameField.setInputType(49152);
         this.lastNameField.setImeOptions(6);
-        this.lastNameField.setHint(LocaleController.getString("LastName", R.string.LastName));
+        this.lastNameField.setHint(LocaleController.getString("LastName", 2131626415));
         this.lastNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
         this.lastNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.lastNameField.setCursorWidth(1.5f);
         linearLayout.addView(this.lastNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 16.0f, 24.0f, 0.0f));
-        this.lastNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ChangeNameActivity$$ExternalSyntheticLambda2
-            @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean lambda$createView$2;
-                lambda$createView$2 = ChangeNameActivity.this.lambda$createView$2(textView, i, keyEvent);
-                return lambda$createView$2;
-            }
-        });
+        this.lastNameField.setOnEditorActionListener(new ChangeNameActivity$$ExternalSyntheticLambda2(this));
         if (user != null) {
             this.firstNameField.setText(user.first_name);
-            EditTextBoldCursor editTextBoldCursor3 = this.firstNameField;
-            editTextBoldCursor3.setSelection(editTextBoldCursor3.length());
+            EditTextBoldCursor editTextBoldCursor = this.firstNameField;
+            editTextBoldCursor.setSelection(editTextBoldCursor.length());
             this.lastNameField.setText(user.last_name);
         }
         return this.fragmentView;
+    }
+
+    /* renamed from: org.telegram.ui.ChangeNameActivity$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
+        AnonymousClass1() {
+            ChangeNameActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+        public void onItemClick(int i) {
+            if (i != -1) {
+                if (i != 1 || ChangeNameActivity.this.firstNameField.getText().length() == 0) {
+                    return;
+                }
+                ChangeNameActivity.this.saveName();
+                ChangeNameActivity.this.finishFragment();
+                return;
+            }
+            ChangeNameActivity.this.finishFragment();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.ChangeNameActivity$2 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass2 extends EditTextBoldCursor {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(Context context) {
+            super(context);
+            ChangeNameActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.EditTextBoldCursor
+        protected Theme.ResourcesProvider getResourcesProvider() {
+            return ChangeNameActivity.this.resourcesProvider;
+        }
     }
 
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
@@ -153,6 +151,21 @@ public class ChangeNameActivity extends BaseFragment {
             return true;
         }
         return false;
+    }
+
+    /* renamed from: org.telegram.ui.ChangeNameActivity$3 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass3 extends EditTextBoldCursor {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass3(Context context) {
+            super(context);
+            ChangeNameActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.EditTextBoldCursor
+        protected Theme.ResourcesProvider getResourcesProvider() {
+            return ChangeNameActivity.this.resourcesProvider;
+        }
     }
 
     public /* synthetic */ boolean lambda$createView$2(TextView textView, int i, KeyEvent keyEvent) {
@@ -209,12 +222,7 @@ public class ChangeNameActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         if (z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeNameActivity$$ExternalSyntheticLambda3
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChangeNameActivity.this.lambda$onTransitionAnimationEnd$4();
-                }
-            }, 100L);
+            AndroidUtilities.runOnUIThread(new ChangeNameActivity$$ExternalSyntheticLambda3(this), 100L);
         }
     }
 

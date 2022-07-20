@@ -11,7 +11,6 @@ import android.os.Message;
 import android.os.Messenger;
 import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import com.huawei.hms.push.c;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.push.i;
 import com.huawei.hms.push.u;
 import com.huawei.hms.support.log.HMSLog;
@@ -74,7 +73,7 @@ public class HmsMsgService extends Service {
             Intent intent = new Intent();
             intent.setAction("com.huawei.android.push.intent.RECEIVE");
             intent.putExtra("msg_data", c.a(bundle, "msg_data"));
-            intent.putExtra(RemoteMessageConst.DEVICE_TOKEN, c.a(bundle, RemoteMessageConst.DEVICE_TOKEN));
+            intent.putExtra("device_token", c.a(bundle, "device_token"));
             intent.putExtra("msgIdStr", c.c(bundle, "msgIdStr"));
             intent.setFlags(32);
             intent.setPackage(c.c(bundle, "push_package"));

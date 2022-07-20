@@ -1,0 +1,16 @@
+package org.telegram.messenger;
+
+import org.telegram.messenger.MediaController;
+/* loaded from: classes.dex */
+public final /* synthetic */ class MediaController$GalleryObserverInternal$$ExternalSyntheticLambda0 implements Runnable {
+    public final /* synthetic */ MediaController.GalleryObserverInternal f$0;
+
+    public /* synthetic */ MediaController$GalleryObserverInternal$$ExternalSyntheticLambda0(MediaController.GalleryObserverInternal galleryObserverInternal) {
+        this.f$0 = galleryObserverInternal;
+    }
+
+    @Override // java.lang.Runnable
+    public final void run() {
+        this.f$0.lambda$scheduleReloadRunnable$0();
+    }
+}

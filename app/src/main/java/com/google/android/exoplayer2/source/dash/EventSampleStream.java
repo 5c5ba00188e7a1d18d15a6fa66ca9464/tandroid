@@ -9,7 +9,7 @@ import com.google.android.exoplayer2.source.dash.manifest.EventStream;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 /* loaded from: classes.dex */
-final class EventSampleStream implements SampleStream {
+public final class EventSampleStream implements SampleStream {
     private int currentIndex;
     private EventStream eventStream;
     private boolean eventStreamAppendable;

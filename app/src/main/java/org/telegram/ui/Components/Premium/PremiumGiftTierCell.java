@@ -10,7 +10,6 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CheckBoxBase;
@@ -44,7 +43,7 @@ public class PremiumGiftTierCell extends ViewGroup {
         textView2.setTextSize(1, 14.0f);
         this.discountView.setTextColor(-1);
         this.discountView.setPadding(AndroidUtilities.dp(3.0f), 0, AndroidUtilities.dp(3.0f), 0);
-        this.discountView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.discountView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(this.discountView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 80, 0.0f, 0.0f, 0.0f, 8.0f));
         TextView textView3 = new TextView(context);
         this.pricePerMonthView = textView3;
@@ -118,8 +117,8 @@ public class PremiumGiftTierCell extends ViewGroup {
     public void bind(GiftPremiumBottomSheet.GiftTier giftTier) {
         this.tier = giftTier;
         this.titleView.setText(LocaleController.formatPluralString("Months", giftTier.getMonths(), new Object[0]));
-        this.discountView.setText(LocaleController.formatString(R.string.GiftPremiumOptionDiscount, Integer.valueOf(giftTier.getDiscount())));
-        this.pricePerMonthView.setText(LocaleController.formatString(R.string.PricePerMonth, giftTier.getFormattedPricePerMonth()));
+        this.discountView.setText(LocaleController.formatString(2131626105, Integer.valueOf(giftTier.getDiscount())));
+        this.pricePerMonthView.setText(LocaleController.formatString(2131627746, giftTier.getFormattedPricePerMonth()));
         this.priceTotalView.setText(giftTier.getFormattedPrice());
         requestLayout();
     }

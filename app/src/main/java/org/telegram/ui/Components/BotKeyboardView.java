@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$KeyboardButton;
 import org.telegram.tgnet.TLRPC$TL_keyboardButtonRow;
 import org.telegram.tgnet.TLRPC$TL_keyboardButtonSimpleWebView;
@@ -137,17 +136,12 @@ public class BotKeyboardView extends LinearLayout {
                 textView.setPadding(AndroidUtilities.dp(4.0f), r3 == true ? 1 : 0, AndroidUtilities.dp(4.0f), r3);
                 textView.setText(Emoji.replaceEmoji(tLRPC$KeyboardButton.text, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), r3));
                 linearLayout.addView(frameLayout, LayoutHelper.createLinear(0, -1, size, 0, 0, i6 != tLRPC$TL_keyboardButtonRow.buttons.size() + (-1) ? 10 : 0, 0));
-                textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BotKeyboardView$$ExternalSyntheticLambda0
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        BotKeyboardView.this.lambda$setButtons$0(view);
-                    }
-                });
+                textView.setOnClickListener(new BotKeyboardView$$ExternalSyntheticLambda0(this));
                 this.buttonViews.add(textView);
                 ImageView imageView = new ImageView(getContext());
                 imageView.setColorFilter(getThemedColor("chat_botKeyboardButtonText"));
                 if ((tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonWebView) || (tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonSimpleWebView)) {
-                    imageView.setImageResource(R.drawable.bot_webview);
+                    imageView.setImageResource(2131165289);
                     imageView.setVisibility(0);
                 } else {
                     imageView.setVisibility(8);

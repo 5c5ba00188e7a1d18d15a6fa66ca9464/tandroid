@@ -12,14 +12,7 @@ public abstract class TLRPC$messages_StickerSet extends TLObject {
         if (i == -1240849242) {
             tLRPC$TL_messages_stickerSet = new TLRPC$TL_messages_stickerSet();
         } else {
-            tLRPC$TL_messages_stickerSet = i != -738646805 ? null : new TLRPC$TL_messages_stickerSet() { // from class: org.telegram.tgnet.TLRPC$TL_messages_stickerSetNotModified
-                public static int constructor = -738646805;
-
-                @Override // org.telegram.tgnet.TLRPC$TL_messages_stickerSet, org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
-                }
-            };
+            tLRPC$TL_messages_stickerSet = i != -738646805 ? null : new TLRPC$TL_messages_stickerSetNotModified();
         }
         if (tLRPC$TL_messages_stickerSet != null || !z) {
             if (tLRPC$TL_messages_stickerSet != null) {

@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentMap;
-import org.telegram.messenger.FileLoader;
 /* loaded from: classes.dex */
 public class FastDatePrinter implements DatePrinter, Serializable {
     public static final int FULL = 0;
@@ -148,7 +147,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
                         case 'a':
                             timeZoneNameRule = new TextField(9, amPmStrings);
                             break;
-                        case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
+                        case 'd':
                             timeZoneNameRule = selectNumberRule(5, length2);
                             break;
                         case 'h':

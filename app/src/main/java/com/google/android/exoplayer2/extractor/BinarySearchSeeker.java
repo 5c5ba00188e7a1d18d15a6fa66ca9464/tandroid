@@ -111,7 +111,7 @@ public abstract class BinarySearchSeeker {
 
     protected final boolean skipInputUntilPosition(ExtractorInput extractorInput, long j) throws IOException, InterruptedException {
         long position = j - extractorInput.getPosition();
-        if (position < 0 || position > MAX_SKIP_BYTES) {
+        if (position < 0 || position > 262144) {
             return false;
         }
         extractorInput.skipFully((int) position);

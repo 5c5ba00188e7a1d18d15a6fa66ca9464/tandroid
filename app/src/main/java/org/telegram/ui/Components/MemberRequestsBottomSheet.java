@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Delegates.MemberRequestsDelegate;
@@ -25,41 +25,52 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         super(baseFragment.getParentActivity(), false, baseFragment.getCurrentAccount(), baseFragment.getResourceProvider());
         this.needSnapToTop = false;
         this.isEmptyViewVisible = false;
-        MemberRequestsDelegate memberRequestsDelegate = new MemberRequestsDelegate(baseFragment, this.container, j, false) { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet.1
-            @Override // org.telegram.ui.Delegates.MemberRequestsDelegate
-            public void onImportersChanged(String str, boolean z, boolean z2) {
-                if (!hasAllImporters()) {
-                    if (MemberRequestsBottomSheet.this.membersEmptyView.getVisibility() != 4) {
-                        MemberRequestsBottomSheet.this.membersEmptyView.setVisibility(4);
-                    }
-                    MemberRequestsBottomSheet.this.dismiss();
-                } else if (z2) {
-                    MemberRequestsBottomSheet.this.searchView.searchEditText.setText("");
-                } else {
-                    super.onImportersChanged(str, z, z2);
-                }
-            }
-        };
-        this.delegate = memberRequestsDelegate;
-        memberRequestsDelegate.setShowLastItemDivider(false);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(baseFragment, this.container, j, false);
+        this.delegate = anonymousClass1;
+        anonymousClass1.setShowLastItemDivider(false);
         setDimBehindAlpha(75);
-        this.searchView.searchEditText.setHint(LocaleController.getString("SearchMemberRequests", R.string.SearchMemberRequests));
-        MemberRequestsDelegate.Adapter adapter = memberRequestsDelegate.getAdapter();
+        this.searchView.searchEditText.setHint(LocaleController.getString("SearchMemberRequests", 2131628179));
+        MemberRequestsDelegate.Adapter adapter = anonymousClass1.getAdapter();
         this.listViewAdapter = adapter;
         this.searchListViewAdapter = adapter;
         this.listView.setAdapter(adapter);
-        memberRequestsDelegate.setRecyclerView(this.listView);
+        anonymousClass1.setRecyclerView(this.listView);
         int indexOfChild = ((ViewGroup) this.listView.getParent()).indexOfChild(this.listView);
-        FlickerLoadingView loadingView = memberRequestsDelegate.getLoadingView();
+        FlickerLoadingView loadingView = anonymousClass1.getLoadingView();
         this.currentLoadingView = loadingView;
         this.containerView.addView(loadingView, indexOfChild, LayoutHelper.createFrame(-1, -1.0f));
-        StickerEmptyView emptyView = memberRequestsDelegate.getEmptyView();
+        StickerEmptyView emptyView = anonymousClass1.getEmptyView();
         this.membersEmptyView = emptyView;
         this.containerView.addView(emptyView, indexOfChild, LayoutHelper.createFrame(-1, -1.0f));
-        StickerEmptyView searchEmptyView = memberRequestsDelegate.getSearchEmptyView();
+        StickerEmptyView searchEmptyView = anonymousClass1.getSearchEmptyView();
         this.membersSearchEmptyView = searchEmptyView;
         this.containerView.addView(searchEmptyView, indexOfChild, LayoutHelper.createFrame(-1, -1.0f));
-        memberRequestsDelegate.loadMembers();
+        anonymousClass1.loadMembers();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.MemberRequestsBottomSheet$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends MemberRequestsDelegate {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(BaseFragment baseFragment, FrameLayout frameLayout, long j, boolean z) {
+            super(baseFragment, frameLayout, j, z);
+            MemberRequestsBottomSheet.this = r7;
+        }
+
+        @Override // org.telegram.ui.Delegates.MemberRequestsDelegate
+        public void onImportersChanged(String str, boolean z, boolean z2) {
+            if (!hasAllImporters()) {
+                if (MemberRequestsBottomSheet.this.membersEmptyView.getVisibility() != 4) {
+                    MemberRequestsBottomSheet.this.membersEmptyView.setVisibility(4);
+                }
+                MemberRequestsBottomSheet.this.dismiss();
+            } else if (z2) {
+                MemberRequestsBottomSheet.this.searchView.searchEditText.setText("");
+            } else {
+                super.onImportersChanged(str, z, z2);
+            }
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
@@ -117,7 +128,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
     }
 
     @Override // org.telegram.ui.Components.UsersAlertBase
-    protected void onSearchViewTouched(MotionEvent motionEvent, final EditTextBoldCursor editTextBoldCursor) {
+    protected void onSearchViewTouched(MotionEvent motionEvent, EditTextBoldCursor editTextBoldCursor) {
         if (motionEvent.getAction() == 0) {
             this.yOffset = this.scrollOffsetY;
             this.delegate.setAdapterItemsEnabled(false);
@@ -131,22 +142,12 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
             if (baseFragment instanceof ChatActivity) {
                 boolean needEnterText = ((ChatActivity) baseFragment).needEnterText();
                 this.enterEventSent = true;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        MemberRequestsBottomSheet.this.lambda$onSearchViewTouched$1(editTextBoldCursor);
-                    }
-                }, needEnterText ? 200L : 0L);
+                AndroidUtilities.runOnUIThread(new MemberRequestsBottomSheet$$ExternalSyntheticLambda2(this, editTextBoldCursor), needEnterText ? 200L : 0L);
             } else {
                 this.enterEventSent = true;
                 setFocusable(true);
                 editTextBoldCursor.requestFocus();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        AndroidUtilities.showKeyboard(EditTextBoldCursor.this);
-                    }
-                });
+                AndroidUtilities.runOnUIThread(new MemberRequestsBottomSheet$$ExternalSyntheticLambda0(editTextBoldCursor));
             }
         }
         if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
@@ -154,14 +155,9 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         }
     }
 
-    public /* synthetic */ void lambda$onSearchViewTouched$1(final EditTextBoldCursor editTextBoldCursor) {
+    public /* synthetic */ void lambda$onSearchViewTouched$1(EditTextBoldCursor editTextBoldCursor) {
         setFocusable(true);
         editTextBoldCursor.requestFocus();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                AndroidUtilities.showKeyboard(EditTextBoldCursor.this);
-            }
-        });
+        AndroidUtilities.runOnUIThread(new MemberRequestsBottomSheet$$ExternalSyntheticLambda1(editTextBoldCursor));
     }
 }

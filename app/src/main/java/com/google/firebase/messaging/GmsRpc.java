@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import com.google.android.gms.cloudmessaging.Rpc;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
@@ -15,7 +14,6 @@ import com.google.firebase.inject.Provider;
 import com.google.firebase.installations.FirebaseInstallationsApi;
 import com.google.firebase.installations.InstallationTokenResult;
 import com.google.firebase.platforminfo.UserAgentPublisher;
-import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -48,19 +46,7 @@ public class GmsRpc {
     }
 
     private Task<String> extractResponseWhenComplete(Task<Bundle> task) {
-        return task.continueWith(GmsRpc$$Lambda$0.$instance, new Continuation(this) { // from class: com.google.firebase.messaging.GmsRpc$$Lambda$1
-            private final GmsRpc arg$1;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.arg$1 = this;
-            }
-
-            @Override // com.google.android.gms.tasks.Continuation
-            public Object then(Task task2) {
-                return this.arg$1.lambda$extractResponseWhenComplete$0$GmsRpc(task2);
-            }
-        });
+        return task.continueWith(GmsRpc$$Lambda$0.$instance, new GmsRpc$$Lambda$1(this));
     }
 
     private String getHashedFirebaseAppName() {
@@ -80,7 +66,7 @@ public class GmsRpc {
         bundle.putString("scope", str3);
         bundle.putString("sender", str2);
         bundle.putString("subtype", str2);
-        bundle.putString(HiAnalyticsConstant.HaKey.BI_KEY_APPID, str);
+        bundle.putString("appid", str);
         bundle.putString("gmp_app_id", this.app.getOptions().getApplicationId());
         bundle.putString("gmsv", Integer.toString(this.metadata.getGmsVersionCode()));
         bundle.putString("osv", Integer.toString(Build.VERSION.SDK_INT));

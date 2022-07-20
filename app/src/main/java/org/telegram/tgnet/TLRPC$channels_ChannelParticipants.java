@@ -13,14 +13,7 @@ public abstract class TLRPC$channels_ChannelParticipants extends TLObject {
         if (i == -1699676497) {
             tLRPC$channels_ChannelParticipants = new TLRPC$TL_channels_channelParticipants();
         } else {
-            tLRPC$channels_ChannelParticipants = i != -266911767 ? null : new TLRPC$channels_ChannelParticipants() { // from class: org.telegram.tgnet.TLRPC$TL_channels_channelParticipantsNotModified
-                public static int constructor = -266911767;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
-                }
-            };
+            tLRPC$channels_ChannelParticipants = i != -266911767 ? null : new TLRPC$TL_channels_channelParticipantsNotModified();
         }
         if (tLRPC$channels_ChannelParticipants != null || !z) {
             if (tLRPC$channels_ChannelParticipants != null) {

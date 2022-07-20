@@ -12,7 +12,22 @@ public class DispatchQueuePool {
     private LinkedList<DispatchQueue> queues = new LinkedList<>();
     private SparseIntArray busyQueuesMap = new SparseIntArray();
     private LinkedList<DispatchQueue> busyQueues = new LinkedList<>();
-    private Runnable cleanupRunnable = new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool.1
+    private Runnable cleanupRunnable = new AnonymousClass1();
+    private int guid = Utilities.random.nextInt();
+
+    static /* synthetic */ int access$110(DispatchQueuePool dispatchQueuePool) {
+        int i = dispatchQueuePool.createdCount;
+        dispatchQueuePool.createdCount = i - 1;
+        return i;
+    }
+
+    /* renamed from: org.telegram.messenger.DispatchQueuePool$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            DispatchQueuePool.this = r1;
+        }
+
         @Override // java.lang.Runnable
         public void run() {
             if (!DispatchQueuePool.this.queues.isEmpty()) {
@@ -38,21 +53,14 @@ public class DispatchQueuePool {
             AndroidUtilities.runOnUIThread(this, 30000L);
             DispatchQueuePool.this.cleanupScheduled = true;
         }
-    };
-    private int guid = Utilities.random.nextInt();
-
-    static /* synthetic */ int access$110(DispatchQueuePool dispatchQueuePool) {
-        int i = dispatchQueuePool.createdCount;
-        dispatchQueuePool.createdCount = i - 1;
-        return i;
     }
 
     public DispatchQueuePool(int i) {
         this.maxCount = i;
     }
 
-    public void execute(final Runnable runnable) {
-        final DispatchQueue dispatchQueue;
+    public void execute(Runnable runnable) {
+        DispatchQueue dispatchQueue;
         if (!this.busyQueues.isEmpty() && (this.totalTasksCount / 2 <= this.busyQueues.size() || (this.queues.isEmpty() && this.createdCount >= this.maxCount))) {
             dispatchQueue = this.busyQueues.remove(0);
         } else if (this.queues.isEmpty()) {
@@ -69,22 +77,12 @@ public class DispatchQueuePool {
         this.totalTasksCount++;
         this.busyQueues.add(dispatchQueue);
         this.busyQueuesMap.put(dispatchQueue.index, this.busyQueuesMap.get(dispatchQueue.index, 0) + 1);
-        dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                DispatchQueuePool.this.lambda$execute$1(runnable, dispatchQueue);
-            }
-        });
+        dispatchQueue.postRunnable(new DispatchQueuePool$$ExternalSyntheticLambda0(this, runnable, dispatchQueue));
     }
 
-    public /* synthetic */ void lambda$execute$1(Runnable runnable, final DispatchQueue dispatchQueue) {
+    public /* synthetic */ void lambda$execute$1(Runnable runnable, DispatchQueue dispatchQueue) {
         runnable.run();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                DispatchQueuePool.this.lambda$execute$0(dispatchQueue);
-            }
-        });
+        AndroidUtilities.runOnUIThread(new DispatchQueuePool$$ExternalSyntheticLambda1(this, dispatchQueue));
     }
 
     public /* synthetic */ void lambda$execute$0(DispatchQueue dispatchQueue) {

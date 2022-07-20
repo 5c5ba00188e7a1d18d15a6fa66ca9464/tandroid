@@ -4,12 +4,10 @@ import android.content.Context;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Handler;
-import com.google.android.exoplayer2.AudioFocusManager;
 import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
-import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
 public final class AudioFocusManager {
     private AudioAttributes audioAttributes;
@@ -30,7 +28,7 @@ public final class AudioFocusManager {
     }
 
     public AudioFocusManager(Context context, Handler handler, PlayerControl playerControl) {
-        this.audioManager = (AudioManager) context.getApplicationContext().getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+        this.audioManager = (AudioManager) context.getApplicationContext().getSystemService("audio");
         this.playerControl = playerControl;
         this.focusListener = new AudioFocusListener(handler);
     }
@@ -229,13 +227,8 @@ public final class AudioFocusManager {
         }
 
         @Override // android.media.AudioManager.OnAudioFocusChangeListener
-        public void onAudioFocusChange(final int i) {
-            this.eventHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.AudioFocusManager$AudioFocusListener$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    AudioFocusManager.AudioFocusListener.this.lambda$onAudioFocusChange$0(i);
-                }
-            });
+        public void onAudioFocusChange(int i) {
+            this.eventHandler.post(new AudioFocusManager$AudioFocusListener$$ExternalSyntheticLambda0(this, i));
         }
     }
 }

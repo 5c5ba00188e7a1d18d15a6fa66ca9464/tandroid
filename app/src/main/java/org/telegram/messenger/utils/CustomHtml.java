@@ -1,8 +1,6 @@
 package org.telegram.messenger.utils;
 
 import android.text.Spanned;
-import org.telegram.messenger.CharacterCompat;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.TextStyleSpan;
 /* loaded from: classes.dex */
@@ -46,7 +44,7 @@ public class CustomHtml {
                 }
             } else if (charAt2 < 56320 && (i3 = i + 1) < i2 && (charAt = charSequence.charAt(i3)) >= 56320 && charAt <= 57343) {
                 sb.append("&#");
-                sb.append(65536 | ((charAt2 - CharacterCompat.MIN_HIGH_SURROGATE) << 10) | (charAt - CharacterCompat.MIN_LOW_SURROGATE));
+                sb.append(65536 | ((charAt2 - 55296) << 10) | (charAt - 56320));
                 sb.append(";");
                 i = i3;
             }
@@ -83,7 +81,7 @@ public class CustomHtml {
                         if ((styleFlags & 8) > 0) {
                             sb.append("<s>");
                         }
-                        if ((styleFlags & ConnectionsManager.RequestFlagNeedQuickAck) > 0 && textStyleSpan.getTextStyleRun() != null && textStyleSpan.getTextStyleRun().urlEntity != null) {
+                        if ((styleFlags & 128) > 0 && textStyleSpan.getTextStyleRun() != null && textStyleSpan.getTextStyleRun().urlEntity != null) {
                             sb.append("<a href=\"");
                             sb.append(textStyleSpan.getTextStyleRun().urlEntity.url);
                             sb.append("\">");
@@ -96,7 +94,7 @@ public class CustomHtml {
                 for (TextStyleSpan textStyleSpan2 : textStyleSpanArr) {
                     if (textStyleSpan2 != null) {
                         int styleFlags2 = textStyleSpan2.getStyleFlags();
-                        if ((styleFlags2 & ConnectionsManager.RequestFlagNeedQuickAck) > 0 && textStyleSpan2.getTextStyleRun() != null && textStyleSpan2.getTextStyleRun().urlEntity != null) {
+                        if ((styleFlags2 & 128) > 0 && textStyleSpan2.getTextStyleRun() != null && textStyleSpan2.getTextStyleRun().urlEntity != null) {
                             sb.append("</a>");
                         }
                         if ((styleFlags2 & 8) > 0) {

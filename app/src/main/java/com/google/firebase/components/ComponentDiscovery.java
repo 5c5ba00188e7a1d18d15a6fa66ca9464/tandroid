@@ -12,13 +12,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class ComponentDiscovery<T> {
     private final T context;
     private final RegistrarNameRetriever<T> retriever;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface RegistrarNameRetriever<T> {
         List<String> retrieve(T t);
@@ -51,15 +49,8 @@ public final class ComponentDiscovery<T> {
 
     public List<Provider<ComponentRegistrar>> discoverLazy() {
         ArrayList arrayList = new ArrayList();
-        for (final String str : this.retriever.retrieve(this.context)) {
-            arrayList.add(new Provider() { // from class: com.google.firebase.components.ComponentDiscovery$$ExternalSyntheticLambda0
-                @Override // com.google.firebase.inject.Provider
-                public final Object get() {
-                    ComponentRegistrar instantiate;
-                    instantiate = ComponentDiscovery.instantiate(str);
-                    return instantiate;
-                }
-            });
+        for (String str : this.retriever.retrieve(this.context)) {
+            arrayList.add(new ComponentDiscovery$$ExternalSyntheticLambda0(str));
         }
         return arrayList;
     }
@@ -85,7 +76,6 @@ public final class ComponentDiscovery<T> {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class MetadataRegistrarNameRetriever implements RegistrarNameRetriever<Context> {
         private final Class<? extends Service> discoveryService;
@@ -116,7 +106,7 @@ public final class ComponentDiscovery<T> {
                     Log.w("ComponentDiscovery", "Context has no PackageManager.");
                     return null;
                 }
-                ServiceInfo serviceInfo = packageManager.getServiceInfo(new ComponentName(context, this.discoveryService), ConnectionsManager.RequestFlagNeedQuickAck);
+                ServiceInfo serviceInfo = packageManager.getServiceInfo(new ComponentName(context, this.discoveryService), 128);
                 if (serviceInfo == null) {
                     Log.w("ComponentDiscovery", this.discoveryService + " has no service info.");
                     return null;

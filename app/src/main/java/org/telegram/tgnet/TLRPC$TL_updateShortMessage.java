@@ -26,7 +26,7 @@ public class TLRPC$TL_updateShortMessage extends TLRPC$Updates {
         if ((this.flags & 8) != 0) {
             this.reply_to = TLRPC$TL_messageReplyHeader.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if ((this.flags & 128) != 0) {
             int readInt322 = abstractSerializedData.readInt32(z);
             if (readInt322 != 481674261) {
                 if (z) {
@@ -43,7 +43,7 @@ public class TLRPC$TL_updateShortMessage extends TLRPC$Updates {
                 this.entities.add(TLdeserialize);
             }
         }
-        if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
+        if ((this.flags & 33554432) != 0) {
             this.ttl_period = abstractSerializedData.readInt32(z);
         }
     }

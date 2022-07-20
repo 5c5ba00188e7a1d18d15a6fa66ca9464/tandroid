@@ -13,7 +13,6 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
-import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ProtobufDataEncoderContext implements ObjectEncoderContext {
@@ -271,7 +270,7 @@ public final class ProtobufDataEncoderContext implements ObjectEncoderContext {
 
     private void writeVarInt32(int i) throws IOException {
         while ((i & (-128)) != 0) {
-            this.output.write((i & 127) | ConnectionsManager.RequestFlagNeedQuickAck);
+            this.output.write((i & 127) | 128);
             i >>>= 7;
         }
         this.output.write(i & 127);
@@ -279,7 +278,7 @@ public final class ProtobufDataEncoderContext implements ObjectEncoderContext {
 
     private void writeVarInt64(long j) throws IOException {
         while (((-128) & j) != 0) {
-            this.output.write((((int) j) & 127) | ConnectionsManager.RequestFlagNeedQuickAck);
+            this.output.write((((int) j) & 127) | 128);
             j >>>= 7;
         }
         this.output.write(((int) j) & 127);

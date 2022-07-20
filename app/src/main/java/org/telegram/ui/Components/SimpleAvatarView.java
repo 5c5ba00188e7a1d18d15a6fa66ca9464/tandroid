@@ -85,20 +85,8 @@ public class SimpleAvatarView extends View {
             }
             ValueAnimator duration = ValueAnimator.ofFloat(this.selectProgress, f).setDuration(200L);
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SimpleAvatarView$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    SimpleAvatarView.this.lambda$setSelected$0(valueAnimator2);
-                }
-            });
-            duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SimpleAvatarView.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (SimpleAvatarView.this.animator == animator) {
-                        SimpleAvatarView.this.animator = null;
-                    }
-                }
-            });
+            duration.addUpdateListener(new SimpleAvatarView$$ExternalSyntheticLambda0(this));
+            duration.addListener(new AnonymousClass1());
             duration.start();
             this.animator = duration;
             return;
@@ -113,6 +101,21 @@ public class SimpleAvatarView extends View {
     public /* synthetic */ void lambda$setSelected$0(ValueAnimator valueAnimator) {
         this.selectProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Components.SimpleAvatarView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            SimpleAvatarView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (SimpleAvatarView.this.animator == animator) {
+                SimpleAvatarView.this.animator = null;
+            }
+        }
     }
 
     public void setHideAvatar(boolean z) {

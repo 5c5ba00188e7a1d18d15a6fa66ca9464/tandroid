@@ -16,7 +16,6 @@ public class YuvConverter {
     private final ThreadUtils.ThreadChecker threadChecker;
     private final VideoFrameDrawer videoFrameDrawer;
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class ShaderCallbacks implements GlGenericDrawer.ShaderCallbacks {
         private float[] coeffs;
@@ -71,7 +70,7 @@ public class YuvConverter {
         this.i420TextureFrameBuffer = new GlTextureFrameBuffer(6408);
         ShaderCallbacks shaderCallbacks = new ShaderCallbacks();
         this.shaderCallbacks = shaderCallbacks;
-        this.drawer = new GlGenericDrawer(FRAGMENT_SHADER, shaderCallbacks);
+        this.drawer = new GlGenericDrawer("uniform vec2 xUnit;\nuniform vec4 coeffs;\n\nvoid main() {\n  gl_FragColor.r = coeffs.a + dot(coeffs.rgb,\n      sample(tc - 1.5 * xUnit).rgb);\n  gl_FragColor.g = coeffs.a + dot(coeffs.rgb,\n      sample(tc - 0.5 * xUnit).rgb);\n  gl_FragColor.b = coeffs.a + dot(coeffs.rgb,\n      sample(tc + 0.5 * xUnit).rgb);\n  gl_FragColor.a = coeffs.a + dot(coeffs.rgb,\n      sample(tc + 1.5 * xUnit).rgb);\n}\n", shaderCallbacks);
         this.videoFrameDrawer = videoFrameDrawer;
         threadChecker.detachThread();
     }
@@ -120,7 +119,7 @@ public class YuvConverter {
                 int i6 = (i2 * height) + i;
                 int i7 = i2 / 2;
                 int i8 = i6 + i7;
-                final ByteBuffer byteBuffer2 = byteBuffer;
+                ByteBuffer byteBuffer2 = byteBuffer;
                 byteBuffer2.position(i);
                 byteBuffer2.limit(i6);
                 ByteBuffer slice = byteBuffer2.slice();
@@ -132,12 +131,7 @@ public class YuvConverter {
                 byteBuffer2.limit(i8 + i9);
                 ByteBuffer slice3 = byteBuffer2.slice();
                 textureBuffer2.release();
-                return JavaI420Buffer.wrap(width, height, slice, i2, slice2, i2, slice3, i2, new Runnable() { // from class: org.webrtc.YuvConverter$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        JniCommon.nativeFreeByteBuffer(byteBuffer2);
-                    }
-                });
+                return JavaI420Buffer.wrap(width, height, slice, i2, slice2, i2, slice3, i2, new YuvConverter$$ExternalSyntheticLambda0(byteBuffer2));
             }
         } catch (Exception e4) {
             e = e4;
@@ -146,7 +140,7 @@ public class YuvConverter {
             int i62 = (i2 * height) + i;
             int i72 = i2 / 2;
             int i82 = i62 + i72;
-            final ByteBuffer byteBuffer22 = byteBuffer;
+            ByteBuffer byteBuffer22 = byteBuffer;
             byteBuffer22.position(i);
             byteBuffer22.limit(i62);
             ByteBuffer slice4 = byteBuffer22.slice();
@@ -158,17 +152,12 @@ public class YuvConverter {
             byteBuffer22.limit(i82 + i92);
             ByteBuffer slice32 = byteBuffer22.slice();
             textureBuffer2.release();
-            return JavaI420Buffer.wrap(width, height, slice4, i2, slice22, i2, slice32, i2, new Runnable() { // from class: org.webrtc.YuvConverter$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    JniCommon.nativeFreeByteBuffer(byteBuffer22);
-                }
-            });
+            return JavaI420Buffer.wrap(width, height, slice4, i2, slice22, i2, slice32, i2, new YuvConverter$$ExternalSyntheticLambda0(byteBuffer22));
         }
         int i622 = (i2 * height) + i;
         int i722 = i2 / 2;
         int i822 = i622 + i722;
-        final ByteBuffer byteBuffer222 = byteBuffer;
+        ByteBuffer byteBuffer222 = byteBuffer;
         byteBuffer222.position(i);
         byteBuffer222.limit(i622);
         ByteBuffer slice42 = byteBuffer222.slice();
@@ -180,12 +169,7 @@ public class YuvConverter {
         byteBuffer222.limit(i822 + i922);
         ByteBuffer slice322 = byteBuffer222.slice();
         textureBuffer2.release();
-        return JavaI420Buffer.wrap(width, height, slice42, i2, slice222, i2, slice322, i2, new Runnable() { // from class: org.webrtc.YuvConverter$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                JniCommon.nativeFreeByteBuffer(byteBuffer222);
-            }
-        });
+        return JavaI420Buffer.wrap(width, height, slice42, i2, slice222, i2, slice322, i2, new YuvConverter$$ExternalSyntheticLambda0(byteBuffer222));
     }
 
     public void release() {

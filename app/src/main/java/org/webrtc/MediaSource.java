@@ -19,13 +19,8 @@ public class MediaSource {
         }
     }
 
-    public MediaSource(final long j) {
-        this.refCountDelegate = new RefCountDelegate(new Runnable() { // from class: org.webrtc.MediaSource$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                JniCommon.nativeReleaseRef(j);
-            }
-        });
+    public MediaSource(long j) {
+        this.refCountDelegate = new RefCountDelegate(new MediaSource$$ExternalSyntheticLambda0(j));
         this.nativeSource = j;
     }
 

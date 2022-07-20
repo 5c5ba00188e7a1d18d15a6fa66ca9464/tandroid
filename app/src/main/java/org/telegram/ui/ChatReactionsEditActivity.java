@@ -17,7 +17,6 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
@@ -76,90 +75,31 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public View createView(final Context context) {
-        this.actionBar.setTitle(LocaleController.getString("Reactions", R.string.Reactions));
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+    public View createView(Context context) {
+        this.actionBar.setTitle(LocaleController.getString("Reactions", 2131627909));
+        this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ChatReactionsEditActivity.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    ChatReactionsEditActivity.this.finishFragment();
-                }
-            }
-        });
+        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
         this.availableReactions.addAll(getMediaDataController().getEnabledReactionsList());
         TextCheckCell textCheckCell = new TextCheckCell(context);
         this.enableReactionsCell = textCheckCell;
         textCheckCell.setHeight(56);
-        this.enableReactionsCell.setTextAndCheck(LocaleController.getString("EnableReactions", R.string.EnableReactions), true ^ this.chatReactions.isEmpty(), false);
+        this.enableReactionsCell.setTextAndCheck(LocaleController.getString("EnableReactions", 2131625659), true ^ this.chatReactions.isEmpty(), false);
         TextCheckCell textCheckCell2 = this.enableReactionsCell;
         textCheckCell2.setBackgroundColor(Theme.getColor(textCheckCell2.isChecked() ? "windowBackgroundChecked" : "windowBackgroundUnchecked"));
-        this.enableReactionsCell.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.enableReactionsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ChatReactionsEditActivity.this.lambda$createView$0(view);
-            }
-        });
+        this.enableReactionsCell.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.enableReactionsCell.setOnClickListener(new ChatReactionsEditActivity$$ExternalSyntheticLambda0(this));
         linearLayout.addView(this.enableReactionsCell, LayoutHelper.createLinear(-1, -2));
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
         recyclerListView.setLayoutManager(new LinearLayoutManager(context));
         RecyclerListView recyclerListView2 = this.listView;
-        RecyclerView.Adapter adapter = new RecyclerView.Adapter() { // from class: org.telegram.ui.ChatReactionsEditActivity.2
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemViewType(int i) {
-                if (i == 0) {
-                    return 0;
-                }
-                return i == 1 ? 1 : 2;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                if (i != 0) {
-                    if (i != 1) {
-                        return new RecyclerListView.Holder(new AvailableReactionCell(context, false, false));
-                    }
-                    return new RecyclerListView.Holder(new HeaderCell(context, 23));
-                }
-                return new RecyclerListView.Holder(new TextInfoPrivacyCell(context));
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-                int itemViewType = getItemViewType(i);
-                if (itemViewType == 0) {
-                    TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                    textInfoPrivacyCell.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText4"));
-                    textInfoPrivacyCell.setText(ChatObject.isChannelAndNotMegaGroup(ChatReactionsEditActivity.this.currentChat) ? LocaleController.getString("EnableReactionsChannelInfo", R.string.EnableReactionsChannelInfo) : LocaleController.getString("EnableReactionsGroupInfo", R.string.EnableReactionsGroupInfo));
-                } else if (itemViewType == 1) {
-                    HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
-                    headerCell.setText(LocaleController.getString("AvailableReactions", R.string.AvailableReactions));
-                    headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                } else if (itemViewType != 2) {
-                } else {
-                    TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) ChatReactionsEditActivity.this.availableReactions.get(i - 2);
-                    ((AvailableReactionCell) viewHolder.itemView).bind(tLRPC$TL_availableReaction, ChatReactionsEditActivity.this.chatReactions.contains(tLRPC$TL_availableReaction.reaction), ((BaseFragment) ChatReactionsEditActivity.this).currentAccount);
-                }
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemCount() {
-                return (!ChatReactionsEditActivity.this.chatReactions.isEmpty() ? ChatReactionsEditActivity.this.availableReactions.size() + 1 : 0) + 1;
-            }
-        };
-        this.listAdapter = adapter;
-        recyclerListView2.setAdapter(adapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda2
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i) {
-                ChatReactionsEditActivity.this.lambda$createView$1(view, i);
-            }
-        });
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
+        this.listAdapter = anonymousClass2;
+        recyclerListView2.setAdapter(anonymousClass2);
+        this.listView.setOnItemClickListener(new ChatReactionsEditActivity$$ExternalSyntheticLambda2(this));
         linearLayout.addView(this.listView, LayoutHelper.createLinear(-1, 0, 1.0f));
         this.contentView = linearLayout;
         this.fragmentView = linearLayout;
@@ -167,8 +107,76 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         return this.contentView;
     }
 
+    /* renamed from: org.telegram.ui.ChatReactionsEditActivity$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
+        AnonymousClass1() {
+            ChatReactionsEditActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+        public void onItemClick(int i) {
+            if (i == -1) {
+                ChatReactionsEditActivity.this.finishFragment();
+            }
+        }
+    }
+
     public /* synthetic */ void lambda$createView$0(View view) {
         setCheckedEnableReactionCell(!this.enableReactionsCell.isChecked());
+    }
+
+    /* renamed from: org.telegram.ui.ChatReactionsEditActivity$2 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass2 extends RecyclerView.Adapter {
+        final /* synthetic */ Context val$context;
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemViewType(int i) {
+            if (i == 0) {
+                return 0;
+            }
+            return i == 1 ? 1 : 2;
+        }
+
+        AnonymousClass2(Context context) {
+            ChatReactionsEditActivity.this = r1;
+            this.val$context = context;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            if (i != 0) {
+                if (i != 1) {
+                    return new RecyclerListView.Holder(new AvailableReactionCell(this.val$context, false, false));
+                }
+                return new RecyclerListView.Holder(new HeaderCell(this.val$context, 23));
+            }
+            return new RecyclerListView.Holder(new TextInfoPrivacyCell(this.val$context));
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            int itemViewType = getItemViewType(i);
+            if (itemViewType == 0) {
+                TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
+                textInfoPrivacyCell.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText4"));
+                textInfoPrivacyCell.setText(ChatObject.isChannelAndNotMegaGroup(ChatReactionsEditActivity.this.currentChat) ? LocaleController.getString("EnableReactionsChannelInfo", 2131625660) : LocaleController.getString("EnableReactionsGroupInfo", 2131625661));
+            } else if (itemViewType == 1) {
+                HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
+                headerCell.setText(LocaleController.getString("AvailableReactions", 2131624644));
+                headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+            } else if (itemViewType != 2) {
+            } else {
+                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) ChatReactionsEditActivity.this.availableReactions.get(i - 2);
+                ((AvailableReactionCell) viewHolder.itemView).bind(tLRPC$TL_availableReaction, ChatReactionsEditActivity.this.chatReactions.contains(tLRPC$TL_availableReaction.reaction), ((BaseFragment) ChatReactionsEditActivity.this).currentAccount);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemCount() {
+            return (!ChatReactionsEditActivity.this.chatReactions.isEmpty() ? ChatReactionsEditActivity.this.availableReactions.size() + 1 : 0) + 1;
+        }
     }
 
     public /* synthetic */ void lambda$createView$1(View view, int i) {
@@ -238,17 +246,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda1
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public final void didSetColor() {
-                ChatReactionsEditActivity.this.updateColors();
-            }
-
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
-            }
-        }, "windowBackgroundWhite", "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText2", "listSelectorSDK21", "windowBackgroundGray", "windowBackgroundWhiteGrayText4", "windowBackgroundWhiteRedText4", "windowBackgroundChecked", "windowBackgroundCheckText", "switchTrackBlue", "switchTrackBlueChecked", "switchTrackBlueThumb", "switchTrackBlueThumbChecked");
+        return SimpleThemeDescription.createThemeDescriptions(new ChatReactionsEditActivity$$ExternalSyntheticLambda1(this), "windowBackgroundWhite", "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText2", "listSelectorSDK21", "windowBackgroundGray", "windowBackgroundWhiteGrayText4", "windowBackgroundWhiteRedText4", "windowBackgroundChecked", "windowBackgroundCheckText", "switchTrackBlue", "switchTrackBlueChecked", "switchTrackBlueThumb", "switchTrackBlueThumbChecked");
     }
 
     @SuppressLint({"NotifyDataSetChanged"})

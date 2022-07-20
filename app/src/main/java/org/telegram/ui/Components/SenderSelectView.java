@@ -16,7 +16,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatInvite;
@@ -48,7 +47,7 @@ public class SenderSelectView extends View {
         this.menuPaint.setStrokeCap(Paint.Cap.ROUND);
         this.menuPaint.setStyle(Paint.Style.STROKE);
         updateColors();
-        setContentDescription(LocaleController.formatString("AccDescrSendAsPeer", R.string.AccDescrSendAsPeer, ""));
+        setContentDescription(LocaleController.formatString("AccDescrSendAsPeer", 2131624063, ""));
     }
 
     private void updateColors() {
@@ -112,7 +111,7 @@ public class SenderSelectView extends View {
         } else {
             str = tLObject instanceof TLRPC$ChatInvite ? ((TLRPC$ChatInvite) tLObject).title : "";
         }
-        setContentDescription(LocaleController.formatString("AccDescrSendAsPeer", R.string.AccDescrSendAsPeer, str));
+        setContentDescription(LocaleController.formatString("AccDescrSendAsPeer", 2131624063, str));
         this.avatarDrawable.setInfo(tLObject);
         this.avatarImage.setForUserOrChat(tLObject, this.avatarDrawable);
     }
@@ -135,52 +134,30 @@ public class SenderSelectView extends View {
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
-            final boolean z3 = false;
+            boolean z3 = false;
             this.scaleIn = false;
             this.scaleOut = false;
             if (z2) {
-                final float f2 = this.menuProgress * 100.0f;
+                float f2 = this.menuProgress * 100.0f;
                 SpringAnimation startValue = new SpringAnimation(this, MENU_PROGRESS).setStartValue(f2);
                 this.menuSpring = startValue;
                 if (f < this.menuProgress) {
                     z3 = true;
                 }
-                final float f3 = f * 100.0f;
+                float f3 = f * 100.0f;
                 this.scaleIn = z3;
                 this.scaleOut = !z3;
                 startValue.setSpring(new SpringForce(f3).setFinalPosition(f3).setStiffness(450.0f).setDampingRatio(1.0f));
-                this.menuSpring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectView$$ExternalSyntheticLambda2
-                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
-                    public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f4, float f5) {
-                        SenderSelectView.this.lambda$setProgress$2(z3, f2, f3, dynamicAnimation, f4, f5);
-                    }
-                });
-                this.menuSpring.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectView$$ExternalSyntheticLambda1
-                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-                    public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z4, float f4, float f5) {
-                        SenderSelectView.this.lambda$setProgress$3(dynamicAnimation, z4, f4, f5);
-                    }
-                });
+                this.menuSpring.addUpdateListener(new SenderSelectView$$ExternalSyntheticLambda2(this, z3, f2, f3));
+                this.menuSpring.addEndListener(new SenderSelectView$$ExternalSyntheticLambda1(this));
                 this.menuSpring.start();
                 return;
             }
             ValueAnimator duration = ValueAnimator.ofFloat(this.menuProgress, f).setDuration(200L);
             this.menuAnimator = duration;
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            this.menuAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectView$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    SenderSelectView.this.lambda$setProgress$4(valueAnimator2);
-                }
-            });
-            this.menuAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SenderSelectView.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (animator == SenderSelectView.this.menuAnimator) {
-                        SenderSelectView.this.menuAnimator = null;
-                    }
-                }
-            });
+            this.menuAnimator.addUpdateListener(new SenderSelectView$$ExternalSyntheticLambda0(this));
+            this.menuAnimator.addListener(new AnonymousClass1());
             this.menuAnimator.start();
             return;
         }
@@ -214,6 +191,21 @@ public class SenderSelectView extends View {
     public /* synthetic */ void lambda$setProgress$4(ValueAnimator valueAnimator) {
         this.menuProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Components.SenderSelectView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            SenderSelectView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (animator == SenderSelectView.this.menuAnimator) {
+                SenderSelectView.this.menuAnimator = null;
+            }
+        }
     }
 
     public float getProgress() {

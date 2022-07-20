@@ -90,26 +90,8 @@ public class PinnedLineView extends View {
         invalidate();
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.animator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PinnedLineView$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                PinnedLineView.this.lambda$selectPosition$0(valueAnimator2);
-            }
-        });
-        this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PinnedLineView.1
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                PinnedLineView pinnedLineView = PinnedLineView.this;
-                pinnedLineView.animationInProgress = false;
-                pinnedLineView.selectedPosition = pinnedLineView.animateToPosition;
-                pinnedLineView.invalidate();
-                if (PinnedLineView.this.nextPosition >= 0) {
-                    PinnedLineView pinnedLineView2 = PinnedLineView.this;
-                    pinnedLineView2.selectPosition(pinnedLineView2.nextPosition);
-                    PinnedLineView.this.nextPosition = -1;
-                }
-            }
-        });
+        ofFloat.addUpdateListener(new PinnedLineView$$ExternalSyntheticLambda0(this));
+        this.animator.addListener(new AnonymousClass1());
         this.animator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.animator.setDuration(220L);
         this.animator.start();
@@ -118,6 +100,27 @@ public class PinnedLineView extends View {
     public /* synthetic */ void lambda$selectPosition$0(ValueAnimator valueAnimator) {
         this.animationProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Components.PinnedLineView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            PinnedLineView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            PinnedLineView pinnedLineView = PinnedLineView.this;
+            pinnedLineView.animationInProgress = false;
+            pinnedLineView.selectedPosition = pinnedLineView.animateToPosition;
+            pinnedLineView.invalidate();
+            if (PinnedLineView.this.nextPosition >= 0) {
+                PinnedLineView pinnedLineView2 = PinnedLineView.this;
+                pinnedLineView2.selectPosition(pinnedLineView2.nextPosition);
+                PinnedLineView.this.nextPosition = -1;
+            }
+        }
     }
 
     @Override // android.view.View
@@ -277,26 +280,8 @@ public class PinnedLineView extends View {
             invalidate();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.animator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PinnedLineView$$ExternalSyntheticLambda1
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                    PinnedLineView.this.lambda$set$1(valueAnimator3);
-                }
-            });
-            this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PinnedLineView.2
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    PinnedLineView pinnedLineView = PinnedLineView.this;
-                    pinnedLineView.replaceInProgress = false;
-                    pinnedLineView.animationInProgress = false;
-                    pinnedLineView.invalidate();
-                    if (PinnedLineView.this.nextPosition >= 0) {
-                        PinnedLineView pinnedLineView2 = PinnedLineView.this;
-                        pinnedLineView2.selectPosition(pinnedLineView2.nextPosition);
-                        PinnedLineView.this.nextPosition = -1;
-                    }
-                }
-            });
+            ofFloat.addUpdateListener(new PinnedLineView$$ExternalSyntheticLambda1(this));
+            this.animator.addListener(new AnonymousClass2());
             this.animator.setInterpolator(CubicBezierInterpolator.DEFAULT);
             this.animator.setDuration(220L);
             this.animator.start();
@@ -308,6 +293,27 @@ public class PinnedLineView extends View {
     public /* synthetic */ void lambda$set$1(ValueAnimator valueAnimator) {
         this.animationProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Components.PinnedLineView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        AnonymousClass2() {
+            PinnedLineView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            PinnedLineView pinnedLineView = PinnedLineView.this;
+            pinnedLineView.replaceInProgress = false;
+            pinnedLineView.animationInProgress = false;
+            pinnedLineView.invalidate();
+            if (PinnedLineView.this.nextPosition >= 0) {
+                PinnedLineView pinnedLineView2 = PinnedLineView.this;
+                pinnedLineView2.selectPosition(pinnedLineView2.nextPosition);
+                PinnedLineView.this.nextPosition = -1;
+            }
+        }
     }
 
     private int getThemedColor(String str) {

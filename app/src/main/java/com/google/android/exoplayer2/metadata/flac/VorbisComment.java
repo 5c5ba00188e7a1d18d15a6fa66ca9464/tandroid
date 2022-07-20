@@ -5,20 +5,9 @@ import android.os.Parcelable;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.util.Util;
-import com.huawei.hms.framework.common.ContainerUtils;
 /* loaded from: classes.dex */
 public final class VorbisComment implements Metadata.Entry {
-    public static final Parcelable.Creator<VorbisComment> CREATOR = new Parcelable.Creator<VorbisComment>() { // from class: com.google.android.exoplayer2.metadata.flac.VorbisComment.1
-        @Override // android.os.Parcelable.Creator
-        public VorbisComment createFromParcel(Parcel parcel) {
-            return new VorbisComment(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public VorbisComment[] newArray(int i) {
-            return new VorbisComment[i];
-        }
-    };
+    public static final Parcelable.Creator<VorbisComment> CREATOR = new AnonymousClass1();
     public final String key;
     public final String value;
 
@@ -48,7 +37,7 @@ public final class VorbisComment implements Metadata.Entry {
     }
 
     public String toString() {
-        return "VC: " + this.key + ContainerUtils.KEY_VALUE_DELIMITER + this.value;
+        return "VC: " + this.key + "=" + this.value;
     }
 
     public boolean equals(Object obj) {
@@ -70,5 +59,22 @@ public final class VorbisComment implements Metadata.Entry {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.key);
         parcel.writeString(this.value);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.metadata.flac.VorbisComment$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<VorbisComment> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public VorbisComment createFromParcel(Parcel parcel) {
+            return new VorbisComment(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public VorbisComment[] newArray(int i) {
+            return new VorbisComment[i];
+        }
     }
 }

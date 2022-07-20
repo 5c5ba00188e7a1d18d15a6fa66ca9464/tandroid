@@ -6,7 +6,6 @@ import android.content.IntentSender;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.huawei.hms.common.internal.Objects;
-import com.huawei.hms.framework.network.grs.GrsBaseInfo;
 /* loaded from: classes.dex */
 public final class ConnectionResult implements Parcelable {
     public static final int API_UNAVAILABLE = 1000;
@@ -102,7 +101,7 @@ public final class ConnectionResult implements Parcelable {
                     return "UNKNOWN_ERROR_CODE(" + i + ")";
             }
         }
-        return GrsBaseInfo.CountryCodeSource.UNKNOWN;
+        return "UNKNOWN";
     }
 
     @Override // android.os.Parcelable

@@ -2,7 +2,6 @@ package com.google.firebase.remoteconfig;
 
 import android.content.Context;
 import android.util.Log;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
@@ -56,16 +55,9 @@ public class FirebaseRemoteConfig {
     }
 
     public Task<Boolean> activate() {
-        final Task<ConfigContainer> task = this.fetchedConfigsCache.get();
-        final Task<ConfigContainer> task2 = this.activatedConfigsCache.get();
-        return Tasks.whenAllComplete(task, task2).continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.FirebaseRemoteConfig$$ExternalSyntheticLambda1
-            @Override // com.google.android.gms.tasks.Continuation
-            public final Object then(Task task3) {
-                Task lambda$activate$2;
-                lambda$activate$2 = FirebaseRemoteConfig.this.lambda$activate$2(task, task2, task3);
-                return lambda$activate$2;
-            }
-        });
+        Task<ConfigContainer> task = this.fetchedConfigsCache.get();
+        Task<ConfigContainer> task2 = this.activatedConfigsCache.get();
+        return Tasks.whenAllComplete(task, task2).continueWithTask(this.executor, new FirebaseRemoteConfig$$ExternalSyntheticLambda1(this, task, task2));
     }
 
     public /* synthetic */ Task lambda$activate$2(Task task, Task task2, Task task3) throws Exception {
@@ -76,14 +68,7 @@ public class FirebaseRemoteConfig {
         if (task2.isSuccessful() && !isFetchedFresh(configContainer, (ConfigContainer) task2.getResult())) {
             return Tasks.forResult(Boolean.FALSE);
         }
-        return this.activatedConfigsCache.put(configContainer).continueWith(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.FirebaseRemoteConfig$$ExternalSyntheticLambda0
-            @Override // com.google.android.gms.tasks.Continuation
-            public final Object then(Task task4) {
-                boolean processActivatePutTask;
-                processActivatePutTask = FirebaseRemoteConfig.this.processActivatePutTask(task4);
-                return Boolean.valueOf(processActivatePutTask);
-            }
-        });
+        return this.activatedConfigsCache.put(configContainer).continueWith(this.executor, new FirebaseRemoteConfig$$ExternalSyntheticLambda0(this));
     }
 
     public Task<Void> fetch(long j) {

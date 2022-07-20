@@ -8,12 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 /* loaded from: classes.dex */
 public class DiffUtil {
-    private static final Comparator<Snake> SNAKE_COMPARATOR = new Comparator<Snake>() { // from class: androidx.recyclerview.widget.DiffUtil.1
-        public int compare(Snake snake, Snake snake2) {
-            int i = snake.x - snake2.x;
-            return i == 0 ? snake.y - snake2.y : i;
-        }
-    };
+    private static final Comparator<Snake> SNAKE_COMPARATOR = new AnonymousClass1();
 
     /* loaded from: classes.dex */
     public static abstract class Callback {
@@ -28,6 +23,18 @@ public class DiffUtil {
         public abstract int getNewListSize();
 
         public abstract int getOldListSize();
+    }
+
+    /* renamed from: androidx.recyclerview.widget.DiffUtil$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Comparator<Snake> {
+        AnonymousClass1() {
+        }
+
+        public int compare(Snake snake, Snake snake2) {
+            int i = snake.x - snake2.x;
+            return i == 0 ? snake.y - snake2.y : i;
+        }
     }
 
     public static DiffResult calculateDiff(Callback callback) {

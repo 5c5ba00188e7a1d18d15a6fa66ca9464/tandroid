@@ -25,7 +25,7 @@ public abstract class ResolvingResultCallbacks<R extends Result> extends ResultC
                 onUnresolvableFailure(status);
             }
         } catch (Exception e) {
-            HMSLog.e(TAG, "Failed to start resolution: " + e);
+            HMSLog.e("ResolvingResultCallbacks", "Failed to start resolution: " + e);
             onUnresolvableFailure(Status.RESULT_INTERNAL_ERROR);
         }
     }

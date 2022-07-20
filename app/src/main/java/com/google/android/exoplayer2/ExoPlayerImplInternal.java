@@ -830,19 +830,14 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         this.handler.obtainMessage(16, playerMessage).sendToTarget();
     }
 
-    private void sendMessageToTargetThread(final PlayerMessage playerMessage) {
+    private void sendMessageToTargetThread(PlayerMessage playerMessage) {
         Handler handler = playerMessage.getHandler();
         if (!handler.getLooper().getThread().isAlive()) {
             Log.w("TAG", "Trying to send message on a dead thread.");
             playerMessage.markAsProcessed(false);
             return;
         }
-        handler.post(new Runnable() { // from class: com.google.android.exoplayer2.ExoPlayerImplInternal$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                ExoPlayerImplInternal.this.lambda$sendMessageToTargetThread$0(playerMessage);
-            }
-        });
+        handler.post(new ExoPlayerImplInternal$$ExternalSyntheticLambda0(this, playerMessage));
     }
 
     public /* synthetic */ void lambda$sendMessageToTargetThread$0(PlayerMessage playerMessage) {

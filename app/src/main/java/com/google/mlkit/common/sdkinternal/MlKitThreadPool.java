@@ -13,19 +13,7 @@ import java.util.concurrent.TimeUnit;
 /* loaded from: classes.dex */
 public class MlKitThreadPool extends zzal {
     private static final ThreadLocal<Deque<Runnable>> zzd = new zzj();
-    private final ExecutorService zza = new ThreadPoolExecutor(0, Runtime.getRuntime().availableProcessors(), 60, TimeUnit.SECONDS, new LinkedBlockingQueue(), new ThreadFactory(this) { // from class: com.google.mlkit.common.sdkinternal.zzi
-        private final MlKitThreadPool zza;
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        {
-            this.zza = this;
-        }
-
-        @Override // java.util.concurrent.ThreadFactory
-        public final Thread newThread(Runnable runnable) {
-            return this.zza.zzb(runnable);
-        }
-    });
+    private final ExecutorService zza = new ThreadPoolExecutor(0, Runtime.getRuntime().availableProcessors(), 60, TimeUnit.SECONDS, new LinkedBlockingQueue(), new zzi(this));
     private final ThreadFactory zzb = Executors.defaultThreadFactory();
     private final WeakHashMap<Thread, Void> zzc = new WeakHashMap<>();
 
@@ -52,19 +40,7 @@ public class MlKitThreadPool extends zzal {
         if (containsKey) {
             zzd(runnable);
         } else {
-            this.zza.execute(new Runnable(runnable) { // from class: com.google.mlkit.common.sdkinternal.zzh
-                private final Runnable zza;
-
-                /* JADX INFO: Access modifiers changed from: package-private */
-                {
-                    this.zza = runnable;
-                }
-
-                @Override // java.lang.Runnable
-                public final void run() {
-                    MlKitThreadPool.zzd(this.zza);
-                }
-            });
+            this.zza.execute(new zzh(runnable));
         }
     }
 

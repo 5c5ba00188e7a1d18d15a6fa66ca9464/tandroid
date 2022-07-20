@@ -13,21 +13,24 @@ import org.telegram.ui.ActionBar.Theme;
 public class Tooltip extends TextView {
     private View anchor;
     private ViewPropertyAnimator animator;
-    Runnable dismissRunnable = new Runnable() { // from class: org.telegram.ui.Components.Tooltip$$ExternalSyntheticLambda0
-        @Override // java.lang.Runnable
-        public final void run() {
-            Tooltip.this.lambda$new$0();
-        }
-    };
+    Runnable dismissRunnable = new Tooltip$$ExternalSyntheticLambda0(this);
     private boolean showing;
 
+    /* renamed from: org.telegram.ui.Components.Tooltip$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            Tooltip.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            Tooltip.this.setVisibility(8);
+        }
+    }
+
     public /* synthetic */ void lambda$new$0() {
-        ViewPropertyAnimator duration = animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Tooltip.1
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                Tooltip.this.setVisibility(8);
-            }
-        }).setDuration(300L);
+        ViewPropertyAnimator duration = animate().alpha(0.0f).setListener(new AnonymousClass1()).setDuration(300L);
         this.animator = duration;
         duration.start();
     }

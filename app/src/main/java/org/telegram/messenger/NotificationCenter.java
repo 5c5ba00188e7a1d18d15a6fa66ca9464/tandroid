@@ -997,12 +997,7 @@ public class NotificationCenter {
         if (j == Long.MAX_VALUE) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationCenter$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                NotificationCenter.this.lambda$checkForExpiredNotifications$0();
-            }
-        }, Math.max(17L, 1017 - (elapsedRealtime - j)));
+        AndroidUtilities.runOnUIThread(new NotificationCenter$$ExternalSyntheticLambda0(this), Math.max(17L, 1017 - (elapsedRealtime - j)));
     }
 
     public /* synthetic */ void lambda$checkForExpiredNotifications$0() {

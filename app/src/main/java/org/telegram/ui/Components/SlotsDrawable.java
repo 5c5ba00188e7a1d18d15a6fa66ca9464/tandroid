@@ -37,12 +37,7 @@ public class SlotsDrawable extends RLottieDrawable {
 
     public SlotsDrawable(String str, int i, int i2) {
         super(str, i, i2);
-        this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                SlotsDrawable.this.lambda$new$0();
-            }
-        };
+        this.loadFrameRunnable = new SlotsDrawable$$ExternalSyntheticLambda6(this);
     }
 
     public /* synthetic */ void lambda$new$0() {
@@ -205,29 +200,18 @@ public class SlotsDrawable extends RLottieDrawable {
         this.right = reelValue3;
     }
 
-    public boolean setBaseDice(final ChatMessageCell chatMessageCell, final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
+    public boolean setBaseDice(ChatMessageCell chatMessageCell, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
         if (this.nativePtr == 0 && !this.loadingInBackground) {
             this.loadingInBackground = true;
-            final MessageObject messageObject = chatMessageCell.getMessageObject();
-            final int i = chatMessageCell.getMessageObject().currentAccount;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda8
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SlotsDrawable.this.lambda$setBaseDice$5(tLRPC$TL_messages_stickerSet, i, messageObject, chatMessageCell);
-                }
-            });
+            MessageObject messageObject = chatMessageCell.getMessageObject();
+            Utilities.globalQueue.postRunnable(new SlotsDrawable$$ExternalSyntheticLambda8(this, tLRPC$TL_messages_stickerSet, chatMessageCell.getMessageObject().currentAccount, messageObject, chatMessageCell));
         }
         return true;
     }
 
-    public /* synthetic */ void lambda$setBaseDice$5(final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, final int i, final MessageObject messageObject, final ChatMessageCell chatMessageCell) {
+    public /* synthetic */ void lambda$setBaseDice$5(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, int i, MessageObject messageObject, ChatMessageCell chatMessageCell) {
         if (this.destroyAfterLoading) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda5
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SlotsDrawable.this.lambda$setBaseDice$1();
-                }
-            });
+            AndroidUtilities.runOnUIThread(new SlotsDrawable$$ExternalSyntheticLambda5(this));
             return;
         }
         int i2 = 0;
@@ -248,15 +232,10 @@ public class SlotsDrawable extends RLottieDrawable {
                 } else if (i2 == 3) {
                     i3 = 20;
                 }
-                final TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(i3);
+                TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(i3);
                 String readRes = RLottieDrawable.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), 0);
                 if (TextUtils.isEmpty(readRes)) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            SlotsDrawable.lambda$setBaseDice$2(TLRPC$Document.this, i, messageObject, chatMessageCell, tLRPC$TL_messages_stickerSet);
-                        }
-                    });
+                    AndroidUtilities.runOnUIThread(new SlotsDrawable$$ExternalSyntheticLambda0(tLRPC$Document, i, messageObject, chatMessageCell, tLRPC$TL_messages_stickerSet));
                     z = true;
                 } else {
                     this.nativePtrs[i2] = RLottieDrawable.createWithJson(readRes, "dice", this.metaData, null);
@@ -266,19 +245,9 @@ public class SlotsDrawable extends RLottieDrawable {
             i2++;
         }
         if (z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda2
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SlotsDrawable.this.lambda$setBaseDice$3();
-                }
-            });
+            AndroidUtilities.runOnUIThread(new SlotsDrawable$$ExternalSyntheticLambda2(this));
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda7
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SlotsDrawable.this.lambda$setBaseDice$4(i, chatMessageCell);
-                }
-            });
+            AndroidUtilities.runOnUIThread(new SlotsDrawable$$ExternalSyntheticLambda7(this, i, chatMessageCell));
         }
     }
 
@@ -312,18 +281,13 @@ public class SlotsDrawable extends RLottieDrawable {
         invalidateInternal();
     }
 
-    public boolean setDiceNumber(final ChatMessageCell chatMessageCell, int i, final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, final boolean z) {
+    public boolean setDiceNumber(ChatMessageCell chatMessageCell, int i, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, boolean z) {
         if (this.secondNativePtr == 0 && !this.secondLoadingInBackground) {
             init(i);
-            final MessageObject messageObject = chatMessageCell.getMessageObject();
-            final int i2 = chatMessageCell.getMessageObject().currentAccount;
+            MessageObject messageObject = chatMessageCell.getMessageObject();
+            int i2 = chatMessageCell.getMessageObject().currentAccount;
             this.secondLoadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda9
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SlotsDrawable.this.lambda$setDiceNumber$10(tLRPC$TL_messages_stickerSet, i2, messageObject, chatMessageCell, z);
-                }
-            });
+            Utilities.globalQueue.postRunnable(new SlotsDrawable$$ExternalSyntheticLambda9(this, tLRPC$TL_messages_stickerSet, i2, messageObject, chatMessageCell, z));
         }
         return true;
     }
@@ -333,17 +297,12 @@ public class SlotsDrawable extends RLottieDrawable {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$setDiceNumber$10(final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, final int i, final MessageObject messageObject, final ChatMessageCell chatMessageCell, final boolean z) {
+    public /* synthetic */ void lambda$setDiceNumber$10(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, int i, MessageObject messageObject, ChatMessageCell chatMessageCell, boolean z) {
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet2;
         int i2;
         String readRes;
         if (this.destroyAfterLoading) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda3
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SlotsDrawable.this.lambda$setDiceNumber$6();
-                }
-            });
+            AndroidUtilities.runOnUIThread(new SlotsDrawable$$ExternalSyntheticLambda3(this));
             return;
         }
         int i3 = 0;
@@ -372,15 +331,10 @@ public class SlotsDrawable extends RLottieDrawable {
                                 tLRPC$TL_messages_stickerSet2 = tLRPC$TL_messages_stickerSet;
                                 i2 = 3;
                             }
-                            final TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickerSet2.documents.get(i2);
+                            TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickerSet2.documents.get(i2);
                             readRes = RLottieDrawable.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), 0);
                             if (TextUtils.isEmpty(readRes)) {
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda1
-                                    @Override // java.lang.Runnable
-                                    public final void run() {
-                                        SlotsDrawable.lambda$setDiceNumber$7(TLRPC$Document.this, i, messageObject, chatMessageCell, tLRPC$TL_messages_stickerSet);
-                                    }
-                                });
+                                AndroidUtilities.runOnUIThread(new SlotsDrawable$$ExternalSyntheticLambda1(tLRPC$Document, i, messageObject, chatMessageCell, tLRPC$TL_messages_stickerSet));
                                 z2 = true;
                             } else if (i3 <= 2) {
                                 this.secondNativePtrs[i3] = RLottieDrawable.createWithJson(readRes, "dice", this.metaData, null);
@@ -418,7 +372,7 @@ public class SlotsDrawable extends RLottieDrawable {
                         }
                     }
                     tLRPC$TL_messages_stickerSet2 = tLRPC$TL_messages_stickerSet;
-                    final TLRPC$Document tLRPC$Document2 = tLRPC$TL_messages_stickerSet2.documents.get(i2);
+                    TLRPC$Document tLRPC$Document2 = tLRPC$TL_messages_stickerSet2.documents.get(i2);
                     readRes = RLottieDrawable.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document2, true), 0);
                     if (TextUtils.isEmpty(readRes)) {
                     }
@@ -431,7 +385,7 @@ public class SlotsDrawable extends RLottieDrawable {
                     tLRPC$TL_messages_stickerSet2 = tLRPC$TL_messages_stickerSet;
                     i2 = 2;
                 }
-                final TLRPC$Document tLRPC$Document22 = tLRPC$TL_messages_stickerSet2.documents.get(i2);
+                TLRPC$Document tLRPC$Document22 = tLRPC$TL_messages_stickerSet2.documents.get(i2);
                 readRes = RLottieDrawable.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document22, true), 0);
                 if (TextUtils.isEmpty(readRes)) {
                 }
@@ -439,19 +393,9 @@ public class SlotsDrawable extends RLottieDrawable {
             i3++;
         }
         if (z2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda4
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SlotsDrawable.this.lambda$setDiceNumber$8();
-                }
-            });
+            AndroidUtilities.runOnUIThread(new SlotsDrawable$$ExternalSyntheticLambda4(this));
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda10
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SlotsDrawable.this.lambda$setDiceNumber$9(z, i, chatMessageCell);
-                }
-            });
+            AndroidUtilities.runOnUIThread(new SlotsDrawable$$ExternalSyntheticLambda10(this, z, i, chatMessageCell));
         }
     }
 

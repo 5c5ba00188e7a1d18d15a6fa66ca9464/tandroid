@@ -18,7 +18,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class ModernAsyncTask<Params, Progress, Result> {
@@ -53,19 +52,26 @@ public abstract class ModernAsyncTask<Params, Progress, Result> {
     protected void onProgressUpdate(Progress... progressArr) {
     }
 
-    static {
-        ThreadFactory threadFactory = new ThreadFactory() { // from class: androidx.loader.content.ModernAsyncTask.1
-            private final AtomicInteger mCount = new AtomicInteger(1);
+    /* renamed from: androidx.loader.content.ModernAsyncTask$1 */
+    /* loaded from: classes.dex */
+    static class AnonymousClass1 implements ThreadFactory {
+        private final AtomicInteger mCount = new AtomicInteger(1);
 
-            @Override // java.util.concurrent.ThreadFactory
-            public Thread newThread(Runnable runnable) {
-                return new Thread(runnable, "ModernAsyncTask #" + this.mCount.getAndIncrement());
-            }
-        };
-        sThreadFactory = threadFactory;
+        AnonymousClass1() {
+        }
+
+        @Override // java.util.concurrent.ThreadFactory
+        public Thread newThread(Runnable runnable) {
+            return new Thread(runnable, "ModernAsyncTask #" + this.mCount.getAndIncrement());
+        }
+    }
+
+    static {
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1();
+        sThreadFactory = anonymousClass1;
         LinkedBlockingQueue linkedBlockingQueue = new LinkedBlockingQueue(10);
         sPoolWorkQueue = linkedBlockingQueue;
-        THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(5, (int) ConnectionsManager.RequestFlagNeedQuickAck, 1L, TimeUnit.SECONDS, linkedBlockingQueue, threadFactory);
+        THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(5, 128, 1L, TimeUnit.SECONDS, linkedBlockingQueue, anonymousClass1);
     }
 
     private static Handler getHandler() {
@@ -79,38 +85,58 @@ public abstract class ModernAsyncTask<Params, Progress, Result> {
         return internalHandler;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: androidx.loader.content.ModernAsyncTask$2 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass2 extends WorkerRunnable<Params, Result> {
+        AnonymousClass2() {
+            ModernAsyncTask.this = r1;
+        }
+
+        @Override // java.util.concurrent.Callable
+        public Result call() throws Exception {
+            ModernAsyncTask.this.mTaskInvoked.set(true);
+            Result result = null;
+            try {
+                Process.setThreadPriority(10);
+                result = (Result) ModernAsyncTask.this.doInBackground(this.mParams);
+                Binder.flushPendingCommands();
+                return result;
+            } finally {
+            }
+        }
+    }
+
     public ModernAsyncTask() {
-        WorkerRunnable<Params, Result> workerRunnable = new WorkerRunnable<Params, Result>() { // from class: androidx.loader.content.ModernAsyncTask.2
-            @Override // java.util.concurrent.Callable
-            public Result call() throws Exception {
-                ModernAsyncTask.this.mTaskInvoked.set(true);
-                Result result = null;
-                try {
-                    Process.setThreadPriority(10);
-                    result = (Result) ModernAsyncTask.this.doInBackground(this.mParams);
-                    Binder.flushPendingCommands();
-                    return result;
-                } finally {
-                }
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2();
+        this.mWorker = anonymousClass2;
+        this.mFuture = new AnonymousClass3(anonymousClass2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: androidx.loader.content.ModernAsyncTask$3 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass3 extends FutureTask<Result> {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass3(Callable callable) {
+            super(callable);
+            ModernAsyncTask.this = r1;
+        }
+
+        @Override // java.util.concurrent.FutureTask
+        protected void done() {
+            try {
+                ModernAsyncTask.this.postResultIfNotInvoked(get());
+            } catch (InterruptedException e) {
+                Log.w("AsyncTask", e);
+            } catch (CancellationException unused) {
+                ModernAsyncTask.this.postResultIfNotInvoked(null);
+            } catch (ExecutionException e2) {
+                throw new RuntimeException("An error occurred while executing doInBackground()", e2.getCause());
+            } catch (Throwable th) {
+                throw new RuntimeException("An error occurred while executing doInBackground()", th);
             }
-        };
-        this.mWorker = workerRunnable;
-        this.mFuture = new FutureTask<Result>(workerRunnable) { // from class: androidx.loader.content.ModernAsyncTask.3
-            @Override // java.util.concurrent.FutureTask
-            protected void done() {
-                try {
-                    ModernAsyncTask.this.postResultIfNotInvoked(get());
-                } catch (InterruptedException e) {
-                    Log.w("AsyncTask", e);
-                } catch (CancellationException unused) {
-                    ModernAsyncTask.this.postResultIfNotInvoked(null);
-                } catch (ExecutionException e2) {
-                    throw new RuntimeException("An error occurred while executing doInBackground()", e2.getCause());
-                } catch (Throwable th) {
-                    throw new RuntimeException("An error occurred while executing doInBackground()", th);
-                }
-            }
-        };
+        }
     }
 
     void postResultIfNotInvoked(Result result) {

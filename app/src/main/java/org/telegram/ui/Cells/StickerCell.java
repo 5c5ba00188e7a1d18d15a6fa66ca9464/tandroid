@@ -17,7 +17,6 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SvgHelper;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -183,9 +182,9 @@ public class StickerCell extends FrameLayout {
             }
         }
         if (str != null) {
-            accessibilityNodeInfo.setText(str + " " + LocaleController.getString("AttachSticker", R.string.AttachSticker));
+            accessibilityNodeInfo.setText(str + " " + LocaleController.getString("AttachSticker", 2131624516));
         } else {
-            accessibilityNodeInfo.setText(LocaleController.getString("AttachSticker", R.string.AttachSticker));
+            accessibilityNodeInfo.setText(LocaleController.getString("AttachSticker", 2131624516));
         }
         accessibilityNodeInfo.setEnabled(true);
     }

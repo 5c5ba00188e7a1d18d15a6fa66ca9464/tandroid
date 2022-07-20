@@ -366,54 +366,62 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         return sb.toString();
     }
 
+    /* renamed from: androidx.collection.ArraySet$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 extends MapCollections<E, E> {
+        AnonymousClass1() {
+            ArraySet.this = r1;
+        }
+
+        @Override // androidx.collection.MapCollections
+        protected int colGetSize() {
+            return ArraySet.this.mSize;
+        }
+
+        @Override // androidx.collection.MapCollections
+        protected Object colGetEntry(int i, int i2) {
+            return ArraySet.this.mArray[i];
+        }
+
+        @Override // androidx.collection.MapCollections
+        protected int colIndexOfKey(Object obj) {
+            return ArraySet.this.indexOf(obj);
+        }
+
+        @Override // androidx.collection.MapCollections
+        protected int colIndexOfValue(Object obj) {
+            return ArraySet.this.indexOf(obj);
+        }
+
+        @Override // androidx.collection.MapCollections
+        protected Map<E, E> colGetMap() {
+            throw new UnsupportedOperationException("not a map");
+        }
+
+        @Override // androidx.collection.MapCollections
+        protected void colPut(E e, E e2) {
+            ArraySet.this.add(e);
+        }
+
+        @Override // androidx.collection.MapCollections
+        protected E colSetValue(int i, E e) {
+            throw new UnsupportedOperationException("not a map");
+        }
+
+        @Override // androidx.collection.MapCollections
+        protected void colRemoveAt(int i) {
+            ArraySet.this.removeAt(i);
+        }
+
+        @Override // androidx.collection.MapCollections
+        protected void colClear() {
+            ArraySet.this.clear();
+        }
+    }
+
     private MapCollections<E, E> getCollection() {
         if (this.mCollections == null) {
-            this.mCollections = new MapCollections<E, E>() { // from class: androidx.collection.ArraySet.1
-                @Override // androidx.collection.MapCollections
-                protected int colGetSize() {
-                    return ArraySet.this.mSize;
-                }
-
-                @Override // androidx.collection.MapCollections
-                protected Object colGetEntry(int i, int i2) {
-                    return ArraySet.this.mArray[i];
-                }
-
-                @Override // androidx.collection.MapCollections
-                protected int colIndexOfKey(Object obj) {
-                    return ArraySet.this.indexOf(obj);
-                }
-
-                @Override // androidx.collection.MapCollections
-                protected int colIndexOfValue(Object obj) {
-                    return ArraySet.this.indexOf(obj);
-                }
-
-                @Override // androidx.collection.MapCollections
-                protected Map<E, E> colGetMap() {
-                    throw new UnsupportedOperationException("not a map");
-                }
-
-                @Override // androidx.collection.MapCollections
-                protected void colPut(E e, E e2) {
-                    ArraySet.this.add(e);
-                }
-
-                @Override // androidx.collection.MapCollections
-                protected E colSetValue(int i, E e) {
-                    throw new UnsupportedOperationException("not a map");
-                }
-
-                @Override // androidx.collection.MapCollections
-                protected void colRemoveAt(int i) {
-                    ArraySet.this.removeAt(i);
-                }
-
-                @Override // androidx.collection.MapCollections
-                protected void colClear() {
-                    ArraySet.this.clear();
-                }
-            };
+            this.mCollections = new AnonymousClass1();
         }
         return this.mCollections;
     }

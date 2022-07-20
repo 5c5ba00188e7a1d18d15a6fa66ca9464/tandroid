@@ -6,13 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import com.huawei.hms.activity.BridgeActivity;
 import com.huawei.hms.activity.IBridgeActivityDelegate;
-import com.huawei.hms.adapter.internal.CommonCode;
 import com.huawei.hms.adapter.sysobs.SystemManager;
 import com.huawei.hms.availableupdate.a;
 import com.huawei.hms.support.log.HMSLog;
-import com.huawei.hms.update.kpms.KpmsConstant;
 import com.huawei.hms.utils.HMSPackageManager;
 import com.huawei.hms.utils.PackageManagerHelper;
 import java.lang.ref.WeakReference;
@@ -23,13 +20,13 @@ public class UpdateAdapter implements IBridgeActivityDelegate {
     public boolean c = false;
 
     public final boolean a(Intent intent, Activity activity) {
-        if (intent.getBooleanExtra(CommonCode.MapKey.NEW_UPDATE, false)) {
+        if (intent.getBooleanExtra("new_update", false)) {
             HMSLog.i("UpdateAdapter", "4.0 framework HMSCore upgrade process");
             String hMSPackageName = HMSPackageManager.getInstance(activity.getApplicationContext()).getHMSPackageName();
             ComponentName componentName = new ComponentName(hMSPackageName, "com.huawei.hms.fwksdk.stub.UpdateStubActivity");
             Intent intent2 = new Intent();
-            intent2.putExtra(KpmsConstant.CALLER_PACKAGE_NAME, activity.getApplicationContext().getPackageName());
-            intent2.putExtra(KpmsConstant.UPDATE_PACKAGE_NAME, hMSPackageName);
+            intent2.putExtra("kpms_key_caller_packagename", activity.getApplicationContext().getPackageName());
+            intent2.putExtra("kitUpdatePackageName", hMSPackageName);
             intent2.setComponent(componentName);
             activity.startActivityForResult(intent2, 1001);
             return true;
@@ -72,7 +69,7 @@ public class UpdateAdapter implements IBridgeActivityDelegate {
             c();
             return;
         }
-        int intExtra = intent.getIntExtra(CommonCode.MapKey.UPDATE_VERSION, 0);
+        int intExtra = intent.getIntExtra("update_version", 0);
         this.b = intExtra;
         if (intExtra == 0) {
             c();
@@ -99,7 +96,7 @@ public class UpdateAdapter implements IBridgeActivityDelegate {
         HMSLog.i("UpdateAdapter", "onBridgeActivityResult " + i2);
         if (i2 == -1) {
             if (intent != null) {
-                if (intent.getIntExtra(KpmsConstant.KIT_UPDATE_RESULT, 0) == 1) {
+                if (intent.getIntExtra("kit_update_result", 0) == 1) {
                     HMSLog.i("UpdateAdapter", "new framework update process,Error resolved successfully!");
                     SystemManager.getInstance().notifyUpdateResult(0);
                     a();
@@ -138,7 +135,7 @@ public class UpdateAdapter implements IBridgeActivityDelegate {
     }
 
     public final void a(Intent intent) {
-        int intExtra = intent.getIntExtra(BridgeActivity.EXTRA_RESULT, -1);
+        int intExtra = intent.getIntExtra("intent.extra.RESULT", -1);
         if (intExtra == 0) {
             HMSLog.i("UpdateAdapter", "Error resolved successfully!");
             SystemManager.getInstance().notifyUpdateResult(0);

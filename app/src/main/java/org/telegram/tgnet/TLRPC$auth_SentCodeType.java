@@ -9,86 +9,19 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
         TLRPC$auth_SentCodeType tLRPC$auth_SentCodeType;
         switch (i) {
             case -2113903484:
-                tLRPC$auth_SentCodeType = new TLRPC$auth_SentCodeType() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeMissedCall
-                    public static int constructor = -2113903484;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.prefix = abstractSerializedData2.readString(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeString(this.prefix);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$auth_SentCodeType = new TLRPC$TL_auth_sentCodeTypeMissedCall();
                 break;
             case -1425815847:
-                tLRPC$auth_SentCodeType = new TLRPC$auth_SentCodeType() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeFlashCall
-                    public static int constructor = -1425815847;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.pattern = abstractSerializedData2.readString(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeString(this.pattern);
-                    }
-                };
+                tLRPC$auth_SentCodeType = new TLRPC$TL_auth_sentCodeTypeFlashCall();
                 break;
             case -1073693790:
-                tLRPC$auth_SentCodeType = new TLRPC$auth_SentCodeType() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeSms
-                    public static int constructor = -1073693790;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$auth_SentCodeType = new TLRPC$TL_auth_sentCodeTypeSms();
                 break;
             case 1035688326:
-                tLRPC$auth_SentCodeType = new TLRPC$auth_SentCodeType() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeApp
-                    public static int constructor = 1035688326;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$auth_SentCodeType = new TLRPC$TL_auth_sentCodeTypeApp();
                 break;
             case 1398007207:
-                tLRPC$auth_SentCodeType = new TLRPC$auth_SentCodeType() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeCall
-                    public static int constructor = 1398007207;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$auth_SentCodeType = new TLRPC$TL_auth_sentCodeTypeCall();
                 break;
             default:
                 tLRPC$auth_SentCodeType = null;

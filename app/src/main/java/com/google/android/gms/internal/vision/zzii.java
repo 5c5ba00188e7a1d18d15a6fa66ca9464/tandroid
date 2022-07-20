@@ -3,7 +3,6 @@ package com.google.android.gms.internal.vision;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public abstract class zzii extends zzhq {
@@ -315,7 +314,7 @@ public abstract class zzii extends zzhq {
                         byte[] bArr = this.zzb;
                         int i2 = this.zze;
                         this.zze = i2 + 1;
-                        bArr[i2] = (byte) ((i & 127) | ConnectionsManager.RequestFlagNeedQuickAck);
+                        bArr[i2] = (byte) ((i & 127) | 128);
                         i >>>= 7;
                     } catch (IndexOutOfBoundsException e) {
                         throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
@@ -334,7 +333,7 @@ public abstract class zzii extends zzhq {
                 byte[] bArr4 = this.zzb;
                 int i5 = this.zze;
                 this.zze = i5 + 1;
-                zzma.zza(bArr4, i5, (byte) (i | ConnectionsManager.RequestFlagNeedQuickAck));
+                zzma.zza(bArr4, i5, (byte) (i | 128));
                 int i6 = i >>> 7;
                 if ((i6 & (-128)) == 0) {
                     byte[] bArr5 = this.zzb;
@@ -346,7 +345,7 @@ public abstract class zzii extends zzhq {
                 byte[] bArr6 = this.zzb;
                 int i8 = this.zze;
                 this.zze = i8 + 1;
-                zzma.zza(bArr6, i8, (byte) (i6 | ConnectionsManager.RequestFlagNeedQuickAck));
+                zzma.zza(bArr6, i8, (byte) (i6 | 128));
                 int i9 = i6 >>> 7;
                 if ((i9 & (-128)) == 0) {
                     byte[] bArr7 = this.zzb;
@@ -358,7 +357,7 @@ public abstract class zzii extends zzhq {
                 byte[] bArr8 = this.zzb;
                 int i11 = this.zze;
                 this.zze = i11 + 1;
-                zzma.zza(bArr8, i11, (byte) (i9 | ConnectionsManager.RequestFlagNeedQuickAck));
+                zzma.zza(bArr8, i11, (byte) (i9 | 128));
                 int i12 = i9 >>> 7;
                 if ((i12 & (-128)) == 0) {
                     byte[] bArr9 = this.zzb;
@@ -370,7 +369,7 @@ public abstract class zzii extends zzhq {
                 byte[] bArr10 = this.zzb;
                 int i14 = this.zze;
                 this.zze = i14 + 1;
-                zzma.zza(bArr10, i14, (byte) (i12 | ConnectionsManager.RequestFlagNeedQuickAck));
+                zzma.zza(bArr10, i14, (byte) (i12 | 128));
                 byte[] bArr11 = this.zzb;
                 int i15 = this.zze;
                 this.zze = i15 + 1;
@@ -406,7 +405,7 @@ public abstract class zzii extends zzhq {
                     byte[] bArr = this.zzb;
                     int i = this.zze;
                     this.zze = i + 1;
-                    zzma.zza(bArr, i, (byte) ((((int) j) & 127) | ConnectionsManager.RequestFlagNeedQuickAck));
+                    zzma.zza(bArr, i, (byte) ((((int) j) & 127) | 128));
                     j >>>= 7;
                 }
                 byte[] bArr2 = this.zzb;
@@ -420,7 +419,7 @@ public abstract class zzii extends zzhq {
                     byte[] bArr3 = this.zzb;
                     int i3 = this.zze;
                     this.zze = i3 + 1;
-                    bArr3[i3] = (byte) ((((int) j) & 127) | ConnectionsManager.RequestFlagNeedQuickAck);
+                    bArr3[i3] = (byte) ((((int) j) & 127) | 128);
                     j >>>= 7;
                 } catch (IndexOutOfBoundsException e) {
                     throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);

@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
+import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
@@ -153,38 +154,48 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         if (i2 == 1 || i2 == 3) {
             this.fromTop = true;
         }
-        AspectRatioFrameLayout aspectRatioFrameLayout = new AspectRatioFrameLayout(context) { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.1
-            Path clipPath = new Path();
-
-            @Override // com.google.android.exoplayer2.ui.AspectRatioFrameLayout, android.widget.FrameLayout, android.view.View
-            public void onMeasure(int i4, int i5) {
-                super.onMeasure(i4, i5);
-                this.clipPath.reset();
-                VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
-                if (videoScreenPreview.fromTop) {
-                    AndroidUtilities.rectTmp.set(0.0f, -videoScreenPreview.roundRadius, getMeasuredWidth(), getMeasuredHeight());
-                } else {
-                    AndroidUtilities.rectTmp.set(0.0f, 0.0f, getMeasuredWidth(), (int) (getMeasuredHeight() + VideoScreenPreview.this.roundRadius));
-                }
-                float dp = VideoScreenPreview.this.roundRadius - AndroidUtilities.dp(3.0f);
-                this.clipPath.addRoundRect(AndroidUtilities.rectTmp, new float[]{dp, dp, dp, dp, dp, dp, dp, dp}, Path.Direction.CW);
-            }
-
-            @Override // android.view.ViewGroup, android.view.View
-            protected void dispatchDraw(Canvas canvas) {
-                canvas.save();
-                canvas.clipPath(this.clipPath);
-                super.dispatchDraw(canvas);
-                canvas.restore();
-            }
-        };
-        this.aspectRatioFrameLayout = aspectRatioFrameLayout;
-        aspectRatioFrameLayout.setResizeMode(0);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
+        this.aspectRatioFrameLayout = anonymousClass1;
+        anonymousClass1.setResizeMode(0);
         TextureView textureView = new TextureView(context);
         this.textureView = textureView;
         this.aspectRatioFrameLayout.addView(textureView);
         setWillNotDraw(false);
         addView(this.aspectRatioFrameLayout);
+    }
+
+    /* renamed from: org.telegram.ui.Components.Premium.VideoScreenPreview$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AspectRatioFrameLayout {
+        Path clipPath = new Path();
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context) {
+            super(context);
+            VideoScreenPreview.this = r1;
+        }
+
+        @Override // com.google.android.exoplayer2.ui.AspectRatioFrameLayout, android.widget.FrameLayout, android.view.View
+        public void onMeasure(int i, int i2) {
+            super.onMeasure(i, i2);
+            this.clipPath.reset();
+            VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
+            if (videoScreenPreview.fromTop) {
+                AndroidUtilities.rectTmp.set(0.0f, -videoScreenPreview.roundRadius, getMeasuredWidth(), getMeasuredHeight());
+            } else {
+                AndroidUtilities.rectTmp.set(0.0f, 0.0f, getMeasuredWidth(), (int) (getMeasuredHeight() + VideoScreenPreview.this.roundRadius));
+            }
+            float dp = VideoScreenPreview.this.roundRadius - AndroidUtilities.dp(3.0f);
+            this.clipPath.addRoundRect(AndroidUtilities.rectTmp, new float[]{dp, dp, dp, dp, dp, dp, dp, dp}, Path.Direction.CW);
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void dispatchDraw(Canvas canvas) {
+            canvas.save();
+            canvas.clipPath(this.clipPath);
+            super.dispatchDraw(canvas);
+            canvas.restore();
+        }
     }
 
     private void setVideo() {
@@ -206,8 +217,8 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             if (i < 0) {
                 return;
             }
-            final TLRPC$Document tLRPC$Document = premiumPromo.videos.get(i);
-            CombinedDrawable combinedDrawable = null;
+            TLRPC$Document tLRPC$Document = premiumPromo.videos.get(i);
+            AnonymousClass2 anonymousClass2 = null;
             for (int i3 = 0; i3 < tLRPC$Document.thumbs.size(); i3++) {
                 if (tLRPC$Document.thumbs.get(i3) instanceof TLRPC$TL_photoStrippedSize) {
                     this.roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), ImageLoader.getStrippedPhotoBitmap(tLRPC$Document.thumbs.get(i3).bytes, "b"));
@@ -216,40 +227,39 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                     cellFlickerDrawable.progress = 3.5f;
                     cellFlickerDrawable.frameInside = true;
                     this.cellFlickerDrawable = cellFlickerDrawable.getDrawableInterface(this, this.svgIcon);
-                    combinedDrawable = new CombinedDrawable(this.roundedBitmapDrawable, this.cellFlickerDrawable) { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.2
-                        @Override // android.graphics.drawable.Drawable
-                        public void setBounds(int i4, int i5, int i6, int i7) {
-                            VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
-                            if (videoScreenPreview.fromTop) {
-                                super.setBounds(i4, (int) (i5 - videoScreenPreview.roundRadius), i6, i7);
-                            } else {
-                                super.setBounds(i4, i5, i6, (int) (i7 + videoScreenPreview.roundRadius));
-                            }
-                        }
-                    };
-                    combinedDrawable.setFullsize(true);
+                    anonymousClass2 = new AnonymousClass2(this.roundedBitmapDrawable, this.cellFlickerDrawable);
+                    anonymousClass2.setFullsize(true);
                 }
             }
             this.attachFileName = FileLoader.getAttachFileName(tLRPC$Document);
-            this.imageReceiver.setImage(null, null, combinedDrawable, null, null, 1);
+            this.imageReceiver.setImage(null, null, anonymousClass2, null, null, 1);
             FileLoader.getInstance(this.currentAccount).loadFile(tLRPC$Document, null, 1, 0);
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    VideoScreenPreview.this.lambda$setVideo$1(tLRPC$Document);
-                }
-            });
+            Utilities.globalQueue.postRunnable(new VideoScreenPreview$$ExternalSyntheticLambda1(this, tLRPC$Document));
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.Premium.VideoScreenPreview$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends CombinedDrawable {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(Drawable drawable, Drawable drawable2) {
+            super(drawable, drawable2);
+            VideoScreenPreview.this = r1;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setBounds(int i, int i2, int i3, int i4) {
+            VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
+            if (videoScreenPreview.fromTop) {
+                super.setBounds(i, (int) (i2 - videoScreenPreview.roundRadius), i3, i4);
+            } else {
+                super.setBounds(i, i2, i3, (int) (i4 + videoScreenPreview.roundRadius));
+            }
         }
     }
 
     public /* synthetic */ void lambda$setVideo$1(TLRPC$Document tLRPC$Document) {
-        final File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$Document);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                VideoScreenPreview.this.lambda$setVideo$0(pathToAttach);
-            }
-        });
+        AndroidUtilities.runOnUIThread(new VideoScreenPreview$$ExternalSyntheticLambda0(this, FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$Document)));
     }
 
     public /* synthetic */ void lambda$setVideo$0(File file) {
@@ -523,66 +533,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         VideoPlayer videoPlayer = new VideoPlayer();
         this.videoPlayer = videoPlayer;
         videoPlayer.setTextureView(this.textureView);
-        this.videoPlayer.setDelegate(new VideoPlayer.VideoPlayerDelegate() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.3
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public void onError(VideoPlayer videoPlayer2, Exception exc) {
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-                VideoPlayer.VideoPlayerDelegate.CC.$default$onRenderedFirstFrame(this, eventTime);
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-                VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekFinished(this, eventTime);
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-                VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public boolean onSurfaceDestroyed(SurfaceTexture surfaceTexture) {
-                return false;
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public void onVideoSizeChanged(int i, int i2, int i3, float f) {
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public void onStateChanged(boolean z, int i) {
-                if (i == 4) {
-                    VideoScreenPreview.this.videoPlayer.seekTo(0L);
-                    VideoScreenPreview.this.videoPlayer.play();
-                } else if (i != 1) {
-                } else {
-                    VideoScreenPreview.this.videoPlayer.play();
-                }
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public void onRenderedFirstFrame() {
-                VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
-                if (!videoScreenPreview.firstFrameRendered) {
-                    videoScreenPreview.textureView.setAlpha(0.0f);
-                    VideoScreenPreview.this.textureView.animate().alpha(1.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.3.1
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            VideoScreenPreview videoScreenPreview2 = VideoScreenPreview.this;
-                            videoScreenPreview2.firstFrameRendered = true;
-                            videoScreenPreview2.invalidate();
-                        }
-                    }).setDuration(200L);
-                }
-            }
-        });
+        this.videoPlayer.setDelegate(new AnonymousClass3());
         this.videoPlayer.preparePlayer(Uri.fromFile(this.file), "other");
         this.videoPlayer.setPlayWhenReady(true);
         if (!this.firstFrameRendered) {
@@ -591,6 +542,81 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         }
         this.videoPlayer.seekTo(this.lastFrameTime + 60);
         this.videoPlayer.play();
+    }
+
+    /* renamed from: org.telegram.ui.Components.Premium.VideoScreenPreview$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 implements VideoPlayer.VideoPlayerDelegate {
+        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+        public void onError(VideoPlayer videoPlayer, Exception exc) {
+        }
+
+        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+        public /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
+            VideoPlayer.VideoPlayerDelegate.CC.$default$onRenderedFirstFrame(this, eventTime);
+        }
+
+        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+        public /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
+            VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekFinished(this, eventTime);
+        }
+
+        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+        public /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
+            VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
+        }
+
+        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+        public boolean onSurfaceDestroyed(SurfaceTexture surfaceTexture) {
+            return false;
+        }
+
+        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+        }
+
+        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+        public void onVideoSizeChanged(int i, int i2, int i3, float f) {
+        }
+
+        AnonymousClass3() {
+            VideoScreenPreview.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+        public void onStateChanged(boolean z, int i) {
+            if (i == 4) {
+                VideoScreenPreview.this.videoPlayer.seekTo(0L);
+                VideoScreenPreview.this.videoPlayer.play();
+            } else if (i != 1) {
+            } else {
+                VideoScreenPreview.this.videoPlayer.play();
+            }
+        }
+
+        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+        public void onRenderedFirstFrame() {
+            VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
+            if (!videoScreenPreview.firstFrameRendered) {
+                videoScreenPreview.textureView.setAlpha(0.0f);
+                VideoScreenPreview.this.textureView.animate().alpha(1.0f).setListener(new AnonymousClass1()).setDuration(200L);
+            }
+        }
+
+        /* renamed from: org.telegram.ui.Components.Premium.VideoScreenPreview$3$1 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass1 extends AnimatorListenerAdapter {
+            AnonymousClass1() {
+                AnonymousClass3.this = r1;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
+                videoScreenPreview.firstFrameRendered = true;
+                videoScreenPreview.invalidate();
+            }
+        }
     }
 
     private void stopVideoPlayer() {

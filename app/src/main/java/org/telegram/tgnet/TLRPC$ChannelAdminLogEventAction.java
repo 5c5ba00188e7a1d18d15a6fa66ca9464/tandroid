@@ -23,21 +23,7 @@ public abstract class TLRPC$ChannelAdminLogEventAction extends TLObject {
                 tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin();
                 break;
             case -610299584:
-                tLRPC$ChannelAdminLogEventAction = new TLRPC$ChannelAdminLogEventAction() { // from class: org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionDiscardGroupCall
-                    public static int constructor = -610299584;
-                    public TLRPC$TL_inputGroupCall call;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.call = TLRPC$TL_inputGroupCall.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.call.serializeToStream(abstractSerializedData2);
-                    }
-                };
+                tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionDiscardGroupCall();
                 break;
             case -484690728:
                 tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionParticipantInvite();
@@ -58,14 +44,7 @@ public abstract class TLRPC$ChannelAdminLogEventAction extends TLObject {
                 tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionUpdatePinned();
                 break;
             case -124291086:
-                tLRPC$ChannelAdminLogEventAction = new TLRPC$ChannelAdminLogEventAction() { // from class: org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionParticipantLeave
-                    public static int constructor = -124291086;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionParticipantLeave();
                 break;
             case -115071790:
                 tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionParticipantMute();
@@ -80,34 +59,13 @@ public abstract class TLRPC$ChannelAdminLogEventAction extends TLObject {
                 tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionChangeLocation();
                 break;
             case 405815507:
-                tLRPC$ChannelAdminLogEventAction = new TLRPC$ChannelAdminLogEventAction() { // from class: org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionParticipantJoin
-                    public static int constructor = 405815507;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionParticipantJoin();
                 break;
             case 460916654:
                 tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionToggleInvites();
                 break;
             case 589338437:
-                tLRPC$ChannelAdminLogEventAction = new TLRPC$ChannelAdminLogEventAction() { // from class: org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionStartGroupCall
-                    public static int constructor = 589338437;
-                    public TLRPC$TL_inputGroupCall call;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.call = TLRPC$TL_inputGroupCall.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.call.serializeToStream(abstractSerializedData2);
-                    }
-                };
+                tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionStartGroupCall();
                 break;
             case 648939889:
                 tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionToggleSignatures();
@@ -140,21 +98,7 @@ public abstract class TLRPC$ChannelAdminLogEventAction extends TLObject {
                 tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionExportedInviteDelete();
                 break;
             case 1557846647:
-                tLRPC$ChannelAdminLogEventAction = new TLRPC$ChannelAdminLogEventAction() { // from class: org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite
-                    public static int constructor = 1557846647;
-                    public TLRPC$TL_chatInviteExported invite;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.invite = TLRPC$ExportedChatInvite.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.invite.serializeToStream(abstractSerializedData2);
-                    }
-                };
+                tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite();
                 break;
             case 1599903217:
                 tLRPC$ChannelAdminLogEventAction = new TLRPC$TL_channelAdminLogEventActionTogglePreHistoryHidden();

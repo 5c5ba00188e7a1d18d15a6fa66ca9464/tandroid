@@ -21,7 +21,6 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_account_changeAuthorizationSettings;
@@ -35,7 +34,6 @@ import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.Switch;
-import org.telegram.ui.SessionBottomSheet;
 /* loaded from: classes3.dex */
 public class SessionBottomSheet extends BottomSheet {
     RLottieImageView imageView;
@@ -50,7 +48,7 @@ public class SessionBottomSheet extends BottomSheet {
     public static /* synthetic */ void lambda$uploadSessionSettings$0(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
-    public SessionBottomSheet(BaseFragment baseFragment, final TLRPC$TL_authorization tLRPC$TL_authorization, boolean z, Callback callback) {
+    public SessionBottomSheet(BaseFragment baseFragment, TLRPC$TL_authorization tLRPC$TL_authorization, boolean z, Callback callback) {
         super(baseFragment.getParentActivity(), false);
         String str;
         setOpenNoDelay(true);
@@ -62,21 +60,12 @@ public class SessionBottomSheet extends BottomSheet {
         linearLayout.setOrientation(1);
         RLottieImageView rLottieImageView = new RLottieImageView(parentActivity);
         this.imageView = rLottieImageView;
-        rLottieImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.1
-            @Override // android.view.View.OnClickListener
-            public void onClick(View view) {
-                if (SessionBottomSheet.this.imageView.isPlaying() || SessionBottomSheet.this.imageView.getAnimatedDrawable() == null) {
-                    return;
-                }
-                SessionBottomSheet.this.imageView.getAnimatedDrawable().setCurrentFrame(40);
-                SessionBottomSheet.this.imageView.playAnimation();
-            }
-        });
+        rLottieImageView.setOnClickListener(new AnonymousClass1());
         this.imageView.setScaleType(ImageView.ScaleType.CENTER);
         linearLayout.addView(this.imageView, LayoutHelper.createLinear(70, 70, 1, 0, 16, 0, 0));
         TextView textView = new TextView(parentActivity);
         textView.setTextSize(2, 20.0f);
-        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         textView.setGravity(17);
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 1, 21, 12, 21, 0));
@@ -86,7 +75,7 @@ public class SessionBottomSheet extends BottomSheet {
         textView2.setGravity(17);
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 1, 21, 4, 21, 21));
         if ((tLRPC$TL_authorization.flags & 1) != 0) {
-            str = LocaleController.getString("Online", R.string.Online);
+            str = LocaleController.getString("Online", 2131627132);
         } else {
             str = LocaleController.formatDateTime(tLRPC$TL_authorization.date_active);
         }
@@ -114,31 +103,20 @@ public class SessionBottomSheet extends BottomSheet {
         sb2.append(" ");
         sb2.append(tLRPC$TL_authorization.app_version);
         itemView.valueText.setText(sb2);
-        Drawable mutate = ContextCompat.getDrawable(parentActivity, R.drawable.menu_devices).mutate();
+        Drawable mutate = ContextCompat.getDrawable(parentActivity, 2131165613).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
         itemView.iconView.setImageDrawable(mutate);
-        itemView.descriptionText.setText(LocaleController.getString("Application", R.string.Application));
+        itemView.descriptionText.setText(LocaleController.getString("Application", 2131624394));
         linearLayout.addView(itemView);
         if (tLRPC$TL_authorization.country.length() != 0) {
             ItemView itemView2 = new ItemView(parentActivity, false);
             itemView2.valueText.setText(tLRPC$TL_authorization.country);
-            Drawable mutate2 = ContextCompat.getDrawable(parentActivity, R.drawable.msg_location).mutate();
+            Drawable mutate2 = ContextCompat.getDrawable(parentActivity, 2131165789).mutate();
             mutate2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
             itemView2.iconView.setImageDrawable(mutate2);
-            itemView2.descriptionText.setText(LocaleController.getString("Location", R.string.Location));
-            itemView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.2
-                @Override // android.view.View.OnClickListener
-                public void onClick(View view) {
-                    SessionBottomSheet.this.copyText(tLRPC$TL_authorization.country);
-                }
-            });
-            itemView2.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.SessionBottomSheet.3
-                @Override // android.view.View.OnLongClickListener
-                public boolean onLongClick(View view) {
-                    SessionBottomSheet.this.copyText(tLRPC$TL_authorization.country);
-                    return true;
-                }
-            });
+            itemView2.descriptionText.setText(LocaleController.getString("Location", 2131626537));
+            itemView2.setOnClickListener(new AnonymousClass2(tLRPC$TL_authorization));
+            itemView2.setOnLongClickListener(new AnonymousClass3(tLRPC$TL_authorization));
             itemView2.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 2));
             linearLayout.addView(itemView2);
             itemView.needDivider = true;
@@ -147,76 +125,49 @@ public class SessionBottomSheet extends BottomSheet {
         if (tLRPC$TL_authorization.ip.length() != 0) {
             ItemView itemView3 = new ItemView(parentActivity, false);
             itemView3.valueText.setText(tLRPC$TL_authorization.ip);
-            Drawable mutate3 = ContextCompat.getDrawable(parentActivity, R.drawable.msg_language).mutate();
+            Drawable mutate3 = ContextCompat.getDrawable(parentActivity, 2131165774).mutate();
             mutate3.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
             itemView3.iconView.setImageDrawable(mutate3);
-            itemView3.descriptionText.setText(LocaleController.getString("IpAddress", R.string.IpAddress));
-            itemView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.4
-                @Override // android.view.View.OnClickListener
-                public void onClick(View view) {
-                    SessionBottomSheet.this.copyText(tLRPC$TL_authorization.ip);
-                }
-            });
-            itemView3.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.SessionBottomSheet.5
-                @Override // android.view.View.OnLongClickListener
-                public boolean onLongClick(View view) {
-                    SessionBottomSheet.this.copyText(tLRPC$TL_authorization.country);
-                    return true;
-                }
-            });
+            itemView3.descriptionText.setText(LocaleController.getString("IpAddress", 2131626342));
+            itemView3.setOnClickListener(new AnonymousClass4(tLRPC$TL_authorization));
+            itemView3.setOnLongClickListener(new AnonymousClass5(tLRPC$TL_authorization));
             itemView3.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 2));
             linearLayout.addView(itemView3);
             itemView.needDivider = true;
             itemView = itemView3;
         }
         if (secretChatsEnabled(tLRPC$TL_authorization)) {
-            final ItemView itemView4 = new ItemView(parentActivity, true);
-            itemView4.valueText.setText(LocaleController.getString("AcceptSecretChats", R.string.AcceptSecretChats));
-            Drawable mutate4 = ContextCompat.getDrawable(parentActivity, R.drawable.msg_secret).mutate();
+            ItemView itemView4 = new ItemView(parentActivity, true);
+            itemView4.valueText.setText(LocaleController.getString("AcceptSecretChats", 2131624124));
+            Drawable mutate4 = ContextCompat.getDrawable(parentActivity, 2131165925).mutate();
             mutate4.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
             itemView4.iconView.setImageDrawable(mutate4);
             itemView4.switchView.setChecked(!tLRPC$TL_authorization.encrypted_requests_disabled, false);
             itemView4.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 7));
-            itemView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.6
-                @Override // android.view.View.OnClickListener
-                public void onClick(View view) {
-                    Switch r3 = itemView4.switchView;
-                    r3.setChecked(!r3.isChecked(), true);
-                    tLRPC$TL_authorization.encrypted_requests_disabled = !itemView4.switchView.isChecked();
-                    SessionBottomSheet.this.uploadSessionSettings();
-                }
-            });
+            itemView4.setOnClickListener(new AnonymousClass6(itemView4, tLRPC$TL_authorization));
             itemView.needDivider = true;
-            itemView4.descriptionText.setText(LocaleController.getString("AcceptSecretChatsDescription", R.string.AcceptSecretChatsDescription));
+            itemView4.descriptionText.setText(LocaleController.getString("AcceptSecretChatsDescription", 2131624125));
             linearLayout.addView(itemView4);
             itemView = itemView4;
         }
-        final ItemView itemView5 = new ItemView(parentActivity, true);
-        itemView5.valueText.setText(LocaleController.getString("AcceptCalls", R.string.AcceptCalls));
-        Drawable mutate5 = ContextCompat.getDrawable(parentActivity, R.drawable.msg_calls).mutate();
+        ItemView itemView5 = new ItemView(parentActivity, true);
+        itemView5.valueText.setText(LocaleController.getString("AcceptCalls", 2131624122));
+        Drawable mutate5 = ContextCompat.getDrawable(parentActivity, 2131165664).mutate();
         mutate5.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
         itemView5.iconView.setImageDrawable(mutate5);
         itemView5.switchView.setChecked(!tLRPC$TL_authorization.call_requests_disabled, false);
         itemView5.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 7));
-        itemView5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.7
-            @Override // android.view.View.OnClickListener
-            public void onClick(View view) {
-                Switch r3 = itemView5.switchView;
-                r3.setChecked(!r3.isChecked(), true);
-                tLRPC$TL_authorization.call_requests_disabled = !itemView5.switchView.isChecked();
-                SessionBottomSheet.this.uploadSessionSettings();
-            }
-        });
+        itemView5.setOnClickListener(new AnonymousClass7(itemView5, tLRPC$TL_authorization));
         itemView.needDivider = true;
-        itemView5.descriptionText.setText(LocaleController.getString("AcceptCallsChatsDescription", R.string.AcceptCallsChatsDescription));
+        itemView5.descriptionText.setText(LocaleController.getString("AcceptCallsChatsDescription", 2131624123));
         linearLayout.addView(itemView5);
         if (!z) {
             TextView textView3 = new TextView(parentActivity);
             textView3.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
             textView3.setGravity(17);
             textView3.setTextSize(1, 14.0f);
-            textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-            textView3.setText(LocaleController.getString("TerminateSession", R.string.TerminateSession));
+            textView3.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView3.setText(LocaleController.getString("TerminateSession", 2131628651));
             textView3.setTextColor(Theme.getColor("featuredStickers_buttonText"));
             textView3.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("chat_attachAudioBackground"), ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhite"), 120)));
             linearLayout.addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 0, 16.0f, 15.0f, 16.0f, 16.0f));
@@ -225,6 +176,131 @@ public class SessionBottomSheet extends BottomSheet {
         ScrollView scrollView = new ScrollView(parentActivity);
         scrollView.addView(linearLayout);
         setCustomView(scrollView);
+    }
+
+    /* renamed from: org.telegram.ui.SessionBottomSheet$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements View.OnClickListener {
+        AnonymousClass1() {
+            SessionBottomSheet.this = r1;
+        }
+
+        @Override // android.view.View.OnClickListener
+        public void onClick(View view) {
+            if (SessionBottomSheet.this.imageView.isPlaying() || SessionBottomSheet.this.imageView.getAnimatedDrawable() == null) {
+                return;
+            }
+            SessionBottomSheet.this.imageView.getAnimatedDrawable().setCurrentFrame(40);
+            SessionBottomSheet.this.imageView.playAnimation();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.SessionBottomSheet$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 implements View.OnClickListener {
+        final /* synthetic */ TLRPC$TL_authorization val$session;
+
+        AnonymousClass2(TLRPC$TL_authorization tLRPC$TL_authorization) {
+            SessionBottomSheet.this = r1;
+            this.val$session = tLRPC$TL_authorization;
+        }
+
+        @Override // android.view.View.OnClickListener
+        public void onClick(View view) {
+            SessionBottomSheet.this.copyText(this.val$session.country);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.SessionBottomSheet$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 implements View.OnLongClickListener {
+        final /* synthetic */ TLRPC$TL_authorization val$session;
+
+        AnonymousClass3(TLRPC$TL_authorization tLRPC$TL_authorization) {
+            SessionBottomSheet.this = r1;
+            this.val$session = tLRPC$TL_authorization;
+        }
+
+        @Override // android.view.View.OnLongClickListener
+        public boolean onLongClick(View view) {
+            SessionBottomSheet.this.copyText(this.val$session.country);
+            return true;
+        }
+    }
+
+    /* renamed from: org.telegram.ui.SessionBottomSheet$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 implements View.OnClickListener {
+        final /* synthetic */ TLRPC$TL_authorization val$session;
+
+        AnonymousClass4(TLRPC$TL_authorization tLRPC$TL_authorization) {
+            SessionBottomSheet.this = r1;
+            this.val$session = tLRPC$TL_authorization;
+        }
+
+        @Override // android.view.View.OnClickListener
+        public void onClick(View view) {
+            SessionBottomSheet.this.copyText(this.val$session.ip);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.SessionBottomSheet$5 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass5 implements View.OnLongClickListener {
+        final /* synthetic */ TLRPC$TL_authorization val$session;
+
+        AnonymousClass5(TLRPC$TL_authorization tLRPC$TL_authorization) {
+            SessionBottomSheet.this = r1;
+            this.val$session = tLRPC$TL_authorization;
+        }
+
+        @Override // android.view.View.OnLongClickListener
+        public boolean onLongClick(View view) {
+            SessionBottomSheet.this.copyText(this.val$session.country);
+            return true;
+        }
+    }
+
+    /* renamed from: org.telegram.ui.SessionBottomSheet$6 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass6 implements View.OnClickListener {
+        final /* synthetic */ ItemView val$acceptSecretChats;
+        final /* synthetic */ TLRPC$TL_authorization val$session;
+
+        AnonymousClass6(ItemView itemView, TLRPC$TL_authorization tLRPC$TL_authorization) {
+            SessionBottomSheet.this = r1;
+            this.val$acceptSecretChats = itemView;
+            this.val$session = tLRPC$TL_authorization;
+        }
+
+        @Override // android.view.View.OnClickListener
+        public void onClick(View view) {
+            Switch r3 = this.val$acceptSecretChats.switchView;
+            r3.setChecked(!r3.isChecked(), true);
+            this.val$session.encrypted_requests_disabled = !this.val$acceptSecretChats.switchView.isChecked();
+            SessionBottomSheet.this.uploadSessionSettings();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.SessionBottomSheet$7 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass7 implements View.OnClickListener {
+        final /* synthetic */ ItemView val$acceptCalls;
+        final /* synthetic */ TLRPC$TL_authorization val$session;
+
+        AnonymousClass7(ItemView itemView, TLRPC$TL_authorization tLRPC$TL_authorization) {
+            SessionBottomSheet.this = r1;
+            this.val$acceptCalls = itemView;
+            this.val$session = tLRPC$TL_authorization;
+        }
+
+        @Override // android.view.View.OnClickListener
+        public void onClick(View view) {
+            Switch r3 = this.val$acceptCalls.switchView;
+            r3.setChecked(!r3.isChecked(), true);
+            this.val$session.call_requests_disabled = !this.val$acceptCalls.switchView.isChecked();
+            SessionBottomSheet.this.uploadSessionSettings();
+        }
     }
 
     /* renamed from: org.telegram.ui.SessionBottomSheet$8 */
@@ -244,18 +320,10 @@ public class SessionBottomSheet extends BottomSheet {
         @Override // android.view.View.OnClickListener
         public void onClick(View view) {
             AlertDialog.Builder builder = new AlertDialog.Builder(SessionBottomSheet.this.parentFragment.getParentActivity());
-            builder.setMessage(LocaleController.getString("TerminateSessionText", R.string.TerminateSessionText));
-            builder.setTitle(LocaleController.getString("AreYouSureSessionTitle", R.string.AreYouSureSessionTitle));
-            String string = LocaleController.getString("Terminate", R.string.Terminate);
-            final Callback callback = this.val$callback;
-            final TLRPC$TL_authorization tLRPC$TL_authorization = this.val$session;
-            builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet$8$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    SessionBottomSheet.AnonymousClass8.this.lambda$onClick$0(callback, tLRPC$TL_authorization, dialogInterface, i);
-                }
-            });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setMessage(LocaleController.getString("TerminateSessionText", 2131628654));
+            builder.setTitle(LocaleController.getString("AreYouSureSessionTitle", 2131624474));
+            builder.setPositiveButton(LocaleController.getString("Terminate", 2131628647), new SessionBottomSheet$8$$ExternalSyntheticLambda0(this, this.val$callback, this.val$session));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             AlertDialog create = builder.create();
             this.val$fragment.showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
@@ -285,20 +353,15 @@ public class SessionBottomSheet extends BottomSheet {
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_changeAuthorizationSettings, SessionBottomSheet$$ExternalSyntheticLambda1.INSTANCE);
     }
 
-    public void copyText(final String str) {
+    public void copyText(String str) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                SessionBottomSheet.this.lambda$copyText$1(str, dialogInterface, i);
-            }
-        });
+        builder.setItems(new CharSequence[]{LocaleController.getString("Copy", 2131625272)}, new SessionBottomSheet$$ExternalSyntheticLambda0(this, str));
         builder.show();
     }
 
     public /* synthetic */ void lambda$copyText$1(String str, DialogInterface dialogInterface, int i) {
         ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", str));
-        BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
+        BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", 2131628662)).show();
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:41:0x00c4, code lost:
@@ -316,20 +379,19 @@ public class SessionBottomSheet extends BottomSheet {
             lowerCase = tLRPC$TL_authorization.system_version.toLowerCase();
         }
         String lowerCase2 = tLRPC$TL_authorization.device_model.toLowerCase();
-        boolean contains = lowerCase2.contains("safari");
-        int i = R.raw.windows_30;
+        int i = 2131558625;
         String str = "avatar_backgroundBlue";
-        if (contains) {
-            i = R.raw.safari_30;
+        if (lowerCase2.contains("safari")) {
+            i = 2131558540;
         } else if (lowerCase2.contains("edge")) {
-            i = R.raw.edge_30;
+            i = 2131558444;
         } else {
             if (!lowerCase2.contains("chrome")) {
                 if (lowerCase2.contains("opera") || lowerCase2.contains("firefox") || lowerCase2.contains("vivaldi")) {
                     if (lowerCase2.contains("opera")) {
-                        i = R.drawable.device_web_opera;
+                        i = 2131165383;
                     } else {
-                        i = lowerCase2.contains("firefox") ? R.drawable.device_web_firefox : R.drawable.device_web_other;
+                        i = lowerCase2.contains("firefox") ? 2131165382 : 2131165384;
                     }
                     str = "avatar_backgroundPink";
                     z = false;
@@ -343,15 +405,15 @@ public class SessionBottomSheet extends BottomSheet {
                     }
                 }
                 if (lowerCase.contains("ubuntu")) {
-                    i = R.raw.ubuntu_30;
+                    i = 2131558587;
                 } else if (lowerCase.contains("ios")) {
-                    i = lowerCase2.contains("ipad") ? R.raw.ipad_30 : R.raw.iphone_30;
+                    i = lowerCase2.contains("ipad") ? 2131558480 : 2131558481;
                 } else {
                     if (!lowerCase.contains("windows")) {
                         if (lowerCase.contains("macos")) {
-                            i = R.raw.mac_30;
+                            i = 2131558487;
                         } else if (lowerCase.contains("android")) {
-                            i = R.raw.android_30;
+                            i = 2131558401;
                             str = "avatar_backgroundGreen";
                         }
                     }
@@ -364,7 +426,7 @@ public class SessionBottomSheet extends BottomSheet {
             }
             str = "avatar_backgroundPink";
             z = true;
-            i = R.raw.chrome_30;
+            i = 2131558428;
             rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)));
             if (!z) {
             }
@@ -376,7 +438,6 @@ public class SessionBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class ItemView extends FrameLayout {
         TextView descriptionText;
@@ -437,10 +498,10 @@ public class SessionBottomSheet extends BottomSheet {
                 sb.append((Object) this.descriptionText.getText());
                 sb.append("\n");
                 if (this.switchView.isChecked()) {
-                    i = R.string.NotificationsOn;
+                    i = 2131627103;
                     str = "NotificationsOn";
                 } else {
-                    i = R.string.NotificationsOff;
+                    i = 2131627101;
                     str = "NotificationsOff";
                 }
                 sb.append(LocaleController.getString(str, i));

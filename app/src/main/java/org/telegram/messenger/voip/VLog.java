@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 /* loaded from: classes.dex */
-class VLog {
+public class VLog {
     public static native void d(String str);
 
     public static native void e(String str);

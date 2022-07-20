@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
@@ -38,30 +37,40 @@ public class ChatListCell extends LinearLayout {
             setWillNotDraw(false);
             this.isThreeLines = z;
             if (z) {
-                i = R.string.ChatListExpanded;
+                i = 2131625033;
                 str = "ChatListExpanded";
             } else {
-                i = R.string.ChatListDefault;
+                i = 2131625032;
                 str = "ChatListDefault";
             }
             setContentDescription(LocaleController.getString(str, i));
             this.textPaint.setTextSize(AndroidUtilities.dp(13.0f));
-            RadioButton radioButton = new RadioButton(context, chatListCell) { // from class: org.telegram.ui.Cells.ChatListCell.ListView.1
-                @Override // android.view.View
-                public void invalidate() {
-                    super.invalidate();
-                    ListView.this.invalidate();
-                }
-            };
-            this.button = radioButton;
-            radioButton.setSize(AndroidUtilities.dp(20.0f));
+            AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, chatListCell);
+            this.button = anonymousClass1;
+            anonymousClass1.setSize(AndroidUtilities.dp(20.0f));
             addView(this.button, LayoutHelper.createFrame(22, 22.0f, 53, 0.0f, 26.0f, 10.0f, 0.0f));
-            RadioButton radioButton2 = this.button;
+            RadioButton radioButton = this.button;
             boolean z3 = this.isThreeLines;
             if ((!z3 || !SharedConfig.useThreeLinesLayout) && (z3 || SharedConfig.useThreeLinesLayout)) {
                 z2 = false;
             }
-            radioButton2.setChecked(z2, false);
+            radioButton.setChecked(z2, false);
+        }
+
+        /* renamed from: org.telegram.ui.Cells.ChatListCell$ListView$1 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass1 extends RadioButton {
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+            AnonymousClass1(Context context, ChatListCell chatListCell) {
+                super(context);
+                ListView.this = r1;
+            }
+
+            @Override // android.view.View
+            public void invalidate() {
+                super.invalidate();
+                ListView.this.invalidate();
+            }
         }
 
         @Override // android.view.View
@@ -81,10 +90,10 @@ public class ChatListCell extends LinearLayout {
             Theme.dialogs_onlineCirclePaint.setColor(Color.argb((int) ((1.0f - this.button.getProgress()) * 31.0f), red, green, blue));
             canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), Theme.dialogs_onlineCirclePaint);
             if (this.isThreeLines) {
-                i = R.string.ChatListExpanded;
+                i = 2131625033;
                 str = "ChatListExpanded";
             } else {
-                i = R.string.ChatListDefault;
+                i = 2131625032;
                 str = "ChatListDefault";
             }
             String string = LocaleController.getString(str, i);
@@ -138,10 +147,10 @@ public class ChatListCell extends LinearLayout {
             accessibilityNodeInfo.setChecked(this.button.isChecked());
             accessibilityNodeInfo.setCheckable(true);
             if (this.isThreeLines) {
-                i = R.string.ChatListExpanded;
+                i = 2131625033;
                 str = "ChatListExpanded";
             } else {
-                i = R.string.ChatListDefault;
+                i = 2131625032;
                 str = "ChatListDefault";
             }
             accessibilityNodeInfo.setContentDescription(LocaleController.getString(str, i));
@@ -156,15 +165,10 @@ public class ChatListCell extends LinearLayout {
         while (true) {
             ListView[] listViewArr = this.listView;
             if (i < listViewArr.length) {
-                final boolean z = i == 1;
+                boolean z = i == 1;
                 listViewArr[i] = new ListView(this, context, z);
                 addView(this.listView[i], LayoutHelper.createLinear(-1, -1, 0.5f, i == 1 ? 10 : 0, 0, 0, 0));
-                this.listView[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.ChatListCell$$ExternalSyntheticLambda0
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        ChatListCell.this.lambda$new$0(z, view);
-                    }
-                });
+                this.listView[i].setOnClickListener(new ChatListCell$$ExternalSyntheticLambda0(this, z));
                 i++;
             } else {
                 return;

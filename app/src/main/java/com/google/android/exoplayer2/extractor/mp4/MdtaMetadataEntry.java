@@ -8,17 +8,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class MdtaMetadataEntry implements Metadata.Entry {
-    public static final Parcelable.Creator<MdtaMetadataEntry> CREATOR = new Parcelable.Creator<MdtaMetadataEntry>() { // from class: com.google.android.exoplayer2.extractor.mp4.MdtaMetadataEntry.1
-        @Override // android.os.Parcelable.Creator
-        public MdtaMetadataEntry createFromParcel(Parcel parcel) {
-            return new MdtaMetadataEntry(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public MdtaMetadataEntry[] newArray(int i) {
-            return new MdtaMetadataEntry[i];
-        }
-    };
+    public static final Parcelable.Creator<MdtaMetadataEntry> CREATOR = new AnonymousClass1();
     public final String key;
     public final int localeIndicator;
     public final int typeIndicator;
@@ -37,6 +27,10 @@ public final class MdtaMetadataEntry implements Metadata.Entry {
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* synthetic */ Format getWrappedMetadataFormat() {
         return Metadata.Entry.CC.$default$getWrappedMetadataFormat(this);
+    }
+
+    /* synthetic */ MdtaMetadataEntry(Parcel parcel, AnonymousClass1 anonymousClass1) {
+        this(parcel);
     }
 
     public MdtaMetadataEntry(String str, byte[] bArr, int i, int i2) {
@@ -81,5 +75,22 @@ public final class MdtaMetadataEntry implements Metadata.Entry {
         parcel.writeByteArray(this.value);
         parcel.writeInt(this.localeIndicator);
         parcel.writeInt(this.typeIndicator);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.extractor.mp4.MdtaMetadataEntry$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<MdtaMetadataEntry> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public MdtaMetadataEntry createFromParcel(Parcel parcel) {
+            return new MdtaMetadataEntry(parcel, null);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public MdtaMetadataEntry[] newArray(int i) {
+            return new MdtaMetadataEntry[i];
+        }
     }
 }

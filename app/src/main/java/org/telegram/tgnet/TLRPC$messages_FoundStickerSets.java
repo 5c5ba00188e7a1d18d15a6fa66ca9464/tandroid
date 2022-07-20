@@ -4,14 +4,7 @@ public abstract class TLRPC$messages_FoundStickerSets extends TLObject {
     public static TLRPC$messages_FoundStickerSets TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$messages_FoundStickerSets tLRPC$messages_FoundStickerSets;
         if (i != -1963942446) {
-            tLRPC$messages_FoundStickerSets = i != 223655517 ? null : new TLRPC$messages_FoundStickerSets() { // from class: org.telegram.tgnet.TLRPC$TL_messages_foundStickerSetsNotModified
-                public static int constructor = 223655517;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
-                }
-            };
+            tLRPC$messages_FoundStickerSets = i != 223655517 ? null : new TLRPC$TL_messages_foundStickerSetsNotModified();
         } else {
             tLRPC$messages_FoundStickerSets = new TLRPC$TL_messages_foundStickerSets();
         }

@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class Ac3Reader implements ElementaryStreamReader {
     private int bytesRead;
@@ -32,7 +31,7 @@ public final class Ac3Reader implements ElementaryStreamReader {
     }
 
     public Ac3Reader(String str) {
-        ParsableBitArray parsableBitArray = new ParsableBitArray(new byte[ConnectionsManager.RequestFlagNeedQuickAck]);
+        ParsableBitArray parsableBitArray = new ParsableBitArray(new byte[128]);
         this.headerScratchBits = parsableBitArray;
         this.headerScratchBytes = new ParsableByteArray(parsableBitArray.data);
         this.state = 0;
@@ -76,10 +75,10 @@ public final class Ac3Reader implements ElementaryStreamReader {
                             this.state = 0;
                         }
                     }
-                } else if (continueRead(parsableByteArray, this.headerScratchBytes.data, ConnectionsManager.RequestFlagNeedQuickAck)) {
+                } else if (continueRead(parsableByteArray, this.headerScratchBytes.data, 128)) {
                     parseHeader();
                     this.headerScratchBytes.setPosition(0);
-                    this.output.sampleData(this.headerScratchBytes, ConnectionsManager.RequestFlagNeedQuickAck);
+                    this.output.sampleData(this.headerScratchBytes, 128);
                     this.state = 2;
                 }
             } else if (skipToNextSync(parsableByteArray)) {

@@ -26,7 +26,6 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class AesGcmKS {
     private static Map<String, SecretKey> g = new HashMap();
@@ -197,7 +196,7 @@ public class AesGcmKS {
             byte[] copyOf = Arrays.copyOf(bArr, 12);
             try {
                 Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-                cipher.init(2, secretKey, new GCMParameterSpec(ConnectionsManager.RequestFlagNeedQuickAck, copyOf));
+                cipher.init(2, secretKey, new GCMParameterSpec(128, copyOf));
                 return cipher.doFinal(bArr, 12, bArr.length - 12);
             } catch (InvalidAlgorithmParameterException e) {
                 b.b("GCMKS", "InvalidAlgorithmParameterException : " + e.getMessage());

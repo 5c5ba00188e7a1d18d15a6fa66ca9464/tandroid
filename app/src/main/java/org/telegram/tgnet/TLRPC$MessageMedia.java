@@ -48,137 +48,28 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaUnsupported();
                 break;
             case -1563278704:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaVideo_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaVideo_old
-                    public static int constructor = -1563278704;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaVideo_layer45, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.video_unused = TLRPC$Video.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaVideo_layer45, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.video_unused.serializeToStream(abstractSerializedData2);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaVideo_old();
                 break;
             case -1557277184:
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaWebPage();
                 break;
             case -1256047857:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaPhoto() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaPhoto_layer74
-                    public static int constructor = -1256047857;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaPhoto, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2);
-                        this.flags = readInt32;
-                        if ((readInt32 & 1) != 0) {
-                            this.photo = TLRPC$Photo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        } else {
-                            this.photo = new TLRPC$TL_photoEmpty();
-                        }
-                        if ((this.flags & 2) != 0) {
-                            this.captionLegacy = abstractSerializedData2.readString(z2);
-                        }
-                        if ((this.flags & 4) != 0) {
-                            this.ttl_seconds = abstractSerializedData2.readInt32(z2);
-                        }
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaPhoto, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.flags);
-                        if ((this.flags & 1) != 0) {
-                            this.photo.serializeToStream(abstractSerializedData2);
-                        }
-                        if ((this.flags & 2) != 0) {
-                            abstractSerializedData2.writeString(this.captionLegacy);
-                        }
-                        if ((this.flags & 4) != 0) {
-                            abstractSerializedData2.writeInt32(this.ttl_seconds);
-                        }
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaPhoto_layer74();
                 break;
             case -1186937242:
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaGeoLive();
                 break;
             case -961117440:
-                tLRPC$MessageMedia = new TLRPC$MessageMedia() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaAudio_layer45
-                    public static int constructor = -961117440;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.audio_unused = TLRPC$Audio.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.audio_unused.serializeToStream(abstractSerializedData2);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaAudio_layer45();
                 break;
             case -926655958:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaPhoto() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaPhoto_old
-                    public static int constructor = -926655958;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaPhoto, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.photo = TLRPC$Photo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaPhoto, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.photo.serializeToStream(abstractSerializedData2);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaPhoto_old();
                 break;
             case -873313984:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaContact() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaContact_layer131
-                    public static int constructor = -873313984;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaContact, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.phone_number = abstractSerializedData2.readString(z2);
-                        this.first_name = abstractSerializedData2.readString(z2);
-                        this.last_name = abstractSerializedData2.readString(z2);
-                        this.vcard = abstractSerializedData2.readString(z2);
-                        this.user_id = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaContact, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeString(this.phone_number);
-                        abstractSerializedData2.writeString(this.first_name);
-                        abstractSerializedData2.writeString(this.last_name);
-                        abstractSerializedData2.writeString(this.vcard);
-                        abstractSerializedData2.writeInt32((int) this.user_id);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaContact_layer131();
                 break;
             case -203411800:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaDocument() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaDocument_layer68
-                    public static int constructor = -203411800;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaDocument, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.document = TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.captionLegacy = abstractSerializedData2.readString(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaDocument, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.document.serializeToStream(abstractSerializedData2);
-                        abstractSerializedData2.writeString(this.captionLegacy);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaDocument_layer68();
                 break;
             case -38694904:
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaGame();
@@ -190,38 +81,10 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaVenue();
                 break;
             case 802824708:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaDocument() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaDocument_old
-                    public static int constructor = 802824708;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaDocument, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.document = TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaDocument, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.document.serializeToStream(abstractSerializedData2);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaDocument_old();
                 break;
             case 1032643901:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaPhoto() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaPhoto_layer68
-                    public static int constructor = 1032643901;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaPhoto, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.photo = TLRPC$Photo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.captionLegacy = abstractSerializedData2.readString(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaPhoto, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.photo.serializeToStream(abstractSerializedData2);
-                        abstractSerializedData2.writeString(this.captionLegacy);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaPhoto_layer68();
                 break;
             case 1038967584:
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaEmpty();
@@ -239,42 +102,10 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaVideo_layer45();
                 break;
             case 1585262393:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaContact() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaContact_layer81
-                    public static int constructor = 1585262393;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaContact, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.phone_number = abstractSerializedData2.readString(z2);
-                        this.first_name = abstractSerializedData2.readString(z2);
-                        this.last_name = abstractSerializedData2.readString(z2);
-                        this.user_id = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaContact, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeString(this.phone_number);
-                        abstractSerializedData2.writeString(this.first_name);
-                        abstractSerializedData2.writeString(this.last_name);
-                        abstractSerializedData2.writeInt32((int) this.user_id);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaContact_layer81();
                 break;
             case 1670374507:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaDice() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaDice_layer111
-                    public static int constructor = 1670374507;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaDice, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.value = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaDice, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.value);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaDice_layer111();
                 break;
             case 1766936791:
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaPhoto();
@@ -283,83 +114,13 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 tLRPC$MessageMedia = new TLRPC$TL_messageMediaContact();
                 break;
             case 2031269663:
-                tLRPC$MessageMedia = new TLRPC$MessageMedia() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaVenue_layer71
-                    public static int constructor = 2031269663;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.geo = TLRPC$GeoPoint.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.title = abstractSerializedData2.readString(z2);
-                        this.address = abstractSerializedData2.readString(z2);
-                        this.provider = abstractSerializedData2.readString(z2);
-                        this.venue_id = abstractSerializedData2.readString(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.geo.serializeToStream(abstractSerializedData2);
-                        abstractSerializedData2.writeString(this.title);
-                        abstractSerializedData2.writeString(this.address);
-                        abstractSerializedData2.writeString(this.provider);
-                        abstractSerializedData2.writeString(this.venue_id);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaVenue_layer71();
                 break;
             case 2084316681:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaGeoLive() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive_layer119
-                    public static int constructor = 2084316681;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.geo = TLRPC$GeoPoint.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.period = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        this.geo.serializeToStream(abstractSerializedData2);
-                        abstractSerializedData2.writeInt32(this.period);
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaGeoLive_layer119();
                 break;
             case 2084836563:
-                tLRPC$MessageMedia = new TLRPC$TL_messageMediaDocument() { // from class: org.telegram.tgnet.TLRPC$TL_messageMediaDocument_layer74
-                    public static int constructor = 2084836563;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaDocument, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2);
-                        this.flags = readInt32;
-                        if ((readInt32 & 1) != 0) {
-                            this.document = TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        } else {
-                            this.document = new TLRPC$TL_documentEmpty();
-                        }
-                        if ((this.flags & 2) != 0) {
-                            this.captionLegacy = abstractSerializedData2.readString(z2);
-                        }
-                        if ((this.flags & 4) != 0) {
-                            this.ttl_seconds = abstractSerializedData2.readInt32(z2);
-                        }
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageMediaDocument, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.flags);
-                        if ((this.flags & 1) != 0) {
-                            this.document.serializeToStream(abstractSerializedData2);
-                        }
-                        if ((this.flags & 2) != 0) {
-                            abstractSerializedData2.writeString(this.captionLegacy);
-                        }
-                        if ((this.flags & 4) != 0) {
-                            abstractSerializedData2.writeInt32(this.ttl_seconds);
-                        }
-                    }
-                };
+                tLRPC$MessageMedia = new TLRPC$TL_messageMediaDocument_layer74();
                 break;
             default:
                 tLRPC$MessageMedia = null;

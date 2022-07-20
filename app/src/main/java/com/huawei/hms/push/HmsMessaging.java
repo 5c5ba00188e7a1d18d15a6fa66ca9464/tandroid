@@ -16,18 +16,15 @@ import com.huawei.hms.aaid.utils.BaseUtils;
 import com.huawei.hms.aaid.utils.PushPreferences;
 import com.huawei.hms.android.HwBuildEx;
 import com.huawei.hms.api.Api;
-import com.huawei.hms.api.HuaweiApiAvailability;
 import com.huawei.hms.common.ApiException;
 import com.huawei.hms.common.HuaweiApi;
 import com.huawei.hms.common.internal.Preconditions;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.push.task.BaseVoidTask;
 import com.huawei.hms.push.task.IntentCallable;
 import com.huawei.hms.push.task.SendUpStreamTask;
 import com.huawei.hms.push.task.SubscribeTask;
 import com.huawei.hms.push.utils.PushBiUtil;
 import com.huawei.hms.support.api.entity.push.EnableNotifyReq;
-import com.huawei.hms.support.api.entity.push.PushNaming;
 import com.huawei.hms.support.api.entity.push.SubscribeReq;
 import com.huawei.hms.support.api.entity.push.UpSendMsgReq;
 import com.huawei.hms.support.log.HMSLog;
@@ -44,7 +41,7 @@ public class HmsMessaging {
     public HmsMessaging(Context context) {
         Preconditions.checkNotNull(context);
         this.b = context;
-        HuaweiApi<Api.ApiOptions.NoOptions> huaweiApi = new HuaweiApi<>(context, new Api(HuaweiApiAvailability.HMS_API_NAME_PUSH), (Api.ApiOptions) null, new PushClientBuilder());
+        HuaweiApi<Api.ApiOptions.NoOptions> huaweiApi = new HuaweiApi<>(context, new Api("HuaweiPush.API"), (Api.ApiOptions) null, new PushClientBuilder());
         this.c = huaweiApi;
         huaweiApi.setKitSdkVersion(60500300);
     }
@@ -58,7 +55,7 @@ public class HmsMessaging {
     }
 
     public final Task<Void> a(String str, String str2) {
-        String reportEntry = PushBiUtil.reportEntry(this.b, PushNaming.SUBSCRIBE);
+        String reportEntry = PushBiUtil.reportEntry(this.b, "push.subscribe");
         if (str != null && a.matcher(str).matches()) {
             if (ProxyCenter.getProxy() != null) {
                 HMSLog.i("HmsMessaging", "use proxy subscribe.");
@@ -71,9 +68,9 @@ public class HmsMessaging {
                         SubscribeReq subscribeReq = new SubscribeReq(this.b, str2, str);
                         subscribeReq.setToken(BaseUtils.getLocalToken(this.b, null));
                         if (s.b()) {
-                            return this.c.doWrite(new BaseVoidTask(PushNaming.SUBSCRIBE, JsonUtil.createJsonString(subscribeReq), reportEntry));
+                            return this.c.doWrite(new BaseVoidTask("push.subscribe", JsonUtil.createJsonString(subscribeReq), reportEntry));
                         }
-                        return this.c.doWrite(new SubscribeTask(PushNaming.SUBSCRIBE, JsonUtil.createJsonString(subscribeReq), reportEntry));
+                        return this.c.doWrite(new SubscribeTask("push.subscribe", JsonUtil.createJsonString(subscribeReq), reportEntry));
                     }
                     HMSLog.e("HmsMessaging", "no network");
                     throw ErrorEnum.ERROR_NO_NETWORK.toApiException();
@@ -82,17 +79,17 @@ public class HmsMessaging {
             } catch (ApiException e) {
                 TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
                 taskCompletionSource.setException(e);
-                PushBiUtil.reportExit(this.b, PushNaming.SUBSCRIBE, reportEntry, e.getStatusCode());
+                PushBiUtil.reportExit(this.b, "push.subscribe", reportEntry, e.getStatusCode());
                 return taskCompletionSource.getTask();
             } catch (Exception unused) {
                 TaskCompletionSource taskCompletionSource2 = new TaskCompletionSource();
                 ErrorEnum errorEnum = ErrorEnum.ERROR_INTERNAL_ERROR;
                 taskCompletionSource2.setException(errorEnum.toApiException());
-                PushBiUtil.reportExit(this.b, PushNaming.SUBSCRIBE, reportEntry, errorEnum);
+                PushBiUtil.reportExit(this.b, "push.subscribe", reportEntry, errorEnum);
                 return taskCompletionSource2.getTask();
             }
         }
-        PushBiUtil.reportExit(this.b, PushNaming.SUBSCRIBE, reportEntry, ErrorEnum.ERROR_ARGUMENTS_INVALID);
+        PushBiUtil.reportExit(this.b, "push.subscribe", reportEntry, ErrorEnum.ERROR_ARGUMENTS_INVALID);
         HMSLog.e("HmsMessaging", "Invalid topic: topic should match the format:[\\u4e00-\\u9fa5\\w-_.~%]{1,900}");
         throw new IllegalArgumentException("Invalid topic: topic should match the format:[\\u4e00-\\u9fa5\\w-_.~%]{1,900}");
     }
@@ -144,7 +141,7 @@ public class HmsMessaging {
     }
 
     public final void a(RemoteMessage remoteMessage) {
-        String reportEntry = PushBiUtil.reportEntry(this.b, PushNaming.UPSEND_MSG);
+        String reportEntry = PushBiUtil.reportEntry(this.b, "push.sendMessage");
         ErrorEnum a2 = d.a(this.b);
         if (a2 == ErrorEnum.SUCCESS) {
             if (!TextUtils.isEmpty(remoteMessage.getTo())) {
@@ -161,7 +158,7 @@ public class HmsMessaging {
                         upSendMsgReq.setSendMode(remoteMessage.getSendMode());
                         upSendMsgReq.setReceiptMode(remoteMessage.getReceiptMode());
                         if (s.b()) {
-                            this.c.doWrite(new BaseVoidTask(PushNaming.UPSEND_MSG, JsonUtil.createJsonString(upSendMsgReq), reportEntry));
+                            this.c.doWrite(new BaseVoidTask("push.sendMessage", JsonUtil.createJsonString(upSendMsgReq), reportEntry));
                             return;
                         } else {
                             a(upSendMsgReq, reportEntry);
@@ -169,31 +166,31 @@ public class HmsMessaging {
                         }
                     }
                     HMSLog.e("HmsMessaging", "Mandatory parameter 'data' missing");
-                    PushBiUtil.reportExit(this.b, PushNaming.UPSEND_MSG, reportEntry, ErrorEnum.ERROR_ARGUMENTS_INVALID);
+                    PushBiUtil.reportExit(this.b, "push.sendMessage", reportEntry, ErrorEnum.ERROR_ARGUMENTS_INVALID);
                     throw new IllegalArgumentException("Mandatory parameter 'data' missing");
                 }
                 HMSLog.e("HmsMessaging", "Mandatory parameter 'message_id' missing");
-                PushBiUtil.reportExit(this.b, PushNaming.UPSEND_MSG, reportEntry, ErrorEnum.ERROR_ARGUMENTS_INVALID);
+                PushBiUtil.reportExit(this.b, "push.sendMessage", reportEntry, ErrorEnum.ERROR_ARGUMENTS_INVALID);
                 throw new IllegalArgumentException("Mandatory parameter 'message_id' missing");
             }
             HMSLog.e("HmsMessaging", "Mandatory parameter 'to' missing");
-            PushBiUtil.reportExit(this.b, PushNaming.UPSEND_MSG, reportEntry, ErrorEnum.ERROR_ARGUMENTS_INVALID);
+            PushBiUtil.reportExit(this.b, "push.sendMessage", reportEntry, ErrorEnum.ERROR_ARGUMENTS_INVALID);
             throw new IllegalArgumentException("Mandatory parameter 'to' missing");
         }
         HMSLog.e("HmsMessaging", "Message sent failed:" + a2.getExternalCode() + ':' + a2.getMessage());
-        PushBiUtil.reportExit(this.b, PushNaming.UPSEND_MSG, reportEntry, a2);
+        PushBiUtil.reportExit(this.b, "push.sendMessage", reportEntry, a2);
         throw new UnsupportedOperationException(a2.getMessage());
     }
 
     public final Task<Void> a(boolean z) {
-        String reportEntry = PushBiUtil.reportEntry(this.b, PushNaming.SET_NOTIFY_FLAG);
+        String reportEntry = PushBiUtil.reportEntry(this.b, "push.setNotifyFlag");
         if (s.d(this.b) && !s.b()) {
             if (HwBuildEx.VERSION.EMUI_SDK_INT < 12) {
                 HMSLog.e("HmsMessaging", "operation not available on Huawei device with EMUI lower than 5.1");
                 TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
                 ErrorEnum errorEnum = ErrorEnum.ERROR_OPERATION_NOT_SUPPORTED;
                 taskCompletionSource.setException(errorEnum.toApiException());
-                PushBiUtil.reportExit(this.b, PushNaming.SET_NOTIFY_FLAG, reportEntry, errorEnum);
+                PushBiUtil.reportExit(this.b, "push.setNotifyFlag", reportEntry, errorEnum);
                 return taskCompletionSource.getTask();
             } else if (s.b(this.b) < 90101310) {
                 HMSLog.i("HmsMessaging", "turn on/off with broadcast v1");
@@ -208,7 +205,7 @@ public class HmsMessaging {
                 Intent intent = new Intent("com.huawei.android.push.intent.SDK_COMMAND");
                 intent.putExtra("type", "enalbeFlag");
                 intent.putExtra("pkgName", this.b.getPackageName());
-                intent.putExtra(RemoteMessageConst.Notification.URL, parse);
+                intent.putExtra("url", parse);
                 intent.setPackage("android");
                 return Tasks.callInBackground(new IntentCallable(this.b, intent, reportEntry));
             }
@@ -217,18 +214,18 @@ public class HmsMessaging {
         EnableNotifyReq enableNotifyReq = new EnableNotifyReq();
         enableNotifyReq.setPackageName(this.b.getPackageName());
         enableNotifyReq.setEnable(z);
-        return this.c.doWrite(new BaseVoidTask(PushNaming.SET_NOTIFY_FLAG, JsonUtil.createJsonString(enableNotifyReq), reportEntry));
+        return this.c.doWrite(new BaseVoidTask("push.setNotifyFlag", JsonUtil.createJsonString(enableNotifyReq), reportEntry));
     }
 
     public final void a(UpSendMsgReq upSendMsgReq, String str) {
         upSendMsgReq.setToken(BaseUtils.getLocalToken(this.b, null));
         try {
-            this.c.doWrite(new SendUpStreamTask(PushNaming.UPSEND_MSG, JsonUtil.createJsonString(upSendMsgReq), str, upSendMsgReq.getPackageName(), upSendMsgReq.getMessageId()));
+            this.c.doWrite(new SendUpStreamTask("push.sendMessage", JsonUtil.createJsonString(upSendMsgReq), str, upSendMsgReq.getPackageName(), upSendMsgReq.getMessageId()));
         } catch (Exception e) {
             if (e.getCause() instanceof ApiException) {
-                PushBiUtil.reportExit(this.b, PushNaming.UPSEND_MSG, str, ((ApiException) e.getCause()).getStatusCode());
+                PushBiUtil.reportExit(this.b, "push.sendMessage", str, ((ApiException) e.getCause()).getStatusCode());
             } else {
-                PushBiUtil.reportExit(this.b, PushNaming.UPSEND_MSG, str, ErrorEnum.ERROR_INTERNAL_ERROR);
+                PushBiUtil.reportExit(this.b, "push.sendMessage", str, ErrorEnum.ERROR_INTERNAL_ERROR);
             }
         }
     }

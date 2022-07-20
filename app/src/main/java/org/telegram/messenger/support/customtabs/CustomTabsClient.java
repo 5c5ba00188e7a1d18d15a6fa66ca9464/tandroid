@@ -35,65 +35,124 @@ public class CustomTabsClient {
         }
     }
 
-    public CustomTabsSession newSession(final CustomTabsCallback customTabsCallback) {
-        ICustomTabsCallback.Stub stub = new ICustomTabsCallback.Stub(this) { // from class: org.telegram.messenger.support.customtabs.CustomTabsClient.2
-            private Handler mHandler = new Handler(Looper.getMainLooper());
+    /* renamed from: org.telegram.messenger.support.customtabs.CustomTabsClient$2 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass2 extends ICustomTabsCallback.Stub {
+        private Handler mHandler = new Handler(Looper.getMainLooper());
+        final /* synthetic */ CustomTabsCallback val$callback;
 
-            @Override // org.telegram.messenger.support.customtabs.ICustomTabsCallback
-            public void onNavigationEvent(final int i, final Bundle bundle) {
-                if (customTabsCallback == null) {
-                    return;
-                }
-                this.mHandler.post(new Runnable() { // from class: org.telegram.messenger.support.customtabs.CustomTabsClient.2.1
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        customTabsCallback.onNavigationEvent(i, bundle);
-                    }
-                });
+        AnonymousClass2(CustomTabsClient customTabsClient, CustomTabsCallback customTabsCallback) {
+            this.val$callback = customTabsCallback;
+        }
+
+        /* renamed from: org.telegram.messenger.support.customtabs.CustomTabsClient$2$1 */
+        /* loaded from: classes.dex */
+        class AnonymousClass1 implements Runnable {
+            final /* synthetic */ Bundle val$extras;
+            final /* synthetic */ int val$navigationEvent;
+
+            AnonymousClass1(int i, Bundle bundle) {
+                AnonymousClass2.this = r1;
+                this.val$navigationEvent = i;
+                this.val$extras = bundle;
             }
 
-            @Override // org.telegram.messenger.support.customtabs.ICustomTabsCallback
-            public void extraCallback(final String str, final Bundle bundle) throws RemoteException {
-                if (customTabsCallback == null) {
-                    return;
-                }
-                this.mHandler.post(new Runnable() { // from class: org.telegram.messenger.support.customtabs.CustomTabsClient.2.2
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        customTabsCallback.extraCallback(str, bundle);
-                    }
-                });
+            @Override // java.lang.Runnable
+            public void run() {
+                AnonymousClass2.this.val$callback.onNavigationEvent(this.val$navigationEvent, this.val$extras);
+            }
+        }
+
+        @Override // org.telegram.messenger.support.customtabs.ICustomTabsCallback
+        public void onNavigationEvent(int i, Bundle bundle) {
+            if (this.val$callback == null) {
+                return;
+            }
+            this.mHandler.post(new AnonymousClass1(i, bundle));
+        }
+
+        /* renamed from: org.telegram.messenger.support.customtabs.CustomTabsClient$2$2 */
+        /* loaded from: classes.dex */
+        class RunnableC00102 implements Runnable {
+            final /* synthetic */ Bundle val$args;
+            final /* synthetic */ String val$callbackName;
+
+            RunnableC00102(String str, Bundle bundle) {
+                AnonymousClass2.this = r1;
+                this.val$callbackName = str;
+                this.val$args = bundle;
             }
 
-            @Override // org.telegram.messenger.support.customtabs.ICustomTabsCallback
-            public void onMessageChannelReady(final Bundle bundle) throws RemoteException {
-                if (customTabsCallback == null) {
-                    return;
-                }
-                this.mHandler.post(new Runnable() { // from class: org.telegram.messenger.support.customtabs.CustomTabsClient.2.3
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        customTabsCallback.onMessageChannelReady(bundle);
-                    }
-                });
+            @Override // java.lang.Runnable
+            public void run() {
+                AnonymousClass2.this.val$callback.extraCallback(this.val$callbackName, this.val$args);
+            }
+        }
+
+        @Override // org.telegram.messenger.support.customtabs.ICustomTabsCallback
+        public void extraCallback(String str, Bundle bundle) throws RemoteException {
+            if (this.val$callback == null) {
+                return;
+            }
+            this.mHandler.post(new RunnableC00102(str, bundle));
+        }
+
+        /* renamed from: org.telegram.messenger.support.customtabs.CustomTabsClient$2$3 */
+        /* loaded from: classes.dex */
+        class AnonymousClass3 implements Runnable {
+            final /* synthetic */ Bundle val$extras;
+
+            AnonymousClass3(Bundle bundle) {
+                AnonymousClass2.this = r1;
+                this.val$extras = bundle;
             }
 
-            @Override // org.telegram.messenger.support.customtabs.ICustomTabsCallback
-            public void onPostMessage(final String str, final Bundle bundle) throws RemoteException {
-                if (customTabsCallback == null) {
-                    return;
-                }
-                this.mHandler.post(new Runnable() { // from class: org.telegram.messenger.support.customtabs.CustomTabsClient.2.4
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        customTabsCallback.onPostMessage(str, bundle);
-                    }
-                });
+            @Override // java.lang.Runnable
+            public void run() {
+                AnonymousClass2.this.val$callback.onMessageChannelReady(this.val$extras);
             }
-        };
+        }
+
+        @Override // org.telegram.messenger.support.customtabs.ICustomTabsCallback
+        public void onMessageChannelReady(Bundle bundle) throws RemoteException {
+            if (this.val$callback == null) {
+                return;
+            }
+            this.mHandler.post(new AnonymousClass3(bundle));
+        }
+
+        /* renamed from: org.telegram.messenger.support.customtabs.CustomTabsClient$2$4 */
+        /* loaded from: classes.dex */
+        class AnonymousClass4 implements Runnable {
+            final /* synthetic */ Bundle val$extras;
+            final /* synthetic */ String val$message;
+
+            AnonymousClass4(String str, Bundle bundle) {
+                AnonymousClass2.this = r1;
+                this.val$message = str;
+                this.val$extras = bundle;
+            }
+
+            @Override // java.lang.Runnable
+            public void run() {
+                AnonymousClass2.this.val$callback.onPostMessage(this.val$message, this.val$extras);
+            }
+        }
+
+        @Override // org.telegram.messenger.support.customtabs.ICustomTabsCallback
+        public void onPostMessage(String str, Bundle bundle) throws RemoteException {
+            if (this.val$callback == null) {
+                return;
+            }
+            this.mHandler.post(new AnonymousClass4(str, bundle));
+        }
+    }
+
+    public CustomTabsSession newSession(CustomTabsCallback customTabsCallback) {
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(this, customTabsCallback);
         try {
-            if (this.mService.newSession(stub)) {
-                return new CustomTabsSession(this.mService, stub, this.mServiceComponentName);
+            if (this.mService.newSession(anonymousClass2)) {
+                return new CustomTabsSession(this.mService, anonymousClass2, this.mServiceComponentName);
             }
             return null;
         } catch (RemoteException unused) {

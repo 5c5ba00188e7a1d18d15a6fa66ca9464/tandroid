@@ -21,7 +21,6 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
@@ -64,7 +63,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public View createView(final Context context) {
+    public View createView(Context context) {
         AvatarDrawable avatarDrawable;
         boolean z;
         TLRPC$Chat tLRPC$Chat;
@@ -72,79 +71,23 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         this.actionBar.setBackButtonDrawable(new BackDrawable(false));
         this.actionBar.setCastShadows(false);
         this.actionBar.setAddToContainer(false);
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Components.MediaActivity.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    MediaActivity.this.finishFragment();
-                }
-            }
-        });
-        final FrameLayout frameLayout = new FrameLayout(context);
-        final SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.Components.MediaActivity.2
-            @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i, int i2) {
-                int i3 = 0;
-                ((FrameLayout.LayoutParams) MediaActivity.this.sharedMediaLayout.getLayoutParams()).topMargin = ActionBar.getCurrentActionBarHeight() + (((BaseFragment) MediaActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0);
-                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
-                if (((BaseFragment) MediaActivity.this).actionBar.getOccupyStatusBar()) {
-                    i3 = AndroidUtilities.statusBarHeight;
-                }
-                layoutParams.topMargin = i3;
-                layoutParams.height = ActionBar.getCurrentActionBarHeight();
-                ((FrameLayout.LayoutParams) MediaActivity.this.nameTextView.getLayoutParams()).topMargin = (((ActionBar.getCurrentActionBarHeight() / 2) - AndroidUtilities.dp(22.0f)) / 2) + AndroidUtilities.dp((AndroidUtilities.isTablet() || getResources().getConfiguration().orientation != 2) ? 5.0f : 4.0f);
-                ((FrameLayout.LayoutParams) MediaActivity.this.mediaCounterTextView.getLayoutParams()).topMargin = ((ActionBar.getCurrentActionBarHeight() / 2) + (((ActionBar.getCurrentActionBarHeight() / 2) - AndroidUtilities.dp(19.0f)) / 2)) - AndroidUtilities.dp(3.0f);
-                ((FrameLayout.LayoutParams) MediaActivity.this.avatarImageView.getLayoutParams()).topMargin = (ActionBar.getCurrentActionBarHeight() - AndroidUtilities.dp(42.0f)) / 2;
-                super.onMeasure(i, i2);
-            }
-
-            @Override // android.view.ViewGroup, android.view.View
-            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-                SharedMediaLayout sharedMediaLayout = MediaActivity.this.sharedMediaLayout;
-                if (sharedMediaLayout != null && sharedMediaLayout.isInFastScroll()) {
-                    return MediaActivity.this.sharedMediaLayout.dispatchFastScrollEvent(motionEvent);
-                }
-                SharedMediaLayout sharedMediaLayout2 = MediaActivity.this.sharedMediaLayout;
-                if (sharedMediaLayout2 != null && sharedMediaLayout2.checkPinchToZoom(motionEvent)) {
-                    return true;
-                }
-                return super.dispatchTouchEvent(motionEvent);
-            }
-
-            @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            public void drawList(Canvas canvas, boolean z2) {
-                MediaActivity.this.sharedMediaLayout.drawListForBlur(canvas);
-            }
-        };
-        sizeNotifierFrameLayout.needBlur = true;
-        this.fragmentView = sizeNotifierFrameLayout;
+        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        FrameLayout frameLayout = new FrameLayout(context);
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context, frameLayout);
+        anonymousClass2.needBlur = true;
+        this.fragmentView = anonymousClass2;
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
         simpleTextView.setTextSize(18);
         this.nameTextView.setGravity(3);
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.nameTextView.setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
         this.nameTextView.setScrollNonFitText(true);
         this.nameTextView.setImportantForAccessibility(2);
         frameLayout.addView(this.nameTextView, LayoutHelper.createFrame(-2, -2.0f, 51, 118.0f, 0.0f, 56.0f, 0.0f));
-        ProfileActivity.AvatarImageView avatarImageView = new ProfileActivity.AvatarImageView(this, context) { // from class: org.telegram.ui.Components.MediaActivity.3
-            @Override // android.view.View
-            public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-                super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-                if (getImageReceiver().hasNotThumb()) {
-                    accessibilityNodeInfo.setText(LocaleController.getString("AccDescrProfilePicture", R.string.AccDescrProfilePicture));
-                    if (Build.VERSION.SDK_INT < 21) {
-                        return;
-                    }
-                    accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", R.string.Open)));
-                    accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(32, LocaleController.getString("AccDescrOpenInPhotoViewer", R.string.AccDescrOpenInPhotoViewer)));
-                    return;
-                }
-                accessibilityNodeInfo.setVisibleToUser(false);
-            }
-        };
-        this.avatarImageView = avatarImageView;
-        avatarImageView.getImageReceiver().setAllowDecodeSingleFrame(true);
+        AnonymousClass3 anonymousClass3 = new AnonymousClass3(this, context);
+        this.avatarImageView = anonymousClass3;
+        anonymousClass3.getImageReceiver().setAllowDecodeSingleFrame(true);
         this.avatarImageView.setRoundRadius(AndroidUtilities.dp(21.0f));
         this.avatarImageView.setPivotX(0.0f);
         this.avatarImageView.setPivotY(0.0f);
@@ -152,86 +95,18 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         avatarDrawable2.setProfile(true);
         this.avatarImageView.setImageDrawable(avatarDrawable2);
         frameLayout.addView(this.avatarImageView, LayoutHelper.createFrame(42, 42.0f, 51, 64.0f, 0.0f, 0.0f, 0.0f));
-        AudioPlayerAlert.ClippingTextViewSwitcher clippingTextViewSwitcher = new AudioPlayerAlert.ClippingTextViewSwitcher(this, context) { // from class: org.telegram.ui.Components.MediaActivity.4
-            @Override // org.telegram.ui.Components.AudioPlayerAlert.ClippingTextViewSwitcher
-            protected TextView createTextView() {
-                TextView textView = new TextView(context);
-                textView.setTextColor(Theme.getColor("player_actionBarSubtitle"));
-                textView.setTextSize(1, 14.0f);
-                textView.setSingleLine(true);
-                textView.setEllipsize(TextUtils.TruncateAt.END);
-                textView.setGravity(3);
-                return textView;
-            }
-        };
-        this.mediaCounterTextView = clippingTextViewSwitcher;
-        frameLayout.addView(clippingTextViewSwitcher, LayoutHelper.createFrame(-2, -2.0f, 51, 118.0f, 0.0f, 56.0f, 0.0f));
-        SharedMediaLayout sharedMediaLayout = new SharedMediaLayout(context, this.dialogId, this.sharedMediaPreloader, 0, null, this.currentChatInfo, false, this, new SharedMediaLayout.Delegate() { // from class: org.telegram.ui.Components.MediaActivity.5
-            @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-            public boolean canSearchMembers() {
-                return false;
-            }
-
-            @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-            public TLRPC$Chat getCurrentChat() {
-                return null;
-            }
-
-            @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-            public RecyclerListView getListView() {
-                return null;
-            }
-
-            @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-            public boolean isFragmentOpened() {
-                return true;
-            }
-
-            @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-            public boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z2, boolean z3) {
-                return false;
-            }
-
-            @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-            public void scrollToSharedMedia() {
-            }
-
-            @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-            public void updateSelectedMediaTabText() {
-                MediaActivity.this.updateMediaCount();
-            }
-        }, 0, getResourceProvider()) { // from class: org.telegram.ui.Components.MediaActivity.6
-            @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void onSelectedTabChanged() {
-                MediaActivity.this.updateMediaCount();
-            }
-
-            @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void onSearchStateChanged(boolean z2) {
-                if (SharedConfig.smoothKeyboard) {
-                    AndroidUtilities.removeAdjustResize(MediaActivity.this.getParentActivity(), ((BaseFragment) MediaActivity.this).classGuid);
-                }
-                AndroidUtilities.updateViewVisibilityAnimated(frameLayout, !z2, 0.95f, true);
-            }
-
-            @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void drawBackgroundWithBlur(Canvas canvas, float f, android.graphics.Rect rect, Paint paint) {
-                sizeNotifierFrameLayout.drawBlurRect(canvas, getY() + f, rect, paint, true);
-            }
-
-            @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void invalidateBlur() {
-                sizeNotifierFrameLayout.invalidateBlur();
-            }
-        };
-        this.sharedMediaLayout = sharedMediaLayout;
-        sharedMediaLayout.setPinnedToTop(true);
+        AnonymousClass4 anonymousClass4 = new AnonymousClass4(this, context, context);
+        this.mediaCounterTextView = anonymousClass4;
+        frameLayout.addView(anonymousClass4, LayoutHelper.createFrame(-2, -2.0f, 51, 118.0f, 0.0f, 56.0f, 0.0f));
+        AnonymousClass6 anonymousClass6 = new AnonymousClass6(context, this.dialogId, this.sharedMediaPreloader, 0, null, this.currentChatInfo, false, this, new AnonymousClass5(), 0, getResourceProvider(), frameLayout, anonymousClass2);
+        this.sharedMediaLayout = anonymousClass6;
+        anonymousClass6.setPinnedToTop(true);
         this.sharedMediaLayout.getSearchItem().setTranslationY(0.0f);
         this.sharedMediaLayout.photoVideoOptionsItem.setTranslationY(0.0f);
-        sizeNotifierFrameLayout.addView(this.sharedMediaLayout);
-        sizeNotifierFrameLayout.addView(this.actionBar);
-        sizeNotifierFrameLayout.addView(frameLayout);
-        sizeNotifierFrameLayout.blurBehindViews.add(this.sharedMediaLayout);
+        anonymousClass2.addView(this.sharedMediaLayout);
+        anonymousClass2.addView(this.actionBar);
+        anonymousClass2.addView(frameLayout);
+        anonymousClass2.blurBehindViews.add(this.sharedMediaLayout);
         TLObject tLObject = null;
         if (DialogObject.isEncryptedDialog(this.dialogId)) {
             TLRPC$EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(this.dialogId)));
@@ -250,7 +125,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.dialogId));
                 if (user2 != null) {
                     if (user2.self) {
-                        this.nameTextView.setText(LocaleController.getString("SavedMessages", R.string.SavedMessages));
+                        this.nameTextView.setText(LocaleController.getString("SavedMessages", 2131628139));
                         avatarDrawable.setAvatarType(1);
                         avatarDrawable.setSmallSize(true);
                     } else {
@@ -272,7 +147,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         }
         this.avatarImageView.setImage(ImageLocation.getForUserOrChat(tLObject, 1), "50_50", avatarDrawable, tLObject);
         if (TextUtils.isEmpty(this.nameTextView.getText())) {
-            this.nameTextView.setText(LocaleController.getString("SharedContentTitle", R.string.SharedContentTitle));
+            this.nameTextView.setText(LocaleController.getString("SharedContentTitle", 2131628358));
         }
         if (this.sharedMediaLayout.isSearchItemVisible()) {
             z = false;
@@ -288,11 +163,199 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         } else {
             this.sharedMediaLayout.photoVideoOptionsItem.setVisibility(4);
         }
-        this.actionBar.setDrawBlurBackground(sizeNotifierFrameLayout);
+        this.actionBar.setDrawBlurBackground(anonymousClass2);
         AndroidUtilities.updateViewVisibilityAnimated(frameLayout, true, 1.0f, z);
         updateMediaCount();
         lambda$getThemeDescriptions$0();
-        return sizeNotifierFrameLayout;
+        return anonymousClass2;
+    }
+
+    /* renamed from: org.telegram.ui.Components.MediaActivity$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
+        AnonymousClass1() {
+            MediaActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+        public void onItemClick(int i) {
+            if (i == -1) {
+                MediaActivity.this.finishFragment();
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.MediaActivity$2 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass2 extends SizeNotifierFrameLayout {
+        final /* synthetic */ FrameLayout val$avatarContainer;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(Context context, FrameLayout frameLayout) {
+            super(context);
+            MediaActivity.this = r1;
+            this.val$avatarContainer = frameLayout;
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            int i3 = 0;
+            ((FrameLayout.LayoutParams) MediaActivity.this.sharedMediaLayout.getLayoutParams()).topMargin = ActionBar.getCurrentActionBarHeight() + (((BaseFragment) MediaActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0);
+            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.val$avatarContainer.getLayoutParams();
+            if (((BaseFragment) MediaActivity.this).actionBar.getOccupyStatusBar()) {
+                i3 = AndroidUtilities.statusBarHeight;
+            }
+            layoutParams.topMargin = i3;
+            layoutParams.height = ActionBar.getCurrentActionBarHeight();
+            ((FrameLayout.LayoutParams) MediaActivity.this.nameTextView.getLayoutParams()).topMargin = (((ActionBar.getCurrentActionBarHeight() / 2) - AndroidUtilities.dp(22.0f)) / 2) + AndroidUtilities.dp((AndroidUtilities.isTablet() || getResources().getConfiguration().orientation != 2) ? 5.0f : 4.0f);
+            ((FrameLayout.LayoutParams) MediaActivity.this.mediaCounterTextView.getLayoutParams()).topMargin = ((ActionBar.getCurrentActionBarHeight() / 2) + (((ActionBar.getCurrentActionBarHeight() / 2) - AndroidUtilities.dp(19.0f)) / 2)) - AndroidUtilities.dp(3.0f);
+            ((FrameLayout.LayoutParams) MediaActivity.this.avatarImageView.getLayoutParams()).topMargin = (ActionBar.getCurrentActionBarHeight() - AndroidUtilities.dp(42.0f)) / 2;
+            super.onMeasure(i, i2);
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+            SharedMediaLayout sharedMediaLayout = MediaActivity.this.sharedMediaLayout;
+            if (sharedMediaLayout != null && sharedMediaLayout.isInFastScroll()) {
+                return MediaActivity.this.sharedMediaLayout.dispatchFastScrollEvent(motionEvent);
+            }
+            SharedMediaLayout sharedMediaLayout2 = MediaActivity.this.sharedMediaLayout;
+            if (sharedMediaLayout2 != null && sharedMediaLayout2.checkPinchToZoom(motionEvent)) {
+                return true;
+            }
+            return super.dispatchTouchEvent(motionEvent);
+        }
+
+        @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
+        public void drawList(Canvas canvas, boolean z) {
+            MediaActivity.this.sharedMediaLayout.drawListForBlur(canvas);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.MediaActivity$3 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass3 extends ProfileActivity.AvatarImageView {
+        AnonymousClass3(MediaActivity mediaActivity, Context context) {
+            super(context);
+        }
+
+        @Override // android.view.View
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+            if (getImageReceiver().hasNotThumb()) {
+                accessibilityNodeInfo.setText(LocaleController.getString("AccDescrProfilePicture", 2131624046));
+                if (Build.VERSION.SDK_INT < 21) {
+                    return;
+                }
+                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", 2131627142)));
+                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(32, LocaleController.getString("AccDescrOpenInPhotoViewer", 2131624029)));
+                return;
+            }
+            accessibilityNodeInfo.setVisibleToUser(false);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.MediaActivity$4 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass4 extends AudioPlayerAlert.ClippingTextViewSwitcher {
+        final /* synthetic */ Context val$context;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass4(MediaActivity mediaActivity, Context context, Context context2) {
+            super(context);
+            this.val$context = context2;
+        }
+
+        @Override // org.telegram.ui.Components.AudioPlayerAlert.ClippingTextViewSwitcher
+        protected TextView createTextView() {
+            TextView textView = new TextView(this.val$context);
+            textView.setTextColor(Theme.getColor("player_actionBarSubtitle"));
+            textView.setTextSize(1, 14.0f);
+            textView.setSingleLine(true);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+            textView.setGravity(3);
+            return textView;
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.MediaActivity$5 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass5 implements SharedMediaLayout.Delegate {
+        @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
+        public boolean canSearchMembers() {
+            return false;
+        }
+
+        @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
+        public TLRPC$Chat getCurrentChat() {
+            return null;
+        }
+
+        @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
+        public RecyclerListView getListView() {
+            return null;
+        }
+
+        @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
+        public boolean isFragmentOpened() {
+            return true;
+        }
+
+        @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
+        public boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z, boolean z2) {
+            return false;
+        }
+
+        @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
+        public void scrollToSharedMedia() {
+        }
+
+        AnonymousClass5() {
+            MediaActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
+        public void updateSelectedMediaTabText() {
+            MediaActivity.this.updateMediaCount();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.MediaActivity$6 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass6 extends SharedMediaLayout {
+        final /* synthetic */ FrameLayout val$avatarContainer;
+        final /* synthetic */ SizeNotifierFrameLayout val$fragmentView;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass6(Context context, long j, SharedMediaLayout.SharedMediaPreloader sharedMediaPreloader, int i, ArrayList arrayList, TLRPC$ChatFull tLRPC$ChatFull, boolean z, BaseFragment baseFragment, SharedMediaLayout.Delegate delegate, int i2, Theme.ResourcesProvider resourcesProvider, FrameLayout frameLayout, SizeNotifierFrameLayout sizeNotifierFrameLayout) {
+            super(context, j, sharedMediaPreloader, i, arrayList, tLRPC$ChatFull, z, baseFragment, delegate, i2, resourcesProvider);
+            MediaActivity.this = r15;
+            this.val$avatarContainer = frameLayout;
+            this.val$fragmentView = sizeNotifierFrameLayout;
+        }
+
+        @Override // org.telegram.ui.Components.SharedMediaLayout
+        protected void onSelectedTabChanged() {
+            MediaActivity.this.updateMediaCount();
+        }
+
+        @Override // org.telegram.ui.Components.SharedMediaLayout
+        protected void onSearchStateChanged(boolean z) {
+            if (SharedConfig.smoothKeyboard) {
+                AndroidUtilities.removeAdjustResize(MediaActivity.this.getParentActivity(), ((BaseFragment) MediaActivity.this).classGuid);
+            }
+            AndroidUtilities.updateViewVisibilityAnimated(this.val$avatarContainer, !z, 0.95f, true);
+        }
+
+        @Override // org.telegram.ui.Components.SharedMediaLayout
+        protected void drawBackgroundWithBlur(Canvas canvas, float f, android.graphics.Rect rect, Paint paint) {
+            this.val$fragmentView.drawBlurRect(canvas, getY() + f, rect, paint, true);
+        }
+
+        @Override // org.telegram.ui.Components.SharedMediaLayout
+        protected void invalidateBlur() {
+            this.val$fragmentView.invalidateBlur();
+        }
     }
 
     public void updateMediaCount() {
@@ -352,21 +415,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.MediaActivity$$ExternalSyntheticLambda0
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public final void didSetColor() {
-                MediaActivity.this.lambda$getThemeDescriptions$0();
-            }
-
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
-            }
-        };
+        MediaActivity$$ExternalSyntheticLambda0 mediaActivity$$ExternalSyntheticLambda0 = new MediaActivity$$ExternalSyntheticLambda0(this);
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "actionBarActionModeDefaultSelector"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "windowBackgroundWhiteBlackText"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, mediaActivity$$ExternalSyntheticLambda0, "windowBackgroundWhite"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, mediaActivity$$ExternalSyntheticLambda0, "actionBarActionModeDefaultSelector"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, mediaActivity$$ExternalSyntheticLambda0, "windowBackgroundWhiteBlackText"));
         arrayList.addAll(this.sharedMediaLayout.getThemeDescriptions());
         return arrayList;
     }

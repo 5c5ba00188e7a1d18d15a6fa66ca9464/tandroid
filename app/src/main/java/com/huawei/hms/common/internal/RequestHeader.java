@@ -2,11 +2,8 @@ package com.huawei.hms.common.internal;
 
 import android.os.Parcelable;
 import android.text.TextUtils;
-import com.huawei.hms.adapter.internal.CommonCode;
 import com.huawei.hms.core.aidl.IMessageEntity;
 import com.huawei.hms.core.aidl.annotation.Packed;
-import com.huawei.hms.framework.common.hianalytics.HianalyticsBaseData;
-import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.JsonUtil;
 import org.json.JSONException;
@@ -42,16 +39,16 @@ public class RequestHeader implements IMessageEntity {
             this.version = JsonUtil.getStringValue(jSONObject, "version");
             this.srv_name = JsonUtil.getStringValue(jSONObject, "srv_name");
             this.api_name = JsonUtil.getStringValue(jSONObject, "api_name");
-            this.app_id = JsonUtil.getStringValue(jSONObject, HiAnalyticsConstant.BI_KEY_APP_ID);
+            this.app_id = JsonUtil.getStringValue(jSONObject, "app_id");
             this.pkg_name = JsonUtil.getStringValue(jSONObject, "pkg_name");
-            this.sdk_version = JsonUtil.getIntValue(jSONObject, HianalyticsBaseData.SDK_VERSION);
+            this.sdk_version = JsonUtil.getIntValue(jSONObject, "sdk_version");
             this.kitSdkVersion = JsonUtil.getIntValue(jSONObject, "kitSdkVersion");
             this.apiLevel = JsonUtil.getIntValue(jSONObject, "apiLevel");
             this.session_id = JsonUtil.getStringValue(jSONObject, "session_id");
-            this.transaction_id = JsonUtil.getStringValue(jSONObject, CommonCode.MapKey.TRANSACTION_ID);
+            this.transaction_id = JsonUtil.getStringValue(jSONObject, "transaction_id");
             return true;
         } catch (JSONException e) {
-            HMSLog.e(TAG, "fromJson failed: " + e.getMessage());
+            HMSLog.e("RequestHeader", "fromJson failed: " + e.getMessage());
             return false;
         }
     }
@@ -164,17 +161,17 @@ public class RequestHeader implements IMessageEntity {
             jSONObject.put("version", this.version);
             jSONObject.put("srv_name", this.srv_name);
             jSONObject.put("api_name", this.api_name);
-            jSONObject.put(HiAnalyticsConstant.BI_KEY_APP_ID, this.app_id);
+            jSONObject.put("app_id", this.app_id);
             jSONObject.put("pkg_name", this.pkg_name);
-            jSONObject.put(HianalyticsBaseData.SDK_VERSION, this.sdk_version);
+            jSONObject.put("sdk_version", this.sdk_version);
             jSONObject.put("kitSdkVersion", this.kitSdkVersion);
             jSONObject.put("apiLevel", this.apiLevel);
             if (!TextUtils.isEmpty(this.session_id)) {
                 jSONObject.put("session_id", this.session_id);
             }
-            jSONObject.put(CommonCode.MapKey.TRANSACTION_ID, this.transaction_id);
+            jSONObject.put("transaction_id", this.transaction_id);
         } catch (JSONException e) {
-            HMSLog.e(TAG, "toJson failed: " + e.getMessage());
+            HMSLog.e("RequestHeader", "toJson failed: " + e.getMessage());
         }
         return jSONObject.toString();
     }

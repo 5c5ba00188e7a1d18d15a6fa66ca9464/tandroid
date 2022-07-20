@@ -28,7 +28,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class AcceptDeclineView extends View {
@@ -92,21 +91,21 @@ public class AcceptDeclineView extends View {
         TextPaint textPaint = new TextPaint(1);
         textPaint.setTextSize(AndroidUtilities.dp(11.0f));
         textPaint.setColor(-1);
-        String string = LocaleController.getString("AcceptCall", R.string.AcceptCall);
-        String string2 = LocaleController.getString("DeclineCall", R.string.DeclineCall);
-        String string3 = LocaleController.getString("RetryCall", R.string.RetryCall);
+        String string = LocaleController.getString("AcceptCall", 2131624121);
+        String string2 = LocaleController.getString("DeclineCall", 2131625380);
+        String string3 = LocaleController.getString("RetryCall", 2131628099);
         this.acceptLayout = new StaticLayout(string, textPaint, (int) textPaint.measureText(string), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.declineLayout = new StaticLayout(string2, textPaint, (int) textPaint.measureText(string2), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.retryLayout = new StaticLayout(string3, textPaint, (int) textPaint.measureText(string3), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-        this.callDrawable = ContextCompat.getDrawable(context, R.drawable.calls_decline).mutate();
-        Drawable mutate = ContextCompat.getDrawable(context, R.drawable.ic_close_white).mutate();
+        this.callDrawable = ContextCompat.getDrawable(context, 2131165307).mutate();
+        Drawable mutate = ContextCompat.getDrawable(context, 2131165473).mutate();
         this.cancelDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
         this.acceptCirclePaint.setColor(1061534797);
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(52.0f), 0, ColorUtils.setAlphaComponent(-1, 76));
         this.rippleDrawable = createSimpleSelectorCircleDrawable;
         createSimpleSelectorCircleDrawable.setCallback(this);
-        this.arrowDrawable = ContextCompat.getDrawable(context, R.drawable.call_arrow_right);
+        this.arrowDrawable = ContextCompat.getDrawable(context, 2131165296);
     }
 
     @Override // android.view.View
@@ -202,12 +201,7 @@ public class AcceptDeclineView extends View {
             if (this.captured) {
                 if (this.leftDrag) {
                     ValueAnimator ofFloat = ValueAnimator.ofFloat(this.leftOffsetX, 0.0f);
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            AcceptDeclineView.this.lambda$onTouchEvent$0(valueAnimator);
-                        }
-                    });
+                    ofFloat.addUpdateListener(new AcceptDeclineView$$ExternalSyntheticLambda0(this));
                     ofFloat.start();
                     this.leftAnimator = ofFloat;
                     if (this.listener != null && ((!this.startDrag && Math.abs(y) < this.touchSlop && !this.screenWasWakeup) || this.leftOffsetX > this.maxOffset * 0.8f)) {
@@ -215,12 +209,7 @@ public class AcceptDeclineView extends View {
                     }
                 } else {
                     ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.rigthOffsetX, 0.0f);
-                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda1
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            AcceptDeclineView.this.lambda$onTouchEvent$1(valueAnimator);
-                        }
-                    });
+                    ofFloat2.addUpdateListener(new AcceptDeclineView$$ExternalSyntheticLambda1(this));
                     ofFloat2.start();
                     this.rightAnimator = ofFloat2;
                     if (this.listener != null && ((!this.startDrag && Math.abs(y) < this.touchSlop && !this.screenWasWakeup) || (-this.rigthOffsetX) > this.maxOffset * 0.8f)) {
@@ -434,65 +423,75 @@ public class AcceptDeclineView extends View {
         return true;
     }
 
+    /* renamed from: org.telegram.ui.Components.voip.AcceptDeclineView$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends AcceptDeclineAccessibilityNodeProvider {
+        private final int[] coords = {0, 0};
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(View view, int i) {
+            super(view, i);
+            AcceptDeclineView.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.voip.AcceptDeclineView.AcceptDeclineAccessibilityNodeProvider
+        protected CharSequence getVirtualViewText(int i) {
+            if (i != 0) {
+                if (i == 1 && AcceptDeclineView.this.declineLayout != null) {
+                    return AcceptDeclineView.this.declineLayout.getText();
+                }
+                return null;
+            }
+            AcceptDeclineView acceptDeclineView = AcceptDeclineView.this;
+            if (acceptDeclineView.retryMod) {
+                if (acceptDeclineView.retryLayout == null) {
+                    return null;
+                }
+                return AcceptDeclineView.this.retryLayout.getText();
+            } else if (acceptDeclineView.acceptLayout == null) {
+                return null;
+            } else {
+                return AcceptDeclineView.this.acceptLayout.getText();
+            }
+        }
+
+        @Override // org.telegram.ui.Components.voip.AcceptDeclineView.AcceptDeclineAccessibilityNodeProvider
+        protected void getVirtualViewBoundsInScreen(int i, Rect rect) {
+            getVirtualViewBoundsInParent(i, rect);
+            AcceptDeclineView.this.getLocationOnScreen(this.coords);
+            int[] iArr = this.coords;
+            rect.offset(iArr[0], iArr[1]);
+        }
+
+        @Override // org.telegram.ui.Components.voip.AcceptDeclineView.AcceptDeclineAccessibilityNodeProvider
+        protected void getVirtualViewBoundsInParent(int i, Rect rect) {
+            if (i == 0) {
+                rect.set(AcceptDeclineView.this.acceptRect);
+            } else if (i == 1) {
+                rect.set(AcceptDeclineView.this.declineRect);
+            } else {
+                rect.setEmpty();
+            }
+        }
+
+        @Override // org.telegram.ui.Components.voip.AcceptDeclineView.AcceptDeclineAccessibilityNodeProvider
+        protected void onVirtualViewClick(int i) {
+            Listener listener = AcceptDeclineView.this.listener;
+            if (listener != null) {
+                if (i == 0) {
+                    listener.onAccept();
+                } else if (i != 1) {
+                } else {
+                    listener.onDecline();
+                }
+            }
+        }
+    }
+
     @Override // android.view.View
     public AccessibilityNodeProvider getAccessibilityNodeProvider() {
         if (this.accessibilityNodeProvider == null) {
-            this.accessibilityNodeProvider = new AcceptDeclineAccessibilityNodeProvider(this, 2) { // from class: org.telegram.ui.Components.voip.AcceptDeclineView.1
-                private final int[] coords = {0, 0};
-
-                @Override // org.telegram.ui.Components.voip.AcceptDeclineView.AcceptDeclineAccessibilityNodeProvider
-                protected CharSequence getVirtualViewText(int i) {
-                    if (i != 0) {
-                        if (i == 1 && AcceptDeclineView.this.declineLayout != null) {
-                            return AcceptDeclineView.this.declineLayout.getText();
-                        }
-                        return null;
-                    }
-                    AcceptDeclineView acceptDeclineView = AcceptDeclineView.this;
-                    if (acceptDeclineView.retryMod) {
-                        if (acceptDeclineView.retryLayout == null) {
-                            return null;
-                        }
-                        return AcceptDeclineView.this.retryLayout.getText();
-                    } else if (acceptDeclineView.acceptLayout == null) {
-                        return null;
-                    } else {
-                        return AcceptDeclineView.this.acceptLayout.getText();
-                    }
-                }
-
-                @Override // org.telegram.ui.Components.voip.AcceptDeclineView.AcceptDeclineAccessibilityNodeProvider
-                protected void getVirtualViewBoundsInScreen(int i, Rect rect) {
-                    getVirtualViewBoundsInParent(i, rect);
-                    AcceptDeclineView.this.getLocationOnScreen(this.coords);
-                    int[] iArr = this.coords;
-                    rect.offset(iArr[0], iArr[1]);
-                }
-
-                @Override // org.telegram.ui.Components.voip.AcceptDeclineView.AcceptDeclineAccessibilityNodeProvider
-                protected void getVirtualViewBoundsInParent(int i, Rect rect) {
-                    if (i == 0) {
-                        rect.set(AcceptDeclineView.this.acceptRect);
-                    } else if (i == 1) {
-                        rect.set(AcceptDeclineView.this.declineRect);
-                    } else {
-                        rect.setEmpty();
-                    }
-                }
-
-                @Override // org.telegram.ui.Components.voip.AcceptDeclineView.AcceptDeclineAccessibilityNodeProvider
-                protected void onVirtualViewClick(int i) {
-                    Listener listener = AcceptDeclineView.this.listener;
-                    if (listener != null) {
-                        if (i == 0) {
-                            listener.onAccept();
-                        } else if (i != 1) {
-                        } else {
-                            listener.onDecline();
-                        }
-                    }
-                }
-            };
+            this.accessibilityNodeProvider = new AnonymousClass1(this, 2);
         }
         return this.accessibilityNodeProvider;
     }

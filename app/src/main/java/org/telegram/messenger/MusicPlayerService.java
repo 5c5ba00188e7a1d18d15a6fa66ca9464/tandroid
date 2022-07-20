@@ -23,13 +23,10 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.widget.RemoteViews;
 import androidx.core.app.NotificationCompat;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.File;
-import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.audioinfo.AudioInfo;
 import org.telegram.ui.LaunchActivity;
-import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
 public class MusicPlayerService extends Service implements NotificationCenter.NotificationCenterDelegate {
     private static final int ID_NOTIFICATION = 5;
@@ -43,14 +40,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
     private static boolean supportLockScreenControls;
     private Bitmap albumArtPlaceholder;
     private AudioManager audioManager;
-    private BroadcastReceiver headsetPlugReceiver = new BroadcastReceiver() { // from class: org.telegram.messenger.MusicPlayerService.1
-        @Override // android.content.BroadcastReceiver
-        public void onReceive(Context context, Intent intent) {
-            if ("android.media.AUDIO_BECOMING_NOISY".equals(intent.getAction())) {
-                MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
-            }
-        }
-    };
+    private BroadcastReceiver headsetPlugReceiver = new AnonymousClass1();
     private ImageReceiver imageReceiver;
     private String loadingFilePath;
     private MediaSession mediaSession;
@@ -73,9 +63,24 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         supportLockScreenControls = z;
     }
 
+    /* renamed from: org.telegram.messenger.MusicPlayerService$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 extends BroadcastReceiver {
+        AnonymousClass1() {
+            MusicPlayerService.this = r1;
+        }
+
+        @Override // android.content.BroadcastReceiver
+        public void onReceive(Context context, Intent intent) {
+            if ("android.media.AUDIO_BECOMING_NOISY".equals(intent.getAction())) {
+                MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
+            }
+        }
+    }
+
     @Override // android.app.Service
     public void onCreate() {
-        this.audioManager = (AudioManager) getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+        this.audioManager = (AudioManager) getSystemService("audio");
         for (int i = 0; i < 4; i++) {
             NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.messagePlayingDidSeek);
             NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
@@ -84,58 +89,15 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         }
         ImageReceiver imageReceiver = new ImageReceiver(null);
         this.imageReceiver = imageReceiver;
-        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.messenger.MusicPlayerService$$ExternalSyntheticLambda1
-            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
-                MusicPlayerService.this.lambda$onCreate$0(imageReceiver2, z, z2, z3);
-            }
-
-            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
-                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver2);
-            }
-        });
+        imageReceiver.setDelegate(new MusicPlayerService$$ExternalSyntheticLambda1(this));
         if (Build.VERSION.SDK_INT >= 21) {
             this.mediaSession = new MediaSession(this, "telegramAudioPlayer");
             this.playbackState = new PlaybackState.Builder();
             this.albumArtPlaceholder = Bitmap.createBitmap(AndroidUtilities.dp(102.0f), AndroidUtilities.dp(102.0f), Bitmap.Config.ARGB_8888);
-            Drawable drawable = getResources().getDrawable(org.telegram.messenger.beta.R.drawable.nocover_big);
+            Drawable drawable = getResources().getDrawable(2131166003);
             drawable.setBounds(0, 0, this.albumArtPlaceholder.getWidth(), this.albumArtPlaceholder.getHeight());
             drawable.draw(new Canvas(this.albumArtPlaceholder));
-            this.mediaSession.setCallback(new MediaSession.Callback() { // from class: org.telegram.messenger.MusicPlayerService.2
-                @Override // android.media.session.MediaSession.Callback
-                public void onStop() {
-                }
-
-                @Override // android.media.session.MediaSession.Callback
-                public void onPlay() {
-                    MediaController.getInstance().playMessage(MediaController.getInstance().getPlayingMessageObject());
-                }
-
-                @Override // android.media.session.MediaSession.Callback
-                public void onPause() {
-                    MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
-                }
-
-                @Override // android.media.session.MediaSession.Callback
-                public void onSkipToNext() {
-                    MediaController.getInstance().playNextMessage();
-                }
-
-                @Override // android.media.session.MediaSession.Callback
-                public void onSkipToPrevious() {
-                    MediaController.getInstance().playPreviousMessage();
-                }
-
-                @Override // android.media.session.MediaSession.Callback
-                public void onSeekTo(long j) {
-                    MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
-                    if (playingMessageObject != null) {
-                        MediaController.getInstance().seekToProgress(playingMessageObject, ((float) (j / 1000)) / playingMessageObject.getDuration());
-                        MusicPlayerService.this.updatePlaybackState(j);
-                    }
-                }
-            });
+            this.mediaSession.setCallback(new AnonymousClass2());
             this.mediaSession.setActive(true);
         }
         registerReceiver(this.headsetPlugReceiver, new IntentFilter("android.media.AUDIO_BECOMING_NOISY"));
@@ -153,6 +115,47 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         this.loadingFilePath = null;
     }
 
+    /* renamed from: org.telegram.messenger.MusicPlayerService$2 */
+    /* loaded from: classes.dex */
+    class AnonymousClass2 extends MediaSession.Callback {
+        @Override // android.media.session.MediaSession.Callback
+        public void onStop() {
+        }
+
+        AnonymousClass2() {
+            MusicPlayerService.this = r1;
+        }
+
+        @Override // android.media.session.MediaSession.Callback
+        public void onPlay() {
+            MediaController.getInstance().playMessage(MediaController.getInstance().getPlayingMessageObject());
+        }
+
+        @Override // android.media.session.MediaSession.Callback
+        public void onPause() {
+            MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
+        }
+
+        @Override // android.media.session.MediaSession.Callback
+        public void onSkipToNext() {
+            MediaController.getInstance().playNextMessage();
+        }
+
+        @Override // android.media.session.MediaSession.Callback
+        public void onSkipToPrevious() {
+            MediaController.getInstance().playPreviousMessage();
+        }
+
+        @Override // android.media.session.MediaSession.Callback
+        public void onSeekTo(long j) {
+            MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
+            if (playingMessageObject != null) {
+                MediaController.getInstance().seekToProgress(playingMessageObject, ((float) (j / 1000)) / playingMessageObject.getDuration());
+                MusicPlayerService.this.updatePlaybackState(j);
+            }
+        }
+    }
+
     @Override // android.app.Service
     @SuppressLint({"NewApi"})
     public int onStartCommand(Intent intent, int i, int i2) {
@@ -168,12 +171,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         }
         MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
         if (playingMessageObject == null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MusicPlayerService$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    MusicPlayerService.this.stopSelf();
-                }
-            });
+            AndroidUtilities.runOnUIThread(new MusicPlayerService$$ExternalSyntheticLambda0(this));
             return 1;
         }
         if (supportLockScreenControls) {
@@ -257,13 +255,13 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         Bitmap bitmap = smallCover;
         if (i3 >= 21) {
             boolean z2 = !MediaController.getInstance().isMessagePaused();
-            PendingIntent broadcast = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(NOTIFY_PREVIOUS).setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
+            PendingIntent broadcast = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.previous").setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
             PendingIntent service = PendingIntent.getService(getApplicationContext(), 0, new Intent(this, getClass()).setAction(getPackageName() + ".STOP_PLAYER"), 268435456);
-            PendingIntent broadcast2 = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(z2 ? NOTIFY_PAUSE : NOTIFY_PLAY).setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
-            PendingIntent broadcast3 = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(NOTIFY_NEXT).setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
-            PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(NOTIFY_SEEK).setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
+            PendingIntent broadcast2 = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(z2 ? "org.telegram.android.musicplayer.pause" : "org.telegram.android.musicplayer.play").setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
+            PendingIntent broadcast3 = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.next").setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
+            PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.seek").setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
             Notification.Builder builder = new Notification.Builder(this);
-            builder.setSmallIcon(org.telegram.messenger.beta.R.drawable.player).setOngoing(z2).setContentTitle(musicTitle).setContentText(musicAuthor).setSubText(audioInfo != null ? audioInfo.getAlbum() : null).setContentIntent(activity).setDeleteIntent(service).setShowWhen(false).setCategory("transport").setPriority(2).setStyle(new Notification.MediaStyle().setMediaSession(this.mediaSession.getSessionToken()).setShowActionsInCompactView(0, 1, 2));
+            builder.setSmallIcon(2131166068).setOngoing(z2).setContentTitle(musicTitle).setContentText(musicAuthor).setSubText(audioInfo != null ? audioInfo.getAlbum() : null).setContentIntent(activity).setDeleteIntent(service).setShowWhen(false).setCategory("transport").setPriority(2).setStyle(new Notification.MediaStyle().setMediaSession(this.mediaSession.getSessionToken()).setShowActionsInCompactView(0, 1, 2));
             if (i3 >= 26) {
                 NotificationsController.checkOtherNotificationsChannel();
                 builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
@@ -273,12 +271,12 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             } else {
                 builder.setLargeIcon(this.albumArtPlaceholder);
             }
-            String string = LocaleController.getString("Next", org.telegram.messenger.beta.R.string.Next);
-            String string2 = LocaleController.getString("AccDescrPrevious", org.telegram.messenger.beta.R.string.AccDescrPrevious);
+            String string = LocaleController.getString("Next", 2131626853);
+            String string2 = LocaleController.getString("AccDescrPrevious", 2131624045);
             if (MediaController.getInstance().isDownloadingCurrentMessage()) {
                 f = 1.0f;
                 this.playbackState.setState(6, 0L, 1.0f).setActions(0L);
-                builder.addAction(new Notification.Action.Builder((int) org.telegram.messenger.beta.R.drawable.ic_action_previous, string2, broadcast).build()).addAction(new Notification.Action.Builder((int) org.telegram.messenger.beta.R.drawable.loading_animation2, LocaleController.getString("Loading", org.telegram.messenger.beta.R.string.Loading), (PendingIntent) null).build()).addAction(new Notification.Action.Builder((int) org.telegram.messenger.beta.R.drawable.ic_action_next, string, broadcast3).build());
+                builder.addAction(new Notification.Action.Builder(2131165460, string2, broadcast).build()).addAction(new Notification.Action.Builder(2131165585, LocaleController.getString("Loading", 2131626520), (PendingIntent) null).build()).addAction(new Notification.Action.Builder(2131165457, string, broadcast3).build());
                 str3 = musicTitle;
                 str2 = musicAuthor;
             } else {
@@ -287,13 +285,13 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                 str2 = musicAuthor;
                 this.playbackState.setState(z2 ? 3 : 2, MediaController.getInstance().getPlayingMessageObject().audioProgressSec * 1000, z2 ? 1.0f : 0.0f).setActions(822L);
                 if (z2) {
-                    i2 = org.telegram.messenger.beta.R.string.AccActionPause;
+                    i2 = 2131623954;
                     str4 = "AccActionPause";
                 } else {
-                    i2 = org.telegram.messenger.beta.R.string.AccActionPlay;
+                    i2 = 2131623955;
                     str4 = "AccActionPlay";
                 }
-                builder.addAction(new Notification.Action.Builder((int) org.telegram.messenger.beta.R.drawable.ic_action_previous, string2, broadcast).build()).addAction(new Notification.Action.Builder(z2 ? org.telegram.messenger.beta.R.drawable.ic_action_pause : org.telegram.messenger.beta.R.drawable.ic_action_play, LocaleController.getString(str4, i2), broadcast2).build()).addAction(new Notification.Action.Builder((int) org.telegram.messenger.beta.R.drawable.ic_action_next, string, broadcast3).build());
+                builder.addAction(new Notification.Action.Builder(2131165460, string2, broadcast).build()).addAction(new Notification.Action.Builder(z2 ? 2131165458 : 2131165459, LocaleController.getString(str4, i2), broadcast2).build()).addAction(new Notification.Action.Builder(2131165457, string, broadcast3).build());
             }
             this.mediaSession.setPlaybackState(this.playbackState.build());
             musicAuthor = str2;
@@ -305,14 +303,14 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                 startForeground(5, build);
             } else {
                 stopForeground(false);
-                ((NotificationManager) getSystemService(RemoteMessageConst.NOTIFICATION)).notify(5, build);
+                ((NotificationManager) getSystemService("notification")).notify(5, build);
             }
         } else {
             str = musicTitle;
             f = 1.0f;
-            RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(), (int) org.telegram.messenger.beta.R.layout.player_small_notification);
-            RemoteViews remoteViews2 = supportBigNotifications ? new RemoteViews(getApplicationContext().getPackageName(), (int) org.telegram.messenger.beta.R.layout.player_big_notification) : null;
-            Notification build2 = new NotificationCompat.Builder(getApplicationContext()).setSmallIcon(org.telegram.messenger.beta.R.drawable.player).setContentIntent(activity).setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(str).build();
+            RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(), 2131427350);
+            RemoteViews remoteViews2 = supportBigNotifications ? new RemoteViews(getApplicationContext().getPackageName(), 2131427349) : null;
+            Notification build2 = new NotificationCompat.Builder(getApplicationContext()).setSmallIcon(2131166068).setContentIntent(activity).setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(str).build();
             build2.contentView = remoteViews;
             if (supportBigNotifications) {
                 build2.bigContentView = remoteViews2;
@@ -322,63 +320,63 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                 setListeners(remoteViews2);
             }
             if (bitmap != null) {
-                build2.contentView.setImageViewBitmap(org.telegram.messenger.beta.R.id.player_album_art, bitmap);
+                build2.contentView.setImageViewBitmap(2131230895, bitmap);
                 if (supportBigNotifications) {
-                    build2.bigContentView.setImageViewBitmap(org.telegram.messenger.beta.R.id.player_album_art, bitmap);
+                    build2.bigContentView.setImageViewBitmap(2131230895, bitmap);
                 }
             } else {
-                build2.contentView.setImageViewResource(org.telegram.messenger.beta.R.id.player_album_art, org.telegram.messenger.beta.R.drawable.nocover_small);
+                build2.contentView.setImageViewResource(2131230895, 2131166004);
                 if (supportBigNotifications) {
-                    build2.bigContentView.setImageViewResource(org.telegram.messenger.beta.R.id.player_album_art, org.telegram.messenger.beta.R.drawable.nocover_big);
+                    build2.bigContentView.setImageViewResource(2131230895, 2131166003);
                 }
             }
             if (MediaController.getInstance().isDownloadingCurrentMessage()) {
-                build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_pause, 8);
-                build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_play, 8);
-                build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_next, 8);
-                build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_previous, 8);
-                build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_progress_bar, 0);
+                build2.contentView.setViewVisibility(2131230900, 8);
+                build2.contentView.setViewVisibility(2131230901, 8);
+                build2.contentView.setViewVisibility(2131230899, 8);
+                build2.contentView.setViewVisibility(2131230902, 8);
+                build2.contentView.setViewVisibility(2131230903, 0);
                 if (supportBigNotifications) {
-                    build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_pause, 8);
-                    build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_play, 8);
-                    build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_next, 8);
-                    build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_previous, 8);
-                    build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_progress_bar, 0);
+                    build2.bigContentView.setViewVisibility(2131230900, 8);
+                    build2.bigContentView.setViewVisibility(2131230901, 8);
+                    build2.bigContentView.setViewVisibility(2131230899, 8);
+                    build2.bigContentView.setViewVisibility(2131230902, 8);
+                    build2.bigContentView.setViewVisibility(2131230903, 0);
                 }
             } else {
-                build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_progress_bar, 8);
-                build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_next, 0);
-                build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_previous, 0);
+                build2.contentView.setViewVisibility(2131230903, 8);
+                build2.contentView.setViewVisibility(2131230899, 0);
+                build2.contentView.setViewVisibility(2131230902, 0);
                 if (supportBigNotifications) {
-                    build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_next, 0);
-                    build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_previous, 0);
+                    build2.bigContentView.setViewVisibility(2131230899, 0);
+                    build2.bigContentView.setViewVisibility(2131230902, 0);
                     i = 8;
-                    build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_progress_bar, 8);
+                    build2.bigContentView.setViewVisibility(2131230903, 8);
                 } else {
                     i = 8;
                 }
                 if (MediaController.getInstance().isMessagePaused()) {
-                    build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_pause, i);
-                    build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_play, 0);
+                    build2.contentView.setViewVisibility(2131230900, i);
+                    build2.contentView.setViewVisibility(2131230901, 0);
                     if (supportBigNotifications) {
-                        build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_pause, i);
-                        build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_play, 0);
+                        build2.bigContentView.setViewVisibility(2131230900, i);
+                        build2.bigContentView.setViewVisibility(2131230901, 0);
                     }
                 } else {
-                    build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_pause, 0);
-                    build2.contentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_play, i);
+                    build2.contentView.setViewVisibility(2131230900, 0);
+                    build2.contentView.setViewVisibility(2131230901, i);
                     if (supportBigNotifications) {
-                        build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_pause, 0);
-                        build2.bigContentView.setViewVisibility(org.telegram.messenger.beta.R.id.player_play, i);
+                        build2.bigContentView.setViewVisibility(2131230900, 0);
+                        build2.bigContentView.setViewVisibility(2131230901, i);
                     }
                 }
             }
-            build2.contentView.setTextViewText(org.telegram.messenger.beta.R.id.player_song_name, str);
-            build2.contentView.setTextViewText(org.telegram.messenger.beta.R.id.player_author_name, musicAuthor);
+            build2.contentView.setTextViewText(2131230904, str);
+            build2.contentView.setTextViewText(2131230897, musicAuthor);
             if (supportBigNotifications) {
-                build2.bigContentView.setTextViewText(org.telegram.messenger.beta.R.id.player_song_name, str);
-                build2.bigContentView.setTextViewText(org.telegram.messenger.beta.R.id.player_author_name, musicAuthor);
-                build2.bigContentView.setTextViewText(org.telegram.messenger.beta.R.id.player_album_title, (audioInfo == null || TextUtils.isEmpty(audioInfo.getAlbum())) ? "" : audioInfo.getAlbum());
+                build2.bigContentView.setTextViewText(2131230904, str);
+                build2.bigContentView.setTextViewText(2131230897, musicAuthor);
+                build2.bigContentView.setTextViewText(2131230896, (audioInfo == null || TextUtils.isEmpty(audioInfo.getAlbum())) ? "" : audioInfo.getAlbum());
             }
             build2.flags |= 2;
             startForeground(5, build2);
@@ -402,35 +400,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                     }
                 }
                 editMetadata.apply();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MusicPlayerService.3
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        if (MusicPlayerService.this.remoteControlClient == null || MediaController.getInstance().getPlayingMessageObject() == null) {
-                            return;
-                        }
-                        if (MediaController.getInstance().getPlayingMessageObject().audioPlayerDuration != -9223372036854775807L) {
-                            RemoteControlClient.MetadataEditor editMetadata2 = MusicPlayerService.this.remoteControlClient.editMetadata(false);
-                            editMetadata2.putLong(9, MediaController.getInstance().getPlayingMessageObject().audioPlayerDuration * 1000);
-                            editMetadata2.apply();
-                            int i4 = 2;
-                            if (Build.VERSION.SDK_INT >= 18) {
-                                RemoteControlClient remoteControlClient = MusicPlayerService.this.remoteControlClient;
-                                if (!MediaController.getInstance().isMessagePaused()) {
-                                    i4 = 3;
-                                }
-                                remoteControlClient.setPlaybackState(i4, Math.max(MediaController.getInstance().getPlayingMessageObject().audioProgressSec * 1000, 100L), MediaController.getInstance().isMessagePaused() ? 0.0f : 1.0f);
-                                return;
-                            }
-                            RemoteControlClient remoteControlClient2 = MusicPlayerService.this.remoteControlClient;
-                            if (!MediaController.getInstance().isMessagePaused()) {
-                                i4 = 3;
-                            }
-                            remoteControlClient2.setPlaybackState(i4);
-                            return;
-                        }
-                        AndroidUtilities.runOnUIThread(this, 500L);
-                    }
-                }, 1000L);
+                AndroidUtilities.runOnUIThread(new AnonymousClass3(), 1000L);
             }
             if (MediaController.getInstance().isDownloadingCurrentMessage()) {
                 this.remoteControlClient.setPlaybackState(8);
@@ -450,6 +420,42 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                 return;
             }
             this.remoteControlClient.setPlaybackState(MediaController.getInstance().isMessagePaused() ? 2 : 3);
+        }
+    }
+
+    /* renamed from: org.telegram.messenger.MusicPlayerService$3 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass3 implements Runnable {
+        AnonymousClass3() {
+            MusicPlayerService.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            if (MusicPlayerService.this.remoteControlClient == null || MediaController.getInstance().getPlayingMessageObject() == null) {
+                return;
+            }
+            if (MediaController.getInstance().getPlayingMessageObject().audioPlayerDuration != -9223372036854775807L) {
+                RemoteControlClient.MetadataEditor editMetadata = MusicPlayerService.this.remoteControlClient.editMetadata(false);
+                editMetadata.putLong(9, MediaController.getInstance().getPlayingMessageObject().audioPlayerDuration * 1000);
+                editMetadata.apply();
+                int i = 2;
+                if (Build.VERSION.SDK_INT >= 18) {
+                    RemoteControlClient remoteControlClient = MusicPlayerService.this.remoteControlClient;
+                    if (!MediaController.getInstance().isMessagePaused()) {
+                        i = 3;
+                    }
+                    remoteControlClient.setPlaybackState(i, Math.max(MediaController.getInstance().getPlayingMessageObject().audioProgressSec * 1000, 100L), MediaController.getInstance().isMessagePaused() ? 0.0f : 1.0f);
+                    return;
+                }
+                RemoteControlClient remoteControlClient2 = MusicPlayerService.this.remoteControlClient;
+                if (!MediaController.getInstance().isMessagePaused()) {
+                    i = 3;
+                }
+                remoteControlClient2.setPlaybackState(i);
+                return;
+            }
+            AndroidUtilities.runOnUIThread(this, 500L);
         }
     }
 
@@ -473,11 +479,11 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
     }
 
     public void setListeners(RemoteViews remoteViews) {
-        remoteViews.setOnClickPendingIntent(org.telegram.messenger.beta.R.id.player_previous, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(NOTIFY_PREVIOUS), 134217728));
-        remoteViews.setOnClickPendingIntent(org.telegram.messenger.beta.R.id.player_close, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(NOTIFY_CLOSE), 134217728));
-        remoteViews.setOnClickPendingIntent(org.telegram.messenger.beta.R.id.player_pause, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(NOTIFY_PAUSE), 134217728));
-        remoteViews.setOnClickPendingIntent(org.telegram.messenger.beta.R.id.player_next, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(NOTIFY_NEXT), 134217728));
-        remoteViews.setOnClickPendingIntent(org.telegram.messenger.beta.R.id.player_play, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(NOTIFY_PLAY), 134217728));
+        remoteViews.setOnClickPendingIntent(2131230902, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.previous"), 134217728));
+        remoteViews.setOnClickPendingIntent(2131230898, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.close"), 134217728));
+        remoteViews.setOnClickPendingIntent(2131230900, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.pause"), 134217728));
+        remoteViews.setOnClickPendingIntent(2131230899, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.next"), 134217728));
+        remoteViews.setOnClickPendingIntent(2131230901, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.play"), 134217728));
     }
 
     @Override // android.app.Service

@@ -6,17 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ChapterFrame extends Id3Frame {
-    public static final Parcelable.Creator<ChapterFrame> CREATOR = new Parcelable.Creator<ChapterFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.ChapterFrame.1
-        @Override // android.os.Parcelable.Creator
-        public ChapterFrame createFromParcel(Parcel parcel) {
-            return new ChapterFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public ChapterFrame[] newArray(int i) {
-            return new ChapterFrame[i];
-        }
-    };
+    public static final Parcelable.Creator<ChapterFrame> CREATOR = new AnonymousClass1();
     public final String chapterId;
     public final long endOffset;
     public final int endTimeMs;
@@ -80,6 +70,23 @@ public final class ChapterFrame extends Id3Frame {
         parcel.writeInt(this.subFrames.length);
         for (Id3Frame id3Frame : this.subFrames) {
             parcel.writeParcelable(id3Frame, 0);
+        }
+    }
+
+    /* renamed from: com.google.android.exoplayer2.metadata.id3.ChapterFrame$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<ChapterFrame> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public ChapterFrame createFromParcel(Parcel parcel) {
+            return new ChapterFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public ChapterFrame[] newArray(int i) {
+            return new ChapterFrame[i];
         }
     }
 }

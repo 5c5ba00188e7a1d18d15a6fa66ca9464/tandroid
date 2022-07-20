@@ -41,7 +41,7 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
         this.send_gifs = (readInt32 & 16) != 0;
         this.send_games = (readInt32 & 32) != 0;
         this.send_inline = (readInt32 & 64) != 0;
-        this.embed_links = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+        this.embed_links = (readInt32 & 128) != 0;
         this.send_polls = (readInt32 & 256) != 0;
         this.change_info = (readInt32 & 1024) != 0;
         this.invite_users = (32768 & readInt32) != 0;
@@ -69,7 +69,7 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
         this.flags = i6;
         int i7 = this.send_inline ? i6 | 64 : i6 & (-65);
         this.flags = i7;
-        int i8 = this.embed_links ? i7 | ConnectionsManager.RequestFlagNeedQuickAck : i7 & (-129);
+        int i8 = this.embed_links ? i7 | 128 : i7 & (-129);
         this.flags = i8;
         int i9 = this.send_polls ? i8 | 256 : i8 & (-257);
         this.flags = i9;

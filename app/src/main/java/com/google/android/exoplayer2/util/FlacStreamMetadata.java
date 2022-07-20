@@ -4,7 +4,6 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.metadata.flac.PictureFrame;
 import com.google.android.exoplayer2.metadata.flac.VorbisComment;
-import com.huawei.hms.support.api.entity.core.JosStatusCodes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +43,7 @@ public final class FlacStreamMetadata {
 
     private static int getSampleRateLookupKey(int i) {
         switch (i) {
-            case JosStatusCodes.RTN_CODE_COMMON_ERROR /* 8000 */:
+            case 8000:
                 return 4;
             case 16000:
                 return 5;
@@ -194,7 +193,7 @@ public final class FlacStreamMetadata {
                 String str = list.get(i);
                 String[] splitAtFirst = Util.splitAtFirst(str, "=");
                 if (splitAtFirst.length != 2) {
-                    Log.w(TAG, "Failed to parse Vorbis comment: " + str);
+                    Log.w("FlacStreamMetadata", "Failed to parse Vorbis comment: " + str);
                 } else {
                     arrayList.add(new VorbisComment(splitAtFirst[0], splitAtFirst[1]));
                 }

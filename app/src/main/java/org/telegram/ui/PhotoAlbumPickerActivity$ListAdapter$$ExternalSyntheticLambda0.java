@@ -1,0 +1,18 @@
+package org.telegram.ui;
+
+import org.telegram.messenger.MediaController;
+import org.telegram.ui.Cells.PhotoPickerAlbumsCell;
+import org.telegram.ui.PhotoAlbumPickerActivity;
+/* loaded from: classes3.dex */
+public final /* synthetic */ class PhotoAlbumPickerActivity$ListAdapter$$ExternalSyntheticLambda0 implements PhotoPickerAlbumsCell.PhotoPickerAlbumsCellDelegate {
+    public final /* synthetic */ PhotoAlbumPickerActivity.ListAdapter f$0;
+
+    public /* synthetic */ PhotoAlbumPickerActivity$ListAdapter$$ExternalSyntheticLambda0(PhotoAlbumPickerActivity.ListAdapter listAdapter) {
+        this.f$0 = listAdapter;
+    }
+
+    @Override // org.telegram.ui.Cells.PhotoPickerAlbumsCell.PhotoPickerAlbumsCellDelegate
+    public final void didSelectAlbum(MediaController.AlbumEntry albumEntry) {
+        this.f$0.lambda$onCreateViewHolder$0(albumEntry);
+    }
+}

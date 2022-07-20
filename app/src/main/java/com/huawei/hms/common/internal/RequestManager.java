@@ -25,6 +25,38 @@ public class RequestManager implements Handler.Callback {
     private static Queue<HuaweiApi.RequestHandler> requestQueue = new ConcurrentLinkedQueue();
     private static Map<String, HuaweiApi.RequestHandler> connectedReqMap = new LinkedHashMap();
 
+    /* renamed from: com.huawei.hms.common.internal.RequestManager$1 */
+    /* loaded from: classes.dex */
+    public static class AnonymousClass1 implements Runnable {
+        final /* synthetic */ HuaweiApi.RequestHandler val$requestHandler;
+        final /* synthetic */ String val$transId;
+
+        AnonymousClass1(String str, HuaweiApi.RequestHandler requestHandler) {
+            this.val$transId = str;
+            this.val$requestHandler = requestHandler;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            RequestManager.connectedReqMap.put(this.val$transId, this.val$requestHandler);
+        }
+    }
+
+    /* renamed from: com.huawei.hms.common.internal.RequestManager$2 */
+    /* loaded from: classes.dex */
+    public static class AnonymousClass2 implements Runnable {
+        final /* synthetic */ String val$transId;
+
+        AnonymousClass2(String str) {
+            this.val$transId = str;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            RequestManager.connectedReqMap.remove(this.val$transId);
+        }
+    }
+
     private RequestManager(Looper looper) {
         mHandler = new Handler(looper, this);
     }
@@ -33,17 +65,12 @@ public class RequestManager implements Handler.Callback {
         requestQueue.add(requestHandler);
     }
 
-    public static void addToConnectedReqMap(final String str, final HuaweiApi.RequestHandler requestHandler) {
+    public static void addToConnectedReqMap(String str, HuaweiApi.RequestHandler requestHandler) {
         if (mHandler == null) {
             return;
         }
-        HMSLog.i(TAG, "addToConnectedReqMap");
-        mHandler.post(new Runnable() { // from class: com.huawei.hms.common.internal.RequestManager.1
-            @Override // java.lang.Runnable
-            public void run() {
-                RequestManager.connectedReqMap.put(str, requestHandler);
-            }
-        });
+        HMSLog.i("RequestManager", "addToConnectedReqMap");
+        mHandler.post(new AnonymousClass1(str, requestHandler));
     }
 
     public static Handler getHandler() {
@@ -53,7 +80,7 @@ public class RequestManager implements Handler.Callback {
     public static RequestManager getInstance() {
         synchronized (LOCK_OBJECT) {
             if (mInstance == null) {
-                HandlerThread handlerThread = new HandlerThread(TAG);
+                HandlerThread handlerThread = new HandlerThread("RequestManager");
                 handlerThread.start();
                 mInstance = new RequestManager(handlerThread.getLooper());
             }
@@ -62,14 +89,14 @@ public class RequestManager implements Handler.Callback {
     }
 
     private void handleConnectFailed(Message message) {
-        HMSLog.i(TAG, "NOTIFY_CONNECT_FAILED.");
+        HMSLog.i("RequestManager", "NOTIFY_CONNECT_FAILED.");
         try {
             BaseHmsClient.ConnectionResultWrapper connectionResultWrapper = (BaseHmsClient.ConnectionResultWrapper) message.obj;
             HuaweiApi.RequestHandler request = connectionResultWrapper.getRequest();
             requestQueue.remove(request);
             request.onConnectionFailed(connectionResultWrapper.getConnectionResult());
         } catch (RuntimeException e) {
-            HMSLog.e(TAG, "<handleConnectFailed> handle Failed" + e.getMessage());
+            HMSLog.e("RequestManager", "<handleConnectFailed> handle Failed" + e.getMessage());
         }
     }
 
@@ -88,7 +115,7 @@ public class RequestManager implements Handler.Callback {
     }
 
     private void handleConnectSuspend() {
-        HMSLog.i(TAG, "NOTIFY_CONNECT_SUSPENDED.");
+        HMSLog.i("RequestManager", "NOTIFY_CONNECT_SUSPENDED.");
         while (!requestQueue.isEmpty()) {
             requestQueue.poll().onConnectionSuspended(1);
         }
@@ -96,29 +123,24 @@ public class RequestManager implements Handler.Callback {
     }
 
     private void notifyRunningRequestConnectSuspend() {
-        HMSLog.i(TAG, "notifyRunningRequestConnectSuspend, connectedReqMap.size(): " + connectedReqMap.size());
+        HMSLog.i("RequestManager", "notifyRunningRequestConnectSuspend, connectedReqMap.size(): " + connectedReqMap.size());
         Iterator<Map.Entry<String, HuaweiApi.RequestHandler>> it = connectedReqMap.entrySet().iterator();
         while (it.hasNext()) {
             try {
                 it.next().getValue().onConnectionSuspended(1);
             } catch (RuntimeException e) {
-                HMSLog.e(TAG, "NOTIFY_CONNECT_SUSPENDED Exception: " + e.getMessage());
+                HMSLog.e("RequestManager", "NOTIFY_CONNECT_SUSPENDED Exception: " + e.getMessage());
             }
             it.remove();
         }
     }
 
-    public static void removeReqByTransId(final String str) {
+    public static void removeReqByTransId(String str) {
         if (mHandler == null) {
             return;
         }
-        HMSLog.i(TAG, "removeReqByTransId");
-        mHandler.post(new Runnable() { // from class: com.huawei.hms.common.internal.RequestManager.2
-            @Override // java.lang.Runnable
-            public void run() {
-                RequestManager.connectedReqMap.remove(str);
-            }
-        });
+        HMSLog.i("RequestManager", "removeReqByTransId");
+        mHandler.post(new AnonymousClass2(str));
     }
 
     @Override // android.os.Handler.Callback
@@ -126,7 +148,7 @@ public class RequestManager implements Handler.Callback {
         if (message == null) {
             return false;
         }
-        HMSLog.i(TAG, "RequestManager handleMessage.");
+        HMSLog.i("RequestManager", "RequestManager handleMessage.");
         switch (message.what) {
             case 10011:
                 handleConnectSuccess();
@@ -138,7 +160,7 @@ public class RequestManager implements Handler.Callback {
                 handleConnectSuspend();
                 return true;
             default:
-                HMSLog.i(TAG, "handleMessage unknown msg:" + message.what);
+                HMSLog.i("RequestManager", "handleMessage unknown msg:" + message.what);
                 return false;
         }
     }

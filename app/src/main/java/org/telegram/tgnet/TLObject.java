@@ -1,12 +1,7 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLObject {
-    private static final ThreadLocal<NativeByteBuffer> sizeCalculator = new ThreadLocal<NativeByteBuffer>() { // from class: org.telegram.tgnet.TLObject.1
-        @Override // java.lang.ThreadLocal
-        public NativeByteBuffer initialValue() {
-            return new NativeByteBuffer(true);
-        }
-    };
+    private static final ThreadLocal<NativeByteBuffer> sizeCalculator = new AnonymousClass1();
     public boolean disableFree = false;
     public int networkType;
 
@@ -21,6 +16,18 @@ public class TLObject {
     }
 
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+    }
+
+    /* renamed from: org.telegram.tgnet.TLObject$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 extends ThreadLocal<NativeByteBuffer> {
+        AnonymousClass1() {
+        }
+
+        @Override // java.lang.ThreadLocal
+        public NativeByteBuffer initialValue() {
+            return new NativeByteBuffer(true);
+        }
     }
 
     public int getObjectSize() {

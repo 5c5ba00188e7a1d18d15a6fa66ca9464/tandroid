@@ -8,17 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class Metadata implements Parcelable {
-    public static final Parcelable.Creator<Metadata> CREATOR = new Parcelable.Creator<Metadata>() { // from class: com.google.android.exoplayer2.metadata.Metadata.1
-        @Override // android.os.Parcelable.Creator
-        public Metadata createFromParcel(Parcel parcel) {
-            return new Metadata(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public Metadata[] newArray(int i) {
-            return new Metadata[i];
-        }
-    };
+    public static final Parcelable.Creator<Metadata> CREATOR = new AnonymousClass1();
     private final Entry[] entries;
 
     /* loaded from: classes.dex */
@@ -109,6 +99,23 @@ public final class Metadata implements Parcelable {
         parcel.writeInt(this.entries.length);
         for (Entry entry : this.entries) {
             parcel.writeParcelable(entry, 0);
+        }
+    }
+
+    /* renamed from: com.google.android.exoplayer2.metadata.Metadata$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<Metadata> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public Metadata createFromParcel(Parcel parcel) {
+            return new Metadata(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public Metadata[] newArray(int i) {
+            return new Metadata[i];
         }
     }
 }

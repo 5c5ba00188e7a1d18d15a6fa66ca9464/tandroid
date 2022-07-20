@@ -9,10 +9,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.KeyEvent;
 import com.huawei.hms.activity.IBridgeActivityDelegate;
-import com.huawei.hms.adapter.internal.CommonCode;
 import com.huawei.hms.adapter.sysobs.SystemManager;
 import com.huawei.hms.support.log.HMSLog;
-import com.huawei.hms.update.kpms.KpmsConstant;
 import java.lang.ref.WeakReference;
 /* loaded from: classes.dex */
 public class BaseResolutionAdapter implements IBridgeActivityDelegate {
@@ -54,12 +52,12 @@ public class BaseResolutionAdapter implements IBridgeActivityDelegate {
             return;
         }
         Bundle extras = intent.getExtras();
-        this.b = intent.getStringExtra(CommonCode.MapKey.TRANSACTION_ID);
+        this.b = intent.getStringExtra("transaction_id");
         if (extras == null) {
             c();
             return;
         }
-        Parcelable parcelable = extras.getParcelable(CommonCode.MapKey.HAS_RESOLUTION);
+        Parcelable parcelable = extras.getParcelable("resolution");
         if (parcelable == null) {
             c();
         } else if (parcelable instanceof Intent) {
@@ -96,9 +94,9 @@ public class BaseResolutionAdapter implements IBridgeActivityDelegate {
             if (intent == null) {
                 intent = new Intent();
             }
-            intent.putExtra(CommonCode.MapKey.PRIVACY_STATEMENT_CONFIRM_RESULT, i2);
+            intent.putExtra("privacy_statement_confirm_result", i2);
         }
-        if (i2 != -1 && !intent.hasExtra(KpmsConstant.KIT_UPDATE_RESULT) && !intent.hasExtra(CommonCode.MapKey.PRIVACY_STATEMENT_CONFIRM_RESULT)) {
+        if (i2 != -1 && !intent.hasExtra("kit_update_result") && !intent.hasExtra("privacy_statement_confirm_result")) {
             SystemManager.getInstance().notifyResolutionResult(null, this.b);
         } else {
             SystemManager.getInstance().notifyResolutionResult(intent, this.b);

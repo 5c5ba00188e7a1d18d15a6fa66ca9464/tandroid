@@ -1,8 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
-import com.huawei.hms.adapter.internal.CommonCode;
-import org.telegram.messenger.FileLoader;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzy$zzbc extends zzeo<zzy$zzbc, zzb> implements zzgb {
@@ -22,9 +20,9 @@ public final class zzy$zzbc extends zzeo<zzy$zzbc, zzb> implements zzgb {
         STATUS_SENSITIVE_TOPIC(1),
         STATUS_QUALITY_THRESHOLDED(2),
         STATUS_INTERNAL_ERROR(3),
-        STATUS_NOT_SUPPORTED_LANGUAGE(FileLoader.MEDIA_DIR_VIDEO_PUBLIC),
+        STATUS_NOT_SUPPORTED_LANGUAGE(101),
         STATUS_32_BIT_CPU(1001),
-        STATUS_32_BIT_APP(CommonCode.BusInterceptor.PRIVACY_CANCEL);
+        STATUS_32_BIT_APP(1002);
         
         private final int zzi;
 

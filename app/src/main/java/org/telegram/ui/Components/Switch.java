@@ -154,26 +154,7 @@ public class Switch extends View {
             Paint paint = new Paint(1);
             this.ripplePaint = paint;
             paint.setColor(-1);
-            RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{0}), null, i >= 23 ? null : new Drawable() { // from class: org.telegram.ui.Components.Switch.1
-                @Override // android.graphics.drawable.Drawable
-                public int getOpacity() {
-                    return 0;
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void setAlpha(int i3) {
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void setColorFilter(ColorFilter colorFilter) {
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void draw(Canvas canvas) {
-                    android.graphics.Rect bounds = getBounds();
-                    canvas.drawCircle(bounds.centerX(), bounds.centerY(), AndroidUtilities.dp(18.0f), Switch.this.ripplePaint);
-                }
-            });
+            RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{0}), null, i >= 23 ? null : new AnonymousClass1());
             this.rippleDrawable = rippleDrawable;
             if (i >= 23) {
                 rippleDrawable.setRadius(AndroidUtilities.dp(18.0f));
@@ -202,6 +183,34 @@ public class Switch extends View {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.Switch$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends Drawable {
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            return 0;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+        }
+
+        AnonymousClass1() {
+            Switch.this = r1;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            android.graphics.Rect bounds = getBounds();
+            canvas.drawCircle(bounds.centerX(), bounds.centerY(), AndroidUtilities.dp(18.0f), Switch.this.ripplePaint);
+        }
+    }
+
     @Override // android.view.View
     protected boolean verifyDrawable(Drawable drawable) {
         RippleDrawable rippleDrawable;
@@ -221,13 +230,21 @@ public class Switch extends View {
         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", fArr);
         this.checkAnimator = ofFloat;
         ofFloat.setDuration(this.semHaptics ? 150L : 250L);
-        this.checkAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Switch.2
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                Switch.this.checkAnimator = null;
-            }
-        });
+        this.checkAnimator.addListener(new AnonymousClass2());
         this.checkAnimator.start();
+    }
+
+    /* renamed from: org.telegram.ui.Components.Switch$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        AnonymousClass2() {
+            Switch.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            Switch.this.checkAnimator = null;
+        }
     }
 
     private void animateIcon(boolean z) {
@@ -236,13 +253,21 @@ public class Switch extends View {
         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "iconProgress", fArr);
         this.iconAnimator = ofFloat;
         ofFloat.setDuration(this.semHaptics ? 150L : 250L);
-        this.iconAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Switch.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                Switch.this.iconAnimator = null;
-            }
-        });
+        this.iconAnimator.addListener(new AnonymousClass3());
         this.iconAnimator.start();
+    }
+
+    /* renamed from: org.telegram.ui.Components.Switch$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        AnonymousClass3() {
+            Switch.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            Switch.this.iconAnimator = null;
+        }
     }
 
     @Override // android.view.View

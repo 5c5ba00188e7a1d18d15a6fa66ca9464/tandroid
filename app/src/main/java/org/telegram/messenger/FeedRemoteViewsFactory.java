@@ -74,7 +74,7 @@ public class FeedRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
     protected void grantUriAccessToWidget(Context context, Uri uri) {
         Intent intent = new Intent("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.HOME");
-        for (ResolveInfo resolveInfo : context.getPackageManager().queryIntentActivities(intent, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT)) {
+        for (ResolveInfo resolveInfo : context.getPackageManager().queryIntentActivities(intent, 65536)) {
             context.grantUriPermission(resolveInfo.activityInfo.packageName, uri, 1);
         }
     }
@@ -82,28 +82,28 @@ public class FeedRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
     @Override // android.widget.RemoteViewsService.RemoteViewsFactory
     public RemoteViews getViewAt(int i) {
         MessageObject messageObject = this.messages.get(i);
-        RemoteViews remoteViews = new RemoteViews(this.mContext.getPackageName(), (int) org.telegram.messenger.beta.R.layout.feed_widget_item);
+        RemoteViews remoteViews = new RemoteViews(this.mContext.getPackageName(), 2131427340);
         if (messageObject.type == 0) {
-            remoteViews.setTextViewText(org.telegram.messenger.beta.R.id.feed_widget_item_text, messageObject.messageText);
-            remoteViews.setViewVisibility(org.telegram.messenger.beta.R.id.feed_widget_item_text, 0);
+            remoteViews.setTextViewText(2131230817, messageObject.messageText);
+            remoteViews.setViewVisibility(2131230817, 0);
         } else if (TextUtils.isEmpty(messageObject.caption)) {
-            remoteViews.setViewVisibility(org.telegram.messenger.beta.R.id.feed_widget_item_text, 8);
+            remoteViews.setViewVisibility(2131230817, 8);
         } else {
-            remoteViews.setTextViewText(org.telegram.messenger.beta.R.id.feed_widget_item_text, messageObject.caption);
-            remoteViews.setViewVisibility(org.telegram.messenger.beta.R.id.feed_widget_item_text, 0);
+            remoteViews.setTextViewText(2131230817, messageObject.caption);
+            remoteViews.setViewVisibility(2131230817, 0);
         }
         ArrayList<TLRPC$PhotoSize> arrayList = messageObject.photoThumbs;
         if (arrayList == null || arrayList.isEmpty()) {
-            remoteViews.setViewVisibility(org.telegram.messenger.beta.R.id.feed_widget_item_image, 8);
+            remoteViews.setViewVisibility(2131230816, 8);
         } else {
             File pathToAttach = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize()));
             if (pathToAttach.exists()) {
-                remoteViews.setViewVisibility(org.telegram.messenger.beta.R.id.feed_widget_item_image, 0);
+                remoteViews.setViewVisibility(2131230816, 0);
                 Uri uriForFile = FileProvider.getUriForFile(this.mContext, "org.telegram.messenger.beta.provider", pathToAttach);
                 grantUriAccessToWidget(this.mContext, uriForFile);
-                remoteViews.setImageViewUri(org.telegram.messenger.beta.R.id.feed_widget_item_image, uriForFile);
+                remoteViews.setImageViewUri(2131230816, uriForFile);
             } else {
-                remoteViews.setViewVisibility(org.telegram.messenger.beta.R.id.feed_widget_item_image, 8);
+                remoteViews.setViewVisibility(2131230816, 8);
             }
         }
         Bundle bundle = new Bundle();
@@ -112,7 +112,7 @@ public class FeedRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         bundle.putInt("currentAccount", this.accountInstance.getCurrentAccount());
         Intent intent = new Intent();
         intent.putExtras(bundle);
-        remoteViews.setOnClickFillInIntent(org.telegram.messenger.beta.R.id.shortcut_widget_item, intent);
+        remoteViews.setOnClickFillInIntent(2131230913, intent);
         return remoteViews;
     }
 
@@ -123,12 +123,7 @@ public class FeedRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
             this.messages.clear();
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FeedRemoteViewsFactory$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                FeedRemoteViewsFactory.this.lambda$onDataSetChanged$0();
-            }
-        });
+        AndroidUtilities.runOnUIThread(new FeedRemoteViewsFactory$$ExternalSyntheticLambda0(this));
         try {
             this.countDownLatch.await();
         } catch (Exception e) {

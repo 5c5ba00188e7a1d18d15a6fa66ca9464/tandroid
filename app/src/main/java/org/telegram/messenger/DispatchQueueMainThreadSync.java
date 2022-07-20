@@ -111,12 +111,7 @@ public class DispatchQueueMainThreadSync extends Thread {
 
     public void recycle() {
         checkThread();
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueueMainThreadSync$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                DispatchQueueMainThreadSync.this.lambda$recycle$0();
-            }
-        });
+        postRunnable(new DispatchQueueMainThreadSync$$ExternalSyntheticLambda1(this));
         this.isRecycled = true;
     }
 
@@ -127,30 +122,31 @@ public class DispatchQueueMainThreadSync extends Thread {
     @Override // java.lang.Thread, java.lang.Runnable
     public void run() {
         Looper.prepare();
-        this.handler = new Handler(Looper.myLooper(), new Handler.Callback() { // from class: org.telegram.messenger.DispatchQueueMainThreadSync$$ExternalSyntheticLambda0
-            @Override // android.os.Handler.Callback
-            public final boolean handleMessage(Message message) {
-                boolean lambda$run$1;
-                lambda$run$1 = DispatchQueueMainThreadSync.this.lambda$run$1(message);
-                return lambda$run$1;
-            }
-        });
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DispatchQueueMainThreadSync.1
-            @Override // java.lang.Runnable
-            public void run() {
-                DispatchQueueMainThreadSync.this.isRunning = true;
-                for (int i = 0; i < DispatchQueueMainThreadSync.this.postponedTasks.size(); i++) {
-                    ((PostponedTask) DispatchQueueMainThreadSync.this.postponedTasks.get(i)).run();
-                }
-                DispatchQueueMainThreadSync.this.postponedTasks.clear();
-            }
-        });
+        this.handler = new Handler(Looper.myLooper(), new DispatchQueueMainThreadSync$$ExternalSyntheticLambda0(this));
+        AndroidUtilities.runOnUIThread(new AnonymousClass1());
         Looper.loop();
     }
 
     public /* synthetic */ boolean lambda$run$1(Message message) {
         handleMessage(message);
         return true;
+    }
+
+    /* renamed from: org.telegram.messenger.DispatchQueueMainThreadSync$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            DispatchQueueMainThreadSync.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            DispatchQueueMainThreadSync.this.isRunning = true;
+            for (int i = 0; i < DispatchQueueMainThreadSync.this.postponedTasks.size(); i++) {
+                ((PostponedTask) DispatchQueueMainThreadSync.this.postponedTasks.get(i)).run();
+            }
+            DispatchQueueMainThreadSync.this.postponedTasks.clear();
+        }
     }
 
     public boolean isReady() {

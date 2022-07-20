@@ -27,7 +27,7 @@ public class TLRPC$TL_messages_sendInlineBotResult extends TLObject {
         this.flags = i;
         int i2 = this.background ? i | 64 : i & (-65);
         this.flags = i2;
-        int i3 = this.clear_draft ? i2 | ConnectionsManager.RequestFlagNeedQuickAck : i2 & (-129);
+        int i3 = this.clear_draft ? i2 | 128 : i2 & (-129);
         this.flags = i3;
         int i4 = this.hide_via ? i3 | 2048 : i3 & (-2049);
         this.flags = i4;

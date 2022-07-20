@@ -5,10 +5,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import java.util.Arrays;
 import java.util.List;
-import org.telegram.messenger.R;
 import org.webrtc.ContextUtils;
 import org.webrtc.Logging;
-import org.webrtc.MediaStreamTrack;
 /* loaded from: classes3.dex */
 public final class WebRtcAudioUtils {
     private static final int DEFAULT_SAMPLE_RATE_HZ = 16000;
@@ -61,11 +59,11 @@ public final class WebRtcAudioUtils {
                 return "TYPE_TELEPHONY";
             case 19:
                 return "TYPE_AUX_LINE";
-            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+            case 20:
                 return "TYPE_IP";
             case 21:
                 return "TYPE_BUS";
-            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+            case 22:
                 return "TYPE_USB_HEADSET";
             default:
                 return "TYPE_UNKNOWN";
@@ -98,7 +96,7 @@ public final class WebRtcAudioUtils {
 
     public static synchronized void setWebRtcBasedAutomaticGainControl(boolean z) {
         synchronized (WebRtcAudioUtils.class) {
-            Logging.w(TAG, "setWebRtcBasedAutomaticGainControl() is deprecated");
+            Logging.w("WebRtcAudioUtils", "setWebRtcBasedAutomaticGainControl() is deprecated");
         }
     }
 
@@ -106,7 +104,7 @@ public final class WebRtcAudioUtils {
         boolean z;
         synchronized (WebRtcAudioUtils.class) {
             if (useWebRtcBasedAcousticEchoCanceler) {
-                Logging.w(TAG, "Overriding default behavior; now using WebRTC AEC!");
+                Logging.w("WebRtcAudioUtils", "Overriding default behavior; now using WebRTC AEC!");
             }
             z = useWebRtcBasedAcousticEchoCanceler;
         }
@@ -117,7 +115,7 @@ public final class WebRtcAudioUtils {
         boolean z;
         synchronized (WebRtcAudioUtils.class) {
             if (useWebRtcBasedNoiseSuppressor) {
-                Logging.w(TAG, "Overriding default behavior; now using WebRTC NS!");
+                Logging.w("WebRtcAudioUtils", "Overriding default behavior; now using WebRTC NS!");
             }
             z = useWebRtcBasedNoiseSuppressor;
         }
@@ -187,7 +185,7 @@ public final class WebRtcAudioUtils {
 
     public static void logAudioState(String str) {
         logDeviceInfo(str);
-        AudioManager audioManager = (AudioManager) ContextUtils.getApplicationContext().getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+        AudioManager audioManager = (AudioManager) ContextUtils.getApplicationContext().getSystemService("audio");
         logAudioStateBasic(str, audioManager);
         logAudioStateVolume(str, audioManager);
         logAudioDeviceInfo(str, audioManager);

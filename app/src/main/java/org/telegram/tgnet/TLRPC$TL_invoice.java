@@ -43,7 +43,7 @@ public class TLRPC$TL_invoice extends TLObject {
         this.shipping_address_requested = (readInt32 & 16) != 0;
         this.flexible = (readInt32 & 32) != 0;
         this.phone_to_provider = (readInt32 & 64) != 0;
-        this.email_to_provider = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+        this.email_to_provider = (readInt32 & 128) != 0;
         this.recurring = (readInt32 & 512) != 0;
         this.currency = abstractSerializedData.readString(z);
         int readInt322 = abstractSerializedData.readInt32(z);
@@ -100,7 +100,7 @@ public class TLRPC$TL_invoice extends TLObject {
         this.flags = i6;
         int i7 = this.phone_to_provider ? i6 | 64 : i6 & (-65);
         this.flags = i7;
-        int i8 = this.email_to_provider ? i7 | ConnectionsManager.RequestFlagNeedQuickAck : i7 & (-129);
+        int i8 = this.email_to_provider ? i7 | 128 : i7 & (-129);
         this.flags = i8;
         int i9 = this.recurring ? i8 | 512 : i8 & (-513);
         this.flags = i9;

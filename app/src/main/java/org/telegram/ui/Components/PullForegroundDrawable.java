@@ -63,33 +63,9 @@ public class PullForegroundDrawable {
     private float arrowRotateProgress = 1.0f;
     private float accentRevalProgress = 1.0f;
     private float accentRevalProgressOut = 1.0f;
-    private ValueAnimator.AnimatorUpdateListener textSwappingUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda0
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-            PullForegroundDrawable.this.lambda$new$0(valueAnimator);
-        }
-    };
-    private ValueAnimator.AnimatorUpdateListener textInUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda5
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-            PullForegroundDrawable.this.lambda$new$1(valueAnimator);
-        }
-    };
-    Runnable textInRunnable = new Runnable() { // from class: org.telegram.ui.Components.PullForegroundDrawable.1
-        @Override // java.lang.Runnable
-        public void run() {
-            PullForegroundDrawable.this.animateToTextIn = true;
-            if (PullForegroundDrawable.this.textIntAnimator != null) {
-                PullForegroundDrawable.this.textIntAnimator.cancel();
-            }
-            PullForegroundDrawable.this.textInProgress = 0.0f;
-            PullForegroundDrawable.this.textIntAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-            PullForegroundDrawable.this.textIntAnimator.addUpdateListener(PullForegroundDrawable.this.textInUpdateListener);
-            PullForegroundDrawable.this.textIntAnimator.setInterpolator(new LinearInterpolator());
-            PullForegroundDrawable.this.textIntAnimator.setDuration(150L);
-            PullForegroundDrawable.this.textIntAnimator.start();
-        }
-    };
+    private ValueAnimator.AnimatorUpdateListener textSwappingUpdateListener = new PullForegroundDrawable$$ExternalSyntheticLambda0(this);
+    private ValueAnimator.AnimatorUpdateListener textInUpdateListener = new PullForegroundDrawable$$ExternalSyntheticLambda5(this);
+    Runnable textInRunnable = new AnonymousClass1();
     boolean wasSendCallback = false;
     private float touchSlop = ViewConfiguration.get(ApplicationLoader.applicationContext).getScaledTouchSlop();
 
@@ -116,7 +92,7 @@ public class PullForegroundDrawable {
     public PullForegroundDrawable(String str, String str2) {
         TextPaint textPaint = new TextPaint(1);
         this.tooltipTextPaint = textPaint;
-        textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(AndroidUtilities.dp(16.0f));
         this.pullTooltip = str;
@@ -412,12 +388,7 @@ public class PullForegroundDrawable {
             fArr2[1] = f2;
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(fArr2);
             this.arrowRotateAnimator = ofFloat2;
-            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda2
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator4) {
-                    PullForegroundDrawable.this.lambda$updateTextProgress$2(valueAnimator4);
-                }
-            });
+            ofFloat2.addUpdateListener(new PullForegroundDrawable$$ExternalSyntheticLambda2(this));
             this.arrowRotateAnimator.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
             this.arrowRotateAnimator.setDuration(250L);
             this.arrowRotateAnimator.start();
@@ -444,12 +415,7 @@ public class PullForegroundDrawable {
                 this.accentRevalProgress = 0.0f;
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.accentRevalAnimatorIn = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda1
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        PullForegroundDrawable.this.lambda$colorize$3(valueAnimator2);
-                    }
-                });
+                ofFloat.addUpdateListener(new PullForegroundDrawable$$ExternalSyntheticLambda1(this));
                 this.accentRevalAnimatorIn.setInterpolator(AndroidUtilities.accelerateInterpolator);
                 this.accentRevalAnimatorIn.setDuration(230L);
                 this.accentRevalAnimatorIn.start();
@@ -463,12 +429,7 @@ public class PullForegroundDrawable {
             this.accentRevalProgressOut = 0.0f;
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.accentRevalAnimatorOut = ofFloat2;
-            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda3
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                    PullForegroundDrawable.this.lambda$colorize$4(valueAnimator3);
-                }
-            });
+            ofFloat2.addUpdateListener(new PullForegroundDrawable$$ExternalSyntheticLambda3(this));
             this.accentRevalAnimatorOut.setInterpolator(AndroidUtilities.accelerateInterpolator);
             this.accentRevalAnimatorOut.setDuration(230L);
             this.accentRevalAnimatorOut.start();
@@ -496,6 +457,28 @@ public class PullForegroundDrawable {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {
             recyclerListView.invalidate();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.PullForegroundDrawable$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            PullForegroundDrawable.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            PullForegroundDrawable.this.animateToTextIn = true;
+            if (PullForegroundDrawable.this.textIntAnimator != null) {
+                PullForegroundDrawable.this.textIntAnimator.cancel();
+            }
+            PullForegroundDrawable.this.textInProgress = 0.0f;
+            PullForegroundDrawable.this.textIntAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
+            PullForegroundDrawable.this.textIntAnimator.addUpdateListener(PullForegroundDrawable.this.textInUpdateListener);
+            PullForegroundDrawable.this.textIntAnimator.setInterpolator(new LinearInterpolator());
+            PullForegroundDrawable.this.textIntAnimator.setDuration(150L);
+            PullForegroundDrawable.this.textIntAnimator.start();
         }
     }
 
@@ -530,41 +513,21 @@ public class PullForegroundDrawable {
         this.listView.getTranslationY();
         AndroidUtilities.dp(100.0f);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda6
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                PullForegroundDrawable.this.lambda$startOutAnimation$5(valueAnimator);
-            }
-        });
+        ofFloat.addUpdateListener(new PullForegroundDrawable$$ExternalSyntheticLambda6(this));
         ofFloat.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         ofFloat.setDuration(250L);
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda4
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                PullForegroundDrawable.this.lambda$startOutAnimation$6(valueAnimator);
-            }
-        });
+        ofFloat2.addUpdateListener(new PullForegroundDrawable$$ExternalSyntheticLambda4(this));
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_BOTH;
         ofFloat2.setInterpolator(cubicBezierInterpolator);
         ofFloat2.setDuration(150L);
         ValueAnimator ofFloat3 = ValueAnimator.ofFloat(1.0f, 0.0f);
-        ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda7
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                PullForegroundDrawable.this.lambda$startOutAnimation$7(valueAnimator);
-            }
-        });
+        ofFloat3.addUpdateListener(new PullForegroundDrawable$$ExternalSyntheticLambda7(this));
         ofFloat3.setInterpolator(cubicBezierInterpolator);
         ofFloat3.setDuration(135L);
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.outAnimator = animatorSet2;
-        animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PullForegroundDrawable.2
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                PullForegroundDrawable.this.doNotShow();
-            }
-        });
+        animatorSet2.addListener(new AnonymousClass2());
         AnimatorSet animatorSet3 = new AnimatorSet();
         animatorSet3.playSequentially(ofFloat2, ofFloat3);
         animatorSet3.setStartDelay(180L);
@@ -595,6 +558,19 @@ public class PullForegroundDrawable {
         View view = this.cell;
         if (view != null) {
             view.invalidate();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.PullForegroundDrawable$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        AnonymousClass2() {
+            PullForegroundDrawable.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            PullForegroundDrawable.this.doNotShow();
         }
     }
 

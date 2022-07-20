@@ -8,34 +8,13 @@ public abstract class TLRPC$NotifyPeer extends TLObject {
                 tLRPC$NotifyPeer = new TLRPC$TL_notifyPeer();
                 break;
             case -1261946036:
-                tLRPC$NotifyPeer = new TLRPC$NotifyPeer() { // from class: org.telegram.tgnet.TLRPC$TL_notifyUsers
-                    public static int constructor = -1261946036;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$NotifyPeer = new TLRPC$TL_notifyUsers();
                 break;
             case -1073230141:
-                tLRPC$NotifyPeer = new TLRPC$NotifyPeer() { // from class: org.telegram.tgnet.TLRPC$TL_notifyChats
-                    public static int constructor = -1073230141;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$NotifyPeer = new TLRPC$TL_notifyChats();
                 break;
             case -703403793:
-                tLRPC$NotifyPeer = new TLRPC$NotifyPeer() { // from class: org.telegram.tgnet.TLRPC$TL_notifyBroadcasts
-                    public static int constructor = -703403793;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$NotifyPeer = new TLRPC$TL_notifyBroadcasts();
                 break;
             default:
                 tLRPC$NotifyPeer = null;

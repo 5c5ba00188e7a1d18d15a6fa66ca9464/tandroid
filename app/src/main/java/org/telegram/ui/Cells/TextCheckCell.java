@@ -25,16 +25,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Switch;
 /* loaded from: classes3.dex */
 public class TextCheckCell extends FrameLayout {
-    public static final Property<TextCheckCell, Float> ANIMATION_PROGRESS = new AnimationProperties.FloatProperty<TextCheckCell>("animationProgress") { // from class: org.telegram.ui.Cells.TextCheckCell.1
-        public void setValue(TextCheckCell textCheckCell, float f) {
-            textCheckCell.setAnimationProgress(f);
-            textCheckCell.invalidate();
-        }
-
-        public Float get(TextCheckCell textCheckCell) {
-            return Float.valueOf(textCheckCell.animationProgress);
-        }
-    };
+    public static final Property<TextCheckCell, Float> ANIMATION_PROGRESS = new AnonymousClass1("animationProgress");
     private int animatedColorBackground;
     private Paint animationPaint;
     private float animationProgress;
@@ -49,6 +40,23 @@ public class TextCheckCell extends FrameLayout {
     private Theme.ResourcesProvider resourcesProvider;
     private TextView textView;
     private TextView valueTextView;
+
+    /* renamed from: org.telegram.ui.Cells.TextCheckCell$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends AnimationProperties.FloatProperty<TextCheckCell> {
+        AnonymousClass1(String str) {
+            super(str);
+        }
+
+        public void setValue(TextCheckCell textCheckCell, float f) {
+            textCheckCell.setAnimationProgress(f);
+            textCheckCell.invalidate();
+        }
+
+        public Float get(TextCheckCell textCheckCell) {
+            return Float.valueOf(textCheckCell.animationProgress);
+        }
+    }
 
     public TextCheckCell(Context context) {
         this(context, 21);
@@ -273,17 +281,25 @@ public class TextCheckCell extends FrameLayout {
         this.animationProgress = 0.0f;
         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, ANIMATION_PROGRESS, 0.0f, 1.0f);
         this.animator = ofFloat;
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.TextCheckCell.2
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                TextCheckCell textCheckCell = TextCheckCell.this;
-                textCheckCell.setBackgroundColor(textCheckCell.animatedColorBackground);
-                TextCheckCell.this.animatedColorBackground = 0;
-                TextCheckCell.this.invalidate();
-            }
-        });
+        ofFloat.addListener(new AnonymousClass2());
         this.animator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
         this.animator.setDuration(240L).start();
+    }
+
+    /* renamed from: org.telegram.ui.Cells.TextCheckCell$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        AnonymousClass2() {
+            TextCheckCell.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            TextCheckCell textCheckCell = TextCheckCell.this;
+            textCheckCell.setBackgroundColor(textCheckCell.animatedColorBackground);
+            TextCheckCell.this.animatedColorBackground = 0;
+            TextCheckCell.this.invalidate();
+        }
     }
 
     public void setAnimationProgress(float f) {
@@ -292,7 +308,7 @@ public class TextCheckCell extends FrameLayout {
         this.checkBox.setOverrideColorProgress(lastTouchX, getMeasuredHeight() / 2, (Math.max(lastTouchX, getMeasuredWidth() - lastTouchX) + AndroidUtilities.dp(40.0f)) * this.animationProgress);
     }
 
-    public void setBackgroundColorAnimatedReverse(final int i) {
+    public void setBackgroundColorAnimatedReverse(int i) {
         ObjectAnimator objectAnimator = this.animator;
         if (objectAnimator != null) {
             objectAnimator.cancel();
@@ -311,16 +327,27 @@ public class TextCheckCell extends FrameLayout {
         this.animatedColorBackground = i;
         ObjectAnimator duration = ObjectAnimator.ofFloat(this, ANIMATION_PROGRESS, 1.0f, 0.0f).setDuration(240L);
         this.animator = duration;
-        duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.TextCheckCell.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                TextCheckCell.this.setBackgroundColor(i);
-                TextCheckCell.this.animatedColorBackground = 0;
-                TextCheckCell.this.invalidate();
-            }
-        });
+        duration.addListener(new AnonymousClass3(i));
         this.animator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
         this.animator.start();
+    }
+
+    /* renamed from: org.telegram.ui.Cells.TextCheckCell$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        final /* synthetic */ int val$color;
+
+        AnonymousClass3(int i) {
+            TextCheckCell.this = r1;
+            this.val$color = i;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            TextCheckCell.this.setBackgroundColor(this.val$color);
+            TextCheckCell.this.animatedColorBackground = 0;
+            TextCheckCell.this.invalidate();
+        }
     }
 
     private float getLastTouchX() {

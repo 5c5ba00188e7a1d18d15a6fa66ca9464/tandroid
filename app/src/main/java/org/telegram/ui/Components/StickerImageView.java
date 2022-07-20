@@ -1,7 +1,6 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
-import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.MediaDataController;
@@ -13,7 +12,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 public class StickerImageView extends BackupImageView implements NotificationCenter.NotificationCenterDelegate {
     int currentAccount;
     int stickerNum;
-    String stickerPackName = AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME;
+    String stickerPackName = "tg_placeholders_android";
 
     public StickerImageView(Context context, int i) {
         super(context);

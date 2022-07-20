@@ -49,21 +49,7 @@ public class MLTaskExecutor {
 
     public <ResultT> Task<ResultT> scheduleCallable(Callable<ResultT> callable) {
         TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
-        scheduleRunnable(new Runnable(callable, taskCompletionSource) { // from class: com.google.mlkit.common.sdkinternal.zzg
-            private final Callable zza;
-            private final TaskCompletionSource zzb;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = callable;
-                this.zzb = taskCompletionSource;
-            }
-
-            @Override // java.lang.Runnable
-            public final void run() {
-                MLTaskExecutor.zza(this.zza, this.zzb);
-            }
-        });
+        scheduleRunnable(new zzg(callable, taskCompletionSource));
         return taskCompletionSource.getTask();
     }
 

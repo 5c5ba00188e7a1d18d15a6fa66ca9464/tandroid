@@ -28,7 +28,6 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SvgHelper;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -62,7 +61,7 @@ public class StickerSetCell extends FrameLayout {
         this.textView = textView;
         textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.textView.setTextSize(1, 16.0f);
-        this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.textView.setLines(1);
         this.textView.setMaxLines(1);
         this.textView.setSingleLine(true);
@@ -109,22 +108,22 @@ public class StickerSetCell extends FrameLayout {
                     return;
                 }
                 this.optionsButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("featuredStickers_addedIcon"), PorterDuff.Mode.MULTIPLY));
-                this.optionsButton.setImageResource(R.drawable.floating_check);
+                this.optionsButton.setImageResource(2131165412);
                 ImageView imageView2 = this.optionsButton;
                 boolean z3 = LocaleController.isRTL;
                 addView(imageView2, LayoutHelper.createFrame(40, 40.0f, (z3 ? 3 : i2) | 48, z3 ? 10 : 0, 9.0f, !z3 ? 10 : i3, 0.0f));
                 return;
             }
             this.optionsButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
-            this.optionsButton.setImageResource(R.drawable.msg_actions);
-            this.optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
+            this.optionsButton.setImageResource(2131165624);
+            this.optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", 2131624003));
             addView(this.optionsButton, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? 3 : i2) | 16));
             ImageView imageView3 = new ImageView(context);
             this.reorderButton = imageView3;
             imageView3.setAlpha(0.0f);
             this.reorderButton.setVisibility(8);
             this.reorderButton.setScaleType(ImageView.ScaleType.CENTER);
-            this.reorderButton.setImageResource(R.drawable.list_reorder);
+            this.reorderButton.setImageResource(2131165577);
             this.reorderButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
             addView(this.reorderButton, LayoutHelper.createFrameRelatively(58.0f, 58.0f, 8388613));
             CheckBox2 checkBox2 = new CheckBox2(context, 21);
@@ -247,7 +246,7 @@ public class StickerSetCell extends FrameLayout {
         return i == 1 ? this.checkBox.isChecked() : i == 3 && this.optionsButton.getVisibility() == 0;
     }
 
-    public void setChecked(final boolean z, boolean z2) {
+    public void setChecked(boolean z, boolean z2) {
         int i = this.option;
         if (i == 1) {
             this.checkBox.setChecked(z, z2);
@@ -256,21 +255,7 @@ public class StickerSetCell extends FrameLayout {
             float f = 0.1f;
             if (z2) {
                 this.optionsButton.animate().cancel();
-                ViewPropertyAnimator scaleX = this.optionsButton.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (!z) {
-                            StickerSetCell.this.optionsButton.setVisibility(4);
-                        }
-                    }
-
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationStart(Animator animator) {
-                        if (z) {
-                            StickerSetCell.this.optionsButton.setVisibility(0);
-                        }
-                    }
-                }).alpha(z ? 1.0f : 0.0f).scaleX(z ? 1.0f : 0.1f);
+                ViewPropertyAnimator scaleX = this.optionsButton.animate().setListener(new AnonymousClass1(z)).alpha(z ? 1.0f : 0.0f).scaleX(z ? 1.0f : 0.1f);
                 if (z) {
                     f = 1.0f;
                 }
@@ -286,11 +271,36 @@ public class StickerSetCell extends FrameLayout {
         }
     }
 
+    /* renamed from: org.telegram.ui.Cells.StickerSetCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        final /* synthetic */ boolean val$checked;
+
+        AnonymousClass1(boolean z) {
+            StickerSetCell.this = r1;
+            this.val$checked = z;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (!this.val$checked) {
+                StickerSetCell.this.optionsButton.setVisibility(4);
+            }
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            if (this.val$checked) {
+                StickerSetCell.this.optionsButton.setVisibility(0);
+            }
+        }
+    }
+
     public void setReorderable(boolean z) {
         setReorderable(z, true);
     }
 
-    public void setReorderable(final boolean z, boolean z2) {
+    public void setReorderable(boolean z, boolean z2) {
         if (this.option == 1) {
             float[] fArr = new float[2];
             float f = 0.0f;
@@ -311,19 +321,9 @@ public class StickerSetCell extends FrameLayout {
                 this.reorderButton.setVisibility(0);
                 ViewPropertyAnimator duration = this.reorderButton.animate().alpha(fArr[0]).scaleX(fArr2[0]).scaleY(fArr2[0]).setDuration(200L);
                 Interpolator interpolator = Easings.easeOutSine;
-                duration.setInterpolator(interpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda1
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        StickerSetCell.this.lambda$setReorderable$0(z);
-                    }
-                }).start();
+                duration.setInterpolator(interpolator).withEndAction(new StickerSetCell$$ExternalSyntheticLambda1(this, z)).start();
                 this.optionsButton.setVisibility(0);
-                this.optionsButton.animate().alpha(fArr[1]).scaleX(fArr2[1]).scaleY(fArr2[1]).setDuration(200L).setInterpolator(interpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        StickerSetCell.this.lambda$setReorderable$1(z);
-                    }
-                }).start();
+                this.optionsButton.animate().alpha(fArr[1]).scaleX(fArr2[1]).scaleY(fArr2[1]).setDuration(200L).setInterpolator(interpolator).withEndAction(new StickerSetCell$$ExternalSyntheticLambda0(this, z)).start();
                 return;
             }
             this.reorderButton.setVisibility(z ? 0 : 8);

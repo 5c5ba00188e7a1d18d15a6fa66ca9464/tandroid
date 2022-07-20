@@ -7,7 +7,21 @@ import org.webrtc.EglBase;
 import org.webrtc.Predicate;
 /* loaded from: classes3.dex */
 public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
-    private static final Predicate<MediaCodecInfo> defaultAllowedPredicate = new Predicate<MediaCodecInfo>() { // from class: org.webrtc.HardwareVideoDecoderFactory.1
+    private static final Predicate<MediaCodecInfo> defaultAllowedPredicate = new AnonymousClass1();
+
+    @Override // org.webrtc.MediaCodecVideoDecoderFactory, org.webrtc.VideoDecoderFactory
+    public /* bridge */ /* synthetic */ VideoDecoder createDecoder(VideoCodecInfo videoCodecInfo) {
+        return super.createDecoder(videoCodecInfo);
+    }
+
+    @Override // org.webrtc.MediaCodecVideoDecoderFactory, org.webrtc.VideoDecoderFactory
+    public /* bridge */ /* synthetic */ VideoCodecInfo[] getSupportedCodecs() {
+        return super.getSupportedCodecs();
+    }
+
+    /* renamed from: org.webrtc.HardwareVideoDecoderFactory$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 implements Predicate<MediaCodecInfo> {
         @Override // org.webrtc.Predicate
         public /* synthetic */ Predicate<MediaCodecInfo> and(Predicate<? super MediaCodecInfo> predicate) {
             return Predicate.CC.$default$and(this, predicate);
@@ -23,9 +37,12 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
             return Predicate.CC.$default$or(this, predicate);
         }
 
+        AnonymousClass1() {
+        }
+
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
         /* JADX WARN: Code restructure failed: missing block: B:22:0x0047, code lost:
-            if (r3.equals(org.telegram.messenger.MediaController.VIDEO_MIME_TYPE) == false) goto L14;
+            if (r3.equals("video/avc") == false) goto L14;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -92,16 +109,6 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
                 }
             }
         }
-    };
-
-    @Override // org.webrtc.MediaCodecVideoDecoderFactory, org.webrtc.VideoDecoderFactory
-    public /* bridge */ /* synthetic */ VideoDecoder createDecoder(VideoCodecInfo videoCodecInfo) {
-        return super.createDecoder(videoCodecInfo);
-    }
-
-    @Override // org.webrtc.MediaCodecVideoDecoderFactory, org.webrtc.VideoDecoderFactory
-    public /* bridge */ /* synthetic */ VideoCodecInfo[] getSupportedCodecs() {
-        return super.getSupportedCodecs();
     }
 
     @Deprecated

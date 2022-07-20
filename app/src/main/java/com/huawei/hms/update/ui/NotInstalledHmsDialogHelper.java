@@ -10,7 +10,6 @@ import android.util.AndroidException;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.Checker;
 import com.huawei.hms.utils.ResourceLoaderUtil;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class NotInstalledHmsDialogHelper {
     public static int a(Context context) {
@@ -63,7 +62,7 @@ public class NotInstalledHmsDialogHelper {
             if (TextUtils.isEmpty(str)) {
                 str = context.getPackageName();
             }
-            CharSequence applicationLabel = packageManager.getApplicationLabel(packageManager.getApplicationInfo(str, ConnectionsManager.RequestFlagNeedQuickAck));
+            CharSequence applicationLabel = packageManager.getApplicationLabel(packageManager.getApplicationInfo(str, 128));
             return applicationLabel == null ? "" : applicationLabel.toString();
         } catch (AndroidException | RuntimeException unused) {
             HMSLog.e("NotInstalledHmsDialogHelper", "In getAppName, Failed to get app name.");

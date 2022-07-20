@@ -14,18 +14,7 @@ public abstract class LiveData<T> {
     private SafeIterableMap<Observer<? super T>, LiveData<T>.ObserverWrapper> mObservers = new SafeIterableMap<>();
     int mActiveCount = 0;
     private int mVersion = -1;
-    private final Runnable mPostValueRunnable = new Runnable() { // from class: androidx.lifecycle.LiveData.1
-        /* JADX WARN: Multi-variable type inference failed */
-        @Override // java.lang.Runnable
-        public void run() {
-            Object obj;
-            synchronized (LiveData.this.mDataLock) {
-                obj = LiveData.this.mPendingData;
-                LiveData.this.mPendingData = LiveData.NOT_SET;
-            }
-            LiveData.this.setValue(obj);
-        }
-    };
+    private final Runnable mPostValueRunnable = new AnonymousClass1();
 
     protected void onActive() {
     }
@@ -37,6 +26,26 @@ public abstract class LiveData<T> {
         Object obj = NOT_SET;
         this.mData = obj;
         this.mPendingData = obj;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: androidx.lifecycle.LiveData$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            LiveData.this = r1;
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override // java.lang.Runnable
+        public void run() {
+            Object obj;
+            synchronized (LiveData.this.mDataLock) {
+                obj = LiveData.this.mPendingData;
+                LiveData.this.mPendingData = LiveData.NOT_SET;
+            }
+            LiveData.this.setValue(obj);
+        }
     }
 
     private void considerNotify(LiveData<T>.ObserverWrapper observerWrapper) {

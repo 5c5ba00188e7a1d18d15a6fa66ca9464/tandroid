@@ -1,0 +1,18 @@
+package org.telegram.messenger;
+
+import org.telegram.tgnet.TLRPC$TL_encryptedChatDiscarded;
+/* loaded from: classes.dex */
+public final /* synthetic */ class SecretChatHelper$$ExternalSyntheticLambda23 implements Runnable {
+    public final /* synthetic */ SecretChatHelper f$0;
+    public final /* synthetic */ TLRPC$TL_encryptedChatDiscarded f$1;
+
+    public /* synthetic */ SecretChatHelper$$ExternalSyntheticLambda23(SecretChatHelper secretChatHelper, TLRPC$TL_encryptedChatDiscarded tLRPC$TL_encryptedChatDiscarded) {
+        this.f$0 = secretChatHelper;
+        this.f$1 = tLRPC$TL_encryptedChatDiscarded;
+    }
+
+    @Override // java.lang.Runnable
+    public final void run() {
+        this.f$0.lambda$processAcceptedSecretChat$19(this.f$1);
+    }
+}

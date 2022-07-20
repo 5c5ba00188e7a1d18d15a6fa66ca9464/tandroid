@@ -43,8 +43,6 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
@@ -89,7 +87,6 @@ import org.telegram.ui.Components.RecyclerItemsEnterAnimator;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TimerParticles;
 import org.telegram.ui.LinkEditActivity;
-import org.telegram.ui.ManageLinksActivity;
 /* loaded from: classes3.dex */
 public class ManageLinksActivity extends BaseFragment {
     private long adminId;
@@ -142,7 +139,23 @@ public class ManageLinksActivity extends BaseFragment {
     private ArrayList<TLRPC$TL_chatInviteExported> revokedInvites = new ArrayList<>();
     private HashMap<Long, TLRPC$User> users = new HashMap<>();
     private ArrayList<TLRPC$TL_chatAdminWithInvites> admins = new ArrayList<>();
-    Runnable updateTimerRunnable = new Runnable() { // from class: org.telegram.ui.ManageLinksActivity.1
+    Runnable updateTimerRunnable = new AnonymousClass1();
+    boolean loadRevoked = false;
+    private final LinkEditActivity.Callback linkEditActivityCallback = new AnonymousClass6();
+    int animationIndex = -1;
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean needDelayOpenAnimation() {
+        return true;
+    }
+
+    /* renamed from: org.telegram.ui.ManageLinksActivity$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            ManageLinksActivity.this = r1;
+        }
+
         @Override // java.lang.Runnable
         public void run() {
             if (ManageLinksActivity.this.listView == null) {
@@ -159,17 +172,8 @@ public class ManageLinksActivity extends BaseFragment {
             }
             AndroidUtilities.runOnUIThread(this, 500L);
         }
-    };
-    boolean loadRevoked = false;
-    private final LinkEditActivity.Callback linkEditActivityCallback = new AnonymousClass6();
-    int animationIndex = -1;
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean needDelayOpenAnimation() {
-        return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class EmptyView extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
         private final int currentAccount = UserConfig.selectedAccount;
@@ -185,9 +189,9 @@ public class ManageLinksActivity extends BaseFragment {
         }
 
         private void setSticker() {
-            TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
+            TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName("tg_placeholders_android");
             if (stickerSetByName == null) {
-                stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
+                stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName("tg_placeholders_android");
             }
             TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSetByName;
             if (tLRPC$TL_messages_stickerSet != null && tLRPC$TL_messages_stickerSet.documents.size() >= 4) {
@@ -195,7 +199,7 @@ public class ManageLinksActivity extends BaseFragment {
                 this.stickerView.setImage(ImageLocation.getForDocument(tLRPC$Document), "104_104", "tgs", DocumentObject.getSvgThumb(tLRPC$Document, "windowBackgroundGray", 1.0f), tLRPC$TL_messages_stickerSet);
                 return;
             }
-            MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, tLRPC$TL_messages_stickerSet == null);
+            MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName("tg_placeholders_android", false, tLRPC$TL_messages_stickerSet == null);
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -213,7 +217,7 @@ public class ManageLinksActivity extends BaseFragment {
 
         @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
         public void didReceivedNotification(int i, int i2, Object... objArr) {
-            if (i != NotificationCenter.diceStickersDidLoad || !AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME.equals((String) objArr[0])) {
+            if (i != NotificationCenter.diceStickersDidLoad || !"tg_placeholders_android".equals((String) objArr[0])) {
                 return;
             }
             setSticker();
@@ -244,12 +248,7 @@ public class ManageLinksActivity extends BaseFragment {
             this.linksLoading = true;
             TLRPC$TL_messages_getAdminsWithInvites tLRPC$TL_messages_getAdminsWithInvites = new TLRPC$TL_messages_getAdminsWithInvites();
             tLRPC$TL_messages_getAdminsWithInvites.peer = getMessagesController().getInputPeer(-this.currentChatId);
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getAdminsWithInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda9
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ManageLinksActivity.this.lambda$loadLinks$2(tLObject, tLRPC$TL_error);
-                }
-            }), getClassGuid());
+            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getAdminsWithInvites, new ManageLinksActivity$$ExternalSyntheticLambda9(this)), getClassGuid());
         } else {
             TLRPC$TL_messages_getExportedChatInvites tLRPC$TL_messages_getExportedChatInvites = new TLRPC$TL_messages_getExportedChatInvites();
             tLRPC$TL_messages_getExportedChatInvites.peer = getMessagesController().getInputPeer(-this.currentChatId);
@@ -258,7 +257,7 @@ public class ManageLinksActivity extends BaseFragment {
             } else {
                 tLRPC$TL_messages_getExportedChatInvites.admin_id = getMessagesController().getInputUser(this.adminId);
             }
-            final boolean z2 = this.loadRevoked;
+            boolean z2 = this.loadRevoked;
             if (z2) {
                 tLRPC$TL_messages_getExportedChatInvites.revoked = true;
                 if (!this.revokedInvites.isEmpty()) {
@@ -276,35 +275,19 @@ public class ManageLinksActivity extends BaseFragment {
                 tLRPC$TL_messages_getExportedChatInvites.offset_date = arrayList4.get(arrayList4.size() - 1).date;
             }
             this.linksLoading = true;
-            final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.isPublic ? null : this.invite;
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda14
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ManageLinksActivity.this.lambda$loadLinks$5(tLRPC$TL_chatInviteExported, z2, tLObject, tLRPC$TL_error);
-                }
-            }), getClassGuid());
+            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getExportedChatInvites, new ManageLinksActivity$$ExternalSyntheticLambda14(this, this.isPublic ? null : this.invite, z2)), getClassGuid());
         }
         if (z) {
             updateRows(true);
         }
     }
 
-    public /* synthetic */ void lambda$loadLinks$1(final TLRPC$TL_error tLRPC$TL_error, final TLObject tLObject) {
-        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda4
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$loadLinks$0(tLRPC$TL_error, tLObject);
-            }
-        });
+    public /* synthetic */ void lambda$loadLinks$1(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+        getNotificationCenter().doOnIdle(new ManageLinksActivity$$ExternalSyntheticLambda4(this, tLRPC$TL_error, tLObject));
     }
 
-    public /* synthetic */ void lambda$loadLinks$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$loadLinks$1(tLRPC$TL_error, tLObject);
-            }
-        });
+    public /* synthetic */ void lambda$loadLinks$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new ManageLinksActivity$$ExternalSyntheticLambda5(this, tLRPC$TL_error, tLObject));
     }
 
     public /* synthetic */ void lambda$loadLinks$0(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
@@ -340,7 +323,7 @@ public class ManageLinksActivity extends BaseFragment {
         updateRows(true);
     }
 
-    public /* synthetic */ void lambda$loadLinks$5(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadLinks$5(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, boolean z, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2;
         if (tLRPC$TL_error == null) {
             TLRPC$TL_messages_exportedChatInvites tLRPC$TL_messages_exportedChatInvites = (TLRPC$TL_messages_exportedChatInvites) tLObject;
@@ -354,22 +337,11 @@ public class ManageLinksActivity extends BaseFragment {
             }
         }
         tLRPC$TL_chatInviteExported2 = null;
-        final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported3 = tLRPC$TL_chatInviteExported2;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$loadLinks$4(tLRPC$TL_chatInviteExported3, tLRPC$TL_error, tLObject, z);
-            }
-        });
+        AndroidUtilities.runOnUIThread(new ManageLinksActivity$$ExternalSyntheticLambda1(this, tLRPC$TL_chatInviteExported2, tLRPC$TL_error, tLObject, z));
     }
 
-    public /* synthetic */ void lambda$loadLinks$4(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLRPC$TL_error tLRPC$TL_error, final TLObject tLObject, final boolean z) {
-        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$loadLinks$3(tLRPC$TL_chatInviteExported, tLRPC$TL_error, tLObject, z);
-            }
-        });
+    public /* synthetic */ void lambda$loadLinks$4(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, boolean z) {
+        getNotificationCenter().doOnIdle(new ManageLinksActivity$$ExternalSyntheticLambda2(this, tLRPC$TL_chatInviteExported, tLRPC$TL_error, tLObject, z));
     }
 
     /* JADX WARN: Removed duplicated region for block: B:80:0x015a  */
@@ -606,88 +578,113 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public View createView(final Context context) {
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+    public View createView(Context context) {
+        this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("InviteLinks", R.string.InviteLinks));
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ManageLinksActivity.2
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    ManageLinksActivity.this.finishFragment();
-                }
-            }
-        });
-        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.ManageLinksActivity.3
-            @Override // android.view.ViewGroup, android.view.View
-            protected void onAttachedToWindow() {
-                super.onAttachedToWindow();
-                AndroidUtilities.runOnUIThread(ManageLinksActivity.this.updateTimerRunnable, 500L);
-            }
-
-            @Override // android.view.ViewGroup, android.view.View
-            protected void onDetachedFromWindow() {
-                super.onDetachedFromWindow();
-                AndroidUtilities.cancelRunOnUIThread(ManageLinksActivity.this.updateTimerRunnable);
-            }
-        };
-        this.fragmentView = frameLayout;
-        frameLayout.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
+        this.actionBar.setTitle(LocaleController.getString("InviteLinks", 2131626317));
+        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
+        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
+        this.fragmentView = anonymousClass3;
+        anonymousClass3.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
         this.fragmentView.setTag("windowBackgroundGray");
-        FrameLayout frameLayout2 = (FrameLayout) this.fragmentView;
+        FrameLayout frameLayout = (FrameLayout) this.fragmentView;
         this.listView = new RecyclerListView(context);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, context, 1, false) { // from class: org.telegram.ui.ManageLinksActivity.4
-            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public boolean supportsPredictiveItemAnimations() {
-                return false;
-            }
-        };
-        this.listView.setLayoutManager(linearLayoutManager);
+        AnonymousClass4 anonymousClass4 = new AnonymousClass4(this, context, 1, false);
+        this.listView.setLayoutManager(anonymousClass4);
         RecyclerListView recyclerListView = this.listView;
         ListAdapter listAdapter = new ListAdapter(context);
         this.listViewAdapter = listAdapter;
         recyclerListView.setAdapter(listAdapter);
-        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ManageLinksActivity.5
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                super.onScrolled(recyclerView, i, i2);
-                ManageLinksActivity manageLinksActivity = ManageLinksActivity.this;
-                if (!manageLinksActivity.hasMore || manageLinksActivity.linksLoading) {
-                    return;
-                }
-                if (ManageLinksActivity.this.rowCount - linearLayoutManager.findLastVisibleItemPosition() >= 10) {
-                    return;
-                }
-                ManageLinksActivity.this.loadLinks(true);
-            }
-        });
+        this.listView.setOnScrollListener(new AnonymousClass5(anonymousClass4));
         this.recyclerItemsEnterAnimator = new RecyclerItemsEnterAnimator(this.listView, false);
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
         defaultItemAnimator.setDelayAnimations(false);
         defaultItemAnimator.setSupportsChangeAnimations(false);
         this.listView.setItemAnimator(defaultItemAnimator);
         this.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
-        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda16
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i) {
-                ManageLinksActivity.this.lambda$createView$9(context, view, i);
-            }
-        });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda17
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
-            public final boolean onItemClick(View view, int i) {
-                boolean lambda$createView$10;
-                lambda$createView$10 = ManageLinksActivity.this.lambda$createView$10(view, i);
-                return lambda$createView$10;
-            }
-        });
-        this.linkIcon = ContextCompat.getDrawable(context, R.drawable.msg_link_1);
-        this.linkIconRevoked = ContextCompat.getDrawable(context, R.drawable.msg_link_2);
+        frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+        this.listView.setOnItemClickListener(new ManageLinksActivity$$ExternalSyntheticLambda16(this, context));
+        this.listView.setOnItemLongClickListener(new ManageLinksActivity$$ExternalSyntheticLambda17(this));
+        this.linkIcon = ContextCompat.getDrawable(context, 2131165785);
+        this.linkIconRevoked = ContextCompat.getDrawable(context, 2131165786);
         this.linkIcon.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
         updateRows(true);
         this.timeDif = getConnectionsManager().getCurrentTime() - (System.currentTimeMillis() / 1000);
         return this.fragmentView;
+    }
+
+    /* renamed from: org.telegram.ui.ManageLinksActivity$2 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass2 extends ActionBar.ActionBarMenuOnItemClick {
+        AnonymousClass2() {
+            ManageLinksActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+        public void onItemClick(int i) {
+            if (i == -1) {
+                ManageLinksActivity.this.finishFragment();
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.ManageLinksActivity$3 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass3 extends FrameLayout {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass3(Context context) {
+            super(context);
+            ManageLinksActivity.this = r1;
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            AndroidUtilities.runOnUIThread(ManageLinksActivity.this.updateTimerRunnable, 500L);
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            AndroidUtilities.cancelRunOnUIThread(ManageLinksActivity.this.updateTimerRunnable);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.ManageLinksActivity$4 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass4 extends LinearLayoutManager {
+        @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
+
+        AnonymousClass4(ManageLinksActivity manageLinksActivity, Context context, int i, boolean z) {
+            super(context, i, z);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.ManageLinksActivity$5 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass5 extends RecyclerView.OnScrollListener {
+        final /* synthetic */ LinearLayoutManager val$layoutManager;
+
+        AnonymousClass5(LinearLayoutManager linearLayoutManager) {
+            ManageLinksActivity.this = r1;
+            this.val$layoutManager = linearLayoutManager;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+            super.onScrolled(recyclerView, i, i2);
+            ManageLinksActivity manageLinksActivity = ManageLinksActivity.this;
+            if (!manageLinksActivity.hasMore || manageLinksActivity.linksLoading) {
+                return;
+            }
+            if (ManageLinksActivity.this.rowCount - this.val$layoutManager.findLastVisibleItemPosition() >= 10) {
+                return;
+            }
+            ManageLinksActivity.this.loadLinks(true);
+        }
     }
 
     public /* synthetic */ void lambda$createView$9(Context context, View view, int i) {
@@ -723,15 +720,10 @@ public class ManageLinksActivity extends BaseFragment {
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("DeleteAllRevokedLinks", R.string.DeleteAllRevokedLinks));
-                builder.setMessage(LocaleController.getString("DeleteAllRevokedLinkHelp", R.string.DeleteAllRevokedLinkHelp));
-                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i4) {
-                        ManageLinksActivity.this.lambda$createView$8(dialogInterface, i4);
-                    }
-                });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.setTitle(LocaleController.getString("DeleteAllRevokedLinks", 2131625397));
+                builder.setMessage(LocaleController.getString("DeleteAllRevokedLinkHelp", 2131625396));
+                builder.setPositiveButton(LocaleController.getString("Delete", 2131625384), new ManageLinksActivity$$ExternalSyntheticLambda0(this));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 showDialog(builder.create());
             } else {
                 int i4 = this.adminsStartRow;
@@ -758,21 +750,11 @@ public class ManageLinksActivity extends BaseFragment {
             tLRPC$TL_messages_deleteRevokedExportedChatInvites.admin_id = getMessagesController().getInputUser(this.adminId);
         }
         this.deletingRevokedLinks = true;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteRevokedExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda10
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ManageLinksActivity.this.lambda$createView$7(tLObject, tLRPC$TL_error);
-            }
-        });
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteRevokedExportedChatInvites, new ManageLinksActivity$$ExternalSyntheticLambda10(this));
     }
 
-    public /* synthetic */ void lambda$createView$7(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda3
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$createView$6(tLRPC$TL_error);
-            }
-        });
+    public /* synthetic */ void lambda$createView$7(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new ManageLinksActivity$$ExternalSyntheticLambda3(this, tLRPC$TL_error));
     }
 
     public /* synthetic */ void lambda$createView$6(TLRPC$TL_error tLRPC$TL_error) {
@@ -828,10 +810,10 @@ public class ManageLinksActivity extends BaseFragment {
             this.messageTextView.setGravity(17);
             TextView textView2 = this.messageTextView;
             if (manageLinksActivity.isChannel) {
-                i = R.string.PrimaryLinkHelpChannel;
+                i = 2131627748;
                 str = "PrimaryLinkHelpChannel";
             } else {
-                i = R.string.PrimaryLinkHelp;
+                i = 2131627747;
                 str = "PrimaryLinkHelp";
             }
             textView2.setText(LocaleController.getString(str, i));
@@ -887,36 +869,9 @@ public class ManageLinksActivity extends BaseFragment {
                 case 2:
                     Context context = this.mContext;
                     ManageLinksActivity manageLinksActivity = ManageLinksActivity.this;
-                    final LinkActionView linkActionView = new LinkActionView(context, manageLinksActivity, null, manageLinksActivity.currentChatId, true, ManageLinksActivity.this.isChannel);
+                    LinkActionView linkActionView = new LinkActionView(context, manageLinksActivity, null, manageLinksActivity.currentChatId, true, ManageLinksActivity.this.isChannel);
                     linkActionView.setPermanent(true);
-                    linkActionView.setDelegate(new LinkActionView.Delegate() { // from class: org.telegram.ui.ManageLinksActivity.ListAdapter.1
-                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
-                        public /* synthetic */ void editLink() {
-                            LinkActionView.Delegate.CC.$default$editLink(this);
-                        }
-
-                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
-                        public /* synthetic */ void removeLink() {
-                            LinkActionView.Delegate.CC.$default$removeLink(this);
-                        }
-
-                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
-                        public void revokeLink() {
-                            ManageLinksActivity.this.revokePermanent();
-                        }
-
-                        @Override // org.telegram.ui.Components.LinkActionView.Delegate
-                        public void showUsersForPermanentLink() {
-                            ManageLinksActivity manageLinksActivity2 = ManageLinksActivity.this;
-                            Context context2 = linkActionView.getContext();
-                            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = ManageLinksActivity.this.invite;
-                            TLRPC$ChatFull tLRPC$ChatFull = ManageLinksActivity.this.info;
-                            HashMap hashMap = ManageLinksActivity.this.users;
-                            ManageLinksActivity manageLinksActivity3 = ManageLinksActivity.this;
-                            manageLinksActivity2.inviteLinkBottomSheet = new InviteLinkBottomSheet(context2, tLRPC$TL_chatInviteExported, tLRPC$ChatFull, hashMap, manageLinksActivity3, manageLinksActivity3.currentChatId, true, ManageLinksActivity.this.isChannel);
-                            ManageLinksActivity.this.inviteLinkBottomSheet.show();
-                        }
-                    });
+                    linkActionView.setDelegate(new AnonymousClass1(linkActionView));
                     linkActionView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                     hintInnerCell = linkActionView;
                     break;
@@ -941,21 +896,21 @@ public class ManageLinksActivity extends BaseFragment {
                     break;
                 case 7:
                     ShadowSectionCell shadowSectionCell2 = new ShadowSectionCell(this.mContext);
-                    shadowSectionCell2.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    shadowSectionCell2.setBackground(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
                     shadowSectionCell = shadowSectionCell2;
                     hintInnerCell = shadowSectionCell;
                     break;
                 case 8:
                     TextSettingsCell textSettingsCell = new TextSettingsCell(this.mContext);
                     textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    textSettingsCell.setText(LocaleController.getString("DeleteAllRevokedLinks", R.string.DeleteAllRevokedLinks), false);
+                    textSettingsCell.setText(LocaleController.getString("DeleteAllRevokedLinks", 2131625397), false);
                     textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText5"));
                     hintInnerCell = textSettingsCell;
                     break;
                 case 9:
                     TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
-                    textInfoPrivacyCell.setText(LocaleController.getString("CreateNewLinkHelp", R.string.CreateNewLinkHelp));
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    textInfoPrivacyCell.setText(LocaleController.getString("CreateNewLinkHelp", 2131625294));
+                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
                     shadowSectionCell = textInfoPrivacyCell;
                     hintInnerCell = shadowSectionCell;
                     break;
@@ -966,12 +921,50 @@ public class ManageLinksActivity extends BaseFragment {
                     break;
                 default:
                     HintInnerCell hintInnerCell2 = new HintInnerCell(ManageLinksActivity.this, this.mContext);
-                    hintInnerCell2.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundWhite"));
+                    hintInnerCell2.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundWhite"));
                     hintInnerCell = hintInnerCell2;
                     break;
             }
             hintInnerCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
             return new RecyclerListView.Holder(hintInnerCell);
+        }
+
+        /* renamed from: org.telegram.ui.ManageLinksActivity$ListAdapter$1 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass1 implements LinkActionView.Delegate {
+            final /* synthetic */ LinkActionView val$linkActionView;
+
+            @Override // org.telegram.ui.Components.LinkActionView.Delegate
+            public /* synthetic */ void editLink() {
+                LinkActionView.Delegate.CC.$default$editLink(this);
+            }
+
+            @Override // org.telegram.ui.Components.LinkActionView.Delegate
+            public /* synthetic */ void removeLink() {
+                LinkActionView.Delegate.CC.$default$removeLink(this);
+            }
+
+            AnonymousClass1(LinkActionView linkActionView) {
+                ListAdapter.this = r1;
+                this.val$linkActionView = linkActionView;
+            }
+
+            @Override // org.telegram.ui.Components.LinkActionView.Delegate
+            public void revokeLink() {
+                ManageLinksActivity.this.revokePermanent();
+            }
+
+            @Override // org.telegram.ui.Components.LinkActionView.Delegate
+            public void showUsersForPermanentLink() {
+                ManageLinksActivity manageLinksActivity = ManageLinksActivity.this;
+                Context context = this.val$linkActionView.getContext();
+                TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = ManageLinksActivity.this.invite;
+                TLRPC$ChatFull tLRPC$ChatFull = ManageLinksActivity.this.info;
+                HashMap hashMap = ManageLinksActivity.this.users;
+                ManageLinksActivity manageLinksActivity2 = ManageLinksActivity.this;
+                manageLinksActivity.inviteLinkBottomSheet = new InviteLinkBottomSheet(context, tLRPC$TL_chatInviteExported, tLRPC$ChatFull, hashMap, manageLinksActivity2, manageLinksActivity2.currentChatId, true, ManageLinksActivity.this.isChannel);
+                ManageLinksActivity.this.inviteLinkBottomSheet.show();
+            }
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:27:0x00b5, code lost:
@@ -1008,25 +1001,25 @@ public class ManageLinksActivity extends BaseFragment {
                 if (i == ManageLinksActivity.this.permanentLinkHeaderRow) {
                     if (!ManageLinksActivity.this.isPublic || ManageLinksActivity.this.adminId != ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) {
                         if (ManageLinksActivity.this.adminId == ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) {
-                            headerCell.setText(LocaleController.getString("ChannelInviteLinkTitle", R.string.ChannelInviteLinkTitle));
+                            headerCell.setText(LocaleController.getString("ChannelInviteLinkTitle", 2131624918));
                             return;
                         } else {
-                            headerCell.setText(LocaleController.getString("PermanentLinkForThisAdmin", R.string.PermanentLinkForThisAdmin));
+                            headerCell.setText(LocaleController.getString("PermanentLinkForThisAdmin", 2131627514));
                             return;
                         }
                     }
-                    headerCell.setText(LocaleController.getString("PublicLink", R.string.PublicLink));
+                    headerCell.setText(LocaleController.getString("PublicLink", 2131627827));
                 } else if (i != ManageLinksActivity.this.revokedHeader) {
                     if (i != ManageLinksActivity.this.linksHeaderRow) {
                         if (i != ManageLinksActivity.this.adminsHeaderRow) {
                             return;
                         }
-                        headerCell.setText(LocaleController.getString("LinksCreatedByOtherAdmins", R.string.LinksCreatedByOtherAdmins));
+                        headerCell.setText(LocaleController.getString("LinksCreatedByOtherAdmins", 2131626506));
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("LinksCreatedByThisAdmin", R.string.LinksCreatedByThisAdmin));
+                    headerCell.setText(LocaleController.getString("LinksCreatedByThisAdmin", 2131626507));
                 } else {
-                    headerCell.setText(LocaleController.getString("RevokedLinks", R.string.RevokedLinks));
+                    headerCell.setText(LocaleController.getString("RevokedLinks", 2131628118));
                 }
             } else if (itemViewType == 2) {
                 LinkActionView linkActionView = (LinkActionView) viewHolder.itemView;
@@ -1048,11 +1041,11 @@ public class ManageLinksActivity extends BaseFragment {
                     linkActionView.hideRevokeOption(true);
                 }
             } else if (itemViewType == 3) {
-                Drawable drawable = this.mContext.getResources().getDrawable(R.drawable.poll_add_circle);
-                Drawable drawable2 = this.mContext.getResources().getDrawable(R.drawable.poll_add_plus);
+                Drawable drawable = this.mContext.getResources().getDrawable(2131166080);
+                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166081);
                 drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
-                ((CreationTextCell) viewHolder.itemView).setTextAndIcon(LocaleController.getString("CreateNewLink", R.string.CreateNewLink), new CombinedDrawable(drawable, drawable2), !ManageLinksActivity.this.invites.isEmpty());
+                ((CreationTextCell) viewHolder.itemView).setTextAndIcon(LocaleController.getString("CreateNewLink", 2131625293), new CombinedDrawable(drawable, drawable2), !ManageLinksActivity.this.invites.isEmpty());
             } else if (itemViewType != 5) {
                 if (itemViewType != 10) {
                     return;
@@ -1140,15 +1133,10 @@ public class ManageLinksActivity extends BaseFragment {
             TLRPC$TL_messages_exportChatInvite tLRPC$TL_messages_exportChatInvite = new TLRPC$TL_messages_exportChatInvite();
             tLRPC$TL_messages_exportChatInvite.peer = getMessagesController().getInputPeer(-this.currentChatId);
             tLRPC$TL_messages_exportChatInvite.legacy_revoke_permanent = true;
-            final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
+            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
             this.invite = null;
             this.info.exported_invite = null;
-            int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda11
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ManageLinksActivity.this.lambda$revokePermanent$12(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
-                }
-            });
+            int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_exportChatInvite, new ManageLinksActivity$$ExternalSyntheticLambda11(this, tLRPC$TL_chatInviteExported));
             AndroidUtilities.updateVisibleRows(this.listView);
             getConnectionsManager().bindRequestToGuid(sendRequest, this.classGuid);
             return;
@@ -1156,13 +1144,8 @@ public class ManageLinksActivity extends BaseFragment {
         revokeLink(this.invite);
     }
 
-    public /* synthetic */ void lambda$revokePermanent$12(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda7
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$revokePermanent$11(tLRPC$TL_error, tLObject, tLRPC$TL_chatInviteExported);
-            }
-        });
+    public /* synthetic */ void lambda$revokePermanent$12(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new ManageLinksActivity$$ExternalSyntheticLambda7(this, tLRPC$TL_error, tLObject, tLRPC$TL_chatInviteExported));
     }
 
     public /* synthetic */ void lambda$revokePermanent$11(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
@@ -1180,7 +1163,7 @@ public class ManageLinksActivity extends BaseFragment {
             DiffCallback saveListState = saveListState();
             this.revokedInvites.add(0, tLRPC$TL_chatInviteExported);
             updateRecyclerViewAnimated(saveListState);
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("InviteRevokedHint", R.string.InviteRevokedHint)).show();
+            BulletinFactory.of(this).createSimpleBulletin(2131558485, LocaleController.getString("InviteRevokedHint", 2131626318)).show();
         }
     }
 
@@ -1230,15 +1213,10 @@ public class ManageLinksActivity extends BaseFragment {
             linearLayout.addView(this.subtitleView, LayoutHelper.createLinear(-1, -2, 0.0f, 6.0f, 0.0f, 0.0f));
             ImageView imageView = new ImageView(context);
             this.optionsView = imageView;
-            imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_ab_other));
+            imageView.setImageDrawable(ContextCompat.getDrawable(context, 2131165453));
             this.optionsView.setScaleType(ImageView.ScaleType.CENTER);
             this.optionsView.setColorFilter(Theme.getColor("stickers_menu"));
-            this.optionsView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda3
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    ManageLinksActivity.LinkCell.this.lambda$new$3(view);
-                }
-            });
+            this.optionsView.setOnClickListener(new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda3(this));
             this.optionsView.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 1));
             addView(this.optionsView, LayoutHelper.createFrame(40, 48, 21));
             setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
@@ -1257,37 +1235,32 @@ public class ManageLinksActivity extends BaseFragment {
             }
             ArrayList arrayList = new ArrayList();
             ArrayList arrayList2 = new ArrayList();
-            final ArrayList arrayList3 = new ArrayList();
+            ArrayList arrayList3 = new ArrayList();
             if (this.invite.revoked) {
-                arrayList.add(LocaleController.getString("Delete", R.string.Delete));
-                arrayList2.add(Integer.valueOf((int) R.drawable.msg_delete));
+                arrayList.add(LocaleController.getString("Delete", 2131625384));
+                arrayList2.add(2131165702);
                 arrayList3.add(4);
             } else {
-                arrayList.add(LocaleController.getString("CopyLink", R.string.CopyLink));
-                arrayList2.add(Integer.valueOf((int) R.drawable.msg_copy));
+                arrayList.add(LocaleController.getString("CopyLink", 2131625274));
+                arrayList2.add(2131165697);
                 arrayList3.add(0);
-                arrayList.add(LocaleController.getString("ShareLink", R.string.ShareLink));
-                arrayList2.add(Integer.valueOf((int) R.drawable.msg_share));
+                arrayList.add(LocaleController.getString("ShareLink", 2131628337));
+                arrayList2.add(2131165939);
                 arrayList3.add(1);
                 if (!this.invite.permanent && ManageLinksActivity.this.canEdit) {
-                    arrayList.add(LocaleController.getString("EditLink", R.string.EditLink));
-                    arrayList2.add(Integer.valueOf((int) R.drawable.msg_edit));
+                    arrayList.add(LocaleController.getString("EditLink", 2131625592));
+                    arrayList2.add(2131165714);
                     arrayList3.add(2);
                 }
                 if (ManageLinksActivity.this.canEdit) {
-                    arrayList.add(LocaleController.getString("RevokeLink", R.string.RevokeLink));
-                    arrayList2.add(Integer.valueOf((int) R.drawable.msg_delete));
+                    arrayList.add(LocaleController.getString("RevokeLink", 2131628105));
+                    arrayList2.add(2131165702);
                     arrayList3.add(3);
                 } else {
                     z = false;
                     AlertDialog.Builder builder = new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity());
-                    builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), AndroidUtilities.toIntArray(arrayList2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda0
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            ManageLinksActivity.LinkCell.this.lambda$new$2(arrayList3, dialogInterface, i);
-                        }
-                    });
-                    builder.setTitle(LocaleController.getString("InviteLink", R.string.InviteLink));
+                    builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), AndroidUtilities.toIntArray(arrayList2), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda0(this, arrayList3));
+                    builder.setTitle(LocaleController.getString("InviteLink", 2131626310));
                     AlertDialog create = builder.create();
                     builder.show();
                     if (z) {
@@ -1299,13 +1272,8 @@ public class ManageLinksActivity extends BaseFragment {
             }
             z = true;
             AlertDialog.Builder builder2 = new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity());
-            builder2.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), AndroidUtilities.toIntArray(arrayList2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ManageLinksActivity.LinkCell.this.lambda$new$2(arrayList3, dialogInterface, i);
-                }
-            });
-            builder2.setTitle(LocaleController.getString("InviteLink", R.string.InviteLink));
+            builder2.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), AndroidUtilities.toIntArray(arrayList2), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda0(this, arrayList3));
+            builder2.setTitle(LocaleController.getString("InviteLink", 2131626310));
             AlertDialog create2 = builder2.create();
             builder2.show();
             if (z) {
@@ -1332,38 +1300,28 @@ public class ManageLinksActivity extends BaseFragment {
                     Intent intent = new Intent("android.intent.action.SEND");
                     intent.setType("text/plain");
                     intent.putExtra("android.intent.extra.TEXT", this.invite.link);
-                    ManageLinksActivity.this.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteToGroupByLink", R.string.InviteToGroupByLink)), 500);
+                    ManageLinksActivity.this.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteToGroupByLink", 2131626327)), 500);
                 } catch (Exception e2) {
                     FileLog.e(e2);
                 }
             } else if (intValue == 2) {
                 ManageLinksActivity.this.editLink(this.invite);
             } else if (intValue == 3) {
-                final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
+                TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
                 AlertDialog.Builder builder = new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity());
-                builder.setMessage(LocaleController.getString("RevokeAlert", R.string.RevokeAlert));
-                builder.setTitle(LocaleController.getString("RevokeLink", R.string.RevokeLink));
-                builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda1
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface2, int i2) {
-                        ManageLinksActivity.LinkCell.this.lambda$new$0(tLRPC$TL_chatInviteExported, dialogInterface2, i2);
-                    }
-                });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.setMessage(LocaleController.getString("RevokeAlert", 2131628102));
+                builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
+                builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda1(this, tLRPC$TL_chatInviteExported));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 ManageLinksActivity.this.showDialog(builder.create());
             } else if (intValue != 4) {
             } else {
-                final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = this.invite;
+                TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = this.invite;
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity());
-                builder2.setTitle(LocaleController.getString("DeleteLink", R.string.DeleteLink));
-                builder2.setMessage(LocaleController.getString("DeleteLinkHelp", R.string.DeleteLinkHelp));
-                builder2.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda2
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface2, int i2) {
-                        ManageLinksActivity.LinkCell.this.lambda$new$1(tLRPC$TL_chatInviteExported2, dialogInterface2, i2);
-                    }
-                });
-                builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder2.setTitle(LocaleController.getString("DeleteLink", 2131625429));
+                builder2.setMessage(LocaleController.getString("DeleteLinkHelp", 2131625430));
+                builder2.setPositiveButton(LocaleController.getString("Delete", 2131625384), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda2(this, tLRPC$TL_chatInviteExported2));
+                builder2.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 ManageLinksActivity.this.showDialog(builder2.create());
             }
         }
@@ -1571,7 +1529,7 @@ public class ManageLinksActivity extends BaseFragment {
             }
             int i4 = tLRPC$TL_chatInviteExported.usage;
             if (i4 == 0 && tLRPC$TL_chatInviteExported.usage_limit == 0 && tLRPC$TL_chatInviteExported.requested == 0) {
-                str = LocaleController.getString("NoOneJoinedYet", R.string.NoOneJoinedYet);
+                str = LocaleController.getString("NoOneJoinedYet", 2131626893);
             } else {
                 int i5 = tLRPC$TL_chatInviteExported.usage_limit;
                 if (i5 > 0 && i4 == 0 && !tLRPC$TL_chatInviteExported.expired && !tLRPC$TL_chatInviteExported.revoked) {
@@ -1593,11 +1551,11 @@ public class ManageLinksActivity extends BaseFragment {
                 DotDividerSpan dotDividerSpan = new DotDividerSpan();
                 dotDividerSpan.setTopPadding(AndroidUtilities.dp(1.5f));
                 spannableStringBuilder2.append((CharSequence) "  .  ").setSpan(dotDividerSpan, spannableStringBuilder2.length() - 3, spannableStringBuilder2.length() - 2, 0);
-                spannableStringBuilder2.append((CharSequence) LocaleController.getString("Permanent", R.string.Permanent));
+                spannableStringBuilder2.append((CharSequence) LocaleController.getString("Permanent", 2131627513));
                 this.subtitleView.setText(spannableStringBuilder2);
             } else if (tLRPC$TL_chatInviteExported.expired || tLRPC$TL_chatInviteExported.revoked) {
                 if (tLRPC$TL_chatInviteExported.revoked && tLRPC$TL_chatInviteExported.usage == 0) {
-                    str = LocaleController.getString("NoOneJoined", R.string.NoOneJoined);
+                    str = LocaleController.getString("NoOneJoined", 2131626892);
                 }
                 SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(str);
                 DotDividerSpan dotDividerSpan2 = new DotDividerSpan();
@@ -1605,13 +1563,13 @@ public class ManageLinksActivity extends BaseFragment {
                 spannableStringBuilder3.append((CharSequence) "  .  ").setSpan(dotDividerSpan2, spannableStringBuilder3.length() - 3, spannableStringBuilder3.length() - 2, 0);
                 boolean z = tLRPC$TL_chatInviteExported.revoked;
                 if (!z && (i3 = tLRPC$TL_chatInviteExported.usage_limit) > 0 && tLRPC$TL_chatInviteExported.usage >= i3) {
-                    spannableStringBuilder3.append((CharSequence) LocaleController.getString("LinkLimitReached", R.string.LinkLimitReached));
+                    spannableStringBuilder3.append((CharSequence) LocaleController.getString("LinkLimitReached", 2131626500));
                 } else {
                     if (z) {
-                        i2 = R.string.Revoked;
+                        i2 = 2131628116;
                         str2 = "Revoked";
                     } else {
-                        i2 = R.string.Expired;
+                        i2 = 2131625828;
                         str2 = "Expired";
                     }
                     spannableStringBuilder3.append((CharSequence) LocaleController.getString(str2, i2));
@@ -1644,25 +1602,15 @@ public class ManageLinksActivity extends BaseFragment {
         }
     }
 
-    public void deleteLink(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+    public void deleteLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
         TLRPC$TL_messages_deleteExportedChatInvite tLRPC$TL_messages_deleteExportedChatInvite = new TLRPC$TL_messages_deleteExportedChatInvite();
         tLRPC$TL_messages_deleteExportedChatInvite.link = tLRPC$TL_chatInviteExported.link;
         tLRPC$TL_messages_deleteExportedChatInvite.peer = getMessagesController().getInputPeer(-this.currentChatId);
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda13
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ManageLinksActivity.this.lambda$deleteLink$14(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
-            }
-        });
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_deleteExportedChatInvite, new ManageLinksActivity$$ExternalSyntheticLambda13(this, tLRPC$TL_chatInviteExported));
     }
 
-    public /* synthetic */ void lambda$deleteLink$14(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda8
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$deleteLink$13(tLRPC$TL_error, tLRPC$TL_chatInviteExported);
-            }
-        });
+    public /* synthetic */ void lambda$deleteLink$14(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new ManageLinksActivity$$ExternalSyntheticLambda8(this, tLRPC$TL_error, tLRPC$TL_chatInviteExported));
     }
 
     public /* synthetic */ void lambda$deleteLink$13(TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
@@ -1678,26 +1626,16 @@ public class ManageLinksActivity extends BaseFragment {
         presentFragment(linkEditActivity);
     }
 
-    public void revokeLink(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+    public void revokeLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
         TLRPC$TL_messages_editExportedChatInvite tLRPC$TL_messages_editExportedChatInvite = new TLRPC$TL_messages_editExportedChatInvite();
         tLRPC$TL_messages_editExportedChatInvite.link = tLRPC$TL_chatInviteExported.link;
         tLRPC$TL_messages_editExportedChatInvite.revoked = true;
         tLRPC$TL_messages_editExportedChatInvite.peer = getMessagesController().getInputPeer(-this.currentChatId);
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda12
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ManageLinksActivity.this.lambda$revokeLink$16(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
-            }
-        });
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_editExportedChatInvite, new ManageLinksActivity$$ExternalSyntheticLambda12(this, tLRPC$TL_chatInviteExported));
     }
 
-    public /* synthetic */ void lambda$revokeLink$16(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                ManageLinksActivity.this.lambda$revokeLink$15(tLRPC$TL_error, tLObject, tLRPC$TL_chatInviteExported);
-            }
-        });
+    public /* synthetic */ void lambda$revokeLink$16(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new ManageLinksActivity$$ExternalSyntheticLambda6(this, tLRPC$TL_error, tLObject, tLRPC$TL_chatInviteExported));
     }
 
     public /* synthetic */ void lambda$revokeLink$15(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
@@ -1732,7 +1670,7 @@ public class ManageLinksActivity extends BaseFragment {
             if (getParentActivity() == null) {
                 return;
             }
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("InviteRevokedHint", R.string.InviteRevokedHint)).show();
+            BulletinFactory.of(this).createSimpleBulletin(2131558485, LocaleController.getString("InviteRevokedHint", 2131626318)).show();
         }
     }
 
@@ -1744,14 +1682,9 @@ public class ManageLinksActivity extends BaseFragment {
         }
 
         @Override // org.telegram.ui.LinkEditActivity.Callback
-        public void onLinkCreated(final TLObject tLObject) {
+        public void onLinkCreated(TLObject tLObject) {
             if (tLObject instanceof TLRPC$TL_chatInviteExported) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$6$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ManageLinksActivity.AnonymousClass6.this.lambda$onLinkCreated$0(tLObject);
-                    }
-                }, 200L);
+                AndroidUtilities.runOnUIThread(new ManageLinksActivity$6$$ExternalSyntheticLambda0(this, tLObject), 200L);
             }
         }
 
@@ -1838,6 +1771,10 @@ public class ManageLinksActivity extends BaseFragment {
             this.oldRevokedLinks = new ArrayList<>();
         }
 
+        /* synthetic */ DiffCallback(ManageLinksActivity manageLinksActivity, AnonymousClass1 anonymousClass1) {
+            this();
+        }
+
         @Override // androidx.recyclerview.widget.DiffUtil.Callback
         public int getOldListSize() {
             return this.oldRowCount;
@@ -1898,7 +1835,7 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     public DiffCallback saveListState() {
-        DiffCallback diffCallback = new DiffCallback();
+        DiffCallback diffCallback = new DiffCallback(this, null);
         diffCallback.fillPositions(diffCallback.oldPositionToItem);
         diffCallback.oldLinksStartRow = this.linksStartRow;
         diffCallback.oldLinksEndRow = this.linksEndRow;
@@ -1936,17 +1873,7 @@ public class ManageLinksActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda15
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public final void didSetColor() {
-                ManageLinksActivity.this.lambda$getThemeDescriptions$17();
-            }
-
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
-            }
-        };
+        ManageLinksActivity$$ExternalSyntheticLambda15 manageLinksActivity$$ExternalSyntheticLambda15 = new ManageLinksActivity$$ExternalSyntheticLambda15(this);
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{HeaderCell.class, CreationTextCell.class, LinkActionView.class, LinkCell.class}, null, null, null, "windowBackgroundWhite"));
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND | ThemeDescription.FLAG_CHECKTAG, null, null, null, null, "windowBackgroundGray"));
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
@@ -1960,16 +1887,16 @@ public class ManageLinksActivity extends BaseFragment {
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{TextInfoPrivacyCell.class}, null, null, null, "windowBackgroundGrayShadow"));
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText4"));
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"nameTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, "windowBackgroundWhiteGrayText"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusOnlineColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, "windowBackgroundWhiteBlueText"));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusColor"}, (Paint[]) null, (Drawable[]) null, manageLinksActivity$$ExternalSyntheticLambda15, "windowBackgroundWhiteGrayText"));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusOnlineColor"}, (Paint[]) null, (Drawable[]) null, manageLinksActivity$$ExternalSyntheticLambda15, "windowBackgroundWhiteBlueText"));
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{ManageChatUserCell.class}, null, Theme.avatarDrawables, null, "avatar_text"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundRed"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundOrange"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundViolet"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundGreen"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundCyan"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundBlue"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundPink"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, manageLinksActivity$$ExternalSyntheticLambda15, "avatar_backgroundRed"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, manageLinksActivity$$ExternalSyntheticLambda15, "avatar_backgroundOrange"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, manageLinksActivity$$ExternalSyntheticLambda15, "avatar_backgroundViolet"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, manageLinksActivity$$ExternalSyntheticLambda15, "avatar_backgroundGreen"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, manageLinksActivity$$ExternalSyntheticLambda15, "avatar_backgroundCyan"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, manageLinksActivity$$ExternalSyntheticLambda15, "avatar_backgroundBlue"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, manageLinksActivity$$ExternalSyntheticLambda15, "avatar_backgroundPink"));
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{HintInnerCell.class}, new String[]{"messageTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chats_message"));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chats_unreadCounterMuted"));

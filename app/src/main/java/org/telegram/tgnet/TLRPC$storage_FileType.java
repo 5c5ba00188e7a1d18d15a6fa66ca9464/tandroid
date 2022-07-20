@@ -5,104 +5,34 @@ public abstract class TLRPC$storage_FileType extends TLObject {
         TLRPC$storage_FileType tLRPC$storage_FileType;
         switch (i) {
             case -1432995067:
-                tLRPC$storage_FileType = new TLRPC$storage_FileType() { // from class: org.telegram.tgnet.TLRPC$TL_storage_fileUnknown
-                    public static int constructor = -1432995067;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$storage_FileType = new TLRPC$TL_storage_fileUnknown();
                 break;
             case -1373745011:
-                tLRPC$storage_FileType = new TLRPC$storage_FileType() { // from class: org.telegram.tgnet.TLRPC$TL_storage_filePdf
-                    public static int constructor = -1373745011;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$storage_FileType = new TLRPC$TL_storage_filePdf();
                 break;
             case -1278304028:
-                tLRPC$storage_FileType = new TLRPC$storage_FileType() { // from class: org.telegram.tgnet.TLRPC$TL_storage_fileMp4
-                    public static int constructor = -1278304028;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$storage_FileType = new TLRPC$TL_storage_fileMp4();
                 break;
             case -891180321:
-                tLRPC$storage_FileType = new TLRPC$storage_FileType() { // from class: org.telegram.tgnet.TLRPC$TL_storage_fileGif
-                    public static int constructor = -891180321;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$storage_FileType = new TLRPC$TL_storage_fileGif();
                 break;
             case 8322574:
-                tLRPC$storage_FileType = new TLRPC$storage_FileType() { // from class: org.telegram.tgnet.TLRPC$TL_storage_fileJpeg
-                    public static int constructor = 8322574;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$storage_FileType = new TLRPC$TL_storage_fileJpeg();
                 break;
             case 172975040:
-                tLRPC$storage_FileType = new TLRPC$storage_FileType() { // from class: org.telegram.tgnet.TLRPC$TL_storage_filePng
-                    public static int constructor = 172975040;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$storage_FileType = new TLRPC$TL_storage_filePng();
                 break;
             case 276907596:
-                tLRPC$storage_FileType = new TLRPC$storage_FileType() { // from class: org.telegram.tgnet.TLRPC$TL_storage_fileWebp
-                    public static int constructor = 276907596;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$storage_FileType = new TLRPC$TL_storage_fileWebp();
                 break;
             case 1086091090:
-                tLRPC$storage_FileType = new TLRPC$storage_FileType() { // from class: org.telegram.tgnet.TLRPC$TL_storage_filePartial
-                    public static int constructor = 1086091090;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$storage_FileType = new TLRPC$TL_storage_filePartial();
                 break;
             case 1258941372:
-                tLRPC$storage_FileType = new TLRPC$storage_FileType() { // from class: org.telegram.tgnet.TLRPC$TL_storage_fileMov
-                    public static int constructor = 1258941372;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$storage_FileType = new TLRPC$TL_storage_fileMov();
                 break;
             case 1384777335:
-                tLRPC$storage_FileType = new TLRPC$storage_FileType() { // from class: org.telegram.tgnet.TLRPC$TL_storage_fileMp3
-                    public static int constructor = 1384777335;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$storage_FileType = new TLRPC$TL_storage_fileMp3();
                 break;
             default:
                 tLRPC$storage_FileType = null;

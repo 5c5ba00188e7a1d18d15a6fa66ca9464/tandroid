@@ -17,7 +17,6 @@ import com.google.android.gms.common.util.CrashUtils;
 import com.google.android.gms.common.util.DynamiteApi;
 import com.google.android.gms.dynamic.IObjectWrapper;
 import com.google.android.gms.dynamic.ObjectWrapper;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import dalvik.system.DelegateLastClassLoader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -416,7 +415,7 @@ public final class DynamiteModule {
         Exception e;
         Cursor cursor2 = null;
         try {
-            Cursor query = context.getContentResolver().query(new Uri.Builder().scheme(RemoteMessageConst.Notification.CONTENT).authority("com.google.android.gms.chimera").path(z ? "api_force_staging" : "api").appendPath(str).appendQueryParameter("requestStartTime", String.valueOf(zzg.get().longValue())).build(), null, null, null, null);
+            Cursor query = context.getContentResolver().query(new Uri.Builder().scheme("content").authority("com.google.android.gms.chimera").path(z ? "api_force_staging" : "api").appendPath(str).appendQueryParameter("requestStartTime", String.valueOf(zzg.get().longValue())).build(), null, null, null, null);
             if (query != null) {
                 try {
                     if (query.moveToFirst()) {

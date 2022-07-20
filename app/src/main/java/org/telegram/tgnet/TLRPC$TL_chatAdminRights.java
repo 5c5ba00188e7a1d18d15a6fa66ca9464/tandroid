@@ -38,7 +38,7 @@ public class TLRPC$TL_chatAdminRights extends TLObject {
         this.delete_messages = (readInt32 & 8) != 0;
         this.ban_users = (readInt32 & 16) != 0;
         this.invite_users = (readInt32 & 32) != 0;
-        this.pin_messages = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+        this.pin_messages = (readInt32 & 128) != 0;
         this.add_admins = (readInt32 & 512) != 0;
         this.anonymous = (readInt32 & 1024) != 0;
         this.manage_call = (readInt32 & 2048) != 0;
@@ -63,7 +63,7 @@ public class TLRPC$TL_chatAdminRights extends TLObject {
         this.flags = i5;
         int i6 = this.invite_users ? i5 | 32 : i5 & (-33);
         this.flags = i6;
-        int i7 = this.pin_messages ? i6 | ConnectionsManager.RequestFlagNeedQuickAck : i6 & (-129);
+        int i7 = this.pin_messages ? i6 | 128 : i6 & (-129);
         this.flags = i7;
         int i8 = this.add_admins ? i7 | 512 : i7 & (-513);
         this.flags = i8;

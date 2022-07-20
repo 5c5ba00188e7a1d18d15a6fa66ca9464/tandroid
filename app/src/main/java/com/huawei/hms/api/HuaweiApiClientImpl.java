@@ -38,7 +38,6 @@ import com.huawei.hms.support.api.core.ConnectService;
 import com.huawei.hms.support.api.entity.auth.PermissionInfo;
 import com.huawei.hms.support.api.entity.auth.Scope;
 import com.huawei.hms.support.api.entity.core.CheckConnectInfo;
-import com.huawei.hms.support.api.entity.core.CommonCode;
 import com.huawei.hms.support.api.entity.core.ConnectInfo;
 import com.huawei.hms.support.api.entity.core.ConnectResp;
 import com.huawei.hms.support.api.entity.core.DisconnectInfo;
@@ -322,7 +321,7 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         Map<Api<?>, Api.ApiOptions> map = this.n;
         if (map != null) {
             for (Api<?> api : map.keySet()) {
-                if (HuaweiApiAvailability.HMS_API_NAME_GAME.equals(api.getApiName())) {
+                if ("HuaweiGame.API".equals(api.getApiName())) {
                     return true;
                 }
             }
@@ -387,7 +386,7 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         if (resultCallback != null && str != null && bundle != null) {
             if (!innerIsConnected()) {
                 HMSLog.e("HuaweiApiClientImpl", "client is unConnect.");
-                return CommonCode.ErrorCode.CLIENT_API_INVALID;
+                return 907135003;
             }
             DataBuffer dataBuffer = new DataBuffer(str, i);
             MessageCodec find = CodecLookup.find(dataBuffer.getProtocol());
@@ -400,11 +399,11 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
                 return 0;
             } catch (RemoteException e2) {
                 HMSLog.e("HuaweiApiClientImpl", "remote exception:" + e2.getMessage());
-                return CommonCode.ErrorCode.INTERNAL_ERROR;
+                return 907135001;
             }
         }
         HMSLog.e("HuaweiApiClientImpl", "arguments is invalid.");
-        return CommonCode.ErrorCode.ARGUMENTS_INVALID;
+        return 907135000;
     }
 
     @Override // com.huawei.hms.api.HuaweiApiClient

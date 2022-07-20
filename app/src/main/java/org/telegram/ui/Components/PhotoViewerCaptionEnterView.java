@@ -35,16 +35,13 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$StickerSetCovered;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Components.EditTextCaption;
 import org.telegram.ui.Components.EmojiView;
-import org.telegram.ui.Components.PhotoViewerCaptionEnterView;
 import org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto;
 /* loaded from: classes3.dex */
 public class PhotoViewerCaptionEnterView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayoutPhoto.SizeNotifierFrameLayoutPhotoDelegate {
@@ -139,86 +136,30 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         this.emojiButton.setPadding(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(1.0f), 0, 0);
         this.emojiButton.setAlpha(0.58f);
         frameLayout.addView(this.emojiButton, LayoutHelper.createFrame(48, 48, 83));
-        this.emojiButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda5
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view2) {
-                PhotoViewerCaptionEnterView.this.lambda$new$0(view2);
-            }
-        });
-        this.emojiButton.setContentDescription(LocaleController.getString("Emoji", R.string.Emoji));
+        this.emojiButton.setOnClickListener(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda5(this));
+        this.emojiButton.setContentDescription(LocaleController.getString("Emoji", 2131625616));
         ImageView imageView2 = this.emojiButton;
         ReplaceableIconDrawable replaceableIconDrawable = new ReplaceableIconDrawable(context);
         this.emojiIconDrawable = replaceableIconDrawable;
         imageView2.setImageDrawable(replaceableIconDrawable);
         this.emojiIconDrawable.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
-        this.emojiIconDrawable.setIcon(R.drawable.input_smile, false);
+        this.emojiIconDrawable.setIcon(2131165543, false);
         TextPaint textPaint = new TextPaint(1);
         this.lengthTextPaint = textPaint;
         textPaint.setTextSize(AndroidUtilities.dp(13.0f));
-        this.lengthTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.lengthTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.lengthTextPaint.setColor(-2500135);
-        EditTextCaption editTextCaption = new EditTextCaption(context, null) { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.1
-            @Override // org.telegram.ui.Components.EditTextBoldCursor
-            protected int getActionModeStyle() {
-                return 2;
-            }
-
-            @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onMeasure(int i, int i2) {
-                try {
-                    PhotoViewerCaptionEnterView.this.isInitLineCount = getMeasuredWidth() == 0 && getMeasuredHeight() == 0;
-                    super.onMeasure(i, i2);
-                    if (PhotoViewerCaptionEnterView.this.isInitLineCount) {
-                        PhotoViewerCaptionEnterView.this.lineCount = getLineCount();
-                    }
-                    PhotoViewerCaptionEnterView.this.isInitLineCount = false;
-                } catch (Exception e) {
-                    setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(51.0f));
-                    FileLog.e(e);
-                }
-            }
-
-            @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-            public void onSelectionChanged(int i, int i2) {
-                super.onSelectionChanged(i, i2);
-                if (i != i2) {
-                    fixHandleView(false);
-                } else {
-                    fixHandleView(true);
-                }
-            }
-
-            @Override // org.telegram.ui.Components.EditTextBoldCursor
-            protected void extendActionMode(ActionMode actionMode, Menu menu) {
-                PhotoViewerCaptionEnterView.this.extendActionMode(actionMode, menu);
-            }
-
-            @Override // android.view.View
-            public boolean requestRectangleOnScreen(android.graphics.Rect rect) {
-                rect.bottom += AndroidUtilities.dp(1000.0f);
-                return super.requestRectangleOnScreen(rect);
-            }
-        };
-        this.messageEditText = editTextCaption;
-        editTextCaption.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda6
-            @Override // android.view.View.OnFocusChangeListener
-            public final void onFocusChange(View view2, boolean z) {
-                PhotoViewerCaptionEnterView.this.lambda$new$1(view2, z);
-            }
-        });
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, null);
+        this.messageEditText = anonymousClass1;
+        anonymousClass1.setOnFocusChangeListener(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda6(this));
         this.messageEditText.setSelectAllOnFocus(false);
-        this.messageEditText.setDelegate(new EditTextCaption.EditTextCaptionDelegate() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda9
-            @Override // org.telegram.ui.Components.EditTextCaption.EditTextCaptionDelegate
-            public final void onSpansChanged() {
-                PhotoViewerCaptionEnterView.this.lambda$new$2();
-            }
-        });
+        this.messageEditText.setDelegate(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda9(this));
         this.messageEditText.setWindowView(this.windowView);
-        this.messageEditText.setHint(LocaleController.getString("AddCaption", R.string.AddCaption));
+        this.messageEditText.setHint(LocaleController.getString("AddCaption", 2131624263));
         this.messageEditText.setImeOptions(268435456);
         this.messageEditText.setLinkTextColor(-8994063);
-        EditTextCaption editTextCaption2 = this.messageEditText;
-        editTextCaption2.setInputType(editTextCaption2.getInputType() | 16384);
+        EditTextCaption editTextCaption = this.messageEditText;
+        editTextCaption.setInputType(editTextCaption.getInputType() | 16384);
         this.messageEditText.setMaxLines(4);
         this.messageEditText.setHorizontallyScrolling(false);
         this.messageEditText.setTextSize(1, 18.0f);
@@ -231,22 +172,10 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         this.messageEditText.setHighlightColor(1342177279);
         this.messageEditText.setHintTextColor(-1291845633);
         frameLayout.addView(this.messageEditText, LayoutHelper.createFrame(-1, -2.0f, 83, 52.0f, 0.0f, 6.0f, 0.0f));
-        this.messageEditText.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda7
-            @Override // android.view.View.OnKeyListener
-            public final boolean onKey(View view2, int i, KeyEvent keyEvent) {
-                boolean lambda$new$3;
-                lambda$new$3 = PhotoViewerCaptionEnterView.this.lambda$new$3(view2, i, keyEvent);
-                return lambda$new$3;
-            }
-        });
-        this.messageEditText.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda4
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view2) {
-                PhotoViewerCaptionEnterView.this.lambda$new$4(view2);
-            }
-        });
+        this.messageEditText.setOnKeyListener(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda7(this));
+        this.messageEditText.setOnClickListener(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda4(this));
         this.messageEditText.addTextChangedListener(new AnonymousClass2());
-        this.checkDrawable = context.getResources().getDrawable(R.drawable.input_done).mutate();
+        this.checkDrawable = context.getResources().getDrawable(2131165533).mutate();
         CombinedDrawable combinedDrawable = new CombinedDrawable(this.doneDrawable, this.checkDrawable, 0, AndroidUtilities.dp(1.0f));
         combinedDrawable.setCustomSize(AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
         ImageView imageView3 = new ImageView(context);
@@ -254,19 +183,14 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
         imageView3.setImageDrawable(combinedDrawable);
         linearLayout.addView(imageView3, LayoutHelper.createLinear(48, 48, 80));
-        imageView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda3
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view2) {
-                PhotoViewerCaptionEnterView.this.lambda$new$5(view2);
-            }
-        });
-        imageView3.setContentDescription(LocaleController.getString("Done", R.string.Done));
+        imageView3.setOnClickListener(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda3(this));
+        imageView3.setContentDescription(LocaleController.getString("Done", 2131625541));
         NumberTextView numberTextView = new NumberTextView(context);
         this.captionLimitView = numberTextView;
         numberTextView.setVisibility(8);
         this.captionLimitView.setTextSize(15);
         this.captionLimitView.setTextColor(-1);
-        this.captionLimitView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.captionLimitView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.captionLimitView.setCenterAlign(true);
         addView(this.captionLimitView, LayoutHelper.createFrame(48, 20.0f, 85, 3.0f, 0.0f, 3.0f, 48.0f));
         this.currentAccount = UserConfig.selectedAccount;
@@ -277,6 +201,57 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             showPopup(1, false);
         } else {
             openKeyboardInternal();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.PhotoViewerCaptionEnterView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends EditTextCaption {
+        @Override // org.telegram.ui.Components.EditTextBoldCursor
+        protected int getActionModeStyle() {
+            return 2;
+        }
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context, resourcesProvider);
+            PhotoViewerCaptionEnterView.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+        public void onMeasure(int i, int i2) {
+            try {
+                PhotoViewerCaptionEnterView.this.isInitLineCount = getMeasuredWidth() == 0 && getMeasuredHeight() == 0;
+                super.onMeasure(i, i2);
+                if (PhotoViewerCaptionEnterView.this.isInitLineCount) {
+                    PhotoViewerCaptionEnterView.this.lineCount = getLineCount();
+                }
+                PhotoViewerCaptionEnterView.this.isInitLineCount = false;
+            } catch (Exception e) {
+                setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(51.0f));
+                FileLog.e(e);
+            }
+        }
+
+        @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
+        public void onSelectionChanged(int i, int i2) {
+            super.onSelectionChanged(i, i2);
+            if (i != i2) {
+                fixHandleView(false);
+            } else {
+                fixHandleView(true);
+            }
+        }
+
+        @Override // org.telegram.ui.Components.EditTextBoldCursor
+        protected void extendActionMode(ActionMode actionMode, Menu menu) {
+            PhotoViewerCaptionEnterView.this.extendActionMode(actionMode, menu);
+        }
+
+        @Override // android.view.View
+        public boolean requestRectangleOnScreen(android.graphics.Rect rect) {
+            rect.bottom += AndroidUtilities.dp(1000.0f);
+            return super.requestRectangleOnScreen(rect);
         }
     }
 
@@ -377,12 +352,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             PhotoViewerCaptionEnterView.this.codePointCount = Character.codePointCount(editable, 0, editable.length());
             float f = 0.0f;
             if (MessagesController.getInstance(PhotoViewerCaptionEnterView.this.currentAccount).getCaptionMaxLengthLimit() <= 0 || (captionMaxLengthLimit = MessagesController.getInstance(PhotoViewerCaptionEnterView.this.currentAccount).getCaptionMaxLengthLimit() - PhotoViewerCaptionEnterView.this.codePointCount) > 100) {
-                PhotoViewerCaptionEnterView.this.captionLimitView.animate().alpha(0.0f).scaleX(0.5f).scaleY(0.5f).setDuration(100L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.2.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        PhotoViewerCaptionEnterView.this.captionLimitView.setVisibility(8);
-                    }
-                });
+                PhotoViewerCaptionEnterView.this.captionLimitView.animate().alpha(0.0f).scaleX(0.5f).scaleY(0.5f).setDuration(100L).setListener(new AnonymousClass1());
             } else {
                 if (captionMaxLengthLimit < -9999) {
                     captionMaxLengthLimit = -9999;
@@ -416,12 +386,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                     }
                     fArr[1] = f;
                     photoViewerCaptionEnterView2.sendButtonColorAnimator = ValueAnimator.ofFloat(fArr);
-                    PhotoViewerCaptionEnterView.this.sendButtonColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$2$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            PhotoViewerCaptionEnterView.AnonymousClass2.this.lambda$afterTextChanged$0(valueAnimator);
-                        }
-                    });
+                    PhotoViewerCaptionEnterView.this.sendButtonColorAnimator.addUpdateListener(new PhotoViewerCaptionEnterView$2$$ExternalSyntheticLambda0(this));
                     PhotoViewerCaptionEnterView.this.sendButtonColorAnimator.setDuration(150L).start();
                     return;
                 }
@@ -430,6 +395,19 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             z = true;
             photoViewerCaptionEnterView = PhotoViewerCaptionEnterView.this;
             if (photoViewerCaptionEnterView.sendButtonEnabled != z) {
+            }
+        }
+
+        /* renamed from: org.telegram.ui.Components.PhotoViewerCaptionEnterView$2$1 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass1 extends AnimatorListenerAdapter {
+            AnonymousClass1() {
+                AnonymousClass2.this = r1;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                PhotoViewerCaptionEnterView.this.captionLimitView.setVisibility(8);
             }
         }
 
@@ -483,12 +461,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             EditTextCaption editTextCaption = this.messageEditText;
             editTextCaption.setOffsetY(editTextCaption.getOffsetY() - ((this.messageEditTextPredrawHeigth - this.messageEditText.getMeasuredHeight()) + (this.messageEditTextPredrawScrollY - this.messageEditText.getScrollY())));
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.messageEditText.getOffsetY(), 0.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda1
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    PhotoViewerCaptionEnterView.this.lambda$onDraw$6(valueAnimator);
-                }
-            });
+            ofFloat.addUpdateListener(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda1(this));
             ValueAnimator valueAnimator = this.messageEditTextAnimator;
             if (valueAnimator != null) {
                 valueAnimator.cancel();
@@ -511,12 +484,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         this.offset = top;
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(top, 0.0f);
         this.topBackgroundAnimator = ofFloat2;
-        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                PhotoViewerCaptionEnterView.this.lambda$onDraw$7(valueAnimator3);
-            }
-        });
+        ofFloat2.addUpdateListener(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda0(this));
         this.topBackgroundAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.topBackgroundAnimator.setDuration(200L);
         this.topBackgroundAnimator.start();
@@ -623,155 +591,163 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         }
         EmojiView emojiView = new EmojiView(null, true, false, false, getContext(), false, null, null, null);
         this.emojiView = emojiView;
-        emojiView.setDelegate(new EmojiView.EmojiViewDelegate() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.3
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ boolean canSchedule() {
-                return EmojiView.EmojiViewDelegate.CC.$default$canSchedule(this);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ long getDialogId() {
-                return EmojiView.EmojiViewDelegate.CC.$default$getDialogId(this);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ float getProgressToSearchOpened() {
-                return EmojiView.EmojiViewDelegate.CC.$default$getProgressToSearchOpened(this);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ int getThreadId() {
-                return EmojiView.EmojiViewDelegate.CC.$default$getThreadId(this);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void invalidateEnterView() {
-                EmojiView.EmojiViewDelegate.CC.$default$invalidateEnterView(this);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ boolean isExpanded() {
-                return EmojiView.EmojiViewDelegate.CC.$default$isExpanded(this);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ boolean isInScheduleMode() {
-                return EmojiView.EmojiViewDelegate.CC.$default$isInScheduleMode(this);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ boolean isSearchOpened() {
-                return EmojiView.EmojiViewDelegate.CC.$default$isSearchOpened(this);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onClearEmojiRecent() {
-                EmojiView.EmojiViewDelegate.CC.$default$onClearEmojiRecent(this);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onGifSelected(View view, Object obj, String str, Object obj2, boolean z, int i) {
-                EmojiView.EmojiViewDelegate.CC.$default$onGifSelected(this, view, obj, str, obj2, z, i);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onSearchOpenClose(int i) {
-                EmojiView.EmojiViewDelegate.CC.$default$onSearchOpenClose(this, i);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onShowStickerSet(TLRPC$StickerSet tLRPC$StickerSet, TLRPC$InputStickerSet tLRPC$InputStickerSet) {
-                EmojiView.EmojiViewDelegate.CC.$default$onShowStickerSet(this, tLRPC$StickerSet, tLRPC$InputStickerSet);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onStickerSelected(View view, TLRPC$Document tLRPC$Document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, int i) {
-                EmojiView.EmojiViewDelegate.CC.$default$onStickerSelected(this, view, tLRPC$Document, str, obj, sendAnimationData, z, i);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onStickerSetAdd(TLRPC$StickerSetCovered tLRPC$StickerSetCovered) {
-                EmojiView.EmojiViewDelegate.CC.$default$onStickerSetAdd(this, tLRPC$StickerSetCovered);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onStickerSetRemove(TLRPC$StickerSetCovered tLRPC$StickerSetCovered) {
-                EmojiView.EmojiViewDelegate.CC.$default$onStickerSetRemove(this, tLRPC$StickerSetCovered);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onStickersGroupClick(long j) {
-                EmojiView.EmojiViewDelegate.CC.$default$onStickersGroupClick(this, j);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onStickersSettingsClick() {
-                EmojiView.EmojiViewDelegate.CC.$default$onStickersSettingsClick(this);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onTabOpened(int i) {
-                EmojiView.EmojiViewDelegate.CC.$default$onTabOpened(this, i);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void showTrendingStickersAlert(TrendingStickersLayout trendingStickersLayout) {
-                EmojiView.EmojiViewDelegate.CC.$default$showTrendingStickersAlert(this, trendingStickersLayout);
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public boolean onBackspace() {
-                if (PhotoViewerCaptionEnterView.this.messageEditText.length() == 0) {
-                    return false;
-                }
-                PhotoViewerCaptionEnterView.this.messageEditText.dispatchKeyEvent(new KeyEvent(0, 67));
-                return true;
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public void onCustomEmojiSelected(long j, String str) {
-                int selectionEnd = PhotoViewerCaptionEnterView.this.messageEditText.getSelectionEnd();
-                if (selectionEnd < 0) {
-                    selectionEnd = 0;
-                }
-                try {
-                    try {
-                        PhotoViewerCaptionEnterView.this.innerTextChange = true;
-                        SpannableString spannableString = new SpannableString(str);
-                        spannableString.setSpan(new AnimatedEmojiSpan(j, PhotoViewerCaptionEnterView.this.messageEditText.getPaint().getFontMetricsInt()), 0, spannableString.length(), 33);
-                        PhotoViewerCaptionEnterView.this.messageEditText.setText(PhotoViewerCaptionEnterView.this.messageEditText.getText().insert(selectionEnd, spannableString));
-                        int length = selectionEnd + spannableString.length();
-                        PhotoViewerCaptionEnterView.this.messageEditText.setSelection(length, length);
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                } finally {
-                    PhotoViewerCaptionEnterView.this.innerTextChange = false;
-                }
-            }
-
-            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public void onEmojiSelected(String str) {
-                int selectionEnd = PhotoViewerCaptionEnterView.this.messageEditText.getSelectionEnd();
-                if (selectionEnd < 0) {
-                    selectionEnd = 0;
-                }
-                try {
-                    try {
-                        PhotoViewerCaptionEnterView.this.innerTextChange = true;
-                        CharSequence replaceEmoji = Emoji.replaceEmoji(str, PhotoViewerCaptionEnterView.this.messageEditText.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
-                        PhotoViewerCaptionEnterView.this.messageEditText.setText(PhotoViewerCaptionEnterView.this.messageEditText.getText().insert(selectionEnd, replaceEmoji));
-                        int length = selectionEnd + replaceEmoji.length();
-                        PhotoViewerCaptionEnterView.this.messageEditText.setSelection(length, length);
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                } finally {
-                    PhotoViewerCaptionEnterView.this.innerTextChange = false;
-                }
-            }
-        });
+        emojiView.setDelegate(new AnonymousClass3());
         this.sizeNotifierLayout.addView(this.emojiView);
+    }
+
+    /* renamed from: org.telegram.ui.Components.PhotoViewerCaptionEnterView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 implements EmojiView.EmojiViewDelegate {
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ boolean canSchedule() {
+            return EmojiView.EmojiViewDelegate.CC.$default$canSchedule(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ long getDialogId() {
+            return EmojiView.EmojiViewDelegate.CC.$default$getDialogId(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ float getProgressToSearchOpened() {
+            return EmojiView.EmojiViewDelegate.CC.$default$getProgressToSearchOpened(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ int getThreadId() {
+            return EmojiView.EmojiViewDelegate.CC.$default$getThreadId(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void invalidateEnterView() {
+            EmojiView.EmojiViewDelegate.CC.$default$invalidateEnterView(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ boolean isExpanded() {
+            return EmojiView.EmojiViewDelegate.CC.$default$isExpanded(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ boolean isInScheduleMode() {
+            return EmojiView.EmojiViewDelegate.CC.$default$isInScheduleMode(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ boolean isSearchOpened() {
+            return EmojiView.EmojiViewDelegate.CC.$default$isSearchOpened(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void onClearEmojiRecent() {
+            EmojiView.EmojiViewDelegate.CC.$default$onClearEmojiRecent(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void onGifSelected(View view, Object obj, String str, Object obj2, boolean z, int i) {
+            EmojiView.EmojiViewDelegate.CC.$default$onGifSelected(this, view, obj, str, obj2, z, i);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void onSearchOpenClose(int i) {
+            EmojiView.EmojiViewDelegate.CC.$default$onSearchOpenClose(this, i);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void onShowStickerSet(TLRPC$StickerSet tLRPC$StickerSet, TLRPC$InputStickerSet tLRPC$InputStickerSet) {
+            EmojiView.EmojiViewDelegate.CC.$default$onShowStickerSet(this, tLRPC$StickerSet, tLRPC$InputStickerSet);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void onStickerSelected(View view, TLRPC$Document tLRPC$Document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, int i) {
+            EmojiView.EmojiViewDelegate.CC.$default$onStickerSelected(this, view, tLRPC$Document, str, obj, sendAnimationData, z, i);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void onStickerSetAdd(TLRPC$StickerSetCovered tLRPC$StickerSetCovered) {
+            EmojiView.EmojiViewDelegate.CC.$default$onStickerSetAdd(this, tLRPC$StickerSetCovered);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void onStickerSetRemove(TLRPC$StickerSetCovered tLRPC$StickerSetCovered) {
+            EmojiView.EmojiViewDelegate.CC.$default$onStickerSetRemove(this, tLRPC$StickerSetCovered);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void onStickersGroupClick(long j) {
+            EmojiView.EmojiViewDelegate.CC.$default$onStickersGroupClick(this, j);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void onStickersSettingsClick() {
+            EmojiView.EmojiViewDelegate.CC.$default$onStickersSettingsClick(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void onTabOpened(int i) {
+            EmojiView.EmojiViewDelegate.CC.$default$onTabOpened(this, i);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ void showTrendingStickersAlert(TrendingStickersLayout trendingStickersLayout) {
+            EmojiView.EmojiViewDelegate.CC.$default$showTrendingStickersAlert(this, trendingStickersLayout);
+        }
+
+        AnonymousClass3() {
+            PhotoViewerCaptionEnterView.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public boolean onBackspace() {
+            if (PhotoViewerCaptionEnterView.this.messageEditText.length() == 0) {
+                return false;
+            }
+            PhotoViewerCaptionEnterView.this.messageEditText.dispatchKeyEvent(new KeyEvent(0, 67));
+            return true;
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public void onCustomEmojiSelected(long j, String str) {
+            int selectionEnd = PhotoViewerCaptionEnterView.this.messageEditText.getSelectionEnd();
+            if (selectionEnd < 0) {
+                selectionEnd = 0;
+            }
+            try {
+                try {
+                    PhotoViewerCaptionEnterView.this.innerTextChange = true;
+                    SpannableString spannableString = new SpannableString(str);
+                    spannableString.setSpan(new AnimatedEmojiSpan(j, PhotoViewerCaptionEnterView.this.messageEditText.getPaint().getFontMetricsInt()), 0, spannableString.length(), 33);
+                    PhotoViewerCaptionEnterView.this.messageEditText.setText(PhotoViewerCaptionEnterView.this.messageEditText.getText().insert(selectionEnd, spannableString));
+                    int length = selectionEnd + spannableString.length();
+                    PhotoViewerCaptionEnterView.this.messageEditText.setSelection(length, length);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            } finally {
+                PhotoViewerCaptionEnterView.this.innerTextChange = false;
+            }
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public void onEmojiSelected(String str) {
+            int selectionEnd = PhotoViewerCaptionEnterView.this.messageEditText.getSelectionEnd();
+            if (selectionEnd < 0) {
+                selectionEnd = 0;
+            }
+            try {
+                try {
+                    PhotoViewerCaptionEnterView.this.innerTextChange = true;
+                    CharSequence replaceEmoji = Emoji.replaceEmoji(str, PhotoViewerCaptionEnterView.this.messageEditText.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                    PhotoViewerCaptionEnterView.this.messageEditText.setText(PhotoViewerCaptionEnterView.this.messageEditText.getText().insert(selectionEnd, replaceEmoji));
+                    int length = selectionEnd + replaceEmoji.length();
+                    PhotoViewerCaptionEnterView.this.messageEditText.setSelection(length, length);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            } finally {
+                PhotoViewerCaptionEnterView.this.innerTextChange = false;
+            }
+        }
     }
 
     public void addEmojiToRecent(String str) {
@@ -802,12 +778,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             if (editTextCaption.isFocused()) {
                 return;
             }
-            this.messageEditText.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda8
-                @Override // java.lang.Runnable
-                public final void run() {
-                    PhotoViewerCaptionEnterView.this.lambda$setFieldFocused$8();
-                }
-            }, 600L);
+            this.messageEditText.postDelayed(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda8(this), 600L);
         } else if (!editTextCaption.isFocused() || this.keyboardVisible) {
         } else {
             this.messageEditText.clearFocus();
@@ -866,40 +837,22 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             }
             this.emojiPadding = i2;
             sizeNotifierFrameLayoutPhoto.requestLayout();
-            this.emojiIconDrawable.setIcon(R.drawable.input_keyboard, true);
+            this.emojiIconDrawable.setIcon(2131165536, true);
             onWindowSizeChanged();
             return;
         }
         if (this.emojiButton != null) {
-            this.emojiIconDrawable.setIcon(R.drawable.input_smile, true);
+            this.emojiIconDrawable.setIcon(2131165543, true);
         }
         if (this.sizeNotifierLayout == null) {
             return;
         }
         if (z && SharedConfig.smoothKeyboard && i == 0 && this.emojiView != null) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.emojiPadding, 0.0f);
-            final float f = this.emojiPadding;
             this.popupAnimating = true;
             this.delegate.onEmojiViewCloseStart();
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda2
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    PhotoViewerCaptionEnterView.this.lambda$showPopup$9(f, valueAnimator);
-                }
-            });
-            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.4
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    PhotoViewerCaptionEnterView.this.emojiPadding = 0;
-                    PhotoViewerCaptionEnterView.this.setTranslationY(0.0f);
-                    PhotoViewerCaptionEnterView.this.setAlpha(1.0f);
-                    PhotoViewerCaptionEnterView.this.emojiView.setTranslationY(0.0f);
-                    PhotoViewerCaptionEnterView.this.popupAnimating = false;
-                    PhotoViewerCaptionEnterView.this.delegate.onEmojiViewCloseEnd();
-                    PhotoViewerCaptionEnterView.this.emojiView.setVisibility(8);
-                    PhotoViewerCaptionEnterView.this.emojiView.setAlpha(1.0f);
-                }
-            });
+            ofFloat.addUpdateListener(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda2(this, this.emojiPadding));
+            ofFloat.addListener(new AnonymousClass4());
             ofFloat.setDuration(210L);
             ofFloat.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
             ofFloat.start();
@@ -925,6 +878,26 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         float f3 = floatValue / f;
         setAlpha(f3);
         this.emojiView.setAlpha(f3);
+    }
+
+    /* renamed from: org.telegram.ui.Components.PhotoViewerCaptionEnterView$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 extends AnimatorListenerAdapter {
+        AnonymousClass4() {
+            PhotoViewerCaptionEnterView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            PhotoViewerCaptionEnterView.this.emojiPadding = 0;
+            PhotoViewerCaptionEnterView.this.setTranslationY(0.0f);
+            PhotoViewerCaptionEnterView.this.setAlpha(1.0f);
+            PhotoViewerCaptionEnterView.this.emojiView.setTranslationY(0.0f);
+            PhotoViewerCaptionEnterView.this.popupAnimating = false;
+            PhotoViewerCaptionEnterView.this.delegate.onEmojiViewCloseEnd();
+            PhotoViewerCaptionEnterView.this.emojiView.setVisibility(8);
+            PhotoViewerCaptionEnterView.this.emojiView.setAlpha(1.0f);
+        }
     }
 
     public void hidePopup() {

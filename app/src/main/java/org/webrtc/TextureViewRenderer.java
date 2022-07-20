@@ -15,7 +15,6 @@ import org.webrtc.EglBase;
 import org.webrtc.EglRenderer;
 import org.webrtc.GlGenericDrawer;
 import org.webrtc.RendererCommon;
-import org.webrtc.TextureViewRenderer;
 /* loaded from: classes3.dex */
 public class TextureViewRenderer extends TextureView implements TextureView.SurfaceTextureListener, VideoSink, RendererCommon.RendererEvents {
     private static final String TAG = "TextureViewRenderer";
@@ -50,27 +49,35 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             this.eglRenderer.releaseEglSurface(null, true);
             return;
         }
-        textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() { // from class: org.webrtc.TextureViewRenderer.1
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
-            }
+        textureView.setSurfaceTextureListener(new AnonymousClass1());
+    }
 
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-            }
+    /* renamed from: org.webrtc.TextureViewRenderer$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements TextureView.SurfaceTextureListener {
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
+        }
 
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
-                TextureViewRenderer.this.createBackgroundSurface(surfaceTexture);
-            }
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+        }
 
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-                ThreadUtils.checkIsOnMainThread();
-                TextureViewRenderer.this.eglRenderer.releaseEglSurface(null, true);
-                return false;
-            }
-        });
+        AnonymousClass1() {
+            TextureViewRenderer.this = r1;
+        }
+
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
+            TextureViewRenderer.this.createBackgroundSurface(surfaceTexture);
+        }
+
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+            ThreadUtils.checkIsOnMainThread();
+            TextureViewRenderer.this.eglRenderer.releaseEglSurface(null, true);
+            return false;
+        }
     }
 
     public void clearFirstFrame() {
@@ -185,17 +192,12 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
         }
 
         private void logD(String str) {
-            Logging.d(TAG, this.name + ": " + str);
+            Logging.d("TextureEglRenderer", this.name + ": " + str);
         }
 
         @Override // org.webrtc.EglRenderer
         protected void onFirstFrameRendered() {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.webrtc.TextureViewRenderer$TextureEglRenderer$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TextureViewRenderer.TextureEglRenderer.this.lambda$onFirstFrameRendered$0();
-                }
-            });
+            AndroidUtilities.runOnUIThread(new TextureViewRenderer$TextureEglRenderer$$ExternalSyntheticLambda0(this));
         }
 
         public /* synthetic */ void lambda$onFirstFrameRendered$0() {
@@ -251,16 +253,24 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
     public void setIsCamera(boolean z) {
         this.isCamera = z;
         if (!z) {
-            OrientationHelper orientationHelper = new OrientationHelper() { // from class: org.webrtc.TextureViewRenderer.2
-                @Override // org.webrtc.OrientationHelper
-                protected void onOrientationUpdate(int i) {
-                    if (!TextureViewRenderer.this.isCamera) {
-                        TextureViewRenderer.this.updateRotation();
-                    }
-                }
-            };
-            this.orientationHelper = orientationHelper;
-            orientationHelper.start();
+            AnonymousClass2 anonymousClass2 = new AnonymousClass2();
+            this.orientationHelper = anonymousClass2;
+            anonymousClass2.start();
+        }
+    }
+
+    /* renamed from: org.webrtc.TextureViewRenderer$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends OrientationHelper {
+        AnonymousClass2() {
+            TextureViewRenderer.this = r1;
+        }
+
+        @Override // org.webrtc.OrientationHelper
+        protected void onOrientationUpdate(int i) {
+            if (!TextureViewRenderer.this.isCamera) {
+                TextureViewRenderer.this.updateRotation();
+            }
         }
     }
 
@@ -471,7 +481,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onFrameResolutionChanged(final int i, final int i2, int i3) {
+    public void onFrameResolutionChanged(int i, int i2, int i3) {
         int i4;
         int i5;
         RendererCommon.RendererEvents rendererEvents = this.rendererEvents;
@@ -507,21 +517,16 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             }
             i4 = i2;
         }
-        final int i9 = i4;
-        final int i10 = i5;
+        int i9 = i4;
+        int i10 = i5;
         synchronized (this.eglRenderer.layoutLock) {
             Runnable runnable = this.updateScreenRunnable;
             if (runnable != null) {
                 AndroidUtilities.cancelRunOnUIThread(runnable);
             }
-            Runnable runnable2 = new Runnable() { // from class: org.webrtc.TextureViewRenderer$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TextureViewRenderer.this.lambda$onFrameResolutionChanged$0(i, i2, i10, i9);
-                }
-            };
-            this.updateScreenRunnable = runnable2;
-            postOrRun(runnable2);
+            TextureViewRenderer$$ExternalSyntheticLambda1 textureViewRenderer$$ExternalSyntheticLambda1 = new TextureViewRenderer$$ExternalSyntheticLambda1(this, i, i2, i10, i9);
+            this.updateScreenRunnable = textureViewRenderer$$ExternalSyntheticLambda1;
+            postOrRun(textureViewRenderer$$ExternalSyntheticLambda1);
         }
     }
 
@@ -543,8 +548,8 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
 
     private void updateVideoSizes() {
         int i;
-        final int i2;
-        final int i3 = this.videoHeight;
+        int i2;
+        int i3 = this.videoHeight;
         if (i3 == 0 || (i = this.videoWidth) == 0) {
             return;
         }
@@ -577,14 +582,9 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             if (runnable != null) {
                 AndroidUtilities.cancelRunOnUIThread(runnable);
             }
-            Runnable runnable2 = new Runnable() { // from class: org.webrtc.TextureViewRenderer$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TextureViewRenderer.this.lambda$updateVideoSizes$1(i2, i3);
-                }
-            };
-            this.updateScreenRunnable = runnable2;
-            postOrRun(runnable2);
+            TextureViewRenderer$$ExternalSyntheticLambda0 textureViewRenderer$$ExternalSyntheticLambda0 = new TextureViewRenderer$$ExternalSyntheticLambda0(this, i2, i3);
+            this.updateScreenRunnable = textureViewRenderer$$ExternalSyntheticLambda0;
+            postOrRun(textureViewRenderer$$ExternalSyntheticLambda0);
         }
     }
 
@@ -656,7 +656,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
     }
 
     private void logD(String str) {
-        Logging.d(TAG, this.resourceName + ": " + str);
+        Logging.d("TextureViewRenderer", this.resourceName + ": " + str);
     }
 
     public void createBackgroundSurface(SurfaceTexture surfaceTexture) {

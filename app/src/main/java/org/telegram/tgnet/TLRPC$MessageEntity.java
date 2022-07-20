@@ -13,43 +13,13 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 tLRPC$MessageEntity = new TLRPC$TL_messageEntityItalic();
                 break;
             case -1687559349:
-                tLRPC$MessageEntity = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityPhone
-                    public static int constructor = -1687559349;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$MessageEntity = new TLRPC$TL_messageEntityPhone();
                 break;
             case -1672577397:
                 tLRPC$MessageEntity = new TLRPC$TL_messageEntityUnderline();
                 break;
             case -1148011883:
-                tLRPC$MessageEntity = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityUnknown
-                    public static int constructor = -1148011883;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$MessageEntity = new TLRPC$TL_messageEntityUnknown();
                 break;
             case -1117713463:
                 tLRPC$MessageEntity = new TLRPC$TL_messageEntityBold();
@@ -64,22 +34,7 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 tLRPC$MessageEntity = new TLRPC$TL_messageEntityMentionName();
                 break;
             case -100378723:
-                tLRPC$MessageEntity = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityMention
-                    public static int constructor = -100378723;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$MessageEntity = new TLRPC$TL_messageEntityMention();
                 break;
             case 34469328:
                 tLRPC$MessageEntity = new TLRPC$TL_messageEntityBlockquote();
@@ -94,140 +49,31 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 tLRPC$MessageEntity = new TLRPC$TL_messageEntitySpoiler();
                 break;
             case 892193368:
-                tLRPC$MessageEntity = new TLRPC$TL_messageEntityMentionName() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityMentionName_layer131
-                    public static int constructor = 892193368;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageEntityMentionName, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                        this.user_id = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_messageEntityMentionName, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                        abstractSerializedData2.writeInt32((int) this.user_id);
-                    }
-                };
+                tLRPC$MessageEntity = new TLRPC$TL_messageEntityMentionName_layer131();
                 break;
             case 1280209983:
-                tLRPC$MessageEntity = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityCashtag
-                    public static int constructor = 1280209983;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$MessageEntity = new TLRPC$TL_messageEntityCashtag();
                 break;
             case 1592721940:
-                tLRPC$MessageEntity = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityAnimatedEmoji
-                    public static int constructor = 1592721940;
-                    public int length;
-                    public int offset;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$MessageEntity = new TLRPC$TL_messageEntityAnimatedEmoji();
                 break;
             case 1692693954:
-                tLRPC$MessageEntity = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityEmail
-                    public static int constructor = 1692693954;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$MessageEntity = new TLRPC$TL_messageEntityEmail();
                 break;
             case 1827637959:
-                tLRPC$MessageEntity = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityBotCommand
-                    public static int constructor = 1827637959;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$MessageEntity = new TLRPC$TL_messageEntityBotCommand();
                 break;
             case 1859134776:
                 tLRPC$MessageEntity = new TLRPC$TL_messageEntityUrl();
                 break;
             case 1868782349:
-                tLRPC$MessageEntity = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityHashtag
-                    public static int constructor = 1868782349;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$MessageEntity = new TLRPC$TL_messageEntityHashtag();
                 break;
             case 1938967520:
                 tLRPC$MessageEntity = new TLRPC$TL_messageEntityPre();
                 break;
             case 1981704948:
-                tLRPC$MessageEntity = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityBankCard
-                    public static int constructor = 1981704948;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
+                tLRPC$MessageEntity = new TLRPC$TL_messageEntityBankCard();
                 break;
             case 1990644519:
                 tLRPC$MessageEntity = new TLRPC$TL_messageEntityTextUrl();

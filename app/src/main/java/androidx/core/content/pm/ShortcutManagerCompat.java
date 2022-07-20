@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class ShortcutManagerCompat {
     private static volatile List<ShortcutInfoChangeListener> sShortcutInfoChangeListeners;
@@ -67,16 +66,26 @@ public class ShortcutManagerCompat {
             context.sendBroadcast(addToIntent);
             return true;
         }
-        context.sendOrderedBroadcast(addToIntent, null, new BroadcastReceiver() { // from class: androidx.core.content.pm.ShortcutManagerCompat.1
-            @Override // android.content.BroadcastReceiver
-            public void onReceive(Context context2, Intent intent) {
-                try {
-                    callback.sendIntent(context2, 0, null, null, null);
-                } catch (IntentSender.SendIntentException unused) {
-                }
-            }
-        }, null, -1, null, null);
+        context.sendOrderedBroadcast(addToIntent, null, new AnonymousClass1(callback), null, -1, null, null);
         return true;
+    }
+
+    /* renamed from: androidx.core.content.pm.ShortcutManagerCompat$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 extends BroadcastReceiver {
+        final /* synthetic */ IntentSender val$callback;
+
+        AnonymousClass1(final IntentSender val$callback) {
+            this.val$callback = val$callback;
+        }
+
+        @Override // android.content.BroadcastReceiver
+        public void onReceive(Context context, Intent intent) {
+            try {
+                this.val$callback.sendIntent(context, 0, null, null, null);
+            } catch (IntentSender.SendIntentException unused) {
+            }
+        }
     }
 
     public static boolean addDynamicShortcuts(Context context, List<ShortcutInfoCompat> shortcutInfoList) {
@@ -295,7 +304,7 @@ public class ShortcutManagerCompat {
                 PackageManager packageManager = context.getPackageManager();
                 Intent intent = new Intent("androidx.core.content.pm.SHORTCUT_LISTENER");
                 intent.setPackage(context.getPackageName());
-                for (ResolveInfo resolveInfo : packageManager.queryIntentActivities(intent, ConnectionsManager.RequestFlagNeedQuickAck)) {
+                for (ResolveInfo resolveInfo : packageManager.queryIntentActivities(intent, 128)) {
                     ActivityInfo activityInfo = resolveInfo.activityInfo;
                     if (activityInfo != null && (bundle = activityInfo.metaData) != null && (string = bundle.getString("androidx.core.content.pm.shortcut_listener_impl")) != null) {
                         try {
@@ -312,7 +321,6 @@ public class ShortcutManagerCompat {
         return sShortcutInfoChangeListeners;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Api25Impl {
         static String getShortcutInfoWithLowestRank(final List<ShortcutInfo> shortcuts) {

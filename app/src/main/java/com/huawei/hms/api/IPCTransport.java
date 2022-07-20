@@ -10,7 +10,6 @@ import com.huawei.hms.core.aidl.RequestHeader;
 import com.huawei.hms.support.api.client.AidlApiClient;
 import com.huawei.hms.support.api.client.ApiClient;
 import com.huawei.hms.support.api.client.InnerApiClient;
-import com.huawei.hms.support.api.entity.core.CommonCode;
 import com.huawei.hms.support.api.transport.DatagramTransport;
 import com.huawei.hms.support.log.HMSLog;
 /* loaded from: classes.dex */
@@ -43,14 +42,14 @@ public class IPCTransport implements DatagramTransport {
             try {
                 AidlApiClient aidlApiClient = (AidlApiClient) apiClient;
                 if (aidlApiClient.getService() == null) {
-                    HMSLog.e(TAG, "HuaweiApiClient is not binded to service yet.");
-                    return CommonCode.ErrorCode.INTERNAL_ERROR;
+                    HMSLog.e("IPCTransport", "HuaweiApiClient is not binded to service yet.");
+                    return 907135001;
                 }
                 aidlApiClient.getService().asyncCall(dataBuffer, iAIDLCallback);
                 return 0;
             } catch (Exception e) {
-                HMSLog.e(TAG, "sync call ex:" + e);
-                return CommonCode.ErrorCode.INTERNAL_ERROR;
+                HMSLog.e("IPCTransport", "sync call ex:" + e);
+                return 907135001;
             }
         }
         if (apiClient instanceof AidlApiClient) {
@@ -61,10 +60,10 @@ public class IPCTransport implements DatagramTransport {
                 aidlApiClient2.getService().asyncCall(dataBuffer2, iAIDLCallback);
                 return 0;
             } catch (Exception e2) {
-                HMSLog.e(TAG, "sync call ex:" + e2);
+                HMSLog.e("IPCTransport", "sync call ex:" + e2);
             }
         }
-        return CommonCode.ErrorCode.INTERNAL_ERROR;
+        return 907135001;
     }
 
     @Override // com.huawei.hms.support.api.transport.DatagramTransport

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Components.CombinedDrawable;
@@ -45,7 +44,16 @@ public class LegendSignatureView extends FrameLayout {
     SimpleDateFormat format4 = new SimpleDateFormat("d MMM");
     SimpleDateFormat hourFormat = new SimpleDateFormat(" HH:mm");
     public boolean canGoZoom = true;
-    Runnable showProgressRunnable = new Runnable() { // from class: org.telegram.ui.Charts.view_data.LegendSignatureView.1
+    Runnable showProgressRunnable = new AnonymousClass1();
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Charts.view_data.LegendSignatureView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            LegendSignatureView.this = r1;
+        }
+
         @Override // java.lang.Runnable
         public void run() {
             LegendSignatureView.this.chevron.animate().setDuration(120L).alpha(0.0f);
@@ -56,7 +64,7 @@ public class LegendSignatureView extends FrameLayout {
             }
             LegendSignatureView.this.progressView.animate().setDuration(120L).alpha(1.0f).start();
         }
-    };
+    }
 
     public LegendSignatureView(Context context) {
         super(context);
@@ -67,14 +75,14 @@ public class LegendSignatureView extends FrameLayout {
         TextView textView = new TextView(context);
         this.time = textView;
         textView.setTextSize(1, 14.0f);
-        this.time.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.time.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         TextView textView2 = new TextView(context);
         this.hourTime = textView2;
         textView2.setTextSize(1, 14.0f);
-        this.hourTime.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.hourTime.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         ImageView imageView = new ImageView(context);
         this.chevron = imageView;
-        imageView.setImageResource(R.drawable.ic_chevron_right_black_18dp);
+        imageView.setImageResource(2131165472);
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.progressView = radialProgressView;
         radialProgressView.setSize(AndroidUtilities.dp(12.0f));
@@ -93,7 +101,7 @@ public class LegendSignatureView extends FrameLayout {
         this.hourTime.setTextColor(Theme.getColor("dialogTextBlack"));
         this.chevron.setColorFilter(Theme.getColor("statisticChartChevronColor"));
         this.progressView.setProgressColor(Theme.getColor("statisticChartChevronColor"));
-        this.shadowDrawable = getContext().getResources().getDrawable(R.drawable.stats_tooltip).mutate();
+        this.shadowDrawable = getContext().getResources().getDrawable(2131166161).mutate();
         this.backgroundDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), Theme.getColor("dialogBackground"), Theme.getColor("listSelectorSDK21"), -16777216);
         CombinedDrawable combinedDrawable = new CombinedDrawable(this.shadowDrawable, this.backgroundDrawable, AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f));
         combinedDrawable.setFullsize(true);
@@ -226,12 +234,20 @@ public class LegendSignatureView extends FrameLayout {
         if (this.progressView.getVisibility() != 0) {
             return;
         }
-        this.progressView.animate().setDuration(80L).alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Charts.view_data.LegendSignatureView.2
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                LegendSignatureView.this.progressView.setVisibility(8);
-            }
-        }).start();
+        this.progressView.animate().setDuration(80L).alpha(0.0f).setListener(new AnonymousClass2()).start();
+    }
+
+    /* renamed from: org.telegram.ui.Charts.view_data.LegendSignatureView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        AnonymousClass2() {
+            LegendSignatureView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            LegendSignatureView.this.progressView.setVisibility(8);
+        }
     }
 
     public void setUseWeek(boolean z) {
@@ -255,7 +271,7 @@ public class LegendSignatureView extends FrameLayout {
                 linearLayout.addView(textView);
                 this.percentage.getLayoutParams().width = AndroidUtilities.dp(36.0f);
                 this.percentage.setVisibility(8);
-                this.percentage.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.percentage.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 this.percentage.setTextSize(1, 13.0f);
             }
             TextView textView2 = new TextView(legendSignatureView.getContext());
@@ -267,7 +283,7 @@ public class LegendSignatureView extends FrameLayout {
             linearLayout.addView(textView3, LayoutHelper.createLinear(-1, -2));
             textView2.setGravity(8388611);
             textView3.setGravity(8388613);
-            textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textView3.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView3.setTextSize(1, 13.0f);
             textView3.setMinEms(4);
             textView3.setMaxEms(4);

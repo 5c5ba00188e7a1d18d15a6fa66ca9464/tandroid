@@ -14,13 +14,7 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
     private boolean mPauseSent = true;
     private boolean mStopSent = true;
     private final Set<ApplicationLifecycleCallbacks> mLifecycleCallbacks = new CopyOnWriteArraySet();
-    private Runnable mDelayedPauseRunnable = new Runnable() { // from class: com.microsoft.appcenter.utils.ApplicationLifecycleListener.1
-        @Override // java.lang.Runnable
-        public void run() {
-            ApplicationLifecycleListener.this.dispatchPauseIfNeeded();
-            ApplicationLifecycleListener.this.dispatchStopIfNeeded();
-        }
-    };
+    private Runnable mDelayedPauseRunnable = new AnonymousClass1();
 
     /* loaded from: classes.dex */
     public interface ApplicationLifecycleCallbacks {
@@ -39,6 +33,21 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
 
     @Override // android.app.Application.ActivityLifecycleCallbacks
     public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: com.microsoft.appcenter.utils.ApplicationLifecycleListener$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            ApplicationLifecycleListener.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            ApplicationLifecycleListener.this.dispatchPauseIfNeeded();
+            ApplicationLifecycleListener.this.dispatchStopIfNeeded();
+        }
     }
 
     public ApplicationLifecycleListener(Handler handler) {

@@ -13,7 +13,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 /* compiled from: MessageContainsEmojiButton.java */
 /* loaded from: classes3.dex */
-class LoadingDrawable extends Drawable {
+public class LoadingDrawable extends Drawable {
     private LinearGradient gradient;
     private int gradientColor1;
     private int gradientColor2;

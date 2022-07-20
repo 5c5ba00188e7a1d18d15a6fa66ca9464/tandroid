@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.push.utils.DateUtil;
 import com.huawei.hms.push.utils.JsonUtil;
 import com.huawei.hms.support.api.push.PushException;
@@ -44,7 +43,7 @@ public class RemoteMessage implements Parcelable {
         public Builder(String str) {
             Bundle bundle = new Bundle();
             this.a = bundle;
-            bundle.putString(RemoteMessageConst.TO, str);
+            bundle.putString("to", str);
         }
 
         public Builder addData(String str, String str2) {
@@ -65,27 +64,27 @@ public class RemoteMessage implements Parcelable {
                 try {
                     String jSONObject2 = jSONObject.toString();
                     JSONObject jSONObject3 = new JSONObject();
-                    jSONObject3.put(RemoteMessageConst.COLLAPSE_KEY, this.a.getString(RemoteMessageConst.COLLAPSE_KEY));
-                    jSONObject3.put(RemoteMessageConst.TTL, this.a.getInt(RemoteMessageConst.TTL));
-                    jSONObject3.put(RemoteMessageConst.SEND_MODE, this.a.getInt(RemoteMessageConst.SEND_MODE));
-                    jSONObject3.put(RemoteMessageConst.RECEIPT_MODE, this.a.getInt(RemoteMessageConst.RECEIPT_MODE));
+                    jSONObject3.put("collapseKey", this.a.getString("collapseKey"));
+                    jSONObject3.put("ttl", this.a.getInt("ttl"));
+                    jSONObject3.put("sendMode", this.a.getInt("sendMode"));
+                    jSONObject3.put("receiptMode", this.a.getInt("receiptMode"));
                     JSONObject jSONObject4 = new JSONObject();
                     if (jSONObject.length() != 0) {
-                        jSONObject4.put(RemoteMessageConst.DATA, jSONObject2);
+                        jSONObject4.put("data", jSONObject2);
                     }
-                    jSONObject4.put(RemoteMessageConst.MSGID, this.a.getString(RemoteMessageConst.MSGID));
-                    jSONObject3.put(RemoteMessageConst.MessageBody.MSG_CONTENT, jSONObject4);
-                    bundle.putByteArray(RemoteMessageConst.MSGBODY, jSONObject3.toString().getBytes(x.a));
-                    bundle.putString(RemoteMessageConst.TO, this.a.getString(RemoteMessageConst.TO));
-                    bundle.putString(RemoteMessageConst.MSGTYPE, this.a.getString(RemoteMessageConst.MSGTYPE));
+                    jSONObject4.put("msgId", this.a.getString("msgId"));
+                    jSONObject3.put("msgContent", jSONObject4);
+                    bundle.putByteArray("message_body", jSONObject3.toString().getBytes(x.a));
+                    bundle.putString("to", this.a.getString("to"));
+                    bundle.putString("message_type", this.a.getString("message_type"));
                     return new RemoteMessage(bundle);
                 } catch (JSONException unused) {
                     HMSLog.w("RemoteMessage", "JSONException: parse message body failed.");
-                    throw new PushException(PushException.EXCEPTION_SEND_FAILED);
+                    throw new PushException("send message failed");
                 }
             } catch (JSONException unused2) {
                 HMSLog.w("RemoteMessage", "JSONException: parse data to json failed.");
-                throw new PushException(PushException.EXCEPTION_SEND_FAILED);
+                throw new PushException("send message failed");
             }
         }
 
@@ -95,7 +94,7 @@ public class RemoteMessage implements Parcelable {
         }
 
         public Builder setCollapseKey(String str) {
-            this.a.putString(RemoteMessageConst.COLLAPSE_KEY, str);
+            this.a.putString("collapseKey", str);
             return this;
         }
 
@@ -108,12 +107,12 @@ public class RemoteMessage implements Parcelable {
         }
 
         public Builder setMessageId(String str) {
-            this.a.putString(RemoteMessageConst.MSGID, str);
+            this.a.putString("msgId", str);
             return this;
         }
 
         public Builder setMessageType(String str) {
-            this.a.putString(RemoteMessageConst.MSGTYPE, str);
+            this.a.putString("message_type", str);
             return this;
         }
 
@@ -121,7 +120,7 @@ public class RemoteMessage implements Parcelable {
             if (i != 1 && i != 0) {
                 throw new IllegalArgumentException("receipt mode can only be 0 or 1.");
             }
-            this.a.putInt(RemoteMessageConst.RECEIPT_MODE, i);
+            this.a.putInt("receiptMode", i);
             return this;
         }
 
@@ -129,13 +128,13 @@ public class RemoteMessage implements Parcelable {
             if (i != 0 && i != 1) {
                 throw new IllegalArgumentException("send mode can only be 0 or 1.");
             }
-            this.a.putInt(RemoteMessageConst.SEND_MODE, i);
+            this.a.putInt("sendMode", i);
             return this;
         }
 
         public Builder setTtl(int i) {
             if (i >= 1 && i <= 1296000) {
-                this.a.putInt(RemoteMessageConst.TTL, i);
+                this.a.putInt("ttl", i);
                 return this;
             }
             throw new IllegalArgumentException("ttl must be greater than or equal to 1 and less than or equal to 1296000");
@@ -323,35 +322,35 @@ public class RemoteMessage implements Parcelable {
         }
 
         public Notification(Bundle bundle) {
-            this.a = bundle.getString(RemoteMessageConst.Notification.NOTIFY_TITLE);
-            this.d = bundle.getString(RemoteMessageConst.Notification.CONTENT);
-            this.b = bundle.getString(RemoteMessageConst.Notification.TITLE_LOC_KEY);
-            this.e = bundle.getString(RemoteMessageConst.Notification.BODY_LOC_KEY);
-            this.c = bundle.getStringArray(RemoteMessageConst.Notification.TITLE_LOC_ARGS);
-            this.f = bundle.getStringArray(RemoteMessageConst.Notification.BODY_LOC_ARGS);
-            this.g = bundle.getString(RemoteMessageConst.Notification.ICON);
-            this.j = bundle.getString(RemoteMessageConst.Notification.COLOR);
-            this.h = bundle.getString(RemoteMessageConst.Notification.SOUND);
-            this.i = bundle.getString(RemoteMessageConst.Notification.TAG);
-            this.m = bundle.getString(RemoteMessageConst.Notification.CHANNEL_ID);
-            this.k = bundle.getString(RemoteMessageConst.Notification.CLICK_ACTION);
-            this.l = bundle.getString(RemoteMessageConst.Notification.INTENT_URI);
-            this.o = bundle.getInt(RemoteMessageConst.Notification.NOTIFY_ID);
-            String string = bundle.getString(RemoteMessageConst.Notification.URL);
+            this.a = bundle.getString("notifyTitle");
+            this.d = bundle.getString("content");
+            this.b = bundle.getString("title_loc_key");
+            this.e = bundle.getString("body_loc_key");
+            this.c = bundle.getStringArray("title_loc_args");
+            this.f = bundle.getStringArray("body_loc_args");
+            this.g = bundle.getString("icon");
+            this.j = bundle.getString("color");
+            this.h = bundle.getString("sound");
+            this.i = bundle.getString("tag");
+            this.m = bundle.getString("channelId");
+            this.k = bundle.getString("acn");
+            this.l = bundle.getString("intentUri");
+            this.o = bundle.getInt("notifyId");
+            String string = bundle.getString("url");
             this.n = !TextUtils.isEmpty(string) ? Uri.parse(string) : null;
-            this.p = bundle.getString(RemoteMessageConst.Notification.NOTIFY_ICON);
-            this.q = bundle.getInt(RemoteMessageConst.Notification.DEFAULT_LIGHT_SETTINGS);
-            this.r = bundle.getInt(RemoteMessageConst.Notification.DEFAULT_SOUND);
-            this.s = bundle.getInt(RemoteMessageConst.Notification.DEFAULT_VIBRATE_TIMINGS);
-            this.t = bundle.getIntArray(RemoteMessageConst.Notification.LIGHT_SETTINGS);
-            this.u = bundle.getString(RemoteMessageConst.Notification.WHEN);
-            this.v = bundle.getInt(RemoteMessageConst.Notification.LOCAL_ONLY);
-            this.w = bundle.getString(RemoteMessageConst.Notification.BADGE_SET_NUM, null);
-            this.x = bundle.getInt(RemoteMessageConst.Notification.AUTO_CANCEL);
-            this.y = bundle.getString(RemoteMessageConst.Notification.PRIORITY, null);
-            this.z = bundle.getString(RemoteMessageConst.Notification.TICKER);
-            this.A = bundle.getLongArray(RemoteMessageConst.Notification.VIBRATE_TIMINGS);
-            this.B = bundle.getString(RemoteMessageConst.Notification.VISIBILITY, null);
+            this.p = bundle.getString("notifyIcon");
+            this.q = bundle.getInt("defaultLightSettings");
+            this.r = bundle.getInt("defaultSound");
+            this.s = bundle.getInt("defaultVibrateTimings");
+            this.t = bundle.getIntArray("lightSettings");
+            this.u = bundle.getString("when");
+            this.v = bundle.getInt("localOnly");
+            this.w = bundle.getString("badgeSetNum", null);
+            this.x = bundle.getInt("autoCancel");
+            this.y = bundle.getString("priority", null);
+            this.z = bundle.getString("ticker");
+            this.A = bundle.getLongArray("vibrateTimings");
+            this.B = bundle.getString("visibility", null);
         }
     }
 
@@ -361,7 +360,7 @@ public class RemoteMessage implements Parcelable {
 
     public static JSONObject b(Bundle bundle) {
         try {
-            return new JSONObject(w.a(bundle.getByteArray(RemoteMessageConst.MSGBODY)));
+            return new JSONObject(w.a(bundle.getByteArray("message_body")));
         } catch (JSONException unused) {
             HMSLog.w("RemoteMessage", "JSONException:parse message body failed.");
             return null;
@@ -370,14 +369,14 @@ public class RemoteMessage implements Parcelable {
 
     public static JSONObject c(JSONObject jSONObject) {
         if (jSONObject != null) {
-            return jSONObject.optJSONObject(RemoteMessageConst.MessageBody.PARAM);
+            return jSONObject.optJSONObject("param");
         }
         return null;
     }
 
     public static JSONObject d(JSONObject jSONObject) {
         if (jSONObject != null) {
-            return jSONObject.optJSONObject(RemoteMessageConst.MessageBody.PS_CONTENT);
+            return jSONObject.optJSONObject("psContent");
         }
         return null;
     }
@@ -386,25 +385,25 @@ public class RemoteMessage implements Parcelable {
         Bundle bundle2 = new Bundle();
         JSONObject b2 = b(bundle);
         JSONObject a2 = a(b2);
-        String string = JsonUtil.getString(a2, RemoteMessageConst.DATA, null);
-        bundle2.putString(RemoteMessageConst.ANALYTIC_INFO, JsonUtil.getString(a2, RemoteMessageConst.ANALYTIC_INFO, null));
-        bundle2.putString(RemoteMessageConst.DEVICE_TOKEN, bundle.getString(RemoteMessageConst.DEVICE_TOKEN));
+        String string = JsonUtil.getString(a2, "data", null);
+        bundle2.putString("analyticInfo", JsonUtil.getString(a2, "analyticInfo", null));
+        bundle2.putString("device_token", bundle.getString("device_token"));
         JSONObject d2 = d(a2);
         JSONObject b3 = b(d2);
         JSONObject c2 = c(d2);
-        if (bundle.getInt(RemoteMessageConst.INPUT_TYPE) == 1 && s.a(a2, d2, string)) {
-            bundle2.putString(RemoteMessageConst.DATA, w.a(bundle.getByteArray(RemoteMessageConst.MSGBODY)));
+        if (bundle.getInt("inputType") == 1 && s.a(a2, d2, string)) {
+            bundle2.putString("data", w.a(bundle.getByteArray("message_body")));
             return bundle2;
         }
-        String string2 = bundle.getString(RemoteMessageConst.TO);
-        String string3 = bundle.getString(RemoteMessageConst.MSGTYPE);
-        String string4 = JsonUtil.getString(a2, RemoteMessageConst.MSGID, null);
-        bundle2.putString(RemoteMessageConst.TO, string2);
-        bundle2.putString(RemoteMessageConst.DATA, string);
-        bundle2.putString(RemoteMessageConst.MSGID, string4);
-        bundle2.putString(RemoteMessageConst.MSGTYPE, string3);
+        String string2 = bundle.getString("to");
+        String string3 = bundle.getString("message_type");
+        String string4 = JsonUtil.getString(a2, "msgId", null);
+        bundle2.putString("to", string2);
+        bundle2.putString("data", string);
+        bundle2.putString("msgId", string4);
+        bundle2.putString("message_type", string3);
         JsonUtil.transferJsonObjectToBundle(b2, bundle2, d);
-        bundle2.putBundle(RemoteMessageConst.NOTIFICATION, a(b2, a2, d2, b3, c2));
+        bundle2.putBundle("notification", a(b2, a2, d2, b3, c2));
         return bundle2;
     }
 
@@ -414,12 +413,12 @@ public class RemoteMessage implements Parcelable {
     }
 
     public String getAnalyticInfo() {
-        return this.i.getString(RemoteMessageConst.ANALYTIC_INFO);
+        return this.i.getString("analyticInfo");
     }
 
     public Map<String, String> getAnalyticInfoMap() {
         HashMap hashMap = new HashMap();
-        String string = this.i.getString(RemoteMessageConst.ANALYTIC_INFO);
+        String string = this.i.getString("analyticInfo");
         if (string != null && !string.trim().isEmpty()) {
             try {
                 JSONObject jSONObject = new JSONObject(string);
@@ -436,16 +435,16 @@ public class RemoteMessage implements Parcelable {
     }
 
     public String getCollapseKey() {
-        return this.i.getString(RemoteMessageConst.COLLAPSE_KEY);
+        return this.i.getString("collapseKey");
     }
 
     public String getData() {
-        return this.i.getString(RemoteMessageConst.DATA);
+        return this.i.getString("data");
     }
 
     public Map<String, String> getDataOfMap() {
         HashMap hashMap = new HashMap();
-        String string = this.i.getString(RemoteMessageConst.DATA);
+        String string = this.i.getString("data");
         if (string != null && !string.trim().isEmpty()) {
             try {
                 JSONObject jSONObject = new JSONObject(string);
@@ -462,19 +461,19 @@ public class RemoteMessage implements Parcelable {
     }
 
     public String getFrom() {
-        return this.i.getString(RemoteMessageConst.FROM);
+        return this.i.getString("from");
     }
 
     public String getMessageId() {
-        return this.i.getString(RemoteMessageConst.MSGID);
+        return this.i.getString("msgId");
     }
 
     public String getMessageType() {
-        return this.i.getString(RemoteMessageConst.MSGTYPE);
+        return this.i.getString("message_type");
     }
 
     public Notification getNotification() {
-        Bundle bundle = this.i.getBundle(RemoteMessageConst.NOTIFICATION);
+        Bundle bundle = this.i.getBundle("notification");
         if (this.j == null && bundle != null) {
             this.j = new Notification(bundle, null);
         }
@@ -485,7 +484,7 @@ public class RemoteMessage implements Parcelable {
     }
 
     public int getOriginalUrgency() {
-        int i = this.i.getInt(RemoteMessageConst.ORI_URGENCY);
+        int i = this.i.getInt("oriUrgency");
         if (i == 1 || i == 2) {
             return i;
         }
@@ -493,16 +492,16 @@ public class RemoteMessage implements Parcelable {
     }
 
     public int getReceiptMode() {
-        return this.i.getInt(RemoteMessageConst.RECEIPT_MODE);
+        return this.i.getInt("receiptMode");
     }
 
     public int getSendMode() {
-        return this.i.getInt(RemoteMessageConst.SEND_MODE);
+        return this.i.getInt("sendMode");
     }
 
     public long getSentTime() {
         try {
-            String string = this.i.getString(RemoteMessageConst.SEND_TIME);
+            String string = this.i.getString("sendTime");
             if (TextUtils.isEmpty(string)) {
                 return 0L;
             }
@@ -514,19 +513,19 @@ public class RemoteMessage implements Parcelable {
     }
 
     public String getTo() {
-        return this.i.getString(RemoteMessageConst.TO);
+        return this.i.getString("to");
     }
 
     public String getToken() {
-        return this.i.getString(RemoteMessageConst.DEVICE_TOKEN);
+        return this.i.getString("device_token");
     }
 
     public int getTtl() {
-        return this.i.getInt(RemoteMessageConst.TTL);
+        return this.i.getInt("ttl");
     }
 
     public int getUrgency() {
-        int i = this.i.getInt(RemoteMessageConst.URGENCY);
+        int i = this.i.getInt("urgency");
         if (i == 1 || i == 2) {
             return i;
         }
@@ -546,7 +545,7 @@ public class RemoteMessage implements Parcelable {
 
     public static JSONObject b(JSONObject jSONObject) {
         if (jSONObject != null) {
-            return jSONObject.optJSONObject(RemoteMessageConst.MessageBody.NOTIFY_DETAIL);
+            return jSONObject.optJSONObject("notifyDetail");
         }
         return null;
     }
@@ -560,49 +559,49 @@ public class RemoteMessage implements Parcelable {
         c = jArr;
         HashMap<String, Object> hashMap = new HashMap<>(8);
         d = hashMap;
-        hashMap.put(RemoteMessageConst.FROM, "");
-        hashMap.put(RemoteMessageConst.COLLAPSE_KEY, "");
-        hashMap.put(RemoteMessageConst.SEND_TIME, "");
-        hashMap.put(RemoteMessageConst.TTL, Integer.valueOf((int) RemoteMessageConst.DEFAULT_TTL));
-        hashMap.put(RemoteMessageConst.URGENCY, 2);
-        hashMap.put(RemoteMessageConst.ORI_URGENCY, 2);
-        hashMap.put(RemoteMessageConst.SEND_MODE, 0);
-        hashMap.put(RemoteMessageConst.RECEIPT_MODE, 0);
+        hashMap.put("from", "");
+        hashMap.put("collapseKey", "");
+        hashMap.put("sendTime", "");
+        hashMap.put("ttl", 86400);
+        hashMap.put("urgency", 2);
+        hashMap.put("oriUrgency", 2);
+        hashMap.put("sendMode", 0);
+        hashMap.put("receiptMode", 0);
         HashMap<String, Object> hashMap2 = new HashMap<>(8);
         e = hashMap2;
-        hashMap2.put(RemoteMessageConst.Notification.TITLE_LOC_KEY, "");
-        hashMap2.put(RemoteMessageConst.Notification.BODY_LOC_KEY, "");
-        hashMap2.put(RemoteMessageConst.Notification.NOTIFY_ICON, "");
-        hashMap2.put(RemoteMessageConst.Notification.TITLE_LOC_ARGS, strArr);
-        hashMap2.put(RemoteMessageConst.Notification.BODY_LOC_ARGS, strArr);
-        hashMap2.put(RemoteMessageConst.Notification.TICKER, "");
-        hashMap2.put(RemoteMessageConst.Notification.NOTIFY_TITLE, "");
-        hashMap2.put(RemoteMessageConst.Notification.CONTENT, "");
+        hashMap2.put("title_loc_key", "");
+        hashMap2.put("body_loc_key", "");
+        hashMap2.put("notifyIcon", "");
+        hashMap2.put("title_loc_args", strArr);
+        hashMap2.put("body_loc_args", strArr);
+        hashMap2.put("ticker", "");
+        hashMap2.put("notifyTitle", "");
+        hashMap2.put("content", "");
         HashMap<String, Object> hashMap3 = new HashMap<>(8);
         f = hashMap3;
-        hashMap3.put(RemoteMessageConst.Notification.ICON, "");
-        hashMap3.put(RemoteMessageConst.Notification.COLOR, "");
-        hashMap3.put(RemoteMessageConst.Notification.SOUND, "");
-        hashMap3.put(RemoteMessageConst.Notification.DEFAULT_LIGHT_SETTINGS, 1);
-        hashMap3.put(RemoteMessageConst.Notification.LIGHT_SETTINGS, iArr);
-        hashMap3.put(RemoteMessageConst.Notification.DEFAULT_SOUND, 1);
-        hashMap3.put(RemoteMessageConst.Notification.DEFAULT_VIBRATE_TIMINGS, 1);
-        hashMap3.put(RemoteMessageConst.Notification.VIBRATE_TIMINGS, jArr);
+        hashMap3.put("icon", "");
+        hashMap3.put("color", "");
+        hashMap3.put("sound", "");
+        hashMap3.put("defaultLightSettings", 1);
+        hashMap3.put("lightSettings", iArr);
+        hashMap3.put("defaultSound", 1);
+        hashMap3.put("defaultVibrateTimings", 1);
+        hashMap3.put("vibrateTimings", jArr);
         HashMap<String, Object> hashMap4 = new HashMap<>(8);
         g = hashMap4;
-        hashMap4.put(RemoteMessageConst.Notification.TAG, "");
-        hashMap4.put(RemoteMessageConst.Notification.WHEN, "");
-        hashMap4.put(RemoteMessageConst.Notification.LOCAL_ONLY, 1);
-        hashMap4.put(RemoteMessageConst.Notification.BADGE_SET_NUM, "");
-        hashMap4.put(RemoteMessageConst.Notification.PRIORITY, "");
-        hashMap4.put(RemoteMessageConst.Notification.AUTO_CANCEL, 1);
-        hashMap4.put(RemoteMessageConst.Notification.VISIBILITY, "");
-        hashMap4.put(RemoteMessageConst.Notification.CHANNEL_ID, "");
+        hashMap4.put("tag", "");
+        hashMap4.put("when", "");
+        hashMap4.put("localOnly", 1);
+        hashMap4.put("badgeSetNum", "");
+        hashMap4.put("priority", "");
+        hashMap4.put("autoCancel", 1);
+        hashMap4.put("visibility", "");
+        hashMap4.put("channelId", "");
         HashMap<String, Object> hashMap5 = new HashMap<>(3);
         h = hashMap5;
-        hashMap5.put(RemoteMessageConst.Notification.CLICK_ACTION, "");
-        hashMap5.put(RemoteMessageConst.Notification.INTENT_URI, "");
-        hashMap5.put(RemoteMessageConst.Notification.URL, "");
+        hashMap5.put("acn", "");
+        hashMap5.put("intentUri", "");
+        hashMap5.put("url", "");
     }
 
     public final Bundle a(JSONObject jSONObject, JSONObject jSONObject2, JSONObject jSONObject3, JSONObject jSONObject4, JSONObject jSONObject5) {
@@ -611,13 +610,13 @@ public class RemoteMessage implements Parcelable {
         JsonUtil.transferJsonObjectToBundle(jSONObject4, bundle, f);
         JsonUtil.transferJsonObjectToBundle(jSONObject, bundle, g);
         JsonUtil.transferJsonObjectToBundle(jSONObject5, bundle, h);
-        bundle.putInt(RemoteMessageConst.Notification.NOTIFY_ID, JsonUtil.getInt(jSONObject2, RemoteMessageConst.Notification.NOTIFY_ID, 0));
+        bundle.putInt("notifyId", JsonUtil.getInt(jSONObject2, "notifyId", 0));
         return bundle;
     }
 
     public static JSONObject a(JSONObject jSONObject) {
         if (jSONObject != null) {
-            return jSONObject.optJSONObject(RemoteMessageConst.MessageBody.MSG_CONTENT);
+            return jSONObject.optJSONObject("msgContent");
         }
         return null;
     }

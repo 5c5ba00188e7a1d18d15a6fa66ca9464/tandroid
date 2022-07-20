@@ -24,7 +24,7 @@ public class OuterBinderAdapter extends BinderAdapter {
     public static BinderAdapter getInstance(Context context, String str, String str2) {
         BinderAdapter binderAdapter;
         boolean z;
-        HMSLog.i(TAG, "OuterBinderAdapter getInstance.");
+        HMSLog.i("OuterBinderAdapter", "OuterBinderAdapter getInstance.");
         synchronized (LOCK_OBJECT_INIT) {
             if (adapter == null) {
                 sActionName = str;
@@ -34,7 +34,7 @@ public class OuterBinderAdapter extends BinderAdapter {
                 if (Objects.equal(sActionName, str) && Objects.equal(sServiceName, str2)) {
                     z = false;
                     if (z) {
-                        HMSLog.i(TAG, "OuterBinderAdapter getInstance refresh adapter");
+                        HMSLog.i("OuterBinderAdapter", "OuterBinderAdapter getInstance refresh adapter");
                         sActionName = str;
                         sServiceName = str2;
                         adapter.unBind();

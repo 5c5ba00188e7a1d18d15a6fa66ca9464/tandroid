@@ -1,6 +1,4 @@
 package org.telegram.tgnet;
-
-import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
     public static int constructor = -779165146;
@@ -9,7 +7,7 @@ public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        this.can_set_username = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+        this.can_set_username = (readInt32 & 128) != 0;
         this.has_scheduled = (readInt32 & 256) != 0;
         this.id = abstractSerializedData.readInt64(z);
         this.about = abstractSerializedData.readString(z);
@@ -53,7 +51,7 @@ public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
         if ((this.flags & 32768) != 0) {
             this.groupcall_default_join_as = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+        if ((this.flags & 65536) != 0) {
             this.theme_emoticon = abstractSerializedData.readString(z);
         }
         if ((this.flags & 131072) != 0) {
@@ -90,7 +88,7 @@ public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
         abstractSerializedData.writeInt32(constructor);
-        int i = this.can_set_username ? this.flags | ConnectionsManager.RequestFlagNeedQuickAck : this.flags & (-129);
+        int i = this.can_set_username ? this.flags | 128 : this.flags & (-129);
         this.flags = i;
         int i2 = this.has_scheduled ? i | 256 : i & (-257);
         this.flags = i2;
@@ -128,7 +126,7 @@ public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
         if ((this.flags & 32768) != 0) {
             this.groupcall_default_join_as.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+        if ((this.flags & 65536) != 0) {
             abstractSerializedData.writeString(this.theme_emoticon);
         }
         if ((this.flags & 131072) != 0) {

@@ -20,171 +20,22 @@ public abstract class TLRPC$Video extends TLObject {
         TLRPC$Video tLRPC$Video;
         switch (i) {
             case -1056548696:
-                tLRPC$Video = new TLRPC$Video() { // from class: org.telegram.tgnet.TLRPC$TL_videoEmpty_layer45
-                    public static int constructor = -1056548696;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.id = abstractSerializedData2.readInt64(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt64(this.id);
-                    }
-                };
+                tLRPC$Video = new TLRPC$TL_videoEmpty_layer45();
                 break;
             case -291550643:
-                tLRPC$Video = new TLRPC$TL_video_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_video_old3
-                    public static int constructor = -291550643;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.id = abstractSerializedData2.readInt64(z2);
-                        this.access_hash = abstractSerializedData2.readInt64(z2);
-                        this.user_id = abstractSerializedData2.readInt32(z2);
-                        this.date = abstractSerializedData2.readInt32(z2);
-                        this.duration = abstractSerializedData2.readInt32(z2);
-                        this.size = abstractSerializedData2.readInt32(z2);
-                        this.thumb = TLRPC$PhotoSize.TLdeserialize(0L, 0L, 0L, abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.dc_id = abstractSerializedData2.readInt32(z2);
-                        this.w = abstractSerializedData2.readInt32(z2);
-                        this.h = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt64(this.id);
-                        abstractSerializedData2.writeInt64(this.access_hash);
-                        abstractSerializedData2.writeInt32((int) this.user_id);
-                        abstractSerializedData2.writeInt32(this.date);
-                        abstractSerializedData2.writeInt32(this.duration);
-                        abstractSerializedData2.writeInt32(this.size);
-                        this.thumb.serializeToStream(abstractSerializedData2);
-                        abstractSerializedData2.writeInt32(this.dc_id);
-                        abstractSerializedData2.writeInt32(this.w);
-                        abstractSerializedData2.writeInt32(this.h);
-                    }
-                };
+                tLRPC$Video = new TLRPC$TL_video_old3();
                 break;
             case -148338733:
                 tLRPC$Video = new TLRPC$TL_video_layer45();
                 break;
             case 948937617:
-                tLRPC$Video = new TLRPC$TL_video_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_video_old2
-                    public static int constructor = 948937617;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.id = abstractSerializedData2.readInt64(z2);
-                        this.access_hash = abstractSerializedData2.readInt64(z2);
-                        this.user_id = abstractSerializedData2.readInt32(z2);
-                        this.date = abstractSerializedData2.readInt32(z2);
-                        this.caption = abstractSerializedData2.readString(z2);
-                        this.duration = abstractSerializedData2.readInt32(z2);
-                        this.mime_type = abstractSerializedData2.readString(z2);
-                        this.size = abstractSerializedData2.readInt32(z2);
-                        this.thumb = TLRPC$PhotoSize.TLdeserialize(0L, 0L, 0L, abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.dc_id = abstractSerializedData2.readInt32(z2);
-                        this.w = abstractSerializedData2.readInt32(z2);
-                        this.h = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt64(this.id);
-                        abstractSerializedData2.writeInt64(this.access_hash);
-                        abstractSerializedData2.writeInt32((int) this.user_id);
-                        abstractSerializedData2.writeInt32(this.date);
-                        abstractSerializedData2.writeString(this.caption);
-                        abstractSerializedData2.writeInt32(this.duration);
-                        abstractSerializedData2.writeString(this.mime_type);
-                        abstractSerializedData2.writeInt32(this.size);
-                        this.thumb.serializeToStream(abstractSerializedData2);
-                        abstractSerializedData2.writeInt32(this.dc_id);
-                        abstractSerializedData2.writeInt32(this.w);
-                        abstractSerializedData2.writeInt32(this.h);
-                    }
-                };
+                tLRPC$Video = new TLRPC$TL_video_old2();
                 break;
             case 1431655763:
-                tLRPC$Video = new TLRPC$TL_video_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_videoEncrypted
-                    public static int constructor = 1431655763;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.id = abstractSerializedData2.readInt64(z2);
-                        this.access_hash = abstractSerializedData2.readInt64(z2);
-                        this.user_id = abstractSerializedData2.readInt32(z2);
-                        this.date = abstractSerializedData2.readInt32(z2);
-                        this.caption = abstractSerializedData2.readString(z2);
-                        this.duration = abstractSerializedData2.readInt32(z2);
-                        this.size = abstractSerializedData2.readInt32(z2);
-                        this.thumb = TLRPC$PhotoSize.TLdeserialize(0L, 0L, 0L, abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.dc_id = abstractSerializedData2.readInt32(z2);
-                        this.w = abstractSerializedData2.readInt32(z2);
-                        this.h = abstractSerializedData2.readInt32(z2);
-                        this.key = abstractSerializedData2.readByteArray(z2);
-                        this.iv = abstractSerializedData2.readByteArray(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt64(this.id);
-                        abstractSerializedData2.writeInt64(this.access_hash);
-                        abstractSerializedData2.writeInt32((int) this.user_id);
-                        abstractSerializedData2.writeInt32(this.date);
-                        abstractSerializedData2.writeString(this.caption);
-                        abstractSerializedData2.writeInt32(this.duration);
-                        abstractSerializedData2.writeInt32(this.size);
-                        this.thumb.serializeToStream(abstractSerializedData2);
-                        abstractSerializedData2.writeInt32(this.dc_id);
-                        abstractSerializedData2.writeInt32(this.w);
-                        abstractSerializedData2.writeInt32(this.h);
-                        abstractSerializedData2.writeByteArray(this.key);
-                        abstractSerializedData2.writeByteArray(this.iv);
-                    }
-                };
+                tLRPC$Video = new TLRPC$TL_videoEncrypted();
                 break;
             case 1510253727:
-                tLRPC$Video = new TLRPC$TL_video_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_video_old
-                    public static int constructor = 1510253727;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.id = abstractSerializedData2.readInt64(z2);
-                        this.access_hash = abstractSerializedData2.readInt64(z2);
-                        this.user_id = abstractSerializedData2.readInt32(z2);
-                        this.date = abstractSerializedData2.readInt32(z2);
-                        this.caption = abstractSerializedData2.readString(z2);
-                        this.duration = abstractSerializedData2.readInt32(z2);
-                        this.size = abstractSerializedData2.readInt32(z2);
-                        this.thumb = TLRPC$PhotoSize.TLdeserialize(0L, 0L, 0L, abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.dc_id = abstractSerializedData2.readInt32(z2);
-                        this.w = abstractSerializedData2.readInt32(z2);
-                        this.h = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt64(this.id);
-                        abstractSerializedData2.writeInt64(this.access_hash);
-                        abstractSerializedData2.writeInt32((int) this.user_id);
-                        abstractSerializedData2.writeInt32(this.date);
-                        abstractSerializedData2.writeString(this.caption);
-                        abstractSerializedData2.writeInt32(this.duration);
-                        abstractSerializedData2.writeInt32(this.size);
-                        this.thumb.serializeToStream(abstractSerializedData2);
-                        abstractSerializedData2.writeInt32(this.dc_id);
-                        abstractSerializedData2.writeInt32(this.w);
-                        abstractSerializedData2.writeInt32(this.h);
-                    }
-                };
+                tLRPC$Video = new TLRPC$TL_video_old();
                 break;
             default:
                 tLRPC$Video = null;

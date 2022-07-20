@@ -1,13 +1,10 @@
 package org.telegram.ui;
 
 import android.content.Context;
-import android.view.View;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
-import org.telegram.ui.ChooseSpeedLayout;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
 /* loaded from: classes3.dex */
 public class ChooseSpeedLayout {
@@ -19,67 +16,37 @@ public class ChooseSpeedLayout {
         void onSpeedSelected(float f);
     }
 
-    public ChooseSpeedLayout(Context context, final PopupSwipeBackLayout popupSwipeBackLayout, final Callback callback) {
+    public ChooseSpeedLayout(Context context, PopupSwipeBackLayout popupSwipeBackLayout, Callback callback) {
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, 0, null);
         this.speedSwipeBackLayout = actionBarPopupWindowLayout;
         actionBarPopupWindowLayout.setFitItems(true);
-        ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, R.drawable.msg_arrow_back, LocaleController.getString("Back", R.string.Back), false, null);
-        addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChooseSpeedLayout$$ExternalSyntheticLambda5
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                PopupSwipeBackLayout.this.closeForeground();
-            }
-        });
+        ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, 2131165639, LocaleController.getString("Back", 2131624647), false, null);
+        addItem.setOnClickListener(new ChooseSpeedLayout$$ExternalSyntheticLambda5(popupSwipeBackLayout));
         addItem.setColors(-328966, -328966);
         addItem.setSelectorColor(268435455);
-        ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, R.drawable.msg_speed_0_2, LocaleController.getString("SpeedVerySlow", R.string.SpeedVerySlow), false, null);
+        ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, 2131165944, LocaleController.getString("SpeedVerySlow", 2131628464), false, null);
         addItem2.setColors(-328966, -328966);
-        addItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChooseSpeedLayout$$ExternalSyntheticLambda2
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ChooseSpeedLayout.Callback.this.onSpeedSelected(0.25f);
-            }
-        });
+        addItem2.setOnClickListener(new ChooseSpeedLayout$$ExternalSyntheticLambda2(callback));
         addItem2.setSelectorColor(268435455);
         this.speedItems[0] = addItem2;
-        ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, R.drawable.msg_speed_0_5, LocaleController.getString("SpeedSlow", R.string.SpeedSlow), false, null);
+        ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, 2131165945, LocaleController.getString("SpeedSlow", 2131628462), false, null);
         addItem3.setColors(-328966, -328966);
-        addItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChooseSpeedLayout$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ChooseSpeedLayout.Callback.this.onSpeedSelected(0.5f);
-            }
-        });
+        addItem3.setOnClickListener(new ChooseSpeedLayout$$ExternalSyntheticLambda0(callback));
         addItem3.setSelectorColor(268435455);
         this.speedItems[1] = addItem3;
-        ActionBarMenuSubItem addItem4 = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, R.drawable.msg_speed_1, LocaleController.getString("SpeedNormal", R.string.SpeedNormal), false, null);
+        ActionBarMenuSubItem addItem4 = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, 2131165946, LocaleController.getString("SpeedNormal", 2131628461), false, null);
         addItem4.setColors(-328966, -328966);
-        addItem4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChooseSpeedLayout$$ExternalSyntheticLambda3
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ChooseSpeedLayout.Callback.this.onSpeedSelected(1.0f);
-            }
-        });
+        addItem4.setOnClickListener(new ChooseSpeedLayout$$ExternalSyntheticLambda3(callback));
         addItem4.setSelectorColor(268435455);
         this.speedItems[2] = addItem4;
-        ActionBarMenuSubItem addItem5 = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, R.drawable.msg_speed_1_5, LocaleController.getString("SpeedFast", R.string.SpeedFast), false, null);
+        ActionBarMenuSubItem addItem5 = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, 2131165947, LocaleController.getString("SpeedFast", 2131628460), false, null);
         addItem5.setColors(-328966, -328966);
-        addItem5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChooseSpeedLayout$$ExternalSyntheticLambda4
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ChooseSpeedLayout.Callback.this.onSpeedSelected(1.5f);
-            }
-        });
+        addItem5.setOnClickListener(new ChooseSpeedLayout$$ExternalSyntheticLambda4(callback));
         addItem5.setSelectorColor(268435455);
         this.speedItems[3] = addItem5;
-        ActionBarMenuSubItem addItem6 = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, R.drawable.msg_speed_2, LocaleController.getString("SpeedVeryFast", R.string.SpeedVeryFast), false, null);
+        ActionBarMenuSubItem addItem6 = ActionBarMenuItem.addItem(this.speedSwipeBackLayout, 2131165948, LocaleController.getString("SpeedVeryFast", 2131628463), false, null);
         addItem6.setColors(-328966, -328966);
-        addItem6.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChooseSpeedLayout$$ExternalSyntheticLambda1
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ChooseSpeedLayout.Callback.this.onSpeedSelected(2.0f);
-            }
-        });
+        addItem6.setOnClickListener(new ChooseSpeedLayout$$ExternalSyntheticLambda1(callback));
         addItem6.setSelectorColor(268435455);
         this.speedItems[4] = addItem6;
     }

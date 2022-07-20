@@ -37,27 +37,7 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
         if (intent == null) {
             return;
         }
-        getBroadcastExecutor().execute(new Runnable(this, intent, context, isOrderedBroadcast(), goAsync()) { // from class: com.google.android.gms.cloudmessaging.zzd
-            private final CloudMessagingReceiver zza;
-            private final Intent zzb;
-            private final Context zzc;
-            private final boolean zzd;
-            private final BroadcastReceiver.PendingResult zze;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-                this.zzb = intent;
-                this.zzc = context;
-                this.zzd = isOrderedBroadcast;
-                this.zze = goAsync;
-            }
-
-            @Override // java.lang.Runnable
-            public final void run() {
-                this.zza.zza(this.zzb, this.zzc, this.zzd, this.zze);
-            }
-        });
+        getBroadcastExecutor().execute(new zzd(this, intent, context, isOrderedBroadcast(), goAsync()));
     }
 
     private final int zza(Context context, Intent intent) {

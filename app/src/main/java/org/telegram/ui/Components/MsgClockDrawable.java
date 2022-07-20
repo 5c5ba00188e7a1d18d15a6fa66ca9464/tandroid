@@ -75,20 +75,27 @@ public class MsgClockDrawable extends Drawable {
         }
     }
 
+    /* renamed from: org.telegram.ui.Components.MsgClockDrawable$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends Drawable.ConstantState {
+        @Override // android.graphics.drawable.Drawable.ConstantState
+        public int getChangingConfigurations() {
+            return 0;
+        }
+
+        AnonymousClass1(MsgClockDrawable msgClockDrawable) {
+        }
+
+        @Override // android.graphics.drawable.Drawable.ConstantState
+        public Drawable newDrawable() {
+            return new MsgClockDrawable();
+        }
+    }
+
     @Override // android.graphics.drawable.Drawable
     public Drawable.ConstantState getConstantState() {
         if (this.constantState == null) {
-            this.constantState = new Drawable.ConstantState(this) { // from class: org.telegram.ui.Components.MsgClockDrawable.1
-                @Override // android.graphics.drawable.Drawable.ConstantState
-                public int getChangingConfigurations() {
-                    return 0;
-                }
-
-                @Override // android.graphics.drawable.Drawable.ConstantState
-                public Drawable newDrawable() {
-                    return new MsgClockDrawable();
-                }
-            };
+            this.constantState = new AnonymousClass1(this);
         }
         return this.constantState;
     }

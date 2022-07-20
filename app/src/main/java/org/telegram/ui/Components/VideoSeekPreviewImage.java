@@ -19,7 +19,6 @@ import org.telegram.messenger.Bitmaps;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
@@ -56,13 +55,13 @@ public class VideoSeekPreviewImage extends View {
     public VideoSeekPreviewImage(Context context, VideoSeekPreviewImageDelegate videoSeekPreviewImageDelegate) {
         super(context);
         setVisibility(4);
-        this.frameDrawable = context.getResources().getDrawable(R.drawable.videopreview);
+        this.frameDrawable = context.getResources().getDrawable(2131166208);
         this.textPaint.setTextSize(AndroidUtilities.dp(13.0f));
         this.textPaint.setColor(-1);
         this.delegate = videoSeekPreviewImageDelegate;
     }
 
-    public void setProgress(final float f, int i) {
+    public void setProgress(float f, int i) {
         String formatShortDuration;
         if (i != 0) {
             this.pixelWidth = i;
@@ -72,7 +71,7 @@ public class VideoSeekPreviewImage extends View {
             }
             this.currentPixel = i2;
         }
-        final long j = ((float) this.duration) * f;
+        long j = ((float) this.duration) * f;
         this.frameTime = AndroidUtilities.formatShortDuration((int) (j / 1000));
         this.timeWidth = (int) Math.ceil(this.textPaint.measureText(formatShortDuration));
         invalidate();
@@ -84,14 +83,9 @@ public class VideoSeekPreviewImage extends View {
             animatedFileDrawable.resetStream(false);
         }
         DispatchQueue dispatchQueue = Utilities.globalQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                VideoSeekPreviewImage.this.lambda$setProgress$1(f, j);
-            }
-        };
-        this.progressRunnable = runnable;
-        dispatchQueue.postRunnable(runnable);
+        VideoSeekPreviewImage$$ExternalSyntheticLambda2 videoSeekPreviewImage$$ExternalSyntheticLambda2 = new VideoSeekPreviewImage$$ExternalSyntheticLambda2(this, f, j);
+        this.progressRunnable = videoSeekPreviewImage$$ExternalSyntheticLambda2;
+        dispatchQueue.postRunnable(videoSeekPreviewImage$$ExternalSyntheticLambda2);
     }
 
     public /* synthetic */ void lambda$setProgress$1(float f, long j) {
@@ -101,7 +95,7 @@ public class VideoSeekPreviewImage extends View {
             return;
         }
         int max = Math.max(200, AndroidUtilities.dp(100.0f));
-        final Bitmap frameAtTime = this.fileDrawable.getFrameAtTime(j);
+        Bitmap frameAtTime = this.fileDrawable.getFrameAtTime(j);
         if (frameAtTime != null) {
             int width = frameAtTime.getWidth();
             int height = frameAtTime.getHeight();
@@ -123,12 +117,7 @@ public class VideoSeekPreviewImage extends View {
                 frameAtTime = null;
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda3
-            @Override // java.lang.Runnable
-            public final void run() {
-                VideoSeekPreviewImage.this.lambda$setProgress$0(frameAtTime);
-            }
-        });
+        AndroidUtilities.runOnUIThread(new VideoSeekPreviewImage$$ExternalSyntheticLambda3(this, frameAtTime));
     }
 
     public /* synthetic */ void lambda$setProgress$0(Bitmap bitmap) {
@@ -168,20 +157,15 @@ public class VideoSeekPreviewImage extends View {
         this.progressRunnable = null;
     }
 
-    public void open(final Uri uri) {
+    public void open(Uri uri) {
         if (uri == null || uri.equals(this.videoUri)) {
             return;
         }
         this.videoUri = uri;
         DispatchQueue dispatchQueue = Utilities.globalQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda4
-            @Override // java.lang.Runnable
-            public final void run() {
-                VideoSeekPreviewImage.this.lambda$open$3(uri);
-            }
-        };
-        this.loadRunnable = runnable;
-        dispatchQueue.postRunnable(runnable);
+        VideoSeekPreviewImage$$ExternalSyntheticLambda4 videoSeekPreviewImage$$ExternalSyntheticLambda4 = new VideoSeekPreviewImage$$ExternalSyntheticLambda4(this, uri);
+        this.loadRunnable = videoSeekPreviewImage$$ExternalSyntheticLambda4;
+        dispatchQueue.postRunnable(videoSeekPreviewImage$$ExternalSyntheticLambda4);
     }
 
     public /* synthetic */ void lambda$open$3(Uri uri) {
@@ -216,12 +200,7 @@ public class VideoSeekPreviewImage extends View {
             setProgress(f, this.pixelWidth);
             this.pendingProgress = 0.0f;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                VideoSeekPreviewImage.this.lambda$open$2();
-            }
-        });
+        AndroidUtilities.runOnUIThread(new VideoSeekPreviewImage$$ExternalSyntheticLambda1(this));
     }
 
     public /* synthetic */ void lambda$open$2() {
@@ -269,12 +248,7 @@ public class VideoSeekPreviewImage extends View {
         if (animatedFileDrawable != null) {
             animatedFileDrawable.resetStream(true);
         }
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                VideoSeekPreviewImage.this.lambda$close$4();
-            }
-        });
+        Utilities.globalQueue.postRunnable(new VideoSeekPreviewImage$$ExternalSyntheticLambda0(this));
         setVisibility(4);
         this.bitmapToDraw = null;
         this.bitmapShader = null;

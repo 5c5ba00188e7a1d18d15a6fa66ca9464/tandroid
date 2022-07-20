@@ -50,12 +50,11 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SRPHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$PasswordKdfAlgo;
 import org.telegram.tgnet.TLRPC$SecurePasswordKdfAlgo;
+import org.telegram.tgnet.TLRPC$TL_account_cancelPasswordEmail;
 import org.telegram.tgnet.TLRPC$TL_account_confirmPasswordEmail;
 import org.telegram.tgnet.TLRPC$TL_account_getPassword;
 import org.telegram.tgnet.TLRPC$TL_account_getPasswordSettings;
@@ -95,7 +94,6 @@ import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.TransformableLoginButtonView;
 import org.telegram.ui.Components.VerticalPositionAutoAnimator;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
-import org.telegram.ui.TwoStepVerificationSetupActivity;
 /* loaded from: classes3.dex */
 public class TwoStepVerificationSetupActivity extends BaseFragment {
     private AnimatorSet actionBarAnimator;
@@ -195,18 +193,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.otherwiseReloginDays = -1;
         this.fragmentsToClose = new ArrayList<>();
         this.currentPasswordHash = new byte[0];
-        this.errorColorTimeout = new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda26
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$new$0();
-            }
-        };
-        this.finishCallback = new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda21
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$new$1();
-            }
-        };
+        this.errorColorTimeout = new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda26(this);
+        this.finishCallback = new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda21(this);
         this.currentType = i;
         this.currentPassword = tLRPC$TL_account_password;
         if (tLRPC$TL_account_password == null && (i == 6 || i == 8)) {
@@ -221,18 +209,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.otherwiseReloginDays = -1;
         this.fragmentsToClose = new ArrayList<>();
         this.currentPasswordHash = new byte[0];
-        this.errorColorTimeout = new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda26
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$new$0();
-            }
-        };
-        this.finishCallback = new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda21
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$new$1();
-            }
-        };
+        this.errorColorTimeout = new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda26(this);
+        this.finishCallback = new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda21(this);
         this.currentAccount = i;
         this.currentType = i2;
         this.currentPassword = tLRPC$TL_account_password;
@@ -296,7 +274,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     public View createView(Context context) {
         CodeNumberField[] codeNumberFieldArr;
         this.actionBar.setBackgroundDrawable(null);
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        this.actionBar.setBackButtonImage(2131165449);
         boolean z = false;
         this.actionBar.setAllowOverlayTitle(false);
         this.actionBar.setTitleColor(Theme.getColor("windowBackgroundWhiteBlackText"));
@@ -306,7 +284,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.actionBar.setAddToContainer(false);
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         if (this.currentType == 5) {
-            this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_other).addSubItem(1, LocaleController.getString("AbortPasswordMenu", R.string.AbortPasswordMenu));
+            this.actionBar.createMenu().addItem(0, 2131165453).addSubItem(1, LocaleController.getString("AbortPasswordMenu", 2131623940));
         }
         this.floatingButtonContainer = new FrameLayout(context);
         int i = Build.VERSION.SDK_INT;
@@ -315,28 +293,17 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
             stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
             this.floatingButtonContainer.setStateListAnimator(stateListAnimator);
-            this.floatingButtonContainer.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.2
-                @Override // android.view.ViewOutlineProvider
-                @SuppressLint({"NewApi"})
-                public void getOutline(View view, Outline outline) {
-                    outline.setOval(0, 0, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
-                }
-            });
+            this.floatingButtonContainer.setOutlineProvider(new AnonymousClass2(this));
         }
         this.floatingAutoAnimator = VerticalPositionAutoAnimator.attach(this.floatingButtonContainer);
-        this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda8
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                TwoStepVerificationSetupActivity.this.lambda$createView$2(view);
-            }
-        });
+        this.floatingButtonContainer.setOnClickListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda8(this));
         TransformableLoginButtonView transformableLoginButtonView = new TransformableLoginButtonView(context);
         this.floatingButtonIcon = transformableLoginButtonView;
         transformableLoginButtonView.setTransformType(1);
         this.floatingButtonIcon.setProgress(0.0f);
         this.floatingButtonIcon.setColor(Theme.getColor("chats_actionIcon"));
         this.floatingButtonIcon.setDrawBackground(false);
-        this.floatingButtonContainer.setContentDescription(LocaleController.getString((int) R.string.Next));
+        this.floatingButtonContainer.setContentDescription(LocaleController.getString(2131626853));
         this.floatingButtonContainer.addView(this.floatingButtonIcon, LayoutHelper.createFrame(i >= 21 ? 56 : 60, i >= 21 ? 56.0f : 60.0f));
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.floatingProgressView = radialProgressView;
@@ -347,7 +314,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.floatingButtonContainer.addView(this.floatingProgressView, LayoutHelper.createFrame(-1, -1.0f));
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
         if (i < 21) {
-            Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
+            Drawable mutate = context.getResources().getDrawable(2131165414).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
             combinedDrawable.setIconSize(AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
@@ -362,12 +329,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.bottomSkipButton.setVisibility(8);
         VerticalPositionAutoAnimator.attach(this.bottomSkipButton);
         this.bottomSkipButton.setPadding(AndroidUtilities.dp(32.0f), 0, AndroidUtilities.dp(32.0f), 0);
-        this.bottomSkipButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda11
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                TwoStepVerificationSetupActivity.this.lambda$createView$7(view);
-            }
-        });
+        this.bottomSkipButton.setOnClickListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda11(this));
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.imageView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -398,12 +360,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.descriptionText2.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
         this.descriptionText2.setPadding(AndroidUtilities.dp(32.0f), 0, AndroidUtilities.dp(32.0f), 0);
         this.descriptionText2.setVisibility(8);
-        this.descriptionText2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda10
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                TwoStepVerificationSetupActivity.this.lambda$createView$8(view);
-            }
-        });
+        this.descriptionText2.setOnClickListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda10(this));
         TextView textView4 = new TextView(context);
         this.buttonTextView = textView4;
         textView4.setMinWidth(AndroidUtilities.dp(220.0f));
@@ -411,20 +368,15 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.buttonTextView.setGravity(17);
         this.buttonTextView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
         this.buttonTextView.setTextSize(1, 15.0f);
-        this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.buttonTextView.setBackground(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 6.0f));
-        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda7
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                TwoStepVerificationSetupActivity.this.lambda$createView$9(view);
-            }
-        });
+        this.buttonTextView.setOnClickListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda7(this));
         int i2 = this.currentType;
         if (i2 == 6 || i2 == 7 || i2 == 9) {
             this.titleTextView.setTypeface(Typeface.DEFAULT);
             this.titleTextView.setTextSize(1, 24.0f);
         } else {
-            this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             this.titleTextView.setTextSize(1, 18.0f);
         }
         switch (this.currentType) {
@@ -435,204 +387,23 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             case 4:
             case 5:
             case 8:
-                final FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.4
-                    @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        super.onMeasure(i3, i4);
-                        ((ViewGroup.MarginLayoutParams) TwoStepVerificationSetupActivity.this.radialProgressView.getLayoutParams()).topMargin = AndroidUtilities.statusBarHeight + AndroidUtilities.dp(16.0f);
-                    }
-                };
-                final SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.5
-                    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                    public void onLayout(boolean z2, int i3, int i4, int i5, int i6) {
-                        int i7;
-                        if (TwoStepVerificationSetupActivity.this.keyboardView.getVisibility() == 8 || measureKeyboardHeight() < AndroidUtilities.dp(20.0f)) {
-                            if (TwoStepVerificationSetupActivity.this.keyboardView.getVisibility() != 8) {
-                                FrameLayout frameLayout2 = frameLayout;
-                                int measuredWidth = getMeasuredWidth();
-                                i7 = getMeasuredHeight() - AndroidUtilities.dp(230.0f);
-                                frameLayout2.layout(0, 0, measuredWidth, i7);
-                            } else {
-                                FrameLayout frameLayout3 = frameLayout;
-                                int measuredWidth2 = getMeasuredWidth();
-                                i7 = getMeasuredHeight();
-                                frameLayout3.layout(0, 0, measuredWidth2, i7);
-                            }
-                        } else if (TwoStepVerificationSetupActivity.this.isCustomKeyboardVisible()) {
-                            FrameLayout frameLayout4 = frameLayout;
-                            int measuredWidth3 = getMeasuredWidth();
-                            i7 = (getMeasuredHeight() - AndroidUtilities.dp(230.0f)) + measureKeyboardHeight();
-                            frameLayout4.layout(0, 0, measuredWidth3, i7);
-                        } else {
-                            FrameLayout frameLayout5 = frameLayout;
-                            int measuredWidth4 = getMeasuredWidth();
-                            i7 = getMeasuredHeight();
-                            frameLayout5.layout(0, 0, measuredWidth4, i7);
-                        }
-                        TwoStepVerificationSetupActivity.this.keyboardView.layout(0, i7, getMeasuredWidth(), AndroidUtilities.dp(230.0f) + i7);
-                    }
-
-                    @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        int size = View.MeasureSpec.getSize(i3);
-                        int size2 = View.MeasureSpec.getSize(i4);
-                        setMeasuredDimension(size, size2);
-                        if (TwoStepVerificationSetupActivity.this.keyboardView.getVisibility() != 8 && measureKeyboardHeight() < AndroidUtilities.dp(20.0f)) {
-                            size2 -= AndroidUtilities.dp(230.0f);
-                        }
-                        frameLayout.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
-                        TwoStepVerificationSetupActivity.this.keyboardView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(230.0f), 1073741824));
-                    }
-                };
-                sizeNotifierFrameLayout.addView(frameLayout);
-                ViewGroup viewGroup = new ViewGroup(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.6
-                    @Override // android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        int size = View.MeasureSpec.getSize(i3);
-                        int size2 = View.MeasureSpec.getSize(i4);
-                        ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i4);
-                        TwoStepVerificationSetupActivity.this.actionBarBackground.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredHeight() + AndroidUtilities.dp(3.0f), 1073741824));
-                        sizeNotifierFrameLayout.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i4);
-                        setMeasuredDimension(size, size2);
-                    }
-
-                    @Override // android.view.ViewGroup, android.view.View
-                    protected void onLayout(boolean z2, int i3, int i4, int i5, int i6) {
-                        ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.layout(0, 0, ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredWidth(), ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredHeight());
-                        TwoStepVerificationSetupActivity.this.actionBarBackground.layout(0, 0, TwoStepVerificationSetupActivity.this.actionBarBackground.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.actionBarBackground.getMeasuredHeight());
-                        SizeNotifierFrameLayout sizeNotifierFrameLayout2 = sizeNotifierFrameLayout;
-                        sizeNotifierFrameLayout2.layout(0, 0, sizeNotifierFrameLayout2.getMeasuredWidth(), sizeNotifierFrameLayout.getMeasuredHeight());
-                    }
-                };
-                ScrollView scrollView = new ScrollView(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.7
-                    private int scrollingUp;
-                    private int[] location = new int[2];
-                    private Rect tempRect = new Rect();
-                    private boolean isLayoutDirty = true;
-
-                    @Override // android.view.View
-                    protected void onScrollChanged(int i3, int i4, int i5, int i6) {
-                        super.onScrollChanged(i3, i4, i5, i6);
-                        if (TwoStepVerificationSetupActivity.this.titleTextView == null) {
-                            return;
-                        }
-                        TwoStepVerificationSetupActivity.this.titleTextView.getLocationOnScreen(this.location);
-                        boolean z2 = this.location[1] + TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() < ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getBottom();
-                        if (z2 == (TwoStepVerificationSetupActivity.this.titleTextView.getTag() == null)) {
-                            return;
-                        }
-                        TwoStepVerificationSetupActivity.this.titleTextView.setTag(z2 ? null : 1);
-                        if (TwoStepVerificationSetupActivity.this.actionBarAnimator != null) {
-                            TwoStepVerificationSetupActivity.this.actionBarAnimator.cancel();
-                            TwoStepVerificationSetupActivity.this.actionBarAnimator = null;
-                        }
-                        TwoStepVerificationSetupActivity.this.actionBarAnimator = new AnimatorSet();
-                        AnimatorSet animatorSet = TwoStepVerificationSetupActivity.this.actionBarAnimator;
-                        Animator[] animatorArr = new Animator[2];
-                        View view = TwoStepVerificationSetupActivity.this.actionBarBackground;
-                        Property property = View.ALPHA;
-                        float[] fArr = new float[1];
-                        float f = 1.0f;
-                        fArr[0] = z2 ? 1.0f : 0.0f;
-                        animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
-                        SimpleTextView titleTextView = ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getTitleTextView();
-                        Property property2 = View.ALPHA;
-                        float[] fArr2 = new float[1];
-                        if (!z2) {
-                            f = 0.0f;
-                        }
-                        fArr2[0] = f;
-                        animatorArr[1] = ObjectAnimator.ofFloat(titleTextView, property2, fArr2);
-                        animatorSet.playTogether(animatorArr);
-                        TwoStepVerificationSetupActivity.this.actionBarAnimator.setDuration(150L);
-                        TwoStepVerificationSetupActivity.this.actionBarAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.7.1
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationEnd(Animator animator) {
-                                if (animator.equals(TwoStepVerificationSetupActivity.this.actionBarAnimator)) {
-                                    TwoStepVerificationSetupActivity.this.actionBarAnimator = null;
-                                }
-                            }
-                        });
-                        TwoStepVerificationSetupActivity.this.actionBarAnimator.start();
-                    }
-
-                    @Override // android.widget.ScrollView
-                    public void scrollToDescendant(View view) {
-                        view.getDrawingRect(this.tempRect);
-                        offsetDescendantRectToMyCoords(view, this.tempRect);
-                        this.tempRect.bottom += AndroidUtilities.dp(120.0f);
-                        int computeScrollDeltaToGetChildRectOnScreen = computeScrollDeltaToGetChildRectOnScreen(this.tempRect);
-                        if (computeScrollDeltaToGetChildRectOnScreen < 0) {
-                            int measuredHeight = (getMeasuredHeight() - view.getMeasuredHeight()) / 2;
-                            this.scrollingUp = measuredHeight;
-                            computeScrollDeltaToGetChildRectOnScreen -= measuredHeight;
-                        } else {
-                            this.scrollingUp = 0;
-                        }
-                        if (computeScrollDeltaToGetChildRectOnScreen != 0) {
-                            smoothScrollBy(0, computeScrollDeltaToGetChildRectOnScreen);
-                        }
-                    }
-
-                    @Override // android.widget.ScrollView, android.view.ViewGroup, android.view.ViewParent
-                    public void requestChildFocus(View view, View view2) {
-                        if (Build.VERSION.SDK_INT < 29 && view2 != null && !this.isLayoutDirty) {
-                            scrollToDescendant(view2);
-                        }
-                        super.requestChildFocus(view, view2);
-                    }
-
-                    @Override // android.widget.ScrollView, android.view.ViewGroup, android.view.ViewParent
-                    public boolean requestChildRectangleOnScreen(View view, Rect rect, boolean z2) {
-                        if (Build.VERSION.SDK_INT < 23) {
-                            int dp = rect.bottom + AndroidUtilities.dp(120.0f);
-                            rect.bottom = dp;
-                            int i3 = this.scrollingUp;
-                            if (i3 != 0) {
-                                rect.top -= i3;
-                                rect.bottom = dp - i3;
-                                this.scrollingUp = 0;
-                            }
-                        }
-                        return super.requestChildRectangleOnScreen(view, rect, z2);
-                    }
-
-                    @Override // android.widget.ScrollView, android.view.View, android.view.ViewParent
-                    public void requestLayout() {
-                        this.isLayoutDirty = true;
-                        super.requestLayout();
-                    }
-
-                    @Override // android.widget.ScrollView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                    protected void onLayout(boolean z2, int i3, int i4, int i5, int i6) {
-                        this.isLayoutDirty = false;
-                        super.onLayout(z2, i3, i4, i5, i6);
-                    }
-                };
-                this.scrollView = scrollView;
-                scrollView.setVerticalScrollBarEnabled(false);
-                frameLayout.addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f));
-                frameLayout.addView(this.bottomSkipButton, LayoutHelper.createFrame(-1, i >= 21 ? 56.0f : 60.0f, 80, 0.0f, 0.0f, 0.0f, 16.0f));
-                frameLayout.addView(this.floatingButtonContainer, LayoutHelper.createFrame(i >= 21 ? 56 : 60, i >= 21 ? 56.0f : 60.0f, 85, 0.0f, 0.0f, 24.0f, 16.0f));
-                viewGroup.addView(sizeNotifierFrameLayout, LayoutHelper.createFrame(-1, -1.0f));
-                LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.8
-                    @Override // android.widget.LinearLayout, android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        super.onMeasure(i3, i4);
-                        ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) TwoStepVerificationSetupActivity.this.titleTextView.getLayoutParams();
-                        int i5 = 0;
-                        int dp = ((TwoStepVerificationSetupActivity.this.imageView.getVisibility() != 8 || Build.VERSION.SDK_INT < 21) ? 0 : AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(8.0f);
-                        if (TwoStepVerificationSetupActivity.this.currentType == 2 && AndroidUtilities.isSmallScreen() && !TwoStepVerificationSetupActivity.this.isLandscape()) {
-                            i5 = AndroidUtilities.dp(32.0f);
-                        }
-                        marginLayoutParams.topMargin = dp + i5;
-                    }
-                };
-                linearLayout.setOrientation(1);
-                this.scrollView.addView(linearLayout, LayoutHelper.createScroll(-1, -1, 51));
-                linearLayout.addView(this.imageView, LayoutHelper.createLinear(-2, -2, 49, 0, 69, 0, 0));
-                linearLayout.addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 49, 0, 8, 0, 0));
-                linearLayout.addView(this.descriptionText, LayoutHelper.createLinear(-2, -2, 49, 0, 9, 0, 0));
+                AnonymousClass4 anonymousClass4 = new AnonymousClass4(context);
+                AnonymousClass5 anonymousClass5 = new AnonymousClass5(context, anonymousClass4);
+                anonymousClass5.addView(anonymousClass4);
+                AnonymousClass6 anonymousClass6 = new AnonymousClass6(context, anonymousClass5);
+                AnonymousClass7 anonymousClass7 = new AnonymousClass7(context);
+                this.scrollView = anonymousClass7;
+                anonymousClass7.setVerticalScrollBarEnabled(false);
+                anonymousClass4.addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f));
+                anonymousClass4.addView(this.bottomSkipButton, LayoutHelper.createFrame(-1, i >= 21 ? 56.0f : 60.0f, 80, 0.0f, 0.0f, 0.0f, 16.0f));
+                anonymousClass4.addView(this.floatingButtonContainer, LayoutHelper.createFrame(i >= 21 ? 56 : 60, i >= 21 ? 56.0f : 60.0f, 85, 0.0f, 0.0f, 24.0f, 16.0f));
+                anonymousClass6.addView(anonymousClass5, LayoutHelper.createFrame(-1, -1.0f));
+                AnonymousClass8 anonymousClass8 = new AnonymousClass8(context);
+                anonymousClass8.setOrientation(1);
+                this.scrollView.addView(anonymousClass8, LayoutHelper.createScroll(-1, -1, 51));
+                anonymousClass8.addView(this.imageView, LayoutHelper.createLinear(-2, -2, 49, 0, 69, 0, 0));
+                anonymousClass8.addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 49, 0, 8, 0, 0));
+                anonymousClass8.addView(this.descriptionText, LayoutHelper.createLinear(-2, -2, 49, 0, 9, 0, 0));
                 OutlineTextContainerView outlineTextContainerView = new OutlineTextContainerView(context);
                 this.outlineTextFirstRow = outlineTextContainerView;
                 outlineTextContainerView.animateSelection(1.0f, false);
@@ -650,77 +421,27 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.editTextFirstRow.setCursorSize(AndroidUtilities.dp(20.0f));
                 this.editTextFirstRow.setSingleLine(true);
                 this.editTextFirstRow.setCursorWidth(1.5f);
-                this.editTextFirstRow.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda17
-                    @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView5, int i3, KeyEvent keyEvent) {
-                        boolean lambda$createView$11;
-                        lambda$createView$11 = TwoStepVerificationSetupActivity.this.lambda$createView$11(textView5, i3, keyEvent);
-                        return lambda$createView$11;
-                    }
-                });
+                this.editTextFirstRow.setOnEditorActionListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda17(this));
                 this.outlineTextFirstRow.attachEditText(this.editTextFirstRow);
-                this.editTextFirstRow.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda13
-                    @Override // android.view.View.OnFocusChangeListener
-                    public final void onFocusChange(View view, boolean z2) {
-                        TwoStepVerificationSetupActivity.this.lambda$createView$12(view, z2);
-                    }
-                });
-                LinearLayout linearLayout2 = new LinearLayout(context);
-                linearLayout2.setOrientation(0);
-                linearLayout2.addView(this.editTextFirstRow, LayoutHelper.createLinear(0, -2, 1.0f));
-                ImageView imageView = new ImageView(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.9
-                    @Override // android.view.View
-                    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-                        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-                        boolean z2 = true;
-                        accessibilityNodeInfo.setCheckable(true);
-                        if (TwoStepVerificationSetupActivity.this.editTextFirstRow.getTransformationMethod() != null) {
-                            z2 = false;
-                        }
-                        accessibilityNodeInfo.setChecked(z2);
-                    }
-                };
-                this.showPasswordButton = imageView;
-                imageView.setImageResource(R.drawable.msg_message);
+                this.editTextFirstRow.setOnFocusChangeListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda13(this));
+                LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout.setOrientation(0);
+                linearLayout.addView(this.editTextFirstRow, LayoutHelper.createLinear(0, -2, 1.0f));
+                AnonymousClass9 anonymousClass9 = new AnonymousClass9(context);
+                this.showPasswordButton = anonymousClass9;
+                anonymousClass9.setImageResource(2131165801);
                 this.showPasswordButton.setScaleType(ImageView.ScaleType.CENTER);
-                this.showPasswordButton.setContentDescription(LocaleController.getString((int) R.string.TwoStepVerificationShowPassword));
+                this.showPasswordButton.setContentDescription(LocaleController.getString(2131628774));
                 if (i >= 21) {
                     this.showPasswordButton.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21")));
                 }
                 this.showPasswordButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_messagePanelIcons"), PorterDuff.Mode.MULTIPLY));
                 AndroidUtilities.updateViewVisibilityAnimated(this.showPasswordButton, false, 0.1f, false);
-                this.showPasswordButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda9
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        TwoStepVerificationSetupActivity.this.lambda$createView$13(view);
-                    }
-                });
-                linearLayout2.addView(this.showPasswordButton, LayoutHelper.createLinear(24, 24, 16, 0, 0, 16, 0));
-                this.editTextFirstRow.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.10
-                    @Override // android.text.TextWatcher
-                    public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-                    }
-
-                    @Override // android.text.TextWatcher
-                    public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-                    }
-
-                    @Override // android.text.TextWatcher
-                    public void afterTextChanged(Editable editable) {
-                        if (TwoStepVerificationSetupActivity.this.needPasswordButton) {
-                            if (TwoStepVerificationSetupActivity.this.showPasswordButton.getVisibility() == 0 || TextUtils.isEmpty(editable)) {
-                                if (TwoStepVerificationSetupActivity.this.showPasswordButton.getVisibility() == 8 || !TextUtils.isEmpty(editable)) {
-                                    return;
-                                }
-                                AndroidUtilities.updateViewVisibilityAnimated(TwoStepVerificationSetupActivity.this.showPasswordButton, false, 0.1f, true);
-                                return;
-                            }
-                            AndroidUtilities.updateViewVisibilityAnimated(TwoStepVerificationSetupActivity.this.showPasswordButton, true, 0.1f, true);
-                        }
-                    }
-                });
-                this.outlineTextFirstRow.addView(linearLayout2, LayoutHelper.createFrame(-1, -2.0f));
-                linearLayout.addView(this.outlineTextFirstRow, LayoutHelper.createFrame(-1, -2.0f, 49, 24.0f, 32.0f, 24.0f, 32.0f));
+                this.showPasswordButton.setOnClickListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda9(this));
+                linearLayout.addView(this.showPasswordButton, LayoutHelper.createLinear(24, 24, 16, 0, 0, 16, 0));
+                this.editTextFirstRow.addTextChangedListener(new AnonymousClass10());
+                this.outlineTextFirstRow.addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f));
+                anonymousClass8.addView(this.outlineTextFirstRow, LayoutHelper.createFrame(-1, -2.0f, 49, 24.0f, 32.0f, 24.0f, 32.0f));
                 this.outlineTextSecondRow = new OutlineTextContainerView(context);
                 EditTextBoldCursor editTextBoldCursor2 = new EditTextBoldCursor(context);
                 this.editTextSecondRow = editTextBoldCursor2;
@@ -736,67 +457,29 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.editTextSecondRow.setCursorSize(AndroidUtilities.dp(20.0f));
                 this.editTextSecondRow.setSingleLine(true);
                 this.editTextSecondRow.setCursorWidth(1.5f);
-                this.editTextSecondRow.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda18
-                    @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView5, int i3, KeyEvent keyEvent) {
-                        boolean lambda$createView$14;
-                        lambda$createView$14 = TwoStepVerificationSetupActivity.this.lambda$createView$14(textView5, i3, keyEvent);
-                        return lambda$createView$14;
-                    }
-                });
+                this.editTextSecondRow.setOnEditorActionListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda18(this));
                 this.outlineTextSecondRow.attachEditText(this.editTextSecondRow);
-                this.editTextSecondRow.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda14
-                    @Override // android.view.View.OnFocusChangeListener
-                    public final void onFocusChange(View view, boolean z2) {
-                        TwoStepVerificationSetupActivity.this.lambda$createView$15(view, z2);
-                    }
-                });
+                this.editTextSecondRow.setOnFocusChangeListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda14(this));
                 this.outlineTextSecondRow.addView(this.editTextSecondRow, LayoutHelper.createFrame(-1, -2.0f));
-                linearLayout.addView(this.outlineTextSecondRow, LayoutHelper.createFrame(-1, -2.0f, 49, 24.0f, 16.0f, 24.0f, 0.0f));
+                anonymousClass8.addView(this.outlineTextSecondRow, LayoutHelper.createFrame(-1, -2.0f, 49, 24.0f, 16.0f, 24.0f, 0.0f));
                 this.outlineTextSecondRow.setVisibility(8);
                 CustomPhoneKeyboardView customPhoneKeyboardView = new CustomPhoneKeyboardView(context);
                 this.keyboardView = customPhoneKeyboardView;
                 customPhoneKeyboardView.setVisibility(8);
-                sizeNotifierFrameLayout.addView(this.keyboardView);
-                CodeFieldContainer codeFieldContainer = new CodeFieldContainer(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.11
-                    @Override // org.telegram.ui.CodeFieldContainer
-                    protected void processNextPressed() {
-                        TwoStepVerificationSetupActivity.this.processNext();
-                    }
-                };
-                this.codeFieldContainer = codeFieldContainer;
-                codeFieldContainer.setNumbersCount(6, 1);
+                anonymousClass5.addView(this.keyboardView);
+                AnonymousClass11 anonymousClass11 = new AnonymousClass11(context);
+                this.codeFieldContainer = anonymousClass11;
+                anonymousClass11.setNumbersCount(6, 1);
                 for (CodeNumberField codeNumberField : this.codeFieldContainer.codeField) {
                     codeNumberField.setShowSoftInputOnFocusCompat(!isCustomKeyboardVisible());
-                    codeNumberField.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.12
-                        @Override // android.text.TextWatcher
-                        public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-                        }
-
-                        @Override // android.text.TextWatcher
-                        public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-                        }
-
-                        @Override // android.text.TextWatcher
-                        public void afterTextChanged(Editable editable) {
-                            if (TwoStepVerificationSetupActivity.this.postedErrorColorTimeout) {
-                                AndroidUtilities.cancelRunOnUIThread(TwoStepVerificationSetupActivity.this.errorColorTimeout);
-                                TwoStepVerificationSetupActivity.this.errorColorTimeout.run();
-                            }
-                        }
-                    });
-                    codeNumberField.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda15
-                        @Override // android.view.View.OnFocusChangeListener
-                        public final void onFocusChange(View view, boolean z2) {
-                            TwoStepVerificationSetupActivity.this.lambda$createView$16(view, z2);
-                        }
-                    });
+                    codeNumberField.addTextChangedListener(new AnonymousClass12());
+                    codeNumberField.setOnFocusChangeListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda15(this));
                 }
                 this.codeFieldContainer.setVisibility(8);
-                linearLayout.addView(this.codeFieldContainer, LayoutHelper.createLinear(-2, -2, 1, 0, 32, 0, 0));
-                FrameLayout frameLayout2 = new FrameLayout(context);
-                linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, -2, 51, 0, 36, 0, 22));
-                frameLayout2.addView(this.descriptionText2, LayoutHelper.createFrame(-2, -2, 49));
+                anonymousClass8.addView(this.codeFieldContainer, LayoutHelper.createLinear(-2, -2, 1, 0, 32, 0, 0));
+                FrameLayout frameLayout = new FrameLayout(context);
+                anonymousClass8.addView(frameLayout, LayoutHelper.createLinear(-1, -2, 51, 0, 36, 0, 22));
+                frameLayout.addView(this.descriptionText2, LayoutHelper.createFrame(-2, -2, 49));
                 if (this.currentType == 4) {
                     TextView textView5 = new TextView(context);
                     this.descriptionText3 = textView5;
@@ -805,31 +488,16 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     this.descriptionText3.setTextSize(1, 14.0f);
                     this.descriptionText3.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
                     this.descriptionText3.setPadding(AndroidUtilities.dp(32.0f), 0, AndroidUtilities.dp(32.0f), 0);
-                    this.descriptionText3.setText(LocaleController.getString("RestoreEmailTroubleNoEmail", R.string.RestoreEmailTroubleNoEmail));
-                    linearLayout.addView(this.descriptionText3, LayoutHelper.createLinear(-2, -2, 49, 0, 0, 0, 25));
-                    this.descriptionText3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda12
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            TwoStepVerificationSetupActivity.this.lambda$createView$18(view);
-                        }
-                    });
+                    this.descriptionText3.setText(LocaleController.getString("RestoreEmailTroubleNoEmail", 2131628077));
+                    anonymousClass8.addView(this.descriptionText3, LayoutHelper.createLinear(-2, -2, 49, 0, 0, 0, 25));
+                    this.descriptionText3.setOnClickListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda12(this));
                 }
-                this.fragmentView = viewGroup;
-                View view = new View(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.13
-                    private Paint paint = new Paint();
-
-                    @Override // android.view.View
-                    protected void onDraw(Canvas canvas) {
-                        this.paint.setColor(Theme.getColor("windowBackgroundWhite"));
-                        int measuredHeight = getMeasuredHeight() - AndroidUtilities.dp(3.0f);
-                        canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), measuredHeight, this.paint);
-                        ((BaseFragment) TwoStepVerificationSetupActivity.this).parentLayout.drawHeaderShadow(canvas, measuredHeight);
-                    }
-                };
-                this.actionBarBackground = view;
-                view.setAlpha(0.0f);
-                viewGroup.addView(this.actionBarBackground);
-                viewGroup.addView(this.actionBar);
+                this.fragmentView = anonymousClass6;
+                AnonymousClass13 anonymousClass13 = new AnonymousClass13(context);
+                this.actionBarBackground = anonymousClass13;
+                anonymousClass13.setAlpha(0.0f);
+                anonymousClass6.addView(this.actionBarBackground);
+                anonymousClass6.addView(this.actionBar);
                 RadialProgressView radialProgressView2 = new RadialProgressView(context);
                 this.radialProgressView = radialProgressView2;
                 radialProgressView2.setSize(AndroidUtilities.dp(20.0f));
@@ -837,76 +505,19 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.radialProgressView.setScaleX(0.1f);
                 this.radialProgressView.setScaleY(0.1f);
                 this.radialProgressView.setProgressColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
-                frameLayout.addView(this.radialProgressView, LayoutHelper.createFrame(32, 32.0f, 53, 0.0f, 16.0f, 16.0f, 0.0f));
+                anonymousClass4.addView(this.radialProgressView, LayoutHelper.createFrame(32, 32.0f, 53, 0.0f, 16.0f, 16.0f, 0.0f));
                 break;
             case 6:
             case 7:
             case 9:
-                ViewGroup viewGroup2 = new ViewGroup(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.3
-                    @Override // android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        int size = View.MeasureSpec.getSize(i3);
-                        int size2 = View.MeasureSpec.getSize(i4);
-                        ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i4);
-                        if (size > size2) {
-                            float f = size;
-                            TwoStepVerificationSetupActivity.this.imageView.measure(View.MeasureSpec.makeMeasureSpec((int) (0.45f * f), 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size2 * 0.68f), 1073741824));
-                            int i5 = (int) (f * 0.6f);
-                            TwoStepVerificationSetupActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(i5, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            TwoStepVerificationSetupActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(i5, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            TwoStepVerificationSetupActivity.this.descriptionText2.measure(View.MeasureSpec.makeMeasureSpec(i5, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            TwoStepVerificationSetupActivity.this.buttonTextView.measure(View.MeasureSpec.makeMeasureSpec(i5, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
-                        } else {
-                            float f2 = TwoStepVerificationSetupActivity.this.currentType == 7 ? 160 : 140;
-                            TwoStepVerificationSetupActivity.this.imageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f2), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f2), 1073741824));
-                            TwoStepVerificationSetupActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            TwoStepVerificationSetupActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            TwoStepVerificationSetupActivity.this.descriptionText2.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            TwoStepVerificationSetupActivity.this.buttonTextView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(48.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
-                        }
-                        setMeasuredDimension(size, size2);
-                    }
-
-                    @Override // android.view.ViewGroup, android.view.View
-                    protected void onLayout(boolean z2, int i3, int i4, int i5, int i6) {
-                        ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.layout(0, 0, i5, ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredHeight());
-                        int i7 = i5 - i3;
-                        int i8 = i6 - i4;
-                        if (i5 > i6) {
-                            int measuredHeight = (i8 - TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight()) / 2;
-                            TwoStepVerificationSetupActivity.this.imageView.layout(0, measuredHeight, TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + measuredHeight);
-                            float f = i7;
-                            float f2 = 0.4f * f;
-                            int i9 = (int) f2;
-                            float f3 = i8;
-                            int i10 = (int) (0.22f * f3);
-                            TwoStepVerificationSetupActivity.this.titleTextView.layout(i9, i10, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredWidth() + i9, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() + i10);
-                            int i11 = (int) (0.39f * f3);
-                            TwoStepVerificationSetupActivity.this.descriptionText.layout(i9, i11, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredWidth() + i9, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredHeight() + i11);
-                            int measuredWidth = (int) (f2 + (((f * 0.6f) - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth()) / 2.0f));
-                            int i12 = (int) (f3 * 0.64f);
-                            TwoStepVerificationSetupActivity.this.buttonTextView.layout(measuredWidth, i12, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth() + measuredWidth, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight() + i12);
-                            return;
-                        }
-                        int i13 = (int) (i8 * 0.3f);
-                        int measuredWidth2 = (i7 - TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth()) / 2;
-                        TwoStepVerificationSetupActivity.this.imageView.layout(measuredWidth2, i13, TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth() + measuredWidth2, TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + i13);
-                        int measuredHeight2 = i13 + TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + AndroidUtilities.dp(16.0f);
-                        TwoStepVerificationSetupActivity.this.titleTextView.layout(0, measuredHeight2, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() + measuredHeight2);
-                        int measuredHeight3 = measuredHeight2 + TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() + AndroidUtilities.dp(12.0f);
-                        TwoStepVerificationSetupActivity.this.descriptionText.layout(0, measuredHeight3, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredHeight() + measuredHeight3);
-                        int measuredWidth3 = (i7 - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth()) / 2;
-                        int measuredHeight4 = (i8 - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight()) - AndroidUtilities.dp(48.0f);
-                        TwoStepVerificationSetupActivity.this.buttonTextView.layout(measuredWidth3, measuredHeight4, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth() + measuredWidth3, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight() + measuredHeight4);
-                    }
-                };
-                viewGroup2.setOnTouchListener(TwoStepVerificationSetupActivity$$ExternalSyntheticLambda16.INSTANCE);
-                viewGroup2.addView(this.actionBar);
-                viewGroup2.addView(this.imageView);
-                viewGroup2.addView(this.titleTextView);
-                viewGroup2.addView(this.descriptionText);
-                viewGroup2.addView(this.buttonTextView);
-                this.fragmentView = viewGroup2;
+                AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
+                anonymousClass3.setOnTouchListener(TwoStepVerificationSetupActivity$$ExternalSyntheticLambda16.INSTANCE);
+                anonymousClass3.addView(this.actionBar);
+                anonymousClass3.addView(this.imageView);
+                anonymousClass3.addView(this.titleTextView);
+                anonymousClass3.addView(this.descriptionText);
+                anonymousClass3.addView(this.buttonTextView);
+                this.fragmentView = anonymousClass3;
                 break;
         }
         this.fragmentView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
@@ -915,20 +526,20 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             case 0:
             case 1:
                 if (this.currentPassword.has_password) {
-                    this.actionBar.setTitle(LocaleController.getString("PleaseEnterNewFirstPassword", R.string.PleaseEnterNewFirstPassword));
-                    this.titleTextView.setText(LocaleController.getString("PleaseEnterNewFirstPassword", R.string.PleaseEnterNewFirstPassword));
+                    this.actionBar.setTitle(LocaleController.getString("PleaseEnterNewFirstPassword", 2131627615));
+                    this.titleTextView.setText(LocaleController.getString("PleaseEnterNewFirstPassword", 2131627615));
                 } else {
-                    String string = LocaleController.getString(i3 == 0 ? R.string.CreatePassword : R.string.ReEnterPassword);
+                    String string = LocaleController.getString(i3 == 0 ? 2131625302 : 2131627901);
                     this.actionBar.setTitle(string);
                     this.titleTextView.setText(string);
                 }
                 if (!TextUtils.isEmpty(this.emailCode)) {
                     this.bottomSkipButton.setVisibility(0);
-                    this.bottomSkipButton.setText(LocaleController.getString("YourEmailSkip", R.string.YourEmailSkip));
+                    this.bottomSkipButton.setText(LocaleController.getString("YourEmailSkip", 2131629358));
                 }
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
-                this.outlineTextFirstRow.setText(LocaleController.getString(this.currentType == 0 ? R.string.EnterPassword : R.string.ReEnterPassword));
-                this.editTextFirstRow.setContentDescription(LocaleController.getString(this.currentType == 0 ? R.string.EnterPassword : R.string.ReEnterPassword));
+                this.outlineTextFirstRow.setText(LocaleController.getString(this.currentType == 0 ? 2131625689 : 2131627901));
+                this.editTextFirstRow.setContentDescription(LocaleController.getString(this.currentType == 0 ? 2131625689 : 2131627901));
                 this.editTextFirstRow.setImeOptions(268435461);
                 this.editTextFirstRow.setInputType(129);
                 this.editTextFirstRow.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -937,13 +548,13 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 AndroidUtilities.updateViewVisibilityAnimated(this.showPasswordButton, false, 0.1f, false);
                 RLottieDrawable[] rLottieDrawableArr = new RLottieDrawable[7];
                 this.animationDrawables = rLottieDrawableArr;
-                rLottieDrawableArr[0] = new RLottieDrawable(R.raw.tsv_setup_monkey_idle1, "2131558583", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
-                this.animationDrawables[1] = new RLottieDrawable(R.raw.tsv_setup_monkey_idle2, "2131558584", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
-                this.animationDrawables[2] = new RLottieDrawable(R.raw.tsv_monkey_close, "2131558576", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
-                this.animationDrawables[3] = new RLottieDrawable(R.raw.tsv_setup_monkey_peek, "2131558585", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
-                this.animationDrawables[4] = new RLottieDrawable(R.raw.tsv_setup_monkey_close_and_peek_to_idle, "2131558582", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
-                this.animationDrawables[5] = new RLottieDrawable(R.raw.tsv_setup_monkey_close_and_peek, "2131558581", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
-                this.animationDrawables[6] = new RLottieDrawable(R.raw.tsv_setup_monkey_tracking, "2131558586", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                rLottieDrawableArr[0] = new RLottieDrawable(2131558583, "2131558583", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                this.animationDrawables[1] = new RLottieDrawable(2131558584, "2131558584", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                this.animationDrawables[2] = new RLottieDrawable(2131558576, "2131558576", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                this.animationDrawables[3] = new RLottieDrawable(2131558585, "2131558585", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                this.animationDrawables[4] = new RLottieDrawable(2131558582, "2131558582", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                this.animationDrawables[5] = new RLottieDrawable(2131558581, "2131558581", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                this.animationDrawables[6] = new RLottieDrawable(2131558586, "2131558586", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
                 this.animationDrawables[6].setPlayInDirectionOfCustomEndFrame(true);
                 this.animationDrawables[6].setCustomEndFrame(19);
                 this.animationDrawables[2].setOnFinishCallback(this.finishCallback, 97);
@@ -954,40 +565,40 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 switchMonkeyAnimation(z);
                 break;
             case 2:
-                this.actionBar.setTitle(LocaleController.getString("PasswordHint", R.string.PasswordHint));
+                this.actionBar.setTitle(LocaleController.getString("PasswordHint", 2131627408));
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
                 this.bottomSkipButton.setVisibility(0);
-                this.bottomSkipButton.setText(LocaleController.getString("YourEmailSkip", R.string.YourEmailSkip));
-                this.titleTextView.setText(LocaleController.getString("PasswordHint", R.string.PasswordHint));
-                this.descriptionText.setText(LocaleController.getString((int) R.string.PasswordHintDescription));
+                this.bottomSkipButton.setText(LocaleController.getString("YourEmailSkip", 2131629358));
+                this.titleTextView.setText(LocaleController.getString("PasswordHint", 2131627408));
+                this.descriptionText.setText(LocaleController.getString(2131627409));
                 this.descriptionText.setVisibility(0);
-                this.outlineTextFirstRow.setText(LocaleController.getString((int) R.string.PasswordHintPlaceholder));
-                this.editTextFirstRow.setContentDescription(LocaleController.getString((int) R.string.PasswordHintPlaceholder));
+                this.outlineTextFirstRow.setText(LocaleController.getString(2131627410));
+                this.editTextFirstRow.setContentDescription(LocaleController.getString(2131627410));
                 this.editTextFirstRow.setImeOptions(268435461);
                 this.outlineTextSecondRow.setVisibility(8);
-                this.imageView.setAnimation(R.raw.tsv_setup_hint, 120, 120);
+                this.imageView.setAnimation(2131558578, 120, 120);
                 this.imageView.playAnimation();
                 break;
             case 3:
-                this.actionBar.setTitle(LocaleController.getString("RecoveryEmailTitle", R.string.RecoveryEmailTitle));
+                this.actionBar.setTitle(LocaleController.getString("RecoveryEmailTitle", 2131627939));
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
                 if (!this.emailOnly) {
                     this.bottomSkipButton.setVisibility(0);
-                    this.bottomSkipButton.setText(LocaleController.getString("YourEmailSkip", R.string.YourEmailSkip));
+                    this.bottomSkipButton.setText(LocaleController.getString("YourEmailSkip", 2131629358));
                 }
-                this.titleTextView.setText(LocaleController.getString("RecoveryEmailTitle", R.string.RecoveryEmailTitle));
-                this.outlineTextFirstRow.setText(LocaleController.getString((int) R.string.PaymentShippingEmailPlaceholder));
-                this.editTextFirstRow.setContentDescription(LocaleController.getString((int) R.string.PaymentShippingEmailPlaceholder));
+                this.titleTextView.setText(LocaleController.getString("RecoveryEmailTitle", 2131627939));
+                this.outlineTextFirstRow.setText(LocaleController.getString(2131627465));
+                this.editTextFirstRow.setContentDescription(LocaleController.getString(2131627465));
                 this.editTextFirstRow.setImeOptions(268435461);
                 this.editTextFirstRow.setInputType(33);
                 this.outlineTextSecondRow.setVisibility(8);
-                this.imageView.setAnimation(R.raw.tsv_setup_email_sent, 120, 120);
+                this.imageView.setAnimation(2131558577, 120, 120);
                 this.imageView.playAnimation();
                 break;
             case 4:
-                this.actionBar.setTitle(LocaleController.getString("PasswordRecovery", R.string.PasswordRecovery));
+                this.actionBar.setTitle(LocaleController.getString("PasswordRecovery", 2131627415));
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
-                this.titleTextView.setText(LocaleController.getString("PasswordRecovery", R.string.PasswordRecovery));
+                this.titleTextView.setText(LocaleController.getString("PasswordRecovery", 2131627415));
                 this.keyboardView.setVisibility(0);
                 this.outlineTextFirstRow.setVisibility(8);
                 String str = this.currentPassword.email_unconfirmed_pattern;
@@ -1005,17 +616,17 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     textStyleRun.end = i4;
                     valueOf.setSpan(new TextStyleSpan(textStyleRun), indexOf, i4, 0);
                 }
-                this.descriptionText.setText(AndroidUtilities.formatSpannable(LocaleController.getString((int) R.string.RestoreEmailSent), valueOf));
+                this.descriptionText.setText(AndroidUtilities.formatSpannable(LocaleController.getString(2131628073), valueOf));
                 this.descriptionText.setVisibility(0);
                 this.floatingButtonContainer.setVisibility(8);
                 this.codeFieldContainer.setVisibility(0);
-                this.imageView.setAnimation(R.raw.tsv_setup_mail, 120, 120);
+                this.imageView.setAnimation(2131558580, 120, 120);
                 this.imageView.playAnimation();
                 break;
             case 5:
-                this.actionBar.setTitle(LocaleController.getString("VerificationCode", R.string.VerificationCode));
+                this.actionBar.setTitle(LocaleController.getString("VerificationCode", 2131628948));
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
-                this.titleTextView.setText(LocaleController.getString("VerificationCode", R.string.VerificationCode));
+                this.titleTextView.setText(LocaleController.getString("VerificationCode", 2131628948));
                 this.outlineTextFirstRow.setVisibility(8);
                 this.keyboardView.setVisibility(0);
                 TextView textView6 = this.descriptionText;
@@ -1025,134 +636,69 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     str2 = "";
                 }
                 objArr[0] = str2;
-                textView6.setText(LocaleController.formatString("EmailPasswordConfirmText2", R.string.EmailPasswordConfirmText2, objArr));
+                textView6.setText(LocaleController.formatString("EmailPasswordConfirmText2", 2131625614, objArr));
                 this.descriptionText.setVisibility(0);
                 this.floatingButtonContainer.setVisibility(8);
                 this.bottomSkipButton.setVisibility(0);
                 this.bottomSkipButton.setGravity(17);
                 ((ViewGroup.MarginLayoutParams) this.bottomSkipButton.getLayoutParams()).bottomMargin = 0;
-                this.bottomSkipButton.setText(LocaleController.getString((int) R.string.ResendCode));
-                this.bottomSkipButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda6
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view2) {
-                        TwoStepVerificationSetupActivity.this.lambda$createView$20(view2);
-                    }
-                });
+                this.bottomSkipButton.setText(LocaleController.getString(2131628040));
+                this.bottomSkipButton.setOnClickListener(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda6(this));
                 this.codeFieldContainer.setVisibility(0);
-                this.imageView.setAnimation(R.raw.tsv_setup_mail, 120, 120);
+                this.imageView.setAnimation(2131558580, 120, 120);
                 this.imageView.playAnimation();
                 break;
             case 6:
-                this.titleTextView.setText(LocaleController.getString("TwoStepVerificationTitle", R.string.TwoStepVerificationTitle));
-                this.descriptionText.setText(LocaleController.getString("SetAdditionalPasswordInfo", R.string.SetAdditionalPasswordInfo));
-                this.buttonTextView.setText(LocaleController.getString("TwoStepVerificationSetPassword", R.string.TwoStepVerificationSetPassword));
+                this.titleTextView.setText(LocaleController.getString("TwoStepVerificationTitle", 2131628775));
+                this.descriptionText.setText(LocaleController.getString("SetAdditionalPasswordInfo", 2131628298));
+                this.buttonTextView.setText(LocaleController.getString("TwoStepVerificationSetPassword", 2131628773));
                 this.descriptionText.setVisibility(0);
-                this.imageView.setAnimation(R.raw.tsv_setup_intro, 140, 140);
+                this.imageView.setAnimation(2131558579, 140, 140);
                 this.imageView.playAnimation();
                 break;
             case 7:
-                this.titleTextView.setText(LocaleController.getString("TwoStepVerificationPasswordSet", R.string.TwoStepVerificationPasswordSet));
-                this.descriptionText.setText(LocaleController.getString("TwoStepVerificationPasswordSetInfo", R.string.TwoStepVerificationPasswordSetInfo));
+                this.titleTextView.setText(LocaleController.getString("TwoStepVerificationPasswordSet", 2131628771));
+                this.descriptionText.setText(LocaleController.getString("TwoStepVerificationPasswordSetInfo", 2131628772));
                 if (this.closeAfterSet) {
-                    this.buttonTextView.setText(LocaleController.getString("TwoStepVerificationPasswordReturnPassport", R.string.TwoStepVerificationPasswordReturnPassport));
+                    this.buttonTextView.setText(LocaleController.getString("TwoStepVerificationPasswordReturnPassport", 2131628769));
                 } else if (this.fromRegistration) {
-                    this.buttonTextView.setText(LocaleController.getString((int) R.string.Continue));
+                    this.buttonTextView.setText(LocaleController.getString(2131625262));
                 } else {
-                    this.buttonTextView.setText(LocaleController.getString("TwoStepVerificationPasswordReturnSettings", R.string.TwoStepVerificationPasswordReturnSettings));
+                    this.buttonTextView.setText(LocaleController.getString("TwoStepVerificationPasswordReturnSettings", 2131628770));
                 }
                 this.descriptionText.setVisibility(0);
-                this.imageView.setAnimation(R.raw.wallet_allset, 160, 160);
+                this.imageView.setAnimation(2131558621, 160, 160);
                 this.imageView.playAnimation();
                 break;
             case 8:
-                this.actionBar.setTitle(LocaleController.getString("PleaseEnterCurrentPassword", R.string.PleaseEnterCurrentPassword));
-                this.titleTextView.setText(LocaleController.getString("PleaseEnterCurrentPassword", R.string.PleaseEnterCurrentPassword));
-                this.descriptionText.setText(LocaleController.getString("CheckPasswordInfo", R.string.CheckPasswordInfo));
+                this.actionBar.setTitle(LocaleController.getString("PleaseEnterCurrentPassword", 2131627612));
+                this.titleTextView.setText(LocaleController.getString("PleaseEnterCurrentPassword", 2131627612));
+                this.descriptionText.setText(LocaleController.getString("CheckPasswordInfo", 2131625107));
                 this.descriptionText.setVisibility(0);
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
-                this.descriptionText2.setText(LocaleController.getString("ForgotPassword", R.string.ForgotPassword));
+                this.descriptionText2.setText(LocaleController.getString("ForgotPassword", 2131625980));
                 this.descriptionText2.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText2"));
-                this.outlineTextFirstRow.setText(LocaleController.getString((int) R.string.LoginPassword));
-                this.editTextFirstRow.setContentDescription(LocaleController.getString((int) R.string.LoginPassword));
+                this.outlineTextFirstRow.setText(LocaleController.getString(2131626551));
+                this.editTextFirstRow.setContentDescription(LocaleController.getString(2131626551));
                 this.editTextFirstRow.setImeOptions(268435462);
                 this.editTextFirstRow.setInputType(129);
                 this.editTextFirstRow.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 this.editTextFirstRow.setTypeface(Typeface.DEFAULT);
-                this.imageView.setAnimation(R.raw.wallet_science, 120, 120);
+                this.imageView.setAnimation(2131558624, 120, 120);
                 this.imageView.playAnimation();
                 break;
             case 9:
-                this.titleTextView.setText(LocaleController.getString("CheckPasswordPerfect", R.string.CheckPasswordPerfect));
-                this.descriptionText.setText(LocaleController.getString("CheckPasswordPerfectInfo", R.string.CheckPasswordPerfectInfo));
-                this.buttonTextView.setText(LocaleController.getString("CheckPasswordBackToSettings", R.string.CheckPasswordBackToSettings));
+                this.titleTextView.setText(LocaleController.getString("CheckPasswordPerfect", 2131625108));
+                this.descriptionText.setText(LocaleController.getString("CheckPasswordPerfectInfo", 2131625109));
+                this.buttonTextView.setText(LocaleController.getString("CheckPasswordBackToSettings", 2131625106));
                 this.descriptionText.setVisibility(0);
-                this.imageView.setAnimation(R.raw.wallet_perfect, 140, 140);
+                this.imageView.setAnimation(2131558623, 140, 140);
                 this.imageView.playAnimation();
                 break;
         }
         EditTextBoldCursor editTextBoldCursor3 = this.editTextFirstRow;
         if (editTextBoldCursor3 != null) {
-            editTextBoldCursor3.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.14
-                @Override // android.text.TextWatcher
-                public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
-                }
-
-                @Override // android.text.TextWatcher
-                public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
-                }
-
-                @Override // android.text.TextWatcher
-                public void afterTextChanged(Editable editable) {
-                    if (TwoStepVerificationSetupActivity.this.ignoreTextChange) {
-                        return;
-                    }
-                    if (TwoStepVerificationSetupActivity.this.currentType == 0) {
-                        RLottieDrawable animatedDrawable = TwoStepVerificationSetupActivity.this.imageView.getAnimatedDrawable();
-                        if (TwoStepVerificationSetupActivity.this.editTextFirstRow.length() > 0) {
-                            if (TwoStepVerificationSetupActivity.this.editTextFirstRow.getTransformationMethod() == null) {
-                                if (animatedDrawable == TwoStepVerificationSetupActivity.this.animationDrawables[3] || animatedDrawable == TwoStepVerificationSetupActivity.this.animationDrawables[5]) {
-                                    return;
-                                }
-                                TwoStepVerificationSetupActivity.this.imageView.setAnimation(TwoStepVerificationSetupActivity.this.animationDrawables[5]);
-                                TwoStepVerificationSetupActivity.this.animationDrawables[5].setProgress(0.0f, false);
-                                TwoStepVerificationSetupActivity.this.imageView.playAnimation();
-                            } else if (animatedDrawable == TwoStepVerificationSetupActivity.this.animationDrawables[3]) {
-                            } else {
-                                if (animatedDrawable != TwoStepVerificationSetupActivity.this.animationDrawables[2]) {
-                                    TwoStepVerificationSetupActivity.this.imageView.setAnimation(TwoStepVerificationSetupActivity.this.animationDrawables[2]);
-                                    TwoStepVerificationSetupActivity.this.animationDrawables[2].setCustomEndFrame(49);
-                                    TwoStepVerificationSetupActivity.this.animationDrawables[2].setProgress(0.0f, false);
-                                    TwoStepVerificationSetupActivity.this.imageView.playAnimation();
-                                } else if (TwoStepVerificationSetupActivity.this.animationDrawables[2].getCurrentFrame() >= 49) {
-                                } else {
-                                    TwoStepVerificationSetupActivity.this.animationDrawables[2].setCustomEndFrame(49);
-                                }
-                            }
-                        } else if ((animatedDrawable != TwoStepVerificationSetupActivity.this.animationDrawables[3] || TwoStepVerificationSetupActivity.this.editTextFirstRow.getTransformationMethod() != null) && animatedDrawable != TwoStepVerificationSetupActivity.this.animationDrawables[5]) {
-                            TwoStepVerificationSetupActivity.this.animationDrawables[2].setCustomEndFrame(-1);
-                            if (animatedDrawable != TwoStepVerificationSetupActivity.this.animationDrawables[2]) {
-                                TwoStepVerificationSetupActivity.this.imageView.setAnimation(TwoStepVerificationSetupActivity.this.animationDrawables[2]);
-                                TwoStepVerificationSetupActivity.this.animationDrawables[2].setCurrentFrame(49, false);
-                            }
-                            TwoStepVerificationSetupActivity.this.imageView.playAnimation();
-                        } else {
-                            TwoStepVerificationSetupActivity.this.imageView.setAnimation(TwoStepVerificationSetupActivity.this.animationDrawables[4]);
-                            TwoStepVerificationSetupActivity.this.animationDrawables[4].setProgress(0.0f, false);
-                            TwoStepVerificationSetupActivity.this.imageView.playAnimation();
-                        }
-                    } else if (TwoStepVerificationSetupActivity.this.currentType == 1) {
-                        try {
-                            TwoStepVerificationSetupActivity.this.animationDrawables[6].setCustomEndFrame((int) ((Math.min(1.0f, TwoStepVerificationSetupActivity.this.editTextFirstRow.getLayout().getLineWidth(0) / TwoStepVerificationSetupActivity.this.editTextFirstRow.getWidth()) * 142.0f) + 18.0f));
-                            TwoStepVerificationSetupActivity.this.imageView.playAnimation();
-                        } catch (Exception e) {
-                            FileLog.e(e);
-                        }
-                    } else if (TwoStepVerificationSetupActivity.this.currentType != 8 || editable.length() <= 0) {
-                    } else {
-                        TwoStepVerificationSetupActivity.this.showDoneButton(true);
-                    }
-                }
-            });
+            editTextBoldCursor3.addTextChangedListener(new AnonymousClass14());
         }
         return this.fragmentView;
     }
@@ -1177,21 +723,16 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(TwoStepVerificationSetupActivity.this.getParentActivity());
                 if (TwoStepVerificationSetupActivity.this.currentPassword != null && TwoStepVerificationSetupActivity.this.currentPassword.has_password) {
-                    str = LocaleController.getString("CancelEmailQuestion", R.string.CancelEmailQuestion);
+                    str = LocaleController.getString("CancelEmailQuestion", 2131624835);
                 } else {
-                    str = LocaleController.getString("CancelPasswordQuestion", R.string.CancelPasswordQuestion);
+                    str = LocaleController.getString("CancelPasswordQuestion", 2131624845);
                 }
-                String string = LocaleController.getString("CancelEmailQuestionTitle", R.string.CancelEmailQuestionTitle);
-                String string2 = LocaleController.getString("Abort", R.string.Abort);
+                String string = LocaleController.getString("CancelEmailQuestionTitle", 2131624836);
+                String string2 = LocaleController.getString("Abort", 2131623937);
                 builder.setMessage(str);
                 builder.setTitle(string);
-                builder.setPositiveButton(string2, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$1$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        TwoStepVerificationSetupActivity.AnonymousClass1.this.lambda$onItemClick$0(dialogInterface, i2);
-                    }
-                });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.setPositiveButton(string2, new TwoStepVerificationSetupActivity$1$$ExternalSyntheticLambda0(this));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 AlertDialog create = builder.create();
                 TwoStepVerificationSetupActivity.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
@@ -1207,6 +748,19 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         }
     }
 
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$2 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass2 extends ViewOutlineProvider {
+        AnonymousClass2(TwoStepVerificationSetupActivity twoStepVerificationSetupActivity) {
+        }
+
+        @Override // android.view.ViewOutlineProvider
+        @SuppressLint({"NewApi"})
+        public void getOutline(View view, Outline outline) {
+            outline.setOval(0, 0, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
+        }
+    }
+
     public /* synthetic */ void lambda$createView$2(View view) {
         processNext();
     }
@@ -1217,12 +771,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             needShowProgress();
             TLRPC$TL_auth_recoverPassword tLRPC$TL_auth_recoverPassword = new TLRPC$TL_auth_recoverPassword();
             tLRPC$TL_auth_recoverPassword.code = this.emailCode;
-            getConnectionsManager().sendRequest(tLRPC$TL_auth_recoverPassword, new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda44
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    TwoStepVerificationSetupActivity.this.lambda$createView$5(tLObject, tLRPC$TL_error);
-                }
-            });
+            getConnectionsManager().sendRequest(tLRPC$TL_auth_recoverPassword, new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda44(this));
         } else if (i != 3) {
             if (i != 2) {
                 return;
@@ -1230,15 +779,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             onHintDone();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setMessage(LocaleController.getString("YourEmailSkipWarningText", R.string.YourEmailSkipWarningText));
-            builder.setTitle(LocaleController.getString("YourEmailSkipWarning", R.string.YourEmailSkipWarning));
-            builder.setPositiveButton(LocaleController.getString("YourEmailSkip", R.string.YourEmailSkip), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda1
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    TwoStepVerificationSetupActivity.this.lambda$createView$6(dialogInterface, i2);
-                }
-            });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setMessage(LocaleController.getString("YourEmailSkipWarningText", 2131629360));
+            builder.setTitle(LocaleController.getString("YourEmailSkipWarning", 2131629359));
+            builder.setPositiveButton(LocaleController.getString("YourEmailSkip", 2131629358), new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda1(this));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             AlertDialog create = builder.create();
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
@@ -1249,13 +793,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         }
     }
 
-    public /* synthetic */ void lambda$createView$5(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda35
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$createView$4(tLRPC$TL_error);
-            }
-        });
+    public /* synthetic */ void lambda$createView$5(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda35(this, tLRPC$TL_error));
     }
 
     public /* synthetic */ void lambda$createView$4(TLRPC$TL_error tLRPC$TL_error) {
@@ -1264,14 +803,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         if (tLRPC$TL_error == null) {
             getMessagesController().removeSuggestion(0L, "VALIDATE_PASSWORD");
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda3
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    TwoStepVerificationSetupActivity.this.lambda$createView$3(dialogInterface, i);
-                }
-            });
-            builder.setMessage(LocaleController.getString("PasswordReset", R.string.PasswordReset));
-            builder.setTitle(LocaleController.getString("TwoStepVerificationTitle", R.string.TwoStepVerificationTitle));
+            builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda3(this));
+            builder.setMessage(LocaleController.getString("PasswordReset", 2131627416));
+            builder.setTitle(LocaleController.getString("TwoStepVerificationTitle", 2131628775));
             Dialog showDialog = showDialog(builder.create());
             if (showDialog == null) {
                 return;
@@ -1285,9 +819,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             } else {
                 str = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
             }
-            showAlertWithText(LocaleController.getString("TwoStepVerificationTitle", R.string.TwoStepVerificationTitle), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, str));
+            showAlertWithText(LocaleController.getString("TwoStepVerificationTitle", 2131628775), LocaleController.formatString("FloodWaitTime", 2131625950, str));
         } else {
-            showAlertWithText(LocaleController.getString("TwoStepVerificationTitle", R.string.TwoStepVerificationTitle), tLRPC$TL_error.text);
+            showAlertWithText(LocaleController.getString("TwoStepVerificationTitle", 2131628775), tLRPC$TL_error.text);
         }
     }
 
@@ -1319,6 +853,318 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         processNext();
     }
 
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$3 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass3 extends ViewGroup {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass3(Context context) {
+            super(context);
+            TwoStepVerificationSetupActivity.this = r1;
+        }
+
+        @Override // android.view.View
+        protected void onMeasure(int i, int i2) {
+            int size = View.MeasureSpec.getSize(i);
+            int size2 = View.MeasureSpec.getSize(i2);
+            ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i2);
+            if (size > size2) {
+                float f = size;
+                TwoStepVerificationSetupActivity.this.imageView.measure(View.MeasureSpec.makeMeasureSpec((int) (0.45f * f), 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size2 * 0.68f), 1073741824));
+                int i3 = (int) (f * 0.6f);
+                TwoStepVerificationSetupActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(i3, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                TwoStepVerificationSetupActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(i3, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                TwoStepVerificationSetupActivity.this.descriptionText2.measure(View.MeasureSpec.makeMeasureSpec(i3, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                TwoStepVerificationSetupActivity.this.buttonTextView.measure(View.MeasureSpec.makeMeasureSpec(i3, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
+            } else {
+                float f2 = TwoStepVerificationSetupActivity.this.currentType == 7 ? 160 : 140;
+                TwoStepVerificationSetupActivity.this.imageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f2), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f2), 1073741824));
+                TwoStepVerificationSetupActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                TwoStepVerificationSetupActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                TwoStepVerificationSetupActivity.this.descriptionText2.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                TwoStepVerificationSetupActivity.this.buttonTextView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(48.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
+            }
+            setMeasuredDimension(size, size2);
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.layout(0, 0, i3, ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredHeight());
+            int i5 = i3 - i;
+            int i6 = i4 - i2;
+            if (i3 > i4) {
+                int measuredHeight = (i6 - TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight()) / 2;
+                TwoStepVerificationSetupActivity.this.imageView.layout(0, measuredHeight, TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + measuredHeight);
+                float f = i5;
+                float f2 = 0.4f * f;
+                int i7 = (int) f2;
+                float f3 = i6;
+                int i8 = (int) (0.22f * f3);
+                TwoStepVerificationSetupActivity.this.titleTextView.layout(i7, i8, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredWidth() + i7, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() + i8);
+                int i9 = (int) (0.39f * f3);
+                TwoStepVerificationSetupActivity.this.descriptionText.layout(i7, i9, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredWidth() + i7, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredHeight() + i9);
+                int measuredWidth = (int) (f2 + (((f * 0.6f) - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth()) / 2.0f));
+                int i10 = (int) (f3 * 0.64f);
+                TwoStepVerificationSetupActivity.this.buttonTextView.layout(measuredWidth, i10, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth() + measuredWidth, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight() + i10);
+                return;
+            }
+            int i11 = (int) (i6 * 0.3f);
+            int measuredWidth2 = (i5 - TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth()) / 2;
+            TwoStepVerificationSetupActivity.this.imageView.layout(measuredWidth2, i11, TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth() + measuredWidth2, TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + i11);
+            int measuredHeight2 = i11 + TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + AndroidUtilities.dp(16.0f);
+            TwoStepVerificationSetupActivity.this.titleTextView.layout(0, measuredHeight2, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() + measuredHeight2);
+            int measuredHeight3 = measuredHeight2 + TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() + AndroidUtilities.dp(12.0f);
+            TwoStepVerificationSetupActivity.this.descriptionText.layout(0, measuredHeight3, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredHeight() + measuredHeight3);
+            int measuredWidth3 = (i5 - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth()) / 2;
+            int measuredHeight4 = (i6 - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight()) - AndroidUtilities.dp(48.0f);
+            TwoStepVerificationSetupActivity.this.buttonTextView.layout(measuredWidth3, measuredHeight4, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth() + measuredWidth3, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight() + measuredHeight4);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$4 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass4 extends FrameLayout {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass4(Context context) {
+            super(context);
+            TwoStepVerificationSetupActivity.this = r1;
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(i, i2);
+            ((ViewGroup.MarginLayoutParams) TwoStepVerificationSetupActivity.this.radialProgressView.getLayoutParams()).topMargin = AndroidUtilities.statusBarHeight + AndroidUtilities.dp(16.0f);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$5 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass5 extends SizeNotifierFrameLayout {
+        final /* synthetic */ FrameLayout val$frameLayout;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass5(Context context, FrameLayout frameLayout) {
+            super(context);
+            TwoStepVerificationSetupActivity.this = r1;
+            this.val$frameLayout = frameLayout;
+        }
+
+        @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            int i5;
+            if (TwoStepVerificationSetupActivity.this.keyboardView.getVisibility() == 8 || measureKeyboardHeight() < AndroidUtilities.dp(20.0f)) {
+                if (TwoStepVerificationSetupActivity.this.keyboardView.getVisibility() != 8) {
+                    FrameLayout frameLayout = this.val$frameLayout;
+                    int measuredWidth = getMeasuredWidth();
+                    i5 = getMeasuredHeight() - AndroidUtilities.dp(230.0f);
+                    frameLayout.layout(0, 0, measuredWidth, i5);
+                } else {
+                    FrameLayout frameLayout2 = this.val$frameLayout;
+                    int measuredWidth2 = getMeasuredWidth();
+                    i5 = getMeasuredHeight();
+                    frameLayout2.layout(0, 0, measuredWidth2, i5);
+                }
+            } else if (TwoStepVerificationSetupActivity.this.isCustomKeyboardVisible()) {
+                FrameLayout frameLayout3 = this.val$frameLayout;
+                int measuredWidth3 = getMeasuredWidth();
+                i5 = (getMeasuredHeight() - AndroidUtilities.dp(230.0f)) + measureKeyboardHeight();
+                frameLayout3.layout(0, 0, measuredWidth3, i5);
+            } else {
+                FrameLayout frameLayout4 = this.val$frameLayout;
+                int measuredWidth4 = getMeasuredWidth();
+                i5 = getMeasuredHeight();
+                frameLayout4.layout(0, 0, measuredWidth4, i5);
+            }
+            TwoStepVerificationSetupActivity.this.keyboardView.layout(0, i5, getMeasuredWidth(), AndroidUtilities.dp(230.0f) + i5);
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            int size = View.MeasureSpec.getSize(i);
+            int size2 = View.MeasureSpec.getSize(i2);
+            setMeasuredDimension(size, size2);
+            if (TwoStepVerificationSetupActivity.this.keyboardView.getVisibility() != 8 && measureKeyboardHeight() < AndroidUtilities.dp(20.0f)) {
+                size2 -= AndroidUtilities.dp(230.0f);
+            }
+            this.val$frameLayout.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
+            TwoStepVerificationSetupActivity.this.keyboardView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(230.0f), 1073741824));
+        }
+    }
+
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$6 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass6 extends ViewGroup {
+        final /* synthetic */ SizeNotifierFrameLayout val$keyboardFrameLayout;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass6(Context context, SizeNotifierFrameLayout sizeNotifierFrameLayout) {
+            super(context);
+            TwoStepVerificationSetupActivity.this = r1;
+            this.val$keyboardFrameLayout = sizeNotifierFrameLayout;
+        }
+
+        @Override // android.view.View
+        protected void onMeasure(int i, int i2) {
+            int size = View.MeasureSpec.getSize(i);
+            int size2 = View.MeasureSpec.getSize(i2);
+            ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i2);
+            TwoStepVerificationSetupActivity.this.actionBarBackground.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredHeight() + AndroidUtilities.dp(3.0f), 1073741824));
+            this.val$keyboardFrameLayout.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i2);
+            setMeasuredDimension(size, size2);
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.layout(0, 0, ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredWidth(), ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredHeight());
+            TwoStepVerificationSetupActivity.this.actionBarBackground.layout(0, 0, TwoStepVerificationSetupActivity.this.actionBarBackground.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.actionBarBackground.getMeasuredHeight());
+            SizeNotifierFrameLayout sizeNotifierFrameLayout = this.val$keyboardFrameLayout;
+            sizeNotifierFrameLayout.layout(0, 0, sizeNotifierFrameLayout.getMeasuredWidth(), this.val$keyboardFrameLayout.getMeasuredHeight());
+        }
+    }
+
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$7 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass7 extends ScrollView {
+        private int scrollingUp;
+        private int[] location = new int[2];
+        private Rect tempRect = new Rect();
+        private boolean isLayoutDirty = true;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass7(Context context) {
+            super(context);
+            TwoStepVerificationSetupActivity.this = r1;
+        }
+
+        @Override // android.view.View
+        protected void onScrollChanged(int i, int i2, int i3, int i4) {
+            super.onScrollChanged(i, i2, i3, i4);
+            if (TwoStepVerificationSetupActivity.this.titleTextView == null) {
+                return;
+            }
+            TwoStepVerificationSetupActivity.this.titleTextView.getLocationOnScreen(this.location);
+            boolean z = this.location[1] + TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() < ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getBottom();
+            if (z == (TwoStepVerificationSetupActivity.this.titleTextView.getTag() == null)) {
+                return;
+            }
+            TwoStepVerificationSetupActivity.this.titleTextView.setTag(z ? null : 1);
+            if (TwoStepVerificationSetupActivity.this.actionBarAnimator != null) {
+                TwoStepVerificationSetupActivity.this.actionBarAnimator.cancel();
+                TwoStepVerificationSetupActivity.this.actionBarAnimator = null;
+            }
+            TwoStepVerificationSetupActivity.this.actionBarAnimator = new AnimatorSet();
+            AnimatorSet animatorSet = TwoStepVerificationSetupActivity.this.actionBarAnimator;
+            Animator[] animatorArr = new Animator[2];
+            View view = TwoStepVerificationSetupActivity.this.actionBarBackground;
+            Property property = View.ALPHA;
+            float[] fArr = new float[1];
+            float f = 1.0f;
+            fArr[0] = z ? 1.0f : 0.0f;
+            animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
+            SimpleTextView titleTextView = ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getTitleTextView();
+            Property property2 = View.ALPHA;
+            float[] fArr2 = new float[1];
+            if (!z) {
+                f = 0.0f;
+            }
+            fArr2[0] = f;
+            animatorArr[1] = ObjectAnimator.ofFloat(titleTextView, property2, fArr2);
+            animatorSet.playTogether(animatorArr);
+            TwoStepVerificationSetupActivity.this.actionBarAnimator.setDuration(150L);
+            TwoStepVerificationSetupActivity.this.actionBarAnimator.addListener(new AnonymousClass1());
+            TwoStepVerificationSetupActivity.this.actionBarAnimator.start();
+        }
+
+        /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$7$1 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass1 extends AnimatorListenerAdapter {
+            AnonymousClass1() {
+                AnonymousClass7.this = r1;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (animator.equals(TwoStepVerificationSetupActivity.this.actionBarAnimator)) {
+                    TwoStepVerificationSetupActivity.this.actionBarAnimator = null;
+                }
+            }
+        }
+
+        @Override // android.widget.ScrollView
+        public void scrollToDescendant(View view) {
+            view.getDrawingRect(this.tempRect);
+            offsetDescendantRectToMyCoords(view, this.tempRect);
+            this.tempRect.bottom += AndroidUtilities.dp(120.0f);
+            int computeScrollDeltaToGetChildRectOnScreen = computeScrollDeltaToGetChildRectOnScreen(this.tempRect);
+            if (computeScrollDeltaToGetChildRectOnScreen < 0) {
+                int measuredHeight = (getMeasuredHeight() - view.getMeasuredHeight()) / 2;
+                this.scrollingUp = measuredHeight;
+                computeScrollDeltaToGetChildRectOnScreen -= measuredHeight;
+            } else {
+                this.scrollingUp = 0;
+            }
+            if (computeScrollDeltaToGetChildRectOnScreen != 0) {
+                smoothScrollBy(0, computeScrollDeltaToGetChildRectOnScreen);
+            }
+        }
+
+        @Override // android.widget.ScrollView, android.view.ViewGroup, android.view.ViewParent
+        public void requestChildFocus(View view, View view2) {
+            if (Build.VERSION.SDK_INT < 29 && view2 != null && !this.isLayoutDirty) {
+                scrollToDescendant(view2);
+            }
+            super.requestChildFocus(view, view2);
+        }
+
+        @Override // android.widget.ScrollView, android.view.ViewGroup, android.view.ViewParent
+        public boolean requestChildRectangleOnScreen(View view, Rect rect, boolean z) {
+            if (Build.VERSION.SDK_INT < 23) {
+                int dp = rect.bottom + AndroidUtilities.dp(120.0f);
+                rect.bottom = dp;
+                int i = this.scrollingUp;
+                if (i != 0) {
+                    rect.top -= i;
+                    rect.bottom = dp - i;
+                    this.scrollingUp = 0;
+                }
+            }
+            return super.requestChildRectangleOnScreen(view, rect, z);
+        }
+
+        @Override // android.widget.ScrollView, android.view.View, android.view.ViewParent
+        public void requestLayout() {
+            this.isLayoutDirty = true;
+            super.requestLayout();
+        }
+
+        @Override // android.widget.ScrollView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            this.isLayoutDirty = false;
+            super.onLayout(z, i, i2, i3, i4);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$8 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass8 extends LinearLayout {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass8(Context context) {
+            super(context);
+            TwoStepVerificationSetupActivity.this = r1;
+        }
+
+        @Override // android.widget.LinearLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(i, i2);
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) TwoStepVerificationSetupActivity.this.titleTextView.getLayoutParams();
+            int i3 = 0;
+            int dp = ((TwoStepVerificationSetupActivity.this.imageView.getVisibility() != 8 || Build.VERSION.SDK_INT < 21) ? 0 : AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(8.0f);
+            if (TwoStepVerificationSetupActivity.this.currentType == 2 && AndroidUtilities.isSmallScreen() && !TwoStepVerificationSetupActivity.this.isLandscape()) {
+                i3 = AndroidUtilities.dp(32.0f);
+            }
+            marginLayoutParams.topMargin = dp + i3;
+        }
+    }
+
     public /* synthetic */ boolean lambda$createView$11(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5 || i == 6) {
             if (this.outlineTextSecondRow.getVisibility() == 0) {
@@ -1333,6 +1179,27 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     public /* synthetic */ void lambda$createView$12(View view, boolean z) {
         this.outlineTextFirstRow.animateSelection(z ? 1.0f : 0.0f);
+    }
+
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$9 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass9 extends ImageView {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass9(Context context) {
+            super(context);
+            TwoStepVerificationSetupActivity.this = r1;
+        }
+
+        @Override // android.view.View
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+            boolean z = true;
+            accessibilityNodeInfo.setCheckable(true);
+            if (TwoStepVerificationSetupActivity.this.editTextFirstRow.getTransformationMethod() != null) {
+                z = false;
+            }
+            accessibilityNodeInfo.setChecked(z);
+        }
     }
 
     public /* synthetic */ void lambda$createView$13(View view) {
@@ -1369,6 +1236,36 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.ignoreTextChange = false;
     }
 
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$10 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass10 implements TextWatcher {
+        @Override // android.text.TextWatcher
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override // android.text.TextWatcher
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        AnonymousClass10() {
+            TwoStepVerificationSetupActivity.this = r1;
+        }
+
+        @Override // android.text.TextWatcher
+        public void afterTextChanged(Editable editable) {
+            if (TwoStepVerificationSetupActivity.this.needPasswordButton) {
+                if (TwoStepVerificationSetupActivity.this.showPasswordButton.getVisibility() == 0 || TextUtils.isEmpty(editable)) {
+                    if (TwoStepVerificationSetupActivity.this.showPasswordButton.getVisibility() == 8 || !TextUtils.isEmpty(editable)) {
+                        return;
+                    }
+                    AndroidUtilities.updateViewVisibilityAnimated(TwoStepVerificationSetupActivity.this.showPasswordButton, false, 0.1f, true);
+                    return;
+                }
+                AndroidUtilities.updateViewVisibilityAnimated(TwoStepVerificationSetupActivity.this.showPasswordButton, true, 0.1f, true);
+            }
+        }
+    }
+
     public /* synthetic */ boolean lambda$createView$14(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5 || i == 6) {
             processNext();
@@ -1381,6 +1278,45 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.outlineTextSecondRow.animateSelection(z ? 1.0f : 0.0f);
     }
 
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$11 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass11 extends CodeFieldContainer {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass11(Context context) {
+            super(context);
+            TwoStepVerificationSetupActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.CodeFieldContainer
+        protected void processNextPressed() {
+            TwoStepVerificationSetupActivity.this.processNext();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$12 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass12 implements TextWatcher {
+        @Override // android.text.TextWatcher
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override // android.text.TextWatcher
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        AnonymousClass12() {
+            TwoStepVerificationSetupActivity.this = r1;
+        }
+
+        @Override // android.text.TextWatcher
+        public void afterTextChanged(Editable editable) {
+            if (TwoStepVerificationSetupActivity.this.postedErrorColorTimeout) {
+                AndroidUtilities.cancelRunOnUIThread(TwoStepVerificationSetupActivity.this.errorColorTimeout);
+                TwoStepVerificationSetupActivity.this.errorColorTimeout.run();
+            }
+        }
+    }
+
     public /* synthetic */ void lambda$createView$16(View view, boolean z) {
         if (z) {
             this.keyboardView.setEditText((EditText) view);
@@ -1390,15 +1326,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     public /* synthetic */ void lambda$createView$18(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                TwoStepVerificationSetupActivity.this.lambda$createView$17(dialogInterface, i);
-            }
-        });
-        builder.setTitle(LocaleController.getString("ResetPassword", R.string.ResetPassword));
-        builder.setMessage(LocaleController.getString("RestoreEmailTroubleText2", R.string.RestoreEmailTroubleText2));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+        builder.setPositiveButton(LocaleController.getString("Reset", 2131628042), new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda2(this));
+        builder.setTitle(LocaleController.getString("ResetPassword", 2131628067));
+        builder.setMessage(LocaleController.getString("RestoreEmailTroubleText2", 2131628079));
         showDialog(builder.create());
     }
 
@@ -1407,9 +1338,97 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         finishFragment();
     }
 
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$13 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass13 extends View {
+        private Paint paint = new Paint();
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass13(Context context) {
+            super(context);
+            TwoStepVerificationSetupActivity.this = r1;
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            this.paint.setColor(Theme.getColor("windowBackgroundWhite"));
+            int measuredHeight = getMeasuredHeight() - AndroidUtilities.dp(3.0f);
+            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), measuredHeight, this.paint);
+            ((BaseFragment) TwoStepVerificationSetupActivity.this).parentLayout.drawHeaderShadow(canvas, measuredHeight);
+        }
+    }
+
     public /* synthetic */ void lambda$createView$20(View view) {
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_resendPasswordEmail(), TwoStepVerificationSetupActivity$$ExternalSyntheticLambda51.INSTANCE);
-        showDialog(new AlertDialog.Builder(getParentActivity()).setMessage(LocaleController.getString("ResendCodeInfo", R.string.ResendCodeInfo)).setTitle(LocaleController.getString("TwoStepVerificationTitle", R.string.TwoStepVerificationTitle)).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).create());
+        showDialog(new AlertDialog.Builder(getParentActivity()).setMessage(LocaleController.getString("ResendCodeInfo", 2131628041)).setTitle(LocaleController.getString("TwoStepVerificationTitle", 2131628775)).setPositiveButton(LocaleController.getString("OK", 2131627127), null).create());
+    }
+
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$14 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass14 implements TextWatcher {
+        @Override // android.text.TextWatcher
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override // android.text.TextWatcher
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        AnonymousClass14() {
+            TwoStepVerificationSetupActivity.this = r1;
+        }
+
+        @Override // android.text.TextWatcher
+        public void afterTextChanged(Editable editable) {
+            if (TwoStepVerificationSetupActivity.this.ignoreTextChange) {
+                return;
+            }
+            if (TwoStepVerificationSetupActivity.this.currentType == 0) {
+                RLottieDrawable animatedDrawable = TwoStepVerificationSetupActivity.this.imageView.getAnimatedDrawable();
+                if (TwoStepVerificationSetupActivity.this.editTextFirstRow.length() > 0) {
+                    if (TwoStepVerificationSetupActivity.this.editTextFirstRow.getTransformationMethod() == null) {
+                        if (animatedDrawable == TwoStepVerificationSetupActivity.this.animationDrawables[3] || animatedDrawable == TwoStepVerificationSetupActivity.this.animationDrawables[5]) {
+                            return;
+                        }
+                        TwoStepVerificationSetupActivity.this.imageView.setAnimation(TwoStepVerificationSetupActivity.this.animationDrawables[5]);
+                        TwoStepVerificationSetupActivity.this.animationDrawables[5].setProgress(0.0f, false);
+                        TwoStepVerificationSetupActivity.this.imageView.playAnimation();
+                    } else if (animatedDrawable == TwoStepVerificationSetupActivity.this.animationDrawables[3]) {
+                    } else {
+                        if (animatedDrawable != TwoStepVerificationSetupActivity.this.animationDrawables[2]) {
+                            TwoStepVerificationSetupActivity.this.imageView.setAnimation(TwoStepVerificationSetupActivity.this.animationDrawables[2]);
+                            TwoStepVerificationSetupActivity.this.animationDrawables[2].setCustomEndFrame(49);
+                            TwoStepVerificationSetupActivity.this.animationDrawables[2].setProgress(0.0f, false);
+                            TwoStepVerificationSetupActivity.this.imageView.playAnimation();
+                        } else if (TwoStepVerificationSetupActivity.this.animationDrawables[2].getCurrentFrame() >= 49) {
+                        } else {
+                            TwoStepVerificationSetupActivity.this.animationDrawables[2].setCustomEndFrame(49);
+                        }
+                    }
+                } else if ((animatedDrawable != TwoStepVerificationSetupActivity.this.animationDrawables[3] || TwoStepVerificationSetupActivity.this.editTextFirstRow.getTransformationMethod() != null) && animatedDrawable != TwoStepVerificationSetupActivity.this.animationDrawables[5]) {
+                    TwoStepVerificationSetupActivity.this.animationDrawables[2].setCustomEndFrame(-1);
+                    if (animatedDrawable != TwoStepVerificationSetupActivity.this.animationDrawables[2]) {
+                        TwoStepVerificationSetupActivity.this.imageView.setAnimation(TwoStepVerificationSetupActivity.this.animationDrawables[2]);
+                        TwoStepVerificationSetupActivity.this.animationDrawables[2].setCurrentFrame(49, false);
+                    }
+                    TwoStepVerificationSetupActivity.this.imageView.playAnimation();
+                } else {
+                    TwoStepVerificationSetupActivity.this.imageView.setAnimation(TwoStepVerificationSetupActivity.this.animationDrawables[4]);
+                    TwoStepVerificationSetupActivity.this.animationDrawables[4].setProgress(0.0f, false);
+                    TwoStepVerificationSetupActivity.this.imageView.playAnimation();
+                }
+            } else if (TwoStepVerificationSetupActivity.this.currentType == 1) {
+                try {
+                    TwoStepVerificationSetupActivity.this.animationDrawables[6].setCustomEndFrame((int) ((Math.min(1.0f, TwoStepVerificationSetupActivity.this.editTextFirstRow.getLayout().getLineWidth(0) / TwoStepVerificationSetupActivity.this.editTextFirstRow.getWidth()) * 142.0f) + 18.0f));
+                    TwoStepVerificationSetupActivity.this.imageView.playAnimation();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            } else if (TwoStepVerificationSetupActivity.this.currentType != 8 || editable.length() <= 0) {
+            } else {
+                TwoStepVerificationSetupActivity.this.showDoneButton(true);
+            }
+        }
     }
 
     private boolean isIntro() {
@@ -1442,27 +1461,17 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         }
     }
 
-    private void animateSuccess(final Runnable runnable) {
+    private void animateSuccess(Runnable runnable) {
         int i = 0;
         while (true) {
             CodeFieldContainer codeFieldContainer = this.codeFieldContainer;
             CodeNumberField[] codeNumberFieldArr = codeFieldContainer.codeField;
             if (i < codeNumberFieldArr.length) {
-                final CodeNumberField codeNumberField = codeNumberFieldArr[i];
-                codeNumberField.postDelayed(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda19
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        CodeNumberField.this.animateSuccessProgress(1.0f);
-                    }
-                }, i * 75);
+                CodeNumberField codeNumberField = codeNumberFieldArr[i];
+                codeNumberField.postDelayed(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda19(codeNumberField), i * 75);
                 i++;
             } else {
-                codeFieldContainer.postDelayed(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda28
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        TwoStepVerificationSetupActivity.this.lambda$animateSuccess$22(runnable);
-                    }
-                }, (this.codeFieldContainer.codeField.length * 75) + 350);
+                codeFieldContainer.postDelayed(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda28(this, runnable), (this.codeFieldContainer.codeField.length * 75) + 350);
                 return;
             }
         }
@@ -1535,7 +1544,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     } catch (Exception unused) {
                     }
                     try {
-                        Toast.makeText(getParentActivity(), LocaleController.getString("PasswordDoNotMatch", R.string.PasswordDoNotMatch), 0).show();
+                        Toast.makeText(getParentActivity(), LocaleController.getString("PasswordDoNotMatch", 2131627406), 0).show();
                         return;
                     } catch (Exception e) {
                         FileLog.e(e);
@@ -1563,7 +1572,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.hint = obj;
                 if (obj.equalsIgnoreCase(this.firstPassword)) {
                     try {
-                        Toast.makeText(getParentActivity(), LocaleController.getString("PasswordAsHintError", R.string.PasswordAsHintError), 0).show();
+                        Toast.makeText(getParentActivity(), LocaleController.getString("PasswordAsHintError", 2131627404), 0).show();
                     } catch (Exception e2) {
                         FileLog.e(e2);
                     }
@@ -1583,25 +1592,15 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     return;
                 }
             case 4:
-                final String code = this.codeFieldContainer.getCode();
+                String code = this.codeFieldContainer.getCode();
                 TLRPC$TL_auth_checkRecoveryPassword tLRPC$TL_auth_checkRecoveryPassword = new TLRPC$TL_auth_checkRecoveryPassword();
                 tLRPC$TL_auth_checkRecoveryPassword.code = code;
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_checkRecoveryPassword, new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda47
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        TwoStepVerificationSetupActivity.this.lambda$processNext$31(code, tLObject, tLRPC$TL_error);
-                    }
-                }, 10);
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_checkRecoveryPassword, new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda47(this, code), 10);
                 return;
             case 5:
                 TLRPC$TL_account_confirmPasswordEmail tLRPC$TL_account_confirmPasswordEmail = new TLRPC$TL_account_confirmPasswordEmail();
                 tLRPC$TL_account_confirmPasswordEmail.code = this.codeFieldContainer.getCode();
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_confirmPasswordEmail, new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda46
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        TwoStepVerificationSetupActivity.this.lambda$processNext$35(tLObject, tLRPC$TL_error);
-                    }
-                }, 10);
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_confirmPasswordEmail, new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda46(this), 10);
                 needShowProgress();
                 return;
             case 6:
@@ -1644,14 +1643,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     onFieldError(this.outlineTextFirstRow, this.editTextFirstRow, false);
                     return;
                 }
-                final byte[] stringBytes = AndroidUtilities.getStringBytes(obj3);
+                byte[] stringBytes = AndroidUtilities.getStringBytes(obj3);
                 needShowProgress();
-                Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda40
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        TwoStepVerificationSetupActivity.this.lambda$processNext$28(stringBytes);
-                    }
-                });
+                Utilities.globalQueue.postRunnable(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda40(this, stringBytes));
                 return;
             case 9:
                 finishFragment();
@@ -1664,13 +1658,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     public /* synthetic */ void lambda$processNext$28(byte[] bArr) {
         TLRPC$TL_account_getPasswordSettings tLRPC$TL_account_getPasswordSettings = new TLRPC$TL_account_getPasswordSettings();
         TLRPC$PasswordKdfAlgo tLRPC$PasswordKdfAlgo = this.currentPassword.current_algo;
-        final byte[] x = tLRPC$PasswordKdfAlgo instanceof TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow ? SRPHelper.getX(bArr, (TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) tLRPC$PasswordKdfAlgo) : null;
-        RequestDelegate requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda50
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                TwoStepVerificationSetupActivity.this.lambda$processNext$27(x, tLObject, tLRPC$TL_error);
-            }
-        };
+        byte[] x = tLRPC$PasswordKdfAlgo instanceof TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow ? SRPHelper.getX(bArr, (TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) tLRPC$PasswordKdfAlgo) : null;
+        TwoStepVerificationSetupActivity$$ExternalSyntheticLambda50 twoStepVerificationSetupActivity$$ExternalSyntheticLambda50 = new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda50(this, x);
         TLRPC$TL_account_password tLRPC$TL_account_password = this.currentPassword;
         TLRPC$PasswordKdfAlgo tLRPC$PasswordKdfAlgo2 = tLRPC$TL_account_password.current_algo;
         if (tLRPC$PasswordKdfAlgo2 instanceof TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
@@ -1679,32 +1668,22 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             if (startCheck == null) {
                 TLRPC$TL_error tLRPC$TL_error = new TLRPC$TL_error();
                 tLRPC$TL_error.text = "ALGO_INVALID";
-                requestDelegate.run(null, tLRPC$TL_error);
+                twoStepVerificationSetupActivity$$ExternalSyntheticLambda50.run(null, tLRPC$TL_error);
                 return;
             }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getPasswordSettings, requestDelegate, 10);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getPasswordSettings, twoStepVerificationSetupActivity$$ExternalSyntheticLambda50, 10);
             return;
         }
         TLRPC$TL_error tLRPC$TL_error2 = new TLRPC$TL_error();
         tLRPC$TL_error2.text = "PASSWORD_HASH_INVALID";
-        requestDelegate.run(null, tLRPC$TL_error2);
+        twoStepVerificationSetupActivity$$ExternalSyntheticLambda50.run(null, tLRPC$TL_error2);
     }
 
-    public /* synthetic */ void lambda$processNext$27(final byte[] bArr, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$processNext$27(byte[] bArr, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda41
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TwoStepVerificationSetupActivity.this.lambda$processNext$23(bArr);
-                }
-            });
+            AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda41(this, bArr));
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda32
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TwoStepVerificationSetupActivity.this.lambda$processNext$26(tLRPC$TL_error);
-                }
-            });
+            AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda32(this, tLRPC$TL_error));
         }
     }
 
@@ -1721,17 +1700,12 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     public /* synthetic */ void lambda$processNext$26(TLRPC$TL_error tLRPC$TL_error) {
         String str;
         if ("SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda42
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error2) {
-                    TwoStepVerificationSetupActivity.this.lambda$processNext$25(tLObject, tLRPC$TL_error2);
-                }
-            }, 8);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda42(this), 8);
             return;
         }
         needHideProgress();
         if ("PASSWORD_HASH_INVALID".equals(tLRPC$TL_error.text)) {
-            this.descriptionText.setText(LocaleController.getString("CheckPasswordWrong", R.string.CheckPasswordWrong));
+            this.descriptionText.setText(LocaleController.getString("CheckPasswordWrong", 2131625110));
             this.descriptionText.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
             onFieldError(this.outlineTextFirstRow, this.editTextFirstRow, true);
             showDoneButton(false);
@@ -1742,19 +1716,14 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             } else {
                 str = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
             }
-            showAlertWithText(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, str));
+            showAlertWithText(LocaleController.getString("AppName", 2131624384), LocaleController.formatString("FloodWaitTime", 2131625950, str));
         } else {
-            showAlertWithText(LocaleController.getString("AppName", R.string.AppName), tLRPC$TL_error.text);
+            showAlertWithText(LocaleController.getString("AppName", 2131624384), tLRPC$TL_error.text);
         }
     }
 
-    public /* synthetic */ void lambda$processNext$25(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda37
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$processNext$24(tLRPC$TL_error, tLObject);
-            }
-        });
+    public /* synthetic */ void lambda$processNext$25(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda37(this, tLRPC$TL_error, tLObject));
     }
 
     public /* synthetic */ void lambda$processNext$24(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
@@ -1767,24 +1736,14 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         }
     }
 
-    public /* synthetic */ void lambda$processNext$31(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda30
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$processNext$30(tLObject, str, tLRPC$TL_error);
-            }
-        });
+    public /* synthetic */ void lambda$processNext$31(String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda30(this, tLObject, str, tLRPC$TL_error));
     }
 
-    public /* synthetic */ void lambda$processNext$30(TLObject tLObject, final String str, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$processNext$30(TLObject tLObject, String str, TLRPC$TL_error tLRPC$TL_error) {
         String str2;
         if (tLObject instanceof TLRPC$TL_boolTrue) {
-            animateSuccess(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda29
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TwoStepVerificationSetupActivity.this.lambda$processNext$29(str);
-                }
-            });
+            animateSuccess(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda29(this, str));
         } else if (tLRPC$TL_error == null || tLRPC$TL_error.text.startsWith("CODE_INVALID")) {
             onCodeFieldError(true);
         } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
@@ -1794,9 +1753,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             } else {
                 str2 = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
             }
-            showAlertWithText(LocaleController.getString("TwoStepVerificationTitle", R.string.TwoStepVerificationTitle), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, str2));
+            showAlertWithText(LocaleController.getString("TwoStepVerificationTitle", 2131628775), LocaleController.formatString("FloodWaitTime", 2131625950, str2));
         } else {
-            showAlertWithText(LocaleController.getString("TwoStepVerificationTitle", R.string.TwoStepVerificationTitle), tLRPC$TL_error.text);
+            showAlertWithText(LocaleController.getString("TwoStepVerificationTitle", 2131628775), tLRPC$TL_error.text);
         }
     }
 
@@ -1810,13 +1769,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         presentFragment(twoStepVerificationSetupActivity, true);
     }
 
-    public /* synthetic */ void lambda$processNext$35(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda33
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$processNext$34(tLRPC$TL_error);
-            }
-        });
+    public /* synthetic */ void lambda$processNext$35(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda33(this, tLRPC$TL_error));
     }
 
     public /* synthetic */ void lambda$processNext$34(TLRPC$TL_error tLRPC$TL_error) {
@@ -1826,12 +1780,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             if (getParentActivity() == null) {
                 return;
             }
-            animateSuccess(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda23
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TwoStepVerificationSetupActivity.this.lambda$processNext$33();
-                }
-            });
+            animateSuccess(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda23(this));
         } else if (tLRPC$TL_error.text.startsWith("CODE_INVALID")) {
             onCodeFieldError(true);
         } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
@@ -1841,27 +1790,22 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             } else {
                 str = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
             }
-            showAlertWithText(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, str));
+            showAlertWithText(LocaleController.getString("AppName", 2131624384), LocaleController.formatString("FloodWaitTime", 2131625950, str));
         } else {
-            showAlertWithText(LocaleController.getString("AppName", R.string.AppName), tLRPC$TL_error.text);
+            showAlertWithText(LocaleController.getString("AppName", 2131624384), tLRPC$TL_error.text);
         }
     }
 
     public /* synthetic */ void lambda$processNext$33() {
         if (this.currentPassword.has_password) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda4
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    TwoStepVerificationSetupActivity.this.lambda$processNext$32(dialogInterface, i);
-                }
-            });
+            builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda4(this));
             if (this.currentPassword.has_recovery) {
-                builder.setMessage(LocaleController.getString("YourEmailSuccessChangedText", R.string.YourEmailSuccessChangedText));
+                builder.setMessage(LocaleController.getString("YourEmailSuccessChangedText", 2131629361));
             } else {
-                builder.setMessage(LocaleController.getString("YourEmailSuccessText", R.string.YourEmailSuccessText));
+                builder.setMessage(LocaleController.getString("YourEmailSuccessText", 2131629362));
             }
-            builder.setTitle(LocaleController.getString("YourPasswordSuccess", R.string.YourPasswordSuccess));
+            builder.setTitle(LocaleController.getString("YourPasswordSuccess", 2131629374));
             Dialog showDialog = showDialog(builder.create());
             if (showDialog == null) {
                 return;
@@ -1923,21 +1867,11 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         if (z) {
             this.codeFieldContainer.codeField[0].requestFocus();
         }
-        AndroidUtilities.shakeViewSpring(this.codeFieldContainer, 8.0f, new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda25
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$onCodeFieldError$37();
-            }
-        });
+        AndroidUtilities.shakeViewSpring(this.codeFieldContainer, 8.0f, new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda25(this));
     }
 
     public /* synthetic */ void lambda$onCodeFieldError$37() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda22
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$onCodeFieldError$36();
-            }
-        }, 150L);
+        AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda22(this), 150L);
     }
 
     public /* synthetic */ void lambda$onCodeFieldError$36() {
@@ -1971,7 +1905,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         setNewPassword(false);
     }
 
-    public void showDoneButton(final boolean z) {
+    public void showDoneButton(boolean z) {
         if (z == (this.buttonTextView.getTag() != null)) {
             return;
         }
@@ -1988,29 +1922,40 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             this.descriptionText2.setVisibility(0);
             this.buttonAnimation.playTogether(ObjectAnimator.ofFloat(this.buttonTextView, View.SCALE_X, 0.9f), ObjectAnimator.ofFloat(this.buttonTextView, View.SCALE_Y, 0.9f), ObjectAnimator.ofFloat(this.buttonTextView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.descriptionText2, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.descriptionText2, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.descriptionText2, View.ALPHA, 1.0f));
         }
-        this.buttonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.15
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (TwoStepVerificationSetupActivity.this.buttonAnimation == null || !TwoStepVerificationSetupActivity.this.buttonAnimation.equals(animator)) {
-                    return;
-                }
-                if (z) {
-                    TwoStepVerificationSetupActivity.this.descriptionText2.setVisibility(4);
-                } else {
-                    TwoStepVerificationSetupActivity.this.buttonTextView.setVisibility(4);
-                }
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationCancel(Animator animator) {
-                if (TwoStepVerificationSetupActivity.this.buttonAnimation == null || !TwoStepVerificationSetupActivity.this.buttonAnimation.equals(animator)) {
-                    return;
-                }
-                TwoStepVerificationSetupActivity.this.buttonAnimation = null;
-            }
-        });
+        this.buttonAnimation.addListener(new AnonymousClass15(z));
         this.buttonAnimation.setDuration(150L);
         this.buttonAnimation.start();
+    }
+
+    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$15 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass15 extends AnimatorListenerAdapter {
+        final /* synthetic */ boolean val$show;
+
+        AnonymousClass15(boolean z) {
+            TwoStepVerificationSetupActivity.this = r1;
+            this.val$show = z;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (TwoStepVerificationSetupActivity.this.buttonAnimation == null || !TwoStepVerificationSetupActivity.this.buttonAnimation.equals(animator)) {
+                return;
+            }
+            if (this.val$show) {
+                TwoStepVerificationSetupActivity.this.descriptionText2.setVisibility(4);
+            } else {
+                TwoStepVerificationSetupActivity.this.buttonTextView.setVisibility(4);
+            }
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            if (TwoStepVerificationSetupActivity.this.buttonAnimation == null || !TwoStepVerificationSetupActivity.this.buttonAnimation.equals(animator)) {
+                return;
+            }
+            TwoStepVerificationSetupActivity.this.buttonAnimation = null;
+        }
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:18:0x002e, code lost:
@@ -2036,14 +1981,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                         if (animatedDrawable != null) {
                         }
                     }
-                    Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda27
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            TwoStepVerificationSetupActivity.this.lambda$setRandomMonkeyIdleAnimation$38();
-                        }
-                    };
-                    this.setAnimationRunnable = runnable2;
-                    AndroidUtilities.runOnUIThread(runnable2, Utilities.random.nextInt(2000) + 5000);
+                    TwoStepVerificationSetupActivity$$ExternalSyntheticLambda27 twoStepVerificationSetupActivity$$ExternalSyntheticLambda27 = new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda27(this);
+                    this.setAnimationRunnable = twoStepVerificationSetupActivity$$ExternalSyntheticLambda27;
+                    AndroidUtilities.runOnUIThread(twoStepVerificationSetupActivity$$ExternalSyntheticLambda27, Utilities.random.nextInt(2000) + 5000);
                 }
             }
         }
@@ -2057,14 +1997,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         if (!z) {
             this.imageView.playAnimation();
         }
-        Runnable runnable22 = new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda27
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$setRandomMonkeyIdleAnimation$38();
-            }
-        };
-        this.setAnimationRunnable = runnable22;
-        AndroidUtilities.runOnUIThread(runnable22, Utilities.random.nextInt(2000) + 5000);
+        TwoStepVerificationSetupActivity$$ExternalSyntheticLambda27 twoStepVerificationSetupActivity$$ExternalSyntheticLambda272 = new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda27(this);
+        this.setAnimationRunnable = twoStepVerificationSetupActivity$$ExternalSyntheticLambda272;
+        AndroidUtilities.runOnUIThread(twoStepVerificationSetupActivity$$ExternalSyntheticLambda272, Utilities.random.nextInt(2000) + 5000);
     }
 
     public /* synthetic */ void lambda$setRandomMonkeyIdleAnimation$38() {
@@ -2082,23 +2017,13 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         if (z) {
             if (this.editTextFirstRow != null && !isCustomKeyboardVisible()) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda24
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        TwoStepVerificationSetupActivity.this.lambda$onTransitionAnimationEnd$39();
-                    }
-                }, 200L);
+                AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda24(this), 200L);
             }
             CodeFieldContainer codeFieldContainer = this.codeFieldContainer;
             if (codeFieldContainer == null || codeFieldContainer.getVisibility() != 0) {
                 return;
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda20
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TwoStepVerificationSetupActivity.this.lambda$onTransitionAnimationEnd$40();
-                }
-            }, 200L);
+            AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda20(this), 200L);
         }
     }
 
@@ -2120,21 +2045,11 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     }
 
     private void loadPasswordInfo() {
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda45
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                TwoStepVerificationSetupActivity.this.lambda$loadPasswordInfo$42(tLObject, tLRPC$TL_error);
-            }
-        }, 10);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda45(this), 10);
     }
 
-    public /* synthetic */ void lambda$loadPasswordInfo$42(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda36
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$loadPasswordInfo$41(tLRPC$TL_error, tLObject);
-            }
-        });
+    public /* synthetic */ void lambda$loadPasswordInfo$42(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda36(this, tLRPC$TL_error, tLObject));
     }
 
     public /* synthetic */ void lambda$loadPasswordInfo$41(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
@@ -2142,7 +2057,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             TLRPC$TL_account_password tLRPC$TL_account_password = (TLRPC$TL_account_password) tLObject;
             this.currentPassword = tLRPC$TL_account_password;
             if (!TwoStepVerificationActivity.canHandleCurrentPassword(tLRPC$TL_account_password, false)) {
-                AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", R.string.UpdateAppAlert), true);
+                AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", 2131628830), true);
                 return;
             }
             this.waitingForEmail = !TextUtils.isEmpty(this.currentPassword.email_unconfirmed_pattern);
@@ -2211,40 +2126,23 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+        builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
         builder.setTitle(str);
         builder.setMessage(str2);
         showDialog(builder.create());
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    public void setNewPassword(final boolean z) {
+    public void setNewPassword(boolean z) {
         TLRPC$TL_account_updatePasswordSettings tLRPC$TL_account_updatePasswordSettings;
         TLRPC$TL_account_password tLRPC$TL_account_password;
         if (z && this.waitingForEmail && this.currentPassword.has_password) {
             needShowProgress();
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_cancelPasswordEmail
-                public static int constructor = -1043606090;
-
-                @Override // org.telegram.tgnet.TLObject
-                public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z2) {
-                    return TLRPC$Bool.TLdeserialize(abstractSerializedData, i, z2);
-                }
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
-                }
-            }, new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda43
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    TwoStepVerificationSetupActivity.this.lambda$setNewPassword$44(tLObject, tLRPC$TL_error);
-                }
-            });
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_cancelPasswordEmail(), new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda43(this));
             return;
         }
-        final String str = this.firstPassword;
-        final TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings = new TLRPC$TL_account_passwordInputSettings();
+        String str = this.firstPassword;
+        TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings = new TLRPC$TL_account_passwordInputSettings();
         if (z) {
             UserConfig.getInstance(this.currentAccount).resetSavedPassword();
             this.currentSecret = null;
@@ -2290,23 +2188,13 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             tLRPC$TL_account_updatePasswordSettings2.new_settings = tLRPC$TL_account_passwordInputSettings;
             tLRPC$TL_account_updatePasswordSettings = tLRPC$TL_account_updatePasswordSettings2;
         }
-        final TLRPC$TL_account_updatePasswordSettings tLRPC$TL_account_updatePasswordSettings3 = tLRPC$TL_account_updatePasswordSettings;
+        TLRPC$TL_account_updatePasswordSettings tLRPC$TL_account_updatePasswordSettings3 = tLRPC$TL_account_updatePasswordSettings;
         needShowProgress();
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda31
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$setNewPassword$50(tLRPC$TL_account_updatePasswordSettings3, z, str, tLRPC$TL_account_passwordInputSettings);
-            }
-        });
+        Utilities.globalQueue.postRunnable(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda31(this, tLRPC$TL_account_updatePasswordSettings3, z, str, tLRPC$TL_account_passwordInputSettings));
     }
 
-    public /* synthetic */ void lambda$setNewPassword$44(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda34
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$setNewPassword$43(tLRPC$TL_error);
-            }
-        });
+    public /* synthetic */ void lambda$setNewPassword$44(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda34(this, tLRPC$TL_error));
     }
 
     public /* synthetic */ void lambda$setNewPassword$43(TLRPC$TL_error tLRPC$TL_error) {
@@ -2323,9 +2211,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         }
     }
 
-    public /* synthetic */ void lambda$setNewPassword$50(TLObject tLObject, final boolean z, final String str, final TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings) {
+    public /* synthetic */ void lambda$setNewPassword$50(TLObject tLObject, boolean z, String str, TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings) {
         byte[] bArr;
-        final byte[] bArr2;
+        byte[] bArr2;
         byte[] bArr3;
         if (tLObject instanceof TLRPC$TL_account_updatePasswordSettings) {
             TLRPC$TL_account_updatePasswordSettings tLRPC$TL_account_updatePasswordSettings = (TLRPC$TL_account_updatePasswordSettings) tLObject;
@@ -2347,12 +2235,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 bArr2 = null;
             }
         }
-        RequestDelegate requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda49
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-                TwoStepVerificationSetupActivity.this.lambda$setNewPassword$49(z, bArr2, str, tLRPC$TL_account_passwordInputSettings, tLObject2, tLRPC$TL_error);
-            }
-        };
+        TwoStepVerificationSetupActivity$$ExternalSyntheticLambda49 twoStepVerificationSetupActivity$$ExternalSyntheticLambda49 = new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda49(this, z, bArr2, str, tLRPC$TL_account_passwordInputSettings);
         if (!z) {
             if (str != null && (bArr3 = this.currentSecret) != null && bArr3.length == 32) {
                 TLRPC$SecurePasswordKdfAlgo tLRPC$SecurePasswordKdfAlgo = this.currentPassword.new_secure_algo;
@@ -2382,39 +2265,29 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     if (vBytes == null) {
                         TLRPC$TL_error tLRPC$TL_error = new TLRPC$TL_error();
                         tLRPC$TL_error.text = "ALGO_INVALID";
-                        requestDelegate.run(null, tLRPC$TL_error);
+                        twoStepVerificationSetupActivity$$ExternalSyntheticLambda49.run(null, tLRPC$TL_error);
                     }
                 }
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLObject, requestDelegate, 10);
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLObject, twoStepVerificationSetupActivity$$ExternalSyntheticLambda49, 10);
                 return;
             }
             TLRPC$TL_error tLRPC$TL_error2 = new TLRPC$TL_error();
             tLRPC$TL_error2.text = "PASSWORD_HASH_INVALID";
-            requestDelegate.run(null, tLRPC$TL_error2);
+            twoStepVerificationSetupActivity$$ExternalSyntheticLambda49.run(null, tLRPC$TL_error2);
             return;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLObject, requestDelegate, 10);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLObject, twoStepVerificationSetupActivity$$ExternalSyntheticLambda49, 10);
     }
 
-    public /* synthetic */ void lambda$setNewPassword$49(final boolean z, final byte[] bArr, final String str, final TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda39
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$setNewPassword$48(tLRPC$TL_error, z, tLObject, bArr, str, tLRPC$TL_account_passwordInputSettings);
-            }
-        });
+    public /* synthetic */ void lambda$setNewPassword$49(boolean z, byte[] bArr, String str, TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda39(this, tLRPC$TL_error, z, tLObject, bArr, str, tLRPC$TL_account_passwordInputSettings));
     }
 
-    public /* synthetic */ void lambda$setNewPassword$48(TLRPC$TL_error tLRPC$TL_error, final boolean z, TLObject tLObject, final byte[] bArr, String str, TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings) {
+    public /* synthetic */ void lambda$setNewPassword$48(TLRPC$TL_error tLRPC$TL_error, boolean z, TLObject tLObject, byte[] bArr, String str, TLRPC$TL_account_passwordInputSettings tLRPC$TL_account_passwordInputSettings) {
         String str2;
         TLRPC$TL_account_password tLRPC$TL_account_password;
         if (tLRPC$TL_error != null && "SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda48
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                    TwoStepVerificationSetupActivity.this.lambda$setNewPassword$46(z, tLObject2, tLRPC$TL_error2);
-                }
-            }, 8);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda48(this, z), 8);
             return;
         }
         needHideProgress();
@@ -2443,7 +2316,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 presentFragment(twoStepVerificationSetupActivity, true);
                 return;
             } else if ("EMAIL_INVALID".equals(tLRPC$TL_error.text)) {
-                showAlertWithText(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("PasswordEmailInvalid", R.string.PasswordEmailInvalid));
+                showAlertWithText(LocaleController.getString("AppName", 2131624384), LocaleController.getString("PasswordEmailInvalid", 2131627407));
                 return;
             } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
                 int intValue = Utilities.parseInt((CharSequence) tLRPC$TL_error.text).intValue();
@@ -2452,10 +2325,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 } else {
                     str2 = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
                 }
-                showAlertWithText(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, str2));
+                showAlertWithText(LocaleController.getString("AppName", 2131624384), LocaleController.formatString("FloodWaitTime", 2131625950, str2));
                 return;
             } else {
-                showAlertWithText(LocaleController.getString("AppName", R.string.AppName), tLRPC$TL_error.text);
+                showAlertWithText(LocaleController.getString("AppName", 2131624384), tLRPC$TL_error.text);
                 return;
             }
         }
@@ -2471,18 +2344,13 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         } else if (getParentActivity() != null) {
             if (this.currentPassword.has_password) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda5
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i4) {
-                        TwoStepVerificationSetupActivity.this.lambda$setNewPassword$47(bArr, dialogInterface, i4);
-                    }
-                });
+                builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda5(this, bArr));
                 if (str == null && (tLRPC$TL_account_password = this.currentPassword) != null && tLRPC$TL_account_password.has_password) {
-                    builder.setMessage(LocaleController.getString("YourEmailSuccessText", R.string.YourEmailSuccessText));
+                    builder.setMessage(LocaleController.getString("YourEmailSuccessText", 2131629362));
                 } else {
-                    builder.setMessage(LocaleController.getString("YourPasswordChangedSuccessText", R.string.YourPasswordChangedSuccessText));
+                    builder.setMessage(LocaleController.getString("YourPasswordChangedSuccessText", 2131629368));
                 }
-                builder.setTitle(LocaleController.getString("YourPasswordSuccess", R.string.YourPasswordSuccess));
+                builder.setTitle(LocaleController.getString("YourPasswordSuccess", 2131629374));
                 Dialog showDialog = showDialog(builder.create());
                 if (showDialog == null) {
                     return;
@@ -2513,13 +2381,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         }
     }
 
-    public /* synthetic */ void lambda$setNewPassword$46(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda38
-            @Override // java.lang.Runnable
-            public final void run() {
-                TwoStepVerificationSetupActivity.this.lambda$setNewPassword$45(tLRPC$TL_error, tLObject, z);
-            }
-        });
+    public /* synthetic */ void lambda$setNewPassword$46(boolean z, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda38(this, tLRPC$TL_error, tLObject, z));
     }
 
     public /* synthetic */ void lambda$setNewPassword$45(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, boolean z) {
@@ -2625,15 +2488,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     public void showSetForcePasswordAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("Warning", R.string.Warning));
+        builder.setTitle(LocaleController.getString("Warning", 2131629298));
         builder.setMessage(LocaleController.formatPluralString("ForceSetPasswordAlertMessageShort", this.otherwiseReloginDays, new Object[0]));
-        builder.setPositiveButton(LocaleController.getString("TwoStepVerificationSetPassword", R.string.TwoStepVerificationSetPassword), null);
-        builder.setNegativeButton(LocaleController.getString("ForceSetPasswordCancel", R.string.ForceSetPasswordCancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                TwoStepVerificationSetupActivity.this.lambda$showSetForcePasswordAlert$51(dialogInterface, i);
-            }
-        });
+        builder.setPositiveButton(LocaleController.getString("TwoStepVerificationSetPassword", 2131628773), null);
+        builder.setNegativeButton(LocaleController.getString("ForceSetPasswordCancel", 2131625976), new TwoStepVerificationSetupActivity$$ExternalSyntheticLambda0(this));
         ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor("dialogTextRed2"));
     }
 

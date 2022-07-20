@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$StickerSetCovered;
 import org.telegram.tgnet.TLRPC$TL_inputStickerSetID;
@@ -28,7 +27,6 @@ import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickersAlert;
-import org.telegram.ui.FeaturedStickersActivity;
 /* loaded from: classes3.dex */
 public class FeaturedStickersActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private LinearLayoutManager layoutManager;
@@ -64,17 +62,10 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("FeaturedStickers", R.string.FeaturedStickers));
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.FeaturedStickersActivity.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    FeaturedStickersActivity.this.finishFragment();
-                }
-            }
-        });
+        this.actionBar.setTitle(LocaleController.getString("FeaturedStickers", 2131625842));
+        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
@@ -86,32 +77,50 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
         this.listView.setLayoutAnimation(null);
         this.listView.setFocusable(true);
         this.listView.setTag(14);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, context) { // from class: org.telegram.ui.FeaturedStickersActivity.2
-            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public boolean supportsPredictiveItemAnimations() {
-                return false;
-            }
-        };
-        this.layoutManager = linearLayoutManager;
-        linearLayoutManager.setOrientation(1);
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(this, context);
+        this.layoutManager = anonymousClass2;
+        anonymousClass2.setOrientation(1);
         this.listView.setLayoutManager(this.layoutManager);
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.FeaturedStickersActivity$$ExternalSyntheticLambda0
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i) {
-                FeaturedStickersActivity.this.lambda$createView$0(view, i);
-            }
-        });
+        this.listView.setOnItemClickListener(new FeaturedStickersActivity$$ExternalSyntheticLambda0(this));
         return this.fragmentView;
     }
 
-    public /* synthetic */ void lambda$createView$0(final View view, int i) {
+    /* renamed from: org.telegram.ui.FeaturedStickersActivity$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
+        AnonymousClass1() {
+            FeaturedStickersActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+        public void onItemClick(int i) {
+            if (i == -1) {
+                FeaturedStickersActivity.this.finishFragment();
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.FeaturedStickersActivity$2 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass2 extends LinearLayoutManager {
+        @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
+
+        AnonymousClass2(FeaturedStickersActivity featuredStickersActivity, Context context) {
+            super(context);
+        }
+    }
+
+    public /* synthetic */ void lambda$createView$0(View view, int i) {
         TLRPC$InputStickerSet tLRPC$InputStickerSet;
         if (i < this.stickersStartRow || i >= this.stickersEndRow || getParentActivity() == null) {
             return;
         }
-        final TLRPC$StickerSetCovered tLRPC$StickerSetCovered = MediaDataController.getInstance(this.currentAccount).getFeaturedStickerSets().get(i);
+        TLRPC$StickerSetCovered tLRPC$StickerSetCovered = MediaDataController.getInstance(this.currentAccount).getFeaturedStickerSets().get(i);
         if (tLRPC$StickerSetCovered.set.id != 0) {
             tLRPC$InputStickerSet = new TLRPC$TL_inputStickerSetID();
             tLRPC$InputStickerSet.id = tLRPC$StickerSetCovered.set.id;
@@ -122,20 +131,33 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
         TLRPC$InputStickerSet tLRPC$InputStickerSet2 = tLRPC$InputStickerSet;
         tLRPC$InputStickerSet2.access_hash = tLRPC$StickerSetCovered.set.access_hash;
         StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, tLRPC$InputStickerSet2, (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
-        stickersAlert.setInstallDelegate(new StickersAlert.StickersAlertInstallDelegate() { // from class: org.telegram.ui.FeaturedStickersActivity.3
-            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
-            public void onStickerSetUninstalled() {
-            }
-
-            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
-            public void onStickerSetInstalled() {
-                ((FeaturedStickerSetCell) view).setDrawProgress(true, true);
-                LongSparseArray longSparseArray = FeaturedStickersActivity.this.installingStickerSets;
-                TLRPC$StickerSetCovered tLRPC$StickerSetCovered2 = tLRPC$StickerSetCovered;
-                longSparseArray.put(tLRPC$StickerSetCovered2.set.id, tLRPC$StickerSetCovered2);
-            }
-        });
+        stickersAlert.setInstallDelegate(new AnonymousClass3(view, tLRPC$StickerSetCovered));
         showDialog(stickersAlert);
+    }
+
+    /* renamed from: org.telegram.ui.FeaturedStickersActivity$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 implements StickersAlert.StickersAlertInstallDelegate {
+        final /* synthetic */ TLRPC$StickerSetCovered val$stickerSet;
+        final /* synthetic */ View val$view;
+
+        @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
+        public void onStickerSetUninstalled() {
+        }
+
+        AnonymousClass3(View view, TLRPC$StickerSetCovered tLRPC$StickerSetCovered) {
+            FeaturedStickersActivity.this = r1;
+            this.val$view = view;
+            this.val$stickerSet = tLRPC$StickerSetCovered;
+        }
+
+        @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
+        public void onStickerSetInstalled() {
+            ((FeaturedStickerSetCell) this.val$view).setDrawProgress(true, true);
+            LongSparseArray longSparseArray = FeaturedStickersActivity.this.installingStickerSets;
+            TLRPC$StickerSetCovered tLRPC$StickerSetCovered = this.val$stickerSet;
+            longSparseArray.put(tLRPC$StickerSetCovered.set.id, tLRPC$StickerSetCovered);
+        }
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -249,16 +271,11 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
             if (i == 0) {
                 FeaturedStickerSetCell featuredStickerSetCell = new FeaturedStickerSetCell(this.mContext);
                 featuredStickerSetCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                featuredStickerSetCell.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.FeaturedStickersActivity$ListAdapter$$ExternalSyntheticLambda0
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        FeaturedStickersActivity.ListAdapter.this.lambda$onCreateViewHolder$0(view);
-                    }
-                });
+                featuredStickerSetCell.setAddOnClickListener(new FeaturedStickersActivity$ListAdapter$$ExternalSyntheticLambda0(this));
                 textInfoPrivacyCell = featuredStickerSetCell;
             } else {
                 TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(this.mContext);
-                textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
                 textInfoPrivacyCell = textInfoPrivacyCell2;
             }
             textInfoPrivacyCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));

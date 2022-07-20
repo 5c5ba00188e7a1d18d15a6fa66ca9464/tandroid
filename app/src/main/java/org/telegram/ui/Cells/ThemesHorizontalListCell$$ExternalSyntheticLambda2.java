@@ -1,0 +1,17 @@
+package org.telegram.ui.Cells;
+
+import android.view.View;
+import org.telegram.ui.Components.RecyclerListView;
+/* loaded from: classes3.dex */
+public final /* synthetic */ class ThemesHorizontalListCell$$ExternalSyntheticLambda2 implements RecyclerListView.OnItemClickListener {
+    public final /* synthetic */ ThemesHorizontalListCell f$0;
+
+    public /* synthetic */ ThemesHorizontalListCell$$ExternalSyntheticLambda2(ThemesHorizontalListCell themesHorizontalListCell) {
+        this.f$0 = themesHorizontalListCell;
+    }
+
+    @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+    public final void onItemClick(View view, int i) {
+        this.f$0.lambda$new$0(view, i);
+    }
+}

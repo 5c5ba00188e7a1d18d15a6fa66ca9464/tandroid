@@ -6,19 +6,13 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 /* loaded from: classes.dex */
 public final class TimeSignalCommand extends SpliceCommand {
-    public static final Parcelable.Creator<TimeSignalCommand> CREATOR = new Parcelable.Creator<TimeSignalCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.TimeSignalCommand.1
-        @Override // android.os.Parcelable.Creator
-        public TimeSignalCommand createFromParcel(Parcel parcel) {
-            return new TimeSignalCommand(parcel.readLong(), parcel.readLong());
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public TimeSignalCommand[] newArray(int i) {
-            return new TimeSignalCommand[i];
-        }
-    };
+    public static final Parcelable.Creator<TimeSignalCommand> CREATOR = new AnonymousClass1();
     public final long playbackPositionUs;
     public final long ptsTime;
+
+    /* synthetic */ TimeSignalCommand(long j, long j2, AnonymousClass1 anonymousClass1) {
+        this(j, j2);
+    }
 
     private TimeSignalCommand(long j, long j2) {
         this.ptsTime = j;
@@ -42,5 +36,22 @@ public final class TimeSignalCommand extends SpliceCommand {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(this.ptsTime);
         parcel.writeLong(this.playbackPositionUs);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.metadata.scte35.TimeSignalCommand$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<TimeSignalCommand> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public TimeSignalCommand createFromParcel(Parcel parcel) {
+            return new TimeSignalCommand(parcel.readLong(), parcel.readLong(), null);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public TimeSignalCommand[] newArray(int i) {
+            return new TimeSignalCommand[i];
+        }
     }
 }

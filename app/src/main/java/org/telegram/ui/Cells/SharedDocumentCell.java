@@ -30,7 +30,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -49,7 +48,6 @@ import org.telegram.ui.Components.LineProgressView;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.FilteredSearchView;
-import org.webrtc.MediaStreamTrack;
 /* loaded from: classes3.dex */
 public class SharedDocumentCell extends FrameLayout implements DownloadController.FileDownloadProgressListener {
     private int TAG;
@@ -110,7 +108,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         this.extTextView = textView;
         textView.setTextColor(getThemedColor("files_iconText"));
         this.extTextView.setTextSize(1, 14.0f);
-        this.extTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.extTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.extTextView.setLines(1);
         this.extTextView.setMaxLines(1);
         this.extTextView.setSingleLine(true);
@@ -126,20 +124,9 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             boolean z4 = LocaleController.isRTL;
             addView(view2, LayoutHelper.createFrame(32, -2.0f, (z4 ? 5 : 3) | 48, z4 ? 0.0f : 16.0f, 22.0f, z4 ? 16.0f : 0.0f, 0.0f));
         }
-        BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.SharedDocumentCell.1
-            @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-            public void onDraw(Canvas canvas) {
-                float f2 = 1.0f;
-                if (SharedDocumentCell.this.thumbImageView.getImageReceiver().hasBitmapImage()) {
-                    f2 = 1.0f - SharedDocumentCell.this.thumbImageView.getImageReceiver().getCurrentAlpha();
-                }
-                SharedDocumentCell.this.extTextView.setAlpha(f2);
-                SharedDocumentCell.this.placeholderImageView.setAlpha(f2);
-                super.onDraw(canvas);
-            }
-        };
-        this.thumbImageView = backupImageView;
-        backupImageView.setRoundRadius(AndroidUtilities.dp(4.0f));
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
+        this.thumbImageView = anonymousClass1;
+        anonymousClass1.setRoundRadius(AndroidUtilities.dp(4.0f));
         if (i == 1) {
             View view3 = this.thumbImageView;
             boolean z5 = LocaleController.isRTL;
@@ -153,7 +140,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         this.nameTextView = textView2;
         textView2.setTextColor(getThemedColor("windowBackgroundWhiteBlackText"));
         this.nameTextView.setTextSize(1, 16.0f);
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         if (i == 1) {
@@ -199,7 +186,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             boolean z10 = LocaleController.isRTL;
             addView(view7, LayoutHelper.createFrame(-1, -2.0f, (z10 ? 5 : 3) | 48, z10 ? 8.0f : 72.0f, 5.0f, z10 ? 72.0f : 8.0f, 0.0f));
         }
-        this.statusDrawable = new RLottieDrawable(R.raw.download_arrow, "download_arrow", AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f), true, null);
+        this.statusDrawable = new RLottieDrawable(2131558440, "download_arrow", AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f), true, null);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.statusImageView = rLottieImageView;
         rLottieImageView.setAnimation(this.statusDrawable);
@@ -261,6 +248,28 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Cells.SharedDocumentCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends BackupImageView {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context) {
+            super(context);
+            SharedDocumentCell.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.BackupImageView, android.view.View
+        public void onDraw(Canvas canvas) {
+            float f = 1.0f;
+            if (SharedDocumentCell.this.thumbImageView.getImageReceiver().hasBitmapImage()) {
+                f = 1.0f - SharedDocumentCell.this.thumbImageView.getImageReceiver().getCurrentAlpha();
+            }
+            SharedDocumentCell.this.extTextView.setAlpha(f);
+            SharedDocumentCell.this.placeholderImageView.setAlpha(f);
+            super.onDraw(canvas);
+        }
+    }
+
     public void setDrawDownloadIcon(boolean z) {
         this.drawDownloadIcon = z;
     }
@@ -288,16 +297,16 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
                 this.thumbImageView.setImage(str4, "42_42", null);
             } else {
                 CombinedDrawable createCircleDrawableWithIcon = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(42.0f), i);
-                if (i == R.drawable.files_storage) {
+                if (i == 2131165404) {
                     str6 = "chat_attachLocationBackground";
                     str5 = "chat_attachLocationIcon";
-                } else if (i == R.drawable.files_gallery) {
+                } else if (i == 2131165401) {
                     str6 = "chat_attachContactBackground";
                     str5 = "chat_attachContactIcon";
-                } else if (i == R.drawable.files_music) {
+                } else if (i == 2131165403) {
                     str6 = "chat_attachAudioBackground";
                     str5 = "chat_attachAudioIcon";
-                } else if (i == R.drawable.files_internal) {
+                } else if (i == 2131165402) {
                     str6 = "chat_attachGalleryBackground";
                     str5 = "chat_attachGalleryIcon";
                 } else {
@@ -427,7 +436,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             }
             String documentFileName = (messageObject.isVideo() || (messageObject.messageOwner.media instanceof TLRPC$TL_messageMediaPhoto) || MessageObject.isGifDocument(document)) ? null : FileLoader.getDocumentFileName(document);
             if (TextUtils.isEmpty(documentFileName) && (str = document.mime_type) != null) {
-                documentFileName = str.startsWith(MediaStreamTrack.VIDEO_TRACK_KIND) ? MessageObject.isGifDocument(document) ? LocaleController.getString("AttachGif", R.string.AttachGif) : LocaleController.getString("AttachVideo", R.string.AttachVideo) : document.mime_type.startsWith("image") ? MessageObject.isGifDocument(document) ? LocaleController.getString("AttachGif", R.string.AttachGif) : LocaleController.getString("AttachPhoto", R.string.AttachPhoto) : document.mime_type.startsWith(MediaStreamTrack.AUDIO_TRACK_KIND) ? LocaleController.getString("AttachAudio", R.string.AttachAudio) : LocaleController.getString("AttachDocument", R.string.AttachDocument);
+                documentFileName = str.startsWith("video") ? MessageObject.isGifDocument(document) ? LocaleController.getString("AttachGif", 2131624494) : LocaleController.getString("AttachVideo", 2131624519) : document.mime_type.startsWith("image") ? MessageObject.isGifDocument(document) ? LocaleController.getString("AttachGif", 2131624494) : LocaleController.getString("AttachPhoto", 2131624513) : document.mime_type.startsWith("audio") ? LocaleController.getString("AttachAudio", 2131624487) : LocaleController.getString("AttachDocument", 2131624492);
             }
             if (str5 == null) {
                 str5 = documentFileName;
@@ -524,7 +533,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             this.rightDateTextView.setText(LocaleController.stringForMessageListDate(this.message.messageOwner.date));
             return;
         }
-        this.dateTextView.setText(String.format("%s, %s", str, LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(j)), LocaleController.getInstance().formatterDay.format(new Date(j)))));
+        this.dateTextView.setText(String.format("%s, %s", str, LocaleController.formatString("formatDateAtTime", 2131629423, LocaleController.getInstance().formatterYear.format(new Date(j)), LocaleController.getInstance().formatterDay.format(new Date(j)))));
     }
 
     public void updateFileExistIcon(boolean z) {

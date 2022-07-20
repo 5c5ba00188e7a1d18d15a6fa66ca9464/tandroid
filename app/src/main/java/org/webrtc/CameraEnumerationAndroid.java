@@ -93,50 +93,69 @@ public class CameraEnumerationAndroid {
         private ClosestComparator() {
         }
 
+        /* synthetic */ ClosestComparator(AnonymousClass1 anonymousClass1) {
+            this();
+        }
+
         @Override // java.util.Comparator
         public int compare(T t, T t2) {
             return diff(t) - diff(t2);
         }
     }
 
-    public static CaptureFormat.FramerateRange getClosestSupportedFramerateRange(List<CaptureFormat.FramerateRange> list, final int i) {
-        return (CaptureFormat.FramerateRange) Collections.min(list, new ClosestComparator<CaptureFormat.FramerateRange>() { // from class: org.webrtc.CameraEnumerationAndroid.1
-            private static final int MAX_FPS_DIFF_THRESHOLD = 5000;
-            private static final int MAX_FPS_HIGH_DIFF_WEIGHT = 3;
-            private static final int MAX_FPS_LOW_DIFF_WEIGHT = 1;
-            private static final int MIN_FPS_HIGH_VALUE_WEIGHT = 4;
-            private static final int MIN_FPS_LOW_VALUE_WEIGHT = 1;
-            private static final int MIN_FPS_THRESHOLD = 8000;
+    /* renamed from: org.webrtc.CameraEnumerationAndroid$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends ClosestComparator<CaptureFormat.FramerateRange> {
+        private static final int MAX_FPS_DIFF_THRESHOLD = 5000;
+        private static final int MAX_FPS_HIGH_DIFF_WEIGHT = 3;
+        private static final int MAX_FPS_LOW_DIFF_WEIGHT = 1;
+        private static final int MIN_FPS_HIGH_VALUE_WEIGHT = 4;
+        private static final int MIN_FPS_LOW_VALUE_WEIGHT = 1;
+        private static final int MIN_FPS_THRESHOLD = 8000;
+        final /* synthetic */ int val$requestedFps;
 
-            private int progressivePenalty(int i2, int i3, int i4, int i5) {
-                if (i2 < i3) {
-                    return i2 * i4;
-                }
-                return ((i2 - i3) * i5) + (i4 * i3);
+        private int progressivePenalty(int i, int i2, int i3, int i4) {
+            if (i < i2) {
+                return i * i3;
             }
+            return ((i - i2) * i4) + (i3 * i2);
+        }
 
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            {
-                super();
-            }
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(int i) {
+            super(null);
+            this.val$requestedFps = i;
+        }
 
-            public int diff(CaptureFormat.FramerateRange framerateRange) {
-                return progressivePenalty(framerateRange.min, 8000, 1, 4) + progressivePenalty(Math.abs((i * 1000) - framerateRange.max), MAX_FPS_DIFF_THRESHOLD, 1, 3);
-            }
-        });
+        public int diff(CaptureFormat.FramerateRange framerateRange) {
+            return progressivePenalty(framerateRange.min, 8000, 1, 4) + progressivePenalty(Math.abs((this.val$requestedFps * 1000) - framerateRange.max), 5000, 1, 3);
+        }
     }
 
-    public static Size getClosestSupportedSize(List<Size> list, final int i, final int i2) {
-        return (Size) Collections.min(list, new ClosestComparator<Size>() { // from class: org.webrtc.CameraEnumerationAndroid.2
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            {
-                super();
-            }
+    public static CaptureFormat.FramerateRange getClosestSupportedFramerateRange(List<CaptureFormat.FramerateRange> list, int i) {
+        return (CaptureFormat.FramerateRange) Collections.min(list, new AnonymousClass1(i));
+    }
 
-            public int diff(Size size) {
-                return Math.abs(i - size.width) + Math.abs(i2 - size.height);
-            }
-        });
+    /* renamed from: org.webrtc.CameraEnumerationAndroid$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends ClosestComparator<Size> {
+        final /* synthetic */ int val$requestedHeight;
+        final /* synthetic */ int val$requestedWidth;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(int i, int i2) {
+            super(null);
+            this.val$requestedWidth = i;
+            this.val$requestedHeight = i2;
+        }
+
+        public int diff(Size size) {
+            return Math.abs(this.val$requestedWidth - size.width) + Math.abs(this.val$requestedHeight - size.height);
+        }
+    }
+
+    public static Size getClosestSupportedSize(List<Size> list, int i, int i2) {
+        return (Size) Collections.min(list, new AnonymousClass2(i, i2));
     }
 
     public static void reportCameraResolution(Histogram histogram, Size size) {

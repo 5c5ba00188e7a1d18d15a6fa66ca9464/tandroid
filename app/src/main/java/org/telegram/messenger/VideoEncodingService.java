@@ -104,13 +104,13 @@ public class VideoEncodingService extends Service implements NotificationCenter.
             builder.setSmallIcon(17301640);
             this.builder.setWhen(System.currentTimeMillis());
             this.builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
-            this.builder.setContentTitle(LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName));
+            this.builder.setContentTitle(LocaleController.getString("AppName", 2131624384));
             if (booleanExtra) {
-                this.builder.setTicker(LocaleController.getString("SendingGif", org.telegram.messenger.beta.R.string.SendingGif));
-                this.builder.setContentText(LocaleController.getString("SendingGif", org.telegram.messenger.beta.R.string.SendingGif));
+                this.builder.setTicker(LocaleController.getString("SendingGif", 2131628278));
+                this.builder.setContentText(LocaleController.getString("SendingGif", 2131628278));
             } else {
-                this.builder.setTicker(LocaleController.getString("SendingVideo", org.telegram.messenger.beta.R.string.SendingVideo));
-                this.builder.setContentText(LocaleController.getString("SendingVideo", org.telegram.messenger.beta.R.string.SendingVideo));
+                this.builder.setTicker(LocaleController.getString("SendingVideo", 2131628281));
+                this.builder.setContentText(LocaleController.getString("SendingVideo", 2131628281));
             }
         }
         this.currentProgress = 0;

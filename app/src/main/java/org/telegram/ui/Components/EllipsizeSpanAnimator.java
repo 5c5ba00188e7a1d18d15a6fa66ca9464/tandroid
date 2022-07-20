@@ -9,7 +9,6 @@ import android.text.TextPaint;
 import android.text.style.CharacterStyle;
 import android.view.View;
 import java.util.ArrayList;
-import org.telegram.messenger.ImageReceiver;
 /* loaded from: classes3.dex */
 public class EllipsizeSpanAnimator {
     boolean attachedToWindow;
@@ -17,34 +16,52 @@ public class EllipsizeSpanAnimator {
     private final TextAlphaSpan[] ellSpans;
     public ArrayList<View> ellipsizedViews = new ArrayList<>();
 
-    public EllipsizeSpanAnimator(final View view) {
+    public EllipsizeSpanAnimator(View view) {
         TextAlphaSpan[] textAlphaSpanArr = {new TextAlphaSpan(), new TextAlphaSpan(), new TextAlphaSpan()};
         this.ellSpans = textAlphaSpanArr;
         AnimatorSet animatorSet = new AnimatorSet();
         this.ellAnimator = animatorSet;
-        animatorSet.playTogether(createEllipsizeAnimator(textAlphaSpanArr[0], 0, 255, 0, 300), createEllipsizeAnimator(textAlphaSpanArr[1], 0, 255, ImageReceiver.DEFAULT_CROSSFADE_DURATION, 300), createEllipsizeAnimator(textAlphaSpanArr[2], 0, 255, 300, 300), createEllipsizeAnimator(textAlphaSpanArr[0], 255, 0, 1000, 400), createEllipsizeAnimator(textAlphaSpanArr[1], 255, 0, 1000, 400), createEllipsizeAnimator(textAlphaSpanArr[2], 255, 0, 1000, 400));
-        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.EllipsizeSpanAnimator.1
-            private Runnable restarter = new Runnable() { // from class: org.telegram.ui.Components.EllipsizeSpanAnimator.1.1
-                @Override // java.lang.Runnable
-                public void run() {
-                    EllipsizeSpanAnimator ellipsizeSpanAnimator = EllipsizeSpanAnimator.this;
-                    if (!ellipsizeSpanAnimator.attachedToWindow || ellipsizeSpanAnimator.ellipsizedViews.isEmpty() || EllipsizeSpanAnimator.this.ellAnimator.isRunning()) {
-                        return;
-                    }
-                    try {
-                        EllipsizeSpanAnimator.this.ellAnimator.start();
-                    } catch (Exception unused) {
-                    }
-                }
-            };
+        animatorSet.playTogether(createEllipsizeAnimator(textAlphaSpanArr[0], 0, 255, 0, 300), createEllipsizeAnimator(textAlphaSpanArr[1], 0, 255, 150, 300), createEllipsizeAnimator(textAlphaSpanArr[2], 0, 255, 300, 300), createEllipsizeAnimator(textAlphaSpanArr[0], 255, 0, 1000, 400), createEllipsizeAnimator(textAlphaSpanArr[1], 255, 0, 1000, 400), createEllipsizeAnimator(textAlphaSpanArr[2], 255, 0, 1000, 400));
+        animatorSet.addListener(new AnonymousClass1(view));
+    }
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (EllipsizeSpanAnimator.this.attachedToWindow) {
-                    view.postDelayed(this.restarter, 300L);
+    /* renamed from: org.telegram.ui.Components.EllipsizeSpanAnimator$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        private Runnable restarter = new RunnableC00231();
+        final /* synthetic */ View val$parentView;
+
+        /* renamed from: org.telegram.ui.Components.EllipsizeSpanAnimator$1$1 */
+        /* loaded from: classes3.dex */
+        public class RunnableC00231 implements Runnable {
+            RunnableC00231() {
+                AnonymousClass1.this = r1;
+            }
+
+            @Override // java.lang.Runnable
+            public void run() {
+                EllipsizeSpanAnimator ellipsizeSpanAnimator = EllipsizeSpanAnimator.this;
+                if (!ellipsizeSpanAnimator.attachedToWindow || ellipsizeSpanAnimator.ellipsizedViews.isEmpty() || EllipsizeSpanAnimator.this.ellAnimator.isRunning()) {
+                    return;
+                }
+                try {
+                    EllipsizeSpanAnimator.this.ellAnimator.start();
+                } catch (Exception unused) {
                 }
             }
-        });
+        }
+
+        AnonymousClass1(View view) {
+            EllipsizeSpanAnimator.this = r1;
+            this.val$parentView = view;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (EllipsizeSpanAnimator.this.attachedToWindow) {
+                this.val$parentView.postDelayed(this.restarter, 300L);
+            }
+        }
     }
 
     public void wrap(SpannableString spannableString, int i) {
@@ -73,14 +90,9 @@ public class EllipsizeSpanAnimator {
         }
     }
 
-    private Animator createEllipsizeAnimator(final TextAlphaSpan textAlphaSpan, int i, int i2, int i3, int i4) {
+    private Animator createEllipsizeAnimator(TextAlphaSpan textAlphaSpan, int i, int i2, int i3, int i4) {
         ValueAnimator ofInt = ValueAnimator.ofInt(i, i2);
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.EllipsizeSpanAnimator$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                EllipsizeSpanAnimator.this.lambda$createEllipsizeAnimator$0(textAlphaSpan, valueAnimator);
-            }
-        });
+        ofInt.addUpdateListener(new EllipsizeSpanAnimator$$ExternalSyntheticLambda0(this, textAlphaSpan));
         ofInt.setDuration(i4);
         ofInt.setStartDelay(i3);
         ofInt.setInterpolator(CubicBezierInterpolator.DEFAULT);

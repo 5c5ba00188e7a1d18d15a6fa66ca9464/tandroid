@@ -6,17 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ApicFrame extends Id3Frame {
-    public static final Parcelable.Creator<ApicFrame> CREATOR = new Parcelable.Creator<ApicFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.ApicFrame.1
-        @Override // android.os.Parcelable.Creator
-        public ApicFrame createFromParcel(Parcel parcel) {
-            return new ApicFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public ApicFrame[] newArray(int i) {
-            return new ApicFrame[i];
-        }
-    };
+    public static final Parcelable.Creator<ApicFrame> CREATOR = new AnonymousClass1();
     public final String description;
     public final String mimeType;
     public final byte[] pictureData;
@@ -72,5 +62,22 @@ public final class ApicFrame extends Id3Frame {
         parcel.writeString(this.description);
         parcel.writeInt(this.pictureType);
         parcel.writeByteArray(this.pictureData);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.metadata.id3.ApicFrame$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<ApicFrame> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public ApicFrame createFromParcel(Parcel parcel) {
+            return new ApicFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public ApicFrame[] newArray(int i) {
+            return new ApicFrame[i];
+        }
     }
 }

@@ -4,14 +4,7 @@ public abstract class TLRPC$help_CountriesList extends TLObject {
     public static TLRPC$help_CountriesList TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$help_CountriesList tLRPC$help_CountriesList;
         if (i != -2016381538) {
-            tLRPC$help_CountriesList = i != -1815339214 ? null : new TLRPC$help_CountriesList() { // from class: org.telegram.tgnet.TLRPC$TL_help_countriesListNotModified
-                public static int constructor = -1815339214;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
-                }
-            };
+            tLRPC$help_CountriesList = i != -1815339214 ? null : new TLRPC$TL_help_countriesListNotModified();
         } else {
             tLRPC$help_CountriesList = new TLRPC$TL_help_countriesList();
         }

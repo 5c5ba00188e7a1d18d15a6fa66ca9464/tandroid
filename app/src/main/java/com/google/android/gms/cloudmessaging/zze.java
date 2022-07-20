@@ -65,12 +65,4 @@ public final class zze {
         this.zze = i + 1;
         return i;
     }
-
-    public static /* synthetic */ Context zza(zze zzeVar) {
-        return zzeVar.zzb;
-    }
-
-    public static /* synthetic */ ScheduledExecutorService zzb(zze zzeVar) {
-        return zzeVar.zzc;
-    }
 }

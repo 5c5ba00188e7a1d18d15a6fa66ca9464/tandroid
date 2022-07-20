@@ -8,7 +8,7 @@ public class SecurityBase64Utils {
     private static final String SAFE_BASE64_PATH = "com.huawei.secure.android.common.util.SafeBase64";
 
     public static String encodeToString(byte[] bArr, int i) {
-        if (IS_AEGIS_BASE64_LIBRARY_LOADED || checkCompatible(SAFE_BASE64_PATH)) {
+        if (IS_AEGIS_BASE64_LIBRARY_LOADED || checkCompatible("com.huawei.secure.android.common.util.SafeBase64")) {
             return SafeBase64.encodeToString(bArr, i);
         }
         try {
@@ -19,7 +19,7 @@ public class SecurityBase64Utils {
     }
 
     public static byte[] decode(String str, int i) {
-        if (IS_AEGIS_BASE64_LIBRARY_LOADED || checkCompatible(SAFE_BASE64_PATH)) {
+        if (IS_AEGIS_BASE64_LIBRARY_LOADED || checkCompatible("com.huawei.secure.android.common.util.SafeBase64")) {
             return SafeBase64.decode(str, i);
         }
         try {

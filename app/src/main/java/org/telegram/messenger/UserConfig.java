@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.Base64;
-import com.huawei.hms.common.AccountPicker;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -121,13 +120,8 @@ public class UserConfig extends BaseController {
         return i;
     }
 
-    public void saveConfig(final boolean z) {
-        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                UserConfig.this.lambda$saveConfig$0(z);
-            }
-        });
+    public void saveConfig(boolean z) {
+        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new UserConfig$$ExternalSyntheticLambda1(this, z));
     }
 
     public /* synthetic */ void lambda$saveConfig$0(boolean z) {
@@ -135,7 +129,7 @@ public class UserConfig extends BaseController {
             try {
                 SharedPreferences.Editor edit = getPreferences().edit();
                 if (this.currentAccount == 0) {
-                    edit.putInt(AccountPicker.EXTRA_SELECTED_ACCOUNT, selectedAccount);
+                    edit.putInt("selectedAccount", selectedAccount);
                 }
                 edit.putBoolean("registeredForPush", this.registeredForPush);
                 edit.putInt("lastSendMessageId", this.lastSendMessageId);
@@ -264,14 +258,9 @@ public class UserConfig extends BaseController {
         }
     }
 
-    private void checkPremium(TLRPC$User tLRPC$User, final TLRPC$User tLRPC$User2) {
+    private void checkPremium(TLRPC$User tLRPC$User, TLRPC$User tLRPC$User2) {
         if (tLRPC$User == null || !(tLRPC$User2 == null || tLRPC$User.premium == tLRPC$User2.premium)) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    UserConfig.this.lambda$checkPremium$1(tLRPC$User2);
-                }
-            });
+            AndroidUtilities.runOnUIThread(new UserConfig$$ExternalSyntheticLambda0(this, tLRPC$User2));
         }
     }
 
@@ -311,7 +300,7 @@ public class UserConfig extends BaseController {
             }
             SharedPreferences preferences = getPreferences();
             if (this.currentAccount == 0) {
-                selectedAccount = preferences.getInt(AccountPicker.EXTRA_SELECTED_ACCOUNT, 0);
+                selectedAccount = preferences.getInt("selectedAccount", 0);
             }
             this.registeredForPush = preferences.getBoolean("registeredForPush", false);
             this.lastSendMessageId = preferences.getInt("lastSendMessageId", -210000);

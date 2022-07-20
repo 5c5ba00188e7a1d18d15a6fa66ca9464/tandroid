@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.PremiumPreviewFragment;
@@ -25,7 +24,7 @@ public class PremiumFeatureCell extends FrameLayout {
         linearLayout.setOrientation(1);
         TextView textView = new TextView(context);
         this.title = textView;
-        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextSize(1, 15.0f);
         textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2));
@@ -42,7 +41,7 @@ public class PremiumFeatureCell extends FrameLayout {
         addView(this.imageView, LayoutHelper.createFrame(28, 28.0f, 0, 18.0f, 12.0f, 0.0f, 0.0f));
         ImageView imageView2 = new ImageView(context);
         imageView2.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        imageView2.setImageResource(R.drawable.msg_arrowright);
+        imageView2.setImageResource(2131165641);
         imageView2.setColorFilter(Theme.getColor("switchTrack"));
         addView(imageView2, LayoutHelper.createFrame(24, 24.0f, 21, 0.0f, 0.0f, 18.0f, 0.0f));
     }

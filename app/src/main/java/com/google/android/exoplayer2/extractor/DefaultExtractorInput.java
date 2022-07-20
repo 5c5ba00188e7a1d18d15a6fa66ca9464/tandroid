@@ -6,7 +6,6 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Arrays;
-import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public final class DefaultExtractorInput implements ExtractorInput {
     private final DataSource dataSource;
@@ -14,7 +13,7 @@ public final class DefaultExtractorInput implements ExtractorInput {
     private int peekBufferPosition;
     private long position;
     private final long streamLength;
-    private byte[] peekBuffer = new byte[CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT];
+    private byte[] peekBuffer = new byte[65536];
     private final byte[] scratchSpace = new byte[4096];
 
     public DefaultExtractorInput(DataSource dataSource, long j, long j2) {
@@ -159,7 +158,7 @@ public final class DefaultExtractorInput implements ExtractorInput {
         int i2 = this.peekBufferPosition + i;
         byte[] bArr = this.peekBuffer;
         if (i2 > bArr.length) {
-            this.peekBuffer = Arrays.copyOf(this.peekBuffer, Util.constrainValue(bArr.length * 2, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT + i2, i2 + 524288));
+            this.peekBuffer = Arrays.copyOf(this.peekBuffer, Util.constrainValue(bArr.length * 2, 65536 + i2, i2 + 524288));
         }
     }
 
@@ -185,7 +184,7 @@ public final class DefaultExtractorInput implements ExtractorInput {
         this.peekBufferLength = i2;
         this.peekBufferPosition = 0;
         byte[] bArr = this.peekBuffer;
-        byte[] bArr2 = i2 < bArr.length - 524288 ? new byte[CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT + i2] : bArr;
+        byte[] bArr2 = i2 < bArr.length - 524288 ? new byte[65536 + i2] : bArr;
         System.arraycopy(bArr, i, bArr2, 0, i2);
         this.peekBuffer = bArr2;
     }

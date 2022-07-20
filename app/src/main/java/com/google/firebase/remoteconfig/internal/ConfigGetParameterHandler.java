@@ -47,18 +47,13 @@ public class ConfigGetParameterHandler {
         }
     }
 
-    private void callListeners(final String str, final ConfigContainer configContainer) {
+    private void callListeners(String str, ConfigContainer configContainer) {
         if (configContainer == null) {
             return;
         }
         synchronized (this.listeners) {
-            for (final BiConsumer<String, ConfigContainer> biConsumer : this.listeners) {
-                this.executor.execute(new Runnable() { // from class: com.google.firebase.remoteconfig.internal.ConfigGetParameterHandler$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        BiConsumer.this.accept(str, configContainer);
-                    }
-                });
+            for (BiConsumer<String, ConfigContainer> biConsumer : this.listeners) {
+                this.executor.execute(new ConfigGetParameterHandler$$ExternalSyntheticLambda0(biConsumer, str, configContainer));
             }
         }
     }

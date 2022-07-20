@@ -8,18 +8,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.support.log.HMSLog;
 import java.util.Date;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: CommFun.java */
 /* loaded from: classes.dex */
 public class q {
     public static String a(Context context, String str) {
         try {
             PackageManager packageManager = context.getPackageManager();
-            return packageManager.getApplicationLabel(packageManager.getApplicationInfo(str, ConnectionsManager.RequestFlagNeedQuickAck)).toString();
+            return packageManager.getApplicationLabel(packageManager.getApplicationInfo(str, 128)).toString();
         } catch (PackageManager.NameNotFoundException unused) {
             HMSLog.i("PushSelfShowLog", "get the app name of package:" + str + " failed.");
             return null;
@@ -61,10 +59,7 @@ public class q {
     }
 
     public static int b() {
-        if (c()) {
-            return ConnectionsManager.FileTypeFile;
-        }
-        return 134217728;
+        return c() ? 67108864 : 134217728;
     }
 
     public static boolean c() {
@@ -155,7 +150,7 @@ public class q {
             return;
         }
         try {
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(RemoteMessageConst.NOTIFICATION);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService("notification");
             if (notificationManager == null) {
                 return;
             }

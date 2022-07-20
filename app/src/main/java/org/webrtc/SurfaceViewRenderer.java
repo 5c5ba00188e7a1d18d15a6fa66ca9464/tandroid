@@ -195,21 +195,16 @@ public class SurfaceViewRenderer extends SurfaceView implements SurfaceHolder.Ca
     }
 
     @Override // org.webrtc.RendererCommon.RendererEvents
-    public void onFrameResolutionChanged(final int i, int i2, int i3) {
+    public void onFrameResolutionChanged(int i, int i2, int i3) {
         RendererCommon.RendererEvents rendererEvents = this.rendererEvents;
         if (rendererEvents != null) {
             rendererEvents.onFrameResolutionChanged(i, i2, i3);
         }
-        final int i4 = (i3 == 0 || i3 == 180) ? i : i2;
+        int i4 = (i3 == 0 || i3 == 180) ? i : i2;
         if (i3 == 0 || i3 == 180) {
             i = i2;
         }
-        postOrRun(new Runnable() { // from class: org.webrtc.SurfaceViewRenderer$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                SurfaceViewRenderer.this.lambda$onFrameResolutionChanged$0(i4, i);
-            }
-        });
+        postOrRun(new SurfaceViewRenderer$$ExternalSyntheticLambda0(this, i4, i));
     }
 
     public /* synthetic */ void lambda$onFrameResolutionChanged$0(int i, int i2) {
@@ -228,6 +223,6 @@ public class SurfaceViewRenderer extends SurfaceView implements SurfaceHolder.Ca
     }
 
     private void logD(String str) {
-        Logging.d(TAG, this.resourceName + ": " + str);
+        Logging.d("SurfaceViewRenderer", this.resourceName + ": " + str);
     }
 }

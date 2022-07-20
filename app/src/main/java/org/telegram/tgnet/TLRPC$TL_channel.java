@@ -10,7 +10,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.creator = (readInt32 & 1) != 0;
         this.left = (readInt32 & 4) != 0;
         this.broadcast = (readInt32 & 32) != 0;
-        this.verified = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+        this.verified = (readInt32 & 128) != 0;
         this.megagroup = (readInt32 & 256) != 0;
         this.restricted = (readInt32 & 512) != 0;
         this.signatures = (readInt32 & 2048) != 0;
@@ -76,7 +76,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.flags = i2;
         int i3 = this.broadcast ? i2 | 32 : i2 & (-33);
         this.flags = i3;
-        int i4 = this.verified ? i3 | ConnectionsManager.RequestFlagNeedQuickAck : i3 & (-129);
+        int i4 = this.verified ? i3 | 128 : i3 & (-129);
         this.flags = i4;
         int i5 = this.megagroup ? i4 | 256 : i4 & (-257);
         this.flags = i5;
@@ -96,11 +96,11 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.flags = i12;
         int i13 = this.call_active ? i12 | 8388608 : i12 & (-8388609);
         this.flags = i13;
-        int i14 = this.call_not_empty ? i13 | ConnectionsManager.FileTypePhoto : i13 & (-16777217);
+        int i14 = this.call_not_empty ? i13 | 16777216 : i13 & (-16777217);
         this.flags = i14;
-        int i15 = this.fake ? i14 | ConnectionsManager.FileTypeVideo : i14 & (-33554433);
+        int i15 = this.fake ? i14 | 33554432 : i14 & (-33554433);
         this.flags = i15;
-        int i16 = this.gigagroup ? i15 | ConnectionsManager.FileTypeFile : i15 & (-67108865);
+        int i16 = this.gigagroup ? i15 | 67108864 : i15 & (-67108865);
         this.flags = i16;
         int i17 = this.noforwards ? i16 | 134217728 : i16 & (-134217729);
         this.flags = i17;

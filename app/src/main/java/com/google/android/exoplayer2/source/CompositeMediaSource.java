@@ -70,24 +70,18 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
         this.childSources.clear();
     }
 
-    public final void prepareChildSource(final T t, MediaSource mediaSource) {
+    public final void prepareChildSource(T t, MediaSource mediaSource) {
         Assertions.checkArgument(!this.childSources.containsKey(t));
-        MediaSource.MediaSourceCaller mediaSourceCaller = new MediaSource.MediaSourceCaller() { // from class: com.google.android.exoplayer2.source.CompositeMediaSource$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.source.MediaSource.MediaSourceCaller
-            public final void onSourceInfoRefreshed(MediaSource mediaSource2, Timeline timeline) {
-                CompositeMediaSource.this.lambda$prepareChildSource$0(t, mediaSource2, timeline);
-            }
-        };
+        CompositeMediaSource$$ExternalSyntheticLambda0 compositeMediaSource$$ExternalSyntheticLambda0 = new CompositeMediaSource$$ExternalSyntheticLambda0(this, t);
         ForwardingEventListener forwardingEventListener = new ForwardingEventListener(t);
-        this.childSources.put(t, new MediaSourceAndListener(mediaSource, mediaSourceCaller, forwardingEventListener));
+        this.childSources.put(t, new MediaSourceAndListener(mediaSource, compositeMediaSource$$ExternalSyntheticLambda0, forwardingEventListener));
         mediaSource.addEventListener((Handler) Assertions.checkNotNull(this.eventHandler), forwardingEventListener);
-        mediaSource.prepareSource(mediaSourceCaller, this.mediaTransferListener);
+        mediaSource.prepareSource(compositeMediaSource$$ExternalSyntheticLambda0, this.mediaTransferListener);
         if (!isEnabled()) {
-            mediaSource.disable(mediaSourceCaller);
+            mediaSource.disable(compositeMediaSource$$ExternalSyntheticLambda0);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class MediaSourceAndListener {
         public final MediaSource.MediaSourceCaller caller;
@@ -101,7 +95,6 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public final class ForwardingEventListener implements MediaSourceEventListener {
         private MediaSourceEventListener.EventDispatcher eventDispatcher;

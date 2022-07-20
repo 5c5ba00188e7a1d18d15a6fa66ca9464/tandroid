@@ -1,6 +1,5 @@
 package org.telegram.messenger.audioinfo.mp3;
 
-import com.huawei.hms.android.HwBuildEx;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,20 +48,7 @@ public class MP3Info extends AudioInfo {
         long j2 = this.duration;
         if (j2 <= 0 || j2 >= 3600000) {
             try {
-                this.duration = calculateDuration(mP3Input, j, new StopReadCondition(this, j) { // from class: org.telegram.messenger.audioinfo.mp3.MP3Info.1
-                    final long stopPosition;
-                    final /* synthetic */ long val$fileLength;
-
-                    {
-                        this.val$fileLength = j;
-                        this.stopPosition = j - 128;
-                    }
-
-                    @Override // org.telegram.messenger.audioinfo.mp3.MP3Info.StopReadCondition
-                    public boolean stopRead(MP3Input mP3Input2) throws IOException {
-                        return mP3Input2.getPosition() == this.stopPosition && ID3v1Info.isID3v1StartPosition(mP3Input2);
-                    }
-                });
+                this.duration = calculateDuration(mP3Input, j, new AnonymousClass1(this, j));
             } catch (MP3Exception e) {
                 Logger logger = LOGGER;
                 if (logger.isLoggable(level)) {
@@ -102,6 +88,24 @@ public class MP3Info extends AudioInfo {
                 return;
             }
             this.year = iD3v1Info.getYear();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.messenger.audioinfo.mp3.MP3Info$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 implements StopReadCondition {
+        final long stopPosition;
+        final /* synthetic */ long val$fileLength;
+
+        AnonymousClass1(MP3Info mP3Info, long j) {
+            this.val$fileLength = j;
+            this.stopPosition = j - 128;
+        }
+
+        @Override // org.telegram.messenger.audioinfo.mp3.MP3Info.StopReadCondition
+        public boolean stopRead(MP3Input mP3Input) throws IOException {
+            return mP3Input.getPosition() == this.stopPosition && ID3v1Info.isID3v1StartPosition(mP3Input);
         }
     }
 
@@ -216,7 +220,7 @@ public class MP3Info extends AudioInfo {
             int bitrate = readFirstFrame.getHeader().getBitrate();
             long j2 = bitrate;
             boolean z = false;
-            int duration = HwBuildEx.VersionCodes.CUR_DEVELOPMENT / readFirstFrame.getHeader().getDuration();
+            int duration = 10000 / readFirstFrame.getHeader().getDuration();
             int i = 1;
             while (true) {
                 if (i == duration && !z && j > 0) {

@@ -5,17 +5,7 @@ import android.os.Parcelable;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class UrlLinkFrame extends Id3Frame {
-    public static final Parcelable.Creator<UrlLinkFrame> CREATOR = new Parcelable.Creator<UrlLinkFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.UrlLinkFrame.1
-        @Override // android.os.Parcelable.Creator
-        public UrlLinkFrame createFromParcel(Parcel parcel) {
-            return new UrlLinkFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public UrlLinkFrame[] newArray(int i) {
-            return new UrlLinkFrame[i];
-        }
-    };
+    public static final Parcelable.Creator<UrlLinkFrame> CREATOR = new AnonymousClass1();
     public final String description;
     public final String url;
 
@@ -64,5 +54,22 @@ public final class UrlLinkFrame extends Id3Frame {
         parcel.writeString(this.id);
         parcel.writeString(this.description);
         parcel.writeString(this.url);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.metadata.id3.UrlLinkFrame$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<UrlLinkFrame> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public UrlLinkFrame createFromParcel(Parcel parcel) {
+            return new UrlLinkFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public UrlLinkFrame[] newArray(int i) {
+            return new UrlLinkFrame[i];
+        }
     }
 }

@@ -79,7 +79,7 @@ public class MessageCodec {
                     continue;
                 } else {
                     Bundle bundle3 = (Bundle) obj;
-                    int i = bundle3.getInt(VAL_TYPE, -1);
+                    int i = bundle3.getInt("_val_type_", -1);
                     if (i == 1) {
                         throw new InstantiationException("Nested List can not be supported");
                     }
@@ -102,7 +102,7 @@ public class MessageCodec {
             if (bundle2 == null) {
                 bundle2 = new Bundle();
                 bundle.putBundle(str, bundle2);
-                bundle2.putInt(VAL_TYPE, 1);
+                bundle2.putInt("_val_type_", 1);
             }
             bundle2 = a("_value_", bundle2, obj);
         }
@@ -122,7 +122,7 @@ public class MessageCodec {
                 bundle.putSerializable(str, (Serializable) obj);
             } else if (obj instanceof IMessageEntity) {
                 Bundle encode = encode((IMessageEntity) obj, new Bundle());
-                encode.putInt(VAL_TYPE, 0);
+                encode.putInt("_val_type_", 0);
                 bundle.putBundle(str, encode);
             } else {
                 Log.e("MessageCodec", "cannot support type, " + str);
@@ -136,7 +136,7 @@ public class MessageCodec {
         if (obj instanceof Bundle) {
             try {
                 Bundle bundle2 = (Bundle) obj;
-                int i = bundle2.getInt(VAL_TYPE, -1);
+                int i = bundle2.getInt("_val_type_", -1);
                 if (i == 1) {
                     return readList(field.getGenericType(), bundle2);
                 }

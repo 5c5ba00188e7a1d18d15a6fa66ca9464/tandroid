@@ -28,7 +28,7 @@ public abstract class BasePlayer implements Player {
     }
 
     /* loaded from: classes.dex */
-    protected static final class ListenerHolder {
+    public static final class ListenerHolder {
         public final Player.EventListener listener;
         private boolean released;
 

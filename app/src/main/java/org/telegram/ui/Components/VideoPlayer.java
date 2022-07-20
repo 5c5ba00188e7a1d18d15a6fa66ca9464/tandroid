@@ -54,11 +54,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.FourierTransform;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.secretmedia.ExtendedDefaultDataSourceFactory;
-import org.telegram.ui.Components.VideoPlayer;
 @SuppressLint({"NewApi"})
 /* loaded from: classes3.dex */
 public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoListener, AnalyticsListener, NotificationCenter.NotificationCenterDelegate {
@@ -390,7 +388,7 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
 
     private void ensurePlayerCreated() {
         DefaultRenderersFactory defaultRenderersFactory;
-        DefaultLoadControl defaultLoadControl = new DefaultLoadControl(new DefaultAllocator(true, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT), 15000, 50000, 100, 5000, -1, true);
+        DefaultLoadControl defaultLoadControl = new DefaultLoadControl(new DefaultAllocator(true, 65536), 15000, 50000, 100, 5000, -1, true);
         if (this.player == null) {
             if (this.audioVisualizerDelegate != null) {
                 defaultRenderersFactory = new AudioVisualizerRenderersFactory(ApplicationLoader.applicationContext);
@@ -420,68 +418,72 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
         }
         SimpleExoPlayer newSimpleInstance2 = ExoPlayerFactory.newSimpleInstance(ApplicationLoader.applicationContext, this.trackSelector, defaultLoadControl, (DrmSessionManager<FrameworkMediaCrypto>) null, 2);
         this.audioPlayer = newSimpleInstance2;
-        newSimpleInstance2.addListener(new Player.EventListener() { // from class: org.telegram.ui.Components.VideoPlayer.1
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public /* synthetic */ void onIsPlayingChanged(boolean z) {
-                Player.EventListener.CC.$default$onIsPlayingChanged(this, z);
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public void onLoadingChanged(boolean z) {
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public /* synthetic */ void onPlaybackSuppressionReasonChanged(int i) {
-                Player.EventListener.CC.$default$onPlaybackSuppressionReasonChanged(this, i);
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public void onPlayerError(ExoPlaybackException exoPlaybackException) {
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public void onPositionDiscontinuity(int i) {
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public void onRepeatModeChanged(int i) {
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public void onSeekProcessed() {
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public /* synthetic */ void onTimelineChanged(Timeline timeline, int i) {
-                onTimelineChanged(timeline, r3.getWindowCount() == 1 ? timeline.getWindow(0, new Timeline.Window()).manifest : null, i);
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public void onTimelineChanged(Timeline timeline, Object obj, int i) {
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public void onTracksChanged(TrackGroupArray trackGroupArray, TrackSelectionArray trackSelectionArray) {
-            }
-
-            {
-                VideoPlayer.this = this;
-            }
-
-            @Override // com.google.android.exoplayer2.Player.EventListener
-            public void onPlayerStateChanged(boolean z, int i) {
-                if (VideoPlayer.this.audioPlayerReady || i != 3) {
-                    return;
-                }
-                VideoPlayer.this.audioPlayerReady = true;
-                VideoPlayer.this.checkPlayersReady();
-            }
-        });
+        newSimpleInstance2.addListener(new AnonymousClass1());
         this.audioPlayer.setPlayWhenReady(this.autoplay);
+    }
+
+    /* renamed from: org.telegram.ui.Components.VideoPlayer$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements Player.EventListener {
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public /* synthetic */ void onIsPlayingChanged(boolean z) {
+            Player.EventListener.CC.$default$onIsPlayingChanged(this, z);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public void onLoadingChanged(boolean z) {
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public /* synthetic */ void onPlaybackSuppressionReasonChanged(int i) {
+            Player.EventListener.CC.$default$onPlaybackSuppressionReasonChanged(this, i);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public void onPlayerError(ExoPlaybackException exoPlaybackException) {
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public void onPositionDiscontinuity(int i) {
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public void onRepeatModeChanged(int i) {
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public void onSeekProcessed() {
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public /* synthetic */ void onTimelineChanged(Timeline timeline, int i) {
+            onTimelineChanged(timeline, r3.getWindowCount() == 1 ? timeline.getWindow(0, new Timeline.Window()).manifest : null, i);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public void onTimelineChanged(Timeline timeline, Object obj, int i) {
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public void onTracksChanged(TrackGroupArray trackGroupArray, TrackSelectionArray trackSelectionArray) {
+        }
+
+        AnonymousClass1() {
+            VideoPlayer.this = r1;
+        }
+
+        @Override // com.google.android.exoplayer2.Player.EventListener
+        public void onPlayerStateChanged(boolean z, int i) {
+            if (VideoPlayer.this.audioPlayerReady || i != 3) {
+                return;
+            }
+            VideoPlayer.this.audioPlayerReady = true;
+            VideoPlayer.this.checkPlayersReady();
+        }
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
@@ -1071,7 +1073,7 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
                     i4++;
                 }
                 float sqrt2 = (float) Math.sqrt(f / 1024);
-                final float[] fArr = new float[7];
+                float[] fArr = new float[7];
                 fArr[6] = sqrt2;
                 if (sqrt2 < 0.4f) {
                     while (i < 7) {
@@ -1096,20 +1098,10 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
                     return;
                 }
                 this.lastUpdateTime = System.currentTimeMillis();
-                VideoPlayer.this.audioUpdateHandler.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayer$VisualizerBufferSink$$ExternalSyntheticLambda1
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        VideoPlayer.VisualizerBufferSink.this.lambda$handleBuffer$1(fArr);
-                    }
-                }, 130L);
+                VideoPlayer.this.audioUpdateHandler.postDelayed(new VideoPlayer$VisualizerBufferSink$$ExternalSyntheticLambda1(this, fArr), 130L);
                 return;
             }
-            VideoPlayer.this.audioUpdateHandler.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayer$VisualizerBufferSink$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    VideoPlayer.VisualizerBufferSink.this.lambda$handleBuffer$0();
-                }
-            }, 80L);
+            VideoPlayer.this.audioUpdateHandler.postDelayed(new VideoPlayer$VisualizerBufferSink$$ExternalSyntheticLambda0(this), 80L);
         }
 
         public /* synthetic */ void lambda$handleBuffer$0() {

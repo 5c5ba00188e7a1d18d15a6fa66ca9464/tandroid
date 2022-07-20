@@ -12,7 +12,7 @@ public abstract class SearchActionVerificationClientActivity extends Activity {
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = new Intent(this, getServiceClass());
-        intent.putExtra(SearchActionVerificationClientService.EXTRA_INTENT, getIntent());
+        intent.putExtra("SearchActionVerificationClientExtraIntent", getIntent());
         if (Build.VERSION.SDK_INT >= 26) {
             startForegroundService(intent);
         } else {

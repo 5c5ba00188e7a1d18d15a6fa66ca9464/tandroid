@@ -39,7 +39,7 @@ final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
     private native int opusSecureDecode(long j, long j2, ByteBuffer byteBuffer, int i, SimpleOutputBuffer simpleOutputBuffer, int i2, ExoMediaCrypto exoMediaCrypto, int i3, byte[] bArr, byte[] bArr2, int i4, int[] iArr, int[] iArr2);
 
     public int getSampleRate() {
-        return SAMPLE_RATE;
+        return 48000;
     }
 
     public OpusDecoder(int i, int i2, int i3, List<byte[]> list, ExoMediaCrypto exoMediaCrypto) throws OpusDecoderException {
@@ -87,9 +87,9 @@ final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
             this.headerSeekPreRollSamples = nsToSamples(j2);
         } else {
             this.headerSkipSamples = readUnsignedLittleEndian16;
-            this.headerSeekPreRollSamples = DEFAULT_SEEK_PRE_ROLL_SAMPLES;
+            this.headerSeekPreRollSamples = 3840;
         }
-        long opusInit = opusInit(SAMPLE_RATE, i6, i5, i4, readSignedLittleEndian16, bArr2);
+        long opusInit = opusInit(48000, i6, i5, i4, readSignedLittleEndian16, bArr2);
         this.nativeDecoderContext = opusInit;
         if (opusInit == 0) {
             throw new OpusDecoderException("Failed to initialize decoder");
@@ -127,7 +127,7 @@ final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
         ByteBuffer byteBuffer = (ByteBuffer) Util.castNonNull(decoderInputBuffer.data);
         CryptoInfo cryptoInfo = decoderInputBuffer.cryptoInfo;
         if (decoderInputBuffer.isEncrypted()) {
-            i = opusSecureDecode(this.nativeDecoderContext, decoderInputBuffer.timeUs, byteBuffer, byteBuffer.limit(), simpleOutputBuffer, SAMPLE_RATE, this.exoMediaCrypto, cryptoInfo.mode, cryptoInfo.key, cryptoInfo.iv, cryptoInfo.numSubSamples, cryptoInfo.numBytesOfClearData, cryptoInfo.numBytesOfEncryptedData);
+            i = opusSecureDecode(this.nativeDecoderContext, decoderInputBuffer.timeUs, byteBuffer, byteBuffer.limit(), simpleOutputBuffer, 48000, this.exoMediaCrypto, cryptoInfo.mode, cryptoInfo.key, cryptoInfo.iv, cryptoInfo.numSubSamples, cryptoInfo.numBytesOfClearData, cryptoInfo.numBytesOfEncryptedData);
             opusDecoder = this;
         } else {
             opusDecoder = this;

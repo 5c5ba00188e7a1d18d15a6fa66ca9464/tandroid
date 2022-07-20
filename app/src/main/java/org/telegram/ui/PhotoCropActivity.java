@@ -17,10 +17,8 @@ import org.telegram.messenger.Bitmaps;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
-import org.telegram.ui.PhotoCropActivity;
 /* loaded from: classes3.dex */
 public class PhotoCropActivity extends BaseFragment {
     private String bitmapKey;
@@ -81,14 +79,7 @@ public class PhotoCropActivity extends BaseFragment {
             this.halfPaint = paint3;
             paint3.setColor(-939524096);
             setBackgroundColor(-13421773);
-            setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PhotoCropActivity$PhotoCropView$$ExternalSyntheticLambda0
-                @Override // android.view.View.OnTouchListener
-                public final boolean onTouch(View view, MotionEvent motionEvent) {
-                    boolean lambda$init$0;
-                    lambda$init$0 = PhotoCropActivity.PhotoCropView.this.lambda$init$0(view, motionEvent);
-                    return lambda$init$0;
-                }
-            });
+            setOnTouchListener(new PhotoCropActivity$PhotoCropView$$ExternalSyntheticLambda0(this));
         }
 
         /* JADX WARN: Removed duplicated region for block: B:52:0x00bb  */
@@ -605,35 +596,43 @@ public class PhotoCropActivity extends BaseFragment {
         this.actionBar.setItemsBackgroundColor(-12763843, false);
         this.actionBar.setTitleColor(-1);
         this.actionBar.setItemsColor(-1, false);
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("CropImage", R.string.CropImage));
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.PhotoCropActivity.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    PhotoCropActivity.this.finishFragment();
-                } else if (i != 1) {
-                } else {
-                    if (PhotoCropActivity.this.delegate != null && !PhotoCropActivity.this.doneButtonPressed) {
-                        Bitmap bitmap = PhotoCropActivity.this.view.getBitmap();
-                        if (bitmap == PhotoCropActivity.this.imageToCrop) {
-                            PhotoCropActivity.this.sameBitmap = true;
-                        }
-                        PhotoCropActivity.this.delegate.didFinishEdit(bitmap);
-                        PhotoCropActivity.this.doneButtonPressed = true;
-                    }
-                    PhotoCropActivity.this.finishFragment();
-                }
-            }
-        });
-        this.actionBar.createMenu().addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", R.string.Done));
+        this.actionBar.setTitle(LocaleController.getString("CropImage", 2131625305));
+        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.actionBar.createMenu().addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", 2131625541));
         PhotoCropView photoCropView = new PhotoCropView(context);
         this.view = photoCropView;
         this.fragmentView = photoCropView;
         photoCropView.freeform = getArguments().getBoolean("freeform", false);
         this.fragmentView.setLayoutParams(new FrameLayout.LayoutParams(-1, -1));
         return this.fragmentView;
+    }
+
+    /* renamed from: org.telegram.ui.PhotoCropActivity$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
+        AnonymousClass1() {
+            PhotoCropActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+        public void onItemClick(int i) {
+            if (i == -1) {
+                PhotoCropActivity.this.finishFragment();
+            } else if (i != 1) {
+            } else {
+                if (PhotoCropActivity.this.delegate != null && !PhotoCropActivity.this.doneButtonPressed) {
+                    Bitmap bitmap = PhotoCropActivity.this.view.getBitmap();
+                    if (bitmap == PhotoCropActivity.this.imageToCrop) {
+                        PhotoCropActivity.this.sameBitmap = true;
+                    }
+                    PhotoCropActivity.this.delegate.didFinishEdit(bitmap);
+                    PhotoCropActivity.this.doneButtonPressed = true;
+                }
+                PhotoCropActivity.this.finishFragment();
+            }
+        }
     }
 
     public void setDelegate(PhotoEditActivityDelegate photoEditActivityDelegate) {

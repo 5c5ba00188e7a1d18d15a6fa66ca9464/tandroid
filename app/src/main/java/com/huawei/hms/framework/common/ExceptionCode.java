@@ -46,14 +46,14 @@ public class ExceptionCode {
 
     public static int getErrorCodeFromException(Exception exc) {
         if (exc == null) {
-            return NETWORK_IO_EXCEPTION;
+            return 10000802;
         }
         if (!(exc instanceof IOException)) {
-            return CRASH_EXCEPTION;
+            return 10000000;
         }
         String message = exc.getMessage();
         if (message == null) {
-            return NETWORK_IO_EXCEPTION;
+            return 10000802;
         }
         String lowerCase = StringUtils.toLowerCase(message);
         int errorCodeFromMsg = getErrorCodeFromMsg(lowerCase);
@@ -63,32 +63,56 @@ public class ExceptionCode {
         if (exc instanceof SocketTimeoutException) {
             return getErrorCodeSocketTimeout(exc);
         }
-        return exc instanceof ConnectException ? CONNECT_FAILED : exc instanceof NoRouteToHostException ? ROUTE_FAILED : exc instanceof SSLProtocolException ? SSL_PROTOCOL_EXCEPTION : exc instanceof SSLHandshakeException ? SSL_HANDSHAKE_EXCEPTION : exc instanceof SSLPeerUnverifiedException ? SSL_PEERUNVERIFIED_EXCEPTION : exc instanceof UnknownHostException ? UNABLE_TO_RESOLVE_HOST : exc instanceof InterruptedIOException ? lowerCase.contains("connection has been shut down") ? INTERRUPT_CONNECT_CLOSE : INTERRUPT_EXCEPTION : exc instanceof ProtocolException ? PROTOCOL_ERROR : errorCodeFromMsg;
+        if (exc instanceof ConnectException) {
+            return 10000403;
+        }
+        if (exc instanceof NoRouteToHostException) {
+            return 10000301;
+        }
+        if (exc instanceof SSLProtocolException) {
+            return 10000500;
+        }
+        if (exc instanceof SSLHandshakeException) {
+            return 10000501;
+        }
+        if (exc instanceof SSLPeerUnverifiedException) {
+            return 10000502;
+        }
+        if (exc instanceof UnknownHostException) {
+            return 10000300;
+        }
+        if (exc instanceof InterruptedIOException) {
+            return lowerCase.contains("connection has been shut down") ? 10000405 : 10000804;
+        } else if (!(exc instanceof ProtocolException)) {
+            return errorCodeFromMsg;
+        } else {
+            return 10000801;
+        }
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x0039, code lost:
-        if (r8.equals(com.huawei.hms.framework.common.ExceptionCode.READ) == false) goto L4;
+        if (r8.equals("read") == false) goto L4;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static int getErrorCodeSocketTimeout(Exception exc) {
         char c = 0;
-        String checkExceptionContainsKey = checkExceptionContainsKey(exc, CONNECT, READ, WRITE);
+        String checkExceptionContainsKey = checkExceptionContainsKey(exc, "connect", "read", "write");
         checkExceptionContainsKey.hashCode();
         switch (checkExceptionContainsKey.hashCode()) {
             case 3496342:
                 break;
             case 113399775:
-                if (checkExceptionContainsKey.equals(WRITE)) {
+                if (checkExceptionContainsKey.equals("write")) {
                     c = 1;
                     break;
                 }
                 c = 65535;
                 break;
             case 951351530:
-                if (checkExceptionContainsKey.equals(CONNECT)) {
+                if (checkExceptionContainsKey.equals("connect")) {
                     c = 2;
                     break;
                 }
@@ -100,18 +124,48 @@ public class ExceptionCode {
         }
         switch (c) {
             case 0:
-                return SOCKET_READ_TIMEOUT;
+                return 10000600;
             case 1:
-                return SOCKET_WRITE_TIMEOUT;
+                return 10000700;
             case 2:
-                return SOCKET_CONNECT_TIMEOUT;
+                return 10000400;
             default:
-                return SOCKET_TIMEOUT;
+                return 10000803;
         }
     }
 
     private static int getErrorCodeFromMsg(String str) {
-        return str.contains("unexpected end of stream") ? UNEXPECTED_EOF : str.contains("unable to resolve host") ? UNABLE_TO_RESOLVE_HOST : str.contains("read error") ? READ_ERROR : str.contains("connection reset") ? CONNECTION_RESET : str.contains("software caused connection abort") ? CONNECTION_ABORT : str.contains("failed to connect to") ? CONNECT_FAILED : str.contains("connection refused") ? CONNECTION_REFUSED : str.contains("connection timed out") ? SOCKET_CONNECT_TIMEOUT : str.contains("no route to host") ? ROUTE_FAILED : str.contains("network is unreachable") ? NETWORK_UNREACHABLE : str.contains("socket closed") ? SOCKET_CLOSE : NETWORK_IO_EXCEPTION;
+        if (str.contains("unexpected end of stream")) {
+            return 10000800;
+        }
+        if (str.contains("unable to resolve host")) {
+            return 10000300;
+        }
+        if (str.contains("read error")) {
+            return 10000601;
+        }
+        if (str.contains("connection reset")) {
+            return 10000401;
+        }
+        if (str.contains("software caused connection abort")) {
+            return 10000402;
+        }
+        if (str.contains("failed to connect to")) {
+            return 10000403;
+        }
+        if (str.contains("connection refused")) {
+            return 10000404;
+        }
+        if (str.contains("connection timed out")) {
+            return 10000400;
+        }
+        if (str.contains("no route to host")) {
+            return 10000301;
+        }
+        if (str.contains("network is unreachable")) {
+            return 10000200;
+        }
+        return str.contains("socket closed") ? 10000406 : 10000802;
     }
 
     private static String checkExceptionContainsKey(Exception exc, String... strArr) {

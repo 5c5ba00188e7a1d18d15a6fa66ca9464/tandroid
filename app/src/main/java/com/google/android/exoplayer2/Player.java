@@ -1,5 +1,6 @@
 package com.google.android.exoplayer2;
 
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 /* loaded from: classes.dex */
@@ -82,6 +83,10 @@ public interface Player {
             }
 
             public static void $default$onTracksChanged(EventListener eventListener, TrackGroupArray trackGroupArray, TrackSelectionArray trackSelectionArray) {
+            }
+
+            public static void $default$onTimelineChanged(EventListener _this, Timeline timeline, int i) {
+                _this.onTimelineChanged(timeline, timeline.getWindowCount() == 1 ? timeline.getWindow(0, new Timeline.Window()).manifest : null, i);
             }
         }
     }

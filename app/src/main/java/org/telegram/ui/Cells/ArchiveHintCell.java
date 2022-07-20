@@ -19,45 +19,63 @@ public class ArchiveHintCell extends FrameLayout {
 
     public ArchiveHintCell(Context context) {
         super(context);
-        ViewPager viewPager = new ViewPager(this, context) { // from class: org.telegram.ui.Cells.ArchiveHintCell.1
-            @Override // androidx.viewpager.widget.ViewPager, android.view.ViewGroup
-            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                if (getParent() != null) {
-                    getParent().requestDisallowInterceptTouchEvent(true);
-                }
-                return super.onInterceptTouchEvent(motionEvent);
-            }
-
-            @Override // androidx.viewpager.widget.ViewPager, android.view.ViewGroup, android.view.View
-            public void onAttachedToWindow() {
-                super.onAttachedToWindow();
-                requestLayout();
-            }
-        };
-        this.viewPager = viewPager;
-        AndroidUtilities.setViewPagerEdgeEffectColor(viewPager, Theme.getColor("actionBarDefaultArchived"));
-        this.viewPager.setAdapter(new Adapter());
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
+        this.viewPager = anonymousClass1;
+        AndroidUtilities.setViewPagerEdgeEffectColor(anonymousClass1, Theme.getColor("actionBarDefaultArchived"));
+        this.viewPager.setAdapter(new Adapter(this, null));
         this.viewPager.setPageMargin(0);
         this.viewPager.setOffscreenPageLimit(1);
         addView(this.viewPager, LayoutHelper.createFrame(-1, -1.0f));
-        this.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.Cells.ArchiveHintCell.2
-            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageScrollStateChanged(int i) {
-            }
-
-            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageSelected(int i) {
-            }
-
-            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageScrolled(int i, float f, int i2) {
-                ArchiveHintCell.this.bottomPages.setPageOffset(i, f);
-            }
-        });
+        this.viewPager.addOnPageChangeListener(new AnonymousClass2());
         BottomPagesView bottomPagesView = new BottomPagesView(context, this.viewPager, 3);
         this.bottomPages = bottomPagesView;
         bottomPagesView.setColor("chats_unreadCounterMuted", "chats_actionBackground");
         addView(this.bottomPages, LayoutHelper.createFrame(33, 5.0f, 81, 0.0f, 0.0f, 0.0f, 19.0f));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Cells.ArchiveHintCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends ViewPager {
+        AnonymousClass1(ArchiveHintCell archiveHintCell, Context context) {
+            super(context);
+        }
+
+        @Override // androidx.viewpager.widget.ViewPager, android.view.ViewGroup
+        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+            if (getParent() != null) {
+                getParent().requestDisallowInterceptTouchEvent(true);
+            }
+            return super.onInterceptTouchEvent(motionEvent);
+        }
+
+        @Override // androidx.viewpager.widget.ViewPager, android.view.ViewGroup, android.view.View
+        public void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            requestLayout();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Cells.ArchiveHintCell$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 implements ViewPager.OnPageChangeListener {
+        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+        public void onPageScrollStateChanged(int i) {
+        }
+
+        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+        public void onPageSelected(int i) {
+        }
+
+        AnonymousClass2() {
+            ArchiveHintCell.this = r1;
+        }
+
+        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+        public void onPageScrolled(int i, float f, int i2) {
+            ArchiveHintCell.this.bottomPages.setPageOffset(i, f);
+        }
     }
 
     @Override // android.view.View
@@ -94,6 +112,10 @@ public class ArchiveHintCell extends FrameLayout {
 
         private Adapter() {
             ArchiveHintCell.this = r1;
+        }
+
+        /* synthetic */ Adapter(ArchiveHintCell archiveHintCell, AnonymousClass1 anonymousClass1) {
+            this();
         }
 
         @Override // androidx.viewpager.widget.PagerAdapter

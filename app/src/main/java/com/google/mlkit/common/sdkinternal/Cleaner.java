@@ -1,6 +1,5 @@
 package com.google.mlkit.common.sdkinternal;
 
-import com.google.mlkit.common.sdkinternal.Cleaner;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
 import java.util.Collections;
@@ -48,28 +47,7 @@ public class Cleaner {
         ThreadFactory threadFactory = com.google.mlkit.common.sdkinternal.zza.zza;
         Cleaner cleaner = new Cleaner();
         cleaner.register(cleaner, zzc.zza);
-        threadFactory.newThread(new Runnable(cleaner.zza, cleaner.zzb) { // from class: com.google.mlkit.common.sdkinternal.zzb
-            private final ReferenceQueue zza;
-            private final Set zzb;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = referenceQueue;
-                this.zzb = set;
-            }
-
-            @Override // java.lang.Runnable
-            public final void run() {
-                ReferenceQueue referenceQueue2 = this.zza;
-                Set set2 = this.zzb;
-                while (!set2.isEmpty()) {
-                    try {
-                        ((Cleaner.zza) referenceQueue2.remove()).clean();
-                    } catch (InterruptedException unused) {
-                    }
-                }
-            }
-        }).start();
+        threadFactory.newThread(new zzb(cleaner.zza, cleaner.zzb)).start();
         return cleaner;
     }
 

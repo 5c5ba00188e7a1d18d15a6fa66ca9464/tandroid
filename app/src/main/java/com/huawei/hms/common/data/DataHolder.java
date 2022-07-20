@@ -160,7 +160,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
             return (CursorWindow[]) arrayList.toArray(new CursorWindow[arrayList.size()]);
         } catch (Throwable th) {
             try {
-                HMSLog.e(TAG, "fail to getCursorWindows: " + th.getMessage());
+                HMSLog.e("DataHolder", "fail to getCursorWindows: " + th.getMessage());
                 return new CursorWindow[0];
             } finally {
                 hMSCursorWrapper.close();
@@ -186,12 +186,12 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
             }
             try {
                 if (!cursorWindow.allocRow()) {
-                    HMSLog.d(TAG, "Failed to allocate a row");
+                    HMSLog.d("DataHolder", "Failed to allocate a row");
                     cursorWindow = new CursorWindow((String) null);
                     cursorWindow.setStartPosition(i2);
                     cursorWindow.setNumColumns(builder.builderColumns.length);
                     if (!cursorWindow.allocRow()) {
-                        HMSLog.e(TAG, "Failed to retry to allocate a row");
+                        HMSLog.e("DataHolder", "Failed to retry to allocate a row");
                         return arrayList;
                     }
                     arrayList.add(cursorWindow);
@@ -201,7 +201,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
                 for (int i3 = 0; i3 < builder.builderColumns.length && (z = putValue(cursorWindow, hashMap.get(builder.builderColumns[i3]), i2, i3)); i3++) {
                 }
                 if (!z) {
-                    HMSLog.d(TAG, "fail to put data for row " + i2);
+                    HMSLog.d("DataHolder", "fail to put data for row " + i2);
                     cursorWindow.freeLastRow();
                     CursorWindow cursorWindow2 = new CursorWindow((String) null);
                     cursorWindow2.setStartPosition(i2);
@@ -336,43 +336,43 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
         char c = 65535;
         switch (str2.hashCode()) {
             case -1092271849:
-                if (str2.equals(TYPE_FLOAT)) {
+                if (str2.equals("type_float")) {
                     c = 0;
                     break;
                 }
                 break;
             case -870070237:
-                if (str2.equals(TYPE_BOOLEAN)) {
+                if (str2.equals("type_boolean")) {
                     c = 1;
                     break;
                 }
                 break;
             case -675993238:
-                if (str2.equals(TYPE_INT)) {
+                if (str2.equals("type_int")) {
                     c = 2;
                     break;
                 }
                 break;
             case 445002870:
-                if (str2.equals(TYPE_DOUBLE)) {
+                if (str2.equals("type_double")) {
                     c = 3;
                     break;
                 }
                 break;
             case 519136353:
-                if (str2.equals(TYPE_LONG)) {
+                if (str2.equals("type_long")) {
                     c = 4;
                     break;
                 }
                 break;
             case 878975158:
-                if (str2.equals(TYPE_STRING)) {
+                if (str2.equals("type_string")) {
                     c = 5;
                     break;
                 }
                 break;
             case 1300508295:
-                if (str2.equals(TYPE_BYTE_ARRAY)) {
+                if (str2.equals("type_byte_array")) {
                     c = 6;
                     break;
                 }

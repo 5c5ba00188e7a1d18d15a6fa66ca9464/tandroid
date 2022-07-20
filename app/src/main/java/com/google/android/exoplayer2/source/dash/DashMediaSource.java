@@ -151,18 +151,8 @@ public final class DashMediaSource extends BaseMediaSource {
         }
         this.manifestCallback = new ManifestCallback();
         this.manifestLoadErrorThrower = new ManifestLoadErrorThrower();
-        this.refreshManifestRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.dash.DashMediaSource$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                DashMediaSource.this.startLoadingManifest();
-            }
-        };
-        this.simulateManifestRefreshRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.dash.DashMediaSource$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                DashMediaSource.this.lambda$new$0();
-            }
-        };
+        this.refreshManifestRunnable = new DashMediaSource$$ExternalSyntheticLambda0(this);
+        this.simulateManifestRefreshRunnable = new DashMediaSource$$ExternalSyntheticLambda1(this);
     }
 
     public /* synthetic */ void lambda$new$0() {
@@ -675,7 +665,6 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public final class DefaultPlayerEmsgCallback implements PlayerEmsgHandler.PlayerEmsgCallback {
         private DefaultPlayerEmsgCallback() {
@@ -774,7 +763,6 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public final class ManifestLoadErrorThrower implements LoaderErrorThrower {
         ManifestLoadErrorThrower() {

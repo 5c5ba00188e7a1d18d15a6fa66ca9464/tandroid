@@ -24,9 +24,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Peer;
@@ -59,7 +57,7 @@ public class MessageSeenView extends FrameLayout {
     ArrayList<Long> peerIds = new ArrayList<>();
     public ArrayList<TLRPC$User> users = new ArrayList<>();
 
-    public MessageSeenView(Context context, final int i, MessageObject messageObject, final TLRPC$Chat tLRPC$Chat) {
+    public MessageSeenView(Context context, int i, MessageObject messageObject, TLRPC$Chat tLRPC$Chat) {
         super(context);
         this.currentAccount = i;
         this.isVoice = messageObject.isRoundVideo() || messageObject.isVoice();
@@ -69,14 +67,9 @@ public class MessageSeenView extends FrameLayout {
         this.flickerLoadingView.setViewType(13);
         this.flickerLoadingView.setIsSingleCell(false);
         addView(this.flickerLoadingView, LayoutHelper.createFrame(-2, -1.0f));
-        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.MessageSeenView.1
-            @Override // android.widget.TextView
-            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                super.setText(charSequence, bufferType);
-            }
-        };
-        this.titleView = textView;
-        textView.setTextSize(1, 16.0f);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
+        this.titleView = anonymousClass1;
+        anonymousClass1.setTextSize(1, 16.0f);
         this.titleView.setLines(1);
         this.titleView.setEllipsize(TextUtils.TruncateAt.END);
         addView(this.titleView, LayoutHelper.createFrame(-2, -2.0f, 19, 40.0f, 0.0f, 62.0f, 0.0f));
@@ -91,39 +84,41 @@ public class MessageSeenView extends FrameLayout {
         ImageView imageView = new ImageView(context);
         this.iconView = imageView;
         addView(imageView, LayoutHelper.createFrame(24, 24.0f, 19, 11.0f, 0.0f, 0.0f, 0.0f));
-        Drawable mutate = ContextCompat.getDrawable(context, this.isVoice ? R.drawable.msg_played : R.drawable.msg_seen).mutate();
+        Drawable mutate = ContextCompat.getDrawable(context, this.isVoice ? 2131165865 : 2131165929).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("actionBarDefaultSubmenuItemIcon"), PorterDuff.Mode.MULTIPLY));
         this.iconView.setImageDrawable(mutate);
         this.avatarsImageView.setAlpha(0.0f);
         this.titleView.setAlpha(0.0f);
         long j = 0;
         TLRPC$Peer tLRPC$Peer = messageObject.messageOwner.from_id;
-        final long j2 = tLRPC$Peer != null ? tLRPC$Peer.user_id : j;
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new RequestDelegate() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda5
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessageSeenView.this.lambda$new$5(j2, i, tLRPC$Chat, tLObject, tLRPC$TL_error);
-            }
-        });
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new MessageSeenView$$ExternalSyntheticLambda5(this, tLRPC$Peer != null ? tLRPC$Peer.user_id : j, i, tLRPC$Chat));
         setBackground(Theme.createRadSelectorDrawable(Theme.getColor("dialogButtonSelector"), 6, 0));
         setEnabled(false);
     }
 
-    public /* synthetic */ void lambda$new$5(final long j, final int i, final TLRPC$Chat tLRPC$Chat, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                MessageSeenView.this.lambda$new$4(tLRPC$TL_error, tLObject, j, i, tLRPC$Chat);
-            }
-        });
+    /* renamed from: org.telegram.ui.MessageSeenView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends TextView {
+        AnonymousClass1(MessageSeenView messageSeenView, Context context) {
+            super(context);
+        }
+
+        @Override // android.widget.TextView
+        public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+            super.setText(charSequence, bufferType);
+        }
     }
 
-    public /* synthetic */ void lambda$new$4(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, long j, final int i, TLRPC$Chat tLRPC$Chat) {
+    public /* synthetic */ void lambda$new$5(long j, int i, TLRPC$Chat tLRPC$Chat, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new MessageSeenView$$ExternalSyntheticLambda2(this, tLRPC$TL_error, tLObject, j, i, tLRPC$Chat));
+    }
+
+    public /* synthetic */ void lambda$new$4(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, long j, int i, TLRPC$Chat tLRPC$Chat) {
         if (tLRPC$TL_error == null) {
             TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
             ArrayList arrayList = new ArrayList();
-            final HashMap hashMap = new HashMap();
-            final ArrayList arrayList2 = new ArrayList();
+            HashMap hashMap = new HashMap();
+            ArrayList arrayList2 = new ArrayList();
             int size = tLRPC$Vector.objects.size();
             for (int i2 = 0; i2 < size; i2++) {
                 Object obj = tLRPC$Vector.objects.get(i2);
@@ -149,35 +144,20 @@ public class MessageSeenView extends FrameLayout {
                 tLRPC$TL_channels_getParticipants.offset = 0;
                 tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsRecent();
                 tLRPC$TL_channels_getParticipants.channel = MessagesController.getInstance(i).getInputChannel(tLRPC$Chat.id);
-                ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda4
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                        MessageSeenView.this.lambda$new$1(i, hashMap, arrayList2, tLObject2, tLRPC$TL_error2);
-                    }
-                });
+                ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_channels_getParticipants, new MessageSeenView$$ExternalSyntheticLambda4(this, i, hashMap, arrayList2));
                 return;
             } else {
                 TLRPC$TL_messages_getFullChat tLRPC$TL_messages_getFullChat = new TLRPC$TL_messages_getFullChat();
                 tLRPC$TL_messages_getFullChat.chat_id = tLRPC$Chat.id;
-                ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getFullChat, new RequestDelegate() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda3
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                        MessageSeenView.this.lambda$new$3(i, hashMap, arrayList2, tLObject2, tLRPC$TL_error2);
-                    }
-                });
+                ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getFullChat, new MessageSeenView$$ExternalSyntheticLambda3(this, i, hashMap, arrayList2));
                 return;
             }
         }
         updateView();
     }
 
-    public /* synthetic */ void lambda$new$1(final int i, final HashMap hashMap, final ArrayList arrayList, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                MessageSeenView.this.lambda$new$0(tLObject, i, hashMap, arrayList);
-            }
-        });
+    public /* synthetic */ void lambda$new$1(int i, HashMap hashMap, ArrayList arrayList, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new MessageSeenView$$ExternalSyntheticLambda1(this, tLObject, i, hashMap, arrayList));
     }
 
     public /* synthetic */ void lambda$new$0(TLObject tLObject, int i, HashMap hashMap, ArrayList arrayList) {
@@ -196,13 +176,8 @@ public class MessageSeenView extends FrameLayout {
         updateView();
     }
 
-    public /* synthetic */ void lambda$new$3(final int i, final HashMap hashMap, final ArrayList arrayList, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                MessageSeenView.this.lambda$new$2(tLObject, i, hashMap, arrayList);
-            }
-        });
+    public /* synthetic */ void lambda$new$3(int i, HashMap hashMap, ArrayList arrayList, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new MessageSeenView$$ExternalSyntheticLambda0(this, tLObject, i, hashMap, arrayList));
     }
 
     public /* synthetic */ void lambda$new$2(TLObject tLObject, int i, HashMap hashMap, ArrayList arrayList) {
@@ -274,7 +249,7 @@ public class MessageSeenView extends FrameLayout {
         if (this.peerIds.size() == 1 && this.users.get(0) != null) {
             this.titleView.setText(ContactsController.formatName(this.users.get(0).first_name, this.users.get(0).last_name));
         } else if (this.peerIds.size() == 0) {
-            this.titleView.setText(LocaleController.getString("NobodyViewed", R.string.NobodyViewed));
+            this.titleView.setText(LocaleController.getString("NobodyViewed", 2131626936));
         } else {
             this.titleView.setText(LocaleController.formatPluralString(this.isVoice ? "MessagePlayed" : "MessageSeen", this.peerIds.size(), new Object[0]));
         }
@@ -283,55 +258,79 @@ public class MessageSeenView extends FrameLayout {
         this.flickerLoadingView.animate().alpha(0.0f).setDuration(220L).setListener(new HideViewAfterAnimation(this.flickerLoadingView)).start();
     }
 
+    /* renamed from: org.telegram.ui.MessageSeenView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends RecyclerListView {
+        AnonymousClass2(MessageSeenView messageSeenView, Context context) {
+            super(context);
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
+        public void onMeasure(int i, int i2) {
+            int size = View.MeasureSpec.getSize(i2);
+            int dp = AndroidUtilities.dp(8.0f) + (AndroidUtilities.dp(44.0f) * getAdapter().getItemCount());
+            if (dp <= size) {
+                size = dp;
+            }
+            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+        }
+    }
+
     public RecyclerListView createListView() {
-        RecyclerListView recyclerListView = new RecyclerListView(this, getContext()) { // from class: org.telegram.ui.MessageSeenView.2
-            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i, int i2) {
-                int size = View.MeasureSpec.getSize(i2);
-                int dp = AndroidUtilities.dp(8.0f) + (AndroidUtilities.dp(44.0f) * getAdapter().getItemCount());
-                if (dp <= size) {
-                    size = dp;
-                }
-                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
-            }
-        };
-        recyclerListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.MessageSeenView.3
-            @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
-            public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
-                int childAdapterPosition = recyclerView.getChildAdapterPosition(view);
-                if (childAdapterPosition == 0) {
-                    rect.top = AndroidUtilities.dp(4.0f);
-                }
-                if (childAdapterPosition == MessageSeenView.this.users.size() - 1) {
-                    rect.bottom = AndroidUtilities.dp(4.0f);
-                }
-            }
-        });
-        recyclerListView.setAdapter(new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.MessageSeenView.4
-            @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
-            public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-                return true;
-            }
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(this, getContext());
+        anonymousClass2.setLayoutManager(new LinearLayoutManager(getContext()));
+        anonymousClass2.addItemDecoration(new AnonymousClass3());
+        anonymousClass2.setAdapter(new AnonymousClass4());
+        return anonymousClass2;
+    }
 
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                UserCell userCell = new UserCell(viewGroup.getContext());
-                userCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                return new RecyclerListView.Holder(userCell);
-            }
+    /* renamed from: org.telegram.ui.MessageSeenView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends RecyclerView.ItemDecoration {
+        AnonymousClass3() {
+            MessageSeenView.this = r1;
+        }
 
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-                ((UserCell) viewHolder.itemView).setUser(MessageSeenView.this.users.get(i));
+        @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
+        public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
+            int childAdapterPosition = recyclerView.getChildAdapterPosition(view);
+            if (childAdapterPosition == 0) {
+                rect.top = AndroidUtilities.dp(4.0f);
             }
+            if (childAdapterPosition == MessageSeenView.this.users.size() - 1) {
+                rect.bottom = AndroidUtilities.dp(4.0f);
+            }
+        }
+    }
 
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemCount() {
-                return MessageSeenView.this.users.size();
-            }
-        });
-        return recyclerListView;
+    /* renamed from: org.telegram.ui.MessageSeenView$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 extends RecyclerListView.SelectionAdapter {
+        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
+        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
+            return true;
+        }
+
+        AnonymousClass4() {
+            MessageSeenView.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            UserCell userCell = new UserCell(viewGroup.getContext());
+            userCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(userCell);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            ((UserCell) viewHolder.itemView).setUser(MessageSeenView.this.users.get(i));
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemCount() {
+            return MessageSeenView.this.users.size();
+        }
     }
 
     /* loaded from: classes3.dex */
@@ -372,7 +371,7 @@ public class MessageSeenView extends FrameLayout {
         @Override // android.view.View
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-            accessibilityNodeInfo.setText(LocaleController.formatString("AccDescrPersonHasSeen", R.string.AccDescrPersonHasSeen, this.nameView.getText()));
+            accessibilityNodeInfo.setText(LocaleController.formatString("AccDescrPersonHasSeen", 2131624036, this.nameView.getText()));
         }
     }
 }

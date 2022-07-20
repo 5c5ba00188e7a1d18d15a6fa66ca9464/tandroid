@@ -101,39 +101,24 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
             }
             this.mPendingRemovals.clear();
             if (z2) {
-                final ArrayList<MoveInfo> arrayList = new ArrayList<>(this.mPendingMoves);
+                ArrayList<MoveInfo> arrayList = new ArrayList<>(this.mPendingMoves);
                 this.mMovesList.add(arrayList);
                 this.mPendingMoves.clear();
-                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        DialogsItemAnimator.this.lambda$runPendingAnimations$0(arrayList);
-                    }
-                }.run();
+                new DialogsItemAnimator$$ExternalSyntheticLambda2(this, arrayList).run();
             }
             if (z3) {
-                final ArrayList<ChangeInfo> arrayList2 = new ArrayList<>(this.mPendingChanges);
+                ArrayList<ChangeInfo> arrayList2 = new ArrayList<>(this.mPendingChanges);
                 this.mChangesList.add(arrayList2);
                 this.mPendingChanges.clear();
-                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        DialogsItemAnimator.this.lambda$runPendingAnimations$1(arrayList2);
-                    }
-                }.run();
+                new DialogsItemAnimator$$ExternalSyntheticLambda0(this, arrayList2).run();
             }
             if (!z4) {
                 return;
             }
-            final ArrayList<RecyclerView.ViewHolder> arrayList3 = new ArrayList<>(this.mPendingAdditions);
+            ArrayList<RecyclerView.ViewHolder> arrayList3 = new ArrayList<>(this.mPendingAdditions);
             this.mAdditionsList.add(arrayList3);
             this.mPendingAdditions.clear();
-            new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    DialogsItemAnimator.this.lambda$runPendingAnimations$2(arrayList3);
-                }
-            }.run();
+            new DialogsItemAnimator$$ExternalSyntheticLambda1(this, arrayList3).run();
         }
     }
 
@@ -189,11 +174,11 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
         this.removingDialog = null;
     }
 
-    private void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder) {
-        final View view = viewHolder.itemView;
+    private void animateRemoveImpl(RecyclerView.ViewHolder viewHolder) {
+        View view = viewHolder.itemView;
         this.mRemoveAnimations.add(viewHolder);
         if (view instanceof DialogCell) {
-            final DialogCell dialogCell = (DialogCell) view;
+            DialogCell dialogCell = (DialogCell) view;
             DialogCell dialogCell2 = this.removingDialog;
             if (view == dialogCell2) {
                 if (this.topClip != Integer.MAX_VALUE) {
@@ -214,66 +199,107 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
                 }
                 ObjectAnimator duration = ObjectAnimator.ofFloat(dialogCell, AnimationProperties.CLIP_DIALOG_CELL_PROGRESS, 1.0f).setDuration(180L);
                 duration.setInterpolator(sDefaultInterpolator);
-                duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationStart(Animator animator) {
-                        DialogsItemAnimator.this.dispatchRemoveStarting(viewHolder);
-                    }
-
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        animator.removeAllListeners();
-                        dialogCell.setClipProgress(0.0f);
-                        if (Build.VERSION.SDK_INT >= 21) {
-                            dialogCell.setElevation(0.0f);
-                        }
-                        DialogsItemAnimator.this.dispatchRemoveFinished(viewHolder);
-                        DialogsItemAnimator.this.mRemoveAnimations.remove(viewHolder);
-                        DialogsItemAnimator.this.dispatchFinishedWhenDone();
-                    }
-                });
+                duration.addListener(new AnonymousClass1(viewHolder, dialogCell));
                 duration.start();
                 return;
             }
             ObjectAnimator duration2 = ObjectAnimator.ofFloat(dialogCell, View.ALPHA, 1.0f).setDuration(180L);
             duration2.setInterpolator(sDefaultInterpolator);
-            duration2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.2
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationStart(Animator animator) {
-                    DialogsItemAnimator.this.dispatchRemoveStarting(viewHolder);
-                }
-
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    animator.removeAllListeners();
-                    dialogCell.setClipProgress(0.0f);
-                    if (Build.VERSION.SDK_INT >= 21) {
-                        dialogCell.setElevation(0.0f);
-                    }
-                    DialogsItemAnimator.this.dispatchRemoveFinished(viewHolder);
-                    DialogsItemAnimator.this.mRemoveAnimations.remove(viewHolder);
-                    DialogsItemAnimator.this.dispatchFinishedWhenDone();
-                }
-            });
+            duration2.addListener(new AnonymousClass2(viewHolder, dialogCell));
             duration2.start();
             return;
         }
-        final ViewPropertyAnimator animate = view.animate();
-        animate.setDuration(180L).alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationStart(Animator animator) {
-                DialogsItemAnimator.this.dispatchRemoveStarting(viewHolder);
-            }
+        ViewPropertyAnimator animate = view.animate();
+        animate.setDuration(180L).alpha(0.0f).setListener(new AnonymousClass3(viewHolder, animate, view)).start();
+    }
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                animate.setListener(null);
-                view.setAlpha(1.0f);
-                DialogsItemAnimator.this.dispatchRemoveFinished(viewHolder);
-                DialogsItemAnimator.this.mRemoveAnimations.remove(viewHolder);
-                DialogsItemAnimator.this.dispatchFinishedWhenDone();
+    /* renamed from: org.telegram.ui.Components.DialogsItemAnimator$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        final /* synthetic */ DialogCell val$dialogCell;
+        final /* synthetic */ RecyclerView.ViewHolder val$holder;
+
+        AnonymousClass1(RecyclerView.ViewHolder viewHolder, DialogCell dialogCell) {
+            DialogsItemAnimator.this = r1;
+            this.val$holder = viewHolder;
+            this.val$dialogCell = dialogCell;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            DialogsItemAnimator.this.dispatchRemoveStarting(this.val$holder);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            animator.removeAllListeners();
+            this.val$dialogCell.setClipProgress(0.0f);
+            if (Build.VERSION.SDK_INT >= 21) {
+                this.val$dialogCell.setElevation(0.0f);
             }
-        }).start();
+            DialogsItemAnimator.this.dispatchRemoveFinished(this.val$holder);
+            DialogsItemAnimator.this.mRemoveAnimations.remove(this.val$holder);
+            DialogsItemAnimator.this.dispatchFinishedWhenDone();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.DialogsItemAnimator$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        final /* synthetic */ DialogCell val$dialogCell;
+        final /* synthetic */ RecyclerView.ViewHolder val$holder;
+
+        AnonymousClass2(RecyclerView.ViewHolder viewHolder, DialogCell dialogCell) {
+            DialogsItemAnimator.this = r1;
+            this.val$holder = viewHolder;
+            this.val$dialogCell = dialogCell;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            DialogsItemAnimator.this.dispatchRemoveStarting(this.val$holder);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            animator.removeAllListeners();
+            this.val$dialogCell.setClipProgress(0.0f);
+            if (Build.VERSION.SDK_INT >= 21) {
+                this.val$dialogCell.setElevation(0.0f);
+            }
+            DialogsItemAnimator.this.dispatchRemoveFinished(this.val$holder);
+            DialogsItemAnimator.this.mRemoveAnimations.remove(this.val$holder);
+            DialogsItemAnimator.this.dispatchFinishedWhenDone();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.DialogsItemAnimator$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        final /* synthetic */ ViewPropertyAnimator val$animation;
+        final /* synthetic */ RecyclerView.ViewHolder val$holder;
+        final /* synthetic */ View val$view;
+
+        AnonymousClass3(RecyclerView.ViewHolder viewHolder, ViewPropertyAnimator viewPropertyAnimator, View view) {
+            DialogsItemAnimator.this = r1;
+            this.val$holder = viewHolder;
+            this.val$animation = viewPropertyAnimator;
+            this.val$view = view;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            DialogsItemAnimator.this.dispatchRemoveStarting(this.val$holder);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$animation.setListener(null);
+            this.val$view.setAlpha(1.0f);
+            DialogsItemAnimator.this.dispatchRemoveFinished(this.val$holder);
+            DialogsItemAnimator.this.mRemoveAnimations.remove(this.val$holder);
+            DialogsItemAnimator.this.dispatchFinishedWhenDone();
+        }
     }
 
     @Override // androidx.recyclerview.widget.SimpleItemAnimator
@@ -295,33 +321,48 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
         return true;
     }
 
-    void animateAddImpl(final RecyclerView.ViewHolder viewHolder) {
-        final View view = viewHolder.itemView;
+    void animateAddImpl(RecyclerView.ViewHolder viewHolder) {
+        View view = viewHolder.itemView;
         this.mAddAnimations.add(viewHolder);
-        final ViewPropertyAnimator animate = view.animate();
-        animate.alpha(1.0f).setDuration(180L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.4
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationStart(Animator animator) {
-                DialogsItemAnimator.this.dispatchAddStarting(viewHolder);
-            }
+        ViewPropertyAnimator animate = view.animate();
+        animate.alpha(1.0f).setDuration(180L).setListener(new AnonymousClass4(viewHolder, view, animate)).start();
+    }
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationCancel(Animator animator) {
-                view.setAlpha(1.0f);
-            }
+    /* renamed from: org.telegram.ui.Components.DialogsItemAnimator$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 extends AnimatorListenerAdapter {
+        final /* synthetic */ ViewPropertyAnimator val$animation;
+        final /* synthetic */ RecyclerView.ViewHolder val$holder;
+        final /* synthetic */ View val$view;
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                animate.setListener(null);
-                DialogsItemAnimator.this.dispatchAddFinished(viewHolder);
-                DialogsItemAnimator.this.mAddAnimations.remove(viewHolder);
-                DialogsItemAnimator.this.dispatchFinishedWhenDone();
-                View view2 = viewHolder.itemView;
-                if (view2 instanceof DialogCell) {
-                    ((DialogCell) view2).setMoving(false);
-                }
+        AnonymousClass4(RecyclerView.ViewHolder viewHolder, View view, ViewPropertyAnimator viewPropertyAnimator) {
+            DialogsItemAnimator.this = r1;
+            this.val$holder = viewHolder;
+            this.val$view = view;
+            this.val$animation = viewPropertyAnimator;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            DialogsItemAnimator.this.dispatchAddStarting(this.val$holder);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            this.val$view.setAlpha(1.0f);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$animation.setListener(null);
+            DialogsItemAnimator.this.dispatchAddFinished(this.val$holder);
+            DialogsItemAnimator.this.mAddAnimations.remove(this.val$holder);
+            DialogsItemAnimator.this.dispatchFinishedWhenDone();
+            View view = this.val$holder.itemView;
+            if (view instanceof DialogCell) {
+                ((DialogCell) view).setMoving(false);
             }
-        }).start();
+        }
     }
 
     @Override // androidx.recyclerview.widget.SimpleItemAnimator
@@ -369,10 +410,10 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
         }
     }
 
-    void animateMoveImpl(final RecyclerView.ViewHolder viewHolder, RecyclerView.ItemAnimator.ItemHolderInfo itemHolderInfo, int i, int i2, int i3, int i4) {
-        final View view = viewHolder.itemView;
-        final int i5 = i3 - i;
-        final int i6 = i4 - i2;
+    void animateMoveImpl(RecyclerView.ViewHolder viewHolder, RecyclerView.ItemAnimator.ItemHolderInfo itemHolderInfo, int i, int i2, int i3, int i4) {
+        View view = viewHolder.itemView;
+        int i5 = i3 - i;
+        int i6 = i4 - i2;
         if (i5 != 0) {
             view.animate().translationX(0.0f);
         }
@@ -399,47 +440,66 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
                 this.removingDialog.setBottomClip(this.bottomClip);
             }
         }
-        final ViewPropertyAnimator animate = view.animate();
+        ViewPropertyAnimator animate = view.animate();
         this.mMoveAnimations.add(viewHolder);
-        animate.setDuration(180L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.5
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationStart(Animator animator) {
-                DialogsItemAnimator.this.dispatchMoveStarting(viewHolder);
-            }
+        animate.setDuration(180L).setListener(new AnonymousClass5(viewHolder, i5, view, i6, animate)).start();
+    }
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationCancel(Animator animator) {
-                if (i5 != 0) {
-                    view.setTranslationX(0.0f);
-                }
-                if (i6 != 0) {
-                    view.setTranslationY(0.0f);
-                }
-                View view2 = viewHolder.itemView;
-                if (view2 instanceof DialogCell) {
-                    ((DialogCell) view2).setMoving(false);
-                } else if (!(view2 instanceof DialogsAdapter.LastEmptyView)) {
-                } else {
-                    ((DialogsAdapter.LastEmptyView) view2).moving = false;
-                }
-            }
+    /* renamed from: org.telegram.ui.Components.DialogsItemAnimator$5 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass5 extends AnimatorListenerAdapter {
+        final /* synthetic */ ViewPropertyAnimator val$animation;
+        final /* synthetic */ int val$deltaX;
+        final /* synthetic */ int val$deltaY;
+        final /* synthetic */ RecyclerView.ViewHolder val$holder;
+        final /* synthetic */ View val$view;
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                animate.setListener(null);
-                DialogsItemAnimator.this.dispatchMoveFinished(viewHolder);
-                DialogsItemAnimator.this.mMoveAnimations.remove(viewHolder);
-                DialogsItemAnimator.this.dispatchFinishedWhenDone();
-                View view2 = viewHolder.itemView;
-                if (view2 instanceof DialogCell) {
-                    ((DialogCell) view2).setMoving(false);
-                } else if (view2 instanceof DialogsAdapter.LastEmptyView) {
-                    ((DialogsAdapter.LastEmptyView) view2).moving = false;
-                }
-                view.setTranslationX(0.0f);
-                view.setTranslationY(0.0f);
+        AnonymousClass5(RecyclerView.ViewHolder viewHolder, int i, View view, int i2, ViewPropertyAnimator viewPropertyAnimator) {
+            DialogsItemAnimator.this = r1;
+            this.val$holder = viewHolder;
+            this.val$deltaX = i;
+            this.val$view = view;
+            this.val$deltaY = i2;
+            this.val$animation = viewPropertyAnimator;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            DialogsItemAnimator.this.dispatchMoveStarting(this.val$holder);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            if (this.val$deltaX != 0) {
+                this.val$view.setTranslationX(0.0f);
             }
-        }).start();
+            if (this.val$deltaY != 0) {
+                this.val$view.setTranslationY(0.0f);
+            }
+            View view = this.val$holder.itemView;
+            if (view instanceof DialogCell) {
+                ((DialogCell) view).setMoving(false);
+            } else if (!(view instanceof DialogsAdapter.LastEmptyView)) {
+            } else {
+                ((DialogsAdapter.LastEmptyView) view).moving = false;
+            }
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$animation.setListener(null);
+            DialogsItemAnimator.this.dispatchMoveFinished(this.val$holder);
+            DialogsItemAnimator.this.mMoveAnimations.remove(this.val$holder);
+            DialogsItemAnimator.this.dispatchFinishedWhenDone();
+            View view = this.val$holder.itemView;
+            if (view instanceof DialogCell) {
+                ((DialogCell) view).setMoving(false);
+            } else if (view instanceof DialogsAdapter.LastEmptyView) {
+                ((DialogsAdapter.LastEmptyView) view).moving = false;
+            }
+            this.val$view.setTranslationX(0.0f);
+            this.val$view.setTranslationY(0.0f);
+        }
     }
 
     @Override // androidx.recyclerview.widget.SimpleItemAnimator
@@ -456,37 +516,52 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
         return false;
     }
 
-    void animateChangeImpl(final ChangeInfo changeInfo) {
-        final RecyclerView.ViewHolder viewHolder = changeInfo.oldHolder;
+    void animateChangeImpl(ChangeInfo changeInfo) {
+        RecyclerView.ViewHolder viewHolder = changeInfo.oldHolder;
         RecyclerView.ViewHolder viewHolder2 = changeInfo.newHolder;
         if (viewHolder == null || viewHolder2 == null) {
             return;
         }
-        final AnimatorSet animatorSet = new AnimatorSet();
+        AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.setDuration(180L);
         animatorSet.playTogether(ObjectAnimator.ofFloat(viewHolder.itemView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(viewHolder2.itemView, View.ALPHA, 1.0f));
         this.mChangeAnimations.add(changeInfo.oldHolder);
         this.mChangeAnimations.add(changeInfo.newHolder);
-        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.6
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationStart(Animator animator) {
-                DialogsItemAnimator.this.dispatchChangeStarting(changeInfo.oldHolder, true);
-                DialogsItemAnimator.this.dispatchChangeStarting(changeInfo.newHolder, false);
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                viewHolder.itemView.setAlpha(1.0f);
-                animatorSet.removeAllListeners();
-                DialogsItemAnimator.this.dispatchChangeFinished(changeInfo.oldHolder, true);
-                DialogsItemAnimator.this.mChangeAnimations.remove(changeInfo.oldHolder);
-                DialogsItemAnimator.this.dispatchFinishedWhenDone();
-                DialogsItemAnimator.this.dispatchChangeFinished(changeInfo.newHolder, false);
-                DialogsItemAnimator.this.mChangeAnimations.remove(changeInfo.newHolder);
-                DialogsItemAnimator.this.dispatchFinishedWhenDone();
-            }
-        });
+        animatorSet.addListener(new AnonymousClass6(changeInfo, viewHolder, animatorSet));
         animatorSet.start();
+    }
+
+    /* renamed from: org.telegram.ui.Components.DialogsItemAnimator$6 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass6 extends AnimatorListenerAdapter {
+        final /* synthetic */ AnimatorSet val$animatorSet;
+        final /* synthetic */ ChangeInfo val$changeInfo;
+        final /* synthetic */ RecyclerView.ViewHolder val$holder;
+
+        AnonymousClass6(ChangeInfo changeInfo, RecyclerView.ViewHolder viewHolder, AnimatorSet animatorSet) {
+            DialogsItemAnimator.this = r1;
+            this.val$changeInfo = changeInfo;
+            this.val$holder = viewHolder;
+            this.val$animatorSet = animatorSet;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            DialogsItemAnimator.this.dispatchChangeStarting(this.val$changeInfo.oldHolder, true);
+            DialogsItemAnimator.this.dispatchChangeStarting(this.val$changeInfo.newHolder, false);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$holder.itemView.setAlpha(1.0f);
+            this.val$animatorSet.removeAllListeners();
+            DialogsItemAnimator.this.dispatchChangeFinished(this.val$changeInfo.oldHolder, true);
+            DialogsItemAnimator.this.mChangeAnimations.remove(this.val$changeInfo.oldHolder);
+            DialogsItemAnimator.this.dispatchFinishedWhenDone();
+            DialogsItemAnimator.this.dispatchChangeFinished(this.val$changeInfo.newHolder, false);
+            DialogsItemAnimator.this.mChangeAnimations.remove(this.val$changeInfo.newHolder);
+            DialogsItemAnimator.this.dispatchFinishedWhenDone();
+        }
     }
 
     private void endChangeAnimation(List<ChangeInfo> list, RecyclerView.ViewHolder viewHolder) {

@@ -23,78 +23,10 @@ public abstract class TLRPC$ReplyMarkup extends TLObject {
                 tLRPC$ReplyMarkup = new TLRPC$TL_replyKeyboardHide();
                 break;
             case -200242528:
-                tLRPC$ReplyMarkup = new TLRPC$TL_replyKeyboardForceReply() { // from class: org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply_layer129
-                    public static int constructor = -200242528;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2);
-                        this.flags = readInt32;
-                        boolean z3 = true;
-                        this.single_use = (readInt32 & 2) != 0;
-                        if ((readInt32 & 4) == 0) {
-                            z3 = false;
-                        }
-                        this.selective = z3;
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        int i2 = this.single_use ? this.flags | 2 : this.flags & (-3);
-                        this.flags = i2;
-                        int i3 = this.selective ? i2 | 4 : i2 & (-5);
-                        this.flags = i3;
-                        abstractSerializedData2.writeInt32(i3);
-                    }
-                };
+                tLRPC$ReplyMarkup = new TLRPC$TL_replyKeyboardForceReply_layer129();
                 break;
             case 889353612:
-                tLRPC$ReplyMarkup = new TLRPC$TL_replyKeyboardMarkup() { // from class: org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup_layer129
-                    public static int constructor = 889353612;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2);
-                        this.flags = readInt32;
-                        this.resize = (readInt32 & 1) != 0;
-                        this.single_use = (readInt32 & 2) != 0;
-                        this.selective = (readInt32 & 4) != 0;
-                        int readInt322 = abstractSerializedData2.readInt32(z2);
-                        if (readInt322 != 481674261) {
-                            if (z2) {
-                                throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
-                            }
-                            return;
-                        }
-                        int readInt323 = abstractSerializedData2.readInt32(z2);
-                        for (int i2 = 0; i2 < readInt323; i2++) {
-                            TLRPC$TL_keyboardButtonRow TLdeserialize = TLRPC$TL_keyboardButtonRow.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                            if (TLdeserialize == null) {
-                                return;
-                            }
-                            this.rows.add(TLdeserialize);
-                        }
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        int i2 = this.resize ? this.flags | 1 : this.flags & (-2);
-                        this.flags = i2;
-                        int i3 = this.single_use ? i2 | 2 : i2 & (-3);
-                        this.flags = i3;
-                        int i4 = this.selective ? i3 | 4 : i3 & (-5);
-                        this.flags = i4;
-                        abstractSerializedData2.writeInt32(i4);
-                        abstractSerializedData2.writeInt32(481674261);
-                        int size = this.rows.size();
-                        abstractSerializedData2.writeInt32(size);
-                        for (int i5 = 0; i5 < size; i5++) {
-                            this.rows.get(i5).serializeToStream(abstractSerializedData2);
-                        }
-                    }
-                };
+                tLRPC$ReplyMarkup = new TLRPC$TL_replyKeyboardMarkup_layer129();
                 break;
             case 1218642516:
                 tLRPC$ReplyMarkup = new TLRPC$TL_replyInlineMarkup();

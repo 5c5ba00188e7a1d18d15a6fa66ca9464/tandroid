@@ -73,7 +73,6 @@ public enum zzha implements zzje {
     }
 
     static {
-        new Object() { // from class: com.google.android.gms.internal.vision.zzhd
-        };
+        new zzhd();
     }
 }

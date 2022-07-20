@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ArticleViewer;
-import org.telegram.ui.Components.LinkSpanDrawable;
 /* loaded from: classes3.dex */
 public class LinkSpanDrawable<S extends CharacterStyle> {
     private static final ArrayList<LinkPath> pathCache = new ArrayList<>();
@@ -227,7 +226,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             removeLink(linkSpanDrawable, true);
         }
 
-        public void removeLink(final LinkSpanDrawable linkSpanDrawable, boolean z) {
+        public void removeLink(LinkSpanDrawable linkSpanDrawable, boolean z) {
             if (linkSpanDrawable == null) {
                 return;
             }
@@ -252,12 +251,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 }
                 linkSpanDrawable.release();
                 invalidate(pair.second);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        LinkSpanDrawable.LinkCollector.this.lambda$removeLink$0(linkSpanDrawable);
-                    }
-                }, Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 75 + 100));
+                AndroidUtilities.runOnUIThread(new LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda0(this, linkSpanDrawable), Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 75 + 100));
                 return;
             }
             this.mLinks.remove(pair);
@@ -276,18 +270,13 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             }
             if (z) {
                 Pair<LinkSpanDrawable, Object> pair = this.mLinks.get(i);
-                final LinkSpanDrawable linkSpanDrawable = (LinkSpanDrawable) pair.first;
+                LinkSpanDrawable linkSpanDrawable = (LinkSpanDrawable) pair.first;
                 if (linkSpanDrawable.mReleaseStart >= 0) {
                     return;
                 }
                 linkSpanDrawable.release();
                 invalidate(pair.second);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda1
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        LinkSpanDrawable.LinkCollector.this.lambda$removeLink$1(linkSpanDrawable);
-                    }
-                }, Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 75 + 100));
+                AndroidUtilities.runOnUIThread(new LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda1(this, linkSpanDrawable), Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 75 + 100));
                 return;
             }
             Pair<LinkSpanDrawable, Object> remove = this.mLinks.remove(i);
@@ -437,7 +426,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 float lineLeft = getLayout().getLineLeft(lineForVertical);
                 if (lineLeft <= x && lineLeft + layout.getLineWidth(lineForVertical) >= x && y >= 0 && y <= layout.getHeight()) {
                     SpannableString spannableString = new SpannableString(layout.getText());
-                    final ClickableSpan[] clickableSpanArr = (ClickableSpan[]) spannableString.getSpans(offsetForHorizontal, offsetForHorizontal, ClickableSpan.class);
+                    ClickableSpan[] clickableSpanArr = (ClickableSpan[]) spannableString.getSpans(offsetForHorizontal, offsetForHorizontal, ClickableSpan.class);
                     if (clickableSpanArr.length != 0 && !AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
                         clickableSpan = clickableSpanArr[0];
                         if (motionEvent.getAction() == 0) {
@@ -449,12 +438,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                             LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
                             obtainNewPath.setCurrentLayout(layout, spanStart, getPaddingTop());
                             layout.getSelectionPath(spanStart, spanEnd, obtainNewPath);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinksTextView$$ExternalSyntheticLambda0
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    LinkSpanDrawable.LinksTextView.this.lambda$onTouchEvent$0(clickableSpanArr);
-                                }
-                            }, ViewConfiguration.getLongPressTimeout());
+                            AndroidUtilities.runOnUIThread(new LinkSpanDrawable$LinksTextView$$ExternalSyntheticLambda0(this, clickableSpanArr), ViewConfiguration.getLongPressTimeout());
                             return true;
                         }
                         if (motionEvent.getAction() != 1) {

@@ -65,7 +65,7 @@ public final class InputConnectionCompat {
         }
     }
 
-    public static InputConnection createWrapper(InputConnection inputConnection, EditorInfo editorInfo, final OnCommitContentListener onCommitContentListener) {
+    public static InputConnection createWrapper(InputConnection inputConnection, EditorInfo editorInfo, OnCommitContentListener onCommitContentListener) {
         if (inputConnection != null) {
             if (editorInfo == null) {
                 throw new IllegalArgumentException("editorInfo must be non-null");
@@ -74,26 +74,50 @@ public final class InputConnectionCompat {
                 throw new IllegalArgumentException("onCommitContentListener must be non-null");
             }
             if (Build.VERSION.SDK_INT >= 25) {
-                return new InputConnectionWrapper(inputConnection, false) { // from class: androidx.core.view.inputmethod.InputConnectionCompat.1
-                    @Override // android.view.inputmethod.InputConnectionWrapper, android.view.inputmethod.InputConnection
-                    public boolean commitContent(InputContentInfo inputContentInfo, int flags, Bundle opts) {
-                        if (onCommitContentListener.onCommitContent(InputContentInfoCompat.wrap(inputContentInfo), flags, opts)) {
-                            return true;
-                        }
-                        return super.commitContent(inputContentInfo, flags, opts);
-                    }
-                };
+                return new AnonymousClass1(inputConnection, false, onCommitContentListener);
             }
-            return EditorInfoCompat.getContentMimeTypes(editorInfo).length == 0 ? inputConnection : new InputConnectionWrapper(inputConnection, false) { // from class: androidx.core.view.inputmethod.InputConnectionCompat.2
-                @Override // android.view.inputmethod.InputConnectionWrapper, android.view.inputmethod.InputConnection
-                public boolean performPrivateCommand(String action, Bundle data) {
-                    if (InputConnectionCompat.handlePerformPrivateCommand(action, data, onCommitContentListener)) {
-                        return true;
-                    }
-                    return super.performPrivateCommand(action, data);
-                }
-            };
+            return EditorInfoCompat.getContentMimeTypes(editorInfo).length == 0 ? inputConnection : new AnonymousClass2(inputConnection, false, onCommitContentListener);
         }
         throw new IllegalArgumentException("inputConnection must be non-null");
+    }
+
+    /* renamed from: androidx.core.view.inputmethod.InputConnectionCompat$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 extends InputConnectionWrapper {
+        final /* synthetic */ OnCommitContentListener val$listener;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(InputConnection target, boolean mutable, final OnCommitContentListener val$listener) {
+            super(target, mutable);
+            this.val$listener = val$listener;
+        }
+
+        @Override // android.view.inputmethod.InputConnectionWrapper, android.view.inputmethod.InputConnection
+        public boolean commitContent(InputContentInfo inputContentInfo, int flags, Bundle opts) {
+            if (this.val$listener.onCommitContent(InputContentInfoCompat.wrap(inputContentInfo), flags, opts)) {
+                return true;
+            }
+            return super.commitContent(inputContentInfo, flags, opts);
+        }
+    }
+
+    /* renamed from: androidx.core.view.inputmethod.InputConnectionCompat$2 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass2 extends InputConnectionWrapper {
+        final /* synthetic */ OnCommitContentListener val$listener;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(InputConnection target, boolean mutable, final OnCommitContentListener val$listener) {
+            super(target, mutable);
+            this.val$listener = val$listener;
+        }
+
+        @Override // android.view.inputmethod.InputConnectionWrapper, android.view.inputmethod.InputConnection
+        public boolean performPrivateCommand(String action, Bundle data) {
+            if (InputConnectionCompat.handlePerformPrivateCommand(action, data, this.val$listener)) {
+                return true;
+            }
+            return super.performPrivateCommand(action, data);
+        }
     }
 }

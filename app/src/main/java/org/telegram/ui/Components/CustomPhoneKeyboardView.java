@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.view.GestureDetectorCompat;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class CustomPhoneKeyboardView extends ViewGroup {
@@ -27,18 +26,8 @@ public class CustomPhoneKeyboardView extends ViewGroup {
     private boolean postedLongClick;
     private boolean runningLongClick;
     private View[] views = new View[12];
-    private Runnable onBackButton = new Runnable() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda3
-        @Override // java.lang.Runnable
-        public final void run() {
-            CustomPhoneKeyboardView.this.lambda$new$0();
-        }
-    };
-    private Runnable detectLongClick = new Runnable() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda2
-        @Override // java.lang.Runnable
-        public final void run() {
-            CustomPhoneKeyboardView.this.lambda$new$1();
-        }
-    };
+    private Runnable onBackButton = new CustomPhoneKeyboardView$$ExternalSyntheticLambda3(this);
+    private Runnable detectLongClick = new CustomPhoneKeyboardView$$ExternalSyntheticLambda2(this);
 
     public static /* synthetic */ void lambda$new$3(View view) {
     }
@@ -110,44 +99,25 @@ public class CustomPhoneKeyboardView extends ViewGroup {
                         str = "+";
                         break;
                 }
-                final String valueOf = String.valueOf(i != 10 ? i + 1 : 0);
+                String valueOf = String.valueOf(i != 10 ? i + 1 : 0);
                 this.views[i] = new NumberButtonView(context, valueOf, str);
-                this.views[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda0
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        CustomPhoneKeyboardView.this.lambda$new$2(valueOf, view);
-                    }
-                });
+                this.views[i].setOnClickListener(new CustomPhoneKeyboardView$$ExternalSyntheticLambda0(this, valueOf));
                 addView(this.views[i]);
             }
             i++;
         }
-        final GestureDetectorCompat gestureDetectorCompat = setupBackButtonDetector(context);
-        ImageView imageView = new ImageView(context) { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView.1
-            @Override // android.view.View
-            @SuppressLint({"ClickableViewAccessibility"})
-            public boolean onTouchEvent(MotionEvent motionEvent) {
-                if ((motionEvent.getAction() == 1 || motionEvent.getAction() == 3) && (CustomPhoneKeyboardView.this.postedLongClick || CustomPhoneKeyboardView.this.runningLongClick)) {
-                    CustomPhoneKeyboardView.this.postedLongClick = false;
-                    CustomPhoneKeyboardView.this.runningLongClick = false;
-                    removeCallbacks(CustomPhoneKeyboardView.this.detectLongClick);
-                    removeCallbacks(CustomPhoneKeyboardView.this.onBackButton);
-                }
-                super.onTouchEvent(motionEvent);
-                return gestureDetectorCompat.onTouchEvent(motionEvent);
-            }
-        };
-        this.backButton = imageView;
-        imageView.setImageResource(R.drawable.msg_clear_input);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, setupBackButtonDetector(context));
+        this.backButton = anonymousClass1;
+        anonymousClass1.setImageResource(2131165683);
         this.backButton.setColorFilter(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.backButton.setBackground(getButtonDrawable());
         int dp = AndroidUtilities.dp(11.0f);
         this.backButton.setPadding(dp, dp, dp, dp);
         this.backButton.setOnClickListener(CustomPhoneKeyboardView$$ExternalSyntheticLambda1.INSTANCE);
         View[] viewArr = this.views;
-        ImageView imageView2 = this.backButton;
-        viewArr[11] = imageView2;
-        addView(imageView2);
+        ImageView imageView = this.backButton;
+        viewArr[11] = imageView;
+        addView(imageView);
     }
 
     public /* synthetic */ void lambda$new$2(String str, View view) {
@@ -181,39 +151,75 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         ((EditTextBoldCursor) editText5).setTextWatchersSuppressed(false, true);
     }
 
+    /* renamed from: org.telegram.ui.Components.CustomPhoneKeyboardView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends ImageView {
+        final /* synthetic */ GestureDetectorCompat val$backDetector;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context, GestureDetectorCompat gestureDetectorCompat) {
+            super(context);
+            CustomPhoneKeyboardView.this = r1;
+            this.val$backDetector = gestureDetectorCompat;
+        }
+
+        @Override // android.view.View
+        @SuppressLint({"ClickableViewAccessibility"})
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            if ((motionEvent.getAction() == 1 || motionEvent.getAction() == 3) && (CustomPhoneKeyboardView.this.postedLongClick || CustomPhoneKeyboardView.this.runningLongClick)) {
+                CustomPhoneKeyboardView.this.postedLongClick = false;
+                CustomPhoneKeyboardView.this.runningLongClick = false;
+                removeCallbacks(CustomPhoneKeyboardView.this.detectLongClick);
+                removeCallbacks(CustomPhoneKeyboardView.this.onBackButton);
+            }
+            super.onTouchEvent(motionEvent);
+            return this.val$backDetector.onTouchEvent(motionEvent);
+        }
+    }
+
     public void setDispatchBackWhenEmpty(boolean z) {
         this.dispatchBackWhenEmpty = z;
     }
 
-    private GestureDetectorCompat setupBackButtonDetector(Context context) {
-        final int scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        return new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView.2
-            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-            public boolean onDown(MotionEvent motionEvent) {
-                if (CustomPhoneKeyboardView.this.postedLongClick) {
-                    CustomPhoneKeyboardView customPhoneKeyboardView = CustomPhoneKeyboardView.this;
-                    customPhoneKeyboardView.removeCallbacks(customPhoneKeyboardView.detectLongClick);
-                }
-                CustomPhoneKeyboardView.this.postedLongClick = true;
-                CustomPhoneKeyboardView customPhoneKeyboardView2 = CustomPhoneKeyboardView.this;
-                customPhoneKeyboardView2.postDelayed(customPhoneKeyboardView2.detectLongClick, 200L);
-                CustomPhoneKeyboardView.this.onBackButton.run();
-                return true;
-            }
+    /* renamed from: org.telegram.ui.Components.CustomPhoneKeyboardView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends GestureDetector.SimpleOnGestureListener {
+        final /* synthetic */ int val$touchSlop;
 
-            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-                if ((CustomPhoneKeyboardView.this.postedLongClick || CustomPhoneKeyboardView.this.runningLongClick) && (Math.abs(f) >= scaledTouchSlop || Math.abs(f2) >= scaledTouchSlop)) {
-                    CustomPhoneKeyboardView.this.postedLongClick = false;
-                    CustomPhoneKeyboardView.this.runningLongClick = false;
-                    CustomPhoneKeyboardView customPhoneKeyboardView = CustomPhoneKeyboardView.this;
-                    customPhoneKeyboardView.removeCallbacks(customPhoneKeyboardView.detectLongClick);
-                    CustomPhoneKeyboardView customPhoneKeyboardView2 = CustomPhoneKeyboardView.this;
-                    customPhoneKeyboardView2.removeCallbacks(customPhoneKeyboardView2.onBackButton);
-                }
-                return false;
+        AnonymousClass2(int i) {
+            CustomPhoneKeyboardView.this = r1;
+            this.val$touchSlop = i;
+        }
+
+        @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+        public boolean onDown(MotionEvent motionEvent) {
+            if (CustomPhoneKeyboardView.this.postedLongClick) {
+                CustomPhoneKeyboardView customPhoneKeyboardView = CustomPhoneKeyboardView.this;
+                customPhoneKeyboardView.removeCallbacks(customPhoneKeyboardView.detectLongClick);
             }
-        });
+            CustomPhoneKeyboardView.this.postedLongClick = true;
+            CustomPhoneKeyboardView customPhoneKeyboardView2 = CustomPhoneKeyboardView.this;
+            customPhoneKeyboardView2.postDelayed(customPhoneKeyboardView2.detectLongClick, 200L);
+            CustomPhoneKeyboardView.this.onBackButton.run();
+            return true;
+        }
+
+        @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
+            if ((CustomPhoneKeyboardView.this.postedLongClick || CustomPhoneKeyboardView.this.runningLongClick) && (Math.abs(f) >= this.val$touchSlop || Math.abs(f2) >= this.val$touchSlop)) {
+                CustomPhoneKeyboardView.this.postedLongClick = false;
+                CustomPhoneKeyboardView.this.runningLongClick = false;
+                CustomPhoneKeyboardView customPhoneKeyboardView = CustomPhoneKeyboardView.this;
+                customPhoneKeyboardView.removeCallbacks(customPhoneKeyboardView.detectLongClick);
+                CustomPhoneKeyboardView customPhoneKeyboardView2 = CustomPhoneKeyboardView.this;
+                customPhoneKeyboardView2.removeCallbacks(customPhoneKeyboardView2.onBackButton);
+            }
+            return false;
+        }
+    }
+
+    private GestureDetectorCompat setupBackButtonDetector(Context context) {
+        return new GestureDetectorCompat(context, new AnonymousClass2(ViewConfiguration.get(context).getScaledTouchSlop()));
     }
 
     public void setEditText(EditText editText) {
@@ -265,7 +271,6 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static final class NumberButtonView extends View {
         private String mNumber;

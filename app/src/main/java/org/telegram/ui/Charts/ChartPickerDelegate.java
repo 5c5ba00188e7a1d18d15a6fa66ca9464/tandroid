@@ -4,7 +4,6 @@ import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.ui.Charts.ChartPickerDelegate;
 /* loaded from: classes3.dex */
 public class ChartPickerDelegate {
     public boolean disabled;
@@ -90,12 +89,7 @@ public class ChartPickerDelegate {
             this.a = ofFloat;
             ofFloat.setDuration(600L);
             this.a.setInterpolator(BaseChartView.INTERPOLATOR);
-            this.a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.ChartPickerDelegate$CapturesData$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    ChartPickerDelegate.CapturesData.this.lambda$captured$0(valueAnimator);
-                }
-            });
+            this.a.addUpdateListener(new ChartPickerDelegate$CapturesData$$ExternalSyntheticLambda0(this));
             this.a.start();
         }
 
@@ -289,8 +283,8 @@ public class ChartPickerDelegate {
     }
 
     public boolean uncapture(MotionEvent motionEvent, int i) {
-        final float f;
-        final float f2;
+        float f;
+        float f2;
         if (i == 0) {
             if (this.tryMoveTo) {
                 this.tryMoveTo = false;
@@ -298,8 +292,8 @@ public class ChartPickerDelegate {
                 float y = this.moveToY - motionEvent.getY();
                 if (motionEvent.getAction() == 1 && System.currentTimeMillis() - this.startTapTime < 300 && Math.sqrt((x * x) + (y * y)) < AndroidUtilities.dp(10.0f)) {
                     float f3 = (this.moveToX - BaseChartView.HORIZONTAL_PADDING) / this.pickerWidth;
-                    final float f4 = this.pickerEnd;
-                    final float f5 = this.pickerStart;
+                    float f4 = this.pickerEnd;
+                    float f5 = this.pickerStart;
                     float f6 = f4 - f5;
                     float f7 = f6 / 2.0f;
                     float f8 = f3 - f7;
@@ -316,12 +310,7 @@ public class ChartPickerDelegate {
                     }
                     this.moveToAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
                     this.view.onPickerJumpTo(f2, f, true);
-                    this.moveToAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.ChartPickerDelegate$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            ChartPickerDelegate.this.lambda$uncapture$0(f5, f2, f4, f, valueAnimator);
-                        }
-                    });
+                    this.moveToAnimator.addUpdateListener(new ChartPickerDelegate$$ExternalSyntheticLambda0(this, f5, f2, f4, f));
                     this.moveToAnimator.setInterpolator(BaseChartView.INTERPOLATOR);
                     this.moveToAnimator.start();
                 }

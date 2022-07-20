@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
-import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public class TransactionIdCreater {
     private static final int API_SIZE = 6;
@@ -14,11 +13,11 @@ public class TransactionIdCreater {
 
     public static String getId(String str, String str2) {
         StringBuilder sb = new StringBuilder();
-        sb.append(StringUtil.addByteForNum(str, 9, FILL_BYTE));
-        sb.append(StringUtil.addByteForNum(str2, 6, FILL_BYTE));
+        sb.append(StringUtil.addByteForNum(str, 9, '0'));
+        sb.append(StringUtil.addByteForNum(str2, 6, '0'));
         Locale locale = Locale.ENGLISH;
         sb.append(new SimpleDateFormat("yyyyMMddHHmmssSSS", locale).format(new Date()));
-        sb.append(String.format(locale, "%06d", Integer.valueOf(new Random().nextInt(MediaController.VIDEO_BITRATE_480))));
+        sb.append(String.format(locale, "%06d", Integer.valueOf(new Random().nextInt(1000000))));
         return sb.toString();
     }
 }

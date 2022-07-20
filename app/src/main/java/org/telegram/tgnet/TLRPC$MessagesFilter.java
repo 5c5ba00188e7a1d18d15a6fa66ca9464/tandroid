@@ -20,54 +20,19 @@ public abstract class TLRPC$MessagesFilter extends TLObject {
                 tLRPC$MessagesFilter = new TLRPC$TL_inputMessagesFilterVideo();
                 break;
             case -1253451181:
-                tLRPC$MessagesFilter = new TLRPC$MessagesFilter() { // from class: org.telegram.tgnet.TLRPC$TL_inputMessagesFilterRoundVideo
-                    public static int constructor = -1253451181;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$MessagesFilter = new TLRPC$TL_inputMessagesFilterRoundVideo();
                 break;
             case -1040652646:
-                tLRPC$MessagesFilter = new TLRPC$MessagesFilter() { // from class: org.telegram.tgnet.TLRPC$TL_inputMessagesFilterMyMentions
-                    public static int constructor = -1040652646;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$MessagesFilter = new TLRPC$TL_inputMessagesFilterMyMentions();
                 break;
             case -648121413:
-                tLRPC$MessagesFilter = new TLRPC$MessagesFilter() { // from class: org.telegram.tgnet.TLRPC$TL_inputMessagesFilterPhotoVideoDocuments
-                    public static int constructor = -648121413;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$MessagesFilter = new TLRPC$TL_inputMessagesFilterPhotoVideoDocuments();
                 break;
             case -530392189:
-                tLRPC$MessagesFilter = new TLRPC$MessagesFilter() { // from class: org.telegram.tgnet.TLRPC$TL_inputMessagesFilterContacts
-                    public static int constructor = -530392189;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$MessagesFilter = new TLRPC$TL_inputMessagesFilterContacts();
                 break;
             case -419271411:
-                tLRPC$MessagesFilter = new TLRPC$MessagesFilter() { // from class: org.telegram.tgnet.TLRPC$TL_inputMessagesFilterGeo
-                    public static int constructor = -419271411;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$MessagesFilter = new TLRPC$TL_inputMessagesFilterGeo();
                 break;
             case -3644025:
                 tLRPC$MessagesFilter = new TLRPC$TL_inputMessagesFilterGif();
@@ -82,14 +47,7 @@ public abstract class TLRPC$MessagesFilter extends TLObject {
                 tLRPC$MessagesFilter = new TLRPC$TL_inputMessagesFilterChatPhotos();
                 break;
             case 1358283666:
-                tLRPC$MessagesFilter = new TLRPC$MessagesFilter() { // from class: org.telegram.tgnet.TLRPC$TL_inputMessagesFilterVoice
-                    public static int constructor = 1358283666;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$MessagesFilter = new TLRPC$TL_inputMessagesFilterVoice();
                 break;
             case 1458172132:
                 tLRPC$MessagesFilter = new TLRPC$TL_inputMessagesFilterPhotoVideo();

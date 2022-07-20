@@ -7,7 +7,6 @@ import android.os.Looper;
 import android.os.Message;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.drm.DefaultDrmSession;
-import com.google.android.exoplayer2.drm.DefaultDrmSessionManager;
 import com.google.android.exoplayer2.drm.DrmInitData;
 import com.google.android.exoplayer2.drm.DrmSession;
 import com.google.android.exoplayer2.drm.ExoMediaCrypto;
@@ -128,13 +127,8 @@ public class DefaultDrmSessionManager<T extends ExoMediaCrypto> implements DrmSe
         if (this.offlineLicenseKeySetId == null) {
             list = getSchemeDatas(drmInitData, this.uuid, false);
             if (list.isEmpty()) {
-                final MissingSchemeDataException missingSchemeDataException = new MissingSchemeDataException(this.uuid);
-                this.eventDispatcher.dispatch(new EventDispatcher.Event() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSessionManager$$ExternalSyntheticLambda1
-                    @Override // com.google.android.exoplayer2.util.EventDispatcher.Event
-                    public final void sendTo(Object obj) {
-                        ((DefaultDrmSessionEventListener) obj).onDrmSessionManagerError(DefaultDrmSessionManager.MissingSchemeDataException.this);
-                    }
-                });
+                MissingSchemeDataException missingSchemeDataException = new MissingSchemeDataException(this.uuid);
+                this.eventDispatcher.dispatch(new DefaultDrmSessionManager$$ExternalSyntheticLambda1(missingSchemeDataException));
                 return new ErrorStateDrmSession(new DrmSession.DrmSessionException(missingSchemeDataException));
             }
         } else {
@@ -188,12 +182,7 @@ public class DefaultDrmSessionManager<T extends ExoMediaCrypto> implements DrmSe
 
     private DefaultDrmSession<T> createNewDefaultSession(List<DrmInitData.SchemeData> list, boolean z) {
         Assertions.checkNotNull(this.exoMediaDrm);
-        return new DefaultDrmSession<>(this.uuid, this.exoMediaDrm, this.provisioningManagerImpl, new DefaultDrmSession.ReleaseCallback() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSessionManager$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.drm.DefaultDrmSession.ReleaseCallback
-            public final void onSessionReleased(DefaultDrmSession defaultDrmSession) {
-                DefaultDrmSessionManager.this.onSessionReleased(defaultDrmSession);
-            }
-        }, list, this.mode, this.playClearSamplesWithoutKeys | z, z, this.offlineLicenseKeySetId, this.keyRequestParameters, this.callback, (Looper) Assertions.checkNotNull(this.playbackLooper), this.eventDispatcher, this.loadErrorHandlingPolicy);
+        return new DefaultDrmSession<>(this.uuid, this.exoMediaDrm, this.provisioningManagerImpl, new DefaultDrmSessionManager$$ExternalSyntheticLambda0(this), list, this.mode, this.playClearSamplesWithoutKeys | z, z, this.offlineLicenseKeySetId, this.keyRequestParameters, this.callback, (Looper) Assertions.checkNotNull(this.playbackLooper), this.eventDispatcher, this.loadErrorHandlingPolicy);
     }
 
     public void onSessionReleased(DefaultDrmSession<T> defaultDrmSession) {

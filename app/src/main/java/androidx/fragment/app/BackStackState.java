@@ -9,17 +9,7 @@ import java.util.ArrayList;
 /* compiled from: BackStackRecord.java */
 /* loaded from: classes.dex */
 public final class BackStackState implements Parcelable {
-    public static final Parcelable.Creator<BackStackState> CREATOR = new Parcelable.Creator<BackStackState>() { // from class: androidx.fragment.app.BackStackState.1
-        @Override // android.os.Parcelable.Creator
-        public BackStackState createFromParcel(Parcel parcel) {
-            return new BackStackState(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public BackStackState[] newArray(int i) {
-            return new BackStackState[i];
-        }
-    };
+    public static final Parcelable.Creator<BackStackState> CREATOR = new AnonymousClass1();
     final int mBreadCrumbShortTitleRes;
     final CharSequence mBreadCrumbShortTitleText;
     final int mBreadCrumbTitleRes;
@@ -158,5 +148,23 @@ public final class BackStackState implements Parcelable {
         parcel.writeStringList(this.mSharedElementSourceNames);
         parcel.writeStringList(this.mSharedElementTargetNames);
         parcel.writeInt(this.mReorderingAllowed ? 1 : 0);
+    }
+
+    /* compiled from: BackStackRecord.java */
+    /* renamed from: androidx.fragment.app.BackStackState$1 */
+    /* loaded from: classes.dex */
+    static class AnonymousClass1 implements Parcelable.Creator<BackStackState> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public BackStackState createFromParcel(Parcel parcel) {
+            return new BackStackState(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public BackStackState[] newArray(int i) {
+            return new BackStackState[i];
+        }
     }
 }

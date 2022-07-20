@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Paint.Swatch;
 /* loaded from: classes3.dex */
@@ -42,7 +41,7 @@ public class ColorPicker extends FrameLayout {
     private Paint swatchStrokePaint = new Paint(1);
     private RectF rectF = new RectF();
     private float weight = 0.016773745f;
-    private Drawable shadowDrawable = getResources().getDrawable(R.drawable.knob_shadow);
+    private Drawable shadowDrawable = getResources().getDrawable(2131165570);
 
     /* loaded from: classes3.dex */
     public interface ColorPickerDelegate {
@@ -65,28 +64,18 @@ public class ColorPicker extends FrameLayout {
         this.swatchStrokePaint.setStrokeWidth(AndroidUtilities.dp(1.0f));
         ImageView imageView = new ImageView(context);
         this.settingsButton = imageView;
-        imageView.setContentDescription(LocaleController.getString("AccDescrBrushType", R.string.AccDescrBrushType));
+        imageView.setContentDescription(LocaleController.getString("AccDescrBrushType", 2131623965));
         this.settingsButton.setScaleType(ImageView.ScaleType.CENTER);
-        this.settingsButton.setImageResource(R.drawable.photo_paint_brush);
+        this.settingsButton.setImageResource(2131166044);
         addView(this.settingsButton, LayoutHelper.createFrame(46, 52.0f));
-        this.settingsButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.ColorPicker$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ColorPicker.this.lambda$new$0(view);
-            }
-        });
+        this.settingsButton.setOnClickListener(new ColorPicker$$ExternalSyntheticLambda0(this));
         ImageView imageView2 = new ImageView(context);
         this.undoButton = imageView2;
-        imageView2.setContentDescription(LocaleController.getString("Undo", R.string.Undo));
+        imageView2.setContentDescription(LocaleController.getString("Undo", 2131628796));
         this.undoButton.setScaleType(ImageView.ScaleType.CENTER);
-        this.undoButton.setImageResource(R.drawable.photo_undo);
+        this.undoButton.setImageResource(2131166047);
         addView(this.undoButton, LayoutHelper.createFrame(46, 52.0f));
-        this.undoButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.ColorPicker$$ExternalSyntheticLambda1
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ColorPicker.this.lambda$new$1(view);
-            }
-        });
+        this.undoButton.setOnClickListener(new ColorPicker$$ExternalSyntheticLambda1(this));
         SharedPreferences sharedPreferences = context.getSharedPreferences("paint", 0);
         this.location = sharedPreferences.getFloat("last_color_location", 1.0f);
         setWeight(sharedPreferences.getFloat("last_color_weight", 0.016773745f));

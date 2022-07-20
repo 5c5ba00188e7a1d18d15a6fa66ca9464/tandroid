@@ -113,12 +113,7 @@ public class MotionBackgroundDrawable extends Drawable {
         this.paint3 = new Paint();
         this.intensity = 100;
         this.gradientDrawable = new GradientDrawable();
-        this.updateAnimationRunnable = new Runnable() { // from class: org.telegram.ui.Components.MotionBackgroundDrawable$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                MotionBackgroundDrawable.this.lambda$new$0();
-            }
-        };
+        this.updateAnimationRunnable = new MotionBackgroundDrawable$$ExternalSyntheticLambda0(this);
         this.patternBounds = new android.graphics.Rect();
         this.patternAlpha = 1.0f;
         this.backgroundAlpha = 1.0f;
@@ -141,12 +136,7 @@ public class MotionBackgroundDrawable extends Drawable {
         this.paint3 = new Paint();
         this.intensity = 100;
         this.gradientDrawable = new GradientDrawable();
-        this.updateAnimationRunnable = new Runnable() { // from class: org.telegram.ui.Components.MotionBackgroundDrawable$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                MotionBackgroundDrawable.this.lambda$new$0();
-            }
-        };
+        this.updateAnimationRunnable = new MotionBackgroundDrawable$$ExternalSyntheticLambda0(this);
         this.patternBounds = new android.graphics.Rect();
         this.patternAlpha = 1.0f;
         this.backgroundAlpha = 1.0f;

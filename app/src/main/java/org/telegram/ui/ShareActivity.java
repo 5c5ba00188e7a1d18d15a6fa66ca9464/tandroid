@@ -16,7 +16,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.ui.Components.ShareAlert;
@@ -29,7 +28,7 @@ public class ShareActivity extends Activity {
         ApplicationLoader.postInitApplication();
         AndroidUtilities.checkDisplaySize(this, getResources().getConfiguration());
         requestWindowFeature(1);
-        setTheme(R.style.Theme_TMessages_Transparent);
+        setTheme(2131689508);
         super.onCreate(bundle);
         setContentView(new View(this), new ViewGroup.LayoutParams(-1, -1));
         Intent intent = getIntent();
@@ -66,12 +65,7 @@ public class ShareActivity extends Activity {
             ShareAlert createShareAlert = ShareAlert.createShareAlert(this, messageObject, null, false, string2, false);
             this.visibleDialog = createShareAlert;
             createShareAlert.setCanceledOnTouchOutside(true);
-            this.visibleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ShareActivity$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnDismissListener
-                public final void onDismiss(DialogInterface dialogInterface) {
-                    ShareActivity.this.lambda$onCreate$0(dialogInterface);
-                }
-            });
+            this.visibleDialog.setOnDismissListener(new ShareActivity$$ExternalSyntheticLambda0(this));
             this.visibleDialog.show();
         } catch (Exception e) {
             FileLog.e(e);

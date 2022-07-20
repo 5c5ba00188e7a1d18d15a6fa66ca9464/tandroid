@@ -4,7 +4,6 @@ import android.content.Context;
 import com.huawei.hms.framework.common.ExceptionCode;
 import com.huawei.hms.framework.common.Logger;
 import com.huawei.hms.framework.common.StringUtils;
-import com.huawei.hms.framework.common.hianalytics.CrashHianalyticsData;
 import com.huawei.hms.framework.common.hianalytics.HianalyticsHelper;
 import com.huawei.hms.framework.common.hianalytics.LinkedHashMapPack;
 import java.net.MalformedURLException;
@@ -84,11 +83,11 @@ public class e {
         Exception d = dVar.d();
         if (d != null) {
             linkedHashMapPack.put("error_code", ExceptionCode.getErrorCodeFromException(d));
-            linkedHashMapPack.put(CrashHianalyticsData.EXCEPTION_NAME, d.getClass().getSimpleName());
-            linkedHashMapPack.put(CrashHianalyticsData.MESSAGE, StringUtils.anonymizeMessage(d.getMessage()));
+            linkedHashMapPack.put("exception_name", d.getClass().getSimpleName());
+            linkedHashMapPack.put("message", StringUtils.anonymizeMessage(d.getMessage()));
         } else {
             linkedHashMapPack.put("error_code", dVar.b());
-            linkedHashMapPack.put(CrashHianalyticsData.EXCEPTION_NAME, dVar.c());
+            linkedHashMapPack.put("exception_name", dVar.c());
         }
         try {
             linkedHashMapPack.put("domain", new URL(dVar.l()).getHost());

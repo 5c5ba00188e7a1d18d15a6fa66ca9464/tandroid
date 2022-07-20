@@ -137,58 +137,12 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
     public int transitionMode = 0;
     public int pikerHeight = AndroidUtilities.dp(46.0f);
     public RectF chartArea = new RectF();
-    private ValueAnimator.AnimatorUpdateListener pickerHeightUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.BaseChartView.1
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            BaseChartView.this.pickerMaxHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            BaseChartView baseChartView = BaseChartView.this;
-            baseChartView.invalidatePickerChart = true;
-            baseChartView.invalidate();
-        }
-    };
-    private ValueAnimator.AnimatorUpdateListener pickerMinHeightUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.BaseChartView.2
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            BaseChartView.this.pickerMinHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            BaseChartView baseChartView = BaseChartView.this;
-            baseChartView.invalidatePickerChart = true;
-            baseChartView.invalidate();
-        }
-    };
-    private ValueAnimator.AnimatorUpdateListener heightUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.BaseChartView$$ExternalSyntheticLambda1
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-            BaseChartView.this.lambda$new$0(valueAnimator);
-        }
-    };
-    private ValueAnimator.AnimatorUpdateListener minHeightUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.BaseChartView$$ExternalSyntheticLambda0
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-            BaseChartView.this.lambda$new$1(valueAnimator);
-        }
-    };
-    private ValueAnimator.AnimatorUpdateListener selectionAnimatorListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.BaseChartView.3
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            BaseChartView.this.selectionA = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            BaseChartView baseChartView = BaseChartView.this;
-            baseChartView.legendSignatureView.setAlpha(baseChartView.selectionA);
-            BaseChartView.this.invalidate();
-        }
-    };
-    private Animator.AnimatorListener selectorAnimatorEndListener = new AnimatorListenerAdapter() { // from class: org.telegram.ui.Charts.BaseChartView.4
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            super.onAnimationEnd(animator);
-            BaseChartView baseChartView = BaseChartView.this;
-            if (!baseChartView.animateLegentTo) {
-                baseChartView.legendShowing = false;
-                baseChartView.legendSignatureView.setVisibility(8);
-                BaseChartView.this.invalidate();
-            }
-            BaseChartView.this.postTransition = false;
-        }
-    };
+    private ValueAnimator.AnimatorUpdateListener pickerHeightUpdateListener = new AnonymousClass1();
+    private ValueAnimator.AnimatorUpdateListener pickerMinHeightUpdateListener = new AnonymousClass2();
+    private ValueAnimator.AnimatorUpdateListener heightUpdateListener = new BaseChartView$$ExternalSyntheticLambda1(this);
+    private ValueAnimator.AnimatorUpdateListener minHeightUpdateListener = new BaseChartView$$ExternalSyntheticLambda0(this);
+    private ValueAnimator.AnimatorUpdateListener selectionAnimatorListener = new AnonymousClass3();
+    private Animator.AnimatorListener selectorAnimatorEndListener = new AnonymousClass4();
     protected boolean useMinHeight = false;
     int lastW = 0;
     int lastH = 0;
@@ -225,6 +179,38 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         INTERPOLATOR = new FastOutSlowInInterpolator();
     }
 
+    /* renamed from: org.telegram.ui.Charts.BaseChartView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements ValueAnimator.AnimatorUpdateListener {
+        AnonymousClass1() {
+            BaseChartView.this = r1;
+        }
+
+        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+            BaseChartView.this.pickerMaxHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            BaseChartView baseChartView = BaseChartView.this;
+            baseChartView.invalidatePickerChart = true;
+            baseChartView.invalidate();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Charts.BaseChartView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 implements ValueAnimator.AnimatorUpdateListener {
+        AnonymousClass2() {
+            BaseChartView.this = r1;
+        }
+
+        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+            BaseChartView.this.pickerMinHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            BaseChartView baseChartView = BaseChartView.this;
+            baseChartView.invalidatePickerChart = true;
+            baseChartView.invalidate();
+        }
+    }
+
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
         this.currentMaxHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
@@ -233,6 +219,42 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
     public /* synthetic */ void lambda$new$1(ValueAnimator valueAnimator) {
         this.currentMinHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Charts.BaseChartView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 implements ValueAnimator.AnimatorUpdateListener {
+        AnonymousClass3() {
+            BaseChartView.this = r1;
+        }
+
+        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+            BaseChartView.this.selectionA = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            BaseChartView baseChartView = BaseChartView.this;
+            baseChartView.legendSignatureView.setAlpha(baseChartView.selectionA);
+            BaseChartView.this.invalidate();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Charts.BaseChartView$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 extends AnimatorListenerAdapter {
+        AnonymousClass4() {
+            BaseChartView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            super.onAnimationEnd(animator);
+            BaseChartView baseChartView = BaseChartView.this;
+            if (!baseChartView.animateLegentTo) {
+                baseChartView.legendShowing = false;
+                baseChartView.legendSignatureView.setVisibility(8);
+                BaseChartView.this.invalidate();
+            }
+            BaseChartView.this.postTransition = false;
+        }
     }
 
     public BaseChartView(Context context) {
@@ -850,7 +872,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
 
     protected void setMaxMinValue(int i, int i2, boolean z, boolean z2, boolean z3) {
         if ((Math.abs(((float) ChartHorizontalLinesData.lookupHeight(i)) - this.animateToMaxHeight) >= this.thresholdMaxHeight && i != 0) || i != this.animateToMinHeight) {
-            final ChartHorizontalLinesData createHorizontalLinesData = createHorizontalLinesData(i, i2);
+            ChartHorizontalLinesData createHorizontalLinesData = createHorizontalLinesData(i, i2);
             int[] iArr = createHorizontalLinesData.values;
             int i3 = iArr[iArr.length - 1];
             int i4 = iArr[0];
@@ -932,20 +954,9 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
                     chartHorizontalLinesData.fixedAlpha = chartHorizontalLinesData.alpha;
                 }
             }
-            ValueAnimator createAnimator = createAnimator(0.0f, 255.0f, new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.BaseChartView$$ExternalSyntheticLambda3
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    BaseChartView.this.lambda$setMaxMinValue$2(createHorizontalLinesData, valueAnimator2);
-                }
-            });
+            ValueAnimator createAnimator = createAnimator(0.0f, 255.0f, new BaseChartView$$ExternalSyntheticLambda3(this, createHorizontalLinesData));
             this.alphaAnimator = createAnimator;
-            createAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Charts.BaseChartView.5
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator3) {
-                    BaseChartView.this.horizontalLines.clear();
-                    BaseChartView.this.horizontalLines.add(createHorizontalLinesData);
-                }
-            });
+            createAnimator.addListener(new AnonymousClass5(createHorizontalLinesData));
             this.alphaAnimator.start();
         }
     }
@@ -960,6 +971,23 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
             }
         }
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Charts.BaseChartView$5 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass5 extends AnimatorListenerAdapter {
+        final /* synthetic */ ChartHorizontalLinesData val$newData;
+
+        AnonymousClass5(ChartHorizontalLinesData chartHorizontalLinesData) {
+            BaseChartView.this = r1;
+            this.val$newData = chartHorizontalLinesData;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            BaseChartView.this.horizontalLines.clear();
+            BaseChartView.this.horizontalLines.add(this.val$newData);
+        }
     }
 
     protected ChartHorizontalLinesData createHorizontalLinesData(int i, int i2) {
@@ -1380,7 +1408,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
             double d2 = 0.2d * d;
             Double.isNaN(d);
             Double.isNaN(d);
-            final ChartBottomSignatureData chartBottomSignatureData3 = new ChartBottomSignatureData(highestOneBit, (int) (d + d2), (int) (d - d2));
+            ChartBottomSignatureData chartBottomSignatureData3 = new ChartBottomSignatureData(highestOneBit, (int) (d + d2), (int) (d - d2));
             chartBottomSignatureData3.alpha = 255;
             if (this.currentBottomSignatures == null) {
                 this.currentBottomSignatures = chartBottomSignatureData3;
@@ -1398,21 +1426,9 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
             if (this.bottomSignatureDate.size() > 2) {
                 this.bottomSignatureDate.remove(0);
             }
-            ValueAnimator duration = createAnimator(0.0f, 1.0f, new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.BaseChartView$$ExternalSyntheticLambda2
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    BaseChartView.this.lambda$updateDates$3(chartBottomSignatureData3, valueAnimator2);
-                }
-            }).setDuration(200L);
+            ValueAnimator duration = createAnimator(0.0f, 1.0f, new BaseChartView$$ExternalSyntheticLambda2(this, chartBottomSignatureData3)).setDuration(200L);
             this.alphaBottomAnimator = duration;
-            duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Charts.BaseChartView.6
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    super.onAnimationEnd(animator);
-                    BaseChartView.this.bottomSignatureDate.clear();
-                    BaseChartView.this.bottomSignatureDate.add(chartBottomSignatureData3);
-                }
-            });
+            duration.addListener(new AnonymousClass6(chartBottomSignatureData3));
             this.alphaBottomAnimator.start();
         }
     }
@@ -1431,6 +1447,24 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         invalidate();
     }
 
+    /* renamed from: org.telegram.ui.Charts.BaseChartView$6 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass6 extends AnimatorListenerAdapter {
+        final /* synthetic */ ChartBottomSignatureData val$data;
+
+        AnonymousClass6(ChartBottomSignatureData chartBottomSignatureData) {
+            BaseChartView.this = r1;
+            this.val$data = chartBottomSignatureData;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            super.onAnimationEnd(animator);
+            BaseChartView.this.bottomSignatureDate.clear();
+            BaseChartView.this.bottomSignatureDate.add(this.val$data);
+        }
+    }
+
     public void onCheckChanged() {
         ValueAnimator valueAnimator;
         ValueAnimator valueAnimator2;
@@ -1444,7 +1478,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
             if (i2 >= this.tmpN) {
                 break;
             }
-            final L l = this.lines.get(i2);
+            L l = this.lines.get(i2);
             if (l.enabled && (valueAnimator3 = l.animatorOut) != null) {
                 valueAnimator3.cancel();
             }
@@ -1456,23 +1490,13 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
                 if (valueAnimator4 != null && valueAnimator4.isRunning()) {
                     i = this.tmpI + 1;
                 } else {
-                    ValueAnimator createAnimator = createAnimator(l.alpha, 1.0f, new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.BaseChartView$$ExternalSyntheticLambda4
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator5) {
-                            BaseChartView.this.lambda$onCheckChanged$4(l, valueAnimator5);
-                        }
-                    });
+                    ValueAnimator createAnimator = createAnimator(l.alpha, 1.0f, new BaseChartView$$ExternalSyntheticLambda4(this, l));
                     l.animatorIn = createAnimator;
                     createAnimator.start();
                 }
             }
             if (!l.enabled && l.alpha != 0.0f && ((valueAnimator = l.animatorOut) == null || !valueAnimator.isRunning())) {
-                ValueAnimator createAnimator2 = createAnimator(l.alpha, 0.0f, new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.BaseChartView$$ExternalSyntheticLambda5
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator5) {
-                        BaseChartView.this.lambda$onCheckChanged$5(l, valueAnimator5);
-                    }
-                });
+                ValueAnimator createAnimator2 = createAnimator(l.alpha, 0.0f, new BaseChartView$$ExternalSyntheticLambda5(this, l));
                 l.animatorOut = createAnimator2;
                 createAnimator2.start();
             }

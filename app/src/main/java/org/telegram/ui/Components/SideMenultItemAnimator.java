@@ -155,23 +155,36 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
         return true;
     }
 
-    private void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder, int i) {
-        final ViewPropertyAnimator animate = viewHolder.itemView.animate();
+    private void animateRemoveImpl(RecyclerView.ViewHolder viewHolder, int i) {
+        ViewPropertyAnimator animate = viewHolder.itemView.animate();
         this.mRemoveAnimations.add(viewHolder);
-        animate.setDuration(220L).translationY(-i).setInterpolator(CubicBezierInterpolator.EASE_OUT).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SideMenultItemAnimator.1
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationStart(Animator animator) {
-                SideMenultItemAnimator.this.dispatchRemoveStarting(viewHolder);
-            }
+        animate.setDuration(220L).translationY(-i).setInterpolator(CubicBezierInterpolator.EASE_OUT).setListener(new AnonymousClass1(viewHolder, animate)).start();
+    }
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                animate.setListener(null);
-                SideMenultItemAnimator.this.dispatchRemoveFinished(viewHolder);
-                SideMenultItemAnimator.this.mRemoveAnimations.remove(viewHolder);
-                SideMenultItemAnimator.this.dispatchFinishedWhenDone();
-            }
-        }).start();
+    /* renamed from: org.telegram.ui.Components.SideMenultItemAnimator$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        final /* synthetic */ ViewPropertyAnimator val$animation;
+        final /* synthetic */ RecyclerView.ViewHolder val$holder;
+
+        AnonymousClass1(RecyclerView.ViewHolder viewHolder, ViewPropertyAnimator viewPropertyAnimator) {
+            SideMenultItemAnimator.this = r1;
+            this.val$holder = viewHolder;
+            this.val$animation = viewPropertyAnimator;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            SideMenultItemAnimator.this.dispatchRemoveStarting(this.val$holder);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$animation.setListener(null);
+            SideMenultItemAnimator.this.dispatchRemoveFinished(this.val$holder);
+            SideMenultItemAnimator.this.mRemoveAnimations.remove(this.val$holder);
+            SideMenultItemAnimator.this.dispatchFinishedWhenDone();
+        }
     }
 
     @Override // androidx.recyclerview.widget.SimpleItemAnimator
@@ -182,31 +195,46 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
         return true;
     }
 
-    void animateAddImpl(final RecyclerView.ViewHolder viewHolder, int i, int i2, int i3) {
-        final View view = viewHolder.itemView;
-        final ViewPropertyAnimator animate = view.animate();
+    void animateAddImpl(RecyclerView.ViewHolder viewHolder, int i, int i2, int i3) {
+        View view = viewHolder.itemView;
+        ViewPropertyAnimator animate = view.animate();
         this.mAddAnimations.add(viewHolder);
         view.setAlpha(1.0f);
         view.setTranslationY(-i3);
-        animate.translationY(0.0f).setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SideMenultItemAnimator.2
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationStart(Animator animator) {
-                SideMenultItemAnimator.this.dispatchAddStarting(viewHolder);
-            }
+        animate.translationY(0.0f).setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).setListener(new AnonymousClass2(viewHolder, view, animate)).start();
+    }
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationCancel(Animator animator) {
-                view.setTranslationY(0.0f);
-            }
+    /* renamed from: org.telegram.ui.Components.SideMenultItemAnimator$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        final /* synthetic */ ViewPropertyAnimator val$animation;
+        final /* synthetic */ RecyclerView.ViewHolder val$holder;
+        final /* synthetic */ View val$view;
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                animate.setListener(null);
-                SideMenultItemAnimator.this.dispatchAddFinished(viewHolder);
-                SideMenultItemAnimator.this.mAddAnimations.remove(viewHolder);
-                SideMenultItemAnimator.this.dispatchFinishedWhenDone();
-            }
-        }).start();
+        AnonymousClass2(RecyclerView.ViewHolder viewHolder, View view, ViewPropertyAnimator viewPropertyAnimator) {
+            SideMenultItemAnimator.this = r1;
+            this.val$holder = viewHolder;
+            this.val$view = view;
+            this.val$animation = viewPropertyAnimator;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            SideMenultItemAnimator.this.dispatchAddStarting(this.val$holder);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            this.val$view.setTranslationY(0.0f);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$animation.setListener(null);
+            SideMenultItemAnimator.this.dispatchAddFinished(this.val$holder);
+            SideMenultItemAnimator.this.mAddAnimations.remove(this.val$holder);
+            SideMenultItemAnimator.this.dispatchFinishedWhenDone();
+        }
     }
 
     @Override // androidx.recyclerview.widget.SimpleItemAnimator
@@ -231,42 +259,61 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
         return true;
     }
 
-    void animateMoveImpl(final RecyclerView.ViewHolder viewHolder, int i, int i2, int i3, int i4) {
-        final View view = viewHolder.itemView;
-        final int i5 = i3 - i;
-        final int i6 = i4 - i2;
+    void animateMoveImpl(RecyclerView.ViewHolder viewHolder, int i, int i2, int i3, int i4) {
+        View view = viewHolder.itemView;
+        int i5 = i3 - i;
+        int i6 = i4 - i2;
         if (i5 != 0) {
             view.animate().translationX(0.0f);
         }
         if (i6 != 0) {
             view.animate().translationY(0.0f);
         }
-        final ViewPropertyAnimator animate = view.animate();
+        ViewPropertyAnimator animate = view.animate();
         this.mMoveAnimations.add(viewHolder);
-        animate.setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SideMenultItemAnimator.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationStart(Animator animator) {
-                SideMenultItemAnimator.this.dispatchMoveStarting(viewHolder);
-            }
+        animate.setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).setListener(new AnonymousClass3(viewHolder, i5, view, i6, animate)).start();
+    }
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationCancel(Animator animator) {
-                if (i5 != 0) {
-                    view.setTranslationX(0.0f);
-                }
-                if (i6 != 0) {
-                    view.setTranslationY(0.0f);
-                }
-            }
+    /* renamed from: org.telegram.ui.Components.SideMenultItemAnimator$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        final /* synthetic */ ViewPropertyAnimator val$animation;
+        final /* synthetic */ int val$deltaX;
+        final /* synthetic */ int val$deltaY;
+        final /* synthetic */ RecyclerView.ViewHolder val$holder;
+        final /* synthetic */ View val$view;
 
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                animate.setListener(null);
-                SideMenultItemAnimator.this.dispatchMoveFinished(viewHolder);
-                SideMenultItemAnimator.this.mMoveAnimations.remove(viewHolder);
-                SideMenultItemAnimator.this.dispatchFinishedWhenDone();
+        AnonymousClass3(RecyclerView.ViewHolder viewHolder, int i, View view, int i2, ViewPropertyAnimator viewPropertyAnimator) {
+            SideMenultItemAnimator.this = r1;
+            this.val$holder = viewHolder;
+            this.val$deltaX = i;
+            this.val$view = view;
+            this.val$deltaY = i2;
+            this.val$animation = viewPropertyAnimator;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            SideMenultItemAnimator.this.dispatchMoveStarting(this.val$holder);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            if (this.val$deltaX != 0) {
+                this.val$view.setTranslationX(0.0f);
             }
-        }).start();
+            if (this.val$deltaY != 0) {
+                this.val$view.setTranslationY(0.0f);
+            }
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$animation.setListener(null);
+            SideMenultItemAnimator.this.dispatchMoveFinished(this.val$holder);
+            SideMenultItemAnimator.this.mMoveAnimations.remove(this.val$holder);
+            SideMenultItemAnimator.this.dispatchFinishedWhenDone();
+        }
     }
 
     @Override // androidx.recyclerview.widget.SimpleItemAnimator
@@ -293,57 +340,87 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
         return true;
     }
 
-    void animateChangeImpl(final ChangeInfo changeInfo) {
+    void animateChangeImpl(ChangeInfo changeInfo) {
         RecyclerView.ViewHolder viewHolder = changeInfo.oldHolder;
-        final View view = null;
-        final View view2 = viewHolder == null ? null : viewHolder.itemView;
+        View view = null;
+        View view2 = viewHolder == null ? null : viewHolder.itemView;
         RecyclerView.ViewHolder viewHolder2 = changeInfo.newHolder;
         if (viewHolder2 != null) {
             view = viewHolder2.itemView;
         }
         if (view2 != null) {
-            final ViewPropertyAnimator duration = view2.animate().setDuration(getChangeRemoveDuration());
+            ViewPropertyAnimator duration = view2.animate().setDuration(getChangeRemoveDuration());
             this.mChangeAnimations.add(changeInfo.oldHolder);
             duration.translationX(changeInfo.toX - changeInfo.fromX);
             duration.translationY(changeInfo.toY - changeInfo.fromY);
-            duration.alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SideMenultItemAnimator.4
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationStart(Animator animator) {
-                    SideMenultItemAnimator.this.dispatchChangeStarting(changeInfo.oldHolder, true);
-                }
-
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    duration.setListener(null);
-                    view2.setAlpha(1.0f);
-                    view2.setTranslationX(0.0f);
-                    view2.setTranslationY(0.0f);
-                    SideMenultItemAnimator.this.dispatchChangeFinished(changeInfo.oldHolder, true);
-                    SideMenultItemAnimator.this.mChangeAnimations.remove(changeInfo.oldHolder);
-                    SideMenultItemAnimator.this.dispatchFinishedWhenDone();
-                }
-            }).start();
+            duration.alpha(0.0f).setListener(new AnonymousClass4(changeInfo, duration, view2)).start();
         }
         if (view != null) {
-            final ViewPropertyAnimator animate = view.animate();
+            ViewPropertyAnimator animate = view.animate();
             this.mChangeAnimations.add(changeInfo.newHolder);
-            animate.translationX(0.0f).translationY(0.0f).setDuration(getChangeAddDuration()).setStartDelay(getChangeDuration() - getChangeAddDuration()).alpha(1.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SideMenultItemAnimator.5
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationStart(Animator animator) {
-                    SideMenultItemAnimator.this.dispatchChangeStarting(changeInfo.newHolder, false);
-                }
+            animate.translationX(0.0f).translationY(0.0f).setDuration(getChangeAddDuration()).setStartDelay(getChangeDuration() - getChangeAddDuration()).alpha(1.0f).setListener(new AnonymousClass5(changeInfo, animate, view)).start();
+        }
+    }
 
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    animate.setListener(null);
-                    view.setAlpha(1.0f);
-                    view.setTranslationX(0.0f);
-                    view.setTranslationY(0.0f);
-                    SideMenultItemAnimator.this.dispatchChangeFinished(changeInfo.newHolder, false);
-                    SideMenultItemAnimator.this.mChangeAnimations.remove(changeInfo.newHolder);
-                    SideMenultItemAnimator.this.dispatchFinishedWhenDone();
-                }
-            }).start();
+    /* renamed from: org.telegram.ui.Components.SideMenultItemAnimator$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 extends AnimatorListenerAdapter {
+        final /* synthetic */ ChangeInfo val$changeInfo;
+        final /* synthetic */ ViewPropertyAnimator val$oldViewAnim;
+        final /* synthetic */ View val$view;
+
+        AnonymousClass4(ChangeInfo changeInfo, ViewPropertyAnimator viewPropertyAnimator, View view) {
+            SideMenultItemAnimator.this = r1;
+            this.val$changeInfo = changeInfo;
+            this.val$oldViewAnim = viewPropertyAnimator;
+            this.val$view = view;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            SideMenultItemAnimator.this.dispatchChangeStarting(this.val$changeInfo.oldHolder, true);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$oldViewAnim.setListener(null);
+            this.val$view.setAlpha(1.0f);
+            this.val$view.setTranslationX(0.0f);
+            this.val$view.setTranslationY(0.0f);
+            SideMenultItemAnimator.this.dispatchChangeFinished(this.val$changeInfo.oldHolder, true);
+            SideMenultItemAnimator.this.mChangeAnimations.remove(this.val$changeInfo.oldHolder);
+            SideMenultItemAnimator.this.dispatchFinishedWhenDone();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.SideMenultItemAnimator$5 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass5 extends AnimatorListenerAdapter {
+        final /* synthetic */ ChangeInfo val$changeInfo;
+        final /* synthetic */ View val$newView;
+        final /* synthetic */ ViewPropertyAnimator val$newViewAnimation;
+
+        AnonymousClass5(ChangeInfo changeInfo, ViewPropertyAnimator viewPropertyAnimator, View view) {
+            SideMenultItemAnimator.this = r1;
+            this.val$changeInfo = changeInfo;
+            this.val$newViewAnimation = viewPropertyAnimator;
+            this.val$newView = view;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            SideMenultItemAnimator.this.dispatchChangeStarting(this.val$changeInfo.newHolder, false);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$newViewAnimation.setListener(null);
+            this.val$newView.setAlpha(1.0f);
+            this.val$newView.setTranslationX(0.0f);
+            this.val$newView.setTranslationY(0.0f);
+            SideMenultItemAnimator.this.dispatchChangeFinished(this.val$changeInfo.newHolder, false);
+            SideMenultItemAnimator.this.mChangeAnimations.remove(this.val$changeInfo.newHolder);
+            SideMenultItemAnimator.this.dispatchFinishedWhenDone();
         }
     }
 

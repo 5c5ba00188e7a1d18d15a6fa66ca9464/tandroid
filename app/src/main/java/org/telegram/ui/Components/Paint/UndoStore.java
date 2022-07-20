@@ -50,12 +50,7 @@ public class UndoStore {
     }
 
     private void notifyOfHistoryChanges() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.UndoStore$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                UndoStore.this.lambda$notifyOfHistoryChanges$0();
-            }
-        });
+        AndroidUtilities.runOnUIThread(new UndoStore$$ExternalSyntheticLambda0(this));
     }
 
     public /* synthetic */ void lambda$notifyOfHistoryChanges$0() {

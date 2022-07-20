@@ -22,7 +22,6 @@ import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -33,59 +32,32 @@ public class QRCodeBottomSheet extends BottomSheet {
     int imageSize;
     Bitmap qrCode;
 
-    public QRCodeBottomSheet(final Context context, String str, String str2) {
+    public QRCodeBottomSheet(Context context, String str, String str2) {
         super(context, false);
         fixNavigationBar();
-        setTitle(LocaleController.getString("InviteByQRCode", R.string.InviteByQRCode), true);
-        final ImageView imageView = new ImageView(this, context) { // from class: org.telegram.ui.Components.QRCodeBottomSheet.1
-            @Override // android.widget.ImageView, android.view.View
-            protected void onMeasure(int i, int i2) {
-                int size = View.MeasureSpec.getSize(i);
-                super.onMeasure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size, 1073741824));
-            }
-        };
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        setTitle(LocaleController.getString("InviteByQRCode", 2131626306), true);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
+        anonymousClass1.setScaleType(ImageView.ScaleType.FIT_XY);
         if (Build.VERSION.SDK_INT >= 21) {
-            imageView.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Components.QRCodeBottomSheet.2
-                @Override // android.view.ViewOutlineProvider
-                public void getOutline(View view, Outline outline) {
-                    outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(12.0f));
-                }
-            });
-            imageView.setClipToOutline(true);
+            anonymousClass1.setOutlineProvider(new AnonymousClass2(this));
+            anonymousClass1.setClipToOutline(true);
         }
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
         linearLayout.setPadding(0, AndroidUtilities.dp(16.0f), 0, 0);
         Bitmap createQR = createQR(context, str, this.qrCode);
         this.qrCode = createQR;
-        imageView.setImageBitmap(createQR);
+        anonymousClass1.setImageBitmap(createQR);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.iconImage = rLottieImageView;
         rLottieImageView.setBackgroundColor(-1);
         this.iconImage.setAutoRepeat(true);
-        this.iconImage.setAnimation(R.raw.qr_code_logo, 60, 60);
+        this.iconImage.setAnimation(2131558532, 60, 60);
         this.iconImage.playAnimation();
-        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.QRCodeBottomSheet.3
-            float lastX;
-
-            @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i, int i2) {
-                super.onMeasure(i, i2);
-                float measuredHeight = (QRCodeBottomSheet.this.imageSize / 768.0f) * imageView.getMeasuredHeight();
-                if (this.lastX != measuredHeight) {
-                    this.lastX = measuredHeight;
-                    ViewGroup.LayoutParams layoutParams = QRCodeBottomSheet.this.iconImage.getLayoutParams();
-                    int i3 = (int) measuredHeight;
-                    QRCodeBottomSheet.this.iconImage.getLayoutParams().width = i3;
-                    layoutParams.height = i3;
-                    super.onMeasure(i, i2);
-                }
-            }
-        };
-        frameLayout.addView(imageView, LayoutHelper.createFrame(-1, -1.0f));
-        frameLayout.addView(this.iconImage, LayoutHelper.createFrame(60, 60, 17));
-        linearLayout.addView(frameLayout, LayoutHelper.createLinear(220, 220, 1, 30, 0, 30, 0));
+        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context, anonymousClass1);
+        anonymousClass3.addView(anonymousClass1, LayoutHelper.createFrame(-1, -1.0f));
+        anonymousClass3.addView(this.iconImage, LayoutHelper.createFrame(60, 60, 17));
+        linearLayout.addView(anonymousClass3, LayoutHelper.createLinear(220, 220, 1, 30, 0, 30, 0));
         TextView textView = new TextView(context);
         this.help = textView;
         textView.setTextSize(1, 14.0f);
@@ -97,19 +69,68 @@ public class QRCodeBottomSheet extends BottomSheet {
         textView2.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         textView2.setGravity(17);
         textView2.setTextSize(1, 14.0f);
-        textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        textView2.setText(LocaleController.getString("ShareQrCode", R.string.ShareQrCode));
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.QRCodeBottomSheet$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                QRCodeBottomSheet.this.lambda$new$0(context, view);
-            }
-        });
+        textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView2.setText(LocaleController.getString("ShareQrCode", 2131628345));
+        textView2.setOnClickListener(new QRCodeBottomSheet$$ExternalSyntheticLambda0(this, context));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 80, 16, 15, 16, 16));
         updateColors();
         ScrollView scrollView = new ScrollView(context);
         scrollView.addView(linearLayout);
         setCustomView(scrollView);
+    }
+
+    /* renamed from: org.telegram.ui.Components.QRCodeBottomSheet$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends ImageView {
+        AnonymousClass1(QRCodeBottomSheet qRCodeBottomSheet, Context context) {
+            super(context);
+        }
+
+        @Override // android.widget.ImageView, android.view.View
+        protected void onMeasure(int i, int i2) {
+            int size = View.MeasureSpec.getSize(i);
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.QRCodeBottomSheet$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends ViewOutlineProvider {
+        AnonymousClass2(QRCodeBottomSheet qRCodeBottomSheet) {
+        }
+
+        @Override // android.view.ViewOutlineProvider
+        public void getOutline(View view, Outline outline) {
+            outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(12.0f));
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.QRCodeBottomSheet$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends FrameLayout {
+        float lastX;
+        final /* synthetic */ ImageView val$imageView;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass3(Context context, ImageView imageView) {
+            super(context);
+            QRCodeBottomSheet.this = r1;
+            this.val$imageView = imageView;
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(i, i2);
+            float measuredHeight = (QRCodeBottomSheet.this.imageSize / 768.0f) * this.val$imageView.getMeasuredHeight();
+            if (this.lastX != measuredHeight) {
+                this.lastX = measuredHeight;
+                ViewGroup.LayoutParams layoutParams = QRCodeBottomSheet.this.iconImage.getLayoutParams();
+                int i3 = (int) measuredHeight;
+                QRCodeBottomSheet.this.iconImage.getLayoutParams().width = i3;
+                layoutParams.height = i3;
+                super.onMeasure(i, i2);
+            }
+        }
     }
 
     public /* synthetic */ void lambda$new$0(Context context, View view) {
@@ -119,7 +140,7 @@ public class QRCodeBottomSheet extends BottomSheet {
             intent.setType("image/*");
             intent.putExtra("android.intent.extra.STREAM", bitmapShareUri);
             try {
-                AndroidUtilities.findActivity(context).startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteByQRCode", R.string.InviteByQRCode)), 500);
+                AndroidUtilities.findActivity(context).startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteByQRCode", 2131626306)), 500);
             } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
             }

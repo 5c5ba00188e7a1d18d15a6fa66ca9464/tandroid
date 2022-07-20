@@ -18,8 +18,6 @@ import com.huawei.hms.ui.SafeIntent;
 import com.huawei.hms.utils.ResourceLoaderUtil;
 import com.huawei.hms.utils.UIUtil;
 import java.lang.reflect.InvocationTargetException;
-import org.telegram.messenger.CharacterCompat;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class BridgeActivity extends Activity {
     public static final String EXTRA_DELEGATE_CLASS_NAME = "intent.extra.DELEGATE_CLASS_OBJECT";
@@ -68,8 +66,8 @@ public class BridgeActivity extends Activity {
 
     public static Intent getIntentStartBridgeActivity(Activity activity, String str) {
         Intent intent = new Intent(activity, BridgeActivity.class);
-        intent.putExtra(EXTRA_DELEGATE_CLASS_NAME, str);
-        intent.putExtra(EXTRA_IS_FULLSCREEN, UIUtil.isActivityFullscreen(activity));
+        intent.putExtra("intent.extra.DELEGATE_CLASS_OBJECT", str);
+        intent.putExtra("intent.extra.isfullscreen", UIUtil.isActivityFullscreen(activity));
         return intent;
     }
 
@@ -87,7 +85,7 @@ public class BridgeActivity extends Activity {
         WindowManager.LayoutParams attributes2 = window.getAttributes();
         try {
             Class<?> cls = Class.forName("com.huawei.android.view.LayoutParamsEx");
-            cls.getMethod("addHwFlags", Integer.TYPE).invoke(cls.getConstructor(WindowManager.LayoutParams.class).newInstance(attributes2), Integer.valueOf((int) CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT));
+            cls.getMethod("addHwFlags", Integer.TYPE).invoke(cls.getConstructor(WindowManager.LayoutParams.class).newInstance(attributes2), 65536);
         } catch (ClassCastException | ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | InvocationTargetException unused) {
             HMSLog.e("BridgeActivity", "com.huawei.android.view.LayoutParamsEx fail");
         }
@@ -99,10 +97,10 @@ public class BridgeActivity extends Activity {
             HMSLog.e("BridgeActivity", "In initialize, Must not pass in a null intent.");
             return false;
         }
-        if (intent.getBooleanExtra(EXTRA_IS_FULLSCREEN, false)) {
+        if (intent.getBooleanExtra("intent.extra.isfullscreen", false)) {
             getWindow().setFlags(1024, 1024);
         }
-        String stringExtra = intent.getStringExtra(EXTRA_DELEGATE_CLASS_NAME);
+        String stringExtra = intent.getStringExtra("intent.extra.DELEGATE_CLASS_OBJECT");
         if (stringExtra == null) {
             HMSLog.e("BridgeActivity", "In initialize, Must not pass in a null or non class object.");
             return false;
@@ -131,7 +129,7 @@ public class BridgeActivity extends Activity {
         }
         Window window = getWindow();
         if (b >= 9) {
-            window.addFlags(ConnectionsManager.FileTypeFile);
+            window.addFlags(67108864);
             a(window, true);
         }
         window.getDecorView().setSystemUiVisibility(0);
@@ -215,8 +213,8 @@ public class BridgeActivity extends Activity {
 
     public static Intent getIntentStartBridgeActivity(Context context, String str) {
         Intent intent = new Intent(context, BridgeActivity.class);
-        intent.putExtra(EXTRA_DELEGATE_CLASS_NAME, str);
-        intent.putExtra(EXTRA_IS_FULLSCREEN, false);
+        intent.putExtra("intent.extra.DELEGATE_CLASS_OBJECT", str);
+        intent.putExtra("intent.extra.isfullscreen", false);
         return intent;
     }
 

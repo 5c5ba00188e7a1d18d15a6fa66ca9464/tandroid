@@ -3,7 +3,6 @@ package com.huawei.hms.framework.network.grs.g;
 import android.content.Context;
 import android.os.SystemClock;
 import android.text.TextUtils;
-import com.huawei.hms.framework.common.ContainerUtils;
 import com.huawei.hms.framework.common.IoUtils;
 import com.huawei.hms.framework.common.Logger;
 import com.huawei.hms.framework.network.grs.GrsBaseInfo;
@@ -118,7 +117,7 @@ public class g extends a implements Callable<d> {
                 httpsURLConnection.setDoInput(true);
                 String a = b() != null ? b().a() : "";
                 if (TextUtils.isEmpty(a)) {
-                    a = ContainerUtils.FIELD_DELIMITER;
+                    a = "&";
                 }
                 httpsURLConnection.setRequestProperty("If-None-Match", a);
                 httpsURLConnection.connect();

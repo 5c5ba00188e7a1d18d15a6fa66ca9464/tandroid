@@ -35,7 +35,7 @@ public class ChatActivityBotWebViewButton extends FrameLayout {
         this.textView.setSingleLine();
         this.textView.setAlpha(0.0f);
         this.textView.setGravity(17);
-        this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(this.textView, LayoutHelper.createFrame(-1, -1.0f, 3, 0.0f, 0.0f, 0.0f, 0.0f));
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.progressView = radialProgressView;
@@ -56,7 +56,7 @@ public class ChatActivityBotWebViewButton extends FrameLayout {
         invalidate();
     }
 
-    public void setupButtonParams(boolean z, String str, int i, int i2, final boolean z2) {
+    public void setupButtonParams(boolean z, String str, int i, int i2, boolean z2) {
         setClickable(z);
         this.rippleView.setVisibility(z ? 0 : 8);
         this.textView.setText(str);
@@ -81,16 +81,27 @@ public class ChatActivityBotWebViewButton extends FrameLayout {
             if (!z2) {
                 f2 = 0.1f;
             }
-            scaleX.scaleY(f2).setDuration(250L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatActivityBotWebViewButton.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (!z2) {
-                        ChatActivityBotWebViewButton.this.progressView.setVisibility(8);
-                    }
-                }
-            }).start();
+            scaleX.scaleY(f2).setDuration(250L).setListener(new AnonymousClass1(z2)).start();
         }
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Components.ChatActivityBotWebViewButton$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        final /* synthetic */ boolean val$isProgressVisible;
+
+        AnonymousClass1(boolean z) {
+            ChatActivityBotWebViewButton.this = r1;
+            this.val$isProgressVisible = z;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (!this.val$isProgressVisible) {
+                ChatActivityBotWebViewButton.this.progressView.setVisibility(8);
+            }
+        }
     }
 
     public void setProgress(float f) {

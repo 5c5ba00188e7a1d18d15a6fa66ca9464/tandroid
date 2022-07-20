@@ -31,10 +31,8 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$TL_document;
@@ -67,18 +65,13 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         FrameLayout frameLayout = new FrameLayout(context);
         addView(frameLayout, new FrameLayout.LayoutParams(-1, AndroidUtilities.dp(176.0f) + (i >= 21 ? AndroidUtilities.statusBarHeight : 0)));
         RLottieImageView rLottieImageView = new RLottieImageView(context);
-        rLottieImageView.setAnimation(R.raw.qr_code_logo, 108, 108);
+        rLottieImageView.setAnimation(2131558532, 108, 108);
         rLottieImageView.playAnimation();
         rLottieImageView.getAnimatedDrawable().setAutoRepeat(1);
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
         rLottieImageView.setPadding(0, 0, 0, AndroidUtilities.dp(14.0f));
         frameLayout.addView(rLottieImageView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, i2, 0.0f, 0.0f));
-        rLottieImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                BlockingUpdateView.this.lambda$new$0(view);
-            }
-        });
+        rLottieImageView.setOnClickListener(new BlockingUpdateView$$ExternalSyntheticLambda0(this));
         FrameLayout frameLayout2 = new FrameLayout(context);
         ScrollView scrollView = new ScrollView(context);
         this.scrollView = scrollView;
@@ -91,8 +84,8 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         textView.setTextSize(1, 20.0f);
         textView.setGravity(49);
-        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        textView.setText(LocaleController.getString("UpdateTelegram", R.string.UpdateTelegram));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setText(LocaleController.getString("UpdateTelegram", 2131628834));
         frameLayout2.addView(textView, LayoutHelper.createFrame(-2, -2, 49));
         TextView textView2 = new TextView(context);
         this.textView = textView2;
@@ -103,69 +96,23 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         this.textView.setGravity(49);
         this.textView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
         frameLayout2.addView(this.textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 44.0f, 0.0f, 0.0f));
-        FrameLayout frameLayout3 = new FrameLayout(this, context) { // from class: org.telegram.ui.Components.BlockingUpdateView.1
-            CellFlickerDrawable cellFlickerDrawable;
-
-            @Override // android.view.View
-            protected void onDraw(Canvas canvas) {
-                super.onDraw(canvas);
-                if (this.cellFlickerDrawable == null) {
-                    CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable();
-                    this.cellFlickerDrawable = cellFlickerDrawable;
-                    cellFlickerDrawable.drawFrame = false;
-                    cellFlickerDrawable.repeatProgress = 2.0f;
-                }
-                this.cellFlickerDrawable.setParentWidth(getMeasuredWidth());
-                RectF rectF = AndroidUtilities.rectTmp;
-                rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                this.cellFlickerDrawable.draw(canvas, rectF, AndroidUtilities.dp(4.0f), null);
-                invalidate();
-            }
-
-            @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i3, int i4) {
-                if (View.MeasureSpec.getSize(i3) > AndroidUtilities.dp(260.0f)) {
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(320.0f), 1073741824), i4);
-                } else {
-                    super.onMeasure(i3, i4);
-                }
-            }
-        };
-        this.acceptButton = frameLayout3;
-        frameLayout3.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
+        this.acceptButton = anonymousClass1;
+        anonymousClass1.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         this.acceptButton.setBackgroundDrawable(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 4.0f));
         this.acceptButton.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         addView(this.acceptButton, LayoutHelper.createFrame(-2, 46.0f, 81, 0.0f, 0.0f, 0.0f, 45.0f));
-        this.acceptButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda1
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                BlockingUpdateView.this.lambda$new$1(view);
-            }
-        });
+        this.acceptButton.setOnClickListener(new BlockingUpdateView$$ExternalSyntheticLambda1(this));
         TextView textView3 = new TextView(context);
         this.acceptTextView = textView3;
         textView3.setGravity(17);
-        this.acceptTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.acceptTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.acceptTextView.setTextColor(-1);
         this.acceptTextView.setTextSize(1, 14.0f);
         this.acceptButton.addView(this.acceptTextView, LayoutHelper.createFrame(-2, -2, 17));
-        FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.Components.BlockingUpdateView.2
-            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
-                super.onLayout(z, i3, i4, i5, i6);
-                int dp = AndroidUtilities.dp(36.0f);
-                int i7 = ((i5 - i3) - dp) / 2;
-                int i8 = ((i6 - i4) - dp) / 2;
-                BlockingUpdateView.this.radialProgress.setProgressRect(i7, i8, i7 + dp, dp + i8);
-            }
-
-            @Override // android.view.View
-            protected void onDraw(Canvas canvas) {
-                BlockingUpdateView.this.radialProgress.draw(canvas);
-            }
-        };
-        this.radialProgressView = frameLayout4;
-        frameLayout4.setWillNotDraw(false);
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
+        this.radialProgressView = anonymousClass2;
+        anonymousClass2.setWillNotDraw(false);
         this.radialProgressView.setAlpha(0.0f);
         this.radialProgressView.setScaleX(0.1f);
         this.radialProgressView.setScaleY(0.1f);
@@ -187,6 +134,41 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* renamed from: org.telegram.ui.Components.BlockingUpdateView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends FrameLayout {
+        CellFlickerDrawable cellFlickerDrawable;
+
+        AnonymousClass1(BlockingUpdateView blockingUpdateView, Context context) {
+            super(context);
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            if (this.cellFlickerDrawable == null) {
+                CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable();
+                this.cellFlickerDrawable = cellFlickerDrawable;
+                cellFlickerDrawable.drawFrame = false;
+                cellFlickerDrawable.repeatProgress = 2.0f;
+            }
+            this.cellFlickerDrawable.setParentWidth(getMeasuredWidth());
+            RectF rectF = AndroidUtilities.rectTmp;
+            rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+            this.cellFlickerDrawable.draw(canvas, rectF, AndroidUtilities.dp(4.0f), null);
+            invalidate();
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            if (View.MeasureSpec.getSize(i) > AndroidUtilities.dp(260.0f)) {
+                super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(320.0f), 1073741824), i2);
+            } else {
+                super.onMeasure(i, i2);
+            }
+        }
+    }
+
     public /* synthetic */ void lambda$new$1(View view) {
         if (!checkApkInstallPermissions(getContext())) {
             return;
@@ -201,6 +183,30 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         } else if (tLRPC$TL_help_appUpdate.url == null) {
         } else {
             Browser.openUrl(getContext(), this.appUpdate.url);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.BlockingUpdateView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends FrameLayout {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(Context context) {
+            super(context);
+            BlockingUpdateView.this = r1;
+        }
+
+        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            super.onLayout(z, i, i2, i3, i4);
+            int dp = AndroidUtilities.dp(36.0f);
+            int i5 = ((i3 - i) - dp) / 2;
+            int i6 = ((i4 - i2) - dp) / 2;
+            BlockingUpdateView.this.radialProgress.setProgressRect(i5, i6, i5 + dp, dp + i6);
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            BlockingUpdateView.this.radialProgress.draw(canvas);
         }
     }
 
@@ -276,7 +282,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         return z;
     }
 
-    private void showProgress(final boolean z) {
+    private void showProgress(boolean z) {
         AnimatorSet animatorSet = this.progressAnimation;
         if (animatorSet != null) {
             animatorSet.cancel();
@@ -291,29 +297,40 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
             this.acceptButton.setEnabled(true);
             this.progressAnimation.playTogether(ObjectAnimator.ofFloat(this.radialProgressView, View.SCALE_X, 0.1f), ObjectAnimator.ofFloat(this.radialProgressView, View.SCALE_Y, 0.1f), ObjectAnimator.ofFloat(this.radialProgressView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.acceptTextView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, View.ALPHA, 1.0f));
         }
-        this.progressAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.BlockingUpdateView.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (BlockingUpdateView.this.progressAnimation == null || !BlockingUpdateView.this.progressAnimation.equals(animator)) {
-                    return;
-                }
-                if (!z) {
-                    BlockingUpdateView.this.radialProgressView.setVisibility(4);
-                } else {
-                    BlockingUpdateView.this.acceptTextView.setVisibility(4);
-                }
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationCancel(Animator animator) {
-                if (BlockingUpdateView.this.progressAnimation == null || !BlockingUpdateView.this.progressAnimation.equals(animator)) {
-                    return;
-                }
-                BlockingUpdateView.this.progressAnimation = null;
-            }
-        });
+        this.progressAnimation.addListener(new AnonymousClass3(z));
         this.progressAnimation.setDuration(150L);
         this.progressAnimation.start();
+    }
+
+    /* renamed from: org.telegram.ui.Components.BlockingUpdateView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        final /* synthetic */ boolean val$show;
+
+        AnonymousClass3(boolean z) {
+            BlockingUpdateView.this = r1;
+            this.val$show = z;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (BlockingUpdateView.this.progressAnimation == null || !BlockingUpdateView.this.progressAnimation.equals(animator)) {
+                return;
+            }
+            if (!this.val$show) {
+                BlockingUpdateView.this.radialProgressView.setVisibility(4);
+            } else {
+                BlockingUpdateView.this.acceptTextView.setVisibility(4);
+            }
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            if (BlockingUpdateView.this.progressAnimation == null || !BlockingUpdateView.this.progressAnimation.equals(animator)) {
+                return;
+            }
+            BlockingUpdateView.this.progressAnimation = null;
+        }
     }
 
     public void show(int i, TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate, boolean z) {
@@ -332,9 +349,9 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         this.textView.setText(spannableStringBuilder);
         if (tLRPC$TL_help_appUpdate.document instanceof TLRPC$TL_document) {
             TextView textView = this.acceptTextView;
-            textView.setText(LocaleController.getString("Update", R.string.Update) + String.format(Locale.US, " (%1$s)", AndroidUtilities.formatFileSize(tLRPC$TL_help_appUpdate.document.size)));
+            textView.setText(LocaleController.getString("Update", 2131628828) + String.format(Locale.US, " (%1$s)", AndroidUtilities.formatFileSize(tLRPC$TL_help_appUpdate.document.size)));
         } else {
-            this.acceptTextView.setText(LocaleController.getString("Update", R.string.Update));
+            this.acceptTextView.setText(LocaleController.getString("Update", 2131628828));
         }
         NotificationCenter.getInstance(this.accountNum).addObserver(this, NotificationCenter.fileLoaded);
         NotificationCenter.getInstance(this.accountNum).addObserver(this, NotificationCenter.fileLoadFailed);
@@ -348,22 +365,12 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
             if (tLRPC$TL_help_getAppUpdate.source == null) {
                 tLRPC$TL_help_getAppUpdate.source = "";
             }
-            ConnectionsManager.getInstance(this.accountNum).sendRequest(tLRPC$TL_help_getAppUpdate, new RequestDelegate() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda3
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    BlockingUpdateView.this.lambda$show$3(tLObject, tLRPC$TL_error);
-                }
-            });
+            ConnectionsManager.getInstance(this.accountNum).sendRequest(tLRPC$TL_help_getAppUpdate, new BlockingUpdateView$$ExternalSyntheticLambda3(this));
         }
     }
 
-    public /* synthetic */ void lambda$show$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                BlockingUpdateView.this.lambda$show$2(tLObject);
-            }
-        });
+    public /* synthetic */ void lambda$show$3(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new BlockingUpdateView$$ExternalSyntheticLambda2(this, tLObject));
     }
 
     public /* synthetic */ void lambda$show$2(TLObject tLObject) {

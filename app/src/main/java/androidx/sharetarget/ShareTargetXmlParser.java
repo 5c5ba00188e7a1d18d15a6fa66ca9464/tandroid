@@ -8,10 +8,8 @@ import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.sharetarget.ShareTargetCompat;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.ArrayList;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 class ShareTargetXmlParser {
     private static final Object GET_INSTANCE_LOCK = new Object();
@@ -33,7 +31,7 @@ class ShareTargetXmlParser {
         Intent intent = new Intent("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.LAUNCHER");
         intent.setPackage(context.getPackageName());
-        List<ResolveInfo> queryIntentActivities = context.getPackageManager().queryIntentActivities(intent, ConnectionsManager.RequestFlagNeedQuickAck);
+        List<ResolveInfo> queryIntentActivities = context.getPackageManager().queryIntentActivities(intent, 128);
         if (queryIntentActivities == null) {
             return arrayList;
         }
@@ -85,7 +83,7 @@ class ShareTargetXmlParser {
                 if (next == 2) {
                     String name = parser.getName();
                     name.hashCode();
-                    if (name.equals(RemoteMessageConst.DATA)) {
+                    if (name.equals("data")) {
                         arrayList.add(parseTargetData(parser));
                     } else if (name.equals("category")) {
                         arrayList2.add(getAttributeValue(parser, "name"));

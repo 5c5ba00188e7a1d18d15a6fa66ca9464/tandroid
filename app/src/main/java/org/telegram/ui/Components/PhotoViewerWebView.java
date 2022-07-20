@@ -27,7 +27,6 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLRPC$WebPage;
-import org.telegram.ui.Components.PhotoViewerWebView;
 import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
 public class PhotoViewerWebView extends FrameLayout {
@@ -53,15 +52,14 @@ public class PhotoViewerWebView extends FrameLayout {
             PhotoViewerWebView.this = r1;
         }
 
+        /* synthetic */ YoutubeProxy(PhotoViewerWebView photoViewerWebView, AnonymousClass1 anonymousClass1) {
+            this();
+        }
+
         @JavascriptInterface
         public void postEvent(String str, String str2) {
             if ("loaded".equals(str)) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        PhotoViewerWebView.YoutubeProxy.this.lambda$postEvent$0();
-                    }
-                });
+                AndroidUtilities.runOnUIThread(new PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda0(this));
             }
         }
 
@@ -82,15 +80,9 @@ public class PhotoViewerWebView extends FrameLayout {
     public PhotoViewerWebView(Context context, View view) {
         super(context);
         this.pipItem = view;
-        WebView webView = new WebView(context) { // from class: org.telegram.ui.Components.PhotoViewerWebView.1
-            @Override // android.webkit.WebView, android.view.View
-            public boolean onTouchEvent(MotionEvent motionEvent) {
-                PhotoViewerWebView.this.processTouch(motionEvent);
-                return super.onTouchEvent(motionEvent);
-            }
-        };
-        this.webView = webView;
-        webView.getSettings().setJavaScriptEnabled(true);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
+        this.webView = anonymousClass1;
+        anonymousClass1.getSettings().setJavaScriptEnabled(true);
         this.webView.getSettings().setDomStorageEnabled(true);
         int i = Build.VERSION.SDK_INT;
         if (i >= 17) {
@@ -100,48 +92,82 @@ public class PhotoViewerWebView extends FrameLayout {
             this.webView.getSettings().setMixedContentMode(0);
             CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
         }
-        this.webView.setWebViewClient(new WebViewClient() { // from class: org.telegram.ui.Components.PhotoViewerWebView.2
-            @Override // android.webkit.WebViewClient
-            public void onLoadResource(WebView webView2, String str) {
-                super.onLoadResource(webView2, str);
-            }
-
-            @Override // android.webkit.WebViewClient
-            public void onPageFinished(WebView webView2, String str) {
-                super.onPageFinished(webView2, str);
-                if (!PhotoViewerWebView.this.isYouTube || Build.VERSION.SDK_INT < 17) {
-                    PhotoViewerWebView.this.progressBar.setVisibility(4);
-                    PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(4);
-                    PhotoViewerWebView.this.pipItem.setEnabled(true);
-                    PhotoViewerWebView.this.pipItem.setAlpha(1.0f);
-                }
-            }
-
-            @Override // android.webkit.WebViewClient
-            public boolean shouldOverrideUrlLoading(WebView webView2, String str) {
-                if (PhotoViewerWebView.this.isYouTube) {
-                    Browser.openUrl(webView2.getContext(), str);
-                    return true;
-                }
-                return super.shouldOverrideUrlLoading(webView2, str);
-            }
-        });
+        this.webView.setWebViewClient(new AnonymousClass2());
         addView(this.webView, LayoutHelper.createFrame(-1, -1, 51));
-        View view2 = new View(context) { // from class: org.telegram.ui.Components.PhotoViewerWebView.3
-            @Override // android.view.View
-            protected void onDraw(Canvas canvas) {
-                super.onDraw(canvas);
-                PhotoViewerWebView.this.drawBlackBackground(canvas, getMeasuredWidth(), getMeasuredHeight());
-            }
-        };
-        this.progressBarBlackBackground = view2;
-        view2.setBackgroundColor(-16777216);
+        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
+        this.progressBarBlackBackground = anonymousClass3;
+        anonymousClass3.setBackgroundColor(-16777216);
         this.progressBarBlackBackground.setVisibility(4);
         addView(this.progressBarBlackBackground, LayoutHelper.createFrame(-1, -1.0f));
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.progressBar = radialProgressView;
         radialProgressView.setVisibility(4);
         addView(this.progressBar, LayoutHelper.createFrame(-2, -2, 17));
+    }
+
+    /* renamed from: org.telegram.ui.Components.PhotoViewerWebView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends WebView {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context) {
+            super(context);
+            PhotoViewerWebView.this = r1;
+        }
+
+        @Override // android.webkit.WebView, android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            PhotoViewerWebView.this.processTouch(motionEvent);
+            return super.onTouchEvent(motionEvent);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.PhotoViewerWebView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends WebViewClient {
+        AnonymousClass2() {
+            PhotoViewerWebView.this = r1;
+        }
+
+        @Override // android.webkit.WebViewClient
+        public void onLoadResource(WebView webView, String str) {
+            super.onLoadResource(webView, str);
+        }
+
+        @Override // android.webkit.WebViewClient
+        public void onPageFinished(WebView webView, String str) {
+            super.onPageFinished(webView, str);
+            if (!PhotoViewerWebView.this.isYouTube || Build.VERSION.SDK_INT < 17) {
+                PhotoViewerWebView.this.progressBar.setVisibility(4);
+                PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(4);
+                PhotoViewerWebView.this.pipItem.setEnabled(true);
+                PhotoViewerWebView.this.pipItem.setAlpha(1.0f);
+            }
+        }
+
+        @Override // android.webkit.WebViewClient
+        public boolean shouldOverrideUrlLoading(WebView webView, String str) {
+            if (PhotoViewerWebView.this.isYouTube) {
+                Browser.openUrl(webView.getContext(), str);
+                return true;
+            }
+            return super.shouldOverrideUrlLoading(webView, str);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.PhotoViewerWebView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends View {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass3(Context context) {
+            super(context);
+            PhotoViewerWebView.this = r1;
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            PhotoViewerWebView.this.drawBlackBackground(canvas, getMeasuredWidth(), getMeasuredHeight());
+        }
     }
 
     private void runJsCode(String str) {
@@ -199,12 +225,7 @@ public class PhotoViewerWebView extends FrameLayout {
         if ((isInAppOnly || checkInlinePermissions()) && this.progressBar.getVisibility() != 0) {
             if (PipVideoOverlay.isVisible()) {
                 PipVideoOverlay.dismiss();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        PhotoViewerWebView.this.openInPip();
-                    }
-                }, 300L);
+                AndroidUtilities.runOnUIThread(new PhotoViewerWebView$$ExternalSyntheticLambda0(this), 300L);
                 return true;
             }
             WebView webView = this.webView;
@@ -242,7 +263,7 @@ public class PhotoViewerWebView extends FrameLayout {
                 this.isYouTube = true;
                 String str2 = null;
                 if (Build.VERSION.SDK_INT >= 17) {
-                    this.webView.addJavascriptInterface(new YoutubeProxy(), "YoutubeProxy");
+                    this.webView.addJavascriptInterface(new YoutubeProxy(this, null), "YoutubeProxy");
                 }
                 if (str != null) {
                     try {

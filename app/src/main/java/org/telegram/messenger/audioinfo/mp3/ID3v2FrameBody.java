@@ -5,12 +5,7 @@ import java.io.InputStream;
 import org.telegram.messenger.audioinfo.util.RangeInputStream;
 /* loaded from: classes.dex */
 public class ID3v2FrameBody {
-    static final ThreadLocal<Buffer> textBuffer = new ThreadLocal<Buffer>() { // from class: org.telegram.messenger.audioinfo.mp3.ID3v2FrameBody.1
-        @Override // java.lang.ThreadLocal
-        public Buffer initialValue() {
-            return new Buffer(4096);
-        }
-    };
+    static final ThreadLocal<Buffer> textBuffer = new AnonymousClass1();
     private final ID3v2DataInput data;
     private final ID3v2FrameHeader frameHeader;
     private final RangeInputStream input;
@@ -34,6 +29,18 @@ public class ID3v2FrameBody {
                 this.bytes = new byte[length];
             }
             return this.bytes;
+        }
+    }
+
+    /* renamed from: org.telegram.messenger.audioinfo.mp3.ID3v2FrameBody$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 extends ThreadLocal<Buffer> {
+        AnonymousClass1() {
+        }
+
+        @Override // java.lang.ThreadLocal
+        public Buffer initialValue() {
+            return new Buffer(4096);
         }
     }
 

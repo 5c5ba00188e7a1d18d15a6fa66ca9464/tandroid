@@ -10,11 +10,9 @@ import com.huawei.hms.aaid.HmsInstanceId;
 import com.huawei.hms.aaid.entity.DeleteTokenReq;
 import com.huawei.hms.aaid.entity.TokenReq;
 import com.huawei.hms.aaid.utils.PushPreferences;
-import com.huawei.hms.push.HmsMessaging;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.Util;
 import java.util.UUID;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: AaidUtils.java */
 /* loaded from: classes.dex */
 public class o {
@@ -52,7 +50,7 @@ public class o {
     public static boolean e(Context context) {
         Bundle bundle;
         try {
-            ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck);
+            ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), 128);
             if (applicationInfo != null && (bundle = applicationInfo.metaData) != null) {
                 if (!TextUtils.isEmpty(bundle.getString("com.huawei.hms.client.service.name:base"))) {
                     return true;
@@ -84,7 +82,7 @@ public class o {
             tokenReq.setProjectId(d(context));
         }
         if (TextUtils.isEmpty(str4)) {
-            tokenReq.setScope(HmsMessaging.DEFAULT_TOKEN_SCOPE);
+            tokenReq.setScope("HCM");
         }
         i a = i.a(context);
         if (!a.getBoolean("hasRequestAgreement")) {
@@ -107,7 +105,7 @@ public class o {
             deleteTokenReq.setAppId(Util.getAppId(context));
         }
         if (TextUtils.isEmpty(str4)) {
-            deleteTokenReq.setScope(HmsMessaging.DEFAULT_TOKEN_SCOPE);
+            deleteTokenReq.setScope("HCM");
         }
         if (TextUtils.isEmpty(str2)) {
             deleteTokenReq.setProjectId(d(context));

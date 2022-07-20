@@ -5,17 +5,7 @@ import android.os.Parcelable;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class CommentFrame extends Id3Frame {
-    public static final Parcelable.Creator<CommentFrame> CREATOR = new Parcelable.Creator<CommentFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.CommentFrame.1
-        @Override // android.os.Parcelable.Creator
-        public CommentFrame createFromParcel(Parcel parcel) {
-            return new CommentFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public CommentFrame[] newArray(int i) {
-            return new CommentFrame[i];
-        }
-    };
+    public static final Parcelable.Creator<CommentFrame> CREATOR = new AnonymousClass1();
     public final String description;
     public final String language;
     public final String text;
@@ -68,5 +58,22 @@ public final class CommentFrame extends Id3Frame {
         parcel.writeString(this.id);
         parcel.writeString(this.language);
         parcel.writeString(this.text);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.metadata.id3.CommentFrame$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<CommentFrame> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public CommentFrame createFromParcel(Parcel parcel) {
+            return new CommentFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public CommentFrame[] newArray(int i) {
+            return new CommentFrame[i];
+        }
     }
 }

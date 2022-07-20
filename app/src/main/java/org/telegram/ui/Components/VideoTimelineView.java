@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class VideoTimelineView extends View {
@@ -308,59 +307,67 @@ public class VideoTimelineView extends View {
             }
         }
         this.framesLoaded = false;
-        AsyncTask<Integer, Integer, Bitmap> asyncTask = new AsyncTask<Integer, Integer, Bitmap>() { // from class: org.telegram.ui.Components.VideoTimelineView.1
-            private int frameNum = 0;
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1();
+        this.currentTask = anonymousClass1;
+        anonymousClass1.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.valueOf(i), null, null);
+    }
 
-            public Bitmap doInBackground(Integer... numArr) {
-                Exception e;
-                Bitmap frameAtTime;
-                this.frameNum = numArr[0].intValue();
-                Bitmap bitmap = null;
+    /* renamed from: org.telegram.ui.Components.VideoTimelineView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AsyncTask<Integer, Integer, Bitmap> {
+        private int frameNum = 0;
+
+        AnonymousClass1() {
+            VideoTimelineView.this = r1;
+        }
+
+        public Bitmap doInBackground(Integer... numArr) {
+            Exception e;
+            Bitmap frameAtTime;
+            this.frameNum = numArr[0].intValue();
+            Bitmap bitmap = null;
+            if (isCancelled()) {
+                return null;
+            }
+            try {
+                frameAtTime = VideoTimelineView.this.mediaMetadataRetriever.getFrameAtTime(VideoTimelineView.this.frameTimeOffset * this.frameNum * 1000, 2);
+            } catch (Exception e2) {
+                e = e2;
+            }
+            try {
                 if (isCancelled()) {
                     return null;
                 }
-                try {
-                    frameAtTime = VideoTimelineView.this.mediaMetadataRetriever.getFrameAtTime(VideoTimelineView.this.frameTimeOffset * this.frameNum * 1000, 2);
-                } catch (Exception e2) {
-                    e = e2;
+                if (frameAtTime == null) {
+                    return frameAtTime;
                 }
-                try {
-                    if (isCancelled()) {
-                        return null;
-                    }
-                    if (frameAtTime == null) {
-                        return frameAtTime;
-                    }
-                    Bitmap createBitmap = Bitmap.createBitmap(VideoTimelineView.this.frameWidth, VideoTimelineView.this.frameHeight, frameAtTime.getConfig());
-                    Canvas canvas = new Canvas(createBitmap);
-                    float max = Math.max(VideoTimelineView.this.frameWidth / frameAtTime.getWidth(), VideoTimelineView.this.frameHeight / frameAtTime.getHeight());
-                    int width = (int) (frameAtTime.getWidth() * max);
-                    int height = (int) (frameAtTime.getHeight() * max);
-                    canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelineView.this.frameWidth - width) / 2, (VideoTimelineView.this.frameHeight - height) / 2, width, height), (Paint) null);
-                    frameAtTime.recycle();
-                    return createBitmap;
-                } catch (Exception e3) {
-                    e = e3;
-                    bitmap = frameAtTime;
-                    FileLog.e(e);
-                    return bitmap;
-                }
+                Bitmap createBitmap = Bitmap.createBitmap(VideoTimelineView.this.frameWidth, VideoTimelineView.this.frameHeight, frameAtTime.getConfig());
+                Canvas canvas = new Canvas(createBitmap);
+                float max = Math.max(VideoTimelineView.this.frameWidth / frameAtTime.getWidth(), VideoTimelineView.this.frameHeight / frameAtTime.getHeight());
+                int width = (int) (frameAtTime.getWidth() * max);
+                int height = (int) (frameAtTime.getHeight() * max);
+                canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelineView.this.frameWidth - width) / 2, (VideoTimelineView.this.frameHeight - height) / 2, width, height), (Paint) null);
+                frameAtTime.recycle();
+                return createBitmap;
+            } catch (Exception e3) {
+                e = e3;
+                bitmap = frameAtTime;
+                FileLog.e(e);
+                return bitmap;
             }
+        }
 
-            public void onPostExecute(Bitmap bitmap) {
-                if (!isCancelled()) {
-                    VideoTimelineView.this.frames.add(bitmap);
-                    VideoTimelineView.this.invalidate();
-                    if (this.frameNum < VideoTimelineView.this.framesToLoad) {
-                        VideoTimelineView.this.reloadFrames(this.frameNum + 1);
-                    } else {
-                        VideoTimelineView.this.framesLoaded = true;
-                    }
+        public void onPostExecute(Bitmap bitmap) {
+            if (!isCancelled()) {
+                VideoTimelineView.this.frames.add(bitmap);
+                VideoTimelineView.this.invalidate();
+                if (this.frameNum < VideoTimelineView.this.framesToLoad) {
+                    VideoTimelineView.this.reloadFrames(this.frameNum + 1);
+                } else {
+                    VideoTimelineView.this.framesLoaded = true;
                 }
             }
-        };
-        this.currentTask = asyncTask;
-        asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.valueOf(i), null, null);
+        }
     }
 
     public void destroy() {
@@ -517,7 +524,7 @@ public class VideoTimelineView extends View {
             TextPaint textPaint = new TextPaint(1);
             this.tooltipPaint = textPaint;
             textPaint.setTextSize(AndroidUtilities.dp(14.0f));
-            this.tooltipBackgroundArrow = ContextCompat.getDrawable(context, R.drawable.tooltip_arrow);
+            this.tooltipBackgroundArrow = ContextCompat.getDrawable(context, 2131166186);
             updateColors();
             setTime(0);
         }

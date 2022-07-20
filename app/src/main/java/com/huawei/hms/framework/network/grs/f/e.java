@@ -33,14 +33,14 @@ public class e {
         String issueCountry = grsBaseInfo.getIssueCountry();
         for (String str4 : str.split(">")) {
             if (b.contains(str4.trim())) {
-                if ("ser_country".equals(str4.trim()) && !TextUtils.isEmpty(serCountry) && !GrsBaseInfo.CountryCodeSource.UNKNOWN.equals(serCountry)) {
+                if ("ser_country".equals(str4.trim()) && !TextUtils.isEmpty(serCountry) && !"UNKNOWN".equals(serCountry)) {
                     str2 = a;
                     sb = new StringBuilder();
                     str3 = "current route_by is serCountry and routerCountry is:";
-                } else if ("reg_country".equals(str4.trim()) && !TextUtils.isEmpty(regCountry) && !GrsBaseInfo.CountryCodeSource.UNKNOWN.equals(regCountry)) {
+                } else if ("reg_country".equals(str4.trim()) && !TextUtils.isEmpty(regCountry) && !"UNKNOWN".equals(regCountry)) {
                     Logger.i(a, "current route_by is regCountry and routerCountry is:" + regCountry);
                     return regCountry;
-                } else if ("issue_country".equals(str4.trim()) && !TextUtils.isEmpty(issueCountry) && !GrsBaseInfo.CountryCodeSource.UNKNOWN.equals(issueCountry)) {
+                } else if ("issue_country".equals(str4.trim()) && !TextUtils.isEmpty(issueCountry) && !"UNKNOWN".equals(issueCountry)) {
                     Logger.i(a, "current route_by is issueCountry and routerCountry is:" + issueCountry);
                     return issueCountry;
                 } else if ("geo_ip".equals(str4.trim())) {

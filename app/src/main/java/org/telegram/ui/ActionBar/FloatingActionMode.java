@@ -16,8 +16,7 @@ import android.view.WindowManager;
 import android.widget.PopupMenu;
 import java.util.Arrays;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.R;
-@TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+@TargetApi(23)
 /* loaded from: classes3.dex */
 public final class FloatingActionMode extends ActionMode {
     private final ActionMode.Callback2 mCallback;
@@ -27,24 +26,8 @@ public final class FloatingActionMode extends ActionMode {
     private final Menu mMenu;
     private final View mOriginatingView;
     private final int[] mViewPositionOnScreen;
-    private final Runnable mMovingOff = new Runnable() { // from class: org.telegram.ui.ActionBar.FloatingActionMode.1
-        @Override // java.lang.Runnable
-        public void run() {
-            if (FloatingActionMode.this.isViewStillActive()) {
-                FloatingActionMode.this.mFloatingToolbarVisibilityHelper.setMoving(false);
-                FloatingActionMode.this.mFloatingToolbarVisibilityHelper.updateToolbarVisibility();
-            }
-        }
-    };
-    private final Runnable mHideOff = new Runnable() { // from class: org.telegram.ui.ActionBar.FloatingActionMode.2
-        @Override // java.lang.Runnable
-        public void run() {
-            if (FloatingActionMode.this.isViewStillActive()) {
-                FloatingActionMode.this.mFloatingToolbarVisibilityHelper.setHideRequested(false);
-                FloatingActionMode.this.mFloatingToolbarVisibilityHelper.updateToolbarVisibility();
-            }
-        }
-    };
+    private final Runnable mMovingOff = new AnonymousClass1();
+    private final Runnable mHideOff = new AnonymousClass2();
     private final Rect mContentRect = new Rect();
     private final Rect mContentRectOnScreen = new Rect();
     private final Rect mPreviousContentRectOnScreen = new Rect();
@@ -91,20 +74,45 @@ public final class FloatingActionMode extends ActionMode {
     public void setTitle(CharSequence charSequence) {
     }
 
+    /* renamed from: org.telegram.ui.ActionBar.FloatingActionMode$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            FloatingActionMode.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            if (FloatingActionMode.this.isViewStillActive()) {
+                FloatingActionMode.this.mFloatingToolbarVisibilityHelper.setMoving(false);
+                FloatingActionMode.this.mFloatingToolbarVisibilityHelper.updateToolbarVisibility();
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.ActionBar.FloatingActionMode$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 implements Runnable {
+        AnonymousClass2() {
+            FloatingActionMode.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            if (FloatingActionMode.this.isViewStillActive()) {
+                FloatingActionMode.this.mFloatingToolbarVisibilityHelper.setHideRequested(false);
+                FloatingActionMode.this.mFloatingToolbarVisibilityHelper.updateToolbarVisibility();
+            }
+        }
+    }
+
     public FloatingActionMode(Context context, ActionMode.Callback2 callback2, View view, FloatingToolbar floatingToolbar) {
         this.mContext = context;
         this.mCallback = callback2;
         PopupMenu popupMenu = new PopupMenu(context, null);
         this.mMenu = popupMenu.getMenu();
         setType(1);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() { // from class: org.telegram.ui.ActionBar.FloatingActionMode$$ExternalSyntheticLambda1
-            @Override // android.widget.PopupMenu.OnMenuItemClickListener
-            public final boolean onMenuItemClick(MenuItem menuItem) {
-                boolean lambda$new$0;
-                lambda$new$0 = FloatingActionMode.this.lambda$new$0(menuItem);
-                return lambda$new$0;
-            }
-        });
+        popupMenu.setOnMenuItemClickListener(new FloatingActionMode$$ExternalSyntheticLambda1(this));
         int[] iArr = new int[2];
         this.mViewPositionOnScreen = iArr;
         this.mOriginatingView = view;
@@ -121,14 +129,7 @@ public final class FloatingActionMode extends ActionMode {
     }
 
     private void setFloatingToolbar(FloatingToolbar floatingToolbar) {
-        FloatingToolbar onMenuItemClickListener = floatingToolbar.setMenu(this.mMenu).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() { // from class: org.telegram.ui.ActionBar.FloatingActionMode$$ExternalSyntheticLambda0
-            @Override // android.view.MenuItem.OnMenuItemClickListener
-            public final boolean onMenuItemClick(MenuItem menuItem) {
-                boolean lambda$setFloatingToolbar$1;
-                lambda$setFloatingToolbar$1 = FloatingActionMode.this.lambda$setFloatingToolbar$1(menuItem);
-                return lambda$setFloatingToolbar$1;
-            }
-        });
+        FloatingToolbar onMenuItemClickListener = floatingToolbar.setMenu(this.mMenu).setOnMenuItemClickListener(new FloatingActionMode$$ExternalSyntheticLambda0(this));
         this.mFloatingToolbar = onMenuItemClickListener;
         FloatingToolbarVisibilityHelper floatingToolbarVisibilityHelper = new FloatingToolbarVisibilityHelper(onMenuItemClickListener);
         this.mFloatingToolbarVisibilityHelper = floatingToolbarVisibilityHelper;

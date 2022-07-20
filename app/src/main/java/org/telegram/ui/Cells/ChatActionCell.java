@@ -36,7 +36,6 @@ import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.DownloadController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
@@ -46,7 +45,6 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
@@ -271,17 +269,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.invalidateColors = false;
         this.giftTitlePaint = new TextPaint(1);
         this.giftSubtitlePaint = new TextPaint(1);
-        this.giftStickerDelegate = new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Cells.ChatActionCell$$ExternalSyntheticLambda3
-            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public final void didSetImage(ImageReceiver imageReceiver, boolean z2, boolean z3, boolean z4) {
-                ChatActionCell.this.lambda$new$0(imageReceiver, z2, z3, z4);
-            }
-
-            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver) {
-                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver);
-            }
-        };
+        this.giftStickerDelegate = new ChatActionCell$$ExternalSyntheticLambda3(this);
         this.starsPath = new Path();
         this.canDrawInParent = z;
         this.themeDelegate = themeDelegate;
@@ -327,7 +315,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             return;
         }
         if (z) {
-            str = i == 2147483646 ? LocaleController.getString("MessageScheduledUntilOnline", R.string.MessageScheduledUntilOnline) : LocaleController.formatString("MessageScheduledOn", R.string.MessageScheduledOn, LocaleController.formatDateChat(i));
+            str = i == 2147483646 ? LocaleController.getString("MessageScheduledUntilOnline", 2131626700) : LocaleController.formatString("MessageScheduledOn", 2131626698, LocaleController.formatDateChat(i));
         } else {
             str = LocaleController.formatDateChat(i);
         }
@@ -349,12 +337,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         if (this.wasLayout) {
             buildLayout();
         } else if (z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ChatActionCell$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatActionCell.this.requestLayout();
-                }
-            });
+            AndroidUtilities.runOnUIThread(new ChatActionCell$$ExternalSyntheticLambda0(this));
         } else {
             requestLayout();
         }
@@ -495,7 +478,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                             if (messageObject.mediaExists || DownloadController.getInstance(this.currentAccount).canDownloadMedia(4, tLRPC$VideoSize2.size)) {
                                 tLRPC$VideoSize = tLRPC$VideoSize2;
                                 if (tLRPC$VideoSize == null) {
-                                    this.imageReceiver.setImage(ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$Photo), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
+                                    this.imageReceiver.setImage(ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$Photo), "g", ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
                                 } else {
                                     this.imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize, messageObject.photoThumbsObject), "150_150", ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
                                 }
@@ -731,18 +714,13 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     }
 
     private void openPremiumGiftPreview() {
-        final TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption = new TLRPC$TL_premiumGiftOption();
+        TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption = new TLRPC$TL_premiumGiftOption();
         TLRPC$MessageAction tLRPC$MessageAction = this.currentMessageObject.messageOwner.action;
         tLRPC$TL_premiumGiftOption.amount = tLRPC$MessageAction.amount;
         tLRPC$TL_premiumGiftOption.months = tLRPC$MessageAction.months;
         tLRPC$TL_premiumGiftOption.currency = tLRPC$MessageAction.currency;
         if (this.delegate != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ChatActionCell$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatActionCell.this.lambda$openPremiumGiftPreview$1(tLRPC$TL_premiumGiftOption);
-                }
-            });
+            AndroidUtilities.runOnUIThread(new ChatActionCell$$ExternalSyntheticLambda1(this, tLRPC$TL_premiumGiftOption));
         }
     }
 
@@ -868,9 +846,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             TLRPC$Message tLRPC$Message = messageObject.messageOwner;
             if (tLRPC$Message != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && tLRPC$MessageMedia.ttl_seconds != 0) {
                 if (tLRPC$MessageMedia.photo instanceof TLRPC$TL_photoEmpty) {
-                    charSequence = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
+                    charSequence = LocaleController.getString("AttachPhotoExpired", 2131624514);
                 } else if (tLRPC$MessageMedia.document instanceof TLRPC$TL_documentEmpty) {
-                    charSequence = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
+                    charSequence = LocaleController.getString("AttachVideoExpired", 2131624520);
                 } else {
                     charSequence = messageObject.messageText;
                 }
@@ -888,18 +866,18 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 this.imageReceiver.setImageCoords((this.previousWidth - AndroidUtilities.roundMessageSize) / 2.0f, this.textHeight + AndroidUtilities.dp(19.0f), i2, i2);
             } else if (i != 18) {
             } else {
-                createGiftPremiumLayouts(LocaleController.getString((int) R.string.ActionGiftPremiumTitle), LocaleController.formatString(R.string.ActionGiftPremiumSubtitle, LocaleController.formatPluralString("Months", messageObject.messageOwner.action.months, new Object[0])), LocaleController.getString((int) R.string.ActionGiftPremiumView), this.giftRectSize);
+                createGiftPremiumLayouts(LocaleController.getString(2131624177), LocaleController.formatString(2131624176, LocaleController.formatPluralString("Months", messageObject.messageOwner.action.months, new Object[0])), LocaleController.getString(2131624178), this.giftRectSize);
             }
         }
     }
 
     private void createGiftPremiumLayouts(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, int i) {
         SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(charSequence);
-        valueOf.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, valueOf.length(), 33);
+        valueOf.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface("fonts/rmedium.ttf")), 0, valueOf.length(), 33);
         this.giftPremiumTitleLayout = new StaticLayout(valueOf, this.giftTitlePaint, i, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         this.giftPremiumSubtitleLayout = new StaticLayout(charSequence2, this.giftSubtitlePaint, i, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         SpannableStringBuilder valueOf2 = SpannableStringBuilder.valueOf(charSequence3);
-        valueOf2.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, valueOf2.length(), 33);
+        valueOf2.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface("fonts/rmedium.ttf")), 0, valueOf2.length(), 33);
         StaticLayout staticLayout = new StaticLayout(valueOf2, (TextPaint) getThemedPaint("paintChatActionText"), i, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         this.giftPremiumButtonLayout = staticLayout;
         this.giftPremiumButtonWidth = measureLayoutWidth(staticLayout);
@@ -1035,7 +1013,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 paint4.setColor(themedColor);
                 TextPaint textPaint = new TextPaint(1);
                 this.overrideTextPaint = textPaint;
-                textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 this.overrideTextPaint.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize) - 2));
                 this.overrideTextPaint.setColor(getThemedColor(this.overrideText));
             }
@@ -1256,7 +1234,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             }
             i++;
         }
-        this.imageReceiver.setImage(this.currentVideoLocation, ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
+        this.imageReceiver.setImage(this.currentVideoLocation, "g", ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
         DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
     }
 
@@ -1273,22 +1251,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         if (!TextUtils.isEmpty(this.customText) || messageObject != null) {
             if (this.accessibilityText == null) {
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(!TextUtils.isEmpty(this.customText) ? this.customText : messageObject.messageText);
-                for (final CharacterStyle characterStyle : (CharacterStyle[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), ClickableSpan.class)) {
+                for (CharacterStyle characterStyle : (CharacterStyle[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), ClickableSpan.class)) {
                     int spanStart = spannableStringBuilder.getSpanStart(characterStyle);
                     int spanEnd = spannableStringBuilder.getSpanEnd(characterStyle);
                     spannableStringBuilder.removeSpan(characterStyle);
-                    spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Cells.ChatActionCell.1
-                        {
-                            ChatActionCell.this = this;
-                        }
-
-                        @Override // android.text.style.ClickableSpan
-                        public void onClick(View view) {
-                            if (ChatActionCell.this.delegate != null) {
-                                ChatActionCell.this.openLink(characterStyle);
-                            }
-                        }
-                    }, spanStart, spanEnd, 33);
+                    spannableStringBuilder.setSpan(new AnonymousClass1(characterStyle), spanStart, spanEnd, 33);
                 }
                 this.accessibilityText = spannableStringBuilder;
             }
@@ -1298,6 +1265,24 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 accessibilityNodeInfo.setText(this.accessibilityText);
             }
             accessibilityNodeInfo.setEnabled(true);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.ChatActionCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends ClickableSpan {
+        final /* synthetic */ CharacterStyle val$link;
+
+        AnonymousClass1(CharacterStyle characterStyle) {
+            ChatActionCell.this = r1;
+            this.val$link = characterStyle;
+        }
+
+        @Override // android.text.style.ClickableSpan
+        public void onClick(View view) {
+            if (ChatActionCell.this.delegate != null) {
+                ChatActionCell.this.openLink(this.val$link);
+            }
         }
     }
 

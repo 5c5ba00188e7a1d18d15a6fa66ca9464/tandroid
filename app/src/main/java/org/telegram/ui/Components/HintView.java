@@ -17,12 +17,10 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
-import org.telegram.ui.Components.HintView;
 /* loaded from: classes3.dex */
 public class HintView extends FrameLayout {
     private AnimatorSet animatorSet;
@@ -84,17 +82,17 @@ public class HintView extends FrameLayout {
             addView(this.textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, z ? 6.0f : 0.0f, 0.0f, z ? 0.0f : 6.0f));
         }
         if (i == 0) {
-            this.textView.setText(LocaleController.getString("AutoplayVideoInfo", R.string.AutoplayVideoInfo));
+            this.textView.setText(LocaleController.getString("AutoplayVideoInfo", 2131624642));
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
-            imageView.setImageResource(R.drawable.tooltip_sound);
+            imageView.setImageResource(2131166188);
             this.imageView.setScaleType(ImageView.ScaleType.CENTER);
             this.imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_gifSaveHintText"), PorterDuff.Mode.MULTIPLY));
             addView(this.imageView, LayoutHelper.createFrame(38, 34.0f, 51, 7.0f, 7.0f, 0.0f, 0.0f));
         }
         ImageView imageView2 = new ImageView(context);
         this.arrowImageView = imageView2;
-        imageView2.setImageResource(z ? R.drawable.tooltip_arrow_up : R.drawable.tooltip_arrow);
+        imageView2.setImageResource(z ? 2131166187 : 2131166186);
         this.arrowImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_gifSaveHintBackground"), PorterDuff.Mode.MULTIPLY));
         addView(this.arrowImageView, LayoutHelper.createFrame(14, 6.0f, (z ? 48 : 80) | 3, 0.0f, 0.0f, 0.0f, 0.0f));
     }
@@ -162,15 +160,15 @@ public class HintView extends FrameLayout {
                 i6 += i2;
                 this.shownY = i2;
                 if (num.intValue() == -1) {
-                    this.textView.setText(LocaleController.getString("PollSelectOption", R.string.PollSelectOption));
+                    this.textView.setText(LocaleController.getString("PollSelectOption", 2131627638));
                 } else if (chatMessageCell.getMessageObject().isQuiz()) {
                     if (num.intValue() == 0) {
-                        this.textView.setText(LocaleController.getString("NoVotesQuiz", R.string.NoVotesQuiz));
+                        this.textView.setText(LocaleController.getString("NoVotesQuiz", 2131626931));
                     } else {
                         this.textView.setText(LocaleController.formatPluralString("Answer", num.intValue(), new Object[0]));
                     }
                 } else if (num.intValue() == 0) {
-                    this.textView.setText(LocaleController.getString("NoVotes", R.string.NoVotes));
+                    this.textView.setText(LocaleController.getString("NoVotes", 2131626930));
                 } else {
                     this.textView.setText(LocaleController.formatPluralString("Vote", num.intValue(), new Object[0]));
                 }
@@ -180,7 +178,7 @@ public class HintView extends FrameLayout {
                 MessageObject messageObject = chatMessageCell.getMessageObject();
                 String str = this.overrideText;
                 if (str == null) {
-                    this.textView.setText(LocaleController.getString("HidAccount", R.string.HidAccount));
+                    this.textView.setText(LocaleController.getString("HidAccount", 2131626177));
                 } else {
                     this.textView.setText(str);
                 }
@@ -278,12 +276,7 @@ public class HintView extends FrameLayout {
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
         public void onAnimationEnd(Animator animator) {
             HintView.this.animatorSet = null;
-            AndroidUtilities.runOnUIThread(HintView.this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.HintView$1$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    HintView.AnonymousClass1.this.lambda$onAnimationEnd$0();
-                }
-            }, HintView.this.currentType == 0 ? 10000L : 2000L);
+            AndroidUtilities.runOnUIThread(HintView.this.hideRunnable = new HintView$1$$ExternalSyntheticLambda0(this), HintView.this.currentType == 0 ? 10000L : 2000L);
         }
 
         public /* synthetic */ void lambda$onAnimationEnd$0() {
@@ -335,12 +328,7 @@ public class HintView extends FrameLayout {
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
         public void onAnimationEnd(Animator animator) {
             HintView.this.animatorSet = null;
-            AndroidUtilities.runOnUIThread(HintView.this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.HintView$2$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    HintView.AnonymousClass2.this.lambda$onAnimationEnd$0();
-                }
-            }, HintView.this.showingDuration);
+            AndroidUtilities.runOnUIThread(HintView.this.hideRunnable = new HintView$2$$ExternalSyntheticLambda0(this), HintView.this.showingDuration);
         }
 
         public /* synthetic */ void lambda$onAnimationEnd$0() {
@@ -536,15 +524,7 @@ public class HintView extends FrameLayout {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.animatorSet = animatorSet2;
             animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f));
-            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.HintView.3
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    HintView.this.setVisibility(4);
-                    HintView.this.currentView = null;
-                    HintView.this.messageCell = null;
-                    HintView.this.animatorSet = null;
-                }
-            });
+            this.animatorSet.addListener(new AnonymousClass3());
             this.animatorSet.setDuration(300L);
             this.animatorSet.start();
             return;
@@ -553,6 +533,22 @@ public class HintView extends FrameLayout {
         this.currentView = null;
         this.messageCell = null;
         this.animatorSet = null;
+    }
+
+    /* renamed from: org.telegram.ui.Components.HintView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        AnonymousClass3() {
+            HintView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            HintView.this.setVisibility(4);
+            HintView.this.currentView = null;
+            HintView.this.messageCell = null;
+            HintView.this.animatorSet = null;
+        }
     }
 
     public void setText(CharSequence charSequence) {

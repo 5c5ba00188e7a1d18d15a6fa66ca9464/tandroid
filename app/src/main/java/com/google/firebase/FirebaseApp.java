@@ -23,7 +23,6 @@ import com.google.firebase.components.ComponentDiscoveryService;
 import com.google.firebase.components.ComponentRuntime;
 import com.google.firebase.components.Lazy;
 import com.google.firebase.events.Publisher;
-import com.google.firebase.inject.Provider;
 import com.google.firebase.internal.DataCollectionConfigStorage;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -143,20 +142,13 @@ public class FirebaseApp {
         return this.dataCollectionConfigStorage.get().isEnabled();
     }
 
-    protected FirebaseApp(final Context context, String str, FirebaseOptions firebaseOptions) {
+    protected FirebaseApp(Context context, String str, FirebaseOptions firebaseOptions) {
         new CopyOnWriteArrayList();
         this.applicationContext = (Context) Preconditions.checkNotNull(context);
         this.name = Preconditions.checkNotEmpty(str);
         this.options = (FirebaseOptions) Preconditions.checkNotNull(firebaseOptions);
         this.componentRuntime = ComponentRuntime.builder(UI_EXECUTOR).addLazyComponentRegistrars(ComponentDiscovery.forContext(context, ComponentDiscoveryService.class).discoverLazy()).addComponentRegistrar(new FirebaseCommonRegistrar()).addComponent(Component.of(context, Context.class, new Class[0])).addComponent(Component.of(this, FirebaseApp.class, new Class[0])).addComponent(Component.of(firebaseOptions, FirebaseOptions.class, new Class[0])).build();
-        this.dataCollectionConfigStorage = new Lazy<>(new Provider() { // from class: com.google.firebase.FirebaseApp$$ExternalSyntheticLambda0
-            @Override // com.google.firebase.inject.Provider
-            public final Object get() {
-                DataCollectionConfigStorage lambda$new$0;
-                lambda$new$0 = FirebaseApp.this.lambda$new$0(context);
-                return lambda$new$0;
-            }
-        });
+        this.dataCollectionConfigStorage = new Lazy<>(new FirebaseApp$$ExternalSyntheticLambda0(this, context));
     }
 
     public /* synthetic */ DataCollectionConfigStorage lambda$new$0(Context context) {

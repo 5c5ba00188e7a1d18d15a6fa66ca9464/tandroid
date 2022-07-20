@@ -104,7 +104,7 @@ public class RLottieImageView extends ImageView {
         this.imageReceiver = new ImageReceiver();
         if ("video/webm".equals(tLRPC$Document.mime_type)) {
             TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
-            this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), i + "_" + i2 + "_pcache_" + ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, tLRPC$Document.size, null, tLRPC$Document, 1);
+            this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), i + "_" + i2 + "_pcache_g", ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, tLRPC$Document.size, null, tLRPC$Document, 1);
         } else {
             if (!ImageLoader.getInstance().hasLottieMemCache(tLRPC$Document.id + "@" + i + "_" + i2)) {
                 SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
@@ -124,35 +124,43 @@ public class RLottieImageView extends ImageView {
         this.imageReceiver.setAllowStartLottieAnimation(true);
         this.imageReceiver.setAllowStartAnimation(true);
         this.imageReceiver.clip = false;
-        setImageDrawable(new Drawable() { // from class: org.telegram.ui.Components.RLottieImageView.1
-            @Override // android.graphics.drawable.Drawable
-            public int getOpacity() {
-                return -2;
-            }
-
-            @Override // android.graphics.drawable.Drawable
-            public void draw(Canvas canvas) {
-                android.graphics.Rect rect = AndroidUtilities.rectTmp2;
-                rect.set(getBounds());
-                rect.inset(AndroidUtilities.dp(11.0f), AndroidUtilities.dp(11.0f));
-                RLottieImageView.this.imageReceiver.setImageCoords(rect);
-                RLottieImageView.this.imageReceiver.draw(canvas);
-            }
-
-            @Override // android.graphics.drawable.Drawable
-            public void setAlpha(int i3) {
-                RLottieImageView.this.imageReceiver.setAlpha(i3 / 255.0f);
-            }
-
-            @Override // android.graphics.drawable.Drawable
-            public void setColorFilter(ColorFilter colorFilter) {
-                RLottieImageView.this.imageReceiver.setColorFilter(colorFilter);
-            }
-        });
+        setImageDrawable(new AnonymousClass1());
         if (!this.attachedToWindow) {
             return;
         }
         this.imageReceiver.onAttachedToWindow();
+    }
+
+    /* renamed from: org.telegram.ui.Components.RLottieImageView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends Drawable {
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            return -2;
+        }
+
+        AnonymousClass1() {
+            RLottieImageView.this = r1;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            android.graphics.Rect rect = AndroidUtilities.rectTmp2;
+            rect.set(getBounds());
+            rect.inset(AndroidUtilities.dp(11.0f), AndroidUtilities.dp(11.0f));
+            RLottieImageView.this.imageReceiver.setImageCoords(rect);
+            RLottieImageView.this.imageReceiver.draw(canvas);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+            RLottieImageView.this.imageReceiver.setAlpha(i / 255.0f);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+            RLottieImageView.this.imageReceiver.setColorFilter(colorFilter);
+        }
     }
 
     public void clearAnimationDrawable() {

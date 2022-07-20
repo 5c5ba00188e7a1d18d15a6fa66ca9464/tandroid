@@ -643,7 +643,7 @@ public class SafeParcelReader {
     }
 
     private static void ensureArrayLengthValid(Parcel parcel, int i) {
-        if (i <= MAX_ARRAY_LENGTH) {
+        if (i <= 1024) {
             return;
         }
         throw new ParseException("arraySize cannot be beyond 65535", parcel);
@@ -663,7 +663,7 @@ public class SafeParcelReader {
     }
 
     public static int getFieldId(int i) {
-        return i & BIT16_MARK;
+        return i & 65535;
     }
 
     private static boolean isOutOfIntBoundary(int i, int i2) {
@@ -783,7 +783,7 @@ public class SafeParcelReader {
     }
 
     public static int readSize(Parcel parcel, int i) {
-        return (i & NEGATIVE_MARK) != NEGATIVE_MARK ? (i >> 16) & BIT16_MARK : parcel.readInt();
+        return (i & (-65536)) != -65536 ? (i >> 16) & 65535 : parcel.readInt();
     }
 
     private static void sizeChecker(Parcel parcel, int i, int i2) {
@@ -814,7 +814,7 @@ public class SafeParcelReader {
         int readHeader = readHeader(parcel);
         int readSize = readSize(parcel, readHeader);
         int dataPosition = parcel.dataPosition();
-        if (getFieldId(readHeader) != FIELD_ID_CHECKER) {
+        if (getFieldId(readHeader) != 20293) {
             String str = "Expected object header. Got 0x";
             String hexString = Integer.toHexString(readHeader);
             if (hexString.length() != 0) {

@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$BotInfo;
 import org.telegram.tgnet.TLRPC$TL_botCommand;
 import org.telegram.ui.ActionBar.MenuDrawable;
@@ -38,49 +37,68 @@ public class BotCommandsMenuView extends View {
     final TextPaint textPaint;
     final RectF rectTmp = new RectF();
     final Paint paint = new Paint(1);
-    RLottieDrawable webViewAnimation = new RLottieDrawable(R.raw.bot_webview_sheet_to_cross, String.valueOf((int) R.raw.bot_webview_sheet_to_cross) + hashCode(), AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f)) { // from class: org.telegram.ui.Components.BotCommandsMenuView.2
+    RLottieDrawable webViewAnimation = new AnonymousClass2(2131558411, String.valueOf(2131558411) + hashCode(), AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f));
+    private String menuText = LocaleController.getString(2131624767);
+    boolean drawBackgroundDrawable = true;
+
+    protected void onTranslationChanged(float f) {
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.BotCommandsMenuView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends MenuDrawable {
+        AnonymousClass1() {
+            BotCommandsMenuView.this = r1;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void invalidateSelf() {
+            super.invalidateSelf();
+            BotCommandsMenuView.this.invalidate();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.BotCommandsMenuView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends RLottieDrawable {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(int i, String str, int i2, int i3) {
+            super(i, str, i2, i3);
+            BotCommandsMenuView.this = r1;
+        }
+
         @Override // android.graphics.drawable.Drawable
         public void invalidateSelf() {
             super.invalidateSelf();
             BotCommandsMenuView.this.invalidate();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RLottieDrawable
         public void invalidateInternal() {
             super.invalidateInternal();
             BotCommandsMenuView.this.invalidate();
         }
-    };
-    private String menuText = LocaleController.getString((int) R.string.BotsMenuTitle);
-    boolean drawBackgroundDrawable = true;
-
-    protected void onTranslationChanged(float f) {
     }
 
     public BotCommandsMenuView(Context context) {
         super(context);
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
-        MenuDrawable menuDrawable = new MenuDrawable() { // from class: org.telegram.ui.Components.BotCommandsMenuView.1
-            @Override // android.graphics.drawable.Drawable
-            public void invalidateSelf() {
-                super.invalidateSelf();
-                BotCommandsMenuView.this.invalidate();
-            }
-        };
-        this.backDrawable = menuDrawable;
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1();
+        this.backDrawable = anonymousClass1;
         updateColors();
-        menuDrawable.setMiniIcon(true);
-        menuDrawable.setRotateToBack(false);
-        menuDrawable.setRotation(0.0f, false);
-        menuDrawable.setCallback(this);
-        textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        menuDrawable.setRoundCap();
+        anonymousClass1.setMiniIcon(true);
+        anonymousClass1.setRotateToBack(false);
+        anonymousClass1.setRotation(0.0f, false);
+        anonymousClass1.setCallback(this);
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        anonymousClass1.setRoundCap();
         Drawable createSimpleSelectorRoundRectDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(16.0f), 0, Theme.getColor("featuredStickers_addButtonPressed"));
         this.backgroundDrawable = createSimpleSelectorRoundRectDrawable;
         createSimpleSelectorRoundRectDrawable.setCallback(this);
-        setContentDescription(LocaleController.getString("AccDescrBotMenu", R.string.AccDescrBotMenu));
+        setContentDescription(LocaleController.getString("AccDescrBotMenu", 2131623964));
     }
 
     public void setDrawBackgroundDrawable(boolean z) {
@@ -238,7 +256,7 @@ public class BotCommandsMenuView extends View {
 
     public boolean setMenuText(String str) {
         if (str == null) {
-            str = LocaleController.getString((int) R.string.BotsMenuTitle);
+            str = LocaleController.getString(2131624767);
         }
         String str2 = this.menuText;
         boolean z = str2 == null || !str2.equals(str);

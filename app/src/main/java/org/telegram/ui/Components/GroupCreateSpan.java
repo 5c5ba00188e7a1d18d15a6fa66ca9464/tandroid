@@ -22,7 +22,6 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
@@ -74,7 +73,7 @@ public class GroupCreateSpan extends View {
         this.rect = new RectF();
         this.colors = new int[8];
         this.currentContact = contact;
-        this.deleteDrawable = getResources().getDrawable(R.drawable.delete);
+        this.deleteDrawable = getResources().getDrawable(2131165371);
         textPaint.setTextSize(AndroidUtilities.dp(14.0f));
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         this.avatarDrawable = avatarDrawable;
@@ -144,42 +143,42 @@ public class GroupCreateSpan extends View {
                 case 0:
                     this.avatarDrawable.setAvatarType(4);
                     this.uid = -2147483648L;
-                    str = LocaleController.getString("FilterContacts", R.string.FilterContacts);
+                    str = LocaleController.getString("FilterContacts", 2131625886);
                     break;
                 case 1:
                     this.avatarDrawable.setAvatarType(5);
                     this.uid = -2147483647L;
-                    str = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
+                    str = LocaleController.getString("FilterNonContacts", 2131625916);
                     break;
                 case 2:
                     this.avatarDrawable.setAvatarType(6);
                     this.uid = -2147483646L;
-                    str = LocaleController.getString("FilterGroups", R.string.FilterGroups);
+                    str = LocaleController.getString("FilterGroups", 2131625903);
                     break;
                 case 3:
                     this.avatarDrawable.setAvatarType(7);
                     this.uid = -2147483645L;
-                    str = LocaleController.getString("FilterChannels", R.string.FilterChannels);
+                    str = LocaleController.getString("FilterChannels", 2131625877);
                     break;
                 case 4:
                     this.avatarDrawable.setAvatarType(8);
                     this.uid = -2147483644L;
-                    str = LocaleController.getString("FilterBots", R.string.FilterBots);
+                    str = LocaleController.getString("FilterBots", 2131625876);
                     break;
                 case 5:
                     this.avatarDrawable.setAvatarType(9);
                     this.uid = -2147483643L;
-                    str = LocaleController.getString("FilterMuted", R.string.FilterMuted);
+                    str = LocaleController.getString("FilterMuted", 2131625906);
                     break;
                 case 6:
                     this.avatarDrawable.setAvatarType(10);
                     this.uid = -2147483642L;
-                    str = LocaleController.getString("FilterRead", R.string.FilterRead);
+                    str = LocaleController.getString("FilterRead", 2131625917);
                     break;
                 default:
                     this.avatarDrawable.setAvatarType(11);
                     this.uid = -2147483641L;
-                    str = LocaleController.getString("FilterArchived", R.string.FilterArchived);
+                    str = LocaleController.getString("FilterArchived", 2131625873);
                     break;
             }
         } else {
@@ -187,11 +186,11 @@ public class GroupCreateSpan extends View {
                 TLRPC$User tLRPC$User3 = (TLRPC$User) obj;
                 this.uid = tLRPC$User3.id;
                 if (UserObject.isReplyUser(tLRPC$User3)) {
-                    str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
+                    str = LocaleController.getString("RepliesTitle", 2131627982);
                     this.avatarDrawable.setSmallSize(true);
                     this.avatarDrawable.setAvatarType(12);
                 } else if (UserObject.isUserSelf(tLRPC$User3)) {
-                    str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                    str = LocaleController.getString("SavedMessages", 2131628139);
                     this.avatarDrawable.setSmallSize(true);
                     this.avatarDrawable.setAvatarType(1);
                 } else {
@@ -370,6 +369,6 @@ public class GroupCreateSpan extends View {
         if (!isDeleting() || Build.VERSION.SDK_INT < 21) {
             return;
         }
-        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK.getId(), LocaleController.getString("Delete", R.string.Delete)));
+        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK.getId(), LocaleController.getString("Delete", 2131625384)));
     }
 }

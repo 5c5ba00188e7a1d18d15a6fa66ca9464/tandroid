@@ -37,7 +37,6 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.WebFile;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$BotInlineMessage;
 import org.telegram.tgnet.TLRPC$BotInlineResult;
 import org.telegram.tgnet.TLRPC$Document;
@@ -63,14 +62,12 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.tgnet.TLRPC$WebDocument;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Cells.ContextLinkCell;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LetterDrawable;
 import org.telegram.ui.Components.RadialProgress2;
 import org.telegram.ui.PhotoViewer;
-import org.webrtc.MediaStreamTrack;
 /* loaded from: classes3.dex */
 public class ContextLinkCell extends FrameLayout implements DownloadController.FileDownloadProgressListener {
     public final Property<ContextLinkCell, Float> IMAGE_SCALE;
@@ -140,16 +137,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         this.titleY = AndroidUtilities.dp(7.0f);
         this.descriptionY = AndroidUtilities.dp(27.0f);
         this.imageScale = 1.0f;
-        this.IMAGE_SCALE = new AnimationProperties.FloatProperty<ContextLinkCell>("animationValue") { // from class: org.telegram.ui.Cells.ContextLinkCell.2
-            public void setValue(ContextLinkCell contextLinkCell, float f) {
-                ContextLinkCell.this.imageScale = f;
-                ContextLinkCell.this.invalidate();
-            }
-
-            public Float get(ContextLinkCell contextLinkCell) {
-                return Float.valueOf(ContextLinkCell.this.imageScale);
-            }
-        };
+        this.IMAGE_SCALE = new AnonymousClass2("animationValue");
         this.resourcesProvider = resourcesProvider;
         ImageReceiver imageReceiver = new ImageReceiver(this);
         this.linkImageView = imageReceiver;
@@ -754,7 +742,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             if (tLRPC$BotInlineResult != null) {
                 if (tLRPC$BotInlineResult.photo != null) {
                     this.documentAttachType = 7;
-                } else if (tLRPC$BotInlineResult.type.equals(MediaStreamTrack.AUDIO_TRACK_KIND)) {
+                } else if (tLRPC$BotInlineResult.type.equals("audio")) {
                     this.documentAttachType = 5;
                 } else if (this.inlineResult.type.equals("voice")) {
                     this.documentAttachType = 3;
@@ -1120,7 +1108,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                     Theme.chat_inlineResultFile.draw(canvas);
                 } else {
                     TLRPC$BotInlineResult tLRPC$BotInlineResult3 = this.inlineResult;
-                    if (tLRPC$BotInlineResult3 != null && (tLRPC$BotInlineResult3.type.equals(MediaStreamTrack.AUDIO_TRACK_KIND) || this.inlineResult.type.equals("voice"))) {
+                    if (tLRPC$BotInlineResult3 != null && (tLRPC$BotInlineResult3.type.equals("audio") || this.inlineResult.type.equals("voice"))) {
                         int intrinsicWidth2 = Theme.chat_inlineResultAudio.getIntrinsicWidth();
                         int intrinsicHeight2 = Theme.chat_inlineResultAudio.getIntrinsicHeight();
                         int imageX2 = (int) (this.linkImageView.getImageX() + ((AndroidUtilities.dp(52.0f) - intrinsicWidth2) / 2));
@@ -1305,8 +1293,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void run() {
-            final File file;
-            final String str;
+            File file;
+            String str;
             File file2;
             File file3;
             String str2;
@@ -1386,15 +1374,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 str = null;
                 file = null;
             }
-            final boolean z = !TextUtils.isEmpty(str) && file.exists();
-            final int i = this.val$localId;
-            final boolean z2 = this.val$ifSame;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ContextLinkCell$1$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ContextLinkCell.AnonymousClass1.this.lambda$run$0(i, str, file, z, z2);
-                }
-            });
+            AndroidUtilities.runOnUIThread(new ContextLinkCell$1$$ExternalSyntheticLambda0(this, this.val$localId, str, file, !TextUtils.isEmpty(str) && file.exists(), this.val$ifSame));
         }
 
         public /* synthetic */ void lambda$run$0(int i, String str, File file, boolean z, boolean z2) {
@@ -1458,28 +1438,28 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         StringBuilder sb = new StringBuilder();
         switch (this.documentAttachType) {
             case 1:
-                sb.append(LocaleController.getString("AttachDocument", R.string.AttachDocument));
+                sb.append(LocaleController.getString("AttachDocument", 2131624492));
                 break;
             case 2:
-                sb.append(LocaleController.getString("AttachGif", R.string.AttachGif));
+                sb.append(LocaleController.getString("AttachGif", 2131624494));
                 break;
             case 3:
-                sb.append(LocaleController.getString("AttachAudio", R.string.AttachAudio));
+                sb.append(LocaleController.getString("AttachAudio", 2131624487));
                 break;
             case 4:
-                sb.append(LocaleController.getString("AttachVideo", R.string.AttachVideo));
+                sb.append(LocaleController.getString("AttachVideo", 2131624519));
                 break;
             case 5:
-                sb.append(LocaleController.getString("AttachMusic", R.string.AttachMusic));
+                sb.append(LocaleController.getString("AttachMusic", 2131624512));
                 break;
             case 6:
-                sb.append(LocaleController.getString("AttachSticker", R.string.AttachSticker));
+                sb.append(LocaleController.getString("AttachSticker", 2131624516));
                 break;
             case 7:
-                sb.append(LocaleController.getString("AttachPhoto", R.string.AttachPhoto));
+                sb.append(LocaleController.getString("AttachPhoto", 2131624513));
                 break;
             case 8:
-                sb.append(LocaleController.getString("AttachLocation", R.string.AttachLocation));
+                sb.append(LocaleController.getString("AttachLocation", 2131624503));
                 break;
         }
         StaticLayout staticLayout = this.titleLayout;
@@ -1501,7 +1481,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             }
         } else {
             sb.append(", ");
-            sb.append(LocaleController.formatString("AccDescrMusicInfo", R.string.AccDescrMusicInfo, this.descriptionLayout.getText(), this.titleLayout.getText()));
+            sb.append(LocaleController.formatString("AccDescrMusicInfo", 2131624010, this.descriptionLayout.getText(), this.titleLayout.getText()));
         }
         accessibilityNodeInfo.setText(sb);
         CheckBox2 checkBox2 = this.checkBox;
@@ -1512,7 +1492,26 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         accessibilityNodeInfo.setChecked(true);
     }
 
-    public void setChecked(final boolean z, boolean z2) {
+    /* renamed from: org.telegram.ui.Cells.ContextLinkCell$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimationProperties.FloatProperty<ContextLinkCell> {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(String str) {
+            super(str);
+            ContextLinkCell.this = r1;
+        }
+
+        public void setValue(ContextLinkCell contextLinkCell, float f) {
+            ContextLinkCell.this.imageScale = f;
+            ContextLinkCell.this.invalidate();
+        }
+
+        public Float get(ContextLinkCell contextLinkCell) {
+            return Float.valueOf(ContextLinkCell.this.imageScale);
+        }
+    }
+
+    public void setChecked(boolean z, boolean z2) {
         CheckBox2 checkBox2 = this.checkBox;
         if (checkBox2 == null) {
             return;
@@ -1540,27 +1539,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             animatorArr[0] = ObjectAnimator.ofFloat(this, property, fArr);
             animatorSet2.playTogether(animatorArr);
             this.animator.setDuration(200L);
-            this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.ContextLinkCell.3
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (ContextLinkCell.this.animator == null || !ContextLinkCell.this.animator.equals(animator)) {
-                        return;
-                    }
-                    ContextLinkCell.this.animator = null;
-                    if (z) {
-                        return;
-                    }
-                    ContextLinkCell.this.setBackgroundColor(0);
-                }
-
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationCancel(Animator animator) {
-                    if (ContextLinkCell.this.animator == null || !ContextLinkCell.this.animator.equals(animator)) {
-                        return;
-                    }
-                    ContextLinkCell.this.animator = null;
-                }
-            });
+            this.animator.addListener(new AnonymousClass3(z));
             this.animator.start();
             return;
         }
@@ -1569,5 +1548,36 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         }
         this.imageScale = f;
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Cells.ContextLinkCell$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        final /* synthetic */ boolean val$checked;
+
+        AnonymousClass3(boolean z) {
+            ContextLinkCell.this = r1;
+            this.val$checked = z;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (ContextLinkCell.this.animator == null || !ContextLinkCell.this.animator.equals(animator)) {
+                return;
+            }
+            ContextLinkCell.this.animator = null;
+            if (this.val$checked) {
+                return;
+            }
+            ContextLinkCell.this.setBackgroundColor(0);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            if (ContextLinkCell.this.animator == null || !ContextLinkCell.this.animator.equals(animator)) {
+                return;
+            }
+            ContextLinkCell.this.animator = null;
+        }
     }
 }

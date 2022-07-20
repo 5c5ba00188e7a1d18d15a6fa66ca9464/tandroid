@@ -252,21 +252,8 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                     ValueAnimator ofFloat = ValueAnimator.ofFloat(this.drawAlpha, 0.0f);
                     this.hideAnimator = ofFloat;
                     ofFloat.setDuration(this.drawAlpha * 200.0f);
-                    this.hideAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.GroupedPhotosListView.1
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            if (GroupedPhotosListView.this.hideAnimator == animator) {
-                                GroupedPhotosListView.this.hideAnimator = null;
-                                GroupedPhotosListView.this.fillList();
-                            }
-                        }
-                    });
-                    this.hideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.GroupedPhotosListView$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                            GroupedPhotosListView.this.lambda$fillList$0(valueAnimator2);
-                        }
-                    });
+                    this.hideAnimator.addListener(new AnonymousClass1());
+                    this.hideAnimator.addUpdateListener(new GroupedPhotosListView$$ExternalSyntheticLambda0(this));
                     this.hideAnimator.start();
                     return;
                 }
@@ -281,27 +268,8 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                     ValueAnimator ofFloat2 = ValueAnimator.ofFloat(f, 1.0f);
                     this.showAnimator = ofFloat2;
                     ofFloat2.setDuration((1.0f - this.drawAlpha) * 200.0f);
-                    this.showAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.GroupedPhotosListView.2
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationStart(Animator animator) {
-                            if (GroupedPhotosListView.this.delegate != null) {
-                                GroupedPhotosListView.this.delegate.onShowAnimationStart();
-                            }
-                        }
-
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            if (GroupedPhotosListView.this.showAnimator == animator) {
-                                GroupedPhotosListView.this.showAnimator = null;
-                            }
-                        }
-                    });
-                    this.showAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.GroupedPhotosListView$$ExternalSyntheticLambda1
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                            GroupedPhotosListView.this.lambda$fillList$1(valueAnimator3);
-                        }
-                    });
+                    this.showAnimator.addListener(new AnonymousClass2());
+                    this.showAnimator.addUpdateListener(new GroupedPhotosListView$$ExternalSyntheticLambda1(this));
                 }
             }
         }
@@ -418,9 +386,47 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         }
     }
 
+    /* renamed from: org.telegram.ui.Components.GroupedPhotosListView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            GroupedPhotosListView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (GroupedPhotosListView.this.hideAnimator == animator) {
+                GroupedPhotosListView.this.hideAnimator = null;
+                GroupedPhotosListView.this.fillList();
+            }
+        }
+    }
+
     public /* synthetic */ void lambda$fillList$0(ValueAnimator valueAnimator) {
         this.drawAlpha = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Components.GroupedPhotosListView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        AnonymousClass2() {
+            GroupedPhotosListView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            if (GroupedPhotosListView.this.delegate != null) {
+                GroupedPhotosListView.this.delegate.onShowAnimationStart();
+            }
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (GroupedPhotosListView.this.showAnimator == animator) {
+                GroupedPhotosListView.this.showAnimator = null;
+            }
+        }
     }
 
     public /* synthetic */ void lambda$fillList$1(ValueAnimator valueAnimator) {

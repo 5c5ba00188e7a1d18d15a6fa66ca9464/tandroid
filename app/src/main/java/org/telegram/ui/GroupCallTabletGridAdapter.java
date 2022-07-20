@@ -1,5 +1,6 @@
 package org.telegram.ui;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.DiffUtil;
@@ -44,24 +45,34 @@ public class GroupCallTabletGridAdapter extends RecyclerListView.SelectionAdapte
         this.groupCall = call;
     }
 
+    /* renamed from: org.telegram.ui.GroupCallTabletGridAdapter$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends GroupCallGridCell {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context, boolean z) {
+            super(context, z);
+            GroupCallTabletGridAdapter.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.voip.GroupCallGridCell, android.view.ViewGroup, android.view.View
+        public void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            if (!GroupCallTabletGridAdapter.this.visible || getParticipant() == null) {
+                return;
+            }
+            GroupCallTabletGridAdapter.this.attachRenderer(this, true);
+        }
+
+        @Override // org.telegram.ui.Components.voip.GroupCallGridCell, android.view.ViewGroup, android.view.View
+        public void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            GroupCallTabletGridAdapter.this.attachRenderer(this, false);
+        }
+    }
+
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return new RecyclerListView.Holder(new GroupCallGridCell(viewGroup.getContext(), true) { // from class: org.telegram.ui.GroupCallTabletGridAdapter.1
-            @Override // org.telegram.ui.Components.voip.GroupCallGridCell, android.view.ViewGroup, android.view.View
-            public void onAttachedToWindow() {
-                super.onAttachedToWindow();
-                if (!GroupCallTabletGridAdapter.this.visible || getParticipant() == null) {
-                    return;
-                }
-                GroupCallTabletGridAdapter.this.attachRenderer(this, true);
-            }
-
-            @Override // org.telegram.ui.Components.voip.GroupCallGridCell, android.view.ViewGroup, android.view.View
-            public void onDetachedFromWindow() {
-                super.onDetachedFromWindow();
-                GroupCallTabletGridAdapter.this.attachRenderer(this, false);
-            }
-        });
+        return new RecyclerListView.Holder(new AnonymousClass1(viewGroup.getContext(), true));
     }
 
     public void attachRenderer(GroupCallGridCell groupCallGridCell, boolean z) {
@@ -123,40 +134,51 @@ public class GroupCallTabletGridAdapter extends RecyclerListView.SelectionAdapte
             return;
         }
         if (z) {
-            final ArrayList arrayList = new ArrayList();
+            ArrayList arrayList = new ArrayList();
             arrayList.addAll(this.videoParticipants);
             this.videoParticipants.clear();
             this.videoParticipants.addAll(this.groupCall.visibleVideoParticipants);
-            DiffUtil.calculateDiff(new DiffUtil.Callback() { // from class: org.telegram.ui.GroupCallTabletGridAdapter.2
-                @Override // androidx.recyclerview.widget.DiffUtil.Callback
-                public boolean areContentsTheSame(int i, int i2) {
-                    return true;
-                }
-
-                @Override // androidx.recyclerview.widget.DiffUtil.Callback
-                public int getOldListSize() {
-                    return arrayList.size();
-                }
-
-                @Override // androidx.recyclerview.widget.DiffUtil.Callback
-                public int getNewListSize() {
-                    return GroupCallTabletGridAdapter.this.videoParticipants.size();
-                }
-
-                @Override // androidx.recyclerview.widget.DiffUtil.Callback
-                public boolean areItemsTheSame(int i, int i2) {
-                    if (i >= arrayList.size() || i2 >= GroupCallTabletGridAdapter.this.videoParticipants.size()) {
-                        return false;
-                    }
-                    return ((ChatObject.VideoParticipant) arrayList.get(i)).equals(GroupCallTabletGridAdapter.this.videoParticipants.get(i2));
-                }
-            }).dispatchUpdatesTo(this);
+            DiffUtil.calculateDiff(new AnonymousClass2(arrayList)).dispatchUpdatesTo(this);
             AndroidUtilities.updateVisibleRows(recyclerListView);
             return;
         }
         this.videoParticipants.clear();
         this.videoParticipants.addAll(this.groupCall.visibleVideoParticipants);
         notifyDataSetChanged();
+    }
+
+    /* renamed from: org.telegram.ui.GroupCallTabletGridAdapter$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends DiffUtil.Callback {
+        final /* synthetic */ ArrayList val$oldVideoParticipants;
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public boolean areContentsTheSame(int i, int i2) {
+            return true;
+        }
+
+        AnonymousClass2(ArrayList arrayList) {
+            GroupCallTabletGridAdapter.this = r1;
+            this.val$oldVideoParticipants = arrayList;
+        }
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public int getOldListSize() {
+            return this.val$oldVideoParticipants.size();
+        }
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public int getNewListSize() {
+            return GroupCallTabletGridAdapter.this.videoParticipants.size();
+        }
+
+        @Override // androidx.recyclerview.widget.DiffUtil.Callback
+        public boolean areItemsTheSame(int i, int i2) {
+            if (i >= this.val$oldVideoParticipants.size() || i2 >= GroupCallTabletGridAdapter.this.videoParticipants.size()) {
+                return false;
+            }
+            return ((ChatObject.VideoParticipant) this.val$oldVideoParticipants.get(i)).equals(GroupCallTabletGridAdapter.this.videoParticipants.get(i2));
+        }
     }
 
     public int getSpanCount(int i) {

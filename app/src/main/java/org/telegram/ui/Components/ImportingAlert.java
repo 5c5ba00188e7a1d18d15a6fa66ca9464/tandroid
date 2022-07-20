@@ -16,7 +16,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SendMessagesHelper;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
@@ -58,7 +57,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
             rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(20.0f), getThemedColor("featuredStickers_buttonText")));
             this.imageView.setScaleType(ImageView.ScaleType.CENTER);
             this.imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("featuredStickers_addButton"), PorterDuff.Mode.MULTIPLY));
-            this.imageView.setAnimation(R.raw.import_check, 26, 26);
+            this.imageView.setAnimation(2131558474, 26, 26);
             this.imageView.setScaleX(0.8f);
             this.imageView.setScaleY(0.8f);
             this.linearLayout.addView(this.imageView, LayoutHelper.createLinear(20, 20, 16));
@@ -71,7 +70,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
             this.textView.setGravity(17);
             this.textView.setTextColor(getThemedColor("featuredStickers_buttonText"));
             this.textView.setTextSize(1, 14.0f);
-            this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             this.linearLayout.addView(this.textView, LayoutHelper.createLinear(-2, -2, 16, 10, 0, 0, 0));
         }
 
@@ -109,13 +108,8 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
 
     public ImportingAlert(Context context, String str, ChatActivity chatActivity, Theme.ResourcesProvider resourcesProvider) {
         super(context, false, resourcesProvider);
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ImportingAlert$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                ImportingAlert.this.lambda$new$0();
-            }
-        };
-        this.onFinishCallback = runnable;
+        ImportingAlert$$ExternalSyntheticLambda1 importingAlert$$ExternalSyntheticLambda1 = new ImportingAlert$$ExternalSyntheticLambda1(this);
+        this.onFinishCallback = importingAlert$$ExternalSyntheticLambda1;
         setApplyBottomPadding(false);
         setApplyTopPadding(false);
         this.parentFragment = chatActivity;
@@ -123,25 +117,25 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         FrameLayout frameLayout = new FrameLayout(context);
         setCustomView(frameLayout);
         TextView textView = new TextView(context);
-        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextSize(1, 20.0f);
         textView.setTextColor(getThemedColor("dialogTextBlack"));
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 17.0f, 20.0f, 17.0f, 0.0f));
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.import_finish, "2131558475", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), false, null);
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558475, "2131558475", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), false, null);
         this.completedDrawable = rLottieDrawable;
         rLottieDrawable.setAllowDecodeSingleFrame(true);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.imageView = rLottieImageView;
         rLottieImageView.setAutoRepeat(true);
-        this.imageView.setAnimation(R.raw.import_loop, 120, 120);
+        this.imageView.setAnimation(2131558476, 120, 120);
         this.imageView.playAnimation();
         frameLayout.addView(this.imageView, LayoutHelper.createFrame(160, 160.0f, 49, 17.0f, 79.0f, 17.0f, 0.0f));
-        this.imageView.getAnimatedDrawable().setOnFinishCallback(runnable, 178);
+        this.imageView.getAnimatedDrawable().setOnFinishCallback(importingAlert$$ExternalSyntheticLambda1, 178);
         TextView textView2 = new TextView(context);
         this.percentTextView = textView2;
-        textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.percentTextView.setTextSize(1, 24.0f);
         this.percentTextView.setTextColor(getThemedColor("dialogTextBlack"));
         frameLayout.addView(this.percentTextView, LayoutHelper.createFrame(-2, -2.0f, 49, 17.0f, 262.0f, 17.0f, 0.0f));
@@ -153,21 +147,16 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         BottomSheetCell bottomSheetCell = new BottomSheetCell(context, resourcesProvider);
         this.cell = bottomSheetCell;
         bottomSheetCell.setBackground(null);
-        this.cell.setText(LocaleController.getString("ImportDone", R.string.ImportDone));
+        this.cell.setText(LocaleController.getString("ImportDone", 2131626225));
         this.cell.setVisibility(4);
-        this.cell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ImportingAlert$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ImportingAlert.this.lambda$new$1(view);
-            }
-        });
+        this.cell.background.setOnClickListener(new ImportingAlert$$ExternalSyntheticLambda0(this));
         this.cell.background.setPivotY(AndroidUtilities.dp(48.0f));
         this.cell.background.setScaleY(0.04f);
         frameLayout.addView(this.cell, LayoutHelper.createFrame(-1, 50.0f, 51, 34.0f, 247.0f, 34.0f, 0.0f));
         for (int i = 0; i < 2; i++) {
             this.importCountTextView[i] = new TextView(context);
             this.importCountTextView[i].setTextSize(1, 16.0f);
-            this.importCountTextView[i].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.importCountTextView[i].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             this.importCountTextView[i].setTextColor(getThemedColor("dialogTextBlack"));
             frameLayout.addView(this.importCountTextView[i], LayoutHelper.createFrame(-2, -2.0f, 49, 17.0f, 340.0f, 17.0f, 0.0f));
             this.infoTextView[i] = new TextView(context);
@@ -176,7 +165,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
             this.infoTextView[i].setGravity(1);
             frameLayout.addView(this.infoTextView[i], LayoutHelper.createFrame(-2, -2.0f, 49, 30.0f, 368.0f, 30.0f, 44.0f));
             if (i == 0) {
-                this.infoTextView[i].setText(LocaleController.getString("ImportImportingInfo", R.string.ImportImportingInfo));
+                this.infoTextView[i].setText(LocaleController.getString("ImportImportingInfo", 2131626240));
             } else {
                 this.infoTextView[i].setAlpha(0.0f);
                 this.infoTextView[i].setTranslationY(AndroidUtilities.dp(10.0f));
@@ -185,23 +174,23 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
             }
         }
         if (this.parentFragment != null) {
-            textView.setText(LocaleController.getString("ImportImportingTitle", R.string.ImportImportingTitle));
+            textView.setText(LocaleController.getString("ImportImportingTitle", 2131626241));
             SendMessagesHelper.ImportingHistory importingHistory = this.parentFragment.getSendMessagesHelper().getImportingHistory(this.parentFragment.getDialogId());
             this.percentTextView.setText(String.format("%d%%", Integer.valueOf(importingHistory.uploadProgress)));
             this.lineProgressView.setProgress(importingHistory.uploadProgress / 100.0f, false);
-            this.importCountTextView[0].setText(LocaleController.formatString("ImportCount", R.string.ImportCount, AndroidUtilities.formatFileSize(importingHistory.getUploadedCount()), AndroidUtilities.formatFileSize(importingHistory.getTotalCount())));
-            this.infoTextView[1].setText(LocaleController.getString("ImportDoneInfo", R.string.ImportDoneInfo));
-            this.importCountTextView[1].setText(LocaleController.getString("ImportDoneTitle", R.string.ImportDoneTitle));
+            this.importCountTextView[0].setText(LocaleController.formatString("ImportCount", 2131626224, AndroidUtilities.formatFileSize(importingHistory.getUploadedCount()), AndroidUtilities.formatFileSize(importingHistory.getTotalCount())));
+            this.infoTextView[1].setText(LocaleController.getString("ImportDoneInfo", 2131626226));
+            this.importCountTextView[1].setText(LocaleController.getString("ImportDoneTitle", 2131626227));
             this.parentFragment.getNotificationCenter().addObserver(this, NotificationCenter.historyImportProgressChanged);
             return;
         }
-        textView.setText(LocaleController.getString("ImportStickersImportingTitle", R.string.ImportStickersImportingTitle));
+        textView.setText(LocaleController.getString("ImportStickersImportingTitle", 2131626251));
         SendMessagesHelper.ImportingStickers importingStickers = SendMessagesHelper.getInstance(this.currentAccount).getImportingStickers(str);
         this.percentTextView.setText(String.format("%d%%", Integer.valueOf(importingStickers.uploadProgress)));
         this.lineProgressView.setProgress(importingStickers.uploadProgress / 100.0f, false);
-        this.importCountTextView[0].setText(LocaleController.formatString("ImportCount", R.string.ImportCount, AndroidUtilities.formatFileSize(importingStickers.getUploadedCount()), AndroidUtilities.formatFileSize(importingStickers.getTotalCount())));
-        this.infoTextView[1].setText(LocaleController.getString("ImportStickersDoneInfo", R.string.ImportStickersDoneInfo));
-        this.importCountTextView[1].setText(LocaleController.getString("ImportStickersDoneTitle", R.string.ImportStickersDoneTitle));
+        this.importCountTextView[0].setText(LocaleController.formatString("ImportCount", 2131626224, AndroidUtilities.formatFileSize(importingStickers.getUploadedCount()), AndroidUtilities.formatFileSize(importingStickers.getTotalCount())));
+        this.infoTextView[1].setText(LocaleController.getString("ImportStickersDoneInfo", 2131626246));
+        this.importCountTextView[1].setText(LocaleController.getString("ImportStickersDoneTitle", 2131626247));
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.stickersImportProgressChanged);
     }
 
@@ -244,7 +233,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
                 }
             }
             this.percentTextView.setText(String.format("%d%%", Integer.valueOf(importingHistory.uploadProgress)));
-            this.importCountTextView[0].setText(LocaleController.formatString("ImportCount", R.string.ImportCount, AndroidUtilities.formatFileSize(importingHistory.getUploadedCount()), AndroidUtilities.formatFileSize(importingHistory.getTotalCount())));
+            this.importCountTextView[0].setText(LocaleController.formatString("ImportCount", 2131626224, AndroidUtilities.formatFileSize(importingHistory.getUploadedCount()), AndroidUtilities.formatFileSize(importingHistory.getTotalCount())));
             this.lineProgressView.setProgress(importingHistory.uploadProgress / 100.0f, true);
         } else if (i != NotificationCenter.stickersImportProgressChanged) {
         } else {
@@ -266,7 +255,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
                 }
             }
             this.percentTextView.setText(String.format("%d%%", Integer.valueOf(importingStickers.uploadProgress)));
-            this.importCountTextView[0].setText(LocaleController.formatString("ImportCount", R.string.ImportCount, AndroidUtilities.formatFileSize(importingStickers.getUploadedCount()), AndroidUtilities.formatFileSize(importingStickers.getTotalCount())));
+            this.importCountTextView[0].setText(LocaleController.formatString("ImportCount", 2131626224, AndroidUtilities.formatFileSize(importingStickers.getUploadedCount()), AndroidUtilities.formatFileSize(importingStickers.getTotalCount())));
             this.lineProgressView.setProgress(importingStickers.uploadProgress / 100.0f, true);
         }
     }

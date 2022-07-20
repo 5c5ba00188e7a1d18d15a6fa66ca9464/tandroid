@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import com.google.android.datatransport.Encoding;
-import com.google.android.datatransport.cct.CctTransportBackend;
 import com.google.android.datatransport.cct.internal.AndroidClientInfo;
 import com.google.android.datatransport.cct.internal.BatchedLogRequest;
 import com.google.android.datatransport.cct.internal.ClientInfo;
@@ -22,7 +21,6 @@ import com.google.android.datatransport.runtime.backends.BackendRequest;
 import com.google.android.datatransport.runtime.backends.BackendResponse;
 import com.google.android.datatransport.runtime.backends.TransportBackend;
 import com.google.android.datatransport.runtime.logging.Logging;
-import com.google.android.datatransport.runtime.retries.Function;
 import com.google.android.datatransport.runtime.retries.Retries;
 import com.google.android.datatransport.runtime.time.Clock;
 import com.google.firebase.encoders.DataEncoder;
@@ -49,7 +47,6 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import org.telegram.messenger.OneUIUtilities;
 /* loaded from: classes.dex */
 public final class CctTransportBackend implements TransportBackend {
     private final Context applicationContext;
@@ -79,7 +76,7 @@ public final class CctTransportBackend implements TransportBackend {
     }
 
     public CctTransportBackend(Context context, Clock clock, Clock clock2) {
-        this(context, clock, clock2, OneUIUtilities.ONE_UI_4_0);
+        this(context, clock, clock2, 40000);
     }
 
     private static TelephonyManager getTelephonyManager(Context context) {
@@ -275,14 +272,7 @@ public final class CctTransportBackend implements TransportBackend {
             }
         }
         try {
-            HttpResponse httpResponse = (HttpResponse) Retries.retry(5, new HttpRequest(url, requestBody, str), new Function() { // from class: com.google.android.datatransport.cct.CctTransportBackend$$ExternalSyntheticLambda0
-                @Override // com.google.android.datatransport.runtime.retries.Function
-                public final Object apply(Object obj) {
-                    CctTransportBackend.HttpResponse doSend;
-                    doSend = CctTransportBackend.this.doSend((CctTransportBackend.HttpRequest) obj);
-                    return doSend;
-                }
-            }, CctTransportBackend$$ExternalSyntheticLambda1.INSTANCE);
+            HttpResponse httpResponse = (HttpResponse) Retries.retry(5, new HttpRequest(url, requestBody, str), new CctTransportBackend$$ExternalSyntheticLambda0(this), CctTransportBackend$$ExternalSyntheticLambda1.INSTANCE);
             int i = httpResponse.code;
             if (i == 200) {
                 return BackendResponse.ok(httpResponse.nextRequestMillis);

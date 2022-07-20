@@ -7,7 +7,18 @@ import com.google.android.exoplayer2.metadata.id3.Id3Decoder;
 import com.google.android.exoplayer2.metadata.scte35.SpliceInfoDecoder;
 /* loaded from: classes.dex */
 public interface MetadataDecoderFactory {
-    public static final MetadataDecoderFactory DEFAULT = new MetadataDecoderFactory() { // from class: com.google.android.exoplayer2.metadata.MetadataDecoderFactory.1
+    public static final MetadataDecoderFactory DEFAULT = new AnonymousClass1();
+
+    MetadataDecoder createDecoder(Format format);
+
+    boolean supportsFormat(Format format);
+
+    /* renamed from: com.google.android.exoplayer2.metadata.MetadataDecoderFactory$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements MetadataDecoderFactory {
+        AnonymousClass1() {
+        }
+
         @Override // com.google.android.exoplayer2.metadata.MetadataDecoderFactory
         public boolean supportsFormat(Format format) {
             String str = format.sampleMimeType;
@@ -58,9 +69,5 @@ public interface MetadataDecoderFactory {
             }
             throw new IllegalArgumentException("Attempted to create decoder for unsupported MIME type: " + str);
         }
-    };
-
-    MetadataDecoder createDecoder(Format format);
-
-    boolean supportsFormat(Format format);
+    }
 }

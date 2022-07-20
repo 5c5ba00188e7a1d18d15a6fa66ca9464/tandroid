@@ -80,15 +80,26 @@ public abstract class AbstractAppCenterService implements AppCenterService {
     public void onConfigurationUpdated(String str, String str2) {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: com.microsoft.appcenter.AbstractAppCenterService$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 implements Runnable {
+        final /* synthetic */ DefaultAppCenterFuture val$future;
+
+        AnonymousClass1(AbstractAppCenterService abstractAppCenterService, DefaultAppCenterFuture defaultAppCenterFuture) {
+            this.val$future = defaultAppCenterFuture;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            this.val$future.complete(Boolean.TRUE);
+        }
+    }
+
     public synchronized AppCenterFuture<Boolean> isInstanceEnabledAsync() {
-        final DefaultAppCenterFuture defaultAppCenterFuture;
+        DefaultAppCenterFuture defaultAppCenterFuture;
         defaultAppCenterFuture = new DefaultAppCenterFuture();
-        postAsyncGetter(new Runnable(this) { // from class: com.microsoft.appcenter.AbstractAppCenterService.1
-            @Override // java.lang.Runnable
-            public void run() {
-                defaultAppCenterFuture.complete(Boolean.TRUE);
-            }
-        }, defaultAppCenterFuture, Boolean.FALSE);
+        postAsyncGetter(new AnonymousClass1(this, defaultAppCenterFuture), defaultAppCenterFuture, Boolean.FALSE);
         return defaultAppCenterFuture;
     }
 
@@ -157,44 +168,79 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         post(runnable, null, null);
     }
 
-    protected synchronized boolean post(final Runnable runnable, Runnable runnable2, final Runnable runnable3) {
+    protected synchronized boolean post(Runnable runnable, Runnable runnable2, Runnable runnable3) {
         AppCenterHandler appCenterHandler = this.mHandler;
         if (appCenterHandler == null) {
             AppCenterLog.error("AppCenter", getServiceName() + " needs to be started before it can be used.");
             return false;
         }
-        appCenterHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.4
-            @Override // java.lang.Runnable
-            public void run() {
-                if (AbstractAppCenterService.this.isInstanceEnabled()) {
-                    runnable.run();
-                    return;
-                }
-                Runnable runnable4 = runnable3;
-                if (runnable4 != null) {
-                    runnable4.run();
-                    return;
-                }
-                AppCenterLog.info("AppCenter", AbstractAppCenterService.this.getServiceName() + " service disabled, discarding calls.");
-            }
-        }, runnable2);
+        appCenterHandler.post(new AnonymousClass4(runnable, runnable3), runnable2);
         return true;
     }
 
-    protected synchronized <T> void postAsyncGetter(final Runnable runnable, final DefaultAppCenterFuture<T> defaultAppCenterFuture, final T t) {
-        Runnable runnable2 = new Runnable(this) { // from class: com.microsoft.appcenter.AbstractAppCenterService.5
-            @Override // java.lang.Runnable
-            public void run() {
-                defaultAppCenterFuture.complete(t);
+    /* renamed from: com.microsoft.appcenter.AbstractAppCenterService$4 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass4 implements Runnable {
+        final /* synthetic */ Runnable val$runnable;
+        final /* synthetic */ Runnable val$serviceDisabledRunnable;
+
+        AnonymousClass4(Runnable runnable, Runnable runnable2) {
+            AbstractAppCenterService.this = r1;
+            this.val$runnable = runnable;
+            this.val$serviceDisabledRunnable = runnable2;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            if (AbstractAppCenterService.this.isInstanceEnabled()) {
+                this.val$runnable.run();
+                return;
             }
-        };
-        if (!post(new Runnable(this) { // from class: com.microsoft.appcenter.AbstractAppCenterService.6
-            @Override // java.lang.Runnable
-            public void run() {
+            Runnable runnable = this.val$serviceDisabledRunnable;
+            if (runnable != null) {
                 runnable.run();
+                return;
             }
-        }, runnable2, runnable2)) {
-            runnable2.run();
+            AppCenterLog.info("AppCenter", AbstractAppCenterService.this.getServiceName() + " service disabled, discarding calls.");
+        }
+    }
+
+    /* renamed from: com.microsoft.appcenter.AbstractAppCenterService$5 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass5 implements Runnable {
+        final /* synthetic */ DefaultAppCenterFuture val$future;
+        final /* synthetic */ Object val$valueIfDisabledOrNotStarted;
+
+        AnonymousClass5(AbstractAppCenterService abstractAppCenterService, DefaultAppCenterFuture defaultAppCenterFuture, Object obj) {
+            this.val$future = defaultAppCenterFuture;
+            this.val$valueIfDisabledOrNotStarted = obj;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            this.val$future.complete(this.val$valueIfDisabledOrNotStarted);
+        }
+    }
+
+    protected synchronized <T> void postAsyncGetter(Runnable runnable, DefaultAppCenterFuture<T> defaultAppCenterFuture, T t) {
+        AnonymousClass5 anonymousClass5 = new AnonymousClass5(this, defaultAppCenterFuture, t);
+        if (!post(new AnonymousClass6(this, runnable), anonymousClass5, anonymousClass5)) {
+            anonymousClass5.run();
+        }
+    }
+
+    /* renamed from: com.microsoft.appcenter.AbstractAppCenterService$6 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass6 implements Runnable {
+        final /* synthetic */ Runnable val$runnable;
+
+        AnonymousClass6(AbstractAppCenterService abstractAppCenterService, Runnable runnable) {
+            this.val$runnable = runnable;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            this.val$runnable.run();
         }
     }
 }

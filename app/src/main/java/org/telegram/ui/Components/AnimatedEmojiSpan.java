@@ -545,81 +545,89 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
             checkBackgroundRendering();
         }
 
+        /* renamed from: org.telegram.ui.Components.AnimatedEmojiSpan$SpansChunk$1 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass1 extends DrawingInBackgroundThreadDrawable {
+            private final ArrayList<AnimatedEmojiHolder> backgroundHolders = new ArrayList<>();
+
+            AnonymousClass1() {
+                SpansChunk.this = r1;
+            }
+
+            @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
+            public void drawInBackground(Canvas canvas) {
+                ImageReceiver.BackgroundThreadDrawHolder backgroundThreadDrawHolder;
+                for (int i = 0; i < this.backgroundHolders.size(); i++) {
+                    AnimatedEmojiHolder animatedEmojiHolder = this.backgroundHolders.get(i);
+                    if (animatedEmojiHolder != null && (backgroundThreadDrawHolder = animatedEmojiHolder.backgroundDrawHolder) != null) {
+                        animatedEmojiHolder.drawable.draw(canvas, backgroundThreadDrawHolder);
+                    }
+                }
+            }
+
+            @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
+            public void drawInUiThread(Canvas canvas) {
+                long currentTimeMillis = System.currentTimeMillis();
+                for (int i = 0; i < SpansChunk.this.holders.size(); i++) {
+                    AnimatedEmojiHolder animatedEmojiHolder = SpansChunk.this.holders.get(i);
+                    if (animatedEmojiHolder.span.spanDrawn) {
+                        animatedEmojiHolder.draw(canvas, currentTimeMillis, 0.0f, 0.0f, 1.0f);
+                    }
+                }
+            }
+
+            @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
+            public void prepareDraw(long j) {
+                this.backgroundHolders.clear();
+                this.backgroundHolders.addAll(SpansChunk.this.holders);
+                int i = 0;
+                while (i < this.backgroundHolders.size()) {
+                    if (!this.backgroundHolders.get(i).span.spanDrawn) {
+                        this.backgroundHolders.remove(i);
+                        i--;
+                    } else if (this.backgroundHolders.get(i) != null) {
+                        this.backgroundHolders.get(i).prepareForBackgroundDraw(j);
+                    }
+                    i++;
+                }
+            }
+
+            @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
+            public void onFrameReady() {
+                for (int i = 0; i < this.backgroundHolders.size(); i++) {
+                    if (this.backgroundHolders.get(i) != null) {
+                        this.backgroundHolders.get(i).releaseDrawInBackground();
+                    }
+                }
+                this.backgroundHolders.clear();
+                View view = SpansChunk.this.view;
+                if (view == null || view.getParent() == null) {
+                    return;
+                }
+                ((View) SpansChunk.this.view.getParent()).invalidate();
+            }
+
+            @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
+            public void onPaused() {
+                super.onPaused();
+            }
+
+            @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
+            public void onResume() {
+                View view = SpansChunk.this.view;
+                if (view == null || view.getParent() == null) {
+                    return;
+                }
+                ((View) SpansChunk.this.view.getParent()).invalidate();
+            }
+        }
+
         private void checkBackgroundRendering() {
             DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable;
             if (this.allowBackgroundRendering && this.holders.size() >= 10 && this.backgroundThreadDrawable == null) {
-                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable2 = new DrawingInBackgroundThreadDrawable() { // from class: org.telegram.ui.Components.AnimatedEmojiSpan.SpansChunk.1
-                    private final ArrayList<AnimatedEmojiHolder> backgroundHolders = new ArrayList<>();
-
-                    @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
-                    public void drawInBackground(Canvas canvas) {
-                        ImageReceiver.BackgroundThreadDrawHolder backgroundThreadDrawHolder;
-                        for (int i = 0; i < this.backgroundHolders.size(); i++) {
-                            AnimatedEmojiHolder animatedEmojiHolder = this.backgroundHolders.get(i);
-                            if (animatedEmojiHolder != null && (backgroundThreadDrawHolder = animatedEmojiHolder.backgroundDrawHolder) != null) {
-                                animatedEmojiHolder.drawable.draw(canvas, backgroundThreadDrawHolder);
-                            }
-                        }
-                    }
-
-                    @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
-                    public void drawInUiThread(Canvas canvas) {
-                        long currentTimeMillis = System.currentTimeMillis();
-                        for (int i = 0; i < SpansChunk.this.holders.size(); i++) {
-                            AnimatedEmojiHolder animatedEmojiHolder = SpansChunk.this.holders.get(i);
-                            if (animatedEmojiHolder.span.spanDrawn) {
-                                animatedEmojiHolder.draw(canvas, currentTimeMillis, 0.0f, 0.0f, 1.0f);
-                            }
-                        }
-                    }
-
-                    @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
-                    public void prepareDraw(long j) {
-                        this.backgroundHolders.clear();
-                        this.backgroundHolders.addAll(SpansChunk.this.holders);
-                        int i = 0;
-                        while (i < this.backgroundHolders.size()) {
-                            if (!this.backgroundHolders.get(i).span.spanDrawn) {
-                                this.backgroundHolders.remove(i);
-                                i--;
-                            } else if (this.backgroundHolders.get(i) != null) {
-                                this.backgroundHolders.get(i).prepareForBackgroundDraw(j);
-                            }
-                            i++;
-                        }
-                    }
-
-                    @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
-                    public void onFrameReady() {
-                        for (int i = 0; i < this.backgroundHolders.size(); i++) {
-                            if (this.backgroundHolders.get(i) != null) {
-                                this.backgroundHolders.get(i).releaseDrawInBackground();
-                            }
-                        }
-                        this.backgroundHolders.clear();
-                        View view = SpansChunk.this.view;
-                        if (view == null || view.getParent() == null) {
-                            return;
-                        }
-                        ((View) SpansChunk.this.view.getParent()).invalidate();
-                    }
-
-                    @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
-                    public void onPaused() {
-                        super.onPaused();
-                    }
-
-                    @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
-                    public void onResume() {
-                        View view = SpansChunk.this.view;
-                        if (view == null || view.getParent() == null) {
-                            return;
-                        }
-                        ((View) SpansChunk.this.view.getParent()).invalidate();
-                    }
-                };
-                this.backgroundThreadDrawable = drawingInBackgroundThreadDrawable2;
-                drawingInBackgroundThreadDrawable2.onAttachToWindow();
+                AnonymousClass1 anonymousClass1 = new AnonymousClass1();
+                this.backgroundThreadDrawable = anonymousClass1;
+                anonymousClass1.onAttachToWindow();
             } else if (this.holders.size() >= 10 || (drawingInBackgroundThreadDrawable = this.backgroundThreadDrawable) == null) {
             } else {
                 drawingInBackgroundThreadDrawable.onDetachFromWindow();

@@ -7,19 +7,14 @@ import android.util.SparseArray;
 import androidx.collection.LongSparseArray;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.gms.internal.mlkit_language_id.zzdp$$ExternalSyntheticBackport0;
-import com.huawei.hms.android.HwBuildEx;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
@@ -152,20 +147,35 @@ public class ChatObject {
         public SparseArray<TLRPC$TL_groupCallParticipant> participantsBySources = new SparseArray<>();
         public SparseArray<TLRPC$TL_groupCallParticipant> participantsByVideoSources = new SparseArray<>();
         public SparseArray<TLRPC$TL_groupCallParticipant> participantsByPresentationSources = new SparseArray<>();
-        private Runnable typingUpdateRunnable = new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChatObject.Call.this.lambda$new$0();
-            }
-        };
+        private Runnable typingUpdateRunnable = new ChatObject$Call$$ExternalSyntheticLambda1(this);
         private HashSet<Integer> loadingGuids = new HashSet<>();
         private ArrayList<TLRPC$TL_updateGroupCallParticipants> updatesQueue = new ArrayList<>();
         private HashSet<Long> loadingUids = new HashSet<>();
         private HashSet<Long> loadingSsrcs = new HashSet<>();
         public final LongSparseArray<TLRPC$TL_groupCallParticipant> currentSpeakingPeers = new LongSparseArray<>();
-        private final Runnable updateCurrentSpeakingRunnable = new Runnable() { // from class: org.telegram.messenger.ChatObject.Call.1
-            {
-                Call.this = this;
+        private final Runnable updateCurrentSpeakingRunnable = new AnonymousClass1();
+
+        /* loaded from: classes.dex */
+        public interface OnParticipantsLoad {
+            void onLoad(ArrayList<Long> arrayList);
+        }
+
+        @Retention(RetentionPolicy.SOURCE)
+        /* loaded from: classes.dex */
+        public @interface RecordType {
+        }
+
+        public /* synthetic */ void lambda$new$0() {
+            this.typingUpdateRunnableScheduled = false;
+            checkOnlineParticipants();
+            this.currentAccount.getNotificationCenter().postNotificationName(NotificationCenter.groupCallTypingsUpdated, new Object[0]);
+        }
+
+        /* renamed from: org.telegram.messenger.ChatObject$Call$1 */
+        /* loaded from: classes.dex */
+        public class AnonymousClass1 implements Runnable {
+            AnonymousClass1() {
+                Call.this = r1;
             }
 
             @Override // java.lang.Runnable
@@ -213,22 +223,6 @@ public class ChatObject {
                     Call.this.currentAccount.getNotificationCenter().postNotificationName(NotificationCenter.groupCallSpeakingUsersUpdated, Long.valueOf(Call.this.chatId), Long.valueOf(Call.this.call.id), Boolean.FALSE);
                 }
             }
-        };
-
-        /* loaded from: classes.dex */
-        public interface OnParticipantsLoad {
-            void onLoad(ArrayList<Long> arrayList);
-        }
-
-        @Retention(RetentionPolicy.SOURCE)
-        /* loaded from: classes.dex */
-        public @interface RecordType {
-        }
-
-        public /* synthetic */ void lambda$new$0() {
-            this.typingUpdateRunnableScheduled = false;
-            checkOnlineParticipants();
-            this.currentAccount.getNotificationCenter().postNotificationName(NotificationCenter.groupCallTypingsUpdated, new Object[0]);
         }
 
         public void setCall(AccountInstance accountInstance, long j, TLRPC$TL_phone_groupCall tLRPC$TL_phone_groupCall) {
@@ -273,12 +267,7 @@ public class ChatObject {
                 tLRPC$TL_groupCallParticipant.videoEndpoint = "unified";
                 this.rtmpStreamParticipant = new VideoParticipant(tLRPC$TL_groupCallParticipant, false, false);
                 sortParticipants();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ChatObject.Call.this.lambda$createRtmpStreamParticipant$1();
-                    }
-                });
+                AndroidUtilities.runOnUIThread(new ChatObject$Call$$ExternalSyntheticLambda2(this));
             }
         }
 
@@ -353,7 +342,7 @@ public class ChatObject {
         }
 
         public boolean isScheduled() {
-            return (this.call.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+            return (this.call.flags & 128) != 0;
         }
 
         private long getSelfId() {
@@ -443,7 +432,7 @@ public class ChatObject {
             setParticiapantsVolume();
         }
 
-        public void loadMembers(final boolean z) {
+        public void loadMembers(boolean z) {
             if (z) {
                 if (this.reloadingMembers) {
                     return;
@@ -451,14 +440,14 @@ public class ChatObject {
                 this.membersLoadEndReached = false;
                 this.nextLoadOffset = null;
             }
-            if (this.membersLoadEndReached || this.sortedParticipants.size() > ChatObject.MAX_PARTICIPANTS_COUNT) {
+            if (this.membersLoadEndReached || this.sortedParticipants.size() > 5000) {
                 return;
             }
             if (z) {
                 this.reloadingMembers = true;
             }
             this.loadingMembers = true;
-            final TLRPC$TL_phone_getGroupParticipants tLRPC$TL_phone_getGroupParticipants = new TLRPC$TL_phone_getGroupParticipants();
+            TLRPC$TL_phone_getGroupParticipants tLRPC$TL_phone_getGroupParticipants = new TLRPC$TL_phone_getGroupParticipants();
             tLRPC$TL_phone_getGroupParticipants.call = getInputGroupCall();
             String str = this.nextLoadOffset;
             if (str == null) {
@@ -466,21 +455,11 @@ public class ChatObject {
             }
             tLRPC$TL_phone_getGroupParticipants.offset = str;
             tLRPC$TL_phone_getGroupParticipants.limit = 20;
-            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupParticipants, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda14
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatObject.Call.this.lambda$loadMembers$3(z, tLRPC$TL_phone_getGroupParticipants, tLObject, tLRPC$TL_error);
-                }
-            });
+            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupParticipants, new ChatObject$Call$$ExternalSyntheticLambda14(this, z, tLRPC$TL_phone_getGroupParticipants));
         }
 
-        public /* synthetic */ void lambda$loadMembers$3(final boolean z, final TLRPC$TL_phone_getGroupParticipants tLRPC$TL_phone_getGroupParticipants, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatObject.Call.this.lambda$loadMembers$2(z, tLObject, tLRPC$TL_phone_getGroupParticipants);
-                }
-            });
+        public /* synthetic */ void lambda$loadMembers$3(boolean z, TLRPC$TL_phone_getGroupParticipants tLRPC$TL_phone_getGroupParticipants, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+            AndroidUtilities.runOnUIThread(new ChatObject$Call$$ExternalSyntheticLambda6(this, z, tLObject, tLRPC$TL_phone_getGroupParticipants));
         }
 
         public /* synthetic */ void lambda$loadMembers$2(boolean z, TLObject tLObject, TLRPC$TL_phone_getGroupParticipants tLRPC$TL_phone_getGroupParticipants) {
@@ -508,12 +487,7 @@ public class ChatObject {
             TLRPC$TL_phone_editGroupCallTitle tLRPC$TL_phone_editGroupCallTitle = new TLRPC$TL_phone_editGroupCallTitle();
             tLRPC$TL_phone_editGroupCallTitle.call = getInputGroupCall();
             tLRPC$TL_phone_editGroupCallTitle.title = str;
-            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_editGroupCallTitle, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda10
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatObject.Call.this.lambda$setTitle$4(tLObject, tLRPC$TL_error);
-                }
-            });
+            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_editGroupCallTitle, new ChatObject$Call$$ExternalSyntheticLambda10(this));
         }
 
         public /* synthetic */ void lambda$setTitle$4(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -562,9 +536,9 @@ public class ChatObject {
             }
         }
 
-        private void loadUnknownParticipants(final ArrayList<Long> arrayList, boolean z, final OnParticipantsLoad onParticipantsLoad) {
+        private void loadUnknownParticipants(ArrayList<Long> arrayList, boolean z, OnParticipantsLoad onParticipantsLoad) {
             TLRPC$InputPeer tLRPC$InputPeer;
-            final HashSet<Long> hashSet = z ? this.loadingUids : this.loadingSsrcs;
+            HashSet<Long> hashSet = z ? this.loadingUids : this.loadingSsrcs;
             int size = arrayList.size();
             int i = 0;
             while (i < size) {
@@ -578,7 +552,7 @@ public class ChatObject {
             if (arrayList.isEmpty()) {
                 return;
             }
-            final int i2 = this.lastLoadGuid + 1;
+            int i2 = this.lastLoadGuid + 1;
             this.lastLoadGuid = i2;
             this.loadingGuids.add(Integer.valueOf(i2));
             hashSet.addAll(arrayList);
@@ -608,21 +582,11 @@ public class ChatObject {
             }
             tLRPC$TL_phone_getGroupParticipants.offset = "";
             tLRPC$TL_phone_getGroupParticipants.limit = 100;
-            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupParticipants, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda13
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatObject.Call.this.lambda$loadUnknownParticipants$6(i2, onParticipantsLoad, arrayList, hashSet, tLObject, tLRPC$TL_error);
-                }
-            });
+            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupParticipants, new ChatObject$Call$$ExternalSyntheticLambda13(this, i2, onParticipantsLoad, arrayList, hashSet));
         }
 
-        public /* synthetic */ void lambda$loadUnknownParticipants$6(final int i, final OnParticipantsLoad onParticipantsLoad, final ArrayList arrayList, final HashSet hashSet, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda3
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatObject.Call.this.lambda$loadUnknownParticipants$5(i, tLObject, onParticipantsLoad, arrayList, hashSet);
-                }
-            });
+        public /* synthetic */ void lambda$loadUnknownParticipants$6(int i, OnParticipantsLoad onParticipantsLoad, ArrayList arrayList, HashSet hashSet, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+            AndroidUtilities.runOnUIThread(new ChatObject$Call$$ExternalSyntheticLambda3(this, i, tLObject, onParticipantsLoad, arrayList, hashSet));
         }
 
         public /* synthetic */ void lambda$loadUnknownParticipants$5(int i, TLObject tLObject, OnParticipantsLoad onParticipantsLoad, ArrayList arrayList, HashSet hashSet) {
@@ -996,21 +960,11 @@ public class ChatObject {
             TLRPC$TL_phone_getGroupCall tLRPC$TL_phone_getGroupCall = new TLRPC$TL_phone_getGroupCall();
             tLRPC$TL_phone_getGroupCall.call = getInputGroupCall();
             tLRPC$TL_phone_getGroupCall.limit = 100;
-            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupCall, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda9
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatObject.Call.this.lambda$reloadGroupCall$9(tLObject, tLRPC$TL_error);
-                }
-            });
+            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupCall, new ChatObject$Call$$ExternalSyntheticLambda9(this));
         }
 
-        public /* synthetic */ void lambda$reloadGroupCall$9(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda5
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatObject.Call.this.lambda$reloadGroupCall$8(tLObject);
-                }
-            });
+        public /* synthetic */ void lambda$reloadGroupCall$9(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+            AndroidUtilities.runOnUIThread(new ChatObject$Call$$ExternalSyntheticLambda5(this, tLObject));
         }
 
         public /* synthetic */ void lambda$reloadGroupCall$8(TLObject tLObject) {
@@ -1035,21 +989,11 @@ public class ChatObject {
             tLRPC$TL_phone_getGroupParticipants.call = getInputGroupCall();
             tLRPC$TL_phone_getGroupParticipants.offset = "";
             tLRPC$TL_phone_getGroupParticipants.limit = 1;
-            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupParticipants, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda12
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatObject.Call.this.lambda$loadGroupCall$11(tLObject, tLRPC$TL_error);
-                }
-            });
+            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupParticipants, new ChatObject$Call$$ExternalSyntheticLambda12(this));
         }
 
-        public /* synthetic */ void lambda$loadGroupCall$11(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda4
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatObject.Call.this.lambda$loadGroupCall$10(tLObject);
-                }
-            });
+        public /* synthetic */ void lambda$loadGroupCall$11(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+            AndroidUtilities.runOnUIThread(new ChatObject$Call$$ExternalSyntheticLambda4(this, tLObject));
         }
 
         public /* synthetic */ void lambda$loadGroupCall$10(TLObject tLObject) {
@@ -1258,7 +1202,7 @@ public class ChatObject {
                             tLRPC$TL_groupCallParticipant2.muted_by_you = tLRPC$TL_groupCallParticipant.muted_by_you;
                         } else {
                             int i8 = tLRPC$TL_groupCallParticipant.flags;
-                            if ((i8 & ConnectionsManager.RequestFlagNeedQuickAck) != 0 && (tLRPC$TL_groupCallParticipant2.flags & ConnectionsManager.RequestFlagNeedQuickAck) == 0) {
+                            if ((i8 & 128) != 0 && (tLRPC$TL_groupCallParticipant2.flags & 128) == 0) {
                                 tLRPC$TL_groupCallParticipant.flags = i8 & (-129);
                             }
                             if (tLRPC$TL_groupCallParticipant.volume_by_admin && tLRPC$TL_groupCallParticipant2.volume_by_admin) {
@@ -1442,12 +1386,12 @@ public class ChatObject {
             this.visibleVideoParticipants.clear();
             this.visibleParticipants.clear();
             TLRPC$Chat chat = this.currentAccount.getMessagesController().getChat(Long.valueOf(this.chatId));
-            final boolean canManageCalls = ChatObject.canManageCalls(chat);
+            boolean canManageCalls = ChatObject.canManageCalls(chat);
             VideoParticipant videoParticipant2 = this.rtmpStreamParticipant;
             if (videoParticipant2 != null) {
                 this.visibleVideoParticipants.add(videoParticipant2);
             }
-            final long selfId = getSelfId();
+            long selfId = getSelfId();
             VoIPService.getSharedInstance();
             this.participants.get(selfId);
             this.canStreamVideo = true;
@@ -1481,14 +1425,7 @@ public class ChatObject {
                     tLRPC$TL_groupCallParticipant2.videoIndex = 0;
                 }
             }
-            Collections.sort(this.sortedParticipants, new Comparator() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda7
-                @Override // java.util.Comparator
-                public final int compare(Object obj, Object obj2) {
-                    int lambda$sortParticipants$12;
-                    lambda$sortParticipants$12 = ChatObject.Call.this.lambda$sortParticipants$12(selfId, canManageCalls, (TLRPC$TL_groupCallParticipant) obj, (TLRPC$TL_groupCallParticipant) obj2);
-                    return lambda$sortParticipants$12;
-                }
-            });
+            Collections.sort(this.sortedParticipants, new ChatObject$Call$$ExternalSyntheticLambda7(this, selfId, canManageCalls));
             if (this.sortedParticipants.isEmpty()) {
                 tLRPC$TL_groupCallParticipant = null;
             } else {
@@ -1502,14 +1439,14 @@ public class ChatObject {
                     this.activeVideos--;
                 }
             }
-            if (this.sortedParticipants.size() > ChatObject.MAX_PARTICIPANTS_COUNT && (!ChatObject.canManageCalls(chat) || tLRPC$TL_groupCallParticipant.raise_hand_rating == 0)) {
+            if (this.sortedParticipants.size() > 5000 && (!ChatObject.canManageCalls(chat) || tLRPC$TL_groupCallParticipant.raise_hand_rating == 0)) {
                 int size3 = this.sortedParticipants.size();
-                for (int i4 = ChatObject.MAX_PARTICIPANTS_COUNT; i4 < size3; i4++) {
-                    TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant3 = this.sortedParticipants.get(ChatObject.MAX_PARTICIPANTS_COUNT);
+                for (int i4 = 5000; i4 < size3; i4++) {
+                    TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant3 = this.sortedParticipants.get(5000);
                     if (tLRPC$TL_groupCallParticipant3.raise_hand_rating == 0) {
                         processAllSources(tLRPC$TL_groupCallParticipant3, false);
                         this.participants.remove(MessageObject.getPeerId(tLRPC$TL_groupCallParticipant3.peer));
-                        this.sortedParticipants.remove((int) ChatObject.MAX_PARTICIPANTS_COUNT);
+                        this.sortedParticipants.remove(5000);
                     }
                 }
             }
@@ -1693,12 +1630,7 @@ public class ChatObject {
                 tLRPC$TL_phone_toggleGroupCallRecord.video = true;
                 tLRPC$TL_phone_toggleGroupCallRecord.video_portrait = i == 1;
             }
-            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_toggleGroupCallRecord, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda11
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatObject.Call.this.lambda$toggleRecord$13(tLObject, tLRPC$TL_error);
-                }
-            });
+            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_toggleGroupCallRecord, new ChatObject$Call$$ExternalSyntheticLambda11(this));
             this.currentAccount.getNotificationCenter().postNotificationName(NotificationCenter.groupCallUpdated, Long.valueOf(this.chatId), Long.valueOf(this.call.id), Boolean.FALSE);
         }
 
@@ -1710,7 +1642,10 @@ public class ChatObject {
     }
 
     public static int getParticipantVolume(TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant) {
-        return (tLRPC$TL_groupCallParticipant.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0 ? tLRPC$TL_groupCallParticipant.volume : HwBuildEx.VersionCodes.CUR_DEVELOPMENT;
+        if ((tLRPC$TL_groupCallParticipant.flags & 128) != 0) {
+            return tLRPC$TL_groupCallParticipant.volume;
+        }
+        return 10000;
     }
 
     private static boolean getBannedRight(TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights, int i) {

@@ -4,7 +4,6 @@ import j$.util.Iterator;
 import j$.util.function.Consumer;
 import java.util.Collection;
 import java.util.Comparator;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes2.dex */
 public class J implements u {
     private final Collection a;
@@ -102,7 +101,7 @@ public class J implements u {
             i = (int) j;
         }
         if (i > 33554432) {
-            i = ConnectionsManager.FileTypeVideo;
+            i = 33554432;
         }
         Object[] objArr = new Object[i];
         int i2 = 0;

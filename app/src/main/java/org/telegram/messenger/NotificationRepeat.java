@@ -13,16 +13,11 @@ public class NotificationRepeat extends IntentService {
         if (intent == null) {
             return;
         }
-        final int intExtra = intent.getIntExtra("currentAccount", UserConfig.selectedAccount);
+        int intExtra = intent.getIntExtra("currentAccount", UserConfig.selectedAccount);
         if (!UserConfig.isValidAccount(intExtra)) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationRepeat$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                NotificationRepeat.lambda$onHandleIntent$0(intExtra);
-            }
-        });
+        AndroidUtilities.runOnUIThread(new NotificationRepeat$$ExternalSyntheticLambda0(intExtra));
     }
 
     public static /* synthetic */ void lambda$onHandleIntent$0(int i) {

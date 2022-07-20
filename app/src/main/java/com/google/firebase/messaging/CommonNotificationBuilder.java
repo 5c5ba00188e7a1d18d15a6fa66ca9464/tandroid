@@ -21,9 +21,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import com.huawei.hms.adapter.internal.AvailableCode;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class CommonNotificationBuilder {
@@ -47,7 +45,7 @@ public final class CommonNotificationBuilder {
         if (createTargetIntent == null) {
             return null;
         }
-        createTargetIntent.addFlags(ConnectionsManager.FileTypeFile);
+        createTargetIntent.addFlags(67108864);
         createTargetIntent.putExtras(notificationParams.paramsWithReservedKeysRemoved());
         if (shouldUploadMetrics(notificationParams)) {
             createTargetIntent.putExtra("gcm.n.analytics_data", notificationParams.paramsForAnalyticsIntent());
@@ -138,7 +136,7 @@ public final class CommonNotificationBuilder {
 
     private static Bundle getManifestMetadata(PackageManager packageManager, String str) {
         try {
-            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(str, ConnectionsManager.RequestFlagNeedQuickAck);
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(str, 128);
             if (applicationInfo != null) {
                 Bundle bundle = applicationInfo.metaData;
                 if (bundle != null) {
@@ -155,7 +153,7 @@ public final class CommonNotificationBuilder {
         return Bundle.EMPTY;
     }
 
-    @TargetApi(AvailableCode.ERROR_NO_ACTIVITY)
+    @TargetApi(26)
     public static String getOrCreateChannel(Context context, String str, Bundle bundle) {
         String str2;
         if (Build.VERSION.SDK_INT < 26) {
@@ -266,7 +264,7 @@ public final class CommonNotificationBuilder {
         return sb.toString();
     }
 
-    @TargetApi(AvailableCode.ERROR_NO_ACTIVITY)
+    @TargetApi(26)
     private static boolean isValidIcon(Resources resources, int i) {
         if (Build.VERSION.SDK_INT != 26) {
             return true;

@@ -8,17 +8,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class IcyInfo implements Metadata.Entry {
-    public static final Parcelable.Creator<IcyInfo> CREATOR = new Parcelable.Creator<IcyInfo>() { // from class: com.google.android.exoplayer2.metadata.icy.IcyInfo.1
-        @Override // android.os.Parcelable.Creator
-        public IcyInfo createFromParcel(Parcel parcel) {
-            return new IcyInfo(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public IcyInfo[] newArray(int i) {
-            return new IcyInfo[i];
-        }
-    };
+    public static final Parcelable.Creator<IcyInfo> CREATOR = new AnonymousClass1();
     public final byte[] rawMetadata;
     public final String title;
     public final String url;
@@ -73,5 +63,22 @@ public final class IcyInfo implements Metadata.Entry {
         parcel.writeByteArray(this.rawMetadata);
         parcel.writeString(this.title);
         parcel.writeString(this.url);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.metadata.icy.IcyInfo$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<IcyInfo> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public IcyInfo createFromParcel(Parcel parcel) {
+            return new IcyInfo(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public IcyInfo[] newArray(int i) {
+            return new IcyInfo[i];
+        }
     }
 }

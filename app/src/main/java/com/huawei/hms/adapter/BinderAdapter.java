@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
-import com.huawei.hms.activity.BridgeActivity;
 import com.huawei.hms.api.BindingFailedResolution;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.Util;
@@ -27,6 +26,47 @@ public class BinderAdapter implements ServiceConnection {
     private boolean bindFail = false;
     private Handler mBinderTimeoutHandler = null;
     private Handler delayDisconnectHandler = null;
+
+    /* renamed from: com.huawei.hms.adapter.BinderAdapter$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 implements Handler.Callback {
+        AnonymousClass1() {
+            BinderAdapter.this = r1;
+        }
+
+        @Override // android.os.Handler.Callback
+        public boolean handleMessage(Message message) {
+            if (message == null || message.what != BinderAdapter.this.getConnTimeOut()) {
+                return false;
+            }
+            HMSLog.e("BinderAdapter", "In connect, bind core service time out");
+            BinderAdapter.this.binderServiceFailed();
+            return true;
+        }
+    }
+
+    /* renamed from: com.huawei.hms.adapter.BinderAdapter$2 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass2 implements Handler.Callback {
+        AnonymousClass2() {
+            BinderAdapter.this = r1;
+        }
+
+        @Override // android.os.Handler.Callback
+        public boolean handleMessage(Message message) {
+            if (message == null || message.what != BinderAdapter.this.getMsgDelayDisconnect()) {
+                return false;
+            }
+            HMSLog.i("BinderAdapter", "The serviceConnection has been bind for 60s, need to unbind.");
+            BinderAdapter.this.unBind();
+            BinderCallBack callBack = BinderAdapter.this.getCallBack();
+            if (callBack == null) {
+                return true;
+            }
+            callBack.onTimedDisconnected();
+            return true;
+        }
+    }
 
     /* loaded from: classes.dex */
     public interface BinderCallBack {
@@ -83,32 +123,17 @@ public class BinderAdapter implements ServiceConnection {
     }
 
     private void delayedUnbind() {
-        Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() { // from class: com.huawei.hms.adapter.BinderAdapter.2
-            @Override // android.os.Handler.Callback
-            public boolean handleMessage(Message message) {
-                if (message == null || message.what != BinderAdapter.this.getMsgDelayDisconnect()) {
-                    return false;
-                }
-                HMSLog.i(BinderAdapter.TAG, "The serviceConnection has been bind for 60s, need to unbind.");
-                BinderAdapter.this.unBind();
-                BinderCallBack callBack = BinderAdapter.this.getCallBack();
-                if (callBack == null) {
-                    return true;
-                }
-                callBack.onTimedDisconnected();
-                return true;
-            }
-        });
+        Handler handler = new Handler(Looper.getMainLooper(), new AnonymousClass2());
         this.delayDisconnectHandler = handler;
         handler.sendEmptyMessageDelayed(getMsgDelayDisconnect(), 1800000L);
     }
 
     private void getBindFailPendingIntent() {
-        HMSLog.e(TAG, "In connect, bind core service fail");
+        HMSLog.e("BinderAdapter", "In connect, bind core service fail");
         ComponentName componentName = new ComponentName(this.mContext.getApplicationInfo().packageName, "com.huawei.hms.activity.BridgeActivity");
         Intent intent = new Intent();
         intent.setComponent(componentName);
-        intent.putExtra(BridgeActivity.EXTRA_DELEGATE_CLASS_NAME, BindingFailedResolution.class.getName());
+        intent.putExtra("intent.extra.DELEGATE_CLASS_OBJECT", BindingFailedResolution.class.getName());
         BinderCallBack callBack = getCallBack();
         if (callBack != null) {
             callBack.onBinderFailed(-1, intent);
@@ -124,23 +149,13 @@ public class BinderAdapter implements ServiceConnection {
         if (handler != null) {
             handler.removeMessages(getConnTimeOut());
         } else {
-            this.mBinderTimeoutHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() { // from class: com.huawei.hms.adapter.BinderAdapter.1
-                @Override // android.os.Handler.Callback
-                public boolean handleMessage(Message message) {
-                    if (message == null || message.what != BinderAdapter.this.getConnTimeOut()) {
-                        return false;
-                    }
-                    HMSLog.e(BinderAdapter.TAG, "In connect, bind core service time out");
-                    BinderAdapter.this.binderServiceFailed();
-                    return true;
-                }
-            });
+            this.mBinderTimeoutHandler = new Handler(Looper.getMainLooper(), new AnonymousClass1());
         }
         this.mBinderTimeoutHandler.sendEmptyMessageDelayed(getConnTimeOut(), 10000L);
     }
 
     private void removeDelayDisconnectTask() {
-        HMSLog.d(TAG, "removeDelayDisconnectTask.");
+        HMSLog.d("BinderAdapter", "removeDelayDisconnectTask.");
         synchronized (BinderAdapter.class) {
             Handler handler = this.delayDisconnectHandler;
             if (handler != null) {
@@ -171,7 +186,7 @@ public class BinderAdapter implements ServiceConnection {
 
     @Override // android.content.ServiceConnection
     public void onNullBinding(ComponentName componentName) {
-        HMSLog.e(TAG, "Enter onNullBinding, than unBind.");
+        HMSLog.e("BinderAdapter", "Enter onNullBinding, than unBind.");
         if (this.bindFail) {
             this.bindFail = false;
             return;
@@ -187,7 +202,7 @@ public class BinderAdapter implements ServiceConnection {
 
     @Override // android.content.ServiceConnection
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-        HMSLog.i(TAG, "BinderAdapter Enter onServiceConnected.");
+        HMSLog.i("BinderAdapter", "BinderAdapter Enter onServiceConnected.");
         this.serviceBinder = iBinder;
         cancelConnDelayHandle();
         BinderCallBack callBack = getCallBack();
@@ -199,7 +214,7 @@ public class BinderAdapter implements ServiceConnection {
 
     @Override // android.content.ServiceConnection
     public void onServiceDisconnected(ComponentName componentName) {
-        HMSLog.i(TAG, "Enter onServiceDisconnected.");
+        HMSLog.i("BinderAdapter", "Enter onServiceDisconnected.");
         BinderCallBack callBack = getCallBack();
         if (callBack != null) {
             callBack.onServiceDisconnected(componentName);
@@ -212,7 +227,7 @@ public class BinderAdapter implements ServiceConnection {
     }
 
     public void updateDelayTask() {
-        HMSLog.d(TAG, "updateDelayTask.");
+        HMSLog.d("BinderAdapter", "updateDelayTask.");
         synchronized (BinderAdapter.class) {
             Handler handler = this.delayDisconnectHandler;
             if (handler != null) {

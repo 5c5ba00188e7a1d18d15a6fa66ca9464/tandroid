@@ -63,13 +63,7 @@ public class SizeNotifierFrameLayoutPhoto extends FrameLayout {
         if (this.delegate != null) {
             this.keyboardHeight = measureKeyboardHeight();
             android.graphics.Point point = AndroidUtilities.displaySize;
-            final boolean z = point.x > point.y;
-            post(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SizeNotifierFrameLayoutPhoto.this.lambda$notifyHeightChanged$0(z);
-                }
-            });
+            post(new SizeNotifierFrameLayoutPhoto$$ExternalSyntheticLambda0(this, point.x > point.y));
         }
     }
 

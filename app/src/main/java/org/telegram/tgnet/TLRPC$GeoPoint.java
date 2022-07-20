@@ -14,52 +14,13 @@ public abstract class TLRPC$GeoPoint extends TLObject {
                 tLRPC$GeoPoint = new TLRPC$TL_geoPoint();
                 break;
             case 43446532:
-                tLRPC$GeoPoint = new TLRPC$TL_geoPoint() { // from class: org.telegram.tgnet.TLRPC$TL_geoPoint_layer119
-                    public static int constructor = 43446532;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_geoPoint, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this._long = abstractSerializedData2.readDouble(z2);
-                        this.lat = abstractSerializedData2.readDouble(z2);
-                        this.access_hash = abstractSerializedData2.readInt64(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_geoPoint, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeDouble(this._long);
-                        abstractSerializedData2.writeDouble(this.lat);
-                        abstractSerializedData2.writeInt64(this.access_hash);
-                    }
-                };
+                tLRPC$GeoPoint = new TLRPC$TL_geoPoint_layer119();
                 break;
             case 286776671:
-                tLRPC$GeoPoint = new TLRPC$GeoPoint() { // from class: org.telegram.tgnet.TLRPC$TL_geoPointEmpty
-                    public static int constructor = 286776671;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$GeoPoint = new TLRPC$TL_geoPointEmpty();
                 break;
             case 541710092:
-                tLRPC$GeoPoint = new TLRPC$TL_geoPoint() { // from class: org.telegram.tgnet.TLRPC$TL_geoPoint_layer81
-                    public static int constructor = 541710092;
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_geoPoint, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this._long = abstractSerializedData2.readDouble(z2);
-                        this.lat = abstractSerializedData2.readDouble(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLRPC$TL_geoPoint, org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeDouble(this._long);
-                        abstractSerializedData2.writeDouble(this.lat);
-                    }
-                };
+                tLRPC$GeoPoint = new TLRPC$TL_geoPoint_layer81();
                 break;
             default:
                 tLRPC$GeoPoint = null;

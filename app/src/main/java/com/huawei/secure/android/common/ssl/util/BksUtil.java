@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
-import com.huawei.hms.common.PackageConstants;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -95,10 +94,10 @@ public class BksUtil {
             if (a2 == null) {
                 g.b("BksUtil", "context is null");
                 return null;
-            } else if (!b(h.a("com.huawei.hwid")) && !b(h.a(PackageConstants.SERVICES_PACKAGE_ALL_SCENE))) {
+            } else if (!b(h.a("com.huawei.hwid")) && !b(h.a("com.huawei.hms"))) {
                 g.b("BksUtil", "hms version code is too low : " + h.a("com.huawei.hwid"));
                 return null;
-            } else if (!c(a2, "com.huawei.hwid") && !b(a2, PackageConstants.SERVICES_PACKAGE_ALL_SCENE)) {
+            } else if (!c(a2, "com.huawei.hwid") && !b(a2, "com.huawei.hms")) {
                 g.b("BksUtil", "hms sign error");
                 return null;
             } else {

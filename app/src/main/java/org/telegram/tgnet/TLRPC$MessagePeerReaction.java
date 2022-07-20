@@ -12,26 +12,7 @@ public abstract class TLRPC$MessagePeerReaction extends TLObject {
         if (i != -1826077446) {
             tLRPC$TL_messagePeerReaction = i != 1370914559 ? null : new TLRPC$TL_messagePeerReaction();
         } else {
-            tLRPC$TL_messagePeerReaction = new TLRPC$TL_messagePeerReaction() { // from class: org.telegram.tgnet.TLRPC$TL_messagePeerReaction_layer137
-                public static int constructor = -1826077446;
-                public long user_id;
-
-                @Override // org.telegram.tgnet.TLRPC$TL_messagePeerReaction, org.telegram.tgnet.TLObject
-                public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                    this.user_id = abstractSerializedData2.readInt64(z2);
-                    this.reaction = abstractSerializedData2.readString(z2);
-                    TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-                    this.peer_id = tLRPC$TL_peerUser;
-                    tLRPC$TL_peerUser.user_id = this.user_id;
-                }
-
-                @Override // org.telegram.tgnet.TLRPC$TL_messagePeerReaction, org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
-                    abstractSerializedData2.writeInt64(this.user_id);
-                    abstractSerializedData2.writeString(this.reaction);
-                }
-            };
+            tLRPC$TL_messagePeerReaction = new TLRPC$TL_messagePeerReaction_layer137();
         }
         if (tLRPC$TL_messagePeerReaction != null || !z) {
             if (tLRPC$TL_messagePeerReaction != null) {

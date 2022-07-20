@@ -14,17 +14,7 @@ import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class Format implements Parcelable {
-    public static final Parcelable.Creator<Format> CREATOR = new Parcelable.Creator<Format>() { // from class: com.google.android.exoplayer2.Format.1
-        @Override // android.os.Parcelable.Creator
-        public Format createFromParcel(Parcel parcel) {
-            return new Format(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public Format[] newArray(int i) {
-            return new Format[i];
-        }
-    };
+    public static final Parcelable.Creator<Format> CREATOR = new AnonymousClass1();
     public final int accessibilityChannel;
     public final int bitrate;
     public final int channelCount;
@@ -405,5 +395,22 @@ public final class Format implements Parcelable {
         parcel.writeInt(this.encoderPadding);
         parcel.writeString(this.language);
         parcel.writeInt(this.accessibilityChannel);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.Format$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<Format> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public Format createFromParcel(Parcel parcel) {
+            return new Format(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public Format[] newArray(int i) {
+            return new Format[i];
+        }
     }
 }

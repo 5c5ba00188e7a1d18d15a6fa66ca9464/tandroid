@@ -6,17 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ColorInfo implements Parcelable {
-    public static final Parcelable.Creator<ColorInfo> CREATOR = new Parcelable.Creator<ColorInfo>() { // from class: com.google.android.exoplayer2.video.ColorInfo.1
-        @Override // android.os.Parcelable.Creator
-        public ColorInfo createFromParcel(Parcel parcel) {
-            return new ColorInfo(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public ColorInfo[] newArray(int i) {
-            return new ColorInfo[i];
-        }
-    };
+    public static final Parcelable.Creator<ColorInfo> CREATOR = new AnonymousClass1();
     public final int colorRange;
     public final int colorSpace;
     public final int colorTransfer;
@@ -83,6 +73,23 @@ public final class ColorInfo implements Parcelable {
         byte[] bArr = this.hdrStaticInfo;
         if (bArr != null) {
             parcel.writeByteArray(bArr);
+        }
+    }
+
+    /* renamed from: com.google.android.exoplayer2.video.ColorInfo$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<ColorInfo> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public ColorInfo createFromParcel(Parcel parcel) {
+            return new ColorInfo(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public ColorInfo[] newArray(int i) {
+            return new ColorInfo[i];
         }
     }
 }

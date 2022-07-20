@@ -86,18 +86,8 @@ public class ViewPager extends ViewGroup {
     private int mTouchSlop;
     private VelocityTracker mVelocityTracker;
     static final int[] LAYOUT_ATTRS = {16842931};
-    private static final Comparator<ItemInfo> COMPARATOR = new Comparator<ItemInfo>() { // from class: androidx.viewpager.widget.ViewPager.1
-        public int compare(ItemInfo itemInfo, ItemInfo itemInfo2) {
-            return itemInfo.position - itemInfo2.position;
-        }
-    };
-    private static final Interpolator sInterpolator = new Interpolator() { // from class: androidx.viewpager.widget.ViewPager.2
-        @Override // android.animation.TimeInterpolator
-        public float getInterpolation(float f) {
-            float f2 = f - 1.0f;
-            return (f2 * f2 * f2 * f2 * f2) + 1.0f;
-        }
-    };
+    private static final Comparator<ItemInfo> COMPARATOR = new AnonymousClass1();
+    private static final Interpolator sInterpolator = new AnonymousClass2();
     private static final ViewPositionComparator sPositionComparator = new ViewPositionComparator();
     private final ArrayList<ItemInfo> mItems = new ArrayList<>();
     private final ItemInfo mTempItem = new ItemInfo();
@@ -110,13 +100,7 @@ public class ViewPager extends ViewGroup {
     private int mOffscreenPageLimit = 1;
     private int mActivePointerId = -1;
     private boolean mFirstLayout = true;
-    private final Runnable mEndScrollRunnable = new Runnable() { // from class: androidx.viewpager.widget.ViewPager.3
-        @Override // java.lang.Runnable
-        public void run() {
-            ViewPager.this.setScrollState(0);
-            ViewPager.this.populate();
-        }
-    };
+    private final Runnable mEndScrollRunnable = new AnonymousClass3();
     private int mScrollState = 0;
 
     @Target({ElementType.TYPE})
@@ -157,6 +141,45 @@ public class ViewPager extends ViewGroup {
         }
     }
 
+    /* renamed from: androidx.viewpager.widget.ViewPager$1 */
+    /* loaded from: classes.dex */
+    static class AnonymousClass1 implements Comparator<ItemInfo> {
+        AnonymousClass1() {
+        }
+
+        public int compare(ItemInfo itemInfo, ItemInfo itemInfo2) {
+            return itemInfo.position - itemInfo2.position;
+        }
+    }
+
+    /* renamed from: androidx.viewpager.widget.ViewPager$2 */
+    /* loaded from: classes.dex */
+    static class AnonymousClass2 implements Interpolator {
+        @Override // android.animation.TimeInterpolator
+        public float getInterpolation(float f) {
+            float f2 = f - 1.0f;
+            return (f2 * f2 * f2 * f2 * f2) + 1.0f;
+        }
+
+        AnonymousClass2() {
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: androidx.viewpager.widget.ViewPager$3 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass3 implements Runnable {
+        AnonymousClass3() {
+            ViewPager.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            ViewPager.this.setScrollState(0);
+            ViewPager.this.populate();
+        }
+    }
+
     public ViewPager(Context context) {
         super(context);
         initViewPager();
@@ -182,31 +205,39 @@ public class ViewPager extends ViewGroup {
         if (ViewCompat.getImportantForAccessibility(this) == 0) {
             ViewCompat.setImportantForAccessibility(this, 1);
         }
-        ViewCompat.setOnApplyWindowInsetsListener(this, new OnApplyWindowInsetsListener() { // from class: androidx.viewpager.widget.ViewPager.4
-            private final Rect mTempRect = new Rect();
+        ViewCompat.setOnApplyWindowInsetsListener(this, new AnonymousClass4());
+    }
 
-            @Override // androidx.core.view.OnApplyWindowInsetsListener
-            public WindowInsetsCompat onApplyWindowInsets(View view, WindowInsetsCompat windowInsetsCompat) {
-                WindowInsetsCompat onApplyWindowInsets = ViewCompat.onApplyWindowInsets(view, windowInsetsCompat);
-                if (onApplyWindowInsets.isConsumed()) {
-                    return onApplyWindowInsets;
-                }
-                Rect rect = this.mTempRect;
-                rect.left = onApplyWindowInsets.getSystemWindowInsetLeft();
-                rect.top = onApplyWindowInsets.getSystemWindowInsetTop();
-                rect.right = onApplyWindowInsets.getSystemWindowInsetRight();
-                rect.bottom = onApplyWindowInsets.getSystemWindowInsetBottom();
-                int childCount = ViewPager.this.getChildCount();
-                for (int i = 0; i < childCount; i++) {
-                    WindowInsetsCompat dispatchApplyWindowInsets = ViewCompat.dispatchApplyWindowInsets(ViewPager.this.getChildAt(i), onApplyWindowInsets);
-                    rect.left = Math.min(dispatchApplyWindowInsets.getSystemWindowInsetLeft(), rect.left);
-                    rect.top = Math.min(dispatchApplyWindowInsets.getSystemWindowInsetTop(), rect.top);
-                    rect.right = Math.min(dispatchApplyWindowInsets.getSystemWindowInsetRight(), rect.right);
-                    rect.bottom = Math.min(dispatchApplyWindowInsets.getSystemWindowInsetBottom(), rect.bottom);
-                }
-                return onApplyWindowInsets.replaceSystemWindowInsets(rect.left, rect.top, rect.right, rect.bottom);
+    /* renamed from: androidx.viewpager.widget.ViewPager$4 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass4 implements OnApplyWindowInsetsListener {
+        private final Rect mTempRect = new Rect();
+
+        AnonymousClass4() {
+            ViewPager.this = r1;
+        }
+
+        @Override // androidx.core.view.OnApplyWindowInsetsListener
+        public WindowInsetsCompat onApplyWindowInsets(View view, WindowInsetsCompat windowInsetsCompat) {
+            WindowInsetsCompat onApplyWindowInsets = ViewCompat.onApplyWindowInsets(view, windowInsetsCompat);
+            if (onApplyWindowInsets.isConsumed()) {
+                return onApplyWindowInsets;
             }
-        });
+            Rect rect = this.mTempRect;
+            rect.left = onApplyWindowInsets.getSystemWindowInsetLeft();
+            rect.top = onApplyWindowInsets.getSystemWindowInsetTop();
+            rect.right = onApplyWindowInsets.getSystemWindowInsetRight();
+            rect.bottom = onApplyWindowInsets.getSystemWindowInsetBottom();
+            int childCount = ViewPager.this.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                WindowInsetsCompat dispatchApplyWindowInsets = ViewCompat.dispatchApplyWindowInsets(ViewPager.this.getChildAt(i), onApplyWindowInsets);
+                rect.left = Math.min(dispatchApplyWindowInsets.getSystemWindowInsetLeft(), rect.left);
+                rect.top = Math.min(dispatchApplyWindowInsets.getSystemWindowInsetTop(), rect.top);
+                rect.right = Math.min(dispatchApplyWindowInsets.getSystemWindowInsetRight(), rect.right);
+                rect.bottom = Math.min(dispatchApplyWindowInsets.getSystemWindowInsetBottom(), rect.bottom);
+            }
+            return onApplyWindowInsets.replaceSystemWindowInsets(rect.left, rect.top, rect.right, rect.bottom);
+        }
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -856,22 +887,7 @@ public class ViewPager extends ViewGroup {
 
     /* loaded from: classes.dex */
     public static class SavedState extends AbsSavedState {
-        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.ClassLoaderCreator<SavedState>() { // from class: androidx.viewpager.widget.ViewPager.SavedState.1
-            @Override // android.os.Parcelable.ClassLoaderCreator
-            public SavedState createFromParcel(Parcel parcel, ClassLoader classLoader) {
-                return new SavedState(parcel, classLoader);
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public SavedState createFromParcel(Parcel parcel) {
-                return new SavedState(parcel, null);
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public SavedState[] newArray(int i) {
-                return new SavedState[i];
-            }
-        };
+        public static final Parcelable.Creator<SavedState> CREATOR = new AnonymousClass1();
         Parcelable adapterState;
         ClassLoader loader;
         int position;
@@ -889,6 +905,28 @@ public class ViewPager extends ViewGroup {
 
         public String toString() {
             return "FragmentPager.SavedState{" + Integer.toHexString(System.identityHashCode(this)) + " position=" + this.position + "}";
+        }
+
+        /* renamed from: androidx.viewpager.widget.ViewPager$SavedState$1 */
+        /* loaded from: classes.dex */
+        static class AnonymousClass1 implements Parcelable.ClassLoaderCreator<SavedState> {
+            AnonymousClass1() {
+            }
+
+            @Override // android.os.Parcelable.ClassLoaderCreator
+            public SavedState createFromParcel(Parcel parcel, ClassLoader classLoader) {
+                return new SavedState(parcel, classLoader);
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public SavedState createFromParcel(Parcel parcel) {
+                return new SavedState(parcel, null);
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public SavedState[] newArray(int i) {
+                return new SavedState[i];
+            }
         }
 
         SavedState(Parcel parcel, ClassLoader classLoader) {
@@ -2213,7 +2251,6 @@ public class ViewPager extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class PagerObserver extends DataSetObserver {
         PagerObserver() {

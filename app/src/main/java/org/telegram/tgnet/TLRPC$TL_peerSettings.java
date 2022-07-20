@@ -39,7 +39,7 @@ public class TLRPC$TL_peerSettings extends TLObject {
         this.share_contact = (readInt32 & 8) != 0;
         this.need_contacts_exception = (readInt32 & 16) != 0;
         this.report_geo = (readInt32 & 32) != 0;
-        this.autoarchived = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+        this.autoarchived = (readInt32 & 128) != 0;
         this.invite_members = (readInt32 & 256) != 0;
         if ((readInt32 & 1024) != 0) {
             z2 = true;
@@ -71,7 +71,7 @@ public class TLRPC$TL_peerSettings extends TLObject {
         this.flags = i5;
         int i6 = this.report_geo ? i5 | 32 : i5 & (-33);
         this.flags = i6;
-        int i7 = this.autoarchived ? i6 | ConnectionsManager.RequestFlagNeedQuickAck : i6 & (-129);
+        int i7 = this.autoarchived ? i6 | 128 : i6 & (-129);
         this.flags = i7;
         int i8 = this.invite_members ? i7 | 256 : i7 & (-257);
         this.flags = i8;

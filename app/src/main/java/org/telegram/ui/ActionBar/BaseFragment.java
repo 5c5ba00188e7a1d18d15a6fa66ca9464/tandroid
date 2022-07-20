@@ -568,7 +568,7 @@ public abstract class BaseFragment {
         return showDialog(dialog, false, onDismissListener);
     }
 
-    public Dialog showDialog(Dialog dialog, boolean z, final DialogInterface.OnDismissListener onDismissListener) {
+    public Dialog showDialog(Dialog dialog, boolean z, DialogInterface.OnDismissListener onDismissListener) {
         ActionBarLayout actionBarLayout;
         if (dialog != null && (actionBarLayout = this.parentLayout) != null && !actionBarLayout.animationInProgress && !actionBarLayout.startedTracking && (z || !actionBarLayout.checkTransitionAnimation())) {
             try {
@@ -583,12 +583,7 @@ public abstract class BaseFragment {
             try {
                 this.visibleDialog = dialog;
                 dialog.setCanceledOnTouchOutside(true);
-                this.visibleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.BaseFragment$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnDismissListener
-                    public final void onDismiss(DialogInterface dialogInterface) {
-                        BaseFragment.this.lambda$showDialog$0(onDismissListener, dialogInterface);
-                    }
-                });
+                this.visibleDialog.setOnDismissListener(new BaseFragment$$ExternalSyntheticLambda0(this, onDismissListener));
                 this.visibleDialog.show();
                 return this.visibleDialog;
             } catch (Exception e2) {
@@ -702,7 +697,6 @@ public abstract class BaseFragment {
         return actionBarLayoutArr;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* renamed from: org.telegram.ui.ActionBar.BaseFragment$1 */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 extends BottomSheet {
@@ -715,7 +709,7 @@ public abstract class BaseFragment {
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(BaseFragment baseFragment, Context context, boolean z, ActionBarLayout[] actionBarLayoutArr, final BaseFragment baseFragment2) {
+        AnonymousClass1(BaseFragment baseFragment, Context context, boolean z, ActionBarLayout[] actionBarLayoutArr, BaseFragment baseFragment2) {
             super(context, z);
             this.val$actionBarLayout = actionBarLayoutArr;
             this.val$fragment = baseFragment2;
@@ -728,12 +722,7 @@ public abstract class BaseFragment {
             this.containerView = actionBarLayoutArr[0];
             setApplyBottomPadding(false);
             setApplyBottomPadding(false);
-            setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.BaseFragment$1$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnDismissListener
-                public final void onDismiss(DialogInterface dialogInterface) {
-                    BaseFragment.this.onFragmentDestroy();
-                }
-            });
+            setOnDismissListener(new BaseFragment$1$$ExternalSyntheticLambda0(baseFragment2));
         }
 
         @Override // android.app.Dialog

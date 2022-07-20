@@ -1,8 +1,6 @@
 package com.huawei.hms.common.internal;
 
 import android.text.TextUtils;
-import com.huawei.hms.adapter.internal.CommonCode;
-import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.JsonUtil;
 import org.json.JSONException;
@@ -25,15 +23,15 @@ public class ResponseWrap {
             this.responseHeader.setErrorReason(JsonUtil.getStringValue(jSONObject, "error_reason"));
             this.responseHeader.setSrvName(JsonUtil.getStringValue(jSONObject, "srv_name"));
             this.responseHeader.setApiName(JsonUtil.getStringValue(jSONObject, "api_name"));
-            this.responseHeader.setAppID(JsonUtil.getStringValue(jSONObject, HiAnalyticsConstant.BI_KEY_APP_ID));
+            this.responseHeader.setAppID(JsonUtil.getStringValue(jSONObject, "app_id"));
             this.responseHeader.setPkgName(JsonUtil.getStringValue(jSONObject, "pkg_name"));
             this.responseHeader.setSessionId(JsonUtil.getStringValue(jSONObject, "session_id"));
-            this.responseHeader.setTransactionId(JsonUtil.getStringValue(jSONObject, CommonCode.MapKey.TRANSACTION_ID));
-            this.responseHeader.setResolution(JsonUtil.getStringValue(jSONObject, CommonCode.MapKey.HAS_RESOLUTION));
+            this.responseHeader.setTransactionId(JsonUtil.getStringValue(jSONObject, "transaction_id"));
+            this.responseHeader.setResolution(JsonUtil.getStringValue(jSONObject, "resolution"));
             this.body = JsonUtil.getStringValue(jSONObject, "body");
             return true;
         } catch (JSONException e) {
-            HMSLog.e(TAG, "fromJson failed: " + e.getMessage());
+            HMSLog.e("ResponseWrap", "fromJson failed: " + e.getMessage());
             return false;
         }
     }
@@ -65,10 +63,10 @@ public class ResponseWrap {
             jSONObject.put("error_reason", this.responseHeader.getErrorReason());
             jSONObject.put("srv_name", this.responseHeader.getSrvName());
             jSONObject.put("api_name", this.responseHeader.getApiName());
-            jSONObject.put(HiAnalyticsConstant.BI_KEY_APP_ID, this.responseHeader.getAppID());
+            jSONObject.put("app_id", this.responseHeader.getAppID());
             jSONObject.put("pkg_name", this.responseHeader.getPkgName());
-            jSONObject.put(CommonCode.MapKey.TRANSACTION_ID, this.responseHeader.getTransactionId());
-            jSONObject.put(CommonCode.MapKey.HAS_RESOLUTION, this.responseHeader.getResolution());
+            jSONObject.put("transaction_id", this.responseHeader.getTransactionId());
+            jSONObject.put("resolution", this.responseHeader.getResolution());
             String sessionId = this.responseHeader.getSessionId();
             if (!TextUtils.isEmpty(sessionId)) {
                 jSONObject.put("session_id", sessionId);
@@ -77,7 +75,7 @@ public class ResponseWrap {
                 jSONObject.put("body", this.body);
             }
         } catch (JSONException e) {
-            HMSLog.e(TAG, "toJson failed: " + e.getMessage());
+            HMSLog.e("ResponseWrap", "toJson failed: " + e.getMessage());
         }
         return jSONObject.toString();
     }

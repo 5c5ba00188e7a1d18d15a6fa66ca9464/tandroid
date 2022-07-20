@@ -8,10 +8,8 @@ import android.text.TextUtils;
 import com.huawei.hms.aaid.HmsInstanceId;
 import com.huawei.hms.aaid.constant.ErrorEnum;
 import com.huawei.hms.common.ApiException;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.Util;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: AutoInitRunnable.java */
 /* loaded from: classes.dex */
 public class f implements Runnable {
@@ -46,18 +44,18 @@ public class f implements Runnable {
                     apiException = e;
                     internalCode = apiException.getStatusCode();
                     HMSLog.e("AutoInit", "new Push init failed");
-                    bundle = this.a.getPackageManager().getApplicationInfo(this.a.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).metaData;
+                    bundle = this.a.getPackageManager().getApplicationInfo(this.a.getPackageName(), 128).metaData;
                     if (bundle == null) {
                     }
                     HMSLog.i("AutoInit", "push kit sdk not exists");
                 }
-                bundle = this.a.getPackageManager().getApplicationInfo(this.a.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).metaData;
+                bundle = this.a.getPackageManager().getApplicationInfo(this.a.getPackageName(), 128).metaData;
                 if (bundle == null && bundle.getString("com.huawei.hms.client.service.name:push") != null) {
                     Intent intent = new Intent("com.huawei.push.action.MESSAGING_EVENT");
                     intent.setPackage(this.a.getPackageName());
                     Bundle bundle2 = new Bundle();
-                    bundle2.putString(RemoteMessageConst.MSGTYPE, "new_token");
-                    bundle2.putString(RemoteMessageConst.DEVICE_TOKEN, str);
+                    bundle2.putString("message_type", "new_token");
+                    bundle2.putString("device_token", str);
                     bundle2.putInt("error", internalCode);
                     if (apiException != null) {
                         bundle2.putSerializable("exception_key", apiException);

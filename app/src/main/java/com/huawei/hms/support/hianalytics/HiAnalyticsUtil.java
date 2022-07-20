@@ -6,7 +6,6 @@ import com.huawei.hms.android.SystemUtils;
 import com.huawei.hms.common.internal.RequestHeader;
 import com.huawei.hms.common.internal.ResponseHeader;
 import com.huawei.hms.common.internal.TransactionIdCreater;
-import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.Util;
 import java.util.HashMap;
@@ -19,7 +18,7 @@ public class HiAnalyticsUtil {
 
     private String a(Context context, String str) {
         String packageName = context.getPackageName();
-        return "01|" + HiAnalyticsConstant.REPORT_VAL_SEPARATOR + packageName + HiAnalyticsConstant.REPORT_VAL_SEPARATOR + Util.getAppId(context) + HiAnalyticsConstant.REPORT_VAL_SEPARATOR + 60500300 + HiAnalyticsConstant.REPORT_VAL_SEPARATOR + str;
+        return "01||" + packageName + "|" + Util.getAppId(context) + "|60500300|" + str;
     }
 
     public static HiAnalyticsUtil getInstance() {
@@ -39,16 +38,16 @@ public class HiAnalyticsUtil {
         if (responseHeader == null) {
             return hashMap;
         }
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_TRANSID, responseHeader.getTransactionId());
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_APPID, responseHeader.getActualAppID());
+        hashMap.put("transId", responseHeader.getTransactionId());
+        hashMap.put("appid", responseHeader.getActualAppID());
         hashMap.put("service", responseHeader.getSrvName());
         hashMap.put("apiName", responseHeader.getApiName());
         hashMap.put("package", responseHeader.getPkgName());
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_RESULT, String.valueOf(responseHeader.getStatusCode()));
+        hashMap.put("statusCode", String.valueOf(responseHeader.getStatusCode()));
         hashMap.put("result", String.valueOf(responseHeader.getErrorCode()));
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_ERRORREASON, responseHeader.getErrorReason());
+        hashMap.put("errorReason", responseHeader.getErrorReason());
         hashMap.put("callTime", String.valueOf(System.currentTimeMillis()));
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_BASE_VERSION, "6.5.0.300");
+        hashMap.put("baseVersion", "6.5.0.300");
         return hashMap;
     }
 
@@ -57,8 +56,8 @@ public class HiAnalyticsUtil {
         if (responseHeader == null) {
             return hashMap;
         }
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_TRANSID, responseHeader.getTransactionId());
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_APPID, responseHeader.getActualAppID());
+        hashMap.put("transId", responseHeader.getTransactionId());
+        hashMap.put("appid", responseHeader.getActualAppID());
         hashMap.put("service", responseHeader.getSrvName());
         String apiName = responseHeader.getApiName();
         if (!TextUtils.isEmpty(apiName)) {
@@ -68,11 +67,11 @@ public class HiAnalyticsUtil {
             }
         }
         hashMap.put("package", responseHeader.getPkgName());
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_RESULT, String.valueOf(responseHeader.getStatusCode()));
+        hashMap.put("statusCode", String.valueOf(responseHeader.getStatusCode()));
         hashMap.put("result", String.valueOf(responseHeader.getErrorCode()));
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_ERRORREASON, responseHeader.getErrorReason());
+        hashMap.put("errorReason", responseHeader.getErrorReason());
         hashMap.put("callTime", String.valueOf(System.currentTimeMillis()));
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_BASE_VERSION, "6.5.0.300");
+        hashMap.put("baseVersion", "6.5.0.300");
         return hashMap;
     }
 
@@ -88,8 +87,8 @@ public class HiAnalyticsUtil {
             String str2 = split[0];
             String str3 = split[1];
             String appId = Util.getAppId(context);
-            hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_TRANSID, TransactionIdCreater.getId(appId, str));
-            hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_APPID, appId);
+            hashMap.put("transId", TransactionIdCreater.getId(appId, str));
+            hashMap.put("appid", appId);
             hashMap.put("service", str2);
             hashMap.put("apiName", str3);
             hashMap.put("package", context.getPackageName());
@@ -104,13 +103,13 @@ public class HiAnalyticsUtil {
         if (requestHeader == null) {
             return hashMap;
         }
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_TRANSID, requestHeader.getTransactionId());
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_APPID, requestHeader.getActualAppID());
+        hashMap.put("transId", requestHeader.getTransactionId());
+        hashMap.put("appid", requestHeader.getActualAppID());
         hashMap.put("service", requestHeader.getSrvName());
         hashMap.put("apiName", requestHeader.getApiName());
         hashMap.put("package", requestHeader.getPkgName());
         hashMap.put("callTime", String.valueOf(System.currentTimeMillis()));
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_BASE_VERSION, "6.5.0.300");
+        hashMap.put("baseVersion", "6.5.0.300");
         return hashMap;
     }
 
@@ -154,8 +153,8 @@ public class HiAnalyticsUtil {
         if (requestHeader == null) {
             return hashMap;
         }
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_TRANSID, requestHeader.getTransactionId());
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_APPID, requestHeader.getActualAppID());
+        hashMap.put("transId", requestHeader.getTransactionId());
+        hashMap.put("appid", requestHeader.getActualAppID());
         hashMap.put("service", requestHeader.getSrvName());
         String apiName = requestHeader.getApiName();
         if (!TextUtils.isEmpty(apiName)) {
@@ -166,7 +165,7 @@ public class HiAnalyticsUtil {
         }
         hashMap.put("package", requestHeader.getPkgName());
         hashMap.put("callTime", String.valueOf(System.currentTimeMillis()));
-        hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_BASE_VERSION, "6.5.0.300");
+        hashMap.put("baseVersion", "6.5.0.300");
         return hashMap;
     }
 }

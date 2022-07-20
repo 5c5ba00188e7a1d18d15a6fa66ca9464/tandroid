@@ -104,12 +104,7 @@ public class ActionBarMenu extends LinearLayout {
             }
             addView(actionBarMenuItem, new LinearLayout.LayoutParams(i5, -1));
         }
-        actionBarMenuItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenu$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ActionBarMenu.this.lambda$addItem$0(view);
-            }
-        });
+        actionBarMenuItem.setOnClickListener(new ActionBarMenu$$ExternalSyntheticLambda0(this));
         if (charSequence2 != null) {
             actionBarMenuItem.setContentDescription(charSequence2);
         }

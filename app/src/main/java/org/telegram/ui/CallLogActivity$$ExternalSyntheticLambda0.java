@@ -1,0 +1,20 @@
+package org.telegram.ui;
+
+import android.content.DialogInterface;
+/* loaded from: classes3.dex */
+public final /* synthetic */ class CallLogActivity$$ExternalSyntheticLambda0 implements DialogInterface.OnClickListener {
+    public final /* synthetic */ CallLogActivity f$0;
+    public final /* synthetic */ boolean f$1;
+    public final /* synthetic */ boolean[] f$2;
+
+    public /* synthetic */ CallLogActivity$$ExternalSyntheticLambda0(CallLogActivity callLogActivity, boolean z, boolean[] zArr) {
+        this.f$0 = callLogActivity;
+        this.f$1 = z;
+        this.f$2 = zArr;
+    }
+
+    @Override // android.content.DialogInterface.OnClickListener
+    public final void onClick(DialogInterface dialogInterface, int i) {
+        this.f$0.lambda$showDeleteAlert$5(this.f$1, this.f$2, dialogInterface, i);
+    }
+}

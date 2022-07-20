@@ -47,30 +47,38 @@ public class TextPaintView extends EntityView {
         setSwatch(swatch);
         setType(i2);
         updatePosition();
-        this.editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.Paint.Views.TextPaintView.1
-            private int beforeCursorPosition = 0;
-            private String text;
+        this.editText.addTextChangedListener(new AnonymousClass1());
+    }
 
-            @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-            }
+    /* renamed from: org.telegram.ui.Components.Paint.Views.TextPaintView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements TextWatcher {
+        private int beforeCursorPosition = 0;
+        private String text;
 
-            @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-                this.text = charSequence.toString();
-                this.beforeCursorPosition = i3;
-            }
+        @Override // android.text.TextWatcher
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
 
-            @Override // android.text.TextWatcher
-            public void afterTextChanged(Editable editable) {
-                TextPaintView.this.editText.removeTextChangedListener(this);
-                if (TextPaintView.this.editText.getLineCount() > 9) {
-                    TextPaintView.this.editText.setText(this.text);
-                    TextPaintView.this.editText.setSelection(this.beforeCursorPosition);
-                }
-                TextPaintView.this.editText.addTextChangedListener(this);
+        AnonymousClass1() {
+            TextPaintView.this = r1;
+        }
+
+        @Override // android.text.TextWatcher
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            this.text = charSequence.toString();
+            this.beforeCursorPosition = i;
+        }
+
+        @Override // android.text.TextWatcher
+        public void afterTextChanged(Editable editable) {
+            TextPaintView.this.editText.removeTextChangedListener(this);
+            if (TextPaintView.this.editText.getLineCount() > 9) {
+                TextPaintView.this.editText.setText(this.text);
+                TextPaintView.this.editText.setSelection(this.beforeCursorPosition);
             }
-        });
+            TextPaintView.this.editText.addTextChangedListener(this);
+        }
     }
 
     public TextPaintView(Context context, TextPaintView textPaintView, Point point) {
@@ -107,12 +115,7 @@ public class TextPaintView extends EntityView {
         this.editText.requestFocus();
         EditTextOutline editTextOutline = this.editText;
         editTextOutline.setSelection(editTextOutline.getText().length());
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.TextPaintView$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                TextPaintView.this.lambda$beginEditing$0();
-            }
-        }, 300L);
+        AndroidUtilities.runOnUIThread(new TextPaintView$$ExternalSyntheticLambda0(this), 300L);
     }
 
     public /* synthetic */ void lambda$beginEditing$0() {

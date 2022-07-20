@@ -23,7 +23,6 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.SvgHelper;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_wallPaper;
@@ -68,42 +67,52 @@ public class WallpaperCell extends FrameLayout {
             super(context);
             WallpaperCell.this = r8;
             setWillNotDraw(false);
-            BackupImageView backupImageView = new BackupImageView(context, r8) { // from class: org.telegram.ui.Cells.WallpaperCell.WallpaperView.1
-                @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-                public void onDraw(Canvas canvas) {
-                    super.onDraw(canvas);
-                    if ((WallpaperView.this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper) || (WallpaperView.this.currentWallpaper instanceof WallpapersListActivity.FileWallpaper)) {
-                        canvas.drawLine(1.0f, 0.0f, getMeasuredWidth() - 1, 0.0f, WallpaperCell.this.framePaint);
-                        canvas.drawLine(0.0f, 0.0f, 0.0f, getMeasuredHeight(), WallpaperCell.this.framePaint);
-                        canvas.drawLine(getMeasuredWidth() - 1, 0.0f, getMeasuredWidth() - 1, getMeasuredHeight(), WallpaperCell.this.framePaint);
-                        canvas.drawLine(1.0f, getMeasuredHeight() - 1, getMeasuredWidth() - 1, getMeasuredHeight() - 1, WallpaperCell.this.framePaint);
-                    }
-                    if (WallpaperView.this.isSelected) {
-                        WallpaperCell.this.circlePaint.setColor(Theme.serviceMessageColorBackup);
-                        int measuredWidth = getMeasuredWidth() / 2;
-                        int measuredHeight = getMeasuredHeight() / 2;
-                        canvas.drawCircle(measuredWidth, measuredHeight, AndroidUtilities.dp(20.0f), WallpaperCell.this.circlePaint);
-                        WallpaperCell.this.checkDrawable.setBounds(measuredWidth - (WallpaperCell.this.checkDrawable.getIntrinsicWidth() / 2), measuredHeight - (WallpaperCell.this.checkDrawable.getIntrinsicHeight() / 2), measuredWidth + (WallpaperCell.this.checkDrawable.getIntrinsicWidth() / 2), measuredHeight + (WallpaperCell.this.checkDrawable.getIntrinsicHeight() / 2));
-                        WallpaperCell.this.checkDrawable.draw(canvas);
-                    }
-                }
-            };
-            this.imageView = backupImageView;
-            addView(backupImageView, LayoutHelper.createFrame(-1, -1, 51));
+            AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, r8);
+            this.imageView = anonymousClass1;
+            addView(anonymousClass1, LayoutHelper.createFrame(-1, -1, 51));
             ImageView imageView = new ImageView(context);
             this.imageView2 = imageView;
-            imageView.setImageResource(R.drawable.ic_gallery_background);
+            imageView.setImageResource(2131165476);
             this.imageView2.setScaleType(ImageView.ScaleType.CENTER);
             addView(this.imageView2, LayoutHelper.createFrame(-1, -1, 51));
             View view = new View(context);
             this.selector = view;
             view.setBackgroundDrawable(Theme.getSelectorDrawable(false));
             addView(this.selector, LayoutHelper.createFrame(-1, -1.0f));
-            CheckBox checkBox = new CheckBox(context, R.drawable.round_check2);
+            CheckBox checkBox = new CheckBox(context, 2131166115);
             this.checkBox = checkBox;
             checkBox.setVisibility(4);
             this.checkBox.setColor(Theme.getColor("checkbox"), Theme.getColor("checkboxCheck"));
             addView(this.checkBox, LayoutHelper.createFrame(22, 22.0f, 53, 0.0f, 2.0f, 2.0f, 0.0f));
+        }
+
+        /* renamed from: org.telegram.ui.Cells.WallpaperCell$WallpaperView$1 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass1 extends BackupImageView {
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+            AnonymousClass1(Context context, WallpaperCell wallpaperCell) {
+                super(context);
+                WallpaperView.this = r1;
+            }
+
+            @Override // org.telegram.ui.Components.BackupImageView, android.view.View
+            public void onDraw(Canvas canvas) {
+                super.onDraw(canvas);
+                if ((WallpaperView.this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper) || (WallpaperView.this.currentWallpaper instanceof WallpapersListActivity.FileWallpaper)) {
+                    canvas.drawLine(1.0f, 0.0f, getMeasuredWidth() - 1, 0.0f, WallpaperCell.this.framePaint);
+                    canvas.drawLine(0.0f, 0.0f, 0.0f, getMeasuredHeight(), WallpaperCell.this.framePaint);
+                    canvas.drawLine(getMeasuredWidth() - 1, 0.0f, getMeasuredWidth() - 1, getMeasuredHeight(), WallpaperCell.this.framePaint);
+                    canvas.drawLine(1.0f, getMeasuredHeight() - 1, getMeasuredWidth() - 1, getMeasuredHeight() - 1, WallpaperCell.this.framePaint);
+                }
+                if (WallpaperView.this.isSelected) {
+                    WallpaperCell.this.circlePaint.setColor(Theme.serviceMessageColorBackup);
+                    int measuredWidth = getMeasuredWidth() / 2;
+                    int measuredHeight = getMeasuredHeight() / 2;
+                    canvas.drawCircle(measuredWidth, measuredHeight, AndroidUtilities.dp(20.0f), WallpaperCell.this.circlePaint);
+                    WallpaperCell.this.checkDrawable.setBounds(measuredWidth - (WallpaperCell.this.checkDrawable.getIntrinsicWidth() / 2), measuredHeight - (WallpaperCell.this.checkDrawable.getIntrinsicHeight() / 2), measuredWidth + (WallpaperCell.this.checkDrawable.getIntrinsicWidth() / 2), measuredHeight + (WallpaperCell.this.checkDrawable.getIntrinsicHeight() / 2));
+                    WallpaperCell.this.checkDrawable.draw(canvas);
+                }
+            }
         }
 
         @Override // android.view.View
@@ -193,7 +202,7 @@ public class WallpaperCell extends FrameLayout {
                     }
                     if ("d".equals(colorWallpaper.slug)) {
                         if (colorWallpaper.defaultCache == null) {
-                            colorWallpaper.defaultCache = SvgHelper.getBitmap((int) R.raw.default_pattern, 100, 180, -16777216);
+                            colorWallpaper.defaultCache = SvgHelper.getBitmap(2131558436, 100, 180, -16777216);
                         }
                         this.imageView.setImageBitmap(colorWallpaper.defaultCache);
                         this.imageView.getImageReceiver().setAlpha(Math.abs(colorWallpaper.intensity));
@@ -258,7 +267,7 @@ public class WallpaperCell extends FrameLayout {
             }
         }
 
-        public void setChecked(final boolean z, boolean z2) {
+        public void setChecked(boolean z, boolean z2) {
             if (this.checkBox.getVisibility() != 0) {
                 this.checkBox.setVisibility(0);
             }
@@ -286,27 +295,7 @@ public class WallpaperCell extends FrameLayout {
                 animatorArr[1] = ObjectAnimator.ofFloat(backupImageView2, "scaleY", fArr2);
                 animatorSet2.playTogether(animatorArr);
                 this.animator.setDuration(200L);
-                this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.WallpaperCell.WallpaperView.2
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (WallpaperView.this.animator == null || !WallpaperView.this.animator.equals(animator)) {
-                            return;
-                        }
-                        WallpaperView.this.animator = null;
-                        if (z) {
-                            return;
-                        }
-                        WallpaperView.this.setBackgroundColor(0);
-                    }
-
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationCancel(Animator animator) {
-                        if (WallpaperView.this.animator == null || !WallpaperView.this.animator.equals(animator)) {
-                            return;
-                        }
-                        WallpaperView.this.animator = null;
-                    }
-                });
+                this.animator.addListener(new AnonymousClass2(z));
                 this.animator.start();
             } else {
                 this.imageView.setScaleX(z ? 0.8875f : 1.0f);
@@ -317,6 +306,37 @@ public class WallpaperCell extends FrameLayout {
                 backupImageView3.setScaleY(f);
             }
             invalidate();
+        }
+
+        /* renamed from: org.telegram.ui.Cells.WallpaperCell$WallpaperView$2 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass2 extends AnimatorListenerAdapter {
+            final /* synthetic */ boolean val$checked;
+
+            AnonymousClass2(boolean z) {
+                WallpaperView.this = r1;
+                this.val$checked = z;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (WallpaperView.this.animator == null || !WallpaperView.this.animator.equals(animator)) {
+                    return;
+                }
+                WallpaperView.this.animator = null;
+                if (this.val$checked) {
+                    return;
+                }
+                WallpaperView.this.setBackgroundColor(0);
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationCancel(Animator animator) {
+                if (WallpaperView.this.animator == null || !WallpaperView.this.animator.equals(animator)) {
+                    return;
+                }
+                WallpaperView.this.animator = null;
+            }
         }
 
         @Override // android.view.View
@@ -345,34 +365,22 @@ public class WallpaperCell extends FrameLayout {
 
     public WallpaperCell(Context context) {
         super(context);
-        final int i = 0;
+        int i = 0;
         while (true) {
             WallpaperView[] wallpaperViewArr = this.wallpaperViews;
             if (i < wallpaperViewArr.length) {
-                final WallpaperView wallpaperView = new WallpaperView(context);
+                WallpaperView wallpaperView = new WallpaperView(context);
                 wallpaperViewArr[i] = wallpaperView;
                 addView(wallpaperView);
-                wallpaperView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.WallpaperCell$$ExternalSyntheticLambda0
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        WallpaperCell.this.lambda$new$0(wallpaperView, i, view);
-                    }
-                });
-                wallpaperView.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Cells.WallpaperCell$$ExternalSyntheticLambda1
-                    @Override // android.view.View.OnLongClickListener
-                    public final boolean onLongClick(View view) {
-                        boolean lambda$new$1;
-                        lambda$new$1 = WallpaperCell.this.lambda$new$1(wallpaperView, i, view);
-                        return lambda$new$1;
-                    }
-                });
+                wallpaperView.setOnClickListener(new WallpaperCell$$ExternalSyntheticLambda0(this, wallpaperView, i));
+                wallpaperView.setOnLongClickListener(new WallpaperCell$$ExternalSyntheticLambda1(this, wallpaperView, i));
                 i++;
             } else {
                 Paint paint = new Paint();
                 this.framePaint = paint;
-                paint.setColor(AndroidUtilities.DARK_STATUS_BAR_OVERLAY);
+                paint.setColor(855638016);
                 this.circlePaint = new Paint(1);
-                this.checkDrawable = context.getResources().getDrawable(R.drawable.background_selected).mutate();
+                this.checkDrawable = context.getResources().getDrawable(2131165268).mutate();
                 Paint paint2 = new Paint();
                 this.backgroundPaint = paint2;
                 paint2.setColor(Theme.getColor("sharedMedia_photoPlaceholder"));

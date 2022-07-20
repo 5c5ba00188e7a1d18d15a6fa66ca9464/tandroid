@@ -15,7 +15,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
@@ -61,8 +60,8 @@ public class BubbleActivity extends BasePermissionsActivity implements ActionBar
     protected void onCreate(Bundle bundle) {
         ApplicationLoader.postInitApplication();
         requestWindowFeature(1);
-        setTheme(R.style.Theme_TMessages);
-        getWindow().setBackgroundDrawableResource(R.drawable.transparent);
+        setTheme(2131689490);
+        getWindow().setBackgroundDrawableResource(2131166189);
         if (SharedConfig.passcodeHash.length() > 0 && !SharedConfig.allowScreenCapture) {
             try {
                 getWindow().setFlags(8192, 8192);
@@ -115,12 +114,7 @@ public class BubbleActivity extends BasePermissionsActivity implements ActionBar
         this.passcodeView.onShow(true, false);
         SharedConfig.isWaitingForPasscodeEnter = true;
         this.drawerLayoutContainer.setAllowOpenDrawer(false, false);
-        this.passcodeView.setDelegate(new PasscodeView.PasscodeViewDelegate() { // from class: org.telegram.ui.BubbleActivity$$ExternalSyntheticLambda0
-            @Override // org.telegram.ui.Components.PasscodeView.PasscodeViewDelegate
-            public final void didAcceptedPassword() {
-                BubbleActivity.this.lambda$showPasscodeActivity$0();
-            }
-        });
+        this.passcodeView.setDelegate(new BubbleActivity$$ExternalSyntheticLambda0(this));
     }
 
     public /* synthetic */ void lambda$showPasscodeActivity$0() {
@@ -269,35 +263,43 @@ public class BubbleActivity extends BasePermissionsActivity implements ActionBar
         }
         if (SharedConfig.passcodeHash.length() != 0) {
             SharedConfig.lastPauseTime = (int) (SystemClock.elapsedRealtime() / 1000);
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.BubbleActivity.1
-                @Override // java.lang.Runnable
-                public void run() {
-                    if (BubbleActivity.this.lockRunnable == this) {
-                        if (AndroidUtilities.needShowPasscode(true)) {
-                            if (BuildVars.LOGS_ENABLED) {
-                                FileLog.d("lock app");
-                            }
-                            BubbleActivity.this.showPasscodeActivity();
-                        } else if (BuildVars.LOGS_ENABLED) {
-                            FileLog.d("didn't pass lock check");
-                        }
-                        BubbleActivity.this.lockRunnable = null;
-                    }
-                }
-            };
-            this.lockRunnable = runnable2;
+            AnonymousClass1 anonymousClass1 = new AnonymousClass1();
+            this.lockRunnable = anonymousClass1;
             if (SharedConfig.appLocked) {
-                AndroidUtilities.runOnUIThread(runnable2, 1000L);
+                AndroidUtilities.runOnUIThread(anonymousClass1, 1000L);
             } else {
                 int i = SharedConfig.autoLockIn;
                 if (i != 0) {
-                    AndroidUtilities.runOnUIThread(runnable2, (i * 1000) + 1000);
+                    AndroidUtilities.runOnUIThread(anonymousClass1, (i * 1000) + 1000);
                 }
             }
         } else {
             SharedConfig.lastPauseTime = 0;
         }
         SharedConfig.saveConfig();
+    }
+
+    /* renamed from: org.telegram.ui.BubbleActivity$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            BubbleActivity.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            if (BubbleActivity.this.lockRunnable == this) {
+                if (AndroidUtilities.needShowPasscode(true)) {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.d("lock app");
+                    }
+                    BubbleActivity.this.showPasscodeActivity();
+                } else if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("didn't pass lock check");
+                }
+                BubbleActivity.this.lockRunnable = null;
+            }
+        }
     }
 
     private void onPasscodeResume() {

@@ -21,7 +21,6 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
-import org.telegram.ui.Components.TrendingStickersAlert;
 /* loaded from: classes3.dex */
 public class TrendingStickersAlert extends BottomSheet {
     private final AlertContainerView alertContainerView;
@@ -43,31 +42,39 @@ public class TrendingStickersAlert extends BottomSheet {
         this.containerView = alertContainerView;
         this.layout = trendingStickersLayout;
         trendingStickersLayout.setParentFragment(baseFragment);
-        trendingStickersLayout.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.TrendingStickersAlert.1
-            private int scrolledY;
+        trendingStickersLayout.setOnScrollListener(new AnonymousClass1());
+    }
 
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i) {
-                if (i == 0) {
-                    this.scrolledY = 0;
-                }
-            }
+    /* renamed from: org.telegram.ui.Components.TrendingStickersAlert$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends RecyclerView.OnScrollListener {
+        private int scrolledY;
 
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                this.scrolledY += i2;
-                if (recyclerView.getScrollState() == 1 && Math.abs(this.scrolledY) > AndroidUtilities.dp(96.0f)) {
-                    View findFocus = TrendingStickersAlert.this.layout.findFocus();
-                    if (findFocus == null) {
-                        findFocus = TrendingStickersAlert.this.layout;
-                    }
-                    AndroidUtilities.hideKeyboard(findFocus);
-                }
-                if (i2 != 0) {
-                    TrendingStickersAlert.this.updateLayout();
-                }
+        AnonymousClass1() {
+            TrendingStickersAlert.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrollStateChanged(RecyclerView recyclerView, int i) {
+            if (i == 0) {
+                this.scrolledY = 0;
             }
-        });
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+            this.scrolledY += i2;
+            if (recyclerView.getScrollState() == 1 && Math.abs(this.scrolledY) > AndroidUtilities.dp(96.0f)) {
+                View findFocus = TrendingStickersAlert.this.layout.findFocus();
+                if (findFocus == null) {
+                    findFocus = TrendingStickersAlert.this.layout;
+                }
+                AndroidUtilities.hideKeyboard(findFocus);
+            }
+            if (i2 != 0) {
+                TrendingStickersAlert.this.updateLayout();
+            }
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
@@ -101,19 +108,9 @@ public class TrendingStickersAlert extends BottomSheet {
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        final TrendingStickersLayout trendingStickersLayout = this.layout;
+        TrendingStickersLayout trendingStickersLayout = this.layout;
         trendingStickersLayout.getClass();
-        trendingStickersLayout.getThemeDescriptions(arrayList, new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.TrendingStickersAlert$$ExternalSyntheticLambda0
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public final void didSetColor() {
-                TrendingStickersLayout.this.updateColors();
-            }
-
-            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
-            public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
-            }
-        });
+        trendingStickersLayout.getThemeDescriptions(arrayList, new TrendingStickersAlert$$ExternalSyntheticLambda0(trendingStickersLayout));
         arrayList.add(new ThemeDescription(this.alertContainerView, 0, null, null, new Drawable[]{this.shadowDrawable}, null, "dialogBackground"));
         arrayList.add(new ThemeDescription(this.alertContainerView, 0, null, null, null, null, "key_sheet_scrollUp"));
         return arrayList;
@@ -140,35 +137,38 @@ public class TrendingStickersAlert extends BottomSheet {
             TrendingStickersAlert.this = r3;
             setWillNotDraw(false);
             setPadding(((BottomSheet) r3).backgroundPaddingLeft, 0, ((BottomSheet) r3).backgroundPaddingLeft, 0);
-            setDelegate(new SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate(r3) { // from class: org.telegram.ui.Components.TrendingStickersAlert.AlertContainerView.1
-                private boolean lastIsWidthGreater;
-                private int lastKeyboardHeight;
+            setDelegate(new AnonymousClass1(r3));
+        }
 
-                @Override // org.telegram.ui.Components.SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate
-                public void onSizeChanged(int i, boolean z) {
-                    if (this.lastKeyboardHeight == i && this.lastIsWidthGreater == z) {
-                        return;
-                    }
-                    this.lastKeyboardHeight = i;
-                    this.lastIsWidthGreater = z;
-                    if (i <= AndroidUtilities.dp(20.0f) || AlertContainerView.this.gluedToTop) {
-                        return;
-                    }
-                    TrendingStickersAlert.this.setAllowNestedScroll(false);
-                    AlertContainerView.this.gluedToTop = true;
+        /* renamed from: org.telegram.ui.Components.TrendingStickersAlert$AlertContainerView$1 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass1 implements SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate {
+            private boolean lastIsWidthGreater;
+            private int lastKeyboardHeight;
+
+            AnonymousClass1(TrendingStickersAlert trendingStickersAlert) {
+                AlertContainerView.this = r1;
+            }
+
+            @Override // org.telegram.ui.Components.SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate
+            public void onSizeChanged(int i, boolean z) {
+                if (this.lastKeyboardHeight == i && this.lastIsWidthGreater == z) {
+                    return;
                 }
-            });
+                this.lastKeyboardHeight = i;
+                this.lastIsWidthGreater = z;
+                if (i <= AndroidUtilities.dp(20.0f) || AlertContainerView.this.gluedToTop) {
+                    return;
+                }
+                TrendingStickersAlert.this.setAllowNestedScroll(false);
+                AlertContainerView.this.gluedToTop = true;
+            }
         }
 
         @Override // android.view.View
         protected void onConfigurationChanged(Configuration configuration) {
             super.onConfigurationChanged(configuration);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TrendingStickersAlert$AlertContainerView$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TrendingStickersAlert.AlertContainerView.this.requestLayout();
-                }
-            }, 200L);
+            AndroidUtilities.runOnUIThread(new TrendingStickersAlert$AlertContainerView$$ExternalSyntheticLambda1(this), 200L);
         }
 
         @Override // android.view.ViewGroup
@@ -309,12 +309,7 @@ public class TrendingStickersAlert extends BottomSheet {
                         fArr[1] = f;
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
                         this.statusBarAnimator = ofFloat;
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TrendingStickersAlert$AlertContainerView$$ExternalSyntheticLambda0
-                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                            public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                                TrendingStickersAlert.AlertContainerView.this.lambda$setStatusBarVisible$0(valueAnimator3);
-                            }
-                        });
+                        ofFloat.addUpdateListener(new TrendingStickersAlert$AlertContainerView$$ExternalSyntheticLambda0(this));
                         this.statusBarAnimator.setDuration(200L);
                     } else {
                         float[] fArr2 = new float[2];

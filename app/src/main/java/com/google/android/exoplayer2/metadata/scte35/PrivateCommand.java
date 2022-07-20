@@ -6,20 +6,14 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class PrivateCommand extends SpliceCommand {
-    public static final Parcelable.Creator<PrivateCommand> CREATOR = new Parcelable.Creator<PrivateCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.PrivateCommand.1
-        @Override // android.os.Parcelable.Creator
-        public PrivateCommand createFromParcel(Parcel parcel) {
-            return new PrivateCommand(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public PrivateCommand[] newArray(int i) {
-            return new PrivateCommand[i];
-        }
-    };
+    public static final Parcelable.Creator<PrivateCommand> CREATOR = new AnonymousClass1();
     public final byte[] commandBytes;
     public final long identifier;
     public final long ptsAdjustment;
+
+    /* synthetic */ PrivateCommand(Parcel parcel, AnonymousClass1 anonymousClass1) {
+        this(parcel);
+    }
 
     private PrivateCommand(long j, byte[] bArr, long j2) {
         this.ptsAdjustment = j2;
@@ -46,5 +40,22 @@ public final class PrivateCommand extends SpliceCommand {
         parcel.writeLong(this.ptsAdjustment);
         parcel.writeLong(this.identifier);
         parcel.writeByteArray(this.commandBytes);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.metadata.scte35.PrivateCommand$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<PrivateCommand> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public PrivateCommand createFromParcel(Parcel parcel) {
+            return new PrivateCommand(parcel, null);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public PrivateCommand[] newArray(int i) {
+            return new PrivateCommand[i];
+        }
     }
 }

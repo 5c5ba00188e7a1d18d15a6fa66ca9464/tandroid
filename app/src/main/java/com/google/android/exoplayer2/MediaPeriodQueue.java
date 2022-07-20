@@ -9,7 +9,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelectorResult;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.util.Assertions;
 /* loaded from: classes.dex */
-final class MediaPeriodQueue {
+public final class MediaPeriodQueue {
     private int length;
     private MediaPeriodHolder loading;
     private long nextWindowSequenceNumber;

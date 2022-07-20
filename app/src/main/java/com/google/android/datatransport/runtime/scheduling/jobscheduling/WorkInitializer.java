@@ -19,23 +19,11 @@ public class WorkInitializer {
     }
 
     public void ensureContextsScheduled() {
-        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkInitializer$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                WorkInitializer.this.lambda$ensureContextsScheduled$1();
-            }
-        });
+        this.executor.execute(new WorkInitializer$$ExternalSyntheticLambda1(this));
     }
 
     public /* synthetic */ void lambda$ensureContextsScheduled$1() {
-        this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkInitializer$$ExternalSyntheticLambda0
-            @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
-            public final Object execute() {
-                Object lambda$ensureContextsScheduled$0;
-                lambda$ensureContextsScheduled$0 = WorkInitializer.this.lambda$ensureContextsScheduled$0();
-                return lambda$ensureContextsScheduled$0;
-            }
-        });
+        this.guard.runCriticalSection(new WorkInitializer$$ExternalSyntheticLambda0(this));
     }
 
     public /* synthetic */ Object lambda$ensureContextsScheduled$0() {

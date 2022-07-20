@@ -48,7 +48,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: FragmentManager.java */
 /* loaded from: classes.dex */
 public final class FragmentManagerImpl extends FragmentManager implements LayoutInflater.Factory2 {
@@ -85,12 +84,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     int mCurState = 0;
     Bundle mStateBundle = null;
     SparseArray<Parcelable> mStateArray = null;
-    Runnable mExecCommit = new Runnable() { // from class: androidx.fragment.app.FragmentManagerImpl.1
-        @Override // java.lang.Runnable
-        public void run() {
-            FragmentManagerImpl.this.execPendingActions();
-        }
-    };
+    Runnable mExecCommit = new AnonymousClass1();
 
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
@@ -135,6 +129,21 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
 
     public LayoutInflater.Factory2 getLayoutInflaterFactory() {
         return this;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* compiled from: FragmentManager.java */
+    /* renamed from: androidx.fragment.app.FragmentManagerImpl$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            FragmentManagerImpl.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            FragmentManagerImpl.this.execPendingActions();
+        }
     }
 
     static boolean modifiesAlpha(AnimationOrAnimator animationOrAnimator) {
@@ -273,7 +282,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder((int) ConnectionsManager.RequestFlagNeedQuickAck);
+        StringBuilder sb = new StringBuilder(128);
         sb.append("FragmentManager{");
         sb.append(Integer.toHexString(System.identityHashCode(this)));
         sb.append(" in ");
@@ -843,55 +852,96 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    private void animateRemoveFragment(final Fragment fragment, AnimationOrAnimator animationOrAnimator, int i) {
-        final View view = fragment.mView;
-        final ViewGroup viewGroup = fragment.mContainer;
+    private void animateRemoveFragment(Fragment fragment, AnimationOrAnimator animationOrAnimator, int i) {
+        View view = fragment.mView;
+        ViewGroup viewGroup = fragment.mContainer;
         viewGroup.startViewTransition(view);
         fragment.setStateAfterAnimating(i);
         if (animationOrAnimator.animation != null) {
             EndViewTransitionAnimator endViewTransitionAnimator = new EndViewTransitionAnimator(animationOrAnimator.animation, viewGroup, view);
             fragment.setAnimatingAway(fragment.mView);
-            endViewTransitionAnimator.setAnimationListener(new AnimationListenerWrapper(getAnimationListener(endViewTransitionAnimator)) { // from class: androidx.fragment.app.FragmentManagerImpl.2
-                @Override // androidx.fragment.app.FragmentManagerImpl.AnimationListenerWrapper, android.view.animation.Animation.AnimationListener
-                public void onAnimationEnd(Animation animation) {
-                    super.onAnimationEnd(animation);
-                    viewGroup.post(new Runnable() { // from class: androidx.fragment.app.FragmentManagerImpl.2.1
-                        @Override // java.lang.Runnable
-                        public void run() {
-                            if (fragment.getAnimatingAway() != null) {
-                                fragment.setAnimatingAway(null);
-                                AnonymousClass2 anonymousClass2 = AnonymousClass2.this;
-                                FragmentManagerImpl fragmentManagerImpl = FragmentManagerImpl.this;
-                                Fragment fragment2 = fragment;
-                                fragmentManagerImpl.moveToState(fragment2, fragment2.getStateAfterAnimating(), 0, 0, false);
-                            }
-                        }
-                    });
-                }
-            });
+            endViewTransitionAnimator.setAnimationListener(new AnonymousClass2(getAnimationListener(endViewTransitionAnimator), viewGroup, fragment));
             setHWLayerAnimListenerIfAlpha(view, animationOrAnimator);
             fragment.mView.startAnimation(endViewTransitionAnimator);
             return;
         }
         Animator animator = animationOrAnimator.animator;
         fragment.setAnimator(animator);
-        animator.addListener(new AnimatorListenerAdapter() { // from class: androidx.fragment.app.FragmentManagerImpl.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator2) {
-                viewGroup.endViewTransition(view);
-                Animator animator3 = fragment.getAnimator();
-                fragment.setAnimator(null);
-                if (animator3 == null || viewGroup.indexOfChild(view) >= 0) {
-                    return;
-                }
-                FragmentManagerImpl fragmentManagerImpl = FragmentManagerImpl.this;
-                Fragment fragment2 = fragment;
-                fragmentManagerImpl.moveToState(fragment2, fragment2.getStateAfterAnimating(), 0, 0, false);
-            }
-        });
+        animator.addListener(new AnonymousClass3(viewGroup, view, fragment));
         animator.setTarget(fragment.mView);
         setHWLayerAnimListenerIfAlpha(fragment.mView, animationOrAnimator);
         animator.start();
+    }
+
+    /* compiled from: FragmentManager.java */
+    /* renamed from: androidx.fragment.app.FragmentManagerImpl$2 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass2 extends AnimationListenerWrapper {
+        final /* synthetic */ ViewGroup val$container;
+        final /* synthetic */ Fragment val$fragment;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(Animation.AnimationListener animationListener, ViewGroup viewGroup, Fragment fragment) {
+            super(animationListener);
+            FragmentManagerImpl.this = r1;
+            this.val$container = viewGroup;
+            this.val$fragment = fragment;
+        }
+
+        @Override // androidx.fragment.app.FragmentManagerImpl.AnimationListenerWrapper, android.view.animation.Animation.AnimationListener
+        public void onAnimationEnd(Animation animation) {
+            super.onAnimationEnd(animation);
+            this.val$container.post(new AnonymousClass1());
+        }
+
+        /* compiled from: FragmentManager.java */
+        /* renamed from: androidx.fragment.app.FragmentManagerImpl$2$1 */
+        /* loaded from: classes.dex */
+        class AnonymousClass1 implements Runnable {
+            AnonymousClass1() {
+                AnonymousClass2.this = r1;
+            }
+
+            @Override // java.lang.Runnable
+            public void run() {
+                if (AnonymousClass2.this.val$fragment.getAnimatingAway() != null) {
+                    AnonymousClass2.this.val$fragment.setAnimatingAway(null);
+                    AnonymousClass2 anonymousClass2 = AnonymousClass2.this;
+                    FragmentManagerImpl fragmentManagerImpl = FragmentManagerImpl.this;
+                    Fragment fragment = anonymousClass2.val$fragment;
+                    fragmentManagerImpl.moveToState(fragment, fragment.getStateAfterAnimating(), 0, 0, false);
+                }
+            }
+        }
+    }
+
+    /* compiled from: FragmentManager.java */
+    /* renamed from: androidx.fragment.app.FragmentManagerImpl$3 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        final /* synthetic */ ViewGroup val$container;
+        final /* synthetic */ Fragment val$fragment;
+        final /* synthetic */ View val$viewToAnimate;
+
+        AnonymousClass3(ViewGroup viewGroup, View view, Fragment fragment) {
+            FragmentManagerImpl.this = r1;
+            this.val$container = viewGroup;
+            this.val$viewToAnimate = view;
+            this.val$fragment = fragment;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$container.endViewTransition(this.val$viewToAnimate);
+            Animator animator2 = this.val$fragment.getAnimator();
+            this.val$fragment.setAnimator(null);
+            if (animator2 == null || this.val$container.indexOfChild(this.val$viewToAnimate) >= 0) {
+                return;
+            }
+            FragmentManagerImpl fragmentManagerImpl = FragmentManagerImpl.this;
+            Fragment fragment = this.val$fragment;
+            fragmentManagerImpl.moveToState(fragment, fragment.getStateAfterAnimating(), 0, 0, false);
+        }
     }
 
     void moveToState(Fragment fragment) {
@@ -917,7 +967,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         fragment.mInnerView = null;
     }
 
-    void completeShowHideFragment(final Fragment fragment) {
+    void completeShowHideFragment(Fragment fragment) {
         Animator animator;
         if (fragment.mView != null) {
             AnimationOrAnimator loadAnimation = loadAnimation(fragment, fragment.getNextTransition(), !fragment.mHidden, fragment.getNextTransitionStyle());
@@ -927,20 +977,10 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                     if (fragment.isHideReplaced()) {
                         fragment.setHideReplaced(false);
                     } else {
-                        final ViewGroup viewGroup = fragment.mContainer;
-                        final View view = fragment.mView;
+                        ViewGroup viewGroup = fragment.mContainer;
+                        View view = fragment.mView;
                         viewGroup.startViewTransition(view);
-                        loadAnimation.animator.addListener(new AnimatorListenerAdapter(this) { // from class: androidx.fragment.app.FragmentManagerImpl.4
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationEnd(Animator animator2) {
-                                viewGroup.endViewTransition(view);
-                                animator2.removeListener(this);
-                                View view2 = fragment.mView;
-                                if (view2 != null) {
-                                    view2.setVisibility(8);
-                                }
-                            }
-                        });
+                        loadAnimation.animator.addListener(new AnonymousClass4(this, viewGroup, view, fragment));
                     }
                 } else {
                     fragment.mView.setVisibility(0);
@@ -964,6 +1004,31 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
         fragment.mHiddenChanged = false;
         fragment.onHiddenChanged(fragment.mHidden);
+    }
+
+    /* compiled from: FragmentManager.java */
+    /* renamed from: androidx.fragment.app.FragmentManagerImpl$4 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass4 extends AnimatorListenerAdapter {
+        final /* synthetic */ View val$animatingView;
+        final /* synthetic */ ViewGroup val$container;
+        final /* synthetic */ Fragment val$fragment;
+
+        AnonymousClass4(FragmentManagerImpl fragmentManagerImpl, ViewGroup viewGroup, View view, Fragment fragment) {
+            this.val$container = viewGroup;
+            this.val$animatingView = view;
+            this.val$fragment = fragment;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            this.val$container.endViewTransition(this.val$animatingView);
+            animator.removeListener(this);
+            View view = this.val$fragment.mView;
+            if (view != null) {
+                view.setVisibility(8);
+            }
+        }
     }
 
     public void moveFragmentToExpectedState(Fragment fragment) {
@@ -2943,15 +3008,24 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             this.mView = view;
         }
 
+        /* compiled from: FragmentManager.java */
+        /* renamed from: androidx.fragment.app.FragmentManagerImpl$AnimateOnHWLayerIfNeededListener$1 */
+        /* loaded from: classes.dex */
+        class AnonymousClass1 implements Runnable {
+            AnonymousClass1() {
+                AnimateOnHWLayerIfNeededListener.this = r1;
+            }
+
+            @Override // java.lang.Runnable
+            public void run() {
+                AnimateOnHWLayerIfNeededListener.this.mView.setLayerType(0, null);
+            }
+        }
+
         @Override // androidx.fragment.app.FragmentManagerImpl.AnimationListenerWrapper, android.view.animation.Animation.AnimationListener
         public void onAnimationEnd(Animation animation) {
             if (ViewCompat.isAttachedToWindow(this.mView) || Build.VERSION.SDK_INT >= 24) {
-                this.mView.post(new Runnable() { // from class: androidx.fragment.app.FragmentManagerImpl.AnimateOnHWLayerIfNeededListener.1
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        AnimateOnHWLayerIfNeededListener.this.mView.setLayerType(0, null);
-                    }
-                });
+                this.mView.post(new AnonymousClass1());
             } else {
                 this.mView.setLayerType(0, null);
             }

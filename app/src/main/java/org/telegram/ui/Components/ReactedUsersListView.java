@@ -32,9 +32,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
 import org.telegram.tgnet.TLRPC$TL_error;
@@ -76,20 +74,14 @@ public class ReactedUsersListView extends FrameLayout {
         void onProfileSelected(ReactedUsersListView reactedUsersListView, long j);
     }
 
-    public ReactedUsersListView(final Context context, Theme.ResourcesProvider resourcesProvider, int i, MessageObject messageObject, TLRPC$TL_reactionCount tLRPC$TL_reactionCount, boolean z) {
+    public ReactedUsersListView(Context context, Theme.ResourcesProvider resourcesProvider, int i, MessageObject messageObject, TLRPC$TL_reactionCount tLRPC$TL_reactionCount, boolean z) {
         super(context);
         this.currentAccount = i;
         this.message = messageObject;
         this.filter = tLRPC$TL_reactionCount == null ? null : tLRPC$TL_reactionCount.reaction;
         this.predictiveCount = tLRPC$TL_reactionCount == null ? 6 : tLRPC$TL_reactionCount.count;
-        this.listView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.ReactedUsersListView.1
-            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i2, int i3) {
-                super.onMeasure(i2, i3);
-                ReactedUsersListView.this.updateHeight();
-            }
-        };
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        this.listView = new AnonymousClass1(context, resourcesProvider);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         this.listView.setLayoutManager(linearLayoutManager);
         if (z) {
             this.listView.setPadding(0, 0, 0, AndroidUtilities.dp(8.0f));
@@ -99,40 +91,11 @@ public class ReactedUsersListView extends FrameLayout {
             this.listView.setVerticalScrollbarThumbDrawable(new ColorDrawable(Theme.getColor("listSelectorSDK21")));
         }
         RecyclerListView recyclerListView = this.listView;
-        RecyclerView.Adapter adapter = new RecyclerView.Adapter() { // from class: org.telegram.ui.Components.ReactedUsersListView.2
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i2) {
-                return new RecyclerListView.Holder(new ReactedUserHolderView(context));
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i2) {
-                ((ReactedUserHolderView) viewHolder.itemView).setUserReaction((TLRPC$TL_messagePeerReaction) ReactedUsersListView.this.userReactions.get(i2));
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemCount() {
-                return ReactedUsersListView.this.userReactions.size();
-            }
-        };
-        this.adapter = adapter;
-        recyclerListView.setAdapter(adapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda5
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i2) {
-                ReactedUsersListView.this.lambda$new$0(view, i2);
-            }
-        });
-        this.listView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.ReactedUsersListView.3
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
-                ReactedUsersListView reactedUsersListView = ReactedUsersListView.this;
-                if (!reactedUsersListView.isLoaded || !reactedUsersListView.canLoadMore || reactedUsersListView.isLoading || linearLayoutManager.findLastVisibleItemPosition() < (ReactedUsersListView.this.adapter.getItemCount() - 1) - ReactedUsersListView.this.getLoadCount()) {
-                    return;
-                }
-                ReactedUsersListView.this.load();
-            }
-        });
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
+        this.adapter = anonymousClass2;
+        recyclerListView.setAdapter(anonymousClass2);
+        this.listView.setOnItemClickListener(new ReactedUsersListView$$ExternalSyntheticLambda5(this));
+        this.listView.addOnScrollListener(new AnonymousClass3(linearLayoutManager));
         this.listView.setVerticalScrollBarEnabled(true);
         this.listView.setAlpha(0.0f);
         addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
@@ -144,10 +107,72 @@ public class ReactedUsersListView extends FrameLayout {
         addView(this.loadingView, LayoutHelper.createFrame(-1, -1.0f));
     }
 
+    /* renamed from: org.telegram.ui.Components.ReactedUsersListView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends RecyclerListView {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context, resourcesProvider);
+            ReactedUsersListView.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
+        public void onMeasure(int i, int i2) {
+            super.onMeasure(i, i2);
+            ReactedUsersListView.this.updateHeight();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.ReactedUsersListView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends RecyclerView.Adapter {
+        final /* synthetic */ Context val$context;
+
+        AnonymousClass2(Context context) {
+            ReactedUsersListView.this = r1;
+            this.val$context = context;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            return new RecyclerListView.Holder(new ReactedUserHolderView(this.val$context));
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            ((ReactedUserHolderView) viewHolder.itemView).setUserReaction((TLRPC$TL_messagePeerReaction) ReactedUsersListView.this.userReactions.get(i));
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemCount() {
+            return ReactedUsersListView.this.userReactions.size();
+        }
+    }
+
     public /* synthetic */ void lambda$new$0(View view, int i) {
         OnProfileSelectedListener onProfileSelectedListener = this.onProfileSelectedListener;
         if (onProfileSelectedListener != null) {
             onProfileSelectedListener.onProfileSelected(this, MessageObject.getPeerId(this.userReactions.get(i).peer_id));
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.ReactedUsersListView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends RecyclerView.OnScrollListener {
+        final /* synthetic */ LinearLayoutManager val$llm;
+
+        AnonymousClass3(LinearLayoutManager linearLayoutManager) {
+            ReactedUsersListView.this = r1;
+            this.val$llm = linearLayoutManager;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+            ReactedUsersListView reactedUsersListView = ReactedUsersListView.this;
+            if (!reactedUsersListView.isLoaded || !reactedUsersListView.canLoadMore || reactedUsersListView.isLoading || this.val$llm.findLastVisibleItemPosition() < (ReactedUsersListView.this.adapter.getItemCount() - 1) - ReactedUsersListView.this.getLoadCount()) {
+                return;
+            }
+            ReactedUsersListView.this.load();
         }
     }
 
@@ -201,30 +226,15 @@ public class ReactedUsersListView extends FrameLayout {
         if (str2 != null) {
             tLRPC$TL_messages_getMessageReactionsList.flags |= 2;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReactionsList, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda4
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ReactedUsersListView.this.lambda$load$5(tLObject, tLRPC$TL_error);
-            }
-        }, 64);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReactionsList, new ReactedUsersListView$$ExternalSyntheticLambda4(this), 64);
     }
 
-    public /* synthetic */ void lambda$load$4(final TLObject tLObject) {
-        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                ReactedUsersListView.this.lambda$load$3(tLObject);
-            }
-        });
+    public /* synthetic */ void lambda$load$4(TLObject tLObject) {
+        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new ReactedUsersListView$$ExternalSyntheticLambda1(this, tLObject));
     }
 
-    public /* synthetic */ void lambda$load$5(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                ReactedUsersListView.this.lambda$load$4(tLObject);
-            }
-        });
+    public /* synthetic */ void lambda$load$5(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new ReactedUsersListView$$ExternalSyntheticLambda2(this, tLObject));
     }
 
     public /* synthetic */ void lambda$load$3(TLObject tLObject) {
@@ -253,18 +263,8 @@ public class ReactedUsersListView extends FrameLayout {
             if (!this.isLoaded) {
                 ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
                 duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda0
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        ReactedUsersListView.this.lambda$load$2(valueAnimator);
-                    }
-                });
-                duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ReactedUsersListView.4
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        ReactedUsersListView.this.loadingView.setVisibility(8);
-                    }
-                });
+                duration.addUpdateListener(new ReactedUsersListView$$ExternalSyntheticLambda0(this));
+                duration.addListener(new AnonymousClass4());
                 duration.start();
                 updateHeight();
                 this.isLoaded = true;
@@ -288,6 +288,19 @@ public class ReactedUsersListView extends FrameLayout {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.listView.setAlpha(floatValue);
         this.loadingView.setAlpha(1.0f - floatValue);
+    }
+
+    /* renamed from: org.telegram.ui.Components.ReactedUsersListView$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 extends AnimatorListenerAdapter {
+        AnonymousClass4() {
+            ReactedUsersListView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            ReactedUsersListView.this.loadingView.setVisibility(8);
+        }
     }
 
     public void updateHeight() {
@@ -365,11 +378,11 @@ public class ReactedUsersListView extends FrameLayout {
                 } else {
                     this.reactView.setImageDrawable(null);
                 }
-                setContentDescription(LocaleController.formatString("AccDescrReactedWith", R.string.AccDescrReactedWith, UserObject.getUserName(user), tLRPC$TL_messagePeerReaction.reaction));
+                setContentDescription(LocaleController.formatString("AccDescrReactedWith", 2131624050, UserObject.getUserName(user), tLRPC$TL_messagePeerReaction.reaction));
                 return;
             }
             this.reactView.setImageDrawable(null);
-            setContentDescription(LocaleController.formatString("AccDescrPersonHasSeen", R.string.AccDescrPersonHasSeen, UserObject.getUserName(user)));
+            setContentDescription(LocaleController.formatString("AccDescrPersonHasSeen", 2131624036, UserObject.getUserName(user)));
         }
 
         @Override // android.widget.FrameLayout, android.view.View

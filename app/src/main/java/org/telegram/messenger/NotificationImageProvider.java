@@ -49,7 +49,7 @@ public class NotificationImageProvider extends ContentProvider implements Notifi
     static {
         UriMatcher uriMatcher = new UriMatcher(-1);
         matcher = uriMatcher;
-        uriMatcher.addURI(AUTHORITY, "msg_media_raw/#/*", 1);
+        uriMatcher.addURI("org.telegram.messenger.beta.notification_image_provider", "msg_media_raw/#/*", 1);
     }
 
     @Override // android.content.ContentProvider

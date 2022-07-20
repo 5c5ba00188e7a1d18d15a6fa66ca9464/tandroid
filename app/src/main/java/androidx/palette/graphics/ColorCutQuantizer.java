@@ -11,11 +11,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 /* loaded from: classes.dex */
 public final class ColorCutQuantizer {
-    private static final Comparator<Vbox> VBOX_COMPARATOR_VOLUME = new Comparator<Vbox>() { // from class: androidx.palette.graphics.ColorCutQuantizer.1
-        public int compare(Vbox vbox, Vbox vbox2) {
-            return vbox2.getVolume() - vbox.getVolume();
-        }
-    };
+    private static final Comparator<Vbox> VBOX_COMPARATOR_VOLUME = new AnonymousClass1();
     final int[] mColors;
     final Palette.Filter[] mFilters;
     final int[] mHistogram;
@@ -287,6 +283,17 @@ public final class ColorCutQuantizer {
             }
         }
         return false;
+    }
+
+    /* renamed from: androidx.palette.graphics.ColorCutQuantizer$1 */
+    /* loaded from: classes.dex */
+    static class AnonymousClass1 implements Comparator<Vbox> {
+        AnonymousClass1() {
+        }
+
+        public int compare(Vbox vbox, Vbox vbox2) {
+            return vbox2.getVolume() - vbox.getVolume();
+        }
     }
 
     private static int quantizeFromRgb888(int i) {

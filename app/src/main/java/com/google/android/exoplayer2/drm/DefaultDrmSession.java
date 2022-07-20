@@ -354,14 +354,9 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
     }
 
-    private void onError(final Exception exc) {
+    private void onError(Exception exc) {
         this.lastException = new DrmSession.DrmSessionException(exc);
-        this.eventDispatcher.dispatch(new EventDispatcher.Event() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.util.EventDispatcher.Event
-            public final void sendTo(Object obj) {
-                ((DefaultDrmSessionEventListener) obj).onDrmSessionManagerError(exc);
-            }
-        });
+        this.eventDispatcher.dispatch(new DefaultDrmSession$$ExternalSyntheticLambda0(exc));
         if (this.state != 4) {
             this.state = 1;
         }
@@ -373,7 +368,6 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         return i == 3 || i == 4;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"HandlerLeak"})
     /* loaded from: classes.dex */
     public class ResponseHandler extends Handler {

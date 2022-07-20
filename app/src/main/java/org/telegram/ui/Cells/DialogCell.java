@@ -49,7 +49,6 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Dialog;
@@ -612,7 +611,7 @@ public class DialogCell extends BaseCell {
             } else if (tLRPC$User == null) {
                 continue;
             } else if (UserObject.isDeleted(tLRPC$User)) {
-                str = LocaleController.getString("HiddenName", R.string.HiddenName);
+                str = LocaleController.getString("HiddenName", 2131626178);
             } else {
                 str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name).replace('\n', ' ');
             }
@@ -623,7 +622,7 @@ public class DialogCell extends BaseCell {
             int length2 = str.length() + length;
             spannableStringBuilder.append((CharSequence) str);
             if (tLRPC$Dialog.unread_count > 0) {
-                spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM), 0, Theme.getColor("chats_nameArchived", this.resourcesProvider)), length, length2, 33);
+                spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface("fonts/rmedium.ttf"), 0, Theme.getColor("chats_nameArchived", this.resourcesProvider)), length, length2, 33);
             }
             if (spannableStringBuilder.length() > 150) {
                 break;
@@ -919,7 +918,7 @@ public class DialogCell extends BaseCell {
             }
             CustomDialog customDialog2 = this.customDialog;
             if (customDialog2.type == 1) {
-                charSequence = LocaleController.getString("FromYou", R.string.FromYou);
+                charSequence = LocaleController.getString("FromYou", 2131626077);
                 CustomDialog customDialog3 = this.customDialog;
                 if (customDialog3.isMedia) {
                     textPaint5 = Theme.dialogs_messagePrintingPaint[this.paintIndex];
@@ -928,7 +927,7 @@ public class DialogCell extends BaseCell {
                 } else {
                     String str26 = customDialog3.message;
                     if (str26.length() > 150) {
-                        str26 = str26.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                        str26 = str26.substring(0, 150);
                     }
                     spannableStringBuilder6 = (this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? SpannableStringBuilder.valueOf(String.format(str, str26, charSequence)) : SpannableStringBuilder.valueOf(String.format(str, str26.replace('\n', ' '), charSequence));
                 }
@@ -1083,7 +1082,7 @@ public class DialogCell extends BaseCell {
                                 } else {
                                     this.lastPrintString = null;
                                     if (this.draftMessage != null) {
-                                        charSequence = LocaleController.getString("Draft", R.string.Draft);
+                                        charSequence = LocaleController.getString("Draft", 2131625552);
                                         if (TextUtils.isEmpty(this.draftMessage.message)) {
                                             if (this.useForceThreeLines || SharedConfig.useThreeLinesLayout) {
                                                 spannableStringBuilder5 = "";
@@ -1095,7 +1094,7 @@ public class DialogCell extends BaseCell {
                                         } else {
                                             String str27 = this.draftMessage.message;
                                             if (str27.length() > 150) {
-                                                str27 = str27.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                                                str27 = str27.substring(0, 150);
                                             }
                                             SpannableStringBuilder spannableStringBuilder10 = new SpannableStringBuilder(str27);
                                             MediaDataController.addTextStyleRuns(this.draftMessage, spannableStringBuilder10, 256);
@@ -1116,7 +1115,7 @@ public class DialogCell extends BaseCell {
                                         String str28 = str2;
                                         if (this.clearingDialog) {
                                             textPaint5 = Theme.dialogs_messagePrintingPaint[this.paintIndex];
-                                            str24 = LocaleController.getString("HistoryCleared", R.string.HistoryCleared);
+                                            str24 = LocaleController.getString("HistoryCleared", 2131626192);
                                         } else {
                                             MessageObject messageObject7 = this.message;
                                             if (messageObject7 == null) {
@@ -1124,19 +1123,19 @@ public class DialogCell extends BaseCell {
                                                 if (tLRPC$EncryptedChat != null) {
                                                     textPaint5 = Theme.dialogs_messagePrintingPaint[this.paintIndex];
                                                     if (tLRPC$EncryptedChat instanceof TLRPC$TL_encryptedChatRequested) {
-                                                        str24 = LocaleController.getString("EncryptionProcessing", R.string.EncryptionProcessing);
+                                                        str24 = LocaleController.getString("EncryptionProcessing", 2131625677);
                                                     } else if (tLRPC$EncryptedChat instanceof TLRPC$TL_encryptedChatWaiting) {
-                                                        str24 = LocaleController.formatString("AwaitingEncryption", R.string.AwaitingEncryption, UserObject.getFirstName(this.user));
+                                                        str24 = LocaleController.formatString("AwaitingEncryption", 2131624645, UserObject.getFirstName(this.user));
                                                     } else if (tLRPC$EncryptedChat instanceof TLRPC$TL_encryptedChatDiscarded) {
-                                                        str24 = LocaleController.getString("EncryptionRejected", R.string.EncryptionRejected);
+                                                        str24 = LocaleController.getString("EncryptionRejected", 2131625678);
                                                     } else if (tLRPC$EncryptedChat instanceof TLRPC$TL_encryptedChat) {
-                                                        str24 = tLRPC$EncryptedChat.admin_id == UserConfig.getInstance(this.currentAccount).getClientUserId() ? LocaleController.formatString("EncryptedChatStartedOutgoing", R.string.EncryptedChatStartedOutgoing, UserObject.getFirstName(this.user)) : LocaleController.getString("EncryptedChatStartedIncoming", R.string.EncryptedChatStartedIncoming);
+                                                        str24 = tLRPC$EncryptedChat.admin_id == UserConfig.getInstance(this.currentAccount).getClientUserId() ? LocaleController.formatString("EncryptedChatStartedOutgoing", 2131625666, UserObject.getFirstName(this.user)) : LocaleController.getString("EncryptedChatStartedIncoming", 2131625665);
                                                     }
                                                 } else if (this.dialogsType == 3 && UserObject.isUserSelf(this.user)) {
                                                     charSequence = null;
                                                     i4 = 0;
                                                     z10 = false;
-                                                    str12 = LocaleController.getString("SavedMessagesInfo", R.string.SavedMessagesInfo);
+                                                    str12 = LocaleController.getString("SavedMessagesInfo", 2131628140);
                                                     i3 = -1;
                                                     spannableStringBuilder = str12;
                                                 }
@@ -1163,9 +1162,9 @@ public class DialogCell extends BaseCell {
                                                                 if (i26 != 0) {
                                                                     str15 = LocaleController.formatPluralStringComma("Subscribers", i26);
                                                                 } else if (TextUtils.isEmpty(tLRPC$Chat7.username)) {
-                                                                    str15 = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate).toLowerCase();
+                                                                    str15 = LocaleController.getString("ChannelPrivate", 2131624959).toLowerCase();
                                                                 } else {
-                                                                    str15 = LocaleController.getString("ChannelPublic", R.string.ChannelPublic).toLowerCase();
+                                                                    str15 = LocaleController.getString("ChannelPublic", 2131624962).toLowerCase();
                                                                 }
                                                             }
                                                         }
@@ -1174,18 +1173,18 @@ public class DialogCell extends BaseCell {
                                                         if (i27 != 0) {
                                                             str15 = LocaleController.formatPluralStringComma("Members", i27);
                                                         } else if (tLRPC$Chat8.has_geo) {
-                                                            str15 = LocaleController.getString("MegaLocation", R.string.MegaLocation);
+                                                            str15 = LocaleController.getString("MegaLocation", 2131626632);
                                                         } else if (TextUtils.isEmpty(tLRPC$Chat8.username)) {
-                                                            str15 = LocaleController.getString("MegaPrivate", R.string.MegaPrivate).toLowerCase();
+                                                            str15 = LocaleController.getString("MegaPrivate", 2131626633).toLowerCase();
                                                         } else {
-                                                            str15 = LocaleController.getString("MegaPublic", R.string.MegaPublic).toLowerCase();
+                                                            str15 = LocaleController.getString("MegaPublic", 2131626636).toLowerCase();
                                                         }
                                                     } else {
                                                         str15 = "";
                                                     }
                                                     this.drawCount2 = false;
                                                 } else if (i25 == 3 && UserObject.isUserSelf(this.user)) {
-                                                    str15 = LocaleController.getString("SavedMessagesInfo", R.string.SavedMessagesInfo);
+                                                    str15 = LocaleController.getString("SavedMessagesInfo", 2131628140);
                                                 } else {
                                                     if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout && this.currentDialogFolderId != 0) {
                                                         str14 = formatArchivedDialogNames();
@@ -1224,7 +1223,7 @@ public class DialogCell extends BaseCell {
                                                                         tLRPC$Chat2 = this.chat;
                                                                         if (tLRPC$Chat2 == null && tLRPC$Chat2.id > 0 && tLRPC$Chat == null && (!ChatObject.isChannel(tLRPC$Chat2) || ChatObject.isMegagroup(this.chat))) {
                                                                             if (this.message.isOutOwner()) {
-                                                                                str20 = LocaleController.getString("FromYou", R.string.FromYou);
+                                                                                str20 = LocaleController.getString("FromYou", 2131626077);
                                                                             } else {
                                                                                 MessageObject messageObject9 = this.message;
                                                                                 if (messageObject9 != null && (tLRPC$MessageFwdHeader = messageObject9.messageOwner.fwd_from) != null && (str23 = tLRPC$MessageFwdHeader.from_name) != null) {
@@ -1233,7 +1232,7 @@ public class DialogCell extends BaseCell {
                                                                                     str20 = "DELETED";
                                                                                 } else if (this.useForceThreeLines || SharedConfig.useThreeLinesLayout) {
                                                                                     if (UserObject.isDeleted(tLRPC$User)) {
-                                                                                        str20 = LocaleController.getString("HiddenName", R.string.HiddenName);
+                                                                                        str20 = LocaleController.getString("HiddenName", 2131626178);
                                                                                     } else {
                                                                                         str20 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name).replace("\n", "");
                                                                                     }
@@ -1274,7 +1273,7 @@ public class DialogCell extends BaseCell {
                                                                                         valueOf = new SpannableStringBuilder(str22).append((CharSequence) str30);
                                                                                     } else {
                                                                                         if (charSequence12.length() > 150) {
-                                                                                            charSequence12 = charSequence12.subSequence(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                                                                                            charSequence12 = charSequence12.subSequence(0, 150);
                                                                                         }
                                                                                         SpannableStringBuilder spannableStringBuilder11 = new SpannableStringBuilder(charSequence12);
                                                                                         MediaDataController.addTextStyleRuns(this.message.messageOwner.entities, charSequence12, spannableStringBuilder11, 256);
@@ -1536,7 +1535,7 @@ public class DialogCell extends BaseCell {
                                                                                             }
                                                                                         } else {
                                                                                             if (charSequence13.length() > 150) {
-                                                                                                charSequence13 = charSequence13.subSequence(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                                                                                                charSequence13 = charSequence13.subSequence(0, 150);
                                                                                             }
                                                                                             charSequence13 = AndroidUtilities.replaceNewLines(charSequence13);
                                                                                         }
@@ -1574,9 +1573,9 @@ public class DialogCell extends BaseCell {
                                                                                 MessageObject messageObject16 = this.message;
                                                                                 TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject16.messageOwner.media;
                                                                                 if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) && (tLRPC$MessageMedia2.photo instanceof TLRPC$TL_photoEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                                                                                    str32 = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
+                                                                                    str32 = LocaleController.getString("AttachPhotoExpired", 2131624514);
                                                                                 } else if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument) && (tLRPC$MessageMedia2.document instanceof TLRPC$TL_documentEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                                                                                    str32 = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
+                                                                                    str32 = LocaleController.getString("AttachVideoExpired", 2131624520);
                                                                                 } else if (messageObject16.caption != null) {
                                                                                     if (!z6) {
                                                                                         str19 = "";
@@ -1657,7 +1656,7 @@ public class DialogCell extends BaseCell {
                                                                                                 int length2 = charSequence2.length();
                                                                                                 CharSequence charSequence14 = charSequence2;
                                                                                                 if (length2 > 150) {
-                                                                                                    charSequence14 = charSequence2.subSequence(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                                                                                                    charSequence14 = charSequence2.subSequence(0, 150);
                                                                                                 }
                                                                                                 charSequence4 = AndroidUtilities.replaceNewLines(charSequence14);
                                                                                             }
@@ -1887,11 +1886,11 @@ public class DialogCell extends BaseCell {
                                         this.promoDialog = true;
                                         int i34 = messagesController2.promoDialogType;
                                         if (i34 == MessagesController.PROMO_TYPE_PROXY) {
-                                            string = LocaleController.getString("UseProxySponsor", R.string.UseProxySponsor);
+                                            string = LocaleController.getString("UseProxySponsor", 2131628863);
                                         } else if (i34 == MessagesController.PROMO_TYPE_PSA) {
                                             string = LocaleController.getString("PsaType_" + messagesController2.promoPsaType);
                                             if (TextUtils.isEmpty(string)) {
-                                                string = LocaleController.getString("PsaTypeDefault", R.string.PsaTypeDefault);
+                                                string = LocaleController.getString("PsaTypeDefault", 2131627824);
                                             }
                                             if (!TextUtils.isEmpty(messagesController2.promoPsaMessage)) {
                                                 String str34 = messagesController2.promoPsaMessage;
@@ -1899,7 +1898,7 @@ public class DialogCell extends BaseCell {
                                                 str7 = string;
                                                 spannableStringBuilder2 = str34;
                                                 if (this.currentDialogFolderId == 0) {
-                                                    str8 = LocaleController.getString("ArchivedChats", R.string.ArchivedChats);
+                                                    str8 = LocaleController.getString("ArchivedChats", 2131624417);
                                                 } else {
                                                     TLRPC$Chat tLRPC$Chat9 = this.chat;
                                                     if (tLRPC$Chat9 != null) {
@@ -1908,15 +1907,15 @@ public class DialogCell extends BaseCell {
                                                         TLRPC$User tLRPC$User3 = this.user;
                                                         if (tLRPC$User3 != null) {
                                                             if (UserObject.isReplyUser(tLRPC$User3)) {
-                                                                userName = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
+                                                                userName = LocaleController.getString("RepliesTitle", 2131627982);
                                                             } else if (UserObject.isUserSelf(this.user)) {
                                                                 if (this.useMeForMyMessages) {
-                                                                    userName = LocaleController.getString("FromYou", R.string.FromYou);
+                                                                    userName = LocaleController.getString("FromYou", 2131626077);
                                                                 } else {
                                                                     if (this.dialogsType == 3) {
                                                                         this.drawPinBackground = true;
                                                                     }
-                                                                    userName = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                                                                    userName = LocaleController.getString("SavedMessages", 2131628139);
                                                                 }
                                                             } else {
                                                                 userName = UserObject.getUserName(this.user);
@@ -1924,7 +1923,7 @@ public class DialogCell extends BaseCell {
                                                         } else {
                                                             str8 = "";
                                                             if (str8.length() == 0) {
-                                                                str8 = LocaleController.getString("HiddenName", R.string.HiddenName);
+                                                                str8 = LocaleController.getString("HiddenName", 2131626178);
                                                             }
                                                         }
                                                     }
@@ -2279,7 +2278,7 @@ public class DialogCell extends BaseCell {
         if (i6 != 0) {
             CharSequence charSequence15 = str9 == null ? charSequence7 : str9;
             if (charSequence15.length() > 150) {
-                charSequence15 = charSequence15.subSequence(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                charSequence15 = charSequence15.subSequence(0, 150);
             }
             if ((!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) || charSequence6 != null) {
                 charSequence8 = AndroidUtilities.replaceNewLines(charSequence15);
@@ -2989,22 +2988,8 @@ public class DialogCell extends BaseCell {
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.countAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogCell$$ExternalSyntheticLambda2
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        DialogCell.this.lambda$update$0(valueAnimator2);
-                    }
-                });
-                this.countAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.DialogCell.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        DialogCell.this.countChangeProgress = 1.0f;
-                        DialogCell.this.countOldLayout = null;
-                        DialogCell.this.countAnimationStableLayout = null;
-                        DialogCell.this.countAnimationInLayout = null;
-                        DialogCell.this.invalidate();
-                    }
-                });
+                ofFloat.addUpdateListener(new DialogCell$$ExternalSyntheticLambda2(this));
+                this.countAnimator.addListener(new AnonymousClass1());
                 if ((i8 == 0 || this.markUnread) && (this.markUnread || !z5)) {
                     this.countAnimator.setDuration(220L);
                     this.countAnimator.setInterpolator(new OvershootInterpolator());
@@ -3053,19 +3038,8 @@ public class DialogCell extends BaseCell {
                 this.reactionsMentionsChangeProgress = 0.0f;
                 ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.reactionsMentionsAnimator = ofFloat2;
-                ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogCell$$ExternalSyntheticLambda0
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                        DialogCell.this.lambda$update$1(valueAnimator3);
-                    }
-                });
-                this.reactionsMentionsAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.DialogCell.2
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        DialogCell.this.reactionsMentionsChangeProgress = 1.0f;
-                        DialogCell.this.invalidate();
-                    }
-                });
+                ofFloat2.addUpdateListener(new DialogCell$$ExternalSyntheticLambda0(this));
+                this.reactionsMentionsAnimator.addListener(new AnonymousClass2());
                 if (z6) {
                     this.reactionsMentionsAnimator.setDuration(220L);
                     this.reactionsMentionsAnimator.setInterpolator(new OvershootInterpolator());
@@ -3102,9 +3076,40 @@ public class DialogCell extends BaseCell {
         invalidate();
     }
 
+    /* renamed from: org.telegram.ui.Cells.DialogCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            DialogCell.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            DialogCell.this.countChangeProgress = 1.0f;
+            DialogCell.this.countOldLayout = null;
+            DialogCell.this.countAnimationStableLayout = null;
+            DialogCell.this.countAnimationInLayout = null;
+            DialogCell.this.invalidate();
+        }
+    }
+
     public /* synthetic */ void lambda$update$1(ValueAnimator valueAnimator) {
         this.reactionsMentionsChangeProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Cells.DialogCell$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        AnonymousClass2() {
+            DialogCell.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            DialogCell.this.reactionsMentionsChangeProgress = 1.0f;
+            DialogCell.this.invalidate();
+        }
     }
 
     @Override // android.view.View
@@ -3273,71 +3278,71 @@ public class DialogCell extends BaseCell {
                 if (this.archiveHidden) {
                     i9 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
                     i8 = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
-                    str3 = LocaleController.getString("UnhideFromTop", R.string.UnhideFromTop);
+                    str3 = LocaleController.getString("UnhideFromTop", 2131628798);
                     this.translationDrawable = Theme.dialogs_unpinArchiveDrawable;
-                    i7 = R.string.UnhideFromTop;
+                    i7 = 2131628798;
                 } else {
                     i9 = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
                     i8 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
-                    str3 = LocaleController.getString("HideOnTop", R.string.HideOnTop);
+                    str3 = LocaleController.getString("HideOnTop", 2131626185);
                     this.translationDrawable = Theme.dialogs_pinArchiveDrawable;
-                    i7 = R.string.HideOnTop;
+                    i7 = 2131626185;
                 }
             } else if (this.promoDialog) {
                 i9 = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
                 i8 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
-                str3 = LocaleController.getString("PsaHide", R.string.PsaHide);
+                str3 = LocaleController.getString("PsaHide", 2131627815);
                 this.translationDrawable = Theme.dialogs_hidePsaDrawable;
-                i7 = R.string.PsaHide;
+                i7 = 2131627815;
             } else if (this.folderId == 0) {
                 i9 = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
                 i8 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
                 if (SharedConfig.getChatSwipeAction(this.currentAccount) == 3) {
                     if (this.dialogMuted) {
-                        str3 = LocaleController.getString("SwipeUnmute", R.string.SwipeUnmute);
+                        str3 = LocaleController.getString("SwipeUnmute", 2131628586);
                         this.translationDrawable = Theme.dialogs_swipeUnmuteDrawable;
-                        i7 = R.string.SwipeUnmute;
+                        i7 = 2131628586;
                     } else {
-                        str3 = LocaleController.getString("SwipeMute", R.string.SwipeMute);
+                        str3 = LocaleController.getString("SwipeMute", 2131628574);
                         this.translationDrawable = Theme.dialogs_swipeMuteDrawable;
-                        i7 = R.string.SwipeMute;
+                        i7 = 2131628574;
                     }
                 } else if (SharedConfig.getChatSwipeAction(this.currentAccount) == 4) {
-                    str3 = LocaleController.getString("SwipeDeleteChat", R.string.SwipeDeleteChat);
+                    str3 = LocaleController.getString("SwipeDeleteChat", 2131628571);
                     i9 = Theme.getColor("dialogSwipeRemove", this.resourcesProvider);
                     this.translationDrawable = Theme.dialogs_swipeDeleteDrawable;
-                    i7 = R.string.SwipeDeleteChat;
+                    i7 = 2131628571;
                 } else if (SharedConfig.getChatSwipeAction(this.currentAccount) == 1) {
                     if (this.unreadCount > 0 || this.markUnread) {
-                        str3 = LocaleController.getString("SwipeMarkAsRead", R.string.SwipeMarkAsRead);
+                        str3 = LocaleController.getString("SwipeMarkAsRead", 2131628572);
                         this.translationDrawable = Theme.dialogs_swipeReadDrawable;
-                        i7 = R.string.SwipeMarkAsRead;
+                        i7 = 2131628572;
                     } else {
-                        str3 = LocaleController.getString("SwipeMarkAsUnread", R.string.SwipeMarkAsUnread);
+                        str3 = LocaleController.getString("SwipeMarkAsUnread", 2131628573);
                         this.translationDrawable = Theme.dialogs_swipeUnreadDrawable;
-                        i7 = R.string.SwipeMarkAsUnread;
+                        i7 = 2131628573;
                     }
                 } else if (SharedConfig.getChatSwipeAction(this.currentAccount) == 0) {
                     if (this.drawPin) {
-                        str3 = LocaleController.getString("SwipeUnpin", R.string.SwipeUnpin);
+                        str3 = LocaleController.getString("SwipeUnpin", 2131628587);
                         this.translationDrawable = Theme.dialogs_swipeUnpinDrawable;
-                        i7 = R.string.SwipeUnpin;
+                        i7 = 2131628587;
                     } else {
-                        str3 = LocaleController.getString("SwipePin", R.string.SwipePin);
+                        str3 = LocaleController.getString("SwipePin", 2131628575);
                         this.translationDrawable = Theme.dialogs_swipePinDrawable;
-                        i7 = R.string.SwipePin;
+                        i7 = 2131628575;
                     }
                 } else {
-                    str3 = LocaleController.getString("Archive", R.string.Archive);
+                    str3 = LocaleController.getString("Archive", 2131624401);
                     this.translationDrawable = Theme.dialogs_archiveDrawable;
-                    i7 = R.string.Archive;
+                    i7 = 2131624401;
                 }
             } else {
                 i9 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
                 i8 = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
-                str3 = LocaleController.getString("Unarchive", R.string.Unarchive);
+                str3 = LocaleController.getString("Unarchive", 2131628789);
                 this.translationDrawable = Theme.dialogs_unarchiveDrawable;
-                i7 = R.string.Unarchive;
+                i7 = 2131628789;
             }
             String str6 = str3;
             int i11 = i8;
@@ -4477,27 +4482,8 @@ public class DialogCell extends BaseCell {
         this.statusDrawableAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.animateFromStatusDrawableParams = i;
         this.animateToStatusDrawableParams = i2;
-        this.statusDrawableAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogCell$$ExternalSyntheticLambda1
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                DialogCell.this.lambda$createStatusDrawableAnimator$2(valueAnimator);
-            }
-        });
-        this.statusDrawableAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.DialogCell.3
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                int i3 = (DialogCell.this.drawClock ? 1 : 0) + (DialogCell.this.drawCheck1 ? 2 : 0) + (DialogCell.this.drawCheck2 ? 4 : 0);
-                if (DialogCell.this.animateToStatusDrawableParams == i3) {
-                    DialogCell.this.statusDrawableAnimationInProgress = false;
-                    DialogCell dialogCell = DialogCell.this;
-                    dialogCell.lastStatusDrawableParams = dialogCell.animateToStatusDrawableParams;
-                } else {
-                    DialogCell dialogCell2 = DialogCell.this;
-                    dialogCell2.createStatusDrawableAnimator(dialogCell2.animateToStatusDrawableParams, i3);
-                }
-                DialogCell.this.invalidate();
-            }
-        });
+        this.statusDrawableAnimator.addUpdateListener(new DialogCell$$ExternalSyntheticLambda1(this));
+        this.statusDrawableAnimator.addListener(new AnonymousClass3());
         this.statusDrawableAnimationInProgress = true;
         this.statusDrawableAnimator.start();
     }
@@ -4505,6 +4491,28 @@ public class DialogCell extends BaseCell {
     public /* synthetic */ void lambda$createStatusDrawableAnimator$2(ValueAnimator valueAnimator) {
         this.statusDrawableProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Cells.DialogCell$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        AnonymousClass3() {
+            DialogCell.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            int i = (DialogCell.this.drawClock ? 1 : 0) + (DialogCell.this.drawCheck1 ? 2 : 0) + (DialogCell.this.drawCheck2 ? 4 : 0);
+            if (DialogCell.this.animateToStatusDrawableParams == i) {
+                DialogCell.this.statusDrawableAnimationInProgress = false;
+                DialogCell dialogCell = DialogCell.this;
+                dialogCell.lastStatusDrawableParams = dialogCell.animateToStatusDrawableParams;
+            } else {
+                DialogCell dialogCell2 = DialogCell.this;
+                dialogCell2.createStatusDrawableAnimator(dialogCell2.animateToStatusDrawableParams, i);
+            }
+            DialogCell.this.invalidate();
+        }
     }
 
     public void startOutAnimation() {
@@ -4559,7 +4567,7 @@ public class DialogCell extends BaseCell {
     @Override // android.view.View
     public boolean performAccessibilityAction(int i, Bundle bundle) {
         DialogsActivity dialogsActivity;
-        if (i == R.id.acc_action_chat_preview && (dialogsActivity = this.parentFragment) != null) {
+        if (i == 2131230720 && (dialogsActivity = this.parentFragment) != null) {
             dialogsActivity.showChatPreview(this);
             return true;
         }
@@ -4576,7 +4584,7 @@ public class DialogCell extends BaseCell {
             accessibilityNodeInfo.addAction(16);
             accessibilityNodeInfo.addAction(32);
             if (!isFolderCell() && this.parentFragment != null && Build.VERSION.SDK_INT >= 21) {
-                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_chat_preview, LocaleController.getString("AccActionChatPreview", R.string.AccActionChatPreview)));
+                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(2131230720, LocaleController.getString("AccActionChatPreview", 2131623946)));
             }
         }
         CheckBox2 checkBox2 = this.checkBox;
@@ -4594,25 +4602,25 @@ public class DialogCell extends BaseCell {
         super.onPopulateAccessibilityEvent(accessibilityEvent);
         StringBuilder sb = new StringBuilder();
         if (this.currentDialogFolderId == 1) {
-            sb.append(LocaleController.getString("ArchivedChats", R.string.ArchivedChats));
+            sb.append(LocaleController.getString("ArchivedChats", 2131624417));
             sb.append(". ");
         } else {
             if (this.encryptedChat != null) {
-                sb.append(LocaleController.getString("AccDescrSecretChat", R.string.AccDescrSecretChat));
+                sb.append(LocaleController.getString("AccDescrSecretChat", 2131624062));
                 sb.append(". ");
             }
             TLRPC$User tLRPC$User = this.user;
             if (tLRPC$User != null) {
                 if (UserObject.isReplyUser(tLRPC$User)) {
-                    sb.append(LocaleController.getString("RepliesTitle", R.string.RepliesTitle));
+                    sb.append(LocaleController.getString("RepliesTitle", 2131627982));
                 } else {
                     if (this.user.bot) {
-                        sb.append(LocaleController.getString("Bot", R.string.Bot));
+                        sb.append(LocaleController.getString("Bot", 2131624715));
                         sb.append(". ");
                     }
                     TLRPC$User tLRPC$User2 = this.user;
                     if (tLRPC$User2.self) {
-                        sb.append(LocaleController.getString("SavedMessages", R.string.SavedMessages));
+                        sb.append(LocaleController.getString("SavedMessages", 2131628139));
                     } else {
                         sb.append(ContactsController.formatName(tLRPC$User2.first_name, tLRPC$User2.last_name));
                     }
@@ -4622,9 +4630,9 @@ public class DialogCell extends BaseCell {
                 TLRPC$Chat tLRPC$Chat = this.chat;
                 if (tLRPC$Chat != null) {
                     if (tLRPC$Chat.broadcast) {
-                        sb.append(LocaleController.getString("AccDescrChannel", R.string.AccDescrChannel));
+                        sb.append(LocaleController.getString("AccDescrChannel", 2131623975));
                     } else {
-                        sb.append(LocaleController.getString("AccDescrGroup", R.string.AccDescrGroup));
+                        sb.append(LocaleController.getString("AccDescrGroup", 2131623989));
                     }
                     sb.append(". ");
                     sb.append(this.chat.title);
@@ -4633,7 +4641,7 @@ public class DialogCell extends BaseCell {
             }
         }
         if (this.drawVerified) {
-            sb.append(LocaleController.getString("AccDescrVerified", R.string.AccDescrVerified));
+            sb.append(LocaleController.getString("AccDescrVerified", 2131624102));
             sb.append(". ");
         }
         int i = this.unreadCount;
@@ -4647,7 +4655,7 @@ public class DialogCell extends BaseCell {
             sb.append(". ");
         }
         if (this.reactionMentionCount > 0) {
-            sb.append(LocaleController.getString("AccDescrMentionReaction", R.string.AccDescrMentionReaction));
+            sb.append(LocaleController.getString("AccDescrMentionReaction", 2131624001));
             sb.append(". ");
         }
         MessageObject messageObject = this.message;
@@ -4661,9 +4669,9 @@ public class DialogCell extends BaseCell {
         }
         String formatDateAudio = LocaleController.formatDateAudio(i3, true);
         if (this.message.isOut()) {
-            sb.append(LocaleController.formatString("AccDescrSentDate", R.string.AccDescrSentDate, formatDateAudio));
+            sb.append(LocaleController.formatString("AccDescrSentDate", 2131624079, formatDateAudio));
         } else {
-            sb.append(LocaleController.formatString("AccDescrReceivedDate", R.string.AccDescrReceivedDate, formatDateAudio));
+            sb.append(LocaleController.formatString("AccDescrReceivedDate", 2131624052, formatDateAudio));
         }
         sb.append(". ");
         if (this.chat != null && !this.message.isOut() && this.message.isFromUser() && this.message.messageOwner.action == null && (user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.message.messageOwner.from_id.user_id))) != null) {

@@ -40,7 +40,7 @@ public class StorageDiagramView extends View {
         this.rectF.set(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), getMeasuredWidth() - AndroidUtilities.dp(3.0f), getMeasuredHeight() - AndroidUtilities.dp(3.0f));
         updateDescription();
         this.textPaint.setTextSize(AndroidUtilities.dp(24.0f));
-        this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.textPaint2.setTextSize(AndroidUtilities.dp(13.0f));
     }
 
@@ -243,7 +243,7 @@ public class StorageDiagramView extends View {
     }
 
     public void update(boolean z) {
-        final ClearViewData[] clearViewDataArr = this.data;
+        ClearViewData[] clearViewDataArr = this.data;
         if (clearViewDataArr == null) {
             return;
         }
@@ -295,29 +295,8 @@ public class StorageDiagramView extends View {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.valueAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StorageDiagramView$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                StorageDiagramView.this.lambda$update$0(clearViewDataArr, valueAnimator2);
-            }
-        });
-        this.valueAnimator.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.StorageDiagramView.1
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                int i4 = 0;
-                while (true) {
-                    ClearViewData[] clearViewDataArr2 = clearViewDataArr;
-                    if (i4 < clearViewDataArr2.length) {
-                        if (clearViewDataArr2[i4] != null) {
-                            clearViewDataArr2[i4].firstDraw = false;
-                        }
-                        i4++;
-                    } else {
-                        return;
-                    }
-                }
-            }
-        });
+        ofFloat.addUpdateListener(new StorageDiagramView$$ExternalSyntheticLambda0(this, clearViewDataArr));
+        this.valueAnimator.addListener(new AnonymousClass1(this, clearViewDataArr));
         this.valueAnimator.setDuration(450L);
         this.valueAnimator.setInterpolator(new FastOutSlowInInterpolator());
         this.valueAnimator.start();
@@ -329,6 +308,32 @@ public class StorageDiagramView extends View {
             this.drawingPercentage[i] = (this.startFromPercentage[i] * (1.0f - floatValue)) + (this.animateToPercentage[i] * floatValue);
         }
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Components.StorageDiagramView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        final /* synthetic */ ClearViewData[] val$data;
+
+        AnonymousClass1(StorageDiagramView storageDiagramView, ClearViewData[] clearViewDataArr) {
+            this.val$data = clearViewDataArr;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            int i = 0;
+            while (true) {
+                ClearViewData[] clearViewDataArr = this.val$data;
+                if (i < clearViewDataArr.length) {
+                    if (clearViewDataArr[i] != null) {
+                        clearViewDataArr[i].firstDraw = false;
+                    }
+                    i++;
+                } else {
+                    return;
+                }
+            }
+        }
     }
 
     public void updateDescription() {

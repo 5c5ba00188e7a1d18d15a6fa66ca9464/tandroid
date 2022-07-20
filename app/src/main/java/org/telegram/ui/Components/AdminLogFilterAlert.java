@@ -19,7 +19,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$ChannelParticipant;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventsFilter;
 import org.telegram.tgnet.TLRPC$User;
@@ -121,129 +120,147 @@ public class AdminLogFilterAlert extends BottomSheet {
         this.leavingRow = i7;
         this.callsRow = i8;
         this.allAdminsRow = i8 + 1 + 1;
-        Drawable mutate = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
-        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.AdminLogFilterAlert.1
-            @Override // android.view.ViewGroup
-            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                if (motionEvent.getAction() == 0 && AdminLogFilterAlert.this.scrollOffsetY != 0 && motionEvent.getY() < AdminLogFilterAlert.this.scrollOffsetY) {
-                    AdminLogFilterAlert.this.dismiss();
-                    return true;
-                }
-                return super.onInterceptTouchEvent(motionEvent);
-            }
-
-            @Override // android.view.View
-            public boolean onTouchEvent(MotionEvent motionEvent) {
-                return !AdminLogFilterAlert.this.isDismissed() && super.onTouchEvent(motionEvent);
-            }
-
-            @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i9, int i10) {
-                int size = View.MeasureSpec.getSize(i10);
-                if (Build.VERSION.SDK_INT >= 21) {
-                    size -= AndroidUtilities.statusBarHeight;
-                }
-                getMeasuredWidth();
-                int dp = AndroidUtilities.dp(48.0f) + ((AdminLogFilterAlert.this.isMegagroup ? 11 : 8) * AndroidUtilities.dp(48.0f)) + ((BottomSheet) AdminLogFilterAlert.this).backgroundPaddingTop + AndroidUtilities.dp(17.0f);
-                if (AdminLogFilterAlert.this.currentAdmins != null) {
-                    dp += ((AdminLogFilterAlert.this.currentAdmins.size() + 1) * AndroidUtilities.dp(48.0f)) + AndroidUtilities.dp(20.0f);
-                }
-                int i11 = size / 5;
-                int i12 = ((float) dp) < ((float) i11) * 3.2f ? 0 : i11 * 2;
-                if (i12 != 0 && dp < size) {
-                    i12 -= size - dp;
-                }
-                if (i12 == 0) {
-                    i12 = ((BottomSheet) AdminLogFilterAlert.this).backgroundPaddingTop;
-                }
-                if (AdminLogFilterAlert.this.listView.getPaddingTop() != i12) {
-                    AdminLogFilterAlert.this.ignoreLayout = true;
-                    AdminLogFilterAlert.this.listView.setPadding(0, i12, 0, 0);
-                    AdminLogFilterAlert.this.ignoreLayout = false;
-                }
-                super.onMeasure(i9, View.MeasureSpec.makeMeasureSpec(Math.min(dp, size), 1073741824));
-            }
-
-            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z2, int i9, int i10, int i11, int i12) {
-                super.onLayout(z2, i9, i10, i11, i12);
-                AdminLogFilterAlert.this.updateLayout();
-            }
-
-            @Override // android.view.View, android.view.ViewParent
-            public void requestLayout() {
-                if (AdminLogFilterAlert.this.ignoreLayout) {
-                    return;
-                }
-                super.requestLayout();
-            }
-
-            @Override // android.view.View
-            protected void onDraw(Canvas canvas) {
-                AdminLogFilterAlert.this.shadowDrawable.setBounds(0, AdminLogFilterAlert.this.scrollOffsetY - ((BottomSheet) AdminLogFilterAlert.this).backgroundPaddingTop, getMeasuredWidth(), getMeasuredHeight());
-                AdminLogFilterAlert.this.shadowDrawable.draw(canvas);
-            }
-        };
-        this.containerView = frameLayout;
-        frameLayout.setWillNotDraw(false);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
+        this.containerView = anonymousClass1;
+        anonymousClass1.setWillNotDraw(false);
         ViewGroup viewGroup = this.containerView;
         int i9 = this.backgroundPaddingLeft;
         viewGroup.setPadding(i9, 0, i9, 0);
-        RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.AdminLogFilterAlert.2
-            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
-            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                return super.onInterceptTouchEvent(motionEvent) || ContentPreviewViewer.getInstance().onInterceptTouchEvent(motionEvent, AdminLogFilterAlert.this.listView, 0, null, this.resourcesProvider);
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View, android.view.ViewParent
-            public void requestLayout() {
-                if (AdminLogFilterAlert.this.ignoreLayout) {
-                    return;
-                }
-                super.requestLayout();
-            }
-        };
-        this.listView = recyclerListView;
-        recyclerListView.setLayoutManager(new LinearLayoutManager(getContext(), 1, false));
-        RecyclerListView recyclerListView2 = this.listView;
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
+        this.listView = anonymousClass2;
+        anonymousClass2.setLayoutManager(new LinearLayoutManager(getContext(), 1, false));
+        RecyclerListView recyclerListView = this.listView;
         ListAdapter listAdapter = new ListAdapter(context);
         this.adapter = listAdapter;
-        recyclerListView2.setAdapter(listAdapter);
+        recyclerListView.setAdapter(listAdapter);
         this.listView.setVerticalScrollBarEnabled(false);
         this.listView.setClipToPadding(false);
         this.listView.setEnabled(true);
         this.listView.setGlowColor(Theme.getColor("dialogScrollGlow"));
-        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.AdminLogFilterAlert.3
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i10, int i11) {
-                AdminLogFilterAlert.this.updateLayout();
-            }
-        });
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.AdminLogFilterAlert$$ExternalSyntheticLambda1
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i10) {
-                AdminLogFilterAlert.this.lambda$new$0(view, i10);
-            }
-        });
+        this.listView.setOnScrollListener(new AnonymousClass3());
+        this.listView.setOnItemClickListener(new AdminLogFilterAlert$$ExternalSyntheticLambda1(this));
         this.containerView.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 48.0f));
         View view = new View(context);
-        view.setBackgroundResource(R.drawable.header_shadow_reverse);
+        view.setBackgroundResource(2131165447);
         this.containerView.addView(view, LayoutHelper.createFrame(-1, 3.0f, 83, 0.0f, 0.0f, 0.0f, 48.0f));
         BottomSheet.BottomSheetCell bottomSheetCell = new BottomSheet.BottomSheetCell(context, 1);
         this.saveButton = bottomSheetCell;
         bottomSheetCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-        this.saveButton.setTextAndIcon(LocaleController.getString("Save", R.string.Save).toUpperCase(), 0);
+        this.saveButton.setTextAndIcon(LocaleController.getString("Save", 2131628122).toUpperCase(), 0);
         this.saveButton.setTextColor(Theme.getColor("dialogTextBlue2"));
-        this.saveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AdminLogFilterAlert$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view2) {
-                AdminLogFilterAlert.this.lambda$new$1(view2);
-            }
-        });
+        this.saveButton.setOnClickListener(new AdminLogFilterAlert$$ExternalSyntheticLambda0(this));
         this.containerView.addView(this.saveButton, LayoutHelper.createFrame(-1, 48, 83));
         this.adapter.notifyDataSetChanged();
+    }
+
+    /* renamed from: org.telegram.ui.Components.AdminLogFilterAlert$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends FrameLayout {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context) {
+            super(context);
+            AdminLogFilterAlert.this = r1;
+        }
+
+        @Override // android.view.ViewGroup
+        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+            if (motionEvent.getAction() == 0 && AdminLogFilterAlert.this.scrollOffsetY != 0 && motionEvent.getY() < AdminLogFilterAlert.this.scrollOffsetY) {
+                AdminLogFilterAlert.this.dismiss();
+                return true;
+            }
+            return super.onInterceptTouchEvent(motionEvent);
+        }
+
+        @Override // android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            return !AdminLogFilterAlert.this.isDismissed() && super.onTouchEvent(motionEvent);
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            int size = View.MeasureSpec.getSize(i2);
+            if (Build.VERSION.SDK_INT >= 21) {
+                size -= AndroidUtilities.statusBarHeight;
+            }
+            getMeasuredWidth();
+            int dp = AndroidUtilities.dp(48.0f) + ((AdminLogFilterAlert.this.isMegagroup ? 11 : 8) * AndroidUtilities.dp(48.0f)) + ((BottomSheet) AdminLogFilterAlert.this).backgroundPaddingTop + AndroidUtilities.dp(17.0f);
+            if (AdminLogFilterAlert.this.currentAdmins != null) {
+                dp += ((AdminLogFilterAlert.this.currentAdmins.size() + 1) * AndroidUtilities.dp(48.0f)) + AndroidUtilities.dp(20.0f);
+            }
+            int i3 = size / 5;
+            int i4 = ((float) dp) < ((float) i3) * 3.2f ? 0 : i3 * 2;
+            if (i4 != 0 && dp < size) {
+                i4 -= size - dp;
+            }
+            if (i4 == 0) {
+                i4 = ((BottomSheet) AdminLogFilterAlert.this).backgroundPaddingTop;
+            }
+            if (AdminLogFilterAlert.this.listView.getPaddingTop() != i4) {
+                AdminLogFilterAlert.this.ignoreLayout = true;
+                AdminLogFilterAlert.this.listView.setPadding(0, i4, 0, 0);
+                AdminLogFilterAlert.this.ignoreLayout = false;
+            }
+            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(Math.min(dp, size), 1073741824));
+        }
+
+        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            super.onLayout(z, i, i2, i3, i4);
+            AdminLogFilterAlert.this.updateLayout();
+        }
+
+        @Override // android.view.View, android.view.ViewParent
+        public void requestLayout() {
+            if (AdminLogFilterAlert.this.ignoreLayout) {
+                return;
+            }
+            super.requestLayout();
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            AdminLogFilterAlert.this.shadowDrawable.setBounds(0, AdminLogFilterAlert.this.scrollOffsetY - ((BottomSheet) AdminLogFilterAlert.this).backgroundPaddingTop, getMeasuredWidth(), getMeasuredHeight());
+            AdminLogFilterAlert.this.shadowDrawable.draw(canvas);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.AdminLogFilterAlert$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends RecyclerListView {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(Context context) {
+            super(context);
+            AdminLogFilterAlert.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
+        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+            return super.onInterceptTouchEvent(motionEvent) || ContentPreviewViewer.getInstance().onInterceptTouchEvent(motionEvent, AdminLogFilterAlert.this.listView, 0, null, this.resourcesProvider);
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View, android.view.ViewParent
+        public void requestLayout() {
+            if (AdminLogFilterAlert.this.ignoreLayout) {
+                return;
+            }
+            super.requestLayout();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.AdminLogFilterAlert$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends RecyclerView.OnScrollListener {
+        AnonymousClass3() {
+            AdminLogFilterAlert.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+            AdminLogFilterAlert.this.updateLayout();
+        }
     }
 
     public /* synthetic */ void lambda$new$0(View view, int i) {
@@ -596,14 +613,14 @@ public class AdminLogFilterAlert extends BottomSheet {
                         if (i != AdminLogFilterAlert.this.membersRow) {
                             if (i == AdminLogFilterAlert.this.infoRow) {
                                 if (AdminLogFilterAlert.this.isMegagroup) {
-                                    String string = LocaleController.getString("EventLogFilterGroupInfo", R.string.EventLogFilterGroupInfo);
+                                    String string = LocaleController.getString("EventLogFilterGroupInfo", 2131625748);
                                     if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.info) {
                                         z = true;
                                     }
                                     checkBoxCell.setText(string, "", z, true);
                                     return;
                                 }
-                                String string2 = LocaleController.getString("EventLogFilterChannelInfo", R.string.EventLogFilterChannelInfo);
+                                String string2 = LocaleController.getString("EventLogFilterChannelInfo", 2131625745);
                                 if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.info) {
                                     z = true;
                                 }
@@ -618,28 +635,28 @@ public class AdminLogFilterAlert extends BottomSheet {
                                                     if (i != AdminLogFilterAlert.this.allAdminsRow) {
                                                         return;
                                                     }
-                                                    String string3 = LocaleController.getString("EventLogAllAdmins", R.string.EventLogAllAdmins);
+                                                    String string3 = LocaleController.getString("EventLogAllAdmins", 2131625709);
                                                     if (AdminLogFilterAlert.this.selectedAdmins == null) {
                                                         z = true;
                                                     }
                                                     checkBoxCell.setText(string3, "", z, true);
                                                     return;
                                                 }
-                                                String string4 = LocaleController.getString("EventLogFilterInvites", R.string.EventLogFilterInvites);
+                                                String string4 = LocaleController.getString("EventLogFilterInvites", 2131625749);
                                                 if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.invites) {
                                                     z = true;
                                                 }
                                                 checkBoxCell.setText(string4, "", z, true);
                                                 return;
                                             }
-                                            String string5 = LocaleController.getString("EventLogFilterCalls", R.string.EventLogFilterCalls);
+                                            String string5 = LocaleController.getString("EventLogFilterCalls", 2131625744);
                                             if (AdminLogFilterAlert.this.currentFilter != null && !AdminLogFilterAlert.this.currentFilter.group_call) {
                                                 z2 = false;
                                             }
                                             checkBoxCell.setText(string5, "", z2, false);
                                             return;
                                         }
-                                        String string6 = LocaleController.getString("EventLogFilterLeavingMembers", R.string.EventLogFilterLeavingMembers);
+                                        String string6 = LocaleController.getString("EventLogFilterLeavingMembers", 2131625750);
                                         boolean z4 = AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.leave;
                                         if (AdminLogFilterAlert.this.callsRow != -1) {
                                             z = true;
@@ -647,21 +664,21 @@ public class AdminLogFilterAlert extends BottomSheet {
                                         checkBoxCell.setText(string6, "", z4, z);
                                         return;
                                     }
-                                    String string7 = LocaleController.getString("EventLogFilterPinnedMessages", R.string.EventLogFilterPinnedMessages);
+                                    String string7 = LocaleController.getString("EventLogFilterPinnedMessages", 2131625754);
                                     if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.pinned) {
                                         z = true;
                                     }
                                     checkBoxCell.setText(string7, "", z, true);
                                     return;
                                 }
-                                String string8 = LocaleController.getString("EventLogFilterEditedMessages", R.string.EventLogFilterEditedMessages);
+                                String string8 = LocaleController.getString("EventLogFilterEditedMessages", 2131625747);
                                 if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.edit) {
                                     z = true;
                                 }
                                 checkBoxCell.setText(string8, "", z, true);
                                 return;
                             } else {
-                                String string9 = LocaleController.getString("EventLogFilterDeletedMessages", R.string.EventLogFilterDeletedMessages);
+                                String string9 = LocaleController.getString("EventLogFilterDeletedMessages", 2131625746);
                                 if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.delete) {
                                     z = true;
                                 }
@@ -669,28 +686,28 @@ public class AdminLogFilterAlert extends BottomSheet {
                                 return;
                             }
                         }
-                        String string10 = LocaleController.getString("EventLogFilterNewMembers", R.string.EventLogFilterNewMembers);
+                        String string10 = LocaleController.getString("EventLogFilterNewMembers", 2131625752);
                         if (AdminLogFilterAlert.this.currentFilter == null || (AdminLogFilterAlert.this.currentFilter.invite && AdminLogFilterAlert.this.currentFilter.join)) {
                             z = true;
                         }
                         checkBoxCell.setText(string10, "", z, true);
                         return;
                     }
-                    String string11 = LocaleController.getString("EventLogFilterNewAdmins", R.string.EventLogFilterNewAdmins);
+                    String string11 = LocaleController.getString("EventLogFilterNewAdmins", 2131625751);
                     if (AdminLogFilterAlert.this.currentFilter == null || (AdminLogFilterAlert.this.currentFilter.promote && AdminLogFilterAlert.this.currentFilter.demote)) {
                         z = true;
                     }
                     checkBoxCell.setText(string11, "", z, true);
                     return;
                 }
-                String string12 = LocaleController.getString("EventLogFilterNewRestrictions", R.string.EventLogFilterNewRestrictions);
+                String string12 = LocaleController.getString("EventLogFilterNewRestrictions", 2131625753);
                 if (AdminLogFilterAlert.this.currentFilter == null || (AdminLogFilterAlert.this.currentFilter.kick && AdminLogFilterAlert.this.currentFilter.ban && AdminLogFilterAlert.this.currentFilter.unkick && AdminLogFilterAlert.this.currentFilter.unban)) {
                     z = true;
                 }
                 checkBoxCell.setText(string12, "", z, true);
                 return;
             }
-            String string13 = LocaleController.getString("EventLogFilterAll", R.string.EventLogFilterAll);
+            String string13 = LocaleController.getString("EventLogFilterAll", 2131625743);
             if (AdminLogFilterAlert.this.currentFilter == null) {
                 z = true;
             }

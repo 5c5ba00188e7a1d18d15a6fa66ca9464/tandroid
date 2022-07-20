@@ -13,7 +13,6 @@ import android.util.AndroidException;
 import com.huawei.hms.android.SystemUtils;
 import com.huawei.hms.common.util.AGCUtils;
 import com.huawei.hms.support.log.HMSLog;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class Util {
     private static final String AVAILABLE_LOADED = "availableLoaded";
@@ -69,22 +68,22 @@ public class Util {
 
     public static String getAppName(Context context, String str) {
         if (context == null) {
-            HMSLog.e(TAG, "In getAppName, context is null.");
+            HMSLog.e("Util", "In getAppName, context is null.");
             return "";
         }
         PackageManager packageManager = context.getPackageManager();
         if (packageManager == null) {
-            HMSLog.e(TAG, "In getAppName, Failed to get 'PackageManager' instance.");
+            HMSLog.e("Util", "In getAppName, Failed to get 'PackageManager' instance.");
             return "";
         }
         try {
             if (TextUtils.isEmpty(str)) {
                 str = context.getPackageName();
             }
-            CharSequence applicationLabel = packageManager.getApplicationLabel(packageManager.getApplicationInfo(str, ConnectionsManager.RequestFlagNeedQuickAck));
+            CharSequence applicationLabel = packageManager.getApplicationLabel(packageManager.getApplicationInfo(str, 128));
             return applicationLabel == null ? "" : applicationLabel.toString();
         } catch (Resources.NotFoundException | AndroidException unused) {
-            HMSLog.e(TAG, "In getAppName, Failed to get app name.");
+            HMSLog.e("Util", "In getAppName, Failed to get app name.");
             return "";
         }
     }
@@ -98,24 +97,24 @@ public class Util {
         Object obj;
         PackageManager packageManager = context.getPackageManager();
         if (packageManager == null) {
-            HMSLog.e(TAG, "In getHmsVersion, Failed to get 'PackageManager' instance.");
+            HMSLog.e("Util", "In getHmsVersion, Failed to get 'PackageManager' instance.");
             return 0;
         }
         try {
-            ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).applicationInfo;
-            if (applicationInfo != null && (bundle = applicationInfo.metaData) != null && (obj = bundle.get(META_HMSVERSION_NAME)) != null) {
+            ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), 128).applicationInfo;
+            if (applicationInfo != null && (bundle = applicationInfo.metaData) != null && (obj = bundle.get("com.huawei.hms.version")) != null) {
                 String valueOf = String.valueOf(obj);
                 if (!TextUtils.isEmpty(valueOf)) {
                     return StringUtil.convertVersion2Integer(valueOf);
                 }
             }
-            HMSLog.i(TAG, "In getHmsVersion, Failed to read meta data for the HMS VERSION.");
+            HMSLog.i("Util", "In getHmsVersion, Failed to read meta data for the HMS VERSION.");
             return 0;
         } catch (AndroidException unused) {
-            HMSLog.e(TAG, "In getHmsVersion, Failed to read meta data for the HMS VERSION.");
+            HMSLog.e("Util", "In getHmsVersion, Failed to read meta data for the HMS VERSION.");
             return 0;
         } catch (RuntimeException e) {
-            HMSLog.e(TAG, "In getHmsVersion, Failed to read meta data for the HMS VERSION.", e);
+            HMSLog.e("Util", "In getHmsVersion, Failed to read meta data for the HMS VERSION.", e);
             return 0;
         }
     }
@@ -150,7 +149,7 @@ public class Util {
         }
         Intent intent = new Intent("com.huawei.hms.core.internal");
         intent.setPackage(context.getPackageName());
-        if (context.getPackageManager().resolveService(intent, ConnectionsManager.RequestFlagNeedQuickAck) != null) {
+        if (context.getPackageManager().resolveService(intent, 128) != null) {
             serviceAction = "com.huawei.hms.core.internal";
             return "com.huawei.hms.core.internal";
         }
@@ -180,17 +179,17 @@ public class Util {
                 boolean z = false;
                 PackageManager packageManager = context.getPackageManager();
                 if (packageManager == null) {
-                    HMSLog.e(TAG, "In isAvailableLibExist, Failed to get 'PackageManager' instance.");
+                    HMSLog.e("Util", "In isAvailableLibExist, Failed to get 'PackageManager' instance.");
                 } else {
                     try {
-                        ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).applicationInfo;
-                        if (applicationInfo != null && (bundle = applicationInfo.metaData) != null && (obj = bundle.get(AVAILABLE_LOADED)) != null && String.valueOf(obj).equalsIgnoreCase("yes")) {
-                            HMSLog.i(TAG, "available exist: true");
+                        ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), 128).applicationInfo;
+                        if (applicationInfo != null && (bundle = applicationInfo.metaData) != null && (obj = bundle.get("availableLoaded")) != null && String.valueOf(obj).equalsIgnoreCase("yes")) {
+                            HMSLog.i("Util", "available exist: true");
                         }
                     } catch (AndroidException unused) {
-                        HMSLog.e(TAG, "In isAvailableLibExist, Failed to read meta data for the availableLoaded.");
+                        HMSLog.e("Util", "In isAvailableLibExist, Failed to read meta data for the availableLoaded.");
                     } catch (RuntimeException e) {
-                        HMSLog.e(TAG, "In isAvailableLibExist, Failed to read meta data for the availableLoaded.", e);
+                        HMSLog.e("Util", "In isAvailableLibExist, Failed to read meta data for the availableLoaded.", e);
                     }
                     isAvailableAvailable = z;
                     availableInit = true;
@@ -200,7 +199,7 @@ public class Util {
                 availableInit = true;
             }
         }
-        HMSLog.i(TAG, "available exist: " + isAvailableAvailable);
+        HMSLog.i("Util", "available exist: " + isAvailableAvailable);
         return isAvailableAvailable;
     }
 
@@ -214,10 +213,10 @@ public class Util {
 
     public static void unBindServiceCatchException(Context context, ServiceConnection serviceConnection) {
         try {
-            HMSLog.i(TAG, "Trying to unbind service from " + serviceConnection);
+            HMSLog.i("Util", "Trying to unbind service from " + serviceConnection);
             context.unbindService(serviceConnection);
         } catch (Exception e) {
-            HMSLog.e(TAG, "On unBindServiceException:" + e.getMessage());
+            HMSLog.e("Util", "On unBindServiceException:" + e.getMessage());
         }
     }
 }

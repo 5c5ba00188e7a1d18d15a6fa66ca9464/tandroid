@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
@@ -145,7 +144,7 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
 
     public final void zze(String str) {
         str.getClass();
-        this.zzc |= ConnectionsManager.RequestFlagNeedQuickAck;
+        this.zzc |= 128;
         this.zzl = str;
     }
 

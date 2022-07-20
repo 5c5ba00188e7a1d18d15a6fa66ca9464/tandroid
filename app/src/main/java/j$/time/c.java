@@ -1,6 +1,6 @@
 package j$.time;
 /* loaded from: classes2.dex */
-abstract /* synthetic */ class c {
+public abstract /* synthetic */ class c {
     static final /* synthetic */ int[] a;
 
     static {

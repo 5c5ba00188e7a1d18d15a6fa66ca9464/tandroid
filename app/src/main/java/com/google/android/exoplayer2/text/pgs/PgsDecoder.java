@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.zip.Inflater;
-import org.telegram.messenger.R;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class PgsDecoder extends SimpleSubtitleDecoder {
     private Inflater inflater;
@@ -68,13 +66,13 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
             cueBuilder.reset();
         } else {
             switch (readUnsignedByte) {
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                     cueBuilder.parsePaletteSection(parsableByteArray, readUnsignedShort);
                     break;
                 case 21:
                     cueBuilder.parseBitmapSection(parsableByteArray, readUnsignedShort);
                     break;
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                case 22:
                     cueBuilder.parseIdentifierSection(parsableByteArray, readUnsignedShort);
                     break;
             }
@@ -133,7 +131,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
             }
             parsableByteArray.skipBytes(3);
             int i2 = i - 4;
-            if ((parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+            if ((parsableByteArray.readUnsignedByte() & 128) != 0) {
                 if (i2 < 7 || (readUnsignedInt24 = parsableByteArray.readUnsignedInt24()) < 4) {
                     return;
                 }
@@ -181,7 +179,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
                     int readUnsignedByte2 = this.bitmapData.readUnsignedByte();
                     if (readUnsignedByte2 != 0) {
                         i = ((readUnsignedByte2 & 64) == 0 ? readUnsignedByte2 & 63 : ((readUnsignedByte2 & 63) << 8) | this.bitmapData.readUnsignedByte()) + i3;
-                        Arrays.fill(iArr, i3, i, (readUnsignedByte2 & ConnectionsManager.RequestFlagNeedQuickAck) == 0 ? 0 : this.colors[this.bitmapData.readUnsignedByte()]);
+                        Arrays.fill(iArr, i3, i, (readUnsignedByte2 & 128) == 0 ? 0 : this.colors[this.bitmapData.readUnsignedByte()]);
                     }
                 }
                 i3 = i;

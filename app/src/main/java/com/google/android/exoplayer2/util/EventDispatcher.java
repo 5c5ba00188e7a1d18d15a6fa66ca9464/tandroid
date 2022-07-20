@@ -1,7 +1,6 @@
 package com.google.android.exoplayer2.util;
 
 import android.os.Handler;
-import com.google.android.exoplayer2.util.EventDispatcher;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 /* loaded from: classes.dex */
@@ -52,13 +51,8 @@ public final class EventDispatcher<T> {
             this.released = true;
         }
 
-        public void dispatch(final Event<T> event) {
-            this.handler.post(new Runnable() { // from class: com.google.android.exoplayer2.util.EventDispatcher$HandlerAndListener$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    EventDispatcher.HandlerAndListener.this.lambda$dispatch$0(event);
-                }
-            });
+        public void dispatch(Event<T> event) {
+            this.handler.post(new EventDispatcher$HandlerAndListener$$ExternalSyntheticLambda0(this, event));
         }
 
         public /* synthetic */ void lambda$dispatch$0(Event event) {

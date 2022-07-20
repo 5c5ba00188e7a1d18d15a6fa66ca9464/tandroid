@@ -13,7 +13,6 @@ import android.widget.FrameLayout;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -43,21 +42,12 @@ public class OverlayActionBarLayoutDialog extends Dialog implements ActionBarLay
     }
 
     public OverlayActionBarLayoutDialog(Context context, Theme.ResourcesProvider resourcesProvider) {
-        super(context, R.style.TransparentDialog);
+        super(context, 2131689510);
         this.resourcesProvider = resourcesProvider;
-        ActionBarLayout actionBarLayout = new ActionBarLayout(this, context) { // from class: org.telegram.ui.Components.OverlayActionBarLayoutDialog.1
-            @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i, int i2) {
-                if (AndroidUtilities.isTablet() && !AndroidUtilities.isInMultiwindow && !AndroidUtilities.isSmallTablet()) {
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(530.0f), View.MeasureSpec.getSize(i)), 1073741824), View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(528.0f), View.MeasureSpec.getSize(i2)), 1073741824));
-                } else {
-                    super.onMeasure(i, i2);
-                }
-            }
-        };
-        this.actionBarLayout = actionBarLayout;
-        actionBarLayout.init(new ArrayList<>());
-        this.actionBarLayout.presentFragment(new EmptyFragment(), false, true, false, false);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
+        this.actionBarLayout = anonymousClass1;
+        anonymousClass1.init(new ArrayList<>());
+        this.actionBarLayout.presentFragment(new EmptyFragment(null), false, true, false, false);
         this.actionBarLayout.setDelegate(this);
         FrameLayout frameLayout = new FrameLayout(context);
         this.frameLayout = frameLayout;
@@ -65,16 +55,28 @@ public class OverlayActionBarLayoutDialog extends Dialog implements ActionBarLay
         this.frameLayout.addView(this.actionBarLayout, new FrameLayout.LayoutParams(-1, -1, 17));
         if (AndroidUtilities.isTablet() && !AndroidUtilities.isInMultiwindow && !AndroidUtilities.isSmallTablet()) {
             this.frameLayout.setBackgroundColor(-1728053248);
-            this.frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.OverlayActionBarLayoutDialog$$ExternalSyntheticLambda1
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    OverlayActionBarLayoutDialog.this.lambda$new$0(view);
-                }
-            });
+            this.frameLayout.setOnClickListener(new OverlayActionBarLayoutDialog$$ExternalSyntheticLambda1(this));
             this.actionBarLayout.setRemoveActionBarExtraHeight(true);
             VerticalPositionAutoAnimator.attach(this.actionBarLayout);
         }
         setContentView(this.frameLayout);
+    }
+
+    /* renamed from: org.telegram.ui.Components.OverlayActionBarLayoutDialog$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends ActionBarLayout {
+        AnonymousClass1(OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, Context context) {
+            super(context);
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            if (AndroidUtilities.isTablet() && !AndroidUtilities.isInMultiwindow && !AndroidUtilities.isSmallTablet()) {
+                super.onMeasure(View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(530.0f), View.MeasureSpec.getSize(i)), 1073741824), View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(528.0f), View.MeasureSpec.getSize(i2)), 1073741824));
+            } else {
+                super.onMeasure(i, i2);
+            }
+        }
     }
 
     public /* synthetic */ void lambda$new$0(View view) {
@@ -91,7 +93,7 @@ public class OverlayActionBarLayoutDialog extends Dialog implements ActionBarLay
         } else if (i >= 21) {
             window.addFlags(-2147417856);
         }
-        window.setWindowAnimations(R.style.DialogNoAnimation);
+        window.setWindowAnimations(2131689478);
         WindowManager.LayoutParams attributes = window.getAttributes();
         attributes.width = -1;
         attributes.gravity = 51;
@@ -144,10 +146,13 @@ public class OverlayActionBarLayoutDialog extends Dialog implements ActionBarLay
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static final class EmptyFragment extends BaseFragment {
         private EmptyFragment() {
+        }
+
+        /* synthetic */ EmptyFragment(AnonymousClass1 anonymousClass1) {
+            this();
         }
 
         @Override // org.telegram.ui.ActionBar.BaseFragment

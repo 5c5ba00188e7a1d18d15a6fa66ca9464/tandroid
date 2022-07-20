@@ -14,7 +14,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.LocationController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$TL_channelLocation;
 import org.telegram.tgnet.TLRPC$TL_geoPoint;
 import org.telegram.tgnet.TLRPC$TL_messageMediaVenue;
@@ -166,7 +165,7 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 } else {
                     Location location = this.customLocation;
                     if ((location == null && this.gpsLocation == null) || this.fetchingLocation) {
-                        str = LocaleController.getString("Loading", R.string.Loading);
+                        str = LocaleController.getString("Loading", 2131626520);
                     } else if (location != null) {
                         str = String.format(Locale.US, "(%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(this.customLocation.getLongitude()));
                     } else {
@@ -174,23 +173,23 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                         if (location2 != null) {
                             str = String.format(Locale.US, "(%f,%f)", Double.valueOf(location2.getLatitude()), Double.valueOf(this.gpsLocation.getLongitude()));
                         } else if (!this.myLocationDenied) {
-                            str = LocaleController.getString("Loading", R.string.Loading);
+                            str = LocaleController.getString("Loading", 2131626520);
                         }
                     }
                 }
                 if (this.locationType == 4) {
-                    this.sendLocationCell.setText(LocaleController.getString("ChatSetThisLocation", R.string.ChatSetThisLocation), str);
+                    this.sendLocationCell.setText(LocaleController.getString("ChatSetThisLocation", 2131625044), str);
                 } else {
-                    this.sendLocationCell.setText(LocaleController.getString("SendSelectedLocation", R.string.SendSelectedLocation), str);
+                    this.sendLocationCell.setText(LocaleController.getString("SendSelectedLocation", 2131628268), str);
                 }
                 this.sendLocationCell.setHasLocation(true);
             } else if (this.gpsLocation != null) {
-                sendLocationCell.setText(LocaleController.getString("SendLocation", R.string.SendLocation), LocaleController.formatString("AccurateTo", R.string.AccurateTo, LocaleController.formatPluralString("Meters", (int) this.gpsLocation.getAccuracy(), new Object[0])));
+                sendLocationCell.setText(LocaleController.getString("SendLocation", 2131628258), LocaleController.formatString("AccurateTo", 2131624131, LocaleController.formatPluralString("Meters", (int) this.gpsLocation.getAccuracy(), new Object[0])));
                 this.sendLocationCell.setHasLocation(true);
             } else {
-                String string = LocaleController.getString("SendLocation", R.string.SendLocation);
+                String string = LocaleController.getString("SendLocation", 2131628258);
                 if (!this.myLocationDenied) {
-                    str = LocaleController.getString("Loading", R.string.Loading);
+                    str = LocaleController.getString("Loading", 2131626520);
                 }
                 sendLocationCell.setText(string, str);
                 this.sendLocationCell.setHasLocation(!this.myLocationDenied);
@@ -313,17 +312,12 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 break;
             case 8:
                 LocationDirectionCell locationDirectionCell2 = new LocationDirectionCell(this.mContext, this.resourcesProvider);
-                locationDirectionCell2.setOnButtonClick(new View.OnClickListener() { // from class: org.telegram.ui.Adapters.LocationActivityAdapter$$ExternalSyntheticLambda0
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        LocationActivityAdapter.this.lambda$onCreateViewHolder$0(view);
-                    }
-                });
+                locationDirectionCell2.setOnButtonClick(new LocationActivityAdapter$$ExternalSyntheticLambda0(this));
                 locationDirectionCell = locationDirectionCell2;
                 break;
             case 9:
                 View shadowSectionCell = new ShadowSectionCell(this.mContext);
-                CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
                 combinedDrawable.setFullsize(true);
                 shadowSectionCell.setBackgroundDrawable(combinedDrawable);
                 locationDirectionCell = shadowSectionCell;
@@ -358,9 +352,9 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
         if (itemViewType == 2) {
             HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
             if (this.currentMessageObject != null) {
-                headerCell.setText(LocaleController.getString("LiveLocations", R.string.LiveLocations));
+                headerCell.setText(LocaleController.getString("LiveLocations", 2131626519));
             } else {
-                headerCell.setText(LocaleController.getString("NearbyVenue", R.string.NearbyVenue));
+                headerCell.setText(LocaleController.getString("NearbyVenue", 2131626814));
             }
         } else if (itemViewType == 3) {
             LocationCell locationCell = (LocationCell) viewHolder.itemView;

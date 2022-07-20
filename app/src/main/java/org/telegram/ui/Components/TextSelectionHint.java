@@ -20,7 +20,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class TextSelectionHint extends View {
@@ -44,12 +43,7 @@ public class TextSelectionHint extends View {
     Paint selectionPaint = new Paint(1);
     int padding = AndroidUtilities.dp(24.0f);
     private Interpolator interpolator = new OvershootInterpolator();
-    Runnable dismissTunnable = new Runnable() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda5
-        @Override // java.lang.Runnable
-        public final void run() {
-            TextSelectionHint.this.hideInternal();
-        }
-    };
+    Runnable dismissTunnable = new TextSelectionHint$$ExternalSyntheticLambda5(this);
     Path path = new Path();
 
     public TextSelectionHint(Context context, Theme.ResourcesProvider resourcesProvider) {
@@ -76,7 +70,7 @@ public class TextSelectionHint extends View {
                 animator.removeAllListeners();
                 this.a.cancel();
             }
-            String string = LocaleController.getString("TextSelectionHit", R.string.TextSelectionHit);
+            String string = LocaleController.getString("TextSelectionHit", 2131628663);
             Matcher matcher = Pattern.compile("\\*\\*.*\\*\\*").matcher(string);
             String str = null;
             if (matcher.matches()) {
@@ -281,42 +275,22 @@ public class TextSelectionHint extends View {
         this.endOffsetValue = 1.0f;
         invalidate();
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda4
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                TextSelectionHint.this.lambda$show$0(valueAnimator);
-            }
-        });
+        ofFloat.addUpdateListener(new TextSelectionHint$$ExternalSyntheticLambda4(this));
         ofFloat.setDuration(210L);
         ofFloat.setInterpolator(new DecelerateInterpolator());
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                TextSelectionHint.this.lambda$show$1(valueAnimator);
-            }
-        });
+        ofFloat2.addUpdateListener(new TextSelectionHint$$ExternalSyntheticLambda0(this));
         ofFloat2.setStartDelay(600L);
         ofFloat2.setDuration(250L);
         ValueAnimator ofFloat3 = ValueAnimator.ofFloat(1.0f, 0.0f);
         ofFloat3.setStartDelay(500L);
-        ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda1
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                TextSelectionHint.this.lambda$show$2(valueAnimator);
-            }
-        });
+        ofFloat3.addUpdateListener(new TextSelectionHint$$ExternalSyntheticLambda1(this));
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT;
         ofFloat3.setInterpolator(cubicBezierInterpolator);
         ofFloat3.setDuration(500L);
         ValueAnimator ofFloat4 = ValueAnimator.ofFloat(1.0f, 0.0f);
         ofFloat4.setStartDelay(400L);
-        ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda3
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                TextSelectionHint.this.lambda$show$3(valueAnimator);
-            }
-        });
+        ofFloat4.addUpdateListener(new TextSelectionHint$$ExternalSyntheticLambda3(this));
         ofFloat4.setInterpolator(cubicBezierInterpolator);
         ofFloat4.setDuration(900L);
         AnimatorSet animatorSet = new AnimatorSet();
@@ -365,18 +339,8 @@ public class TextSelectionHint extends View {
         }
         this.showing = false;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.prepareProgress, 0.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda2
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                TextSelectionHint.this.lambda$hideInternal$4(valueAnimator);
-            }
-        });
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.TextSelectionHint.1
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator2) {
-                TextSelectionHint.this.setVisibility(4);
-            }
-        });
+        ofFloat.addUpdateListener(new TextSelectionHint$$ExternalSyntheticLambda2(this));
+        ofFloat.addListener(new AnonymousClass1());
         this.a = ofFloat;
         ofFloat.start();
     }
@@ -384,6 +348,19 @@ public class TextSelectionHint extends View {
     public /* synthetic */ void lambda$hideInternal$4(ValueAnimator valueAnimator) {
         this.prepareProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Components.TextSelectionHint$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            TextSelectionHint.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            TextSelectionHint.this.setVisibility(4);
+        }
     }
 
     public float getPrepareProgress() {

@@ -40,7 +40,6 @@ public enum zzdd implements zzet {
     }
 
     static {
-        new Object() { // from class: com.google.android.gms.internal.mlkit_language_id.zzdc
-        };
+        new zzdc();
     }
 }

@@ -18,7 +18,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
@@ -52,7 +51,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
     public void setParentFragment(PremiumPreviewFragment premiumPreviewFragment) {
     }
 
-    public DoubledLimitsBottomSheet(final BaseFragment baseFragment, final int i) {
+    public DoubledLimitsBottomSheet(BaseFragment baseFragment, int i) {
         super(baseFragment, false, false);
         ArrayList<Limit> arrayList = new ArrayList<>();
         this.limits = arrayList;
@@ -64,16 +63,16 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         gradientTools.y2 = 1.0f;
         this.clipToActionBar = true;
         MessagesController messagesController = MessagesController.getInstance(i);
-        arrayList.add(new Limit(LocaleController.getString("GroupsAndChannelsLimitTitle", R.string.GroupsAndChannelsLimitTitle), LocaleController.formatString("GroupsAndChannelsLimitSubtitle", R.string.GroupsAndChannelsLimitSubtitle, Integer.valueOf(messagesController.channelsLimitPremium)), messagesController.channelsLimitDefault, messagesController.channelsLimitPremium));
-        arrayList.add(new Limit(LocaleController.getString("PinChatsLimitTitle", R.string.PinChatsLimitTitle), LocaleController.formatString("PinChatsLimitSubtitle", R.string.PinChatsLimitSubtitle, Integer.valueOf(messagesController.dialogFiltersPinnedLimitPremium)), messagesController.dialogFiltersPinnedLimitDefault, messagesController.dialogFiltersPinnedLimitPremium));
-        arrayList.add(new Limit(LocaleController.getString("PublicLinksLimitTitle", R.string.PublicLinksLimitTitle), LocaleController.formatString("PublicLinksLimitSubtitle", R.string.PublicLinksLimitSubtitle, Integer.valueOf(messagesController.publicLinksLimitPremium)), messagesController.publicLinksLimitDefault, messagesController.publicLinksLimitPremium));
-        arrayList.add(new Limit(LocaleController.getString("SavedGifsLimitTitle", R.string.SavedGifsLimitTitle), LocaleController.formatString("SavedGifsLimitSubtitle", R.string.SavedGifsLimitSubtitle, Integer.valueOf(messagesController.savedGifsLimitPremium)), messagesController.savedGifsLimitDefault, messagesController.savedGifsLimitPremium));
-        arrayList.add(new Limit(LocaleController.getString("FavoriteStickersLimitTitle", R.string.FavoriteStickersLimitTitle), LocaleController.formatString("FavoriteStickersLimitSubtitle", R.string.FavoriteStickersLimitSubtitle, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.stickersFavedLimitDefault, messagesController.stickersFavedLimitPremium));
-        arrayList.add(new Limit(LocaleController.getString("BioLimitTitle", R.string.BioLimitTitle), LocaleController.formatString("BioLimitSubtitle", R.string.BioLimitSubtitle, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.aboutLengthLimitDefault, messagesController.aboutLengthLimitPremium));
-        arrayList.add(new Limit(LocaleController.getString("CaptionsLimitTitle", R.string.CaptionsLimitTitle), LocaleController.formatString("CaptionsLimitSubtitle", R.string.CaptionsLimitSubtitle, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.captionLengthLimitDefault, messagesController.captionLengthLimitPremium));
-        arrayList.add(new Limit(LocaleController.getString("FoldersLimitTitle", R.string.FoldersLimitTitle), LocaleController.formatString("FoldersLimitSubtitle", R.string.FoldersLimitSubtitle, Integer.valueOf(messagesController.dialogFiltersLimitPremium)), messagesController.dialogFiltersLimitDefault, messagesController.dialogFiltersLimitPremium));
-        arrayList.add(new Limit(LocaleController.getString("ChatPerFolderLimitTitle", R.string.ChatPerFolderLimitTitle), LocaleController.formatString("ChatPerFolderLimitSubtitle", R.string.ChatPerFolderLimitSubtitle, Integer.valueOf(messagesController.dialogFiltersChatsLimitPremium)), messagesController.dialogFiltersChatsLimitDefault, messagesController.dialogFiltersChatsLimitPremium));
-        arrayList.add(new Limit(LocaleController.getString("ConnectedAccountsLimitTitle", R.string.ConnectedAccountsLimitTitle), LocaleController.formatString("ConnectedAccountsLimitSubtitle", R.string.ConnectedAccountsLimitSubtitle, 4), 3, 4));
+        arrayList.add(new Limit(LocaleController.getString("GroupsAndChannelsLimitTitle", 2131626163), LocaleController.formatString("GroupsAndChannelsLimitSubtitle", 2131626162, Integer.valueOf(messagesController.channelsLimitPremium)), messagesController.channelsLimitDefault, messagesController.channelsLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("PinChatsLimitTitle", 2131627579), LocaleController.formatString("PinChatsLimitSubtitle", 2131627578, Integer.valueOf(messagesController.dialogFiltersPinnedLimitPremium)), messagesController.dialogFiltersPinnedLimitDefault, messagesController.dialogFiltersPinnedLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("PublicLinksLimitTitle", 2131627829), LocaleController.formatString("PublicLinksLimitSubtitle", 2131627828, Integer.valueOf(messagesController.publicLinksLimitPremium)), messagesController.publicLinksLimitDefault, messagesController.publicLinksLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("SavedGifsLimitTitle", 2131628138), LocaleController.formatString("SavedGifsLimitSubtitle", 2131628137, Integer.valueOf(messagesController.savedGifsLimitPremium)), messagesController.savedGifsLimitDefault, messagesController.savedGifsLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("FavoriteStickersLimitTitle", 2131625838), LocaleController.formatString("FavoriteStickersLimitSubtitle", 2131625837, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.stickersFavedLimitDefault, messagesController.stickersFavedLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("BioLimitTitle", 2131624685), LocaleController.formatString("BioLimitSubtitle", 2131624684, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.aboutLengthLimitDefault, messagesController.aboutLengthLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("CaptionsLimitTitle", 2131624858), LocaleController.formatString("CaptionsLimitSubtitle", 2131624857, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.captionLengthLimitDefault, messagesController.captionLengthLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("FoldersLimitTitle", 2131625953), LocaleController.formatString("FoldersLimitSubtitle", 2131625952, Integer.valueOf(messagesController.dialogFiltersLimitPremium)), messagesController.dialogFiltersLimitDefault, messagesController.dialogFiltersLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("ChatPerFolderLimitTitle", 2131625038), LocaleController.formatString("ChatPerFolderLimitSubtitle", 2131625037, Integer.valueOf(messagesController.dialogFiltersChatsLimitPremium)), messagesController.dialogFiltersChatsLimitDefault, messagesController.dialogFiltersChatsLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("ConnectedAccountsLimitTitle", 2131625240), LocaleController.formatString("ConnectedAccountsLimitSubtitle", 2131625239, 4), 3, 4, null));
         this.rowCount = 0;
         int i2 = 0 + 1;
         this.rowCount = i2;
@@ -81,45 +80,43 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         this.rowCount = i2 + arrayList.size();
         TextView textView = new TextView(getContext());
         this.titleView = textView;
-        textView.setText(LocaleController.getString("DoubledLimits", R.string.DoubledLimits));
+        textView.setText(LocaleController.getString("DoubledLimits", 2131625547));
         this.titleView.setGravity(17);
         this.titleView.setTextSize(1, 20.0f);
         this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.titleLayout.addView(this.titleView, LayoutHelper.createFrame(-2, -2, 16));
         ImageView imageView = new ImageView(getContext());
         this.titleImage = imageView;
-        imageView.setImageDrawable(PremiumGradient.getInstance().createGradientDrawable(ContextCompat.getDrawable(getContext(), R.drawable.other_2x_large)));
+        imageView.setImageDrawable(PremiumGradient.getInstance().createGradientDrawable(ContextCompat.getDrawable(getContext(), 2131166025)));
         this.titleLayout.addView(this.titleImage, LayoutHelper.createFrame(40, 28, 16));
         this.containerView.addView(this.titleLayout, LayoutHelper.createFrame(-1, 40.0f));
-        View view = new View(this, getContext()) { // from class: org.telegram.ui.Components.Premium.DoubledLimitsBottomSheet.1
-            @Override // android.view.View
-            protected void onDraw(Canvas canvas) {
-                super.onDraw(canvas);
-                canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), 1.0f, Theme.dividerPaint);
-            }
-        };
-        this.divider = view;
-        view.setBackgroundColor(Theme.getColor("dialogBackground"));
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, getContext());
+        this.divider = anonymousClass1;
+        anonymousClass1.setBackgroundColor(Theme.getColor("dialogBackground"));
         this.containerView.addView(this.divider, LayoutHelper.createFrame(-1, 72.0f, 80, 0.0f, 0.0f, 0.0f, 0.0f));
         PremiumButtonView premiumButtonView = new PremiumButtonView(getContext(), true);
         this.premiumButtonView = premiumButtonView;
         premiumButtonView.buttonTextView.setText(PremiumPreviewFragment.getPremiumButtonText(i));
         this.containerView.addView(this.premiumButtonView, LayoutHelper.createFrame(-1, 48.0f, 80, 16.0f, 0.0f, 16.0f, 12.0f));
-        this.premiumButtonView.buttonLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.DoubledLimitsBottomSheet$$ExternalSyntheticLambda1
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view2) {
-                DoubledLimitsBottomSheet.this.lambda$new$0(i, baseFragment, view2);
-            }
-        });
-        this.premiumButtonView.overlayTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.DoubledLimitsBottomSheet$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view2) {
-                DoubledLimitsBottomSheet.this.lambda$new$1(view2);
-            }
-        });
+        this.premiumButtonView.buttonLayout.setOnClickListener(new DoubledLimitsBottomSheet$$ExternalSyntheticLambda1(this, i, baseFragment));
+        this.premiumButtonView.overlayTextView.setOnClickListener(new DoubledLimitsBottomSheet$$ExternalSyntheticLambda0(this));
         this.recyclerListView.setPadding(0, 0, 0, AndroidUtilities.dp(72.0f));
         bindPremium(UserConfig.getInstance(getCurrentAccount()).isPremium());
+    }
+
+    /* renamed from: org.telegram.ui.Components.Premium.DoubledLimitsBottomSheet$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends View {
+        AnonymousClass1(DoubledLimitsBottomSheet doubledLimitsBottomSheet, Context context) {
+            super(context);
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), 1.0f, Theme.dividerPaint);
+        }
     }
 
     public /* synthetic */ void lambda$new$0(int i, BaseFragment baseFragment, View view) {
@@ -135,11 +132,10 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
 
     private void bindPremium(boolean z) {
         if (z) {
-            this.premiumButtonView.setOverlayText(LocaleController.getString("OK", R.string.OK), false, false);
+            this.premiumButtonView.setOverlayText(LocaleController.getString("OK", 2131627127), false, false);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     public void onPreMeasure(int i, int i2) {
         super.onPreMeasure(i, i2);
@@ -204,59 +200,67 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         this.titleImage.setScaleY(f72);
     }
 
+    /* renamed from: org.telegram.ui.Components.Premium.DoubledLimitsBottomSheet$2 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass2 extends RecyclerListView.SelectionAdapter {
+        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
+        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
+            return false;
+        }
+
+        AnonymousClass2() {
+            DoubledLimitsBottomSheet.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            LimitCell limitCell;
+            Context context = viewGroup.getContext();
+            if (i == 1) {
+                limitCell = new FixedHeightEmptyCell(context, 64);
+            } else if (i != 2) {
+                LimitCell limitCell2 = new LimitCell(DoubledLimitsBottomSheet.this, context);
+                limitCell2.previewView.setParentViewForGradien(((BottomSheet) DoubledLimitsBottomSheet.this).containerView);
+                limitCell2.previewView.setStaticGradinet(DoubledLimitsBottomSheet.this.gradientTools);
+                limitCell = limitCell2;
+            } else {
+                limitCell = new FixedHeightEmptyCell(context, 16);
+            }
+            limitCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(limitCell);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            if (viewHolder.getItemViewType() == 0) {
+                LimitCell limitCell = (LimitCell) viewHolder.itemView;
+                DoubledLimitsBottomSheet doubledLimitsBottomSheet = DoubledLimitsBottomSheet.this;
+                limitCell.setData(doubledLimitsBottomSheet.limits.get(i - doubledLimitsBottomSheet.limitsStartRow));
+                LimitPreviewView limitPreviewView = limitCell.previewView;
+                DoubledLimitsBottomSheet doubledLimitsBottomSheet2 = DoubledLimitsBottomSheet.this;
+                limitPreviewView.gradientYOffset = doubledLimitsBottomSheet2.limits.get(i - doubledLimitsBottomSheet2.limitsStartRow).yOffset;
+                limitCell.previewView.gradientTotalHeight = DoubledLimitsBottomSheet.this.totalGradientHeight;
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemCount() {
+            return DoubledLimitsBottomSheet.this.rowCount;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public int getItemViewType(int i) {
+            DoubledLimitsBottomSheet doubledLimitsBottomSheet = DoubledLimitsBottomSheet.this;
+            if (i == doubledLimitsBottomSheet.headerRow) {
+                return 1;
+            }
+            return i == doubledLimitsBottomSheet.lastViewRow ? 2 : 0;
+        }
+    }
+
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected RecyclerListView.SelectionAdapter createAdapter() {
-        return new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.Premium.DoubledLimitsBottomSheet.2
-            @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
-            public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-                return false;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                LimitCell limitCell;
-                Context context = viewGroup.getContext();
-                if (i == 1) {
-                    limitCell = new FixedHeightEmptyCell(context, 64);
-                } else if (i != 2) {
-                    LimitCell limitCell2 = new LimitCell(DoubledLimitsBottomSheet.this, context);
-                    limitCell2.previewView.setParentViewForGradien(((BottomSheet) DoubledLimitsBottomSheet.this).containerView);
-                    limitCell2.previewView.setStaticGradinet(DoubledLimitsBottomSheet.this.gradientTools);
-                    limitCell = limitCell2;
-                } else {
-                    limitCell = new FixedHeightEmptyCell(context, 16);
-                }
-                limitCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                return new RecyclerListView.Holder(limitCell);
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-                if (viewHolder.getItemViewType() == 0) {
-                    LimitCell limitCell = (LimitCell) viewHolder.itemView;
-                    DoubledLimitsBottomSheet doubledLimitsBottomSheet = DoubledLimitsBottomSheet.this;
-                    limitCell.setData(doubledLimitsBottomSheet.limits.get(i - doubledLimitsBottomSheet.limitsStartRow));
-                    LimitPreviewView limitPreviewView = limitCell.previewView;
-                    DoubledLimitsBottomSheet doubledLimitsBottomSheet2 = DoubledLimitsBottomSheet.this;
-                    limitPreviewView.gradientYOffset = doubledLimitsBottomSheet2.limits.get(i - doubledLimitsBottomSheet2.limitsStartRow).yOffset;
-                    limitCell.previewView.gradientTotalHeight = DoubledLimitsBottomSheet.this.totalGradientHeight;
-                }
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemCount() {
-                return DoubledLimitsBottomSheet.this.rowCount;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public int getItemViewType(int i) {
-                DoubledLimitsBottomSheet doubledLimitsBottomSheet = DoubledLimitsBottomSheet.this;
-                if (i == doubledLimitsBottomSheet.headerRow) {
-                    return 1;
-                }
-                return i == doubledLimitsBottomSheet.lastViewRow ? 2 : 0;
-            }
-        };
+        return new AnonymousClass2();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
@@ -298,7 +302,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
             TextView textView = new TextView(context);
             this.title = textView;
             textView.setTextSize(1, 15.0f);
-            this.title.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.title.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             this.title.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             addView(this.title, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 16, 0, 16, 0));
             TextView textView2 = new TextView(context);
@@ -339,6 +343,10 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         final String subtitle;
         final String title;
         public int yOffset;
+
+        /* synthetic */ Limit(String str, String str2, int i, int i2, AnonymousClass1 anonymousClass1) {
+            this(str, str2, i, i2);
+        }
 
         private Limit(String str, String str2, int i, int i2) {
             this.title = str;

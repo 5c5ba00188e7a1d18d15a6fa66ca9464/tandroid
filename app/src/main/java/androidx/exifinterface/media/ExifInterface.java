@@ -1319,56 +1319,14 @@ public class ExifInterface {
         }
     }
 
-    private void getHeifAttributes(final SeekableByteOrderedDataInputStream seekableByteOrderedDataInputStream) throws IOException {
+    private void getHeifAttributes(SeekableByteOrderedDataInputStream seekableByteOrderedDataInputStream) throws IOException {
         String str;
         String str2;
         if (Build.VERSION.SDK_INT >= 28) {
             MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
             try {
                 try {
-                    ExifInterfaceUtils.Api23Impl.setDataSource(mediaMetadataRetriever, new MediaDataSource(this) { // from class: androidx.exifinterface.media.ExifInterface.1
-                        long mPosition;
-
-                        @Override // java.io.Closeable, java.lang.AutoCloseable
-                        public void close() throws IOException {
-                        }
-
-                        @Override // android.media.MediaDataSource
-                        public long getSize() throws IOException {
-                            return -1L;
-                        }
-
-                        @Override // android.media.MediaDataSource
-                        public int readAt(long j, byte[] bArr, int i, int i2) throws IOException {
-                            if (i2 == 0) {
-                                return 0;
-                            }
-                            if (j < 0) {
-                                return -1;
-                            }
-                            try {
-                                long j2 = this.mPosition;
-                                if (j2 != j) {
-                                    if (j2 >= 0 && j >= j2 + seekableByteOrderedDataInputStream.available()) {
-                                        return -1;
-                                    }
-                                    seekableByteOrderedDataInputStream.seek(j);
-                                    this.mPosition = j;
-                                }
-                                if (i2 > seekableByteOrderedDataInputStream.available()) {
-                                    i2 = seekableByteOrderedDataInputStream.available();
-                                }
-                                int read = seekableByteOrderedDataInputStream.read(bArr, i, i2);
-                                if (read >= 0) {
-                                    this.mPosition += read;
-                                    return read;
-                                }
-                            } catch (IOException unused) {
-                            }
-                            this.mPosition = -1L;
-                            return -1;
-                        }
-                    });
+                    ExifInterfaceUtils.Api23Impl.setDataSource(mediaMetadataRetriever, new AnonymousClass1(this, seekableByteOrderedDataInputStream));
                     String extractMetadata = mediaMetadataRetriever.extractMetadata(33);
                     String extractMetadata2 = mediaMetadataRetriever.extractMetadata(34);
                     String extractMetadata3 = mediaMetadataRetriever.extractMetadata(26);
@@ -1439,6 +1397,57 @@ public class ExifInterface {
             }
         }
         throw new UnsupportedOperationException("Reading EXIF from HEIF files is supported from SDK 28 and above");
+    }
+
+    /* renamed from: androidx.exifinterface.media.ExifInterface$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 extends MediaDataSource {
+        long mPosition;
+        final /* synthetic */ SeekableByteOrderedDataInputStream val$in;
+
+        @Override // java.io.Closeable, java.lang.AutoCloseable
+        public void close() throws IOException {
+        }
+
+        @Override // android.media.MediaDataSource
+        public long getSize() throws IOException {
+            return -1L;
+        }
+
+        AnonymousClass1(ExifInterface exifInterface, SeekableByteOrderedDataInputStream seekableByteOrderedDataInputStream) {
+            this.val$in = seekableByteOrderedDataInputStream;
+        }
+
+        @Override // android.media.MediaDataSource
+        public int readAt(long j, byte[] bArr, int i, int i2) throws IOException {
+            if (i2 == 0) {
+                return 0;
+            }
+            if (j < 0) {
+                return -1;
+            }
+            try {
+                long j2 = this.mPosition;
+                if (j2 != j) {
+                    if (j2 >= 0 && j >= j2 + this.val$in.available()) {
+                        return -1;
+                    }
+                    this.val$in.seek(j);
+                    this.mPosition = j;
+                }
+                if (i2 > this.val$in.available()) {
+                    i2 = this.val$in.available();
+                }
+                int read = this.val$in.read(bArr, i, i2);
+                if (read >= 0) {
+                    this.mPosition += read;
+                    return read;
+                }
+            } catch (IOException unused) {
+            }
+            this.mPosition = -1L;
+            return -1;
+        }
     }
 
     private void getStandaloneAttributes(SeekableByteOrderedDataInputStream seekableByteOrderedDataInputStream) throws IOException {

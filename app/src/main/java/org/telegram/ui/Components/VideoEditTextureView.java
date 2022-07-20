@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.TextureView;
-import org.telegram.ui.Components.FilterGLThread;
 /* loaded from: classes3.dex */
 public class VideoEditTextureView extends TextureView implements TextureView.SurfaceTextureListener {
     private VideoPlayer currentVideoPlayer;
@@ -65,12 +64,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
         if (this.eglThread != null || surfaceTexture == null || this.currentVideoPlayer == null) {
             return;
         }
-        FilterGLThread filterGLThread = new FilterGLThread(surfaceTexture, new FilterGLThread.FilterGLThreadVideoDelegate() { // from class: org.telegram.ui.Components.VideoEditTextureView$$ExternalSyntheticLambda1
-            @Override // org.telegram.ui.Components.FilterGLThread.FilterGLThreadVideoDelegate
-            public final void onVideoSurfaceCreated(SurfaceTexture surfaceTexture2) {
-                VideoEditTextureView.this.lambda$onSurfaceTextureAvailable$0(surfaceTexture2);
-            }
-        });
+        FilterGLThread filterGLThread = new FilterGLThread(surfaceTexture, new VideoEditTextureView$$ExternalSyntheticLambda1(this));
         this.eglThread = filterGLThread;
         int i4 = this.videoWidth;
         if (i4 != 0 && (i3 = this.videoHeight) != 0) {
@@ -98,12 +92,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
         if (filterGLThread != null) {
             filterGLThread.setSurfaceTextureSize(i, i2);
             this.eglThread.requestRender(false, true, false);
-            this.eglThread.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.VideoEditTextureView$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    VideoEditTextureView.this.lambda$onSurfaceTextureSizeChanged$1();
-                }
-            });
+            this.eglThread.postRunnable(new VideoEditTextureView$$ExternalSyntheticLambda0(this));
         }
     }
 

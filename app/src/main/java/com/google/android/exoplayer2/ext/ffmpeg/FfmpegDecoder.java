@@ -9,7 +9,6 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import java.util.List;
-import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 final class FfmpegDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBuffer, FfmpegDecoderException> {
     private static final int DECODER_ERROR_INVALID_DATA = -1;
@@ -45,7 +44,7 @@ final class FfmpegDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutput
         byte[] extraData = getExtraData(format.sampleMimeType, format.initializationData);
         this.extraData = extraData;
         this.encoding = z ? 4 : 2;
-        this.outputBufferSize = z ? OUTPUT_BUFFER_SIZE_32BIT : 65536;
+        this.outputBufferSize = z ? 131072 : 65536;
         long ffmpegInitialize = ffmpegInitialize(str, extraData, z, format.sampleRate, format.channelCount);
         this.nativeContext = ffmpegInitialize;
         if (ffmpegInitialize == 0) {
@@ -139,7 +138,7 @@ final class FfmpegDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutput
                 }
                 break;
             case -53558318:
-                if (str.equals(MediaController.AUIDO_MIME_TYPE)) {
+                if (str.equals("audio/mp4a-latm")) {
                     c = 1;
                     break;
                 }

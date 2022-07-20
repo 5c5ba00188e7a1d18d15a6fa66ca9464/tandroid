@@ -1,6 +1,4 @@
 package com.google.android.gms.common.api;
-
-import org.telegram.messenger.R;
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
 public class CommonStatusCodes {
@@ -49,11 +47,11 @@ public class CommonStatusCodes {
                 return "DEAD_CLIENT";
             case 19:
                 return "REMOTE_EXCEPTION";
-            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+            case 20:
                 return "CONNECTION_SUSPENDED_DURING_CALL";
             case 21:
                 return "RECONNECTION_TIMED_OUT_DURING_UPDATE";
-            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+            case 22:
                 return "RECONNECTION_TIMED_OUT";
         }
     }

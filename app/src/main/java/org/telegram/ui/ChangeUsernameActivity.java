@@ -27,9 +27,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_account_checkUsername;
 import org.telegram.tgnet.TLRPC$TL_account_updateUsername;
@@ -95,6 +93,10 @@ public class ChangeUsernameActivity extends BaseFragment {
         private LinkMovementMethodMy() {
         }
 
+        /* synthetic */ LinkMovementMethodMy(AnonymousClass1 anonymousClass1) {
+            this();
+        }
+
         @Override // android.text.method.LinkMovementMethod, android.text.method.ScrollingMovementMethod, android.text.method.BaseMovementMethod, android.text.method.MovementMethod
         public boolean onTouchEvent(TextView textView, Spannable spannable, MotionEvent motionEvent) {
             try {
@@ -113,21 +115,11 @@ public class ChangeUsernameActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         String str;
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("Username", R.string.Username));
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ChangeUsernameActivity.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    ChangeUsernameActivity.this.finishFragment();
-                } else if (i != 1) {
-                } else {
-                    ChangeUsernameActivity.this.saveName();
-                }
-            }
-        });
-        this.doneButton = this.actionBar.createMenu().addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", R.string.Done));
+        this.actionBar.setTitle(LocaleController.getString("Username", 2131628915));
+        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.doneButton = this.actionBar.createMenu().addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", 2131625541));
         TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).getClientUserId()));
         if (user == null) {
             user = UserConfig.getInstance(this.currentAccount).getCurrentUser();
@@ -151,52 +143,12 @@ public class ChangeUsernameActivity extends BaseFragment {
         this.firstNameField.setGravity(LocaleController.isRTL ? 5 : 3);
         this.firstNameField.setInputType(180224);
         this.firstNameField.setImeOptions(6);
-        this.firstNameField.setHint(LocaleController.getString("UsernamePlaceholder", R.string.UsernamePlaceholder));
+        this.firstNameField.setHint(LocaleController.getString("UsernamePlaceholder", 2131628927));
         this.firstNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.firstNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.firstNameField.setCursorWidth(1.5f);
-        this.firstNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda2
-            @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean lambda$createView$1;
-                lambda$createView$1 = ChangeUsernameActivity.this.lambda$createView$1(textView, i, keyEvent);
-                return lambda$createView$1;
-            }
-        });
-        this.firstNameField.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.ChangeUsernameActivity.2
-            @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            }
-
-            @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                if (ChangeUsernameActivity.this.ignoreCheck) {
-                    return;
-                }
-                ChangeUsernameActivity changeUsernameActivity = ChangeUsernameActivity.this;
-                changeUsernameActivity.checkUserName(changeUsernameActivity.firstNameField.getText().toString(), false);
-            }
-
-            @Override // android.text.TextWatcher
-            public void afterTextChanged(Editable editable) {
-                String obj = ChangeUsernameActivity.this.firstNameField.getText().toString();
-                if (obj.startsWith("@")) {
-                    obj = obj.substring(1);
-                }
-                if (obj.length() <= 0) {
-                    ChangeUsernameActivity.this.helpTextView.setText(ChangeUsernameActivity.this.infoText);
-                    return;
-                }
-                String str2 = "https://" + MessagesController.getInstance(((BaseFragment) ChangeUsernameActivity.this).currentAccount).linkPrefix + "/" + obj;
-                String formatString = LocaleController.formatString("UsernameHelpLink", R.string.UsernameHelpLink, str2);
-                int indexOf = formatString.indexOf(str2);
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(formatString);
-                if (indexOf >= 0) {
-                    spannableStringBuilder.setSpan(new LinkSpan(str2), indexOf, str2.length() + indexOf, 33);
-                }
-                ChangeUsernameActivity.this.helpTextView.setText(TextUtils.concat(ChangeUsernameActivity.this.infoText, "\n\n", spannableStringBuilder));
-            }
-        });
+        this.firstNameField.setOnEditorActionListener(new ChangeUsernameActivity$$ExternalSyntheticLambda2(this));
+        this.firstNameField.addTextChangedListener(new AnonymousClass2());
         linearLayout2.addView(this.firstNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 24.0f, 24.0f, 0.0f));
         TextView textView = new TextView(context);
         this.checkTextView = textView;
@@ -209,12 +161,12 @@ public class ChangeUsernameActivity extends BaseFragment {
         this.helpTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText8"));
         this.helpTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         TextView textView3 = this.helpTextView;
-        SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString("UsernameHelp", R.string.UsernameHelp));
+        SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString("UsernameHelp", 2131628920));
         this.infoText = replaceTags;
         textView3.setText(replaceTags);
         this.helpTextView.setLinkTextColor(Theme.getColor("windowBackgroundWhiteLinkText"));
         this.helpTextView.setHighlightColor(Theme.getColor("windowBackgroundWhiteLinkSelection"));
-        this.helpTextView.setMovementMethod(new LinkMovementMethodMy());
+        this.helpTextView.setMovementMethod(new LinkMovementMethodMy(null));
         linearLayout2.addView(this.helpTextView, LayoutHelper.createLinear(-2, -2, LocaleController.isRTL ? 5 : 3, 24, 10, 24, 0));
         this.checkTextView.setVisibility(8);
         if (user != null && (str = user.username) != null && str.length() > 0) {
@@ -227,6 +179,24 @@ public class ChangeUsernameActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* renamed from: org.telegram.ui.ChangeUsernameActivity$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
+        AnonymousClass1() {
+            ChangeUsernameActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+        public void onItemClick(int i) {
+            if (i == -1) {
+                ChangeUsernameActivity.this.finishFragment();
+            } else if (i != 1) {
+            } else {
+                ChangeUsernameActivity.this.saveName();
+            }
+        }
+    }
+
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
         View view;
         if (i != 6 || (view = this.doneButton) == null) {
@@ -234,6 +204,47 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
         view.performClick();
         return true;
+    }
+
+    /* renamed from: org.telegram.ui.ChangeUsernameActivity$2 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass2 implements TextWatcher {
+        @Override // android.text.TextWatcher
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        AnonymousClass2() {
+            ChangeUsernameActivity.this = r1;
+        }
+
+        @Override // android.text.TextWatcher
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            if (ChangeUsernameActivity.this.ignoreCheck) {
+                return;
+            }
+            ChangeUsernameActivity changeUsernameActivity = ChangeUsernameActivity.this;
+            changeUsernameActivity.checkUserName(changeUsernameActivity.firstNameField.getText().toString(), false);
+        }
+
+        @Override // android.text.TextWatcher
+        public void afterTextChanged(Editable editable) {
+            String obj = ChangeUsernameActivity.this.firstNameField.getText().toString();
+            if (obj.startsWith("@")) {
+                obj = obj.substring(1);
+            }
+            if (obj.length() <= 0) {
+                ChangeUsernameActivity.this.helpTextView.setText(ChangeUsernameActivity.this.infoText);
+                return;
+            }
+            String str = "https://" + MessagesController.getInstance(((BaseFragment) ChangeUsernameActivity.this).currentAccount).linkPrefix + "/" + obj;
+            String formatString = LocaleController.formatString("UsernameHelpLink", 2131628921, str);
+            int indexOf = formatString.indexOf(str);
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(formatString);
+            if (indexOf >= 0) {
+                spannableStringBuilder.setSpan(new LinkSpan(str), indexOf, str.length() + indexOf, 33);
+            }
+            ChangeUsernameActivity.this.helpTextView.setText(TextUtils.concat(ChangeUsernameActivity.this.infoText, "\n\n", spannableStringBuilder));
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -245,7 +256,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
     }
 
-    public boolean checkUserName(final String str, boolean z) {
+    public boolean checkUserName(String str, boolean z) {
         if (str != null && str.startsWith("@")) {
             str = str.substring(1);
         }
@@ -266,7 +277,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             }
             if (str != null) {
                 if (str.startsWith("_") || str.endsWith("_")) {
-                    this.checkTextView.setText(LocaleController.getString("UsernameInvalid", R.string.UsernameInvalid));
+                    this.checkTextView.setText(LocaleController.getString("UsernameInvalid", 2131628923));
                     this.checkTextView.setTag("windowBackgroundWhiteRedText4");
                     this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
                     return false;
@@ -275,18 +286,18 @@ public class ChangeUsernameActivity extends BaseFragment {
                     char charAt = str.charAt(i);
                     if (i == 0 && charAt >= '0' && charAt <= '9') {
                         if (z) {
-                            AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidStartNumber", R.string.UsernameInvalidStartNumber));
+                            AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidStartNumber", 2131628926));
                         } else {
-                            this.checkTextView.setText(LocaleController.getString("UsernameInvalidStartNumber", R.string.UsernameInvalidStartNumber));
+                            this.checkTextView.setText(LocaleController.getString("UsernameInvalidStartNumber", 2131628926));
                             this.checkTextView.setTag("windowBackgroundWhiteRedText4");
                             this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
                         }
                         return false;
                     } else if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && ((charAt < 'A' || charAt > 'Z') && charAt != '_'))) {
                         if (z) {
-                            AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalid", R.string.UsernameInvalid));
+                            AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalid", 2131628923));
                         } else {
-                            this.checkTextView.setText(LocaleController.getString("UsernameInvalid", R.string.UsernameInvalid));
+                            this.checkTextView.setText(LocaleController.getString("UsernameInvalid", 2131628923));
                             this.checkTextView.setTag("windowBackgroundWhiteRedText4");
                             this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
                         }
@@ -296,18 +307,18 @@ public class ChangeUsernameActivity extends BaseFragment {
             }
             if (str == null || str.length() < 5) {
                 if (z) {
-                    AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidShort", R.string.UsernameInvalidShort));
+                    AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidShort", 2131628925));
                 } else {
-                    this.checkTextView.setText(LocaleController.getString("UsernameInvalidShort", R.string.UsernameInvalidShort));
+                    this.checkTextView.setText(LocaleController.getString("UsernameInvalidShort", 2131628925));
                     this.checkTextView.setTag("windowBackgroundWhiteRedText4");
                     this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
                 }
                 return false;
             } else if (str.length() > 32) {
                 if (z) {
-                    AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidLong", R.string.UsernameInvalidLong));
+                    AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidLong", 2131628924));
                 } else {
-                    this.checkTextView.setText(LocaleController.getString("UsernameInvalidLong", R.string.UsernameInvalidLong));
+                    this.checkTextView.setText(LocaleController.getString("UsernameInvalidLong", 2131628924));
                     this.checkTextView.setTag("windowBackgroundWhiteRedText4");
                     this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
                 }
@@ -319,23 +330,18 @@ public class ChangeUsernameActivity extends BaseFragment {
                         str2 = "";
                     }
                     if (str.equals(str2)) {
-                        this.checkTextView.setText(LocaleController.formatString("UsernameAvailable", R.string.UsernameAvailable, str));
+                        this.checkTextView.setText(LocaleController.formatString("UsernameAvailable", 2131628916, str));
                         this.checkTextView.setTag("windowBackgroundWhiteGreenText");
                         this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGreenText"));
                         return true;
                     }
-                    this.checkTextView.setText(LocaleController.getString("UsernameChecking", R.string.UsernameChecking));
+                    this.checkTextView.setText(LocaleController.getString("UsernameChecking", 2131628917));
                     this.checkTextView.setTag("windowBackgroundWhiteGrayText8");
                     this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText8"));
                     this.lastCheckName = str;
-                    Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda3
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            ChangeUsernameActivity.this.lambda$checkUserName$4(str);
-                        }
-                    };
-                    this.checkRunnable = runnable2;
-                    AndroidUtilities.runOnUIThread(runnable2, 300L);
+                    ChangeUsernameActivity$$ExternalSyntheticLambda3 changeUsernameActivity$$ExternalSyntheticLambda3 = new ChangeUsernameActivity$$ExternalSyntheticLambda3(this, str);
+                    this.checkRunnable = changeUsernameActivity$$ExternalSyntheticLambda3;
+                    AndroidUtilities.runOnUIThread(changeUsernameActivity$$ExternalSyntheticLambda3, 300L);
                 }
                 return true;
             }
@@ -343,24 +349,14 @@ public class ChangeUsernameActivity extends BaseFragment {
         return true;
     }
 
-    public /* synthetic */ void lambda$checkUserName$4(final String str) {
+    public /* synthetic */ void lambda$checkUserName$4(String str) {
         TLRPC$TL_account_checkUsername tLRPC$TL_account_checkUsername = new TLRPC$TL_account_checkUsername();
         tLRPC$TL_account_checkUsername.username = str;
-        this.checkReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_checkUsername, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda7
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChangeUsernameActivity.this.lambda$checkUserName$3(str, tLObject, tLRPC$TL_error);
-            }
-        }, 2);
+        this.checkReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_checkUsername, new ChangeUsernameActivity$$ExternalSyntheticLambda7(this, str), 2);
     }
 
-    public /* synthetic */ void lambda$checkUserName$3(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda4
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChangeUsernameActivity.this.lambda$checkUserName$2(str, tLRPC$TL_error, tLObject);
-            }
-        });
+    public /* synthetic */ void lambda$checkUserName$3(String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new ChangeUsernameActivity$$ExternalSyntheticLambda4(this, str, tLRPC$TL_error, tLObject));
     }
 
     public /* synthetic */ void lambda$checkUserName$2(String str, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
@@ -370,12 +366,12 @@ public class ChangeUsernameActivity extends BaseFragment {
             return;
         }
         if (tLRPC$TL_error == null && (tLObject instanceof TLRPC$TL_boolTrue)) {
-            this.checkTextView.setText(LocaleController.formatString("UsernameAvailable", R.string.UsernameAvailable, str));
+            this.checkTextView.setText(LocaleController.formatString("UsernameAvailable", 2131628916, str));
             this.checkTextView.setTag("windowBackgroundWhiteGreenText");
             this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGreenText"));
             return;
         }
-        this.checkTextView.setText(LocaleController.getString("UsernameInUse", R.string.UsernameInUse));
+        this.checkTextView.setText(LocaleController.getString("UsernameInUse", 2131628922));
         this.checkTextView.setTag("windowBackgroundWhiteRedText4");
         this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
     }
@@ -400,43 +396,22 @@ public class ChangeUsernameActivity extends BaseFragment {
             finishFragment();
             return;
         }
-        final AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
-        final TLRPC$TL_account_updateUsername tLRPC$TL_account_updateUsername = new TLRPC$TL_account_updateUsername();
+        AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
+        TLRPC$TL_account_updateUsername tLRPC$TL_account_updateUsername = new TLRPC$TL_account_updateUsername();
         tLRPC$TL_account_updateUsername.username = obj;
         NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
-        final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateUsername, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda8
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChangeUsernameActivity.this.lambda$saveName$7(alertDialog, tLRPC$TL_account_updateUsername, tLObject, tLRPC$TL_error);
-            }
-        }, 2);
+        int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateUsername, new ChangeUsernameActivity$$ExternalSyntheticLambda8(this, alertDialog, tLRPC$TL_account_updateUsername), 2);
         ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(sendRequest, this.classGuid);
-        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnCancelListener
-            public final void onCancel(DialogInterface dialogInterface) {
-                ChangeUsernameActivity.this.lambda$saveName$8(sendRequest, dialogInterface);
-            }
-        });
+        alertDialog.setOnCancelListener(new ChangeUsernameActivity$$ExternalSyntheticLambda0(this, sendRequest));
         alertDialog.show();
     }
 
-    public /* synthetic */ void lambda$saveName$7(final AlertDialog alertDialog, final TLRPC$TL_account_updateUsername tLRPC$TL_account_updateUsername, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$saveName$7(AlertDialog alertDialog, TLRPC$TL_account_updateUsername tLRPC$TL_account_updateUsername, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
-            final TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChangeUsernameActivity.this.lambda$saveName$5(alertDialog, tLRPC$User);
-                }
-            });
-            return;
+            AndroidUtilities.runOnUIThread(new ChangeUsernameActivity$$ExternalSyntheticLambda6(this, alertDialog, (TLRPC$User) tLObject));
+        } else {
+            AndroidUtilities.runOnUIThread(new ChangeUsernameActivity$$ExternalSyntheticLambda5(this, alertDialog, tLRPC$TL_error, tLRPC$TL_account_updateUsername));
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChangeUsernameActivity.this.lambda$saveName$6(alertDialog, tLRPC$TL_error, tLRPC$TL_account_updateUsername);
-            }
-        });
     }
 
     public /* synthetic */ void lambda$saveName$5(AlertDialog alertDialog, TLRPC$User tLRPC$User) {

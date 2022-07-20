@@ -33,19 +33,19 @@ public final class AccountPicker {
 
     public static Intent newChooseAccountIntent(Account account, ArrayList<Account> arrayList, String[] strArr, boolean z, String str, String str2, String[] strArr2, Bundle bundle) {
         Intent intent = new Intent();
-        intent.setAction(CHOOSE_ACCOUNT);
+        intent.setAction("com.huawei.hms.common.account.CHOOSE_ACCOUNT");
         intent.setPackage("com.huawei.hms");
-        intent.putExtra(EXTRA_ALLOWABLE_ACCOUNTS_ARRAYLIST, arrayList);
-        intent.putExtra(EXTRA_ALLOWABLE_ACCOUNT_TYPES_STRING_ARRAY, strArr);
-        intent.putExtra(EXTRA_ADD_ACCOUNT_OPTIONS_BUNDLE, bundle);
-        intent.putExtra(EXTRA_SELECTED_ACCOUNT, account);
-        intent.putExtra(EXTRA_ALWAYS_PROMPT_FOR_ACCOUNT, z);
-        intent.putExtra(EXTRA_DESCRIPTION_TEXT_OVERRIDE, str);
-        intent.putExtra(EXTRA_ADD_ACCOUNT_AUTH_TOKEN_TYPE_STRING, str2);
-        intent.putExtra(EXTRA_ADD_ACCOUNT_REQUIRED_FEATURES_STRING_ARRAY, strArr2);
-        intent.putExtra(EXTRA_SET_HMS_CORE_ACCOUNT, false);
-        intent.putExtra(EXTRA_OVERRIDE_THEME, 0);
-        intent.putExtra(EXTRA_OVERRIDE_CUSTOM_THEME, 0);
+        intent.putExtra("allowableAccounts", arrayList);
+        intent.putExtra("allowableAccountTypes", strArr);
+        intent.putExtra("addAccountOptions", bundle);
+        intent.putExtra("selectedAccount", account);
+        intent.putExtra("alwaysPromptForAccount", z);
+        intent.putExtra("descriptionTextOverride", str);
+        intent.putExtra("authTokenType", str2);
+        intent.putExtra("addAccountRequiredFeatures", strArr2);
+        intent.putExtra("setHmsCoreAccount", false);
+        intent.putExtra("overrideTheme", 0);
+        intent.putExtra("overrideCustomTheme", 0);
         return intent;
     }
 }

@@ -34,19 +34,9 @@ public class EditTextEffects extends EditText {
     private boolean shouldRevealSpoilersByTouch = true;
     private Path path = new Path();
     private Layout lastLayout = null;
-    private Runnable spoilerTimeout = new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda4
-        @Override // java.lang.Runnable
-        public final void run() {
-            EditTextEffects.this.lambda$new$2();
-        }
-    };
+    private Runnable spoilerTimeout = new EditTextEffects$$ExternalSyntheticLambda4(this);
     private android.graphics.Rect rect = new android.graphics.Rect();
-    private SpoilersClickDetector clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda5
-        @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
-        public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
-            EditTextEffects.this.onSpoilerClicked(spoilerEffect, f, f2);
-        }
-    });
+    private SpoilersClickDetector clickDetector = new SpoilersClickDetector(this, this.spoilers, new EditTextEffects$$ExternalSyntheticLambda5(this));
 
     public /* synthetic */ void lambda$new$2() {
         this.postedSpoilerTimeout = false;
@@ -55,12 +45,7 @@ public class EditTextEffects extends EditText {
         if (this.spoilers.isEmpty()) {
             return;
         }
-        this.spoilers.get(0).setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                EditTextEffects.this.lambda$new$1();
-            }
-        });
+        this.spoilers.get(0).setOnRippleEndCallback(new EditTextEffects$$ExternalSyntheticLambda0(this));
         float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
         for (SpoilerEffect spoilerEffect : this.spoilers) {
             spoilerEffect.startRipple(this.lastRippleX, this.lastRippleY, sqrt, true);
@@ -72,12 +57,7 @@ public class EditTextEffects extends EditText {
     }
 
     public /* synthetic */ void lambda$new$1() {
-        post(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                EditTextEffects.this.lambda$new$0();
-            }
-        });
+        post(new EditTextEffects$$ExternalSyntheticLambda1(this));
     }
 
     public EditTextEffects(Context context) {
@@ -93,12 +73,7 @@ public class EditTextEffects extends EditText {
         this.postedSpoilerTimeout = false;
         removeCallbacks(this.spoilerTimeout);
         setSpoilersRevealed(true, false);
-        spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                EditTextEffects.this.lambda$onSpoilerClicked$4();
-            }
-        });
+        spoilerEffect.setOnRippleEndCallback(new EditTextEffects$$ExternalSyntheticLambda2(this));
         float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
         for (SpoilerEffect spoilerEffect2 : this.spoilers) {
             spoilerEffect2.startRipple(f, f2, sqrt);
@@ -106,12 +81,7 @@ public class EditTextEffects extends EditText {
     }
 
     public /* synthetic */ void lambda$onSpoilerClicked$4() {
-        post(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda3
-            @Override // java.lang.Runnable
-            public final void run() {
-                EditTextEffects.this.lambda$onSpoilerClicked$3();
-            }
-        });
+        post(new EditTextEffects$$ExternalSyntheticLambda3(this));
     }
 
     public /* synthetic */ void lambda$onSpoilerClicked$3() {

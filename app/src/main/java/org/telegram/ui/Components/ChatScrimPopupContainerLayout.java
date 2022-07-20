@@ -6,7 +6,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
-import org.telegram.ui.Components.PopupSwipeBackLayout;
 /* loaded from: classes3.dex */
 public class ChatScrimPopupContainerLayout extends LinearLayout {
     private View bottomView;
@@ -72,21 +71,11 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
         this.reactionsLayout = reactionsContainerLayout;
     }
 
-    public void setPopupWindowLayout(final ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout) {
+    public void setPopupWindowLayout(ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout) {
         this.popupWindowLayout = actionBarPopupWindowLayout;
-        actionBarPopupWindowLayout.setOnSizeChangedListener(new ActionBarPopupWindow.onSizeChangedListener() { // from class: org.telegram.ui.Components.ChatScrimPopupContainerLayout$$ExternalSyntheticLambda0
-            @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.onSizeChangedListener
-            public final void onSizeChanged() {
-                ChatScrimPopupContainerLayout.this.lambda$setPopupWindowLayout$0(actionBarPopupWindowLayout);
-            }
-        });
+        actionBarPopupWindowLayout.setOnSizeChangedListener(new ChatScrimPopupContainerLayout$$ExternalSyntheticLambda0(this, actionBarPopupWindowLayout));
         if (actionBarPopupWindowLayout.getSwipeBack() != null) {
-            actionBarPopupWindowLayout.getSwipeBack().addOnSwipeBackProgressListener(new PopupSwipeBackLayout.OnSwipeBackProgressListener() { // from class: org.telegram.ui.Components.ChatScrimPopupContainerLayout$$ExternalSyntheticLambda1
-                @Override // org.telegram.ui.Components.PopupSwipeBackLayout.OnSwipeBackProgressListener
-                public final void onSwipeBackProgress(PopupSwipeBackLayout popupSwipeBackLayout, float f, float f2) {
-                    ChatScrimPopupContainerLayout.this.lambda$setPopupWindowLayout$1(popupSwipeBackLayout, f, f2);
-                }
-            });
+            actionBarPopupWindowLayout.getSwipeBack().addOnSwipeBackProgressListener(new ChatScrimPopupContainerLayout$$ExternalSyntheticLambda1(this));
         }
     }
 

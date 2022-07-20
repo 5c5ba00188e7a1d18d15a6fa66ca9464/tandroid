@@ -58,23 +58,7 @@ public final class zzcv {
     }
 
     public final void zza(zzy$zzad.zza zzaVar, zzaj zzajVar) {
-        MLTaskExecutor.workerThreadExecutor().execute(new Runnable(this, zzaVar, zzajVar) { // from class: com.google.android.gms.internal.mlkit_language_id.zzcw
-            private final zzcv zza;
-            private final zzy$zzad.zza zzb;
-            private final zzaj zzc;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-                this.zzb = zzaVar;
-                this.zzc = zzajVar;
-            }
-
-            @Override // java.lang.Runnable
-            public final void run() {
-                this.zza.zzb(this.zzb, this.zzc);
-            }
-        });
+        MLTaskExecutor.workerThreadExecutor().execute(new zzcw(this, zzaVar, zzajVar));
     }
 
     public final void zza(zza zzaVar, zzaj zzajVar) {

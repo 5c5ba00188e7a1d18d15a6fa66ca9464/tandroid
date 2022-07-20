@@ -5,7 +5,6 @@ import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.internal.zbm;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtilLight;
 import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.common.api.internal.ApiExceptionMapper;
 import com.google.android.gms.common.internal.PendingResultUtil;
@@ -24,7 +23,7 @@ public class GoogleSignInClient extends GoogleApi<GoogleSignInOptions> {
         if (zba == 1) {
             Context applicationContext = getApplicationContext();
             GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
-            int isGooglePlayServicesAvailable = googleApiAvailability.isGooglePlayServicesAvailable(applicationContext, GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE);
+            int isGooglePlayServicesAvailable = googleApiAvailability.isGooglePlayServicesAvailable(applicationContext, 12451000);
             if (isGooglePlayServicesAvailable == 0) {
                 zba = 4;
             } else if (googleApiAvailability.getErrorResolutionIntent(applicationContext, isGooglePlayServicesAvailable, null) != null || DynamiteModule.getLocalVersion(applicationContext, "com.google.android.gms.auth.api.fallback") == 0) {

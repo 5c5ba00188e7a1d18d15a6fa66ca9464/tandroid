@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.RandomAccessFile;
@@ -12,17 +11,17 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$InputEncryptedFile;
 import org.telegram.tgnet.TLRPC$InputFile;
 import org.telegram.tgnet.TLRPC$TL_boolTrue;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_inputEncryptedFileBigUploaded;
+import org.telegram.tgnet.TLRPC$TL_inputEncryptedFileUploaded;
 import org.telegram.tgnet.TLRPC$TL_inputFile;
 import org.telegram.tgnet.TLRPC$TL_inputFileBig;
 import org.telegram.tgnet.TLRPC$TL_upload_saveBigFilePart;
 import org.telegram.tgnet.TLRPC$TL_upload_saveFilePart;
-import org.telegram.tgnet.WriteToSocketDelegate;
 /* loaded from: classes.dex */
 public class FileUploadOperation {
     private static final int initialRequestsCount = 8;
@@ -69,7 +68,7 @@ public class FileUploadOperation {
     private int uploadStartTime;
     private long uploadedBytesCount;
     private String uploadingFilePath;
-    private int uploadChunkSize = CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
+    private int uploadChunkSize = 65536;
     private SparseIntArray requestTokens = new SparseIntArray();
     private SparseArray<UploadCachedResult> cachedResults = new SparseArray<>();
 
@@ -113,12 +112,7 @@ public class FileUploadOperation {
             return;
         }
         this.state = 1;
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                FileUploadOperation.this.lambda$start$0();
-            }
-        });
+        Utilities.stageQueue.postRunnable(new FileUploadOperation$$ExternalSyntheticLambda2(this));
     }
 
     public /* synthetic */ void lambda$start$0() {
@@ -133,16 +127,11 @@ public class FileUploadOperation {
         }
     }
 
-    public void onNetworkChanged(final boolean z) {
+    public void onNetworkChanged(boolean z) {
         if (this.state != 1) {
             return;
         }
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda4
-            @Override // java.lang.Runnable
-            public final void run() {
-                FileUploadOperation.this.lambda$onNetworkChanged$1(z);
-            }
-        });
+        Utilities.stageQueue.postRunnable(new FileUploadOperation$$ExternalSyntheticLambda4(this, z));
     }
 
     public /* synthetic */ void lambda$onNetworkChanged$1(boolean z) {
@@ -192,12 +181,7 @@ public class FileUploadOperation {
             return;
         }
         this.state = 2;
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                FileUploadOperation.this.lambda$cancel$2();
-            }
-        });
+        Utilities.stageQueue.postRunnable(new FileUploadOperation$$ExternalSyntheticLambda0(this));
         this.delegate.didFailedUploadingFile(this);
         cleanup();
     }
@@ -232,13 +216,8 @@ public class FileUploadOperation {
         }
     }
 
-    public void checkNewDataAvailable(final long j, final long j2) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda3
-            @Override // java.lang.Runnable
-            public final void run() {
-                FileUploadOperation.this.lambda$checkNewDataAvailable$3(j2, j);
-            }
-        });
+    public void checkNewDataAvailable(long j, long j2) {
+        Utilities.stageQueue.postRunnable(new FileUploadOperation$$ExternalSyntheticLambda3(this, j2, j));
     }
 
     public /* synthetic */ void lambda$checkNewDataAvailable$3(long j, long j2) {
@@ -306,7 +285,7 @@ public class FileUploadOperation {
         int i;
         byte[] bArr;
         TLRPC$TL_upload_saveFilePart tLRPC$TL_upload_saveFilePart;
-        final int i2;
+        int i2;
         int i3;
         boolean z;
         boolean z2;
@@ -334,7 +313,7 @@ public class FileUploadOperation {
                     this.isBigFile = true;
                 }
                 long j2 = MessagesController.getInstance(this.currentAccount).uploadMaxFileParts;
-                if (AccountInstance.getInstance(this.currentAccount).getUserConfig().isPremium() && this.totalFileSize > FileLoader.DEFAULT_MAX_FILE_SIZE) {
+                if (AccountInstance.getInstance(this.currentAccount).getUserConfig().isPremium() && this.totalFileSize > 2097152000) {
                     j2 = MessagesController.getInstance(this.currentAccount).uploadMaxFilePartsPremium;
                 }
                 long j3 = j2 * 1024;
@@ -347,7 +326,7 @@ public class FileUploadOperation {
                     }
                     this.uploadChunkSize = i4;
                 }
-                this.maxRequestsCount = Math.max(1, (this.slowNetwork ? 32 : maxUploadingKBytes) / this.uploadChunkSize);
+                this.maxRequestsCount = Math.max(1, (this.slowNetwork ? 32 : 2048) / this.uploadChunkSize);
                 if (this.isEncrypted) {
                     this.freeRequestIvs = new ArrayList<>(this.maxRequestsCount);
                     for (int i5 = 0; i5 < this.maxRequestsCount; i5++) {
@@ -480,7 +459,7 @@ public class FileUploadOperation {
                     z = false;
                     if (!z) {
                         z2 = this.isBigFile;
-                        if (!z2 || i6 >= this.uploadStartTime - RemoteMessageConst.DEFAULT_TTL) {
+                        if (!z2 || i6 >= this.uploadStartTime - 86400) {
                             if (!z2) {
                             }
                             if (i6 != 0) {
@@ -533,7 +512,7 @@ public class FileUploadOperation {
             } else {
                 i = this.stream.read(this.readBuffer);
             }
-            final int i13 = i;
+            int i13 = i;
             if (i13 == -1) {
                 return;
             }
@@ -595,23 +574,11 @@ public class FileUploadOperation {
             this.readBytesCount += i13;
             this.currentPartNum++;
             this.currentUploadRequetsCount++;
-            final int i20 = this.requestNum;
+            int i20 = this.requestNum;
             this.requestNum = i20 + 1;
-            final long j6 = i2 + i13;
-            final int objectSize = tLRPC$TL_upload_saveFilePart.getObjectSize() + 4;
-            final int i21 = this.operationGuid;
-            final byte[] bArr7 = bArr;
-            this.requestTokens.put(i20, ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_saveFilePart, new RequestDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda5
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    FileUploadOperation.this.lambda$startUploadRequest$4(i21, objectSize, bArr7, i20, i13, i2, j6, tLObject, tLRPC$TL_error);
-                }
-            }, null, new WriteToSocketDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda6
-                @Override // org.telegram.tgnet.WriteToSocketDelegate
-                public final void run() {
-                    FileUploadOperation.this.lambda$startUploadRequest$6();
-                }
-            }, this.forceSmallFile ? 4 : 0, Integer.MAX_VALUE, this.slowNetwork ? 4 : ((i20 % 4) << 16) | 4, true));
+            long j6 = i2 + i13;
+            int objectSize = tLRPC$TL_upload_saveFilePart.getObjectSize() + 4;
+            this.requestTokens.put(i20, ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_saveFilePart, new FileUploadOperation$$ExternalSyntheticLambda5(this, this.operationGuid, objectSize, bArr, i20, i13, i2, j6), null, new FileUploadOperation$$ExternalSyntheticLambda6(this), this.forceSmallFile ? 4 : 0, Integer.MAX_VALUE, this.slowNetwork ? 4 : ((i20 % 4) << 16) | 4, true));
         } catch (Exception e2) {
             FileLog.e(e2);
             this.state = 4;
@@ -674,45 +641,9 @@ public class FileUploadOperation {
                     cleanup();
                 } else {
                     if (this.isBigFile) {
-                        tLRPC$InputEncryptedFile = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFileBigUploaded
-                            public static int constructor = 767652808;
-
-                            @Override // org.telegram.tgnet.TLObject
-                            public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-                                this.id = abstractSerializedData.readInt64(z);
-                                this.parts = abstractSerializedData.readInt32(z);
-                                this.key_fingerprint = abstractSerializedData.readInt32(z);
-                            }
-
-                            @Override // org.telegram.tgnet.TLObject
-                            public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                                abstractSerializedData.writeInt32(constructor);
-                                abstractSerializedData.writeInt64(this.id);
-                                abstractSerializedData.writeInt32(this.parts);
-                                abstractSerializedData.writeInt32(this.key_fingerprint);
-                            }
-                        };
+                        tLRPC$InputEncryptedFile = new TLRPC$TL_inputEncryptedFileBigUploaded();
                     } else {
-                        tLRPC$InputEncryptedFile = new TLRPC$InputEncryptedFile() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFileUploaded
-                            public static int constructor = 1690108678;
-
-                            @Override // org.telegram.tgnet.TLObject
-                            public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-                                this.id = abstractSerializedData.readInt64(z);
-                                this.parts = abstractSerializedData.readInt32(z);
-                                this.md5_checksum = abstractSerializedData.readString(z);
-                                this.key_fingerprint = abstractSerializedData.readInt32(z);
-                            }
-
-                            @Override // org.telegram.tgnet.TLObject
-                            public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                                abstractSerializedData.writeInt32(constructor);
-                                abstractSerializedData.writeInt64(this.id);
-                                abstractSerializedData.writeInt32(this.parts);
-                                abstractSerializedData.writeString(this.md5_checksum);
-                                abstractSerializedData.writeInt32(this.key_fingerprint);
-                            }
-                        };
+                        tLRPC$InputEncryptedFile = new TLRPC$TL_inputEncryptedFileUploaded();
                         tLRPC$InputEncryptedFile.md5_checksum = "";
                     }
                     tLRPC$InputEncryptedFile.parts = this.currentPartNum;
@@ -788,12 +719,7 @@ public class FileUploadOperation {
     }
 
     public /* synthetic */ void lambda$startUploadRequest$6() {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                FileUploadOperation.this.lambda$startUploadRequest$5();
-            }
-        });
+        Utilities.stageQueue.postRunnable(new FileUploadOperation$$ExternalSyntheticLambda1(this));
     }
 
     public /* synthetic */ void lambda$startUploadRequest$5() {

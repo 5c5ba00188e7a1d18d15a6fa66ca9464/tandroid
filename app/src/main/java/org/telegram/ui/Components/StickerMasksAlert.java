@@ -43,9 +43,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
@@ -61,7 +59,6 @@ import org.telegram.ui.Cells.StickerEmojiCell;
 import org.telegram.ui.Cells.StickerSetNameCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScrollSlidingTabStrip;
-import org.telegram.ui.Components.StickerMasksAlert;
 import org.telegram.ui.ContentPreviewViewer;
 /* loaded from: classes3.dex */
 public class StickerMasksAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
@@ -88,7 +85,23 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
     private ArrayList<TLRPC$Document> favouriteStickers = new ArrayList<>();
     private int recentTabBum = -2;
     private int favTabBum = -2;
-    private ContentPreviewViewer.ContentPreviewViewerDelegate contentPreviewViewerDelegate = new ContentPreviewViewer.ContentPreviewViewerDelegate() { // from class: org.telegram.ui.Components.StickerMasksAlert.1
+    private ContentPreviewViewer.ContentPreviewViewerDelegate contentPreviewViewerDelegate = new AnonymousClass1();
+    private int currentType = 0;
+    private int searchFieldHeight = AndroidUtilities.dp(64.0f);
+
+    /* loaded from: classes3.dex */
+    public interface StickerMasksAlertDelegate {
+        void onStickerSelected(Object obj, TLRPC$Document tLRPC$Document);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet
+    protected boolean canDismissWithSwipe() {
+        return false;
+    }
+
+    /* renamed from: org.telegram.ui.Components.StickerMasksAlert$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ boolean can() {
             return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$can(this);
@@ -153,22 +166,14 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$sendGif(this, obj, obj2, z, i);
         }
 
+        AnonymousClass1() {
+            StickerMasksAlert.this = r1;
+        }
+
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public void sendSticker(TLRPC$Document tLRPC$Document, String str, Object obj, boolean z, int i) {
             StickerMasksAlert.this.delegate.onStickerSelected(obj, tLRPC$Document);
         }
-    };
-    private int currentType = 0;
-    private int searchFieldHeight = AndroidUtilities.dp(64.0f);
-
-    /* loaded from: classes3.dex */
-    public interface StickerMasksAlertDelegate {
-        void onStickerSelected(Object obj, TLRPC$Document tLRPC$Document);
-    }
-
-    @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
-        return false;
     }
 
     /* loaded from: classes3.dex */
@@ -197,44 +202,25 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             addView(view3, LayoutHelper.createFrame(-1, 36.0f, 51, 14.0f, 14.0f, 14.0f, 0.0f));
             ImageView imageView = new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.CENTER);
-            imageView.setImageResource(R.drawable.smiles_inputsearch);
+            imageView.setImageResource(2131166150);
             imageView.setColorFilter(new PorterDuffColorFilter(-8947849, PorterDuff.Mode.MULTIPLY));
             addView(imageView, LayoutHelper.createFrame(36, 36.0f, 51, 16.0f, 14.0f, 0.0f, 0.0f));
             ImageView imageView2 = new ImageView(context);
             this.clearSearchImageView = imageView2;
             imageView2.setScaleType(ImageView.ScaleType.CENTER);
             ImageView imageView3 = this.clearSearchImageView;
-            CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2(this, r19) { // from class: org.telegram.ui.Components.StickerMasksAlert.SearchField.1
-                @Override // org.telegram.ui.Components.CloseProgressDrawable2
-                public int getCurrentColor() {
-                    return -8947849;
-                }
-            };
-            this.progressDrawable = closeProgressDrawable2;
-            imageView3.setImageDrawable(closeProgressDrawable2);
+            AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, r19);
+            this.progressDrawable = anonymousClass1;
+            imageView3.setImageDrawable(anonymousClass1);
             this.progressDrawable.setSide(AndroidUtilities.dp(7.0f));
             this.clearSearchImageView.setScaleX(0.1f);
             this.clearSearchImageView.setScaleY(0.1f);
             this.clearSearchImageView.setAlpha(0.0f);
             addView(this.clearSearchImageView, LayoutHelper.createFrame(36, 36.0f, 53, 14.0f, 14.0f, 14.0f, 0.0f));
-            this.clearSearchImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickerMasksAlert$SearchField$$ExternalSyntheticLambda0
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view4) {
-                    StickerMasksAlert.SearchField.this.lambda$new$0(view4);
-                }
-            });
-            EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context, r19) { // from class: org.telegram.ui.Components.StickerMasksAlert.SearchField.2
-                @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                public boolean onTouchEvent(MotionEvent motionEvent) {
-                    if (motionEvent.getAction() == 0) {
-                        SearchField.this.searchEditText.requestFocus();
-                        AndroidUtilities.showKeyboard(SearchField.this.searchEditText);
-                    }
-                    return super.onTouchEvent(motionEvent);
-                }
-            };
-            this.searchEditText = editTextBoldCursor;
-            editTextBoldCursor.setTextSize(1, 16.0f);
+            this.clearSearchImageView.setOnClickListener(new StickerMasksAlert$SearchField$$ExternalSyntheticLambda0(this));
+            AnonymousClass2 anonymousClass2 = new AnonymousClass2(context, r19);
+            this.searchEditText = anonymousClass2;
+            anonymousClass2.setTextSize(1, 16.0f);
             this.searchEditText.setHintTextColor(-8947849);
             this.searchEditText.setTextColor(-1);
             this.searchEditText.setBackgroundDrawable(null);
@@ -244,53 +230,92 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             this.searchEditText.setSingleLine(true);
             this.searchEditText.setImeOptions(268435459);
             if (i == 0) {
-                this.searchEditText.setHint(LocaleController.getString("SearchStickersHint", R.string.SearchStickersHint));
+                this.searchEditText.setHint(LocaleController.getString("SearchStickersHint", 2131628184));
             } else if (i == 1) {
-                this.searchEditText.setHint(LocaleController.getString("SearchEmojiHint", R.string.SearchEmojiHint));
+                this.searchEditText.setHint(LocaleController.getString("SearchEmojiHint", 2131628158));
             } else if (i == 2) {
-                this.searchEditText.setHint(LocaleController.getString("SearchGifsTitle", R.string.SearchGifsTitle));
+                this.searchEditText.setHint(LocaleController.getString("SearchGifsTitle", 2131628174));
             }
             this.searchEditText.setCursorColor(-1);
             this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
             this.searchEditText.setCursorWidth(1.5f);
             addView(this.searchEditText, LayoutHelper.createFrame(-1, 40.0f, 51, 54.0f, 12.0f, 46.0f, 0.0f));
-            this.searchEditText.addTextChangedListener(new TextWatcher(r19) { // from class: org.telegram.ui.Components.StickerMasksAlert.SearchField.3
-                @Override // android.text.TextWatcher
-                public void beforeTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
-                }
+            this.searchEditText.addTextChangedListener(new AnonymousClass3(r19));
+        }
 
-                @Override // android.text.TextWatcher
-                public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
-                }
+        /* renamed from: org.telegram.ui.Components.StickerMasksAlert$SearchField$1 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass1 extends CloseProgressDrawable2 {
+            @Override // org.telegram.ui.Components.CloseProgressDrawable2
+            public int getCurrentColor() {
+                return -8947849;
+            }
 
-                @Override // android.text.TextWatcher
-                public void afterTextChanged(Editable editable) {
-                    boolean z = true;
-                    boolean z2 = SearchField.this.searchEditText.length() > 0;
-                    float f = 0.0f;
-                    if (SearchField.this.clearSearchImageView.getAlpha() == 0.0f) {
-                        z = false;
-                    }
-                    if (z2 != z) {
-                        ViewPropertyAnimator animate = SearchField.this.clearSearchImageView.animate();
-                        float f2 = 1.0f;
-                        if (z2) {
-                            f = 1.0f;
-                        }
-                        ViewPropertyAnimator scaleX = animate.alpha(f).setDuration(150L).scaleX(z2 ? 1.0f : 0.1f);
-                        if (!z2) {
-                            f2 = 0.1f;
-                        }
-                        scaleX.scaleY(f2).start();
-                    }
-                    StickerMasksAlert.this.stickersSearchGridAdapter.search(SearchField.this.searchEditText.getText().toString());
-                }
-            });
+            AnonymousClass1(SearchField searchField, StickerMasksAlert stickerMasksAlert) {
+            }
         }
 
         public /* synthetic */ void lambda$new$0(View view) {
             this.searchEditText.setText("");
             AndroidUtilities.showKeyboard(this.searchEditText);
+        }
+
+        /* renamed from: org.telegram.ui.Components.StickerMasksAlert$SearchField$2 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass2 extends EditTextBoldCursor {
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+            AnonymousClass2(Context context, StickerMasksAlert stickerMasksAlert) {
+                super(context);
+                SearchField.this = r1;
+            }
+
+            @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+            public boolean onTouchEvent(MotionEvent motionEvent) {
+                if (motionEvent.getAction() == 0) {
+                    SearchField.this.searchEditText.requestFocus();
+                    AndroidUtilities.showKeyboard(SearchField.this.searchEditText);
+                }
+                return super.onTouchEvent(motionEvent);
+            }
+        }
+
+        /* renamed from: org.telegram.ui.Components.StickerMasksAlert$SearchField$3 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass3 implements TextWatcher {
+            @Override // android.text.TextWatcher
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            @Override // android.text.TextWatcher
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            AnonymousClass3(StickerMasksAlert stickerMasksAlert) {
+                SearchField.this = r1;
+            }
+
+            @Override // android.text.TextWatcher
+            public void afterTextChanged(Editable editable) {
+                boolean z = true;
+                boolean z2 = SearchField.this.searchEditText.length() > 0;
+                float f = 0.0f;
+                if (SearchField.this.clearSearchImageView.getAlpha() == 0.0f) {
+                    z = false;
+                }
+                if (z2 != z) {
+                    ViewPropertyAnimator animate = SearchField.this.clearSearchImageView.animate();
+                    float f2 = 1.0f;
+                    if (z2) {
+                        f = 1.0f;
+                    }
+                    ViewPropertyAnimator scaleX = animate.alpha(f).setDuration(150L).scaleX(z2 ? 1.0f : 0.1f);
+                    if (!z2) {
+                        f2 = 0.1f;
+                    }
+                    scaleX.scaleY(f2).start();
+                }
+                StickerMasksAlert.this.stickersSearchGridAdapter.search(SearchField.this.searchEditText.getText().toString());
+            }
         }
 
         public void hideKeyboard() {
@@ -329,12 +354,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                     animatorSet2.playTogether(animatorArr);
                     this.shadowAnimator.setDuration(200L);
                     this.shadowAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-                    this.shadowAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StickerMasksAlert.SearchField.4
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            SearchField.this.shadowAnimator = null;
-                        }
-                    });
+                    this.shadowAnimator.addListener(new AnonymousClass4());
                     this.shadowAnimator.start();
                     return;
                 }
@@ -345,9 +365,22 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 view3.setAlpha(f);
             }
         }
+
+        /* renamed from: org.telegram.ui.Components.StickerMasksAlert$SearchField$4 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass4 extends AnimatorListenerAdapter {
+            AnonymousClass4() {
+                SearchField.this = r1;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                SearchField.this.shadowAnimator = null;
+            }
+        }
     }
 
-    public StickerMasksAlert(Context context, boolean z, final Theme.ResourcesProvider resourcesProvider) {
+    public StickerMasksAlert(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context, true, resourcesProvider);
         this.behindKeyboardColorKey = null;
         this.behindKeyboardColor = -14342875;
@@ -359,236 +392,41 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         MediaDataController.getInstance(this.currentAccount).loadRecents(0, false, true, false);
         MediaDataController.getInstance(this.currentAccount).loadRecents(1, false, true, false);
         MediaDataController.getInstance(this.currentAccount).loadRecents(2, false, true, false);
-        Drawable mutate = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(-14342875, PorterDuff.Mode.MULTIPLY));
-        SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.Components.StickerMasksAlert.2
-            private long lastUpdateTime;
-            private float statusBarProgress;
-            private boolean ignoreLayout = false;
-            private RectF rect = new RectF();
-
-            @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i, int i2) {
-                int i3;
-                int size = View.MeasureSpec.getSize(i2);
-                if (Build.VERSION.SDK_INT >= 21 && !((BottomSheet) StickerMasksAlert.this).isFullscreen) {
-                    this.ignoreLayout = true;
-                    setPadding(((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, ((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, 0);
-                    this.ignoreLayout = false;
-                }
-                int paddingTop = size - getPaddingTop();
-                if (measureKeyboardHeight() > AndroidUtilities.dp(20.0f)) {
-                    this.statusBarProgress = 1.0f;
-                    i3 = 0;
-                } else {
-                    i3 = (paddingTop - ((paddingTop / 5) * 3)) + AndroidUtilities.dp(8.0f);
-                }
-                if (StickerMasksAlert.this.gridView.getPaddingTop() != i3) {
-                    this.ignoreLayout = true;
-                    StickerMasksAlert.this.gridView.setPinnedSectionOffsetY(-i3);
-                    StickerMasksAlert.this.gridView.setPadding(0, i3, 0, AndroidUtilities.dp(48.0f));
-                    this.ignoreLayout = false;
-                }
-                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
-            }
-
-            @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z2, int i, int i2, int i3, int i4) {
-                super.onLayout(z2, i, i2, i3, i4);
-                StickerMasksAlert.this.updateLayout(false);
-            }
-
-            @Override // android.view.ViewGroup
-            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                if (motionEvent.getAction() == 0 && StickerMasksAlert.this.scrollOffsetY != 0 && motionEvent.getY() < StickerMasksAlert.this.scrollOffsetY + AndroidUtilities.dp(12.0f)) {
-                    StickerMasksAlert.this.dismiss();
-                    return true;
-                }
-                return super.onInterceptTouchEvent(motionEvent);
-            }
-
-            @Override // android.view.View
-            public boolean onTouchEvent(MotionEvent motionEvent) {
-                return !StickerMasksAlert.this.isDismissed() && super.onTouchEvent(motionEvent);
-            }
-
-            @Override // android.view.View, android.view.ViewParent
-            public void requestLayout() {
-                if (this.ignoreLayout) {
-                    return;
-                }
-                super.requestLayout();
-            }
-
-            @Override // android.view.View
-            protected void onDraw(Canvas canvas) {
-                float f;
-                int dp = AndroidUtilities.dp(13.0f);
-                int i = (StickerMasksAlert.this.scrollOffsetY - ((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop) - dp;
-                if (((BottomSheet) StickerMasksAlert.this).currentSheetAnimationType == 1) {
-                    i = (int) (i + StickerMasksAlert.this.gridView.getTranslationY());
-                }
-                int dp2 = AndroidUtilities.dp(20.0f) + i;
-                int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(15.0f) + ((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop;
-                int dp3 = AndroidUtilities.dp(12.0f);
-                if (((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop + i < dp3) {
-                    float dp4 = dp + AndroidUtilities.dp(4.0f);
-                    float min = Math.min(1.0f, ((dp3 - i) - ((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop) / dp4);
-                    int i2 = (int) ((dp3 - dp4) * min);
-                    i -= i2;
-                    dp2 -= i2;
-                    measuredHeight += i2;
-                    f = 1.0f - min;
-                } else {
-                    f = 1.0f;
-                }
-                if (Build.VERSION.SDK_INT >= 21) {
-                    int i3 = AndroidUtilities.statusBarHeight;
-                    i += i3;
-                    dp2 += i3;
-                }
-                StickerMasksAlert.this.shadowDrawable.setBounds(0, i, getMeasuredWidth(), measuredHeight);
-                StickerMasksAlert.this.shadowDrawable.draw(canvas);
-                if (f != 1.0f) {
-                    Theme.dialogs_onlineCirclePaint.setColor(-14342875);
-                    this.rect.set(((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, ((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop + i, getMeasuredWidth() - ((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, ((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop + i + AndroidUtilities.dp(24.0f));
-                    canvas.drawRoundRect(this.rect, AndroidUtilities.dp(12.0f) * f, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
-                }
-                long elapsedRealtime = SystemClock.elapsedRealtime();
-                long j = elapsedRealtime - this.lastUpdateTime;
-                if (j > 18) {
-                    j = 18;
-                }
-                this.lastUpdateTime = elapsedRealtime;
-                if (f > 0.0f) {
-                    int dp5 = AndroidUtilities.dp(36.0f);
-                    this.rect.set((getMeasuredWidth() - dp5) / 2, dp2, (getMeasuredWidth() + dp5) / 2, dp2 + AndroidUtilities.dp(4.0f));
-                    int alpha = Color.alpha(-11842741);
-                    Theme.dialogs_onlineCirclePaint.setColor(-11842741);
-                    Theme.dialogs_onlineCirclePaint.setAlpha((int) (alpha * 1.0f * f));
-                    canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
-                    float f2 = this.statusBarProgress;
-                    if (f2 > 0.0f) {
-                        float f3 = f2 - (((float) j) / 180.0f);
-                        this.statusBarProgress = f3;
-                        if (f3 < 0.0f) {
-                            this.statusBarProgress = 0.0f;
-                        } else {
-                            invalidate();
-                        }
-                    }
-                } else {
-                    float f4 = this.statusBarProgress;
-                    if (f4 < 1.0f) {
-                        float f5 = f4 + (((float) j) / 180.0f);
-                        this.statusBarProgress = f5;
-                        if (f5 > 1.0f) {
-                            this.statusBarProgress = 1.0f;
-                        } else {
-                            invalidate();
-                        }
-                    }
-                }
-                Theme.dialogs_onlineCirclePaint.setColor(Color.argb((int) (this.statusBarProgress * 255.0f), (int) (Color.red(-14342875) * 0.8f), (int) (Color.green(-14342875) * 0.8f), (int) (Color.blue(-14342875) * 0.8f)));
-                canvas.drawRect(((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, 0.0f, getMeasuredWidth() - ((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
-            }
-        };
-        this.containerView = sizeNotifierFrameLayout;
-        sizeNotifierFrameLayout.setWillNotDraw(false);
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
+        this.containerView = anonymousClass2;
+        anonymousClass2.setWillNotDraw(false);
         ViewGroup viewGroup = this.containerView;
         int i = this.backgroundPaddingLeft;
         viewGroup.setPadding(i, 0, i, 0);
-        this.stickerIcons = new Drawable[]{Theme.createEmojiIconSelectorDrawable(context, R.drawable.stickers_recent, -11842741, -9520403), Theme.createEmojiIconSelectorDrawable(context, R.drawable.stickers_favorites, -11842741, -9520403)};
+        this.stickerIcons = new Drawable[]{Theme.createEmojiIconSelectorDrawable(context, 2131166171, -11842741, -9520403), Theme.createEmojiIconSelectorDrawable(context, 2131166169, -11842741, -9520403)};
         MediaDataController.getInstance(this.currentAccount).checkStickers(0);
         MediaDataController.getInstance(this.currentAccount).checkStickers(1);
         MediaDataController.getInstance(this.currentAccount).checkFeaturedStickers();
-        RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.StickerMasksAlert.3
-            @Override // org.telegram.ui.Components.RecyclerListView
-            protected boolean allowSelectChildAtPosition(float f, float f2) {
-                return f2 >= ((float) (StickerMasksAlert.this.scrollOffsetY + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0)));
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
-            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                return super.onInterceptTouchEvent(motionEvent) || ContentPreviewViewer.getInstance().onInterceptTouchEvent(motionEvent, StickerMasksAlert.this.gridView, ((BottomSheet) StickerMasksAlert.this).containerView.getMeasuredHeight(), StickerMasksAlert.this.contentPreviewViewerDelegate, this.resourcesProvider);
-            }
-        };
-        this.gridView = recyclerListView;
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 5) { // from class: org.telegram.ui.Components.StickerMasksAlert.4
-            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i2) {
-                LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) { // from class: org.telegram.ui.Components.StickerMasksAlert.4.1
-                    @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateDyToMakeVisible(View view, int i3) {
-                        return super.calculateDyToMakeVisible(view, i3) - (StickerMasksAlert.this.gridView.getPaddingTop() - AndroidUtilities.dp(7.0f));
-                    }
-
-                    @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateTimeForDeceleration(int i3) {
-                        return super.calculateTimeForDeceleration(i3) * 4;
-                    }
-                };
-                linearSmoothScroller.setTargetPosition(i2);
-                startSmoothScroll(linearSmoothScroller);
-            }
-        };
-        this.stickersLayoutManager = gridLayoutManager;
-        recyclerListView.setLayoutManager(gridLayoutManager);
-        this.stickersLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.StickerMasksAlert.5
-            @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-            public int getSpanSize(int i2) {
-                if (StickerMasksAlert.this.gridView.getAdapter() != StickerMasksAlert.this.stickersGridAdapter) {
-                    if (i2 != StickerMasksAlert.this.stickersSearchGridAdapter.totalItems && (StickerMasksAlert.this.stickersSearchGridAdapter.cache.get(i2) == null || (StickerMasksAlert.this.stickersSearchGridAdapter.cache.get(i2) instanceof TLRPC$Document))) {
-                        return 1;
-                    }
-                    return StickerMasksAlert.this.stickersGridAdapter.stickersPerRow;
-                } else if (i2 == 0) {
-                    return StickerMasksAlert.this.stickersGridAdapter.stickersPerRow;
-                } else {
-                    if (i2 != StickerMasksAlert.this.stickersGridAdapter.totalItems && (StickerMasksAlert.this.stickersGridAdapter.cache.get(i2) == null || (StickerMasksAlert.this.stickersGridAdapter.cache.get(i2) instanceof TLRPC$Document))) {
-                        return 1;
-                    }
-                    return StickerMasksAlert.this.stickersGridAdapter.stickersPerRow;
-                }
-            }
-        });
+        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
+        this.gridView = anonymousClass3;
+        AnonymousClass4 anonymousClass4 = new AnonymousClass4(context, 5);
+        this.stickersLayoutManager = anonymousClass4;
+        anonymousClass3.setLayoutManager(anonymousClass4);
+        this.stickersLayoutManager.setSpanSizeLookup(new AnonymousClass5());
         this.gridView.setPadding(0, AndroidUtilities.dp(52.0f), 0, AndroidUtilities.dp(48.0f));
         this.gridView.setClipToPadding(false);
         this.gridView.setHorizontalScrollBarEnabled(false);
         this.gridView.setVerticalScrollBarEnabled(false);
         this.gridView.setGlowColor(-14342875);
         this.stickersSearchGridAdapter = new StickersSearchGridAdapter(context);
-        RecyclerListView recyclerListView2 = this.gridView;
+        RecyclerListView recyclerListView = this.gridView;
         StickersGridAdapter stickersGridAdapter = new StickersGridAdapter(context);
         this.stickersGridAdapter = stickersGridAdapter;
-        recyclerListView2.setAdapter(stickersGridAdapter);
-        this.gridView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.StickerMasksAlert$$ExternalSyntheticLambda2
-            @Override // android.view.View.OnTouchListener
-            public final boolean onTouch(View view, MotionEvent motionEvent) {
-                boolean lambda$new$0;
-                lambda$new$0 = StickerMasksAlert.this.lambda$new$0(resourcesProvider, view, motionEvent);
-                return lambda$new$0;
-            }
-        });
-        RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.StickerMasksAlert$$ExternalSyntheticLambda3
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i2) {
-                StickerMasksAlert.this.lambda$new$1(view, i2);
-            }
-        };
-        this.stickersOnItemClickListener = onItemClickListener;
-        this.gridView.setOnItemClickListener(onItemClickListener);
+        recyclerListView.setAdapter(stickersGridAdapter);
+        this.gridView.setOnTouchListener(new StickerMasksAlert$$ExternalSyntheticLambda2(this, resourcesProvider));
+        StickerMasksAlert$$ExternalSyntheticLambda3 stickerMasksAlert$$ExternalSyntheticLambda3 = new StickerMasksAlert$$ExternalSyntheticLambda3(this);
+        this.stickersOnItemClickListener = stickerMasksAlert$$ExternalSyntheticLambda3;
+        this.gridView.setOnItemClickListener(stickerMasksAlert$$ExternalSyntheticLambda3);
         this.containerView.addView(this.gridView, LayoutHelper.createFrame(-1, -1.0f));
-        this.stickersTab = new ScrollSlidingTabStrip(this, context, resourcesProvider) { // from class: org.telegram.ui.Components.StickerMasksAlert.6
-            @Override // org.telegram.ui.Components.ScrollSlidingTabStrip, android.widget.HorizontalScrollView, android.view.ViewGroup
-            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                if (getParent() != null) {
-                    getParent().requestDisallowInterceptTouchEvent(true);
-                }
-                return super.onInterceptTouchEvent(motionEvent);
-            }
-        };
+        this.stickersTab = new AnonymousClass6(this, context, resourcesProvider);
         SearchField searchField = new SearchField(context, 0);
         this.stickersSearchField = searchField;
         this.containerView.addView(searchField, new FrameLayout.LayoutParams(-1, this.searchFieldHeight + AndroidUtilities.getShadowHeight()));
@@ -598,38 +436,13 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         this.stickersTab.setUnderlineColor(-16053493);
         this.stickersTab.setBackgroundColor(-14342875);
         this.containerView.addView(this.stickersTab, LayoutHelper.createFrame(-1, 36, 51));
-        this.stickersTab.setDelegate(new ScrollSlidingTabStrip.ScrollSlidingTabStripDelegate() { // from class: org.telegram.ui.Components.StickerMasksAlert$$ExternalSyntheticLambda4
-            @Override // org.telegram.ui.Components.ScrollSlidingTabStrip.ScrollSlidingTabStripDelegate
-            public final void onPageSelected(int i2) {
-                StickerMasksAlert.this.lambda$new$2(i2);
-            }
-        });
-        this.gridView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.StickerMasksAlert.7
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i2) {
-                if (i2 == 1) {
-                    StickerMasksAlert.this.stickersSearchField.hideKeyboard();
-                }
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
-                StickerMasksAlert.this.updateLayout(true);
-            }
-        });
+        this.stickersTab.setDelegate(new StickerMasksAlert$$ExternalSyntheticLambda4(this));
+        this.gridView.setOnScrollListener(new AnonymousClass7());
         View view = new View(context);
-        view.setBackgroundDrawable(Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, -1907225));
+        view.setBackgroundDrawable(Theme.getThemedDrawable(context, 2131165436, -1907225));
         this.containerView.addView(view, LayoutHelper.createFrame(-1, 6.0f));
         if (!z) {
-            this.bottomTabContainer = new FrameLayout(this, context) { // from class: org.telegram.ui.Components.StickerMasksAlert.8
-                @Override // android.view.ViewGroup
-                public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                    if (getParent() != null) {
-                        getParent().requestDisallowInterceptTouchEvent(true);
-                    }
-                    return super.onInterceptTouchEvent(motionEvent);
-                }
-            };
+            this.bottomTabContainer = new AnonymousClass8(this, context);
             View view2 = new View(context);
             this.shadowLine = view2;
             view2.setBackgroundColor(301989888);
@@ -641,21 +454,10 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             LinearLayout linearLayout = new LinearLayout(context);
             linearLayout.setOrientation(0);
             this.bottomTabContainer.addView(linearLayout, LayoutHelper.createFrame(-2, 48, 81));
-            ImageView imageView = new ImageView(this, context) { // from class: org.telegram.ui.Components.StickerMasksAlert.9
-                @Override // android.widget.ImageView, android.view.View
-                public void setSelected(boolean z2) {
-                    super.setSelected(z2);
-                    Drawable background = getBackground();
-                    if (Build.VERSION.SDK_INT < 21 || background == null) {
-                        return;
-                    }
-                    int i2 = z2 ? -9520403 : 520093695;
-                    Theme.setSelectorDrawableColor(background, Color.argb(30, Color.red(i2), Color.green(i2), Color.blue(i2)), true);
-                }
-            };
-            this.stickersButton = imageView;
-            imageView.setScaleType(ImageView.ScaleType.CENTER);
-            this.stickersButton.setImageDrawable(Theme.createEmojiIconSelectorDrawable(context, R.drawable.smiles_tab_stickers, -1, -9520403));
+            AnonymousClass9 anonymousClass9 = new AnonymousClass9(this, context);
+            this.stickersButton = anonymousClass9;
+            anonymousClass9.setScaleType(ImageView.ScaleType.CENTER);
+            this.stickersButton.setImageDrawable(Theme.createEmojiIconSelectorDrawable(context, 2131166157, -1, -9520403));
             int i2 = Build.VERSION.SDK_INT;
             if (i2 >= 21) {
                 RippleDrawable rippleDrawable = (RippleDrawable) Theme.createSelectorDrawable(520093695);
@@ -663,42 +465,244 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 this.stickersButton.setBackground(rippleDrawable);
             }
             linearLayout.addView(this.stickersButton, LayoutHelper.createLinear(70, 48));
-            this.stickersButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickerMasksAlert$$ExternalSyntheticLambda1
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view4) {
-                    StickerMasksAlert.this.lambda$new$3(view4);
-                }
-            });
-            ImageView imageView2 = new ImageView(this, context) { // from class: org.telegram.ui.Components.StickerMasksAlert.10
-                @Override // android.widget.ImageView, android.view.View
-                public void setSelected(boolean z2) {
-                    super.setSelected(z2);
-                    Drawable background = getBackground();
-                    if (Build.VERSION.SDK_INT < 21 || background == null) {
-                        return;
-                    }
-                    int i3 = z2 ? -9520403 : 520093695;
-                    Theme.setSelectorDrawableColor(background, Color.argb(30, Color.red(i3), Color.green(i3), Color.blue(i3)), true);
-                }
-            };
-            this.masksButton = imageView2;
-            imageView2.setScaleType(ImageView.ScaleType.CENTER);
-            this.masksButton.setImageDrawable(Theme.createEmojiIconSelectorDrawable(context, R.drawable.ic_masks_msk1, -1, -9520403));
+            this.stickersButton.setOnClickListener(new StickerMasksAlert$$ExternalSyntheticLambda1(this));
+            AnonymousClass10 anonymousClass10 = new AnonymousClass10(this, context);
+            this.masksButton = anonymousClass10;
+            anonymousClass10.setScaleType(ImageView.ScaleType.CENTER);
+            this.masksButton.setImageDrawable(Theme.createEmojiIconSelectorDrawable(context, 2131165483, -1, -9520403));
             if (i2 >= 21) {
                 RippleDrawable rippleDrawable2 = (RippleDrawable) Theme.createSelectorDrawable(520093695);
                 Theme.setRippleDrawableForceSoftware(rippleDrawable2);
                 this.masksButton.setBackground(rippleDrawable2);
             }
             linearLayout.addView(this.masksButton, LayoutHelper.createLinear(70, 48));
-            this.masksButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickerMasksAlert$$ExternalSyntheticLambda0
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view4) {
-                    StickerMasksAlert.this.lambda$new$4(view4);
-                }
-            });
+            this.masksButton.setOnClickListener(new StickerMasksAlert$$ExternalSyntheticLambda0(this));
         }
         checkDocuments(true);
         reloadStickersAdapter();
+    }
+
+    /* renamed from: org.telegram.ui.Components.StickerMasksAlert$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends SizeNotifierFrameLayout {
+        private long lastUpdateTime;
+        private float statusBarProgress;
+        private boolean ignoreLayout = false;
+        private RectF rect = new RectF();
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(Context context) {
+            super(context);
+            StickerMasksAlert.this = r1;
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            int i3;
+            int size = View.MeasureSpec.getSize(i2);
+            if (Build.VERSION.SDK_INT >= 21 && !((BottomSheet) StickerMasksAlert.this).isFullscreen) {
+                this.ignoreLayout = true;
+                setPadding(((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, ((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, 0);
+                this.ignoreLayout = false;
+            }
+            int paddingTop = size - getPaddingTop();
+            if (measureKeyboardHeight() > AndroidUtilities.dp(20.0f)) {
+                this.statusBarProgress = 1.0f;
+                i3 = 0;
+            } else {
+                i3 = (paddingTop - ((paddingTop / 5) * 3)) + AndroidUtilities.dp(8.0f);
+            }
+            if (StickerMasksAlert.this.gridView.getPaddingTop() != i3) {
+                this.ignoreLayout = true;
+                StickerMasksAlert.this.gridView.setPinnedSectionOffsetY(-i3);
+                StickerMasksAlert.this.gridView.setPadding(0, i3, 0, AndroidUtilities.dp(48.0f));
+                this.ignoreLayout = false;
+            }
+            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+        }
+
+        @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            super.onLayout(z, i, i2, i3, i4);
+            StickerMasksAlert.this.updateLayout(false);
+        }
+
+        @Override // android.view.ViewGroup
+        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+            if (motionEvent.getAction() == 0 && StickerMasksAlert.this.scrollOffsetY != 0 && motionEvent.getY() < StickerMasksAlert.this.scrollOffsetY + AndroidUtilities.dp(12.0f)) {
+                StickerMasksAlert.this.dismiss();
+                return true;
+            }
+            return super.onInterceptTouchEvent(motionEvent);
+        }
+
+        @Override // android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            return !StickerMasksAlert.this.isDismissed() && super.onTouchEvent(motionEvent);
+        }
+
+        @Override // android.view.View, android.view.ViewParent
+        public void requestLayout() {
+            if (this.ignoreLayout) {
+                return;
+            }
+            super.requestLayout();
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            float f;
+            int dp = AndroidUtilities.dp(13.0f);
+            int i = (StickerMasksAlert.this.scrollOffsetY - ((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop) - dp;
+            if (((BottomSheet) StickerMasksAlert.this).currentSheetAnimationType == 1) {
+                i = (int) (i + StickerMasksAlert.this.gridView.getTranslationY());
+            }
+            int dp2 = AndroidUtilities.dp(20.0f) + i;
+            int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(15.0f) + ((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop;
+            int dp3 = AndroidUtilities.dp(12.0f);
+            if (((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop + i < dp3) {
+                float dp4 = dp + AndroidUtilities.dp(4.0f);
+                float min = Math.min(1.0f, ((dp3 - i) - ((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop) / dp4);
+                int i2 = (int) ((dp3 - dp4) * min);
+                i -= i2;
+                dp2 -= i2;
+                measuredHeight += i2;
+                f = 1.0f - min;
+            } else {
+                f = 1.0f;
+            }
+            if (Build.VERSION.SDK_INT >= 21) {
+                int i3 = AndroidUtilities.statusBarHeight;
+                i += i3;
+                dp2 += i3;
+            }
+            StickerMasksAlert.this.shadowDrawable.setBounds(0, i, getMeasuredWidth(), measuredHeight);
+            StickerMasksAlert.this.shadowDrawable.draw(canvas);
+            if (f != 1.0f) {
+                Theme.dialogs_onlineCirclePaint.setColor(-14342875);
+                this.rect.set(((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, ((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop + i, getMeasuredWidth() - ((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, ((BottomSheet) StickerMasksAlert.this).backgroundPaddingTop + i + AndroidUtilities.dp(24.0f));
+                canvas.drawRoundRect(this.rect, AndroidUtilities.dp(12.0f) * f, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
+            }
+            long elapsedRealtime = SystemClock.elapsedRealtime();
+            long j = elapsedRealtime - this.lastUpdateTime;
+            if (j > 18) {
+                j = 18;
+            }
+            this.lastUpdateTime = elapsedRealtime;
+            if (f > 0.0f) {
+                int dp5 = AndroidUtilities.dp(36.0f);
+                this.rect.set((getMeasuredWidth() - dp5) / 2, dp2, (getMeasuredWidth() + dp5) / 2, dp2 + AndroidUtilities.dp(4.0f));
+                int alpha = Color.alpha(-11842741);
+                Theme.dialogs_onlineCirclePaint.setColor(-11842741);
+                Theme.dialogs_onlineCirclePaint.setAlpha((int) (alpha * 1.0f * f));
+                canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
+                float f2 = this.statusBarProgress;
+                if (f2 > 0.0f) {
+                    float f3 = f2 - (((float) j) / 180.0f);
+                    this.statusBarProgress = f3;
+                    if (f3 < 0.0f) {
+                        this.statusBarProgress = 0.0f;
+                    } else {
+                        invalidate();
+                    }
+                }
+            } else {
+                float f4 = this.statusBarProgress;
+                if (f4 < 1.0f) {
+                    float f5 = f4 + (((float) j) / 180.0f);
+                    this.statusBarProgress = f5;
+                    if (f5 > 1.0f) {
+                        this.statusBarProgress = 1.0f;
+                    } else {
+                        invalidate();
+                    }
+                }
+            }
+            Theme.dialogs_onlineCirclePaint.setColor(Color.argb((int) (this.statusBarProgress * 255.0f), (int) (Color.red(-14342875) * 0.8f), (int) (Color.green(-14342875) * 0.8f), (int) (Color.blue(-14342875) * 0.8f)));
+            canvas.drawRect(((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, 0.0f, getMeasuredWidth() - ((BottomSheet) StickerMasksAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.StickerMasksAlert$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends RecyclerListView {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass3(Context context) {
+            super(context);
+            StickerMasksAlert.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView
+        protected boolean allowSelectChildAtPosition(float f, float f2) {
+            return f2 >= ((float) (StickerMasksAlert.this.scrollOffsetY + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0)));
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
+        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+            return super.onInterceptTouchEvent(motionEvent) || ContentPreviewViewer.getInstance().onInterceptTouchEvent(motionEvent, StickerMasksAlert.this.gridView, ((BottomSheet) StickerMasksAlert.this).containerView.getMeasuredHeight(), StickerMasksAlert.this.contentPreviewViewerDelegate, this.resourcesProvider);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.StickerMasksAlert$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 extends GridLayoutManager {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass4(Context context, int i) {
+            super(context, i);
+            StickerMasksAlert.this = r1;
+        }
+
+        /* renamed from: org.telegram.ui.Components.StickerMasksAlert$4$1 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass1 extends LinearSmoothScroller {
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+            AnonymousClass1(Context context) {
+                super(context);
+                AnonymousClass4.this = r1;
+            }
+
+            @Override // androidx.recyclerview.widget.LinearSmoothScroller
+            public int calculateDyToMakeVisible(View view, int i) {
+                return super.calculateDyToMakeVisible(view, i) - (StickerMasksAlert.this.gridView.getPaddingTop() - AndroidUtilities.dp(7.0f));
+            }
+
+            @Override // androidx.recyclerview.widget.LinearSmoothScroller
+            public int calculateTimeForDeceleration(int i) {
+                return super.calculateTimeForDeceleration(i) * 4;
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+        public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i) {
+            AnonymousClass1 anonymousClass1 = new AnonymousClass1(recyclerView.getContext());
+            anonymousClass1.setTargetPosition(i);
+            startSmoothScroll(anonymousClass1);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.StickerMasksAlert$5 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass5 extends GridLayoutManager.SpanSizeLookup {
+        AnonymousClass5() {
+            StickerMasksAlert.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+        public int getSpanSize(int i) {
+            if (StickerMasksAlert.this.gridView.getAdapter() != StickerMasksAlert.this.stickersGridAdapter) {
+                if (i != StickerMasksAlert.this.stickersSearchGridAdapter.totalItems && (StickerMasksAlert.this.stickersSearchGridAdapter.cache.get(i) == null || (StickerMasksAlert.this.stickersSearchGridAdapter.cache.get(i) instanceof TLRPC$Document))) {
+                    return 1;
+                }
+                return StickerMasksAlert.this.stickersGridAdapter.stickersPerRow;
+            } else if (i == 0) {
+                return StickerMasksAlert.this.stickersGridAdapter.stickersPerRow;
+            } else {
+                if (i != StickerMasksAlert.this.stickersGridAdapter.totalItems && (StickerMasksAlert.this.stickersGridAdapter.cache.get(i) == null || (StickerMasksAlert.this.stickersGridAdapter.cache.get(i) instanceof TLRPC$Document))) {
+                    return 1;
+                }
+                return StickerMasksAlert.this.stickersGridAdapter.stickersPerRow;
+            }
+        }
     }
 
     public /* synthetic */ boolean lambda$new$0(Theme.ResourcesProvider resourcesProvider, View view, MotionEvent motionEvent) {
@@ -713,6 +717,22 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         StickerEmojiCell stickerEmojiCell = (StickerEmojiCell) view;
         this.delegate.onStickerSelected(stickerEmojiCell.getParentObject(), stickerEmojiCell.getSticker());
         dismiss();
+    }
+
+    /* renamed from: org.telegram.ui.Components.StickerMasksAlert$6 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass6 extends ScrollSlidingTabStrip {
+        AnonymousClass6(StickerMasksAlert stickerMasksAlert, Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context, resourcesProvider);
+        }
+
+        @Override // org.telegram.ui.Components.ScrollSlidingTabStrip, android.widget.HorizontalScrollView, android.view.ViewGroup
+        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+            if (getParent() != null) {
+                getParent().requestDisallowInterceptTouchEvent(true);
+            }
+            return super.onInterceptTouchEvent(motionEvent);
+        }
     }
 
     public /* synthetic */ void lambda$new$2(int i) {
@@ -743,12 +763,86 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         this.stickersLayoutManager.scrollToPositionWithOffset(i2, (-this.gridView.getPaddingTop()) + this.searchFieldHeight + AndroidUtilities.dp(48.0f));
     }
 
+    /* renamed from: org.telegram.ui.Components.StickerMasksAlert$7 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass7 extends RecyclerView.OnScrollListener {
+        AnonymousClass7() {
+            StickerMasksAlert.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrollStateChanged(RecyclerView recyclerView, int i) {
+            if (i == 1) {
+                StickerMasksAlert.this.stickersSearchField.hideKeyboard();
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+            StickerMasksAlert.this.updateLayout(true);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.StickerMasksAlert$8 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass8 extends FrameLayout {
+        AnonymousClass8(StickerMasksAlert stickerMasksAlert, Context context) {
+            super(context);
+        }
+
+        @Override // android.view.ViewGroup
+        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+            if (getParent() != null) {
+                getParent().requestDisallowInterceptTouchEvent(true);
+            }
+            return super.onInterceptTouchEvent(motionEvent);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.StickerMasksAlert$9 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass9 extends ImageView {
+        AnonymousClass9(StickerMasksAlert stickerMasksAlert, Context context) {
+            super(context);
+        }
+
+        @Override // android.widget.ImageView, android.view.View
+        public void setSelected(boolean z) {
+            super.setSelected(z);
+            Drawable background = getBackground();
+            if (Build.VERSION.SDK_INT < 21 || background == null) {
+                return;
+            }
+            int i = z ? -9520403 : 520093695;
+            Theme.setSelectorDrawableColor(background, Color.argb(30, Color.red(i), Color.green(i), Color.blue(i)), true);
+        }
+    }
+
     public /* synthetic */ void lambda$new$3(View view) {
         if (this.currentType == 0) {
             return;
         }
         this.currentType = 0;
         updateType();
+    }
+
+    /* renamed from: org.telegram.ui.Components.StickerMasksAlert$10 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass10 extends ImageView {
+        AnonymousClass10(StickerMasksAlert stickerMasksAlert, Context context) {
+            super(context);
+        }
+
+        @Override // android.widget.ImageView, android.view.View
+        public void setSelected(boolean z) {
+            super.setSelected(z);
+            Drawable background = getBackground();
+            if (Build.VERSION.SDK_INT < 21 || background == null) {
+                return;
+            }
+            int i = z ? -9520403 : 520093695;
+            Theme.setSelectorDrawableColor(background, Color.argb(30, Color.red(i), Color.green(i), Color.blue(i)), true);
+        }
     }
 
     public /* synthetic */ void lambda$new$4(View view) {
@@ -847,13 +941,13 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             int i = this.stickersTabOffset;
             this.favTabBum = i;
             this.stickersTabOffset = i + 1;
-            this.stickersTab.addIconTab(1, this.stickerIcons[1]).setContentDescription(LocaleController.getString("FavoriteStickers", R.string.FavoriteStickers));
+            this.stickersTab.addIconTab(1, this.stickerIcons[1]).setContentDescription(LocaleController.getString("FavoriteStickers", 2131625836));
         }
         if (!this.recentStickers[this.currentType].isEmpty()) {
             int i2 = this.stickersTabOffset;
             this.recentTabBum = i2;
             this.stickersTabOffset = i2 + 1;
-            this.stickersTab.addIconTab(0, this.stickerIcons[0]).setContentDescription(LocaleController.getString("RecentStickers", R.string.RecentStickers));
+            this.stickersTab.addIconTab(0, this.stickerIcons[0]).setContentDescription(LocaleController.getString("RecentStickers", 2131627924));
         }
         this.stickerSets[this.currentType].clear();
         ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(this.currentAccount).getStickerSets(this.currentType);
@@ -871,7 +965,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 closestPhotoSizeWithSize = tLRPC$Document;
             }
             View addStickerTab = this.stickersTab.addStickerTab(closestPhotoSizeWithSize, tLRPC$Document, tLRPC$TL_messages_stickerSet2);
-            addStickerTab.setContentDescription(tLRPC$TL_messages_stickerSet2.set.title + ", " + LocaleController.getString("AccDescrStickerSet", R.string.AccDescrStickerSet));
+            addStickerTab.setContentDescription(tLRPC$TL_messages_stickerSet2.set.title + ", " + LocaleController.getString("AccDescrStickerSet", 2131624088));
         }
         this.stickersTab.commitUpdate();
         this.stickersTab.updateTabStyles();
@@ -1067,25 +1161,33 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             return StickerMasksAlert.this.stickerSets[StickerMasksAlert.this.currentType].indexOf((TLRPC$TL_messages_stickerSet) obj) + StickerMasksAlert.this.stickersTabOffset;
         }
 
+        /* renamed from: org.telegram.ui.Components.StickerMasksAlert$StickersGridAdapter$1 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass1 extends StickerEmojiCell {
+            AnonymousClass1(StickersGridAdapter stickersGridAdapter, Context context, boolean z) {
+                super(context, z);
+            }
+
+            @Override // android.widget.FrameLayout, android.view.View
+            public void onMeasure(int i, int i2) {
+                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
+            }
+        }
+
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
-            StickerEmojiCell stickerEmojiCell;
+            AnonymousClass1 anonymousClass1;
             if (i == 0) {
-                stickerEmojiCell = new StickerEmojiCell(this, this.context, false) { // from class: org.telegram.ui.Components.StickerMasksAlert.StickersGridAdapter.1
-                    @Override // android.widget.FrameLayout, android.view.View
-                    public void onMeasure(int i2, int i3) {
-                        super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
-                    }
-                };
+                anonymousClass1 = new AnonymousClass1(this, this.context, false);
             } else {
                 if (i == 1) {
                     view = new EmptyCell(this.context);
                 } else if (i == 2) {
                     StickerSetNameCell stickerSetNameCell = new StickerSetNameCell(this.context, false, ((BottomSheet) StickerMasksAlert.this).resourcesProvider);
                     stickerSetNameCell.setTitleColor(-7829368);
-                    stickerEmojiCell = stickerSetNameCell;
+                    anonymousClass1 = stickerSetNameCell;
                 } else if (i != 4) {
                     view = null;
                 } else {
@@ -1094,7 +1196,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 }
                 return new RecyclerListView.Holder(view);
             }
-            view = stickerEmojiCell;
+            view = anonymousClass1;
             return new RecyclerListView.Holder(view);
         }
 
@@ -1121,10 +1223,10 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                         if (obj != StickerMasksAlert.this.favouriteStickers) {
                             return;
                         }
-                        stickerSetNameCell.setText(LocaleController.getString("FavoriteStickers", R.string.FavoriteStickers), 0);
+                        stickerSetNameCell.setText(LocaleController.getString("FavoriteStickers", 2131625836), 0);
                         return;
                     }
-                    stickerSetNameCell.setText(LocaleController.getString("RecentStickers", R.string.RecentStickers), 0);
+                    stickerSetNameCell.setText(LocaleController.getString("RecentStickers", 2131627924), 0);
                     return;
                 }
                 TLRPC$StickerSet tLRPC$StickerSet = ((TLRPC$TL_messages_stickerSet) obj).set;
@@ -1370,10 +1472,10 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 }
                 StickersSearchGridAdapter stickersSearchGridAdapter = StickersSearchGridAdapter.this;
                 stickersSearchGridAdapter.cleared = false;
-                final int access$4904 = StickersSearchGridAdapter.access$4904(stickersSearchGridAdapter);
-                final ArrayList arrayList = new ArrayList(0);
-                final LongSparseArray longSparseArray = new LongSparseArray(0);
-                final HashMap<String, ArrayList<TLRPC$Document>> allStickers = MediaDataController.getInstance(StickerMasksAlert.this.currentAccount).getAllStickers();
+                int access$4904 = StickersSearchGridAdapter.access$4904(stickersSearchGridAdapter);
+                ArrayList arrayList = new ArrayList(0);
+                LongSparseArray longSparseArray = new LongSparseArray(0);
+                HashMap<String, ArrayList<TLRPC$Document>> allStickers = MediaDataController.getInstance(StickerMasksAlert.this.currentAccount).getAllStickers();
                 if (StickersSearchGridAdapter.this.searchQuery.length() <= 14) {
                     CharSequence charSequence = StickersSearchGridAdapter.this.searchQuery;
                     int length = charSequence.length();
@@ -1423,12 +1525,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                         MediaDataController.getInstance(StickerMasksAlert.this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
                     }
                     StickerMasksAlert.this.lastSearchKeyboardLanguage = currentKeyboardLanguage;
-                    MediaDataController.getInstance(StickerMasksAlert.this.currentAccount).getEmojiSuggestions(StickerMasksAlert.this.lastSearchKeyboardLanguage, StickersSearchGridAdapter.this.searchQuery, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.StickerMasksAlert$StickersSearchGridAdapter$1$$ExternalSyntheticLambda1
-                        @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
-                        public final void run(ArrayList arrayList3, String str) {
-                            StickerMasksAlert.StickersSearchGridAdapter.AnonymousClass1.this.lambda$run$0(access$4904, allStickers, arrayList3, str);
-                        }
-                    }, false);
+                    MediaDataController.getInstance(StickerMasksAlert.this.currentAccount).getEmojiSuggestions(StickerMasksAlert.this.lastSearchKeyboardLanguage, StickersSearchGridAdapter.this.searchQuery, false, new StickerMasksAlert$StickersSearchGridAdapter$1$$ExternalSyntheticLambda1(this, access$4904, allStickers), false);
                 }
                 ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(StickerMasksAlert.this.currentAccount).getStickerSets(StickerMasksAlert.this.currentType);
                 int size2 = stickerSets.size();
@@ -1473,16 +1570,11 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 boolean isValidEmoji = Emoji.isValidEmoji(StickersSearchGridAdapter.this.searchQuery);
                 if (isValidEmoji) {
                     StickerMasksAlert.this.stickersSearchField.progressDrawable.startAnimation();
-                    final TLRPC$TL_messages_getStickers tLRPC$TL_messages_getStickers = new TLRPC$TL_messages_getStickers();
+                    TLRPC$TL_messages_getStickers tLRPC$TL_messages_getStickers = new TLRPC$TL_messages_getStickers();
                     tLRPC$TL_messages_getStickers.emoticon = StickersSearchGridAdapter.this.searchQuery;
                     tLRPC$TL_messages_getStickers.hash = 0L;
                     StickersSearchGridAdapter stickersSearchGridAdapter2 = StickersSearchGridAdapter.this;
-                    stickersSearchGridAdapter2.reqId2 = ConnectionsManager.getInstance(StickerMasksAlert.this.currentAccount).sendRequest(tLRPC$TL_messages_getStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.StickerMasksAlert$StickersSearchGridAdapter$1$$ExternalSyntheticLambda2
-                        @Override // org.telegram.tgnet.RequestDelegate
-                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            StickerMasksAlert.StickersSearchGridAdapter.AnonymousClass1.this.lambda$run$2(tLRPC$TL_messages_getStickers, arrayList, longSparseArray, tLObject, tLRPC$TL_error);
-                        }
-                    });
+                    stickersSearchGridAdapter2.reqId2 = ConnectionsManager.getInstance(StickerMasksAlert.this.currentAccount).sendRequest(tLRPC$TL_messages_getStickers, new StickerMasksAlert$StickersSearchGridAdapter$1$$ExternalSyntheticLambda2(this, tLRPC$TL_messages_getStickers, arrayList, longSparseArray));
                 }
                 if ((!isValidEmoji || !StickersSearchGridAdapter.this.localPacks.isEmpty() || !StickersSearchGridAdapter.this.emojiStickers.isEmpty()) && StickerMasksAlert.this.gridView.getAdapter() != StickerMasksAlert.this.stickersSearchGridAdapter) {
                     StickerMasksAlert.this.gridView.setAdapter(StickerMasksAlert.this.stickersSearchGridAdapter);
@@ -1519,13 +1611,8 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 StickersSearchGridAdapter.this.notifyDataSetChanged();
             }
 
-            public /* synthetic */ void lambda$run$2(final TLRPC$TL_messages_getStickers tLRPC$TL_messages_getStickers, final ArrayList arrayList, final LongSparseArray longSparseArray, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickerMasksAlert$StickersSearchGridAdapter$1$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        StickerMasksAlert.StickersSearchGridAdapter.AnonymousClass1.this.lambda$run$1(tLRPC$TL_messages_getStickers, tLObject, arrayList, longSparseArray);
-                    }
-                });
+            public /* synthetic */ void lambda$run$2(TLRPC$TL_messages_getStickers tLRPC$TL_messages_getStickers, ArrayList arrayList, LongSparseArray longSparseArray, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                AndroidUtilities.runOnUIThread(new StickerMasksAlert$StickersSearchGridAdapter$1$$ExternalSyntheticLambda0(this, tLRPC$TL_messages_getStickers, tLObject, arrayList, longSparseArray));
             }
 
             public /* synthetic */ void lambda$run$1(TLRPC$TL_messages_getStickers tLRPC$TL_messages_getStickers, TLObject tLObject, ArrayList arrayList, LongSparseArray longSparseArray) {
@@ -1608,52 +1695,70 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             return obj instanceof TLRPC$Document ? 0 : 2;
         }
 
+        /* renamed from: org.telegram.ui.Components.StickerMasksAlert$StickersSearchGridAdapter$2 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass2 extends StickerEmojiCell {
+            AnonymousClass2(StickersSearchGridAdapter stickersSearchGridAdapter, Context context, boolean z) {
+                super(context, z);
+            }
+
+            @Override // android.widget.FrameLayout, android.view.View
+            public void onMeasure(int i, int i2) {
+                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
+            }
+        }
+
+        /* renamed from: org.telegram.ui.Components.StickerMasksAlert$StickersSearchGridAdapter$3 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass3 extends FrameLayout {
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+            AnonymousClass3(Context context) {
+                super(context);
+                StickersSearchGridAdapter.this = r1;
+            }
+
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i, int i2) {
+                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(((StickerMasksAlert.this.gridView.getMeasuredHeight() - StickerMasksAlert.this.searchFieldHeight) - AndroidUtilities.dp(48.0f)) - AndroidUtilities.dp(48.0f), 1073741824));
+            }
+        }
+
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            FrameLayout frameLayout;
-            FrameLayout frameLayout2;
+            AnonymousClass3 anonymousClass3;
+            View view;
             if (i == 0) {
-                frameLayout2 = new StickerEmojiCell(this, this.context, false) { // from class: org.telegram.ui.Components.StickerMasksAlert.StickersSearchGridAdapter.2
-                    @Override // android.widget.FrameLayout, android.view.View
-                    public void onMeasure(int i2, int i3) {
-                        super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
-                    }
-                };
+                view = new AnonymousClass2(this, this.context, false);
             } else {
                 if (i == 1) {
-                    frameLayout = new EmptyCell(this.context);
+                    anonymousClass3 = new EmptyCell(this.context);
                 } else if (i == 2) {
-                    frameLayout2 = new StickerSetNameCell(this.context, false, ((BottomSheet) StickerMasksAlert.this).resourcesProvider);
+                    view = new StickerSetNameCell(this.context, false, ((BottomSheet) StickerMasksAlert.this).resourcesProvider);
                 } else if (i == 4) {
-                    View view = new View(this.context);
-                    view.setLayoutParams(new RecyclerView.LayoutParams(-1, StickerMasksAlert.this.searchFieldHeight + AndroidUtilities.dp(48.0f)));
-                    frameLayout = view;
+                    View view2 = new View(this.context);
+                    view2.setLayoutParams(new RecyclerView.LayoutParams(-1, StickerMasksAlert.this.searchFieldHeight + AndroidUtilities.dp(48.0f)));
+                    anonymousClass3 = view2;
                 } else if (i != 5) {
-                    frameLayout = null;
+                    anonymousClass3 = null;
                 } else {
-                    FrameLayout frameLayout3 = new FrameLayout(this.context) { // from class: org.telegram.ui.Components.StickerMasksAlert.StickersSearchGridAdapter.3
-                        @Override // android.widget.FrameLayout, android.view.View
-                        protected void onMeasure(int i2, int i3) {
-                            super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(((StickerMasksAlert.this.gridView.getMeasuredHeight() - StickerMasksAlert.this.searchFieldHeight) - AndroidUtilities.dp(48.0f)) - AndroidUtilities.dp(48.0f), 1073741824));
-                        }
-                    };
+                    AnonymousClass3 anonymousClass32 = new AnonymousClass3(this.context);
                     ImageView imageView = new ImageView(this.context);
                     imageView.setScaleType(ImageView.ScaleType.CENTER);
-                    imageView.setImageResource(R.drawable.stickers_empty);
+                    imageView.setImageResource(2131166168);
                     imageView.setColorFilter(new PorterDuffColorFilter(-7038047, PorterDuff.Mode.MULTIPLY));
-                    frameLayout3.addView(imageView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 50.0f));
+                    anonymousClass32.addView(imageView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 50.0f));
                     TextView textView = new TextView(this.context);
-                    textView.setText(LocaleController.getString("NoStickersFound", R.string.NoStickersFound));
+                    textView.setText(LocaleController.getString("NoStickersFound", 2131626926));
                     textView.setTextSize(1, 16.0f);
                     textView.setTextColor(-7038047);
-                    frameLayout3.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 0.0f));
-                    frameLayout3.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                    frameLayout = frameLayout3;
+                    anonymousClass32.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 0.0f));
+                    anonymousClass32.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                    anonymousClass3 = anonymousClass32;
                 }
-                return new RecyclerListView.Holder(frameLayout);
+                return new RecyclerListView.Holder(anonymousClass3);
             }
-            frameLayout = frameLayout2;
-            return new RecyclerListView.Holder(frameLayout);
+            anonymousClass3 = view;
+            return new RecyclerListView.Holder(anonymousClass3);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

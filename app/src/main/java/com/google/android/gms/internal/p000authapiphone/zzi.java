@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Looper;
-import com.google.android.gms.common.GooglePlayServicesUtilLight;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
@@ -26,7 +25,7 @@ public final class zzi extends GmsClient<zze> {
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient, com.google.android.gms.common.api.Api.Client
     public final int getMinApkVersion() {
-        return GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
+        return 12451000;
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class PackageManagerHelper {
     public final PackageManager a;
@@ -47,7 +46,7 @@ public class PackageManagerHelper {
 
     public String getApplicationName(String str) {
         try {
-            return this.a.getApplicationLabel(this.a.getApplicationInfo(str, ConnectionsManager.RequestFlagNeedQuickAck)).toString();
+            return this.a.getApplicationLabel(this.a.getApplicationInfo(str, 128)).toString();
         } catch (AndroidException unused) {
             HMSLog.e("PackageManagerHelper", "Failed to get application name for " + str);
             return null;
@@ -56,7 +55,7 @@ public class PackageManagerHelper {
 
     public long getPackageFirstInstallTime(String str) {
         try {
-            PackageInfo packageInfo = this.a.getPackageInfo(str, ConnectionsManager.RequestFlagNeedQuickAck);
+            PackageInfo packageInfo = this.a.getPackageInfo(str, 128);
             if (packageInfo == null) {
                 return 0L;
             }
@@ -79,7 +78,7 @@ public class PackageManagerHelper {
             return PackageStates.NOT_INSTALLED;
         }
         try {
-            if (this.a.getApplicationInfo(str, ConnectionsManager.RequestFlagNeedQuickAck).enabled) {
+            if (this.a.getApplicationInfo(str, 128).enabled) {
                 return PackageStates.ENABLED;
             }
             return PackageStates.DISABLED;
@@ -140,7 +139,7 @@ public class PackageManagerHelper {
 
     public boolean isPackageFreshInstall(String str) {
         try {
-            PackageInfo packageInfo = this.a.getPackageInfo(str, ConnectionsManager.RequestFlagNeedQuickAck);
+            PackageInfo packageInfo = this.a.getPackageInfo(str, 128);
             if (packageInfo == null) {
                 return false;
             }

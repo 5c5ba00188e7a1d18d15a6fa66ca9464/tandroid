@@ -12,7 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.LayoutHelper;
@@ -30,17 +29,25 @@ public class TextRadioCell extends FrameLayout {
     private TextView textView;
     private TextView valueTextView;
 
-    static {
-        new AnimationProperties.FloatProperty<TextRadioCell>("animationProgress") { // from class: org.telegram.ui.Cells.TextRadioCell.1
-            public void setValue(TextRadioCell textRadioCell, float f) {
-                textRadioCell.setAnimationProgress(f);
-                textRadioCell.invalidate();
-            }
+    /* renamed from: org.telegram.ui.Cells.TextRadioCell$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends AnimationProperties.FloatProperty<TextRadioCell> {
+        AnonymousClass1(String str) {
+            super(str);
+        }
 
-            public Float get(TextRadioCell textRadioCell) {
-                return Float.valueOf(textRadioCell.animationProgress);
-            }
-        };
+        public void setValue(TextRadioCell textRadioCell, float f) {
+            textRadioCell.setAnimationProgress(f);
+            textRadioCell.invalidate();
+        }
+
+        public Float get(TextRadioCell textRadioCell) {
+            return Float.valueOf(textRadioCell.animationProgress);
+        }
+    }
+
+    static {
+        new AnonymousClass1("animationProgress");
     }
 
     public TextRadioCell(Context context) {
@@ -179,10 +186,10 @@ public class TextRadioCell extends FrameLayout {
         accessibilityNodeInfo.setCheckable(true);
         accessibilityNodeInfo.setChecked(this.radioButton.isChecked());
         if (this.radioButton.isChecked()) {
-            i = R.string.NotificationsOn;
+            i = 2131627103;
             str = "NotificationsOn";
         } else {
-            i = R.string.NotificationsOff;
+            i = 2131627101;
             str = "NotificationsOff";
         }
         accessibilityNodeInfo.setContentDescription(LocaleController.getString(str, i));

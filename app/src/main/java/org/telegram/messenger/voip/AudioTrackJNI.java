@@ -82,12 +82,7 @@ public class AudioTrackJNI {
             throw new IllegalStateException("thread already started");
         }
         this.running = true;
-        Thread thread = new Thread(new Runnable() { // from class: org.telegram.messenger.voip.AudioTrackJNI$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                AudioTrackJNI.this.lambda$startThread$0();
-            }
-        });
+        Thread thread = new Thread(new AudioTrackJNI$$ExternalSyntheticLambda0(this));
         this.thread = thread;
         thread.start();
     }

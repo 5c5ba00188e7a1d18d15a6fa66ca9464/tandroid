@@ -9,17 +9,7 @@ public final class TrackGroupArray implements Parcelable {
     public final int length;
     private final TrackGroup[] trackGroups;
     public static final TrackGroupArray EMPTY = new TrackGroupArray(new TrackGroup[0]);
-    public static final Parcelable.Creator<TrackGroupArray> CREATOR = new Parcelable.Creator<TrackGroupArray>() { // from class: com.google.android.exoplayer2.source.TrackGroupArray.1
-        @Override // android.os.Parcelable.Creator
-        public TrackGroupArray createFromParcel(Parcel parcel) {
-            return new TrackGroupArray(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public TrackGroupArray[] newArray(int i) {
-            return new TrackGroupArray[i];
-        }
-    };
+    public static final Parcelable.Creator<TrackGroupArray> CREATOR = new AnonymousClass1();
 
     @Override // android.os.Parcelable
     public int describeContents() {
@@ -76,6 +66,23 @@ public final class TrackGroupArray implements Parcelable {
         parcel.writeInt(this.length);
         for (int i2 = 0; i2 < this.length; i2++) {
             parcel.writeParcelable(this.trackGroups[i2], 0);
+        }
+    }
+
+    /* renamed from: com.google.android.exoplayer2.source.TrackGroupArray$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<TrackGroupArray> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public TrackGroupArray createFromParcel(Parcel parcel) {
+            return new TrackGroupArray(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public TrackGroupArray[] newArray(int i) {
+            return new TrackGroupArray[i];
         }
     }
 }

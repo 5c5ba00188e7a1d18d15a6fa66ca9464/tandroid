@@ -21,7 +21,6 @@ import j$.wrappers.C$r8$wrapper$java$util$stream$IntStream$VWRP;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.ui.Components.AnimatedTextView;
 /* loaded from: classes3.dex */
 public class AnimatedTextView extends View {
     private AnimatedTextDrawable drawable;
@@ -245,32 +244,17 @@ public class AnimatedTextView extends View {
                     this.currentText = str;
                     this.currentLayout = null;
                     this.oldLayout = null;
-                    final ArrayList arrayList = new ArrayList();
-                    final ArrayList arrayList2 = new ArrayList();
-                    final ArrayList arrayList3 = new ArrayList();
-                    final ArrayList arrayList4 = new ArrayList();
-                    final ArrayList arrayList5 = new ArrayList();
-                    final ArrayList arrayList6 = new ArrayList();
+                    ArrayList arrayList = new ArrayList();
+                    ArrayList arrayList2 = new ArrayList();
+                    ArrayList arrayList3 = new ArrayList();
+                    ArrayList arrayList4 = new ArrayList();
+                    ArrayList arrayList5 = new ArrayList();
+                    ArrayList arrayList6 = new ArrayList();
                     this.currentHeight = 0;
                     this.currentWidth = 0;
                     this.oldHeight = 0;
                     this.oldWidth = 0;
-                    diff(this.splitByWords ? new WordSequence(this.oldText) : this.oldText, this.splitByWords ? new WordSequence(this.currentText) : this.currentText, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda3
-                        @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
-                        public final void run(CharSequence charSequence2, int i, int i2) {
-                            AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$0(arrayList5, arrayList3, arrayList2, arrayList6, arrayList, arrayList4, charSequence2, i, i2);
-                        }
-                    }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda2
-                        @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
-                        public final void run(CharSequence charSequence2, int i, int i2) {
-                            AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$1(arrayList, arrayList3, arrayList2, charSequence2, i, i2);
-                        }
-                    }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda1
-                        @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
-                        public final void run(CharSequence charSequence2, int i, int i2) {
-                            AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$2(arrayList4, arrayList6, arrayList5, charSequence2, i, i2);
-                        }
-                    });
+                    diff(this.splitByWords ? new WordSequence(this.oldText) : this.oldText, this.splitByWords ? new WordSequence(this.currentText) : this.currentText, new AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda3(this, arrayList5, arrayList3, arrayList2, arrayList6, arrayList, arrayList4), new AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda2(this, arrayList, arrayList3, arrayList2), new AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda1(this, arrayList4, arrayList6, arrayList5));
                     StaticLayout[] staticLayoutArr = this.currentLayout;
                     if (staticLayoutArr == null || staticLayoutArr.length != arrayList3.size()) {
                         this.currentLayout = new StaticLayout[arrayList3.size()];
@@ -314,37 +298,8 @@ public class AnimatedTextView extends View {
                     this.t = 0.0f;
                     ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                     this.animator = ofFloat;
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$3(valueAnimator);
-                        }
-                    });
-                    this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.1
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            super.onAnimationEnd(animator);
-                            AnimatedTextDrawable.this.oldLayout = null;
-                            AnimatedTextDrawable.this.oldLayoutOffsets = null;
-                            AnimatedTextDrawable.this.oldLayoutToCurrentIndex = null;
-                            AnimatedTextDrawable.this.oldText = null;
-                            AnimatedTextDrawable.this.oldWidth = 0;
-                            AnimatedTextDrawable.this.t = 0.0f;
-                            AnimatedTextDrawable.this.invalidateSelf();
-                            AnimatedTextDrawable.this.animator = null;
-                            if (AnimatedTextDrawable.this.toSetText == null) {
-                                if (AnimatedTextDrawable.this.onAnimationFinishListener == null) {
-                                    return;
-                                }
-                                AnimatedTextDrawable.this.onAnimationFinishListener.run();
-                                return;
-                            }
-                            AnimatedTextDrawable animatedTextDrawable = AnimatedTextDrawable.this;
-                            animatedTextDrawable.setText(animatedTextDrawable.toSetText, true, AnimatedTextDrawable.this.toSetTextMoveDown);
-                            AnimatedTextDrawable.this.toSetText = null;
-                            AnimatedTextDrawable.this.toSetTextMoveDown = false;
-                        }
-                    });
+                    ofFloat.addUpdateListener(new AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda0(this));
+                    this.animator.addListener(new AnonymousClass1());
                     this.animator.setStartDelay(this.animateDelay);
                     this.animator.setDuration(this.animateDuration);
                     this.animator.setInterpolator(this.animateInterpolator);
@@ -418,6 +373,38 @@ public class AnimatedTextView extends View {
         public /* synthetic */ void lambda$setText$3(ValueAnimator valueAnimator) {
             this.t = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             invalidateSelf();
+        }
+
+        /* renamed from: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$1 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass1 extends AnimatorListenerAdapter {
+            AnonymousClass1() {
+                AnimatedTextDrawable.this = r1;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                super.onAnimationEnd(animator);
+                AnimatedTextDrawable.this.oldLayout = null;
+                AnimatedTextDrawable.this.oldLayoutOffsets = null;
+                AnimatedTextDrawable.this.oldLayoutToCurrentIndex = null;
+                AnimatedTextDrawable.this.oldText = null;
+                AnimatedTextDrawable.this.oldWidth = 0;
+                AnimatedTextDrawable.this.t = 0.0f;
+                AnimatedTextDrawable.this.invalidateSelf();
+                AnimatedTextDrawable.this.animator = null;
+                if (AnimatedTextDrawable.this.toSetText == null) {
+                    if (AnimatedTextDrawable.this.onAnimationFinishListener == null) {
+                        return;
+                    }
+                    AnimatedTextDrawable.this.onAnimationFinishListener.run();
+                    return;
+                }
+                AnimatedTextDrawable animatedTextDrawable = AnimatedTextDrawable.this;
+                animatedTextDrawable.setText(animatedTextDrawable.toSetText, true, AnimatedTextDrawable.this.toSetTextMoveDown);
+                AnimatedTextDrawable.this.toSetText = null;
+                AnimatedTextDrawable.this.toSetTextMoveDown = false;
+            }
         }
 
         public CharSequence getText() {
@@ -755,12 +742,7 @@ public class AnimatedTextView extends View {
         AnimatedTextDrawable animatedTextDrawable = new AnimatedTextDrawable(z, z2, z3);
         this.drawable = animatedTextDrawable;
         animatedTextDrawable.setCallback(this);
-        this.drawable.setOnAnimationFinishListener(new Runnable() { // from class: org.telegram.ui.Components.AnimatedTextView$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                AnimatedTextView.this.lambda$new$0();
-            }
-        });
+        this.drawable.setOnAnimationFinishListener(new AnimatedTextView$$ExternalSyntheticLambda0(this));
     }
 
     public /* synthetic */ void lambda$new$0() {

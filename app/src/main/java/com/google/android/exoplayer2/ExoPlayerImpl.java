@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Pair;
 import com.google.android.exoplayer2.BasePlayer;
-import com.google.android.exoplayer2.ExoPlayerImpl;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.PlayerMessage;
 import com.google.android.exoplayer2.Timeline;
@@ -65,18 +64,28 @@ public final class ExoPlayerImpl extends BasePlayer {
         this.playbackParameters = PlaybackParameters.DEFAULT;
         SeekParameters seekParameters = SeekParameters.DEFAULT;
         this.playbackSuppressionReason = 0;
-        Handler handler = new Handler(looper) { // from class: com.google.android.exoplayer2.ExoPlayerImpl.1
-            @Override // android.os.Handler
-            public void handleMessage(Message message) {
-                ExoPlayerImpl.this.handleEvent(message);
-            }
-        };
-        this.eventHandler = handler;
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(looper);
+        this.eventHandler = anonymousClass1;
         this.playbackInfo = PlaybackInfo.createDummy(0L, trackSelectorResult);
         this.pendingListenerNotifications = new ArrayDeque<>();
-        ExoPlayerImplInternal exoPlayerImplInternal = new ExoPlayerImplInternal(rendererArr, trackSelector, trackSelectorResult, loadControl, bandwidthMeter, this.playWhenReady, this.repeatMode, this.shuffleModeEnabled, handler, clock);
+        ExoPlayerImplInternal exoPlayerImplInternal = new ExoPlayerImplInternal(rendererArr, trackSelector, trackSelectorResult, loadControl, bandwidthMeter, this.playWhenReady, this.repeatMode, this.shuffleModeEnabled, anonymousClass1, clock);
         this.internalPlayer = exoPlayerImplInternal;
         this.internalPlayerHandler = new Handler(exoPlayerImplInternal.getPlaybackLooper());
+    }
+
+    /* renamed from: com.google.android.exoplayer2.ExoPlayerImpl$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 extends Handler {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Looper looper) {
+            super(looper);
+            ExoPlayerImpl.this = r1;
+        }
+
+        @Override // android.os.Handler
+        public void handleMessage(Message message) {
+            ExoPlayerImpl.this.handleEvent(message);
+        }
     }
 
     public Looper getApplicationLooper() {
@@ -106,27 +115,21 @@ public final class ExoPlayerImpl extends BasePlayer {
         updatePlaybackInfo(resetPlaybackInfo, false, 4, 1, false);
     }
 
-    public void setPlayWhenReady(final boolean z, final int i) {
+    public void setPlayWhenReady(boolean z, int i) {
         boolean isPlaying = isPlaying();
         boolean z2 = this.playWhenReady && this.playbackSuppressionReason == 0;
         boolean z3 = z && i == 0;
         if (z2 != z3) {
             this.internalPlayer.setPlayWhenReady(z3);
         }
-        final boolean z4 = this.playWhenReady != z;
-        final boolean z5 = this.playbackSuppressionReason != i;
+        boolean z4 = this.playWhenReady != z;
+        boolean z5 = this.playbackSuppressionReason != i;
         this.playWhenReady = z;
         this.playbackSuppressionReason = i;
-        final boolean isPlaying2 = isPlaying();
-        final boolean z6 = isPlaying != isPlaying2;
+        boolean isPlaying2 = isPlaying();
+        boolean z6 = isPlaying != isPlaying2;
         if (z4 || z5 || z6) {
-            final int i2 = this.playbackInfo.playbackState;
-            notifyListeners(new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$$ExternalSyntheticLambda3
-                @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-                public final void invokeListener(Player.EventListener eventListener) {
-                    ExoPlayerImpl.lambda$setPlayWhenReady$0(z4, z, i2, z5, i, z6, isPlaying2, eventListener);
-                }
-            });
+            notifyListeners(new ExoPlayerImpl$$ExternalSyntheticLambda3(z4, z, this.playbackInfo.playbackState, z5, i, z6, isPlaying2));
         }
     }
 
@@ -147,16 +150,11 @@ public final class ExoPlayerImpl extends BasePlayer {
         return this.playWhenReady;
     }
 
-    public void setRepeatMode(final int i) {
+    public void setRepeatMode(int i) {
         if (this.repeatMode != i) {
             this.repeatMode = i;
             this.internalPlayer.setRepeatMode(i);
-            notifyListeners(new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$$ExternalSyntheticLambda0
-                @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-                public final void invokeListener(Player.EventListener eventListener) {
-                    eventListener.onRepeatModeChanged(i);
-                }
-            });
+            notifyListeners(new ExoPlayerImpl$$ExternalSyntheticLambda0(i));
         }
     }
 
@@ -187,7 +185,7 @@ public final class ExoPlayerImpl extends BasePlayer {
         notifyListeners(ExoPlayerImpl$$ExternalSyntheticLambda4.INSTANCE);
     }
 
-    public void setPlaybackParameters(final PlaybackParameters playbackParameters) {
+    public void setPlaybackParameters(PlaybackParameters playbackParameters) {
         if (playbackParameters == null) {
             playbackParameters = PlaybackParameters.DEFAULT;
         }
@@ -197,12 +195,7 @@ public final class ExoPlayerImpl extends BasePlayer {
         this.pendingSetPlaybackParametersAcks++;
         this.playbackParameters = playbackParameters;
         this.internalPlayer.setPlaybackParameters(playbackParameters);
-        notifyListeners(new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$$ExternalSyntheticLambda2
-            @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-            public final void invokeListener(Player.EventListener eventListener) {
-                eventListener.onPlaybackParametersChanged(PlaybackParameters.this);
-            }
-        });
+        notifyListeners(new ExoPlayerImpl$$ExternalSyntheticLambda2(playbackParameters));
     }
 
     public void release(boolean z) {
@@ -351,7 +344,7 @@ public final class ExoPlayerImpl extends BasePlayer {
         handlePlaybackInfo(playbackInfo, i2, z, i3);
     }
 
-    private void handlePlaybackParameters(final PlaybackParameters playbackParameters, boolean z) {
+    private void handlePlaybackParameters(PlaybackParameters playbackParameters, boolean z) {
         if (z) {
             this.pendingSetPlaybackParametersAcks--;
         }
@@ -359,12 +352,7 @@ public final class ExoPlayerImpl extends BasePlayer {
             return;
         }
         this.playbackParameters = playbackParameters;
-        notifyListeners(new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$$ExternalSyntheticLambda1
-            @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-            public final void invokeListener(Player.EventListener eventListener) {
-                eventListener.onPlaybackParametersChanged(PlaybackParameters.this);
-            }
-        });
+        notifyListeners(new ExoPlayerImpl$$ExternalSyntheticLambda1(playbackParameters));
     }
 
     private void handlePlaybackInfo(PlaybackInfo playbackInfo, int i, boolean z, int i2) {
@@ -424,14 +412,8 @@ public final class ExoPlayerImpl extends BasePlayer {
         notifyListeners(new PlaybackInfoUpdate(playbackInfo, playbackInfo2, this.listeners, this.trackSelector, z, i, i2, z2, this.playWhenReady, isPlaying != isPlaying()));
     }
 
-    private void notifyListeners(final BasePlayer.ListenerInvocation listenerInvocation) {
-        final CopyOnWriteArrayList copyOnWriteArrayList = new CopyOnWriteArrayList(this.listeners);
-        notifyListeners(new Runnable() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                ExoPlayerImpl.invokeAll(copyOnWriteArrayList, listenerInvocation);
-            }
-        });
+    private void notifyListeners(BasePlayer.ListenerInvocation listenerInvocation) {
+        notifyListeners(new ExoPlayerImpl$$ExternalSyntheticLambda5(new CopyOnWriteArrayList(this.listeners), listenerInvocation));
     }
 
     private void notifyListeners(Runnable runnable) {
@@ -496,61 +478,26 @@ public final class ExoPlayerImpl extends BasePlayer {
         @Override // java.lang.Runnable
         public void run() {
             if (this.timelineChanged || this.timelineChangeReason == 0) {
-                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda1
-                    @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-                    public final void invokeListener(Player.EventListener eventListener) {
-                        ExoPlayerImpl.PlaybackInfoUpdate.this.lambda$run$0(eventListener);
-                    }
-                });
+                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda1(this));
             }
             if (this.positionDiscontinuity) {
-                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda3
-                    @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-                    public final void invokeListener(Player.EventListener eventListener) {
-                        ExoPlayerImpl.PlaybackInfoUpdate.this.lambda$run$1(eventListener);
-                    }
-                });
+                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda3(this));
             }
             if (this.playbackErrorChanged) {
-                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda0
-                    @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-                    public final void invokeListener(Player.EventListener eventListener) {
-                        ExoPlayerImpl.PlaybackInfoUpdate.this.lambda$run$2(eventListener);
-                    }
-                });
+                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda0(this));
             }
             if (this.trackSelectorResultChanged) {
                 this.trackSelector.onSelectionActivated(this.playbackInfo.trackSelectorResult.info);
-                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda4
-                    @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-                    public final void invokeListener(Player.EventListener eventListener) {
-                        ExoPlayerImpl.PlaybackInfoUpdate.this.lambda$run$3(eventListener);
-                    }
-                });
+                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda4(this));
             }
             if (this.isLoadingChanged) {
-                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda2
-                    @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-                    public final void invokeListener(Player.EventListener eventListener) {
-                        ExoPlayerImpl.PlaybackInfoUpdate.this.lambda$run$4(eventListener);
-                    }
-                });
+                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda2(this));
             }
             if (this.playbackStateChanged) {
-                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda6
-                    @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-                    public final void invokeListener(Player.EventListener eventListener) {
-                        ExoPlayerImpl.PlaybackInfoUpdate.this.lambda$run$5(eventListener);
-                    }
-                });
+                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda6(this));
             }
             if (this.isPlayingChanged) {
-                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new BasePlayer.ListenerInvocation() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda5
-                    @Override // com.google.android.exoplayer2.BasePlayer.ListenerInvocation
-                    public final void invokeListener(Player.EventListener eventListener) {
-                        ExoPlayerImpl.PlaybackInfoUpdate.this.lambda$run$6(eventListener);
-                    }
-                });
+                ExoPlayerImpl.invokeAll(this.listenerSnapshot, new ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda5(this));
             }
             if (this.seekProcessed) {
                 ExoPlayerImpl.invokeAll(this.listenerSnapshot, ExoPlayerImpl$PlaybackInfoUpdate$$ExternalSyntheticLambda7.INSTANCE);

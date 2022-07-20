@@ -25,7 +25,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.voip.VoIPNotificationsLayout;
 /* loaded from: classes3.dex */
 public class VoIPNotificationsLayout extends LinearLayout {
     boolean lockAnimation;
@@ -42,17 +41,24 @@ public class VoIPNotificationsLayout extends LinearLayout {
         if (Build.VERSION.SDK_INT >= 19) {
             TransitionSet transitionSet = new TransitionSet();
             this.transitionSet = transitionSet;
-            transitionSet.addTransition(new Fade(2).setDuration(150L)).addTransition(new ChangeBounds().setDuration(200L)).addTransition(new Visibility(this) { // from class: org.telegram.ui.Components.voip.VoIPNotificationsLayout.1
-                @Override // android.transition.Visibility
-                public Animator onAppear(ViewGroup viewGroup, View view, TransitionValues transitionValues, TransitionValues transitionValues2) {
-                    AnimatorSet animatorSet = new AnimatorSet();
-                    view.setAlpha(0.0f);
-                    animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.getMeasuredHeight(), 0.0f));
-                    animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                    return animatorSet;
-                }
-            }.setDuration(200L));
+            transitionSet.addTransition(new Fade(2).setDuration(150L)).addTransition(new ChangeBounds().setDuration(200L)).addTransition(new AnonymousClass1(this).setDuration(200L));
             this.transitionSet.setOrdering(0);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.voip.VoIPNotificationsLayout$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends Visibility {
+        AnonymousClass1(VoIPNotificationsLayout voIPNotificationsLayout) {
+        }
+
+        @Override // android.transition.Visibility
+        public Animator onAppear(ViewGroup viewGroup, View view, TransitionValues transitionValues, TransitionValues transitionValues2) {
+            AnimatorSet animatorSet = new AnimatorSet();
+            view.setAlpha(0.0f);
+            animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.getMeasuredHeight(), 0.0f));
+            animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
+            return animatorSet;
         }
     }
 
@@ -93,12 +99,7 @@ public class VoIPNotificationsLayout extends LinearLayout {
 
     private void lock() {
         this.lockAnimation = true;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPNotificationsLayout$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                VoIPNotificationsLayout.this.lambda$lock$0();
-            }
-        }, 700L);
+        AndroidUtilities.runOnUIThread(new VoIPNotificationsLayout$$ExternalSyntheticLambda0(this), 700L);
     }
 
     public /* synthetic */ void lambda$lock$0() {
@@ -193,12 +194,7 @@ public class VoIPNotificationsLayout extends LinearLayout {
 
         public void startAnimation() {
             this.textView.setVisibility(8);
-            postDelayed(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPNotificationsLayout$NotificationView$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    VoIPNotificationsLayout.NotificationView.this.lambda$startAnimation$0();
-                }
-            }, 400L);
+            postDelayed(new VoIPNotificationsLayout$NotificationView$$ExternalSyntheticLambda0(this), 400L);
         }
 
         public /* synthetic */ void lambda$startAnimation$0() {

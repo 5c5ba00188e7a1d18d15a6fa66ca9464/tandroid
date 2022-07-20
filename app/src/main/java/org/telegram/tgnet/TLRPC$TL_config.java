@@ -131,7 +131,7 @@ public class TLRPC$TL_config extends TLObject {
         this.call_connect_timeout_ms = abstractSerializedData.readInt32(z);
         this.call_packet_timeout_ms = abstractSerializedData.readInt32(z);
         this.me_url_prefix = abstractSerializedData.readString(z);
-        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if ((this.flags & 128) != 0) {
             this.autoupdate_url_prefix = abstractSerializedData.readString(z);
         }
         if ((this.flags & 512) != 0) {
@@ -221,7 +221,7 @@ public class TLRPC$TL_config extends TLObject {
         abstractSerializedData.writeInt32(this.call_connect_timeout_ms);
         abstractSerializedData.writeInt32(this.call_packet_timeout_ms);
         abstractSerializedData.writeString(this.me_url_prefix);
-        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if ((this.flags & 128) != 0) {
             abstractSerializedData.writeString(this.autoupdate_url_prefix);
         }
         if ((this.flags & 512) != 0) {

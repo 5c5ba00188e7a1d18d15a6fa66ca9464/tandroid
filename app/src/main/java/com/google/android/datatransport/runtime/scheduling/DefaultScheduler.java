@@ -29,16 +29,11 @@ public class DefaultScheduler implements Scheduler {
     }
 
     @Override // com.google.android.datatransport.runtime.scheduling.Scheduler
-    public void schedule(final TransportContext transportContext, final EventInternal eventInternal, final TransportScheduleCallback transportScheduleCallback) {
-        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.DefaultScheduler$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                DefaultScheduler.this.lambda$schedule$1(transportContext, transportScheduleCallback, eventInternal);
-            }
-        });
+    public void schedule(TransportContext transportContext, EventInternal eventInternal, TransportScheduleCallback transportScheduleCallback) {
+        this.executor.execute(new DefaultScheduler$$ExternalSyntheticLambda1(this, transportContext, transportScheduleCallback, eventInternal));
     }
 
-    public /* synthetic */ void lambda$schedule$1(final TransportContext transportContext, TransportScheduleCallback transportScheduleCallback, EventInternal eventInternal) {
+    public /* synthetic */ void lambda$schedule$1(TransportContext transportContext, TransportScheduleCallback transportScheduleCallback, EventInternal eventInternal) {
         try {
             TransportBackend transportBackend = this.backendRegistry.get(transportContext.getBackendName());
             if (transportBackend == null) {
@@ -47,15 +42,7 @@ public class DefaultScheduler implements Scheduler {
                 transportScheduleCallback.onSchedule(new IllegalArgumentException(format));
                 return;
             }
-            final EventInternal decorate = transportBackend.decorate(eventInternal);
-            this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.DefaultScheduler$$ExternalSyntheticLambda0
-                @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
-                public final Object execute() {
-                    Object lambda$schedule$0;
-                    lambda$schedule$0 = DefaultScheduler.this.lambda$schedule$0(transportContext, decorate);
-                    return lambda$schedule$0;
-                }
-            });
+            this.guard.runCriticalSection(new DefaultScheduler$$ExternalSyntheticLambda0(this, transportContext, transportBackend.decorate(eventInternal)));
             transportScheduleCallback.onSchedule(null);
         } catch (Exception e) {
             Logger logger = LOGGER;

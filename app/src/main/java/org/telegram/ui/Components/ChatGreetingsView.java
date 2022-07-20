@@ -14,7 +14,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SvgHelper;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeImageSize;
@@ -45,7 +44,7 @@ public class ChatGreetingsView extends LinearLayout {
         TextView textView = new TextView(context);
         this.titleView = textView;
         textView.setTextSize(1, 14.0f);
-        this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.titleView.setGravity(1);
         TextView textView2 = new TextView(context);
         this.descriptionView = textView2;
@@ -57,11 +56,11 @@ public class ChatGreetingsView extends LinearLayout {
         addView(this.stickerToSendView, LayoutHelper.createLinear(112, 112, 1, 0, 16, 0, 16));
         updateColors();
         if (i <= 0) {
-            this.titleView.setText(LocaleController.getString("NoMessages", R.string.NoMessages));
-            this.descriptionView.setText(LocaleController.getString("NoMessagesGreetingsDescription", R.string.NoMessagesGreetingsDescription));
+            this.titleView.setText(LocaleController.getString("NoMessages", 2131626889));
+            this.descriptionView.setText(LocaleController.getString("NoMessagesGreetingsDescription", 2131626891));
         } else {
-            this.titleView.setText(LocaleController.formatString("NearbyPeopleGreetingsMessage", R.string.NearbyPeopleGreetingsMessage, tLRPC$User.first_name, LocaleController.formatDistance(i, 1)));
-            this.descriptionView.setText(LocaleController.getString("NearbyPeopleGreetingsDescription", R.string.NearbyPeopleGreetingsDescription));
+            this.titleView.setText(LocaleController.formatString("NearbyPeopleGreetingsMessage", 2131626812, tLRPC$User.first_name, LocaleController.formatDistance(i, 1)));
+            this.descriptionView.setText(LocaleController.getString("NearbyPeopleGreetingsDescription", 2131626811));
         }
         this.stickerToSendView.setContentDescription(this.descriptionView.getText());
         this.preloadedGreetingsSticker = tLRPC$Document;
@@ -70,7 +69,7 @@ public class ChatGreetingsView extends LinearLayout {
         }
     }
 
-    private void setSticker(final TLRPC$Document tLRPC$Document) {
+    private void setSticker(TLRPC$Document tLRPC$Document) {
         if (tLRPC$Document == null) {
             return;
         }
@@ -80,12 +79,7 @@ public class ChatGreetingsView extends LinearLayout {
         } else {
             this.stickerToSendView.setImage(ImageLocation.getForDocument(tLRPC$Document), createFilter(tLRPC$Document), ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document), (String) null, 0, tLRPC$Document);
         }
-        this.stickerToSendView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ChatGreetingsView.this.lambda$setSticker$0(tLRPC$Document, view);
-            }
-        });
+        this.stickerToSendView.setOnClickListener(new ChatGreetingsView$$ExternalSyntheticLambda0(this, tLRPC$Document));
     }
 
     public /* synthetic */ void lambda$setSticker$0(TLRPC$Document tLRPC$Document, View view) {

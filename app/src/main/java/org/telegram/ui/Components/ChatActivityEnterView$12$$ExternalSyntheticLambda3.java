@@ -1,0 +1,22 @@
+package org.telegram.ui.Components;
+
+import java.io.File;
+import java.util.ArrayList;
+import org.telegram.ui.Components.ChatActivityEnterView;
+/* loaded from: classes3.dex */
+public final /* synthetic */ class ChatActivityEnterView$12$$ExternalSyntheticLambda3 implements Runnable {
+    public final /* synthetic */ ChatActivityEnterView.AnonymousClass12 f$0;
+    public final /* synthetic */ ArrayList f$1;
+    public final /* synthetic */ File f$2;
+
+    public /* synthetic */ ChatActivityEnterView$12$$ExternalSyntheticLambda3(ChatActivityEnterView.AnonymousClass12 anonymousClass12, ArrayList arrayList, File file) {
+        this.f$0 = anonymousClass12;
+        this.f$1 = arrayList;
+        this.f$2 = file;
+    }
+
+    @Override // java.lang.Runnable
+    public final void run() {
+        this.f$0.lambda$editPhoto$3(this.f$1, this.f$2);
+    }
+}

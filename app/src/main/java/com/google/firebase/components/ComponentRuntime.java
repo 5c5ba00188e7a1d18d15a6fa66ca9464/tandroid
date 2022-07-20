@@ -1,7 +1,6 @@
 package com.google.firebase.components;
 
 import android.util.Log;
-import com.google.firebase.components.ComponentRuntime;
 import com.google.firebase.dynamicloading.ComponentLoader;
 import com.google.firebase.events.Publisher;
 import com.google.firebase.events.Subscriber;
@@ -83,15 +82,8 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
                 arrayList2.addAll(list);
                 CycleDetector.detect(arrayList2);
             }
-            for (final Component<?> component : list) {
-                this.components.put(component, new Lazy(new Provider() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda1
-                    @Override // com.google.firebase.inject.Provider
-                    public final Object get() {
-                        Object lambda$discoverComponents$0;
-                        lambda$discoverComponents$0 = ComponentRuntime.this.lambda$discoverComponents$0(component);
-                        return lambda$discoverComponents$0;
-                    }
-                }));
+            for (Component<?> component : list) {
+                this.components.put(component, new Lazy(new ComponentRuntime$$ExternalSyntheticLambda1(this, component)));
             }
             arrayList.addAll(processInstanceComponents(list));
             arrayList.addAll(processSetComponents());
@@ -116,15 +108,8 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
 
     private static Iterable<Provider<ComponentRegistrar>> toProviders(Iterable<ComponentRegistrar> iterable) {
         ArrayList arrayList = new ArrayList();
-        for (final ComponentRegistrar componentRegistrar : iterable) {
-            arrayList.add(new Provider() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda0
-                @Override // com.google.firebase.inject.Provider
-                public final Object get() {
-                    ComponentRegistrar lambda$toProviders$1;
-                    lambda$toProviders$1 = ComponentRuntime.lambda$toProviders$1(ComponentRegistrar.this);
-                    return lambda$toProviders$1;
-                }
-            });
+        for (ComponentRegistrar componentRegistrar : iterable) {
+            arrayList.add(new ComponentRuntime$$ExternalSyntheticLambda0(componentRegistrar));
         }
         return arrayList;
     }
@@ -141,18 +126,12 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
         ArrayList arrayList = new ArrayList();
         for (Component<?> component : list) {
             if (component.isValue()) {
-                final Provider<?> provider = this.components.get(component);
+                Provider<?> provider = this.components.get(component);
                 for (Class<? super Object> cls : component.getProvidedInterfaces()) {
                     if (!this.lazyInstanceMap.containsKey(cls)) {
                         this.lazyInstanceMap.put(cls, provider);
                     } else {
-                        final OptionalProvider optionalProvider = (OptionalProvider) this.lazyInstanceMap.get(cls);
-                        arrayList.add(new Runnable() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda4
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                OptionalProvider.this.set(provider);
-                            }
-                        });
+                        arrayList.add(new ComponentRuntime$$ExternalSyntheticLambda4((OptionalProvider) this.lazyInstanceMap.get(cls), provider));
                     }
                 }
             }
@@ -179,14 +158,9 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
             if (!this.lazySetMap.containsKey(entry2.getKey())) {
                 this.lazySetMap.put((Class) entry2.getKey(), LazySet.fromCollection((Collection) entry2.getValue()));
             } else {
-                final LazySet<?> lazySet = this.lazySetMap.get(entry2.getKey());
-                for (final Provider provider : (Set) entry2.getValue()) {
-                    arrayList.add(new Runnable() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda3
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            LazySet.this.add(provider);
-                        }
-                    });
+                LazySet<?> lazySet = this.lazySetMap.get(entry2.getKey());
+                for (Provider provider : (Set) entry2.getValue()) {
+                    arrayList.add(new ComponentRuntime$$ExternalSyntheticLambda3(lazySet, provider));
                 }
             }
         }
@@ -267,15 +241,8 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
             return this;
         }
 
-        public Builder addComponentRegistrar(final ComponentRegistrar componentRegistrar) {
-            this.lazyRegistrars.add(new Provider() { // from class: com.google.firebase.components.ComponentRuntime$Builder$$ExternalSyntheticLambda0
-                @Override // com.google.firebase.inject.Provider
-                public final Object get() {
-                    ComponentRegistrar lambda$addComponentRegistrar$0;
-                    lambda$addComponentRegistrar$0 = ComponentRuntime.Builder.lambda$addComponentRegistrar$0(ComponentRegistrar.this);
-                    return lambda$addComponentRegistrar$0;
-                }
-            });
+        public Builder addComponentRegistrar(ComponentRegistrar componentRegistrar) {
+            this.lazyRegistrars.add(new ComponentRuntime$Builder$$ExternalSyntheticLambda0(componentRegistrar));
             return this;
         }
 

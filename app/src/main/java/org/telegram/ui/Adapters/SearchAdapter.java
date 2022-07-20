@@ -20,7 +20,6 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$TL_contact;
@@ -69,38 +68,46 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         this.allowPhoneNumbers = z6;
         SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(true);
         this.searchAdapterHelper = searchAdapterHelper;
-        searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapter.1
-            @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-            public /* synthetic */ boolean canApplySearchResults(int i2) {
-                return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$canApplySearchResults(this, i2);
-            }
-
-            @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-            public /* synthetic */ LongSparseArray getExcludeCallParticipants() {
-                return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeCallParticipants(this);
-            }
-
-            @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-            public /* synthetic */ void onSetHashtags(ArrayList arrayList, HashMap hashMap) {
-                SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$onSetHashtags(this, arrayList, hashMap);
-            }
-
-            @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-            public void onDataSetChanged(int i2) {
-                SearchAdapter.this.notifyDataSetChanged();
-                if (i2 != 0) {
-                    SearchAdapter.this.onSearchProgressChanged();
-                }
-            }
-
-            @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-            public LongSparseArray<TLRPC$User> getExcludeUsers() {
-                return SearchAdapter.this.ignoreUsers;
-            }
-        });
+        searchAdapterHelper.setDelegate(new AnonymousClass1());
     }
 
-    public void searchDialogs(final String str) {
+    /* renamed from: org.telegram.ui.Adapters.SearchAdapter$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements SearchAdapterHelper.SearchAdapterHelperDelegate {
+        @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
+        public /* synthetic */ boolean canApplySearchResults(int i) {
+            return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$canApplySearchResults(this, i);
+        }
+
+        @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
+        public /* synthetic */ LongSparseArray getExcludeCallParticipants() {
+            return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeCallParticipants(this);
+        }
+
+        @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
+        public /* synthetic */ void onSetHashtags(ArrayList arrayList, HashMap hashMap) {
+            SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$onSetHashtags(this, arrayList, hashMap);
+        }
+
+        AnonymousClass1() {
+            SearchAdapter.this = r1;
+        }
+
+        @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
+        public void onDataSetChanged(int i) {
+            SearchAdapter.this.notifyDataSetChanged();
+            if (i != 0) {
+                SearchAdapter.this.onSearchProgressChanged();
+            }
+        }
+
+        @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
+        public LongSparseArray<TLRPC$User> getExcludeUsers() {
+            return SearchAdapter.this.ignoreUsers;
+        }
+    }
+
+    public void searchDialogs(String str) {
         try {
             Timer timer = this.searchTimer;
             if (timer != null) {
@@ -118,46 +125,47 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         if (!TextUtils.isEmpty(str)) {
             Timer timer2 = new Timer();
             this.searchTimer = timer2;
-            timer2.schedule(new TimerTask() { // from class: org.telegram.ui.Adapters.SearchAdapter.2
-                @Override // java.util.TimerTask, java.lang.Runnable
-                public void run() {
-                    try {
-                        SearchAdapter.this.searchTimer.cancel();
-                        SearchAdapter.this.searchTimer = null;
-                    } catch (Exception e2) {
-                        FileLog.e(e2);
-                    }
-                    SearchAdapter.this.processSearch(str);
-                }
-            }, 200L, 300L);
+            timer2.schedule(new AnonymousClass2(str), 200L, 300L);
         }
     }
 
-    public void processSearch(final String str) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapter$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                SearchAdapter.this.lambda$processSearch$1(str);
+    /* renamed from: org.telegram.ui.Adapters.SearchAdapter$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends TimerTask {
+        final /* synthetic */ String val$query;
+
+        AnonymousClass2(String str) {
+            SearchAdapter.this = r1;
+            this.val$query = str;
+        }
+
+        @Override // java.util.TimerTask, java.lang.Runnable
+        public void run() {
+            try {
+                SearchAdapter.this.searchTimer.cancel();
+                SearchAdapter.this.searchTimer = null;
+            } catch (Exception e) {
+                FileLog.e(e);
             }
-        });
+            SearchAdapter.this.processSearch(this.val$query);
+        }
     }
 
-    public /* synthetic */ void lambda$processSearch$1(final String str) {
+    public void processSearch(String str) {
+        AndroidUtilities.runOnUIThread(new SearchAdapter$$ExternalSyntheticLambda1(this, str));
+    }
+
+    public /* synthetic */ void lambda$processSearch$1(String str) {
         if (this.allowUsernameSearch) {
             this.searchAdapterHelper.queryServerSearch(str, true, this.allowChats, this.allowBots, this.allowSelf, false, this.channelId, this.allowPhoneNumbers, -1, 1);
         }
-        final int i = UserConfig.selectedAccount;
-        final ArrayList arrayList = new ArrayList(ContactsController.getInstance(i).contacts);
+        int i = UserConfig.selectedAccount;
+        ArrayList arrayList = new ArrayList(ContactsController.getInstance(i).contacts);
         this.searchInProgress = true;
-        final int i2 = this.searchPointer;
+        int i2 = this.searchPointer;
         this.searchPointer = i2 + 1;
         this.searchReqId = i2;
-        Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapter$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                SearchAdapter.this.lambda$processSearch$0(str, i2, arrayList, i);
-            }
-        });
+        Utilities.searchQueue.postRunnable(new SearchAdapter$$ExternalSyntheticLambda2(this, str, i2, arrayList, i));
     }
 
     public /* synthetic */ void lambda$processSearch$0(String str, int i, ArrayList arrayList, int i2) {
@@ -198,9 +206,9 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
                     strArr2[c2] = str4;
                 }
                 if (UserObject.isReplyUser(user)) {
-                    strArr2[2] = LocaleController.getString("RepliesTitle", R.string.RepliesTitle).toLowerCase();
+                    strArr2[2] = LocaleController.getString("RepliesTitle", 2131627982).toLowerCase();
                 } else if (user.self) {
-                    strArr2[2] = LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase();
+                    strArr2[2] = LocaleController.getString("SavedMessages", 2131628139).toLowerCase();
                 }
                 int i7 = 0;
                 char c3 = 0;
@@ -265,13 +273,8 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         updateSearchResults(i, arrayList2, arrayList3);
     }
 
-    private void updateSearchResults(final int i, final ArrayList<Object> arrayList, final ArrayList<CharSequence> arrayList2) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapter$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                SearchAdapter.this.lambda$updateSearchResults$2(i, arrayList, arrayList2);
-            }
-        });
+    private void updateSearchResults(int i, ArrayList<Object> arrayList, ArrayList<CharSequence> arrayList2) {
+        AndroidUtilities.runOnUIThread(new SearchAdapter$$ExternalSyntheticLambda0(this, i, arrayList, arrayList2));
     }
 
     public /* synthetic */ void lambda$updateSearchResults$2(int i, ArrayList arrayList, ArrayList arrayList2) {
@@ -369,10 +372,10 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             if (itemViewType == 1) {
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 if (getItem(i) == null) {
-                    graySectionCell.setText(LocaleController.getString("GlobalSearch", R.string.GlobalSearch));
+                    graySectionCell.setText(LocaleController.getString("GlobalSearch", 2131626126));
                     return;
                 } else {
-                    graySectionCell.setText(LocaleController.getString("PhoneNumberSearch", R.string.PhoneNumberSearch));
+                    graySectionCell.setText(LocaleController.getString("PhoneNumberSearch", 2131627552));
                     return;
                 }
             } else if (itemViewType != 2) {
@@ -380,7 +383,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             } else {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(null, "windowBackgroundWhiteBlueText2");
-                textCell.setText(LocaleController.formatString("AddContactByPhone", R.string.AddContactByPhone, PhoneFormat.getInstance().format("+" + ((String) getItem(i)))), false);
+                textCell.setText(LocaleController.formatString("AddContactByPhone", 2131624265, PhoneFormat.getInstance().format("+" + ((String) getItem(i)))), false);
                 return;
             }
         }
@@ -453,7 +456,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             return;
         }
         ProfileSearchCell profileSearchCell = (ProfileSearchCell) viewHolder.itemView;
-        profileSearchCell.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", R.string.SavedMessages) : str2, spannableStringBuilder, false, z);
+        profileSearchCell.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", 2131628139) : str2, spannableStringBuilder, false, z);
         if (i != getItemCount() - 1 && i != this.searchResult.size() - 1) {
             z2 = true;
         }

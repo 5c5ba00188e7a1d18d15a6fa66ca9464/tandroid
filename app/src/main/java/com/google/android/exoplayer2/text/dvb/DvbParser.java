@@ -13,8 +13,6 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.messenger.R;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 final class DvbParser {
     private static final byte[] defaultMap2To4 = {0, 7, 8, 15};
@@ -188,7 +186,7 @@ final class DvbParser {
                     break;
                 }
                 break;
-            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+            case 20:
                 if (readBits2 == subtitleService.subtitlePageId) {
                     subtitleService.displayDefinition = parseDisplayDefinition(parsableBitArray);
                     break;
@@ -305,7 +303,7 @@ final class DvbParser {
             int readBits2 = parsableBitArray.readBits(i7);
             int readBits3 = parsableBitArray.readBits(i7);
             int i10 = i9 - 2;
-            int[] iArr = (readBits3 & ConnectionsManager.RequestFlagNeedQuickAck) != 0 ? generateDefault2BitClutEntries : (readBits3 & 64) != 0 ? generateDefault4BitClutEntries : generateDefault8BitClutEntries;
+            int[] iArr = (readBits3 & 128) != 0 ? generateDefault2BitClutEntries : (readBits3 & 64) != 0 ? generateDefault4BitClutEntries : generateDefault8BitClutEntries;
             if ((readBits3 & 1) != 0) {
                 i5 = parsableBitArray.readBits(i7);
                 i4 = parsableBitArray.readBits(i7);
@@ -517,7 +515,7 @@ final class DvbParser {
                         continue;
                     default:
                         switch (readBits) {
-                            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                            case 32:
                                 bArr7 = buildClutMapTable(4, 4, parsableBitArray);
                                 continue;
                             case 33:

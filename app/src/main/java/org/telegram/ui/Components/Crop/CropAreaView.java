@@ -69,7 +69,6 @@ public class CropAreaView extends ViewGroup {
     private float minWidth = AndroidUtilities.dp(32.0f);
     private GridType gridType = GridType.NONE;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public interface AreaViewListener {
         void onAreaChange();
@@ -79,7 +78,6 @@ public class CropAreaView extends ViewGroup {
         void onAreaChangeEnded();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public enum Control {
         NONE,
@@ -481,16 +479,24 @@ public class CropAreaView extends ViewGroup {
         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "gridProgress", this.gridProgress, f);
         this.gridAnimator = ofFloat;
         ofFloat.setDuration(200L);
-        this.gridAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Crop.CropAreaView.1
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator2) {
-                CropAreaView.this.gridAnimator = null;
-            }
-        });
+        this.gridAnimator.addListener(new AnonymousClass1());
         if (gridType == gridType3) {
             this.gridAnimator.setStartDelay(200L);
         }
         this.gridAnimator.start();
+    }
+
+    /* renamed from: org.telegram.ui.Components.Crop.CropAreaView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            CropAreaView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            CropAreaView.this.gridAnimator = null;
+        }
     }
 
     @Keep
@@ -509,7 +515,7 @@ public class CropAreaView extends ViewGroup {
         return (rectF.right - rectF.left) / (rectF.bottom - rectF.top);
     }
 
-    public void fill(final RectF rectF, Animator animator, boolean z) {
+    public void fill(RectF rectF, Animator animator, boolean z) {
         if (z) {
             Animator animator2 = this.animator;
             if (animator2 != null) {
@@ -530,17 +536,28 @@ public class CropAreaView extends ViewGroup {
             Animator[] animatorArr = {ObjectAnimator.ofFloat(this, "cropLeft", fArr), ObjectAnimator.ofFloat(this, "cropTop", fArr2), ObjectAnimator.ofFloat(this, "cropRight", fArr3), ObjectAnimator.ofFloat(this, "cropBottom", fArr4), animator};
             animatorArr[4].setInterpolator(this.interpolator);
             animatorSet.playTogether(animatorArr);
-            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Crop.CropAreaView.2
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator3) {
-                    CropAreaView.this.setActualRect(rectF);
-                    CropAreaView.this.animator = null;
-                }
-            });
+            animatorSet.addListener(new AnonymousClass2(rectF));
             animatorSet.start();
             return;
         }
         setActualRect(rectF);
+    }
+
+    /* renamed from: org.telegram.ui.Components.Crop.CropAreaView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        final /* synthetic */ RectF val$targetRect;
+
+        AnonymousClass2(RectF rectF) {
+            CropAreaView.this = r1;
+            this.val$targetRect = rectF;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            CropAreaView.this.setActualRect(this.val$targetRect);
+            CropAreaView.this.animator = null;
+        }
     }
 
     public void resetAnimator() {
@@ -933,7 +950,6 @@ public class CropAreaView extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* renamed from: org.telegram.ui.Components.Crop.CropAreaView$3 */
     /* loaded from: classes3.dex */
     public static /* synthetic */ class AnonymousClass3 {

@@ -31,7 +31,6 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
@@ -87,7 +86,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this(context, chatActivity, z, null);
     }
 
-    public ChatAvatarContainer(Context context, ChatActivity chatActivity, boolean z, final Theme.ResourcesProvider resourcesProvider) {
+    public ChatAvatarContainer(Context context, ChatActivity chatActivity, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.statusDrawables = new StatusDrawable[6];
         this.avatarDrawable = new AvatarDrawable();
@@ -105,82 +104,31 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.rightDrawableContentDescription = null;
         this.resourcesProvider = resourcesProvider;
         this.parentFragment = chatActivity;
-        final boolean z2 = chatActivity != null && chatActivity.getChatMode() == 0 && !UserObject.isReplyUser(this.parentFragment.getCurrentUser());
-        this.avatarImageView = new BackupImageView(this, context) { // from class: org.telegram.ui.Components.ChatAvatarContainer.1
-            @Override // android.view.View
-            public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-                super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-                if (z2 && getImageReceiver().hasNotThumb()) {
-                    accessibilityNodeInfo.setText(LocaleController.getString("AccDescrProfilePicture", R.string.AccDescrProfilePicture));
-                    if (Build.VERSION.SDK_INT < 21) {
-                        return;
-                    }
-                    accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", R.string.Open)));
-                    return;
-                }
-                accessibilityNodeInfo.setVisibleToUser(false);
-            }
-        };
+        boolean z2 = chatActivity != null && chatActivity.getChatMode() == 0 && !UserObject.isReplyUser(this.parentFragment.getCurrentUser());
+        this.avatarImageView = new AnonymousClass1(this, context, z2);
         if (this.parentFragment != null) {
             this.sharedMediaPreloader = new SharedMediaLayout.SharedMediaPreloader(chatActivity);
             if (this.parentFragment.isThreadChat() || this.parentFragment.getChatMode() == 2) {
                 this.avatarImageView.setVisibility(8);
             }
         }
-        this.avatarImageView.setContentDescription(LocaleController.getString("AccDescrProfilePicture", R.string.AccDescrProfilePicture));
+        this.avatarImageView.setContentDescription(LocaleController.getString("AccDescrProfilePicture", 2131624046));
         this.avatarImageView.setRoundRadius(AndroidUtilities.dp(21.0f));
         addView(this.avatarImageView);
         if (z2) {
-            this.avatarImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda0
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    ChatAvatarContainer.this.lambda$new$0(view);
-                }
-            });
+            this.avatarImageView.setOnClickListener(new ChatAvatarContainer$$ExternalSyntheticLambda0(this));
         }
-        SimpleTextView simpleTextView = new SimpleTextView(context) { // from class: org.telegram.ui.Components.ChatAvatarContainer.2
-            @Override // org.telegram.ui.ActionBar.SimpleTextView
-            public boolean setText(CharSequence charSequence) {
-                if (ChatAvatarContainer.this.titleTextLargerCopyView != null) {
-                    ChatAvatarContainer.this.titleTextLargerCopyView.setText(charSequence);
-                }
-                return super.setText(charSequence);
-            }
-
-            @Override // android.view.View
-            public void setTranslationY(float f) {
-                if (ChatAvatarContainer.this.titleTextLargerCopyView != null) {
-                    ChatAvatarContainer.this.titleTextLargerCopyView.setTranslationY(f);
-                }
-                super.setTranslationY(f);
-            }
-        };
-        this.titleTextView = simpleTextView;
-        simpleTextView.setTextColor(getThemedColor("actionBarDefaultTitle"));
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
+        this.titleTextView = anonymousClass2;
+        anonymousClass2.setTextColor(getThemedColor("actionBarDefaultTitle"));
         this.titleTextView.setTextSize(18);
         this.titleTextView.setGravity(3);
-        this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.titleTextView.setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
         addView(this.titleTextView);
-        SimpleTextView simpleTextView2 = new SimpleTextView(context) { // from class: org.telegram.ui.Components.ChatAvatarContainer.3
-            @Override // org.telegram.ui.ActionBar.SimpleTextView
-            public boolean setText(CharSequence charSequence) {
-                if (ChatAvatarContainer.this.subtitleTextLargerCopyView != null) {
-                    ChatAvatarContainer.this.subtitleTextLargerCopyView.setText(charSequence);
-                }
-                return super.setText(charSequence);
-            }
-
-            @Override // android.view.View
-            public void setTranslationY(float f) {
-                if (ChatAvatarContainer.this.subtitleTextLargerCopyView != null) {
-                    ChatAvatarContainer.this.subtitleTextLargerCopyView.setTranslationY(f);
-                }
-                super.setTranslationY(f);
-            }
-        };
-        this.subtitleTextView = simpleTextView2;
-        simpleTextView2.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
+        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
+        this.subtitleTextView = anonymousClass3;
+        anonymousClass3.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
         this.subtitleTextView.setTag("actionBarDefaultSubtitle");
         this.subtitleTextView.setTextSize(14);
         this.subtitleTextView.setGravity(3);
@@ -200,16 +148,11 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             imageView2.setImageDrawable(timerDrawable);
             addView(this.timeItem);
             this.secretChatTimer = z;
-            this.timeItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda2
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    ChatAvatarContainer.this.lambda$new$1(resourcesProvider, view);
-                }
-            });
+            this.timeItem.setOnClickListener(new ChatAvatarContainer$$ExternalSyntheticLambda2(this, resourcesProvider));
             if (this.secretChatTimer) {
-                this.timeItem.setContentDescription(LocaleController.getString("SetTimer", R.string.SetTimer));
+                this.timeItem.setContentDescription(LocaleController.getString("SetTimer", 2131628312));
             } else {
-                this.timeItem.setContentDescription(LocaleController.getString("AccAutoDeleteTimer", R.string.AccAutoDeleteTimer));
+                this.timeItem.setContentDescription(LocaleController.getString("AccAutoDeleteTimer", 2131623958));
             }
         }
         ChatActivity chatActivity2 = this.parentFragment;
@@ -217,12 +160,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             return;
         }
         if (!this.parentFragment.isThreadChat() && !UserObject.isReplyUser(this.parentFragment.getCurrentUser())) {
-            setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda1
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    ChatAvatarContainer.this.lambda$new$2(view);
-                }
-            });
+            setOnClickListener(new ChatAvatarContainer$$ExternalSyntheticLambda1(this));
         }
         TLRPC$Chat currentChat = this.parentFragment.getCurrentChat();
         this.statusDrawables[0] = new TypingDotsDrawable(true);
@@ -242,8 +180,86 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
+    /* renamed from: org.telegram.ui.Components.ChatAvatarContainer$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends BackupImageView {
+        final /* synthetic */ boolean val$avatarClickable;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(ChatAvatarContainer chatAvatarContainer, Context context, boolean z) {
+            super(context);
+            this.val$avatarClickable = z;
+        }
+
+        @Override // android.view.View
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+            if (this.val$avatarClickable && getImageReceiver().hasNotThumb()) {
+                accessibilityNodeInfo.setText(LocaleController.getString("AccDescrProfilePicture", 2131624046));
+                if (Build.VERSION.SDK_INT < 21) {
+                    return;
+                }
+                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", 2131627142)));
+                return;
+            }
+            accessibilityNodeInfo.setVisibleToUser(false);
+        }
+    }
+
     public /* synthetic */ void lambda$new$0(View view) {
         openProfile(true);
+    }
+
+    /* renamed from: org.telegram.ui.Components.ChatAvatarContainer$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends SimpleTextView {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(Context context) {
+            super(context);
+            ChatAvatarContainer.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.SimpleTextView
+        public boolean setText(CharSequence charSequence) {
+            if (ChatAvatarContainer.this.titleTextLargerCopyView != null) {
+                ChatAvatarContainer.this.titleTextLargerCopyView.setText(charSequence);
+            }
+            return super.setText(charSequence);
+        }
+
+        @Override // android.view.View
+        public void setTranslationY(float f) {
+            if (ChatAvatarContainer.this.titleTextLargerCopyView != null) {
+                ChatAvatarContainer.this.titleTextLargerCopyView.setTranslationY(f);
+            }
+            super.setTranslationY(f);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.ChatAvatarContainer$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends SimpleTextView {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass3(Context context) {
+            super(context);
+            ChatAvatarContainer.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.SimpleTextView
+        public boolean setText(CharSequence charSequence) {
+            if (ChatAvatarContainer.this.subtitleTextLargerCopyView != null) {
+                ChatAvatarContainer.this.subtitleTextLargerCopyView.setText(charSequence);
+            }
+            return super.setText(charSequence);
+        }
+
+        @Override // android.view.View
+        public void setTranslationY(float f) {
+            if (ChatAvatarContainer.this.subtitleTextLargerCopyView != null) {
+                ChatAvatarContainer.this.subtitleTextLargerCopyView.setTranslationY(f);
+            }
+            super.setTranslationY(f);
+        }
     }
 
     public /* synthetic */ void lambda$new$1(Theme.ResourcesProvider resourcesProvider, View view) {
@@ -281,44 +297,14 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         } else {
             i = currentChatInfo != null ? currentChatInfo.ttl_period : 0;
         }
-        AutoDeletePopupWrapper autoDeletePopupWrapper = new AutoDeletePopupWrapper(getContext(), null, new AutoDeletePopupWrapper.Callback() { // from class: org.telegram.ui.Components.ChatAvatarContainer.4
-            @Override // org.telegram.ui.Components.AutoDeletePopupWrapper.Callback
-            public void dismiss() {
-                ActionBarPopupWindow[] actionBarPopupWindowArr = r2;
-                if (actionBarPopupWindowArr[0] != null) {
-                    actionBarPopupWindowArr[0].dismiss();
-                }
-            }
-
-            @Override // org.telegram.ui.Components.AutoDeletePopupWrapper.Callback
-            public void setAutoDeleteHistory(int i2, int i3) {
-                if (ChatAvatarContainer.this.parentFragment == null) {
-                    return;
-                }
-                ChatAvatarContainer.this.parentFragment.getMessagesController().setDialogHistoryTTL(ChatAvatarContainer.this.parentFragment.getDialogId(), i2);
-                TLRPC$ChatFull currentChatInfo2 = ChatAvatarContainer.this.parentFragment.getCurrentChatInfo();
-                TLRPC$UserFull currentUserInfo2 = ChatAvatarContainer.this.parentFragment.getCurrentUserInfo();
-                if (currentUserInfo2 == null && currentChatInfo2 == null) {
-                    return;
-                }
-                ChatAvatarContainer.this.parentFragment.getUndoView().showWithAction(ChatAvatarContainer.this.parentFragment.getDialogId(), i3, ChatAvatarContainer.this.parentFragment.getCurrentUser(), Integer.valueOf(currentUserInfo2 != null ? currentUserInfo2.ttl_period : currentChatInfo2.ttl_period), (Runnable) null, (Runnable) null);
-            }
-        }, true, this.resourcesProvider);
+        AutoDeletePopupWrapper autoDeletePopupWrapper = new AutoDeletePopupWrapper(getContext(), null, new AnonymousClass4(r3), true, this.resourcesProvider);
         autoDeletePopupWrapper.lambda$updateItems$7(i);
-        final ActionBarPopupWindow[] actionBarPopupWindowArr = {new ActionBarPopupWindow(autoDeletePopupWrapper.windowLayout, -2, -2) { // from class: org.telegram.ui.Components.ChatAvatarContainer.5
-            @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
-            public void dismiss() {
-                super.dismiss();
-                if (ChatAvatarContainer.this.parentFragment != null) {
-                    ChatAvatarContainer.this.parentFragment.dimBehindView(false);
-                }
-            }
-        }};
+        ActionBarPopupWindow[] actionBarPopupWindowArr = {new AnonymousClass5(autoDeletePopupWrapper.windowLayout, -2, -2)};
         actionBarPopupWindowArr[0].setPauseNotifications(true);
         actionBarPopupWindowArr[0].setDismissAnimationDuration(220);
         actionBarPopupWindowArr[0].setOutsideTouchable(true);
         actionBarPopupWindowArr[0].setClippingEnabled(true);
-        actionBarPopupWindowArr[0].setAnimationStyle(R.style.PopupContextAnimation);
+        actionBarPopupWindowArr[0].setAnimationStyle(2131689481);
         actionBarPopupWindowArr[0].setFocusable(true);
         autoDeletePopupWrapper.windowLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
         actionBarPopupWindowArr[0].setInputMethodMode(2);
@@ -328,6 +314,57 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         actionBarPopupWindow.showAtLocation(backupImageView, 0, (int) (backupImageView.getX() + getX()), (int) this.avatarImageView.getY());
         this.parentFragment.dimBehindView(true);
         return true;
+    }
+
+    /* renamed from: org.telegram.ui.Components.ChatAvatarContainer$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 implements AutoDeletePopupWrapper.Callback {
+        final /* synthetic */ ActionBarPopupWindow[] val$scrimPopupWindow;
+
+        AnonymousClass4(ActionBarPopupWindow[] actionBarPopupWindowArr) {
+            ChatAvatarContainer.this = r1;
+            this.val$scrimPopupWindow = actionBarPopupWindowArr;
+        }
+
+        @Override // org.telegram.ui.Components.AutoDeletePopupWrapper.Callback
+        public void dismiss() {
+            ActionBarPopupWindow[] actionBarPopupWindowArr = this.val$scrimPopupWindow;
+            if (actionBarPopupWindowArr[0] != null) {
+                actionBarPopupWindowArr[0].dismiss();
+            }
+        }
+
+        @Override // org.telegram.ui.Components.AutoDeletePopupWrapper.Callback
+        public void setAutoDeleteHistory(int i, int i2) {
+            if (ChatAvatarContainer.this.parentFragment == null) {
+                return;
+            }
+            ChatAvatarContainer.this.parentFragment.getMessagesController().setDialogHistoryTTL(ChatAvatarContainer.this.parentFragment.getDialogId(), i);
+            TLRPC$ChatFull currentChatInfo = ChatAvatarContainer.this.parentFragment.getCurrentChatInfo();
+            TLRPC$UserFull currentUserInfo = ChatAvatarContainer.this.parentFragment.getCurrentUserInfo();
+            if (currentUserInfo == null && currentChatInfo == null) {
+                return;
+            }
+            ChatAvatarContainer.this.parentFragment.getUndoView().showWithAction(ChatAvatarContainer.this.parentFragment.getDialogId(), i2, ChatAvatarContainer.this.parentFragment.getCurrentUser(), Integer.valueOf(currentUserInfo != null ? currentUserInfo.ttl_period : currentChatInfo.ttl_period), (Runnable) null, (Runnable) null);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.ChatAvatarContainer$5 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass5 extends ActionBarPopupWindow {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass5(View view, int i, int i2) {
+            super(view, i, i2);
+            ChatAvatarContainer.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
+        public void dismiss() {
+            super.dismiss();
+            if (ChatAvatarContainer.this.parentFragment != null) {
+                ChatAvatarContainer.this.parentFragment.dimBehindView(false);
+            }
+        }
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:9:0x001b, code lost:
@@ -444,19 +481,14 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         simpleTextView2.setTextColor(getThemedColor("actionBarDefaultTitle"));
         this.titleTextLargerCopyView.setTextSize(18);
         this.titleTextLargerCopyView.setGravity(3);
-        this.titleTextLargerCopyView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.titleTextLargerCopyView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.titleTextLargerCopyView.setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
         this.titleTextLargerCopyView.setRightDrawable(this.titleTextView.getRightDrawable());
         this.titleTextLargerCopyView.setLeftDrawable(this.titleTextView.getLeftDrawable());
         this.titleTextLargerCopyView.setText(this.titleTextView.getText());
         ViewPropertyAnimator duration = this.titleTextLargerCopyView.animate().alpha(0.0f).setDuration(350L);
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
-        duration.setInterpolator(cubicBezierInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda3
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChatAvatarContainer.this.lambda$fadeOutToLessWidth$3();
-            }
-        }).start();
+        duration.setInterpolator(cubicBezierInterpolator).withEndAction(new ChatAvatarContainer$$ExternalSyntheticLambda3(this)).start();
         addView(this.titleTextLargerCopyView);
         SimpleTextView simpleTextView3 = new SimpleTextView(getContext());
         this.subtitleTextLargerCopyView = simpleTextView3;
@@ -465,12 +497,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.subtitleTextLargerCopyView.setTextSize(14);
         this.subtitleTextLargerCopyView.setGravity(3);
         this.subtitleTextLargerCopyView.setText(this.subtitleTextView.getText());
-        this.subtitleTextLargerCopyView.animate().alpha(0.0f).setDuration(350L).setInterpolator(cubicBezierInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda4
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChatAvatarContainer.this.lambda$fadeOutToLessWidth$4();
-            }
-        }).start();
+        this.subtitleTextLargerCopyView.animate().alpha(0.0f).setDuration(350L).setInterpolator(cubicBezierInterpolator).withEndAction(new ChatAvatarContainer$$ExternalSyntheticLambda4(this)).start();
         addView(this.subtitleTextLargerCopyView);
         setClipChildren(false);
     }
@@ -557,19 +584,27 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.timeItem.clearAnimation();
         this.timeItem.setTag(null);
         if (z) {
-            this.timeItem.animate().setDuration(180L).alpha(0.0f).scaleX(0.0f).scaleY(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.6
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    ChatAvatarContainer.this.timeItem.setVisibility(8);
-                    super.onAnimationEnd(animator);
-                }
-            }).start();
+            this.timeItem.animate().setDuration(180L).alpha(0.0f).scaleX(0.0f).scaleY(0.0f).setListener(new AnonymousClass6()).start();
             return;
         }
         this.timeItem.setVisibility(8);
         this.timeItem.setAlpha(0.0f);
         this.timeItem.setScaleY(0.0f);
         this.timeItem.setScaleX(0.0f);
+    }
+
+    /* renamed from: org.telegram.ui.Components.ChatAvatarContainer$6 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass6 extends AnimatorListenerAdapter {
+        AnonymousClass6() {
+            ChatAvatarContainer.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            ChatAvatarContainer.this.timeItem.setVisibility(8);
+            super.onAnimationEnd(animator);
+        }
     }
 
     public void setTime(int i, boolean z) {
@@ -588,7 +623,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (!this.rightDrawableIsScamOrVerified) {
             this.titleTextView.setRightDrawable(drawable2);
             if (drawable2 != null) {
-                this.rightDrawableContentDescription = LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
+                this.rightDrawableContentDescription = LocaleController.getString("NotificationsMuted", 2131627097);
             } else {
                 this.rightDrawableContentDescription = null;
             }
@@ -612,25 +647,25 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             ScamDrawable scamDrawable = new ScamDrawable(11, !z ? 1 : 0);
             scamDrawable.setColor(getThemedColor("actionBarDefaultSubtitle"));
             this.titleTextView.setRightDrawable(scamDrawable);
-            this.rightDrawableContentDescription = LocaleController.getString("ScamMessage", R.string.ScamMessage);
+            this.rightDrawableContentDescription = LocaleController.getString("ScamMessage", 2131628142);
             this.rightDrawableIsScamOrVerified = true;
         } else if (z3) {
-            Drawable mutate = getResources().getDrawable(R.drawable.verified_area).mutate();
+            Drawable mutate = getResources().getDrawable(2131166192).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedBackground"), PorterDuff.Mode.MULTIPLY));
-            Drawable mutate2 = getResources().getDrawable(R.drawable.verified_check).mutate();
+            Drawable mutate2 = getResources().getDrawable(2131166193).mutate();
             mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedCheck"), PorterDuff.Mode.MULTIPLY));
             this.titleTextView.setRightDrawable(new CombinedDrawable(mutate, mutate2));
             this.rightDrawableIsScamOrVerified = true;
-            this.rightDrawableContentDescription = LocaleController.getString("AccDescrVerified", R.string.AccDescrVerified);
+            this.rightDrawableContentDescription = LocaleController.getString("AccDescrVerified", 2131624102);
         } else if (z4) {
             if (this.premiumIconHiddable) {
                 this.titleTextView.setCanHideRightDrawable(true);
             }
-            Drawable mutate3 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar).mutate();
+            Drawable mutate3 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165874).mutate();
             mutate3.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedBackground"), PorterDuff.Mode.MULTIPLY));
             this.titleTextView.setRightDrawable(mutate3);
             this.rightDrawableIsScamOrVerified = true;
-            this.rightDrawableContentDescription = LocaleController.getString("AccDescrPremium", R.string.AccDescrPremium);
+            this.rightDrawableContentDescription = LocaleController.getString("AccDescrPremium", 2131624044);
         } else if (!(this.titleTextView.getRightDrawable() instanceof ScamDrawable)) {
         } else {
             this.titleTextView.setRightDrawable((Drawable) null);
@@ -754,20 +789,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                     AnimatorSet animatorSet2 = new AnimatorSet();
                     this.titleAnimation = animatorSet2;
                     animatorSet2.playTogether(ObjectAnimator.ofFloat(this.titleTextView, View.TRANSLATION_Y, AndroidUtilities.dp(9.7f)), ObjectAnimator.ofFloat(this.subtitleTextView, View.ALPHA, 0.0f));
-                    this.titleAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.7
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationCancel(Animator animator) {
-                            ChatAvatarContainer.this.titleAnimation = null;
-                        }
-
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            if (ChatAvatarContainer.this.titleAnimation == animator) {
-                                ChatAvatarContainer.this.subtitleTextView.setVisibility(4);
-                                ChatAvatarContainer.this.titleAnimation = null;
-                            }
-                        }
-                    });
+                    this.titleAnimation.addListener(new AnonymousClass7());
                     this.titleAnimation.setDuration(180L);
                     this.titleAnimation.start();
                     return;
@@ -795,23 +817,23 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                         }
                     } else if (currentChat.megagroup) {
                         if (currentChatInfo == null) {
-                            string = LocaleController.getString("Loading", R.string.Loading).toLowerCase();
+                            string = LocaleController.getString("Loading", 2131626520).toLowerCase();
                         } else if (currentChat.has_geo) {
-                            string = LocaleController.getString("MegaLocation", R.string.MegaLocation).toLowerCase();
+                            string = LocaleController.getString("MegaLocation", 2131626632).toLowerCase();
                         } else if (!TextUtils.isEmpty(currentChat.username)) {
-                            string = LocaleController.getString("MegaPublic", R.string.MegaPublic).toLowerCase();
+                            string = LocaleController.getString("MegaPublic", 2131626636).toLowerCase();
                         } else {
-                            string = LocaleController.getString("MegaPrivate", R.string.MegaPrivate).toLowerCase();
+                            string = LocaleController.getString("MegaPrivate", 2131626633).toLowerCase();
                         }
                     } else if ((currentChat.flags & 64) != 0) {
-                        string = LocaleController.getString("ChannelPublic", R.string.ChannelPublic).toLowerCase();
+                        string = LocaleController.getString("ChannelPublic", 2131624962).toLowerCase();
                     } else {
-                        string = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate).toLowerCase();
+                        string = LocaleController.getString("ChannelPrivate", 2131624959).toLowerCase();
                     }
                 } else if (ChatObject.isKickedFromChat(currentChat)) {
-                    string = LocaleController.getString("YouWereKicked", R.string.YouWereKicked);
+                    string = LocaleController.getString("YouWereKicked", 2131629347);
                 } else if (ChatObject.isLeftFromChat(currentChat)) {
-                    string = LocaleController.getString("YouLeft", R.string.YouLeft);
+                    string = LocaleController.getString("YouLeft", 2131629344);
                 } else {
                     int i2 = currentChat.participants_count;
                     if (currentChatInfo != null && (tLRPC$ChatParticipants = currentChatInfo.participants) != null) {
@@ -826,15 +848,15 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 }
                 if (!UserObject.isReplyUser(currentUser)) {
                     if (currentUser.id == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                        string = LocaleController.getString("ChatYourSelf", R.string.ChatYourSelf);
+                        string = LocaleController.getString("ChatYourSelf", 2131625062);
                     } else {
                         long j = currentUser.id;
                         if (j == 333000 || j == 777000 || j == 42777) {
-                            string = LocaleController.getString("ServiceNotifications", R.string.ServiceNotifications);
+                            string = LocaleController.getString("ServiceNotifications", 2131628291);
                         } else if (MessagesController.isSupportUser(currentUser)) {
-                            string = LocaleController.getString("SupportStatus", R.string.SupportStatus);
+                            string = LocaleController.getString("SupportStatus", 2131628570);
                         } else if (currentUser.bot) {
-                            string = LocaleController.getString("Bot", R.string.Bot);
+                            string = LocaleController.getString("Bot", 2131624715);
                         } else {
                             boolean[] zArr2 = this.isOnline;
                             zArr2[0] = false;
@@ -862,12 +884,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                     AnimatorSet animatorSet4 = new AnimatorSet();
                     this.titleAnimation = animatorSet4;
                     animatorSet4.playTogether(ObjectAnimator.ofFloat(this.titleTextView, View.TRANSLATION_Y, 0.0f), ObjectAnimator.ofFloat(this.subtitleTextView, View.ALPHA, 1.0f));
-                    this.titleAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.8
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            ChatAvatarContainer.this.titleAnimation = null;
-                        }
-                    });
+                    this.titleAnimation.addListener(new AnonymousClass8());
                     this.titleAnimation.setDuration(180L);
                     this.titleAnimation.start();
                 } else {
@@ -892,6 +909,40 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             return;
         }
         this.lastSubtitle = str;
+    }
+
+    /* renamed from: org.telegram.ui.Components.ChatAvatarContainer$7 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass7 extends AnimatorListenerAdapter {
+        AnonymousClass7() {
+            ChatAvatarContainer.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationCancel(Animator animator) {
+            ChatAvatarContainer.this.titleAnimation = null;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (ChatAvatarContainer.this.titleAnimation == animator) {
+                ChatAvatarContainer.this.subtitleTextView.setVisibility(4);
+                ChatAvatarContainer.this.titleAnimation = null;
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.ChatAvatarContainer$8 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass8 extends AnimatorListenerAdapter {
+        AnonymousClass8() {
+            ChatAvatarContainer.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            ChatAvatarContainer.this.titleAnimation = null;
+        }
     }
 
     public String getLastSubtitleColorKey() {
@@ -1056,13 +1107,13 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         String str;
         int i = this.currentConnectionState;
         if (i == 2) {
-            str = LocaleController.getString("WaitingForNetwork", R.string.WaitingForNetwork);
+            str = LocaleController.getString("WaitingForNetwork", 2131629295);
         } else if (i == 1) {
-            str = LocaleController.getString("Connecting", R.string.Connecting);
+            str = LocaleController.getString("Connecting", 2131625241);
         } else if (i == 5) {
-            str = LocaleController.getString("Updating", R.string.Updating);
+            str = LocaleController.getString("Updating", 2131628841);
         } else {
-            str = i == 4 ? LocaleController.getString("ConnectingToProxy", R.string.ConnectingToProxy) : null;
+            str = i == 4 ? LocaleController.getString("ConnectingToProxy", 2131625243) : null;
         }
         if (str == null) {
             CharSequence charSequence = this.lastSubtitle;
@@ -1112,7 +1163,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (!accessibilityNodeInfo.isClickable() || Build.VERSION.SDK_INT < 21) {
             return;
         }
-        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("OpenProfile", R.string.OpenProfile)));
+        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("OpenProfile", 2131627155)));
     }
 
     public SharedMediaLayout.SharedMediaPreloader getSharedMediaPreloader() {

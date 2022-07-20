@@ -25,7 +25,6 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -86,7 +85,7 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         addView(backupImageView, LayoutHelper.createFrame(48, 48.0f, (!z3 ? 3 : i) | 48, z3 ? 0.0f : 12.0f, 8.0f, z3 ? 12.0f : 0.0f, 0.0f));
         ProgressButton progressButton = new ProgressButton(context);
         this.addButton = progressButton;
-        progressButton.setText(LocaleController.getString("Add", R.string.Add));
+        progressButton.setText(LocaleController.getString("Add", 2131624242));
         progressButton.setTextColor(Theme.getColor("featuredStickers_buttonText"));
         addView(progressButton, LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 18.0f, 14.0f, 0.0f));
         TextView textView3 = new TextView(context);
@@ -94,8 +93,8 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         textView3.setGravity(17);
         textView3.setTextColor(Theme.getColor("featuredStickers_removeButtonText"));
         textView3.setTextSize(1, 14.0f);
-        textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        textView3.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
+        textView3.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView3.setText(LocaleController.getString("StickersRemove", 2131628514));
         addView(textView3, LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 14.0f, 0.0f));
         updateColors();
     }
@@ -131,45 +130,14 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         setWillNotDraw(!z);
         this.textView.setText(this.stickersSet.set.title);
         if (z2) {
-            Drawable drawable = new Drawable(this) { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.1
-                Paint paint = new Paint(1);
-
-                @Override // android.graphics.drawable.Drawable
-                public int getOpacity() {
-                    return -2;
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void setAlpha(int i) {
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void setColorFilter(ColorFilter colorFilter) {
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public void draw(Canvas canvas) {
-                    this.paint.setColor(-12277526);
-                    canvas.drawCircle(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(5.0f), AndroidUtilities.dp(3.0f), this.paint);
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public int getIntrinsicWidth() {
-                    return AndroidUtilities.dp(12.0f);
-                }
-
-                @Override // android.graphics.drawable.Drawable
-                public int getIntrinsicHeight() {
-                    return AndroidUtilities.dp(8.0f);
-                }
-            };
+            AnonymousClass1 anonymousClass1 = new AnonymousClass1(this);
             TextView textView = this.textView;
             boolean z5 = LocaleController.isRTL;
-            Drawable drawable2 = z5 ? null : drawable;
+            AnonymousClass1 anonymousClass12 = z5 ? null : anonymousClass1;
             if (!z5) {
-                drawable = null;
+                anonymousClass1 = null;
             }
-            textView.setCompoundDrawablesWithIntrinsicBounds(drawable2, (Drawable) null, drawable, (Drawable) null);
+            textView.setCompoundDrawablesWithIntrinsicBounds(anonymousClass12, (Drawable) null, anonymousClass1, (Drawable) null);
         } else {
             this.textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
@@ -288,18 +256,64 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         fArr6[0] = f;
         animatorArr[5] = ObjectAnimator.ofFloat(progressButton3, property6, fArr6);
         animatorSet3.playTogether(animatorArr);
-        this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.2
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (FeaturedStickerSetCell2.this.isInstalled) {
-                    FeaturedStickerSetCell2.this.addButton.setVisibility(4);
-                } else {
-                    FeaturedStickerSetCell2.this.delButton.setVisibility(4);
-                }
-            }
-        });
+        this.currentAnimation.addListener(new AnonymousClass2());
         this.currentAnimation.setInterpolator(new OvershootInterpolator(1.02f));
         this.currentAnimation.start();
+    }
+
+    /* renamed from: org.telegram.ui.Cells.FeaturedStickerSetCell2$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends Drawable {
+        Paint paint = new Paint(1);
+
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            return -2;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+        }
+
+        AnonymousClass1(FeaturedStickerSetCell2 featuredStickerSetCell2) {
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            this.paint.setColor(-12277526);
+            canvas.drawCircle(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(5.0f), AndroidUtilities.dp(3.0f), this.paint);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicWidth() {
+            return AndroidUtilities.dp(12.0f);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicHeight() {
+            return AndroidUtilities.dp(8.0f);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.FeaturedStickerSetCell2$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        AnonymousClass2() {
+            FeaturedStickerSetCell2.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (FeaturedStickerSetCell2.this.isInstalled) {
+                FeaturedStickerSetCell2.this.addButton.setVisibility(4);
+            } else {
+                FeaturedStickerSetCell2.this.delButton.setVisibility(4);
+            }
+        }
     }
 
     public TLRPC$StickerSetCovered getStickerSet() {

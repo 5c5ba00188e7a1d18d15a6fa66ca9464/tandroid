@@ -4,7 +4,6 @@ import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -71,7 +70,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
                     return AndroidUtilities.getTypeface("fonts/rmediumitalic.ttf");
                 }
                 if ((i & 1) != 0) {
-                    return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM);
+                    return AndroidUtilities.getTypeface("fonts/rmedium.ttf");
                 }
                 if ((i & 2) == 0) {
                     return null;
@@ -120,7 +119,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
         if (i != 0) {
             textPaint.setTextSize(i);
         }
-        textPaint.setFlags(textPaint.getFlags() | ConnectionsManager.RequestFlagNeedQuickAck);
+        textPaint.setFlags(textPaint.getFlags() | 128);
         this.style.applyStyle(textPaint);
     }
 
@@ -134,7 +133,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
         if (i2 != 0) {
             textPaint.setColor(i2);
         }
-        textPaint.setFlags(textPaint.getFlags() | ConnectionsManager.RequestFlagNeedQuickAck);
+        textPaint.setFlags(textPaint.getFlags() | 128);
         this.style.applyStyle(textPaint);
     }
 }

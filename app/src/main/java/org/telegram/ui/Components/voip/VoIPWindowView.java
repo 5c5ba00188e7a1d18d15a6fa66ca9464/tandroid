@@ -124,24 +124,35 @@ public class VoIPWindowView extends FrameLayout {
                     return;
                 }
             }
-            final int i = UserConfig.selectedAccount;
+            int i = UserConfig.selectedAccount;
             this.animationIndex = NotificationCenter.getInstance(i).setAnimationInProgress(this.animationIndex, null);
-            animate().translationX(getMeasuredWidth()).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPWindowView.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    NotificationCenter.getInstance(i).onAnimationFinish(VoIPWindowView.this.animationIndex);
-                    if (VoIPWindowView.this.getParent() != null) {
-                        VoIPWindowView voIPWindowView = VoIPWindowView.this;
-                        voIPWindowView.activity.setRequestedOrientation(voIPWindowView.orientationBefore);
-                        WindowManager windowManager = (WindowManager) VoIPWindowView.this.activity.getSystemService("window");
-                        VoIPWindowView.this.setVisibility(8);
-                        try {
-                            windowManager.removeView(VoIPWindowView.this);
-                        } catch (Exception unused2) {
-                        }
-                    }
+            animate().translationX(getMeasuredWidth()).setListener(new AnonymousClass1(i)).setDuration(j).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.voip.VoIPWindowView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        final /* synthetic */ int val$account;
+
+        AnonymousClass1(int i) {
+            VoIPWindowView.this = r1;
+            this.val$account = i;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            NotificationCenter.getInstance(this.val$account).onAnimationFinish(VoIPWindowView.this.animationIndex);
+            if (VoIPWindowView.this.getParent() != null) {
+                VoIPWindowView voIPWindowView = VoIPWindowView.this;
+                voIPWindowView.activity.setRequestedOrientation(voIPWindowView.orientationBefore);
+                WindowManager windowManager = (WindowManager) VoIPWindowView.this.activity.getSystemService("window");
+                VoIPWindowView.this.setVisibility(8);
+                try {
+                    windowManager.removeView(VoIPWindowView.this);
+                } catch (Exception unused) {
                 }
-            }).setDuration(j).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+            }
         }
     }
 

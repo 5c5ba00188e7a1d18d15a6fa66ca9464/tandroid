@@ -34,10 +34,10 @@ public final class DataBufferUtils {
     }
 
     public static boolean hasNextPage(DataBuffer<?> dataBuffer) {
-        return containKey(dataBuffer.getMetadata(), NEXT_PAGE);
+        return containKey(dataBuffer.getMetadata(), "next_page");
     }
 
     public static boolean hasPrevPage(DataBuffer<?> dataBuffer) {
-        return containKey(dataBuffer.getMetadata(), PREV_PAGE);
+        return containKey(dataBuffer.getMetadata(), "prev_page");
     }
 }

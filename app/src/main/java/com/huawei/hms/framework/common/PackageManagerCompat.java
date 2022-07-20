@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import java.util.HashMap;
 import java.util.Map;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class PackageManagerCompat {
     private static final String TAG = "PackageUtils";
@@ -25,7 +24,7 @@ public class PackageManagerCompat {
         try {
             return packageManager.getPackageInfo(context.getPackageName(), 16384).packageName;
         } catch (PackageManager.NameNotFoundException | RuntimeException unused) {
-            Logger.w(TAG, "Failed to get Package managers Package Info");
+            Logger.w("PackageUtils", "Failed to get Package managers Package Info");
             return "";
         }
     }
@@ -44,7 +43,7 @@ public class PackageManagerCompat {
         try {
             sAppVersion = String.valueOf(packageManager.getPackageInfo(context.getPackageName(), 16384).versionCode);
         } catch (PackageManager.NameNotFoundException | RuntimeException unused) {
-            Logger.w(TAG, "Failed to get Package managers Package Info");
+            Logger.w("PackageUtils", "Failed to get Package managers Package Info");
         }
         return sAppVersion;
     }
@@ -59,14 +58,14 @@ public class PackageManagerCompat {
             return bundle;
         }
         try {
-            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck);
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 128);
             if (applicationInfo == null) {
                 return bundle;
             }
             Bundle bundle2 = applicationInfo.metaData;
             return bundle2 != null ? bundle2 : bundle;
         } catch (PackageManager.NameNotFoundException | RuntimeException e) {
-            Logger.w(TAG, "NameNotFoundException:", e);
+            Logger.w("PackageUtils", "NameNotFoundException:", e);
             return bundle;
         }
     }
@@ -81,10 +80,10 @@ public class PackageManagerCompat {
             context = ContextHolder.getKitContext();
         }
         if (context == null) {
-            Logger.v(TAG, "the kitContext is null");
+            Logger.v("PackageUtils", "the kitContext is null");
             return Bundle.EMPTY;
         } else if (context.getApplicationInfo() == null) {
-            Logger.v(TAG, "the kit applicationInfo is null");
+            Logger.v("PackageUtils", "the kit applicationInfo is null");
             return Bundle.EMPTY;
         } else {
             Bundle bundle = context.getApplicationInfo().metaData;
@@ -97,7 +96,7 @@ public class PackageManagerCompat {
             Bundle bundleFromKit = getBundleFromKit(context);
             return bundleFromKit == null ? str2 : bundleFromKit.getString(str, str2);
         } catch (RuntimeException unused) {
-            Logger.v(TAG, "the kit metaData is runtimeException");
+            Logger.v("PackageUtils", "the kit metaData is runtimeException");
             return str2;
         }
     }

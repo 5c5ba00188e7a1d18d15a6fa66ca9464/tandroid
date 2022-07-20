@@ -304,7 +304,7 @@ public final class zziu<T extends zziw<T>> {
 
     static int zza(zzml zzmlVar, int i, Object obj) {
         int zze = zzii.zze(i);
-        if (zzmlVar == zzml.GROUP) {
+        if (zzmlVar == zzml.zzj) {
             zzjf.zza((zzkk) obj);
             zze <<= 1;
         }

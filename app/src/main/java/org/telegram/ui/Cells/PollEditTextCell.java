@@ -19,7 +19,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CheckBox2;
@@ -66,77 +65,11 @@ public class PollEditTextCell extends FrameLayout {
     public PollEditTextCell(Context context, boolean z, View.OnClickListener onClickListener) {
         super(context);
         if (z) {
-            EditTextCaption editTextCaption = new EditTextCaption(context, null) { // from class: org.telegram.ui.Cells.PollEditTextCell.1
-                @Override // android.widget.TextView, android.view.View
-                public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
-                    InputConnection onCreateInputConnection = super.onCreateInputConnection(editorInfo);
-                    if (PollEditTextCell.this.showNextButton) {
-                        editorInfo.imeOptions &= -1073741825;
-                    }
-                    return onCreateInputConnection;
-                }
-
-                @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-                public void onDraw(Canvas canvas) {
-                    super.onDraw(canvas);
-                    PollEditTextCell.this.onEditTextDraw(this, canvas);
-                }
-
-                @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                public boolean onTouchEvent(MotionEvent motionEvent) {
-                    if (!isEnabled()) {
-                        return false;
-                    }
-                    if (motionEvent.getAction() == 1) {
-                        PollEditTextCell.this.onFieldTouchUp(this);
-                    }
-                    return super.onTouchEvent(motionEvent);
-                }
-
-                @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.view.View
-                public ActionMode startActionMode(ActionMode.Callback callback, int i) {
-                    ActionMode startActionMode = super.startActionMode(callback, i);
-                    PollEditTextCell.this.onActionModeStart(this, startActionMode);
-                    return startActionMode;
-                }
-
-                @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.view.View
-                public ActionMode startActionMode(ActionMode.Callback callback) {
-                    ActionMode startActionMode = super.startActionMode(callback);
-                    PollEditTextCell.this.onActionModeStart(this, startActionMode);
-                    return startActionMode;
-                }
-            };
-            this.textView = editTextCaption;
-            editTextCaption.setAllowTextEntitiesIntersection(true);
+            AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, null);
+            this.textView = anonymousClass1;
+            anonymousClass1.setAllowTextEntitiesIntersection(true);
         } else {
-            this.textView = new EditTextBoldCursor(context) { // from class: org.telegram.ui.Cells.PollEditTextCell.2
-                @Override // android.widget.TextView, android.view.View
-                public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
-                    InputConnection onCreateInputConnection = super.onCreateInputConnection(editorInfo);
-                    if (PollEditTextCell.this.showNextButton) {
-                        editorInfo.imeOptions &= -1073741825;
-                    }
-                    return onCreateInputConnection;
-                }
-
-                @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-                public void onDraw(Canvas canvas) {
-                    super.onDraw(canvas);
-                    PollEditTextCell.this.onEditTextDraw(this, canvas);
-                }
-
-                @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                public boolean onTouchEvent(MotionEvent motionEvent) {
-                    if (!isEnabled()) {
-                        return false;
-                    }
-                    if (motionEvent.getAction() == 1) {
-                        PollEditTextCell.this.onFieldTouchUp(this);
-                    }
-                    return super.onTouchEvent(motionEvent);
-                }
-            };
+            this.textView = new AnonymousClass2(context);
         }
         this.textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.textView.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
@@ -157,7 +90,7 @@ public class PollEditTextCell extends FrameLayout {
             this.moveImageView = imageView;
             imageView.setFocusable(false);
             this.moveImageView.setScaleType(ImageView.ScaleType.CENTER);
-            this.moveImageView.setImageResource(R.drawable.poll_reorder);
+            this.moveImageView.setImageResource(2131166083);
             this.moveImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.MULTIPLY));
             addView(this.moveImageView, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 5 : 3) | 48, 6.0f, 2.0f, 6.0f, 0.0f));
             ImageView imageView2 = new ImageView(context);
@@ -165,10 +98,10 @@ public class PollEditTextCell extends FrameLayout {
             imageView2.setFocusable(false);
             this.deleteImageView.setScaleType(ImageView.ScaleType.CENTER);
             this.deleteImageView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("stickers_menuSelector")));
-            this.deleteImageView.setImageResource(R.drawable.poll_remove);
+            this.deleteImageView.setImageResource(2131166082);
             this.deleteImageView.setOnClickListener(onClickListener);
             this.deleteImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.MULTIPLY));
-            this.deleteImageView.setContentDescription(LocaleController.getString("Delete", R.string.Delete));
+            this.deleteImageView.setContentDescription(LocaleController.getString("Delete", 2131625384));
             ImageView imageView3 = this.deleteImageView;
             boolean z3 = LocaleController.isRTL;
             addView(imageView3, LayoutHelper.createFrame(48, 50.0f, (z3 ? 3 : 5) | 48, z3 ? 3.0f : 0.0f, 0.0f, z3 ? 0.0f : 3.0f, 0.0f));
@@ -182,21 +115,102 @@ public class PollEditTextCell extends FrameLayout {
             CheckBox2 checkBox2 = new CheckBox2(context, 21);
             this.checkBox = checkBox2;
             checkBox2.setColor(null, "windowBackgroundWhiteGrayIcon", "checkboxCheck");
-            this.checkBox.setContentDescription(LocaleController.getString("AccDescrQuizCorrectAnswer", R.string.AccDescrQuizCorrectAnswer));
+            this.checkBox.setContentDescription(LocaleController.getString("AccDescrQuizCorrectAnswer", 2131624047));
             this.checkBox.setDrawUnchecked(true);
             this.checkBox.setChecked(true, false);
             this.checkBox.setAlpha(0.0f);
             this.checkBox.setDrawBackgroundAsArc(8);
             addView(this.checkBox, LayoutHelper.createFrame(48, 48.0f, (!LocaleController.isRTL ? 3 : i) | 48, 6.0f, 2.0f, 6.0f, 0.0f));
-            this.checkBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.PollEditTextCell$$ExternalSyntheticLambda0
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    PollEditTextCell.this.lambda$new$0(view);
-                }
-            });
+            this.checkBox.setOnClickListener(new PollEditTextCell$$ExternalSyntheticLambda0(this));
             return;
         }
         addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 3 : i) | 16, 19.0f, 0.0f, 19.0f, 0.0f));
+    }
+
+    /* renamed from: org.telegram.ui.Cells.PollEditTextCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends EditTextCaption {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context, resourcesProvider);
+            PollEditTextCell.this = r1;
+        }
+
+        @Override // android.widget.TextView, android.view.View
+        public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
+            InputConnection onCreateInputConnection = super.onCreateInputConnection(editorInfo);
+            if (PollEditTextCell.this.showNextButton) {
+                editorInfo.imeOptions &= -1073741825;
+            }
+            return onCreateInputConnection;
+        }
+
+        @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
+        public void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            PollEditTextCell.this.onEditTextDraw(this, canvas);
+        }
+
+        @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            if (!isEnabled()) {
+                return false;
+            }
+            if (motionEvent.getAction() == 1) {
+                PollEditTextCell.this.onFieldTouchUp(this);
+            }
+            return super.onTouchEvent(motionEvent);
+        }
+
+        @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.view.View
+        public ActionMode startActionMode(ActionMode.Callback callback, int i) {
+            ActionMode startActionMode = super.startActionMode(callback, i);
+            PollEditTextCell.this.onActionModeStart(this, startActionMode);
+            return startActionMode;
+        }
+
+        @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.view.View
+        public ActionMode startActionMode(ActionMode.Callback callback) {
+            ActionMode startActionMode = super.startActionMode(callback);
+            PollEditTextCell.this.onActionModeStart(this, startActionMode);
+            return startActionMode;
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.PollEditTextCell$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends EditTextBoldCursor {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(Context context) {
+            super(context);
+            PollEditTextCell.this = r1;
+        }
+
+        @Override // android.widget.TextView, android.view.View
+        public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
+            InputConnection onCreateInputConnection = super.onCreateInputConnection(editorInfo);
+            if (PollEditTextCell.this.showNextButton) {
+                editorInfo.imeOptions &= -1073741825;
+            }
+            return onCreateInputConnection;
+        }
+
+        @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
+        public void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            PollEditTextCell.this.onEditTextDraw(this, canvas);
+        }
+
+        @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            if (!isEnabled()) {
+                return false;
+            }
+            if (motionEvent.getAction() == 1) {
+                PollEditTextCell.this.onFieldTouchUp(this);
+            }
+            return super.onTouchEvent(motionEvent);
+        }
     }
 
     public /* synthetic */ void lambda$new$0(View view) {

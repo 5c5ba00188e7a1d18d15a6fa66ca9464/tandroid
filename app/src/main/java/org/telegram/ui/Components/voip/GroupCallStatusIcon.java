@@ -5,7 +5,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.os.SystemClock;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.ui.Components.RLottieDrawable;
@@ -19,32 +18,12 @@ public class GroupCallStatusIcon {
     private boolean mutedByMe;
     TLRPC$TL_groupCallParticipant participant;
     boolean updateRunnableScheduled;
-    private Runnable shakeHandCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda3
-        @Override // java.lang.Runnable
-        public final void run() {
-            GroupCallStatusIcon.this.lambda$new$0();
-        }
-    };
-    private Runnable raiseHandCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda0
-        @Override // java.lang.Runnable
-        public final void run() {
-            GroupCallStatusIcon.this.lambda$new$1();
-        }
-    };
-    private Runnable updateRunnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda1
-        @Override // java.lang.Runnable
-        public final void run() {
-            GroupCallStatusIcon.this.lambda$new$2();
-        }
-    };
-    private Runnable checkRaiseRunnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda2
-        @Override // java.lang.Runnable
-        public final void run() {
-            GroupCallStatusIcon.this.lambda$new$3();
-        }
-    };
-    RLottieDrawable micDrawable = new RLottieDrawable(R.raw.voice_mini, "2131558598", AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f), true, null);
-    RLottieDrawable shakeHandDrawable = new RLottieDrawable(R.raw.hand_2, "2131558461", AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), true, null);
+    private Runnable shakeHandCallback = new GroupCallStatusIcon$$ExternalSyntheticLambda3(this);
+    private Runnable raiseHandCallback = new GroupCallStatusIcon$$ExternalSyntheticLambda0(this);
+    private Runnable updateRunnable = new GroupCallStatusIcon$$ExternalSyntheticLambda1(this);
+    private Runnable checkRaiseRunnable = new GroupCallStatusIcon$$ExternalSyntheticLambda2(this);
+    RLottieDrawable micDrawable = new RLottieDrawable(2131558598, "2131558598", AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f), true, null);
+    RLottieDrawable shakeHandDrawable = new RLottieDrawable(2131558461, "2131558461", AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), true, null);
 
     /* loaded from: classes3.dex */
     public interface Callback {

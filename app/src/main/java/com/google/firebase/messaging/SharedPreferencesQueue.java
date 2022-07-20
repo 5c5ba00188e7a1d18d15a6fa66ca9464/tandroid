@@ -62,19 +62,7 @@ public final class SharedPreferencesQueue {
     }
 
     private void syncStateAsync() {
-        this.syncExecutor.execute(new Runnable(this) { // from class: com.google.firebase.messaging.SharedPreferencesQueue$$Lambda$0
-            private final SharedPreferencesQueue arg$1;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.arg$1 = this;
-            }
-
-            @Override // java.lang.Runnable
-            public void run() {
-                this.arg$1.bridge$lambda$0$SharedPreferencesQueue();
-            }
-        });
+        this.syncExecutor.execute(new SharedPreferencesQueue$$Lambda$0(this));
     }
 
     public String peek() {

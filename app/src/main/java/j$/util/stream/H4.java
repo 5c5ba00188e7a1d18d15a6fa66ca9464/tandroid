@@ -2,7 +2,6 @@ package j$.util.stream;
 
 import j$.util.AbstractC0039a;
 import java.util.Comparator;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes2.dex */
 public abstract class H4 extends J4 implements j$.util.w {
     public H4(j$.util.w wVar, long j, long j2) {
@@ -26,7 +25,7 @@ public abstract class H4 extends J4 implements j$.util.w {
                     return;
                 }
                 if (abstractC0113j4 == null) {
-                    abstractC0113j4 = t(ConnectionsManager.RequestFlagNeedQuickAck);
+                    abstractC0113j4 = t(128);
                 } else {
                     abstractC0113j4.b = 0;
                 }

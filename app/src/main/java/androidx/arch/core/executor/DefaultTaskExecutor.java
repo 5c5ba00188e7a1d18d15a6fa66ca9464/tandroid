@@ -10,8 +10,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DefaultTaskExecutor extends TaskExecutor {
     private volatile Handler mMainHandler;
     private final Object mLock = new Object();
-    private final ExecutorService mDiskIO = Executors.newFixedThreadPool(2, new ThreadFactory(this) { // from class: androidx.arch.core.executor.DefaultTaskExecutor.1
+    private final ExecutorService mDiskIO = Executors.newFixedThreadPool(2, new AnonymousClass1(this));
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: androidx.arch.core.executor.DefaultTaskExecutor$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 implements ThreadFactory {
         private final AtomicInteger mThreadId = new AtomicInteger(0);
+
+        AnonymousClass1(DefaultTaskExecutor defaultTaskExecutor) {
+        }
 
         @Override // java.util.concurrent.ThreadFactory
         public Thread newThread(Runnable runnable) {
@@ -19,7 +27,7 @@ public class DefaultTaskExecutor extends TaskExecutor {
             thread.setName(String.format("arch_disk_io_%d", Integer.valueOf(this.mThreadId.getAndIncrement())));
             return thread;
         }
-    });
+    }
 
     @Override // androidx.arch.core.executor.TaskExecutor
     public void executeOnDiskIO(Runnable runnable) {

@@ -12,7 +12,6 @@ import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.camera.CameraController;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
@@ -36,22 +35,22 @@ public class BasePermissionsActivity extends Activity {
                     groupCallActivity.enableCamera();
                 }
             } else {
-                showPermissionErrorAlert(R.raw.permission_request_camera, LocaleController.getString("VoipNeedCameraPermission", R.string.VoipNeedCameraPermission));
+                showPermissionErrorAlert(2131558506, LocaleController.getString("VoipNeedCameraPermission", 2131629223));
             }
         } else if (i == 4 || i == 151) {
             if (!z) {
                 if (i == 151) {
-                    str = LocaleController.getString("PermissionNoStorageAvatar", R.string.PermissionNoStorageAvatar);
+                    str = LocaleController.getString("PermissionNoStorageAvatar", 2131627534);
                 } else {
-                    str = LocaleController.getString("PermissionStorageWithHint", R.string.PermissionStorageWithHint);
+                    str = LocaleController.getString("PermissionStorageWithHint", 2131627537);
                 }
-                showPermissionErrorAlert(R.raw.permission_request_folder, str);
+                showPermissionErrorAlert(2131558508, str);
             } else {
                 ImageLoader.getInstance().checkMediaPaths();
             }
         } else if (i == 5) {
             if (!z) {
-                showPermissionErrorAlert(R.raw.permission_request_contacts, LocaleController.getString("PermissionNoContactsSharing", R.string.PermissionNoContactsSharing));
+                showPermissionErrorAlert(2131558507, LocaleController.getString("PermissionNoContactsSharing", 2131627528));
                 return false;
             }
             ContactsController.getInstance(this.currentAccount).forceImportContacts();
@@ -67,11 +66,11 @@ public class BasePermissionsActivity extends Activity {
                 }
             }
             if (i == 150 && !(z2 && z3)) {
-                showPermissionErrorAlert(R.raw.permission_request_camera, LocaleController.getString("PermissionNoCameraMicVideo", R.string.PermissionNoCameraMicVideo));
+                showPermissionErrorAlert(2131558506, LocaleController.getString("PermissionNoCameraMicVideo", 2131627526));
             } else if (!z2) {
-                showPermissionErrorAlert(R.raw.permission_request_microphone, LocaleController.getString("PermissionNoAudioWithHint", R.string.PermissionNoAudioWithHint));
+                showPermissionErrorAlert(2131558510, LocaleController.getString("PermissionNoAudioWithHint", 2131627524));
             } else if (!z3) {
-                showPermissionErrorAlert(R.raw.permission_request_camera, LocaleController.getString("PermissionNoCameraWithHint", R.string.PermissionNoCameraWithHint));
+                showPermissionErrorAlert(2131558506, LocaleController.getString("PermissionNoCameraWithHint", 2131627527));
             } else {
                 if (SharedConfig.inappCamera) {
                     CameraController.getInstance().initCamera(null);
@@ -80,7 +79,7 @@ public class BasePermissionsActivity extends Activity {
             }
         } else if (i == 18 || i == 19 || i == 20 || i == 22) {
             if (!z) {
-                showPermissionErrorAlert(R.raw.permission_request_camera, LocaleController.getString("PermissionNoCameraWithHint", R.string.PermissionNoCameraWithHint));
+                showPermissionErrorAlert(2131558506, LocaleController.getString("PermissionNoCameraWithHint", 2131627527));
             }
         } else if (i == 2) {
             NotificationCenter.getGlobalInstance().postNotificationName(z ? NotificationCenter.locationPermissionGranted : NotificationCenter.locationPermissionDenied, new Object[0]);
@@ -89,12 +88,7 @@ public class BasePermissionsActivity extends Activity {
     }
 
     public AlertDialog createPermissionErrorAlert(int i, String str) {
-        return new AlertDialog.Builder(this).setTopAnimation(i, 72, false, Theme.getColor("dialogTopBackground")).setMessage(AndroidUtilities.replaceTags(str)).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.BasePermissionsActivity$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                BasePermissionsActivity.this.lambda$createPermissionErrorAlert$0(dialogInterface, i2);
-            }
-        }).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), null).create();
+        return new AlertDialog.Builder(this).setTopAnimation(i, 72, false, Theme.getColor("dialogTopBackground")).setMessage(AndroidUtilities.replaceTags(str)).setPositiveButton(LocaleController.getString("PermissionOpenSettings", 2131627535), new BasePermissionsActivity$$ExternalSyntheticLambda0(this)).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", 2131625261), null).create();
     }
 
     public /* synthetic */ void lambda$createPermissionErrorAlert$0(DialogInterface dialogInterface, int i) {

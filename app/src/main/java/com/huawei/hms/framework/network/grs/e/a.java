@@ -3,7 +3,6 @@ package com.huawei.hms.framework.network.grs.e;
 import android.content.Context;
 import android.text.TextUtils;
 import com.huawei.hms.framework.common.Logger;
-import com.huawei.hms.framework.common.hianalytics.CrashHianalyticsData;
 import com.huawei.hms.framework.network.grs.GrsBaseInfo;
 import com.huawei.hms.framework.network.grs.g.d;
 import com.huawei.hms.framework.network.grs.g.h;
@@ -61,9 +60,9 @@ public class a {
     public void a(GrsBaseInfo grsBaseInfo, Context context) {
         String grsParasKey = grsBaseInfo.getGrsParasKey(true, true, context);
         c cVar = this.c;
-        cVar.b(grsParasKey + CrashHianalyticsData.TIME, "0");
+        cVar.b(grsParasKey + "time", "0");
         Map<String, Long> map = this.b;
-        map.remove(grsParasKey + CrashHianalyticsData.TIME);
+        map.remove(grsParasKey + "time");
         this.a.remove(grsParasKey);
         this.e.a(grsParasKey);
     }
@@ -87,7 +86,7 @@ public class a {
                 cVar2.b(grsParasKey + "ETag", dVar.e());
             }
             c cVar3 = this.c;
-            cVar3.b(grsParasKey + CrashHianalyticsData.TIME, dVar.a());
+            cVar3.b(grsParasKey + "time", dVar.a());
             this.b.put(grsParasKey, Long.valueOf(Long.parseLong(dVar.a())));
         }
     }
@@ -100,7 +99,7 @@ public class a {
         String grsParasKey = grsBaseInfo.getGrsParasKey(true, true, context);
         String a = this.c.a(grsParasKey, "");
         c cVar = this.c;
-        String a2 = cVar.a(grsParasKey + CrashHianalyticsData.TIME, "0");
+        String a2 = cVar.a(grsParasKey + "time", "0");
         long j = 0;
         if (!TextUtils.isEmpty(a2) && a2.matches("\\d+")) {
             try {

@@ -1,12 +1,10 @@
 package com.huawei.hms.hatool;
 
-import com.huawei.hms.android.HwBuildEx;
 import com.huawei.secure.android.common.encrypt.hash.PBKDF2;
 import com.huawei.secure.android.common.encrypt.utils.EncryptUtil;
 import com.huawei.secure.android.common.encrypt.utils.HexUtil;
 import java.io.File;
 import java.io.IOException;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class c0 {
     public String a = b.i().getFilesDir().getPath();
@@ -40,13 +38,13 @@ public class c0 {
         String c = c();
         if (b()) {
             y.c("hmsSdk", "refresh components");
-            str = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
+            str = EncryptUtil.generateSecureRandomStr(128);
             a("aprpap", str);
-            str2 = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
+            str2 = EncryptUtil.generateSecureRandomStr(128);
             a("febdoc", str2);
-            str3 = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
+            str3 = EncryptUtil.generateSecureRandomStr(128);
             a("marfil", str3);
-            str4 = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
+            str4 = EncryptUtil.generateSecureRandomStr(128);
             a("maywnj", str4);
             g0.b(b.i(), "Privacy_MY", "assemblyFlash", System.currentTimeMillis());
         } else {
@@ -55,7 +53,7 @@ public class c0 {
             str3 = b("marfil");
             str4 = b("maywnj");
         }
-        return HexUtil.byteArray2HexStr(PBKDF2.pbkdf2(a(str, str2, str3, c), HexUtil.hexStr2ByteArray(str4), HwBuildEx.VersionCodes.CUR_DEVELOPMENT, 16));
+        return HexUtil.byteArray2HexStr(PBKDF2.pbkdf2(a(str, str2, str3, c), HexUtil.hexStr2ByteArray(str4), 10000, 16));
     }
 
     public final String a(String str) {
@@ -116,7 +114,7 @@ public class c0 {
         if (a(file)) {
             return t0.a(file);
         }
-        String generateSecureRandomStr = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
+        String generateSecureRandomStr = EncryptUtil.generateSecureRandomStr(128);
         t0.a(file, generateSecureRandomStr);
         return generateSecureRandomStr;
     }

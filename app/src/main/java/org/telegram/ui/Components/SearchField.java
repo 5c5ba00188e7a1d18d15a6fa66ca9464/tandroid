@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 /* loaded from: classes3.dex */
@@ -54,7 +53,7 @@ public class SearchField extends FrameLayout {
         ImageView imageView = new ImageView(context);
         this.searchIconImageView = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.searchIconImageView.setImageResource(R.drawable.smiles_inputsearch);
+        this.searchIconImageView.setImageResource(2131166150);
         this.searchIconImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogSearchIcon"), PorterDuff.Mode.MULTIPLY));
         if (z) {
             layoutParams2 = LayoutHelper.createFrameRelatively(36.0f, 36.0f, 8388659, 16.0f, 11.0f, 0.0f, 0.0f);
@@ -66,14 +65,9 @@ public class SearchField extends FrameLayout {
         this.clearSearchImageView = imageView2;
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
         ImageView imageView3 = this.clearSearchImageView;
-        CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2() { // from class: org.telegram.ui.Components.SearchField.1
-            @Override // org.telegram.ui.Components.CloseProgressDrawable2
-            protected int getCurrentColor() {
-                return SearchField.this.getThemedColor("dialogSearchIcon");
-            }
-        };
-        this.progressDrawable = closeProgressDrawable2;
-        imageView3.setImageDrawable(closeProgressDrawable2);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1();
+        this.progressDrawable = anonymousClass1;
+        imageView3.setImageDrawable(anonymousClass1);
         this.progressDrawable.setSide(AndroidUtilities.dp(7.0f));
         this.clearSearchImageView.setScaleX(0.1f);
         this.clearSearchImageView.setScaleY(0.1f);
@@ -84,32 +78,10 @@ public class SearchField extends FrameLayout {
             layoutParams3 = LayoutHelper.createFrame(36, 36.0f, 53, 14.0f, 11.0f, 14.0f, 0.0f);
         }
         addView(this.clearSearchImageView, layoutParams3);
-        this.clearSearchImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SearchField$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view2) {
-                SearchField.this.lambda$new$0(view2);
-            }
-        });
-        EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.Components.SearchField.2
-            @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
-            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-                SearchField.this.processTouchEvent(motionEvent);
-                return super.dispatchTouchEvent(motionEvent);
-            }
-
-            @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public boolean onTouchEvent(MotionEvent motionEvent) {
-                if (!isEnabled()) {
-                    return false;
-                }
-                if (motionEvent.getAction() == 1) {
-                    SearchField.this.onFieldTouchUp(this);
-                }
-                return super.onTouchEvent(motionEvent);
-            }
-        };
-        this.searchEditText = editTextBoldCursor;
-        editTextBoldCursor.setTextSize(1, 16.0f);
+        this.clearSearchImageView.setOnClickListener(new SearchField$$ExternalSyntheticLambda0(this));
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
+        this.searchEditText = anonymousClass2;
+        anonymousClass2.setTextSize(1, 16.0f);
         this.searchEditText.setHintTextColor(getThemedColor("dialogSearchHint"));
         this.searchEditText.setTextColor(getThemedColor("dialogSearchText"));
         this.searchEditText.setBackgroundDrawable(null);
@@ -128,52 +100,93 @@ public class SearchField extends FrameLayout {
             layoutParams4 = LayoutHelper.createFrame(-1, 40.0f, 51, 54.0f, 9.0f, 46.0f, 0.0f);
         }
         addView(this.searchEditText, layoutParams4);
-        this.searchEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.SearchField.3
-            @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            }
+        this.searchEditText.addTextChangedListener(new AnonymousClass3());
+        this.searchEditText.setOnEditorActionListener(new SearchField$$ExternalSyntheticLambda1(this));
+    }
 
-            @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            }
+    /* renamed from: org.telegram.ui.Components.SearchField$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends CloseProgressDrawable2 {
+        AnonymousClass1() {
+            SearchField.this = r1;
+        }
 
-            @Override // android.text.TextWatcher
-            public void afterTextChanged(Editable editable) {
-                boolean z2 = true;
-                boolean z3 = SearchField.this.searchEditText.length() > 0;
-                float f = 0.0f;
-                if (SearchField.this.clearSearchImageView.getAlpha() == 0.0f) {
-                    z2 = false;
-                }
-                if (z3 != z2) {
-                    ViewPropertyAnimator animate = SearchField.this.clearSearchImageView.animate();
-                    float f2 = 1.0f;
-                    if (z3) {
-                        f = 1.0f;
-                    }
-                    ViewPropertyAnimator scaleX = animate.alpha(f).setDuration(150L).scaleX(z3 ? 1.0f : 0.1f);
-                    if (!z3) {
-                        f2 = 0.1f;
-                    }
-                    scaleX.scaleY(f2).start();
-                }
-                SearchField searchField = SearchField.this;
-                searchField.onTextChange(searchField.searchEditText.getText().toString());
-            }
-        });
-        this.searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.SearchField$$ExternalSyntheticLambda1
-            @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean lambda$new$1;
-                lambda$new$1 = SearchField.this.lambda$new$1(textView, i, keyEvent);
-                return lambda$new$1;
-            }
-        });
+        @Override // org.telegram.ui.Components.CloseProgressDrawable2
+        protected int getCurrentColor() {
+            return SearchField.this.getThemedColor("dialogSearchIcon");
+        }
     }
 
     public /* synthetic */ void lambda$new$0(View view) {
         this.searchEditText.setText("");
         AndroidUtilities.showKeyboard(this.searchEditText);
+    }
+
+    /* renamed from: org.telegram.ui.Components.SearchField$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends EditTextBoldCursor {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(Context context) {
+            super(context);
+            SearchField.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
+        public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+            SearchField.this.processTouchEvent(motionEvent);
+            return super.dispatchTouchEvent(motionEvent);
+        }
+
+        @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            if (!isEnabled()) {
+                return false;
+            }
+            if (motionEvent.getAction() == 1) {
+                SearchField.this.onFieldTouchUp(this);
+            }
+            return super.onTouchEvent(motionEvent);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.SearchField$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 implements TextWatcher {
+        @Override // android.text.TextWatcher
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override // android.text.TextWatcher
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        AnonymousClass3() {
+            SearchField.this = r1;
+        }
+
+        @Override // android.text.TextWatcher
+        public void afterTextChanged(Editable editable) {
+            boolean z = true;
+            boolean z2 = SearchField.this.searchEditText.length() > 0;
+            float f = 0.0f;
+            if (SearchField.this.clearSearchImageView.getAlpha() == 0.0f) {
+                z = false;
+            }
+            if (z2 != z) {
+                ViewPropertyAnimator animate = SearchField.this.clearSearchImageView.animate();
+                float f2 = 1.0f;
+                if (z2) {
+                    f = 1.0f;
+                }
+                ViewPropertyAnimator scaleX = animate.alpha(f).setDuration(150L).scaleX(z2 ? 1.0f : 0.1f);
+                if (!z2) {
+                    f2 = 0.1f;
+                }
+                scaleX.scaleY(f2).start();
+            }
+            SearchField searchField = SearchField.this;
+            searchField.onTextChange(searchField.searchEditText.getText().toString());
+        }
     }
 
     public /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {

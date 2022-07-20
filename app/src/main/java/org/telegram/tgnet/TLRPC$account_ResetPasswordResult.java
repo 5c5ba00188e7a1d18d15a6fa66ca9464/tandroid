@@ -8,14 +8,7 @@ public abstract class TLRPC$account_ResetPasswordResult extends TLObject {
         } else if (i != -383330754) {
             tLRPC$account_ResetPasswordResult = i != -370148227 ? null : new TLRPC$TL_account_resetPasswordRequestedWait();
         } else {
-            tLRPC$account_ResetPasswordResult = new TLRPC$account_ResetPasswordResult() { // from class: org.telegram.tgnet.TLRPC$TL_account_resetPasswordOk
-                public static int constructor = -383330754;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
-                }
-            };
+            tLRPC$account_ResetPasswordResult = new TLRPC$TL_account_resetPasswordOk();
         }
         if (tLRPC$account_ResetPasswordResult != null || !z) {
             if (tLRPC$account_ResetPasswordResult != null) {

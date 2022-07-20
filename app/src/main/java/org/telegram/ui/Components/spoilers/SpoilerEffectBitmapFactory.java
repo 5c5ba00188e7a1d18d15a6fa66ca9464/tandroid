@@ -91,16 +91,10 @@ public class SpoilerEffectBitmapFactory {
         }
         this.lastUpdateTime = System.currentTimeMillis();
         this.isRunning = true;
-        final Bitmap bitmap = this.bufferBitmap;
-        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffectBitmapFactory$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                SpoilerEffectBitmapFactory.this.lambda$checkUpdate$1(bitmap);
-            }
-        });
+        this.dispatchQueue.postRunnable(new SpoilerEffectBitmapFactory$$ExternalSyntheticLambda0(this, this.bufferBitmap));
     }
 
-    public /* synthetic */ void lambda$checkUpdate$1(final Bitmap bitmap) {
+    public /* synthetic */ void lambda$checkUpdate$1(Bitmap bitmap) {
         if (bitmap == null) {
             int i = this.size;
             bitmap = Bitmap.createBitmap(i, i, Bitmap.Config.ARGB_8888);
@@ -121,12 +115,7 @@ public class SpoilerEffectBitmapFactory {
         }
         bitmap.eraseColor(0);
         canvas.drawBitmap(this.backgroundBitmap, 0.0f, 0.0f, (Paint) null);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffectBitmapFactory$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                SpoilerEffectBitmapFactory.this.lambda$checkUpdate$0(bitmap);
-            }
-        });
+        AndroidUtilities.runOnUIThread(new SpoilerEffectBitmapFactory$$ExternalSyntheticLambda1(this, bitmap));
     }
 
     public /* synthetic */ void lambda$checkUpdate$0(Bitmap bitmap) {

@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import com.huawei.hms.opendevice.f;
 import com.huawei.hms.opendevice.i;
 import com.huawei.hms.support.log.HMSLog;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class AutoInitHelper {
     public static void doAutoInit(Context context) {
@@ -26,7 +25,7 @@ public class AutoInitHelper {
             return a.getBoolean("push_kit_auto_init_enabled");
         }
         try {
-            return context.getPackageManager().getApplicationInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).metaData.getBoolean("push_kit_auto_init_enabled");
+            return context.getPackageManager().getApplicationInfo(context.getPackageName(), 128).metaData.getBoolean("push_kit_auto_init_enabled");
         } catch (PackageManager.NameNotFoundException unused) {
             return false;
         }

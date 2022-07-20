@@ -35,12 +35,10 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Cells.AboutLinkCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
@@ -106,68 +104,9 @@ public class AboutLinkCell extends FrameLayout {
         new LinkPath(true);
         this.resourcesProvider = resourcesProvider;
         this.parentFragment = baseFragment;
-        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Cells.AboutLinkCell.1
-            /* JADX WARN: Code restructure failed: missing block: B:50:0x011b, code lost:
-                if (r1.checkTouchTextLayout(r1.textLayout, org.telegram.ui.Cells.AboutLinkCell.this.textX, org.telegram.ui.Cells.AboutLinkCell.this.textY, r0, r7) != false) goto L51;
-             */
-            @Override // android.view.View
-            /*
-                Code decompiled incorrectly, please refer to instructions dump.
-            */
-            public boolean onTouchEvent(MotionEvent motionEvent) {
-                boolean z;
-                int x = (int) motionEvent.getX();
-                int y = (int) motionEvent.getY();
-                if (AboutLinkCell.this.textLayout != null || AboutLinkCell.this.nextLinesLayouts != null) {
-                    if (motionEvent.getAction() == 0 || (AboutLinkCell.this.pressedLink != null && motionEvent.getAction() == 1)) {
-                        if (x >= AboutLinkCell.this.showMoreTextView.getLeft() && x <= AboutLinkCell.this.showMoreTextView.getRight() && y >= AboutLinkCell.this.showMoreTextView.getTop() && y <= AboutLinkCell.this.showMoreTextView.getBottom()) {
-                            return super.onTouchEvent(motionEvent);
-                        }
-                        if (getMeasuredWidth() > 0 && x > getMeasuredWidth() - AndroidUtilities.dp(23.0f)) {
-                            return super.onTouchEvent(motionEvent);
-                        }
-                        if (motionEvent.getAction() == 0) {
-                            if (AboutLinkCell.this.firstThreeLinesLayout != null && AboutLinkCell.this.expandT < 1.0f && AboutLinkCell.this.shouldExpand) {
-                                AboutLinkCell aboutLinkCell = AboutLinkCell.this;
-                                if (!aboutLinkCell.checkTouchTextLayout(aboutLinkCell.firstThreeLinesLayout, AboutLinkCell.this.textX, AboutLinkCell.this.textY, x, y)) {
-                                    if (AboutLinkCell.this.nextLinesLayouts != null) {
-                                        for (int i = 0; i < AboutLinkCell.this.nextLinesLayouts.length; i++) {
-                                            AboutLinkCell aboutLinkCell2 = AboutLinkCell.this;
-                                            if (!aboutLinkCell2.checkTouchTextLayout(aboutLinkCell2.nextLinesLayouts[i], AboutLinkCell.this.nextLinesLayoutsPositions[i].x, AboutLinkCell.this.nextLinesLayoutsPositions[i].y, x, y)) {
-                                            }
-                                        }
-                                    }
-                                    z = false;
-                                }
-                                z = true;
-                                break;
-                            }
-                            AboutLinkCell aboutLinkCell3 = AboutLinkCell.this;
-                            if (!z) {
-                                AboutLinkCell.this.resetPressedLink();
-                            }
-                        } else if (AboutLinkCell.this.pressedLink != null) {
-                            try {
-                                AboutLinkCell aboutLinkCell4 = AboutLinkCell.this;
-                                aboutLinkCell4.onLinkClick((ClickableSpan) aboutLinkCell4.pressedLink.getSpan());
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
-                            AboutLinkCell.this.resetPressedLink();
-                            z = true;
-                        }
-                        return !z || super.onTouchEvent(motionEvent);
-                    } else if (motionEvent.getAction() == 3) {
-                        AboutLinkCell.this.resetPressedLink();
-                    }
-                }
-                z = false;
-                if (!z) {
-                }
-            }
-        };
-        this.container = frameLayout;
-        frameLayout.setImportantForAccessibility(2);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
+        this.container = anonymousClass1;
+        anonymousClass1.setImportantForAccessibility(2);
         this.links = new LinkSpanDrawable.LinkCollector(this.container);
         this.container.setClickable(true);
         this.rippleBackground = Theme.createRadSelectorDrawable(Theme.getColor("listSelectorSDK21", resourcesProvider), 0, 0);
@@ -185,64 +124,136 @@ public class AboutLinkCell extends FrameLayout {
         this.valueTextView.setFocusable(false);
         this.container.addView(this.valueTextView, LayoutHelper.createFrame(-2, -2.0f, (!LocaleController.isRTL ? 3 : i) | 80, 23.0f, 0.0f, 23.0f, 10.0f));
         this.bottomShadow = new FrameLayout(context);
-        Drawable mutate = context.getResources().getDrawable(R.drawable.gradient_bottom).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131165431).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhite", resourcesProvider), PorterDuff.Mode.SRC_ATOP));
         this.bottomShadow.setBackground(mutate);
         addView(this.bottomShadow, LayoutHelper.createFrame(-1, 12.0f, 87, 0.0f, 0.0f, 0.0f, 0.0f));
         addView(this.container, LayoutHelper.createFrame(-1, -1, 55));
-        TextView textView2 = new TextView(this, context) { // from class: org.telegram.ui.Cells.AboutLinkCell.2
-            private boolean pressed = false;
-
-            @Override // android.widget.TextView, android.view.View
-            public boolean onTouchEvent(MotionEvent motionEvent) {
-                boolean z = this.pressed;
-                if (motionEvent.getAction() == 0) {
-                    this.pressed = true;
-                } else if (motionEvent.getAction() != 2) {
-                    this.pressed = false;
-                }
-                if (z != this.pressed) {
-                    invalidate();
-                }
-                return super.onTouchEvent(motionEvent);
-            }
-
-            @Override // android.widget.TextView, android.view.View
-            protected void onDraw(Canvas canvas) {
-                if (this.pressed) {
-                    RectF rectF = AndroidUtilities.rectTmp;
-                    rectF.set(0.0f, 0.0f, getWidth(), getHeight());
-                    canvas.drawRoundRect(rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), Theme.chat_urlPaint);
-                }
-                super.onDraw(canvas);
-            }
-        };
-        this.showMoreTextView = textView2;
-        textView2.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText", resourcesProvider));
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(this, context);
+        this.showMoreTextView = anonymousClass2;
+        anonymousClass2.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText", resourcesProvider));
         this.showMoreTextView.setTextSize(1, 16.0f);
         this.showMoreTextView.setLines(1);
         this.showMoreTextView.setMaxLines(1);
         this.showMoreTextView.setSingleLine(true);
-        this.showMoreTextView.setText(LocaleController.getString("DescriptionMore", R.string.DescriptionMore));
-        this.showMoreTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$$ExternalSyntheticLambda1
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                AboutLinkCell.this.lambda$new$0(view);
-            }
-        });
+        this.showMoreTextView.setText(LocaleController.getString("DescriptionMore", 2131625477));
+        this.showMoreTextView.setOnClickListener(new AboutLinkCell$$ExternalSyntheticLambda1(this));
         this.showMoreTextView.setPadding(AndroidUtilities.dp(2.0f), 0, AndroidUtilities.dp(2.0f), 0);
         this.showMoreTextBackgroundView = new FrameLayout(context);
-        Drawable mutate2 = context.getResources().getDrawable(R.drawable.gradient_left).mutate();
+        Drawable mutate2 = context.getResources().getDrawable(2131165432).mutate();
         this.showMoreBackgroundDrawable = mutate2;
         mutate2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhite", resourcesProvider), PorterDuff.Mode.MULTIPLY));
         this.showMoreTextBackgroundView.setBackground(this.showMoreBackgroundDrawable);
-        FrameLayout frameLayout2 = this.showMoreTextBackgroundView;
-        frameLayout2.setPadding(frameLayout2.getPaddingLeft() + AndroidUtilities.dp(4.0f), AndroidUtilities.dp(1.0f), 0, AndroidUtilities.dp(3.0f));
+        FrameLayout frameLayout = this.showMoreTextBackgroundView;
+        frameLayout.setPadding(frameLayout.getPaddingLeft() + AndroidUtilities.dp(4.0f), AndroidUtilities.dp(1.0f), 0, AndroidUtilities.dp(3.0f));
         this.showMoreTextBackgroundView.addView(this.showMoreTextView, LayoutHelper.createFrame(-2, -2.0f));
-        FrameLayout frameLayout3 = this.showMoreTextBackgroundView;
-        addView(frameLayout3, LayoutHelper.createFrame(-2, -2.0f, 85, 22.0f - (frameLayout3.getPaddingLeft() / AndroidUtilities.density), 0.0f, 22.0f - (this.showMoreTextBackgroundView.getPaddingRight() / AndroidUtilities.density), 6.0f));
+        FrameLayout frameLayout2 = this.showMoreTextBackgroundView;
+        addView(frameLayout2, LayoutHelper.createFrame(-2, -2.0f, 85, 22.0f - (frameLayout2.getPaddingLeft() / AndroidUtilities.density), 0.0f, 22.0f - (this.showMoreTextBackgroundView.getPaddingRight() / AndroidUtilities.density), 6.0f));
         this.backgroundPaint.setColor(Theme.getColor("windowBackgroundWhite", resourcesProvider));
         setWillNotDraw(false);
+    }
+
+    /* renamed from: org.telegram.ui.Cells.AboutLinkCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends FrameLayout {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context) {
+            super(context);
+            AboutLinkCell.this = r1;
+        }
+
+        /* JADX WARN: Code restructure failed: missing block: B:50:0x011b, code lost:
+            if (r1.checkTouchTextLayout(r1.textLayout, org.telegram.ui.Cells.AboutLinkCell.this.textX, org.telegram.ui.Cells.AboutLinkCell.this.textY, r0, r7) != false) goto L51;
+         */
+        @Override // android.view.View
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            boolean z;
+            int x = (int) motionEvent.getX();
+            int y = (int) motionEvent.getY();
+            if (AboutLinkCell.this.textLayout != null || AboutLinkCell.this.nextLinesLayouts != null) {
+                if (motionEvent.getAction() == 0 || (AboutLinkCell.this.pressedLink != null && motionEvent.getAction() == 1)) {
+                    if (x >= AboutLinkCell.this.showMoreTextView.getLeft() && x <= AboutLinkCell.this.showMoreTextView.getRight() && y >= AboutLinkCell.this.showMoreTextView.getTop() && y <= AboutLinkCell.this.showMoreTextView.getBottom()) {
+                        return super.onTouchEvent(motionEvent);
+                    }
+                    if (getMeasuredWidth() > 0 && x > getMeasuredWidth() - AndroidUtilities.dp(23.0f)) {
+                        return super.onTouchEvent(motionEvent);
+                    }
+                    if (motionEvent.getAction() == 0) {
+                        if (AboutLinkCell.this.firstThreeLinesLayout != null && AboutLinkCell.this.expandT < 1.0f && AboutLinkCell.this.shouldExpand) {
+                            AboutLinkCell aboutLinkCell = AboutLinkCell.this;
+                            if (!aboutLinkCell.checkTouchTextLayout(aboutLinkCell.firstThreeLinesLayout, AboutLinkCell.this.textX, AboutLinkCell.this.textY, x, y)) {
+                                if (AboutLinkCell.this.nextLinesLayouts != null) {
+                                    for (int i = 0; i < AboutLinkCell.this.nextLinesLayouts.length; i++) {
+                                        AboutLinkCell aboutLinkCell2 = AboutLinkCell.this;
+                                        if (!aboutLinkCell2.checkTouchTextLayout(aboutLinkCell2.nextLinesLayouts[i], AboutLinkCell.this.nextLinesLayoutsPositions[i].x, AboutLinkCell.this.nextLinesLayoutsPositions[i].y, x, y)) {
+                                        }
+                                    }
+                                }
+                                z = false;
+                            }
+                            z = true;
+                            break;
+                        }
+                        AboutLinkCell aboutLinkCell3 = AboutLinkCell.this;
+                        if (!z) {
+                            AboutLinkCell.this.resetPressedLink();
+                        }
+                    } else if (AboutLinkCell.this.pressedLink != null) {
+                        try {
+                            AboutLinkCell aboutLinkCell4 = AboutLinkCell.this;
+                            aboutLinkCell4.onLinkClick((ClickableSpan) aboutLinkCell4.pressedLink.getSpan());
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                        AboutLinkCell.this.resetPressedLink();
+                        z = true;
+                    }
+                    return !z || super.onTouchEvent(motionEvent);
+                } else if (motionEvent.getAction() == 3) {
+                    AboutLinkCell.this.resetPressedLink();
+                }
+            }
+            z = false;
+            if (!z) {
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.AboutLinkCell$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends TextView {
+        private boolean pressed = false;
+
+        AnonymousClass2(AboutLinkCell aboutLinkCell, Context context) {
+            super(context);
+        }
+
+        @Override // android.widget.TextView, android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            boolean z = this.pressed;
+            if (motionEvent.getAction() == 0) {
+                this.pressed = true;
+            } else if (motionEvent.getAction() != 2) {
+                this.pressed = false;
+            }
+            if (z != this.pressed) {
+                invalidate();
+            }
+            return super.onTouchEvent(motionEvent);
+        }
+
+        @Override // android.widget.TextView, android.view.View
+        protected void onDraw(Canvas canvas) {
+            if (this.pressed) {
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set(0.0f, 0.0f, getWidth(), getHeight());
+                canvas.drawRoundRect(rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), Theme.chat_urlPaint);
+            }
+            super.onDraw(canvas);
+        }
     }
 
     public /* synthetic */ void lambda$new$0(View view) {
@@ -419,26 +430,15 @@ public class AboutLinkCell extends FrameLayout {
         @Override // java.lang.Runnable
         public void run() {
             if (AboutLinkCell.this.pressedLink != null) {
-                final String url = AboutLinkCell.this.pressedLink.getSpan() instanceof URLSpanNoUnderline ? ((URLSpanNoUnderline) AboutLinkCell.this.pressedLink.getSpan()).getURL() : AboutLinkCell.this.pressedLink.getSpan() instanceof URLSpan ? ((URLSpan) AboutLinkCell.this.pressedLink.getSpan()).getURL() : AboutLinkCell.this.pressedLink.getSpan().toString();
+                String url = AboutLinkCell.this.pressedLink.getSpan() instanceof URLSpanNoUnderline ? ((URLSpanNoUnderline) AboutLinkCell.this.pressedLink.getSpan()).getURL() : AboutLinkCell.this.pressedLink.getSpan() instanceof URLSpan ? ((URLSpan) AboutLinkCell.this.pressedLink.getSpan()).getURL() : AboutLinkCell.this.pressedLink.getSpan().toString();
                 try {
                     AboutLinkCell.this.performHapticFeedback(0, 2);
                 } catch (Exception unused) {
                 }
-                final ClickableSpan clickableSpan = (ClickableSpan) AboutLinkCell.this.pressedLink.getSpan();
                 BottomSheet.Builder builder = new BottomSheet.Builder(AboutLinkCell.this.parentFragment.getParentActivity());
                 builder.setTitle(url);
-                builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$3$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        AboutLinkCell.AnonymousClass3.this.lambda$run$0(clickableSpan, url, dialogInterface, i);
-                    }
-                });
-                builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$3$$ExternalSyntheticLambda1
-                    @Override // android.content.DialogInterface.OnDismissListener
-                    public final void onDismiss(DialogInterface dialogInterface) {
-                        AboutLinkCell.AnonymousClass3.this.lambda$run$1(dialogInterface);
-                    }
-                });
+                builder.setItems(new CharSequence[]{LocaleController.getString("Open", 2131627142), LocaleController.getString("Copy", 2131625272)}, new AboutLinkCell$3$$ExternalSyntheticLambda0(this, (ClickableSpan) AboutLinkCell.this.pressedLink.getSpan(), url));
+                builder.setOnPreDismissListener(new AboutLinkCell$3$$ExternalSyntheticLambda1(this));
                 builder.show();
                 AboutLinkCell.this.pressedLink = null;
             }
@@ -454,11 +454,11 @@ public class AboutLinkCell extends FrameLayout {
                     return;
                 }
                 if (str.startsWith("@")) {
-                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("UsernameCopied", R.string.UsernameCopied)).show();
+                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("UsernameCopied", 2131628918)).show();
                 } else if (str.startsWith("#") || str.startsWith("$")) {
-                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("HashtagCopied", R.string.HashtagCopied)).show();
+                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("HashtagCopied", 2131626175)).show();
                 } else {
-                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("LinkCopied", R.string.LinkCopied)).show();
+                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("LinkCopied", 2131626480)).show();
                 }
             }
         }
@@ -556,8 +556,8 @@ public class AboutLinkCell extends FrameLayout {
             valueAnimator.cancel();
             this.collapseAnimator = null;
         }
-        final float f = this.expandT;
-        final float f2 = z ? 1.0f : 0.0f;
+        float f = this.expandT;
+        float f2 = z ? 1.0f : 0.0f;
         if (z2) {
             if (f2 > 0.0f) {
                 didExtend();
@@ -566,29 +566,8 @@ public class AboutLinkCell extends FrameLayout {
             float min = Math.min(COLLAPSED_HEIGHT, textHeight);
             Math.abs(AndroidUtilities.lerp(min, textHeight, f2) - AndroidUtilities.lerp(min, textHeight, f));
             this.collapseAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-            final SpringInterpolator springInterpolator = new SpringInterpolator(this, 380.0f, 20.17f);
-            final AtomicReference atomicReference = new AtomicReference(Float.valueOf(f));
-            this.collapseAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    AboutLinkCell.this.lambda$updateCollapse$1(atomicReference, f, f2, springInterpolator, valueAnimator2);
-                }
-            });
-            this.collapseAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.AboutLinkCell.4
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    AboutLinkCell.this.didResizeEnd();
-                    if (AboutLinkCell.this.container.getBackground() == null) {
-                        AboutLinkCell.this.container.setBackground(AboutLinkCell.this.rippleBackground);
-                    }
-                    AboutLinkCell.this.expanded = true;
-                }
-
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationStart(Animator animator) {
-                    AboutLinkCell.this.didResizeStart();
-                }
-            });
+            this.collapseAnimator.addUpdateListener(new AboutLinkCell$$ExternalSyntheticLambda0(this, new AtomicReference(Float.valueOf(f)), f, f2, new SpringInterpolator(this, 380.0f, 20.17f)));
+            this.collapseAnimator.addListener(new AnonymousClass4());
             this.collapseAnimator.setDuration(Math.abs(f - f2) * 1250.0f * 2.0f);
             this.collapseAnimator.start();
             return;
@@ -609,6 +588,28 @@ public class AboutLinkCell extends FrameLayout {
         this.bottomShadow.setAlpha((float) Math.pow(1.0f - this.expandT, 2.0d));
         updateHeight();
         this.container.invalidate();
+    }
+
+    /* renamed from: org.telegram.ui.Cells.AboutLinkCell$4 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass4 extends AnimatorListenerAdapter {
+        AnonymousClass4() {
+            AboutLinkCell.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            AboutLinkCell.this.didResizeEnd();
+            if (AboutLinkCell.this.container.getBackground() == null) {
+                AboutLinkCell.this.container.setBackground(AboutLinkCell.this.rippleBackground);
+            }
+            AboutLinkCell.this.expanded = true;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            AboutLinkCell.this.didResizeStart();
+        }
     }
 
     private int fromHeight() {

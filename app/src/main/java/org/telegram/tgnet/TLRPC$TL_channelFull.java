@@ -1,6 +1,4 @@
 package org.telegram.tgnet;
-
-import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
     public static int constructor = -362240487;
@@ -11,7 +9,7 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         this.flags = readInt32;
         this.can_view_participants = (readInt32 & 8) != 0;
         this.can_set_username = (readInt32 & 64) != 0;
-        this.can_set_stickers = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+        this.can_set_stickers = (readInt32 & 128) != 0;
         this.hidden_prehistory = (readInt32 & 1024) != 0;
         this.can_set_location = (65536 & readInt32) != 0;
         this.has_scheduled = (524288 & readInt32) != 0;
@@ -97,10 +95,10 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         if ((this.flags & 2097152) != 0) {
             this.call = TLRPC$TL_inputGroupCall.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & ConnectionsManager.FileTypePhoto) != 0) {
+        if ((this.flags & 16777216) != 0) {
             this.ttl_period = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
+        if ((this.flags & 33554432) != 0) {
             int readInt325 = abstractSerializedData.readInt32(z);
             if (readInt325 != 481674261) {
                 if (z) {
@@ -113,7 +111,7 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
                 this.pending_suggestions.add(abstractSerializedData.readString(z));
             }
         }
-        if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
+        if ((this.flags & 67108864) != 0) {
             this.groupcall_default_join_as = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
         if ((this.flags & 134217728) != 0) {
@@ -161,11 +159,11 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         this.flags = i;
         int i2 = this.can_set_username ? i | 64 : i & (-65);
         this.flags = i2;
-        int i3 = this.can_set_stickers ? i2 | ConnectionsManager.RequestFlagNeedQuickAck : i2 & (-129);
+        int i3 = this.can_set_stickers ? i2 | 128 : i2 & (-129);
         this.flags = i3;
         int i4 = this.hidden_prehistory ? i3 | 1024 : i3 & (-1025);
         this.flags = i4;
-        int i5 = this.can_set_location ? i4 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i4 & (-65537);
+        int i5 = this.can_set_location ? i4 | 65536 : i4 & (-65537);
         this.flags = i5;
         int i6 = this.has_scheduled ? i5 | 524288 : i5 & (-524289);
         this.flags = i6;
@@ -245,10 +243,10 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         if ((this.flags & 2097152) != 0) {
             this.call.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & ConnectionsManager.FileTypePhoto) != 0) {
+        if ((this.flags & 16777216) != 0) {
             abstractSerializedData.writeInt32(this.ttl_period);
         }
-        if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
+        if ((this.flags & 33554432) != 0) {
             abstractSerializedData.writeInt32(481674261);
             int size2 = this.pending_suggestions.size();
             abstractSerializedData.writeInt32(size2);
@@ -256,7 +254,7 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
                 abstractSerializedData.writeString(this.pending_suggestions.get(i11));
             }
         }
-        if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
+        if ((this.flags & 67108864) != 0) {
             this.groupcall_default_join_as.serializeToStream(abstractSerializedData);
         }
         if ((this.flags & 134217728) != 0) {

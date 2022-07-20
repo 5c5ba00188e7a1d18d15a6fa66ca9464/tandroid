@@ -12,24 +12,7 @@ import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class Palette {
-    static final Filter DEFAULT_FILTER = new Filter() { // from class: androidx.palette.graphics.Palette.1
-        @Override // androidx.palette.graphics.Palette.Filter
-        public boolean isAllowed(int i, float[] fArr) {
-            return !isWhite(fArr) && !isBlack(fArr) && !isNearRedILine(fArr);
-        }
-
-        private boolean isBlack(float[] fArr) {
-            return fArr[2] <= 0.05f;
-        }
-
-        private boolean isWhite(float[] fArr) {
-            return fArr[2] >= 0.95f;
-        }
-
-        private boolean isNearRedILine(float[] fArr) {
-            return fArr[0] >= 10.0f && fArr[0] <= 37.0f && fArr[1] <= 0.82f;
-        }
-    };
+    static final Filter DEFAULT_FILTER = new AnonymousClass1();
     private final List<Swatch> mSwatches;
     private final List<Target> mTargets;
     private final SparseBooleanArray mUsedColors = new SparseBooleanArray();
@@ -361,6 +344,30 @@ public final class Palette {
             double height = bitmap.getHeight();
             Double.isNaN(height);
             return Bitmap.createScaledBitmap(bitmap, ceil, (int) Math.ceil(height * d), false);
+        }
+    }
+
+    /* renamed from: androidx.palette.graphics.Palette$1 */
+    /* loaded from: classes.dex */
+    static class AnonymousClass1 implements Filter {
+        AnonymousClass1() {
+        }
+
+        @Override // androidx.palette.graphics.Palette.Filter
+        public boolean isAllowed(int i, float[] fArr) {
+            return !isWhite(fArr) && !isBlack(fArr) && !isNearRedILine(fArr);
+        }
+
+        private boolean isBlack(float[] fArr) {
+            return fArr[2] <= 0.05f;
+        }
+
+        private boolean isWhite(float[] fArr) {
+            return fArr[2] >= 0.95f;
+        }
+
+        private boolean isNearRedILine(float[] fArr) {
+            return fArr[0] >= 10.0f && fArr[0] <= 37.0f && fArr[1] <= 0.82f;
         }
     }
 }

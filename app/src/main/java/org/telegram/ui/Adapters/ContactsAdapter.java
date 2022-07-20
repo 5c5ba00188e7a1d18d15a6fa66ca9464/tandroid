@@ -10,7 +10,6 @@ import androidx.collection.LongSparseArray;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
@@ -18,7 +17,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$TL_contact;
 import org.telegram.tgnet.TLRPC$User;
@@ -97,16 +95,8 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             return;
         }
         try {
-            final int currentTime = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
-            final MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-            Collections.sort(this.onlineContacts, new Comparator() { // from class: org.telegram.ui.Adapters.ContactsAdapter$$ExternalSyntheticLambda0
-                @Override // java.util.Comparator
-                public final int compare(Object obj, Object obj2) {
-                    int lambda$sortOnlineContacts$0;
-                    lambda$sortOnlineContacts$0 = ContactsAdapter.lambda$sortOnlineContacts$0(MessagesController.this, currentTime, (TLRPC$TL_contact) obj, (TLRPC$TL_contact) obj2);
-                    return lambda$sortOnlineContacts$0;
-                }
-            });
+            int currentTime = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
+            Collections.sort(this.onlineContacts, new ContactsAdapter$$ExternalSyntheticLambda0(MessagesController.getInstance(this.currentAccount), currentTime));
             notifyDataSetChanged();
         } catch (Exception e) {
             FileLog.e(e);
@@ -344,8 +334,45 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         return view;
     }
 
+    /* renamed from: org.telegram.ui.Adapters.ContactsAdapter$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends FrameLayout {
+        final /* synthetic */ ViewGroup val$parent;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context, ViewGroup viewGroup) {
+            super(context);
+            ContactsAdapter.this = r1;
+            this.val$parent = viewGroup;
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            int size = View.MeasureSpec.getSize(i2);
+            if (size == 0) {
+                size = this.val$parent.getMeasuredHeight();
+            }
+            int i3 = 0;
+            if (size == 0) {
+                size = (AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
+            }
+            int dp = AndroidUtilities.dp(50.0f);
+            int dp2 = ContactsAdapter.this.onlyUsers != 0 ? 0 : AndroidUtilities.dp(30.0f) + dp;
+            if (ContactsAdapter.this.hasGps) {
+                dp2 += dp;
+            }
+            if (!ContactsAdapter.this.isAdmin && !ContactsAdapter.this.needPhonebook) {
+                dp2 += dp;
+            }
+            if (dp2 < size) {
+                i3 = size - dp2;
+            }
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(i3, 1073741824));
+        }
+    }
+
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
         if (i == 0) {
             view = new UserCell(this.mContext, 58, 1, false);
@@ -363,36 +390,12 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             }
             view.setPadding(dp, dp2, AndroidUtilities.dp(f), AndroidUtilities.dp(8.0f));
         } else if (i == 4) {
-            FrameLayout frameLayout = new FrameLayout(this.mContext) { // from class: org.telegram.ui.Adapters.ContactsAdapter.1
-                @Override // android.widget.FrameLayout, android.view.View
-                protected void onMeasure(int i2, int i3) {
-                    int size = View.MeasureSpec.getSize(i3);
-                    if (size == 0) {
-                        size = viewGroup.getMeasuredHeight();
-                    }
-                    int i4 = 0;
-                    if (size == 0) {
-                        size = (AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
-                    }
-                    int dp3 = AndroidUtilities.dp(50.0f);
-                    int dp4 = ContactsAdapter.this.onlyUsers != 0 ? 0 : AndroidUtilities.dp(30.0f) + dp3;
-                    if (ContactsAdapter.this.hasGps) {
-                        dp4 += dp3;
-                    }
-                    if (!ContactsAdapter.this.isAdmin && !ContactsAdapter.this.needPhonebook) {
-                        dp4 += dp3;
-                    }
-                    if (dp4 < size) {
-                        i4 = size - dp4;
-                    }
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824), View.MeasureSpec.makeMeasureSpec(i4, 1073741824));
-                }
-            };
-            frameLayout.addView(new ContactsEmptyView(this.mContext), LayoutHelper.createFrame(-2, -2, 17));
-            view = frameLayout;
+            AnonymousClass1 anonymousClass1 = new AnonymousClass1(this.mContext, viewGroup);
+            anonymousClass1.addView(new ContactsEmptyView(this.mContext), LayoutHelper.createFrame(-2, -2, 17));
+            view = anonymousClass1;
         } else {
             view = new ShadowSectionCell(this.mContext);
-            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, 2131165435, "windowBackgroundGrayShadow"));
             combinedDrawable.setFullsize(true);
             view.setBackgroundDrawable(combinedDrawable);
         }
@@ -437,43 +440,43 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
             int i3 = this.sortType;
             if (i3 == 0) {
-                graySectionCell.setText(LocaleController.getString("Contacts", R.string.Contacts));
+                graySectionCell.setText(LocaleController.getString("Contacts", 2131625258));
             } else if (i3 == 1) {
-                graySectionCell.setText(LocaleController.getString("SortedByName", R.string.SortedByName));
+                graySectionCell.setText(LocaleController.getString("SortedByName", 2131628446));
             } else {
-                graySectionCell.setText(LocaleController.getString("SortedByLastSeen", R.string.SortedByLastSeen));
+                graySectionCell.setText(LocaleController.getString("SortedByLastSeen", 2131628445));
             }
         } else {
             TextCell textCell = (TextCell) viewHolder.itemView;
             if (i == 0) {
                 if (this.needPhonebook) {
                     if (i2 == 0) {
-                        textCell.setTextAndIcon(LocaleController.getString("InviteFriends", R.string.InviteFriends), R.drawable.msg_invite, false);
+                        textCell.setTextAndIcon(LocaleController.getString("InviteFriends", 2131626308), 2131165768, false);
                         return;
                     } else if (i2 != 1) {
                         return;
                     } else {
-                        textCell.setTextAndIcon(LocaleController.getString("AddPeopleNearby", R.string.AddPeopleNearby), R.drawable.msg_location, false);
+                        textCell.setTextAndIcon(LocaleController.getString("AddPeopleNearby", 2131624285), 2131165789, false);
                         return;
                     }
                 } else if (this.isAdmin) {
                     if (this.isChannel) {
-                        textCell.setTextAndIcon(LocaleController.getString("ChannelInviteViaLink", R.string.ChannelInviteViaLink), R.drawable.msg_link2, false);
+                        textCell.setTextAndIcon(LocaleController.getString("ChannelInviteViaLink", 2131624919), 2131165784, false);
                         return;
                     } else {
-                        textCell.setTextAndIcon(LocaleController.getString("InviteToGroupByLink", R.string.InviteToGroupByLink), R.drawable.msg_link2, false);
+                        textCell.setTextAndIcon(LocaleController.getString("InviteToGroupByLink", 2131626327), 2131165784, false);
                         return;
                     }
                 } else if (i2 == 0) {
-                    textCell.setTextAndIcon(LocaleController.getString("NewGroup", R.string.NewGroup), R.drawable.msg_groups, false);
+                    textCell.setTextAndIcon(LocaleController.getString("NewGroup", 2131626832), 2131165750, false);
                     return;
                 } else if (i2 == 1) {
-                    textCell.setTextAndIcon(LocaleController.getString("NewSecretChat", R.string.NewSecretChat), R.drawable.msg_secret, false);
+                    textCell.setTextAndIcon(LocaleController.getString("NewSecretChat", 2131626845), 2131165925, false);
                     return;
                 } else if (i2 != 2) {
                     return;
                 } else {
-                    textCell.setTextAndIcon(LocaleController.getString("NewChannel", R.string.NewChannel), R.drawable.msg_channel, false);
+                    textCell.setTextAndIcon(LocaleController.getString("NewChannel", 2131626824), 2131165673, false);
                     return;
                 }
             }

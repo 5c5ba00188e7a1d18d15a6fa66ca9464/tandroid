@@ -11,7 +11,6 @@ import android.util.Base64;
 import android.util.SparseArray;
 import android.webkit.WebView;
 import androidx.core.content.pm.ShortcutManagerCompat;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.annotation.Retention;
@@ -772,17 +771,12 @@ public class SharedConfig {
         if (!BuildVars.LOGS_ENABLED) {
             return;
         }
-        final int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
+        int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
         if (Math.abs(currentTimeMillis - lastLogsCheckTime) < 3600) {
             return;
         }
         lastLogsCheckTime = currentTimeMillis;
-        Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                SharedConfig.lambda$checkLogsToDelete$0(currentTimeMillis);
-            }
-        });
+        Utilities.cacheClearQueue.postRunnable(new SharedConfig$$ExternalSyntheticLambda0(currentTimeMillis));
     }
 
     public static /* synthetic */ void lambda$checkLogsToDelete$0(int i) {
@@ -799,24 +793,18 @@ public class SharedConfig {
     }
 
     public static void checkKeepMedia() {
-        final int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
+        int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
         if (Math.abs(currentTimeMillis - lastKeepMediaCheckTime) < 3600) {
             return;
         }
         lastKeepMediaCheckTime = currentTimeMillis;
-        final File checkDirectory = FileLoader.checkDirectory(4);
-        Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                SharedConfig.lambda$checkKeepMedia$1(currentTimeMillis, checkDirectory);
-            }
-        });
+        Utilities.cacheClearQueue.postRunnable(new SharedConfig$$ExternalSyntheticLambda1(currentTimeMillis, FileLoader.checkDirectory(4)));
     }
 
     public static /* synthetic */ void lambda$checkKeepMedia$1(int i, File file) {
         int i2 = keepMedia;
         if (i2 != 2) {
-            long j = i - ((i2 == 0 ? 7 : i2 == 1 ? 30 : 3) * RemoteMessageConst.DEFAULT_TTL);
+            long j = i - ((i2 == 0 ? 7 : i2 == 1 ? 30 : 3) * 86400);
             SparseArray<File> createMediaPaths = ImageLoader.getInstance().createMediaPaths();
             for (int i3 = 0; i3 < createMediaPaths.size(); i3++) {
                 if (createMediaPaths.keyAt(i3) != 4) {
@@ -831,7 +819,7 @@ public class SharedConfig {
         File file2 = new File(file, "acache");
         if (file2.exists()) {
             try {
-                Utilities.clearDir(file2.getAbsolutePath(), 0, i - RemoteMessageConst.DEFAULT_TTL, false);
+                Utilities.clearDir(file2.getAbsolutePath(), 0, i - 86400, false);
             } catch (Throwable th2) {
                 FileLog.e(th2);
             }

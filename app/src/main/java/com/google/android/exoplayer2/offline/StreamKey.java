@@ -4,17 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 /* loaded from: classes.dex */
 public final class StreamKey implements Comparable<StreamKey>, Parcelable {
-    public static final Parcelable.Creator<StreamKey> CREATOR = new Parcelable.Creator<StreamKey>() { // from class: com.google.android.exoplayer2.offline.StreamKey.1
-        @Override // android.os.Parcelable.Creator
-        public StreamKey createFromParcel(Parcel parcel) {
-            return new StreamKey(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public StreamKey[] newArray(int i) {
-            return new StreamKey[i];
-        }
-    };
+    public static final Parcelable.Creator<StreamKey> CREATOR = new AnonymousClass1();
     public final int groupIndex;
     public final int periodIndex;
     public final int trackIndex;
@@ -69,5 +59,22 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
         parcel.writeInt(this.periodIndex);
         parcel.writeInt(this.groupIndex);
         parcel.writeInt(this.trackIndex);
+    }
+
+    /* renamed from: com.google.android.exoplayer2.offline.StreamKey$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements Parcelable.Creator<StreamKey> {
+        AnonymousClass1() {
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public StreamKey createFromParcel(Parcel parcel) {
+            return new StreamKey(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public StreamKey[] newArray(int i) {
+            return new StreamKey[i];
+        }
     }
 }

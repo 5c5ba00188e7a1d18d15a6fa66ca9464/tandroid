@@ -34,7 +34,25 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
     boolean mStartedActivityFromFragment;
     boolean mStartedIntentSenderFromFragment;
     private ViewModelStore mViewModelStore;
-    final Handler mHandler = new Handler() { // from class: androidx.fragment.app.FragmentActivity.1
+    final Handler mHandler = new AnonymousClass1();
+    final FragmentController mFragments = FragmentController.createController(new HostCallbacks());
+    boolean mStopped = true;
+
+    public void onAttachFragment(Fragment fragment) {
+    }
+
+    public Object onRetainCustomNonConfigurationInstance() {
+        return null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: androidx.fragment.app.FragmentActivity$1 */
+    /* loaded from: classes.dex */
+    public class AnonymousClass1 extends Handler {
+        AnonymousClass1() {
+            FragmentActivity.this = r1;
+        }
+
         @Override // android.os.Handler
         public void handleMessage(Message message) {
             if (message.what == 2) {
@@ -44,15 +62,6 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
             }
             super.handleMessage(message);
         }
-    };
-    final FragmentController mFragments = FragmentController.createController(new HostCallbacks());
-    boolean mStopped = true;
-
-    public void onAttachFragment(Fragment fragment) {
-    }
-
-    public Object onRetainCustomNonConfigurationInstance() {
-        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

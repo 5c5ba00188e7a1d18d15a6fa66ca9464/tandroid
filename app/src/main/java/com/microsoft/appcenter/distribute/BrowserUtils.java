@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import com.huawei.hms.framework.common.ContainerUtils;
 import com.microsoft.appcenter.utils.AppCenterLog;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
 import java.util.List;
-import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 class BrowserUtils {
     public static void openBrowser(String str, Activity activity) {
@@ -32,7 +30,7 @@ class BrowserUtils {
             AppCenterLog.error("AppCenterDistribute", "No browser found on device, abort login.");
             return;
         }
-        ResolveInfo resolveActivity = activity.getPackageManager().resolveActivity(intent, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
+        ResolveInfo resolveActivity = activity.getPackageManager().resolveActivity(intent, 65536);
         String str4 = null;
         if (resolveActivity != null) {
             ActivityInfo activityInfo = resolveActivity.activityInfo;
@@ -74,7 +72,7 @@ class BrowserUtils {
         URI uri = new URI(str);
         String query = uri.getQuery();
         if (query != null) {
-            str2 = query + ContainerUtils.FIELD_DELIMITER + str2;
+            str2 = query + "&" + str2;
         }
         return new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), str2, uri.getFragment()).toString();
     }

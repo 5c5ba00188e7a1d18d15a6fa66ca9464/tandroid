@@ -5,13 +5,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import java.util.ArrayList;
-import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$PhoneCall;
 import org.telegram.ui.Components.voip.VoIPHelper;
-@TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+@TargetApi(23)
 /* loaded from: classes3.dex */
 public class VoIPPermissionActivity extends Activity {
     @Override // android.app.Activity
@@ -29,7 +27,7 @@ public class VoIPPermissionActivity extends Activity {
         }
         if (!arrayList.isEmpty()) {
             try {
-                requestPermissions((String[]) arrayList.toArray(new String[0]), z ? 102 : FileLoader.MEDIA_DIR_VIDEO_PUBLIC);
+                requestPermissions((String[]) arrayList.toArray(new String[0]), z ? 102 : 101);
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -61,12 +59,7 @@ public class VoIPPermissionActivity extends Activity {
                 if (VoIPService.getSharedInstance() != null) {
                     VoIPService.getSharedInstance().declineIncomingCall();
                 }
-                VoIPHelper.permissionDenied(this, new Runnable() { // from class: org.telegram.ui.VoIPPermissionActivity$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        VoIPPermissionActivity.this.finish();
-                    }
-                }, i);
+                VoIPHelper.permissionDenied(this, new VoIPPermissionActivity$$ExternalSyntheticLambda0(this), i);
             } else {
                 finish();
             }

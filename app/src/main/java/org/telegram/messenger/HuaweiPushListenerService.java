@@ -5,13 +5,8 @@ import com.huawei.hms.push.RemoteMessage;
 /* loaded from: classes.dex */
 public class HuaweiPushListenerService extends HmsMessageService {
     @Override // com.huawei.hms.push.HmsMessageService
-    public void onMessageReceived(final RemoteMessage remoteMessage) {
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.HuaweiPushListenerService$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                HuaweiPushListenerService.lambda$onMessageReceived$0(RemoteMessage.this);
-            }
-        });
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        Utilities.globalQueue.postRunnable(new HuaweiPushListenerService$$ExternalSyntheticLambda0(remoteMessage));
     }
 
     public static /* synthetic */ void lambda$onMessageReceived$0(RemoteMessage remoteMessage) {
@@ -25,13 +20,8 @@ public class HuaweiPushListenerService extends HmsMessageService {
     }
 
     @Override // com.huawei.hms.push.HmsMessageService
-    public void onNewToken(final String str) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.HuaweiPushListenerService$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                HuaweiPushListenerService.lambda$onNewToken$1(str);
-            }
-        });
+    public void onNewToken(String str) {
+        AndroidUtilities.runOnUIThread(new HuaweiPushListenerService$$ExternalSyntheticLambda1(str));
     }
 
     public static /* synthetic */ void lambda$onNewToken$1(String str) {

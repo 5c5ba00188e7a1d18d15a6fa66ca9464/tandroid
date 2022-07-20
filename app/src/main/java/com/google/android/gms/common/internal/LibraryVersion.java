@@ -2,7 +2,6 @@ package com.google.android.gms.common.internal;
 
 import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.util.IOUtils;
-import com.huawei.hms.framework.network.grs.GrsBaseInfo;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.io.IOException;
 import java.io.InputStream;
@@ -93,7 +92,7 @@ public class LibraryVersion {
         }
         if (str3 == null) {
             zza.d("LibraryVersion", ".properties file is dropped during release process. Failure to read app version is expected during Google internal testing where locally-built libraries are used");
-            str3 = GrsBaseInfo.CountryCodeSource.UNKNOWN;
+            str3 = "UNKNOWN";
         }
         this.zzc.put(str, str3);
         return str3;

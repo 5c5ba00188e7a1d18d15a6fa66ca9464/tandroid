@@ -132,7 +132,6 @@ public class MatrixParticlesDrawable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Particle {
         int len;
@@ -156,7 +155,6 @@ public class MatrixParticlesDrawable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class MatrixTextParticle {
         int index;

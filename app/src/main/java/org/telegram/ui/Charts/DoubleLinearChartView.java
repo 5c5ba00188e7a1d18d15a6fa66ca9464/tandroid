@@ -373,17 +373,25 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
         if (animator != null) {
             animator.cancel();
         }
-        ValueAnimator createAnimator = createAnimator(this.pickerMaxHeight, this.animatedToPickerMaxHeight, new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.DoubleLinearChartView.1
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                DoubleLinearChartView.this.pickerMaxHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-                DoubleLinearChartView doubleLinearChartView = DoubleLinearChartView.this;
-                doubleLinearChartView.invalidatePickerChart = true;
-                doubleLinearChartView.invalidate();
-            }
-        });
+        ValueAnimator createAnimator = createAnimator(this.pickerMaxHeight, this.animatedToPickerMaxHeight, new AnonymousClass1());
         this.pickerAnimator = createAnimator;
         createAnimator.start();
+    }
+
+    /* renamed from: org.telegram.ui.Charts.DoubleLinearChartView$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 implements ValueAnimator.AnimatorUpdateListener {
+        AnonymousClass1() {
+            DoubleLinearChartView.this = r1;
+        }
+
+        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+            DoubleLinearChartView.this.pickerMaxHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            DoubleLinearChartView doubleLinearChartView = DoubleLinearChartView.this;
+            doubleLinearChartView.invalidatePickerChart = true;
+            doubleLinearChartView.invalidate();
+        }
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView

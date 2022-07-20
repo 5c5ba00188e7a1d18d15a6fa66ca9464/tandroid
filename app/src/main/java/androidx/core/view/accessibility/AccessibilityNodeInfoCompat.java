@@ -18,8 +18,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.messenger.CharacterCompat;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class AccessibilityNodeInfoCompat {
     private static int sClickableSpanId;
@@ -39,11 +37,11 @@ public class AccessibilityNodeInfoCompat {
                     return "ACTION_CLEAR_SELECTION";
                 case 16:
                     return "ACTION_CLICK";
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                     return "ACTION_LONG_CLICK";
                 case 64:
                     return "ACTION_ACCESSIBILITY_FOCUS";
-                case ConnectionsManager.RequestFlagNeedQuickAck /* 128 */:
+                case 128:
                     return "ACTION_CLEAR_ACCESSIBILITY_FOCUS";
                 case 256:
                     return "ACTION_NEXT_AT_MOVEMENT_GRANULARITY";
@@ -61,7 +59,7 @@ public class AccessibilityNodeInfoCompat {
                     return "ACTION_COPY";
                 case 32768:
                     return "ACTION_PASTE";
-                case CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT /* 65536 */:
+                case 65536:
                     return "ACTION_CUT";
                 case 131072:
                     return "ACTION_SET_SELECTION";
@@ -138,14 +136,14 @@ public class AccessibilityNodeInfoCompat {
             new AccessibilityActionCompat(16, null);
             new AccessibilityActionCompat(32, null);
             new AccessibilityActionCompat(64, null);
-            new AccessibilityActionCompat(ConnectionsManager.RequestFlagNeedQuickAck, null);
+            new AccessibilityActionCompat(128, null);
             new AccessibilityActionCompat(256, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
             new AccessibilityActionCompat(512, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
             new AccessibilityActionCompat(1024, null, AccessibilityViewCommand.MoveHtmlArguments.class);
             new AccessibilityActionCompat(2048, null, AccessibilityViewCommand.MoveHtmlArguments.class);
             new AccessibilityActionCompat(16384, null);
             new AccessibilityActionCompat(32768, null);
-            new AccessibilityActionCompat(CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT, null);
+            new AccessibilityActionCompat(65536, null);
             new AccessibilityActionCompat(131072, null, AccessibilityViewCommand.SetSelectionArguments.class);
             new AccessibilityActionCompat(262144, null);
             new AccessibilityActionCompat(524288, null);

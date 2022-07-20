@@ -24,7 +24,6 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_theme;
 import org.telegram.tgnet.TLRPC$WallPaper;
 import org.telegram.ui.ActionBar.Theme;
@@ -306,28 +305,18 @@ public class EmojiThemes {
         return this.items.get(i).themeInfo;
     }
 
-    public void loadWallpaper(int i, final ResultCallback<Pair<Long, Bitmap>> resultCallback) {
-        final TLRPC$WallPaper wallpaper = getWallpaper(i);
+    public void loadWallpaper(int i, ResultCallback<Pair<Long, Bitmap>> resultCallback) {
+        TLRPC$WallPaper wallpaper = getWallpaper(i);
         if (wallpaper != null) {
-            final long j = getTlTheme(i).id;
-            ChatThemeController.getWallpaperBitmap(j, new ResultCallback() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda3
-                @Override // org.telegram.tgnet.ResultCallback
-                public final void onComplete(Object obj) {
-                    EmojiThemes.lambda$loadWallpaper$1(ResultCallback.this, j, wallpaper, (Bitmap) obj);
-                }
-
-                @Override // org.telegram.tgnet.ResultCallback
-                public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
-                    ResultCallback.CC.$default$onError(this, tLRPC$TL_error);
-                }
-            });
+            long j = getTlTheme(i).id;
+            ChatThemeController.getWallpaperBitmap(j, new EmojiThemes$$ExternalSyntheticLambda3(resultCallback, j, wallpaper));
         } else if (resultCallback == null) {
         } else {
             resultCallback.onComplete(null);
         }
     }
 
-    public static /* synthetic */ void lambda$loadWallpaper$1(final ResultCallback resultCallback, final long j, TLRPC$WallPaper tLRPC$WallPaper, Bitmap bitmap) {
+    public static /* synthetic */ void lambda$loadWallpaper$1(ResultCallback resultCallback, long j, TLRPC$WallPaper tLRPC$WallPaper, Bitmap bitmap) {
         if (bitmap != null && resultCallback != null) {
             resultCallback.onComplete(new Pair(Long.valueOf(j), bitmap));
             return;
@@ -339,17 +328,7 @@ public class EmojiThemes {
         Point point2 = AndroidUtilities.displaySize;
         int max = Math.max(point2.x, point2.y);
         imageReceiver.setImage(forDocument, ((int) (min / AndroidUtilities.density)) + "_" + ((int) (max / AndroidUtilities.density)) + "_f", null, ".jpg", tLRPC$WallPaper, 1);
-        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda1
-            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
-                EmojiThemes.lambda$loadWallpaper$0(ResultCallback.this, j, imageReceiver2, z, z2, z3);
-            }
-
-            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
-                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver2);
-            }
-        });
+        imageReceiver.setDelegate(new EmojiThemes$$ExternalSyntheticLambda1(resultCallback, j));
         ImageLoader.getInstance().loadImageForImageReceiver(imageReceiver);
     }
 
@@ -371,7 +350,7 @@ public class EmojiThemes {
         ChatThemeController.saveWallpaperBitmap(bitmap, j);
     }
 
-    public void loadWallpaperThumb(int i, final ResultCallback<Pair<Long, Bitmap>> resultCallback) {
+    public void loadWallpaperThumb(int i, ResultCallback<Pair<Long, Bitmap>> resultCallback) {
         TLRPC$WallPaper wallpaper = getWallpaper(i);
         if (wallpaper == null) {
             if (resultCallback == null) {
@@ -380,9 +359,9 @@ public class EmojiThemes {
             resultCallback.onComplete(null);
             return;
         }
-        final long j = getTlTheme(i).id;
+        long j = getTlTheme(i).id;
         Bitmap wallpaperThumbBitmap = ChatThemeController.getWallpaperThumbBitmap(j);
-        final File wallpaperThumbFile = getWallpaperThumbFile(j);
+        File wallpaperThumbFile = getWallpaperThumbFile(j);
         if (wallpaperThumbBitmap == null && wallpaperThumbFile.exists() && wallpaperThumbFile.length() > 0) {
             try {
                 wallpaperThumbBitmap = BitmapFactory.decodeFile(wallpaperThumbFile.getAbsolutePath());
@@ -408,26 +387,16 @@ public class EmojiThemes {
         ImageLocation forDocument = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 140), wallpaper.document);
         ImageReceiver imageReceiver = new ImageReceiver();
         imageReceiver.setImage(forDocument, "120_140", null, null, null, 1);
-        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda2
-            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
-                EmojiThemes.lambda$loadWallpaperThumb$3(ResultCallback.this, j, wallpaperThumbFile, imageReceiver2, z, z2, z3);
-            }
-
-            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
-                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver2);
-            }
-        });
+        imageReceiver.setDelegate(new EmojiThemes$$ExternalSyntheticLambda2(resultCallback, j, wallpaperThumbFile));
         ImageLoader.getInstance().loadImageForImageReceiver(imageReceiver);
     }
 
-    public static /* synthetic */ void lambda$loadWallpaperThumb$3(ResultCallback resultCallback, long j, final File file, ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
+    public static /* synthetic */ void lambda$loadWallpaperThumb$3(ResultCallback resultCallback, long j, File file, ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         ImageReceiver.BitmapHolder bitmapSafe = imageReceiver.getBitmapSafe();
         if (!z || bitmapSafe == null || bitmapSafe.bitmap.isRecycled()) {
             return;
         }
-        final Bitmap bitmap = bitmapSafe.bitmap;
+        Bitmap bitmap = bitmapSafe.bitmap;
         if (bitmap == null) {
             Drawable drawable = bitmapSafe.drawable;
             if (drawable instanceof BitmapDrawable) {
@@ -438,12 +407,7 @@ public class EmojiThemes {
             if (resultCallback != null) {
                 resultCallback.onComplete(new Pair(Long.valueOf(j), bitmap));
             }
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    EmojiThemes.lambda$loadWallpaperThumb$2(file, bitmap);
-                }
-            });
+            Utilities.globalQueue.postRunnable(new EmojiThemes$$ExternalSyntheticLambda0(file, bitmap));
         } else if (resultCallback == null) {
         } else {
             resultCallback.onComplete(null);

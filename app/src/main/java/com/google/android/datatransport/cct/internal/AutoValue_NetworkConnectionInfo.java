@@ -58,7 +58,6 @@ final class AutoValue_NetworkConnectionInfo extends NetworkConnectionInfo {
         return hashCode ^ i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class Builder extends NetworkConnectionInfo.Builder {
         private NetworkConnectionInfo.MobileSubtype mobileSubtype;

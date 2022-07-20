@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
 /* loaded from: classes.dex */
-final class zzah extends DeferredLifecycleHelper<zzag> {
+public final class zzah extends DeferredLifecycleHelper<zzag> {
     protected OnDelegateCreatedListener<zzag> zza;
     private final ViewGroup zzb;
     private final Context zzc;

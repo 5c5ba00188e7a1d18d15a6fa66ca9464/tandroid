@@ -21,10 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.StatsController;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -72,8 +70,8 @@ public class DataUsageActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         RecyclerListView.Holder holder;
-        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-        this.actionBar.setTitle(LocaleController.getString("NetworkUsage", R.string.NetworkUsage));
+        this.actionBar.setBackButtonImage(2131165449);
+        this.actionBar.setTitle(LocaleController.getString("NetworkUsage", 2131626815));
         boolean z = false;
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
@@ -82,14 +80,7 @@ public class DataUsageActivity extends BaseFragment {
         this.actionBar.setAllowOverlayTitle(false);
         this.actionBar.setAddToContainer(false);
         this.actionBar.setClipContent(true);
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.DataUsageActivity.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    DataUsageActivity.this.finishFragment();
-                }
-            }
-        });
+        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         this.hasOwnBackground = true;
         this.mobileAdapter = new ListAdapter(context, 0);
         this.wifiAdapter = new ListAdapter(context, 1);
@@ -98,311 +89,11 @@ public class DataUsageActivity extends BaseFragment {
         this.scrollSlidingTextTabStrip = scrollSlidingTextTabStrip;
         scrollSlidingTextTabStrip.setUseSameWidth(true);
         this.actionBar.addView(this.scrollSlidingTextTabStrip, LayoutHelper.createFrame(-1, 44, 83));
-        this.scrollSlidingTextTabStrip.setDelegate(new ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate() { // from class: org.telegram.ui.DataUsageActivity.2
-            @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
-            public /* synthetic */ void onSamePageSelected() {
-                ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate.CC.$default$onSamePageSelected(this);
-            }
-
-            @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
-            public void onPageSelected(int i, boolean z2) {
-                if (DataUsageActivity.this.viewPages[0].selectedType == i) {
-                    return;
-                }
-                DataUsageActivity dataUsageActivity = DataUsageActivity.this;
-                dataUsageActivity.swipeBackEnabled = i == dataUsageActivity.scrollSlidingTextTabStrip.getFirstTabId();
-                DataUsageActivity.this.viewPages[1].selectedType = i;
-                DataUsageActivity.this.viewPages[1].setVisibility(0);
-                DataUsageActivity.this.switchToCurrentSelectedMode(true);
-                DataUsageActivity.this.animatingForward = z2;
-            }
-
-            @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
-            public void onPageScrolled(float f) {
-                if (f != 1.0f || DataUsageActivity.this.viewPages[1].getVisibility() == 0) {
-                    if (DataUsageActivity.this.animatingForward) {
-                        DataUsageActivity.this.viewPages[0].setTranslationX((-f) * DataUsageActivity.this.viewPages[0].getMeasuredWidth());
-                        DataUsageActivity.this.viewPages[1].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth() - (DataUsageActivity.this.viewPages[0].getMeasuredWidth() * f));
-                    } else {
-                        DataUsageActivity.this.viewPages[0].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth() * f);
-                        DataUsageActivity.this.viewPages[1].setTranslationX((DataUsageActivity.this.viewPages[0].getMeasuredWidth() * f) - DataUsageActivity.this.viewPages[0].getMeasuredWidth());
-                    }
-                    if (f != 1.0f) {
-                        return;
-                    }
-                    ViewPage viewPage = DataUsageActivity.this.viewPages[0];
-                    DataUsageActivity.this.viewPages[0] = DataUsageActivity.this.viewPages[1];
-                    DataUsageActivity.this.viewPages[1] = viewPage;
-                    DataUsageActivity.this.viewPages[1].setVisibility(8);
-                }
-            }
-        });
+        this.scrollSlidingTextTabStrip.setDelegate(new AnonymousClass2());
         this.maximumVelocity = ViewConfiguration.get(context).getScaledMaximumFlingVelocity();
-        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.DataUsageActivity.3
-            private boolean globalIgnoreLayout;
-            private boolean maybeStartTracking;
-            private boolean startedTracking;
-            private int startedTrackingPointerId;
-            private int startedTrackingX;
-            private int startedTrackingY;
-            private VelocityTracker velocityTracker;
-
-            private boolean prepareForMoving(MotionEvent motionEvent, boolean z2) {
-                int nextPageId = DataUsageActivity.this.scrollSlidingTextTabStrip.getNextPageId(z2);
-                if (nextPageId < 0) {
-                    return false;
-                }
-                getParent().requestDisallowInterceptTouchEvent(true);
-                this.maybeStartTracking = false;
-                this.startedTracking = true;
-                this.startedTrackingX = (int) motionEvent.getX();
-                ((BaseFragment) DataUsageActivity.this).actionBar.setEnabled(false);
-                DataUsageActivity.this.scrollSlidingTextTabStrip.setEnabled(false);
-                DataUsageActivity.this.viewPages[1].selectedType = nextPageId;
-                DataUsageActivity.this.viewPages[1].setVisibility(0);
-                DataUsageActivity.this.animatingForward = z2;
-                DataUsageActivity.this.switchToCurrentSelectedMode(true);
-                if (z2) {
-                    DataUsageActivity.this.viewPages[1].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth());
-                } else {
-                    DataUsageActivity.this.viewPages[1].setTranslationX(-DataUsageActivity.this.viewPages[0].getMeasuredWidth());
-                }
-                return true;
-            }
-
-            @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i, int i2) {
-                setMeasuredDimension(View.MeasureSpec.getSize(i), View.MeasureSpec.getSize(i2));
-                measureChildWithMargins(((BaseFragment) DataUsageActivity.this).actionBar, i, 0, i2, 0);
-                int measuredHeight = ((BaseFragment) DataUsageActivity.this).actionBar.getMeasuredHeight();
-                this.globalIgnoreLayout = true;
-                for (int i3 = 0; i3 < DataUsageActivity.this.viewPages.length; i3++) {
-                    if (DataUsageActivity.this.viewPages[i3] != null && DataUsageActivity.this.viewPages[i3].listView != null) {
-                        DataUsageActivity.this.viewPages[i3].listView.setPadding(0, measuredHeight, 0, AndroidUtilities.dp(4.0f));
-                    }
-                }
-                this.globalIgnoreLayout = false;
-                int childCount = getChildCount();
-                for (int i4 = 0; i4 < childCount; i4++) {
-                    View childAt = getChildAt(i4);
-                    if (childAt != null && childAt.getVisibility() != 8 && childAt != ((BaseFragment) DataUsageActivity.this).actionBar) {
-                        measureChildWithMargins(childAt, i, 0, i2, 0);
-                    }
-                }
-            }
-
-            @Override // android.view.ViewGroup, android.view.View
-            protected void dispatchDraw(Canvas canvas) {
-                super.dispatchDraw(canvas);
-                if (((BaseFragment) DataUsageActivity.this).parentLayout != null) {
-                    ((BaseFragment) DataUsageActivity.this).parentLayout.drawHeaderShadow(canvas, ((BaseFragment) DataUsageActivity.this).actionBar.getMeasuredHeight() + ((int) ((BaseFragment) DataUsageActivity.this).actionBar.getTranslationY()));
-                }
-            }
-
-            @Override // android.view.View, android.view.ViewParent
-            public void requestLayout() {
-                if (this.globalIgnoreLayout) {
-                    return;
-                }
-                super.requestLayout();
-            }
-
-            /* JADX WARN: Removed duplicated region for block: B:20:0x00a0  */
-            /*
-                Code decompiled incorrectly, please refer to instructions dump.
-            */
-            public boolean checkTabsAnimationInProgress() {
-                if (DataUsageActivity.this.tabsAnimationInProgress) {
-                    int i = -1;
-                    boolean z2 = true;
-                    if (DataUsageActivity.this.backAnimation) {
-                        if (Math.abs(DataUsageActivity.this.viewPages[0].getTranslationX()) < 1.0f) {
-                            DataUsageActivity.this.viewPages[0].setTranslationX(0.0f);
-                            ViewPage viewPage = DataUsageActivity.this.viewPages[1];
-                            int measuredWidth = DataUsageActivity.this.viewPages[0].getMeasuredWidth();
-                            if (DataUsageActivity.this.animatingForward) {
-                                i = 1;
-                            }
-                            viewPage.setTranslationX(measuredWidth * i);
-                            if (z2) {
-                                if (DataUsageActivity.this.tabsAnimation != null) {
-                                    DataUsageActivity.this.tabsAnimation.cancel();
-                                    DataUsageActivity.this.tabsAnimation = null;
-                                }
-                                DataUsageActivity.this.tabsAnimationInProgress = false;
-                            }
-                            return DataUsageActivity.this.tabsAnimationInProgress;
-                        }
-                        z2 = false;
-                        if (z2) {
-                        }
-                        return DataUsageActivity.this.tabsAnimationInProgress;
-                    }
-                    if (Math.abs(DataUsageActivity.this.viewPages[1].getTranslationX()) < 1.0f) {
-                        ViewPage viewPage2 = DataUsageActivity.this.viewPages[0];
-                        int measuredWidth2 = DataUsageActivity.this.viewPages[0].getMeasuredWidth();
-                        if (!DataUsageActivity.this.animatingForward) {
-                            i = 1;
-                        }
-                        viewPage2.setTranslationX(measuredWidth2 * i);
-                        DataUsageActivity.this.viewPages[1].setTranslationX(0.0f);
-                        if (z2) {
-                        }
-                        return DataUsageActivity.this.tabsAnimationInProgress;
-                    }
-                    z2 = false;
-                    if (z2) {
-                    }
-                    return DataUsageActivity.this.tabsAnimationInProgress;
-                }
-                return false;
-            }
-
-            @Override // android.view.ViewGroup
-            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                return checkTabsAnimationInProgress() || DataUsageActivity.this.scrollSlidingTextTabStrip.isAnimatingIndicator() || onTouchEvent(motionEvent);
-            }
-
-            @Override // android.view.View
-            protected void onDraw(Canvas canvas) {
-                DataUsageActivity.this.backgroundPaint.setColor(Theme.getColor("windowBackgroundGray"));
-                canvas.drawRect(0.0f, ((BaseFragment) DataUsageActivity.this).actionBar.getMeasuredHeight() + ((BaseFragment) DataUsageActivity.this).actionBar.getTranslationY(), getMeasuredWidth(), getMeasuredHeight(), DataUsageActivity.this.backgroundPaint);
-            }
-
-            @Override // android.view.View
-            public boolean onTouchEvent(MotionEvent motionEvent) {
-                float f;
-                float f2;
-                float f3;
-                int i;
-                boolean z2 = false;
-                if (((BaseFragment) DataUsageActivity.this).parentLayout.checkTransitionAnimation() || checkTabsAnimationInProgress()) {
-                    return false;
-                }
-                if (motionEvent != null) {
-                    if (this.velocityTracker == null) {
-                        this.velocityTracker = VelocityTracker.obtain();
-                    }
-                    this.velocityTracker.addMovement(motionEvent);
-                }
-                if (motionEvent != null && motionEvent.getAction() == 0 && !this.startedTracking && !this.maybeStartTracking) {
-                    this.startedTrackingPointerId = motionEvent.getPointerId(0);
-                    this.maybeStartTracking = true;
-                    this.startedTrackingX = (int) motionEvent.getX();
-                    this.startedTrackingY = (int) motionEvent.getY();
-                    this.velocityTracker.clear();
-                } else if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
-                    int x = (int) (motionEvent.getX() - this.startedTrackingX);
-                    int abs = Math.abs(((int) motionEvent.getY()) - this.startedTrackingY);
-                    if (this.startedTracking && ((DataUsageActivity.this.animatingForward && x > 0) || (!DataUsageActivity.this.animatingForward && x < 0))) {
-                        if (!prepareForMoving(motionEvent, x < 0)) {
-                            this.maybeStartTracking = true;
-                            this.startedTracking = false;
-                            DataUsageActivity.this.viewPages[0].setTranslationX(0.0f);
-                            DataUsageActivity.this.viewPages[1].setTranslationX(DataUsageActivity.this.animatingForward ? DataUsageActivity.this.viewPages[0].getMeasuredWidth() : -DataUsageActivity.this.viewPages[0].getMeasuredWidth());
-                            DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[1].selectedType, 0.0f);
-                        }
-                    }
-                    if (this.maybeStartTracking && !this.startedTracking) {
-                        if (Math.abs(x) >= AndroidUtilities.getPixelsInCM(0.3f, true) && Math.abs(x) > abs) {
-                            if (x < 0) {
-                                z2 = true;
-                            }
-                            prepareForMoving(motionEvent, z2);
-                        }
-                    } else if (this.startedTracking) {
-                        if (DataUsageActivity.this.animatingForward) {
-                            DataUsageActivity.this.viewPages[0].setTranslationX(x);
-                            DataUsageActivity.this.viewPages[1].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth() + x);
-                        } else {
-                            DataUsageActivity.this.viewPages[0].setTranslationX(x);
-                            DataUsageActivity.this.viewPages[1].setTranslationX(x - DataUsageActivity.this.viewPages[0].getMeasuredWidth());
-                        }
-                        DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[1].selectedType, Math.abs(x) / DataUsageActivity.this.viewPages[0].getMeasuredWidth());
-                    }
-                } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
-                    this.velocityTracker.computeCurrentVelocity(1000, DataUsageActivity.this.maximumVelocity);
-                    if (motionEvent == null || motionEvent.getAction() == 3) {
-                        f2 = 0.0f;
-                        f = 0.0f;
-                    } else {
-                        f2 = this.velocityTracker.getXVelocity();
-                        f = this.velocityTracker.getYVelocity();
-                        if (!this.startedTracking && Math.abs(f2) >= 3000.0f && Math.abs(f2) > Math.abs(f)) {
-                            prepareForMoving(motionEvent, f2 < 0.0f);
-                        }
-                    }
-                    if (this.startedTracking) {
-                        float x2 = DataUsageActivity.this.viewPages[0].getX();
-                        DataUsageActivity.this.tabsAnimation = new AnimatorSet();
-                        DataUsageActivity.this.backAnimation = Math.abs(x2) < ((float) DataUsageActivity.this.viewPages[0].getMeasuredWidth()) / 3.0f && (Math.abs(f2) < 3500.0f || Math.abs(f2) < Math.abs(f));
-                        if (!DataUsageActivity.this.backAnimation) {
-                            f3 = DataUsageActivity.this.viewPages[0].getMeasuredWidth() - Math.abs(x2);
-                            if (DataUsageActivity.this.animatingForward) {
-                                DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, -DataUsageActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, 0.0f));
-                            } else {
-                                DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, DataUsageActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, 0.0f));
-                            }
-                        } else {
-                            f3 = Math.abs(x2);
-                            if (DataUsageActivity.this.animatingForward) {
-                                DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, DataUsageActivity.this.viewPages[1].getMeasuredWidth()));
-                            } else {
-                                DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, -DataUsageActivity.this.viewPages[1].getMeasuredWidth()));
-                            }
-                        }
-                        DataUsageActivity.this.tabsAnimation.setInterpolator(DataUsageActivity.interpolator);
-                        int measuredWidth = getMeasuredWidth();
-                        float f4 = measuredWidth / 2;
-                        float distanceInfluenceForSnapDuration = f4 + (AndroidUtilities.distanceInfluenceForSnapDuration(Math.min(1.0f, (f3 * 1.0f) / measuredWidth)) * f4);
-                        float abs2 = Math.abs(f2);
-                        if (abs2 > 0.0f) {
-                            i = Math.round(Math.abs(distanceInfluenceForSnapDuration / abs2) * 1000.0f) * 4;
-                        } else {
-                            i = (int) (((f3 / getMeasuredWidth()) + 1.0f) * 100.0f);
-                        }
-                        DataUsageActivity.this.tabsAnimation.setDuration(Math.max((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, Math.min(i, 600)));
-                        DataUsageActivity.this.tabsAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DataUsageActivity.3.1
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationEnd(Animator animator) {
-                                DataUsageActivity.this.tabsAnimation = null;
-                                if (DataUsageActivity.this.backAnimation) {
-                                    DataUsageActivity.this.viewPages[1].setVisibility(8);
-                                } else {
-                                    ViewPage viewPage = DataUsageActivity.this.viewPages[0];
-                                    DataUsageActivity.this.viewPages[0] = DataUsageActivity.this.viewPages[1];
-                                    DataUsageActivity.this.viewPages[1] = viewPage;
-                                    DataUsageActivity.this.viewPages[1].setVisibility(8);
-                                    DataUsageActivity dataUsageActivity = DataUsageActivity.this;
-                                    dataUsageActivity.swipeBackEnabled = dataUsageActivity.viewPages[0].selectedType == DataUsageActivity.this.scrollSlidingTextTabStrip.getFirstTabId();
-                                    DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[0].selectedType, 1.0f);
-                                }
-                                DataUsageActivity.this.tabsAnimationInProgress = false;
-                                AnonymousClass3.this.maybeStartTracking = false;
-                                AnonymousClass3.this.startedTracking = false;
-                                ((BaseFragment) DataUsageActivity.this).actionBar.setEnabled(true);
-                                DataUsageActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
-                            }
-                        });
-                        DataUsageActivity.this.tabsAnimation.start();
-                        DataUsageActivity.this.tabsAnimationInProgress = true;
-                        this.startedTracking = false;
-                    } else {
-                        this.maybeStartTracking = false;
-                        ((BaseFragment) DataUsageActivity.this).actionBar.setEnabled(true);
-                        DataUsageActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
-                    }
-                    VelocityTracker velocityTracker = this.velocityTracker;
-                    if (velocityTracker != null) {
-                        velocityTracker.recycle();
-                        this.velocityTracker = null;
-                    }
-                }
-                return this.startedTracking;
-            }
-        };
-        this.fragmentView = frameLayout;
-        frameLayout.setWillNotDraw(false);
+        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
+        this.fragmentView = anonymousClass3;
+        anonymousClass3.setWillNotDraw(false);
         int i = 0;
         int i2 = -1;
         int i3 = 0;
@@ -419,26 +110,12 @@ public class DataUsageActivity extends BaseFragment {
                     i3 = holder.itemView.getTop();
                 }
             }
-            ViewPage viewPage = new ViewPage(context) { // from class: org.telegram.ui.DataUsageActivity.4
-                @Override // android.view.View
-                public void setTranslationX(float f) {
-                    super.setTranslationX(f);
-                    if (!DataUsageActivity.this.tabsAnimationInProgress || DataUsageActivity.this.viewPages[0] != this) {
-                        return;
-                    }
-                    DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[1].selectedType, Math.abs(DataUsageActivity.this.viewPages[0].getTranslationX()) / DataUsageActivity.this.viewPages[0].getMeasuredWidth());
-                }
-            };
-            frameLayout.addView(viewPage, LayoutHelper.createFrame(-1, -1.0f));
+            AnonymousClass4 anonymousClass4 = new AnonymousClass4(context);
+            anonymousClass3.addView(anonymousClass4, LayoutHelper.createFrame(-1, -1.0f));
             ViewPage[] viewPageArr2 = this.viewPages;
-            viewPageArr2[i] = viewPage;
-            LinearLayoutManager linearLayoutManager = viewPageArr2[i].layoutManager = new LinearLayoutManager(this, context, 1, false) { // from class: org.telegram.ui.DataUsageActivity.5
-                @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-                public boolean supportsPredictiveItemAnimations() {
-                    return false;
-                }
-            };
-            final RecyclerListView recyclerListView = new RecyclerListView(context);
+            viewPageArr2[i] = anonymousClass4;
+            LinearLayoutManager linearLayoutManager = viewPageArr2[i].layoutManager = new AnonymousClass5(this, context, 1, false);
+            RecyclerListView recyclerListView = new RecyclerListView(context);
             this.viewPages[i].listView = recyclerListView;
             this.viewPages[i].listView.setScrollingTouchSlop(1);
             this.viewPages[i].listView.setItemAnimator(null);
@@ -447,46 +124,8 @@ public class DataUsageActivity extends BaseFragment {
             this.viewPages[i].listView.setLayoutManager(linearLayoutManager);
             ViewPage[] viewPageArr3 = this.viewPages;
             viewPageArr3[i].addView(viewPageArr3[i].listView, LayoutHelper.createFrame(-1, -1.0f));
-            this.viewPages[i].listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DataUsageActivity$$ExternalSyntheticLambda2
-                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                public final void onItemClick(View view, int i4) {
-                    DataUsageActivity.this.lambda$createView$2(recyclerListView, view, i4);
-                }
-            });
-            this.viewPages[i].listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.DataUsageActivity.6
-                @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                public void onScrollStateChanged(RecyclerView recyclerView, int i4) {
-                    if (i4 != 1) {
-                        int i5 = (int) (-((BaseFragment) DataUsageActivity.this).actionBar.getTranslationY());
-                        int currentActionBarHeight = ActionBar.getCurrentActionBarHeight();
-                        if (i5 == 0 || i5 == currentActionBarHeight) {
-                            return;
-                        }
-                        if (i5 < currentActionBarHeight / 2) {
-                            DataUsageActivity.this.viewPages[0].listView.smoothScrollBy(0, -i5);
-                        } else {
-                            DataUsageActivity.this.viewPages[0].listView.smoothScrollBy(0, currentActionBarHeight - i5);
-                        }
-                    }
-                }
-
-                @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                public void onScrolled(RecyclerView recyclerView, int i4, int i5) {
-                    if (recyclerView == DataUsageActivity.this.viewPages[0].listView) {
-                        float translationY = ((BaseFragment) DataUsageActivity.this).actionBar.getTranslationY();
-                        float f = translationY - i5;
-                        if (f < (-ActionBar.getCurrentActionBarHeight())) {
-                            f = -ActionBar.getCurrentActionBarHeight();
-                        } else if (f > 0.0f) {
-                            f = 0.0f;
-                        }
-                        if (f == translationY) {
-                            return;
-                        }
-                        DataUsageActivity.this.setScrollY(f);
-                    }
-                }
-            });
+            this.viewPages[i].listView.setOnItemClickListener(new DataUsageActivity$$ExternalSyntheticLambda2(this, recyclerListView));
+            this.viewPages[i].listView.setOnScrollListener(new AnonymousClass6());
             if (i == 0 && i2 != -1) {
                 linearLayoutManager.scrollToPositionWithOffset(i2, i3);
             }
@@ -495,7 +134,7 @@ public class DataUsageActivity extends BaseFragment {
             }
             i++;
         }
-        frameLayout.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
+        anonymousClass3.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
         updateTabs();
         switchToCurrentSelectedMode(false);
         if (this.scrollSlidingTextTabStrip.getCurrentTabId() == this.scrollSlidingTextTabStrip.getFirstTabId()) {
@@ -505,24 +144,392 @@ public class DataUsageActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* renamed from: org.telegram.ui.DataUsageActivity$1 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
+        AnonymousClass1() {
+            DataUsageActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+        public void onItemClick(int i) {
+            if (i == -1) {
+                DataUsageActivity.this.finishFragment();
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.DataUsageActivity$2 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass2 implements ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate {
+        @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
+        public /* synthetic */ void onSamePageSelected() {
+            ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate.CC.$default$onSamePageSelected(this);
+        }
+
+        AnonymousClass2() {
+            DataUsageActivity.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
+        public void onPageSelected(int i, boolean z) {
+            if (DataUsageActivity.this.viewPages[0].selectedType == i) {
+                return;
+            }
+            DataUsageActivity dataUsageActivity = DataUsageActivity.this;
+            dataUsageActivity.swipeBackEnabled = i == dataUsageActivity.scrollSlidingTextTabStrip.getFirstTabId();
+            DataUsageActivity.this.viewPages[1].selectedType = i;
+            DataUsageActivity.this.viewPages[1].setVisibility(0);
+            DataUsageActivity.this.switchToCurrentSelectedMode(true);
+            DataUsageActivity.this.animatingForward = z;
+        }
+
+        @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
+        public void onPageScrolled(float f) {
+            if (f != 1.0f || DataUsageActivity.this.viewPages[1].getVisibility() == 0) {
+                if (DataUsageActivity.this.animatingForward) {
+                    DataUsageActivity.this.viewPages[0].setTranslationX((-f) * DataUsageActivity.this.viewPages[0].getMeasuredWidth());
+                    DataUsageActivity.this.viewPages[1].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth() - (DataUsageActivity.this.viewPages[0].getMeasuredWidth() * f));
+                } else {
+                    DataUsageActivity.this.viewPages[0].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth() * f);
+                    DataUsageActivity.this.viewPages[1].setTranslationX((DataUsageActivity.this.viewPages[0].getMeasuredWidth() * f) - DataUsageActivity.this.viewPages[0].getMeasuredWidth());
+                }
+                if (f != 1.0f) {
+                    return;
+                }
+                ViewPage viewPage = DataUsageActivity.this.viewPages[0];
+                DataUsageActivity.this.viewPages[0] = DataUsageActivity.this.viewPages[1];
+                DataUsageActivity.this.viewPages[1] = viewPage;
+                DataUsageActivity.this.viewPages[1].setVisibility(8);
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.DataUsageActivity$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends FrameLayout {
+        private boolean globalIgnoreLayout;
+        private boolean maybeStartTracking;
+        private boolean startedTracking;
+        private int startedTrackingPointerId;
+        private int startedTrackingX;
+        private int startedTrackingY;
+        private VelocityTracker velocityTracker;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass3(Context context) {
+            super(context);
+            DataUsageActivity.this = r1;
+        }
+
+        private boolean prepareForMoving(MotionEvent motionEvent, boolean z) {
+            int nextPageId = DataUsageActivity.this.scrollSlidingTextTabStrip.getNextPageId(z);
+            if (nextPageId < 0) {
+                return false;
+            }
+            getParent().requestDisallowInterceptTouchEvent(true);
+            this.maybeStartTracking = false;
+            this.startedTracking = true;
+            this.startedTrackingX = (int) motionEvent.getX();
+            ((BaseFragment) DataUsageActivity.this).actionBar.setEnabled(false);
+            DataUsageActivity.this.scrollSlidingTextTabStrip.setEnabled(false);
+            DataUsageActivity.this.viewPages[1].selectedType = nextPageId;
+            DataUsageActivity.this.viewPages[1].setVisibility(0);
+            DataUsageActivity.this.animatingForward = z;
+            DataUsageActivity.this.switchToCurrentSelectedMode(true);
+            if (z) {
+                DataUsageActivity.this.viewPages[1].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth());
+            } else {
+                DataUsageActivity.this.viewPages[1].setTranslationX(-DataUsageActivity.this.viewPages[0].getMeasuredWidth());
+            }
+            return true;
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            setMeasuredDimension(View.MeasureSpec.getSize(i), View.MeasureSpec.getSize(i2));
+            measureChildWithMargins(((BaseFragment) DataUsageActivity.this).actionBar, i, 0, i2, 0);
+            int measuredHeight = ((BaseFragment) DataUsageActivity.this).actionBar.getMeasuredHeight();
+            this.globalIgnoreLayout = true;
+            for (int i3 = 0; i3 < DataUsageActivity.this.viewPages.length; i3++) {
+                if (DataUsageActivity.this.viewPages[i3] != null && DataUsageActivity.this.viewPages[i3].listView != null) {
+                    DataUsageActivity.this.viewPages[i3].listView.setPadding(0, measuredHeight, 0, AndroidUtilities.dp(4.0f));
+                }
+            }
+            this.globalIgnoreLayout = false;
+            int childCount = getChildCount();
+            for (int i4 = 0; i4 < childCount; i4++) {
+                View childAt = getChildAt(i4);
+                if (childAt != null && childAt.getVisibility() != 8 && childAt != ((BaseFragment) DataUsageActivity.this).actionBar) {
+                    measureChildWithMargins(childAt, i, 0, i2, 0);
+                }
+            }
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void dispatchDraw(Canvas canvas) {
+            super.dispatchDraw(canvas);
+            if (((BaseFragment) DataUsageActivity.this).parentLayout != null) {
+                ((BaseFragment) DataUsageActivity.this).parentLayout.drawHeaderShadow(canvas, ((BaseFragment) DataUsageActivity.this).actionBar.getMeasuredHeight() + ((int) ((BaseFragment) DataUsageActivity.this).actionBar.getTranslationY()));
+            }
+        }
+
+        @Override // android.view.View, android.view.ViewParent
+        public void requestLayout() {
+            if (this.globalIgnoreLayout) {
+                return;
+            }
+            super.requestLayout();
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:20:0x00a0  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public boolean checkTabsAnimationInProgress() {
+            if (DataUsageActivity.this.tabsAnimationInProgress) {
+                int i = -1;
+                boolean z = true;
+                if (DataUsageActivity.this.backAnimation) {
+                    if (Math.abs(DataUsageActivity.this.viewPages[0].getTranslationX()) < 1.0f) {
+                        DataUsageActivity.this.viewPages[0].setTranslationX(0.0f);
+                        ViewPage viewPage = DataUsageActivity.this.viewPages[1];
+                        int measuredWidth = DataUsageActivity.this.viewPages[0].getMeasuredWidth();
+                        if (DataUsageActivity.this.animatingForward) {
+                            i = 1;
+                        }
+                        viewPage.setTranslationX(measuredWidth * i);
+                        if (z) {
+                            if (DataUsageActivity.this.tabsAnimation != null) {
+                                DataUsageActivity.this.tabsAnimation.cancel();
+                                DataUsageActivity.this.tabsAnimation = null;
+                            }
+                            DataUsageActivity.this.tabsAnimationInProgress = false;
+                        }
+                        return DataUsageActivity.this.tabsAnimationInProgress;
+                    }
+                    z = false;
+                    if (z) {
+                    }
+                    return DataUsageActivity.this.tabsAnimationInProgress;
+                }
+                if (Math.abs(DataUsageActivity.this.viewPages[1].getTranslationX()) < 1.0f) {
+                    ViewPage viewPage2 = DataUsageActivity.this.viewPages[0];
+                    int measuredWidth2 = DataUsageActivity.this.viewPages[0].getMeasuredWidth();
+                    if (!DataUsageActivity.this.animatingForward) {
+                        i = 1;
+                    }
+                    viewPage2.setTranslationX(measuredWidth2 * i);
+                    DataUsageActivity.this.viewPages[1].setTranslationX(0.0f);
+                    if (z) {
+                    }
+                    return DataUsageActivity.this.tabsAnimationInProgress;
+                }
+                z = false;
+                if (z) {
+                }
+                return DataUsageActivity.this.tabsAnimationInProgress;
+            }
+            return false;
+        }
+
+        @Override // android.view.ViewGroup
+        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+            return checkTabsAnimationInProgress() || DataUsageActivity.this.scrollSlidingTextTabStrip.isAnimatingIndicator() || onTouchEvent(motionEvent);
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            DataUsageActivity.this.backgroundPaint.setColor(Theme.getColor("windowBackgroundGray"));
+            canvas.drawRect(0.0f, ((BaseFragment) DataUsageActivity.this).actionBar.getMeasuredHeight() + ((BaseFragment) DataUsageActivity.this).actionBar.getTranslationY(), getMeasuredWidth(), getMeasuredHeight(), DataUsageActivity.this.backgroundPaint);
+        }
+
+        @Override // android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            float f;
+            float f2;
+            float f3;
+            int i;
+            boolean z = false;
+            if (((BaseFragment) DataUsageActivity.this).parentLayout.checkTransitionAnimation() || checkTabsAnimationInProgress()) {
+                return false;
+            }
+            if (motionEvent != null) {
+                if (this.velocityTracker == null) {
+                    this.velocityTracker = VelocityTracker.obtain();
+                }
+                this.velocityTracker.addMovement(motionEvent);
+            }
+            if (motionEvent != null && motionEvent.getAction() == 0 && !this.startedTracking && !this.maybeStartTracking) {
+                this.startedTrackingPointerId = motionEvent.getPointerId(0);
+                this.maybeStartTracking = true;
+                this.startedTrackingX = (int) motionEvent.getX();
+                this.startedTrackingY = (int) motionEvent.getY();
+                this.velocityTracker.clear();
+            } else if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
+                int x = (int) (motionEvent.getX() - this.startedTrackingX);
+                int abs = Math.abs(((int) motionEvent.getY()) - this.startedTrackingY);
+                if (this.startedTracking && ((DataUsageActivity.this.animatingForward && x > 0) || (!DataUsageActivity.this.animatingForward && x < 0))) {
+                    if (!prepareForMoving(motionEvent, x < 0)) {
+                        this.maybeStartTracking = true;
+                        this.startedTracking = false;
+                        DataUsageActivity.this.viewPages[0].setTranslationX(0.0f);
+                        DataUsageActivity.this.viewPages[1].setTranslationX(DataUsageActivity.this.animatingForward ? DataUsageActivity.this.viewPages[0].getMeasuredWidth() : -DataUsageActivity.this.viewPages[0].getMeasuredWidth());
+                        DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[1].selectedType, 0.0f);
+                    }
+                }
+                if (this.maybeStartTracking && !this.startedTracking) {
+                    if (Math.abs(x) >= AndroidUtilities.getPixelsInCM(0.3f, true) && Math.abs(x) > abs) {
+                        if (x < 0) {
+                            z = true;
+                        }
+                        prepareForMoving(motionEvent, z);
+                    }
+                } else if (this.startedTracking) {
+                    if (DataUsageActivity.this.animatingForward) {
+                        DataUsageActivity.this.viewPages[0].setTranslationX(x);
+                        DataUsageActivity.this.viewPages[1].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth() + x);
+                    } else {
+                        DataUsageActivity.this.viewPages[0].setTranslationX(x);
+                        DataUsageActivity.this.viewPages[1].setTranslationX(x - DataUsageActivity.this.viewPages[0].getMeasuredWidth());
+                    }
+                    DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[1].selectedType, Math.abs(x) / DataUsageActivity.this.viewPages[0].getMeasuredWidth());
+                }
+            } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
+                this.velocityTracker.computeCurrentVelocity(1000, DataUsageActivity.this.maximumVelocity);
+                if (motionEvent == null || motionEvent.getAction() == 3) {
+                    f2 = 0.0f;
+                    f = 0.0f;
+                } else {
+                    f2 = this.velocityTracker.getXVelocity();
+                    f = this.velocityTracker.getYVelocity();
+                    if (!this.startedTracking && Math.abs(f2) >= 3000.0f && Math.abs(f2) > Math.abs(f)) {
+                        prepareForMoving(motionEvent, f2 < 0.0f);
+                    }
+                }
+                if (this.startedTracking) {
+                    float x2 = DataUsageActivity.this.viewPages[0].getX();
+                    DataUsageActivity.this.tabsAnimation = new AnimatorSet();
+                    DataUsageActivity.this.backAnimation = Math.abs(x2) < ((float) DataUsageActivity.this.viewPages[0].getMeasuredWidth()) / 3.0f && (Math.abs(f2) < 3500.0f || Math.abs(f2) < Math.abs(f));
+                    if (!DataUsageActivity.this.backAnimation) {
+                        f3 = DataUsageActivity.this.viewPages[0].getMeasuredWidth() - Math.abs(x2);
+                        if (DataUsageActivity.this.animatingForward) {
+                            DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, -DataUsageActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, 0.0f));
+                        } else {
+                            DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, DataUsageActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, 0.0f));
+                        }
+                    } else {
+                        f3 = Math.abs(x2);
+                        if (DataUsageActivity.this.animatingForward) {
+                            DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, DataUsageActivity.this.viewPages[1].getMeasuredWidth()));
+                        } else {
+                            DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, -DataUsageActivity.this.viewPages[1].getMeasuredWidth()));
+                        }
+                    }
+                    DataUsageActivity.this.tabsAnimation.setInterpolator(DataUsageActivity.interpolator);
+                    int measuredWidth = getMeasuredWidth();
+                    float f4 = measuredWidth / 2;
+                    float distanceInfluenceForSnapDuration = f4 + (AndroidUtilities.distanceInfluenceForSnapDuration(Math.min(1.0f, (f3 * 1.0f) / measuredWidth)) * f4);
+                    float abs2 = Math.abs(f2);
+                    if (abs2 > 0.0f) {
+                        i = Math.round(Math.abs(distanceInfluenceForSnapDuration / abs2) * 1000.0f) * 4;
+                    } else {
+                        i = (int) (((f3 / getMeasuredWidth()) + 1.0f) * 100.0f);
+                    }
+                    DataUsageActivity.this.tabsAnimation.setDuration(Math.max(150, Math.min(i, 600)));
+                    DataUsageActivity.this.tabsAnimation.addListener(new AnonymousClass1());
+                    DataUsageActivity.this.tabsAnimation.start();
+                    DataUsageActivity.this.tabsAnimationInProgress = true;
+                    this.startedTracking = false;
+                } else {
+                    this.maybeStartTracking = false;
+                    ((BaseFragment) DataUsageActivity.this).actionBar.setEnabled(true);
+                    DataUsageActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
+                }
+                VelocityTracker velocityTracker = this.velocityTracker;
+                if (velocityTracker != null) {
+                    velocityTracker.recycle();
+                    this.velocityTracker = null;
+                }
+            }
+            return this.startedTracking;
+        }
+
+        /* renamed from: org.telegram.ui.DataUsageActivity$3$1 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass1 extends AnimatorListenerAdapter {
+            AnonymousClass1() {
+                AnonymousClass3.this = r1;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                DataUsageActivity.this.tabsAnimation = null;
+                if (DataUsageActivity.this.backAnimation) {
+                    DataUsageActivity.this.viewPages[1].setVisibility(8);
+                } else {
+                    ViewPage viewPage = DataUsageActivity.this.viewPages[0];
+                    DataUsageActivity.this.viewPages[0] = DataUsageActivity.this.viewPages[1];
+                    DataUsageActivity.this.viewPages[1] = viewPage;
+                    DataUsageActivity.this.viewPages[1].setVisibility(8);
+                    DataUsageActivity dataUsageActivity = DataUsageActivity.this;
+                    dataUsageActivity.swipeBackEnabled = dataUsageActivity.viewPages[0].selectedType == DataUsageActivity.this.scrollSlidingTextTabStrip.getFirstTabId();
+                    DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[0].selectedType, 1.0f);
+                }
+                DataUsageActivity.this.tabsAnimationInProgress = false;
+                AnonymousClass3.this.maybeStartTracking = false;
+                AnonymousClass3.this.startedTracking = false;
+                ((BaseFragment) DataUsageActivity.this).actionBar.setEnabled(true);
+                DataUsageActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.DataUsageActivity$4 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass4 extends ViewPage {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass4(Context context) {
+            super(r1, context);
+            DataUsageActivity.this = r1;
+        }
+
+        @Override // android.view.View
+        public void setTranslationX(float f) {
+            super.setTranslationX(f);
+            if (!DataUsageActivity.this.tabsAnimationInProgress || DataUsageActivity.this.viewPages[0] != this) {
+                return;
+            }
+            DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[1].selectedType, Math.abs(DataUsageActivity.this.viewPages[0].getTranslationX()) / DataUsageActivity.this.viewPages[0].getMeasuredWidth());
+        }
+    }
+
+    /* renamed from: org.telegram.ui.DataUsageActivity$5 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass5 extends LinearLayoutManager {
+        @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
+
+        AnonymousClass5(DataUsageActivity dataUsageActivity, Context context, int i, boolean z) {
+            super(context, i, z);
+        }
+    }
+
     public /* synthetic */ void lambda$createView$2(RecyclerListView recyclerListView, View view, int i) {
         if (getParentActivity() == null) {
             return;
         }
-        final ListAdapter listAdapter = (ListAdapter) recyclerListView.getAdapter();
+        ListAdapter listAdapter = (ListAdapter) recyclerListView.getAdapter();
         if (i != listAdapter.resetRow) {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("ResetStatisticsAlertTitle", R.string.ResetStatisticsAlertTitle));
-        builder.setMessage(LocaleController.getString("ResetStatisticsAlert", R.string.ResetStatisticsAlert));
-        builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataUsageActivity$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                DataUsageActivity.this.lambda$createView$1(listAdapter, dialogInterface, i2);
-            }
-        });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        builder.setTitle(LocaleController.getString("ResetStatisticsAlertTitle", 2131628071));
+        builder.setMessage(LocaleController.getString("ResetStatisticsAlert", 2131628070));
+        builder.setPositiveButton(LocaleController.getString("Reset", 2131628042), new DataUsageActivity$$ExternalSyntheticLambda0(this, listAdapter));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         AlertDialog create = builder.create();
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
@@ -535,6 +542,47 @@ public class DataUsageActivity extends BaseFragment {
     public /* synthetic */ void lambda$createView$1(ListAdapter listAdapter, DialogInterface dialogInterface, int i) {
         StatsController.getInstance(this.currentAccount).resetStats(listAdapter.currentType);
         listAdapter.notifyDataSetChanged();
+    }
+
+    /* renamed from: org.telegram.ui.DataUsageActivity$6 */
+    /* loaded from: classes3.dex */
+    class AnonymousClass6 extends RecyclerView.OnScrollListener {
+        AnonymousClass6() {
+            DataUsageActivity.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrollStateChanged(RecyclerView recyclerView, int i) {
+            if (i != 1) {
+                int i2 = (int) (-((BaseFragment) DataUsageActivity.this).actionBar.getTranslationY());
+                int currentActionBarHeight = ActionBar.getCurrentActionBarHeight();
+                if (i2 == 0 || i2 == currentActionBarHeight) {
+                    return;
+                }
+                if (i2 < currentActionBarHeight / 2) {
+                    DataUsageActivity.this.viewPages[0].listView.smoothScrollBy(0, -i2);
+                } else {
+                    DataUsageActivity.this.viewPages[0].listView.smoothScrollBy(0, currentActionBarHeight - i2);
+                }
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+            if (recyclerView == DataUsageActivity.this.viewPages[0].listView) {
+                float translationY = ((BaseFragment) DataUsageActivity.this).actionBar.getTranslationY();
+                float f = translationY - i2;
+                if (f < (-ActionBar.getCurrentActionBarHeight())) {
+                    f = -ActionBar.getCurrentActionBarHeight();
+                } else if (f > 0.0f) {
+                    f = 0.0f;
+                }
+                if (f == translationY) {
+                    return;
+                }
+                DataUsageActivity.this.setScrollY(f);
+            }
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -579,9 +627,9 @@ public class DataUsageActivity extends BaseFragment {
         if (scrollSlidingTextTabStrip == null) {
             return;
         }
-        scrollSlidingTextTabStrip.addTextTab(0, LocaleController.getString("NetworkUsageMobileTab", R.string.NetworkUsageMobileTab));
-        this.scrollSlidingTextTabStrip.addTextTab(1, LocaleController.getString("NetworkUsageWiFiTab", R.string.NetworkUsageWiFiTab));
-        this.scrollSlidingTextTabStrip.addTextTab(2, LocaleController.getString("NetworkUsageRoamingTab", R.string.NetworkUsageRoamingTab));
+        scrollSlidingTextTabStrip.addTextTab(0, LocaleController.getString("NetworkUsageMobileTab", 2131626816));
+        this.scrollSlidingTextTabStrip.addTextTab(1, LocaleController.getString("NetworkUsageWiFiTab", 2131626819));
+        this.scrollSlidingTextTabStrip.addTextTab(2, LocaleController.getString("NetworkUsageRoamingTab", 2131626817));
         this.scrollSlidingTextTabStrip.setVisibility(0);
         this.actionBar.setExtraHeight(AndroidUtilities.dp(44.0f));
         int currentTabId = this.scrollSlidingTextTabStrip.getCurrentTabId();
@@ -808,10 +856,10 @@ public class DataUsageActivity extends BaseFragment {
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 0) {
                 if (i == this.resetSection2Row) {
-                    viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
                     return;
                 } else {
-                    viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                    viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165435, "windowBackgroundGrayShadow"));
                     return;
                 }
             }
@@ -823,40 +871,40 @@ public class DataUsageActivity extends BaseFragment {
                         return;
                     }
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
-                    textInfoPrivacyCell.setText(LocaleController.formatString("NetworkUsageSince", R.string.NetworkUsageSince, LocaleController.getInstance().formatterStats.format(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getResetStatsDate(this.currentType))));
+                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
+                    textInfoPrivacyCell.setText(LocaleController.formatString("NetworkUsageSince", 2131626818, LocaleController.getInstance().formatterStats.format(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getResetStatsDate(this.currentType))));
                     return;
                 }
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i == this.totalSectionRow) {
-                    headerCell.setText(LocaleController.getString("TotalDataUsage", R.string.TotalDataUsage));
+                    headerCell.setText(LocaleController.getString("TotalDataUsage", 2131628754));
                     return;
                 } else if (i == this.callsSectionRow) {
-                    headerCell.setText(LocaleController.getString("CallsDataUsage", R.string.CallsDataUsage));
+                    headerCell.setText(LocaleController.getString("CallsDataUsage", 2131624823));
                     return;
                 } else if (i == this.filesSectionRow) {
-                    headerCell.setText(LocaleController.getString("FilesDataUsage", R.string.FilesDataUsage));
+                    headerCell.setText(LocaleController.getString("FilesDataUsage", 2131625850));
                     return;
                 } else if (i == this.audiosSectionRow) {
-                    headerCell.setText(LocaleController.getString("LocalAudioCache", R.string.LocalAudioCache));
+                    headerCell.setText(LocaleController.getString("LocalAudioCache", 2131626524));
                     return;
                 } else if (i == this.videosSectionRow) {
-                    headerCell.setText(LocaleController.getString("LocalVideoCache", R.string.LocalVideoCache));
+                    headerCell.setText(LocaleController.getString("LocalVideoCache", 2131626535));
                     return;
                 } else if (i == this.photosSectionRow) {
-                    headerCell.setText(LocaleController.getString("LocalPhotoCache", R.string.LocalPhotoCache));
+                    headerCell.setText(LocaleController.getString("LocalPhotoCache", 2131626534));
                     return;
                 } else if (i != this.messagesSectionRow) {
                     return;
                 } else {
-                    headerCell.setText(LocaleController.getString("MessagesDataUsage", R.string.MessagesDataUsage));
+                    headerCell.setText(LocaleController.getString("MessagesDataUsage", 2131626718));
                     return;
                 }
             }
             TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
             if (i == this.resetRow) {
                 textSettingsCell.setTag("windowBackgroundWhiteRedText2");
-                textSettingsCell.setText(LocaleController.getString("ResetStatistics", R.string.ResetStatistics), false);
+                textSettingsCell.setText(LocaleController.getString("ResetStatistics", 2131628069), false);
                 textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText2"));
                 return;
             }
@@ -877,20 +925,20 @@ public class DataUsageActivity extends BaseFragment {
                 }
             }
             if (i == i3) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("OutgoingCalls", R.string.OutgoingCalls), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentItemsCount(this.currentType, i2))), true);
+                textSettingsCell.setTextAndValue(LocaleController.getString("OutgoingCalls", 2131627176), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentItemsCount(this.currentType, i2))), true);
             } else if (i == this.callsReceivedRow) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("IncomingCalls", R.string.IncomingCalls), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getRecivedItemsCount(this.currentType, i2))), true);
+                textSettingsCell.setTextAndValue(LocaleController.getString("IncomingCalls", 2131626276), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getRecivedItemsCount(this.currentType, i2))), true);
             } else if (i == this.callsTotalTimeRow) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("CallsTotalTime", R.string.CallsTotalTime), AndroidUtilities.formatShortDuration(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getCallsTotalTime(this.currentType)), false);
+                textSettingsCell.setTextAndValue(LocaleController.getString("CallsTotalTime", 2131624824), AndroidUtilities.formatShortDuration(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getCallsTotalTime(this.currentType)), false);
             } else if (i == this.messagesSentRow || i == this.photosSentRow || i == this.videosSentRow || i == this.audiosSentRow || i == this.filesSentRow) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("CountSent", R.string.CountSent), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentItemsCount(this.currentType, i2))), true);
+                textSettingsCell.setTextAndValue(LocaleController.getString("CountSent", 2131625282), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentItemsCount(this.currentType, i2))), true);
             } else if (i == this.messagesReceivedRow || i == this.photosReceivedRow || i == this.videosReceivedRow || i == this.audiosReceivedRow || i == this.filesReceivedRow) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("CountReceived", R.string.CountReceived), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getRecivedItemsCount(this.currentType, i2))), true);
+                textSettingsCell.setTextAndValue(LocaleController.getString("CountReceived", 2131625281), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getRecivedItemsCount(this.currentType, i2))), true);
             } else if (i == this.messagesBytesSentRow || i == this.photosBytesSentRow || i == this.videosBytesSentRow || i == this.audiosBytesSentRow || i == this.filesBytesSentRow || i == this.callsBytesSentRow || i == this.totalBytesSentRow) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("BytesSent", R.string.BytesSent), AndroidUtilities.formatFileSize(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentBytesCount(this.currentType, i2)), true);
+                textSettingsCell.setTextAndValue(LocaleController.getString("BytesSent", 2131624779), AndroidUtilities.formatFileSize(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentBytesCount(this.currentType, i2)), true);
             } else if (i != this.messagesBytesReceivedRow && i != this.photosBytesReceivedRow && i != this.videosBytesReceivedRow && i != this.audiosBytesReceivedRow && i != this.filesBytesReceivedRow && i != this.callsBytesReceivedRow && i != this.totalBytesReceivedRow) {
             } else {
-                String string = LocaleController.getString("BytesReceived", R.string.BytesReceived);
+                String string = LocaleController.getString("BytesReceived", 2131624778);
                 String formatFileSize = AndroidUtilities.formatFileSize(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getReceivedBytesCount(this.currentType, i2));
                 if (i == this.callsBytesReceivedRow) {
                     z = true;

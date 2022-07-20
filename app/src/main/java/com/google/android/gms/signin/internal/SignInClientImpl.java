@@ -11,7 +11,6 @@ import android.util.Log;
 import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.internal.Storage;
-import com.google.android.gms.common.GooglePlayServicesUtilLight;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.BaseGmsClient;
 import com.google.android.gms.common.internal.ClientSettings;
@@ -20,7 +19,6 @@ import com.google.android.gms.common.internal.IAccountAccessor;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.zat;
 import com.google.android.gms.signin.SignInOptions;
-import com.huawei.hms.api.HuaweiApiClientImpl;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public class SignInClientImpl extends GmsClient<zag> implements com.google.android.gms.signin.zae {
@@ -39,7 +37,7 @@ public class SignInClientImpl extends GmsClient<zag> implements com.google.andro
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient, com.google.android.gms.common.api.Api.Client
     public int getMinApkVersion() {
-        return GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
+        return 12451000;
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient
@@ -87,7 +85,7 @@ public class SignInClientImpl extends GmsClient<zag> implements com.google.andro
         try {
             Account accountOrDefault = this.zab.getAccountOrDefault();
             GoogleSignInAccount googleSignInAccount = null;
-            if (HuaweiApiClientImpl.DEFAULT_ACCOUNT.equals(accountOrDefault.name)) {
+            if ("<<default account>>".equals(accountOrDefault.name)) {
                 googleSignInAccount = Storage.getInstance(getContext()).getSavedDefaultGoogleSignInAccount();
             }
             ((zag) getService()).zaa(new zaj(new zat(accountOrDefault, ((Integer) Preconditions.checkNotNull(this.zad)).intValue(), googleSignInAccount)), zaeVar);

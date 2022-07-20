@@ -10,7 +10,7 @@ public class SettingUtil {
         try {
             return Settings.System.getInt(contentResolver, str, i);
         } catch (RuntimeException e) {
-            Logger.e(TAG, "Settings System getInt throwFromSystemServer:", e);
+            Logger.e("SettingUtil", "Settings System getInt throwFromSystemServer:", e);
             return i;
         }
     }
@@ -19,7 +19,7 @@ public class SettingUtil {
         try {
             return Settings.Secure.getInt(contentResolver, str, i);
         } catch (RuntimeException e) {
-            Logger.e(TAG, "Settings Secure getInt throwFromSystemServer:", e);
+            Logger.e("SettingUtil", "Settings Secure getInt throwFromSystemServer:", e);
             return i;
         }
     }

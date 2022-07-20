@@ -57,14 +57,14 @@ public abstract class HuaweiApiAvailability {
     static {
         HashMap hashMap = new HashMap();
         API_MAP = hashMap;
-        hashMap.put(HMS_API_NAME_ID, 30000000);
-        hashMap.put(HMS_API_NAME_SNS, 20503000);
-        hashMap.put(HMS_API_NAME_PAY, 20503000);
-        hashMap.put(HMS_API_NAME_PUSH, 20503000);
-        hashMap.put(HMS_API_NAME_GAME, 20503000);
-        hashMap.put(HMS_API_NAME_OD, Integer.valueOf((int) HMS_VERSION_CODE_OD));
-        hashMap.put(HMS_API_NAME_IAP, 20700300);
-        hashMap.put(HMS_API_NAME_PPS, 20700300);
+        hashMap.put("HuaweiID.API", 30000000);
+        hashMap.put("HuaweiSns.API", 20503000);
+        hashMap.put("HuaweiPay.API", 20503000);
+        hashMap.put("HuaweiPush.API", 20503000);
+        hashMap.put("HuaweiGame.API", 20503000);
+        hashMap.put("HuaweiOpenDevice.API", 20601000);
+        hashMap.put("HuaweiIap.API", 20700300);
+        hashMap.put("HuaweiPPSkit.API", 20700300);
     }
 
     public static Map<String, Integer> getApiMap() {

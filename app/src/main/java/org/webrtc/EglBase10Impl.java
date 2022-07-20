@@ -12,7 +12,6 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import org.webrtc.EglBase;
 import org.webrtc.EglBase10;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
 public class EglBase10Impl implements EglBase10 {
     private static final int EGL_CONTEXT_CLIENT_VERSION = 12440;
@@ -80,7 +79,7 @@ public class EglBase10Impl implements EglBase10 {
         this.eglDisplay = eglDisplay;
         this.eglConfig = getEglConfig(egl10, eglDisplay, iArr);
         int openGlesVersionFromConfig = EglBase.CC.getOpenGlesVersionFromConfig(iArr);
-        Logging.d(TAG, "Using OpenGL ES version " + openGlesVersionFromConfig);
+        Logging.d("EglBase10Impl", "Using OpenGL ES version " + openGlesVersionFromConfig);
         this.eglContext = createEglContext(eGLContext, this.eglDisplay, this.eglConfig, openGlesVersionFromConfig);
     }
 
@@ -305,7 +304,7 @@ public class EglBase10Impl implements EglBase10 {
         if (eGLContext != null && eGLContext == EGL10.EGL_NO_CONTEXT) {
             throw new RuntimeException("Invalid sharedContext");
         }
-        int[] iArr = {EGL_CONTEXT_CLIENT_VERSION, i, 12344};
+        int[] iArr = {12440, i, 12344};
         if (eGLContext == null) {
             eGLContext = EGL10.EGL_NO_CONTEXT;
         }

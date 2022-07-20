@@ -4,12 +4,10 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.SuccessContinuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -56,22 +54,8 @@ public class ConfigCacheClient {
         return this.storageClient.write(configContainer);
     }
 
-    public Task<ConfigContainer> put(final ConfigContainer configContainer, final boolean z) {
-        return Tasks.call(this.executorService, new Callable() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda1
-            @Override // java.util.concurrent.Callable
-            public final Object call() {
-                Void lambda$put$0;
-                lambda$put$0 = ConfigCacheClient.this.lambda$put$0(configContainer);
-                return lambda$put$0;
-            }
-        }).onSuccessTask(this.executorService, new SuccessContinuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda0
-            @Override // com.google.android.gms.tasks.SuccessContinuation
-            public final Task then(Object obj) {
-                Task lambda$put$1;
-                lambda$put$1 = ConfigCacheClient.this.lambda$put$1(z, configContainer, (Void) obj);
-                return lambda$put$1;
-            }
-        });
+    public Task<ConfigContainer> put(ConfigContainer configContainer, boolean z) {
+        return Tasks.call(this.executorService, new ConfigCacheClient$$ExternalSyntheticLambda1(this, configContainer)).onSuccessTask(this.executorService, new ConfigCacheClient$$ExternalSyntheticLambda0(this, z, configContainer));
     }
 
     public /* synthetic */ Task lambda$put$1(boolean z, ConfigContainer configContainer, Void r3) throws Exception {
@@ -85,14 +69,9 @@ public class ConfigCacheClient {
         Task<ConfigContainer> task = this.cachedContainerTask;
         if (task == null || (task.isComplete() && !this.cachedContainerTask.isSuccessful())) {
             ExecutorService executorService = this.executorService;
-            final ConfigStorageClient configStorageClient = this.storageClient;
+            ConfigStorageClient configStorageClient = this.storageClient;
             configStorageClient.getClass();
-            this.cachedContainerTask = Tasks.call(executorService, new Callable() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda2
-                @Override // java.util.concurrent.Callable
-                public final Object call() {
-                    return ConfigStorageClient.this.read();
-                }
-            });
+            this.cachedContainerTask = Tasks.call(executorService, new ConfigCacheClient$$ExternalSyntheticLambda2(configStorageClient));
         }
         return this.cachedContainerTask;
     }

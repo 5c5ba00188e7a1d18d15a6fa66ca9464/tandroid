@@ -166,22 +166,30 @@ public class CheckBoxBase {
         }
     }
 
+    /* renamed from: org.telegram.ui.Components.CheckBoxBase$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends AnimatorListenerAdapter {
+        AnonymousClass1() {
+            CheckBoxBase.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (animator.equals(CheckBoxBase.this.checkAnimator)) {
+                CheckBoxBase.this.checkAnimator = null;
+            }
+            if (!CheckBoxBase.this.isChecked) {
+                CheckBoxBase.this.checkedText = null;
+            }
+        }
+    }
+
     private void animateToCheckedState(boolean z) {
         float[] fArr = new float[1];
         fArr[0] = z ? 1.0f : 0.0f;
         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", fArr);
         this.checkAnimator = ofFloat;
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.CheckBoxBase.1
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (animator.equals(CheckBoxBase.this.checkAnimator)) {
-                    CheckBoxBase.this.checkAnimator = null;
-                }
-                if (!CheckBoxBase.this.isChecked) {
-                    CheckBoxBase.this.checkedText = null;
-                }
-            }
-        });
+        ofFloat.addListener(new AnonymousClass1());
         this.checkAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
         this.checkAnimator.setDuration(this.animationDuration);
         this.checkAnimator.start();
@@ -437,7 +445,7 @@ public class CheckBoxBase {
                     i4 = 1;
                     TextPaint textPaint = new TextPaint(1);
                     this.textPaint = textPaint;
-                    textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 } else {
                     i4 = 1;
                 }

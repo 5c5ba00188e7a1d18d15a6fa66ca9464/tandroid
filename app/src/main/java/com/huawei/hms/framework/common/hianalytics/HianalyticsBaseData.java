@@ -17,13 +17,13 @@ public abstract class HianalyticsBaseData {
     public HianalyticsBaseData() {
         LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
         this.data = linkedHashMap;
-        linkedHashMap.put(SDK_TYPE, "UxPP");
-        this.data.put(SDK_NAME, "networkkit");
+        linkedHashMap.put("sdk_type", "UxPP");
+        this.data.put("sdk_name", "networkkit");
     }
 
     public HianalyticsBaseData put(String str, String str2) {
         if (str == null || str2 == null) {
-            Logger.v(TAG, "key = " + str + " : value = " + str2);
+            Logger.v("HianalyticsBaseData", "key = " + str + " : value = " + str2);
         } else {
             this.data.put(str, str2);
         }
@@ -32,7 +32,7 @@ public abstract class HianalyticsBaseData {
 
     public HianalyticsBaseData put(String str, long j) {
         if (str == null) {
-            Logger.v(TAG, "key = null : value = " + j);
+            Logger.v("HianalyticsBaseData", "key = null : value = " + j);
         } else {
             LinkedHashMap<String, String> linkedHashMap = this.data;
             linkedHashMap.put(str, "" + j);
@@ -42,7 +42,7 @@ public abstract class HianalyticsBaseData {
 
     public HianalyticsBaseData put(LinkedHashMap<String, String> linkedHashMap) {
         if (linkedHashMap == null || linkedHashMap.isEmpty()) {
-            Logger.v(TAG, "data is null");
+            Logger.v("HianalyticsBaseData", "data is null");
         } else {
             this.data.putAll(linkedHashMap);
         }
@@ -64,7 +64,7 @@ public abstract class HianalyticsBaseData {
                 jSONObject.put(entry.getKey(), entry.getValue());
             }
         } catch (JSONException e) {
-            Logger.w(TAG, "catch JSONException", e);
+            Logger.w("HianalyticsBaseData", "catch JSONException", e);
         }
         return jSONObject.toString();
     }

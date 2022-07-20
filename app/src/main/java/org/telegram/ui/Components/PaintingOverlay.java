@@ -148,6 +148,8 @@ public class PaintingOverlay extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r17v0, types: [android.widget.FrameLayout, org.telegram.ui.Components.PaintingOverlay] */
+    /* JADX WARN: Type inference failed for: r6v5, types: [org.telegram.ui.Components.PaintingOverlay$1, android.view.View, android.widget.EditText, org.telegram.ui.Components.Paint.Views.EditTextOutline] */
     public void setEntities(ArrayList<VideoEditedInfo.MediaEntity> arrayList, boolean z, boolean z2) {
         reset();
         this.mediaEntityViews = new HashMap<>();
@@ -176,50 +178,40 @@ public class PaintingOverlay extends FrameLayout {
                 }
                 mediaEntity.view = backupImageView;
             } else if (b == 1) {
-                EditTextOutline editTextOutline = new EditTextOutline(this, getContext()) { // from class: org.telegram.ui.Components.PaintingOverlay.1
-                    @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
-                    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-                        return false;
-                    }
-
-                    @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                    public boolean onTouchEvent(MotionEvent motionEvent) {
-                        return false;
-                    }
-                };
-                editTextOutline.setBackgroundColor(0);
-                editTextOutline.setPadding(AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f));
-                editTextOutline.setTextSize(0, mediaEntity.fontSize);
-                editTextOutline.setText(mediaEntity.text);
-                editTextOutline.setTypeface(null, 1);
-                editTextOutline.setGravity(17);
-                editTextOutline.setHorizontallyScrolling(false);
-                editTextOutline.setImeOptions(268435456);
-                editTextOutline.setFocusableInTouchMode(true);
-                editTextOutline.setEnabled(false);
-                editTextOutline.setInputType(editTextOutline.getInputType() | 16384);
+                ?? anonymousClass1 = new AnonymousClass1(this, getContext());
+                anonymousClass1.setBackgroundColor(0);
+                anonymousClass1.setPadding(AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f));
+                anonymousClass1.setTextSize(0, mediaEntity.fontSize);
+                anonymousClass1.setText(mediaEntity.text);
+                anonymousClass1.setTypeface(null, 1);
+                anonymousClass1.setGravity(17);
+                anonymousClass1.setHorizontallyScrolling(false);
+                anonymousClass1.setImeOptions(268435456);
+                anonymousClass1.setFocusableInTouchMode(true);
+                anonymousClass1.setEnabled(false);
+                anonymousClass1.setInputType(anonymousClass1.getInputType() | 16384);
                 if (Build.VERSION.SDK_INT >= 23) {
-                    editTextOutline.setBreakStrategy(0);
+                    anonymousClass1.setBreakStrategy(0);
                 }
                 byte b2 = mediaEntity.subType;
                 if ((b2 & 1) != 0) {
-                    editTextOutline.setTextColor(-1);
-                    editTextOutline.setStrokeColor(mediaEntity.color);
-                    editTextOutline.setFrameColor(0);
-                    editTextOutline.setShadowLayer(0.0f, 0.0f, 0.0f, 0);
+                    anonymousClass1.setTextColor(-1);
+                    anonymousClass1.setStrokeColor(mediaEntity.color);
+                    anonymousClass1.setFrameColor(0);
+                    anonymousClass1.setShadowLayer(0.0f, 0.0f, 0.0f, 0);
                 } else if ((b2 & 4) != 0) {
-                    editTextOutline.setTextColor(-16777216);
-                    editTextOutline.setStrokeColor(0);
-                    editTextOutline.setFrameColor(mediaEntity.color);
-                    editTextOutline.setShadowLayer(0.0f, 0.0f, 0.0f, 0);
+                    anonymousClass1.setTextColor(-16777216);
+                    anonymousClass1.setStrokeColor(0);
+                    anonymousClass1.setFrameColor(mediaEntity.color);
+                    anonymousClass1.setShadowLayer(0.0f, 0.0f, 0.0f, 0);
                 } else {
-                    editTextOutline.setTextColor(mediaEntity.color);
-                    editTextOutline.setStrokeColor(0);
-                    editTextOutline.setFrameColor(0);
-                    editTextOutline.setShadowLayer(5.0f, 0.0f, 1.0f, 1711276032);
+                    anonymousClass1.setTextColor(mediaEntity.color);
+                    anonymousClass1.setStrokeColor(0);
+                    anonymousClass1.setFrameColor(0);
+                    anonymousClass1.setShadowLayer(5.0f, 0.0f, 1.0f, 1711276032);
                 }
-                mediaEntity.view = editTextOutline;
-                backupImageView = editTextOutline;
+                mediaEntity.view = anonymousClass1;
+                backupImageView = anonymousClass1;
             }
             if (backupImageView != null) {
                 addView(backupImageView);
@@ -237,6 +229,24 @@ public class PaintingOverlay extends FrameLayout {
             return;
         }
         lottieAnimation.start();
+    }
+
+    /* renamed from: org.telegram.ui.Components.PaintingOverlay$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends EditTextOutline {
+        @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
+        public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            return false;
+        }
+
+        AnonymousClass1(PaintingOverlay paintingOverlay, Context context) {
+            super(context);
+        }
     }
 
     public void setBitmap(Bitmap bitmap) {

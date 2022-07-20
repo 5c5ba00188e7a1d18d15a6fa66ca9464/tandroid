@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
@@ -27,7 +26,7 @@ public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
         FORMAT_DATA_MATRIX(16),
         FORMAT_EAN_13(32),
         FORMAT_EAN_8(64),
-        FORMAT_ITF(ConnectionsManager.RequestFlagNeedQuickAck),
+        FORMAT_ITF(128),
         FORMAT_QR_CODE(256),
         FORMAT_UPC_A(512),
         FORMAT_UPC_E(1024),

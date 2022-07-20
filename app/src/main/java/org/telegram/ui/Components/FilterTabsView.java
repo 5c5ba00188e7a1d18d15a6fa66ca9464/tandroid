@@ -42,14 +42,12 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messages_updateDialogFiltersOrder;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimationProperties;
-import org.telegram.ui.Components.FilterTabsView;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class FilterTabsView extends FrameLayout {
@@ -104,47 +102,8 @@ public class FilterTabsView extends FrameLayout {
     private SparseIntArray idToPosition = new SparseIntArray(5);
     private SparseIntArray positionToWidth = new SparseIntArray(5);
     private SparseIntArray positionToX = new SparseIntArray(5);
-    private Runnable animationRunnable = new Runnable() { // from class: org.telegram.ui.Components.FilterTabsView.1
-        @Override // java.lang.Runnable
-        public void run() {
-            if (!FilterTabsView.this.animatingIndicator) {
-                return;
-            }
-            long elapsedRealtime = SystemClock.elapsedRealtime() - FilterTabsView.this.lastAnimationTime;
-            if (elapsedRealtime > 17) {
-                elapsedRealtime = 17;
-            }
-            FilterTabsView.access$2616(FilterTabsView.this, ((float) elapsedRealtime) / 200.0f);
-            FilterTabsView filterTabsView = FilterTabsView.this;
-            filterTabsView.setAnimationIdicatorProgress(filterTabsView.interpolator.getInterpolation(FilterTabsView.this.animationTime));
-            if (FilterTabsView.this.animationTime > 1.0f) {
-                FilterTabsView.this.animationTime = 1.0f;
-            }
-            if (FilterTabsView.this.animationTime < 1.0f) {
-                AndroidUtilities.runOnUIThread(FilterTabsView.this.animationRunnable);
-                return;
-            }
-            FilterTabsView.this.animatingIndicator = false;
-            FilterTabsView.this.setEnabled(true);
-            if (FilterTabsView.this.delegate == null) {
-                return;
-            }
-            FilterTabsView.this.delegate.onPageScrolled(1.0f);
-        }
-    };
-    private final Property<FilterTabsView, Float> COLORS = new AnimationProperties.FloatProperty<FilterTabsView>("animationValue") { // from class: org.telegram.ui.Components.FilterTabsView.2
-        public void setValue(FilterTabsView filterTabsView, float f) {
-            FilterTabsView.this.animationValue = f;
-            FilterTabsView.this.selectorDrawable.setColor(ColorUtils.blendARGB(Theme.getColor(FilterTabsView.this.tabLineColorKey), Theme.getColor(FilterTabsView.this.aTabLineColorKey), f));
-            FilterTabsView.this.listView.invalidateViews();
-            FilterTabsView.this.listView.invalidate();
-            filterTabsView.invalidate();
-        }
-
-        public Float get(FilterTabsView filterTabsView) {
-            return Float.valueOf(FilterTabsView.this.animationValue);
-        }
-    };
+    private Runnable animationRunnable = new AnonymousClass1();
+    private final Property<FilterTabsView, Float> COLORS = new AnonymousClass2("animationValue");
     private GradientDrawable selectorDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, null);
 
     /* loaded from: classes3.dex */
@@ -652,7 +611,7 @@ public class FilterTabsView extends FrameLayout {
                                 return;
                             }
                             if (FilterTabsView.this.lockDrawable == null) {
-                                FilterTabsView.this.lockDrawable = ContextCompat.getDrawable(getContext(), R.drawable.other_lockedfolders);
+                                FilterTabsView.this.lockDrawable = ContextCompat.getDrawable(getContext(), 2131166026);
                             }
                             z3 = this.currentTab.isLocked;
                             if (z3) {
@@ -915,7 +874,7 @@ public class FilterTabsView extends FrameLayout {
             accessibilityNodeInfo.setSelected((this.currentTab == null || FilterTabsView.this.selectedTabId == -1 || this.currentTab.id != FilterTabsView.this.selectedTabId) ? false : true);
             accessibilityNodeInfo.addAction(16);
             if (Build.VERSION.SDK_INT >= 21) {
-                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(32, LocaleController.getString("AccDescrOpenMenu2", R.string.AccDescrOpenMenu2)));
+                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(32, LocaleController.getString("AccDescrOpenMenu2", 2131624031)));
             } else {
                 accessibilityNodeInfo.addAction(32);
             }
@@ -942,31 +901,17 @@ public class FilterTabsView extends FrameLayout {
             invalidate();
         }
 
-        public void shakeLockIcon(final float f, final int i) {
+        public void shakeLockIcon(float f, int i) {
             if (i == 6) {
                 this.locIconXOffset = 0.0f;
                 return;
             }
             AnimatorSet animatorSet = new AnimatorSet();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, AndroidUtilities.dp(f));
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.FilterTabsView$TabView$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    FilterTabsView.TabView.this.lambda$shakeLockIcon$0(valueAnimator);
-                }
-            });
+            ofFloat.addUpdateListener(new FilterTabsView$TabView$$ExternalSyntheticLambda0(this));
             animatorSet.playTogether(ofFloat);
             animatorSet.setDuration(50L);
-            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FilterTabsView.TabView.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    TabView tabView = TabView.this;
-                    int i2 = i;
-                    tabView.shakeLockIcon(i2 == 5 ? 0.0f : -f, i2 + 1);
-                    TabView.this.locIconXOffset = 0.0f;
-                    TabView.this.invalidate();
-                }
-            });
+            animatorSet.addListener(new AnonymousClass1(i, f));
             animatorSet.start();
         }
 
@@ -974,14 +919,93 @@ public class FilterTabsView extends FrameLayout {
             this.locIconXOffset = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             invalidate();
         }
+
+        /* renamed from: org.telegram.ui.Components.FilterTabsView$TabView$1 */
+        /* loaded from: classes3.dex */
+        public class AnonymousClass1 extends AnimatorListenerAdapter {
+            final /* synthetic */ int val$num;
+            final /* synthetic */ float val$x;
+
+            AnonymousClass1(int i, float f) {
+                TabView.this = r1;
+                this.val$num = i;
+                this.val$x = f;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                TabView tabView = TabView.this;
+                int i = this.val$num;
+                tabView.shakeLockIcon(i == 5 ? 0.0f : -this.val$x, i + 1);
+                TabView.this.locIconXOffset = 0.0f;
+                TabView.this.invalidate();
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.FilterTabsView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            FilterTabsView.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            if (!FilterTabsView.this.animatingIndicator) {
+                return;
+            }
+            long elapsedRealtime = SystemClock.elapsedRealtime() - FilterTabsView.this.lastAnimationTime;
+            if (elapsedRealtime > 17) {
+                elapsedRealtime = 17;
+            }
+            FilterTabsView.access$2616(FilterTabsView.this, ((float) elapsedRealtime) / 200.0f);
+            FilterTabsView filterTabsView = FilterTabsView.this;
+            filterTabsView.setAnimationIdicatorProgress(filterTabsView.interpolator.getInterpolation(FilterTabsView.this.animationTime));
+            if (FilterTabsView.this.animationTime > 1.0f) {
+                FilterTabsView.this.animationTime = 1.0f;
+            }
+            if (FilterTabsView.this.animationTime < 1.0f) {
+                AndroidUtilities.runOnUIThread(FilterTabsView.this.animationRunnable);
+                return;
+            }
+            FilterTabsView.this.animatingIndicator = false;
+            FilterTabsView.this.setEnabled(true);
+            if (FilterTabsView.this.delegate == null) {
+                return;
+            }
+            FilterTabsView.this.delegate.onPageScrolled(1.0f);
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.FilterTabsView$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimationProperties.FloatProperty<FilterTabsView> {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass2(String str) {
+            super(str);
+            FilterTabsView.this = r1;
+        }
+
+        public void setValue(FilterTabsView filterTabsView, float f) {
+            FilterTabsView.this.animationValue = f;
+            FilterTabsView.this.selectorDrawable.setColor(ColorUtils.blendARGB(Theme.getColor(FilterTabsView.this.tabLineColorKey), Theme.getColor(FilterTabsView.this.aTabLineColorKey), f));
+            FilterTabsView.this.listView.invalidateViews();
+            FilterTabsView.this.listView.invalidate();
+            filterTabsView.invalidate();
+        }
+
+        public Float get(FilterTabsView filterTabsView) {
+            return Float.valueOf(FilterTabsView.this.animationValue);
+        }
     }
 
     public FilterTabsView(Context context) {
         super(context);
         this.textCounterPaint.setTextSize(AndroidUtilities.dp(13.0f));
-        this.textCounterPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.textCounterPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.textPaint.setTextSize(AndroidUtilities.dp(15.0f));
-        this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.deletePaint.setStyle(Paint.Style.STROKE);
         this.deletePaint.setStrokeCap(Paint.Cap.ROUND);
         this.deletePaint.setStrokeWidth(AndroidUtilities.dp(1.5f));
@@ -989,32 +1013,9 @@ public class FilterTabsView extends FrameLayout {
         this.selectorDrawable.setCornerRadii(new float[]{dpf2, dpf2, dpf2, dpf2, 0.0f, 0.0f, 0.0f, 0.0f});
         this.selectorDrawable.setColor(Theme.getColor(this.tabLineColorKey));
         setHorizontalScrollBarEnabled(false);
-        RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.FilterTabsView.3
-            @Override // android.view.View
-            public void setAlpha(float f) {
-                super.setAlpha(f);
-                FilterTabsView.this.invalidate();
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView
-            public boolean allowSelectChildAtPosition(View view) {
-                return FilterTabsView.this.isEnabled() && FilterTabsView.this.delegate.canPerformActions();
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView
-            public boolean canHighlightChildAt(View view, float f, float f2) {
-                if (FilterTabsView.this.isEditing) {
-                    TabView tabView = (TabView) view;
-                    float dp = AndroidUtilities.dp(6.0f);
-                    if (tabView.rect.left - dp < f && tabView.rect.right + dp > f) {
-                        return false;
-                    }
-                }
-                return super.canHighlightChildAt(view, f, f2);
-            }
-        };
-        this.listView = recyclerListView;
-        recyclerListView.setClipChildren(false);
+        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
+        this.listView = anonymousClass3;
+        anonymousClass3.setClipChildren(false);
         AnonymousClass4 anonymousClass4 = new AnonymousClass4();
         this.itemAnimator = anonymousClass4;
         anonymousClass4.setDelayAnimations(false);
@@ -1022,45 +1023,10 @@ public class FilterTabsView extends FrameLayout {
         this.listView.setSelectorType(8);
         this.listView.setSelectorRadius(6);
         this.listView.setSelectorDrawableColor(Theme.getColor(this.selectorColorKey));
-        RecyclerListView recyclerListView2 = this.listView;
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 0, false) { // from class: org.telegram.ui.Components.FilterTabsView.5
-            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public boolean supportsPredictiveItemAnimations() {
-                return true;
-            }
-
-            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i) {
-                LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) { // from class: org.telegram.ui.Components.FilterTabsView.5.1
-                    @Override // androidx.recyclerview.widget.LinearSmoothScroller, androidx.recyclerview.widget.RecyclerView.SmoothScroller
-                    protected void onTargetFound(View view, RecyclerView.State state2, RecyclerView.SmoothScroller.Action action) {
-                        int calculateDxToMakeVisible = calculateDxToMakeVisible(view, getHorizontalSnapPreference());
-                        if (calculateDxToMakeVisible > 0 || (calculateDxToMakeVisible == 0 && view.getLeft() - AndroidUtilities.dp(21.0f) < 0)) {
-                            calculateDxToMakeVisible += AndroidUtilities.dp(60.0f);
-                        } else if (calculateDxToMakeVisible < 0 || (calculateDxToMakeVisible == 0 && view.getRight() + AndroidUtilities.dp(21.0f) > FilterTabsView.this.getMeasuredWidth())) {
-                            calculateDxToMakeVisible -= AndroidUtilities.dp(60.0f);
-                        }
-                        int calculateDyToMakeVisible = calculateDyToMakeVisible(view, getVerticalSnapPreference());
-                        int max = Math.max(180, calculateTimeForDeceleration((int) Math.sqrt((calculateDxToMakeVisible * calculateDxToMakeVisible) + (calculateDyToMakeVisible * calculateDyToMakeVisible))));
-                        if (max > 0) {
-                            action.update(-calculateDxToMakeVisible, -calculateDyToMakeVisible, max, this.mDecelerateInterpolator);
-                        }
-                    }
-                };
-                linearSmoothScroller.setTargetPosition(i);
-                startSmoothScroll(linearSmoothScroller);
-            }
-
-            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public int scrollHorizontallyBy(int i, RecyclerView.Recycler recycler, RecyclerView.State state) {
-                if (FilterTabsView.this.delegate.isTabMenuVisible()) {
-                    i = 0;
-                }
-                return super.scrollHorizontallyBy(i, recycler, state);
-            }
-        };
-        this.layoutManager = linearLayoutManager;
-        recyclerListView2.setLayoutManager(linearLayoutManager);
+        RecyclerListView recyclerListView = this.listView;
+        AnonymousClass5 anonymousClass5 = new AnonymousClass5(context, 0, false);
+        this.layoutManager = anonymousClass5;
+        recyclerListView.setLayoutManager(anonymousClass5);
         new ItemTouchHelper(new TouchHelperCallback()).attachToRecyclerView(this.listView);
         this.listView.setPadding(AndroidUtilities.dp(7.0f), 0, AndroidUtilities.dp(7.0f), 0);
         this.listView.setClipToPadding(false);
@@ -1069,37 +1035,43 @@ public class FilterTabsView extends FrameLayout {
         this.adapter = listAdapter;
         listAdapter.setHasStableIds(true);
         this.listView.setAdapter(this.adapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.FilterTabsView$$ExternalSyntheticLambda1
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ boolean hasDoubleTap(View view, int i) {
-                return RecyclerListView.OnItemClickListenerExtended.CC.$default$hasDoubleTap(this, view, i);
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ void onDoubleTap(View view, int i, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.CC.$default$onDoubleTap(this, view, i, f, f2);
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public final void onItemClick(View view, int i, float f, float f2) {
-                FilterTabsView.this.lambda$new$0(view, i, f, f2);
-            }
-        });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.FilterTabsView$$ExternalSyntheticLambda2
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
-            public final boolean onItemClick(View view, int i) {
-                boolean lambda$new$1;
-                lambda$new$1 = FilterTabsView.this.lambda$new$1(view, i);
-                return lambda$new$1;
-            }
-        });
-        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.FilterTabsView.6
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                FilterTabsView.this.invalidate();
-            }
-        });
+        this.listView.setOnItemClickListener(new FilterTabsView$$ExternalSyntheticLambda1(this));
+        this.listView.setOnItemLongClickListener(new FilterTabsView$$ExternalSyntheticLambda2(this));
+        this.listView.setOnScrollListener(new AnonymousClass6());
         addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+    }
+
+    /* renamed from: org.telegram.ui.Components.FilterTabsView$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends RecyclerListView {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass3(Context context) {
+            super(context);
+            FilterTabsView.this = r1;
+        }
+
+        @Override // android.view.View
+        public void setAlpha(float f) {
+            super.setAlpha(f);
+            FilterTabsView.this.invalidate();
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView
+        public boolean allowSelectChildAtPosition(View view) {
+            return FilterTabsView.this.isEnabled() && FilterTabsView.this.delegate.canPerformActions();
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView
+        public boolean canHighlightChildAt(View view, float f, float f2) {
+            if (FilterTabsView.this.isEditing) {
+                TabView tabView = (TabView) view;
+                float dp = AndroidUtilities.dp(6.0f);
+                if (tabView.rect.left - dp < f && tabView.rect.right + dp > f) {
+                    return false;
+                }
+            }
+            return super.canHighlightChildAt(view, f, f2);
+        }
     }
 
     /* renamed from: org.telegram.ui.Components.FilterTabsView$4 */
@@ -1117,12 +1089,7 @@ public class FilterTabsView extends FrameLayout {
             boolean z4 = !this.mPendingAdditions.isEmpty();
             if (z || z2 || z4 || z3) {
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.1f);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.FilterTabsView$4$$ExternalSyntheticLambda0
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        FilterTabsView.AnonymousClass4.this.lambda$runPendingAnimations$0(valueAnimator);
-                    }
-                });
+                ofFloat.addUpdateListener(new FilterTabsView$4$$ExternalSyntheticLambda0(this));
                 ofFloat.setDuration(getMoveDuration());
                 ofFloat.start();
             }
@@ -1171,7 +1138,7 @@ public class FilterTabsView extends FrameLayout {
             super.animateMoveImpl(viewHolder, moveInfo);
             View view = viewHolder.itemView;
             if (view instanceof TabView) {
-                final TabView tabView = (TabView) view;
+                TabView tabView = (TabView) view;
                 if (!tabView.animateChange) {
                     return;
                 }
@@ -1182,18 +1149,8 @@ public class FilterTabsView extends FrameLayout {
                     tabView.changeAnimator.cancel();
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.FilterTabsView$4$$ExternalSyntheticLambda1
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        FilterTabsView.AnonymousClass4.lambda$animateMoveImpl$1(FilterTabsView.TabView.this, valueAnimator2);
-                    }
-                });
-                ofFloat.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.FilterTabsView.4.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        tabView.clearTransitionParams();
-                    }
-                });
+                ofFloat.addUpdateListener(new FilterTabsView$4$$ExternalSyntheticLambda1(tabView));
+                ofFloat.addListener(new AnonymousClass1(this, tabView));
                 tabView.changeAnimator = ofFloat;
                 ofFloat.setDuration(getMoveDuration());
                 ofFloat.start();
@@ -1203,6 +1160,21 @@ public class FilterTabsView extends FrameLayout {
         public static /* synthetic */ void lambda$animateMoveImpl$1(TabView tabView, ValueAnimator valueAnimator) {
             tabView.changeProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             tabView.invalidate();
+        }
+
+        /* renamed from: org.telegram.ui.Components.FilterTabsView$4$1 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass1 extends AnimatorListenerAdapter {
+            final /* synthetic */ TabView val$tabView;
+
+            AnonymousClass1(AnonymousClass4 anonymousClass4, TabView tabView) {
+                this.val$tabView = tabView;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                this.val$tabView.clearTransitionParams();
+            }
         }
 
         @Override // androidx.recyclerview.widget.SimpleItemAnimator
@@ -1223,6 +1195,61 @@ public class FilterTabsView extends FrameLayout {
             if (view instanceof TabView) {
                 ((TabView) view).clearTransitionParams();
             }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Components.FilterTabsView$5 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass5 extends LinearLayoutManager {
+        @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+        public boolean supportsPredictiveItemAnimations() {
+            return true;
+        }
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass5(Context context, int i, boolean z) {
+            super(context, i, z);
+            FilterTabsView.this = r1;
+        }
+
+        /* renamed from: org.telegram.ui.Components.FilterTabsView$5$1 */
+        /* loaded from: classes3.dex */
+        class AnonymousClass1 extends LinearSmoothScroller {
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+            AnonymousClass1(Context context) {
+                super(context);
+                AnonymousClass5.this = r1;
+            }
+
+            @Override // androidx.recyclerview.widget.LinearSmoothScroller, androidx.recyclerview.widget.RecyclerView.SmoothScroller
+            protected void onTargetFound(View view, RecyclerView.State state, RecyclerView.SmoothScroller.Action action) {
+                int calculateDxToMakeVisible = calculateDxToMakeVisible(view, getHorizontalSnapPreference());
+                if (calculateDxToMakeVisible > 0 || (calculateDxToMakeVisible == 0 && view.getLeft() - AndroidUtilities.dp(21.0f) < 0)) {
+                    calculateDxToMakeVisible += AndroidUtilities.dp(60.0f);
+                } else if (calculateDxToMakeVisible < 0 || (calculateDxToMakeVisible == 0 && view.getRight() + AndroidUtilities.dp(21.0f) > FilterTabsView.this.getMeasuredWidth())) {
+                    calculateDxToMakeVisible -= AndroidUtilities.dp(60.0f);
+                }
+                int calculateDyToMakeVisible = calculateDyToMakeVisible(view, getVerticalSnapPreference());
+                int max = Math.max(180, calculateTimeForDeceleration((int) Math.sqrt((calculateDxToMakeVisible * calculateDxToMakeVisible) + (calculateDyToMakeVisible * calculateDyToMakeVisible))));
+                if (max > 0) {
+                    action.update(-calculateDxToMakeVisible, -calculateDyToMakeVisible, max, this.mDecelerateInterpolator);
+                }
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+        public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i) {
+            AnonymousClass1 anonymousClass1 = new AnonymousClass1(recyclerView.getContext());
+            anonymousClass1.setTargetPosition(i);
+            startSmoothScroll(anonymousClass1);
+        }
+
+        @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+        public int scrollHorizontallyBy(int i, RecyclerView.Recycler recycler, RecyclerView.State state) {
+            if (FilterTabsView.this.delegate.isTabMenuVisible()) {
+                i = 0;
+            }
+            return super.scrollHorizontallyBy(i, recycler, state);
         }
     }
 
@@ -1256,6 +1283,19 @@ public class FilterTabsView extends FrameLayout {
             }
         }
         return false;
+    }
+
+    /* renamed from: org.telegram.ui.Components.FilterTabsView$6 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass6 extends RecyclerView.OnScrollListener {
+        AnonymousClass6() {
+            FilterTabsView.this = r1;
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+            FilterTabsView.this.invalidate();
+        }
     }
 
     public void setDelegate(FilterTabsViewDelegate filterTabsViewDelegate) {
@@ -1379,24 +1419,32 @@ public class FilterTabsView extends FrameLayout {
         this.colorChangeAnimator = animatorSet2;
         animatorSet2.playTogether(ObjectAnimator.ofFloat(this, this.COLORS, 0.0f, 1.0f));
         this.colorChangeAnimator.setDuration(200L);
-        this.colorChangeAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FilterTabsView.7
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                FilterTabsView filterTabsView = FilterTabsView.this;
-                filterTabsView.tabLineColorKey = filterTabsView.aTabLineColorKey;
-                FilterTabsView filterTabsView2 = FilterTabsView.this;
-                filterTabsView2.backgroundColorKey = filterTabsView2.aBackgroundColorKey;
-                FilterTabsView filterTabsView3 = FilterTabsView.this;
-                filterTabsView3.activeTextColorKey = filterTabsView3.aActiveTextColorKey;
-                FilterTabsView filterTabsView4 = FilterTabsView.this;
-                filterTabsView4.unactiveTextColorKey = filterTabsView4.aUnactiveTextColorKey;
-                FilterTabsView.this.aTabLineColorKey = null;
-                FilterTabsView.this.aActiveTextColorKey = null;
-                FilterTabsView.this.aUnactiveTextColorKey = null;
-                FilterTabsView.this.aBackgroundColorKey = null;
-            }
-        });
+        this.colorChangeAnimator.addListener(new AnonymousClass7());
         this.colorChangeAnimator.start();
+    }
+
+    /* renamed from: org.telegram.ui.Components.FilterTabsView$7 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass7 extends AnimatorListenerAdapter {
+        AnonymousClass7() {
+            FilterTabsView.this = r1;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            FilterTabsView filterTabsView = FilterTabsView.this;
+            filterTabsView.tabLineColorKey = filterTabsView.aTabLineColorKey;
+            FilterTabsView filterTabsView2 = FilterTabsView.this;
+            filterTabsView2.backgroundColorKey = filterTabsView2.aBackgroundColorKey;
+            FilterTabsView filterTabsView3 = FilterTabsView.this;
+            filterTabsView3.activeTextColorKey = filterTabsView3.aActiveTextColorKey;
+            FilterTabsView filterTabsView4 = FilterTabsView.this;
+            filterTabsView4.unactiveTextColorKey = filterTabsView4.aUnactiveTextColorKey;
+            FilterTabsView.this.aTabLineColorKey = null;
+            FilterTabsView.this.aActiveTextColorKey = null;
+            FilterTabsView.this.aUnactiveTextColorKey = null;
+            FilterTabsView.this.aBackgroundColorKey = null;
+        }
     }
 
     public int getCurrentTabId() {
@@ -1558,9 +1606,9 @@ public class FilterTabsView extends FrameLayout {
         if (!this.tabs.isEmpty()) {
             int size = (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(7.0f)) - AndroidUtilities.dp(7.0f);
             Tab findDefaultTab = findDefaultTab();
-            findDefaultTab.setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+            findDefaultTab.setTitle(LocaleController.getString("FilterAllChats", 2131625870));
             int width = findDefaultTab.getWidth(false);
-            findDefaultTab.setTitle(this.allTabsWidth > size ? LocaleController.getString("FilterAllChatsShort", R.string.FilterAllChatsShort) : LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+            findDefaultTab.setTitle(this.allTabsWidth > size ? LocaleController.getString("FilterAllChatsShort", 2131625871) : LocaleController.getString("FilterAllChats", 2131625870));
             int width2 = (this.allTabsWidth - width) + findDefaultTab.getWidth(false);
             int i3 = this.additionalTabWidth;
             int size2 = width2 < size ? (size - width2) / this.tabs.size() : 0;
@@ -1699,7 +1747,7 @@ public class FilterTabsView extends FrameLayout {
                     this.invalidated = true;
                     requestLayout();
                     this.allTabsWidth = 0;
-                    findDefaultTab().setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+                    findDefaultTab().setTitle(LocaleController.getString("FilterAllChats", 2131625870));
                     for (int i2 = 0; i2 < size; i2++) {
                         this.allTabsWidth += this.tabs.get(i2).getWidth(true) + AndroidUtilities.dp(32.0f);
                     }
@@ -1736,7 +1784,7 @@ public class FilterTabsView extends FrameLayout {
         this.listView.setItemAnimator(this.itemAnimator);
         this.adapter.notifyDataSetChanged();
         this.allTabsWidth = 0;
-        findDefaultTab().setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+        findDefaultTab().setTitle(LocaleController.getString("FilterAllChats", 2131625870));
         int size = this.tabs.size();
         for (int i3 = 0; i3 < size; i3++) {
             this.allTabsWidth += this.tabs.get(i3).getWidth(true) + AndroidUtilities.dp(32.0f);

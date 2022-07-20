@@ -23,7 +23,6 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class HlsChunkSource {
     private final DataSource encryptionDataSource;

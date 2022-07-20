@@ -13,7 +13,18 @@ import com.google.android.exoplayer2.text.webvtt.Mp4WebvttDecoder;
 import com.google.android.exoplayer2.text.webvtt.WebvttDecoder;
 /* loaded from: classes.dex */
 public interface SubtitleDecoderFactory {
-    public static final SubtitleDecoderFactory DEFAULT = new SubtitleDecoderFactory() { // from class: com.google.android.exoplayer2.text.SubtitleDecoderFactory.1
+    public static final SubtitleDecoderFactory DEFAULT = new AnonymousClass1();
+
+    SubtitleDecoder createDecoder(Format format);
+
+    boolean supportsFormat(Format format);
+
+    /* renamed from: com.google.android.exoplayer2.text.SubtitleDecoderFactory$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements SubtitleDecoderFactory {
+        AnonymousClass1() {
+        }
+
         @Override // com.google.android.exoplayer2.text.SubtitleDecoderFactory
         public boolean supportsFormat(Format format) {
             String str = format.sampleMimeType;
@@ -119,9 +130,5 @@ public interface SubtitleDecoderFactory {
             }
             throw new IllegalArgumentException("Attempted to create decoder for unsupported MIME type: " + str);
         }
-    };
-
-    SubtitleDecoder createDecoder(Format format);
-
-    boolean supportsFormat(Format format);
+    }
 }

@@ -12,7 +12,6 @@ import com.huawei.hms.framework.network.grs.GrsClient;
 import com.huawei.hms.framework.network.grs.IQueryUrlCallBack;
 import com.huawei.hms.hatool.HmsHiAnalyticsUtils;
 import com.huawei.hms.stats.c;
-import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import com.huawei.hms.support.log.HMSLog;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -44,7 +43,7 @@ public class HMSBIInitializer {
                     HmsHiAnalyticsUtils.init(HMSBIInitializer.this.a, false, false, false, str, "com.huawei.hwid");
                 } else {
                     HiAnalyticsConfig build = new HiAnalyticsConfig.Builder().setEnableImei(false).setEnableUDID(false).setEnableSN(false).setCollectURL(str).build();
-                    HiAnalyticsInstance unused = HMSBIInitializer.f = new HiAnalyticsInstance.Builder(HMSBIInitializer.this.a).setOperConf(build).setMaintConf(new HiAnalyticsConfig.Builder().setEnableImei(false).setEnableUDID(false).setEnableSN(false).setCollectURL(str).build()).create(HiAnalyticsConstant.HA_SERVICE_TAG);
+                    HiAnalyticsInstance unused = HMSBIInitializer.f = new HiAnalyticsInstance.Builder(HMSBIInitializer.this.a).setOperConf(build).setMaintConf(new HiAnalyticsConfig.Builder().setEnableImei(false).setEnableUDID(false).setEnableSN(false).setCollectURL(str).build()).create("hms_config_tag");
                     HMSBIInitializer.f.setAppid("com.huawei.hwid");
                 }
                 HMSLog.i("HMSBIInitializer", "BI URL acquired successfully");
@@ -97,7 +96,7 @@ public class HMSBIInitializer {
         if (!this.c) {
             z = HmsHiAnalyticsUtils.getInitFlag();
         } else {
-            z = HiAnalyticsManager.getInitFlag(HiAnalyticsConstant.HA_SERVICE_TAG);
+            z = HiAnalyticsManager.getInitFlag("hms_config_tag");
         }
         HMSLog.i("HMSBIInitializer", "Builder->biInitFlag :" + z);
         if (!z && !com.huawei.hms.stats.a.c(this.a) && this.b.compareAndSet(false, true)) {
@@ -105,7 +104,7 @@ public class HMSBIInitializer {
             if (!TextUtils.isEmpty(issueCountryCode)) {
                 issueCountryCode = issueCountryCode.toUpperCase(Locale.ENGLISH);
             }
-            if (!GrsBaseInfo.CountryCodeSource.UNKNOWN.equalsIgnoreCase(issueCountryCode) && !TextUtils.isEmpty(issueCountryCode)) {
+            if (!"UNKNOWN".equalsIgnoreCase(issueCountryCode) && !TextUtils.isEmpty(issueCountryCode)) {
                 new b(this, null).execute(issueCountryCode);
                 return;
             }
@@ -118,7 +117,7 @@ public class HMSBIInitializer {
         if (!this.c) {
             return HmsHiAnalyticsUtils.getInitFlag();
         }
-        return HiAnalyticsManager.getInitFlag(HiAnalyticsConstant.HA_SERVICE_TAG);
+        return HiAnalyticsManager.getInitFlag("hms_config_tag");
     }
 
     public final void a(String str) {

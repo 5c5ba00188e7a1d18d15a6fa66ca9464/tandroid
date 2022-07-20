@@ -11,7 +11,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
-import org.telegram.ui.Components.BlurBehindDrawable;
 /* loaded from: classes3.dex */
 public class BlurBehindDrawable {
     private Bitmap[] backgroundBitmap;
@@ -139,12 +138,7 @@ public class BlurBehindDrawable {
                     this.blurCanvas[i] = new Canvas(this.blurredBitmapTmp[i]);
                 } catch (Exception e) {
                     FileLog.e(e);
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlurBehindDrawable$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            BlurBehindDrawable.this.lambda$draw$0();
-                        }
-                    });
+                    AndroidUtilities.runOnUIThread(new BlurBehindDrawable$$ExternalSyntheticLambda0(this));
                     return;
                 }
             } else {
@@ -208,12 +202,7 @@ public class BlurBehindDrawable {
         DispatchQueue dispatchQueue = this.queue;
         if (dispatchQueue != null) {
             dispatchQueue.cleanupQueue();
-            this.queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.BlurBehindDrawable$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    BlurBehindDrawable.this.lambda$clear$2();
-                }
-            });
+            this.queue.postRunnable(new BlurBehindDrawable$$ExternalSyntheticLambda1(this));
         }
     }
 
@@ -242,12 +231,7 @@ public class BlurBehindDrawable {
         }
         this.renderingBitmapCanvas = null;
         this.skipDraw = false;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlurBehindDrawable$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                BlurBehindDrawable.this.lambda$clear$1();
-            }
-        });
+        AndroidUtilities.runOnUIThread(new BlurBehindDrawable$$ExternalSyntheticLambda2(this));
     }
 
     public /* synthetic */ void lambda$clear$1() {
@@ -409,12 +393,7 @@ public class BlurBehindDrawable {
                 }
                 i2++;
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlurBehindDrawable$BlurBackgroundTask$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    BlurBehindDrawable.BlurBackgroundTask.this.lambda$run$0();
-                }
-            });
+            AndroidUtilities.runOnUIThread(new BlurBehindDrawable$BlurBackgroundTask$$ExternalSyntheticLambda0(this));
         }
 
         public /* synthetic */ void lambda$run$0() {

@@ -5,37 +5,7 @@ import com.google.android.exoplayer2.drm.DrmSession;
 import com.google.android.exoplayer2.drm.ExoMediaCrypto;
 /* loaded from: classes.dex */
 public interface DrmSessionManager<T extends ExoMediaCrypto> {
-    public static final DrmSessionManager<ExoMediaCrypto> DUMMY = new DrmSessionManager<ExoMediaCrypto>() { // from class: com.google.android.exoplayer2.drm.DrmSessionManager.1
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public /* synthetic */ DrmSession<ExoMediaCrypto> acquirePlaceholderSession(Looper looper, int i) {
-            return CC.$default$acquirePlaceholderSession(this, looper, i);
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public boolean canAcquireSession(DrmInitData drmInitData) {
-            return false;
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public Class<ExoMediaCrypto> getExoMediaCryptoType(DrmInitData drmInitData) {
-            return null;
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public /* synthetic */ void prepare() {
-            CC.$default$prepare(this);
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public /* synthetic */ void release() {
-            CC.$default$release(this);
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public DrmSession<ExoMediaCrypto> acquireSession(Looper looper, DrmInitData drmInitData) {
-            return new ErrorStateDrmSession(new DrmSession.DrmSessionException(new UnsupportedDrmException(1)));
-        }
-    };
+    public static final DrmSessionManager<ExoMediaCrypto> DUMMY = new AnonymousClass1();
 
     DrmSession<T> acquirePlaceholderSession(Looper looper, int i);
 
@@ -68,6 +38,43 @@ public interface DrmSessionManager<T extends ExoMediaCrypto> {
 
         public static <T extends ExoMediaCrypto> DrmSessionManager<T> getDummyDrmSessionManager() {
             return (DrmSessionManager<T>) DrmSessionManager.DUMMY;
+        }
+    }
+
+    /* renamed from: com.google.android.exoplayer2.drm.DrmSessionManager$1 */
+    /* loaded from: classes.dex */
+    class AnonymousClass1 implements DrmSessionManager<ExoMediaCrypto> {
+        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+        public /* synthetic */ DrmSession<ExoMediaCrypto> acquirePlaceholderSession(Looper looper, int i) {
+            return CC.$default$acquirePlaceholderSession(this, looper, i);
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+        public boolean canAcquireSession(DrmInitData drmInitData) {
+            return false;
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+        public Class<ExoMediaCrypto> getExoMediaCryptoType(DrmInitData drmInitData) {
+            return null;
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+        public /* synthetic */ void prepare() {
+            CC.$default$prepare(this);
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+        public /* synthetic */ void release() {
+            CC.$default$release(this);
+        }
+
+        AnonymousClass1() {
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+        public DrmSession<ExoMediaCrypto> acquireSession(Looper looper, DrmInitData drmInitData) {
+            return new ErrorStateDrmSession(new DrmSession.DrmSessionException(new UnsupportedDrmException(1)));
         }
     }
 }

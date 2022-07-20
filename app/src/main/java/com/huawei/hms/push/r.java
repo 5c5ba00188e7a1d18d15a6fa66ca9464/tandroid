@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import com.huawei.hms.support.log.HMSLog;
 import java.lang.reflect.Field;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: ResourceLoader.java */
 /* loaded from: classes.dex */
 public class r {
@@ -53,7 +52,7 @@ public class r {
     public static int a(Context context, String str) {
         Bundle bundle;
         try {
-            ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck);
+            ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), 128);
             if (applicationInfo != null && (bundle = applicationInfo.metaData) != null) {
                 return bundle.getInt(str);
             }

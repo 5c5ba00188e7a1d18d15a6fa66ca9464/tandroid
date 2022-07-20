@@ -52,17 +52,9 @@ public class TextInfoPrivacyCell extends FrameLayout {
         this.resourcesProvider = resourcesProvider;
         LinkSpanDrawable.LinkCollector linkCollector = new LinkSpanDrawable.LinkCollector(this);
         this.links = linkCollector;
-        LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, linkCollector, resourcesProvider) { // from class: org.telegram.ui.Cells.TextInfoPrivacyCell.1
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView, android.view.View
-            public void onDraw(Canvas canvas) {
-                TextInfoPrivacyCell.this.onTextDraw();
-                super.onDraw(canvas);
-                TextInfoPrivacyCell.this.afterTextDraw();
-            }
-        };
-        this.textView = linksTextView;
-        linksTextView.setTextSize(1, 14.0f);
+        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, linkCollector, resourcesProvider);
+        this.textView = anonymousClass1;
+        anonymousClass1.setTextSize(1, 14.0f);
         int i2 = 5;
         this.textView.setGravity(LocaleController.isRTL ? 5 : 3);
         this.textView.setPadding(0, AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(17.0f));
@@ -73,6 +65,24 @@ public class TextInfoPrivacyCell extends FrameLayout {
         float f = i;
         addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 3 : i2) | 48, f, 0.0f, f, 0.0f));
         setWillNotDraw(false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Cells.TextInfoPrivacyCell$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends LinkSpanDrawable.LinksTextView {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass1(Context context, LinkSpanDrawable.LinkCollector linkCollector, Theme.ResourcesProvider resourcesProvider) {
+            super(context, linkCollector, resourcesProvider);
+            TextInfoPrivacyCell.this = r1;
+        }
+
+        @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView, android.view.View
+        public void onDraw(Canvas canvas) {
+            TextInfoPrivacyCell.this.onTextDraw();
+            super.onDraw(canvas);
+            TextInfoPrivacyCell.this.afterTextDraw();
+        }
     }
 
     @Override // android.view.View

@@ -72,30 +72,39 @@ public class SlideChooseView extends View {
         paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.linePaint.setStrokeCap(Paint.Cap.ROUND);
         this.textPaint.setTextSize(AndroidUtilities.dp(13.0f));
-        this.accessibilityDelegate = new IntSeekBarAccessibilityDelegate() { // from class: org.telegram.ui.Components.SlideChooseView.1
-            @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
-            protected int getProgress() {
-                return SlideChooseView.this.selectedIndex;
-            }
+        this.accessibilityDelegate = new AnonymousClass1();
+    }
 
-            @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
-            protected void setProgress(int i) {
-                SlideChooseView.this.setOption(i);
-            }
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.SlideChooseView$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 extends IntSeekBarAccessibilityDelegate {
+        AnonymousClass1() {
+            SlideChooseView.this = r1;
+        }
 
-            @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
-            protected int getMaxValue() {
-                return SlideChooseView.this.optionsStr.length - 1;
-            }
+        @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+        protected int getProgress() {
+            return SlideChooseView.this.selectedIndex;
+        }
 
-            @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-            protected CharSequence getContentDescription(View view) {
-                if (SlideChooseView.this.selectedIndex < SlideChooseView.this.optionsStr.length) {
-                    return SlideChooseView.this.optionsStr[SlideChooseView.this.selectedIndex];
-                }
-                return null;
+        @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+        protected void setProgress(int i) {
+            SlideChooseView.this.setOption(i);
+        }
+
+        @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+        protected int getMaxValue() {
+            return SlideChooseView.this.optionsStr.length - 1;
+        }
+
+        @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
+        protected CharSequence getContentDescription(View view) {
+            if (SlideChooseView.this.selectedIndex < SlideChooseView.this.optionsStr.length) {
+                return SlideChooseView.this.optionsStr[SlideChooseView.this.selectedIndex];
             }
-        };
+            return null;
+        }
     }
 
     public void setCallback(Callback callback) {

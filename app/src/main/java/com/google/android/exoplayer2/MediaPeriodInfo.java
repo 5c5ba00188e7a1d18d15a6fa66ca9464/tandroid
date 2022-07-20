@@ -3,7 +3,7 @@ package com.google.android.exoplayer2;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
-final class MediaPeriodInfo {
+public final class MediaPeriodInfo {
     public final long contentPositionUs;
     public final long durationUs;
     public final long endPositionUs;

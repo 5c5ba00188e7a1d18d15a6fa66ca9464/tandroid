@@ -90,7 +90,7 @@ public class ReactionsLayoutInBubble {
         paint.setColor(Theme.getColor("chat_inLoader"));
         textPaint.setColor(Theme.getColor("featuredStickers_buttonText"));
         textPaint.setTextSize(AndroidUtilities.dp(12.0f));
-        textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
     }
 
     public void setMessage(MessageObject messageObject, boolean z, Theme.ResourcesProvider resourcesProvider) {
@@ -673,16 +673,11 @@ public class ReactionsLayoutInBubble {
                         AndroidUtilities.cancelRunOnUIThread(runnable);
                         this.longPressRunnable = null;
                     }
-                    final ReactionButton reactionButton = this.lastSelectedButton;
+                    ReactionButton reactionButton = this.lastSelectedButton;
                     if (this.messageObject.messageOwner.reactions.can_see_list) {
-                        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble$$ExternalSyntheticLambda0
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                ReactionsLayoutInBubble.this.lambda$chekTouchEvent$1(reactionButton);
-                            }
-                        };
-                        this.longPressRunnable = runnable2;
-                        AndroidUtilities.runOnUIThread(runnable2, ViewConfiguration.getLongPressTimeout());
+                        ReactionsLayoutInBubble$$ExternalSyntheticLambda0 reactionsLayoutInBubble$$ExternalSyntheticLambda0 = new ReactionsLayoutInBubble$$ExternalSyntheticLambda0(this, reactionButton);
+                        this.longPressRunnable = reactionsLayoutInBubble$$ExternalSyntheticLambda0;
+                        AndroidUtilities.runOnUIThread(reactionsLayoutInBubble$$ExternalSyntheticLambda0, ViewConfiguration.getLongPressTimeout());
                     }
                     this.pressed = true;
                 }
@@ -691,16 +686,16 @@ public class ReactionsLayoutInBubble {
             if ((this.pressed && Math.abs(motionEvent.getX() - this.lastX) > this.touchSlop) || Math.abs(motionEvent.getY() - this.lastY) > this.touchSlop) {
                 this.pressed = false;
                 this.lastSelectedButton = null;
-                Runnable runnable3 = this.longPressRunnable;
-                if (runnable3 != null) {
-                    AndroidUtilities.cancelRunOnUIThread(runnable3);
+                Runnable runnable2 = this.longPressRunnable;
+                if (runnable2 != null) {
+                    AndroidUtilities.cancelRunOnUIThread(runnable2);
                     this.longPressRunnable = null;
                 }
             }
         } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-            Runnable runnable4 = this.longPressRunnable;
-            if (runnable4 != null) {
-                AndroidUtilities.cancelRunOnUIThread(runnable4);
+            Runnable runnable3 = this.longPressRunnable;
+            if (runnable3 != null) {
+                AndroidUtilities.cancelRunOnUIThread(runnable3);
                 this.longPressRunnable = null;
             }
             if (this.pressed && this.lastSelectedButton != null && motionEvent.getAction() == 1 && this.parentView.getDelegate() != null) {

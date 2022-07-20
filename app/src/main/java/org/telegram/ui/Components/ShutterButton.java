@@ -14,7 +14,6 @@ import android.view.animation.DecelerateInterpolator;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
 /* loaded from: classes3.dex */
 public class ShutterButton extends View {
     private ShutterButtonDelegate delegate;
@@ -26,16 +25,8 @@ public class ShutterButton extends View {
     private long totalTime;
     private Paint whitePaint;
     private DecelerateInterpolator interpolator = new DecelerateInterpolator();
-    private Runnable longPressed = new Runnable() { // from class: org.telegram.ui.Components.ShutterButton.1
-        @Override // java.lang.Runnable
-        public void run() {
-            if (ShutterButton.this.delegate == null || ShutterButton.this.delegate.shutterLongPressed()) {
-                return;
-            }
-            ShutterButton.this.processRelease = false;
-        }
-    };
-    private Drawable shadowDrawable = getResources().getDrawable(R.drawable.camera_btn);
+    private Runnable longPressed = new AnonymousClass1();
+    private Drawable shadowDrawable = getResources().getDrawable(2131165322);
     private State state = State.DEFAULT;
 
     /* loaded from: classes3.dex */
@@ -53,6 +44,23 @@ public class ShutterButton extends View {
     public enum State {
         DEFAULT,
         RECORDING
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.ShutterButton$1 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass1 implements Runnable {
+        AnonymousClass1() {
+            ShutterButton.this = r1;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            if (ShutterButton.this.delegate == null || ShutterButton.this.delegate.shutterLongPressed()) {
+                return;
+            }
+            ShutterButton.this.processRelease = false;
+        }
     }
 
     public ShutterButton(Context context) {
@@ -205,8 +213,8 @@ public class ShutterButton extends View {
         accessibilityNodeInfo.setClickable(true);
         accessibilityNodeInfo.setLongClickable(true);
         if (Build.VERSION.SDK_INT >= 21) {
-            accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK.getId(), LocaleController.getString("AccActionTakePicture", R.string.AccActionTakePicture)));
-            accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_LONG_CLICK.getId(), LocaleController.getString("AccActionRecordVideo", R.string.AccActionRecordVideo)));
+            accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK.getId(), LocaleController.getString("AccActionTakePicture", 2131623957)));
+            accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_LONG_CLICK.getId(), LocaleController.getString("AccActionRecordVideo", 2131623956)));
         }
     }
 }

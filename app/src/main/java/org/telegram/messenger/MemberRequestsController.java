@@ -40,7 +40,7 @@ public class MemberRequestsController extends BaseController {
         return this.firstImportersCache.get(j);
     }
 
-    public int getImporters(final long j, String str, TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, LongSparseArray<TLRPC$User> longSparseArray, final RequestDelegate requestDelegate) {
+    public int getImporters(long j, String str, TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, LongSparseArray<TLRPC$User> longSparseArray, RequestDelegate requestDelegate) {
         boolean isEmpty = TextUtils.isEmpty(str);
         TLRPC$TL_messages_getChatInviteImporters tLRPC$TL_messages_getChatInviteImporters = new TLRPC$TL_messages_getChatInviteImporters();
         tLRPC$TL_messages_getChatInviteImporters.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(-j);
@@ -56,21 +56,11 @@ public class MemberRequestsController extends BaseController {
             tLRPC$TL_messages_getChatInviteImporters.offset_user = getMessagesController().getInputUser(longSparseArray.get(tLRPC$TL_chatInviteImporter.user_id));
             tLRPC$TL_messages_getChatInviteImporters.offset_date = tLRPC$TL_chatInviteImporter.date;
         }
-        return getConnectionsManager().sendRequest(tLRPC$TL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.messenger.MemberRequestsController$$ExternalSyntheticLambda1
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MemberRequestsController.this.lambda$getImporters$1(j, requestDelegate, tLObject, tLRPC$TL_error);
-            }
-        });
+        return getConnectionsManager().sendRequest(tLRPC$TL_messages_getChatInviteImporters, new MemberRequestsController$$ExternalSyntheticLambda1(this, j, requestDelegate));
     }
 
-    public /* synthetic */ void lambda$getImporters$1(final long j, final RequestDelegate requestDelegate, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MemberRequestsController$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                MemberRequestsController.this.lambda$getImporters$0(tLRPC$TL_error, tLObject, j, requestDelegate);
-            }
-        });
+    public /* synthetic */ void lambda$getImporters$1(long j, RequestDelegate requestDelegate, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new MemberRequestsController$$ExternalSyntheticLambda0(this, tLRPC$TL_error, tLObject, j, requestDelegate));
     }
 
     public /* synthetic */ void lambda$getImporters$0(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, long j, RequestDelegate requestDelegate) {

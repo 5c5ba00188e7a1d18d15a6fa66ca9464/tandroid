@@ -107,22 +107,7 @@ public abstract class zzae<T> {
 
     public static boolean zza(String str, boolean z) {
         if (zzn()) {
-            return ((Boolean) zza(new zzam(str, false) { // from class: com.google.android.gms.internal.clearcut.zzah
-                private final String zzea;
-                private final boolean zzeb = false;
-
-                /* JADX INFO: Access modifiers changed from: package-private */
-                {
-                    this.zzea = str;
-                }
-
-                @Override // com.google.android.gms.internal.clearcut.zzam
-                public final Object zzp() {
-                    Boolean valueOf;
-                    valueOf = Boolean.valueOf(zzy.zza(zzae.zzh.getContentResolver(), this.zzea, this.zzeb));
-                    return valueOf;
-                }
-            })).booleanValue();
+            return ((Boolean) zza(new zzah(str, false))).booleanValue();
         }
         return false;
     }
@@ -143,21 +128,7 @@ public abstract class zzae<T> {
                     uri2 = this.zzdr.zzeg;
                     this.zzdw = zzab.zza(contentResolver, uri2);
                 }
-                String str3 = (String) zza(new zzam(this, this.zzdw) { // from class: com.google.android.gms.internal.clearcut.zzaf
-                    private final zzae zzdy;
-                    private final zzab zzdz;
-
-                    /* JADX INFO: Access modifiers changed from: package-private */
-                    {
-                        this.zzdy = this;
-                        this.zzdz = r2;
-                    }
-
-                    @Override // com.google.android.gms.internal.clearcut.zzam
-                    public final Object zzp() {
-                        return this.zzdz.zzg().get(this.zzdy.zzds);
-                    }
-                });
+                String str3 = (String) zza(new zzaf(this, this.zzdw));
                 if (str3 != null) {
                     return zzb(str3);
                 }
@@ -198,19 +169,7 @@ public abstract class zzae<T> {
         boolean z;
         String str;
         z = this.zzdr.zzej;
-        if (z || !zzn() || (str = (String) zza(new zzam(this) { // from class: com.google.android.gms.internal.clearcut.zzag
-            private final zzae zzdy;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zzdy = this;
-            }
-
-            @Override // com.google.android.gms.internal.clearcut.zzam
-            public final Object zzp() {
-                return this.zzdy.zzo();
-            }
-        })) == null) {
+        if (z || !zzn() || (str = (String) zza(new zzag(this))) == null) {
             return null;
         }
         return zzb(str);
