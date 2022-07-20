@@ -7444,7 +7444,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:165:0x03c3  */
     /* JADX WARN: Type inference failed for: r2v31 */
     /* JADX WARN: Type inference failed for: r2v32 */
-    /* JADX WARN: Type inference failed for: r2v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v6, types: [int, boolean] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

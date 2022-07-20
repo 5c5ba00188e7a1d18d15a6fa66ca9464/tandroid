@@ -1385,7 +1385,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r5v28, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v28, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v29 */
     /* JADX WARN: Type inference failed for: r5v34 */
     public EmojiView(BaseFragment baseFragment, boolean z, boolean z2, boolean z3, Context context, boolean z4, TLRPC$ChatFull tLRPC$ChatFull, ViewGroup viewGroup, Theme.ResourcesProvider resourcesProvider) {

@@ -2551,7 +2551,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX WARN: Type inference failed for: r0v6, types: [org.telegram.messenger.AccountInstance, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r0v8, types: [java.lang.String, int] */
+    /* JADX WARN: Type inference failed for: r0v8, types: [int, java.lang.String] */
     public /* synthetic */ void lambda$createGroupInstance$45(int i, long j, long j2, int i2, int i3) {
         StringBuilder sb;
         if (i != 0) {
