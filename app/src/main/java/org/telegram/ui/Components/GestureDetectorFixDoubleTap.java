@@ -11,6 +11,7 @@ import android.view.ViewConfiguration;
 public class GestureDetectorFixDoubleTap {
     private final GestureDetectorCompatImpl mImpl;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public interface GestureDetectorCompatImpl {
         boolean onTouchEvent(MotionEvent motionEvent);

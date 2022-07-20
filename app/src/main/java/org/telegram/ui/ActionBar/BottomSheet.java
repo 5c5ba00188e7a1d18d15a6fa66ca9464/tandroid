@@ -422,7 +422,7 @@ public class BottomSheet extends Dialog {
                 int y = (int) motionEvent.getY();
                 this.startedTrackingY = y;
                 if (y < BottomSheet.this.containerView.getTop() || this.startedTrackingX < BottomSheet.this.containerView.getLeft() || this.startedTrackingX > BottomSheet.this.containerView.getRight()) {
-                    BottomSheet.this.dismiss();
+                    BottomSheet.this.onDismissWithTouchOutside();
                     return true;
                 }
                 BottomSheet.this.onScrollUpBegin(this.y);
@@ -1215,7 +1215,7 @@ public class BottomSheet extends Dialog {
     }
 
     public BottomSheet(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
-        super(context, 2131689509);
+        super(context, 2131689510);
         this.currentAccount = UserConfig.selectedAccount;
         this.allowDrawContent = true;
         this.useHardwareLayer = true;
@@ -1245,7 +1245,7 @@ public class BottomSheet extends Dialog {
         }
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         Rect rect = new Rect();
-        Drawable mutate = context.getResources().getDrawable(2131166138).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         this.shadowDrawable.getPadding(rect);
@@ -1328,7 +1328,7 @@ public class BottomSheet extends Dialog {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Window window = getWindow();
-        window.setWindowAnimations(2131689477);
+        window.setWindowAnimations(2131689478);
         setContentView(this.container, new ViewGroup.LayoutParams(-1, -1));
         Drawable drawable = null;
         if (this.useLightStatusBar && Build.VERSION.SDK_INT >= 23 && Theme.getColor("actionBarDefault", null, true) == -1) {
@@ -1637,6 +1637,10 @@ public class BottomSheet extends Dialog {
 
     public void setApplyBottomPadding(boolean z) {
         this.applyBottomPadding = z;
+    }
+
+    protected void onDismissWithTouchOutside() {
+        dismiss();
     }
 
     public TextView getTitleView() {

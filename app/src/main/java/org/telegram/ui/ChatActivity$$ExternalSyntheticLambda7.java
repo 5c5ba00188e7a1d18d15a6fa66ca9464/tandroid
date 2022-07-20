@@ -11,6 +11,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda7 implem
 
     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-        this.f$0.lambda$showMentionDownButton$112(valueAnimator);
+        this.f$0.lambda$dimBehindView$77(valueAnimator);
     }
 }

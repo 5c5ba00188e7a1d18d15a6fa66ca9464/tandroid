@@ -233,6 +233,7 @@ import org.telegram.ui.Components.HintView;
 import org.telegram.ui.Components.IdenticonDrawable;
 import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.Premium.GiftPremiumBottomSheet;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet;
 import org.telegram.ui.Components.Premium.ProfilePremiumCell;
@@ -242,6 +243,7 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScamDrawable;
+import org.telegram.ui.Components.ShareAlert;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.StickerEmptyView;
@@ -1548,7 +1550,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.navigationBarAnimationColorFrom = 0;
         this.HEADER_SHADOW = new AnonymousClass2("headerShadow");
         this.provider = new AnonymousClass3();
-        this.ACTIONBAR_HEADER_PROGRESS = new AnonymousClass28("animationProgress");
+        this.ACTIONBAR_HEADER_PROGRESS = new AnonymousClass29("animationProgress");
         this.scrimAnimatorSet = null;
         this.savedScrollPosition = -1;
         this.sharedMediaPreloader = sharedMediaPreloader;
@@ -1836,9 +1838,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         anonymousClass7.setLayoutParams(new RecyclerView.LayoutParams(-1, -1));
         ActionBarMenu createMenu = this.actionBar.createMenu();
         if (this.userId == getUserConfig().clientUserId) {
-            ActionBarMenuItem addItem = createMenu.addItem(37, 2131165884, getResourceProvider());
+            ActionBarMenuItem addItem = createMenu.addItem(37, 2131165886, getResourceProvider());
             this.qrItem = addItem;
-            addItem.setContentDescription(LocaleController.getString("GetQRCode", 2131626056));
+            addItem.setContentDescription(LocaleController.getString("GetQRCode", 2131626097));
             updateQrItemVisibility(false);
             if (ContactsController.getInstance(this.currentAccount).getPrivacyRules(7) == null) {
                 ContactsController.getInstance(this.currentAccount).loadPrivacySettings();
@@ -1847,37 +1849,37 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (this.imageUpdater != null) {
             ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(32, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass8());
             this.searchItem = actionBarMenuItemSearchListener;
-            actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("SearchInSettings", 2131628116));
-            this.searchItem.setSearchFieldHint(LocaleController.getString("SearchInSettings", 2131628116));
+            actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("SearchInSettings", 2131628178));
+            this.searchItem.setSearchFieldHint(LocaleController.getString("SearchInSettings", 2131628178));
             this.sharedMediaLayout.getSearchItem().setVisibility(8);
             if (this.expandPhoto) {
                 this.searchItem.setVisibility(8);
             }
         }
-        ActionBarMenuItem addItem2 = createMenu.addItem(16, 2131166097);
+        ActionBarMenuItem addItem2 = createMenu.addItem(16, 2131166099);
         this.videoCallItem = addItem2;
-        addItem2.setContentDescription(LocaleController.getString("VideoCall", 2131628881));
+        addItem2.setContentDescription(LocaleController.getString("VideoCall", 2131628953));
         if (this.chatId != 0) {
-            this.callItem = createMenu.addItem(15, 2131165985);
+            this.callItem = createMenu.addItem(15, 2131165987);
             if (ChatObject.isChannelOrGiga(this.currentChat)) {
-                this.callItem.setContentDescription(LocaleController.getString("VoipChannelVoiceChat", 2131629000));
+                this.callItem.setContentDescription(LocaleController.getString("VoipChannelVoiceChat", 2131629074));
             } else {
-                this.callItem.setContentDescription(LocaleController.getString("VoipGroupVoiceChat", 2131629130));
+                this.callItem.setContentDescription(LocaleController.getString("VoipGroupVoiceChat", 2131629204));
             }
         } else {
             ActionBarMenuItem addItem3 = createMenu.addItem(15, 2131165464);
             this.callItem = addItem3;
-            addItem3.setContentDescription(LocaleController.getString("Call", 2131624779));
+            addItem3.setContentDescription(LocaleController.getString("Call", 2131624792));
         }
         ActionBarMenuItem addItem4 = createMenu.addItem(12, 2131165440);
         this.editItem = addItem4;
-        addItem4.setContentDescription(LocaleController.getString("Edit", 2131625537));
+        addItem4.setContentDescription(LocaleController.getString("Edit", 2131625553));
         this.otherItem = createMenu.addItem(10, 2131165453, this.resourcesProvider);
         ImageView imageView = new ImageView(context);
         this.ttlIconView = imageView;
         imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("actionBarDefaultIcon"), PorterDuff.Mode.MULTIPLY));
         AndroidUtilities.updateViewVisibilityAnimated(this.ttlIconView, false, 0.8f, false);
-        this.ttlIconView.setImageResource(2131165803);
+        this.ttlIconView.setImageResource(2131165804);
         this.otherItem.addView(this.ttlIconView, LayoutHelper.createFrame(12, 12.0f, 19, 8.0f, 2.0f, 0.0f, 0.0f));
         this.otherItem.setContentDescription(LocaleController.getString("AccDescrMoreOptions", 2131624003));
         if (this.listView == null || this.imageUpdater == null) {
@@ -1971,7 +1973,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             textView.setTextSize(1, 15.0f);
             textView.setGravity(17);
             textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-            textView.setText(LocaleController.getString("BanFromTheGroup", 2131624664));
+            textView.setText(LocaleController.getString("BanFromTheGroup", 2131624675));
             anonymousClass15.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 1.0f, 0.0f, 0.0f));
             this.listView.setPadding(0, AndroidUtilities.dp(88.0f), 0, AndroidUtilities.dp(48.0f));
             this.listView.setBottomGlowOffset(AndroidUtilities.dp(48.0f));
@@ -2015,6 +2017,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         TimerDrawable timerDrawable = new TimerDrawable(context, resourcesProvider);
         this.timerDrawable = timerDrawable;
         imageView3.setImageDrawable(timerDrawable);
+        this.timeItem.setTranslationY(-1.0f);
         frameLayout.addView(this.timeItem, LayoutHelper.createFrame(34, 34, 51));
         showAvatarProgress(false, false);
         ProfileGalleryView profileGalleryView = this.avatarsViewPager;
@@ -2110,12 +2113,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.writeButton.setContentDescription(LocaleController.getString("AccDescrChangeProfilePicture", 2131623974));
                 this.writeButton.setPadding(AndroidUtilities.dp(2.0f), 0, 0, AndroidUtilities.dp(2.0f));
             } else {
-                this.writeButton.setImageResource(2131166095);
+                this.writeButton.setImageResource(2131166097);
                 this.writeButton.setContentDescription(LocaleController.getString("AccDescrOpenChat", 2131624028));
             }
         } else {
-            this.writeButton.setImageResource(2131166094);
-            this.writeButton.setContentDescription(LocaleController.getString("ViewDiscussion", 2131628914));
+            this.writeButton.setImageResource(2131166096);
+            this.writeButton.setContentDescription(LocaleController.getString("ViewDiscussion", 2131628987));
         }
         this.writeButton.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_actionIcon"), PorterDuff.Mode.MULTIPLY));
         this.writeButton.setScaleType(ImageView.ScaleType.CENTER);
@@ -2195,10 +2198,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         AlertsCreator.showBlockReportSpamAlert(profileActivity, profileActivity.userId, user, null, ProfileActivity.this.currentEncryptedChat, false, null, new ProfileActivity$5$$ExternalSyntheticLambda9(this), ProfileActivity.this.resourcesProvider);
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
-                        builder.setTitle(LocaleController.getString("BlockUser", 2131624679));
-                        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AreYouSureBlockContact2", 2131624422, ContactsController.formatName(user.first_name, user.last_name))));
-                        builder.setPositiveButton(LocaleController.getString("BlockContact", 2131624678), new ProfileActivity$5$$ExternalSyntheticLambda0(this));
-                        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                        builder.setTitle(LocaleController.getString("BlockUser", 2131624690));
+                        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AreYouSureBlockContact2", 2131624433, ContactsController.formatName(user.first_name, user.last_name))));
+                        builder.setPositiveButton(LocaleController.getString("BlockContact", 2131624689), new ProfileActivity$5$$ExternalSyntheticLambda0(this));
+                        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                         AlertDialog create = builder.create();
                         ProfileActivity.this.showDialog(create);
                         TextView textView = (TextView) create.getButton(-1);
@@ -2225,8 +2228,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 Bundle bundle2 = new Bundle();
                 bundle2.putBoolean("onlySelect", true);
                 bundle2.putInt("dialogsType", 3);
-                bundle2.putString("selectAlertString", LocaleController.getString("SendContactToText", 2131628182));
-                bundle2.putString("selectAlertStringGroup", LocaleController.getString("SendContactToGroupText", 2131628181));
+                bundle2.putString("selectAlertString", LocaleController.getString("SendContactToText", 2131628244));
+                bundle2.putString("selectAlertStringGroup", LocaleController.getString("SendContactToGroupText", 2131628243));
                 DialogsActivity dialogsActivity = new DialogsActivity(bundle2);
                 dialogsActivity.setDelegate(ProfileActivity.this);
                 ProfileActivity.this.presentFragment(dialogsActivity);
@@ -2241,10 +2244,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     return;
                 }
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
-                builder2.setTitle(LocaleController.getString("DeleteContact", 2131625398));
-                builder2.setMessage(LocaleController.getString("AreYouSureDeleteContact", 2131624438));
-                builder2.setPositiveButton(LocaleController.getString("Delete", 2131625368), new ProfileActivity$5$$ExternalSyntheticLambda4(this, user3));
-                builder2.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                builder2.setTitle(LocaleController.getString("DeleteContact", 2131625414));
+                builder2.setMessage(LocaleController.getString("AreYouSureDeleteContact", 2131624449));
+                builder2.setPositiveButton(LocaleController.getString("Delete", 2131625384), new ProfileActivity$5$$ExternalSyntheticLambda4(this, user3));
+                builder2.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 AlertDialog create2 = builder2.create();
                 ProfileActivity.this.showDialog(create2);
                 TextView textView2 = (TextView) create2.getButton(-1);
@@ -2303,7 +2306,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     Intent intent = new Intent("android.intent.action.SEND");
                     intent.setType("text/plain");
                     intent.putExtra("android.intent.extra.TEXT", str2);
-                    ProfileActivity.this.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("BotShare", 2131624734)), 500);
+                    ProfileActivity.this.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("BotShare", 2131624745)), 500);
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
@@ -2359,12 +2362,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 ProfileActivity.this.presentFragment(new StatisticActivity(bundle7));
             } else if (i == 22) {
                 ProfileActivity.this.openDiscussion();
+            } else if (i == 38) {
+                ProfileActivity profileActivity6 = ProfileActivity.this;
+                ProfileActivity profileActivity7 = ProfileActivity.this;
+                profileActivity6.showDialog(new GiftPremiumBottomSheet(profileActivity7, profileActivity7.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId))));
             } else if (i == 20) {
                 AlertDialog.Builder builder3 = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
-                builder3.setTitle(LocaleController.getString("AreYouSureSecretChatTitle", 2131624462));
-                builder3.setMessage(LocaleController.getString("AreYouSureSecretChat", 2131624461));
-                builder3.setPositiveButton(LocaleController.getString("Start", 2131628413), new ProfileActivity$5$$ExternalSyntheticLambda2(this));
-                builder3.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                builder3.setTitle(LocaleController.getString("AreYouSureSecretChatTitle", 2131624473));
+                builder3.setMessage(LocaleController.getString("AreYouSureSecretChat", 2131624472));
+                builder3.setPositiveButton(LocaleController.getString("Start", 2131628476), new ProfileActivity$5$$ExternalSyntheticLambda2(this));
+                builder3.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 ProfileActivity.this.showDialog(builder3.create());
             } else if (i == 21) {
                 if (ProfileActivity.this.getParentActivity() == null) {
@@ -2393,8 +2400,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 ProfileActivity.this.getParentActivity().requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
             } else if (i == 30) {
-                ProfileActivity profileActivity6 = ProfileActivity.this;
-                profileActivity6.presentFragment(new ChangeNameActivity(profileActivity6.resourcesProvider));
+                ProfileActivity profileActivity8 = ProfileActivity.this;
+                profileActivity8.presentFragment(new ChangeNameActivity(profileActivity8.resourcesProvider));
             } else if (i == 31) {
                 ProfileActivity.this.presentFragment(new LogoutActivity());
             } else if (i == 33) {
@@ -2462,14 +2469,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     return;
                 }
                 if (imageLocation3.imageType == 2) {
-                    builder4.setTitle(LocaleController.getString("AreYouSureDeleteVideoTitle", 2131624458));
-                    builder4.setMessage(LocaleController.formatString("AreYouSureDeleteVideo", 2131624456, new Object[0]));
+                    builder4.setTitle(LocaleController.getString("AreYouSureDeleteVideoTitle", 2131624469));
+                    builder4.setMessage(LocaleController.formatString("AreYouSureDeleteVideo", 2131624467, new Object[0]));
                 } else {
-                    builder4.setTitle(LocaleController.getString("AreYouSureDeletePhotoTitle", 2131624447));
-                    builder4.setMessage(LocaleController.formatString("AreYouSureDeletePhoto", 2131624445, new Object[0]));
+                    builder4.setTitle(LocaleController.getString("AreYouSureDeletePhotoTitle", 2131624458));
+                    builder4.setMessage(LocaleController.formatString("AreYouSureDeletePhoto", 2131624456, new Object[0]));
                 }
-                builder4.setPositiveButton(LocaleController.getString("Delete", 2131625368), new ProfileActivity$5$$ExternalSyntheticLambda1(this));
-                builder4.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                builder4.setPositiveButton(LocaleController.getString("Delete", 2131625384), new ProfileActivity$5$$ExternalSyntheticLambda1(this));
+                builder4.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 AlertDialog create3 = builder4.create();
                 ProfileActivity.this.showDialog(create3);
                 TextView textView3 = (TextView) create3.getButton(-1);
@@ -2516,10 +2523,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
-            builder.setTitle(LocaleController.getString("AddBot", 2131624250));
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", 2131624271, UserObject.getUserName(tLRPC$User), chat == null ? "" : chat.title)));
-            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
-            builder.setPositiveButton(LocaleController.getString("AddBot", 2131624250), new ProfileActivity$5$$ExternalSyntheticLambda3(this, longValue, dialogsActivity2, tLRPC$User));
+            builder.setTitle(LocaleController.getString("AddBot", 2131624255));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", 2131624279, UserObject.getUserName(tLRPC$User), chat == null ? "" : chat.title)));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+            builder.setPositiveButton(LocaleController.getString("AddBot", 2131624255), new ProfileActivity$5$$ExternalSyntheticLambda3(this, longValue, dialogsActivity2, tLRPC$User));
             ProfileActivity.this.showDialog(builder.create());
         }
 
@@ -3441,9 +3448,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         } else if (i == this.questionRow) {
             showDialog(AlertsCreator.createSupportAlert(this, this.resourcesProvider));
         } else if (i == this.faqRow) {
-            Browser.openUrl(getParentActivity(), LocaleController.getString("TelegramFaqUrl", 2131628563));
+            Browser.openUrl(getParentActivity(), LocaleController.getString("TelegramFaqUrl", 2131628626));
         } else if (i == this.policyRow) {
-            Browser.openUrl(getParentActivity(), LocaleController.getString("PrivacyPolicyUrl", 2131627730));
+            Browser.openUrl(getParentActivity(), LocaleController.getString("PrivacyPolicyUrl", 2131627787));
         } else if (i == this.sendLogsRow) {
             sendLogs(false);
         } else if (i == this.sendLastLogsRow) {
@@ -3455,10 +3462,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
-            builder.setMessage(LocaleController.getString("AreYouSure", 2131624421));
-            builder.setTitle(LocaleController.getString("AppName", 2131624375));
-            builder.setPositiveButton(LocaleController.getString("OK", 2131627075), new ProfileActivity$$ExternalSyntheticLambda4(this));
-            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+            builder.setMessage(LocaleController.getString("AreYouSure", 2131624432));
+            builder.setTitle(LocaleController.getString("AppName", 2131624384));
+            builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new ProfileActivity$$ExternalSyntheticLambda4(this));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             showDialog(builder.create());
         } else if (i == this.languageRow) {
             presentFragment(new LanguageSelectActivity());
@@ -3591,43 +3598,43 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.pressCount = i6;
             if (i6 >= 2 || BuildVars.DEBUG_PRIVATE_VERSION) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
-                builder.setTitle(LocaleController.getString("DebugMenu", 2131625336));
+                builder.setTitle(LocaleController.getString("DebugMenu", 2131625352));
                 CharSequence[] charSequenceArr = new CharSequence[20];
-                charSequenceArr[0] = LocaleController.getString("DebugMenuImportContacts", 2131625353);
-                charSequenceArr[1] = LocaleController.getString("DebugMenuReloadContacts", 2131625355);
-                charSequenceArr[2] = LocaleController.getString("DebugMenuResetContacts", 2131625356);
-                charSequenceArr[3] = LocaleController.getString("DebugMenuResetDialogs", 2131625357);
+                charSequenceArr[0] = LocaleController.getString("DebugMenuImportContacts", 2131625369);
+                charSequenceArr[1] = LocaleController.getString("DebugMenuReloadContacts", 2131625371);
+                charSequenceArr[2] = LocaleController.getString("DebugMenuResetContacts", 2131625372);
+                charSequenceArr[3] = LocaleController.getString("DebugMenuResetDialogs", 2131625373);
                 if (BuildVars.DEBUG_VERSION) {
                     str = null;
                 } else {
                     if (BuildVars.LOGS_ENABLED) {
-                        i5 = 2131625343;
+                        i5 = 2131625359;
                         str8 = "DebugMenuDisableLogs";
                     } else {
-                        i5 = 2131625349;
+                        i5 = 2131625365;
                         str8 = "DebugMenuEnableLogs";
                     }
                     str = LocaleController.getString(str8, i5);
                 }
                 charSequenceArr[4] = str;
                 if (SharedConfig.inappCamera) {
-                    i2 = 2131625341;
+                    i2 = 2131625357;
                     str2 = "DebugMenuDisableCamera";
                 } else {
-                    i2 = 2131625347;
+                    i2 = 2131625363;
                     str2 = "DebugMenuEnableCamera";
                 }
                 charSequenceArr[5] = LocaleController.getString(str2, i2);
-                charSequenceArr[6] = LocaleController.getString("DebugMenuClearMediaCache", 2131625339);
-                charSequenceArr[7] = LocaleController.getString("DebugMenuCallSettings", 2131625337);
+                charSequenceArr[6] = LocaleController.getString("DebugMenuClearMediaCache", 2131625355);
+                charSequenceArr[7] = LocaleController.getString("DebugMenuCallSettings", 2131625353);
                 charSequenceArr[8] = null;
-                charSequenceArr[9] = (BuildVars.DEBUG_PRIVATE_VERSION || BuildVars.isStandaloneApp()) ? LocaleController.getString("DebugMenuCheckAppUpdate", 2131625338) : null;
-                charSequenceArr[10] = LocaleController.getString("DebugMenuReadAllDialogs", 2131625354);
+                charSequenceArr[9] = (BuildVars.DEBUG_PRIVATE_VERSION || BuildVars.isStandaloneApp()) ? LocaleController.getString("DebugMenuCheckAppUpdate", 2131625354) : null;
+                charSequenceArr[10] = LocaleController.getString("DebugMenuReadAllDialogs", 2131625370);
                 if (SharedConfig.pauseMusicOnRecord) {
-                    i3 = 2131625344;
+                    i3 = 2131625360;
                     str3 = "DebugMenuDisablePauseMusic";
                 } else {
-                    i3 = 2131625350;
+                    i3 = 2131625366;
                     str3 = "DebugMenuEnablePauseMusic";
                 }
                 charSequenceArr[11] = LocaleController.getString(str3, i3);
@@ -3635,10 +3642,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     str4 = null;
                 } else {
                     if (SharedConfig.smoothKeyboard) {
-                        i4 = 2131625345;
+                        i4 = 2131625361;
                         str7 = "DebugMenuDisableSmoothKeyboard";
                     } else {
-                        i4 = 2131625351;
+                        i4 = 2131625367;
                         str7 = "DebugMenuEnableSmoothKeyboard";
                     }
                     str4 = LocaleController.getString(str7, i4);
@@ -3651,20 +3658,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 charSequenceArr[15] = z ? "Clean app update" : null;
                 charSequenceArr[16] = z ? "Reset suggestions" : null;
                 if (z) {
-                    str5 = LocaleController.getString(SharedConfig.forceRtmpStream ? 2131625342 : 2131625348);
+                    str5 = LocaleController.getString(SharedConfig.forceRtmpStream ? 2131625358 : 2131625364);
                 } else {
                     str5 = null;
                 }
                 charSequenceArr[17] = str5;
-                charSequenceArr[18] = BuildVars.DEBUG_PRIVATE_VERSION ? LocaleController.getString(2131625340) : null;
+                charSequenceArr[18] = BuildVars.DEBUG_PRIVATE_VERSION ? LocaleController.getString(2131625356) : null;
                 if (i7 >= 19) {
-                    str6 = LocaleController.getString(SharedConfig.debugWebView ? 2131625346 : 2131625352);
+                    str6 = LocaleController.getString(SharedConfig.debugWebView ? 2131625362 : 2131625368);
                 } else {
                     str6 = null;
                 }
                 charSequenceArr[19] = str6;
                 builder.setItems(charSequenceArr, new ProfileActivity$13$$ExternalSyntheticLambda0(this));
-                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 ProfileActivity.this.showDialog(builder.create());
             } else {
                 try {
@@ -3754,7 +3761,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (i != 19) {
             } else {
                 SharedConfig.toggleDebugWebView();
-                Toast.makeText(ProfileActivity.this.getParentActivity(), LocaleController.getString(SharedConfig.debugWebView ? 2131625359 : 2131625358), 0).show();
+                Toast.makeText(ProfileActivity.this.getParentActivity(), LocaleController.getString(SharedConfig.debugWebView ? 2131625375 : 2131625374), 0).show();
             }
         }
     }
@@ -3816,10 +3823,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
-        builder.setTitle(LocaleController.getString("AppName", 2131624375));
-        builder.setMessage(LocaleController.getString("ClearSearch", 2131625153));
-        builder.setPositiveButton(LocaleController.getString("ClearButton", 2131625132).toUpperCase(), new ProfileActivity$$ExternalSyntheticLambda5(this));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+        builder.setTitle(LocaleController.getString("AppName", 2131624384));
+        builder.setMessage(LocaleController.getString("ClearSearch", 2131625169));
+        builder.setPositiveButton(LocaleController.getString("ClearButton", 2131625146).toUpperCase(), new ProfileActivity$$ExternalSyntheticLambda5(this));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         showDialog(builder.create());
         return true;
     }
@@ -3936,7 +3943,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (Build.VERSION.SDK_INT < 21) {
                     return;
                 }
-                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", 2131627090)));
+                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", 2131627142)));
                 accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(32, LocaleController.getString("AccDescrOpenInPhotoViewer", 2131624029)));
                 return;
             }
@@ -4538,10 +4545,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     return true;
                 }
                 if (z3) {
-                    i = 2131625557;
+                    i = 2131625573;
                     str = "EditAdminRights";
                 } else {
-                    i = 2131628238;
+                    i = 2131628300;
                     str = "SetAsAdmin";
                 }
                 arrayList2.add(LocaleController.getString(str, i));
@@ -4552,8 +4559,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (z2) {
                     return true;
                 }
-                arrayList2.add(LocaleController.getString("ChangePermissions", 2131624856));
-                arrayList3.add(2131165841);
+                arrayList2.add(LocaleController.getString("ChangePermissions", 2131624869));
+                arrayList3.add(2131165842);
                 arrayList.add(1);
             }
             if (!z6) {
@@ -4561,8 +4568,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (z2) {
                 return true;
             } else {
-                arrayList2.add(LocaleController.getString("KickFromGroup", 2131626344));
-                arrayList3.add(2131165892);
+                arrayList2.add(LocaleController.getString("KickFromGroup", 2131626391));
+                arrayList3.add(2131165894);
                 arrayList.add(2);
                 z7 = true;
             }
@@ -4603,10 +4610,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
-        builder.setTitle(LocaleController.getString("AppName", 2131624375));
-        builder.setMessage(LocaleController.formatString("AdminWillBeRemoved", 2131624306, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name)));
-        builder.setPositiveButton(LocaleController.getString("OK", 2131627075), new ProfileActivity$$ExternalSyntheticLambda9(this, tLRPC$ChannelParticipant, intValue, tLRPC$User, tLRPC$ChatParticipant, z));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+        builder.setTitle(LocaleController.getString("AppName", 2131624384));
+        builder.setMessage(LocaleController.formatString("AdminWillBeRemoved", 2131624315, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name)));
+        builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new ProfileActivity$$ExternalSyntheticLambda9(this, tLRPC$ChannelParticipant, intValue, tLRPC$User, tLRPC$ChatParticipant, z));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         showDialog(builder.create());
     }
 
@@ -4758,9 +4765,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     public boolean processOnClickOrPress(int i, View view) {
         String str;
-        String str2;
         TLRPC$Chat chat;
-        String str3;
+        String str2;
         TLRPC$UserFull tLRPC$UserFull;
         if (i == this.usernameRow || i == this.setUsernameRow) {
             if (this.userId != 0) {
@@ -4771,23 +4777,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (this.chatId == 0 || (chat = getMessagesController().getChat(Long.valueOf(this.chatId))) == null || (str = chat.username) == null) {
                 return false;
             }
-            try {
-                ClipboardManager clipboardManager = (ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard");
-                if (this.userId != 0) {
-                    str2 = "@" + str;
-                    BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("UsernameCopied", 2131628846), this.resourcesProvider).show();
-                } else {
-                    str2 = "https://" + MessagesController.getInstance(UserConfig.selectedAccount).linkPrefix + "/" + str;
-                    BulletinFactory.of(this).createCopyLinkBulletin(LocaleController.getString("LinkCopied", 2131626433), this.resourcesProvider).show();
+            if (this.userId == 0) {
+                String str3 = "https://" + MessagesController.getInstance(UserConfig.selectedAccount).linkPrefix + "/" + str;
+                showDialog(new AnonymousClass28(getParentActivity(), null, str3, false, str3, false));
+            } else {
+                try {
+                    BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("UsernameCopied", 2131628918), this.resourcesProvider).show();
+                    ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", "@" + str));
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
-                clipboardManager.setPrimaryClip(ClipData.newPlainText("label", str2));
-            } catch (Exception e) {
-                FileLog.e(e);
             }
             return true;
         } else if (i == this.phoneRow || i == this.numberRow) {
             TLRPC$User user2 = getMessagesController().getUser(Long.valueOf(this.userId));
-            if (user2 == null || (str3 = user2.phone) == null || str3.length() == 0 || getParentActivity() == null) {
+            if (user2 == null || (str2 = user2.phone) == null || str2.length() == 0 || getParentActivity() == null) {
                 return false;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
@@ -4796,17 +4800,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i == this.phoneRow) {
                 TLRPC$UserFull tLRPC$UserFull2 = this.userInfo;
                 if (tLRPC$UserFull2 != null && tLRPC$UserFull2.phone_calls_available) {
-                    arrayList.add(LocaleController.getString("CallViaTelegram", 2131624804));
+                    arrayList.add(LocaleController.getString("CallViaTelegram", 2131624817));
                     arrayList2.add(2);
                     if (Build.VERSION.SDK_INT >= 18 && this.userInfo.video_calls_available) {
-                        arrayList.add(LocaleController.getString("VideoCallViaTelegram", 2131628884));
+                        arrayList.add(LocaleController.getString("VideoCallViaTelegram", 2131628956));
                         arrayList2.add(3);
                     }
                 }
-                arrayList.add(LocaleController.getString("Call", 2131624779));
+                arrayList.add(LocaleController.getString("Call", 2131624792));
                 arrayList2.add(0);
             }
-            arrayList.add(LocaleController.getString("Copy", 2131625256));
+            arrayList.add(LocaleController.getString("Copy", 2131625272));
             arrayList2.add(1);
             builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), new ProfileActivity$$ExternalSyntheticLambda8(this, arrayList2, user2));
             showDialog(builder.create());
@@ -4864,6 +4868,25 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    /* renamed from: org.telegram.ui.ProfileActivity$28 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass28 extends ShareAlert {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        AnonymousClass28(Context context, ArrayList arrayList, String str, boolean z, String str2, boolean z2) {
+            super(context, arrayList, str, z, str2, z2);
+            ProfileActivity.this = r8;
+        }
+
+        @Override // org.telegram.ui.Components.ShareAlert
+        protected void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i) {
+            AndroidUtilities.runOnUIThread(new ProfileActivity$28$$ExternalSyntheticLambda0(this, longSparseArray, i), 250L);
+        }
+
+        public /* synthetic */ void lambda$onSend$0(LongSparseArray longSparseArray, int i) {
+            BulletinFactory.createInviteSentBulletin(ProfileActivity.this.getParentActivity(), ProfileActivity.this.contentView, longSparseArray.size(), longSparseArray.size() == 1 ? ((TLRPC$Dialog) longSparseArray.valueAt(0)).id : 0L, i, getThemedColor("undo_background"), getThemedColor("undo_infoColor")).show();
+        }
+    }
+
     public /* synthetic */ void lambda$processOnClickOrPress$19(ArrayList arrayList, TLRPC$User tLRPC$User, DialogInterface dialogInterface, int i) {
         int intValue = ((Integer) arrayList.get(i)).intValue();
         if (intValue == 0) {
@@ -4887,7 +4910,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (Build.VERSION.SDK_INT >= 31) {
                     return;
                 }
-                BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("PhoneCopied", 2131627488)).show();
+                BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("PhoneCopied", 2131627540)).show();
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
@@ -4899,7 +4922,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
-        builder.setItems(zArr[0] ? new CharSequence[]{LocaleController.getString("Copy", 2131625256), LocaleController.getString("TranslateMessage", 2131628691)} : new CharSequence[]{LocaleController.getString("Copy", 2131625256)}, new ProfileActivity$$ExternalSyntheticLambda6(this, str, i, strArr, str2));
+        builder.setItems(zArr[0] ? new CharSequence[]{LocaleController.getString("Copy", 2131625272), LocaleController.getString("TranslateMessage", 2131628758)} : new CharSequence[]{LocaleController.getString("Copy", 2131625272)}, new ProfileActivity$$ExternalSyntheticLambda6(this, str, i, strArr, str2));
         showDialog(builder.create());
     }
 
@@ -4908,9 +4931,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i2 == 0) {
                 AndroidUtilities.addToClipboard(str);
                 if (i == this.bioRow) {
-                    BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("BioCopied", 2131624672)).show();
+                    BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("BioCopied", 2131624683)).show();
                 } else {
-                    BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("TextCopied", 2131628595)).show();
+                    BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("TextCopied", 2131628662)).show();
                 }
             } else if (i2 != 1) {
             } else {
@@ -5014,11 +5037,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         updateListAnimated(true);
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$28 */
+    /* renamed from: org.telegram.ui.ProfileActivity$29 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass28 extends AnimationProperties.FloatProperty<ActionBar> {
+    public class AnonymousClass29 extends AnimationProperties.FloatProperty<ActionBar> {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass28(String str) {
+        AnonymousClass29(String str) {
             super(str);
             ProfileActivity.this = r1;
         }
@@ -5190,18 +5213,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.headerAnimatorSet = animatorSet3;
         animatorSet3.playTogether(arrayList);
         this.headerAnimatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.headerAnimatorSet.addListener(new AnonymousClass29(searchItem));
+        this.headerAnimatorSet.addListener(new AnonymousClass30(searchItem));
         this.headerAnimatorSet.setDuration(150L);
         this.headerAnimatorSet.start();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, Boolean.TRUE);
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$29 */
+    /* renamed from: org.telegram.ui.ProfileActivity$30 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass29 extends AnimatorListenerAdapter {
+    public class AnonymousClass30 extends AnimatorListenerAdapter {
         final /* synthetic */ ActionBarMenuItem val$mediaSearchItem;
 
-        AnonymousClass29(ActionBarMenuItem actionBarMenuItem) {
+        AnonymousClass30(ActionBarMenuItem actionBarMenuItem) {
             ProfileActivity.this = r1;
             this.val$mediaSearchItem = actionBarMenuItem;
         }
@@ -5237,11 +5260,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             ProfileActivity.this.headerAnimatorSet = null;
         }
 
-        /* renamed from: org.telegram.ui.ProfileActivity$29$1 */
+        /* renamed from: org.telegram.ui.ProfileActivity$30$1 */
         /* loaded from: classes3.dex */
         class AnonymousClass1 extends AnimatorListenerAdapter {
             AnonymousClass1() {
-                AnonymousClass29.this = r1;
+                AnonymousClass30.this = r1;
             }
 
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -5458,7 +5481,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 this.writeButtonAnimation.playTogether(ObjectAnimator.ofFloat(this.writeButton, View.SCALE_X, 0.2f), ObjectAnimator.ofFloat(this.writeButton, View.SCALE_Y, 0.2f), ObjectAnimator.ofFloat(this.writeButton, View.ALPHA, 0.0f));
                             }
                             this.writeButtonAnimation.setDuration(150L);
-                            this.writeButtonAnimation.addListener(new AnonymousClass30());
+                            this.writeButtonAnimation.addListener(new AnonymousClass31());
                             this.writeButtonAnimation.start();
                         } else {
                             this.writeButton.setScaleX(z2 ? 1.0f : 0.2f);
@@ -5524,7 +5547,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         fArr[0] = lerp;
                         fArr[1] = 1.0f;
                         this.expandAnimator.setDuration(((1.0f - lerp) * 250.0f) / min2);
-                        this.expandAnimator.addListener(new AnonymousClass31());
+                        this.expandAnimator.addListener(new AnonymousClass32());
                         this.expandAnimator.start();
                     }
                     ViewGroup.LayoutParams layoutParams2 = this.avatarsViewPager.getLayoutParams();
@@ -5697,10 +5720,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$30 */
+    /* renamed from: org.telegram.ui.ProfileActivity$31 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass30 extends AnimatorListenerAdapter {
-        AnonymousClass30() {
+    public class AnonymousClass31 extends AnimatorListenerAdapter {
+        AnonymousClass31() {
             ProfileActivity.this = r1;
         }
 
@@ -5713,10 +5736,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$31 */
+    /* renamed from: org.telegram.ui.ProfileActivity$32 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass31 extends AnimatorListenerAdapter {
-        AnonymousClass31() {
+    public class AnonymousClass32 extends AnimatorListenerAdapter {
+        AnonymousClass32() {
             ProfileActivity.this = r1;
         }
 
@@ -5765,7 +5788,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.qrItemAnimation.playTogether(ObjectAnimator.ofFloat(this.qrItem, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.qrItem, View.SCALE_Y, 0.0f), ObjectAnimator.ofFloat(this.avatarsViewPagerIndicatorView, View.TRANSLATION_X, 0.0f));
             }
             this.qrItemAnimation.setDuration(150L);
-            this.qrItemAnimation.addListener(new AnonymousClass32());
+            this.qrItemAnimation.addListener(new AnonymousClass33());
             this.qrItemAnimation.start();
             return;
         }
@@ -5787,10 +5810,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         actionBarMenuItem2.setVisibility(i);
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$32 */
+    /* renamed from: org.telegram.ui.ProfileActivity$33 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass32 extends AnimatorListenerAdapter {
-        AnonymousClass32() {
+    public class AnonymousClass33 extends AnimatorListenerAdapter {
+        AnonymousClass33() {
             ProfileActivity.this = r1;
         }
 
@@ -5896,13 +5919,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (view == null) {
             return;
         }
-        view.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass33());
+        view.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass34());
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$33 */
+    /* renamed from: org.telegram.ui.ProfileActivity$34 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass33 implements ViewTreeObserver.OnPreDrawListener {
-        AnonymousClass33() {
+    public class AnonymousClass34 implements ViewTreeObserver.OnPreDrawListener {
+        AnonymousClass34() {
             ProfileActivity.this = r1;
         }
 
@@ -6260,7 +6283,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         ImageUpdater imageUpdater = this.imageUpdater;
         if (imageUpdater != null) {
             imageUpdater.onResume();
-            setParentActivityTitle(LocaleController.getString("Settings", 2131628259));
+            setParentActivityTitle(LocaleController.getString("Settings", 2131628321));
         }
         updateProfileData(true);
         fixLayout();
@@ -6703,7 +6726,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         ofFloat.addUpdateListener(new ProfileActivity$$ExternalSyntheticLambda0(this));
         animatorSet.playTogether(ofFloat);
-        animatorSet.addListener(new AnonymousClass34(runnable));
+        animatorSet.addListener(new AnonymousClass35(runnable));
         animatorSet.setInterpolator(this.playProfileAnimation == 2 ? CubicBezierInterpolator.DEFAULT : new DecelerateInterpolator());
         AndroidUtilities.runOnUIThread(new ProfileActivity$$ExternalSyntheticLambda18(animatorSet), 50L);
         return animatorSet;
@@ -6713,12 +6736,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.fragmentView.invalidate();
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$34 */
+    /* renamed from: org.telegram.ui.ProfileActivity$35 */
     /* loaded from: classes3.dex */
-    class AnonymousClass34 extends AnimatorListenerAdapter {
+    class AnonymousClass35 extends AnimatorListenerAdapter {
         final /* synthetic */ Runnable val$callback;
 
-        AnonymousClass34(Runnable runnable) {
+        AnonymousClass35(Runnable runnable) {
             ProfileActivity.this = r1;
             this.val$callback = runnable;
         }
@@ -7447,17 +7470,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (this.verifiedCrossfadeDrawable == null) {
             this.verifiedDrawable = Theme.profile_verifiedDrawable.getConstantState().newDrawable().mutate();
             this.verifiedCheckDrawable = Theme.profile_verifiedCheckDrawable.getConstantState().newDrawable().mutate();
-            this.verifiedCrossfadeDrawable = new CrossfadeDrawable(new CombinedDrawable(this.verifiedDrawable, this.verifiedCheckDrawable), ContextCompat.getDrawable(getParentActivity(), 2131166192));
+            this.verifiedCrossfadeDrawable = new CrossfadeDrawable(new CombinedDrawable(this.verifiedDrawable, this.verifiedCheckDrawable), ContextCompat.getDrawable(getParentActivity(), 2131166194));
         }
         return this.verifiedCrossfadeDrawable;
     }
 
     private Drawable getPremiumCrossfadeDrawable() {
         if (this.premuimCrossfadeDrawable == null) {
-            Drawable mutate = ContextCompat.getDrawable(getParentActivity(), 2131165872).mutate();
+            Drawable mutate = ContextCompat.getDrawable(getParentActivity(), 2131165874).mutate();
             this.premiumStarDrawable = mutate;
             mutate.setColorFilter(getThemedColor("profile_verifiedBackground"), PorterDuff.Mode.MULTIPLY);
-            this.premuimCrossfadeDrawable = new CrossfadeDrawable(this.premiumStarDrawable, ContextCompat.getDrawable(getParentActivity(), 2131165876).mutate());
+            this.premuimCrossfadeDrawable = new CrossfadeDrawable(this.premiumStarDrawable, ContextCompat.getDrawable(getParentActivity(), 2131165878).mutate());
         }
         return this.premuimCrossfadeDrawable;
     }
@@ -7527,13 +7550,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         int connectionState = getConnectionsManager().getConnectionState();
         boolean z5 = true;
         if (connectionState == 2) {
-            charSequence = LocaleController.getString("WaitingForNetwork", 2131629221);
+            charSequence = LocaleController.getString("WaitingForNetwork", 2131629295);
         } else if (connectionState == 1) {
-            charSequence = LocaleController.getString("Connecting", 2131625225);
+            charSequence = LocaleController.getString("Connecting", 2131625241);
         } else if (connectionState == 5) {
-            charSequence = LocaleController.getString("Updating", 2131628769);
+            charSequence = LocaleController.getString("Updating", 2131628841);
         } else {
-            charSequence = connectionState == 4 ? LocaleController.getString("ConnectingToProxy", 2131625227) : null;
+            charSequence = connectionState == 4 ? LocaleController.getString("ConnectingToProxy", 2131625243) : null;
         }
         String str13 = "drawableMuteIcon";
         if (this.userId != 0) {
@@ -7573,15 +7596,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             CharSequence userName = UserObject.getUserName(user);
             if (user.id == getUserConfig().getClientUserId()) {
-                str10 = LocaleController.getString("Online", 2131627080);
+                str10 = LocaleController.getString("Online", 2131627132);
             } else {
                 long j = user.id;
                 if (j == 333000 || j == 777000 || j == 42777) {
-                    str10 = LocaleController.getString("ServiceNotifications", 2131628229);
+                    str10 = LocaleController.getString("ServiceNotifications", 2131628291);
                 } else if (MessagesController.isSupportUser(user)) {
-                    str10 = LocaleController.getString("SupportStatus", 2131628507);
+                    str10 = LocaleController.getString("SupportStatus", 2131628570);
                 } else if (this.isBot) {
-                    str10 = LocaleController.getString("Bot", 2131624704);
+                    str10 = LocaleController.getString("Bot", 2131624715);
                 } else {
                     boolean[] zArr = this.isOnline;
                     zArr[0] = false;
@@ -7624,7 +7647,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     tLRPC$User2 = user;
                                     str11 = str9;
                                     drawable3 = getScamDrawable(!z6 ? 1 : 0);
-                                    this.nameTextViewRightDrawableContentDescription = LocaleController.getString("ScamMessage", 2131628080);
+                                    this.nameTextViewRightDrawableContentDescription = LocaleController.getString("ScamMessage", 2131628142);
                                 } else if (user.verified) {
                                     drawable = getVerifiedCrossfadeDrawable();
                                     str11 = str9;
@@ -7663,7 +7686,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                         }
                                         if (messagesController.isDialogMuted(j3)) {
                                             drawable3 = getThemedDrawable(str13);
-                                            this.nameTextViewRightDrawableContentDescription = LocaleController.getString("NotificationsMuted", 2131627045);
+                                            this.nameTextViewRightDrawableContentDescription = LocaleController.getString("NotificationsMuted", 2131627097);
                                         } else {
                                             this.nameTextViewRightDrawableContentDescription = null;
                                             tLRPC$User = tLRPC$User2;
@@ -7761,11 +7784,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 int i6 = this.chatInfo.participants_count;
                                 if (i6 == 0) {
                                     if (chat.has_geo) {
-                                        lowerCase = LocaleController.getString("MegaLocation", 2131626585).toLowerCase();
+                                        lowerCase = LocaleController.getString("MegaLocation", 2131626632).toLowerCase();
                                     } else if (!TextUtils.isEmpty(chat.username)) {
-                                        lowerCase = LocaleController.getString(str15, 2131626589).toLowerCase();
+                                        lowerCase = LocaleController.getString(str15, 2131626636).toLowerCase();
                                     } else {
-                                        lowerCase = LocaleController.getString("MegaPrivate", 2131626586).toLowerCase();
+                                        lowerCase = LocaleController.getString("MegaPrivate", 2131626633).toLowerCase();
                                     }
                                     str2 = lowerCase;
                                 } else {
@@ -7829,7 +7852,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     boolean z8 = chat.scam;
                                     if (z8 || chat.fake) {
                                         this.nameTextView[i].setRightDrawable(getScamDrawable(!z8 ? 1 : 0));
-                                        this.nameTextViewRightDrawableContentDescription = LocaleController.getString("ScamMessage", 2131628080);
+                                        this.nameTextViewRightDrawableContentDescription = LocaleController.getString("ScamMessage", 2131628142);
                                     } else if (chat.verified) {
                                         this.nameTextView[i].setRightDrawable(getVerifiedCrossfadeDrawable());
                                         this.nameTextViewRightDrawableContentDescription = LocaleController.getString("AccDescrVerified", 2131624102);
@@ -7852,11 +7875,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                         if (!this.currentChat.megagroup) {
                                                             if (this.chatInfo.participants_count == 0) {
                                                                 if (chat.has_geo) {
-                                                                    this.onlineTextView[i].setText(LocaleController.getString("MegaLocation", 2131626585).toLowerCase());
+                                                                    this.onlineTextView[i].setText(LocaleController.getString("MegaLocation", 2131626632).toLowerCase());
                                                                 } else if (!TextUtils.isEmpty(chat.username)) {
-                                                                    this.onlineTextView[i].setText(LocaleController.getString(str15, 2131626589).toLowerCase());
+                                                                    this.onlineTextView[i].setText(LocaleController.getString(str15, 2131626636).toLowerCase());
                                                                 } else {
-                                                                    this.onlineTextView[i].setText(LocaleController.getString("MegaPrivate", 2131626586).toLowerCase());
+                                                                    this.onlineTextView[i].setText(LocaleController.getString("MegaPrivate", 2131626633).toLowerCase());
                                                                 }
                                                             } else {
                                                                 charSequence2 = charSequence3;
@@ -7976,18 +7999,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 charSequence2 = charSequence;
                 if (this.currentChat.megagroup) {
-                    str2 = LocaleController.getString("Loading", 2131626473).toLowerCase();
+                    str2 = LocaleController.getString("Loading", 2131626520).toLowerCase();
                 } else if ((chat.flags & 64) != 0) {
-                    str2 = LocaleController.getString("ChannelPublic", 2131624949).toLowerCase();
+                    str2 = LocaleController.getString("ChannelPublic", 2131624962).toLowerCase();
                 } else {
-                    str2 = LocaleController.getString("ChannelPrivate", 2131624946).toLowerCase();
+                    str2 = LocaleController.getString("ChannelPrivate", 2131624959).toLowerCase();
                 }
             } else {
                 charSequence2 = charSequence;
                 if (ChatObject.isKickedFromChat(chat)) {
-                    str2 = LocaleController.getString("YouWereKicked", 2131629273);
+                    str2 = LocaleController.getString("YouWereKicked", 2131629347);
                 } else if (ChatObject.isLeftFromChat(chat)) {
-                    str2 = LocaleController.getString("YouLeft", 2131629270);
+                    str2 = LocaleController.getString("YouLeft", 2131629344);
                 } else {
                     int i7 = chat.participants_count;
                     TLRPC$ChatFull tLRPC$ChatFull3 = this.chatInfo;
@@ -8045,17 +8068,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         showDialog(premiumPreviewBottomSheet);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0387  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x03c1  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x03d6  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x03dd  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x03f1  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x0414  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x04ca  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x04e1  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x04f8  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x050f  */
-    /* JADX WARN: Removed duplicated region for block: B:229:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x03ba  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x03f4  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x0409  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x0410  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x0424  */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x0447  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x04fd  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x0514  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x052b  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x0542  */
+    /* JADX WARN: Removed duplicated region for block: B:242:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8084,20 +8107,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return;
             }
             if (UserObject.isUserSelf(user)) {
-                this.otherItem.addSubItem(30, 2131165714, LocaleController.getString("EditName", 2131625587));
+                this.otherItem.addSubItem(30, 2131165714, LocaleController.getString("EditName", 2131625603));
                 if (this.imageUpdater == null) {
-                    this.otherItem.addSubItem(36, 2131165633, LocaleController.getString("AddPhoto", 2131624278));
-                    this.otherItem.addSubItem(33, 2131165832, LocaleController.getString("SetAsMain", 2131628240));
-                    this.otherItem.addSubItem(21, 2131165744, LocaleController.getString("SaveToGallery", 2131628069));
-                    this.otherItem.addSubItem(35, 2131165702, LocaleController.getString("Delete", 2131625368));
+                    this.otherItem.addSubItem(36, 2131165633, LocaleController.getString("AddPhoto", 2131624286));
+                    this.otherItem.addSubItem(33, 2131165833, LocaleController.getString("SetAsMain", 2131628302));
+                    this.otherItem.addSubItem(21, 2131165744, LocaleController.getString("SaveToGallery", 2131628131));
+                    this.otherItem.addSubItem(35, 2131165702, LocaleController.getString("Delete", 2131625384));
                 } else {
-                    this.otherItem.addSubItem(21, 2131165744, LocaleController.getString("SaveToGallery", 2131628069));
+                    this.otherItem.addSubItem(21, 2131165744, LocaleController.getString("SaveToGallery", 2131628131));
                 }
                 if (getMessagesController().isChatNoForwards(this.currentChat)) {
                     this.otherItem.hideSubItem(21);
                 }
                 if (z2) {
-                    this.otherItem.addSubItem(31, 2131165774, LocaleController.getString("LogOut", 2131626498));
+                    this.otherItem.addSubItem(31, 2131165775, LocaleController.getString("LogOut", 2131626545));
                 }
                 if (!this.isPulledDown) {
                     this.otherItem.hideSubItem(21);
@@ -8175,36 +8198,36 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (this.isBot || getContactsController().contactsDict.get(Long.valueOf(this.userId)) == null) {
                 if (MessagesController.isSupportUser(user)) {
                     if (this.userBlocked) {
-                        this.otherItem.addSubItem(2, 2131165651, LocaleController.getString("Unblock", 2131628725));
+                        this.otherItem.addSubItem(2, 2131165651, LocaleController.getString("Unblock", 2131628793));
                     }
                 } else {
                     if (this.currentEncryptedChat == null) {
                         createAutoDeleteItem(context);
                     }
                     if (this.isBot) {
-                        this.otherItem.addSubItem(10, 2131165937, LocaleController.getString("BotShare", 2131624734));
+                        this.otherItem.addSubItem(10, 2131165939, LocaleController.getString("BotShare", 2131624745));
                     } else {
-                        this.otherItem.addSubItem(1, 2131165631, LocaleController.getString("AddContact", 2131624259));
+                        this.otherItem.addSubItem(1, 2131165631, LocaleController.getString("AddContact", 2131624264));
                     }
                     if (!TextUtils.isEmpty(user.phone)) {
-                        this.otherItem.addSubItem(3, 2131165937, LocaleController.getString("ShareContact", 2131628272));
+                        this.otherItem.addSubItem(3, 2131165939, LocaleController.getString("ShareContact", 2131628334));
                     }
                     if (this.isBot) {
                         ActionBarMenuItem actionBarMenuItem = this.otherItem;
                         boolean z3 = this.userBlocked;
                         if (z3) {
-                            i3 = 2131165907;
+                            i3 = 2131165909;
                         }
                         if (!z3) {
-                            i2 = 2131624738;
+                            i2 = 2131624749;
                             str2 = "BotStop";
                         } else {
-                            i2 = 2131624730;
+                            i2 = 2131624741;
                             str2 = "BotRestart";
                         }
                         actionBarMenuItem.addSubItem(2, i3, LocaleController.getString(str2, i2));
                     } else {
-                        this.otherItem.addSubItem(2, 2131165651, !this.userBlocked ? LocaleController.getString("BlockContact", 2131624678) : LocaleController.getString("Unblock", 2131628725));
+                        this.otherItem.addSubItem(2, 2131165651, !this.userBlocked ? LocaleController.getString("BlockContact", 2131624689) : LocaleController.getString("Unblock", 2131628793));
                     }
                 }
             } else {
@@ -8212,19 +8235,22 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     createAutoDeleteItem(context);
                 }
                 if (!TextUtils.isEmpty(user.phone)) {
-                    this.otherItem.addSubItem(3, 2131165937, LocaleController.getString("ShareContact", 2131628272));
+                    this.otherItem.addSubItem(3, 2131165939, LocaleController.getString("ShareContact", 2131628334));
                 }
-                this.otherItem.addSubItem(2, 2131165651, !this.userBlocked ? LocaleController.getString("BlockContact", 2131624678) : LocaleController.getString("Unblock", 2131628725));
-                this.otherItem.addSubItem(4, 2131165714, LocaleController.getString("EditContact", 2131625574));
-                this.otherItem.addSubItem(5, 2131165702, LocaleController.getString("DeleteContact", 2131625398));
+                this.otherItem.addSubItem(2, 2131165651, !this.userBlocked ? LocaleController.getString("BlockContact", 2131624689) : LocaleController.getString("Unblock", 2131628793));
+                this.otherItem.addSubItem(4, 2131165714, LocaleController.getString("EditContact", 2131625590));
+                this.otherItem.addSubItem(5, 2131165702, LocaleController.getString("DeleteContact", 2131625414));
             }
             if (!UserObject.isDeleted(user) && !this.isBot && this.currentEncryptedChat == null && !this.userBlocked) {
                 long j = this.userId;
                 if (j != 333000 && j != 777000 && j != 42777) {
-                    this.otherItem.addSubItem(20, 2131165923, LocaleController.getString("StartEncryptedChat", 2131628416));
+                    if (!user.premium && !BuildVars.IS_BILLING_UNAVAILABLE && !user.self && this.userInfo != null && !getMessagesController().premiumLocked && !this.userInfo.premium_gifts.isEmpty()) {
+                        this.otherItem.addSubItem(38, 2131165747, LocaleController.getString(2131626103));
+                    }
+                    this.otherItem.addSubItem(20, 2131165925, LocaleController.getString("StartEncryptedChat", 2131628479));
                 }
             }
-            this.otherItem.addSubItem(14, 2131165761, LocaleController.getString("AddShortcut", 2131624281));
+            this.otherItem.addSubItem(14, 2131165762, LocaleController.getString("AddShortcut", 2131624289));
         } else if (this.chatId != 0) {
             TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
             this.hasVoiceChatItem = false;
@@ -8239,43 +8265,43 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (ChatObject.canManageCalls(chat) && this.chatInfo.call == null) {
                         ActionBarMenuItem actionBarMenuItem2 = this.otherItem;
                         if (!chat.megagroup || chat.gigagroup) {
-                            i = 2131628423;
+                            i = 2131628486;
                             str = "StartVoipChannel";
                         } else {
-                            i = 2131628426;
+                            i = 2131628489;
                             str = "StartVoipChat";
                         }
-                        actionBarMenuItem2.addSubItem(15, 2131165984, LocaleController.getString(str, i));
+                        actionBarMenuItem2.addSubItem(15, 2131165986, LocaleController.getString(str, i));
                         this.hasVoiceChatItem = true;
                     }
                     if (this.chatInfo.can_view_stats) {
-                        this.otherItem.addSubItem(19, 2131165947, LocaleController.getString("Statistics", 2131628437));
+                        this.otherItem.addSubItem(19, 2131165949, LocaleController.getString("Statistics", 2131628500));
                     }
                     this.callItemVisible = getMessagesController().getGroupCall(this.chatId, false) != null;
                 }
                 if (chat.megagroup) {
                     this.canSearchMembers = true;
-                    this.otherItem.addSubItem(17, 2131165922, LocaleController.getString("SearchMembers", 2131628118));
+                    this.otherItem.addSubItem(17, 2131165924, LocaleController.getString("SearchMembers", 2131628180));
                     if (!chat.creator && !chat.left && !chat.kicked) {
-                        this.otherItem.addSubItem(7, 2131165774, LocaleController.getString("LeaveMegaMenu", 2131626395));
+                        this.otherItem.addSubItem(7, 2131165775, LocaleController.getString("LeaveMegaMenu", 2131626442));
                     }
                 } else {
                     if (!TextUtils.isEmpty(chat.username)) {
-                        this.otherItem.addSubItem(10, 2131165937, LocaleController.getString("BotShare", 2131624734));
+                        this.otherItem.addSubItem(10, 2131165939, LocaleController.getString("BotShare", 2131624745));
                     }
                     TLRPC$ChatFull tLRPC$ChatFull = this.chatInfo;
                     if (tLRPC$ChatFull != null && tLRPC$ChatFull.linked_chat_id != 0) {
-                        this.otherItem.addSubItem(22, 2131165708, LocaleController.getString("ViewDiscussion", 2131628914));
+                        this.otherItem.addSubItem(22, 2131165708, LocaleController.getString("ViewDiscussion", 2131628987));
                     }
                     TLRPC$Chat tLRPC$Chat = this.currentChat;
                     if (!tLRPC$Chat.creator && !tLRPC$Chat.left && !tLRPC$Chat.kicked) {
-                        this.otherItem.addSubItem(7, 2131165774, LocaleController.getString("LeaveChannelMenu", 2131626387));
+                        this.otherItem.addSubItem(7, 2131165775, LocaleController.getString("LeaveChannelMenu", 2131626434));
                     }
                 }
             } else {
                 if (this.chatInfo != null) {
                     if (ChatObject.canManageCalls(chat) && this.chatInfo.call == null) {
-                        this.otherItem.addSubItem(15, 2131165984, LocaleController.getString("StartVoipChat", 2131628426));
+                        this.otherItem.addSubItem(15, 2131165986, LocaleController.getString("StartVoipChat", 2131628489));
                         this.hasVoiceChatItem = true;
                     }
                     this.callItemVisible = getMessagesController().getGroupCall(this.chatId, false) != null;
@@ -8285,11 +8311,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (!ChatObject.isKickedFromChat(chat) && !ChatObject.isLeftFromChat(chat)) {
                     this.canSearchMembers = true;
-                    this.otherItem.addSubItem(17, 2131165922, LocaleController.getString("SearchMembers", 2131628118));
+                    this.otherItem.addSubItem(17, 2131165924, LocaleController.getString("SearchMembers", 2131628180));
                 }
-                this.otherItem.addSubItem(7, 2131165774, LocaleController.getString("DeleteAndExit", 2131625382));
+                this.otherItem.addSubItem(7, 2131165775, LocaleController.getString("DeleteAndExit", 2131625398));
             }
-            this.otherItem.addSubItem(14, 2131165761, LocaleController.getString("AddShortcut", 2131624281));
+            this.otherItem.addSubItem(14, 2131165762, LocaleController.getString("AddShortcut", 2131624289));
         }
         z2 = false;
         if (this.imageUpdater == null) {
@@ -8316,10 +8342,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$35 */
+    /* renamed from: org.telegram.ui.ProfileActivity$36 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass35 implements AutoDeletePopupWrapper.Callback {
-        AnonymousClass35() {
+    public class AnonymousClass36 implements AutoDeletePopupWrapper.Callback {
+        AnonymousClass36() {
             ProfileActivity.this = r1;
         }
 
@@ -8336,7 +8362,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private void createAutoDeleteItem(Context context) {
         int i;
-        this.autoDeletePopupWrapper = new AutoDeletePopupWrapper(context, this.otherItem.getPopupLayout().getSwipeBack(), new AnonymousClass35(), false, this.resourcesProvider);
+        this.autoDeletePopupWrapper = new AutoDeletePopupWrapper(context, this.otherItem.getPopupLayout().getSwipeBack(), new AnonymousClass36(), false, this.resourcesProvider);
         TLRPC$UserFull tLRPC$UserFull = this.userInfo;
         if (tLRPC$UserFull == null && this.chatInfo == null) {
             i = 0;
@@ -8345,7 +8371,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         TimerDrawable ttlIcon = TimerDrawable.getTtlIcon(i);
         this.autoDeleteItemDrawable = ttlIcon;
-        this.autoDeleteItem = this.otherItem.addSwipeBackItem(0, ttlIcon, LocaleController.getString("AutoDeletePopupTitle", 2131624558), this.autoDeletePopupWrapper.windowLayout);
+        this.autoDeleteItem = this.otherItem.addSwipeBackItem(0, ttlIcon, LocaleController.getString("AutoDeletePopupTitle", 2131624569), this.autoDeletePopupWrapper.windowLayout);
         this.otherItem.addColoredGap();
         updateAutoDeleteItem();
     }
@@ -8525,7 +8551,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.searchListView.setEmptyView(this.emptyView);
         this.avatarContainer.setClickable(false);
         ofFloat.addUpdateListener(new ProfileActivity$$ExternalSyntheticLambda3(this, ofFloat, f, z));
-        ofFloat.addListener(new AnonymousClass36(z));
+        ofFloat.addListener(new AnonymousClass37(z));
         if (!z) {
             this.invalidateScroll = true;
             saveScrollPosition();
@@ -8601,12 +8627,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.fragmentView.invalidate();
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$36 */
+    /* renamed from: org.telegram.ui.ProfileActivity$37 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass36 extends AnimatorListenerAdapter {
+    public class AnonymousClass37 extends AnimatorListenerAdapter {
         final /* synthetic */ boolean val$enter;
 
-        AnonymousClass36(boolean z) {
+        AnonymousClass37(boolean z) {
             ProfileActivity.this = r1;
             this.val$enter = z;
         }
@@ -8815,16 +8841,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             animatorSet2.playTogether(ObjectAnimator.ofFloat(this.avatarProgressView, View.ALPHA, 0.0f));
         }
         this.avatarAnimation.setDuration(180L);
-        this.avatarAnimation.addListener(new AnonymousClass37(z));
+        this.avatarAnimation.addListener(new AnonymousClass38(z));
         this.avatarAnimation.start();
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$37 */
+    /* renamed from: org.telegram.ui.ProfileActivity$38 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass37 extends AnimatorListenerAdapter {
+    public class AnonymousClass38 extends AnimatorListenerAdapter {
         final /* synthetic */ boolean val$show;
 
-        AnonymousClass37(boolean z) {
+        AnonymousClass38(boolean z) {
             ProfileActivity.this = r1;
             this.val$show = z;
         }
@@ -8996,7 +9022,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         } else if (getParentActivity() == null) {
         } else {
-            Toast.makeText(getParentActivity(), LocaleController.getString("ErrorOccurred", 2131625657), 0).show();
+            Toast.makeText(getParentActivity(), LocaleController.getString("ErrorOccurred", 2131625695), 0).show();
         }
     }
 
@@ -9148,7 +9174,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         } else {
                             str = "universal " + Build.CPU_ABI + " " + Build.CPU_ABI2;
                         }
-                        textInfoPrivacyCell.setText(LocaleController.formatString("TelegramVersion", 2131628579, String.format(Locale.US, "v%s (%d) %s", packageInfo.versionName, Integer.valueOf(i3), str)));
+                        textInfoPrivacyCell.setText(LocaleController.formatString("TelegramVersion", 2131628646, String.format(Locale.US, "v%s (%d) %s", packageInfo.versionName, Integer.valueOf(i3), str)));
                     } catch (Exception e) {
                         FileLog.e(e);
                     }
@@ -9276,10 +9302,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i == ProfileActivity.this.infoHeaderRow) {
                     if (ChatObject.isChannel(ProfileActivity.this.currentChat) && !ProfileActivity.this.currentChat.megagroup && ProfileActivity.this.channelInfoRow != -1) {
-                        headerCell.setText(LocaleController.getString("ReportChatDescription", 2131627932));
+                        headerCell.setText(LocaleController.getString("ReportChatDescription", 2131627994));
                         return;
                     } else {
-                        headerCell.setText(LocaleController.getString("Info", 2131626233));
+                        headerCell.setText(LocaleController.getString("Info", 2131626280));
                         return;
                     }
                 } else if (i != ProfileActivity.this.membersHeaderRow) {
@@ -9289,19 +9315,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 if (i != ProfileActivity.this.debugHeaderRow) {
                                     return;
                                 }
-                                headerCell.setText(LocaleController.getString("SettingsDebug", 2131628261));
+                                headerCell.setText(LocaleController.getString("SettingsDebug", 2131628323));
                                 return;
                             }
-                            headerCell.setText(LocaleController.getString("SettingsHelp", 2131628263));
+                            headerCell.setText(LocaleController.getString("SettingsHelp", 2131628325));
                             return;
                         }
                         headerCell.setText(LocaleController.getString("Account", 2131624127));
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("SETTINGS", 2131628057));
+                    headerCell.setText(LocaleController.getString("SETTINGS", 2131628119));
                     return;
                 } else {
-                    headerCell.setText(LocaleController.getString("ChannelMembers", 2131624917));
+                    headerCell.setText(LocaleController.getString("ChannelMembers", 2131624930));
                     return;
                 }
             }
@@ -9309,9 +9335,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (itemViewType == 2) {
                 TextDetailCell textDetailCell = (TextDetailCell) viewHolder.itemView;
                 if (i == ProfileActivity.this.usernameRow) {
-                    Drawable drawable = ContextCompat.getDrawable(textDetailCell.getContext(), 2131165884);
+                    Drawable drawable = ContextCompat.getDrawable(textDetailCell.getContext(), 2131165886);
                     drawable.setColorFilter(new PorterDuffColorFilter(ProfileActivity.this.getThemedColor("switch2TrackChecked"), PorterDuff.Mode.MULTIPLY));
-                    textDetailCell.setImage(drawable, LocaleController.getString("GetQRCode", 2131626056));
+                    textDetailCell.setImage(drawable, LocaleController.getString("GetQRCode", 2131626097));
                 } else {
                     textDetailCell.setImage(null);
                 }
@@ -9319,9 +9345,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (!TextUtils.isEmpty(ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId)).phone)) {
                         str5 = PhoneFormat.getInstance().format("+" + user.phone);
                     } else {
-                        str5 = LocaleController.getString("PhoneHidden", 2131627489);
+                        str5 = LocaleController.getString("PhoneHidden", 2131627541);
                     }
-                    textDetailCell.setTextAndValue(str5, LocaleController.getString("PhoneMobile", 2131627492), false);
+                    textDetailCell.setTextAndValue(str5, LocaleController.getString("PhoneMobile", 2131627544), false);
                 } else if (i == ProfileActivity.this.usernameRow) {
                     if (ProfileActivity.this.userId != 0) {
                         TLRPC$User user2 = ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId));
@@ -9330,32 +9356,32 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         } else {
                             str4 = "@" + user2.username;
                         }
-                        textDetailCell.setTextAndValue(str4, LocaleController.getString("Username", 2131628843), false);
+                        textDetailCell.setTextAndValue(str4, LocaleController.getString("Username", 2131628915), false);
                     } else if (ProfileActivity.this.currentChat != null) {
                         TLRPC$Chat chat = ProfileActivity.this.getMessagesController().getChat(Long.valueOf(ProfileActivity.this.chatId));
-                        textDetailCell.setTextAndValue(ProfileActivity.this.getMessagesController().linkPrefix + "/" + chat.username, LocaleController.getString("InviteLink", 2131626263), false);
+                        textDetailCell.setTextAndValue(ProfileActivity.this.getMessagesController().linkPrefix + "/" + chat.username, LocaleController.getString("InviteLink", 2131626310), false);
                     }
                 } else if (i == ProfileActivity.this.locationRow) {
                     if (ProfileActivity.this.chatInfo != null && (ProfileActivity.this.chatInfo.location instanceof TLRPC$TL_channelLocation)) {
-                        textDetailCell.setTextAndValue(((TLRPC$TL_channelLocation) ProfileActivity.this.chatInfo.location).address, LocaleController.getString("AttachLocation", 2131624492), false);
+                        textDetailCell.setTextAndValue(((TLRPC$TL_channelLocation) ProfileActivity.this.chatInfo.location).address, LocaleController.getString("AttachLocation", 2131624503), false);
                     }
                 } else if (i == ProfileActivity.this.numberRow) {
                     TLRPC$User currentUser = UserConfig.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getCurrentUser();
                     if (currentUser != null && (str3 = currentUser.phone) != null && str3.length() != 0) {
                         str2 = PhoneFormat.getInstance().format("+" + currentUser.phone);
                     } else {
-                        str2 = LocaleController.getString("NumberUnknown", 2131627074);
+                        str2 = LocaleController.getString("NumberUnknown", 2131627126);
                     }
-                    textDetailCell.setTextAndValue(str2, LocaleController.getString("TapToChangePhone", 2131628546), true);
+                    textDetailCell.setTextAndValue(str2, LocaleController.getString("TapToChangePhone", 2131628609), true);
                     textDetailCell.setContentDescriptionValueFirst(false);
                 } else if (i == ProfileActivity.this.setUsernameRow) {
                     TLRPC$User currentUser2 = UserConfig.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getCurrentUser();
                     if (currentUser2 != null && !TextUtils.isEmpty(currentUser2.username)) {
                         str = "@" + currentUser2.username;
                     } else {
-                        str = LocaleController.getString("UsernameEmpty", 2131628847);
+                        str = LocaleController.getString("UsernameEmpty", 2131628919);
                     }
-                    textDetailCell.setTextAndValue(str, LocaleController.getString("Username", 2131628843), true);
+                    textDetailCell.setTextAndValue(str, LocaleController.getString("Username", 2131628915), true);
                     textDetailCell.setContentDescriptionValueFirst(true);
                 }
                 textDetailCell.setTag(Integer.valueOf(i));
@@ -9366,7 +9392,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (!ProfileActivity.this.isBot && (user3 == null || !user3.premium || ProfileActivity.this.userInfo.about == null)) {
                         z14 = false;
                     }
-                    aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo.about, LocaleController.getString("UserBio", 2131628802), z14);
+                    aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo.about, LocaleController.getString("UserBio", 2131628874), z14);
                 } else if (i == ProfileActivity.this.channelInfoRow) {
                     String str9 = ProfileActivity.this.chatInfo.about;
                     while (str9.contains("\n\n\n")) {
@@ -9378,14 +9404,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     aboutLinkCell.setText(str9, z);
                 } else if (i == ProfileActivity.this.bioRow) {
                     if (ProfileActivity.this.userInfo == null || !TextUtils.isEmpty(ProfileActivity.this.userInfo.about)) {
-                        aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo == null ? LocaleController.getString("Loading", 2131626473) : ProfileActivity.this.userInfo.about, LocaleController.getString("UserBio", 2131628802), ProfileActivity.this.getUserConfig().isPremium());
+                        aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo == null ? LocaleController.getString("Loading", 2131626520) : ProfileActivity.this.userInfo.about, LocaleController.getString("UserBio", 2131628874), ProfileActivity.this.getUserConfig().isPremium());
                         ProfileActivity profileActivity = ProfileActivity.this;
                         if (profileActivity.userInfo != null) {
                             str8 = ProfileActivity.this.userInfo.about;
                         }
                         profileActivity.currentBio = str8;
                     } else {
-                        aboutLinkCell.setTextAndValue(LocaleController.getString("UserBio", 2131628802), LocaleController.getString("UserBioDetail", 2131628803), false);
+                        aboutLinkCell.setTextAndValue(LocaleController.getString("UserBio", 2131628874), LocaleController.getString("UserBioDetail", 2131628875), false);
                         ProfileActivity.this.currentBio = null;
                     }
                     aboutLinkCell.setMoreButtonDisabled(true);
@@ -9412,29 +9438,29 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             int currentTime = i5 - ProfileActivity.this.getConnectionsManager().getCurrentTime();
                             if (currentTime <= 0) {
                                 if (z15) {
-                                    string = LocaleController.getString("NotificationsCustom", 2131627022);
+                                    string = LocaleController.getString("NotificationsCustom", 2131627074);
                                 } else {
-                                    string = LocaleController.getString("NotificationsOn", 2131627051);
+                                    string = LocaleController.getString("NotificationsOn", 2131627103);
                                 }
                                 str8 = string;
                                 if (str8 == null) {
                                 }
                                 notificationsCheckCell.setAnimationsEnabled(ProfileActivity.this.fragmentOpened);
-                                notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", 2131627016), str8, z2, false);
+                                notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", 2131627068), str8, z2, false);
                                 return;
                             }
                             if (currentTime < 3600) {
-                                str8 = LocaleController.formatString("WillUnmuteIn", 2131629249, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0]));
+                                str8 = LocaleController.formatString("WillUnmuteIn", 2131629323, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0]));
                             } else if (currentTime < 86400) {
-                                str8 = LocaleController.formatString("WillUnmuteIn", 2131629249, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0]));
+                                str8 = LocaleController.formatString("WillUnmuteIn", 2131629323, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0]));
                             } else if (currentTime < 31536000) {
-                                str8 = LocaleController.formatString("WillUnmuteIn", 2131629249, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0]));
+                                str8 = LocaleController.formatString("WillUnmuteIn", 2131629323, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0]));
                             }
                             z2 = false;
                             if (str8 == null) {
                             }
                             notificationsCheckCell.setAnimationsEnabled(ProfileActivity.this.fragmentOpened);
-                            notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", 2131627016), str8, z2, false);
+                            notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", 2131627068), str8, z2, false);
                             return;
                         }
                         if (i4 == 0) {
@@ -9445,27 +9471,27 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             z2 = false;
                         }
                         if (z2 && z15) {
-                            str8 = LocaleController.getString("NotificationsCustom", 2131627022);
+                            str8 = LocaleController.getString("NotificationsCustom", 2131627074);
                             if (str8 == null) {
                             }
                             notificationsCheckCell.setAnimationsEnabled(ProfileActivity.this.fragmentOpened);
-                            notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", 2131627016), str8, z2, false);
+                            notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", 2131627068), str8, z2, false);
                             return;
                         }
                         if (z2) {
-                            i2 = 2131627051;
+                            i2 = 2131627103;
                             str7 = "NotificationsOn";
                         } else {
-                            i2 = 2131627049;
+                            i2 = 2131627101;
                             str7 = "NotificationsOff";
                         }
                         string = LocaleController.getString(str7, i2);
                         str8 = string;
                         if (str8 == null) {
-                            str8 = LocaleController.getString("NotificationsOff", 2131627049);
+                            str8 = LocaleController.getString("NotificationsOff", 2131627101);
                         }
                         notificationsCheckCell.setAnimationsEnabled(ProfileActivity.this.fragmentOpened);
-                        notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", 2131627016), str8, z2, false);
+                        notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", 2131627068), str8, z2, false);
                         return;
                     } else if (itemViewType == 7) {
                         View view = viewHolder.itemView;
@@ -9493,15 +9519,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             if (!TextUtils.isEmpty(tLRPC$ChannelParticipant.rank)) {
                                 string2 = tLRPC$ChannelParticipant.rank;
                             } else if (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator) {
-                                string2 = LocaleController.getString("ChannelCreator", 2131624894);
+                                string2 = LocaleController.getString("ChannelCreator", 2131624907);
                             } else if (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantAdmin) {
-                                string2 = LocaleController.getString("ChannelAdmin", 2131624875);
+                                string2 = LocaleController.getString("ChannelAdmin", 2131624888);
                             }
                             str8 = string2;
                         } else if (tLRPC$TL_chatChannelParticipant instanceof TLRPC$TL_chatParticipantCreator) {
-                            str8 = LocaleController.getString("ChannelCreator", 2131624894);
+                            str8 = LocaleController.getString("ChannelCreator", 2131624907);
                         } else if (tLRPC$TL_chatChannelParticipant instanceof TLRPC$TL_chatParticipantAdmin) {
-                            str8 = LocaleController.getString("ChannelAdmin", 2131624875);
+                            str8 = LocaleController.getString("ChannelAdmin", 2131624888);
                         }
                         userCell.setAdminRole(str8);
                         userCell.setData(ProfileActivity.this.getMessagesController().getUser(Long.valueOf(tLRPC$TL_chatChannelParticipant.user_id)), null, null, 0, i != ProfileActivity.this.membersEndRow - 1);
@@ -9519,7 +9545,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else if (itemViewType == 17) {
                         TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                         textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, 2131165435, ProfileActivity.this.getThemedColor("windowBackgroundGrayShadow")));
-                        textInfoPrivacyCell.setText(LocaleController.getString("BotAddToGroupOrChannelInfo", 2131624705));
+                        textInfoPrivacyCell.setText(LocaleController.getString("BotAddToGroupOrChannelInfo", 2131624716));
                         return;
                     } else if (itemViewType != 18) {
                         return;
@@ -9535,50 +9561,50 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 if (i == ProfileActivity.this.subscribersRow) {
                                     if (ProfileActivity.this.chatInfo != null) {
                                         if (ChatObject.isChannel(ProfileActivity.this.currentChat) && !ProfileActivity.this.currentChat.megagroup) {
-                                            String string3 = LocaleController.getString("ChannelSubscribers", 2131624968);
+                                            String string3 = LocaleController.getString("ChannelSubscribers", 2131624981);
                                             String format = String.format("%d", Integer.valueOf(ProfileActivity.this.chatInfo.participants_count));
                                             if (i == ProfileActivity.this.membersSectionRow - 1) {
                                                 z3 = false;
                                             }
-                                            textCell.setTextAndValueAndIcon(string3, format, 2131165749, z3);
+                                            textCell.setTextAndValueAndIcon(string3, format, 2131165750, z3);
                                             return;
                                         }
-                                        String string4 = LocaleController.getString("ChannelMembers", 2131624917);
+                                        String string4 = LocaleController.getString("ChannelMembers", 2131624930);
                                         String format2 = String.format("%d", Integer.valueOf(ProfileActivity.this.chatInfo.participants_count));
                                         if (i == ProfileActivity.this.membersSectionRow - 1) {
                                             z4 = false;
                                         }
-                                        textCell.setTextAndValueAndIcon(string4, format2, 2131165749, z4);
+                                        textCell.setTextAndValueAndIcon(string4, format2, 2131165750, z4);
                                         return;
                                     } else if (ChatObject.isChannel(ProfileActivity.this.currentChat) && !ProfileActivity.this.currentChat.megagroup) {
-                                        String string5 = LocaleController.getString("ChannelSubscribers", 2131624968);
+                                        String string5 = LocaleController.getString("ChannelSubscribers", 2131624981);
                                         if (i == ProfileActivity.this.membersSectionRow - 1) {
                                             z5 = false;
                                         }
-                                        textCell.setTextAndIcon(string5, 2131165749, z5);
+                                        textCell.setTextAndIcon(string5, 2131165750, z5);
                                         return;
                                     } else {
-                                        String string6 = LocaleController.getString("ChannelMembers", 2131624917);
+                                        String string6 = LocaleController.getString("ChannelMembers", 2131624930);
                                         if (i == ProfileActivity.this.membersSectionRow - 1) {
                                             z6 = false;
                                         }
-                                        textCell.setTextAndIcon(string6, 2131165749, z6);
+                                        textCell.setTextAndIcon(string6, 2131165750, z6);
                                         return;
                                     }
                                 } else if (i == ProfileActivity.this.subscribersRequestsRow) {
                                     if (ProfileActivity.this.chatInfo == null) {
                                         return;
                                     }
-                                    String string7 = LocaleController.getString("SubscribeRequests", 2131628484);
+                                    String string7 = LocaleController.getString("SubscribeRequests", 2131628547);
                                     String format3 = String.format("%d", Integer.valueOf(ProfileActivity.this.chatInfo.requests_pending));
                                     if (i == ProfileActivity.this.membersSectionRow - 1) {
                                         z7 = false;
                                     }
-                                    textCell.setTextAndValueAndIcon(string7, format3, 2131165905, z7);
+                                    textCell.setTextAndValueAndIcon(string7, format3, 2131165907, z7);
                                     return;
                                 } else if (i == ProfileActivity.this.administratorsRow) {
                                     if (ProfileActivity.this.chatInfo != null) {
-                                        String string8 = LocaleController.getString("ChannelAdministrators", 2131624877);
+                                        String string8 = LocaleController.getString("ChannelAdministrators", 2131624890);
                                         String format4 = String.format("%d", Integer.valueOf(ProfileActivity.this.chatInfo.admins_count));
                                         if (i == ProfileActivity.this.membersSectionRow - 1) {
                                             z8 = false;
@@ -9586,7 +9612,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                         textCell.setTextAndValueAndIcon(string8, format4, 2131165635, z8);
                                         return;
                                     }
-                                    String string9 = LocaleController.getString("ChannelAdministrators", 2131624877);
+                                    String string9 = LocaleController.getString("ChannelAdministrators", 2131624890);
                                     if (i == ProfileActivity.this.membersSectionRow - 1) {
                                         z9 = false;
                                     }
@@ -9594,19 +9620,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     return;
                                 } else if (i == ProfileActivity.this.blockedUsersRow) {
                                     if (ProfileActivity.this.chatInfo != null) {
-                                        String string10 = LocaleController.getString("ChannelBlacklist", 2131624882);
+                                        String string10 = LocaleController.getString("ChannelBlacklist", 2131624895);
                                         String format5 = String.format("%d", Integer.valueOf(Math.max(ProfileActivity.this.chatInfo.banned_count, ProfileActivity.this.chatInfo.kicked_count)));
                                         if (i == ProfileActivity.this.membersSectionRow - 1) {
                                             z10 = false;
                                         }
-                                        textCell.setTextAndValueAndIcon(string10, format5, 2131165970, z10);
+                                        textCell.setTextAndValueAndIcon(string10, format5, 2131165972, z10);
                                         return;
                                     }
-                                    String string11 = LocaleController.getString("ChannelBlacklist", 2131624882);
+                                    String string11 = LocaleController.getString("ChannelBlacklist", 2131624895);
                                     if (i == ProfileActivity.this.membersSectionRow - 1) {
                                         z11 = false;
                                     }
-                                    textCell.setTextAndIcon(string11, 2131165970, z11);
+                                    textCell.setTextAndIcon(string11, 2131165972, z11);
                                     return;
                                 } else if (i != ProfileActivity.this.addMemberRow) {
                                     if (i != ProfileActivity.this.sendMessageRow) {
@@ -9629,7 +9655,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                                                                         if (i == ProfileActivity.this.setAvatarRow) {
                                                                                                             ProfileActivity.this.cellCameraDrawable.setCustomEndFrame(86);
                                                                                                             ProfileActivity.this.cellCameraDrawable.setCurrentFrame(85, false);
-                                                                                                            textCell.setTextAndIcon(LocaleController.getString("SetProfilePhoto", 2131628246), ProfileActivity.this.cellCameraDrawable, false);
+                                                                                                            textCell.setTextAndIcon(LocaleController.getString("SetProfilePhoto", 2131628308), ProfileActivity.this.cellCameraDrawable, false);
                                                                                                             textCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
                                                                                                             textCell.getImageView().setPadding(0, 0, 0, AndroidUtilities.dp(8.0f));
                                                                                                             textCell.setImageLeft(12);
@@ -9639,74 +9665,74 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                                                                             if (i != ProfileActivity.this.premiumRow) {
                                                                                                                 return;
                                                                                                             }
-                                                                                                            textCell.setTextAndIcon(LocaleController.getString("TelegramPremium", 2131628572), PremiumGradient.getInstance().premiumStarMenuDrawable, false);
+                                                                                                            textCell.setTextAndIcon(LocaleController.getString("TelegramPremium", 2131628635), PremiumGradient.getInstance().premiumStarMenuDrawable, false);
                                                                                                             textCell.setImageLeft(23);
                                                                                                             return;
                                                                                                         } else {
-                                                                                                            textCell.setTextAndIcon(LocaleController.getString("AddToGroupOrChannel", 2131624294), 2131165751, false);
+                                                                                                            textCell.setTextAndIcon(LocaleController.getString("AddToGroupOrChannel", 2131624302), 2131165752, false);
                                                                                                             textCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
                                                                                                             return;
                                                                                                         }
                                                                                                     }
-                                                                                                    textCell.setTextAndIcon(LocaleController.getString("Devices", 2131625465), 2131165613, true);
+                                                                                                    textCell.setTextAndIcon(LocaleController.getString("Devices", 2131625481), 2131165613, true);
                                                                                                     return;
                                                                                                 }
                                                                                                 textCell.setText("Switch Backend", false);
                                                                                                 return;
                                                                                             }
-                                                                                            String string12 = LocaleController.getString("DebugClearLogs", 2131625335);
+                                                                                            String string12 = LocaleController.getString("DebugClearLogs", 2131625351);
                                                                                             if (ProfileActivity.this.switchBackendRow == -1) {
                                                                                                 z13 = false;
                                                                                             }
                                                                                             textCell.setText(string12, z13);
                                                                                             return;
                                                                                         }
-                                                                                        textCell.setText(LocaleController.getString("DebugSendLastLogs", 2131625360), true);
+                                                                                        textCell.setText(LocaleController.getString("DebugSendLastLogs", 2131625376), true);
                                                                                         return;
                                                                                     }
-                                                                                    textCell.setText(LocaleController.getString("DebugSendLogs", 2131625361), true);
+                                                                                    textCell.setText(LocaleController.getString("DebugSendLogs", 2131625377), true);
                                                                                     return;
                                                                                 }
-                                                                                textCell.setTextAndIcon(LocaleController.getString("PrivacyPolicy", 2131627728), 2131165865, false);
+                                                                                textCell.setTextAndIcon(LocaleController.getString("PrivacyPolicy", 2131627785), 2131165866, false);
                                                                                 return;
                                                                             }
-                                                                            textCell.setTextAndIcon(LocaleController.getString("TelegramFAQ", 2131628561), 2131165757, true);
+                                                                            textCell.setTextAndIcon(LocaleController.getString("TelegramFAQ", 2131628624), 2131165758, true);
                                                                             return;
                                                                         }
-                                                                        textCell.setTextAndIcon(LocaleController.getString("AskAQuestion", 2131624473), 2131165642, true);
+                                                                        textCell.setTextAndIcon(LocaleController.getString("AskAQuestion", 2131624484), 2131165642, true);
                                                                         return;
                                                                     }
-                                                                    textCell.setTextAndIcon(LocaleController.getString(2131628450), 2131165948, true);
+                                                                    textCell.setTextAndIcon(LocaleController.getString(2131628513), 2131165950, true);
                                                                     return;
                                                                 }
-                                                                textCell.setTextAndIcon(LocaleController.getString("Filters", 2131625899), 2131165732, true);
+                                                                textCell.setTextAndIcon(LocaleController.getString("Filters", 2131625940), 2131165732, true);
                                                                 return;
                                                             }
-                                                            textCell.setTextAndIcon(LocaleController.getString("ChatSettings", 2131625032), 2131165815, true);
+                                                            textCell.setTextAndIcon(LocaleController.getString("ChatSettings", 2131625045), 2131165816, true);
                                                             return;
                                                         }
-                                                        textCell.setTextAndIcon(LocaleController.getString("DataSettings", 2131625308), 2131165701, true);
+                                                        textCell.setTextAndIcon(LocaleController.getString("DataSettings", 2131625324), 2131165701, true);
                                                         return;
                                                     }
-                                                    textCell.setTextAndIcon(LocaleController.getString("PrivacySettings", 2131627735), 2131165923, true);
+                                                    textCell.setTextAndIcon(LocaleController.getString("PrivacySettings", 2131627792), 2131165925, true);
                                                     return;
                                                 }
-                                                textCell.setTextAndIcon(LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, true);
+                                                textCell.setTextAndIcon(LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, true);
                                                 return;
                                             }
-                                            textCell.setTextAndIcon(LocaleController.getString("Language", 2131626346), 2131165773, false);
+                                            textCell.setTextAndIcon(LocaleController.getString("Language", 2131626393), 2131165774, false);
                                             textCell.setImageLeft(23);
                                             return;
                                         }
-                                        textCell.setText(LocaleController.getString("ReportUserLocation", 2131627964), false);
+                                        textCell.setText(LocaleController.getString("ReportUserLocation", 2131628026), false);
                                         textCell.setColors(null, "windowBackgroundWhiteRedText5");
                                         return;
                                     }
-                                    textCell.setText(LocaleController.getString("SendMessageLocation", 2131628199), true);
+                                    textCell.setText(LocaleController.getString("SendMessageLocation", 2131628261), true);
                                     return;
                                 } else {
                                     textCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
-                                    String string13 = LocaleController.getString("AddMember", 2131624269);
+                                    String string13 = LocaleController.getString("AddMember", 2131624277);
                                     if (ProfileActivity.this.membersSectionRow != -1) {
                                         z12 = false;
                                     }
@@ -9716,29 +9742,29 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             }
                             textCell.setColors(null, "windowBackgroundWhiteBlueText2");
                             if (ProfileActivity.this.currentChat.megagroup) {
-                                textCell.setText(LocaleController.getString("ProfileJoinGroup", 2131627740), false);
+                                textCell.setText(LocaleController.getString("ProfileJoinGroup", 2131627802), false);
                                 return;
                             } else {
-                                textCell.setText(LocaleController.getString("ProfileJoinChannel", 2131627739), false);
+                                textCell.setText(LocaleController.getString("ProfileJoinChannel", 2131627801), false);
                                 return;
                             }
                         }
                         IdenticonDrawable identiconDrawable = new IdenticonDrawable();
                         identiconDrawable.setEncryptedChat(ProfileActivity.this.getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(ProfileActivity.this.dialogId))));
-                        textCell.setTextAndValueDrawable(LocaleController.getString("EncryptionKey", 2131625636), identiconDrawable, false);
+                        textCell.setTextAndValueDrawable(LocaleController.getString("EncryptionKey", 2131625674), identiconDrawable, false);
                         return;
                     }
-                    textCell.setText(LocaleController.getString("Unblock", 2131628725), false);
+                    textCell.setText(LocaleController.getString("Unblock", 2131628793), false);
                     textCell.setColors(null, "windowBackgroundWhiteRedText5");
                     return;
                 }
                 int i6 = ProfileActivity.this.getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(ProfileActivity.this.dialogId))).ttl;
                 if (i6 == 0) {
-                    str6 = LocaleController.getString("ShortMessageLifetimeForever", 2131628328);
+                    str6 = LocaleController.getString("ShortMessageLifetimeForever", 2131628390);
                 } else {
                     str6 = LocaleController.formatTTLString(i6);
                 }
-                textCell.setTextAndValue(LocaleController.getString("MessageLifetime", 2131626624), str6, false);
+                textCell.setTextAndValue(LocaleController.getString("MessageLifetime", 2131626676), str6, false);
             }
         }
 
@@ -10008,19 +10034,28 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$new$23() {
-            ProfileActivity.this.presentFragment(PasscodeActivity.determineOpenFragment());
+            if (!ProfileActivity.this.getUserConfig().isPremium()) {
+                try {
+                    ((BaseFragment) ProfileActivity.this).fragmentView.performHapticFeedback(3, 2);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                BulletinFactory.of(ProfileActivity.this).createRestrictVoiceMessagesPremiumBulletin().show();
+                return;
+            }
+            ProfileActivity.this.presentFragment(new PrivacyControlActivity(8, true));
         }
 
         public /* synthetic */ void lambda$new$24() {
-            ProfileActivity.this.presentFragment(new TwoStepVerificationActivity());
+            ProfileActivity.this.presentFragment(PasscodeActivity.determineOpenFragment());
         }
 
         public /* synthetic */ void lambda$new$25() {
-            ProfileActivity.this.presentFragment(new SessionsActivity(0));
+            ProfileActivity.this.presentFragment(new TwoStepVerificationActivity());
         }
 
         public /* synthetic */ void lambda$new$26() {
-            ProfileActivity.this.presentFragment(new PrivacySettingsActivity());
+            ProfileActivity.this.presentFragment(new SessionsActivity(0));
         }
 
         public /* synthetic */ void lambda$new$27() {
@@ -10032,11 +10067,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$new$29() {
-            ProfileActivity.this.presentFragment(new SessionsActivity(1));
+            ProfileActivity.this.presentFragment(new PrivacySettingsActivity());
         }
 
         public /* synthetic */ void lambda$new$30() {
-            ProfileActivity.this.presentFragment(new PrivacySettingsActivity());
+            ProfileActivity.this.presentFragment(new SessionsActivity(1));
         }
 
         public /* synthetic */ void lambda$new$31() {
@@ -10056,11 +10091,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$new$35() {
-            ProfileActivity.this.presentFragment(new SessionsActivity(0));
+            ProfileActivity.this.presentFragment(new PrivacySettingsActivity());
         }
 
         public /* synthetic */ void lambda$new$36() {
-            ProfileActivity.this.presentFragment(new DataSettingsActivity());
+            ProfileActivity.this.presentFragment(new SessionsActivity(0));
         }
 
         public /* synthetic */ void lambda$new$37() {
@@ -10068,7 +10103,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$new$38() {
-            ProfileActivity.this.presentFragment(new CacheControlActivity());
+            ProfileActivity.this.presentFragment(new DataSettingsActivity());
         }
 
         public /* synthetic */ void lambda$new$39() {
@@ -10084,27 +10119,27 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$new$42() {
-            ProfileActivity.this.presentFragment(new DataUsageActivity());
+            ProfileActivity.this.presentFragment(new CacheControlActivity());
         }
 
         public /* synthetic */ void lambda$new$43() {
-            ProfileActivity.this.presentFragment(new DataSettingsActivity());
+            ProfileActivity.this.presentFragment(new DataUsageActivity());
         }
 
         public /* synthetic */ void lambda$new$44() {
-            ProfileActivity.this.presentFragment(new DataAutoDownloadActivity(0));
+            ProfileActivity.this.presentFragment(new DataSettingsActivity());
         }
 
         public /* synthetic */ void lambda$new$45() {
-            ProfileActivity.this.presentFragment(new DataAutoDownloadActivity(1));
+            ProfileActivity.this.presentFragment(new DataAutoDownloadActivity(0));
         }
 
         public /* synthetic */ void lambda$new$46() {
-            ProfileActivity.this.presentFragment(new DataAutoDownloadActivity(2));
+            ProfileActivity.this.presentFragment(new DataAutoDownloadActivity(1));
         }
 
         public /* synthetic */ void lambda$new$47() {
-            ProfileActivity.this.presentFragment(new DataSettingsActivity());
+            ProfileActivity.this.presentFragment(new DataAutoDownloadActivity(2));
         }
 
         public /* synthetic */ void lambda$new$48() {
@@ -10140,7 +10175,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$new$56() {
-            ProfileActivity.this.presentFragment(new ProxyListActivity());
+            ProfileActivity.this.presentFragment(new DataSettingsActivity());
         }
 
         public /* synthetic */ void lambda$new$57() {
@@ -10148,11 +10183,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$new$58() {
-            ProfileActivity.this.presentFragment(new DataSettingsActivity());
+            ProfileActivity.this.presentFragment(new ProxyListActivity());
         }
 
         public /* synthetic */ void lambda$new$59() {
-            ProfileActivity.this.presentFragment(new ThemeActivity(0));
+            ProfileActivity.this.presentFragment(new DataSettingsActivity());
         }
 
         public /* synthetic */ void lambda$new$60() {
@@ -10160,23 +10195,23 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$new$61() {
-            ProfileActivity.this.presentFragment(new WallpapersListActivity(0));
+            ProfileActivity.this.presentFragment(new ThemeActivity(0));
         }
 
         public /* synthetic */ void lambda$new$62() {
-            ProfileActivity.this.presentFragment(new WallpapersListActivity(1));
-        }
-
-        public /* synthetic */ void lambda$new$63() {
             ProfileActivity.this.presentFragment(new WallpapersListActivity(0));
         }
 
+        public /* synthetic */ void lambda$new$63() {
+            ProfileActivity.this.presentFragment(new WallpapersListActivity(1));
+        }
+
         public /* synthetic */ void lambda$new$64() {
-            ProfileActivity.this.presentFragment(new ThemeActivity(1));
+            ProfileActivity.this.presentFragment(new WallpapersListActivity(0));
         }
 
         public /* synthetic */ void lambda$new$65() {
-            ProfileActivity.this.presentFragment(new ThemeActivity(0));
+            ProfileActivity.this.presentFragment(new ThemeActivity(1));
         }
 
         public /* synthetic */ void lambda$new$66() {
@@ -10208,7 +10243,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$new$73() {
-            ProfileActivity.this.presentFragment(new StickersActivity(0));
+            ProfileActivity.this.presentFragment(new ThemeActivity(0));
         }
 
         public /* synthetic */ void lambda$new$74() {
@@ -10216,36 +10251,40 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         public /* synthetic */ void lambda$new$75() {
-            ProfileActivity.this.presentFragment(new FeaturedStickersActivity());
+            ProfileActivity.this.presentFragment(new StickersActivity(0));
         }
 
         public /* synthetic */ void lambda$new$76() {
-            ProfileActivity.this.presentFragment(new StickersActivity(1));
+            ProfileActivity.this.presentFragment(new FeaturedStickersActivity());
         }
 
         public /* synthetic */ void lambda$new$77() {
-            ProfileActivity.this.presentFragment(new ArchivedStickersActivity(0));
+            ProfileActivity.this.presentFragment(new StickersActivity(1));
         }
 
         public /* synthetic */ void lambda$new$78() {
-            ProfileActivity.this.presentFragment(new ArchivedStickersActivity(1));
+            ProfileActivity.this.presentFragment(new ArchivedStickersActivity(0));
         }
 
         public /* synthetic */ void lambda$new$79() {
-            ProfileActivity.this.presentFragment(new LanguageSelectActivity());
+            ProfileActivity.this.presentFragment(new ArchivedStickersActivity(1));
         }
 
         public /* synthetic */ void lambda$new$80() {
+            ProfileActivity.this.presentFragment(new LanguageSelectActivity());
+        }
+
+        public /* synthetic */ void lambda$new$81() {
             ProfileActivity profileActivity = ProfileActivity.this;
             profileActivity.showDialog(AlertsCreator.createSupportAlert(profileActivity, null));
         }
 
-        public /* synthetic */ void lambda$new$81() {
-            Browser.openUrl(ProfileActivity.this.getParentActivity(), LocaleController.getString("TelegramFaqUrl", 2131628563));
+        public /* synthetic */ void lambda$new$82() {
+            Browser.openUrl(ProfileActivity.this.getParentActivity(), LocaleController.getString("TelegramFaqUrl", 2131628626));
         }
 
-        public /* synthetic */ void lambda$new$82() {
-            Browser.openUrl(ProfileActivity.this.getParentActivity(), LocaleController.getString("PrivacyPolicyUrl", 2131627730));
+        public /* synthetic */ void lambda$new$83() {
+            Browser.openUrl(ProfileActivity.this.getParentActivity(), LocaleController.getString("PrivacyPolicyUrl", 2131627787));
         }
 
         public SearchAdapter(Context context) {
@@ -10255,90 +10294,91 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             int readInt322;
             String[] strArr;
             ProfileActivity.this = r22;
-            SearchResult[] searchResultArr = new SearchResult[83];
-            searchResultArr[0] = new SearchResult(this, 500, LocaleController.getString("EditName", 2131625587), 0, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda10(this));
-            searchResultArr[1] = new SearchResult(this, 501, LocaleController.getString("ChangePhoneNumber", 2131624859), 0, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda11(this));
-            searchResultArr[2] = new SearchResult(this, 502, LocaleController.getString("AddAnotherAccount", 2131624246), 0, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda32(this));
-            searchResultArr[3] = new SearchResult(this, 503, LocaleController.getString("UserBio", 2131628802), 0, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda62(this));
-            searchResultArr[4] = new SearchResult(this, 1, LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda18(this));
-            searchResultArr[5] = new SearchResult(this, 2, LocaleController.getString("NotificationsPrivateChats", 2131627058), LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda7(this));
-            searchResultArr[6] = new SearchResult(this, 3, LocaleController.getString("NotificationsGroups", 2131627039), LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda22(this));
-            searchResultArr[7] = new SearchResult(this, 4, LocaleController.getString("NotificationsChannels", 2131627019), LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda41(this));
-            searchResultArr[8] = new SearchResult(this, 5, LocaleController.getString("VoipNotificationSettings", 2131629157), "callsSectionRow", LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda0(this));
-            searchResultArr[9] = new SearchResult(this, 6, LocaleController.getString("BadgeNumber", 2131624660), "badgeNumberSection", LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda3(this));
-            searchResultArr[10] = new SearchResult(this, 7, LocaleController.getString("InAppNotifications", 2131626221), "inappSectionRow", LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda63(this));
-            searchResultArr[11] = new SearchResult(this, 8, LocaleController.getString("ContactJoined", 2131625233), "contactJoinedRow", LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda51(this));
-            searchResultArr[12] = new SearchResult(this, 9, LocaleController.getString("PinnedMessages", 2131627548), "pinnedMessageRow", LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda61(this));
-            searchResultArr[13] = new SearchResult(this, 10, LocaleController.getString("ResetAllNotifications", 2131627986), "resetNotificationsRow", LocaleController.getString("NotificationsAndSounds", 2131627018), 2131165830, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda13(this));
-            searchResultArr[14] = new SearchResult(this, 100, LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda24(this));
-            searchResultArr[15] = new SearchResult(this, 101, LocaleController.getString("BlockedUsers", 2131624690), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda74(this));
-            searchResultArr[16] = new SearchResult(this, 105, LocaleController.getString("PrivacyPhone", 2131627721), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda71(this));
-            searchResultArr[17] = new SearchResult(this, 102, LocaleController.getString("PrivacyLastSeen", 2131627710), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda26(this));
-            searchResultArr[18] = new SearchResult(this, 103, LocaleController.getString("PrivacyProfilePhoto", 2131627731), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda54(this));
-            searchResultArr[19] = new SearchResult(this, 104, LocaleController.getString("PrivacyForwards", 2131627702), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda77(this));
-            searchResultArr[20] = new SearchResult(this, 122, LocaleController.getString("PrivacyP2P", 2131627711), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda60(this));
-            searchResultArr[21] = new SearchResult(this, 106, LocaleController.getString("Calls", 2131624809), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda5(this));
-            searchResultArr[22] = new SearchResult(this, 107, LocaleController.getString("GroupsAndChannels", 2131626113), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda29(this));
-            searchResultArr[23] = new SearchResult(this, 108, LocaleController.getString("Passcode", 2131627162), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda23(this));
-            searchResultArr[24] = new SearchResult(this, 109, LocaleController.getString("TwoStepVerification", 2131628701), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda69(this));
-            searchResultArr[25] = new SearchResult(this, 110, LocaleController.getString("SessionsTitle", 2131628233), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda35(this));
-            searchResultArr[26] = r22.getMessagesController().autoarchiveAvailable ? new SearchResult(this, 121, LocaleController.getString("ArchiveAndMute", 2131624393), "newChatsRow", LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda17(this)) : null;
-            searchResultArr[27] = new SearchResult(this, 112, LocaleController.getString("DeleteAccountIfAwayFor2", 2131625370), "deleteAccountRow", LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda45(this));
-            searchResultArr[28] = new SearchResult(this, 113, LocaleController.getString("PrivacyPaymentsClear", 2131627714), "paymentsClearRow", LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda78(this));
-            searchResultArr[29] = new SearchResult(this, 114, LocaleController.getString("WebSessionsTitle", 2131629225), LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda76(this));
-            searchResultArr[30] = new SearchResult(this, 115, LocaleController.getString("SyncContactsDelete", 2131628527), "contactsDeleteRow", LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda57(this));
-            searchResultArr[31] = new SearchResult(this, 116, LocaleController.getString("SyncContacts", 2131628525), "contactsSyncRow", LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda19(this));
-            searchResultArr[32] = new SearchResult(this, 117, LocaleController.getString("SuggestContacts", 2131628498), "contactsSuggestRow", LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda73(this));
-            searchResultArr[33] = new SearchResult(this, 118, LocaleController.getString("MapPreviewProvider", 2131626534), "secretMapRow", LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda55(this));
-            searchResultArr[34] = new SearchResult(this, 119, LocaleController.getString("SecretWebPage", 2131628155), "secretWebpageRow", LocaleController.getString("PrivacySettings", 2131627735), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda40(this));
-            searchResultArr[35] = new SearchResult(this, 120, LocaleController.getString("Devices", 2131625465), 2131165923, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda8(this));
-            searchResultArr[36] = new SearchResult(this, 200, LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda6(this));
-            searchResultArr[37] = new SearchResult(this, 201, LocaleController.getString("DataUsage", 2131625309), "usageSectionRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda46(this));
-            searchResultArr[38] = new SearchResult(this, 202, LocaleController.getString("StorageUsage", 2131628481), LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda27(this));
-            searchResultArr[39] = new SearchResult(203, LocaleController.getString("KeepMedia", 2131626340), "keepMediaRow", LocaleController.getString("DataSettings", 2131625308), LocaleController.getString("StorageUsage", 2131628481), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda64(this));
-            searchResultArr[40] = new SearchResult(204, LocaleController.getString("ClearMediaCache", 2131625146), "cacheRow", LocaleController.getString("DataSettings", 2131625308), LocaleController.getString("StorageUsage", 2131628481), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda15(this));
-            searchResultArr[41] = new SearchResult(205, LocaleController.getString("LocalDatabase", 2131626479), "databaseRow", LocaleController.getString("DataSettings", 2131625308), LocaleController.getString("StorageUsage", 2131628481), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda1(this));
-            searchResultArr[42] = new SearchResult(this, 206, LocaleController.getString("NetworkUsage", 2131626763), LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda75(this));
-            searchResultArr[43] = new SearchResult(this, 207, LocaleController.getString("AutomaticMediaDownload", 2131624626), "mediaDownloadSectionRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda48(this));
-            searchResultArr[44] = new SearchResult(this, 208, LocaleController.getString("WhenUsingMobileData", 2131629234), LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda21(this));
-            searchResultArr[45] = new SearchResult(this, 209, LocaleController.getString("WhenConnectedOnWiFi", 2131629232), LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda16(this));
-            searchResultArr[46] = new SearchResult(this, 210, LocaleController.getString("WhenRoaming", 2131629233), LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda28(this));
-            searchResultArr[47] = new SearchResult(this, 211, LocaleController.getString("ResetAutomaticMediaDownload", 2131627987), "resetDownloadRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda65(this));
-            searchResultArr[48] = new SearchResult(this, 212, LocaleController.getString("AutoplayMedia", 2131624629), "autoplayHeaderRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda2(this));
-            searchResultArr[49] = new SearchResult(this, 213, LocaleController.getString("AutoplayGIF", 2131624628), "autoplayGifsRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda39(this));
-            searchResultArr[50] = new SearchResult(this, 214, LocaleController.getString("AutoplayVideo", 2131624630), "autoplayVideoRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda59(this));
-            searchResultArr[51] = new SearchResult(this, 215, LocaleController.getString("Streaming", 2131628482), "streamSectionRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda70(this));
-            searchResultArr[52] = new SearchResult(this, 216, LocaleController.getString("EnableStreaming", 2131625624), "enableStreamRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda4(this));
-            searchResultArr[53] = new SearchResult(this, 217, LocaleController.getString("Calls", 2131624809), "callsSectionRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda52(this));
-            searchResultArr[54] = new SearchResult(this, 218, LocaleController.getString("VoipUseLessData", 2131629201), "useLessDataForCallsRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda43(this));
-            searchResultArr[55] = new SearchResult(this, 219, LocaleController.getString("VoipQuickReplies", 2131629176), "quickRepliesRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda44(this));
-            searchResultArr[56] = new SearchResult(this, 220, LocaleController.getString("ProxySettings", 2131627752), LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda33(this));
-            searchResultArr[57] = new SearchResult(221, LocaleController.getString("UseProxyForCalls", 2131628783), "callsRow", LocaleController.getString("DataSettings", 2131625308), LocaleController.getString("ProxySettings", 2131627752), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda36(this));
-            searchResultArr[58] = new SearchResult(this, 111, LocaleController.getString("PrivacyDeleteCloudDrafts", 2131627699), "clearDraftsRow", LocaleController.getString("DataSettings", 2131625308), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda80(this));
-            searchResultArr[59] = new SearchResult(this, 300, LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda20(this));
-            searchResultArr[60] = new SearchResult(this, 301, LocaleController.getString("TextSizeHeader", 2131628597), "textSizeHeaderRow", LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda14(this));
-            searchResultArr[61] = new SearchResult(this, 302, LocaleController.getString("ChatBackground", 2131625002), LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda81(this));
-            searchResultArr[62] = new SearchResult(303, LocaleController.getString("SetColor", 2131628242), null, LocaleController.getString("ChatSettings", 2131625032), LocaleController.getString("ChatBackground", 2131625002), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda12(this));
-            searchResultArr[63] = new SearchResult(304, LocaleController.getString("ResetChatBackgrounds", 2131627990), "resetRow", LocaleController.getString("ChatSettings", 2131625032), LocaleController.getString("ChatBackground", 2131625002), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda53(this));
-            searchResultArr[64] = new SearchResult(this, 305, LocaleController.getString("AutoNightTheme", 2131624615), LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda50(this));
-            searchResultArr[65] = new SearchResult(this, 306, LocaleController.getString("ColorTheme", 2131625185), "themeHeaderRow", LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda56(this));
-            searchResultArr[66] = new SearchResult(this, 307, LocaleController.getString("ChromeCustomTabs", 2131625129), "customTabsRow", LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda34(this));
-            searchResultArr[67] = new SearchResult(this, 308, LocaleController.getString("DirectShare", 2131625476), "directShareRow", LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda49(this));
-            searchResultArr[68] = new SearchResult(this, 309, LocaleController.getString("EnableAnimations", 2131625618), "enableAnimationsRow", LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda9(this));
-            searchResultArr[69] = new SearchResult(this, 310, LocaleController.getString("RaiseToSpeak", 2131627828), "raiseToSpeakRow", LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda38(this));
-            searchResultArr[70] = new SearchResult(this, 311, LocaleController.getString("SendByEnter", 2131628180), "sendByEnterRow", LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda82(this));
-            searchResultArr[71] = new SearchResult(this, 312, LocaleController.getString("SaveToGallerySettings", 2131628073), "saveToGalleryRow", LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda79(this));
-            searchResultArr[72] = new SearchResult(this, 318, LocaleController.getString("DistanceUnits", 2131625517), "distanceRow", LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda25(this));
-            searchResultArr[73] = new SearchResult(this, 313, LocaleController.getString("StickersAndMasks", 2131628444), LocaleController.getString("ChatSettings", 2131625032), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda58(this));
-            searchResultArr[74] = new SearchResult(314, LocaleController.getString("SuggestStickers", 2131628502), "suggestRow", LocaleController.getString("ChatSettings", 2131625032), LocaleController.getString("StickersAndMasks", 2131628444), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda37(this));
-            searchResultArr[75] = new SearchResult(315, LocaleController.getString("FeaturedStickers", 2131625801), null, LocaleController.getString("ChatSettings", 2131625032), LocaleController.getString("StickersAndMasks", 2131628444), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda30(this));
-            searchResultArr[76] = new SearchResult(316, LocaleController.getString("Masks", 2131626544), null, LocaleController.getString("ChatSettings", 2131625032), LocaleController.getString("StickersAndMasks", 2131628444), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda68(this));
-            searchResultArr[77] = new SearchResult(317, LocaleController.getString("ArchivedStickers", 2131624414), null, LocaleController.getString("ChatSettings", 2131625032), LocaleController.getString("StickersAndMasks", 2131628444), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda66(this));
-            searchResultArr[78] = new SearchResult(317, LocaleController.getString("ArchivedMasks", 2131624409), null, LocaleController.getString("ChatSettings", 2131625032), LocaleController.getString("StickersAndMasks", 2131628444), 2131165815, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda72(this));
-            searchResultArr[79] = new SearchResult(this, 400, LocaleController.getString("Language", 2131626346), 2131165773, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda67(this));
-            searchResultArr[80] = new SearchResult(this, 402, LocaleController.getString("AskAQuestion", 2131624473), LocaleController.getString("SettingsHelp", 2131628263), 2131165757, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda47(this));
-            searchResultArr[81] = new SearchResult(this, 403, LocaleController.getString("TelegramFAQ", 2131628561), LocaleController.getString("SettingsHelp", 2131628263), 2131165757, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda42(this));
-            searchResultArr[82] = new SearchResult(this, 404, LocaleController.getString("PrivacyPolicy", 2131627728), LocaleController.getString("SettingsHelp", 2131628263), 2131165757, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda31(this));
+            SearchResult[] searchResultArr = new SearchResult[84];
+            searchResultArr[0] = new SearchResult(this, 500, LocaleController.getString("EditName", 2131625603), 0, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda10(this));
+            searchResultArr[1] = new SearchResult(this, 501, LocaleController.getString("ChangePhoneNumber", 2131624872), 0, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda11(this));
+            searchResultArr[2] = new SearchResult(this, 502, LocaleController.getString("AddAnotherAccount", 2131624251), 0, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda32(this));
+            searchResultArr[3] = new SearchResult(this, 503, LocaleController.getString("UserBio", 2131628874), 0, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda63(this));
+            searchResultArr[4] = new SearchResult(this, 1, LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda18(this));
+            searchResultArr[5] = new SearchResult(this, 2, LocaleController.getString("NotificationsPrivateChats", 2131627110), LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda7(this));
+            searchResultArr[6] = new SearchResult(this, 3, LocaleController.getString("NotificationsGroups", 2131627091), LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda22(this));
+            searchResultArr[7] = new SearchResult(this, 4, LocaleController.getString("NotificationsChannels", 2131627071), LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda42(this));
+            searchResultArr[8] = new SearchResult(this, 5, LocaleController.getString("VoipNotificationSettings", 2131629231), "callsSectionRow", LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda0(this));
+            searchResultArr[9] = new SearchResult(this, 6, LocaleController.getString("BadgeNumber", 2131624671), "badgeNumberSection", LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda3(this));
+            searchResultArr[10] = new SearchResult(this, 7, LocaleController.getString("InAppNotifications", 2131626268), "inappSectionRow", LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda64(this));
+            searchResultArr[11] = new SearchResult(this, 8, LocaleController.getString("ContactJoined", 2131625249), "contactJoinedRow", LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda52(this));
+            searchResultArr[12] = new SearchResult(this, 9, LocaleController.getString("PinnedMessages", 2131627600), "pinnedMessageRow", LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda62(this));
+            searchResultArr[13] = new SearchResult(this, 10, LocaleController.getString("ResetAllNotifications", 2131628048), "resetNotificationsRow", LocaleController.getString("NotificationsAndSounds", 2131627070), 2131165831, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda13(this));
+            searchResultArr[14] = new SearchResult(this, 100, LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda24(this));
+            searchResultArr[15] = new SearchResult(this, 101, LocaleController.getString("BlockedUsers", 2131624701), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda75(this));
+            searchResultArr[16] = new SearchResult(this, 105, LocaleController.getString("PrivacyPhone", 2131627778), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda72(this));
+            searchResultArr[17] = new SearchResult(this, 102, LocaleController.getString("PrivacyLastSeen", 2131627767), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda26(this));
+            searchResultArr[18] = new SearchResult(this, 103, LocaleController.getString("PrivacyProfilePhoto", 2131627788), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda55(this));
+            searchResultArr[19] = new SearchResult(this, 104, LocaleController.getString("PrivacyForwards", 2131627759), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda78(this));
+            searchResultArr[20] = new SearchResult(this, 122, LocaleController.getString("PrivacyP2P", 2131627768), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda61(this));
+            searchResultArr[21] = new SearchResult(this, 106, LocaleController.getString("Calls", 2131624822), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda5(this));
+            searchResultArr[22] = new SearchResult(this, 107, LocaleController.getString("GroupsAndChannels", 2131626160), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda29(this));
+            searchResultArr[23] = new SearchResult(this, 123, LocaleController.getString("PrivacyVoiceMessages", 2131627795), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda23(this));
+            searchResultArr[24] = new SearchResult(this, 108, LocaleController.getString("Passcode", 2131627214), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda70(this));
+            searchResultArr[25] = new SearchResult(this, 109, LocaleController.getString("TwoStepVerification", 2131628768), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda35(this));
+            searchResultArr[26] = new SearchResult(this, 110, LocaleController.getString("SessionsTitle", 2131628295), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda17(this));
+            searchResultArr[27] = r22.getMessagesController().autoarchiveAvailable ? new SearchResult(this, 121, LocaleController.getString("ArchiveAndMute", 2131624402), "newChatsRow", LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda46(this)) : null;
+            searchResultArr[28] = new SearchResult(this, 112, LocaleController.getString("DeleteAccountIfAwayFor2", 2131625386), "deleteAccountRow", LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda79(this));
+            searchResultArr[29] = new SearchResult(this, 113, LocaleController.getString("PrivacyPaymentsClear", 2131627771), "paymentsClearRow", LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda77(this));
+            searchResultArr[30] = new SearchResult(this, 114, LocaleController.getString("WebSessionsTitle", 2131629299), LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda58(this));
+            searchResultArr[31] = new SearchResult(this, 115, LocaleController.getString("SyncContactsDelete", 2131628590), "contactsDeleteRow", LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda19(this));
+            searchResultArr[32] = new SearchResult(this, 116, LocaleController.getString("SyncContacts", 2131628588), "contactsSyncRow", LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda74(this));
+            searchResultArr[33] = new SearchResult(this, 117, LocaleController.getString("SuggestContacts", 2131628561), "contactsSuggestRow", LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda56(this));
+            searchResultArr[34] = new SearchResult(this, 118, LocaleController.getString("MapPreviewProvider", 2131626581), "secretMapRow", LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda41(this));
+            searchResultArr[35] = new SearchResult(this, 119, LocaleController.getString("SecretWebPage", 2131628217), "secretWebpageRow", LocaleController.getString("PrivacySettings", 2131627792), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda8(this));
+            searchResultArr[36] = new SearchResult(this, 120, LocaleController.getString("Devices", 2131625481), 2131165925, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda6(this));
+            searchResultArr[37] = new SearchResult(this, 200, LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda47(this));
+            searchResultArr[38] = new SearchResult(this, 201, LocaleController.getString("DataUsage", 2131625325), "usageSectionRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda27(this));
+            searchResultArr[39] = new SearchResult(this, 202, LocaleController.getString("StorageUsage", 2131628544), LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda65(this));
+            searchResultArr[40] = new SearchResult(203, LocaleController.getString("KeepMedia", 2131626387), "keepMediaRow", LocaleController.getString("DataSettings", 2131625324), LocaleController.getString("StorageUsage", 2131628544), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda15(this));
+            searchResultArr[41] = new SearchResult(204, LocaleController.getString("ClearMediaCache", 2131625160), "cacheRow", LocaleController.getString("DataSettings", 2131625324), LocaleController.getString("StorageUsage", 2131628544), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda1(this));
+            searchResultArr[42] = new SearchResult(205, LocaleController.getString("LocalDatabase", 2131626526), "databaseRow", LocaleController.getString("DataSettings", 2131625324), LocaleController.getString("StorageUsage", 2131628544), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda76(this));
+            searchResultArr[43] = new SearchResult(this, 206, LocaleController.getString("NetworkUsage", 2131626815), LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda49(this));
+            searchResultArr[44] = new SearchResult(this, 207, LocaleController.getString("AutomaticMediaDownload", 2131624637), "mediaDownloadSectionRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda21(this));
+            searchResultArr[45] = new SearchResult(this, 208, LocaleController.getString("WhenUsingMobileData", 2131629308), LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda16(this));
+            searchResultArr[46] = new SearchResult(this, 209, LocaleController.getString("WhenConnectedOnWiFi", 2131629306), LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda28(this));
+            searchResultArr[47] = new SearchResult(this, 210, LocaleController.getString("WhenRoaming", 2131629307), LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda66(this));
+            searchResultArr[48] = new SearchResult(this, 211, LocaleController.getString("ResetAutomaticMediaDownload", 2131628049), "resetDownloadRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda2(this));
+            searchResultArr[49] = new SearchResult(this, 212, LocaleController.getString("AutoplayMedia", 2131624640), "autoplayHeaderRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda40(this));
+            searchResultArr[50] = new SearchResult(this, 213, LocaleController.getString("AutoplayGIF", 2131624639), "autoplayGifsRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda60(this));
+            searchResultArr[51] = new SearchResult(this, 214, LocaleController.getString("AutoplayVideo", 2131624641), "autoplayVideoRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda71(this));
+            searchResultArr[52] = new SearchResult(this, 215, LocaleController.getString("Streaming", 2131628545), "streamSectionRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda4(this));
+            searchResultArr[53] = new SearchResult(this, 216, LocaleController.getString("EnableStreaming", 2131625662), "enableStreamRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda53(this));
+            searchResultArr[54] = new SearchResult(this, 217, LocaleController.getString("Calls", 2131624822), "callsSectionRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda44(this));
+            searchResultArr[55] = new SearchResult(this, 218, LocaleController.getString("VoipUseLessData", 2131629275), "useLessDataForCallsRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda45(this));
+            searchResultArr[56] = new SearchResult(this, 219, LocaleController.getString("VoipQuickReplies", 2131629250), "quickRepliesRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda33(this));
+            searchResultArr[57] = new SearchResult(this, 220, LocaleController.getString("ProxySettings", 2131627814), LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda36(this));
+            searchResultArr[58] = new SearchResult(221, LocaleController.getString("UseProxyForCalls", 2131628855), "callsRow", LocaleController.getString("DataSettings", 2131625324), LocaleController.getString("ProxySettings", 2131627814), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda81(this));
+            searchResultArr[59] = new SearchResult(this, 111, LocaleController.getString("PrivacyDeleteCloudDrafts", 2131627756), "clearDraftsRow", LocaleController.getString("DataSettings", 2131625324), 2131165701, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda20(this));
+            searchResultArr[60] = new SearchResult(this, 300, LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda14(this));
+            searchResultArr[61] = new SearchResult(this, 301, LocaleController.getString("TextSizeHeader", 2131628664), "textSizeHeaderRow", LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda82(this));
+            searchResultArr[62] = new SearchResult(this, 302, LocaleController.getString("ChatBackground", 2131625015), LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda12(this));
+            searchResultArr[63] = new SearchResult(303, LocaleController.getString("SetColor", 2131628304), null, LocaleController.getString("ChatSettings", 2131625045), LocaleController.getString("ChatBackground", 2131625015), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda54(this));
+            searchResultArr[64] = new SearchResult(304, LocaleController.getString("ResetChatBackgrounds", 2131628052), "resetRow", LocaleController.getString("ChatSettings", 2131625045), LocaleController.getString("ChatBackground", 2131625015), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda51(this));
+            searchResultArr[65] = new SearchResult(this, 305, LocaleController.getString("AutoNightTheme", 2131624626), LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda57(this));
+            searchResultArr[66] = new SearchResult(this, 306, LocaleController.getString("ColorTheme", 2131625201), "themeHeaderRow", LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda34(this));
+            searchResultArr[67] = new SearchResult(this, 307, LocaleController.getString("ChromeCustomTabs", 2131625143), "customTabsRow", LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda50(this));
+            searchResultArr[68] = new SearchResult(this, 308, LocaleController.getString("DirectShare", 2131625492), "directShareRow", LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda9(this));
+            searchResultArr[69] = new SearchResult(this, 309, LocaleController.getString("EnableAnimations", 2131625656), "enableAnimationsRow", LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda39(this));
+            searchResultArr[70] = new SearchResult(this, 310, LocaleController.getString("RaiseToSpeak", 2131627890), "raiseToSpeakRow", LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda83(this));
+            searchResultArr[71] = new SearchResult(this, 311, LocaleController.getString("SendByEnter", 2131628242), "sendByEnterRow", LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda80(this));
+            searchResultArr[72] = new SearchResult(this, 312, LocaleController.getString("SaveToGallerySettings", 2131628135), "saveToGalleryRow", LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda25(this));
+            searchResultArr[73] = new SearchResult(this, 318, LocaleController.getString("DistanceUnits", 2131625533), "distanceRow", LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda59(this));
+            searchResultArr[74] = new SearchResult(this, 313, LocaleController.getString("StickersAndMasks", 2131628507), LocaleController.getString("ChatSettings", 2131625045), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda37(this));
+            searchResultArr[75] = new SearchResult(314, LocaleController.getString("SuggestStickers", 2131628565), "suggestRow", LocaleController.getString("ChatSettings", 2131625045), LocaleController.getString("StickersAndMasks", 2131628507), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda30(this));
+            searchResultArr[76] = new SearchResult(315, LocaleController.getString("FeaturedStickers", 2131625842), null, LocaleController.getString("ChatSettings", 2131625045), LocaleController.getString("StickersAndMasks", 2131628507), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda69(this));
+            searchResultArr[77] = new SearchResult(316, LocaleController.getString("Masks", 2131626591), null, LocaleController.getString("ChatSettings", 2131625045), LocaleController.getString("StickersAndMasks", 2131628507), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda67(this));
+            searchResultArr[78] = new SearchResult(317, LocaleController.getString("ArchivedStickers", 2131624425), null, LocaleController.getString("ChatSettings", 2131625045), LocaleController.getString("StickersAndMasks", 2131628507), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda73(this));
+            searchResultArr[79] = new SearchResult(317, LocaleController.getString("ArchivedMasks", 2131624420), null, LocaleController.getString("ChatSettings", 2131625045), LocaleController.getString("StickersAndMasks", 2131628507), 2131165816, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda68(this));
+            searchResultArr[80] = new SearchResult(this, 400, LocaleController.getString("Language", 2131626393), 2131165774, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda48(this));
+            searchResultArr[81] = new SearchResult(this, 402, LocaleController.getString("AskAQuestion", 2131624484), LocaleController.getString("SettingsHelp", 2131628325), 2131165758, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda43(this));
+            searchResultArr[82] = new SearchResult(this, 403, LocaleController.getString("TelegramFAQ", 2131628624), LocaleController.getString("SettingsHelp", 2131628325), 2131165758, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda31(this));
+            searchResultArr[83] = new SearchResult(this, 404, LocaleController.getString("PrivacyPolicy", 2131627785), LocaleController.getString("SettingsHelp", 2131628325), 2131165758, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda38(this));
             this.searchArray = searchResultArr;
             this.faqSearchArray = new ArrayList<>();
             this.resultNames = new ArrayList<>();
@@ -10397,10 +10437,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 }
             }
-            Collections.sort(this.recentSearches, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda86(this));
+            Collections.sort(this.recentSearches, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda87(this));
         }
 
-        public /* synthetic */ int lambda$new$83(Object obj, Object obj2) {
+        public /* synthetic */ int lambda$new$84(Object obj, Object obj2) {
             int num = getNum(obj);
             int num2 = getNum(obj2);
             if (num < num2) {
@@ -10420,12 +10460,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             this.loadingFaqPage = true;
             TLRPC$TL_messages_getWebPage tLRPC$TL_messages_getWebPage = new TLRPC$TL_messages_getWebPage();
-            tLRPC$TL_messages_getWebPage.url = LocaleController.getString("TelegramFaqUrl", 2131628563);
+            tLRPC$TL_messages_getWebPage.url = LocaleController.getString("TelegramFaqUrl", 2131628626);
             tLRPC$TL_messages_getWebPage.hash = 0;
-            ProfileActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_getWebPage, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda87(this));
+            ProfileActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_getWebPage, new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda88(this));
         }
 
-        public /* synthetic */ void lambda$loadFaqWebPage$85(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$loadFaqWebPage$86(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             if (tLObject instanceof TLRPC$WebPage) {
                 ArrayList arrayList = new ArrayList();
                 TLRPC$WebPage tLRPC$WebPage = (TLRPC$WebPage) tLObject;
@@ -10451,7 +10491,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     String url = ArticleViewer.getUrl(tLRPC$TL_pageListItemText.text);
                                     String charSequence = ArticleViewer.getPlainText(tLRPC$TL_pageListItemText.text).toString();
                                     if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(charSequence)) {
-                                        arrayList.add(new MessagesController.FaqSearchResult(charSequence, str != null ? new String[]{LocaleController.getString("SettingsSearchFaq", 2131628267), str} : new String[]{LocaleController.getString("SettingsSearchFaq", 2131628267)}, url));
+                                        arrayList.add(new MessagesController.FaqSearchResult(charSequence, str != null ? new String[]{LocaleController.getString("SettingsSearchFaq", 2131628329), str} : new String[]{LocaleController.getString("SettingsSearchFaq", 2131628329)}, url));
                                     }
                                 }
                             }
@@ -10461,12 +10501,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     this.faqWebPage = tLRPC$WebPage;
                 }
-                AndroidUtilities.runOnUIThread(new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda85(this, arrayList));
+                AndroidUtilities.runOnUIThread(new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda86(this, arrayList));
             }
             this.loadingFaqPage = false;
         }
 
-        public /* synthetic */ void lambda$loadFaqWebPage$84(ArrayList arrayList) {
+        public /* synthetic */ void lambda$loadFaqWebPage$85(ArrayList arrayList) {
             this.faqSearchArray.addAll(arrayList);
             ProfileActivity.this.getMessagesController().faqSearchArray = arrayList;
             ProfileActivity.this.getMessagesController().faqWebPage = this.faqWebPage;
@@ -10503,12 +10543,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             boolean z = true;
             if (itemViewType != 0) {
                 if (itemViewType == 1) {
-                    ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("SettingsFaqSearchTitle", 2131628262));
+                    ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("SettingsFaqSearchTitle", 2131628324));
                     return;
                 } else if (itemViewType != 2) {
                     return;
                 } else {
-                    ((HeaderCell) viewHolder.itemView).setText(LocaleController.getString("SettingsRecent", 2131628266));
+                    ((HeaderCell) viewHolder.itemView).setText(LocaleController.getString("SettingsRecent", 2131628328));
                     return;
                 }
             }
@@ -10656,17 +10696,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.faqSearchResults.clear();
                 this.resultNames.clear();
                 ProfileActivity.this.emptyView.stickerView.getImageReceiver().startAnimation();
-                ProfileActivity.this.emptyView.title.setText(LocaleController.getString("SettingsNoRecent", 2131628264));
+                ProfileActivity.this.emptyView.title.setText(LocaleController.getString("SettingsNoRecent", 2131628326));
                 notifyDataSetChanged();
                 return;
             }
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            ProfileActivity$SearchAdapter$$ExternalSyntheticLambda83 profileActivity$SearchAdapter$$ExternalSyntheticLambda83 = new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda83(this, str);
-            this.searchRunnable = profileActivity$SearchAdapter$$ExternalSyntheticLambda83;
-            dispatchQueue.postRunnable(profileActivity$SearchAdapter$$ExternalSyntheticLambda83, 300L);
+            ProfileActivity$SearchAdapter$$ExternalSyntheticLambda84 profileActivity$SearchAdapter$$ExternalSyntheticLambda84 = new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda84(this, str);
+            this.searchRunnable = profileActivity$SearchAdapter$$ExternalSyntheticLambda84;
+            dispatchQueue.postRunnable(profileActivity$SearchAdapter$$ExternalSyntheticLambda84, 300L);
         }
 
-        public /* synthetic */ void lambda$search$87(String str) {
+        public /* synthetic */ void lambda$search$88(String str) {
             SpannableStringBuilder spannableStringBuilder;
             int i;
             String str2;
@@ -10789,16 +10829,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     size = size;
                 }
             }
-            AndroidUtilities.runOnUIThread(new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda84(this, str, arrayList, arrayList2, arrayList3));
+            AndroidUtilities.runOnUIThread(new ProfileActivity$SearchAdapter$$ExternalSyntheticLambda85(this, str, arrayList, arrayList2, arrayList3));
         }
 
-        public /* synthetic */ void lambda$search$86(String str, ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3) {
+        public /* synthetic */ void lambda$search$87(String str, ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3) {
             if (!str.equals(this.lastSearchString)) {
                 return;
             }
             if (!this.searchWas) {
                 ProfileActivity.this.emptyView.stickerView.getImageReceiver().startAnimation();
-                ProfileActivity.this.emptyView.title.setText(LocaleController.getString("SettingsNoResults", 2131628265));
+                ProfileActivity.this.emptyView.title.setText(LocaleController.getString("SettingsNoResults", 2131628327));
             }
             this.searchWas = true;
             this.searchResults = arrayList;
@@ -10862,7 +10902,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.scrimAnimatorSet.playTogether(arrayList);
         this.scrimAnimatorSet.setDuration(z ? 150L : 220L);
         if (!z) {
-            this.scrimAnimatorSet.addListener(new AnonymousClass38());
+            this.scrimAnimatorSet.addListener(new AnonymousClass39());
         }
         this.scrimAnimatorSet.start();
     }
@@ -10871,10 +10911,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.scrimPaint.setAlpha((int) (((Float) valueAnimator.getAnimatedValue()).floatValue() * 255.0f));
     }
 
-    /* renamed from: org.telegram.ui.ProfileActivity$38 */
+    /* renamed from: org.telegram.ui.ProfileActivity$39 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass38 extends AnimatorListenerAdapter {
-        AnonymousClass38() {
+    public class AnonymousClass39 extends AnimatorListenerAdapter {
+        AnonymousClass39() {
             ProfileActivity.this = r1;
         }
 

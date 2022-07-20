@@ -42,7 +42,7 @@ public class OverlayActionBarLayoutDialog extends Dialog implements ActionBarLay
     }
 
     public OverlayActionBarLayoutDialog(Context context, Theme.ResourcesProvider resourcesProvider) {
-        super(context, 2131689509);
+        super(context, 2131689510);
         this.resourcesProvider = resourcesProvider;
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
         this.actionBarLayout = anonymousClass1;
@@ -93,7 +93,7 @@ public class OverlayActionBarLayoutDialog extends Dialog implements ActionBarLay
         } else if (i >= 21) {
             window.addFlags(-2147417856);
         }
-        window.setWindowAnimations(2131689477);
+        window.setWindowAnimations(2131689478);
         WindowManager.LayoutParams attributes = window.getAttributes();
         attributes.width = -1;
         attributes.gravity = 51;

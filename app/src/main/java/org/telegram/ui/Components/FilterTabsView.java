@@ -144,6 +144,16 @@ public class FilterTabsView extends FrameLayout {
         return this.positionToStableId.get(i, -1);
     }
 
+    public void selectTabWithStableId(int i) {
+        for (int i2 = 0; i2 < this.tabs.size(); i2++) {
+            if (this.positionToStableId.get(i2, -1) == i) {
+                this.currentPosition = i2;
+                this.selectedTabId = this.positionToId.get(i2);
+                return;
+            }
+        }
+    }
+
     /* loaded from: classes3.dex */
     public class Tab {
         public int counter;
@@ -601,7 +611,7 @@ public class FilterTabsView extends FrameLayout {
                                 return;
                             }
                             if (FilterTabsView.this.lockDrawable == null) {
-                                FilterTabsView.this.lockDrawable = ContextCompat.getDrawable(getContext(), 2131166024);
+                                FilterTabsView.this.lockDrawable = ContextCompat.getDrawable(getContext(), 2131166026);
                             }
                             z3 = this.currentTab.isLocked;
                             if (z3) {
@@ -1596,9 +1606,9 @@ public class FilterTabsView extends FrameLayout {
         if (!this.tabs.isEmpty()) {
             int size = (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(7.0f)) - AndroidUtilities.dp(7.0f);
             Tab findDefaultTab = findDefaultTab();
-            findDefaultTab.setTitle(LocaleController.getString("FilterAllChats", 2131625829));
+            findDefaultTab.setTitle(LocaleController.getString("FilterAllChats", 2131625870));
             int width = findDefaultTab.getWidth(false);
-            findDefaultTab.setTitle(this.allTabsWidth > size ? LocaleController.getString("FilterAllChatsShort", 2131625830) : LocaleController.getString("FilterAllChats", 2131625829));
+            findDefaultTab.setTitle(this.allTabsWidth > size ? LocaleController.getString("FilterAllChatsShort", 2131625871) : LocaleController.getString("FilterAllChats", 2131625870));
             int width2 = (this.allTabsWidth - width) + findDefaultTab.getWidth(false);
             int i3 = this.additionalTabWidth;
             int size2 = width2 < size ? (size - width2) / this.tabs.size() : 0;
@@ -1737,7 +1747,7 @@ public class FilterTabsView extends FrameLayout {
                     this.invalidated = true;
                     requestLayout();
                     this.allTabsWidth = 0;
-                    findDefaultTab().setTitle(LocaleController.getString("FilterAllChats", 2131625829));
+                    findDefaultTab().setTitle(LocaleController.getString("FilterAllChats", 2131625870));
                     for (int i2 = 0; i2 < size; i2++) {
                         this.allTabsWidth += this.tabs.get(i2).getWidth(true) + AndroidUtilities.dp(32.0f);
                     }
@@ -1774,7 +1784,7 @@ public class FilterTabsView extends FrameLayout {
         this.listView.setItemAnimator(this.itemAnimator);
         this.adapter.notifyDataSetChanged();
         this.allTabsWidth = 0;
-        findDefaultTab().setTitle(LocaleController.getString("FilterAllChats", 2131625829));
+        findDefaultTab().setTitle(LocaleController.getString("FilterAllChats", 2131625870));
         int size = this.tabs.size();
         for (int i3 = 0; i3 < size; i3++) {
             this.allTabsWidth += this.tabs.get(i3).getWidth(true) + AndroidUtilities.dp(32.0f);

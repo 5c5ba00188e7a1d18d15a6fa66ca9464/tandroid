@@ -54,7 +54,7 @@ public class TimerDrawable extends Drawable {
         String str;
         if (this.time != i) {
             this.time = i;
-            Drawable mutate = ContextCompat.getDrawable(this.context, i == 0 ? 2131165801 : 2131165802).mutate();
+            Drawable mutate = ContextCompat.getDrawable(this.context, i == 0 ? 2131165802 : 2131165803).mutate();
             this.currentTtlIcon = mutate;
             mutate.setColorFilter(this.currentColorFilter);
             invalidateSelf();
@@ -62,39 +62,39 @@ public class TimerDrawable extends Drawable {
             if (i2 >= 1 && i2 < 60) {
                 str = "" + i;
                 if (str.length() < 2) {
-                    str = str + LocaleController.getString("SecretChatTimerSeconds", 2131628151);
+                    str = str + LocaleController.getString("SecretChatTimerSeconds", 2131628213);
                 }
             } else if (i2 >= 60 && i2 < 3600) {
                 str = "" + (i / 60);
                 if (str.length() < 2) {
-                    str = str + LocaleController.getString("SecretChatTimerMinutes", 2131628149);
+                    str = str + LocaleController.getString("SecretChatTimerMinutes", 2131628211);
                 }
             } else if (i2 >= 3600 && i2 < 86400) {
                 str = "" + ((i / 60) / 60);
                 if (str.length() < 2) {
-                    str = str + LocaleController.getString("SecretChatTimerHours", 2131628148);
+                    str = str + LocaleController.getString("SecretChatTimerHours", 2131628210);
                 }
             } else if (i2 >= 86400 && i2 < 604800) {
                 str = "" + (((i / 60) / 60) / 24);
                 if (str.length() < 2) {
-                    str = str + LocaleController.getString("SecretChatTimerDays", 2131628147);
+                    str = str + LocaleController.getString("SecretChatTimerDays", 2131628209);
                 }
             } else if (i2 < 2678400) {
                 str = "" + ((((i / 60) / 60) / 24) / 7);
                 if (str.length() < 2) {
-                    str = str + LocaleController.getString("SecretChatTimerWeeks", 2131628152);
+                    str = str + LocaleController.getString("SecretChatTimerWeeks", 2131628214);
                 } else if (str.length() > 2) {
                     str = "c";
                 }
             } else if (i2 < 31449600) {
                 str = "" + ((((i / 60) / 60) / 24) / 30);
                 if (str.length() < 2) {
-                    str = str + LocaleController.getString("SecretChatTimerMonths", 2131628150);
+                    str = str + LocaleController.getString("SecretChatTimerMonths", 2131628212);
                 }
             } else {
                 str = "" + ((((i / 60) / 60) / 24) / 364);
                 if (str.length() < 2) {
-                    str = str + LocaleController.getString("SecretChatTimerYears", 2131628153);
+                    str = str + LocaleController.getString("SecretChatTimerYears", 2131628215);
                 }
             }
             String str2 = str;

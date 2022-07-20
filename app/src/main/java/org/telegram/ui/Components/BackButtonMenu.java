@@ -66,7 +66,7 @@ public class BackButtonMenu {
         }
         ?? actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(parentActivity, resourcesProvider);
         android.graphics.Rect rect2 = new android.graphics.Rect();
-        baseFragment.getParentActivity().getResources().getDrawable(2131166085).mutate().getPadding(rect2);
+        baseFragment.getParentActivity().getResources().getDrawable(2131166087).mutate().getPadding(rect2);
         actionBarPopupWindowLayout.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuBackground", resourcesProvider));
         AtomicReference atomicReference = new AtomicReference();
         int i = 0;
@@ -105,15 +105,15 @@ public class BackButtonMenu {
                 view3 = fragmentView;
                 rect = rect2;
                 if (pulledDialog.activity == ChatActivity.class && UserObject.isUserSelf(tLRPC$User)) {
-                    str = LocaleController.getString("SavedMessages", 2131628077);
+                    str = LocaleController.getString("SavedMessages", 2131628139);
                     avatarDrawable.setAvatarType(1);
                     backupImageView.setImageDrawable(avatarDrawable);
                 } else if (UserObject.isReplyUser(tLRPC$User)) {
-                    str = LocaleController.getString("RepliesTitle", 2131627920);
+                    str = LocaleController.getString("RepliesTitle", 2131627982);
                     avatarDrawable.setAvatarType(12);
                     backupImageView.setImageDrawable(avatarDrawable);
                 } else if (UserObject.isDeleted(tLRPC$User)) {
-                    str = LocaleController.getString("HiddenName", 2131626131);
+                    str = LocaleController.getString("HiddenName", 2131626178);
                     avatarDrawable.setInfo(tLRPC$User);
                     backupImageView.setImage(ImageLocation.getForUser(tLRPC$User, 1), "50_50", avatarDrawable, tLRPC$User);
                 } else {
@@ -150,7 +150,7 @@ public class BackButtonMenu {
         actionBarPopupWindow.setDismissAnimationDuration(220);
         actionBarPopupWindow.setOutsideTouchable(true);
         actionBarPopupWindow.setClippingEnabled(true);
-        actionBarPopupWindow.setAnimationStyle(2131689480);
+        actionBarPopupWindow.setAnimationStyle(2131689481);
         actionBarPopupWindow.setFocusable(true);
         actionBarPopupWindowLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
         actionBarPopupWindow.setInputMethodMode(2);

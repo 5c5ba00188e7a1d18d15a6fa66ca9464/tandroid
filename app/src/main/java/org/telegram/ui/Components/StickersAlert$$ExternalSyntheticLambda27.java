@@ -1,18 +1,16 @@
 package org.telegram.ui.Components;
 
-import org.telegram.tgnet.RequestDelegate;
-import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class StickersAlert$$ExternalSyntheticLambda27 implements RequestDelegate {
+public final /* synthetic */ class StickersAlert$$ExternalSyntheticLambda27 implements MessagesStorage.StringCallback {
     public final /* synthetic */ StickersAlert f$0;
 
     public /* synthetic */ StickersAlert$$ExternalSyntheticLambda27(StickersAlert stickersAlert) {
         this.f$0 = stickersAlert;
     }
 
-    @Override // org.telegram.tgnet.RequestDelegate
-    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        this.f$0.lambda$updateFields$15(tLObject, tLRPC$TL_error);
+    @Override // org.telegram.messenger.MessagesStorage.StringCallback
+    public final void run(String str) {
+        this.f$0.lambda$showNameEnterAlert$29(str);
     }
 }

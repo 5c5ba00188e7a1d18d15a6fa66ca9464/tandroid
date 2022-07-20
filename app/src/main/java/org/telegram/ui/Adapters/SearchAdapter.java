@@ -206,9 +206,9 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
                     strArr2[c2] = str4;
                 }
                 if (UserObject.isReplyUser(user)) {
-                    strArr2[2] = LocaleController.getString("RepliesTitle", 2131627920).toLowerCase();
+                    strArr2[2] = LocaleController.getString("RepliesTitle", 2131627982).toLowerCase();
                 } else if (user.self) {
-                    strArr2[2] = LocaleController.getString("SavedMessages", 2131628077).toLowerCase();
+                    strArr2[2] = LocaleController.getString("SavedMessages", 2131628139).toLowerCase();
                 }
                 int i7 = 0;
                 char c3 = 0;
@@ -372,10 +372,10 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             if (itemViewType == 1) {
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 if (getItem(i) == null) {
-                    graySectionCell.setText(LocaleController.getString("GlobalSearch", 2131626079));
+                    graySectionCell.setText(LocaleController.getString("GlobalSearch", 2131626126));
                     return;
                 } else {
-                    graySectionCell.setText(LocaleController.getString("PhoneNumberSearch", 2131627500));
+                    graySectionCell.setText(LocaleController.getString("PhoneNumberSearch", 2131627552));
                     return;
                 }
             } else if (itemViewType != 2) {
@@ -383,7 +383,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             } else {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(null, "windowBackgroundWhiteBlueText2");
-                textCell.setText(LocaleController.formatString("AddContactByPhone", 2131624260, PhoneFormat.getInstance().format("+" + ((String) getItem(i)))), false);
+                textCell.setText(LocaleController.formatString("AddContactByPhone", 2131624265, PhoneFormat.getInstance().format("+" + ((String) getItem(i)))), false);
                 return;
             }
         }
@@ -456,7 +456,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             return;
         }
         ProfileSearchCell profileSearchCell = (ProfileSearchCell) viewHolder.itemView;
-        profileSearchCell.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", 2131628077) : str2, spannableStringBuilder, false, z);
+        profileSearchCell.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", 2131628139) : str2, spannableStringBuilder, false, z);
         if (i != getItemCount() - 1 && i != this.searchResult.size() - 1) {
             z2 = true;
         }

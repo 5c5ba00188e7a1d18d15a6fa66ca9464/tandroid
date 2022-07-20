@@ -184,7 +184,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         this.cancelTextView.setGravity(17);
         this.cancelTextView.setBackgroundDrawable(Theme.createSelectorDrawable(-12763843, 0));
         this.cancelTextView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
-        this.cancelTextView.setText(LocaleController.getString("Cancel", 2131624819).toUpperCase());
+        this.cancelTextView.setText(LocaleController.getString("Cancel", 2131624832).toUpperCase());
         this.cancelTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.toolsView.addView(this.cancelTextView, LayoutHelper.createFrame(-2, -1, 51));
         TextView textView2 = new TextView(context);
@@ -194,27 +194,27 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         this.doneTextView.setGravity(17);
         this.doneTextView.setBackgroundDrawable(Theme.createSelectorDrawable(-12763843, 0));
         this.doneTextView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
-        this.doneTextView.setText(LocaleController.getString("Done", 2131625525).toUpperCase());
+        this.doneTextView.setText(LocaleController.getString("Done", 2131625541).toUpperCase());
         this.doneTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.toolsView.addView(this.doneTextView, LayoutHelper.createFrame(-2, -1, 53));
         ImageView imageView = new ImageView(context);
         this.paintButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         this.paintButton.setContentDescription(LocaleController.getString("AccDescrPaint", 2131624033));
-        this.paintButton.setImageResource(2131165851);
+        this.paintButton.setImageResource(2131165852);
         this.paintButton.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.toolsView.addView(this.paintButton, LayoutHelper.createFrame(54, -1.0f, 17, 0.0f, 0.0f, 56.0f, 0.0f));
         this.paintButton.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda4(this));
         ImageView imageView2 = new ImageView(context);
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
-        imageView2.setImageResource(2131165948);
+        imageView2.setImageResource(2131165950);
         imageView2.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.toolsView.addView(imageView2, LayoutHelper.createFrame(54, -1, 17));
         imageView2.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda2(this));
         ImageView imageView3 = new ImageView(context);
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
         imageView3.setContentDescription(LocaleController.getString("AccDescrPlaceText", 2131624041));
-        imageView3.setImageResource(2131165856);
+        imageView3.setImageResource(2131165857);
         imageView3.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.toolsView.addView(imageView3, LayoutHelper.createFrame(54, -1.0f, 17, 56.0f, 0.0f, 0.0f, 0.0f));
         imageView3.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda6(this));
@@ -456,16 +456,16 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
     private void updateSettingsButton() {
         this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("AccDescrBrushType", 2131623965));
         EntityView entityView = this.currentEntityView;
-        int i = 2131166042;
+        int i = 2131166044;
         if (entityView != null) {
             if (entityView instanceof StickerView) {
-                i = 2131165852;
+                i = 2131165853;
                 this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("AccDescrMirror", 2131624002));
             } else if (entityView instanceof TextPaintView) {
-                i = 2131166041;
-                this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("PaintOutlined", 2131627153));
+                i = 2131166043;
+                this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("PaintOutlined", 2131627205));
             }
-            this.paintButton.setImageResource(2131165851);
+            this.paintButton.setImageResource(2131165852);
             this.paintButton.setColorFilter((ColorFilter) null);
         } else {
             Swatch swatch = this.brushSwatch;
@@ -474,7 +474,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
                 this.brushSwatch = null;
             }
             this.paintButton.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY));
-            this.paintButton.setImageResource(2131165851);
+            this.paintButton.setImageResource(2131165852);
         }
         this.backgroundView.setVisibility(this.currentEntityView instanceof TextPaintView ? 4 : 0);
         this.colorPicker.setSettingsButtonImage(i);
@@ -698,10 +698,10 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         } else if (activity == null) {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setMessage(LocaleController.getString("PhotoEditorDiscardAlert", 2131627504));
-            builder.setTitle(LocaleController.getString("DiscardChanges", 2131625486));
-            builder.setPositiveButton(LocaleController.getString("PassportDiscard", 2131627220), new PhotoPaintView$$ExternalSyntheticLambda0(runnable));
-            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+            builder.setMessage(LocaleController.getString("PhotoEditorDiscardAlert", 2131627556));
+            builder.setTitle(LocaleController.getString("DiscardChanges", 2131625502));
+            builder.setPositiveButton(LocaleController.getString("PassportDiscard", 2131627272), new PhotoPaintView$$ExternalSyntheticLambda0(runnable));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             photoViewer.showAlertDialog(builder);
         }
     }
@@ -1395,7 +1395,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         textView.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(14.0f), 0);
         textView.setTextSize(1, 18.0f);
         textView.setTag(0);
-        textView.setText(LocaleController.getString("PaintDelete", 2131627147));
+        textView.setText(LocaleController.getString("PaintDelete", 2131627199));
         textView.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda10(this, entityView));
         linearLayout.addView(textView, LayoutHelper.createLinear(-2, 48));
         if (entityView instanceof TextPaintView) {
@@ -1406,7 +1406,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
             textView2.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
             textView2.setTextSize(1, 18.0f);
             textView2.setTag(1);
-            textView2.setText(LocaleController.getString("PaintEdit", 2131627149));
+            textView2.setText(LocaleController.getString("PaintEdit", 2131627201));
             textView2.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda7(this));
             linearLayout.addView(textView2, LayoutHelper.createLinear(-2, 48));
         }
@@ -1417,7 +1417,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         textView3.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(16.0f), 0);
         textView3.setTextSize(1, 18.0f);
         textView3.setTag(2);
-        textView3.setText(LocaleController.getString("PaintDuplicate", 2131627148));
+        textView3.setText(LocaleController.getString("PaintDuplicate", 2131627200));
         textView3.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda5(this));
         linearLayout.addView(textView3, LayoutHelper.createLinear(-2, 48));
         this.popupLayout.addView(linearLayout);
@@ -1485,7 +1485,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         textView.setMinWidth(AndroidUtilities.dp(70.0f));
         anonymousClass8.addView(textView, LayoutHelper.createLinear(-2, -2, 19, 0, 0, 16, 0));
         ImageView imageView2 = new ImageView(getContext());
-        imageView2.setImageResource(2131165952);
+        imageView2.setImageResource(2131165954);
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
         imageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor("radioBackgroundChecked"), PorterDuff.Mode.MULTIPLY));
         if (!z) {
@@ -1511,10 +1511,10 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
 
     public /* synthetic */ void lambda$showBrushSettings$15() {
         boolean z = false;
-        this.popupLayout.addView((View) buttonForBrush(0, 2131165713, LocaleController.getString("PaintPen", 2131627154), this.currentBrush == 0), LayoutHelper.createLinear(-1, 54));
-        this.popupLayout.addView((View) buttonForBrush(1, 2131165711, LocaleController.getString("PaintMarker", 2131627151), this.currentBrush == 1), LayoutHelper.createLinear(-1, 54));
-        this.popupLayout.addView((View) buttonForBrush(2, 2131165712, LocaleController.getString("PaintNeon", 2131627152), this.currentBrush == 2), LayoutHelper.createLinear(-1, 54));
-        String string = LocaleController.getString("PaintArrow", 2131627146);
+        this.popupLayout.addView((View) buttonForBrush(0, 2131165713, LocaleController.getString("PaintPen", 2131627206), this.currentBrush == 0), LayoutHelper.createLinear(-1, 54));
+        this.popupLayout.addView((View) buttonForBrush(1, 2131165711, LocaleController.getString("PaintMarker", 2131627203), this.currentBrush == 1), LayoutHelper.createLinear(-1, 54));
+        this.popupLayout.addView((View) buttonForBrush(2, 2131165712, LocaleController.getString("PaintNeon", 2131627204), this.currentBrush == 2), LayoutHelper.createLinear(-1, 54));
+        String string = LocaleController.getString("PaintArrow", 2131627198);
         if (this.currentBrush == 3) {
             z = true;
         }
@@ -1551,7 +1551,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         anonymousClass9.addView(textView, LayoutHelper.createLinear(-2, -2, 19, 0, 0, 16, 0));
         if (z) {
             ImageView imageView2 = new ImageView(getContext());
-            imageView2.setImageResource(2131165952);
+            imageView2.setImageResource(2131165954);
             imageView2.setScaleType(ImageView.ScaleType.CENTER);
             imageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor("radioBackgroundChecked"), PorterDuff.Mode.MULTIPLY));
             anonymousClass9.addView(imageView2, LayoutHelper.createLinear(50, -1));
@@ -1578,14 +1578,14 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         for (int i2 = 0; i2 < 3; i2++) {
             boolean z = true;
             if (i2 == 0) {
-                str = LocaleController.getString("PaintOutlined", 2131627153);
-                i = 2131165954;
+                str = LocaleController.getString("PaintOutlined", 2131627205);
+                i = 2131165956;
             } else if (i2 == 1) {
-                str = LocaleController.getString("PaintRegular", 2131627155);
-                i = 2131165955;
+                str = LocaleController.getString("PaintRegular", 2131627207);
+                i = 2131165957;
             } else {
-                str = LocaleController.getString("PaintFramed", 2131627150);
-                i = 2131165953;
+                str = LocaleController.getString("PaintFramed", 2131627202);
+                i = 2131165955;
             }
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = this.popupLayout;
             if (this.selectedTextType != i2) {
@@ -1616,7 +1616,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
             ActionBarPopupWindow actionBarPopupWindow2 = new ActionBarPopupWindow(this.popupLayout, -2, -2);
             this.popupWindow = actionBarPopupWindow2;
             actionBarPopupWindow2.setAnimationEnabled(false);
-            this.popupWindow.setAnimationStyle(2131689479);
+            this.popupWindow.setAnimationStyle(2131689480);
             this.popupWindow.setOutsideTouchable(true);
             this.popupWindow.setClippingEnabled(true);
             this.popupWindow.setInputMethodMode(2);

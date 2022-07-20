@@ -31,6 +31,7 @@ import android.view.ViewTreeObserver;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.TextView;
 import androidx.annotation.Keep;
+import androidx.core.graphics.ColorUtils;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -50,6 +51,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     private static Method getVerticalOffsetMethod;
     private static Field mCursorDrawableResField;
     private static Field mEditor;
+    private static Method mEditorInvalidateDisplayList;
     private static Field mScrollYField;
     private static boolean mScrollYGet;
     private static Field mShowCursorField;
@@ -306,9 +308,15 @@ public class EditTextBoldCursor extends EditTextEffects {
                     declaredField3.setAccessible(true);
                 } catch (Exception unused2) {
                 }
-                Method declaredMethod = TextView.class.getDeclaredMethod("getVerticalOffset", Boolean.TYPE);
-                getVerticalOffsetMethod = declaredMethod;
-                declaredMethod.setAccessible(true);
+                try {
+                    Method declaredMethod = editorClass.getDeclaredMethod("invalidateTextDisplayList", new Class[0]);
+                    mEditorInvalidateDisplayList = declaredMethod;
+                    declaredMethod.setAccessible(true);
+                } catch (Exception unused3) {
+                }
+                Method declaredMethod2 = TextView.class.getDeclaredMethod("getVerticalOffset", Boolean.TYPE);
+                getVerticalOffsetMethod = declaredMethod2;
+                declaredMethod2.setAccessible(true);
             }
         } catch (Throwable th) {
             FileLog.e(th);
@@ -321,7 +329,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     setTextCursorDrawable(gradientDrawable);
                 }
                 this.editor = mEditor.get(this);
-            } catch (Throwable unused3) {
+            } catch (Throwable unused4) {
             }
             try {
                 if (mCursorDrawableResField == null) {
@@ -333,7 +341,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 if (field != null) {
                     field.set(this, 2131165398);
                 }
-            } catch (Throwable unused4) {
+            } catch (Throwable unused5) {
             }
         }
         this.cursorSize = AndroidUtilities.dp(24.0f);
@@ -441,7 +449,7 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     public void setLineColors(int i, int i2, int i3) {
         this.lineVisible = true;
-        getContext().getResources().getDrawable(2131166122).getPadding(this.padding);
+        getContext().getResources().getDrawable(2131166124).getPadding(this.padding);
         android.graphics.Rect rect = this.padding;
         setPadding(rect.left, rect.top, rect.right, rect.bottom);
         this.lineColor = i;
@@ -729,7 +737,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
                 canvas.scale(f6, f6);
                 canvas.translate(0.0f, (-AndroidUtilities.dp(22.0f)) * this.headerAnimationProgress);
-                getPaint().setColor(AndroidUtilities.lerpColor(this.hintColor, this.headerHintColor, this.headerAnimationProgress));
+                getPaint().setColor(ColorUtils.blendARGB(this.hintColor, this.headerHintColor, this.headerAnimationProgress));
             } else {
                 getPaint().setColor(this.hintColor);
                 getPaint().setAlpha((int) (this.hintAlpha * 255.0f * (Color.alpha(this.hintColor) / 255.0f)));

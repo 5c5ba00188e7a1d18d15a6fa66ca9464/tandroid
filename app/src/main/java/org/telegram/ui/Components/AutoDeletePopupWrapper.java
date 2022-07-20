@@ -26,33 +26,33 @@ public class AutoDeletePopupWrapper {
     }
 
     public AutoDeletePopupWrapper(Context context, PopupSwipeBackLayout popupSwipeBackLayout, Callback callback, boolean z, Theme.ResourcesProvider resourcesProvider) {
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, z ? 2131166085 : 0, resourcesProvider);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, z ? 2131166087 : 0, resourcesProvider);
         this.windowLayout = actionBarPopupWindowLayout;
         actionBarPopupWindowLayout.setFitItems(true);
         this.callback = callback;
         if (popupSwipeBackLayout != null) {
-            ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.windowLayout, 2131165639, LocaleController.getString("Back", 2131624636), false, resourcesProvider);
+            ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.windowLayout, 2131165639, LocaleController.getString("Back", 2131624647), false, resourcesProvider);
             this.backItem = addItem;
             addItem.setOnClickListener(new AutoDeletePopupWrapper$$ExternalSyntheticLambda5(popupSwipeBackLayout));
         }
-        ActionBarMenuItem.addItem(this.windowLayout, 2131165644, LocaleController.getString("AutoDelete1Day", 2131624537), false, resourcesProvider).setOnClickListener(new AutoDeletePopupWrapper$$ExternalSyntheticLambda4(this, callback));
-        ActionBarMenuItem.addItem(this.windowLayout, 2131165647, LocaleController.getString("AutoDelete7Days", 2131624541), false, resourcesProvider).setOnClickListener(new AutoDeletePopupWrapper$$ExternalSyntheticLambda2(this, callback));
-        ActionBarMenuItem.addItem(this.windowLayout, 2131165646, LocaleController.getString("AutoDelete1Month", 2131624539), false, resourcesProvider).setOnClickListener(new AutoDeletePopupWrapper$$ExternalSyntheticLambda1(this, callback));
-        ActionBarMenuItem.addItem(this.windowLayout, 2131165700, LocaleController.getString("AutoDeleteCustom", 2131624549), false, resourcesProvider).setOnClickListener(new AutoDeletePopupWrapper$$ExternalSyntheticLambda0(this, context, resourcesProvider, callback));
-        ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(this.windowLayout, 2131165707, LocaleController.getString("AutoDeleteDisable", 2131624550), false, resourcesProvider);
+        ActionBarMenuItem.addItem(this.windowLayout, 2131165644, LocaleController.getString("AutoDelete1Day", 2131624548), false, resourcesProvider).setOnClickListener(new AutoDeletePopupWrapper$$ExternalSyntheticLambda4(this, callback));
+        ActionBarMenuItem.addItem(this.windowLayout, 2131165647, LocaleController.getString("AutoDelete7Days", 2131624552), false, resourcesProvider).setOnClickListener(new AutoDeletePopupWrapper$$ExternalSyntheticLambda2(this, callback));
+        ActionBarMenuItem.addItem(this.windowLayout, 2131165646, LocaleController.getString("AutoDelete1Month", 2131624550), false, resourcesProvider).setOnClickListener(new AutoDeletePopupWrapper$$ExternalSyntheticLambda1(this, callback));
+        ActionBarMenuItem.addItem(this.windowLayout, 2131165700, LocaleController.getString("AutoDeleteCustom", 2131624560), false, resourcesProvider).setOnClickListener(new AutoDeletePopupWrapper$$ExternalSyntheticLambda0(this, context, resourcesProvider, callback));
+        ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(this.windowLayout, 2131165707, LocaleController.getString("AutoDeleteDisable", 2131624561), false, resourcesProvider);
         this.disableItem = addItem2;
         addItem2.setOnClickListener(new AutoDeletePopupWrapper$$ExternalSyntheticLambda3(this, callback));
         addItem2.setColors(Theme.getColor("dialogTextRed2"), Theme.getColor("dialogTextRed2"));
         FrameLayout frameLayout = new FrameLayout(context);
         frameLayout.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuSeparator", resourcesProvider));
-        frameLayout.setTag(2131230820, 1);
+        frameLayout.setTag(2131230821, 1);
         this.windowLayout.addView((View) frameLayout, LayoutHelper.createLinear(-1, 8));
         TextView textView = new TextView(context);
-        textView.setTag(2131230820, 1);
+        textView.setTag(2131230821, 1);
         textView.setPadding(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f));
         textView.setTextSize(1, 13.0f);
         textView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
-        textView.setText(LocaleController.getString("AutoDeletePopupDescription", 2131624557));
+        textView.setText(LocaleController.getString("AutoDeletePopupDescription", 2131624568));
         this.windowLayout.addView((View) textView, LayoutHelper.createLinear(-1, -2));
     }
 

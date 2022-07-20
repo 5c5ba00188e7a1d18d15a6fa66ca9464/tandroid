@@ -80,8 +80,8 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
     protected void onCreate(Bundle bundle) {
         ApplicationLoader.postInitApplication();
         requestWindowFeature(1);
-        setTheme(2131689489);
-        getWindow().setBackgroundDrawableResource(2131166187);
+        setTheme(2131689490);
+        getWindow().setBackgroundDrawableResource(2131166189);
         if (SharedConfig.passcodeHash.length() > 0 && !SharedConfig.allowScreenCapture) {
             try {
                 getWindow().setFlags(8192, 8192);
@@ -291,9 +291,9 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
                         this.layersActionBarLayout.showLastFragment();
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle(LocaleController.getString("AppName", 2131624375));
-                    builder.setMessage(LocaleController.getString("PleaseLoginPassport", 2131627568));
-                    builder.setPositiveButton(LocaleController.getString("OK", 2131627075), null);
+                    builder.setTitle(LocaleController.getString("AppName", 2131624384));
+                    builder.setMessage(LocaleController.getString("PleaseLoginPassport", 2131627620));
+                    builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
                     builder.show();
                     return true;
                 } else if (activatedAccountsCount >= 2) {
@@ -399,7 +399,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         try {
             alertDialog.dismiss();
             if ("APP_VERSION_OUTDATED".equals(tLRPC$TL_error.text)) {
-                AlertDialog showUpdateAppAlert = AlertsCreator.showUpdateAppAlert(this, LocaleController.getString("UpdateAppAlert", 2131628758), true);
+                AlertDialog showUpdateAppAlert = AlertsCreator.showUpdateAppAlert(this, LocaleController.getString("UpdateAppAlert", 2131628830), true);
                 if (showUpdateAppAlert != null) {
                     showUpdateAppAlert.setOnDismissListener(new ExternalActionActivity$$ExternalSyntheticLambda2(this, tLRPC$TL_error));
                 } else {

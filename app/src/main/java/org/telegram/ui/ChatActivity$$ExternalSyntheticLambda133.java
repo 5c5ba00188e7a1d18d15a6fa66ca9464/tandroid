@@ -9,6 +9,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda133 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$processSelectedOption$201();
+        this.f$0.inlineUpdate1();
     }
 }

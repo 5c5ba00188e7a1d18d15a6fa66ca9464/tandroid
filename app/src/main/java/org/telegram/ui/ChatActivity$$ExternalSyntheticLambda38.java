@@ -14,6 +14,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda38 imple
 
     @Override // android.content.DialogInterface.OnClickListener
     public final void onClick(DialogInterface dialogInterface, int i) {
-        this.f$0.lambda$processSelectedOption$212(this.f$1, dialogInterface, i);
+        this.f$0.lambda$processSelectedOption$213(this.f$1, dialogInterface, i);
     }
 }

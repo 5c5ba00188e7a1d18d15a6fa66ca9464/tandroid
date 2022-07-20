@@ -214,7 +214,7 @@ public class UndoView extends FrameLayout {
         textView3.setTextSize(1, 14.0f);
         this.undoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.undoTextView.setTextColor(getThemedColor("undo_cancelColor"));
-        this.undoTextView.setText(LocaleController.getString("Undo", 2131628728));
+        this.undoTextView.setText(LocaleController.getString("Undo", 2131628796));
         this.undoButton.addView(this.undoTextView, LayoutHelper.createLinear(-2, -2, 19, 6, 4, 8, 4));
         this.rect = new RectF(AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), AndroidUtilities.dp(33.0f), AndroidUtilities.dp(33.0f));
         Paint paint = new Paint(1);
@@ -422,7 +422,7 @@ public class UndoView extends FrameLayout {
             this.timeLeft = 5000L;
             this.currentInfoObject = obj;
             this.lastUpdateTime = SystemClock.elapsedRealtime();
-            this.undoTextView.setText(LocaleController.getString("Undo", 2131628728).toUpperCase());
+            this.undoTextView.setText(LocaleController.getString("Undo", 2131628796).toUpperCase());
             this.undoImageView.setVisibility(0);
             this.leftImageView.setPadding(0, 0, 0, 0);
             this.infoTextView.setTextSize(1, 15.0f);
@@ -455,22 +455,22 @@ public class UndoView extends FrameLayout {
             if (isTooltipAction()) {
                 if (i == ACTION_RINGTONE_ADDED) {
                     this.subinfoTextView.setSingleLine(false);
-                    charSequence2 = LocaleController.getString("SoundAdded", 2131628385);
-                    ?? replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("SoundAddedSubtitle", 2131628386), runnable);
+                    charSequence2 = LocaleController.getString("SoundAdded", 2131628448);
+                    ?? replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("SoundAddedSubtitle", 2131628449), runnable);
                     this.currentActionRunnable = null;
                     this.timeLeft = 4000L;
                     str11 = replaceSingleTag;
-                    i4 = 2131558531;
+                    i4 = 2131558550;
                 } else if (i == 74) {
                     this.subinfoTextView.setSingleLine(false);
-                    charSequence2 = LocaleController.getString("ReportChatSent", 2131627938);
-                    str11 = LocaleController.formatString("ReportSentInfo", 2131627947, new Object[0]);
-                    i4 = 2131558460;
+                    charSequence2 = LocaleController.getString("ReportChatSent", 2131628000);
+                    str11 = LocaleController.formatString("ReportSentInfo", 2131628009, new Object[0]);
+                    i4 = 2131558462;
                     this.timeLeft = 4000L;
                 } else {
                     if (i == 34) {
                         TLRPC$User tLRPC$User = (TLRPC$User) obj;
-                        SpannableStringBuilder replaceTags = ChatObject.isChannelOrGiga((TLRPC$Chat) obj2) ? AndroidUtilities.replaceTags(LocaleController.formatString("VoipChannelInvitedUser", 2131628972, UserObject.getFirstName(tLRPC$User))) : AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupInvitedUser", 2131629061, UserObject.getFirstName(tLRPC$User)));
+                        SpannableStringBuilder replaceTags = ChatObject.isChannelOrGiga((TLRPC$Chat) obj2) ? AndroidUtilities.replaceTags(LocaleController.formatString("VoipChannelInvitedUser", 2131629046, UserObject.getFirstName(tLRPC$User))) : AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupInvitedUser", 2131629135, UserObject.getFirstName(tLRPC$User)));
                         AvatarDrawable avatarDrawable = new AvatarDrawable();
                         avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
                         avatarDrawable.setInfo(tLRPC$User);
@@ -482,10 +482,10 @@ public class UndoView extends FrameLayout {
                         TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) obj2;
                         if (obj instanceof TLRPC$User) {
                             TLRPC$User tLRPC$User2 = (TLRPC$User) obj;
-                            charSequence2 = ChatObject.isChannelOrGiga(tLRPC$Chat) ? AndroidUtilities.replaceTags(LocaleController.formatString("VoipChannelUserJoined", 2131628997, UserObject.getFirstName(tLRPC$User2))) : AndroidUtilities.replaceTags(LocaleController.formatString("VoipChatUserJoined", 2131629012, UserObject.getFirstName(tLRPC$User2)));
+                            charSequence2 = ChatObject.isChannelOrGiga(tLRPC$Chat) ? AndroidUtilities.replaceTags(LocaleController.formatString("VoipChannelUserJoined", 2131629071, UserObject.getFirstName(tLRPC$User2))) : AndroidUtilities.replaceTags(LocaleController.formatString("VoipChatUserJoined", 2131629086, UserObject.getFirstName(tLRPC$User2)));
                         } else {
                             TLRPC$Chat tLRPC$Chat2 = (TLRPC$Chat) obj;
-                            charSequence2 = ChatObject.isChannelOrGiga(tLRPC$Chat) ? AndroidUtilities.replaceTags(LocaleController.formatString("VoipChannelChatJoined", 2131628966, tLRPC$Chat2.title)) : AndroidUtilities.replaceTags(LocaleController.formatString("VoipChatChatJoined", 2131629002, tLRPC$Chat2.title));
+                            charSequence2 = ChatObject.isChannelOrGiga(tLRPC$Chat) ? AndroidUtilities.replaceTags(LocaleController.formatString("VoipChannelChatJoined", 2131629040, tLRPC$Chat2.title)) : AndroidUtilities.replaceTags(LocaleController.formatString("VoipChatChatJoined", 2131629076, tLRPC$Chat2.title));
                         }
                         AvatarDrawable avatarDrawable2 = new AvatarDrawable();
                         avatarDrawable2.setTextSize(AndroidUtilities.dp(12.0f));
@@ -509,19 +509,19 @@ public class UndoView extends FrameLayout {
                             str10 = tLRPC$Chat3.title;
                         }
                         if (ChatObject.isChannelOrGiga((TLRPC$Chat) obj2)) {
-                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipChannelUserChanged", 2131628996, str10));
+                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipChannelUserChanged", 2131629070, str10));
                         } else {
-                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupUserChanged", 2131629125, str10));
+                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupUserChanged", 2131629199, str10));
                         }
                         this.avatarImageView.setVisibility(0);
                         this.timeLeft = 3000L;
                     } else if (i == 33) {
-                        charSequence2 = LocaleController.getString("VoipGroupCopyInviteLinkCopied", 2131629043);
-                        i4 = 2131558590;
+                        charSequence2 = LocaleController.getString("VoipGroupCopyInviteLinkCopied", 2131629117);
+                        i4 = 2131558613;
                         this.timeLeft = 3000L;
                     } else if (i == 77) {
                         charSequence2 = (CharSequence) obj;
-                        i4 = 2131558487;
+                        i4 = 2131558500;
                         this.timeLeft = 5000L;
                         if (this.parentFragment != null && (obj2 instanceof TLRPC$Message)) {
                             setOnTouchListener(null);
@@ -534,8 +534,8 @@ public class UndoView extends FrameLayout {
                         } else {
                             str9 = ((TLRPC$Chat) obj).title;
                         }
-                        charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupUserCantNowSpeak", 2131629123, str9));
-                        i4 = 2131558591;
+                        charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupUserCantNowSpeak", 2131629197, str9));
+                        i4 = 2131558614;
                         this.timeLeft = 3000L;
                     } else if (i == 35) {
                         if (obj instanceof TLRPC$User) {
@@ -543,8 +543,8 @@ public class UndoView extends FrameLayout {
                         } else {
                             str8 = obj instanceof TLRPC$Chat ? ((TLRPC$Chat) obj).title : str12;
                         }
-                        charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupUserCantNowSpeakForYou", 2131629124, str8));
-                        i4 = 2131558591;
+                        charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupUserCantNowSpeakForYou", 2131629198, str8));
+                        i4 = 2131558614;
                         this.timeLeft = 3000L;
                     } else if (i == 31) {
                         if (obj instanceof TLRPC$User) {
@@ -552,52 +552,52 @@ public class UndoView extends FrameLayout {
                         } else {
                             str7 = ((TLRPC$Chat) obj).title;
                         }
-                        charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupUserCanNowSpeak", 2131629121, str7));
-                        i4 = 2131558597;
+                        charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupUserCanNowSpeak", 2131629195, str7));
+                        i4 = 2131558620;
                         this.timeLeft = 3000L;
                     } else if (i == 38) {
-                        charSequence2 = obj instanceof TLRPC$Chat ? AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupYouCanNowSpeakIn", 2131629133, ((TLRPC$Chat) obj).title)) : AndroidUtilities.replaceTags(LocaleController.getString("VoipGroupYouCanNowSpeak", 2131629132));
-                        i4 = 2131558583;
+                        charSequence2 = obj instanceof TLRPC$Chat ? AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupYouCanNowSpeakIn", 2131629207, ((TLRPC$Chat) obj).title)) : AndroidUtilities.replaceTags(LocaleController.getString("VoipGroupYouCanNowSpeak", 2131629206));
+                        i4 = 2131558606;
                         this.timeLeft = 3000L;
                     } else if (i == 42) {
                         if (ChatObject.isChannelOrGiga((TLRPC$Chat) obj)) {
-                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.getString("VoipChannelSoundMuted", 2131628987));
+                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.getString("VoipChannelSoundMuted", 2131629061));
                         } else {
-                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.getString("VoipGroupSoundMuted", 2131629101));
+                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.getString("VoipGroupSoundMuted", 2131629175));
                         }
-                        i4 = 2131558464;
+                        i4 = 2131558466;
                         this.timeLeft = 3000L;
                     } else if (i == 43) {
                         if (ChatObject.isChannelOrGiga((TLRPC$Chat) obj)) {
-                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.getString("VoipChannelSoundUnmuted", 2131628988));
+                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.getString("VoipChannelSoundUnmuted", 2131629062));
                         } else {
-                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.getString("VoipGroupSoundUnmuted", 2131629102));
+                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.getString("VoipGroupSoundUnmuted", 2131629176));
                         }
-                        i4 = 2131558470;
+                        i4 = 2131558472;
                         this.timeLeft = 3000L;
                     } else {
                         int i11 = this.currentAction;
                         if (i11 == 39 || i11 == 100) {
                             if (i11 == 39) {
-                                i6 = 2131629034;
+                                i6 = 2131629108;
                                 str2 = "VoipGroupAudioRecordStarted";
                             } else {
-                                i6 = 2131629128;
+                                i6 = 2131629202;
                                 str2 = "VoipGroupVideoRecordStarted";
                             }
                             charSequence2 = AndroidUtilities.replaceTags(LocaleController.getString(str2, i6));
-                            i4 = 2131558594;
+                            i4 = 2131558617;
                             this.timeLeft = 3000L;
                         } else if (i11 == 40 || i11 == 101) {
                             if (i11 == 40) {
-                                i7 = 2131629033;
+                                i7 = 2131629107;
                                 str3 = "VoipGroupAudioRecordSaved";
                             } else {
-                                i7 = 2131629127;
+                                i7 = 2131629201;
                                 str3 = "VoipGroupVideoRecordSaved";
                             }
                             String string2 = LocaleController.getString(str3, i7);
-                            i4 = 2131558593;
+                            i4 = 2131558616;
                             this.timeLeft = 4000L;
                             this.infoTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
                             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string2);
@@ -619,8 +619,8 @@ public class UndoView extends FrameLayout {
                             } else {
                                 str6 = ((TLRPC$Chat) obj).title;
                             }
-                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupUserCanNowSpeakForYou", 2131629122, str6));
-                            i4 = 2131558597;
+                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupUserCanNowSpeakForYou", 2131629196, str6));
+                            i4 = 2131558620;
                             this.timeLeft = 3000L;
                         } else if (i == 32) {
                             if (obj instanceof TLRPC$User) {
@@ -628,54 +628,54 @@ public class UndoView extends FrameLayout {
                             } else {
                                 str5 = ((TLRPC$Chat) obj).title;
                             }
-                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupRemovedFromGroup", 2131629092, str5));
-                            i4 = 2131558589;
+                            charSequence2 = AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupRemovedFromGroup", 2131629166, str5));
+                            i4 = 2131558612;
                             this.timeLeft = 3000L;
                         } else {
                             if (i == 9 || i == 10) {
                                 TLRPC$User tLRPC$User4 = (TLRPC$User) obj;
-                                charSequence2 = i == 9 ? AndroidUtilities.replaceTags(LocaleController.formatString("EditAdminTransferChannelToast", 2131625565, UserObject.getFirstName(tLRPC$User4))) : AndroidUtilities.replaceTags(LocaleController.formatString("EditAdminTransferGroupToast", 2131625566, UserObject.getFirstName(tLRPC$User4)));
+                                charSequence2 = i == 9 ? AndroidUtilities.replaceTags(LocaleController.formatString("EditAdminTransferChannelToast", 2131625581, UserObject.getFirstName(tLRPC$User4))) : AndroidUtilities.replaceTags(LocaleController.formatString("EditAdminTransferGroupToast", 2131625582, UserObject.getFirstName(tLRPC$User4)));
                             } else if (i == 8) {
-                                charSequence2 = LocaleController.formatString("NowInContacts", 2131627073, UserObject.getFirstName((TLRPC$User) obj));
+                                charSequence2 = LocaleController.formatString("NowInContacts", 2131627125, UserObject.getFirstName((TLRPC$User) obj));
                             } else if (i == 22) {
                                 if (!DialogObject.isUserDialog(longValue)) {
                                     TLRPC$Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-longValue));
                                     if (!ChatObject.isChannel(chat) || chat.megagroup) {
                                         if (obj == null) {
-                                            charSequence2 = LocaleController.getString("MainGroupProfilePhotoSetHint", 2131626516);
+                                            charSequence2 = LocaleController.getString("MainGroupProfilePhotoSetHint", 2131626563);
                                         } else {
-                                            charSequence2 = LocaleController.getString("MainGroupProfileVideoSetHint", 2131626517);
+                                            charSequence2 = LocaleController.getString("MainGroupProfileVideoSetHint", 2131626564);
                                         }
                                     } else if (obj == null) {
-                                        charSequence2 = LocaleController.getString("MainChannelProfilePhotoSetHint", 2131626514);
+                                        charSequence2 = LocaleController.getString("MainChannelProfilePhotoSetHint", 2131626561);
                                     } else {
-                                        charSequence2 = LocaleController.getString("MainChannelProfileVideoSetHint", 2131626515);
+                                        charSequence2 = LocaleController.getString("MainChannelProfileVideoSetHint", 2131626562);
                                     }
                                 } else if (obj == null) {
-                                    charSequence2 = LocaleController.getString("MainProfilePhotoSetHint", 2131626518);
+                                    charSequence2 = LocaleController.getString("MainProfilePhotoSetHint", 2131626565);
                                 } else {
-                                    charSequence2 = LocaleController.getString("MainProfileVideoSetHint", 2131626519);
+                                    charSequence2 = LocaleController.getString("MainProfileVideoSetHint", 2131626566);
                                 }
                             } else if (i == 23) {
-                                charSequence2 = LocaleController.getString("ChatWasMovedToMainList", 2131625043);
+                                charSequence2 = LocaleController.getString("ChatWasMovedToMainList", 2131625056);
                             } else if (i == 6) {
-                                charSequence2 = LocaleController.getString("ArchiveHidden", 2131624395);
-                                str11 = LocaleController.getString("ArchiveHiddenInfo", 2131624396);
+                                charSequence2 = LocaleController.getString("ArchiveHidden", 2131624404);
+                                str11 = LocaleController.getString("ArchiveHiddenInfo", 2131624405);
                                 i4 = 2131558425;
                                 i10 = 48;
                             } else {
                                 if (i11 == 13) {
-                                    charSequence2 = LocaleController.getString("QuizWellDone", 2131627824);
-                                    str11 = LocaleController.getString("QuizWellDoneInfo", 2131627825);
-                                    i4 = 2131558599;
+                                    charSequence2 = LocaleController.getString("QuizWellDone", 2131627886);
+                                    str11 = LocaleController.getString("QuizWellDoneInfo", 2131627887);
+                                    i4 = 2131558622;
                                 } else if (i11 == 14) {
-                                    charSequence2 = LocaleController.getString("QuizWrongAnswer", 2131627826);
-                                    str11 = LocaleController.getString("QuizWrongAnswerInfo", 2131627827);
-                                    i4 = 2131558601;
+                                    charSequence2 = LocaleController.getString("QuizWrongAnswer", 2131627888);
+                                    str11 = LocaleController.getString("QuizWrongAnswerInfo", 2131627889);
+                                    i4 = 2131558624;
                                 } else if (i == 7) {
-                                    charSequence2 = LocaleController.getString("ArchivePinned", 2131624403);
+                                    charSequence2 = LocaleController.getString("ArchivePinned", 2131624412);
                                     if (MessagesController.getInstance(this.currentAccount).dialogFilters.isEmpty()) {
-                                        string = LocaleController.getString("ArchivePinnedInfo", 2131624404);
+                                        string = LocaleController.getString("ArchivePinnedInfo", 2131624413);
                                         str11 = string;
                                     }
                                     i4 = 2131558424;
@@ -687,13 +687,13 @@ public class UndoView extends FrameLayout {
                                         }
                                         if (DialogObject.isUserDialog(longValue)) {
                                             TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
-                                            charSequence2 = i == 20 ? AndroidUtilities.replaceTags(LocaleController.formatString("FilterUserAddedToExisting", 2131625897, UserObject.getFirstName(user), dialogFilter.name)) : AndroidUtilities.replaceTags(LocaleController.formatString("FilterUserRemovedFrom", 2131625898, UserObject.getFirstName(user), dialogFilter.name));
+                                            charSequence2 = i == 20 ? AndroidUtilities.replaceTags(LocaleController.formatString("FilterUserAddedToExisting", 2131625938, UserObject.getFirstName(user), dialogFilter.name)) : AndroidUtilities.replaceTags(LocaleController.formatString("FilterUserRemovedFrom", 2131625939, UserObject.getFirstName(user), dialogFilter.name));
                                         } else {
                                             TLRPC$Chat chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
-                                            charSequence2 = i == 20 ? AndroidUtilities.replaceTags(LocaleController.formatString("FilterChatAddedToExisting", 2131625837, chat2.title, dialogFilter.name)) : AndroidUtilities.replaceTags(LocaleController.formatString("FilterChatRemovedFrom", 2131625838, chat2.title, dialogFilter.name));
+                                            charSequence2 = i == 20 ? AndroidUtilities.replaceTags(LocaleController.formatString("FilterChatAddedToExisting", 2131625878, chat2.title, dialogFilter.name)) : AndroidUtilities.replaceTags(LocaleController.formatString("FilterChatRemovedFrom", 2131625879, chat2.title, dialogFilter.name));
                                         }
                                     } else {
-                                        charSequence2 = i == 20 ? AndroidUtilities.replaceTags(LocaleController.formatString("FilterChatsAddedToExisting", 2131625841, LocaleController.formatPluralString("ChatsSelected", ((Integer) obj).intValue(), new Object[0]), dialogFilter.name)) : AndroidUtilities.replaceTags(LocaleController.formatString("FilterChatsRemovedFrom", 2131625842, LocaleController.formatPluralString("ChatsSelected", ((Integer) obj).intValue(), new Object[0]), dialogFilter.name));
+                                        charSequence2 = i == 20 ? AndroidUtilities.replaceTags(LocaleController.formatString("FilterChatsAddedToExisting", 2131625882, LocaleController.formatPluralString("ChatsSelected", ((Integer) obj).intValue(), new Object[0]), dialogFilter.name)) : AndroidUtilities.replaceTags(LocaleController.formatString("FilterChatsRemovedFrom", 2131625883, LocaleController.formatPluralString("ChatsSelected", ((Integer) obj).intValue(), new Object[0]), dialogFilter.name));
                                     }
                                     i4 = i == 20 ? 2131558452 : 2131558453;
                                 } else {
@@ -701,10 +701,10 @@ public class UndoView extends FrameLayout {
                                         charSequence2 = this.infoText;
                                     } else if (i == 82) {
                                         if (((MediaController.PhotoEntry) obj).isVideo) {
-                                            i8 = 2131624499;
+                                            i8 = 2131624510;
                                             str4 = "AttachMediaVideoDeselected";
                                         } else {
-                                            i8 = 2131624494;
+                                            i8 = 2131624505;
                                             str4 = "AttachMediaPhotoDeselected";
                                         }
                                         charSequence2 = LocaleController.getString(str4, i8);
@@ -715,18 +715,18 @@ public class UndoView extends FrameLayout {
                                         } else {
                                             charSequence2 = LocaleController.formatPluralString("UnpinnedDialogsCount", intValue, new Object[0]);
                                         }
-                                        i4 = this.currentAction == 78 ? 2131558465 : 2131558471;
+                                        i4 = this.currentAction == 78 ? 2131558467 : 2131558473;
                                         if (obj2 instanceof Integer) {
                                             this.timeLeft = ((Integer) obj2).intValue();
                                         }
                                     } else {
                                         if (i == 3) {
-                                            charSequence2 = LocaleController.getString("ChatArchived", 2131625000);
+                                            charSequence2 = LocaleController.getString("ChatArchived", 2131625013);
                                         } else {
-                                            charSequence2 = LocaleController.getString("ChatsArchived", 2131625056);
+                                            charSequence2 = LocaleController.getString("ChatsArchived", 2131625069);
                                         }
                                         if (MessagesController.getInstance(this.currentAccount).dialogFilters.isEmpty()) {
-                                            string = LocaleController.getString("ChatArchivedInfo", 2131625001);
+                                            string = LocaleController.getString("ChatArchivedInfo", 2131625014);
                                             str11 = string;
                                         }
                                     }
@@ -780,12 +780,12 @@ public class UndoView extends FrameLayout {
                     long j = -1;
                     int i13 = this.currentAction;
                     if (i13 == 76) {
-                        this.infoTextView.setText(LocaleController.getString("BroadcastGroupConvertSuccess", 2131624758));
-                        this.leftImageView.setAnimation(2131558456, 36, 36);
+                        this.infoTextView.setText(LocaleController.getString("BroadcastGroupConvertSuccess", 2131624771));
+                        this.leftImageView.setAnimation(2131558458, 36, 36);
                         layoutParams.topMargin = AndroidUtilities.dp(9.0f);
                         this.infoTextView.setTextSize(1, 14.0f);
                     } else if (i13 == 75) {
-                        this.infoTextView.setText(LocaleController.getString("GigagroupConvertCancelHint", 2131626069));
+                        this.infoTextView.setText(LocaleController.getString("GigagroupConvertCancelHint", 2131626116));
                         this.leftImageView.setAnimation(2131558424, 36, 36);
                         layoutParams.topMargin = AndroidUtilities.dp(9.0f);
                         this.infoTextView.setTextSize(1, 14.0f);
@@ -794,7 +794,7 @@ public class UndoView extends FrameLayout {
                             TLRPC$User tLRPC$User5 = (TLRPC$User) obj;
                             int intValue2 = ((Integer) obj2).intValue();
                             this.subinfoTextView.setSingleLine(false);
-                            this.infoTextView.setText(LocaleController.formatString("AutoDeleteHintOnText", 2131624553, LocaleController.formatTTLString(intValue2)));
+                            this.infoTextView.setText(LocaleController.formatString("AutoDeleteHintOnText", 2131624564, LocaleController.formatTTLString(intValue2)));
                             this.leftImageView.setAnimation(2131558450, 36, 36);
                             layoutParams.topMargin = AndroidUtilities.dp(9.0f);
                             this.timeLeft = 4000L;
@@ -802,34 +802,34 @@ public class UndoView extends FrameLayout {
                             z = true;
                         } else {
                             if (i13 == 71) {
-                                this.infoTextView.setText(LocaleController.getString("AutoDeleteHintOffText", 2131624552));
+                                this.infoTextView.setText(LocaleController.getString("AutoDeleteHintOffText", 2131624563));
                                 this.leftImageView.setAnimation(2131558449, 36, 36);
                                 this.infoTextView.setTextSize(1, 14.0f);
                                 this.timeLeft = 3000L;
                                 this.leftImageView.setPadding(0, 0, 0, AndroidUtilities.dp(4.0f));
                             } else if (i13 == 45) {
-                                this.infoTextView.setText(LocaleController.getString("ImportMutualError", 2131626196));
+                                this.infoTextView.setText(LocaleController.getString("ImportMutualError", 2131626243));
                                 this.leftImageView.setAnimation(2131558445, 36, 36);
                                 layoutParams.topMargin = AndroidUtilities.dp(9.0f);
                                 this.infoTextView.setTextSize(1, 14.0f);
                             } else if (i13 == 46) {
-                                this.infoTextView.setText(LocaleController.getString("ImportNotAdmin", 2131626197));
+                                this.infoTextView.setText(LocaleController.getString("ImportNotAdmin", 2131626244));
                                 this.leftImageView.setAnimation(2131558445, 36, 36);
                                 layoutParams.topMargin = AndroidUtilities.dp(9.0f);
                                 this.infoTextView.setTextSize(1, 14.0f);
                             } else if (i13 == 47) {
-                                this.infoTextView.setText(LocaleController.getString("ImportedInfo", 2131626219));
-                                this.leftImageView.setAnimation(2131558476, 36, 36);
+                                this.infoTextView.setText(LocaleController.getString("ImportedInfo", 2131626266));
+                                this.leftImageView.setAnimation(2131558478, 36, 36);
                                 this.leftImageView.setPadding(0, 0, 0, AndroidUtilities.dp(5.0f));
                                 layoutParams.topMargin = AndroidUtilities.dp(9.0f);
                                 this.infoTextView.setTextSize(1, 14.0f);
                             } else if (i13 == 51) {
-                                this.infoTextView.setText(LocaleController.getString("AudioSpeedNormal", 2131624513));
+                                this.infoTextView.setText(LocaleController.getString("AudioSpeedNormal", 2131624524));
                                 this.leftImageView.setAnimation(2131558409, 36, 36);
                                 this.timeLeft = 3000L;
                                 this.infoTextView.setTextSize(1, 15.0f);
                             } else if (i13 == 50) {
-                                this.infoTextView.setText(LocaleController.getString("AudioSpeedFast", 2131624512));
+                                this.infoTextView.setText(LocaleController.getString("AudioSpeedFast", 2131624523));
                                 this.leftImageView.setAnimation(2131558408, 36, 36);
                                 this.timeLeft = 3000L;
                                 this.infoTextView.setTextSize(1, 15.0f);
@@ -840,45 +840,45 @@ public class UndoView extends FrameLayout {
                                 int i14 = 2131558433;
                                 int i15 = this.currentAction;
                                 if (i15 == 80) {
-                                    this.infoTextView.setText(LocaleController.getString("EmailCopied", 2131625597));
+                                    this.infoTextView.setText(LocaleController.getString("EmailCopied", 2131625613));
                                 } else if (i15 == 60) {
-                                    this.infoTextView.setText(LocaleController.getString("PhoneCopied", 2131627488));
+                                    this.infoTextView.setText(LocaleController.getString("PhoneCopied", 2131627540));
                                 } else if (i15 == 56) {
-                                    this.infoTextView.setText(LocaleController.getString("UsernameCopied", 2131628846));
+                                    this.infoTextView.setText(LocaleController.getString("UsernameCopied", 2131628918));
                                 } else if (i15 == 57) {
-                                    this.infoTextView.setText(LocaleController.getString("HashtagCopied", 2131626128));
+                                    this.infoTextView.setText(LocaleController.getString("HashtagCopied", 2131626175));
                                 } else if (i15 == 52) {
-                                    this.infoTextView.setText(LocaleController.getString("MessageCopied", 2131626623));
+                                    this.infoTextView.setText(LocaleController.getString("MessageCopied", 2131626675));
                                 } else if (i15 == 59) {
-                                    i14 = 2131558590;
-                                    this.infoTextView.setText(LocaleController.getString("LinkCopied", 2131626433));
+                                    i14 = 2131558613;
+                                    this.infoTextView.setText(LocaleController.getString("LinkCopied", 2131626480));
                                 } else {
-                                    this.infoTextView.setText(LocaleController.getString("TextCopied", 2131628595));
+                                    this.infoTextView.setText(LocaleController.getString("TextCopied", 2131628662));
                                 }
                                 this.leftImageView.setAnimation(i14, 30, 30);
                                 this.timeLeft = 3000L;
                                 this.infoTextView.setTextSize(1, 15.0f);
                             } else if (i13 == 54) {
-                                this.infoTextView.setText(LocaleController.getString("ChannelNotifyMembersInfoOn", 2131624938));
-                                this.leftImageView.setAnimation(2131558529, 30, 30);
+                                this.infoTextView.setText(LocaleController.getString("ChannelNotifyMembersInfoOn", 2131624951));
+                                this.leftImageView.setAnimation(2131558545, 30, 30);
                                 this.timeLeft = 3000L;
                                 this.infoTextView.setTextSize(1, 15.0f);
                             } else if (i13 == 55) {
-                                this.infoTextView.setText(LocaleController.getString("ChannelNotifyMembersInfoOff", 2131624937));
-                                this.leftImageView.setAnimation(2131558528, 30, 30);
+                                this.infoTextView.setText(LocaleController.getString("ChannelNotifyMembersInfoOff", 2131624950));
+                                this.leftImageView.setAnimation(2131558544, 30, 30);
                                 this.timeLeft = 3000L;
                                 this.infoTextView.setTextSize(1, 15.0f);
                             } else if (i13 == 41) {
                                 if (obj2 == null) {
                                     if (longValue == UserConfig.getInstance(this.currentAccount).clientUserId) {
-                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("InvLinkToSavedMessages", 2131626244)));
+                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("InvLinkToSavedMessages", 2131626291)));
                                     } else if (DialogObject.isChatDialog(longValue)) {
-                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToGroup", 2131626243, MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue)).title)));
+                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToGroup", 2131626290, MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue)).title)));
                                     } else {
-                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToUser", 2131626245, UserObject.getFirstName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue))))));
+                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToUser", 2131626292, UserObject.getFirstName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue))))));
                                     }
                                 } else {
-                                    this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToChats", 2131626242, LocaleController.formatPluralString("Chats", ((Integer) obj2).intValue(), new Object[0]))));
+                                    this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToChats", 2131626289, LocaleController.formatPluralString("Chats", ((Integer) obj2).intValue(), new Object[0]))));
                                 }
                                 this.leftImageView.setAnimation(2131558430, 36, 36);
                                 this.timeLeft = 3000L;
@@ -887,26 +887,26 @@ public class UndoView extends FrameLayout {
                                 if (obj2 == null) {
                                     if (longValue == UserConfig.getInstance(this.currentAccount).clientUserId) {
                                         if (num.intValue() == 1) {
-                                            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("FwdMessageToSavedMessages", 2131626039)));
+                                            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("FwdMessageToSavedMessages", 2131626080)));
                                         } else {
-                                            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("FwdMessagesToSavedMessages", 2131626043)));
+                                            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("FwdMessagesToSavedMessages", 2131626084)));
                                         }
-                                        this.leftImageView.setAnimation(2131558526, 30, 30);
+                                        this.leftImageView.setAnimation(2131558542, 30, 30);
                                         this.timeLeft = 3000L;
                                     } else {
                                         if (DialogObject.isChatDialog(longValue)) {
                                             TLRPC$Chat chat3 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
                                             if (num.intValue() == 1) {
-                                                this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToGroup", 2131626038, chat3.title)));
+                                                this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToGroup", 2131626079, chat3.title)));
                                             } else {
-                                                this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToGroup", 2131626042, chat3.title)));
+                                                this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToGroup", 2131626083, chat3.title)));
                                             }
                                         } else {
                                             TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
                                             if (num.intValue() == 1) {
-                                                this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToUser", 2131626040, UserObject.getFirstName(user2))));
+                                                this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToUser", 2131626081, UserObject.getFirstName(user2))));
                                             } else {
-                                                this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToUser", 2131626044, UserObject.getFirstName(user2))));
+                                                this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToUser", 2131626085, UserObject.getFirstName(user2))));
                                             }
                                         }
                                         this.leftImageView.setAnimation(2131558454, 30, 30);
@@ -914,9 +914,9 @@ public class UndoView extends FrameLayout {
                                 } else {
                                     int intValue3 = ((Integer) obj2).intValue();
                                     if (num.intValue() == 1) {
-                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToChats", 2131626037, LocaleController.formatPluralString("Chats", intValue3, new Object[0]))));
+                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToChats", 2131626078, LocaleController.formatPluralString("Chats", intValue3, new Object[0]))));
                                     } else {
-                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToChats", 2131626041, LocaleController.formatPluralString("Chats", intValue3, new Object[0]))));
+                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToChats", 2131626082, LocaleController.formatPluralString("Chats", intValue3, new Object[0]))));
                                     }
                                     this.leftImageView.setAnimation(2131558454, 30, 30);
                                 }
@@ -926,18 +926,18 @@ public class UndoView extends FrameLayout {
                                 Integer num2 = (Integer) obj;
                                 if (obj2 == null) {
                                     if (longValue == UserConfig.getInstance(this.currentAccount).clientUserId) {
-                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("BackgroundToSavedMessages", 2131624658)));
-                                        this.leftImageView.setAnimation(2131558526, 30, 30);
+                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("BackgroundToSavedMessages", 2131624669)));
+                                        this.leftImageView.setAnimation(2131558542, 30, 30);
                                     } else {
                                         if (DialogObject.isChatDialog(longValue)) {
-                                            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BackgroundToGroup", 2131624657, MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue)).title)));
+                                            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BackgroundToGroup", 2131624668, MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue)).title)));
                                         } else {
-                                            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BackgroundToUser", 2131624659, UserObject.getFirstName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue))))));
+                                            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BackgroundToUser", 2131624670, UserObject.getFirstName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue))))));
                                         }
                                         this.leftImageView.setAnimation(2131558454, 30, 30);
                                     }
                                 } else {
-                                    this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BackgroundToChats", 2131624656, LocaleController.formatPluralString("Chats", ((Integer) obj2).intValue(), new Object[0]))));
+                                    this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BackgroundToChats", 2131624667, LocaleController.formatPluralString("Chats", ((Integer) obj2).intValue(), new Object[0]))));
                                     this.leftImageView.setAnimation(2131558454, 30, 30);
                                 }
                                 this.timeLeft = 3000L;
@@ -1041,15 +1041,15 @@ public class UndoView extends FrameLayout {
                         this.leftImageView.setLayerColor("Wibe Big.**", getThemedColor("undo_infoColor"));
                         this.leftImageView.setLayerColor("Wibe Big 3.**", getThemedColor("undo_infoColor"));
                         this.leftImageView.setLayerColor("Wibe Small.**", getThemedColor("undo_infoColor"));
-                        this.infoTextView.setText(LocaleController.getString("ProximityAlertSet", 2131627744));
-                        this.leftImageView.setAnimation(2131558470, 28, 28);
+                        this.infoTextView.setText(LocaleController.getString("ProximityAlertSet", 2131627806));
+                        this.leftImageView.setAnimation(2131558472, 28, 28);
                         this.subinfoTextView.setVisibility(0);
                         this.subinfoTextView.setSingleLine(false);
                         this.subinfoTextView.setMaxLines(3);
                         if (tLRPC$User6 != null) {
-                            this.subinfoTextView.setText(LocaleController.formatString("ProximityAlertSetInfoUser", 2131627746, UserObject.getFirstName(tLRPC$User6), LocaleController.formatDistance(intValue4, 2)));
+                            this.subinfoTextView.setText(LocaleController.formatString("ProximityAlertSetInfoUser", 2131627808, UserObject.getFirstName(tLRPC$User6), LocaleController.formatDistance(intValue4, 2)));
                         } else {
-                            this.subinfoTextView.setText(LocaleController.formatString("ProximityAlertSetInfoGroup2", 2131627745, LocaleController.formatDistance(intValue4, 2)));
+                            this.subinfoTextView.setText(LocaleController.formatString("ProximityAlertSetInfoGroup2", 2131627807, LocaleController.formatDistance(intValue4, 2)));
                         }
                         this.undoButton.setVisibility(8);
                         layoutParams.topMargin = AndroidUtilities.dp(6.0f);
@@ -1063,8 +1063,8 @@ public class UndoView extends FrameLayout {
                         this.leftImageView.setLayerColor("Curve Big.**", getThemedColor("undo_infoColor"));
                         this.leftImageView.setLayerColor("Curve Small.**", getThemedColor("undo_infoColor"));
                         layoutParams.topMargin = AndroidUtilities.dp(14.0f);
-                        this.infoTextView.setText(LocaleController.getString("ProximityAlertCancelled", 2131627743));
-                        this.leftImageView.setAnimation(2131558464, 28, 28);
+                        this.infoTextView.setText(LocaleController.getString("ProximityAlertCancelled", 2131627805));
+                        this.leftImageView.setAnimation(2131558466, 28, 28);
                         this.subinfoTextView.setVisibility(8);
                         this.undoTextView.setTextColor(getThemedColor("undo_cancelColor"));
                         this.undoButton.setVisibility(0);
@@ -1073,7 +1073,7 @@ public class UndoView extends FrameLayout {
                     this.leftImageView.setProgress(0.0f);
                     this.leftImageView.playAnimation();
                 } else if (i12 == 11) {
-                    this.infoTextView.setText(LocaleController.getString("AuthAnotherClientOk", 2131624532));
+                    this.infoTextView.setText(LocaleController.getString("AuthAnotherClientOk", 2131624543));
                     this.leftImageView.setAnimation(2131558430, 36, 36);
                     layoutParams.leftMargin = AndroidUtilities.dp(58.0f);
                     layoutParams.topMargin = AndroidUtilities.dp(6.0f);
@@ -1089,15 +1089,15 @@ public class UndoView extends FrameLayout {
                     this.leftImageView.playAnimation();
                 } else if (i12 == 15) {
                     this.timeLeft = 10000L;
-                    this.undoTextView.setText(LocaleController.getString("Open", 2131627090).toUpperCase());
-                    this.infoTextView.setText(LocaleController.getString("FilterAvailableTitle", 2131625834));
+                    this.undoTextView.setText(LocaleController.getString("Open", 2131627142).toUpperCase());
+                    this.infoTextView.setText(LocaleController.getString("FilterAvailableTitle", 2131625875));
                     this.leftImageView.setAnimation(2131558446, 36, 36);
                     int ceil = ((int) Math.ceil(this.undoTextView.getPaint().measureText(this.undoTextView.getText().toString()))) + AndroidUtilities.dp(26.0f);
                     layoutParams.leftMargin = AndroidUtilities.dp(58.0f);
                     layoutParams.rightMargin = ceil;
                     layoutParams.topMargin = AndroidUtilities.dp(6.0f);
                     ((FrameLayout.LayoutParams) this.subinfoTextView.getLayoutParams()).rightMargin = ceil;
-                    String string3 = LocaleController.getString("FilterAvailableText", 2131625833);
+                    String string3 = LocaleController.getString("FilterAvailableText", 2131625874);
                     SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(string3);
                     int indexOf2 = string3.indexOf(42);
                     int lastIndexOf2 = string3.lastIndexOf(42);
@@ -1122,11 +1122,11 @@ public class UndoView extends FrameLayout {
                     this.infoTextView.setMinHeight(AndroidUtilities.dp(30.0f));
                     String str13 = (String) obj;
                     if ("🎲".equals(str13)) {
-                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("DiceInfo2", 2131625469)));
+                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("DiceInfo2", 2131625485)));
                         this.leftImageView.setImageResource(2131165386);
                     } else {
                         if ("🎯".equals(str13)) {
-                            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("DartInfo", 2131625307)));
+                            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("DartInfo", 2131625323)));
                         } else {
                             String serverString = LocaleController.getServerString("DiceEmojiInfo_" + str13);
                             if (!TextUtils.isEmpty(serverString)) {
@@ -1134,7 +1134,7 @@ public class UndoView extends FrameLayout {
                                 textView.setText(Emoji.replaceEmoji(serverString, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
                             } else {
                                 f = 14.0f;
-                                this.infoTextView.setText(Emoji.replaceEmoji(LocaleController.formatString("DiceEmojiInfo", 2131625468, str13), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
+                                this.infoTextView.setText(Emoji.replaceEmoji(LocaleController.formatString("DiceEmojiInfo", 2131625484, str13), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
                                 this.leftImageView.setImageDrawable(Emoji.getEmojiDrawable(str13));
                                 this.leftImageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                 layoutParams.topMargin = AndroidUtilities.dp(f);
@@ -1153,7 +1153,7 @@ public class UndoView extends FrameLayout {
                         layoutParams2.width = AndroidUtilities.dp(26.0f);
                         layoutParams2.height = AndroidUtilities.dp(26.0f);
                     }
-                    this.undoTextView.setText(LocaleController.getString("SendDice", 2131628185));
+                    this.undoTextView.setText(LocaleController.getString("SendDice", 2131628247));
                     if (this.currentAction == 16) {
                         i2 = ((int) Math.ceil(this.undoTextView.getPaint().measureText(this.undoTextView.getText().toString()))) + AndroidUtilities.dp(26.0f);
                         this.undoTextView.setVisibility(0);
@@ -1194,13 +1194,13 @@ public class UndoView extends FrameLayout {
                     this.leftImageView.playAnimation();
                     this.infoTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
                 } else if (i12 == 12) {
-                    this.infoTextView.setText(LocaleController.getString("ColorThemeChanged", 2131625186));
-                    this.leftImageView.setImageResource(2131166183);
+                    this.infoTextView.setText(LocaleController.getString("ColorThemeChanged", 2131625202));
+                    this.leftImageView.setImageResource(2131166185);
                     layoutParams.leftMargin = AndroidUtilities.dp(58.0f);
                     layoutParams.rightMargin = AndroidUtilities.dp(48.0f);
                     layoutParams.topMargin = AndroidUtilities.dp(6.0f);
                     ((FrameLayout.LayoutParams) this.subinfoTextView.getLayoutParams()).rightMargin = AndroidUtilities.dp(48.0f);
-                    String string4 = LocaleController.getString("ColorThemeChangedInfo", 2131625187);
+                    String string4 = LocaleController.getString("ColorThemeChangedInfo", 2131625203);
                     SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(string4);
                     int indexOf3 = string4.indexOf(42);
                     int lastIndexOf3 = string4.lastIndexOf(42);
@@ -1218,9 +1218,9 @@ public class UndoView extends FrameLayout {
                     this.leftImageView.setVisibility(0);
                 } else if (i12 == 2 || i12 == 4) {
                     if (i == 2) {
-                        this.infoTextView.setText(LocaleController.getString("ChatArchived", 2131625000));
+                        this.infoTextView.setText(LocaleController.getString("ChatArchived", 2131625013));
                     } else {
-                        this.infoTextView.setText(LocaleController.getString("ChatsArchived", 2131625056));
+                        this.infoTextView.setText(LocaleController.getString("ChatsArchived", 2131625069));
                     }
                     layoutParams.leftMargin = AndroidUtilities.dp(58.0f);
                     layoutParams.topMargin = AndroidUtilities.dp(13.0f);
@@ -1238,10 +1238,10 @@ public class UndoView extends FrameLayout {
                     MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
                     TextView textView2 = this.infoTextView;
                     if (photoEntry.isVideo) {
-                        i3 = 2131624499;
+                        i3 = 2131624510;
                         str = "AttachMediaVideoDeselected";
                     } else {
-                        i3 = 2131624494;
+                        i3 = 2131624505;
                         str = "AttachMediaPhotoDeselected";
                     }
                     textView2.setText(LocaleController.getString(str, i3));
@@ -1275,18 +1275,18 @@ public class UndoView extends FrameLayout {
                     this.leftImageView.setVisibility(8);
                     int i18 = this.currentAction;
                     if (i18 == 81 || i18 == 0 || i18 == 26) {
-                        this.infoTextView.setText(LocaleController.getString("HistoryClearedUndo", 2131626146));
+                        this.infoTextView.setText(LocaleController.getString("HistoryClearedUndo", 2131626193));
                     } else if (i18 == 27) {
-                        this.infoTextView.setText(LocaleController.getString("ChatsDeletedUndo", 2131625057));
+                        this.infoTextView.setText(LocaleController.getString("ChatsDeletedUndo", 2131625070));
                     } else if (DialogObject.isChatDialog(longValue)) {
                         TLRPC$Chat chat4 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
                         if (ChatObject.isChannel(chat4) && !chat4.megagroup) {
-                            this.infoTextView.setText(LocaleController.getString("ChannelDeletedUndo", 2131624900));
+                            this.infoTextView.setText(LocaleController.getString("ChannelDeletedUndo", 2131624913));
                         } else {
-                            this.infoTextView.setText(LocaleController.getString("GroupDeletedUndo", 2131626090));
+                            this.infoTextView.setText(LocaleController.getString("GroupDeletedUndo", 2131626137));
                         }
                     } else {
-                        this.infoTextView.setText(LocaleController.getString("ChatDeletedUndo", 2131625004));
+                        this.infoTextView.setText(LocaleController.getString("ChatDeletedUndo", 2131625017));
                     }
                     if (this.currentAction != 81) {
                         for (int i19 = 0; i19 < arrayList.size(); i19++) {

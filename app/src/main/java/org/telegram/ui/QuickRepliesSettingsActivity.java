@@ -59,7 +59,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
-        this.actionBar.setTitle(LocaleController.getString("VoipQuickReplies", 2131629176));
+        this.actionBar.setTitle(LocaleController.getString("VoipQuickReplies", 2131629250));
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
         }
@@ -153,7 +153,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
             if (itemViewType == 0) {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
-                textInfoPrivacyCell.setText(LocaleController.getString("VoipQuickRepliesExplain", 2131629177));
+                textInfoPrivacyCell.setText(LocaleController.getString("VoipQuickRepliesExplain", 2131629251));
                 return;
             }
             boolean z = true;
@@ -171,7 +171,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                             if (i != QuickRepliesSettingsActivity.this.reply2Row) {
                                 if (i != QuickRepliesSettingsActivity.this.reply3Row) {
                                     if (i == QuickRepliesSettingsActivity.this.reply4Row) {
-                                        string = LocaleController.getString("QuickReplyDefault4", 2131627820);
+                                        string = LocaleController.getString("QuickReplyDefault4", 2131627882);
                                         str2 = "quick_reply_msg4";
                                     } else {
                                         str = null;
@@ -183,15 +183,15 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                                         return;
                                     }
                                 } else {
-                                    string = LocaleController.getString("QuickReplyDefault3", 2131627819);
+                                    string = LocaleController.getString("QuickReplyDefault3", 2131627881);
                                     str2 = "quick_reply_msg3";
                                 }
                             } else {
-                                string = LocaleController.getString("QuickReplyDefault2", 2131627818);
+                                string = LocaleController.getString("QuickReplyDefault2", 2131627880);
                                 str2 = "quick_reply_msg2";
                             }
                         } else {
-                            string = LocaleController.getString("QuickReplyDefault1", 2131627817);
+                            string = LocaleController.getString("QuickReplyDefault1", 2131627879);
                             str2 = "quick_reply_msg1";
                         }
                         String str4 = string;
@@ -206,7 +206,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                         return;
                 }
             } else {
-                ((TextCheckCell) viewHolder.itemView).setTextAndCheck(LocaleController.getString("AllowCustomQuickReply", 2131624327), QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getBoolean("quick_reply_allow_custom", true), false);
+                ((TextCheckCell) viewHolder.itemView).setTextAndCheck(LocaleController.getString("AllowCustomQuickReply", 2131624336), QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getBoolean("quick_reply_allow_custom", true), false);
             }
         }
 

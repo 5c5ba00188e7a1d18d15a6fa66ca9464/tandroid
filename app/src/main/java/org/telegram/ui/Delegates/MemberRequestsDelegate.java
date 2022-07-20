@@ -176,19 +176,19 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             this.emptyView = stickerEmptyView;
             TextView textView = stickerEmptyView.title;
             if (this.isChannel) {
-                i = 2131626875;
+                i = 2131626927;
                 str = "NoSubscribeRequests";
             } else {
-                i = 2131626835;
+                i = 2131626887;
                 str = "NoMemberRequests";
             }
             textView.setText(LocaleController.getString(str, i));
             TextView textView2 = this.emptyView.subtitle;
             if (this.isChannel) {
-                i2 = 2131626876;
+                i2 = 2131626928;
                 str2 = "NoSubscribeRequestsDescription";
             } else {
-                i2 = 2131626836;
+                i2 = 2131626888;
                 str2 = "NoMemberRequestsDescription";
             }
             textView2.setText(LocaleController.getString(str2, i2));
@@ -205,8 +205,8 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             if (this.isShowLastItemDivider) {
                 stickerEmptyView.setBackgroundColor(Theme.getColor("windowBackgroundWhite", this.fragment.getResourceProvider()));
             }
-            this.searchEmptyView.title.setText(LocaleController.getString("NoResult", 2131626858));
-            this.searchEmptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628098));
+            this.searchEmptyView.title.setText(LocaleController.getString("NoResult", 2131626910));
+            this.searchEmptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
             this.searchEmptyView.setAnimateLayoutChange(true);
             this.searchEmptyView.setVisibility(8);
         }
@@ -541,9 +541,9 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
                 multiLineLayout.imageView.setForUserOrChat(tLRPC$User, new AvatarDrawable(tLRPC$User));
                 String firstName = UserObject.getFirstName(tLRPC$User);
                 if (this.isChannel) {
-                    str = LocaleController.formatString("HasBeenAddedToChannel", 2131626126, firstName);
+                    str = LocaleController.formatString("HasBeenAddedToChannel", 2131626173, firstName);
                 } else {
-                    str = LocaleController.formatString("HasBeenAddedToGroup", 2131626127, firstName);
+                    str = LocaleController.formatString("HasBeenAddedToGroup", 2131626174, firstName);
                 }
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str);
                 int indexOf = str.indexOf(firstName);
@@ -766,11 +766,11 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public PreviewDialog(Context context, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider, boolean z) {
-            super(context, 2131689510);
+            super(context, 2131689511);
             int i;
             String str;
             MemberRequestsDelegate.this = r9;
-            Drawable mutate = getContext().getResources().getDrawable(2131166086).mutate();
+            Drawable mutate = getContext().getResources().getDrawable(2131166088).mutate();
             this.pagerShadowDrawable = mutate;
             TextView textView = new TextView(getContext());
             this.nameText = textView;
@@ -811,25 +811,25 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             actionBarMenuSubItem.setColors(Theme.getColor("actionBarDefaultSubmenuItem", resourcesProvider), Theme.getColor("actionBarDefaultSubmenuItemIcon", resourcesProvider));
             actionBarMenuSubItem.setSelectorColor(Theme.getColor("dialogButtonSelector", resourcesProvider));
             if (z) {
-                i = 2131624288;
+                i = 2131624296;
                 str = "AddToChannel";
             } else {
-                i = 2131624293;
+                i = 2131624301;
                 str = "AddToGroup";
             }
-            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(str, i), 2131165905);
+            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(str, i), 2131165907);
             actionBarMenuSubItem.setOnClickListener(new MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda2(this));
             actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
             ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(context, false, false);
             actionBarMenuSubItem2.setColors(Theme.getColor("actionBarDefaultSubmenuItem", resourcesProvider), Theme.getColor("actionBarDefaultSubmenuItemIcon", resourcesProvider));
             actionBarMenuSubItem2.setSelectorColor(Theme.getColor("dialogButtonSelector", resourcesProvider));
-            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SendMessage", 2131628197), 2131165815);
+            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SendMessage", 2131628259), 2131165816);
             actionBarMenuSubItem2.setOnClickListener(new MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda3(this));
             actionBarPopupWindowLayout.addView(actionBarMenuSubItem2);
             ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(context, false, true);
             actionBarMenuSubItem3.setColors(Theme.getColor("dialogTextRed2", resourcesProvider), Theme.getColor("dialogRedIcon", resourcesProvider));
             actionBarMenuSubItem3.setSelectorColor(Theme.getColor("dialogButtonSelector", resourcesProvider));
-            actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("DismissRequest", 2131625516), 2131165892);
+            actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("DismissRequest", 2131625532), 2131165894);
             actionBarMenuSubItem3.setOnClickListener(new MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda1(this));
             actionBarPopupWindowLayout.addView(actionBarMenuSubItem3);
         }
@@ -879,7 +879,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         @Override // android.app.Dialog
         protected void onCreate(Bundle bundle) {
             super.onCreate(bundle);
-            getWindow().setWindowAnimations(2131689477);
+            getWindow().setWindowAnimations(2131689478);
             setContentView(this.contentView, new ViewGroup.LayoutParams(-1, -1));
             WindowManager.LayoutParams attributes = getWindow().getAttributes();
             attributes.width = -1;

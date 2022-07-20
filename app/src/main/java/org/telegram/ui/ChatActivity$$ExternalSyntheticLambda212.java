@@ -1,16 +1,22 @@
 package org.telegram.ui;
 
-import org.telegram.messenger.MessagesStorage;
+import android.content.Context;
+import org.telegram.messenger.MessagesController;
+import org.telegram.tgnet.TLRPC$TL_error;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda212 implements MessagesStorage.BooleanCallback {
+public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda212 implements MessagesController.ErrorDelegate {
     public final /* synthetic */ ChatActivity f$0;
+    public final /* synthetic */ Context f$1;
 
-    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda212(ChatActivity chatActivity) {
+    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda212(ChatActivity chatActivity, Context context) {
         this.f$0 = chatActivity;
+        this.f$1 = context;
     }
 
-    @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
-    public final void run(boolean z) {
-        this.f$0.lambda$createView$71(z);
+    @Override // org.telegram.messenger.MessagesController.ErrorDelegate
+    public final boolean run(TLRPC$TL_error tLRPC$TL_error) {
+        boolean lambda$createView$70;
+        lambda$createView$70 = this.f$0.lambda$createView$70(this.f$1, tLRPC$TL_error);
+        return lambda$createView$70;
     }
 }

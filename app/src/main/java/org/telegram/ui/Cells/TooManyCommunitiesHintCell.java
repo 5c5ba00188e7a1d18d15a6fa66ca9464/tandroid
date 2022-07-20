@@ -48,7 +48,7 @@ public class TooManyCommunitiesHintCell extends FrameLayout {
         anonymousClass1.setWillNotDraw(false);
         this.imageLayout.addView(this.imageView, LayoutHelper.createFrame(-2, -2, 1));
         addView(this.imageLayout, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 12.0f, 0.0f, 6.0f));
-        this.headerTextView.setText(LocaleController.getString("TooManyCommunities", 2131628672));
+        this.headerTextView.setText(LocaleController.getString("TooManyCommunities", 2131628739));
         this.imageView.setImageResource(2131165442);
     }
 

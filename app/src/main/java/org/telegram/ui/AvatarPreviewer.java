@@ -133,11 +133,11 @@ public class AvatarPreviewer {
 
     /* loaded from: classes3.dex */
     public enum MenuItem {
-        OPEN_PROFILE("OpenProfile", 2131627103, 2131165832),
-        OPEN_CHANNEL("OpenChannel2", 2131627094, 2131165673),
-        OPEN_GROUP("OpenGroup2", 2131627098, 2131165708),
-        SEND_MESSAGE("SendMessage", 2131628197, 2131165708),
-        MENTION("Mention", 2131626621, 2131165799);
+        OPEN_PROFILE("OpenProfile", 2131627155, 2131165833),
+        OPEN_CHANNEL("OpenChannel2", 2131627146, 2131165673),
+        OPEN_GROUP("OpenGroup2", 2131627150, 2131165708),
+        SEND_MESSAGE("SendMessage", 2131628259, 2131165708),
+        MENTION("Mention", 2131626668, 2131165800);
         
         private final int iconResId;
         private final String labelKey;
@@ -374,7 +374,7 @@ public class AvatarPreviewer {
             radialProgress2.setOverrideAlpha(0.0f);
             radialProgress2.setIcon(10, false, false);
             radialProgress2.setColors(1107296256, 1107296256, -1, -1);
-            this.arrowDrawable = ContextCompat.getDrawable(context, 2131166088);
+            this.arrowDrawable = ContextCompat.getDrawable(context, 2131166090);
         }
 
         @Override // android.view.ViewGroup, android.view.View

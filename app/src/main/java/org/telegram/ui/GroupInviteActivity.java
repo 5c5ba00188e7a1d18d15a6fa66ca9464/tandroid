@@ -94,7 +94,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("InviteLink", 2131626263));
+        this.actionBar.setTitle(LocaleController.getString("InviteLink", 2131626310));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -153,17 +153,17 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                 Intent intent = new Intent("android.intent.action.SEND");
                 intent.setType("text/plain");
                 intent.putExtra("android.intent.extra.TEXT", this.invite.link);
-                getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteToGroupByLink", 2131626280)), 500);
+                getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteToGroupByLink", 2131626327)), 500);
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
         } else if (i != this.revokeLinkRow) {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setMessage(LocaleController.getString("RevokeAlert", 2131628040));
-            builder.setTitle(LocaleController.getString("RevokeLink", 2131628043));
-            builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628042), new GroupInviteActivity$$ExternalSyntheticLambda0(this));
-            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+            builder.setMessage(LocaleController.getString("RevokeAlert", 2131628102));
+            builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
+            builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new GroupInviteActivity$$ExternalSyntheticLambda0(this));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             showDialog(builder.create());
         }
     }
@@ -226,9 +226,9 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", 2131628041));
-                builder.setTitle(LocaleController.getString("RevokeLink", 2131628043));
-                builder.setNegativeButton(LocaleController.getString("OK", 2131627075), null);
+                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", 2131628103));
+                builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
+                builder.setNegativeButton(LocaleController.getString("OK", 2131627127), null);
                 showDialog(builder.create());
             }
         }
@@ -284,13 +284,13 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                         if (i != GroupInviteActivity.this.revokeLinkRow) {
                             return;
                         }
-                        textSettingsCell.setText(LocaleController.getString("RevokeLink", 2131628043), true);
+                        textSettingsCell.setText(LocaleController.getString("RevokeLink", 2131628105), true);
                         return;
                     }
-                    textSettingsCell.setText(LocaleController.getString("ShareLink", 2131628275), false);
+                    textSettingsCell.setText(LocaleController.getString("ShareLink", 2131628337), false);
                     return;
                 }
-                textSettingsCell.setText(LocaleController.getString("CopyLink", 2131625258), true);
+                textSettingsCell.setText(LocaleController.getString("CopyLink", 2131625274), true);
             } else if (itemViewType != 1) {
                 if (itemViewType != 2) {
                     return;
@@ -304,9 +304,9 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                     }
                     TLRPC$Chat chat = GroupInviteActivity.this.getMessagesController().getChat(Long.valueOf(GroupInviteActivity.this.chatId));
                     if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                        textInfoPrivacyCell.setText(LocaleController.getString("ChannelLinkInfo", 2131624914));
+                        textInfoPrivacyCell.setText(LocaleController.getString("ChannelLinkInfo", 2131624927));
                     } else {
-                        textInfoPrivacyCell.setText(LocaleController.getString("LinkInfo", 2131626442));
+                        textInfoPrivacyCell.setText(LocaleController.getString("LinkInfo", 2131626489));
                     }
                     textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165435, "windowBackgroundGrayShadow"));
                     return;

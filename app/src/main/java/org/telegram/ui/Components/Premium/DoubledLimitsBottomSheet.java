@@ -63,16 +63,16 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         gradientTools.y2 = 1.0f;
         this.clipToActionBar = true;
         MessagesController messagesController = MessagesController.getInstance(i);
-        arrayList.add(new Limit(LocaleController.getString("GroupsAndChannelsLimitTitle", 2131626116), LocaleController.formatString("GroupsAndChannelsLimitSubtitle", 2131626115, Integer.valueOf(messagesController.channelsLimitPremium)), messagesController.channelsLimitDefault, messagesController.channelsLimitPremium, null));
-        arrayList.add(new Limit(LocaleController.getString("PinChatsLimitTitle", 2131627527), LocaleController.formatString("PinChatsLimitSubtitle", 2131627526, Integer.valueOf(messagesController.dialogFiltersPinnedLimitPremium)), messagesController.dialogFiltersPinnedLimitDefault, messagesController.dialogFiltersPinnedLimitPremium, null));
-        arrayList.add(new Limit(LocaleController.getString("PublicLinksLimitTitle", 2131627767), LocaleController.formatString("PublicLinksLimitSubtitle", 2131627766, Integer.valueOf(messagesController.publicLinksLimitPremium)), messagesController.publicLinksLimitDefault, messagesController.publicLinksLimitPremium, null));
-        arrayList.add(new Limit(LocaleController.getString("SavedGifsLimitTitle", 2131628076), LocaleController.formatString("SavedGifsLimitSubtitle", 2131628075, Integer.valueOf(messagesController.savedGifsLimitPremium)), messagesController.savedGifsLimitDefault, messagesController.savedGifsLimitPremium, null));
-        arrayList.add(new Limit(LocaleController.getString("FavoriteStickersLimitTitle", 2131625798), LocaleController.formatString("FavoriteStickersLimitSubtitle", 2131625797, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.stickersFavedLimitDefault, messagesController.stickersFavedLimitPremium, null));
-        arrayList.add(new Limit(LocaleController.getString("BioLimitTitle", 2131624674), LocaleController.formatString("BioLimitSubtitle", 2131624673, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.aboutLengthLimitDefault, messagesController.aboutLengthLimitPremium, null));
-        arrayList.add(new Limit(LocaleController.getString("CaptionsLimitTitle", 2131624845), LocaleController.formatString("CaptionsLimitSubtitle", 2131624844, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.captionLengthLimitDefault, messagesController.captionLengthLimitPremium, null));
-        arrayList.add(new Limit(LocaleController.getString("FoldersLimitTitle", 2131625912), LocaleController.formatString("FoldersLimitSubtitle", 2131625911, Integer.valueOf(messagesController.dialogFiltersLimitPremium)), messagesController.dialogFiltersLimitDefault, messagesController.dialogFiltersLimitPremium, null));
-        arrayList.add(new Limit(LocaleController.getString("ChatPerFolderLimitTitle", 2131625025), LocaleController.formatString("ChatPerFolderLimitSubtitle", 2131625024, Integer.valueOf(messagesController.dialogFiltersChatsLimitPremium)), messagesController.dialogFiltersChatsLimitDefault, messagesController.dialogFiltersChatsLimitPremium, null));
-        arrayList.add(new Limit(LocaleController.getString("ConnectedAccountsLimitTitle", 2131625224), LocaleController.formatString("ConnectedAccountsLimitSubtitle", 2131625223, 4), 3, 4, null));
+        arrayList.add(new Limit(LocaleController.getString("GroupsAndChannelsLimitTitle", 2131626163), LocaleController.formatString("GroupsAndChannelsLimitSubtitle", 2131626162, Integer.valueOf(messagesController.channelsLimitPremium)), messagesController.channelsLimitDefault, messagesController.channelsLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("PinChatsLimitTitle", 2131627579), LocaleController.formatString("PinChatsLimitSubtitle", 2131627578, Integer.valueOf(messagesController.dialogFiltersPinnedLimitPremium)), messagesController.dialogFiltersPinnedLimitDefault, messagesController.dialogFiltersPinnedLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("PublicLinksLimitTitle", 2131627829), LocaleController.formatString("PublicLinksLimitSubtitle", 2131627828, Integer.valueOf(messagesController.publicLinksLimitPremium)), messagesController.publicLinksLimitDefault, messagesController.publicLinksLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("SavedGifsLimitTitle", 2131628138), LocaleController.formatString("SavedGifsLimitSubtitle", 2131628137, Integer.valueOf(messagesController.savedGifsLimitPremium)), messagesController.savedGifsLimitDefault, messagesController.savedGifsLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("FavoriteStickersLimitTitle", 2131625838), LocaleController.formatString("FavoriteStickersLimitSubtitle", 2131625837, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.stickersFavedLimitDefault, messagesController.stickersFavedLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("BioLimitTitle", 2131624685), LocaleController.formatString("BioLimitSubtitle", 2131624684, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.aboutLengthLimitDefault, messagesController.aboutLengthLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("CaptionsLimitTitle", 2131624858), LocaleController.formatString("CaptionsLimitSubtitle", 2131624857, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.captionLengthLimitDefault, messagesController.captionLengthLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("FoldersLimitTitle", 2131625953), LocaleController.formatString("FoldersLimitSubtitle", 2131625952, Integer.valueOf(messagesController.dialogFiltersLimitPremium)), messagesController.dialogFiltersLimitDefault, messagesController.dialogFiltersLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("ChatPerFolderLimitTitle", 2131625038), LocaleController.formatString("ChatPerFolderLimitSubtitle", 2131625037, Integer.valueOf(messagesController.dialogFiltersChatsLimitPremium)), messagesController.dialogFiltersChatsLimitDefault, messagesController.dialogFiltersChatsLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("ConnectedAccountsLimitTitle", 2131625240), LocaleController.formatString("ConnectedAccountsLimitSubtitle", 2131625239, 4), 3, 4, null));
         this.rowCount = 0;
         int i2 = 0 + 1;
         this.rowCount = i2;
@@ -80,7 +80,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         this.rowCount = i2 + arrayList.size();
         TextView textView = new TextView(getContext());
         this.titleView = textView;
-        textView.setText(LocaleController.getString("DoubledLimits", 2131625531));
+        textView.setText(LocaleController.getString("DoubledLimits", 2131625547));
         this.titleView.setGravity(17);
         this.titleView.setTextSize(1, 20.0f);
         this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
@@ -88,7 +88,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         this.titleLayout.addView(this.titleView, LayoutHelper.createFrame(-2, -2, 16));
         ImageView imageView = new ImageView(getContext());
         this.titleImage = imageView;
-        imageView.setImageDrawable(PremiumGradient.getInstance().createGradientDrawable(ContextCompat.getDrawable(getContext(), 2131166023)));
+        imageView.setImageDrawable(PremiumGradient.getInstance().createGradientDrawable(ContextCompat.getDrawable(getContext(), 2131166025)));
         this.titleLayout.addView(this.titleImage, LayoutHelper.createFrame(40, 28, 16));
         this.containerView.addView(this.titleLayout, LayoutHelper.createFrame(-1, 40.0f));
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, getContext());
@@ -132,7 +132,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
 
     private void bindPremium(boolean z) {
         if (z) {
-            this.premiumButtonView.setOverlayText(LocaleController.getString("OK", 2131627075), false, false);
+            this.premiumButtonView.setOverlayText(LocaleController.getString("OK", 2131627127), false, false);
         }
     }
 

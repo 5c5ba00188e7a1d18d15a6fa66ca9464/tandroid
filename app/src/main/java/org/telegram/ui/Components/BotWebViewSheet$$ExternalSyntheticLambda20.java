@@ -1,16 +1,15 @@
 package org.telegram.ui.Components;
 
-import org.telegram.ui.Components.SizeNotifierFrameLayout;
+import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda20 implements SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate {
-    public final /* synthetic */ BotWebViewSheet f$0;
+public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda20 implements SimpleFloatPropertyCompat.Setter {
+    public static final /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda20 INSTANCE = new BotWebViewSheet$$ExternalSyntheticLambda20();
 
-    public /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda20(BotWebViewSheet botWebViewSheet) {
-        this.f$0 = botWebViewSheet;
+    private /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda20() {
     }
 
-    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate
-    public final void onSizeChanged(int i, boolean z) {
-        this.f$0.lambda$new$5(i, z);
+    @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+    public final void set(Object obj, float f) {
+        BotWebViewSheet.lambda$static$1((BotWebViewSheet) obj, f);
     }
 }

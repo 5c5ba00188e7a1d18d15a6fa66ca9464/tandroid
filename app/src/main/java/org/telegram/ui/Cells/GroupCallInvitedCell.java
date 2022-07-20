@@ -62,14 +62,14 @@ public class GroupCallInvitedCell extends FrameLayout {
         simpleTextView3.setTextSize(15);
         this.statusTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         this.statusTextView.setTextColor(Theme.getColor(this.grayIconColor));
-        this.statusTextView.setText(LocaleController.getString("Invited", 2131626292));
+        this.statusTextView.setText(LocaleController.getString("Invited", 2131626339));
         SimpleTextView simpleTextView4 = this.statusTextView;
         boolean z3 = LocaleController.isRTL;
         addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z3 ? 5 : 3) | 48, z3 ? 54.0f : 67.0f, 32.0f, z3 ? 67.0f : f, 0.0f));
         ImageView imageView = new ImageView(context);
         this.muteButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.muteButton.setImageResource(2131165771);
+        this.muteButton.setImageResource(2131165772);
         this.muteButton.setImportantForAccessibility(2);
         this.muteButton.setPadding(0, 0, AndroidUtilities.dp(4.0f), 0);
         this.muteButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(this.grayIconColor), PorterDuff.Mode.MULTIPLY));

@@ -121,7 +121,7 @@ public class RecyclerItemsEnterAnimator {
             }
             RecyclerItemsEnterAnimator.this.currentAnimations.add(animatorSet);
             animatorSet.start();
-            animatorSet.addListener(new C00262(animatorSet));
+            animatorSet.addListener(new C00312(animatorSet));
             return false;
         }
 
@@ -153,10 +153,10 @@ public class RecyclerItemsEnterAnimator {
 
         /* renamed from: org.telegram.ui.Components.RecyclerItemsEnterAnimator$2$2 */
         /* loaded from: classes3.dex */
-        class C00262 extends AnimatorListenerAdapter {
+        class C00312 extends AnimatorListenerAdapter {
             final /* synthetic */ AnimatorSet val$animatorSet;
 
-            C00262(AnimatorSet animatorSet) {
+            C00312(AnimatorSet animatorSet) {
                 AnonymousClass2.this = r1;
                 this.val$animatorSet = animatorSet;
             }

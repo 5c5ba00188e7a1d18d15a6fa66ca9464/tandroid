@@ -64,10 +64,10 @@ public class CryptoUtils {
 
         /* renamed from: com.microsoft.appcenter.utils.crypto.CryptoUtils$1$1 */
         /* loaded from: classes.dex */
-        class C00041 implements IKeyGenerator {
+        class C00081 implements IKeyGenerator {
             final /* synthetic */ KeyGenerator val$keyGenerator;
 
-            C00041(AnonymousClass1 anonymousClass1, KeyGenerator keyGenerator) {
+            C00081(AnonymousClass1 anonymousClass1, KeyGenerator keyGenerator) {
                 this.val$keyGenerator = keyGenerator;
             }
 
@@ -84,7 +84,7 @@ public class CryptoUtils {
 
         @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICryptoFactory
         public IKeyGenerator getKeyGenerator(String str, String str2) throws Exception {
-            return new C00041(this, KeyGenerator.getInstance(str, str2));
+            return new C00081(this, KeyGenerator.getInstance(str, str2));
         }
 
         /* renamed from: com.microsoft.appcenter.utils.crypto.CryptoUtils$1$2 */

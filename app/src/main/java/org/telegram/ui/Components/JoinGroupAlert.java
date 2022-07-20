@@ -172,7 +172,7 @@ public class JoinGroupAlert extends BottomSheet {
             linearLayout.addView(pickerBottomLayout, LayoutHelper.createFrame(-1, 48, 83));
             pickerBottomLayout.cancelButton.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
             pickerBottomLayout.cancelButton.setTextColor(getThemedColor("dialogTextBlue2"));
-            pickerBottomLayout.cancelButton.setText(LocaleController.getString("Cancel", 2131624819).toUpperCase());
+            pickerBottomLayout.cancelButton.setText(LocaleController.getString("Cancel", 2131624832).toUpperCase());
             pickerBottomLayout.cancelButton.setOnClickListener(new JoinGroupAlert$$ExternalSyntheticLambda3(this));
             pickerBottomLayout.doneButton.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
             pickerBottomLayout.doneButton.setVisibility(0);
@@ -180,9 +180,9 @@ public class JoinGroupAlert extends BottomSheet {
             pickerBottomLayout.doneButtonTextView.setTextColor(getThemedColor("dialogTextBlue2"));
             TLRPC$ChatInvite tLRPC$ChatInvite6 = this.chatInvite;
             if ((tLRPC$ChatInvite6.channel && !tLRPC$ChatInvite6.megagroup) || (ChatObject.isChannel(tLRPC$ChatInvite6.chat) && !this.chatInvite.chat.megagroup)) {
-                pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("ProfileJoinChannel", 2131627739).toUpperCase());
+                pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("ProfileJoinChannel", 2131627801).toUpperCase());
             } else {
-                pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("JoinGroup", 2131626317));
+                pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("JoinGroup", 2131626364));
             }
             pickerBottomLayout.doneButton.setOnClickListener(new JoinGroupAlert$$ExternalSyntheticLambda4(this));
             return;
@@ -203,10 +203,10 @@ public class JoinGroupAlert extends BottomSheet {
         this.requestTextView.setSingleLine(true);
         TextView textView5 = this.requestTextView;
         if (z) {
-            i2 = 2131627968;
+            i2 = 2131628030;
             str3 = "RequestToJoinChannel";
         } else {
-            i2 = 2131627972;
+            i2 = 2131628034;
             str3 = "RequestToJoinGroup";
         }
         textView5.setText(LocaleController.getString(str3, i2));
@@ -219,10 +219,10 @@ public class JoinGroupAlert extends BottomSheet {
         textView6.setGravity(17);
         textView6.setTextSize(1, 14.0f);
         if (z) {
-            i3 = 2131627970;
+            i3 = 2131628032;
             str4 = "RequestToJoinChannelDescription";
         } else {
-            i3 = 2131627974;
+            i3 = 2131628036;
             str4 = "RequestToJoinGroupDescription";
         }
         textView6.setText(LocaleController.getString(str4, i3));
@@ -336,12 +336,12 @@ public class JoinGroupAlert extends BottomSheet {
     public static void showBulletin(Context context, BaseFragment baseFragment, boolean z) {
         String str;
         Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(context, baseFragment.getResourceProvider());
-        twoLineLottieLayout.imageView.setAnimation(2131558552, 28, 28);
-        twoLineLottieLayout.titleTextView.setText(LocaleController.getString("RequestToJoinSent", 2131627976));
+        twoLineLottieLayout.imageView.setAnimation(2131558573, 28, 28);
+        twoLineLottieLayout.titleTextView.setText(LocaleController.getString("RequestToJoinSent", 2131628038));
         if (z) {
-            str = LocaleController.getString("RequestToJoinChannelSentDescription", 2131627971);
+            str = LocaleController.getString("RequestToJoinChannelSentDescription", 2131628033);
         } else {
-            str = LocaleController.getString("RequestToJoinGroupSentDescription", 2131627975);
+            str = LocaleController.getString("RequestToJoinGroupSentDescription", 2131628037);
         }
         twoLineLottieLayout.subtitleTextView.setText(str);
         Bulletin.make(baseFragment, twoLineLottieLayout, 2750).show();

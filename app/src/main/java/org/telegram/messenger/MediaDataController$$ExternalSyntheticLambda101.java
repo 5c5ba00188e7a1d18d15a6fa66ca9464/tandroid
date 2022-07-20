@@ -1,20 +1,18 @@
 package org.telegram.messenger;
 
-import org.telegram.tgnet.TLRPC$TL_help_premiumPromo;
+import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 /* loaded from: classes.dex */
 public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda101 implements Runnable {
     public final /* synthetic */ MediaDataController f$0;
-    public final /* synthetic */ TLRPC$TL_help_premiumPromo f$1;
-    public final /* synthetic */ int f$2;
+    public final /* synthetic */ TLRPC$TL_messages_stickerSet f$1;
 
-    public /* synthetic */ MediaDataController$$ExternalSyntheticLambda101(MediaDataController mediaDataController, TLRPC$TL_help_premiumPromo tLRPC$TL_help_premiumPromo, int i) {
+    public /* synthetic */ MediaDataController$$ExternalSyntheticLambda101(MediaDataController mediaDataController, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
         this.f$0 = mediaDataController;
-        this.f$1 = tLRPC$TL_help_premiumPromo;
-        this.f$2 = i;
+        this.f$1 = tLRPC$TL_messages_stickerSet;
     }
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$putPremiumPromoToCache$9(this.f$1, this.f$2);
+        this.f$0.lambda$loadGroupStickerSet$28(this.f$1);
     }
 }

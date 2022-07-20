@@ -3,8 +3,6 @@ package org.telegram.ui.Cells;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.CornerPathEffect;
@@ -637,7 +635,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.popupLayout, -2, -2);
                 this.popupWindow = actionBarPopupWindow;
                 actionBarPopupWindow.setAnimationEnabled(false);
-                this.popupWindow.setAnimationStyle(2131689480);
+                this.popupWindow.setAnimationStyle(2131689481);
                 this.popupWindow.setOutsideTouchable(true);
                 ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = this.popupLayout;
                 if (actionBarPopupWindowLayout2 != null) {
@@ -1474,7 +1472,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             menu.add(0, 16908321, 0, 17039361);
             menu.add(0, 16908319, 1, 17039373);
-            menu.add(0, 3, 2, LocaleController.getString("TranslateMessage", 2131628691));
+            menu.add(0, 3, 2, LocaleController.getString("TranslateMessage", 2131628758));
             return true;
         }
 
@@ -1634,7 +1632,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     public void copyText() {
         CharSequence selectedText;
         if (isSelectionMode() && (selectedText = getSelectedText()) != null) {
-            ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", selectedText));
+            AndroidUtilities.addToClipboard(selectedText);
             hideActions();
             clear(true);
             Callback callback = this.callback;

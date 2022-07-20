@@ -1,22 +1,22 @@
 package j$.wrappers;
 
-import j$.util.stream.AbstractC0084g;
+import j$.util.stream.AbstractC0090g;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.stream.BaseStream;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class I0 implements BaseStream {
-    final /* synthetic */ AbstractC0084g a;
+    final /* synthetic */ AbstractC0090g a;
 
-    private /* synthetic */ I0(AbstractC0084g abstractC0084g) {
-        this.a = abstractC0084g;
+    private /* synthetic */ I0(AbstractC0090g abstractC0090g) {
+        this.a = abstractC0090g;
     }
 
-    public static /* synthetic */ BaseStream n0(AbstractC0084g abstractC0084g) {
-        if (abstractC0084g == null) {
+    public static /* synthetic */ BaseStream n0(AbstractC0090g abstractC0090g) {
+        if (abstractC0090g == null) {
             return null;
         }
-        return abstractC0084g instanceof H0 ? ((H0) abstractC0084g).a : new I0(abstractC0084g);
+        return abstractC0090g instanceof H0 ? ((H0) abstractC0090g).a : new I0(abstractC0090g);
     }
 
     @Override // java.util.stream.BaseStream, java.lang.AutoCloseable
@@ -51,7 +51,7 @@ public final /* synthetic */ class I0 implements BaseStream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ Spliterator spliterator() {
-        return C0208h.a(this.a.spliterator());
+        return C0214h.a(this.a.spliterator());
     }
 
     @Override // java.util.stream.BaseStream

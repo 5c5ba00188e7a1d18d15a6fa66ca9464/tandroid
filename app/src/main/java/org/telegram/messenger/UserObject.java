@@ -39,7 +39,7 @@ public class UserObject {
 
     public static String getUserName(TLRPC$User tLRPC$User) {
         if (tLRPC$User == null || isDeleted(tLRPC$User)) {
-            return LocaleController.getString("HiddenName", 2131626131);
+            return LocaleController.getString("HiddenName", 2131626178);
         }
         String formatName = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
         if (formatName.length() != 0 || TextUtils.isEmpty(tLRPC$User.phone)) {
@@ -63,7 +63,7 @@ public class UserObject {
         } else if (!z && str.length() <= 2) {
             return ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
         }
-        return !TextUtils.isEmpty(str) ? str : LocaleController.getString("HiddenName", 2131626131);
+        return !TextUtils.isEmpty(str) ? str : LocaleController.getString("HiddenName", 2131626178);
     }
 
     public static boolean hasPhoto(TLRPC$User tLRPC$User) {

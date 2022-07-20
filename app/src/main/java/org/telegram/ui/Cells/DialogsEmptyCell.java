@@ -99,26 +99,26 @@ public class DialogsEmptyCell extends LinearLayout {
         }
         this.currentType = i;
         if (i == 0 || i == 1) {
-            i2 = 2131558571;
-            str = LocaleController.getString("NoChatsHelp", 2131626813);
-            this.titleView.setText(LocaleController.getString("NoChats", 2131626811));
+            i2 = 2131558592;
+            str = LocaleController.getString("NoChatsHelp", 2131626865);
+            this.titleView.setText(LocaleController.getString("NoChats", 2131626863));
         } else if (i == 2) {
             this.imageView.setAutoRepeat(false);
             i2 = 2131558447;
-            str = LocaleController.getString("FilterNoChatsToDisplayInfo", 2131625873);
-            this.titleView.setText(LocaleController.getString("FilterNoChatsToDisplay", 2131625872));
+            str = LocaleController.getString("FilterNoChatsToDisplayInfo", 2131625914);
+            this.titleView.setText(LocaleController.getString("FilterNoChatsToDisplay", 2131625913));
         } else {
             this.imageView.setAutoRepeat(true);
             i2 = 2131558446;
-            str = LocaleController.getString("FilterAddingChatsInfo", 2131625828);
-            this.titleView.setText(LocaleController.getString("FilterAddingChats", 2131625827));
+            str = LocaleController.getString("FilterAddingChatsInfo", 2131625869);
+            this.titleView.setText(LocaleController.getString("FilterAddingChats", 2131625868));
         }
         if (i2 != 0) {
             this.imageView.setVisibility(0);
             if (this.currentType == 1) {
                 if (isUtyanAnimationTriggered()) {
                     this.utyanCollapseProgress = 1.0f;
-                    String string = LocaleController.getString("NoChatsContactsHelp", 2131626812);
+                    String string = LocaleController.getString("NoChatsContactsHelp", 2131626864);
                     if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
                         string = string.replace('\n', ' ');
                     }
@@ -194,7 +194,7 @@ public class DialogsEmptyCell extends LinearLayout {
         }
         this.utyanAnimationTriggered = true;
         if (z) {
-            String string = LocaleController.getString("NoChatsContactsHelp", 2131626812);
+            String string = LocaleController.getString("NoChatsContactsHelp", 2131626864);
             if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
                 string = string.replace('\n', ' ');
             }

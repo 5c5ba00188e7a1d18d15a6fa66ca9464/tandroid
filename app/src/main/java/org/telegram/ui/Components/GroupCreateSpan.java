@@ -143,42 +143,42 @@ public class GroupCreateSpan extends View {
                 case 0:
                     this.avatarDrawable.setAvatarType(4);
                     this.uid = -2147483648L;
-                    str = LocaleController.getString("FilterContacts", 2131625845);
+                    str = LocaleController.getString("FilterContacts", 2131625886);
                     break;
                 case 1:
                     this.avatarDrawable.setAvatarType(5);
                     this.uid = -2147483647L;
-                    str = LocaleController.getString("FilterNonContacts", 2131625875);
+                    str = LocaleController.getString("FilterNonContacts", 2131625916);
                     break;
                 case 2:
                     this.avatarDrawable.setAvatarType(6);
                     this.uid = -2147483646L;
-                    str = LocaleController.getString("FilterGroups", 2131625862);
+                    str = LocaleController.getString("FilterGroups", 2131625903);
                     break;
                 case 3:
                     this.avatarDrawable.setAvatarType(7);
                     this.uid = -2147483645L;
-                    str = LocaleController.getString("FilterChannels", 2131625836);
+                    str = LocaleController.getString("FilterChannels", 2131625877);
                     break;
                 case 4:
                     this.avatarDrawable.setAvatarType(8);
                     this.uid = -2147483644L;
-                    str = LocaleController.getString("FilterBots", 2131625835);
+                    str = LocaleController.getString("FilterBots", 2131625876);
                     break;
                 case 5:
                     this.avatarDrawable.setAvatarType(9);
                     this.uid = -2147483643L;
-                    str = LocaleController.getString("FilterMuted", 2131625865);
+                    str = LocaleController.getString("FilterMuted", 2131625906);
                     break;
                 case 6:
                     this.avatarDrawable.setAvatarType(10);
                     this.uid = -2147483642L;
-                    str = LocaleController.getString("FilterRead", 2131625876);
+                    str = LocaleController.getString("FilterRead", 2131625917);
                     break;
                 default:
                     this.avatarDrawable.setAvatarType(11);
                     this.uid = -2147483641L;
-                    str = LocaleController.getString("FilterArchived", 2131625832);
+                    str = LocaleController.getString("FilterArchived", 2131625873);
                     break;
             }
         } else {
@@ -186,11 +186,11 @@ public class GroupCreateSpan extends View {
                 TLRPC$User tLRPC$User3 = (TLRPC$User) obj;
                 this.uid = tLRPC$User3.id;
                 if (UserObject.isReplyUser(tLRPC$User3)) {
-                    str = LocaleController.getString("RepliesTitle", 2131627920);
+                    str = LocaleController.getString("RepliesTitle", 2131627982);
                     this.avatarDrawable.setSmallSize(true);
                     this.avatarDrawable.setAvatarType(12);
                 } else if (UserObject.isUserSelf(tLRPC$User3)) {
-                    str = LocaleController.getString("SavedMessages", 2131628077);
+                    str = LocaleController.getString("SavedMessages", 2131628139);
                     this.avatarDrawable.setSmallSize(true);
                     this.avatarDrawable.setAvatarType(1);
                 } else {
@@ -369,6 +369,6 @@ public class GroupCreateSpan extends View {
         if (!isDeleting() || Build.VERSION.SDK_INT < 21) {
             return;
         }
-        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK.getId(), LocaleController.getString("Delete", 2131625368)));
+        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK.getId(), LocaleController.getString("Delete", 2131625384)));
     }
 }

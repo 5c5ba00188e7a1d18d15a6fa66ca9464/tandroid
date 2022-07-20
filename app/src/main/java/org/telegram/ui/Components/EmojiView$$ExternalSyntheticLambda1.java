@@ -12,8 +12,8 @@ public final /* synthetic */ class EmojiView$$ExternalSyntheticLambda1 implement
 
     @Override // android.view.View.OnKeyListener
     public final boolean onKey(View view, int i, KeyEvent keyEvent) {
-        boolean lambda$new$7;
-        lambda$new$7 = this.f$0.lambda$new$7(view, i, keyEvent);
-        return lambda$new$7;
+        boolean lambda$new$8;
+        lambda$new$8 = this.f$0.lambda$new$8(view, i, keyEvent);
+        return lambda$new$8;
     }
 }

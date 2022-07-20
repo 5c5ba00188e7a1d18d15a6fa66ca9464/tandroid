@@ -15,8 +15,8 @@ public final /* synthetic */ class EmojiView$$ExternalSyntheticLambda3 implement
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$new$4;
-        lambda$new$4 = this.f$0.lambda$new$4(this.f$1, view, motionEvent);
-        return lambda$new$4;
+        boolean lambda$new$2;
+        lambda$new$2 = this.f$0.lambda$new$2(this.f$1, view, motionEvent);
+        return lambda$new$2;
     }
 }

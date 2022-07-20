@@ -15,6 +15,6 @@ public final /* synthetic */ class MessagesController$$ExternalSyntheticLambda28
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        this.f$0.lambda$reorderPinnedDialogs$287(this.f$1, tLObject, tLRPC$TL_error);
+        this.f$0.lambda$markMessageAsRead2$195(this.f$1, tLObject, tLRPC$TL_error);
     }
 }

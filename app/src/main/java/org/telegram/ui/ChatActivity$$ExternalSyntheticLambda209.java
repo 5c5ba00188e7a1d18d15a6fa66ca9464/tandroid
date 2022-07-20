@@ -1,20 +1,17 @@
 package org.telegram.ui;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-import org.telegram.messenger.LanguageDetector;
+import java.util.Comparator;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda209 implements LanguageDetector.ExceptionCallback {
-    public final /* synthetic */ AtomicBoolean f$0;
-    public final /* synthetic */ AtomicReference f$1;
+public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda209 implements Comparator {
+    public static final /* synthetic */ ChatActivity$$ExternalSyntheticLambda209 INSTANCE = new ChatActivity$$ExternalSyntheticLambda209();
 
-    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda209(AtomicBoolean atomicBoolean, AtomicReference atomicReference) {
-        this.f$0 = atomicBoolean;
-        this.f$1 = atomicReference;
+    private /* synthetic */ ChatActivity$$ExternalSyntheticLambda209() {
     }
 
-    @Override // org.telegram.messenger.LanguageDetector.ExceptionCallback
-    public final void run(Exception exc) {
-        ChatActivity.lambda$createMenu$175(this.f$0, this.f$1, exc);
+    @Override // java.util.Comparator
+    public final int compare(Object obj, Object obj2) {
+        int compareTo;
+        compareTo = ((Integer) obj2).compareTo((Integer) obj);
+        return compareTo;
     }
 }

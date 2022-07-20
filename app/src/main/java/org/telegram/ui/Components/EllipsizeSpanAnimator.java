@@ -28,13 +28,13 @@ public class EllipsizeSpanAnimator {
     /* renamed from: org.telegram.ui.Components.EllipsizeSpanAnimator$1 */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 extends AnimatorListenerAdapter {
-        private Runnable restarter = new RunnableC00191();
+        private Runnable restarter = new RunnableC00231();
         final /* synthetic */ View val$parentView;
 
         /* renamed from: org.telegram.ui.Components.EllipsizeSpanAnimator$1$1 */
         /* loaded from: classes3.dex */
-        public class RunnableC00191 implements Runnable {
-            RunnableC00191() {
+        public class RunnableC00231 implements Runnable {
+            RunnableC00231() {
                 AnonymousClass1.this = r1;
             }
 

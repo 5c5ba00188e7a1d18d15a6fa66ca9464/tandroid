@@ -231,7 +231,7 @@ public class Crashes extends AbstractAppCenterService {
                         if (this.val$callbackProcessor.shouldDeleteThrowable()) {
                             Crashes.this.removeStoredThrowable(id);
                         }
-                        HandlerUtils.runOnUiThread(new RunnableC00031(buildErrorReport));
+                        HandlerUtils.runOnUiThread(new RunnableC00071(buildErrorReport));
                         return;
                     }
                     AppCenterLog.warn("AppCenterCrashes", "Cannot find crash report for the error log: " + id);
@@ -243,10 +243,10 @@ public class Crashes extends AbstractAppCenterService {
 
             /* renamed from: com.microsoft.appcenter.crashes.Crashes$6$1$1 */
             /* loaded from: classes.dex */
-            class RunnableC00031 implements Runnable {
+            class RunnableC00071 implements Runnable {
                 final /* synthetic */ ErrorReport val$report;
 
-                RunnableC00031(ErrorReport errorReport) {
+                RunnableC00071(ErrorReport errorReport) {
                     AnonymousClass1.this = r1;
                     this.val$report = errorReport;
                 }

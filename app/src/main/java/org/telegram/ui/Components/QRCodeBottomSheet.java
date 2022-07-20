@@ -35,7 +35,7 @@ public class QRCodeBottomSheet extends BottomSheet {
     public QRCodeBottomSheet(Context context, String str, String str2) {
         super(context, false);
         fixNavigationBar();
-        setTitle(LocaleController.getString("InviteByQRCode", 2131626259), true);
+        setTitle(LocaleController.getString("InviteByQRCode", 2131626306), true);
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
         anonymousClass1.setScaleType(ImageView.ScaleType.FIT_XY);
         if (Build.VERSION.SDK_INT >= 21) {
@@ -52,7 +52,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         this.iconImage = rLottieImageView;
         rLottieImageView.setBackgroundColor(-1);
         this.iconImage.setAutoRepeat(true);
-        this.iconImage.setAnimation(2131558516, 60, 60);
+        this.iconImage.setAnimation(2131558532, 60, 60);
         this.iconImage.playAnimation();
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(context, anonymousClass1);
         anonymousClass3.addView(anonymousClass1, LayoutHelper.createFrame(-1, -1.0f));
@@ -70,7 +70,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         textView2.setGravity(17);
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        textView2.setText(LocaleController.getString("ShareQrCode", 2131628283));
+        textView2.setText(LocaleController.getString("ShareQrCode", 2131628345));
         textView2.setOnClickListener(new QRCodeBottomSheet$$ExternalSyntheticLambda0(this, context));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 80, 16, 15, 16, 16));
         updateColors();
@@ -140,7 +140,7 @@ public class QRCodeBottomSheet extends BottomSheet {
             intent.setType("image/*");
             intent.putExtra("android.intent.extra.STREAM", bitmapShareUri);
             try {
-                AndroidUtilities.findActivity(context).startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteByQRCode", 2131626259)), 500);
+                AndroidUtilities.findActivity(context).startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteByQRCode", 2131626306)), 500);
             } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
             }

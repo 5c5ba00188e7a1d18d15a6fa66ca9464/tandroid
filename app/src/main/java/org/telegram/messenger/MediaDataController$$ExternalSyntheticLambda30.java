@@ -11,6 +11,6 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda3
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$increasePeerRaiting$117(this.f$1);
+        this.f$0.lambda$increasePeerRaiting$121(this.f$1);
     }
 }

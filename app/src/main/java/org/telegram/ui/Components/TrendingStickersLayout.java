@@ -142,7 +142,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         frameLayout.setBackgroundColor(getThemedColor("dialogBackground"));
         AnonymousClass2 anonymousClass2 = new AnonymousClass2(context, true, resourcesProvider);
         this.searchView = anonymousClass2;
-        anonymousClass2.setHint(LocaleController.getString("SearchTrendingStickersHint", 2131628125));
+        anonymousClass2.setHint(LocaleController.getString("SearchTrendingStickersHint", 2131628187));
         frameLayout.addView(anonymousClass2, LayoutHelper.createFrame(-1, -1, 48));
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(context, delegate);
         this.listView = anonymousClass3;
@@ -587,7 +587,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             }
         } else if (i != NotificationCenter.featuredStickersDidLoad) {
         } else {
-            if (this.hash != MediaDataController.getInstance(this.currentAccount).getFeaturesStickersHashWithoutUnread()) {
+            if (this.hash != MediaDataController.getInstance(this.currentAccount).getFeaturedStickersHashWithoutUnread(false)) {
                 this.loaded = false;
             }
             if (this.loaded) {
@@ -874,7 +874,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             } else {
                 if (itemViewType != 2) {
                     if (itemViewType == 4) {
-                        ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("OtherStickers", 2131627122));
+                        ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("OtherStickers", 2131627174));
                         return;
                     } else if (itemViewType != 5) {
                         return;
@@ -915,7 +915,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                 ArrayList<Long> unreadStickerSets = mediaDataController.getUnreadStickerSets();
                 boolean z6 = unreadStickerSets != null && unreadStickerSets.contains(Long.valueOf(tLRPC$StickerSetCovered2.set.id));
                 if (z6) {
-                    mediaDataController.markFaturedStickersByIdAsRead(tLRPC$StickerSetCovered2.set.id);
+                    mediaDataController.markFeaturedStickersByIdAsRead(false, tLRPC$StickerSetCovered2.set.id);
                 }
                 tLRPC$StickerSetCovered = tLRPC$StickerSetCovered2;
                 z2 = z6;
@@ -1092,7 +1092,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             }
             if (this.totalItems != 0) {
                 TrendingStickersLayout.this.loaded = true;
-                TrendingStickersLayout.this.hash = mediaDataController.getFeaturesStickersHashWithoutUnread();
+                TrendingStickersLayout.this.hash = mediaDataController.getFeaturedStickersHashWithoutUnread(false);
             }
             notifyDataSetChanged();
         }

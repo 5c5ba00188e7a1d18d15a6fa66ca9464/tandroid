@@ -68,7 +68,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         setWidth(-2);
         setHeight(-2);
         setBackgroundDrawable(null);
-        Drawable mutate = ContextCompat.getDrawable(context, 2131166085).mutate();
+        Drawable mutate = ContextCompat.getDrawable(context, 2131166087).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("actionBarDefaultSubmenuBackground"), PorterDuff.Mode.MULTIPLY));
         this.scrimPopupContainerLayout.setBackground(mutate);
         android.graphics.Rect rect = new android.graphics.Rect();
@@ -84,7 +84,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         this.headerText = textView;
         textView.setTextColor(Theme.getColor("dialogTextBlue"));
         this.headerText.setTextSize(1, 16.0f);
-        this.headerText.setText(LocaleController.getString("SendMessageAsTitle", 2131628198));
+        this.headerText.setText(LocaleController.getString("SendMessageAsTitle", 2131628260));
         this.headerText.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"), 1);
         int dp = AndroidUtilities.dp(18.0f);
         this.headerText.setPadding(dp, AndroidUtilities.dp(12.0f), dp, AndroidUtilities.dp(12.0f));
@@ -187,7 +187,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             TLRPC$User user = this.val$messagesController.getUser(Long.valueOf(j2));
             if (user != null) {
                 senderView.title.setText(UserObject.getUserName(user));
-                senderView.subtitle.setText(LocaleController.getString("VoipGroupPersonalAccount", 2131629087));
+                senderView.subtitle.setText(LocaleController.getString("VoipGroupPersonalAccount", 2131629161));
                 senderView.avatar.setAvatar(user);
             }
             SimpleAvatarView simpleAvatarView2 = senderView.avatar;

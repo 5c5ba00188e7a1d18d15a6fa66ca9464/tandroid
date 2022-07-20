@@ -142,7 +142,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         this.parentFragment = baseFragment;
         this.chatId = j;
         fixNavigationBar();
-        this.searchView.searchEditText.setHint(LocaleController.getString("SearchForChats", 2131628106));
+        this.searchView.searchEditText.setHint(LocaleController.getString("SearchForChats", 2131628168));
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         SearchAdapter searchAdapter = new SearchAdapter();
         this.searchAdapter = searchAdapter;
@@ -196,7 +196,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         imageView.setScaleX(0.0f);
         imageView.setScaleY(0.0f);
         imageView.setAlpha(0.0f);
-        imageView.setContentDescription(LocaleController.getString("Next", 2131626801));
+        imageView.setContentDescription(LocaleController.getString("Next", 2131626853));
         this.containerView.addView(imageView, LayoutHelper.createFrame(i3 >= 21 ? 56 : 60, i3 < 21 ? 60 : 56, 85, 14.0f, 14.0f, 14.0f, 14.0f));
         ((ViewGroup.MarginLayoutParams) this.emptyView.getLayoutParams()).topMargin = AndroidUtilities.dp(20.0f);
         ((ViewGroup.MarginLayoutParams) this.emptyView.getLayoutParams()).leftMargin = AndroidUtilities.dp(4.0f);
@@ -323,9 +323,9 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(findActivity);
         if (this.selectedContacts.size() == 1) {
-            builder.setTitle(LocaleController.getString("AddOneMemberAlertTitle", 2131624275));
+            builder.setTitle(LocaleController.getString("AddOneMemberAlertTitle", 2131624283));
         } else {
-            builder.setTitle(LocaleController.formatString("AddMembersAlertTitle", 2131624272, LocaleController.formatPluralString("Members", this.selectedContacts.size(), new Object[0])));
+            builder.setTitle(LocaleController.formatString("AddMembersAlertTitle", 2131624280, LocaleController.formatPluralString("Members", this.selectedContacts.size(), new Object[0])));
         }
         StringBuilder sb = new StringBuilder();
         for (int i2 = 0; i2 < this.selectedContacts.size(); i2++) {
@@ -341,7 +341,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j));
         if (this.selectedContacts.size() > 5) {
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", 2131624271, LocaleController.formatPluralString("Members", this.selectedContacts.size(), new Object[0]), chat.title)));
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", 2131624279, LocaleController.formatPluralString("Members", this.selectedContacts.size(), new Object[0]), chat.title)));
             String format = String.format("%d", Integer.valueOf(this.selectedContacts.size()));
             int indexOf = TextUtils.indexOf(spannableStringBuilder, format);
             if (indexOf >= 0) {
@@ -349,10 +349,10 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             }
             builder.setMessage(spannableStringBuilder);
         } else {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", 2131624271, sb, chat.title)));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", 2131624279, sb, chat.title)));
         }
-        builder.setPositiveButton(LocaleController.getString("Add", 2131624237), new InviteMembersBottomSheet$$ExternalSyntheticLambda1(this));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+        builder.setPositiveButton(LocaleController.getString("Add", 2131624242), new InviteMembersBottomSheet$$ExternalSyntheticLambda1(this));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         builder.create();
         builder.show();
     }
@@ -648,7 +648,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 manageChatTextCell = new View(context);
             } else if (i != 5) {
                 ManageChatTextCell manageChatTextCell2 = new ManageChatTextCell(context);
-                manageChatTextCell2.setText(LocaleController.getString("VoipGroupCopyInviteLink", 2131629042), null, 2131165782, 7, true);
+                manageChatTextCell2.setText(LocaleController.getString("VoipGroupCopyInviteLink", 2131629116), null, 2131165783, 7, true);
                 manageChatTextCell2.setColors("dialogTextBlue2", "dialogTextBlue2");
                 manageChatTextCell = manageChatTextCell2;
             } else {
@@ -656,9 +656,9 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 anonymousClass2.setLayoutParams(new RecyclerView.LayoutParams(-1, -1));
                 anonymousClass2.subtitle.setVisibility(8);
                 if (InviteMembersBottomSheet.this.dialogsDelegate != null) {
-                    anonymousClass2.title.setText(LocaleController.getString("FilterNoChats", 2131625871));
+                    anonymousClass2.title.setText(LocaleController.getString("FilterNoChats", 2131625912));
                 } else {
-                    anonymousClass2.title.setText(LocaleController.getString("NoContacts", 2131626815));
+                    anonymousClass2.title.setText(LocaleController.getString("NoContacts", 2131626867));
                 }
                 anonymousClass2.setAnimateLayoutChange(true);
                 manageChatTextCell = anonymousClass2;
@@ -853,7 +853,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             String str;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 0) {
-                ((GroupCreateSectionCell) viewHolder.itemView).setText(LocaleController.getString("GlobalSearch", 2131626079));
+                ((GroupCreateSectionCell) viewHolder.itemView).setText(LocaleController.getString("GlobalSearch", 2131626126));
             } else if (itemViewType != 1) {
                 if (itemViewType != 2) {
                     return;

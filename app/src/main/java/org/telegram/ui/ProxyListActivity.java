@@ -100,10 +100,10 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 56 : 21, 35.0f, z2 ? 21 : i2, 0.0f));
             ImageView imageView = new ImageView(context);
             this.checkImageView = imageView;
-            imageView.setImageResource(2131165763);
+            imageView.setImageResource(2131165764);
             this.checkImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayText3"), PorterDuff.Mode.MULTIPLY));
             this.checkImageView.setScaleType(ImageView.ScaleType.CENTER);
-            this.checkImageView.setContentDescription(LocaleController.getString("Edit", 2131625537));
+            this.checkImageView.setContentDescription(LocaleController.getString("Edit", 2131625553));
             addView(this.checkImageView, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 3 : i) | 48, 8.0f, 8.0f, 8.0f, 0.0f));
             this.checkImageView.setOnClickListener(new ProxyListActivity$TextDetailProxyCell$$ExternalSyntheticLambda0(this));
             setWillNotDraw(false);
@@ -130,9 +130,9 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 if (ProxyListActivity.this.currentConnectionState == 3 || ProxyListActivity.this.currentConnectionState == 5) {
                     if (this.currentInfo.ping != 0) {
                         TextView textView = this.valueTextView;
-                        textView.setText(LocaleController.getString("Connected", 2131625222) + ", " + LocaleController.formatString("Ping", 2131627539, Long.valueOf(this.currentInfo.ping)));
+                        textView.setText(LocaleController.getString("Connected", 2131625238) + ", " + LocaleController.formatString("Ping", 2131627591, Long.valueOf(this.currentInfo.ping)));
                     } else {
-                        this.valueTextView.setText(LocaleController.getString("Connected", 2131625222));
+                        this.valueTextView.setText(LocaleController.getString("Connected", 2131625238));
                     }
                     SharedConfig.ProxyInfo proxyInfo = this.currentInfo;
                     if (!proxyInfo.checking && !proxyInfo.available) {
@@ -140,22 +140,22 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     }
                     str = "windowBackgroundWhiteBlueText6";
                 } else {
-                    this.valueTextView.setText(LocaleController.getString("Connecting", 2131625225));
+                    this.valueTextView.setText(LocaleController.getString("Connecting", 2131625241));
                 }
             } else {
                 SharedConfig.ProxyInfo proxyInfo2 = this.currentInfo;
                 if (proxyInfo2.checking) {
-                    this.valueTextView.setText(LocaleController.getString("Checking", 2131625103));
+                    this.valueTextView.setText(LocaleController.getString("Checking", 2131625116));
                 } else if (proxyInfo2.available) {
                     if (proxyInfo2.ping != 0) {
                         TextView textView2 = this.valueTextView;
-                        textView2.setText(LocaleController.getString("Available", 2131624632) + ", " + LocaleController.formatString("Ping", 2131627539, Long.valueOf(this.currentInfo.ping)));
+                        textView2.setText(LocaleController.getString("Available", 2131624643) + ", " + LocaleController.formatString("Ping", 2131627591, Long.valueOf(this.currentInfo.ping)));
                     } else {
-                        this.valueTextView.setText(LocaleController.getString("Available", 2131624632));
+                        this.valueTextView.setText(LocaleController.getString("Available", 2131624643));
                     }
                     str = "windowBackgroundWhiteGreenText";
                 } else {
-                    this.valueTextView.setText(LocaleController.getString("Unavailable", 2131628722));
+                    this.valueTextView.setText(LocaleController.getString("Unavailable", 2131628790));
                     str = "windowBackgroundWhiteRedText4";
                 }
             }
@@ -171,7 +171,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         public void setChecked(boolean z) {
             if (z) {
                 if (this.checkDrawable == null) {
-                    this.checkDrawable = getResources().getDrawable(2131166098).mutate();
+                    this.checkDrawable = getResources().getDrawable(2131166100).mutate();
                 }
                 Drawable drawable = this.checkDrawable;
                 if (drawable != null) {
@@ -230,7 +230,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
-        this.actionBar.setTitle(LocaleController.getString("ProxySettings", 2131627752));
+        this.actionBar.setTitle(LocaleController.getString("ProxySettings", 2131627814));
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
         }
@@ -367,10 +367,10 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             return false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setMessage(LocaleController.getString("DeleteProxy", 2131625428));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
-        builder.setTitle(LocaleController.getString("AppName", 2131624375));
-        builder.setPositiveButton(LocaleController.getString("OK", 2131627075), new ProxyListActivity$$ExternalSyntheticLambda0(this, SharedConfig.proxyList.get(i - i2), i));
+        builder.setMessage(LocaleController.getString("DeleteProxy", 2131625444));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+        builder.setTitle(LocaleController.getString("AppName", 2131624384));
+        builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new ProxyListActivity$$ExternalSyntheticLambda0(this, SharedConfig.proxyList.get(i - i2), i));
         showDialog(builder.create());
         return true;
     }
@@ -561,27 +561,27 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 if (i != ProxyListActivity.this.proxyAddRow) {
                     return;
                 }
-                textSettingsCell.setText(LocaleController.getString("AddProxy", 2131624279), false);
+                textSettingsCell.setText(LocaleController.getString("AddProxy", 2131624287), false);
             } else if (itemViewType == 2) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i != ProxyListActivity.this.connectionsHeaderRow) {
                     return;
                 }
-                headerCell.setText(LocaleController.getString("ProxyConnections", 2131627750));
+                headerCell.setText(LocaleController.getString("ProxyConnections", 2131627812));
             } else if (itemViewType == 3) {
                 TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
                 if (i == ProxyListActivity.this.useProxyRow) {
-                    textCheckCell.setTextAndCheck(LocaleController.getString("UseProxySettings", 2131628789), ProxyListActivity.this.useProxySettings, false);
+                    textCheckCell.setTextAndCheck(LocaleController.getString("UseProxySettings", 2131628861), ProxyListActivity.this.useProxySettings, false);
                 } else if (i != ProxyListActivity.this.callsRow) {
                 } else {
-                    textCheckCell.setTextAndCheck(LocaleController.getString("UseProxyForCalls", 2131628783), ProxyListActivity.this.useProxyForCalls, false);
+                    textCheckCell.setTextAndCheck(LocaleController.getString("UseProxyForCalls", 2131628855), ProxyListActivity.this.useProxyForCalls, false);
                 }
             } else if (itemViewType == 4) {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 if (i != ProxyListActivity.this.callsDetailRow) {
                     return;
                 }
-                textInfoPrivacyCell.setText(LocaleController.getString("UseProxyForCallsInfo", 2131628784));
+                textInfoPrivacyCell.setText(LocaleController.getString("UseProxyForCallsInfo", 2131628856));
                 textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
             } else if (itemViewType != 5) {
             } else {

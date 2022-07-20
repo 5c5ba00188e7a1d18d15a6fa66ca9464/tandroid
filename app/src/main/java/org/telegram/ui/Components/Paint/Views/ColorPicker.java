@@ -66,14 +66,14 @@ public class ColorPicker extends FrameLayout {
         this.settingsButton = imageView;
         imageView.setContentDescription(LocaleController.getString("AccDescrBrushType", 2131623965));
         this.settingsButton.setScaleType(ImageView.ScaleType.CENTER);
-        this.settingsButton.setImageResource(2131166042);
+        this.settingsButton.setImageResource(2131166044);
         addView(this.settingsButton, LayoutHelper.createFrame(46, 52.0f));
         this.settingsButton.setOnClickListener(new ColorPicker$$ExternalSyntheticLambda0(this));
         ImageView imageView2 = new ImageView(context);
         this.undoButton = imageView2;
-        imageView2.setContentDescription(LocaleController.getString("Undo", 2131628728));
+        imageView2.setContentDescription(LocaleController.getString("Undo", 2131628796));
         this.undoButton.setScaleType(ImageView.ScaleType.CENTER);
-        this.undoButton.setImageResource(2131166045);
+        this.undoButton.setImageResource(2131166047);
         addView(this.undoButton, LayoutHelper.createFrame(46, 52.0f));
         this.undoButton.setOnClickListener(new ColorPicker$$ExternalSyntheticLambda1(this));
         SharedPreferences sharedPreferences = context.getSharedPreferences("paint", 0);

@@ -13,6 +13,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda43 imple
 
     @Override // android.content.DialogInterface.OnClickListener
     public final void onClick(DialogInterface dialogInterface, int i) {
-        this.f$0.lambda$checkRecordLocked$218(this.f$1, dialogInterface, i);
+        this.f$0.lambda$checkRecordLocked$219(this.f$1, dialogInterface, i);
     }
 }

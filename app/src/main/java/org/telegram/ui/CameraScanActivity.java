@@ -188,10 +188,10 @@ public class CameraScanActivity extends BaseFragment {
             this.val$gallery = z2;
             this.val$cameraDelegate = cameraScanActivityDelegate;
             actionBarLayoutArr[0].init(new ArrayList<>());
-            C00081 c00081 = new C00081(i);
-            this.fragment = c00081;
-            c00081.shownAsBottomSheet = true;
-            ((CameraScanActivity) c00081).needGalleryButton = z2;
+            C00121 c00121 = new C00121(i);
+            this.fragment = c00121;
+            c00121.shownAsBottomSheet = true;
+            ((CameraScanActivity) c00121).needGalleryButton = z2;
             actionBarLayoutArr[0].addFragmentToStack(this.fragment);
             actionBarLayoutArr[0].showLastFragment();
             ActionBarLayout actionBarLayout = actionBarLayoutArr[0];
@@ -206,9 +206,9 @@ public class CameraScanActivity extends BaseFragment {
 
         /* renamed from: org.telegram.ui.CameraScanActivity$1$1 */
         /* loaded from: classes3.dex */
-        public class C00081 extends CameraScanActivity {
+        public class C00121 extends CameraScanActivity {
             /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            C00081(int i) {
+            C00121(int i) {
                 super(i);
                 AnonymousClass1.this = r1;
             }
@@ -320,7 +320,7 @@ public class CameraScanActivity extends BaseFragment {
             anonymousClass3.addView(this.actionBar);
         }
         if (this.currentType == 2) {
-            this.actionBar.setTitle(LocaleController.getString("AuthAnotherClientScan", 2131624533));
+            this.actionBar.setTitle(LocaleController.getString("AuthAnotherClientScan", 2131624544));
         }
         Paint paint = new Paint(1);
         paint.setPathEffect(LinkPath.getRoundedEffect());
@@ -343,17 +343,17 @@ public class CameraScanActivity extends BaseFragment {
         this.recognizedMrzView.setAlpha(0.0f);
         int i2 = this.currentType;
         if (i2 == 0) {
-            this.titleTextView.setText(LocaleController.getString("PassportScanPassport", 2131627330));
-            this.descriptionText.setText(LocaleController.getString("PassportScanPassportInfo", 2131627331));
+            this.titleTextView.setText(LocaleController.getString("PassportScanPassport", 2131627382));
+            this.descriptionText.setText(LocaleController.getString("PassportScanPassportInfo", 2131627383));
             this.titleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             this.recognizedMrzView.setTypeface(Typeface.MONOSPACE);
         } else {
             if (!this.needGalleryButton) {
                 if (i2 == 1) {
-                    this.titleTextView.setText(LocaleController.getString("AuthAnotherClientScan", 2131624533));
+                    this.titleTextView.setText(LocaleController.getString("AuthAnotherClientScan", 2131624544));
                 } else {
-                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString("AuthAnotherClientInfo5", 2131624530));
-                    String[] strArr = {LocaleController.getString("AuthAnotherClientDownloadClientUrl", 2131624525), LocaleController.getString("AuthAnotherWebClientUrl", 2131624536)};
+                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString("AuthAnotherClientInfo5", 2131624541));
+                    String[] strArr = {LocaleController.getString("AuthAnotherClientDownloadClientUrl", 2131624536), LocaleController.getString("AuthAnotherWebClientUrl", 2131624547)};
                     int i3 = 0;
                     for (int i4 = 2; i3 < i4; i4 = 2) {
                         String spannableStringBuilder2 = spannableStringBuilder.toString();
@@ -383,14 +383,14 @@ public class CameraScanActivity extends BaseFragment {
             this.recognizedMrzView.setTextSize(1, 16.0f);
             this.recognizedMrzView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f));
             if (!this.needGalleryButton) {
-                this.recognizedMrzView.setText(LocaleController.getString("AuthAnotherClientNotFound", 2131624531));
+                this.recognizedMrzView.setText(LocaleController.getString("AuthAnotherClientNotFound", 2131624542));
             }
             anonymousClass3.addView(this.recognizedMrzView);
             if (this.needGalleryButton) {
                 ImageView imageView = new ImageView(context);
                 this.galleryButton = imageView;
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
-                this.galleryButton.setImageResource(2131166105);
+                this.galleryButton.setImageResource(2131166107);
                 this.galleryButton.setBackgroundDrawable(Theme.createSelectorDrawableFromDrawables(Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 587202559), Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 1157627903)));
                 anonymousClass3.addView(this.galleryButton);
                 this.galleryButton.setOnClickListener(new CameraScanActivity$$ExternalSyntheticLambda2(this));
@@ -398,7 +398,7 @@ public class CameraScanActivity extends BaseFragment {
             ImageView imageView2 = new ImageView(context);
             this.flashButton = imageView2;
             imageView2.setScaleType(ImageView.ScaleType.CENTER);
-            this.flashButton.setImageResource(2131166104);
+            this.flashButton.setImageResource(2131166106);
             this.flashButton.setBackgroundDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 587202559));
             anonymousClass3.addView(this.flashButton);
             this.flashButton.setOnClickListener(new CameraScanActivity$$ExternalSyntheticLambda3(this));

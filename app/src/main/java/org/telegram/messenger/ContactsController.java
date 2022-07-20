@@ -56,6 +56,7 @@ import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyPhoneNumber;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyPhoneP2P;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyStatusTimestamp;
+import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyVoiceMessages;
 import org.telegram.tgnet.TLRPC$TL_popularContact;
 import org.telegram.tgnet.TLRPC$TL_user;
 import org.telegram.tgnet.TLRPC$TL_userStatusLastMonth;
@@ -71,13 +72,14 @@ public class ContactsController extends BaseController {
     private static volatile ContactsController[] Instance = new ContactsController[4];
     public static final int PRIVACY_RULES_TYPE_ADDED_BY_PHONE = 7;
     public static final int PRIVACY_RULES_TYPE_CALLS = 2;
-    public static final int PRIVACY_RULES_TYPE_COUNT = 8;
+    public static final int PRIVACY_RULES_TYPE_COUNT = 9;
     public static final int PRIVACY_RULES_TYPE_FORWARDS = 5;
     public static final int PRIVACY_RULES_TYPE_INVITE = 1;
     public static final int PRIVACY_RULES_TYPE_LASTSEEN = 0;
     public static final int PRIVACY_RULES_TYPE_P2P = 3;
     public static final int PRIVACY_RULES_TYPE_PHONE = 6;
     public static final int PRIVACY_RULES_TYPE_PHOTO = 4;
+    public static final int PRIVACY_RULES_TYPE_VOICE_MESSAGES = 8;
     private ArrayList<TLRPC$PrivacyRule> addedByPhonePrivacyRules;
     private ArrayList<TLRPC$PrivacyRule> callPrivacyRules;
     private int completedRequestsCount;
@@ -101,12 +103,13 @@ public class ContactsController extends BaseController {
     private ArrayList<TLRPC$PrivacyRule> profilePhotoPrivacyRules;
     private Account systemAccount;
     private boolean updatingInviteLink;
+    private ArrayList<TLRPC$PrivacyRule> voiceMessagesRules;
     private final Object loadContactsSync = new Object();
     private final Object observerLock = new Object();
     private String lastContactsVersions = "";
     private ArrayList<Long> delayedContactsUpdate = new ArrayList<>();
     private HashMap<String, String> sectionsToReplace = new HashMap<>();
-    private int[] loadingPrivacyInfo = new int[8];
+    private int[] loadingPrivacyInfo = new int[9];
     private String[] projectionPhones = {"lookup", "data1", "data2", "data3", "display_name", "account_type"};
     private String[] projectionNames = {"lookup", "data2", "data3", "data5"};
     public HashMap<String, Contact> contactsBook = new HashMap<>();
@@ -327,12 +330,12 @@ public class ContactsController extends BaseController {
             str = "https://telegram.org/dl";
         }
         if (i <= 1) {
-            return LocaleController.formatString("InviteText2", 2131626272, str);
+            return LocaleController.formatString("InviteText2", 2131626319, str);
         }
         try {
             return String.format(LocaleController.getPluralString("InviteTextNum", i), Integer.valueOf(i), str);
         } catch (Exception unused) {
-            return LocaleController.formatString("InviteText2", 2131626272, str);
+            return LocaleController.formatString("InviteText2", 2131626319, str);
         }
     }
 
@@ -748,19 +751,19 @@ public class ContactsController extends BaseController {
                                                     String string5 = cursor.getString(3);
                                                     ArrayList<String> arrayList2 = contact2.phoneTypes;
                                                     if (string5 == null) {
-                                                        string5 = LocaleController.getString("PhoneMobile", 2131627492);
+                                                        string5 = LocaleController.getString("PhoneMobile", 2131627544);
                                                     }
                                                     arrayList2.add(string5);
                                                 } else if (i5 == 1) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneHome", 2131627490));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneHome", 2131627542));
                                                 } else if (i5 == 2) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMobile", 2131627492));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMobile", 2131627544));
                                                 } else if (i5 == 3) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneWork", 2131627502));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneWork", 2131627554));
                                                 } else if (i5 == 12) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMain", 2131627491));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMain", 2131627543));
                                                 } else {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneOther", 2131627501));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneOther", 2131627553));
                                                 }
                                                 hashMap4.put(substring, contact2);
                                                 contactsController = this;
@@ -2351,7 +2354,7 @@ public class ContactsController extends BaseController {
         newInsert3.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.profile");
         newInsert3.withValue("data1", Long.valueOf(tLRPC$User.id));
         newInsert3.withValue("data2", "Telegram Profile");
-        newInsert3.withValue("data3", LocaleController.formatString("ContactShortcutMessage", 2131625237, str));
+        newInsert3.withValue("data3", LocaleController.formatString("ContactShortcutMessage", 2131625253, str));
         newInsert3.withValue("data4", Long.valueOf(tLRPC$User.id));
         arrayList.add(newInsert3.build());
         ContentProviderOperation.Builder newInsert4 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
@@ -2359,7 +2362,7 @@ public class ContactsController extends BaseController {
         newInsert4.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call");
         newInsert4.withValue("data1", Long.valueOf(tLRPC$User.id));
         newInsert4.withValue("data2", "Telegram Voice Call");
-        newInsert4.withValue("data3", LocaleController.formatString("ContactShortcutVoiceCall", 2131625239, str));
+        newInsert4.withValue("data3", LocaleController.formatString("ContactShortcutVoiceCall", 2131625255, str));
         newInsert4.withValue("data4", Long.valueOf(tLRPC$User.id));
         arrayList.add(newInsert4.build());
         ContentProviderOperation.Builder newInsert5 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
@@ -2367,7 +2370,7 @@ public class ContactsController extends BaseController {
         newInsert5.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call.video");
         newInsert5.withValue("data1", Long.valueOf(tLRPC$User.id));
         newInsert5.withValue("data2", "Telegram Video Call");
-        newInsert5.withValue("data3", LocaleController.formatString("ContactShortcutVideoCall", 2131625238, str));
+        newInsert5.withValue("data3", LocaleController.formatString("ContactShortcutVideoCall", 2131625254, str));
         newInsert5.withValue("data4", Long.valueOf(tLRPC$User.id));
         arrayList.add(newInsert5.build());
         try {
@@ -2547,7 +2550,7 @@ public class ContactsController extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
         getNotificationCenter().postNotificationName(NotificationCenter.contactsDidLoad, new Object[0]);
         if (z) {
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("DeletedFromYourContacts", 2131625453, str));
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("DeletedFromYourContacts", 2131625469, str));
         }
     }
 
@@ -2635,8 +2638,12 @@ public class ContactsController extends BaseController {
                         case 6:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyPhoneNumber();
                             break;
+                        case 7:
                         default:
                             tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyAddedByPhone();
+                            break;
+                        case 8:
+                            tLRPC$TL_account_getPrivacy.key = new TLRPC$TL_inputPrivacyKeyVoiceMessages();
                             break;
                     }
                     getConnectionsManager().sendRequest(tLRPC$TL_account_getPrivacy, new ContactsController$$ExternalSyntheticLambda55(this, i));
@@ -2708,8 +2715,12 @@ public class ContactsController extends BaseController {
                 case 6:
                     this.phonePrivacyRules = tLRPC$TL_account_privacyRules.rules;
                     break;
+                case 7:
                 default:
                     this.addedByPhonePrivacyRules = tLRPC$TL_account_privacyRules.rules;
+                    break;
+                case 8:
+                    this.voiceMessagesRules = tLRPC$TL_account_privacyRules.rules;
                     break;
             }
             this.loadingPrivacyInfo[i] = 2;
@@ -2735,7 +2746,7 @@ public class ContactsController extends BaseController {
         return this.loadingGlobalSettings != 2;
     }
 
-    public boolean getLoadingPrivicyInfo(int i) {
+    public boolean getLoadingPrivacyInfo(int i) {
         return this.loadingPrivacyInfo[i] != 2;
     }
 
@@ -2761,6 +2772,8 @@ public class ContactsController extends BaseController {
                 return this.phonePrivacyRules;
             case 7:
                 return this.addedByPhonePrivacyRules;
+            case 8:
+                return this.voiceMessagesRules;
             default:
                 return null;
         }
@@ -2791,6 +2804,9 @@ public class ContactsController extends BaseController {
                 break;
             case 7:
                 this.addedByPhonePrivacyRules = arrayList;
+                break;
+            case 8:
+                this.voiceMessagesRules = arrayList;
                 break;
         }
         getNotificationCenter().postNotificationName(NotificationCenter.privacyRulesUpdated, new Object[0]);

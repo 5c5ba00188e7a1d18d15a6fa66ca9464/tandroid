@@ -53,10 +53,11 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     private final int startType;
     ViewPager viewPager;
     ArrayList<PremiumPreviewFragment.PremiumFeatureData> premiumFeatures = new ArrayList<>();
-    SvgHelper.SvgDrawable svgIcon = SvgHelper.getDrawable(RLottieDrawable.readRes(null, 2131558537));
+    SvgHelper.SvgDrawable svgIcon = SvgHelper.getDrawable(RLottieDrawable.readRes(null, 2131558556));
 
     public PremiumFeatureBottomSheet(BaseFragment baseFragment, int i, boolean z) {
         super(baseFragment.getParentActivity(), false);
+        fixNavigationBar();
         this.startType = i;
         this.onlySelectedType = z;
         Activity parentActivity = baseFragment.getParentActivity();
@@ -124,7 +125,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         this.buttonContainer.setBackgroundColor(getThemedColor("dialogBackground"));
         linearLayout.addView(this.buttonContainer, LayoutHelper.createLinear(-1, 68, 80));
         if (UserConfig.getInstance(this.currentAccount).isPremium()) {
-            this.premiumButtonView.setOverlayText(LocaleController.getString("OK", 2131627075), false, false);
+            this.premiumButtonView.setOverlayText(LocaleController.getString("OK", 2131627127), false, false);
         }
         ScrollView scrollView = new ScrollView(parentActivity);
         scrollView.addView(linearLayout);
@@ -349,8 +350,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         if (this.onlySelectedType) {
             int i = this.startType;
             if (i == 4) {
-                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(2131628734));
-                this.premiumButtonView.setIcon(2131558567);
+                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(2131628806));
+                this.premiumButtonView.setIcon(2131558588);
                 return;
             } else if (i == 3) {
                 this.premiumButtonView.buttonTextView.setText(LocaleController.getString(2131623944));
@@ -358,12 +359,18 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             } else if (i != 10) {
                 return;
             } else {
-                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(2131628733));
-                this.premiumButtonView.setIcon(2131558567);
+                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(2131628805));
+                this.premiumButtonView.setIcon(2131558588);
                 return;
             }
         }
         this.premiumButtonView.buttonTextView.setText(PremiumPreviewFragment.getPremiumButtonText(this.currentAccount));
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
+    public void show() {
+        super.show();
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 16);
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
@@ -380,6 +387,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.billingProductDetailsUpdated);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.premiumPromoUpdated);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 16);
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -389,7 +397,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         } else if (i != NotificationCenter.currentUserPremiumStatusChanged) {
         } else {
             if (UserConfig.getInstance(this.currentAccount).isPremium()) {
-                this.premiumButtonView.setOverlayText(LocaleController.getString("OK", 2131627075), false, true);
+                this.premiumButtonView.setOverlayText(LocaleController.getString("OK", 2131627127), false, true);
             } else {
                 this.premiumButtonView.clearOverlayText();
             }
@@ -471,16 +479,16 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                         if (PremiumFeatureBottomSheet.this.startType != 10) {
                             return;
                         }
-                        this.title.setText(LocaleController.getString("PremiumPreviewAppIcon", 2131627598));
-                        this.description.setText(LocaleController.getString("PremiumPreviewAppIconDescription2", 2131627601));
+                        this.title.setText(LocaleController.getString("PremiumPreviewAppIcon", 2131627651));
+                        this.description.setText(LocaleController.getString("PremiumPreviewAppIconDescription2", 2131627654));
                         return;
                     }
-                    this.title.setText(LocaleController.getString("PremiumPreviewNoAds", 2131627606));
-                    this.description.setText(LocaleController.getString("PremiumPreviewNoAdsDescription2", 2131627608));
+                    this.title.setText(LocaleController.getString("PremiumPreviewNoAds", 2131627662));
+                    this.description.setText(LocaleController.getString("PremiumPreviewNoAdsDescription2", 2131627664));
                     return;
                 }
-                this.title.setText(LocaleController.getString("AdditionalReactions", 2131624304));
-                this.description.setText(LocaleController.getString("AdditionalReactionsDescription", 2131624305));
+                this.title.setText(LocaleController.getString("AdditionalReactions", 2131624313));
+                this.description.setText(LocaleController.getString("AdditionalReactionsDescription", 2131624314));
                 return;
             }
             this.title.setText(premiumFeatureData.title);

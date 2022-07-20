@@ -271,8 +271,8 @@ public class DefaultChannel implements Channel {
 
         /* renamed from: com.microsoft.appcenter.channel.DefaultChannel$1$1 */
         /* loaded from: classes.dex */
-        class RunnableC00021 implements Runnable {
-            RunnableC00021() {
+        class RunnableC00061 implements Runnable {
+            RunnableC00061() {
                 AnonymousClass1.this = r1;
             }
 
@@ -285,7 +285,7 @@ public class DefaultChannel implements Channel {
 
         @Override // com.microsoft.appcenter.http.ServiceCallback
         public void onCallSucceeded(HttpResponse httpResponse) {
-            DefaultChannel.this.mAppCenterHandler.post(new RunnableC00021());
+            DefaultChannel.this.mAppCenterHandler.post(new RunnableC00061());
         }
 
         /* renamed from: com.microsoft.appcenter.channel.DefaultChannel$1$2 */

@@ -1,6 +1,8 @@
 package org.telegram.ui.Components;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
@@ -8,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Layout;
+import android.text.Spannable;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -23,9 +26,11 @@ import android.widget.FrameLayout;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
+import org.telegram.messenger.utils.CopyUtilities;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.TextStyleSpan;
@@ -153,12 +158,12 @@ public class EditTextCaption extends EditTextBoldCursor {
     public void makeSelectedUrl() {
         int i;
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
-        builder.setTitle(LocaleController.getString("CreateLink", 2131625272));
+        builder.setTitle(LocaleController.getString("CreateLink", 2131625288));
         AnonymousClass2 anonymousClass2 = new AnonymousClass2(this, getContext());
         anonymousClass2.setTextSize(1, 18.0f);
         anonymousClass2.setText("http://");
         anonymousClass2.setTextColor(getThemedColor("dialogTextBlack"));
-        anonymousClass2.setHintText(LocaleController.getString("URL", 2131628720));
+        anonymousClass2.setHintText(LocaleController.getString("URL", 2131628787));
         anonymousClass2.setHeaderHintColor(getThemedColor("windowBackgroundWhiteBlueHeader"));
         anonymousClass2.setSingleLine(true);
         anonymousClass2.setFocusable(true);
@@ -177,8 +182,8 @@ public class EditTextCaption extends EditTextBoldCursor {
             i2 = getSelectionStart();
             i = getSelectionEnd();
         }
-        builder.setPositiveButton(LocaleController.getString("OK", 2131627075), new EditTextCaption$$ExternalSyntheticLambda0(this, i2, i, anonymousClass2));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+        builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new EditTextCaption$$ExternalSyntheticLambda0(this, i2, i, anonymousClass2));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         builder.show().setOnShowListener(new EditTextCaption$$ExternalSyntheticLambda1(anonymousClass2));
         ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) anonymousClass2.getLayoutParams();
         if (marginLayoutParams != null) {
@@ -364,28 +369,28 @@ public class EditTextCaption extends EditTextBoldCursor {
     }
 
     public boolean performMenuAction(int i) {
-        if (i == 2131230862) {
+        if (i == 2131230863) {
             makeSelectedRegular();
             return true;
-        } else if (i == 2131230855) {
+        } else if (i == 2131230856) {
             makeSelectedBold();
             return true;
-        } else if (i == 2131230858) {
+        } else if (i == 2131230859) {
             makeSelectedItalic();
             return true;
-        } else if (i == 2131230860) {
+        } else if (i == 2131230861) {
             makeSelectedMono();
             return true;
-        } else if (i == 2131230859) {
+        } else if (i == 2131230860) {
             makeSelectedUrl();
             return true;
-        } else if (i == 2131230866) {
+        } else if (i == 2131230867) {
             makeSelectedStrike();
             return true;
-        } else if (i == 2131230867) {
+        } else if (i == 2131230868) {
             makeSelectedUnderline();
             return true;
-        } else if (i != 2131230865) {
+        } else if (i != 2131230866) {
             return false;
         } else {
             makeSelectedSpoiler();
@@ -511,14 +516,14 @@ public class EditTextCaption extends EditTextBoldCursor {
             i++;
         }
         if (hasSelection()) {
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230865, LocaleController.getString("Spoiler", 2131628402)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230855, LocaleController.getString("Bold", 2131624703)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230858, LocaleController.getString("Italic", 2131626310)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230860, LocaleController.getString("Mono", 2131626730)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230866, LocaleController.getString("Strike", 2131628483)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230867, LocaleController.getString("Underline", 2131628727)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230859, LocaleController.getString("CreateLink", 2131625272)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230862, LocaleController.getString("Regular", 2131627881)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230866, LocaleController.getString("Spoiler", 2131628465)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230856, LocaleController.getString("Bold", 2131624714)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230859, LocaleController.getString("Italic", 2131626357)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230861, LocaleController.getString("Mono", 2131626782)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230867, LocaleController.getString("Strike", 2131628546)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230868, LocaleController.getString("Underline", 2131628795)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230860, LocaleController.getString("CreateLink", 2131625288)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230863, LocaleController.getString("Regular", 2131627943)));
         }
     }
 
@@ -531,5 +536,32 @@ public class EditTextCaption extends EditTextBoldCursor {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
         return color != null ? color.intValue() : Theme.getColor(str);
+    }
+
+    @Override // android.widget.TextView
+    public boolean onTextContextMenuItem(int i) {
+        ClipData primaryClip = ((ClipboardManager) getContext().getSystemService("clipboard")).getPrimaryClip();
+        if (primaryClip.getItemCount() == 1 && i == 16908322 && primaryClip.getDescription().hasMimeType("text/html")) {
+            int selectionEnd = getSelectionEnd();
+            if (selectionEnd < 0) {
+                selectionEnd = 0;
+            }
+            try {
+                Spannable fromHTML = CopyUtilities.fromHTML(primaryClip.getItemAt(0).getHtmlText());
+                Emoji.replaceEmoji(fromHTML, getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) fromHTML.getSpans(0, fromHTML.length(), AnimatedEmojiSpan.class);
+                if (animatedEmojiSpanArr != null) {
+                    for (int i2 = 0; i2 < animatedEmojiSpanArr.length; i2++) {
+                        animatedEmojiSpanArr[selectionEnd].applyFontMetrics(getPaint().getFontMetricsInt(), 1);
+                    }
+                }
+                setText(getText().insert(selectionEnd, fromHTML));
+                setSelection(fromHTML.length() + selectionEnd, selectionEnd + fromHTML.length());
+                return true;
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+        return super.onTextContextMenuItem(i);
     }
 }

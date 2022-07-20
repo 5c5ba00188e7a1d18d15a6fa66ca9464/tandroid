@@ -11,15 +11,20 @@ import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
+import org.telegram.messenger.AndroidUtilities;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 /* loaded from: classes3.dex */
 public class EditTextEffects extends EditText {
+    private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiDrawables;
     private boolean isSpoilersRevealed;
     private float lastRippleX;
     private float lastRippleY;
+    private int lastTextLength;
     private boolean postedSpoilerTimeout;
     private int selEnd;
     private int selStart;
@@ -28,6 +33,7 @@ public class EditTextEffects extends EditText {
     private Stack<SpoilerEffect> spoilersPool = new Stack<>();
     private boolean shouldRevealSpoilersByTouch = true;
     private Path path = new Path();
+    private Layout lastLayout = null;
     private Runnable spoilerTimeout = new EditTextEffects$$ExternalSyntheticLambda4(this);
     private android.graphics.Rect rect = new android.graphics.Rect();
     private SpoilersClickDetector clickDetector = new SpoilersClickDetector(this, this.spoilers, new EditTextEffects$$ExternalSyntheticLambda5(this));
@@ -124,6 +130,7 @@ public class EditTextEffects extends EditText {
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         removeCallbacks(this.spoilerTimeout);
+        AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
     }
 
     @Override // android.view.View
@@ -138,22 +145,27 @@ public class EditTextEffects extends EditText {
         if (!this.suppressOnTextChanged) {
             invalidateEffects();
             Layout layout = getLayout();
-            if (!(charSequence instanceof Spannable) || layout == null) {
-                return;
-            }
-            int lineForOffset = layout.getLineForOffset(i);
-            int primaryHorizontal = (int) layout.getPrimaryHorizontal(i);
-            int lineTop = (int) ((layout.getLineTop(lineForOffset) + layout.getLineBottom(lineForOffset)) / 2.0f);
-            for (SpoilerEffect spoilerEffect : this.spoilers) {
-                if (spoilerEffect.getBounds().contains(primaryHorizontal, lineTop)) {
-                    int i4 = i3 - i2;
-                    this.selStart += i4;
-                    this.selEnd += i4;
-                    onSpoilerClicked(spoilerEffect, primaryHorizontal, lineTop);
-                    return;
+            if ((charSequence instanceof Spannable) && layout != null) {
+                int lineForOffset = layout.getLineForOffset(i);
+                int primaryHorizontal = (int) layout.getPrimaryHorizontal(i);
+                int lineTop = (int) ((layout.getLineTop(lineForOffset) + layout.getLineBottom(lineForOffset)) / 2.0f);
+                Iterator<SpoilerEffect> it = this.spoilers.iterator();
+                while (true) {
+                    if (!it.hasNext()) {
+                        break;
+                    }
+                    SpoilerEffect next = it.next();
+                    if (next.getBounds().contains(primaryHorizontal, lineTop)) {
+                        int i4 = i3 - i2;
+                        this.selStart += i4;
+                        this.selEnd += i4;
+                        onSpoilerClicked(next, primaryHorizontal, lineTop);
+                        break;
+                    }
                 }
             }
         }
+        this.animatedEmojiDrawables = AnimatedEmojiSpan.update(1, this, this.animatedEmojiDrawables, getLayout());
     }
 
     @Override // android.widget.EditText, android.widget.TextView
@@ -166,6 +178,12 @@ public class EditTextEffects extends EditText {
             }
         }
         super.setText(charSequence, bufferType);
+    }
+
+    @Override // android.widget.TextView, android.view.View
+    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        super.onLayout(z, i, i2, i3, i4);
+        this.animatedEmojiDrawables = AnimatedEmojiSpan.update(1, this, this.animatedEmojiDrawables, getLayout());
     }
 
     public void setShouldRevealSpoilersByTouch(boolean z) {
@@ -217,7 +235,17 @@ public class EditTextEffects extends EditText {
             this.path.addRect(bounds.left, bounds.top, bounds.right, bounds.bottom, Path.Direction.CW);
         }
         canvas.clipPath(this.path, Region.Op.DIFFERENCE);
+        int length = (getLayout() == null || getLayout().getText() == null) ? 0 : getLayout().getText().length();
+        Layout layout = this.lastLayout;
+        if (layout == null || layout != getLayout() || this.lastTextLength != length) {
+            this.animatedEmojiDrawables = AnimatedEmojiSpan.update(1, this, this.animatedEmojiDrawables, getLayout());
+            this.lastLayout = getLayout();
+            this.lastTextLength = length;
+        }
         super.onDraw(canvas);
+        if (this.animatedEmojiDrawables != null) {
+            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.animatedEmojiDrawables, 0.0f, this.spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6.0f), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0.0f, 1.0f);
+        }
         canvas.restore();
         canvas.save();
         canvas.clipPath(this.path);
@@ -271,7 +299,15 @@ public class EditTextEffects extends EditText {
         }
         Layout layout = getLayout();
         if (layout != null && (layout.getText() instanceof Spannable)) {
+            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.animatedEmojiDrawables;
+            if (emojiGroupedSpans != null) {
+                emojiGroupedSpans.recordPositions(false);
+            }
             SpoilerEffect.addSpoilers(this, this.spoilersPool, this.spoilers);
+            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans2 = this.animatedEmojiDrawables;
+            if (emojiGroupedSpans2 != null) {
+                emojiGroupedSpans2.recordPositions(true);
+            }
         }
         invalidate();
     }

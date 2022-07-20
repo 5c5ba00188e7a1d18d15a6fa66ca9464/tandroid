@@ -1438,28 +1438,28 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         StringBuilder sb = new StringBuilder();
         switch (this.documentAttachType) {
             case 1:
-                sb.append(LocaleController.getString("AttachDocument", 2131624481));
+                sb.append(LocaleController.getString("AttachDocument", 2131624492));
                 break;
             case 2:
-                sb.append(LocaleController.getString("AttachGif", 2131624483));
+                sb.append(LocaleController.getString("AttachGif", 2131624494));
                 break;
             case 3:
-                sb.append(LocaleController.getString("AttachAudio", 2131624476));
+                sb.append(LocaleController.getString("AttachAudio", 2131624487));
                 break;
             case 4:
-                sb.append(LocaleController.getString("AttachVideo", 2131624508));
+                sb.append(LocaleController.getString("AttachVideo", 2131624519));
                 break;
             case 5:
-                sb.append(LocaleController.getString("AttachMusic", 2131624501));
+                sb.append(LocaleController.getString("AttachMusic", 2131624512));
                 break;
             case 6:
-                sb.append(LocaleController.getString("AttachSticker", 2131624505));
+                sb.append(LocaleController.getString("AttachSticker", 2131624516));
                 break;
             case 7:
-                sb.append(LocaleController.getString("AttachPhoto", 2131624502));
+                sb.append(LocaleController.getString("AttachPhoto", 2131624513));
                 break;
             case 8:
-                sb.append(LocaleController.getString("AttachLocation", 2131624492));
+                sb.append(LocaleController.getString("AttachLocation", 2131624503));
                 break;
         }
         StaticLayout staticLayout = this.titleLayout;

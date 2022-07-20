@@ -1,18 +1,16 @@
 package org.telegram.ui.Components;
 
-import android.view.View;
-import android.view.WindowInsets;
+import android.content.DialogInterface;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda1 implements View.OnApplyWindowInsetsListener {
-    public static final /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda1 INSTANCE = new BotWebViewSheet$$ExternalSyntheticLambda1();
+public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda1 implements DialogInterface.OnClickListener {
+    public final /* synthetic */ BotWebViewSheet f$0;
 
-    private /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda1() {
+    public /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda1(BotWebViewSheet botWebViewSheet) {
+        this.f$0 = botWebViewSheet;
     }
 
-    @Override // android.view.View.OnApplyWindowInsetsListener
-    public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-        WindowInsets lambda$onCreate$12;
-        lambda$onCreate$12 = BotWebViewSheet.lambda$onCreate$12(view, windowInsets);
-        return lambda$onCreate$12;
+    @Override // android.content.DialogInterface.OnClickListener
+    public final void onClick(DialogInterface dialogInterface, int i) {
+        this.f$0.lambda$onCheckDismissByUser$20(dialogInterface, i);
     }
 }

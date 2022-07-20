@@ -99,22 +99,22 @@ class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         AvatarDrawable avatarDrawable;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         if (this.deleted) {
-            RemoteViews remoteViews = new RemoteViews(this.mContext.getPackageName(), 2131427356);
-            remoteViews.setTextViewText(2131230951, LocaleController.getString("WidgetLoggedOff", 2131629244));
+            RemoteViews remoteViews = new RemoteViews(this.mContext.getPackageName(), 2131427358);
+            remoteViews.setTextViewText(2131230952, LocaleController.getString("WidgetLoggedOff", 2131629318));
             return remoteViews;
         } else if (i >= getCount() - 1) {
-            RemoteViews remoteViews2 = new RemoteViews(this.mContext.getPackageName(), 2131427357);
-            remoteViews2.setTextViewText(2131230953, LocaleController.getString("TapToEditWidgetShort", 2131628549));
+            RemoteViews remoteViews2 = new RemoteViews(this.mContext.getPackageName(), 2131427359);
+            remoteViews2.setTextViewText(2131230954, LocaleController.getString("TapToEditWidgetShort", 2131628612));
             Bundle bundle = new Bundle();
             bundle.putInt("appWidgetId", this.appWidgetId);
             bundle.putInt("appWidgetType", 1);
             bundle.putInt("currentAccount", this.accountInstance.getCurrentAccount());
             Intent intent = new Intent();
             intent.putExtras(bundle);
-            remoteViews2.setOnClickFillInIntent(2131230952, intent);
+            remoteViews2.setOnClickFillInIntent(2131230953, intent);
             return remoteViews2;
         } else {
-            RemoteViews remoteViews3 = new RemoteViews(this.mContext.getPackageName(), 2131427330);
+            RemoteViews remoteViews3 = new RemoteViews(this.mContext.getPackageName(), 2131427331);
             int i3 = 0;
             while (i3 < 2) {
                 int i4 = (i * 2) + i3;
@@ -126,11 +126,11 @@ class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                     if (DialogObject.isUserDialog(l.longValue())) {
                         tLRPC$User = this.accountInstance.getMessagesController().getUser(l);
                         if (UserObject.isUserSelf(tLRPC$User)) {
-                            str = LocaleController.getString("SavedMessages", 2131628077);
+                            str = LocaleController.getString("SavedMessages", 2131628139);
                         } else if (UserObject.isReplyUser(tLRPC$User)) {
-                            str = LocaleController.getString("RepliesTitle", 2131627920);
+                            str = LocaleController.getString("RepliesTitle", 2131627982);
                         } else if (UserObject.isDeleted(tLRPC$User)) {
-                            str = LocaleController.getString("HiddenName", 2131626131);
+                            str = LocaleController.getString("HiddenName", 2131626178);
                         } else {
                             str = UserObject.getFirstName(tLRPC$User);
                         }

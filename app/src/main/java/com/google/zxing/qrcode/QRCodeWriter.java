@@ -299,7 +299,7 @@ public final class QRCodeWriter {
                     i12 = i4;
                     i34 = i38;
                 }
-                String readRes = RLottieDrawable.readRes(null, 2131558519);
+                String readRes = RLottieDrawable.readRes(null, 2131558535);
                 int i47 = this.imageSize;
                 Bitmap bitmap3 = SvgHelper.getBitmap(readRes, i47, i47, false);
                 float f7 = i33;

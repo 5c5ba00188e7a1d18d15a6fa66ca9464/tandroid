@@ -153,7 +153,7 @@ public class ThemeEditorView {
                 addView(view, LayoutHelper.createFrame(-1, 36.0f, 51, 14.0f, 11.0f, 14.0f, 0.0f));
                 ImageView imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
-                imageView.setImageResource(2131166148);
+                imageView.setImageResource(2131166150);
                 imageView.setColorFilter(new PorterDuffColorFilter(-6182737, PorterDuff.Mode.MULTIPLY));
                 addView(imageView, LayoutHelper.createFrame(36, 36.0f, 51, 16.0f, 11.0f, 0.0f, 0.0f));
                 ImageView imageView2 = new ImageView(context);
@@ -179,7 +179,7 @@ public class ThemeEditorView {
                 this.searchEditText.setLines(1);
                 this.searchEditText.setSingleLine(true);
                 this.searchEditText.setImeOptions(268435459);
-                this.searchEditText.setHint(LocaleController.getString("Search", 2131628092));
+                this.searchEditText.setHint(LocaleController.getString("Search", 2131628154));
                 this.searchEditText.setCursorColor(-11491093);
                 this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
                 this.searchEditText.setCursorWidth(1.5f);
@@ -262,11 +262,11 @@ public class ThemeEditorView {
                     String obj = SearchField.this.searchEditText.getText().toString();
                     if (obj.length() != 0) {
                         if (EditorAlert.this.searchEmptyView != null) {
-                            EditorAlert.this.searchEmptyView.setText(LocaleController.getString("NoResult", 2131626858));
+                            EditorAlert.this.searchEmptyView.setText(LocaleController.getString("NoResult", 2131626910));
                         }
                     } else if (EditorAlert.this.listView.getAdapter() != EditorAlert.this.listAdapter) {
                         int currentTop = EditorAlert.this.getCurrentTop();
-                        EditorAlert.this.searchEmptyView.setText(LocaleController.getString("NoChats", 2131626811));
+                        EditorAlert.this.searchEmptyView.setText(LocaleController.getString("NoChats", 2131626863));
                         EditorAlert.this.searchEmptyView.showTextView();
                         EditorAlert.this.listView.setAdapter(EditorAlert.this.listAdapter);
                         EditorAlert.this.listAdapter.notifyDataSetChanged();
@@ -777,7 +777,7 @@ public class ThemeEditorView {
         public EditorAlert(Context context, ArrayList<ThemeDescription> arrayList) {
             super(context, true);
             ThemeEditorView.this = r17;
-            this.shadowDrawable = context.getResources().getDrawable(2131166138).mutate();
+            this.shadowDrawable = context.getResources().getDrawable(2131166140).mutate();
             AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, r17);
             this.containerView = anonymousClass1;
             anonymousClass1.setWillNotDraw(false);
@@ -816,7 +816,7 @@ public class ThemeEditorView {
             this.searchEmptyView = emptyTextProgressView;
             emptyTextProgressView.setShowAtCenter(true);
             this.searchEmptyView.showTextView();
-            this.searchEmptyView.setText(LocaleController.getString("NoResult", 2131626858));
+            this.searchEmptyView.setText(LocaleController.getString("NoResult", 2131626910));
             this.listView.setEmptyView(this.searchEmptyView);
             this.containerView.addView(this.searchEmptyView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 52.0f, 0.0f, 0.0f));
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(-1, AndroidUtilities.getShadowHeight(), 51);
@@ -846,7 +846,7 @@ public class ThemeEditorView {
             textView.setGravity(17);
             textView.setBackgroundDrawable(Theme.createSelectorDrawable(788529152, 0));
             textView.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-            textView.setText(LocaleController.getString("CloseEditor", 2131625168).toUpperCase());
+            textView.setText(LocaleController.getString("CloseEditor", 2131625184).toUpperCase());
             textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             this.bottomSaveLayout.addView(textView, LayoutHelper.createFrame(-2, -1, 51));
             textView.setOnClickListener(new ThemeEditorView$EditorAlert$$ExternalSyntheticLambda1(this));
@@ -856,7 +856,7 @@ public class ThemeEditorView {
             textView2.setGravity(17);
             textView2.setBackgroundDrawable(Theme.createSelectorDrawable(788529152, 0));
             textView2.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-            textView2.setText(LocaleController.getString("SaveTheme", 2131628066).toUpperCase());
+            textView2.setText(LocaleController.getString("SaveTheme", 2131628128).toUpperCase());
             textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             this.bottomSaveLayout.addView(textView2, LayoutHelper.createFrame(-2, -1, 53));
             textView2.setOnClickListener(new ThemeEditorView$EditorAlert$$ExternalSyntheticLambda3(this));
@@ -871,7 +871,7 @@ public class ThemeEditorView {
             textView3.setGravity(17);
             textView3.setBackgroundDrawable(Theme.createSelectorDrawable(788529152, 0));
             textView3.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-            textView3.setText(LocaleController.getString("Cancel", 2131624819).toUpperCase());
+            textView3.setText(LocaleController.getString("Cancel", 2131624832).toUpperCase());
             textView3.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             this.bottomLayout.addView(textView3, LayoutHelper.createFrame(-2, -1, 51));
             textView3.setOnClickListener(new ThemeEditorView$EditorAlert$$ExternalSyntheticLambda4(this));
@@ -884,7 +884,7 @@ public class ThemeEditorView {
             textView4.setGravity(17);
             textView4.setBackgroundDrawable(Theme.createSelectorDrawable(788529152, 0));
             textView4.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-            textView4.setText(LocaleController.getString("Default", 2131625366).toUpperCase());
+            textView4.setText(LocaleController.getString("Default", 2131625382).toUpperCase());
             textView4.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(textView4, LayoutHelper.createFrame(-2, -1, 51));
             textView4.setOnClickListener(new ThemeEditorView$EditorAlert$$ExternalSyntheticLambda0(this));
@@ -894,7 +894,7 @@ public class ThemeEditorView {
             textView5.setGravity(17);
             textView5.setBackgroundDrawable(Theme.createSelectorDrawable(788529152, 0));
             textView5.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-            textView5.setText(LocaleController.getString("Save", 2131628060).toUpperCase());
+            textView5.setText(LocaleController.getString("Save", 2131628122).toUpperCase());
             textView5.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(textView5, LayoutHelper.createFrame(-2, -1, 51));
             textView5.setOnClickListener(new ThemeEditorView$EditorAlert$$ExternalSyntheticLambda2(this));
@@ -1800,7 +1800,7 @@ public class ThemeEditorView {
     }
 
     private void showWithAnimation() {
-        this.windowView.setBackgroundResource(2131166181);
+        this.windowView.setBackgroundResource(2131166183);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(ObjectAnimator.ofFloat(this.windowView, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.windowView, View.SCALE_X, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.windowView, View.SCALE_Y, 0.0f, 1.0f));
         animatorSet.setInterpolator(this.decelerateInterpolator);

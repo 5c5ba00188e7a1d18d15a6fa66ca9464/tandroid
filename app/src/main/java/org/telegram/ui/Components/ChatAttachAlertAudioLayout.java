@@ -98,7 +98,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         frameLayout.setBackgroundColor(getThemedColor("dialogBackground"));
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, false, resourcesProvider);
         this.searchField = anonymousClass1;
-        anonymousClass1.setHint(LocaleController.getString("SearchMusic", 2131628120));
+        anonymousClass1.setHint(LocaleController.getString("SearchMusic", 2131628182));
         this.frameLayout.addView(this.searchField, LayoutHelper.createFrame(-1, -1, 51));
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context, null, resourcesProvider);
         this.progressView = emptyTextProgressView;
@@ -113,7 +113,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         this.emptyView.setOnTouchListener(ChatAttachAlertAudioLayout$$ExternalSyntheticLambda0.INSTANCE);
         ImageView imageView = new ImageView(context);
         this.emptyImageView = imageView;
-        imageView.setImageResource(2131165993);
+        imageView.setImageResource(2131165995);
         this.emptyImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogEmptyImage"), PorterDuff.Mode.MULTIPLY));
         this.emptyView.addView(this.emptyImageView, LayoutHelper.createLinear(-2, -2));
         TextView textView = new TextView(context);
@@ -310,10 +310,10 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
             this.emptyView.setVisibility(8);
         } else {
             if (this.listView.getAdapter() == this.searchAdapter) {
-                this.emptyTitleTextView.setText(LocaleController.getString("NoAudioFound", 2131626804));
+                this.emptyTitleTextView.setText(LocaleController.getString("NoAudioFound", 2131626856));
             } else {
-                this.emptyTitleTextView.setText(LocaleController.getString("NoAudioFiles", 2131626802));
-                this.emptySubtitleTextView.setText(LocaleController.getString("NoAudioFilesInfo", 2131626803));
+                this.emptyTitleTextView.setText(LocaleController.getString("NoAudioFiles", 2131626854));
+                this.emptySubtitleTextView.setText(LocaleController.getString("NoAudioFilesInfo", 2131626855));
             }
             this.currentEmptyView = this.emptyView;
             this.progressView.setVisibility(8);
@@ -522,7 +522,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     private void showErrorBox(String str) {
-        new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString("AppName", 2131624375)).setMessage(str).setPositiveButton(LocaleController.getString("OK", 2131627075), null).show();
+        new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString("AppName", 2131624384)).setMessage(str).setPositiveButton(LocaleController.getString("OK", 2131627127), null).show();
     }
 
     private void onItemClick(View view) {
@@ -542,7 +542,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 int size = this.selectedAudios.size();
                 int i2 = this.maxSelectedFiles;
                 if (size >= i2) {
-                    showErrorBox(LocaleController.formatString("PassportUploadMaxReached", 2131627349, LocaleController.formatPluralString("Files", i2, new Object[0])));
+                    showErrorBox(LocaleController.formatString("PassportUploadMaxReached", 2131627401, LocaleController.formatPluralString("Files", i2, new Object[0])));
                     return;
                 }
             }
@@ -883,7 +883,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 ChatAttachAlertAudioLayout.this.listView.setAdapter(ChatAttachAlertAudioLayout.this.searchAdapter);
             }
             if (ChatAttachAlertAudioLayout.this.listView.getAdapter() == ChatAttachAlertAudioLayout.this.searchAdapter) {
-                ChatAttachAlertAudioLayout.this.emptySubtitleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("NoAudioFoundInfo", 2131626805, str)));
+                ChatAttachAlertAudioLayout.this.emptySubtitleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("NoAudioFoundInfo", 2131626857, str)));
             }
             this.searchResult = arrayList;
             notifyDataSetChanged();

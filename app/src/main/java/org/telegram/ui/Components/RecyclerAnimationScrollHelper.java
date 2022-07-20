@@ -35,7 +35,6 @@ public class RecyclerAnimationScrollHelper {
         }
 
         public void recycleView(View view) {
-            throw null;
         }
     }
 
@@ -205,7 +204,7 @@ public class RecyclerAnimationScrollHelper {
             }
             RecyclerAnimationScrollHelper.this.animator = ValueAnimator.ofFloat(0.0f, 1.0f);
             RecyclerAnimationScrollHelper.this.animator.addUpdateListener(new RecyclerAnimationScrollHelper$1$$ExternalSyntheticLambda0(this, this.val$oldViews, this.val$scrollDown, i16, arrayList));
-            RecyclerAnimationScrollHelper.this.animator.addListener(new C00251(arrayList));
+            RecyclerAnimationScrollHelper.this.animator.addListener(new C00301(arrayList));
             RecyclerAnimationScrollHelper.this.recyclerView.removeOnLayoutChangeListener(this);
             if (z) {
                 j = 600;
@@ -252,10 +251,10 @@ public class RecyclerAnimationScrollHelper {
 
         /* renamed from: org.telegram.ui.Components.RecyclerAnimationScrollHelper$1$1 */
         /* loaded from: classes3.dex */
-        class C00251 extends AnimatorListenerAdapter {
+        class C00301 extends AnimatorListenerAdapter {
             final /* synthetic */ ArrayList val$incomingViews;
 
-            C00251(ArrayList arrayList) {
+            C00301(ArrayList arrayList) {
                 AnonymousClass1.this = r1;
                 this.val$incomingViews = arrayList;
             }

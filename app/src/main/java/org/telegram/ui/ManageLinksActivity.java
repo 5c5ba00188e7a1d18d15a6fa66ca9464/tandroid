@@ -581,7 +581,7 @@ public class ManageLinksActivity extends BaseFragment {
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("InviteLinks", 2131626270));
+        this.actionBar.setTitle(LocaleController.getString("InviteLinks", 2131626317));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
         this.fragmentView = anonymousClass3;
@@ -605,8 +605,8 @@ public class ManageLinksActivity extends BaseFragment {
         frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setOnItemClickListener(new ManageLinksActivity$$ExternalSyntheticLambda16(this, context));
         this.listView.setOnItemLongClickListener(new ManageLinksActivity$$ExternalSyntheticLambda17(this));
-        this.linkIcon = ContextCompat.getDrawable(context, 2131165784);
-        this.linkIconRevoked = ContextCompat.getDrawable(context, 2131165785);
+        this.linkIcon = ContextCompat.getDrawable(context, 2131165785);
+        this.linkIconRevoked = ContextCompat.getDrawable(context, 2131165786);
         this.linkIcon.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
         updateRows(true);
         this.timeDif = getConnectionsManager().getCurrentTime() - (System.currentTimeMillis() / 1000);
@@ -720,10 +720,10 @@ public class ManageLinksActivity extends BaseFragment {
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("DeleteAllRevokedLinks", 2131625381));
-                builder.setMessage(LocaleController.getString("DeleteAllRevokedLinkHelp", 2131625380));
-                builder.setPositiveButton(LocaleController.getString("Delete", 2131625368), new ManageLinksActivity$$ExternalSyntheticLambda0(this));
-                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                builder.setTitle(LocaleController.getString("DeleteAllRevokedLinks", 2131625397));
+                builder.setMessage(LocaleController.getString("DeleteAllRevokedLinkHelp", 2131625396));
+                builder.setPositiveButton(LocaleController.getString("Delete", 2131625384), new ManageLinksActivity$$ExternalSyntheticLambda0(this));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 showDialog(builder.create());
             } else {
                 int i4 = this.adminsStartRow;
@@ -810,10 +810,10 @@ public class ManageLinksActivity extends BaseFragment {
             this.messageTextView.setGravity(17);
             TextView textView2 = this.messageTextView;
             if (manageLinksActivity.isChannel) {
-                i = 2131627691;
+                i = 2131627748;
                 str = "PrimaryLinkHelpChannel";
             } else {
-                i = 2131627690;
+                i = 2131627747;
                 str = "PrimaryLinkHelp";
             }
             textView2.setText(LocaleController.getString(str, i));
@@ -903,13 +903,13 @@ public class ManageLinksActivity extends BaseFragment {
                 case 8:
                     TextSettingsCell textSettingsCell = new TextSettingsCell(this.mContext);
                     textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    textSettingsCell.setText(LocaleController.getString("DeleteAllRevokedLinks", 2131625381), false);
+                    textSettingsCell.setText(LocaleController.getString("DeleteAllRevokedLinks", 2131625397), false);
                     textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText5"));
                     hintInnerCell = textSettingsCell;
                     break;
                 case 9:
                     TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
-                    textInfoPrivacyCell.setText(LocaleController.getString("CreateNewLinkHelp", 2131625278));
+                    textInfoPrivacyCell.setText(LocaleController.getString("CreateNewLinkHelp", 2131625294));
                     textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
                     shadowSectionCell = textInfoPrivacyCell;
                     hintInnerCell = shadowSectionCell;
@@ -1001,25 +1001,25 @@ public class ManageLinksActivity extends BaseFragment {
                 if (i == ManageLinksActivity.this.permanentLinkHeaderRow) {
                     if (!ManageLinksActivity.this.isPublic || ManageLinksActivity.this.adminId != ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) {
                         if (ManageLinksActivity.this.adminId == ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) {
-                            headerCell.setText(LocaleController.getString("ChannelInviteLinkTitle", 2131624905));
+                            headerCell.setText(LocaleController.getString("ChannelInviteLinkTitle", 2131624918));
                             return;
                         } else {
-                            headerCell.setText(LocaleController.getString("PermanentLinkForThisAdmin", 2131627462));
+                            headerCell.setText(LocaleController.getString("PermanentLinkForThisAdmin", 2131627514));
                             return;
                         }
                     }
-                    headerCell.setText(LocaleController.getString("PublicLink", 2131627765));
+                    headerCell.setText(LocaleController.getString("PublicLink", 2131627827));
                 } else if (i != ManageLinksActivity.this.revokedHeader) {
                     if (i != ManageLinksActivity.this.linksHeaderRow) {
                         if (i != ManageLinksActivity.this.adminsHeaderRow) {
                             return;
                         }
-                        headerCell.setText(LocaleController.getString("LinksCreatedByOtherAdmins", 2131626459));
+                        headerCell.setText(LocaleController.getString("LinksCreatedByOtherAdmins", 2131626506));
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("LinksCreatedByThisAdmin", 2131626460));
+                    headerCell.setText(LocaleController.getString("LinksCreatedByThisAdmin", 2131626507));
                 } else {
-                    headerCell.setText(LocaleController.getString("RevokedLinks", 2131628056));
+                    headerCell.setText(LocaleController.getString("RevokedLinks", 2131628118));
                 }
             } else if (itemViewType == 2) {
                 LinkActionView linkActionView = (LinkActionView) viewHolder.itemView;
@@ -1041,11 +1041,11 @@ public class ManageLinksActivity extends BaseFragment {
                     linkActionView.hideRevokeOption(true);
                 }
             } else if (itemViewType == 3) {
-                Drawable drawable = this.mContext.getResources().getDrawable(2131166078);
-                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166079);
+                Drawable drawable = this.mContext.getResources().getDrawable(2131166080);
+                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166081);
                 drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
-                ((CreationTextCell) viewHolder.itemView).setTextAndIcon(LocaleController.getString("CreateNewLink", 2131625277), new CombinedDrawable(drawable, drawable2), !ManageLinksActivity.this.invites.isEmpty());
+                ((CreationTextCell) viewHolder.itemView).setTextAndIcon(LocaleController.getString("CreateNewLink", 2131625293), new CombinedDrawable(drawable, drawable2), !ManageLinksActivity.this.invites.isEmpty());
             } else if (itemViewType != 5) {
                 if (itemViewType != 10) {
                     return;
@@ -1163,7 +1163,7 @@ public class ManageLinksActivity extends BaseFragment {
             DiffCallback saveListState = saveListState();
             this.revokedInvites.add(0, tLRPC$TL_chatInviteExported);
             updateRecyclerViewAnimated(saveListState);
-            BulletinFactory.of(this).createSimpleBulletin(2131558480, LocaleController.getString("InviteRevokedHint", 2131626271)).show();
+            BulletinFactory.of(this).createSimpleBulletin(2131558485, LocaleController.getString("InviteRevokedHint", 2131626318)).show();
         }
     }
 
@@ -1237,30 +1237,30 @@ public class ManageLinksActivity extends BaseFragment {
             ArrayList arrayList2 = new ArrayList();
             ArrayList arrayList3 = new ArrayList();
             if (this.invite.revoked) {
-                arrayList.add(LocaleController.getString("Delete", 2131625368));
+                arrayList.add(LocaleController.getString("Delete", 2131625384));
                 arrayList2.add(2131165702);
                 arrayList3.add(4);
             } else {
-                arrayList.add(LocaleController.getString("CopyLink", 2131625258));
+                arrayList.add(LocaleController.getString("CopyLink", 2131625274));
                 arrayList2.add(2131165697);
                 arrayList3.add(0);
-                arrayList.add(LocaleController.getString("ShareLink", 2131628275));
-                arrayList2.add(2131165937);
+                arrayList.add(LocaleController.getString("ShareLink", 2131628337));
+                arrayList2.add(2131165939);
                 arrayList3.add(1);
                 if (!this.invite.permanent && ManageLinksActivity.this.canEdit) {
-                    arrayList.add(LocaleController.getString("EditLink", 2131625576));
+                    arrayList.add(LocaleController.getString("EditLink", 2131625592));
                     arrayList2.add(2131165714);
                     arrayList3.add(2);
                 }
                 if (ManageLinksActivity.this.canEdit) {
-                    arrayList.add(LocaleController.getString("RevokeLink", 2131628043));
+                    arrayList.add(LocaleController.getString("RevokeLink", 2131628105));
                     arrayList2.add(2131165702);
                     arrayList3.add(3);
                 } else {
                     z = false;
                     AlertDialog.Builder builder = new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity());
                     builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), AndroidUtilities.toIntArray(arrayList2), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda0(this, arrayList3));
-                    builder.setTitle(LocaleController.getString("InviteLink", 2131626263));
+                    builder.setTitle(LocaleController.getString("InviteLink", 2131626310));
                     AlertDialog create = builder.create();
                     builder.show();
                     if (z) {
@@ -1273,7 +1273,7 @@ public class ManageLinksActivity extends BaseFragment {
             z = true;
             AlertDialog.Builder builder2 = new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity());
             builder2.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), AndroidUtilities.toIntArray(arrayList2), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda0(this, arrayList3));
-            builder2.setTitle(LocaleController.getString("InviteLink", 2131626263));
+            builder2.setTitle(LocaleController.getString("InviteLink", 2131626310));
             AlertDialog create2 = builder2.create();
             builder2.show();
             if (z) {
@@ -1300,7 +1300,7 @@ public class ManageLinksActivity extends BaseFragment {
                     Intent intent = new Intent("android.intent.action.SEND");
                     intent.setType("text/plain");
                     intent.putExtra("android.intent.extra.TEXT", this.invite.link);
-                    ManageLinksActivity.this.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteToGroupByLink", 2131626280)), 500);
+                    ManageLinksActivity.this.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteToGroupByLink", 2131626327)), 500);
                 } catch (Exception e2) {
                     FileLog.e(e2);
                 }
@@ -1309,19 +1309,19 @@ public class ManageLinksActivity extends BaseFragment {
             } else if (intValue == 3) {
                 TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
                 AlertDialog.Builder builder = new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity());
-                builder.setMessage(LocaleController.getString("RevokeAlert", 2131628040));
-                builder.setTitle(LocaleController.getString("RevokeLink", 2131628043));
-                builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628042), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda1(this, tLRPC$TL_chatInviteExported));
-                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                builder.setMessage(LocaleController.getString("RevokeAlert", 2131628102));
+                builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
+                builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda1(this, tLRPC$TL_chatInviteExported));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 ManageLinksActivity.this.showDialog(builder.create());
             } else if (intValue != 4) {
             } else {
                 TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = this.invite;
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity());
-                builder2.setTitle(LocaleController.getString("DeleteLink", 2131625413));
-                builder2.setMessage(LocaleController.getString("DeleteLinkHelp", 2131625414));
-                builder2.setPositiveButton(LocaleController.getString("Delete", 2131625368), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda2(this, tLRPC$TL_chatInviteExported2));
-                builder2.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                builder2.setTitle(LocaleController.getString("DeleteLink", 2131625429));
+                builder2.setMessage(LocaleController.getString("DeleteLinkHelp", 2131625430));
+                builder2.setPositiveButton(LocaleController.getString("Delete", 2131625384), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda2(this, tLRPC$TL_chatInviteExported2));
+                builder2.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 ManageLinksActivity.this.showDialog(builder2.create());
             }
         }
@@ -1529,7 +1529,7 @@ public class ManageLinksActivity extends BaseFragment {
             }
             int i4 = tLRPC$TL_chatInviteExported.usage;
             if (i4 == 0 && tLRPC$TL_chatInviteExported.usage_limit == 0 && tLRPC$TL_chatInviteExported.requested == 0) {
-                str = LocaleController.getString("NoOneJoinedYet", 2131626841);
+                str = LocaleController.getString("NoOneJoinedYet", 2131626893);
             } else {
                 int i5 = tLRPC$TL_chatInviteExported.usage_limit;
                 if (i5 > 0 && i4 == 0 && !tLRPC$TL_chatInviteExported.expired && !tLRPC$TL_chatInviteExported.revoked) {
@@ -1551,11 +1551,11 @@ public class ManageLinksActivity extends BaseFragment {
                 DotDividerSpan dotDividerSpan = new DotDividerSpan();
                 dotDividerSpan.setTopPadding(AndroidUtilities.dp(1.5f));
                 spannableStringBuilder2.append((CharSequence) "  .  ").setSpan(dotDividerSpan, spannableStringBuilder2.length() - 3, spannableStringBuilder2.length() - 2, 0);
-                spannableStringBuilder2.append((CharSequence) LocaleController.getString("Permanent", 2131627461));
+                spannableStringBuilder2.append((CharSequence) LocaleController.getString("Permanent", 2131627513));
                 this.subtitleView.setText(spannableStringBuilder2);
             } else if (tLRPC$TL_chatInviteExported.expired || tLRPC$TL_chatInviteExported.revoked) {
                 if (tLRPC$TL_chatInviteExported.revoked && tLRPC$TL_chatInviteExported.usage == 0) {
-                    str = LocaleController.getString("NoOneJoined", 2131626840);
+                    str = LocaleController.getString("NoOneJoined", 2131626892);
                 }
                 SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(str);
                 DotDividerSpan dotDividerSpan2 = new DotDividerSpan();
@@ -1563,13 +1563,13 @@ public class ManageLinksActivity extends BaseFragment {
                 spannableStringBuilder3.append((CharSequence) "  .  ").setSpan(dotDividerSpan2, spannableStringBuilder3.length() - 3, spannableStringBuilder3.length() - 2, 0);
                 boolean z = tLRPC$TL_chatInviteExported.revoked;
                 if (!z && (i3 = tLRPC$TL_chatInviteExported.usage_limit) > 0 && tLRPC$TL_chatInviteExported.usage >= i3) {
-                    spannableStringBuilder3.append((CharSequence) LocaleController.getString("LinkLimitReached", 2131626453));
+                    spannableStringBuilder3.append((CharSequence) LocaleController.getString("LinkLimitReached", 2131626500));
                 } else {
                     if (z) {
-                        i2 = 2131628054;
+                        i2 = 2131628116;
                         str2 = "Revoked";
                     } else {
-                        i2 = 2131625788;
+                        i2 = 2131625828;
                         str2 = "Expired";
                     }
                     spannableStringBuilder3.append((CharSequence) LocaleController.getString(str2, i2));
@@ -1670,7 +1670,7 @@ public class ManageLinksActivity extends BaseFragment {
             if (getParentActivity() == null) {
                 return;
             }
-            BulletinFactory.of(this).createSimpleBulletin(2131558480, LocaleController.getString("InviteRevokedHint", 2131626271)).show();
+            BulletinFactory.of(this).createSimpleBulletin(2131558485, LocaleController.getString("InviteRevokedHint", 2131626318)).show();
         }
     }
 

@@ -11,6 +11,6 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda2
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$loadPinnedMessages$121(this.f$1);
+        this.f$0.lambda$loadPinnedMessages$125(this.f$1);
     }
 }

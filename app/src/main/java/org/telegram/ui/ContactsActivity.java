@@ -238,20 +238,20 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.actionBar.setAllowOverlayTitle(true);
         if (this.destroyAfterSelect) {
             if (this.returnAsResult) {
-                this.actionBar.setTitle(LocaleController.getString("SelectContact", 2131628163));
+                this.actionBar.setTitle(LocaleController.getString("SelectContact", 2131628225));
             } else if (this.createSecretChat) {
-                this.actionBar.setTitle(LocaleController.getString("NewSecretChat", 2131626793));
+                this.actionBar.setTitle(LocaleController.getString("NewSecretChat", 2131626845));
             } else {
-                this.actionBar.setTitle(LocaleController.getString("NewMessageTitle", 2131626783));
+                this.actionBar.setTitle(LocaleController.getString("NewMessageTitle", 2131626835));
             }
         } else {
-            this.actionBar.setTitle(LocaleController.getString("Contacts", 2131625242));
+            this.actionBar.setTitle(LocaleController.getString("Contacts", 2131625258));
         }
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         ActionBarMenu createMenu = this.actionBar.createMenu();
         ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628092));
-        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628092));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628154));
         if (!this.createSecretChat && !this.returnAsResult) {
             ActionBarMenuItem addItem = createMenu.addItem(1, this.sortByName ? 2131165696 : 2131165694);
             this.sortItem = addItem;
@@ -282,8 +282,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             stickerEmptyView.addView(flickerLoadingView, 0);
             this.emptyView.setAnimateLayoutChange(true);
             this.emptyView.showProgress(true, false);
-            this.emptyView.title.setText(LocaleController.getString("NoResult", 2131626858));
-            this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628098));
+            this.emptyView.title.setText(LocaleController.getString("NoResult", 2131626910));
+            this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
             anonymousClass5.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
             AnonymousClass6 anonymousClass6 = new AnonymousClass6(context);
             this.listView = anonymousClass6;
@@ -325,8 +325,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 }
                 this.floatingButton.setBackgroundDrawable(createSimpleSelectorCircleDrawable);
                 this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_actionIcon"), PorterDuff.Mode.MULTIPLY));
-                this.floatingButton.setAnimation(!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) ? 2131558603 : 2131558604, 52, 52);
-                this.floatingButtonContainer.setContentDescription(LocaleController.getString("CreateNewContact", 2131625274));
+                this.floatingButton.setAnimation(!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) ? 2131558626 : 2131558627, 52, 52);
+                this.floatingButtonContainer.setContentDescription(LocaleController.getString("CreateNewContact", 2131625290));
                 if (i2 >= 21) {
                     StateListAnimator stateListAnimator = new StateListAnimator();
                     RLottieImageView rLottieImageView2 = this.floatingButton;
@@ -362,8 +362,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         stickerEmptyView2.addView(flickerLoadingView2, 0);
         this.emptyView.setAnimateLayoutChange(true);
         this.emptyView.showProgress(true, false);
-        this.emptyView.title.setText(LocaleController.getString("NoResult", 2131626858));
-        this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628098));
+        this.emptyView.title.setText(LocaleController.getString("NoResult", 2131626910));
+        this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
         anonymousClass5.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         AnonymousClass6 anonymousClass62 = new AnonymousClass6(context);
         this.listView = anonymousClass62;
@@ -399,8 +399,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             }
             this.floatingButton.setBackgroundDrawable(createSimpleSelectorCircleDrawable2);
             this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_actionIcon"), PorterDuff.Mode.MULTIPLY));
-            this.floatingButton.setAnimation(!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) ? 2131558603 : 2131558604, 52, 52);
-            this.floatingButtonContainer.setContentDescription(LocaleController.getString("CreateNewContact", 2131625274));
+            this.floatingButton.setAnimation(!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) ? 2131558626 : 2131558627, 52, 52);
+            this.floatingButtonContainer.setContentDescription(LocaleController.getString("CreateNewContact", 2131625290));
             if (i2 >= 21) {
             }
             this.floatingButtonContainer.addView(this.floatingButton, LayoutHelper.createFrame(i2 < 21 ? 56 : 60, i2 < 21 ? 56 : 60, 51, 10.0f, 6.0f, 10.0f, 0.0f));
@@ -750,10 +750,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setMessage(LocaleController.getString("InviteUser", 2131626291));
-            builder.setTitle(LocaleController.getString("AppName", 2131624375));
-            builder.setPositiveButton(LocaleController.getString("OK", 2131627075), new ContactsActivity$$ExternalSyntheticLambda1(this, str2));
-            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+            builder.setMessage(LocaleController.getString("InviteUser", 2131626338));
+            builder.setTitle(LocaleController.getString("AppName", 2131624384));
+            builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new ContactsActivity$$ExternalSyntheticLambda1(this, str2));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             showDialog(builder.create());
         }
     }
@@ -851,7 +851,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             if (tLRPC$User.bot) {
                 if (tLRPC$User.bot_nochats) {
                     try {
-                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("BotCantJoinGroups", 2131624709)).show();
+                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("BotCantJoinGroups", 2131624720)).show();
                         return;
                     } catch (Exception e) {
                         FileLog.e(e);
@@ -861,25 +861,25 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.channelId));
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     if (ChatObject.canAddAdmins(chat)) {
-                        builder.setTitle(LocaleController.getString("AppName", 2131624375));
-                        builder.setMessage(LocaleController.getString("AddBotAsAdmin", 2131624252));
-                        builder.setPositiveButton(LocaleController.getString("MakeAdmin", 2131626520), new ContactsActivity$$ExternalSyntheticLambda3(this, tLRPC$User, str));
-                        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                        builder.setTitle(LocaleController.getString("AppName", 2131624384));
+                        builder.setMessage(LocaleController.getString("AddBotAsAdmin", 2131624257));
+                        builder.setPositiveButton(LocaleController.getString("MakeAdmin", 2131626567), new ContactsActivity$$ExternalSyntheticLambda3(this, tLRPC$User, str));
+                        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                     } else {
-                        builder.setMessage(LocaleController.getString("CantAddBotAsAdmin", 2131624841));
-                        builder.setPositiveButton(LocaleController.getString("OK", 2131627075), null);
+                        builder.setMessage(LocaleController.getString("CantAddBotAsAdmin", 2131624854));
+                        builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
                     }
                     showDialog(builder.create());
                     return;
                 }
             }
             AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
-            builder2.setTitle(LocaleController.getString("AppName", 2131624375));
+            builder2.setTitle(LocaleController.getString("AppName", 2131624384));
             String formatStringSimple = LocaleController.formatStringSimple(this.selectAlertString, UserObject.getUserName(tLRPC$User));
             if (tLRPC$User.bot || !this.needForwardCount) {
                 editTextBoldCursor = null;
             } else {
-                formatStringSimple = String.format("%s\n\n%s", formatStringSimple, LocaleController.getString("AddToTheGroupForwardCount", 2131624300));
+                formatStringSimple = String.format("%s\n\n%s", formatStringSimple, LocaleController.getString("AddToTheGroupForwardCount", 2131624308));
                 editTextBoldCursor = new EditTextBoldCursor(getParentActivity());
                 editTextBoldCursor.setTextSize(1, 18.0f);
                 editTextBoldCursor.setText("50");
@@ -892,8 +892,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 builder2.setView(editTextBoldCursor);
             }
             builder2.setMessage(formatStringSimple);
-            builder2.setPositiveButton(LocaleController.getString("OK", 2131627075), new ContactsActivity$$ExternalSyntheticLambda2(this, tLRPC$User, editTextBoldCursor));
-            builder2.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+            builder2.setPositiveButton(LocaleController.getString("OK", 2131627127), new ContactsActivity$$ExternalSyntheticLambda2(this, tLRPC$User, editTextBoldCursor));
+            builder2.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             showDialog(builder2.create());
             if (editTextBoldCursor == null) {
                 return;
@@ -1315,7 +1315,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 ((ViewGroup) ((BaseFragment) ContactsActivity.this).fragmentView).addView(ContactsActivity.this.floatingButtonContainer);
                 this.val$previousFabContainer.setVisibility(0);
                 if (!this.val$isOpen) {
-                    this.val$previousFab.setAnimation(2131558604, 52, 52);
+                    this.val$previousFab.setAnimation(2131558627, 52, 52);
                     this.val$previousFab.getAnimatedDrawable().setCurrentFrame(ContactsActivity.this.floatingButton.getAnimatedDrawable().getCurrentFrame());
                     this.val$previousFab.playAnimation();
                 }
@@ -1328,10 +1328,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.animationIndex = getNotificationCenter().setAnimationInProgress(this.animationIndex, new int[]{NotificationCenter.diceStickersDidLoad}, false);
         animatorSet.start();
         if (z) {
-            this.floatingButton.setAnimation(2131558603, 52, 52);
+            this.floatingButton.setAnimation(2131558626, 52, 52);
             this.floatingButton.playAnimation();
         } else {
-            this.floatingButton.setAnimation(2131558604, 52, 52);
+            this.floatingButton.setAnimation(2131558627, 52, 52);
             this.floatingButton.playAnimation();
         }
         AnimatorSet animatorSet2 = this.bounceIconAnimator;

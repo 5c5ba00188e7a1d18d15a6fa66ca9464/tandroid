@@ -48,13 +48,13 @@ public class WallpaperUpdater {
         CharSequence[] charSequenceArr;
         int[] iArr;
         BottomSheet.Builder builder = new BottomSheet.Builder(this.parentActivity);
-        builder.setTitle(LocaleController.getString("ChoosePhoto", 2131625111), true);
+        builder.setTitle(LocaleController.getString("ChoosePhoto", 2131625124), true);
         if (z) {
-            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", 2131625122), LocaleController.getString("SelectFromGallery", 2131628168), LocaleController.getString("SelectColor", 2131628161), LocaleController.getString("Default", 2131625366)};
+            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", 2131625136), LocaleController.getString("SelectFromGallery", 2131628230), LocaleController.getString("SelectColor", 2131628223), LocaleController.getString("Default", 2131625382)};
             iArr = null;
         } else {
-            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", 2131625122), LocaleController.getString("SelectFromGallery", 2131628168)};
-            iArr = new int[]{2131165671, 2131165858};
+            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", 2131625136), LocaleController.getString("SelectFromGallery", 2131628230)};
+            iArr = new int[]{2131165671, 2131165859};
         }
         builder.setItems(charSequenceArr, iArr, new WallpaperUpdater$$ExternalSyntheticLambda0(this, z));
         builder.show();

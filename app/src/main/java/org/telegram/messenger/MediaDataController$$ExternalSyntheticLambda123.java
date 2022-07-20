@@ -1,20 +1,32 @@
 package org.telegram.messenger;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.MediaDataController;
 /* loaded from: classes.dex */
-public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda123 implements Comparator {
-    public final /* synthetic */ ArrayList f$0;
+public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda123 implements Runnable {
+    public final /* synthetic */ MediaDataController f$0;
+    public final /* synthetic */ String[] f$1;
+    public final /* synthetic */ MediaDataController.KeywordResultCallback f$2;
+    public final /* synthetic */ String f$3;
+    public final /* synthetic */ boolean f$4;
+    public final /* synthetic */ ArrayList f$5;
+    public final /* synthetic */ boolean f$6;
+    public final /* synthetic */ CountDownLatch f$7;
 
-    public /* synthetic */ MediaDataController$$ExternalSyntheticLambda123(ArrayList arrayList) {
-        this.f$0 = arrayList;
+    public /* synthetic */ MediaDataController$$ExternalSyntheticLambda123(MediaDataController mediaDataController, String[] strArr, MediaDataController.KeywordResultCallback keywordResultCallback, String str, boolean z, ArrayList arrayList, boolean z2, CountDownLatch countDownLatch) {
+        this.f$0 = mediaDataController;
+        this.f$1 = strArr;
+        this.f$2 = keywordResultCallback;
+        this.f$3 = str;
+        this.f$4 = z;
+        this.f$5 = arrayList;
+        this.f$6 = z2;
+        this.f$7 = countDownLatch;
     }
 
-    @Override // java.util.Comparator
-    public final int compare(Object obj, Object obj2) {
-        int lambda$getEmojiSuggestions$172;
-        lambda$getEmojiSuggestions$172 = MediaDataController.lambda$getEmojiSuggestions$172(this.f$0, (MediaDataController.KeywordResult) obj, (MediaDataController.KeywordResult) obj2);
-        return lambda$getEmojiSuggestions$172;
+    @Override // java.lang.Runnable
+    public final void run() {
+        this.f$0.lambda$getEmojiSuggestions$180(this.f$1, this.f$2, this.f$3, this.f$4, this.f$5, this.f$6, this.f$7);
     }
 }

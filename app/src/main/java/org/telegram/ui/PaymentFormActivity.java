@@ -606,35 +606,35 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         BufferedReader bufferedReader;
         switch (this.currentStep) {
             case 0:
-                this.actionBar.setTitle(LocaleController.getString("PaymentShippingInfo", 2131627414));
+                this.actionBar.setTitle(LocaleController.getString("PaymentShippingInfo", 2131627466));
                 break;
             case 1:
-                this.actionBar.setTitle(LocaleController.getString("PaymentShippingMethod", 2131627415));
+                this.actionBar.setTitle(LocaleController.getString("PaymentShippingMethod", 2131627467));
                 break;
             case 2:
-                this.actionBar.setTitle(LocaleController.getString("PaymentCardInfo", 2131627370));
+                this.actionBar.setTitle(LocaleController.getString("PaymentCardInfo", 2131627422));
                 break;
             case 3:
-                this.actionBar.setTitle(LocaleController.getString("PaymentCardInfo", 2131627370));
+                this.actionBar.setTitle(LocaleController.getString("PaymentCardInfo", 2131627422));
                 break;
             case 4:
                 if (this.paymentForm.invoice.test) {
-                    this.actionBar.setTitle("Test " + LocaleController.getString("PaymentCheckout", 2131627377));
+                    this.actionBar.setTitle("Test " + LocaleController.getString("PaymentCheckout", 2131627429));
                     break;
                 } else {
-                    this.actionBar.setTitle(LocaleController.getString("PaymentCheckout", 2131627377));
+                    this.actionBar.setTitle(LocaleController.getString("PaymentCheckout", 2131627429));
                     break;
                 }
             case 5:
                 if (this.paymentForm.invoice.test) {
-                    this.actionBar.setTitle("Test " + LocaleController.getString("PaymentReceipt", 2131627407));
+                    this.actionBar.setTitle("Test " + LocaleController.getString("PaymentReceipt", 2131627459));
                     break;
                 } else {
-                    this.actionBar.setTitle(LocaleController.getString("PaymentReceipt", 2131627407));
+                    this.actionBar.setTitle(LocaleController.getString("PaymentReceipt", 2131627459));
                     break;
                 }
             case 6:
-                this.actionBar.setTitle(LocaleController.getString("PaymentPassword", 2131627396));
+                this.actionBar.setTitle(LocaleController.getString("PaymentPassword", 2131627448));
                 break;
         }
         this.actionBar.setBackButtonImage(2131165449);
@@ -644,7 +644,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         ActionBarMenu createMenu = this.actionBar.createMenu();
         int i10 = this.currentStep;
         if (i10 == 0 || i10 == 1 || i10 == 2 || i10 == 3 || i10 == 4 || i10 == 6) {
-            this.doneItem = createMenu.addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", 2131625525));
+            this.doneItem = createMenu.addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", 2131625541));
             ContextProgressView contextProgressView = new ContextProgressView(context, 1);
             this.progressView = contextProgressView;
             contextProgressView.setAlpha(0.0f);
@@ -700,7 +700,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         if (i13 == 0) {
                             this.headerCell[0] = new HeaderCell(context, this.resourcesProvider);
                             this.headerCell[0].setBackgroundColor(getThemedColor(str9));
-                            this.headerCell[0].setText(LocaleController.getString("PaymentShippingAddress", 2131627408));
+                            this.headerCell[0].setText(LocaleController.getString("PaymentShippingAddress", 2131627460));
                             this.linearLayout2.addView(this.headerCell[0], LayoutHelper.createLinear(-1, -2));
                             i8 = 8;
                             i7 = -1;
@@ -710,7 +710,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 this.linearLayout2.addView(this.sectionCell[0], LayoutHelper.createLinear(-1, -2));
                                 this.headerCell[i9] = new HeaderCell(context, this.resourcesProvider);
                                 this.headerCell[i9].setBackgroundColor(getThemedColor(str9));
-                                this.headerCell[i9].setText(LocaleController.getString("PaymentShippingReceiver", 2131627418));
+                                this.headerCell[i9].setText(LocaleController.getString("PaymentShippingReceiver", 2131627470));
                                 i7 = -1;
                                 this.linearLayout2.addView(this.headerCell[i9], LayoutHelper.createLinear(-1, -2));
                             } else {
@@ -776,7 +776,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.inputFields[i13].setImeOptions(268435461);
                         switch (i13) {
                             case 0:
-                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingAddress1Placeholder", 2131627409));
+                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingAddress1Placeholder", 2131627461));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo3 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo3 != null && (tLRPC$TL_postAddress = tLRPC$TL_paymentRequestedInfo3.shipping_address) != null) {
                                     this.inputFields[i13].setText(tLRPC$TL_postAddress.street_line1);
@@ -784,7 +784,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 }
                                 break;
                             case 1:
-                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingAddress2Placeholder", 2131627410));
+                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingAddress2Placeholder", 2131627462));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo4 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo4 != null && (tLRPC$TL_postAddress2 = tLRPC$TL_paymentRequestedInfo4.shipping_address) != null) {
                                     this.inputFields[i13].setText(tLRPC$TL_postAddress2.street_line2);
@@ -792,7 +792,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 }
                                 break;
                             case 2:
-                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingCityPlaceholder", 2131627411));
+                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingCityPlaceholder", 2131627463));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo5 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo5 != null && (tLRPC$TL_postAddress3 = tLRPC$TL_paymentRequestedInfo5.shipping_address) != null) {
                                     this.inputFields[i13].setText(tLRPC$TL_postAddress3.city);
@@ -800,7 +800,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 }
                                 break;
                             case 3:
-                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingStatePlaceholder", 2131627421));
+                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingStatePlaceholder", 2131627473));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo6 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo6 != null && (tLRPC$TL_postAddress4 = tLRPC$TL_paymentRequestedInfo6.shipping_address) != null) {
                                     this.inputFields[i13].setText(tLRPC$TL_postAddress4.state);
@@ -808,7 +808,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 }
                                 break;
                             case 4:
-                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingCountry", 2131627412));
+                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingCountry", 2131627464));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo7 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo7 != null && (tLRPC$TL_postAddress5 = tLRPC$TL_paymentRequestedInfo7.shipping_address) != null) {
                                     String str10 = (String) hashMap3.get(tLRPC$TL_postAddress5.country_iso2);
@@ -823,7 +823,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 }
                                 break;
                             case 5:
-                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingZipPlaceholder", 2131627422));
+                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingZipPlaceholder", 2131627474));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo8 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo8 != null && (tLRPC$TL_postAddress6 = tLRPC$TL_paymentRequestedInfo8.shipping_address) != null) {
                                     this.inputFields[i13].setText(tLRPC$TL_postAddress6.post_code);
@@ -831,7 +831,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 }
                                 break;
                             case 6:
-                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingName", 2131627416));
+                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingName", 2131627468));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo9 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo9 != null && (str7 = tLRPC$TL_paymentRequestedInfo9.name) != null) {
                                     this.inputFields[i13].setText(str7);
@@ -839,7 +839,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 }
                                 break;
                             case 7:
-                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingEmailPlaceholder", 2131627413));
+                                this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingEmailPlaceholder", 2131627465));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo10 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo10 != null && (str8 = tLRPC$TL_paymentRequestedInfo10.email) != null) {
                                     this.inputFields[i13].setText(str8);
@@ -897,11 +897,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 TLRPC$TL_invoice tLRPC$TL_invoice3 = this.paymentForm.invoice;
                                 boolean z4 = tLRPC$TL_invoice3.email_to_provider;
                                 if (z4 && tLRPC$TL_invoice3.phone_to_provider) {
-                                    this.bottomCell[1].setText(LocaleController.formatString("PaymentPhoneEmailToProvider", 2131627404, formatName));
+                                    this.bottomCell[1].setText(LocaleController.formatString("PaymentPhoneEmailToProvider", 2131627456, formatName));
                                 } else if (z4) {
-                                    this.bottomCell[1].setText(LocaleController.formatString("PaymentEmailToProvider", 2131627390, formatName));
+                                    this.bottomCell[1].setText(LocaleController.formatString("PaymentEmailToProvider", 2131627442, formatName));
                                 } else {
-                                    this.bottomCell[1].setText(LocaleController.formatString("PaymentPhoneToProvider", 2131627405, formatName));
+                                    this.bottomCell[1].setText(LocaleController.formatString("PaymentPhoneToProvider", 2131627457, formatName));
                                 }
                             } else {
                                 this.sectionCell[i9] = new ShadowSectionCell(context, this.resourcesProvider);
@@ -912,12 +912,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             TextCheckCell textCheckCell = new TextCheckCell(context, this.resourcesProvider);
                             this.checkCell1 = textCheckCell;
                             textCheckCell.setBackgroundDrawable(Theme.getSelectorDrawable(z2));
-                            this.checkCell1.setTextAndCheck(LocaleController.getString("PaymentShippingSave", 2131627419), this.saveShippingInfo, false);
+                            this.checkCell1.setTextAndCheck(LocaleController.getString("PaymentShippingSave", 2131627471), this.saveShippingInfo, false);
                             this.linearLayout2.addView(this.checkCell1, LayoutHelper.createLinear(-1, -2));
                             this.checkCell1.setOnClickListener(new PaymentFormActivity$$ExternalSyntheticLambda9(this));
                             this.bottomCell[0] = new TextInfoPrivacyCell(context, this.resourcesProvider);
                             this.bottomCell[0].setBackgroundDrawable(Theme.getThemedDrawable(context, 2131165436, "windowBackgroundGrayShadow"));
-                            this.bottomCell[0].setText(LocaleController.getString("PaymentShippingSaveInfo", 2131627420));
+                            this.bottomCell[0].setText(LocaleController.getString("PaymentShippingSaveInfo", 2131627472));
                             this.linearLayout2.addView(this.bottomCell[0], LayoutHelper.createLinear(-1, -2));
                         } else {
                             hashMap = hashMap3;
@@ -1046,7 +1046,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 TextCheckCell textCheckCell2 = new TextCheckCell(context, this.resourcesProvider);
                 this.checkCell1 = textCheckCell2;
                 textCheckCell2.setBackgroundDrawable(Theme.getSelectorDrawable(true));
-                this.checkCell1.setTextAndCheck(LocaleController.getString("PaymentCardSavePaymentInformation", 2131627373), this.saveCardInfo, false);
+                this.checkCell1.setTextAndCheck(LocaleController.getString("PaymentCardSavePaymentInformation", 2131627425), this.saveCardInfo, false);
                 this.linearLayout2.addView(this.checkCell1, LayoutHelper.createLinear(-1, -2));
                 this.checkCell1.setOnClickListener(new PaymentFormActivity$$ExternalSyntheticLambda17(this));
                 this.bottomCell[0] = new TextInfoPrivacyCell(context, this.resourcesProvider);
@@ -1095,12 +1095,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     if (i16 == 0) {
                         this.headerCell[0] = new HeaderCell(context, this.resourcesProvider);
                         this.headerCell[0].setBackgroundColor(getThemedColor(str9));
-                        this.headerCell[0].setText(LocaleController.getString("PaymentCardTitle", 2131627376));
+                        this.headerCell[0].setText(LocaleController.getString("PaymentCardTitle", 2131627428));
                         this.linearLayout2.addView(this.headerCell[0], LayoutHelper.createLinear(-1, -2));
                     } else if (i16 == 4) {
                         this.headerCell[1] = new HeaderCell(context, this.resourcesProvider);
                         this.headerCell[1].setBackgroundColor(getThemedColor(str9));
-                        this.headerCell[1].setText(LocaleController.getString("PaymentBillingAddress", 2131627367));
+                        this.headerCell[1].setText(LocaleController.getString("PaymentBillingAddress", 2131627419));
                         this.linearLayout2.addView(this.headerCell[1], LayoutHelper.createLinear(-1, -2));
                     }
                     boolean z5 = (i16 == 3 || i16 == 5 || (i16 == 4 && !this.need_card_postcode)) ? false : true;
@@ -1136,17 +1136,17 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     }
                     this.inputFields[i16].setImeOptions(268435461);
                     if (i16 == 0) {
-                        this.inputFields[i16].setHint(LocaleController.getString("PaymentCardNumber", 2131627372));
+                        this.inputFields[i16].setHint(LocaleController.getString("PaymentCardNumber", 2131627424));
                     } else if (i16 == 1) {
-                        this.inputFields[i16].setHint(LocaleController.getString("PaymentCardExpireDate", 2131627369));
+                        this.inputFields[i16].setHint(LocaleController.getString("PaymentCardExpireDate", 2131627421));
                     } else if (i16 == 2) {
-                        this.inputFields[i16].setHint(LocaleController.getString("PaymentCardName", 2131627371));
+                        this.inputFields[i16].setHint(LocaleController.getString("PaymentCardName", 2131627423));
                     } else if (i16 == 3) {
-                        this.inputFields[i16].setHint(LocaleController.getString("PaymentCardCvv", 2131627368));
+                        this.inputFields[i16].setHint(LocaleController.getString("PaymentCardCvv", 2131627420));
                     } else if (i16 == 4) {
-                        this.inputFields[i16].setHint(LocaleController.getString("PaymentShippingCountry", 2131627412));
+                        this.inputFields[i16].setHint(LocaleController.getString("PaymentShippingCountry", 2131627464));
                     } else if (i16 == 5) {
-                        this.inputFields[i16].setHint(LocaleController.getString("PaymentShippingZipPlaceholder", 2131627422));
+                        this.inputFields[i16].setHint(LocaleController.getString("PaymentShippingZipPlaceholder", 2131627474));
                     }
                     if (i16 == 0) {
                         this.inputFields[i16].addTextChangedListener(new AnonymousClass7());
@@ -1166,7 +1166,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         TextCheckCell textCheckCell3 = new TextCheckCell(context, this.resourcesProvider);
                         this.checkCell1 = textCheckCell3;
                         textCheckCell3.setBackgroundDrawable(Theme.getSelectorDrawable(true));
-                        this.checkCell1.setTextAndCheck(LocaleController.getString("PaymentCardSavePaymentInformation", 2131627373), this.saveCardInfo, false);
+                        this.checkCell1.setTextAndCheck(LocaleController.getString("PaymentCardSavePaymentInformation", 2131627425), this.saveCardInfo, false);
                         this.linearLayout2.addView(this.checkCell1, LayoutHelper.createLinear(-1, -2));
                         this.checkCell1.setOnClickListener(new PaymentFormActivity$$ExternalSyntheticLambda18(this));
                         this.bottomCell[0] = new TextInfoPrivacyCell(context, this.resourcesProvider);
@@ -1223,7 +1223,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     z = false;
                     this.headerCell[0] = new HeaderCell(context, this.resourcesProvider);
                     this.headerCell[0].setBackgroundColor(getThemedColor(str9));
-                    this.headerCell[0].setText(LocaleController.getString("PaymentCardTitle", 2131627376));
+                    this.headerCell[0].setText(LocaleController.getString("PaymentCardTitle", 2131627428));
                     i5 = -1;
                     this.linearLayout2.addView(this.headerCell[0], LayoutHelper.createLinear(-1, -2));
                 } else {
@@ -1271,7 +1271,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 if (i19 == 0) {
                     this.inputFields[i19].setText(this.paymentForm.saved_credentials.title);
                 } else if (i19 == 1) {
-                    this.inputFields[i19].setHint(LocaleController.getString("LoginPassword", 2131626504));
+                    this.inputFields[i19].setHint(LocaleController.getString("LoginPassword", 2131626551));
                     this.inputFields[i19].requestFocus();
                 }
                 this.inputFields[i19].setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
@@ -1280,12 +1280,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.inputFields[i19].setOnEditorActionListener(new PaymentFormActivity$$ExternalSyntheticLambda27(this));
                 if (i19 == 1) {
                     this.bottomCell[0] = new TextInfoPrivacyCell(context, this.resourcesProvider);
-                    this.bottomCell[0].setText(LocaleController.formatString("PaymentConfirmationMessage", 2131627387, this.paymentForm.saved_credentials.title));
+                    this.bottomCell[0].setText(LocaleController.formatString("PaymentConfirmationMessage", 2131627439, this.paymentForm.saved_credentials.title));
                     this.bottomCell[0].setBackgroundDrawable(Theme.getThemedDrawable(context, 2131165435, "windowBackgroundGrayShadow"));
                     this.linearLayout2.addView(this.bottomCell[0], LayoutHelper.createLinear(-1, -2));
                     this.settingsCell[0] = new TextSettingsCell(context, this.resourcesProvider);
                     this.settingsCell[0].setBackgroundDrawable(Theme.getSelectorDrawable(true));
-                    this.settingsCell[0].setText(LocaleController.getString("PaymentConfirmationNewCard", 2131627388), false);
+                    this.settingsCell[0].setText(LocaleController.getString("PaymentConfirmationNewCard", 2131627440), false);
                     this.linearLayout2.addView(this.settingsCell[0], LayoutHelper.createLinear(-1, -2));
                     this.settingsCell[0].setOnClickListener(new PaymentFormActivity$$ExternalSyntheticLambda6(this));
                     this.bottomCell[1] = new TextInfoPrivacyCell(context, this.resourcesProvider);
@@ -1331,14 +1331,14 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             if (this.currentStep == 5 && this.tipAmount != null) {
                 TextPriceCell textPriceCell2 = new TextPriceCell(context);
                 textPriceCell2.setBackgroundColor(getThemedColor(str9));
-                textPriceCell2.setTextAndValue(LocaleController.getString("PaymentTip", 2131627428), LocaleController.getInstance().formatCurrencyString(this.tipAmount.longValue(), this.paymentForm.invoice.currency), false);
+                textPriceCell2.setTextAndValue(LocaleController.getString("PaymentTip", 2131627480), LocaleController.getInstance().formatCurrencyString(this.tipAmount.longValue(), this.paymentForm.invoice.currency), false);
                 this.linearLayout2.addView(textPriceCell2);
             }
             TextPriceCell textPriceCell3 = new TextPriceCell(context);
             this.totalCell = textPriceCell3;
             textPriceCell3.setBackgroundColor(getThemedColor(str9));
             this.totalPrice[0] = getTotalPriceString(this.prices);
-            this.totalCell.setTextAndValue(LocaleController.getString("PaymentTransactionTotal", 2131627432), this.totalPrice[0], true);
+            this.totalCell.setTextAndValue(LocaleController.getString("PaymentTransactionTotal", 2131627484), this.totalPrice[0], true);
             if (this.currentStep != 4 || (this.paymentForm.invoice.flags & 256) == 0) {
                 str2 = "windowBackgroundGrayShadow";
                 str = "";
@@ -1353,7 +1353,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 frameLayout7.setOnClickListener(new PaymentFormActivity$$ExternalSyntheticLambda12(this));
                 TextPriceCell textPriceCell4 = new TextPriceCell(context);
                 textPriceCell4.setBackgroundColor(getThemedColor(str9));
-                textPriceCell4.setTextAndValue(LocaleController.getString("PaymentTipOptional", 2131627429), "", false);
+                textPriceCell4.setTextAndValue(LocaleController.getString("PaymentTipOptional", 2131627481), "", false);
                 frameLayout7.addView(textPriceCell4);
                 this.inputFields = r5;
                 EditTextBoldCursor[] editTextBoldCursorArr2 = {new EditTextBoldCursor(context)};
@@ -1419,7 +1419,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.tipLayout.addView(textView2, LayoutHelper.createLinear(-2, -1, 19, 0, 0, i22 != size2 + (-1) ? 9 : 0, 0));
                         textView2.setOnClickListener(new PaymentFormActivity$$ExternalSyntheticLambda20(this, textView2, j));
                         int ceil = ((int) Math.ceil(textView2.getPaint().measureText(formatCurrencyString))) + AndroidUtilities.dp(30.0f);
-                        textView2.setTag(2131230954, Integer.valueOf(ceil));
+                        textView2.setTag(2131230955, Integer.valueOf(ceil));
                         iArr[0] = Math.max(iArr[0], ceil);
                         iArr2[0] = iArr2[0] + ceil;
                         i22++;
@@ -1439,7 +1439,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             this.detailSettingsCell[i].setBackgroundDrawable(Theme.getSelectorDrawable(true));
             TextDetailSettingsCell textDetailSettingsCell = this.detailSettingsCell[i];
             String str12 = this.cardName;
-            textDetailSettingsCell.setTextAndValueAndIcon((str12 == null || str12.length() <= 1) ? this.cardName : this.cardName.substring(i, 1).toUpperCase() + this.cardName.substring(1), LocaleController.getString("PaymentCheckoutMethod", 2131627380), 2131165838, true);
+            textDetailSettingsCell.setTextAndValueAndIcon((str12 == null || str12.length() <= 1) ? this.cardName : this.cardName.substring(i, 1).toUpperCase() + this.cardName.substring(1), LocaleController.getString("PaymentCheckoutMethod", 2131627432), 2131165839, true);
             int i23 = (!this.isCheckoutPreview || ((str4 = this.cardName) != null && str4.length() > 1)) ? 0 : 8;
             this.detailSettingsCell[i].setVisibility(i23);
             this.linearLayout2.addView(this.detailSettingsCell[i]);
@@ -1463,9 +1463,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.detailSettingsCell[1].setBackgroundDrawable(Theme.getSelectorDrawable(true));
                 TextDetailSettingsCell textDetailSettingsCell2 = this.detailSettingsCell[1];
                 str3 = ContactsController.formatName(tLRPC$User4.first_name, tLRPC$User4.last_name);
-                String string = LocaleController.getString("PaymentCheckoutProvider", 2131627385);
+                String string = LocaleController.getString("PaymentCheckoutProvider", 2131627437);
                 TLRPC$TL_payments_validateRequestedInfo tLRPC$TL_payments_validateRequestedInfo = this.validateRequest;
-                textDetailSettingsCell2.setTextAndValueAndIcon(str3, string, 2131165840, ((tLRPC$TL_payments_validateRequestedInfo == null || (tLRPC$TL_payments_validateRequestedInfo.info.shipping_address == null && this.shippingOption == null)) && ((tLRPC$TL_paymentRequestedInfo = this.paymentForm.saved_info) == null || tLRPC$TL_paymentRequestedInfo.shipping_address == null)) ? false : true);
+                textDetailSettingsCell2.setTextAndValueAndIcon(str3, string, 2131165841, ((tLRPC$TL_payments_validateRequestedInfo == null || (tLRPC$TL_payments_validateRequestedInfo.info.shipping_address == null && this.shippingOption == null)) && ((tLRPC$TL_paymentRequestedInfo = this.paymentForm.saved_info) == null || tLRPC$TL_paymentRequestedInfo.shipping_address == null)) ? false : true);
                 this.detailSettingsCell[1].setVisibility(i23);
                 this.linearLayout2.addView(this.detailSettingsCell[1]);
             } else {
@@ -1525,7 +1525,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 if (this.shippingOption != null) {
                     this.detailSettingsCell[6] = new TextDetailSettingsCell(context);
                     this.detailSettingsCell[6].setBackgroundColor(getThemedColor(str14));
-                    this.detailSettingsCell[6].setTextAndValueAndIcon(this.shippingOption.title, LocaleController.getString("PaymentCheckoutShippingMethod", 2131627386), 2131165839, false);
+                    this.detailSettingsCell[6].setTextAndValueAndIcon(this.shippingOption.title, LocaleController.getString("PaymentCheckoutShippingMethod", 2131627438), 2131165840, false);
                     this.linearLayout2.addView(this.detailSettingsCell[6]);
                 }
                 setAddressFields(tLRPC$TL_paymentRequestedInfo12);
@@ -1550,7 +1550,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 TextView textView3 = new TextView(context);
                 this.payTextView = textView3;
                 textView3.setTextColor(getThemedColor("contacts_inviteText"));
-                this.payTextView.setText(LocaleController.formatString("PaymentCheckoutPay", 2131627383, this.totalPrice[0]));
+                this.payTextView.setText(LocaleController.formatString("PaymentCheckoutPay", 2131627435, this.totalPrice[0]));
                 this.payTextView.setTextSize(1, 14.0f);
                 this.payTextView.setGravity(17);
                 this.payTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -1579,7 +1579,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     RecurrentPaymentsAcceptCell recurrentPaymentsAcceptCell = new RecurrentPaymentsAcceptCell(context, getResourceProvider());
                     this.recurrentAcceptCell = recurrentPaymentsAcceptCell;
                     recurrentPaymentsAcceptCell.setChecked(this.paymentForm.invoice.recurring && this.isAcceptTermsChecked);
-                    String string2 = LocaleController.getString(2131627378);
+                    String string2 = LocaleController.getString(2131627430);
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string2);
                     int indexOf = string2.indexOf(42);
                     int lastIndexOf = string2.lastIndexOf(42);
@@ -1614,7 +1614,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         } else if (i12 == 6) {
             EditTextSettingsCell editTextSettingsCell = new EditTextSettingsCell(context);
             this.codeFieldCell = editTextSettingsCell;
-            editTextSettingsCell.setTextAndHint("", LocaleController.getString("PasswordCode", 2131627353), false);
+            editTextSettingsCell.setTextAndHint("", LocaleController.getString("PasswordCode", 2131627405), false);
             this.codeFieldCell.setBackgroundColor(getThemedColor(str9));
             EditTextBoldCursor textView4 = this.codeFieldCell.getTextView();
             textView4.setInputType(3);
@@ -1629,7 +1629,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             this.settingsCell[1].setBackgroundDrawable(Theme.getSelectorDrawable(true));
             this.settingsCell[1].setTag("windowBackgroundWhiteBlackText");
             this.settingsCell[1].setTextColor(getThemedColor("windowBackgroundWhiteBlackText"));
-            this.settingsCell[1].setText(LocaleController.getString("ResendCode", 2131627978), true);
+            this.settingsCell[1].setText(LocaleController.getString("ResendCode", 2131628040), true);
             this.linearLayout2.addView(this.settingsCell[1], LayoutHelper.createLinear(-1, -2));
             this.settingsCell[1].setOnClickListener(new PaymentFormActivity$$ExternalSyntheticLambda16(this));
             this.settingsCell[0] = new TextSettingsCell(context, this.resourcesProvider);
@@ -1645,12 +1645,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 if (i26 == 0) {
                     this.headerCell[0] = new HeaderCell(context, this.resourcesProvider);
                     this.headerCell[0].setBackgroundColor(getThemedColor(str9));
-                    this.headerCell[0].setText(LocaleController.getString("PaymentPasswordTitle", 2131627403));
+                    this.headerCell[0].setText(LocaleController.getString("PaymentPasswordTitle", 2131627455));
                     this.linearLayout2.addView(this.headerCell[0], LayoutHelper.createLinear(-1, -2));
                 } else if (i26 == 2) {
                     this.headerCell[1] = new HeaderCell(context, this.resourcesProvider);
                     this.headerCell[1].setBackgroundColor(getThemedColor(str9));
-                    this.headerCell[1].setText(LocaleController.getString("PaymentPasswordEmailTitle", 2131627399));
+                    this.headerCell[1].setText(LocaleController.getString("PaymentPasswordEmailTitle", 2131627451));
                     i4 = -1;
                     this.linearLayout2.addView(this.headerCell[1], LayoutHelper.createLinear(-1, -2));
                     FrameLayout frameLayout9 = new FrameLayout(context);
@@ -1681,12 +1681,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.inputFields[i26].setImeOptions(268435462);
                     }
                     if (i26 != 0) {
-                        this.inputFields[i26].setHint(LocaleController.getString("PaymentPasswordEnter", 2131627400));
+                        this.inputFields[i26].setHint(LocaleController.getString("PaymentPasswordEnter", 2131627452));
                         this.inputFields[i26].requestFocus();
                     } else if (i26 == 1) {
-                        this.inputFields[i26].setHint(LocaleController.getString("PaymentPasswordReEnter", 2131627402));
+                        this.inputFields[i26].setHint(LocaleController.getString("PaymentPasswordReEnter", 2131627454));
                     } else if (i26 == 2) {
-                        this.inputFields[i26].setHint(LocaleController.getString("PaymentPasswordEmail", 2131627397));
+                        this.inputFields[i26].setHint(LocaleController.getString("PaymentPasswordEmail", 2131627449));
                     }
                     this.inputFields[i26].setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
                     this.inputFields[i26].setGravity(!LocaleController.isRTL ? 5 : 3);
@@ -1694,12 +1694,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     this.inputFields[i26].setOnEditorActionListener(new PaymentFormActivity$$ExternalSyntheticLambda26(this));
                     if (i26 != 1) {
                         this.bottomCell[0] = new TextInfoPrivacyCell(context, this.resourcesProvider);
-                        this.bottomCell[0].setText(LocaleController.getString("PaymentPasswordInfo", 2131627401));
+                        this.bottomCell[0].setText(LocaleController.getString("PaymentPasswordInfo", 2131627453));
                         this.bottomCell[0].setBackgroundDrawable(Theme.getThemedDrawable(context, 2131165435, "windowBackgroundGrayShadow"));
                         this.linearLayout2.addView(this.bottomCell[0], LayoutHelper.createLinear(-1, -2));
                     } else if (i26 == 2) {
                         this.bottomCell[1] = new TextInfoPrivacyCell(context, this.resourcesProvider);
-                        this.bottomCell[1].setText(LocaleController.getString("PaymentPasswordEmailInfo", 2131627398));
+                        this.bottomCell[1].setText(LocaleController.getString("PaymentPasswordEmailInfo", 2131627450));
                         this.bottomCell[1].setBackgroundDrawable(Theme.getThemedDrawable(context, 2131165436, "windowBackgroundGrayShadow"));
                         this.linearLayout2.addView(this.bottomCell[1], LayoutHelper.createLinear(-1, -2));
                         i26++;
@@ -1853,7 +1853,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             HintEditText hintEditText = (HintEditText) PaymentFormActivity.this.inputFields[9];
             if (stripExceptNumbers.length() == 0) {
                 hintEditText.setHintText((String) null);
-                hintEditText.setHint(LocaleController.getString("PaymentShippingPhoneNumber", 2131627417));
+                hintEditText.setHint(LocaleController.getString("PaymentShippingPhoneNumber", 2131627469));
             } else {
                 int i = 4;
                 if (stripExceptNumbers.length() > 4) {
@@ -1893,7 +1893,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 }
                 if (!z2) {
                     hintEditText.setHintText((String) null);
-                    hintEditText.setHint(LocaleController.getString("PaymentShippingPhoneNumber", 2131627417));
+                    hintEditText.setHint(LocaleController.getString("PaymentShippingPhoneNumber", 2131627469));
                 }
                 if (!z) {
                     PaymentFormActivity.this.inputFields[8].setSelection(PaymentFormActivity.this.inputFields[8].getText().length());
@@ -2713,7 +2713,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 for (int i8 = 0; i8 < childCount2; i8++) {
                     LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) getChildAt(i8).getLayoutParams();
                     layoutParams.width = 0;
-                    float intValue = ((Integer) childAt.getTag(2131230954)).intValue() / i7;
+                    float intValue = ((Integer) childAt.getTag(2131230955)).intValue() / i7;
                     layoutParams.weight = intValue;
                     f -= intValue;
                 }
@@ -2723,7 +2723,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     for (int i9 = 0; i9 < childCount3; i9++) {
                         View childAt2 = getChildAt(i9);
                         LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) childAt2.getLayoutParams();
-                        if (((Integer) childAt2.getTag(2131230954)).intValue() != this.val$maxTextWidth[0]) {
+                        if (((Integer) childAt2.getTag(2131230955)).intValue() != this.val$maxTextWidth[0]) {
                             layoutParams2.weight += f2;
                         }
                     }
@@ -2770,8 +2770,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             return;
         }
         BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("PaymentCheckoutMethod", 2131627380), true);
-        builder.setItems(new CharSequence[]{this.cardName, LocaleController.getString("PaymentCheckoutMethodNewCard", 2131627381)}, new int[]{2131165838, 2131165630}, new PaymentFormActivity$$ExternalSyntheticLambda3(this));
+        builder.setTitle(LocaleController.getString("PaymentCheckoutMethod", 2131627432), true);
+        builder.setItems(new CharSequence[]{this.cardName, LocaleController.getString("PaymentCheckoutMethodNewCard", 2131627433)}, new int[]{2131165839, 2131165630}, new PaymentFormActivity$$ExternalSyntheticLambda3(this));
         showDialog(builder.create());
     }
 
@@ -2804,7 +2804,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             PaymentFormActivity.this.saveCardInfo = z;
             PaymentFormActivity.this.cardName = str2;
             PaymentFormActivity.this.googlePayCredentials = tLRPC$TL_inputPaymentCredentialsGooglePay;
-            PaymentFormActivity.this.detailSettingsCell[0].setTextAndValue(PaymentFormActivity.this.cardName, LocaleController.getString("PaymentCheckoutMethod", 2131627380), true);
+            PaymentFormActivity.this.detailSettingsCell[0].setTextAndValueAndIcon(PaymentFormActivity.this.cardName, LocaleController.getString("PaymentCheckoutMethod", 2131627432), 2131165839, true);
             return false;
         }
     }
@@ -2981,9 +2981,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             return;
         }
         int i = 0;
-        if (z && (((tLRPC$TL_paymentRequestedInfo = tLRPC$TL_payments_paymentForm.saved_info) == null && (tLRPC$TL_invoice.shipping_address_requested || tLRPC$TL_invoice.email_requested || tLRPC$TL_invoice.name_requested || tLRPC$TL_invoice.phone_requested)) || tLRPC$TL_payments_paymentForm.saved_credentials == null || (this.shippingOption == null && tLRPC$TL_invoice.flexible))) {
+        if (z && (((tLRPC$TL_paymentRequestedInfo = tLRPC$TL_payments_paymentForm.saved_info) == null && (tLRPC$TL_invoice.shipping_address_requested || tLRPC$TL_invoice.email_requested || tLRPC$TL_invoice.name_requested || tLRPC$TL_invoice.phone_requested)) || ((tLRPC$TL_payments_paymentForm.saved_credentials == null && this.paymentJson == null && this.googlePayCredentials == null) || (this.shippingOption == null && tLRPC$TL_invoice.flexible)))) {
             if (tLRPC$TL_paymentRequestedInfo != null || (!tLRPC$TL_invoice.shipping_address_requested && !tLRPC$TL_invoice.email_requested && !tLRPC$TL_invoice.name_requested && !tLRPC$TL_invoice.phone_requested)) {
-                i = tLRPC$TL_payments_paymentForm.saved_credentials == null ? 2 : 1;
+                i = (tLRPC$TL_payments_paymentForm.saved_credentials == null && this.paymentJson == null && this.googlePayCredentials == null) ? 2 : 1;
             }
             this.paymentStatusSent = true;
             presentFragment(new PaymentFormActivity(tLRPC$TL_payments_paymentForm, this.messageObject, this.invoiceSlug, i, this.requestedInfo, this.shippingOption, this.tipAmount, null, this.cardName, this.validateRequest, this.saveCardInfo, null, this.parentFragment));
@@ -3011,9 +3011,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             if (!notificationsSettings.getBoolean(str2, false)) {
                 notificationsSettings.edit().putBoolean(str2, true).commit();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("PaymentWarning", 2131627433));
-                builder.setMessage(LocaleController.formatString("PaymentWarningText", 2131627434, this.currentBotName, str));
-                builder.setPositiveButton(LocaleController.getString("Continue", 2131625246), new PaymentFormActivity$$ExternalSyntheticLambda0(this));
+                builder.setTitle(LocaleController.getString("PaymentWarning", 2131627485));
+                builder.setMessage(LocaleController.formatString("PaymentWarningText", 2131627486, this.currentBotName, str));
+                builder.setPositiveButton(LocaleController.getString("Continue", 2131625262), new PaymentFormActivity$$ExternalSyntheticLambda0(this));
                 showDialog(builder.create());
                 return;
             }
@@ -3132,22 +3132,22 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     public /* synthetic */ void lambda$createView$28(View view) {
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_resendPasswordEmail(), PaymentFormActivity$$ExternalSyntheticLambda61.INSTANCE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setMessage(LocaleController.getString("ResendCodeInfo", 2131627979));
-        builder.setTitle(LocaleController.getString("AppName", 2131624375));
-        builder.setPositiveButton(LocaleController.getString("OK", 2131627075), null);
+        builder.setMessage(LocaleController.getString("ResendCodeInfo", 2131628041));
+        builder.setTitle(LocaleController.getString("AppName", 2131624384));
+        builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
         showDialog(builder.create());
     }
 
     public /* synthetic */ void lambda$createView$30(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        String string = LocaleController.getString("TurnPasswordOffQuestion", 2131628699);
+        String string = LocaleController.getString("TurnPasswordOffQuestion", 2131628766);
         if (this.currentPassword.has_secure_values) {
-            string = string + "\n\n" + LocaleController.getString("TurnPasswordOffPassport", 2131628698);
+            string = string + "\n\n" + LocaleController.getString("TurnPasswordOffPassport", 2131628765);
         }
         builder.setMessage(string);
-        builder.setTitle(LocaleController.getString("TurnPasswordOffQuestionTitle", 2131628700));
-        builder.setPositiveButton(LocaleController.getString("Disable", 2131625479), new PaymentFormActivity$$ExternalSyntheticLambda1(this));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+        builder.setTitle(LocaleController.getString("TurnPasswordOffQuestionTitle", 2131628767));
+        builder.setPositiveButton(LocaleController.getString("Disable", 2131625495), new PaymentFormActivity$$ExternalSyntheticLambda1(this));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         AlertDialog create = builder.create();
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
@@ -3198,26 +3198,26 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         boolean z = true;
         int i = 0;
         if (tLRPC$TL_postAddress != null) {
-            this.detailSettingsCell[2].setTextAndValueAndIcon(String.format("%s %s, %s, %s, %s, %s", tLRPC$TL_postAddress.street_line1, tLRPC$TL_postAddress.street_line2, tLRPC$TL_postAddress.city, tLRPC$TL_postAddress.state, tLRPC$TL_postAddress.country_iso2, tLRPC$TL_postAddress.post_code), LocaleController.getString("PaymentShippingAddress", 2131627408), 2131165837, true);
+            this.detailSettingsCell[2].setTextAndValueAndIcon(String.format("%s %s, %s, %s, %s, %s", tLRPC$TL_postAddress.street_line1, tLRPC$TL_postAddress.street_line2, tLRPC$TL_postAddress.city, tLRPC$TL_postAddress.state, tLRPC$TL_postAddress.country_iso2, tLRPC$TL_postAddress.post_code), LocaleController.getString("PaymentShippingAddress", 2131627460), 2131165838, true);
         }
         this.detailSettingsCell[2].setVisibility(tLRPC$TL_paymentRequestedInfo.shipping_address != null ? 0 : 8);
         String str = tLRPC$TL_paymentRequestedInfo.name;
         if (str != null) {
-            this.detailSettingsCell[3].setTextAndValueAndIcon(str, LocaleController.getString("PaymentCheckoutName", 2131627382), 2131165691, true);
+            this.detailSettingsCell[3].setTextAndValueAndIcon(str, LocaleController.getString("PaymentCheckoutName", 2131627434), 2131165691, true);
         }
         this.detailSettingsCell[3].setVisibility(tLRPC$TL_paymentRequestedInfo.name != null ? 0 : 8);
         if (tLRPC$TL_paymentRequestedInfo.phone != null) {
-            this.detailSettingsCell[4].setTextAndValueAndIcon(PhoneFormat.getInstance().format(tLRPC$TL_paymentRequestedInfo.phone), LocaleController.getString("PaymentCheckoutPhoneNumber", 2131627384), 2131165664, (tLRPC$TL_paymentRequestedInfo.email == null && this.shippingOption == null) ? false : true);
+            this.detailSettingsCell[4].setTextAndValueAndIcon(PhoneFormat.getInstance().format(tLRPC$TL_paymentRequestedInfo.phone), LocaleController.getString("PaymentCheckoutPhoneNumber", 2131627436), 2131165664, (tLRPC$TL_paymentRequestedInfo.email == null && this.shippingOption == null) ? false : true);
         }
         this.detailSettingsCell[4].setVisibility(tLRPC$TL_paymentRequestedInfo.phone != null ? 0 : 8);
         String str2 = tLRPC$TL_paymentRequestedInfo.email;
         if (str2 != null) {
             TextDetailSettingsCell textDetailSettingsCell = this.detailSettingsCell[5];
-            String string = LocaleController.getString("PaymentCheckoutEmail", 2131627379);
+            String string = LocaleController.getString("PaymentCheckoutEmail", 2131627431);
             if (this.shippingOption == null) {
                 z = false;
             }
-            textDetailSettingsCell.setTextAndValueAndIcon(str2, string, 2131165799, z);
+            textDetailSettingsCell.setTextAndValueAndIcon(str2, string, 2131165800, z);
         }
         TextDetailSettingsCell textDetailSettingsCell2 = this.detailSettingsCell[5];
         if (tLRPC$TL_paymentRequestedInfo.email == null) {
@@ -3228,10 +3228,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
     public void updateTotalPrice() {
         this.totalPrice[0] = getTotalPriceString(this.prices);
-        this.totalCell.setTextAndValue(LocaleController.getString("PaymentTransactionTotal", 2131627432), this.totalPrice[0], true);
+        this.totalCell.setTextAndValue(LocaleController.getString("PaymentTransactionTotal", 2131627484), this.totalPrice[0], true);
         TextView textView = this.payTextView;
         if (textView != null) {
-            textView.setText(LocaleController.formatString("PaymentCheckoutPay", 2131627383, this.totalPrice[0]));
+            textView.setText(LocaleController.formatString("PaymentCheckoutPay", 2131627435, this.totalPrice[0]));
         }
         if (this.tipLayout != null) {
             int themedColor = getThemedColor("contacts_inviteBackground");
@@ -3399,7 +3399,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 str = "";
             }
             objArr[0] = str;
-            textInfoPrivacyCell.setText(LocaleController.formatString("EmailPasswordConfirmText2", 2131625598, objArr));
+            textInfoPrivacyCell.setText(LocaleController.formatString("EmailPasswordConfirmText2", 2131625614, objArr));
             this.bottomCell[2].setVisibility(0);
             this.settingsCell[0].setVisibility(0);
             this.settingsCell[1].setVisibility(0);
@@ -3420,7 +3420,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         this.bottomCell[2].setVisibility(8);
         this.settingsCell[0].setVisibility(8);
         this.settingsCell[1].setVisibility(8);
-        this.bottomCell[1].setText(LocaleController.getString("PaymentPasswordEmailInfo", 2131627398));
+        this.bottomCell[1].setText(LocaleController.getString("PaymentPasswordEmailInfo", 2131627450));
         this.codeFieldCell.setVisibility(8);
         this.headerCell[0].setVisibility(0);
         this.headerCell[1].setVisibility(0);
@@ -3451,7 +3451,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             TLRPC$TL_account_password tLRPC$TL_account_password = (TLRPC$TL_account_password) tLObject;
             this.currentPassword = tLRPC$TL_account_password;
             if (!TwoStepVerificationActivity.canHandleCurrentPassword(tLRPC$TL_account_password, false)) {
-                AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", 2131628758), true);
+                AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", 2131628830), true);
                 return;
             }
             TLRPC$TL_payments_paymentForm tLRPC$TL_payments_paymentForm = this.paymentForm;
@@ -3484,7 +3484,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
     private void showAlertWithText(String str, String str2) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setPositiveButton(LocaleController.getString("OK", 2131627075), null);
+        builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
         builder.setTitle(str);
         builder.setMessage(str2);
         showDialog(builder.create());
@@ -3492,10 +3492,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
     private void showPayAlert(String str) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("PaymentTransactionReview", 2131627431));
-        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("PaymentTransactionMessage2", 2131627430, str, this.currentBotName, this.currentItemName)));
-        builder.setPositiveButton(LocaleController.getString("Continue", 2131625246), new PaymentFormActivity$$ExternalSyntheticLambda2(this));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+        builder.setTitle(LocaleController.getString("PaymentTransactionReview", 2131627483));
+        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("PaymentTransactionMessage2", 2131627482, str, this.currentBotName, this.currentItemName)));
+        builder.setPositiveButton(LocaleController.getString("Continue", 2131625262), new PaymentFormActivity$$ExternalSyntheticLambda2(this));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         showDialog(builder.create());
     }
 
@@ -3901,12 +3901,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
         TLRPC$TL_payments_paymentForm tLRPC$TL_payments_paymentForm = this.paymentForm;
         if ((tLRPC$TL_payments_paymentForm.password_missing || tLRPC$TL_payments_paymentForm.can_save_credentials) && (this.webView == null || !this.webviewLoading)) {
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString("PaymentCardSavePaymentInformationInfoLine1", 2131627374));
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString("PaymentCardSavePaymentInformationInfoLine1", 2131627426));
             if (this.paymentForm.password_missing) {
                 loadPasswordInfo();
                 spannableStringBuilder.append((CharSequence) "\n");
                 int length = spannableStringBuilder.length();
-                String string = LocaleController.getString("PaymentCardSavePaymentInformationInfoLine2", 2131627375);
+                String string = LocaleController.getString("PaymentCardSavePaymentInformationInfoLine2", 2131627427);
                 int indexOf = string.indexOf(42);
                 int lastIndexOf = string.lastIndexOf(42);
                 spannableStringBuilder.append((CharSequence) string);
@@ -4034,7 +4034,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 return;
             } else if (!obj.equals(this.inputFields[1].getText().toString())) {
                 try {
-                    Toast.makeText(getParentActivity(), LocaleController.getString("PasswordDoNotMatch", 2131627354), 0).show();
+                    Toast.makeText(getParentActivity(), LocaleController.getString("PasswordDoNotMatch", 2131627406), 0).show();
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
@@ -4096,9 +4096,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             } else {
                 str = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
             }
-            showAlertWithText(LocaleController.getString("AppName", 2131624375), LocaleController.formatString("FloodWaitTime", 2131625909, str));
+            showAlertWithText(LocaleController.getString("AppName", 2131624384), LocaleController.formatString("FloodWaitTime", 2131625950, str));
         } else {
-            showAlertWithText(LocaleController.getString("AppName", 2131624375), tLRPC$TL_error.text);
+            showAlertWithText(LocaleController.getString("AppName", 2131624384), tLRPC$TL_error.text);
         }
     }
 
@@ -4152,9 +4152,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             if (tLRPC$TL_error.text.equals("EMAIL_UNCONFIRMED") || tLRPC$TL_error.text.startsWith("EMAIL_UNCONFIRMED_")) {
                 this.emailCodeLength = Utilities.parseInt((CharSequence) tLRPC$TL_error.text).intValue();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setPositiveButton(LocaleController.getString("OK", 2131627075), new PaymentFormActivity$$ExternalSyntheticLambda4(this, str));
-                builder.setMessage(LocaleController.getString("YourEmailAlmostThereText", 2131629280));
-                builder.setTitle(LocaleController.getString("YourEmailAlmostThere", 2131629279));
+                builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new PaymentFormActivity$$ExternalSyntheticLambda4(this, str));
+                builder.setMessage(LocaleController.getString("YourEmailAlmostThereText", 2131629354));
+                builder.setTitle(LocaleController.getString("YourEmailAlmostThere", 2131629353));
                 Dialog showDialog = showDialog(builder.create());
                 if (showDialog == null) {
                     return;
@@ -4162,7 +4162,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 showDialog.setCanceledOnTouchOutside(false);
                 showDialog.setCancelable(false);
             } else if (tLRPC$TL_error.text.equals("EMAIL_INVALID")) {
-                showAlertWithText(LocaleController.getString("AppName", 2131624375), LocaleController.getString("PasswordEmailInvalid", 2131627355));
+                showAlertWithText(LocaleController.getString("AppName", 2131624384), LocaleController.getString("PasswordEmailInvalid", 2131627407));
             } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
                 int intValue = Utilities.parseInt((CharSequence) tLRPC$TL_error.text).intValue();
                 if (intValue < 60) {
@@ -4170,9 +4170,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 } else {
                     str2 = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
                 }
-                showAlertWithText(LocaleController.getString("AppName", 2131624375), LocaleController.formatString("FloodWaitTime", 2131625909, str2));
+                showAlertWithText(LocaleController.getString("AppName", 2131624384), LocaleController.formatString("FloodWaitTime", 2131625950, str2));
             } else {
-                showAlertWithText(LocaleController.getString("AppName", 2131624375), tLRPC$TL_error.text);
+                showAlertWithText(LocaleController.getString("AppName", 2131624384), tLRPC$TL_error.text);
             }
         }
     }
@@ -4274,7 +4274,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             PaymentFormActivity.this.showEditDoneProgress(true, false);
             PaymentFormActivity.this.setDonePressed(false);
             if ((exc instanceof APIConnectionException) || (exc instanceof APIException)) {
-                AlertsCreator.showSimpleToast(PaymentFormActivity.this, LocaleController.getString("PaymentConnectionFailed", 2131627389));
+                AlertsCreator.showSimpleToast(PaymentFormActivity.this, LocaleController.getString("PaymentConnectionFailed", 2131627441));
             } else {
                 AlertsCreator.showSimpleToast(PaymentFormActivity.this, exc.getMessage());
             }
@@ -4389,7 +4389,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 PaymentFormActivity.this.paymentJson = str;
                 PaymentFormActivity.this.goToNextStep();
             } else {
-                AlertsCreator.showSimpleToast(PaymentFormActivity.this, LocaleController.getString("PaymentConnectionFailed", 2131627389));
+                AlertsCreator.showSimpleToast(PaymentFormActivity.this, LocaleController.getString("PaymentConnectionFailed", 2131627441));
             }
             PaymentFormActivity.this.showEditDoneProgress(true, false);
             PaymentFormActivity.this.setDonePressed(false);
@@ -4711,7 +4711,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
         goToNextStep();
         if (this.parentFragment instanceof ChatActivity) {
-            ((ChatActivity) this.parentFragment).getUndoView().showWithAction(0L, 77, AndroidUtilities.replaceTags(LocaleController.formatString("PaymentInfoHint", 2131627392, this.totalPrice[0], this.currentItemName)), tLRPC$MessageArr[0], (Runnable) null, (Runnable) null);
+            ((ChatActivity) this.parentFragment).getUndoView().showWithAction(0L, 77, AndroidUtilities.replaceTags(LocaleController.formatString("PaymentInfoHint", 2131627444, this.totalPrice[0], this.currentItemName)), tLRPC$MessageArr[0], (Runnable) null, (Runnable) null);
         }
     }
 
@@ -4815,7 +4815,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         if (tLRPC$TL_error == null) {
             TLRPC$TL_account_password tLRPC$TL_account_password = (TLRPC$TL_account_password) tLObject;
             if (!TwoStepVerificationActivity.canHandleCurrentPassword(tLRPC$TL_account_password, false)) {
-                AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", 2131628758), true);
+                AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", 2131628830), true);
                 return;
             } else if (!tLRPC$TL_account_password.has_password) {
                 this.passwordOk = false;

@@ -12,6 +12,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda45 imple
 
     @Override // android.content.DialogInterface.OnDismissListener
     public final void onDismiss(DialogInterface dialogInterface) {
-        ChatActivity.lambda$didPressMessageUrl$244(this.f$0, dialogInterface);
+        ChatActivity.lambda$didPressMessageUrl$245(this.f$0, dialogInterface);
     }
 }

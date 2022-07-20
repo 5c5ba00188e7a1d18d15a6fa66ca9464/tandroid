@@ -76,7 +76,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        this.actionBar.setTitle(LocaleController.getString("Reactions", 2131627847));
+        this.actionBar.setTitle(LocaleController.getString("Reactions", 2131627909));
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
@@ -86,7 +86,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         TextCheckCell textCheckCell = new TextCheckCell(context);
         this.enableReactionsCell = textCheckCell;
         textCheckCell.setHeight(56);
-        this.enableReactionsCell.setTextAndCheck(LocaleController.getString("EnableReactions", 2131625621), true ^ this.chatReactions.isEmpty(), false);
+        this.enableReactionsCell.setTextAndCheck(LocaleController.getString("EnableReactions", 2131625659), true ^ this.chatReactions.isEmpty(), false);
         TextCheckCell textCheckCell2 = this.enableReactionsCell;
         textCheckCell2.setBackgroundColor(Theme.getColor(textCheckCell2.isChecked() ? "windowBackgroundChecked" : "windowBackgroundUnchecked"));
         this.enableReactionsCell.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -148,7 +148,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             if (i != 0) {
                 if (i != 1) {
-                    return new RecyclerListView.Holder(new AvailableReactionCell(this.val$context, false));
+                    return new RecyclerListView.Holder(new AvailableReactionCell(this.val$context, false, false));
                 }
                 return new RecyclerListView.Holder(new HeaderCell(this.val$context, 23));
             }
@@ -161,15 +161,15 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             if (itemViewType == 0) {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 textInfoPrivacyCell.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText4"));
-                textInfoPrivacyCell.setText(ChatObject.isChannelAndNotMegaGroup(ChatReactionsEditActivity.this.currentChat) ? LocaleController.getString("EnableReactionsChannelInfo", 2131625622) : LocaleController.getString("EnableReactionsGroupInfo", 2131625623));
+                textInfoPrivacyCell.setText(ChatObject.isChannelAndNotMegaGroup(ChatReactionsEditActivity.this.currentChat) ? LocaleController.getString("EnableReactionsChannelInfo", 2131625660) : LocaleController.getString("EnableReactionsGroupInfo", 2131625661));
             } else if (itemViewType == 1) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
-                headerCell.setText(LocaleController.getString("AvailableReactions", 2131624633));
+                headerCell.setText(LocaleController.getString("AvailableReactions", 2131624644));
                 headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (itemViewType != 2) {
             } else {
                 TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) ChatReactionsEditActivity.this.availableReactions.get(i - 2);
-                ((AvailableReactionCell) viewHolder.itemView).bind(tLRPC$TL_availableReaction, ChatReactionsEditActivity.this.chatReactions.contains(tLRPC$TL_availableReaction.reaction));
+                ((AvailableReactionCell) viewHolder.itemView).bind(tLRPC$TL_availableReaction, ChatReactionsEditActivity.this.chatReactions.contains(tLRPC$TL_availableReaction.reaction), ((BaseFragment) ChatReactionsEditActivity.this).currentAccount);
             }
         }
 

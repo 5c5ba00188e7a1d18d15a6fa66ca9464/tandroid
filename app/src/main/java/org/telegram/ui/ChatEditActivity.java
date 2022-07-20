@@ -341,21 +341,22 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         return checkDiscard();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:144:0x05c5  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0638  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x0672  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x06ec  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x06fd  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x070b  */
-    /* JADX WARN: Removed duplicated region for block: B:198:0x074a  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x07cb  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x0811  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x05bf  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x0633  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x066d  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x06ea  */
+    /* JADX WARN: Removed duplicated region for block: B:189:0x06fc  */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x070a  */
+    /* JADX WARN: Removed duplicated region for block: B:202:0x074b  */
+    /* JADX WARN: Removed duplicated region for block: B:209:0x07cf  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x0815  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public View createView(Context context) {
         int i;
+        int i2;
         TextCell textCell;
         TextInfoPrivacyCell textInfoPrivacyCell;
         TLRPC$ChatFull tLRPC$ChatFull;
@@ -382,7 +383,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         LinearLayout linearLayout = new LinearLayout(context);
         scrollView.addView(linearLayout, new FrameLayout.LayoutParams(-1, -2));
         linearLayout.setOrientation(1);
-        this.actionBar.setTitle(LocaleController.getString("ChannelEdit", 2131624903));
+        this.actionBar.setTitle(LocaleController.getString("ChannelEdit", 2131624916));
         LinearLayout linearLayout2 = new LinearLayout(context);
         this.avatarContainer = linearLayout2;
         linearLayout2.setOrientation(1);
@@ -393,8 +394,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         AnonymousClass4 anonymousClass4 = new AnonymousClass4(context);
         this.avatarImage = anonymousClass4;
         anonymousClass4.setRoundRadius(AndroidUtilities.dp(32.0f));
-        int i2 = 5;
-        float f = 0.0f;
         if (ChatObject.canChangeChatInfo(this.currentChat)) {
             BackupImageView backupImageView = this.avatarImage;
             boolean z = LocaleController.isRTL;
@@ -412,30 +411,20 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             this.avatarProgressView.setNoProgress(false);
             RadialProgressView radialProgressView2 = this.avatarProgressView;
             boolean z3 = LocaleController.isRTL;
-            int i3 = (z3 ? 5 : 3) | 48;
-            float f2 = z3 ? 0.0f : 16.0f;
-            if (z3) {
-                f = 16.0f;
-            }
-            frameLayout.addView(radialProgressView2, LayoutHelper.createFrame(64, 64.0f, i3, f2, 12.0f, f, 8.0f));
+            frameLayout.addView(radialProgressView2, LayoutHelper.createFrame(64, 64.0f, (z3 ? 5 : 3) | 48, z3 ? 0.0f : 16.0f, 12.0f, z3 ? 16.0f : 0.0f, 8.0f));
             showAvatarProgress(false, false);
             this.avatarContainer.setOnClickListener(new ChatEditActivity$$ExternalSyntheticLambda18(this));
         } else {
             BackupImageView backupImageView2 = this.avatarImage;
             boolean z4 = LocaleController.isRTL;
-            int i4 = (z4 ? 5 : 3) | 48;
-            float f3 = z4 ? 0.0f : 16.0f;
-            if (z4) {
-                f = 16.0f;
-            }
-            frameLayout.addView(backupImageView2, LayoutHelper.createFrame(64, 64.0f, i4, f3, 12.0f, f, 12.0f));
+            frameLayout.addView(backupImageView2, LayoutHelper.createFrame(64, 64.0f, (z4 ? 5 : 3) | 48, z4 ? 0.0f : 16.0f, 12.0f, z4 ? 16.0f : 0.0f, 12.0f));
         }
-        EditTextEmoji editTextEmoji2 = new EditTextEmoji(context, anonymousClass3, this, 0);
+        EditTextEmoji editTextEmoji2 = new EditTextEmoji(context, anonymousClass3, this, 0, false);
         this.nameTextView = editTextEmoji2;
         if (this.isChannel) {
-            editTextEmoji2.setHint(LocaleController.getString("EnterChannelName", 2131625644));
+            editTextEmoji2.setHint(LocaleController.getString("EnterChannelName", 2131625682));
         } else {
-            editTextEmoji2.setHint(LocaleController.getString("GroupName", 2131626099));
+            editTextEmoji2.setHint(LocaleController.getString("GroupName", 2131626146));
         }
         this.nameTextView.setEnabled(ChatObject.canChangeChatInfo(this.currentChat));
         EditTextEmoji editTextEmoji3 = this.nameTextView;
@@ -465,18 +454,14 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         this.descriptionTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.descriptionTextView.setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
         this.descriptionTextView.setBackgroundDrawable(null);
-        EditTextBoldCursor editTextBoldCursor2 = this.descriptionTextView;
-        if (!LocaleController.isRTL) {
-            i2 = 3;
-        }
-        editTextBoldCursor2.setGravity(i2);
+        this.descriptionTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         this.descriptionTextView.setInputType(180225);
         this.descriptionTextView.setImeOptions(6);
         this.descriptionTextView.setEnabled(ChatObject.canChangeChatInfo(this.currentChat));
-        EditTextBoldCursor editTextBoldCursor3 = this.descriptionTextView;
-        editTextBoldCursor3.setFocusable(editTextBoldCursor3.isEnabled());
+        EditTextBoldCursor editTextBoldCursor2 = this.descriptionTextView;
+        editTextBoldCursor2.setFocusable(editTextBoldCursor2.isEnabled());
         this.descriptionTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
-        this.descriptionTextView.setHint(LocaleController.getString("DescriptionOptionalPlaceholder", 2131625462));
+        this.descriptionTextView.setHint(LocaleController.getString("DescriptionOptionalPlaceholder", 2131625478));
         this.descriptionTextView.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.descriptionTextView.setCursorSize(AndroidUtilities.dp(20.0f));
         this.descriptionTextView.setCursorWidth(1.5f);
@@ -527,7 +512,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             TextCheckCell textCheckCell = new TextCheckCell(context);
             this.signCell = textCheckCell;
             textCheckCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-            this.signCell.setTextAndValueAndCheck(LocaleController.getString("ChannelSignMessages", 2131624965), LocaleController.getString("ChannelSignMessagesInfo", 2131624966), this.signMessages, true, false);
+            this.signCell.setTextAndValueAndCheck(LocaleController.getString("ChannelSignMessages", 2131624978), LocaleController.getString("ChannelSignMessagesInfo", 2131624979), this.signMessages, true, false);
             this.typeEditContainer.addView(this.signCell, LayoutHelper.createFrame(-1, -2.0f));
             this.signCell.setOnClickListener(new ChatEditActivity$$ExternalSyntheticLambda17(this));
         }
@@ -535,18 +520,21 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         if (ChatObject.canChangeChatInfo(this.currentChat) || this.signCell != null || this.historyCell != null) {
             ActionBarMenuItem addItemWithWidth = createMenu.addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f));
             this.doneButton = addItemWithWidth;
-            addItemWithWidth.setContentDescription(LocaleController.getString("Done", 2131625525));
+            addItemWithWidth.setContentDescription(LocaleController.getString("Done", 2131625541));
         }
-        if (this.locationCell != null || this.signCell != null || this.historyCell != null || this.typeCell != null || this.linkedCell != null) {
+        if (this.locationCell == null && this.signCell == null && this.historyCell == null && this.typeCell == null && this.linkedCell == null) {
+            i = -1;
+        } else {
             ShadowSectionCell shadowSectionCell2 = new ShadowSectionCell(context);
             this.settingsSectionCell = shadowSectionCell2;
+            i = -1;
             linearLayout.addView(shadowSectionCell2, LayoutHelper.createLinear(-1, -2));
         }
         LinearLayout linearLayout5 = new LinearLayout(context);
         this.infoContainer = linearLayout5;
         linearLayout5.setOrientation(1);
         this.infoContainer.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        linearLayout.addView(this.infoContainer, LayoutHelper.createLinear(-1, -2));
+        linearLayout.addView(this.infoContainer, LayoutHelper.createLinear(i, -2));
         TextCell textCell3 = new TextCell(context);
         this.blockCell = textCell3;
         textCell3.setBackground(Theme.getSelectorDrawable(false));
@@ -554,8 +542,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         if (!ChatObject.isChannel(this.currentChat)) {
             TLRPC$Chat tLRPC$Chat = this.currentChat;
             if (!tLRPC$Chat.creator && (!ChatObject.hasAdminRights(tLRPC$Chat) || !ChatObject.canChangeChatInfo(this.currentChat))) {
-                i = 8;
-                textCell4.setVisibility(i);
+                i2 = 8;
+                textCell4.setVisibility(i2);
                 this.blockCell.setOnClickListener(new ChatEditActivity$$ExternalSyntheticLambda10(this));
                 TextCell textCell5 = new TextCell(context);
                 this.inviteLinksCell = textCell5;
@@ -582,7 +570,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 if (!ChatObject.isChannel(this.currentChat) || this.currentChat.gigagroup) {
                     TextCell textCell10 = new TextCell(context);
                     this.logCell = textCell10;
-                    textCell10.setTextAndIcon(LocaleController.getString("EventLog", 2131625667), 2131165791, false);
+                    textCell10.setTextAndIcon(LocaleController.getString("EventLog", 2131625707), 2131165792, false);
                     this.logCell.setBackground(Theme.getSelectorDrawable(false));
                     this.logCell.setOnClickListener(new ChatEditActivity$$ExternalSyntheticLambda9(this));
                 }
@@ -635,7 +623,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 if (!this.isChannel && (tLRPC$ChatFull2 = this.info) != null && tLRPC$ChatFull2.can_set_stickers) {
                     TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
                     this.stickersInfoCell = textInfoPrivacyCell2;
-                    textInfoPrivacyCell2.setText(LocaleController.getString(2131626105));
+                    textInfoPrivacyCell2.setText(LocaleController.getString(2131626152));
                     linearLayout.addView(this.stickersInfoCell, LayoutHelper.createLinear(-1, -2));
                 }
                 if (this.currentChat.creator) {
@@ -648,9 +636,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText5"));
                     this.deleteCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                     if (this.isChannel) {
-                        this.deleteCell.setText(LocaleController.getString("ChannelDelete", 2131624895), false);
+                        this.deleteCell.setText(LocaleController.getString("ChannelDelete", 2131624908), false);
                     } else {
-                        this.deleteCell.setText(LocaleController.getString("DeleteAndExitButton", 2131625383), false);
+                        this.deleteCell.setText(LocaleController.getString("DeleteAndExitButton", 2131625399), false);
                     }
                     this.deleteContainer.addView(this.deleteCell, LayoutHelper.createFrame(-1, -2.0f));
                     this.deleteCell.setOnClickListener(new ChatEditActivity$$ExternalSyntheticLambda14(this));
@@ -682,8 +670,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 return this.fragmentView;
             }
         }
-        i = 0;
-        textCell4.setVisibility(i);
+        i2 = 0;
+        textCell4.setVisibility(i2);
         this.blockCell.setOnClickListener(new ChatEditActivity$$ExternalSyntheticLambda10(this));
         TextCell textCell52 = new TextCell(context);
         this.inviteLinksCell = textCell52;
@@ -707,7 +695,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
         TextCell textCell102 = new TextCell(context);
         this.logCell = textCell102;
-        textCell102.setTextAndIcon(LocaleController.getString("EventLog", 2131625667), 2131165791, false);
+        textCell102.setTextAndIcon(LocaleController.getString("EventLog", 2131625707), 2131165792, false);
         this.logCell.setBackground(Theme.getSelectorDrawable(false));
         this.logCell.setOnClickListener(new ChatEditActivity$$ExternalSyntheticLambda9(this));
         this.infoContainer.addView(this.reactionsCell, LayoutHelper.createLinear(-1, -2));
@@ -739,7 +727,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         if (!this.isChannel) {
             TextInfoPrivacyCell textInfoPrivacyCell22 = new TextInfoPrivacyCell(context);
             this.stickersInfoCell = textInfoPrivacyCell22;
-            textInfoPrivacyCell22.setText(LocaleController.getString(2131626105));
+            textInfoPrivacyCell22.setText(LocaleController.getString(2131626152));
             linearLayout.addView(this.stickersInfoCell, LayoutHelper.createLinear(-1, -2));
         }
         if (this.currentChat.creator) {
@@ -1134,7 +1122,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         linearLayout.setOrientation(1);
         HeaderCell headerCell = new HeaderCell(context, "dialogTextBlue2", 23, 15, false);
         headerCell.setHeight(47);
-        headerCell.setText(LocaleController.getString("ChatHistory", 2131625012));
+        headerCell.setText(LocaleController.getString("ChatHistory", 2131625025));
         linearLayout.addView(headerCell);
         LinearLayout linearLayout2 = new LinearLayout(context);
         linearLayout2.setOrientation(1);
@@ -1145,11 +1133,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             radioButtonCellArr[i].setTag(Integer.valueOf(i));
             radioButtonCellArr[i].setBackgroundDrawable(Theme.getSelectorDrawable(false));
             if (i == 0) {
-                radioButtonCellArr[i].setTextAndValue(LocaleController.getString("ChatHistoryVisible", 2131625016), LocaleController.getString("ChatHistoryVisibleInfo", 2131625017), true, !this.historyHidden);
+                radioButtonCellArr[i].setTextAndValue(LocaleController.getString("ChatHistoryVisible", 2131625029), LocaleController.getString("ChatHistoryVisibleInfo", 2131625030), true, !this.historyHidden);
             } else if (ChatObject.isChannel(this.currentChat)) {
-                radioButtonCellArr[i].setTextAndValue(LocaleController.getString("ChatHistoryHidden", 2131625013), LocaleController.getString("ChatHistoryHiddenInfo", 2131625014), false, this.historyHidden);
+                radioButtonCellArr[i].setTextAndValue(LocaleController.getString("ChatHistoryHidden", 2131625026), LocaleController.getString("ChatHistoryHiddenInfo", 2131625027), false, this.historyHidden);
             } else {
-                radioButtonCellArr[i].setTextAndValue(LocaleController.getString("ChatHistoryHidden", 2131625013), LocaleController.getString("ChatHistoryHiddenInfo2", 2131625015), false, this.historyHidden);
+                radioButtonCellArr[i].setTextAndValue(LocaleController.getString("ChatHistoryHidden", 2131625026), LocaleController.getString("ChatHistoryHiddenInfo2", 2131625028), false, this.historyHidden);
             }
             linearLayout2.addView(radioButtonCellArr[i], LayoutHelper.createLinear(-1, -2));
             radioButtonCellArr[i].setOnClickListener(new ChatEditActivity$$ExternalSyntheticLambda21(this, radioButtonCellArr, builder));
@@ -1271,9 +1259,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
         if (this.setAvatarCell != null) {
             if (z || this.imageUpdater.isUploadingImage()) {
-                this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetNewPhoto", 2131625029), 2131165633, true);
+                this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetNewPhoto", 2131625042), 2131165633, true);
             } else {
-                this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetPhotoOrVideo", 2131625030), 2131165633, true);
+                this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetPhotoOrVideo", 2131625043), 2131165633, true);
             }
             if (this.cameraDrawable == null) {
                 this.cameraDrawable = new RLottieDrawable(2131558415, "2131558415", AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
@@ -1376,7 +1364,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             return;
         }
         this.avatarImage.setImage(ImageLocation.getForLocal(tLRPC$FileLocation), "50_50", this.avatarDrawable, this.currentChat);
-        this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetNewPhoto", 2131625029), 2131165633, true);
+        this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetNewPhoto", 2131625042), 2131165633, true);
         if (this.cameraDrawable == null) {
             this.cameraDrawable = new RLottieDrawable(2131558415, "2131558415", AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
         }
@@ -1407,14 +1395,14 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             return true;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", 2131628812));
+        builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", 2131628884));
         if (this.isChannel) {
-            builder.setMessage(LocaleController.getString("ChannelSettingsChangedAlert", 2131624958));
+            builder.setMessage(LocaleController.getString("ChannelSettingsChangedAlert", 2131624971));
         } else {
-            builder.setMessage(LocaleController.getString("GroupSettingsChangedAlert", 2131626102));
+            builder.setMessage(LocaleController.getString("GroupSettingsChangedAlert", 2131626149));
         }
-        builder.setPositiveButton(LocaleController.getString("ApplyTheme", 2131624387), new ChatEditActivity$$ExternalSyntheticLambda2(this));
-        builder.setNegativeButton(LocaleController.getString("PassportDiscard", 2131627220), new ChatEditActivity$$ExternalSyntheticLambda1(this));
+        builder.setPositiveButton(LocaleController.getString("ApplyTheme", 2131624396), new ChatEditActivity$$ExternalSyntheticLambda2(this));
+        builder.setNegativeButton(LocaleController.getString("PassportDiscard", 2131627272), new ChatEditActivity$$ExternalSyntheticLambda1(this));
         showDialog(builder.create());
         return false;
     }
@@ -1664,24 +1652,24 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             } else {
                 textDetailCell8.setVisibility(0);
                 if (this.info.linked_chat_id == 0) {
-                    this.linkedCell.setTextAndValue(LocaleController.getString("Discussion", 2131625496), LocaleController.getString("DiscussionInfo", 2131625503), true);
+                    this.linkedCell.setTextAndValue(LocaleController.getString("Discussion", 2131625512), LocaleController.getString("DiscussionInfo", 2131625519), true);
                 } else {
                     TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(this.info.linked_chat_id));
                     if (chat2 == null) {
                         this.linkedCell.setVisibility(8);
                     } else if (this.isChannel) {
                         if (TextUtils.isEmpty(chat2.username)) {
-                            this.linkedCell.setTextAndValue(LocaleController.getString("Discussion", 2131625496), chat2.title, true);
+                            this.linkedCell.setTextAndValue(LocaleController.getString("Discussion", 2131625512), chat2.title, true);
                         } else {
                             TextDetailCell textDetailCell9 = this.linkedCell;
-                            String string = LocaleController.getString("Discussion", 2131625496);
+                            String string = LocaleController.getString("Discussion", 2131625512);
                             textDetailCell9.setTextAndValue(string, "@" + chat2.username, true);
                         }
                     } else if (TextUtils.isEmpty(chat2.username)) {
-                        this.linkedCell.setTextAndValue(LocaleController.getString("LinkedChannel", 2131626458), chat2.title, false);
+                        this.linkedCell.setTextAndValue(LocaleController.getString("LinkedChannel", 2131626505), chat2.title, false);
                     } else {
                         TextDetailCell textDetailCell10 = this.linkedCell;
-                        String string2 = LocaleController.getString("LinkedChannel", 2131626458);
+                        String string2 = LocaleController.getString("LinkedChannel", 2131626505);
                         textDetailCell10.setTextAndValue(string2, "@" + chat2.username, false);
                     }
                 }
@@ -1694,9 +1682,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 textDetailCell11.setVisibility(0);
                 TLRPC$ChannelLocation tLRPC$ChannelLocation = this.info.location;
                 if (tLRPC$ChannelLocation instanceof TLRPC$TL_channelLocation) {
-                    this.locationCell.setTextAndValue(LocaleController.getString("AttachLocation", 2131624492), ((TLRPC$TL_channelLocation) tLRPC$ChannelLocation).address, true);
+                    this.locationCell.setTextAndValue(LocaleController.getString("AttachLocation", 2131624503), ((TLRPC$TL_channelLocation) tLRPC$ChannelLocation).address, true);
                 } else {
-                    this.locationCell.setTextAndValue(LocaleController.getString("AttachLocation", 2131624492), "Unknown address", true);
+                    this.locationCell.setTextAndValue(LocaleController.getString("AttachLocation", 2131624503), "Unknown address", true);
                 }
             } else {
                 textDetailCell11.setVisibility(8);
@@ -1706,49 +1694,49 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             TLRPC$ChatFull tLRPC$ChatFull5 = this.info;
             if (tLRPC$ChatFull5 != null && (tLRPC$ChatFull5.location instanceof TLRPC$TL_channelLocation)) {
                 if (isEmpty) {
-                    str5 = LocaleController.getString("TypeLocationGroupEdit", 2131628710);
+                    str5 = LocaleController.getString("TypeLocationGroupEdit", 2131628777);
                 } else {
                     str5 = String.format("https://" + getMessagesController().linkPrefix + "/%s", this.currentChat.username);
                 }
                 TextDetailCell textDetailCell12 = this.typeCell;
-                String string3 = LocaleController.getString("TypeLocationGroup", 2131628709);
+                String string3 = LocaleController.getString("TypeLocationGroup", 2131628776);
                 TextDetailCell textDetailCell13 = this.historyCell;
                 textDetailCell12.setTextAndValue(string3, str5, (textDetailCell13 != null && textDetailCell13.getVisibility() == 0) || ((textDetailCell3 = this.linkedCell) != null && textDetailCell3.getVisibility() == 0));
             } else {
                 boolean z2 = this.currentChat.noforwards;
                 if (this.isChannel) {
                     if (!isEmpty) {
-                        i4 = 2131628716;
+                        i4 = 2131628783;
                         str4 = "TypePublic";
                     } else if (z2) {
-                        i4 = 2131628715;
+                        i4 = 2131628782;
                         str4 = "TypePrivateRestrictedForwards";
                     } else {
-                        i4 = 2131628712;
+                        i4 = 2131628779;
                         str4 = "TypePrivate";
                     }
                     str2 = LocaleController.getString(str4, i4);
                 } else {
                     if (!isEmpty) {
-                        i3 = 2131628717;
+                        i3 = 2131628784;
                         str3 = "TypePublicGroup";
                     } else if (z2) {
-                        i3 = 2131628714;
+                        i3 = 2131628781;
                         str3 = "TypePrivateGroupRestrictedForwards";
                     } else {
-                        i3 = 2131628713;
+                        i3 = 2131628780;
                         str3 = "TypePrivateGroup";
                     }
                     str2 = LocaleController.getString(str3, i3);
                 }
                 if (this.isChannel) {
                     TextDetailCell textDetailCell14 = this.typeCell;
-                    String string4 = LocaleController.getString("ChannelType", 2131624973);
+                    String string4 = LocaleController.getString("ChannelType", 2131624986);
                     TextDetailCell textDetailCell15 = this.historyCell;
                     textDetailCell14.setTextAndValue(string4, str2, (textDetailCell15 != null && textDetailCell15.getVisibility() == 0) || ((textDetailCell2 = this.linkedCell) != null && textDetailCell2.getVisibility() == 0));
                 } else {
                     TextDetailCell textDetailCell16 = this.typeCell;
-                    String string5 = LocaleController.getString("GroupType", 2131626106);
+                    String string5 = LocaleController.getString("GroupType", 2131626153);
                     TextDetailCell textDetailCell17 = this.historyCell;
                     textDetailCell16.setTextAndValue(string5, str2, (textDetailCell17 != null && textDetailCell17.getVisibility() == 0) || ((textDetailCell = this.linkedCell) != null && textDetailCell.getVisibility() == 0));
                 }
@@ -1756,13 +1744,13 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
         if (this.historyCell != null) {
             if (this.historyHidden) {
-                i2 = 2131625013;
+                i2 = 2131625026;
                 str = "ChatHistoryHidden";
             } else {
-                i2 = 2131625016;
+                i2 = 2131625029;
                 str = "ChatHistoryVisible";
             }
-            this.historyCell.setTextAndValue(LocaleController.getString("ChatHistory", 2131625012), LocaleController.getString(str, i2), false);
+            this.historyCell.setTextAndValue(LocaleController.getString("ChatHistory", 2131625025), LocaleController.getString(str, i2), false);
         }
         TextCell textCell2 = this.membersCell;
         if (textCell2 != null) {
@@ -1775,27 +1763,27 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     this.memberRequestsCell.setVisibility(this.info.requests_pending > 0 ? 0 : 8);
                 }
                 if (this.isChannel) {
-                    this.membersCell.setTextAndValueAndIcon(LocaleController.getString("ChannelSubscribers", 2131624968), String.format("%d", Integer.valueOf(this.info.participants_count)), 2131165749, true);
+                    this.membersCell.setTextAndValueAndIcon(LocaleController.getString("ChannelSubscribers", 2131624981), String.format("%d", Integer.valueOf(this.info.participants_count)), 2131165750, true);
                     TextCell textCell4 = this.blockCell;
-                    String string6 = LocaleController.getString("ChannelBlacklist", 2131624882);
+                    String string6 = LocaleController.getString("ChannelBlacklist", 2131624895);
                     TLRPC$ChatFull tLRPC$ChatFull6 = this.info;
                     String format = String.format("%d", Integer.valueOf(Math.max(tLRPC$ChatFull6.banned_count, tLRPC$ChatFull6.kicked_count)));
                     TextCell textCell5 = this.logCell;
-                    textCell4.setTextAndValueAndIcon(string6, format, 2131165970, textCell5 != null && textCell5.getVisibility() == 0);
+                    textCell4.setTextAndValueAndIcon(string6, format, 2131165972, textCell5 != null && textCell5.getVisibility() == 0);
                 } else {
                     if (ChatObject.isChannel(this.currentChat)) {
-                        this.membersCell.setTextAndValueAndIcon(LocaleController.getString("ChannelMembers", 2131624917), String.format("%d", Integer.valueOf(this.info.participants_count)), 2131165749, true);
+                        this.membersCell.setTextAndValueAndIcon(LocaleController.getString("ChannelMembers", 2131624930), String.format("%d", Integer.valueOf(this.info.participants_count)), 2131165750, true);
                     } else {
-                        this.membersCell.setTextAndValueAndIcon(LocaleController.getString("ChannelMembers", 2131624917), String.format("%d", Integer.valueOf(this.info.participants.participants.size())), 2131165749, this.memberRequestsCell.getVisibility() == 0);
+                        this.membersCell.setTextAndValueAndIcon(LocaleController.getString("ChannelMembers", 2131624930), String.format("%d", Integer.valueOf(this.info.participants.participants.size())), 2131165750, this.memberRequestsCell.getVisibility() == 0);
                     }
                     TLRPC$Chat tLRPC$Chat2 = this.currentChat;
                     if (tLRPC$Chat2.gigagroup) {
                         TextCell textCell6 = this.blockCell;
-                        String string7 = LocaleController.getString("ChannelBlacklist", 2131624882);
+                        String string7 = LocaleController.getString("ChannelBlacklist", 2131624895);
                         TLRPC$ChatFull tLRPC$ChatFull7 = this.info;
                         String format2 = String.format("%d", Integer.valueOf(Math.max(tLRPC$ChatFull7.banned_count, tLRPC$ChatFull7.kicked_count)));
                         TextCell textCell7 = this.logCell;
-                        textCell6.setTextAndValueAndIcon(string7, format2, 2131165970, textCell7 != null && textCell7.getVisibility() == 0);
+                        textCell6.setTextAndValueAndIcon(string7, format2, 2131165972, textCell7 != null && textCell7.getVisibility() == 0);
                     } else {
                         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = tLRPC$Chat2.default_banned_rights;
                         if (tLRPC$TL_chatBannedRights != null) {
@@ -1822,60 +1810,60 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         } else {
                             i = 8;
                         }
-                        this.blockCell.setTextAndValueAndIcon(LocaleController.getString("ChannelPermissions", 2131624942), String.format("%d/%d", Integer.valueOf(i), 8), 2131165841, true);
+                        this.blockCell.setTextAndValueAndIcon(LocaleController.getString("ChannelPermissions", 2131624955), String.format("%d/%d", Integer.valueOf(i), 8), 2131165842, true);
                     }
                     TextCell textCell8 = this.memberRequestsCell;
                     if (textCell8 != null) {
-                        String string8 = LocaleController.getString("MemberRequests", 2131626592);
+                        String string8 = LocaleController.getString("MemberRequests", 2131626639);
                         String format3 = String.format("%d", Integer.valueOf(this.info.requests_pending));
                         TextCell textCell9 = this.logCell;
-                        textCell8.setTextAndValueAndIcon(string8, format3, 2131165905, textCell9 != null && textCell9.getVisibility() == 0);
+                        textCell8.setTextAndValueAndIcon(string8, format3, 2131165907, textCell9 != null && textCell9.getVisibility() == 0);
                     }
                 }
                 TextCell textCell10 = this.adminCell;
-                String string9 = LocaleController.getString("ChannelAdministrators", 2131624877);
+                String string9 = LocaleController.getString("ChannelAdministrators", 2131624890);
                 Object[] objArr = new Object[1];
                 objArr[0] = Integer.valueOf(ChatObject.isChannel(this.currentChat) ? this.info.admins_count : getAdminCount());
                 textCell10.setTextAndValueAndIcon(string9, String.format("%d", objArr), 2131165635, true);
             } else {
                 if (this.isChannel) {
-                    textCell2.setTextAndIcon(LocaleController.getString("ChannelSubscribers", 2131624968), 2131165749, true);
+                    textCell2.setTextAndIcon(LocaleController.getString("ChannelSubscribers", 2131624981), 2131165750, true);
                     TextCell textCell11 = this.blockCell;
-                    String string10 = LocaleController.getString("ChannelBlacklist", 2131624882);
+                    String string10 = LocaleController.getString("ChannelBlacklist", 2131624895);
                     TextCell textCell12 = this.logCell;
                     textCell11.setTextAndIcon(string10, 2131165678, textCell12 != null && textCell12.getVisibility() == 0);
                 } else {
-                    String string11 = LocaleController.getString("ChannelMembers", 2131624917);
+                    String string11 = LocaleController.getString("ChannelMembers", 2131624930);
                     TextCell textCell13 = this.logCell;
-                    textCell2.setTextAndIcon(string11, 2131165749, textCell13 != null && textCell13.getVisibility() == 0);
+                    textCell2.setTextAndIcon(string11, 2131165750, textCell13 != null && textCell13.getVisibility() == 0);
                     if (this.currentChat.gigagroup) {
                         TextCell textCell14 = this.blockCell;
-                        String string12 = LocaleController.getString("ChannelBlacklist", 2131624882);
+                        String string12 = LocaleController.getString("ChannelBlacklist", 2131624895);
                         TextCell textCell15 = this.logCell;
                         textCell14.setTextAndIcon(string12, 2131165678, textCell15 != null && textCell15.getVisibility() == 0);
                     } else {
-                        this.blockCell.setTextAndIcon(LocaleController.getString("ChannelPermissions", 2131624942), 2131165841, true);
+                        this.blockCell.setTextAndIcon(LocaleController.getString("ChannelPermissions", 2131624955), 2131165842, true);
                     }
                 }
-                this.adminCell.setTextAndIcon(LocaleController.getString("ChannelAdministrators", 2131624877), 2131165635, true);
+                this.adminCell.setTextAndIcon(LocaleController.getString("ChannelAdministrators", 2131624890), 2131165635, true);
             }
             this.reactionsCell.setVisibility(ChatObject.canChangeChatInfo(this.currentChat) ? 0 : 8);
             updateReactionsCell();
             if (this.info == null || !ChatObject.canUserDoAdminAction(this.currentChat, 3) || (!isEmpty && this.currentChat.creator)) {
                 this.inviteLinksCell.setVisibility(8);
             } else if (this.info.invitesCount > 0) {
-                this.inviteLinksCell.setTextAndValueAndIcon(LocaleController.getString("InviteLinks", 2131626270), Integer.toString(this.info.invitesCount), 2131165783, true);
+                this.inviteLinksCell.setTextAndValueAndIcon(LocaleController.getString("InviteLinks", 2131626317), Integer.toString(this.info.invitesCount), 2131165784, true);
             } else {
-                this.inviteLinksCell.setTextAndValueAndIcon(LocaleController.getString("InviteLinks", 2131626270), "1", 2131165783, true);
+                this.inviteLinksCell.setTextAndValueAndIcon(LocaleController.getString("InviteLinks", 2131626317), "1", 2131165784, true);
             }
         }
         TextCell textCell16 = this.stickersCell;
         if (textCell16 == null || this.info == null) {
             return;
         }
-        String string13 = LocaleController.getString(2131626104);
+        String string13 = LocaleController.getString(2131626151);
         TLRPC$StickerSet tLRPC$StickerSet = this.info.stickerset;
-        textCell16.setTextAndValueAndIcon(string13, tLRPC$StickerSet != null ? tLRPC$StickerSet.title : LocaleController.getString(2131624237), 2131165948, false);
+        textCell16.setTextAndValueAndIcon(string13, tLRPC$StickerSet != null ? tLRPC$StickerSet.title : LocaleController.getString(2131624242), 2131165950, false);
     }
 
     private void updateReactionsCell() {
@@ -1887,7 +1875,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
         }
         int min = Math.min(getMediaDataController().getEnabledReactionsList().size(), i);
-        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", 2131627847), min == 0 ? LocaleController.getString("ReactionsOff", 2131627855) : LocaleController.formatString("ReactionsCount", 2131627848, Integer.valueOf(min), Integer.valueOf(getMediaDataController().getEnabledReactionsList().size())), 2131165889, true);
+        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", 2131627909), min == 0 ? LocaleController.getString("ReactionsOff", 2131627917) : LocaleController.formatString("ReactionsCount", 2131627910, Integer.valueOf(min), Integer.valueOf(getMediaDataController().getEnabledReactionsList().size())), 2131165891, true);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

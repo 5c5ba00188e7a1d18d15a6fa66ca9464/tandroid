@@ -131,6 +131,7 @@ import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.messenger.utils.CustomHtml;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
@@ -488,7 +489,10 @@ public class AndroidUtilities {
 
         @Override // android.text.style.ClickableSpan
         public void onClick(View view) {
-            this.val$runnable.run();
+            Runnable runnable = this.val$runnable;
+            if (runnable != null) {
+                runnable.run();
+            }
         }
     }
 
@@ -500,7 +504,7 @@ public class AndroidUtilities {
     }
 
     public static /* synthetic */ void lambda$recycleBitmaps$1(ArrayList arrayList) {
-        NotificationCenter.getInstance(UserConfig.selectedAccount).doOnIdle(new AndroidUtilities$$ExternalSyntheticLambda8(arrayList));
+        Utilities.globalQueue.postRunnable(new AndroidUtilities$$ExternalSyntheticLambda8(arrayList));
     }
 
     public static /* synthetic */ void lambda$recycleBitmaps$0(ArrayList arrayList) {
@@ -975,9 +979,9 @@ public class AndroidUtilities {
                 return false;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity());
-            builder.setMessage(LocaleController.getString("InstallGoogleMaps", 2131626234));
-            builder.setPositiveButton(LocaleController.getString("OK", 2131627075), new AndroidUtilities$$ExternalSyntheticLambda2(baseFragment));
-            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+            builder.setMessage(LocaleController.getString("InstallGoogleMaps", 2131626281));
+            builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new AndroidUtilities$$ExternalSyntheticLambda2(baseFragment));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             baseFragment.showDialog(builder.create());
             return false;
         }
@@ -1280,13 +1284,13 @@ public class AndroidUtilities {
             int i = this.type;
             char c = 5;
             if (i == 5) {
-                return LocaleController.getString("ContactBirthday", 2131625230);
+                return LocaleController.getString("ContactBirthday", 2131625246);
             }
             if (i == 6) {
                 if ("ORG".equalsIgnoreCase(getRawType(true))) {
-                    return LocaleController.getString("ContactJob", 2131625231);
+                    return LocaleController.getString("ContactJob", 2131625247);
                 }
-                return LocaleController.getString("ContactJobTitle", 2131625232);
+                return LocaleController.getString("ContactJobTitle", 2131625248);
             }
             int indexOf = this.fullData.indexOf(58);
             if (indexOf < 0) {
@@ -1351,19 +1355,19 @@ public class AndroidUtilities {
                 switch (c) {
                     case 0:
                     case 1:
-                        substring = LocaleController.getString("PhoneMobile", 2131627492);
+                        substring = LocaleController.getString("PhoneMobile", 2131627544);
                         break;
                     case 2:
-                        substring = LocaleController.getString("PhoneHome", 2131627490);
+                        substring = LocaleController.getString("PhoneHome", 2131627542);
                         break;
                     case 3:
-                        substring = LocaleController.getString("PhoneMain", 2131627491);
+                        substring = LocaleController.getString("PhoneMain", 2131627543);
                         break;
                     case 4:
-                        substring = LocaleController.getString("PhoneWork", 2131627502);
+                        substring = LocaleController.getString("PhoneWork", 2131627554);
                         break;
                     case 5:
-                        substring = LocaleController.getString("PhoneOther", 2131627501);
+                        substring = LocaleController.getString("PhoneOther", 2131627553);
                         break;
                 }
             }
@@ -2529,7 +2533,12 @@ public class AndroidUtilities {
 
     public static void addToClipboard(CharSequence charSequence) {
         try {
-            ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", charSequence));
+            ClipboardManager clipboardManager = (ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard");
+            if (charSequence instanceof Spanned) {
+                clipboardManager.setPrimaryClip(ClipData.newHtmlText("label", charSequence, CustomHtml.toHtml((Spanned) charSequence)));
+            } else {
+                clipboardManager.setPrimaryClip(ClipData.newPlainText("label", charSequence));
+            }
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -3029,9 +3038,9 @@ public class AndroidUtilities {
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setTitle(LocaleController.getString("AppName", 2131624375));
-            builder.setMessage(LocaleController.getString("IncorrectTheme", 2131626231));
-            builder.setPositiveButton(LocaleController.getString("OK", 2131627075), null);
+            builder.setTitle(LocaleController.getString("AppName", 2131624384));
+            builder.setMessage(LocaleController.getString("IncorrectTheme", 2131626278));
+            builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
             baseFragment.showDialog(builder.create());
             return;
         }
@@ -3068,9 +3077,9 @@ public class AndroidUtilities {
                 return;
             }
             AlertDialog.Builder builder2 = new AlertDialog.Builder(activity);
-            builder2.setTitle(LocaleController.getString("AppName", 2131624375));
-            builder2.setPositiveButton(LocaleController.getString("OK", 2131627075), null);
-            builder2.setMessage(LocaleController.formatString("NoHandleAppInstalled", 2131626828, messageObject.getDocument().mime_type));
+            builder2.setTitle(LocaleController.getString("AppName", 2131624384));
+            builder2.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
+            builder2.setMessage(LocaleController.formatString("NoHandleAppInstalled", 2131626880, messageObject.getDocument().mime_type));
             if (baseFragment != null) {
                 baseFragment.showDialog(builder2.create());
             } else {
@@ -3492,7 +3501,7 @@ public class AndroidUtilities {
         linearLayout.setOrientation(1);
         if (!TextUtils.isEmpty(str5)) {
             TextView textView = new TextView(activity);
-            textView.setText(LocaleController.getString("UseProxyTelegramInfo2", 2131628796));
+            textView.setText(LocaleController.getString("UseProxyTelegramInfo2", 2131628868));
             textView.setTextColor(Theme.getColor("dialogTextGray4"));
             textView.setTextSize(1, 14.0f);
             textView.setGravity(49);
@@ -3504,19 +3513,19 @@ public class AndroidUtilities {
         for (int i = 0; i < 5; i++) {
             String str7 = null;
             if (i == 0) {
-                str6 = LocaleController.getString("UseProxyAddress", 2131628782);
+                str6 = LocaleController.getString("UseProxyAddress", 2131628854);
                 str7 = str;
             } else if (i == 1) {
                 str7 = "" + str2;
-                str6 = LocaleController.getString("UseProxyPort", 2131628787);
+                str6 = LocaleController.getString("UseProxyPort", 2131628859);
             } else if (i == 2) {
-                str6 = LocaleController.getString("UseProxySecret", 2131628788);
+                str6 = LocaleController.getString("UseProxySecret", 2131628860);
                 str7 = str5;
             } else if (i == 3) {
-                str6 = LocaleController.getString("UseProxyUsername", 2131628797);
+                str6 = LocaleController.getString("UseProxyUsername", 2131628869);
                 str7 = str3;
             } else if (i == 4) {
-                str6 = LocaleController.getString("UseProxyPassword", 2131628786);
+                str6 = LocaleController.getString("UseProxyPassword", 2131628858);
                 str7 = str4;
             } else {
                 str6 = null;
@@ -3537,12 +3546,12 @@ public class AndroidUtilities {
         linearLayout.addView(pickerBottomLayout, LayoutHelper.createFrame(-1, 48, 83));
         pickerBottomLayout.cancelButton.setPadding(dp(18.0f), 0, dp(18.0f), 0);
         pickerBottomLayout.cancelButton.setTextColor(Theme.getColor("dialogTextBlue2"));
-        pickerBottomLayout.cancelButton.setText(LocaleController.getString("Cancel", 2131624819).toUpperCase());
+        pickerBottomLayout.cancelButton.setText(LocaleController.getString("Cancel", 2131624832).toUpperCase());
         pickerBottomLayout.cancelButton.setOnClickListener(new AndroidUtilities$$ExternalSyntheticLambda4(dismissRunnable));
         pickerBottomLayout.doneButtonTextView.setTextColor(Theme.getColor("dialogTextBlue2"));
         pickerBottomLayout.doneButton.setPadding(dp(18.0f), 0, dp(18.0f), 0);
         pickerBottomLayout.doneButtonBadgeTextView.setVisibility(8);
-        pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("ConnectingConnectProxy", 2131625226).toUpperCase());
+        pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("ConnectingConnectProxy", 2131625242).toUpperCase());
         pickerBottomLayout.doneButton.setOnClickListener(new AndroidUtilities$$ExternalSyntheticLambda5(str, str2, str5, str4, str3, dismissRunnable));
         builder.show();
     }
@@ -3819,10 +3828,6 @@ public class AndroidUtilities {
 
     public static float lerp(float[] fArr, float f) {
         return lerp(fArr[0], fArr[1], f);
-    }
-
-    public static int lerpColor(int i, int i2, float f) {
-        return Color.argb(lerp(Color.alpha(i), Color.alpha(i2), f), lerp(Color.red(i), Color.red(i2), f), lerp(Color.green(i), Color.green(i2), f), lerp(Color.blue(i), Color.blue(i2), f));
     }
 
     public static void lerp(RectF rectF, RectF rectF2, float f, RectF rectF3) {
@@ -4364,5 +4369,23 @@ public class AndroidUtilities {
         } catch (NumberFormatException unused) {
             return false;
         }
+    }
+
+    public static CharSequence trim(CharSequence charSequence, int[] iArr) {
+        if (charSequence == null) {
+            return null;
+        }
+        int length = charSequence.length();
+        int i = 0;
+        while (i < length && charSequence.charAt(i) <= ' ') {
+            i++;
+        }
+        while (i < length && charSequence.charAt(length - 1) <= ' ') {
+            length--;
+        }
+        if (iArr != null) {
+            iArr[0] = i;
+        }
+        return (i > 0 || length < charSequence.length()) ? charSequence.subSequence(i, length) : charSequence;
     }
 }

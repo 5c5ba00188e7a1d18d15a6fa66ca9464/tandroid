@@ -81,7 +81,7 @@ public class ProximitySheet extends FrameLayout {
         this.onDismissCallback = runnable;
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         android.graphics.Rect rect = new android.graphics.Rect();
-        Drawable mutate = context.getResources().getDrawable(2131166138).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         mutate.getPadding(rect);
         this.backgroundPaddingLeft = rect.left;
@@ -107,7 +107,7 @@ public class ProximitySheet extends FrameLayout {
         FrameLayout frameLayout = new FrameLayout(context);
         this.customView.addView(frameLayout, LayoutHelper.createLinear(-1, -2, 51, 22, 0, 0, 4));
         TextView textView = new TextView(context);
-        textView.setText(LocaleController.getString("LocationNotifiation", 2131626491));
+        textView.setText(LocaleController.getString("LocationNotifiation", 2131626538));
         textView.setTextColor(Theme.getColor("dialogTextBlack"));
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -223,7 +223,7 @@ public class ProximitySheet extends FrameLayout {
     }
 
     public /* synthetic */ String lambda$new$1(int i) {
-        return this.useImperialSystem ? LocaleController.formatString("MilesShort", 2131626705, Integer.valueOf(i)) : LocaleController.formatString("KMetersShort", 2131626339, Integer.valueOf(i));
+        return this.useImperialSystem ? LocaleController.formatString("MilesShort", 2131626757, Integer.valueOf(i)) : LocaleController.formatString("KMetersShort", 2131626386, Integer.valueOf(i));
     }
 
     public /* synthetic */ void lambda$new$2(NumberPicker numberPicker, int i, int i2) {
@@ -237,19 +237,19 @@ public class ProximitySheet extends FrameLayout {
     public /* synthetic */ String lambda$new$3(int i) {
         if (this.useImperialSystem) {
             if (i == 1) {
-                return LocaleController.formatString("FootsShort", 2131625922, 250);
+                return LocaleController.formatString("FootsShort", 2131625963, 250);
             }
             if (i > 1) {
                 i--;
             }
             return String.format(Locale.US, ".%d", Integer.valueOf(i));
         } else if (i == 1) {
-            return LocaleController.formatString("MetersShort", 2131626689, 50);
+            return LocaleController.formatString("MetersShort", 2131626741, 50);
         } else {
             if (i > 1) {
                 i--;
             }
-            return LocaleController.formatString("MetersShort", 2131626689, Integer.valueOf(i * 100));
+            return LocaleController.formatString("MetersShort", 2131626741, Integer.valueOf(i * 100));
         }
     }
 
@@ -307,9 +307,9 @@ public class ProximitySheet extends FrameLayout {
         String formatDistance = LocaleController.formatDistance(value, 2, Boolean.valueOf(this.useImperialSystem));
         if (this.onRadiusChange.run(z, (int) value) || this.currentUser == null) {
             if (this.currentUser == null) {
-                this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonGroup", 2131626492, formatDistance));
+                this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonGroup", 2131626539, formatDistance));
             } else {
-                this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonUser", 2131626493, TextUtils.ellipsize(UserObject.getFirstName(this.currentUser), this.buttonTextView.getPaint(), Math.max(AndroidUtilities.dp(10.0f), (int) (((this.totalWidth - AndroidUtilities.dp(94.0f)) * 1.5f) - ((int) Math.ceil(this.buttonTextView.getPaint().measureText(LocaleController.getString("LocationNotifiationButtonUser", 2131626493)))))), TextUtils.TruncateAt.END), formatDistance));
+                this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonUser", 2131626540, TextUtils.ellipsize(UserObject.getFirstName(this.currentUser), this.buttonTextView.getPaint(), Math.max(AndroidUtilities.dp(10.0f), (int) (((this.totalWidth - AndroidUtilities.dp(94.0f)) * 1.5f) - ((int) Math.ceil(this.buttonTextView.getPaint().measureText(LocaleController.getString("LocationNotifiationButtonUser", 2131626540)))))), TextUtils.TruncateAt.END), formatDistance));
             }
             if (this.buttonTextView.getTag() == null) {
                 return;
@@ -319,7 +319,7 @@ public class ProximitySheet extends FrameLayout {
             this.infoTextView.animate().setDuration(180L).alpha(0.0f).scaleX(0.5f).scaleY(0.5f).start();
             return;
         }
-        this.infoTextView.setText(LocaleController.formatString("LocationNotifiationCloser", 2131626494, formatDistance));
+        this.infoTextView.setText(LocaleController.formatString("LocationNotifiationCloser", 2131626541, formatDistance));
         if (this.buttonTextView.getTag() != null) {
             return;
         }

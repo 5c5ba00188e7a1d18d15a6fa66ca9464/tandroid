@@ -75,7 +75,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         int currentTimeMillis = ((int) (System.currentTimeMillis() / 1000)) - 3600;
         if (i == 2) {
             TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
-            tLRPC$TL_message.message = LocaleController.getString("DoubleTapPreviewMessage", 2131625527);
+            tLRPC$TL_message.message = LocaleController.getString("DoubleTapPreviewMessage", 2131625543);
             tLRPC$TL_message.date = currentTimeMillis + 60;
             tLRPC$TL_message.dialog_id = 1L;
             tLRPC$TL_message.flags = 259;
@@ -91,16 +91,16 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             MessageObject messageObject3 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message, true, false);
             messageObject3.resetLayout();
             messageObject3.eventId = 1L;
-            messageObject3.customName = LocaleController.getString("DoubleTapPreviewSenderName", 2131625529);
+            messageObject3.customName = LocaleController.getString("DoubleTapPreviewSenderName", 2131625545);
             messageObject3.customAvatarDrawable = ContextCompat.getDrawable(context, 2131165387);
             messageObject2 = messageObject3;
             messageObject = null;
         } else {
             TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
             if (i == 0) {
-                tLRPC$TL_message2.message = LocaleController.getString("FontSizePreviewReply", 2131625918);
+                tLRPC$TL_message2.message = LocaleController.getString("FontSizePreviewReply", 2131625959);
             } else {
-                tLRPC$TL_message2.message = LocaleController.getString("NewThemePreviewReply", 2131626798);
+                tLRPC$TL_message2.message = LocaleController.getString("NewThemePreviewReply", 2131626850);
             }
             int i3 = currentTimeMillis + 60;
             tLRPC$TL_message2.date = i3;
@@ -118,9 +118,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             MessageObject messageObject4 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message2, true, false);
             TLRPC$TL_message tLRPC$TL_message3 = new TLRPC$TL_message();
             if (i == 0) {
-                tLRPC$TL_message3.message = LocaleController.getString("FontSizePreviewLine2", 2131625916);
+                tLRPC$TL_message3.message = LocaleController.getString("FontSizePreviewLine2", 2131625957);
             } else {
-                String string = LocaleController.getString("NewThemePreviewLine3", 2131626796);
+                String string = LocaleController.getString("NewThemePreviewLine3", 2131626848);
                 StringBuilder sb = new StringBuilder(string);
                 int indexOf = string.indexOf(42);
                 int lastIndexOf = string.lastIndexOf(42);
@@ -152,9 +152,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject5.eventId = 1L;
             TLRPC$TL_message tLRPC$TL_message4 = new TLRPC$TL_message();
             if (i == 0) {
-                tLRPC$TL_message4.message = LocaleController.getString("FontSizePreviewLine1", 2131625915);
+                tLRPC$TL_message4.message = LocaleController.getString("FontSizePreviewLine1", 2131625956);
             } else {
-                tLRPC$TL_message4.message = LocaleController.getString("NewThemePreviewLine1", 2131626795);
+                tLRPC$TL_message4.message = LocaleController.getString("NewThemePreviewLine1", 2131626847);
             }
             tLRPC$TL_message4.date = i3;
             tLRPC$TL_message4.dialog_id = 1L;
@@ -171,9 +171,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             tLRPC$TL_peerUser7.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
             MessageObject messageObject6 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message4, true, false);
             if (i == 0) {
-                messageObject6.customReplyName = LocaleController.getString("FontSizePreviewName", 2131625917);
+                messageObject6.customReplyName = LocaleController.getString("FontSizePreviewName", 2131625958);
             } else {
-                messageObject6.customReplyName = LocaleController.getString("NewThemePreviewName", 2131626797);
+                messageObject6.customReplyName = LocaleController.getString("NewThemePreviewName", 2131626849);
             }
             messageObject6.eventId = 1L;
             messageObject6.resetLayout();
@@ -212,8 +212,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
         /* renamed from: org.telegram.ui.Cells.ThemePreviewMessagesCell$1$1 */
         /* loaded from: classes3.dex */
-        public class C00101 extends GestureDetector.SimpleOnGestureListener {
-            C00101() {
+        public class C00141 extends GestureDetector.SimpleOnGestureListener {
+            C00141() {
                 AnonymousClass1.this = r1;
             }
 
@@ -229,15 +229,15 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     ReactionsEffectOverlay.show(themePreviewMessagesCell.fragment, null, themePreviewMessagesCell.cells[1], motionEvent.getX(), motionEvent.getY(), MediaDataController.getInstance(AnonymousClass1.this.val$currentAccount).getDoubleTapReaction(), AnonymousClass1.this.val$currentAccount, 0);
                     ReactionsEffectOverlay.startAnimation();
                 }
-                AnonymousClass1.this.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver$OnPreDrawListenerC00111());
+                AnonymousClass1.this.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver$OnPreDrawListenerC00151());
                 return true;
             }
 
             /* renamed from: org.telegram.ui.Cells.ThemePreviewMessagesCell$1$1$1 */
             /* loaded from: classes3.dex */
-            public class ViewTreeObserver$OnPreDrawListenerC00111 implements ViewTreeObserver.OnPreDrawListener {
-                ViewTreeObserver$OnPreDrawListenerC00111() {
-                    C00101.this = r1;
+            public class ViewTreeObserver$OnPreDrawListenerC00151 implements ViewTreeObserver.OnPreDrawListener {
+                ViewTreeObserver$OnPreDrawListenerC00151() {
+                    C00141.this = r1;
                 }
 
                 @Override // android.view.ViewTreeObserver.OnPreDrawListener
@@ -249,7 +249,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     AnonymousClass1.this.getTransitionParams().animateChangeProgress = 0.0f;
                     ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                     ofFloat.addUpdateListener(new ThemePreviewMessagesCell$1$1$1$$ExternalSyntheticLambda0(this));
-                    ofFloat.addListener(new C00121());
+                    ofFloat.addListener(new C00161());
                     ofFloat.start();
                     return false;
                 }
@@ -261,9 +261,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
                 /* renamed from: org.telegram.ui.Cells.ThemePreviewMessagesCell$1$1$1$1 */
                 /* loaded from: classes3.dex */
-                class C00121 extends AnimatorListenerAdapter {
-                    C00121() {
-                        ViewTreeObserver$OnPreDrawListenerC00111.this = r1;
+                class C00161 extends AnimatorListenerAdapter {
+                    C00161() {
+                        ViewTreeObserver$OnPreDrawListenerC00151.this = r1;
                     }
 
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -284,7 +284,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             this.val$context = context2;
             this.val$currentAccount = i;
             this.val$type = i2;
-            this.gestureDetector = new GestureDetector(context2, new C00101());
+            this.gestureDetector = new GestureDetector(context2, new C00141());
         }
 
         @Override // org.telegram.ui.Cells.ChatMessageCell, android.view.View

@@ -97,7 +97,7 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         this.blobDrawable2.minRadius = AndroidUtilities.dp(32.0f);
         this.blobDrawable.generateBlob();
         this.blobDrawable2.generateBlob();
-        this.bigMicDrawable = new RLottieDrawable(2131558578, "2131558578", AndroidUtilities.dp(22.0f), AndroidUtilities.dp(30.0f), true, null);
+        this.bigMicDrawable = new RLottieDrawable(2131558600, "2131558600", AndroidUtilities.dp(22.0f), AndroidUtilities.dp(30.0f), true, null);
         setWillNotDraw(false);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.muteButton = rLottieImageView;
@@ -553,16 +553,16 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
             }
             VoIPService sharedInstance = VoIPService.getSharedInstance();
             if (sharedInstance != null && ChatObject.isChannelOrGiga(sharedInstance.getChat())) {
-                str = LocaleController.getString("VoipChannelVoiceChat", 2131629000);
+                str = LocaleController.getString("VoipChannelVoiceChat", 2131629074);
             } else {
-                str = LocaleController.getString("VoipGroupVoiceChat", 2131629130);
+                str = LocaleController.getString("VoipGroupVoiceChat", 2131629204);
             }
             if (i == 0) {
-                str = str + ", " + LocaleController.getString("VoipTapToMute", 2131629199);
+                str = str + ", " + LocaleController.getString("VoipTapToMute", 2131629273);
             } else if (i == 2) {
-                str = str + ", " + LocaleController.getString("Connecting", 2131625225);
+                str = str + ", " + LocaleController.getString("Connecting", 2131625241);
             } else if (i == 3) {
-                str = str + ", " + LocaleController.getString("VoipMutedByAdmin", 2131629143);
+                str = str + ", " + LocaleController.getString("VoipMutedByAdmin", 2131629217);
             }
             setContentDescription(str);
             invalidate();

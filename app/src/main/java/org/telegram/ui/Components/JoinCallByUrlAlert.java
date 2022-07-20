@@ -86,20 +86,20 @@ public class JoinCallByUrlAlert extends BottomSheet {
             }
             int i = groupCall.call.participants_count;
             if (i == 0) {
-                textView2.setText(LocaleController.getString("NoOneJoinedYet", 2131626841));
+                textView2.setText(LocaleController.getString("NoOneJoinedYet", 2131626893));
             } else {
                 textView2.setText(LocaleController.formatPluralString("Participants", i, new Object[0]));
             }
         } else {
             textView.setText(tLRPC$Chat.title);
-            textView2.setText(LocaleController.getString("NoOneJoinedYet", 2131626841));
+            textView2.setText(LocaleController.getString("NoOneJoinedYet", 2131626893));
         }
         BottomSheetCell bottomSheetCell = new BottomSheetCell(context);
         bottomSheetCell.setBackground(null);
         if (ChatObject.isChannelOrGiga(tLRPC$Chat)) {
-            bottomSheetCell.setText(LocaleController.getString("VoipChannelJoinVoiceChatUrl", 2131628976));
+            bottomSheetCell.setText(LocaleController.getString("VoipChannelJoinVoiceChatUrl", 2131629050));
         } else {
-            bottomSheetCell.setText(LocaleController.getString("VoipGroupJoinVoiceChatUrl", 2131629068));
+            bottomSheetCell.setText(LocaleController.getString("VoipGroupJoinVoiceChatUrl", 2131629142));
         }
         bottomSheetCell.background.setOnClickListener(new JoinCallByUrlAlert$$ExternalSyntheticLambda0(this));
         linearLayout.addView(bottomSheetCell, LayoutHelper.createLinear(-1, 50, 51, 0, 30, 0, 0));

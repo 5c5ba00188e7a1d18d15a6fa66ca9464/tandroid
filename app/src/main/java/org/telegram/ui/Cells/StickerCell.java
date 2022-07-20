@@ -182,9 +182,9 @@ public class StickerCell extends FrameLayout {
             }
         }
         if (str != null) {
-            accessibilityNodeInfo.setText(str + " " + LocaleController.getString("AttachSticker", 2131624505));
+            accessibilityNodeInfo.setText(str + " " + LocaleController.getString("AttachSticker", 2131624516));
         } else {
-            accessibilityNodeInfo.setText(LocaleController.getString("AttachSticker", 2131624505));
+            accessibilityNodeInfo.setText(LocaleController.getString("AttachSticker", 2131624516));
         }
         accessibilityNodeInfo.setEnabled(true);
     }

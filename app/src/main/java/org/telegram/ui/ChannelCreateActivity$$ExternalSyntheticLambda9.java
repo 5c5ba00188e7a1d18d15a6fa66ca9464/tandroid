@@ -12,8 +12,8 @@ public final /* synthetic */ class ChannelCreateActivity$$ExternalSyntheticLambd
 
     @Override // android.widget.TextView.OnEditorActionListener
     public final boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-        boolean lambda$createView$8;
-        lambda$createView$8 = this.f$0.lambda$createView$8(textView, i, keyEvent);
-        return lambda$createView$8;
+        boolean lambda$createView$10;
+        lambda$createView$10 = this.f$0.lambda$createView$10(textView, i, keyEvent);
+        return lambda$createView$10;
     }
 }

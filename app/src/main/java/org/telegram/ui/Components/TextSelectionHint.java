@@ -70,7 +70,7 @@ public class TextSelectionHint extends View {
                 animator.removeAllListeners();
                 this.a.cancel();
             }
-            String string = LocaleController.getString("TextSelectionHit", 2131628596);
+            String string = LocaleController.getString("TextSelectionHit", 2131628663);
             Matcher matcher = Pattern.compile("\\*\\*.*\\*\\*").matcher(string);
             String str = null;
             if (matcher.matches()) {

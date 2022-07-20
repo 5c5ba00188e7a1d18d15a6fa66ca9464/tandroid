@@ -208,6 +208,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
 
     /* loaded from: classes3.dex */
     public static final class IconHolderView extends LinearLayout {
+        private Paint fillPaint;
         private AdaptiveIconImageView iconView;
         private Paint outlinePaint;
         private float progress;
@@ -220,6 +221,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         private IconHolderView(Context context) {
             super(context);
             this.outlinePaint = new Paint(1);
+            this.fillPaint = new Paint(1);
             setOrientation(1);
             setWillNotDraw(false);
             AdaptiveIconImageView adaptiveIconImageView = new AdaptiveIconImageView(context);
@@ -234,14 +236,16 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
             addView(this.titleView, LayoutHelper.createLinear(-2, -2, 1, 0, 4, 0, 0));
             this.outlinePaint.setStyle(Paint.Style.STROKE);
             this.outlinePaint.setStrokeWidth(Math.max(2, AndroidUtilities.dp(0.5f)));
+            this.fillPaint.setColor(-1);
         }
 
         @Override // android.view.View
         public void draw(Canvas canvas) {
-            super.draw(canvas);
             float strokeWidth = this.outlinePaint.getStrokeWidth();
             RectF rectF = AndroidUtilities.rectTmp;
             rectF.set(this.iconView.getLeft() + strokeWidth, this.iconView.getTop() + strokeWidth, this.iconView.getRight() - strokeWidth, this.iconView.getBottom() - strokeWidth);
+            canvas.drawRoundRect(rectF, AndroidUtilities.dp(18.0f), AndroidUtilities.dp(18.0f), this.fillPaint);
+            super.draw(canvas);
             canvas.drawRoundRect(rectF, AndroidUtilities.dp(18.0f), AndroidUtilities.dp(18.0f), this.outlinePaint);
         }
 
@@ -277,7 +281,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.titleView.getLayoutParams();
             if (launcherIcon.premium && !UserConfig.hasPremiumOnAccounts()) {
                 SpannableString spannableString = new SpannableString("d " + LocaleController.getString(launcherIcon.title));
-                ColoredImageSpan coloredImageSpan = new ColoredImageSpan(2131165805);
+                ColoredImageSpan coloredImageSpan = new ColoredImageSpan(2131165806);
                 coloredImageSpan.setTopOffset(1);
                 coloredImageSpan.setSize(AndroidUtilities.dp(13.0f));
                 spannableString.setSpan(coloredImageSpan, 0, 1, 33);

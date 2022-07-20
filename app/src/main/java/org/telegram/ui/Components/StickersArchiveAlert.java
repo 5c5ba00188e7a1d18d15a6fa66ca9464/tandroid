@@ -28,10 +28,10 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         TLRPC$StickerSetCovered tLRPC$StickerSetCovered = arrayList.get(0);
         if (tLRPC$StickerSetCovered.set.masks) {
             this.currentType = 1;
-            setTitle(LocaleController.getString("ArchivedMasksAlertTitle", 2131624411));
+            setTitle(LocaleController.getString("ArchivedMasksAlertTitle", 2131624422));
         } else {
             this.currentType = 0;
-            setTitle(LocaleController.getString("ArchivedStickersAlertTitle", 2131624416));
+            setTitle(LocaleController.getString("ArchivedStickersAlertTitle", 2131624427));
         }
         this.stickerSets = new ArrayList<>(arrayList);
         this.parentFragment = baseFragment;
@@ -44,9 +44,9 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         textView.setTextSize(1, 16.0f);
         textView.setPadding(AndroidUtilities.dp(23.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(23.0f), 0);
         if (tLRPC$StickerSetCovered.set.masks) {
-            textView.setText(LocaleController.getString("ArchivedMasksAlertInfo", 2131624410));
+            textView.setText(LocaleController.getString("ArchivedMasksAlertInfo", 2131624421));
         } else {
-            textView.setText(LocaleController.getString("ArchivedStickersAlertInfo", 2131624415));
+            textView.setText(LocaleController.getString("ArchivedStickersAlertInfo", 2131624426));
         }
         linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2));
         RecyclerListView recyclerListView = new RecyclerListView(context);
@@ -56,9 +56,9 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         recyclerListView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
         recyclerListView.setGlowColor(-657673);
         linearLayout.addView(recyclerListView, LayoutHelper.createLinear(-1, -2, 0.0f, 10.0f, 0.0f, 0.0f));
-        setNegativeButton(LocaleController.getString("Close", 2131625167), StickersArchiveAlert$$ExternalSyntheticLambda1.INSTANCE);
+        setNegativeButton(LocaleController.getString("Close", 2131625183), StickersArchiveAlert$$ExternalSyntheticLambda1.INSTANCE);
         if (this.parentFragment != null) {
-            setPositiveButton(LocaleController.getString("Settings", 2131628259), new StickersArchiveAlert$$ExternalSyntheticLambda0(this));
+            setPositiveButton(LocaleController.getString("Settings", 2131628321), new StickersArchiveAlert$$ExternalSyntheticLambda0(this));
         }
     }
 

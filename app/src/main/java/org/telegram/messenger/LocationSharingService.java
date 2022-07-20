@@ -100,17 +100,17 @@ public class LocationSharingService extends Service implements NotificationCente
             int i = sharingLocationInfo.messageObject.currentAccount;
             if (DialogObject.isUserDialog(dialogId)) {
                 str2 = UserObject.getFirstName(MessagesController.getInstance(i).getUser(Long.valueOf(dialogId)));
-                str = LocaleController.getString("AttachLiveLocationIsSharing", 2131624489);
+                str = LocaleController.getString("AttachLiveLocationIsSharing", 2131624500);
             } else {
                 TLRPC$Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-dialogId));
                 str2 = chat != null ? chat.title : "";
-                str = LocaleController.getString("AttachLiveLocationIsSharingChat", 2131624490);
+                str = LocaleController.getString("AttachLiveLocationIsSharingChat", 2131624501);
             }
         } else {
             str2 = LocaleController.formatPluralString("Chats", infos.size(), new Object[0]);
-            str = LocaleController.getString("AttachLiveLocationIsSharingChats", 2131624491);
+            str = LocaleController.getString("AttachLiveLocationIsSharingChats", 2131624502);
         }
-        String format = String.format(str, LocaleController.getString("AttachLiveLocation", 2131624488), str2);
+        String format = String.format(str, LocaleController.getString("AttachLiveLocation", 2131624499), str2);
         this.builder.setTicker(format);
         this.builder.setContentText(format);
         if (!z) {
@@ -136,8 +136,8 @@ public class LocationSharingService extends Service implements NotificationCente
             this.builder.setContentIntent(activity);
             NotificationsController.checkOtherNotificationsChannel();
             this.builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
-            this.builder.setContentTitle(LocaleController.getString("AppName", 2131624375));
-            this.builder.addAction(0, LocaleController.getString("StopLiveLocation", 2131628466), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, new Intent(ApplicationLoader.applicationContext, StopLiveLocationReceiver.class), 134217728));
+            this.builder.setContentTitle(LocaleController.getString("AppName", 2131624384));
+            this.builder.addAction(0, LocaleController.getString("StopLiveLocation", 2131628529), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, new Intent(ApplicationLoader.applicationContext, StopLiveLocationReceiver.class), 134217728));
         }
         updateNotification(false);
         startForeground(6, this.builder.build());

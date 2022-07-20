@@ -50,7 +50,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         linkActionView.setPermanent(true);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.imageView = rLottieImageView;
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558527, "2131558527", AndroidUtilities.dp(90.0f), AndroidUtilities.dp(90.0f), false, null);
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558543, "2131558543", AndroidUtilities.dp(90.0f), AndroidUtilities.dp(90.0f), false, null);
         this.linkIcon = rLottieDrawable;
         rLottieDrawable.setCustomEndFrame(42);
         rLottieImageView.setAnimation(this.linkIcon);
@@ -59,17 +59,17 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         linkActionView.setDelegate(new PermanentLinkBottomSheet$$ExternalSyntheticLambda5(this));
         TextView textView = new TextView(context);
         this.titleView = textView;
-        textView.setText(LocaleController.getString("InviteLink", 2131626263));
+        textView.setText(LocaleController.getString("InviteLink", 2131626310));
         textView.setTextSize(24.0f);
         textView.setGravity(1);
         textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         TextView textView2 = new TextView(context);
         this.subtitle = textView2;
         if (z2) {
-            i = 2131626443;
+            i = 2131626490;
             str = "LinkInfoChannel";
         } else {
-            i = 2131626442;
+            i = 2131626489;
             str = "LinkInfo";
         }
         textView2.setText(LocaleController.getString(str, i));
@@ -78,7 +78,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         textView2.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
         TextView textView3 = new TextView(context);
         this.manage = textView3;
-        textView3.setText(LocaleController.getString("ManageInviteLinks", 2131626531));
+        textView3.setText(LocaleController.getString("ManageInviteLinks", 2131626578));
         textView3.setTextSize(14.0f);
         textView3.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText"));
         textView3.setBackground(Theme.createRadSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhiteBlueText"), 76), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f)));
@@ -143,9 +143,9 @@ public class PermanentLinkBottomSheet extends BottomSheet {
             this.linkActionView.setLink(this.invite.link);
             if (z && this.fragment != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", 2131628041));
-                builder.setTitle(LocaleController.getString("RevokeLink", 2131628043));
-                builder.setNegativeButton(LocaleController.getString("OK", 2131627075), null);
+                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", 2131628103));
+                builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
+                builder.setNegativeButton(LocaleController.getString("OK", 2131627127), null);
                 this.fragment.showDialog(builder.create());
             }
         }

@@ -179,6 +179,7 @@ import org.telegram.tgnet.TLRPC$TL_messageActionScreenshotTaken;
 import org.telegram.tgnet.TLRPC$TL_messageEncryptedAction;
 import org.telegram.tgnet.TLRPC$TL_messageEntityBold;
 import org.telegram.tgnet.TLRPC$TL_messageEntityCode;
+import org.telegram.tgnet.TLRPC$TL_messageEntityCustomEmoji;
 import org.telegram.tgnet.TLRPC$TL_messageEntityItalic;
 import org.telegram.tgnet.TLRPC$TL_messageEntityPre;
 import org.telegram.tgnet.TLRPC$TL_messageEntitySpoiler;
@@ -260,6 +261,7 @@ import org.telegram.tgnet.TLRPC$TL_webPageUrlPending;
 import org.telegram.tgnet.TLRPC$Update;
 import org.telegram.tgnet.TLRPC$Updates;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$WebDocument;
 import org.telegram.tgnet.TLRPC$WebPage;
 import org.telegram.tgnet.TLRPC$messages_Messages;
@@ -1231,7 +1233,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         if (tLRPC$TL_decryptedMessage != null) {
                             TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia = tLRPC$TL_decryptedMessage.media;
                             if ((tLRPC$DecryptedMessageMedia instanceof TLRPC$TL_decryptedMessageMediaVideo) || (tLRPC$DecryptedMessageMedia instanceof TLRPC$TL_decryptedMessageMediaPhoto) || (tLRPC$DecryptedMessageMedia instanceof TLRPC$TL_decryptedMessageMediaDocument)) {
-                                tLRPC$TL_decryptedMessage.media.size = (int) ((Long) objArr[5]).longValue();
+                                tLRPC$TL_decryptedMessage.media.size = ((Long) objArr[5]).longValue();
                             }
                             TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia2 = tLRPC$TL_decryptedMessage.media;
                             tLRPC$DecryptedMessageMedia2.key = (byte[]) objArr[3];
@@ -1445,7 +1447,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             if (messageObject8 == messageObject7) {
                                 delayedMessage4.obj.shouldRemoveVideoEditedInfo = true;
                                 messageObject8.messageOwner.params.remove("ve");
-                                messageObject8.messageOwner.media.document.size = (int) longValue2;
+                                messageObject8.messageOwner.media.document.size = longValue2;
                                 ArrayList<TLRPC$Message> arrayList8 = new ArrayList<>();
                                 arrayList8.add(messageObject8.messageOwner);
                                 getMessagesStorage().putMessages(arrayList8, false, true, false, 0, messageObject8.scheduled);
@@ -1458,7 +1460,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         if (messageObject9 == messageObject7) {
                             messageObject9.shouldRemoveVideoEditedInfo = true;
                             messageObject9.messageOwner.params.remove("ve");
-                            delayedMessage4.obj.messageOwner.media.document.size = (int) longValue2;
+                            delayedMessage4.obj.messageOwner.media.document.size = longValue2;
                             ArrayList<TLRPC$Message> arrayList9 = new ArrayList<>();
                             arrayList9.add(delayedMessage4.obj.messageOwner);
                             getMessagesStorage().putMessages(arrayList9, false, true, false, 0, delayedMessage4.obj.scheduled);
@@ -1959,7 +1961,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 arrayList = new ArrayList<>();
                 for (int i = 0; i < messageObject.messageOwner.entities.size(); i++) {
                     TLRPC$MessageEntity tLRPC$MessageEntity = messageObject.messageOwner.entities.get(i);
-                    if ((tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityBold) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityItalic) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityPre) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityCode) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityTextUrl) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntitySpoiler)) {
+                    if ((tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityBold) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityItalic) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityPre) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityCode) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityTextUrl) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntitySpoiler) || (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityCustomEmoji)) {
                         arrayList.add(tLRPC$MessageEntity);
                     }
                 }
@@ -2128,39 +2130,39 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         sendMessage((TLRPC$TL_document) tLRPC$Document, null, null, j, messageObject, messageObject2, null, null, null, null, z, i, 0, obj, sendAnimationData);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0281  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x033e  */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x035c  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x04f8  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x0502  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x051b  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0575  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x0587  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x05a4  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x05cb  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x05cd  */
-    /* JADX WARN: Removed duplicated region for block: B:262:0x063e  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x0640  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x065b  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x068f  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x0695  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x0697  */
-    /* JADX WARN: Removed duplicated region for block: B:280:0x069f  */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x06db  */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x0716  */
-    /* JADX WARN: Removed duplicated region for block: B:293:0x072b  */
-    /* JADX WARN: Removed duplicated region for block: B:294:0x072e  */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x073b  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x073d  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x075d  */
-    /* JADX WARN: Removed duplicated region for block: B:307:0x0783  */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x0793  */
-    /* JADX WARN: Removed duplicated region for block: B:313:0x07be  */
-    /* JADX WARN: Removed duplicated region for block: B:316:0x07db  */
-    /* JADX WARN: Removed duplicated region for block: B:322:0x07f9  */
-    /* JADX WARN: Removed duplicated region for block: B:323:0x07fb  */
-    /* JADX WARN: Removed duplicated region for block: B:326:0x0847  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x01f7  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x0249  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x02d3  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x0390  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x03ae  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x054a  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0554  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x056d  */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x05c7  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x05d9  */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x05f6  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x061d  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x061f  */
+    /* JADX WARN: Removed duplicated region for block: B:278:0x0690  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x0692  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x06ad  */
+    /* JADX WARN: Removed duplicated region for block: B:290:0x06e1  */
+    /* JADX WARN: Removed duplicated region for block: B:292:0x06e7  */
+    /* JADX WARN: Removed duplicated region for block: B:293:0x06e9  */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x06f1  */
+    /* JADX WARN: Removed duplicated region for block: B:299:0x072d  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x0768  */
+    /* JADX WARN: Removed duplicated region for block: B:309:0x077d  */
+    /* JADX WARN: Removed duplicated region for block: B:310:0x0780  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x078d  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x078f  */
+    /* JADX WARN: Removed duplicated region for block: B:317:0x07af  */
+    /* JADX WARN: Removed duplicated region for block: B:323:0x07d5  */
+    /* JADX WARN: Removed duplicated region for block: B:326:0x07e5  */
+    /* JADX WARN: Removed duplicated region for block: B:329:0x0810  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x082d  */
+    /* JADX WARN: Removed duplicated region for block: B:338:0x084b  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x084d  */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x0899  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2171,6 +2173,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         boolean z7;
         boolean z8;
         boolean z9;
+        boolean z10;
         TLRPC$Peer tLRPC$Peer;
         TLRPC$Chat tLRPC$Chat;
         String str;
@@ -2189,8 +2192,6 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         ArrayList<Long> arrayList4;
         ArrayList<MessageObject> arrayList5;
         ArrayList<Integer> arrayList6;
-        int i3;
-        boolean z10;
         long j5;
         TLRPC$Chat tLRPC$Chat3;
         String str3;
@@ -2205,9 +2206,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         boolean z12;
         ArrayList arrayList8;
         ArrayList<MessageObject> arrayList9;
-        int i4;
+        int i3;
         boolean z13;
-        int i5;
+        int i4;
         ArrayList arrayList10;
         TLRPC$Message tLRPC$Message;
         long sendAsPeerId;
@@ -2216,12 +2217,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         TLRPC$Peer tLRPC$Peer4;
         TLRPC$User user;
-        int i6;
+        int i5;
         long j8;
         boolean z15;
         boolean z16;
         boolean z17;
         String str5;
+        TLRPC$UserFull userFull;
         ArrayList<MessageObject> arrayList11 = arrayList;
         long j9 = j;
         boolean z18 = z;
@@ -2236,6 +2238,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 if (getMessagesController().getUser(Long.valueOf(j)) == null) {
                     return 0;
                 }
+                z10 = getMessagesController().getUserFull(j9) != null ? !userFull.voice_messages_forbidden : true;
                 tLRPC$Peer = peer;
                 j2 = 0;
                 str = null;
@@ -2276,12 +2279,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 }
                 boolean canSendStickers = ChatObject.canSendStickers(chat);
                 z6 = ChatObject.canSendMedia(chat);
+                z7 = z17;
                 z5 = ChatObject.canSendEmbed(chat);
                 z4 = ChatObject.canSendPolls(chat);
+                z10 = true;
                 tLRPC$Chat = chat;
-                z8 = canSendStickers;
-                z7 = z17;
                 z9 = z16;
+                z8 = canSendStickers;
                 str = str5;
                 j2 = j8;
             }
@@ -2296,14 +2300,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             ArrayList<Integer> arrayList16 = arrayList15;
             LongSparseArray longSparseArray6 = longSparseArray5;
             ArrayList<MessageObject> arrayList17 = arrayList12;
-            int i7 = 0;
+            int i6 = 0;
             TLRPC$InputPeer tLRPC$InputPeer2 = inputPeer;
             ArrayList arrayList18 = arrayList13;
-            int i8 = 0;
+            int i7 = 0;
             TLRPC$Peer tLRPC$Peer5 = tLRPC$Peer;
             ArrayList<Long> arrayList19 = arrayList14;
-            while (i8 < arrayList.size()) {
-                MessageObject messageObject = arrayList11.get(i8);
+            while (i7 < arrayList.size()) {
+                MessageObject messageObject = arrayList11.get(i7);
+                int i8 = i7;
                 if (messageObject.getId() <= 0 || messageObject.needDrawBluredPreview()) {
                     j3 = j2;
                     longSparseArray2 = longSparseArray4;
@@ -2324,20 +2329,14 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         sendMessage(messageObject.messageText.toString(), j, null, null, tLRPC$WebPage, tLRPC$WebPage != null, messageObject.messageOwner.entities, null, null, z3, i, null);
                     }
                 } else {
-                    if (messageObject.isSticker() || messageObject.isAnimatedSticker() || messageObject.isGif() || messageObject.isGame()) {
-                        i3 = i8;
-                        z10 = true;
-                    } else {
-                        i3 = i8;
-                        z10 = false;
-                    }
-                    if (z8 || !z10) {
+                    boolean z21 = messageObject.isSticker() || messageObject.isAnimatedSticker() || messageObject.isGif() || messageObject.isGame();
+                    if (z8 || !z21) {
                         if (!z6) {
                             TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject.messageOwner.media;
-                            if (((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument)) && !z10) {
-                                if (i7 == 0) {
-                                    i6 = ChatObject.isActionBannedByDefault(tLRPC$Chat, 7) ? 5 : 2;
-                                    i7 = i6;
+                            if (((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument)) && !z21) {
+                                if (i6 == 0) {
+                                    i5 = ChatObject.isActionBannedByDefault(tLRPC$Chat, 7) ? 5 : 2;
+                                    i6 = i5;
                                     j3 = j2;
                                     longSparseArray2 = longSparseArray4;
                                     str2 = str;
@@ -2348,22 +2347,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     j4 = clientUserId;
                                     longSparseArray = longSparseArray6;
                                     tLRPC$Peer2 = tLRPC$Peer5;
-                                    i2 = i3;
-                                    i8 = i2 + 1;
-                                    arrayList11 = arrayList;
-                                    j9 = j;
-                                    z18 = z;
-                                    z19 = z2;
-                                    longSparseArray4 = longSparseArray2;
-                                    tLRPC$Peer5 = tLRPC$Peer2;
-                                    longSparseArray6 = longSparseArray;
-                                    clientUserId = j4;
-                                    str = str2;
-                                    tLRPC$Chat = tLRPC$Chat2;
-                                    arrayList18 = arrayList2;
-                                    arrayList16 = arrayList3;
-                                    tLRPC$InputPeer2 = tLRPC$InputPeer;
-                                    j2 = j3;
+                                    i2 = i8;
                                 }
                                 j3 = j2;
                                 longSparseArray2 = longSparseArray4;
@@ -2377,405 +2361,438 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 j4 = clientUserId;
                                 longSparseArray = longSparseArray6;
                                 tLRPC$Peer2 = tLRPC$Peer5;
-                                i2 = i3;
+                                i2 = i8;
                             }
                         }
                         if (z4 || !(messageObject.messageOwner.media instanceof TLRPC$TL_messageMediaPoll)) {
-                            TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
-                            if (!z18) {
-                                if (messageObject.getDialogId() != clientUserId || !messageObject.isFromUser()) {
-                                    longSparseArray3 = longSparseArray6;
-                                } else {
-                                    longSparseArray3 = longSparseArray6;
-                                    if (messageObject.messageOwner.from_id.user_id == clientUserId) {
-                                        z14 = true;
-                                        if (!messageObject.isForwarded()) {
-                                            TLRPC$TL_messageFwdHeader tLRPC$TL_messageFwdHeader = new TLRPC$TL_messageFwdHeader();
-                                            tLRPC$TL_message.fwd_from = tLRPC$TL_messageFwdHeader;
-                                            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2 = messageObject.messageOwner.fwd_from;
-                                            if ((tLRPC$MessageFwdHeader2.flags & 1) != 0) {
-                                                tLRPC$TL_messageFwdHeader.flags |= 1;
-                                                tLRPC$TL_messageFwdHeader.from_id = tLRPC$MessageFwdHeader2.from_id;
-                                            }
-                                            if ((tLRPC$MessageFwdHeader2.flags & 32) != 0) {
-                                                tLRPC$TL_messageFwdHeader.flags |= 32;
-                                                tLRPC$TL_messageFwdHeader.from_name = tLRPC$MessageFwdHeader2.from_name;
-                                            }
-                                            if ((tLRPC$MessageFwdHeader2.flags & 4) != 0) {
-                                                tLRPC$TL_messageFwdHeader.flags |= 4;
-                                                tLRPC$TL_messageFwdHeader.channel_post = tLRPC$MessageFwdHeader2.channel_post;
-                                            }
-                                            if ((tLRPC$MessageFwdHeader2.flags & 8) != 0) {
-                                                tLRPC$TL_messageFwdHeader.flags |= 8;
-                                                tLRPC$TL_messageFwdHeader.post_author = tLRPC$MessageFwdHeader2.post_author;
-                                            }
-                                            if ((j9 == clientUserId || z7) && (tLRPC$MessageFwdHeader2.flags & 16) != 0 && !UserObject.isReplyUser(messageObject.getDialogId())) {
-                                                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader3 = tLRPC$TL_message.fwd_from;
-                                                tLRPC$MessageFwdHeader3.flags |= 16;
-                                                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader4 = messageObject.messageOwner.fwd_from;
-                                                tLRPC$MessageFwdHeader3.saved_from_peer = tLRPC$MessageFwdHeader4.saved_from_peer;
-                                                tLRPC$MessageFwdHeader3.saved_from_msg_id = tLRPC$MessageFwdHeader4.saved_from_msg_id;
-                                            }
-                                            tLRPC$TL_message.fwd_from.date = messageObject.messageOwner.fwd_from.date;
-                                            tLRPC$TL_message.flags = 4;
-                                        } else if (!z14) {
-                                            long fromChatId = messageObject.getFromChatId();
-                                            TLRPC$TL_messageFwdHeader tLRPC$TL_messageFwdHeader2 = new TLRPC$TL_messageFwdHeader();
-                                            tLRPC$TL_message.fwd_from = tLRPC$TL_messageFwdHeader2;
-                                            arrayList7 = arrayList19;
-                                            tLRPC$TL_messageFwdHeader2.channel_post = messageObject.getId();
-                                            tLRPC$TL_message.fwd_from.flags |= 4;
-                                            if (messageObject.isFromUser()) {
-                                                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader5 = tLRPC$TL_message.fwd_from;
-                                                tLRPC$MessageFwdHeader5.from_id = messageObject.messageOwner.from_id;
-                                                tLRPC$MessageFwdHeader5.flags |= 1;
-                                                j5 = j2;
-                                                str3 = str;
-                                                tLRPC$Chat3 = tLRPC$Chat;
-                                            } else {
-                                                tLRPC$TL_message.fwd_from.from_id = new TLRPC$TL_peerChannel();
-                                                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader6 = tLRPC$TL_message.fwd_from;
-                                                TLRPC$Peer tLRPC$Peer6 = tLRPC$MessageFwdHeader6.from_id;
-                                                str3 = str;
-                                                TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
-                                                tLRPC$Chat3 = tLRPC$Chat;
-                                                TLRPC$Peer tLRPC$Peer7 = tLRPC$Message2.peer_id;
-                                                j5 = j2;
-                                                tLRPC$Peer6.channel_id = tLRPC$Peer7.channel_id;
-                                                tLRPC$MessageFwdHeader6.flags |= 1;
-                                                if (tLRPC$Message2.post && fromChatId > 0) {
-                                                    TLRPC$Peer tLRPC$Peer8 = tLRPC$Message2.from_id;
-                                                    if (tLRPC$Peer8 != null) {
-                                                        tLRPC$Peer7 = tLRPC$Peer8;
+                            if (z10 || !MessageObject.isVoiceMessage(messageObject.messageOwner)) {
+                                if (z10 || !MessageObject.isRoundVideoMessage(messageObject.messageOwner)) {
+                                    TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
+                                    if (!z18) {
+                                        if (messageObject.getDialogId() != clientUserId || !messageObject.isFromUser()) {
+                                            longSparseArray3 = longSparseArray6;
+                                        } else {
+                                            longSparseArray3 = longSparseArray6;
+                                            if (messageObject.messageOwner.from_id.user_id == clientUserId) {
+                                                z14 = true;
+                                                if (!messageObject.isForwarded()) {
+                                                    TLRPC$TL_messageFwdHeader tLRPC$TL_messageFwdHeader = new TLRPC$TL_messageFwdHeader();
+                                                    tLRPC$TL_message.fwd_from = tLRPC$TL_messageFwdHeader;
+                                                    TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2 = messageObject.messageOwner.fwd_from;
+                                                    if ((tLRPC$MessageFwdHeader2.flags & 1) != 0) {
+                                                        tLRPC$TL_messageFwdHeader.flags |= 1;
+                                                        tLRPC$TL_messageFwdHeader.from_id = tLRPC$MessageFwdHeader2.from_id;
                                                     }
-                                                    tLRPC$MessageFwdHeader6.from_id = tLRPC$Peer7;
+                                                    if ((tLRPC$MessageFwdHeader2.flags & 32) != 0) {
+                                                        tLRPC$TL_messageFwdHeader.flags |= 32;
+                                                        tLRPC$TL_messageFwdHeader.from_name = tLRPC$MessageFwdHeader2.from_name;
+                                                    }
+                                                    if ((tLRPC$MessageFwdHeader2.flags & 4) != 0) {
+                                                        tLRPC$TL_messageFwdHeader.flags |= 4;
+                                                        tLRPC$TL_messageFwdHeader.channel_post = tLRPC$MessageFwdHeader2.channel_post;
+                                                    }
+                                                    if ((tLRPC$MessageFwdHeader2.flags & 8) != 0) {
+                                                        tLRPC$TL_messageFwdHeader.flags |= 8;
+                                                        tLRPC$TL_messageFwdHeader.post_author = tLRPC$MessageFwdHeader2.post_author;
+                                                    }
+                                                    if ((j9 == clientUserId || z7) && (tLRPC$MessageFwdHeader2.flags & 16) != 0 && !UserObject.isReplyUser(messageObject.getDialogId())) {
+                                                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader3 = tLRPC$TL_message.fwd_from;
+                                                        tLRPC$MessageFwdHeader3.flags |= 16;
+                                                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader4 = messageObject.messageOwner.fwd_from;
+                                                        tLRPC$MessageFwdHeader3.saved_from_peer = tLRPC$MessageFwdHeader4.saved_from_peer;
+                                                        tLRPC$MessageFwdHeader3.saved_from_msg_id = tLRPC$MessageFwdHeader4.saved_from_msg_id;
+                                                    }
+                                                    tLRPC$TL_message.fwd_from.date = messageObject.messageOwner.fwd_from.date;
+                                                    tLRPC$TL_message.flags = 4;
+                                                } else if (!z14) {
+                                                    long fromChatId = messageObject.getFromChatId();
+                                                    TLRPC$TL_messageFwdHeader tLRPC$TL_messageFwdHeader2 = new TLRPC$TL_messageFwdHeader();
+                                                    tLRPC$TL_message.fwd_from = tLRPC$TL_messageFwdHeader2;
+                                                    arrayList7 = arrayList19;
+                                                    tLRPC$TL_messageFwdHeader2.channel_post = messageObject.getId();
+                                                    tLRPC$TL_message.fwd_from.flags |= 4;
+                                                    if (messageObject.isFromUser()) {
+                                                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader5 = tLRPC$TL_message.fwd_from;
+                                                        tLRPC$MessageFwdHeader5.from_id = messageObject.messageOwner.from_id;
+                                                        tLRPC$MessageFwdHeader5.flags |= 1;
+                                                        j5 = j2;
+                                                        str3 = str;
+                                                        tLRPC$Chat3 = tLRPC$Chat;
+                                                    } else {
+                                                        tLRPC$TL_message.fwd_from.from_id = new TLRPC$TL_peerChannel();
+                                                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader6 = tLRPC$TL_message.fwd_from;
+                                                        TLRPC$Peer tLRPC$Peer6 = tLRPC$MessageFwdHeader6.from_id;
+                                                        str3 = str;
+                                                        TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
+                                                        tLRPC$Chat3 = tLRPC$Chat;
+                                                        TLRPC$Peer tLRPC$Peer7 = tLRPC$Message2.peer_id;
+                                                        j5 = j2;
+                                                        tLRPC$Peer6.channel_id = tLRPC$Peer7.channel_id;
+                                                        tLRPC$MessageFwdHeader6.flags |= 1;
+                                                        if (tLRPC$Message2.post && fromChatId > 0) {
+                                                            TLRPC$Peer tLRPC$Peer8 = tLRPC$Message2.from_id;
+                                                            if (tLRPC$Peer8 != null) {
+                                                                tLRPC$Peer7 = tLRPC$Peer8;
+                                                            }
+                                                            tLRPC$MessageFwdHeader6.from_id = tLRPC$Peer7;
+                                                        }
+                                                    }
+                                                    if (messageObject.messageOwner.post_author == null && !messageObject.isOutOwner() && fromChatId > 0 && messageObject.messageOwner.post && (user = getMessagesController().getUser(Long.valueOf(fromChatId))) != null) {
+                                                        tLRPC$TL_message.fwd_from.post_author = ContactsController.formatName(user.first_name, user.last_name);
+                                                        tLRPC$TL_message.fwd_from.flags |= 8;
+                                                    }
+                                                    tLRPC$TL_message.date = messageObject.messageOwner.date;
+                                                    tLRPC$TL_message.flags = 4;
+                                                    if (j9 == clientUserId && (tLRPC$MessageFwdHeader = tLRPC$TL_message.fwd_from) != null) {
+                                                        tLRPC$MessageFwdHeader.flags |= 16;
+                                                        tLRPC$MessageFwdHeader.saved_from_msg_id = messageObject.getId();
+                                                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader7 = tLRPC$TL_message.fwd_from;
+                                                        tLRPC$Peer4 = messageObject.messageOwner.peer_id;
+                                                        tLRPC$MessageFwdHeader7.saved_from_peer = tLRPC$Peer4;
+                                                        if (tLRPC$Peer4.user_id == clientUserId) {
+                                                            tLRPC$Peer4.user_id = messageObject.getDialogId();
+                                                        }
+                                                    }
+                                                }
+                                                j5 = j2;
+                                                str3 = str;
+                                                tLRPC$Chat3 = tLRPC$Chat;
+                                                arrayList7 = arrayList19;
+                                                if (j9 == clientUserId) {
+                                                    tLRPC$MessageFwdHeader.flags |= 16;
+                                                    tLRPC$MessageFwdHeader.saved_from_msg_id = messageObject.getId();
+                                                    TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader72 = tLRPC$TL_message.fwd_from;
+                                                    tLRPC$Peer4 = messageObject.messageOwner.peer_id;
+                                                    tLRPC$MessageFwdHeader72.saved_from_peer = tLRPC$Peer4;
+                                                    if (tLRPC$Peer4.user_id == clientUserId) {
+                                                    }
                                                 }
                                             }
-                                            if (messageObject.messageOwner.post_author == null && !messageObject.isOutOwner() && fromChatId > 0 && messageObject.messageOwner.post && (user = getMessagesController().getUser(Long.valueOf(fromChatId))) != null) {
-                                                tLRPC$TL_message.fwd_from.post_author = ContactsController.formatName(user.first_name, user.last_name);
-                                                tLRPC$TL_message.fwd_from.flags |= 8;
-                                            }
-                                            tLRPC$TL_message.date = messageObject.messageOwner.date;
-                                            tLRPC$TL_message.flags = 4;
-                                            if (j9 == clientUserId && (tLRPC$MessageFwdHeader = tLRPC$TL_message.fwd_from) != null) {
-                                                tLRPC$MessageFwdHeader.flags |= 16;
-                                                tLRPC$MessageFwdHeader.saved_from_msg_id = messageObject.getId();
-                                                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader7 = tLRPC$TL_message.fwd_from;
-                                                tLRPC$Peer4 = messageObject.messageOwner.peer_id;
-                                                tLRPC$MessageFwdHeader7.saved_from_peer = tLRPC$Peer4;
-                                                if (tLRPC$Peer4.user_id == clientUserId) {
-                                                    tLRPC$Peer4.user_id = messageObject.getDialogId();
-                                                }
-                                            }
+                                        }
+                                        z14 = false;
+                                        if (!messageObject.isForwarded()) {
                                         }
                                         j5 = j2;
                                         str3 = str;
                                         tLRPC$Chat3 = tLRPC$Chat;
                                         arrayList7 = arrayList19;
                                         if (j9 == clientUserId) {
-                                            tLRPC$MessageFwdHeader.flags |= 16;
-                                            tLRPC$MessageFwdHeader.saved_from_msg_id = messageObject.getId();
-                                            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader72 = tLRPC$TL_message.fwd_from;
-                                            tLRPC$Peer4 = messageObject.messageOwner.peer_id;
-                                            tLRPC$MessageFwdHeader72.saved_from_peer = tLRPC$Peer4;
-                                            if (tLRPC$Peer4.user_id == clientUserId) {
-                                            }
                                         }
-                                    }
-                                }
-                                z14 = false;
-                                if (!messageObject.isForwarded()) {
-                                }
-                                j5 = j2;
-                                str3 = str;
-                                tLRPC$Chat3 = tLRPC$Chat;
-                                arrayList7 = arrayList19;
-                                if (j9 == clientUserId) {
-                                }
-                            } else {
-                                j5 = j2;
-                                str3 = str;
-                                tLRPC$Chat3 = tLRPC$Chat;
-                                arrayList7 = arrayList19;
-                                longSparseArray3 = longSparseArray6;
-                            }
-                            HashMap<String, String> hashMap = new HashMap<>();
-                            tLRPC$TL_message.params = hashMap;
-                            hashMap.put("fwd_id", "" + messageObject.getId());
-                            tLRPC$TL_message.params.put("fwd_peer", "" + messageObject.getDialogId());
-                            if (!messageObject.messageOwner.restriction_reason.isEmpty()) {
-                                tLRPC$TL_message.restriction_reason = messageObject.messageOwner.restriction_reason;
-                                tLRPC$TL_message.flags |= 4194304;
-                            }
-                            if (!z5 && (messageObject.messageOwner.media instanceof TLRPC$TL_messageMediaWebPage)) {
-                                tLRPC$TL_message.media = new TLRPC$TL_messageMediaEmpty();
-                            } else {
-                                tLRPC$TL_message.media = messageObject.messageOwner.media;
-                            }
-                            if (tLRPC$TL_message.media != null) {
-                                tLRPC$TL_message.flags |= 512;
-                            }
-                            long j10 = messageObject.messageOwner.via_bot_id;
-                            if (j10 != 0) {
-                                tLRPC$TL_message.via_bot_id = j10;
-                                tLRPC$TL_message.flags |= 2048;
-                            }
-                            if (j5 != 0) {
-                                TLRPC$TL_messageReplies tLRPC$TL_messageReplies = new TLRPC$TL_messageReplies();
-                                tLRPC$TL_message.replies = tLRPC$TL_messageReplies;
-                                tLRPC$TL_messageReplies.comments = true;
-                                j6 = j5;
-                                tLRPC$TL_messageReplies.channel_id = j6;
-                                tLRPC$TL_messageReplies.flags |= 1;
-                                tLRPC$TL_message.flags |= 8388608;
-                            } else {
-                                j6 = j5;
-                            }
-                            if (!z19 || tLRPC$TL_message.media == null) {
-                                tLRPC$TL_message.message = messageObject.messageOwner.message;
-                            }
-                            if (tLRPC$TL_message.message == null) {
-                                tLRPC$TL_message.message = "";
-                            }
-                            tLRPC$TL_message.fwd_msg_id = messageObject.getId();
-                            TLRPC$Message tLRPC$Message3 = messageObject.messageOwner;
-                            tLRPC$TL_message.attachPath = tLRPC$Message3.attachPath;
-                            tLRPC$TL_message.entities = tLRPC$Message3.entities;
-                            if (tLRPC$Message3.reply_markup instanceof TLRPC$TL_replyInlineMarkup) {
-                                tLRPC$TL_message.reply_markup = new TLRPC$TL_replyInlineMarkup();
-                                int size = messageObject.messageOwner.reply_markup.rows.size();
-                                int i9 = 0;
-                                boolean z21 = false;
-                                while (true) {
-                                    if (i9 >= size) {
-                                        j3 = j6;
-                                        break;
-                                    }
-                                    TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow2 = messageObject.messageOwner.reply_markup.rows.get(i9);
-                                    int size2 = tLRPC$TL_keyboardButtonRow2.buttons.size();
-                                    int i10 = size;
-                                    int i11 = 0;
-                                    TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow3 = null;
-                                    while (true) {
-                                        j3 = j6;
-                                        if (i11 >= size2) {
-                                            break;
-                                        }
-                                        TLRPC$KeyboardButton tLRPC$KeyboardButton = tLRPC$TL_keyboardButtonRow2.buttons.get(i11);
-                                        boolean z22 = tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonUrlAuth;
-                                        boolean z23 = z21;
-                                        if (!z22 && !(tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonUrl) && !(tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonSwitchInline) && !(tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonBuy)) {
-                                            z21 = true;
-                                            break;
-                                        }
-                                        if (z22) {
-                                            TLRPC$TL_keyboardButtonUrlAuth tLRPC$TL_keyboardButtonUrlAuth = new TLRPC$TL_keyboardButtonUrlAuth();
-                                            tLRPC$TL_keyboardButtonUrlAuth.flags = tLRPC$KeyboardButton.flags;
-                                            String str6 = tLRPC$KeyboardButton.fwd_text;
-                                            if (str6 != null) {
-                                                tLRPC$TL_keyboardButtonUrlAuth.fwd_text = str6;
-                                                tLRPC$TL_keyboardButtonUrlAuth.text = str6;
-                                            } else {
-                                                tLRPC$TL_keyboardButtonUrlAuth.text = tLRPC$KeyboardButton.text;
-                                            }
-                                            tLRPC$TL_keyboardButtonUrlAuth.url = tLRPC$KeyboardButton.url;
-                                            tLRPC$TL_keyboardButtonUrlAuth.button_id = tLRPC$KeyboardButton.button_id;
-                                            tLRPC$KeyboardButton = tLRPC$TL_keyboardButtonUrlAuth;
-                                        }
-                                        if (tLRPC$TL_keyboardButtonRow3 == null) {
-                                            tLRPC$TL_keyboardButtonRow = new TLRPC$TL_keyboardButtonRow();
-                                            tLRPC$TL_message.reply_markup.rows.add(tLRPC$TL_keyboardButtonRow);
-                                        } else {
-                                            tLRPC$TL_keyboardButtonRow = tLRPC$TL_keyboardButtonRow3;
-                                        }
-                                        tLRPC$TL_keyboardButtonRow.buttons.add(tLRPC$KeyboardButton);
-                                        i11++;
-                                        tLRPC$TL_keyboardButtonRow3 = tLRPC$TL_keyboardButtonRow;
-                                        j6 = j3;
-                                        z21 = z23;
-                                    }
-                                    if (z21) {
-                                        break;
-                                    }
-                                    i9++;
-                                    size = i10;
-                                    j6 = j3;
-                                }
-                                if (!z21) {
-                                    tLRPC$TL_message.flags |= 64;
-                                } else {
-                                    messageObject.messageOwner.reply_markup = null;
-                                    tLRPC$TL_message.flags &= -65;
-                                    if (!tLRPC$TL_message.entities.isEmpty()) {
-                                        tLRPC$TL_message.flags |= 128;
-                                    }
-                                    if (tLRPC$TL_message.attachPath == null) {
-                                        tLRPC$TL_message.attachPath = "";
-                                    }
-                                    int newMessageId = getUserConfig().getNewMessageId();
-                                    tLRPC$TL_message.id = newMessageId;
-                                    tLRPC$TL_message.local_id = newMessageId;
-                                    tLRPC$TL_message.out = true;
-                                    j7 = messageObject.messageOwner.grouped_id;
-                                    if (j7 != 0) {
-                                        Long l = (Long) longSparseArray4.get(j7);
-                                        if (l == null) {
-                                            l = Long.valueOf(Utilities.random.nextLong());
-                                            longSparseArray4.put(messageObject.messageOwner.grouped_id, l);
-                                        }
-                                        tLRPC$TL_message.grouped_id = l.longValue();
-                                        tLRPC$TL_message.flags |= 131072;
-                                    }
-                                    tLRPC$Peer3 = tLRPC$Peer5;
-                                    if (tLRPC$Peer3.channel_id == 0 && z7) {
-                                        if (z9) {
-                                            TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-                                            tLRPC$TL_message.from_id = tLRPC$TL_peerUser;
-                                            tLRPC$TL_peerUser.user_id = clientUserId;
-                                        } else {
-                                            tLRPC$TL_message.from_id = tLRPC$Peer3;
-                                        }
-                                        tLRPC$TL_message.post = true;
-                                        str4 = str3;
-                                        tLRPC$Chat4 = tLRPC$Chat3;
                                     } else {
-                                        tLRPC$Chat4 = tLRPC$Chat3;
-                                        sendAsPeerId = ChatObject.getSendAsPeerId(tLRPC$Chat4, getMessagesController().getChatFull(-j9), true);
-                                        if (sendAsPeerId != clientUserId) {
-                                            TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
-                                            tLRPC$TL_message.from_id = tLRPC$TL_peerUser2;
-                                            tLRPC$TL_peerUser2.user_id = clientUserId;
-                                            tLRPC$TL_message.flags |= 256;
-                                            str4 = str3;
-                                        } else {
-                                            tLRPC$TL_message.from_id = getMessagesController().getPeer(sendAsPeerId);
-                                            str4 = str3;
-                                            if (str3 != null) {
-                                                tLRPC$TL_message.post_author = str4;
-                                                tLRPC$TL_message.flags |= 65536;
-                                            }
-                                        }
+                                        j5 = j2;
+                                        str3 = str;
+                                        tLRPC$Chat3 = tLRPC$Chat;
+                                        arrayList7 = arrayList19;
+                                        longSparseArray3 = longSparseArray6;
                                     }
-                                    if (tLRPC$TL_message.random_id == 0) {
-                                        tLRPC$TL_message.random_id = getNextRandomId();
+                                    HashMap<String, String> hashMap = new HashMap<>();
+                                    tLRPC$TL_message.params = hashMap;
+                                    hashMap.put("fwd_id", "" + messageObject.getId());
+                                    tLRPC$TL_message.params.put("fwd_peer", "" + messageObject.getDialogId());
+                                    if (!messageObject.messageOwner.restriction_reason.isEmpty()) {
+                                        tLRPC$TL_message.restriction_reason = messageObject.messageOwner.restriction_reason;
+                                        tLRPC$TL_message.flags |= 4194304;
                                     }
-                                    ArrayList<Long> arrayList20 = arrayList7;
-                                    arrayList20.add(Long.valueOf(tLRPC$TL_message.random_id));
-                                    LongSparseArray longSparseArray7 = longSparseArray3;
-                                    longSparseArray7.put(tLRPC$TL_message.random_id, tLRPC$TL_message);
-                                    ArrayList<Integer> arrayList21 = arrayList16;
-                                    arrayList21.add(Integer.valueOf(tLRPC$TL_message.fwd_msg_id));
-                                    tLRPC$TL_message.date = i == 0 ? i : getConnectionsManager().getCurrentTime();
-                                    longSparseArray2 = longSparseArray4;
-                                    TLRPC$InputPeer tLRPC$InputPeer3 = tLRPC$InputPeer2;
-                                    z11 = tLRPC$InputPeer3 instanceof TLRPC$TL_inputPeerChannel;
-                                    if (z11 || !z7) {
-                                        j4 = clientUserId;
-                                        tLRPC$Message = messageObject.messageOwner;
-                                        if ((tLRPC$Message.flags & 1024) != 0 && i == 0) {
-                                            tLRPC$TL_message.views = tLRPC$Message.views;
-                                            tLRPC$TL_message.flags |= 1024;
-                                        }
-                                        tLRPC$TL_message.unread = true;
+                                    if (!z5 && (messageObject.messageOwner.media instanceof TLRPC$TL_messageMediaWebPage)) {
+                                        tLRPC$TL_message.media = new TLRPC$TL_messageMediaEmpty();
                                     } else {
-                                        j4 = clientUserId;
-                                        if (i == 0) {
-                                            tLRPC$TL_message.views = 1;
-                                            tLRPC$TL_message.flags |= 1024;
-                                        }
+                                        tLRPC$TL_message.media = messageObject.messageOwner.media;
                                     }
-                                    tLRPC$TL_message.dialog_id = j9;
-                                    tLRPC$TL_message.peer_id = tLRPC$Peer3;
-                                    if (!MessageObject.isVoiceMessage(tLRPC$TL_message) || MessageObject.isRoundVideoMessage(tLRPC$TL_message)) {
-                                        if (!z11 && messageObject.getChannelId() != 0) {
-                                            tLRPC$TL_message.media_unread = messageObject.isContentUnread();
+                                    if (tLRPC$TL_message.media != null) {
+                                        tLRPC$TL_message.flags |= 512;
+                                    }
+                                    long j10 = messageObject.messageOwner.via_bot_id;
+                                    if (j10 != 0) {
+                                        tLRPC$TL_message.via_bot_id = j10;
+                                        tLRPC$TL_message.flags |= 2048;
+                                    }
+                                    if (j5 != 0) {
+                                        TLRPC$TL_messageReplies tLRPC$TL_messageReplies = new TLRPC$TL_messageReplies();
+                                        tLRPC$TL_message.replies = tLRPC$TL_messageReplies;
+                                        tLRPC$TL_messageReplies.comments = true;
+                                        j6 = j5;
+                                        tLRPC$TL_messageReplies.channel_id = j6;
+                                        tLRPC$TL_messageReplies.flags |= 1;
+                                        tLRPC$TL_message.flags |= 8388608;
+                                    } else {
+                                        j6 = j5;
+                                    }
+                                    if (!z19 || tLRPC$TL_message.media == null) {
+                                        tLRPC$TL_message.message = messageObject.messageOwner.message;
+                                    }
+                                    if (tLRPC$TL_message.message == null) {
+                                        tLRPC$TL_message.message = "";
+                                    }
+                                    tLRPC$TL_message.fwd_msg_id = messageObject.getId();
+                                    TLRPC$Message tLRPC$Message3 = messageObject.messageOwner;
+                                    tLRPC$TL_message.attachPath = tLRPC$Message3.attachPath;
+                                    tLRPC$TL_message.entities = tLRPC$Message3.entities;
+                                    if (tLRPC$Message3.reply_markup instanceof TLRPC$TL_replyInlineMarkup) {
+                                        tLRPC$TL_message.reply_markup = new TLRPC$TL_replyInlineMarkup();
+                                        int size = messageObject.messageOwner.reply_markup.rows.size();
+                                        int i9 = 0;
+                                        boolean z22 = false;
+                                        while (true) {
+                                            if (i9 >= size) {
+                                                j3 = j6;
+                                                break;
+                                            }
+                                            TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow2 = messageObject.messageOwner.reply_markup.rows.get(i9);
+                                            int size2 = tLRPC$TL_keyboardButtonRow2.buttons.size();
+                                            int i10 = size;
+                                            int i11 = 0;
+                                            TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow3 = null;
+                                            while (true) {
+                                                j3 = j6;
+                                                if (i11 >= size2) {
+                                                    break;
+                                                }
+                                                TLRPC$KeyboardButton tLRPC$KeyboardButton = tLRPC$TL_keyboardButtonRow2.buttons.get(i11);
+                                                boolean z23 = tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonUrlAuth;
+                                                boolean z24 = z22;
+                                                if (!z23 && !(tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonUrl) && !(tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonSwitchInline) && !(tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonBuy)) {
+                                                    z22 = true;
+                                                    break;
+                                                }
+                                                if (z23) {
+                                                    TLRPC$TL_keyboardButtonUrlAuth tLRPC$TL_keyboardButtonUrlAuth = new TLRPC$TL_keyboardButtonUrlAuth();
+                                                    tLRPC$TL_keyboardButtonUrlAuth.flags = tLRPC$KeyboardButton.flags;
+                                                    String str6 = tLRPC$KeyboardButton.fwd_text;
+                                                    if (str6 != null) {
+                                                        tLRPC$TL_keyboardButtonUrlAuth.fwd_text = str6;
+                                                        tLRPC$TL_keyboardButtonUrlAuth.text = str6;
+                                                    } else {
+                                                        tLRPC$TL_keyboardButtonUrlAuth.text = tLRPC$KeyboardButton.text;
+                                                    }
+                                                    tLRPC$TL_keyboardButtonUrlAuth.url = tLRPC$KeyboardButton.url;
+                                                    tLRPC$TL_keyboardButtonUrlAuth.button_id = tLRPC$KeyboardButton.button_id;
+                                                    tLRPC$KeyboardButton = tLRPC$TL_keyboardButtonUrlAuth;
+                                                }
+                                                if (tLRPC$TL_keyboardButtonRow3 == null) {
+                                                    tLRPC$TL_keyboardButtonRow = new TLRPC$TL_keyboardButtonRow();
+                                                    tLRPC$TL_message.reply_markup.rows.add(tLRPC$TL_keyboardButtonRow);
+                                                } else {
+                                                    tLRPC$TL_keyboardButtonRow = tLRPC$TL_keyboardButtonRow3;
+                                                }
+                                                tLRPC$TL_keyboardButtonRow.buttons.add(tLRPC$KeyboardButton);
+                                                i11++;
+                                                tLRPC$TL_keyboardButtonRow3 = tLRPC$TL_keyboardButtonRow;
+                                                j6 = j3;
+                                                z22 = z24;
+                                            }
+                                            if (z22) {
+                                                break;
+                                            }
+                                            i9++;
+                                            size = i10;
+                                            j6 = j3;
+                                        }
+                                        if (!z22) {
+                                            tLRPC$TL_message.flags |= 64;
                                         } else {
-                                            z12 = true;
-                                            tLRPC$TL_message.media_unread = true;
-                                            longSparseArray = longSparseArray7;
-                                            MessageObject messageObject2 = new MessageObject(this.currentAccount, tLRPC$TL_message, z12, z12);
-                                            messageObject2.scheduled = i != 0;
-                                            TLRPC$Message tLRPC$Message4 = messageObject2.messageOwner;
-                                            int i12 = z12 ? 1 : 0;
-                                            int i13 = z12 ? 1 : 0;
-                                            tLRPC$Message4.send_state = i12;
-                                            messageObject2.wasJustSent = z12;
-                                            ArrayList<MessageObject> arrayList22 = arrayList17;
-                                            arrayList22.add(messageObject2);
-                                            arrayList8 = arrayList18;
-                                            arrayList8.add(tLRPC$TL_message);
-                                            tLRPC$Peer2 = tLRPC$Peer3;
-                                            TLRPC$Chat tLRPC$Chat5 = tLRPC$Chat4;
-                                            if (messageObject.replyMessageObject != null) {
-                                                int i14 = 0;
-                                                while (true) {
-                                                    if (i14 >= arrayList.size()) {
-                                                        arrayList9 = arrayList;
-                                                        str2 = str4;
-                                                        break;
-                                                    }
-                                                    arrayList9 = arrayList;
-                                                    str2 = str4;
-                                                    if (arrayList9.get(i14).getId() == messageObject.replyMessageObject.getId()) {
-                                                        TLRPC$Message tLRPC$Message5 = messageObject2.messageOwner;
-                                                        MessageObject messageObject3 = messageObject.replyMessageObject;
-                                                        tLRPC$Message5.replyMessage = messageObject3.messageOwner;
-                                                        messageObject2.replyMessageObject = messageObject3;
-                                                        break;
-                                                    }
-                                                    i14++;
-                                                    str4 = str2;
+                                            messageObject.messageOwner.reply_markup = null;
+                                            tLRPC$TL_message.flags &= -65;
+                                            if (!tLRPC$TL_message.entities.isEmpty()) {
+                                                tLRPC$TL_message.flags |= 128;
+                                            }
+                                            if (tLRPC$TL_message.attachPath == null) {
+                                                tLRPC$TL_message.attachPath = "";
+                                            }
+                                            int newMessageId = getUserConfig().getNewMessageId();
+                                            tLRPC$TL_message.id = newMessageId;
+                                            tLRPC$TL_message.local_id = newMessageId;
+                                            tLRPC$TL_message.out = true;
+                                            j7 = messageObject.messageOwner.grouped_id;
+                                            if (j7 != 0) {
+                                                Long l = (Long) longSparseArray4.get(j7);
+                                                if (l == null) {
+                                                    l = Long.valueOf(Utilities.random.nextLong());
+                                                    longSparseArray4.put(messageObject.messageOwner.grouped_id, l);
                                                 }
-                                            } else {
-                                                str2 = str4;
-                                                arrayList9 = arrayList;
+                                                tLRPC$TL_message.grouped_id = l.longValue();
+                                                tLRPC$TL_message.flags |= 131072;
                                             }
-                                            putToSendingMessages(tLRPC$TL_message, i != 0);
-                                            if (BuildVars.LOGS_ENABLED) {
-                                                FileLog.d("forward message user_id = " + tLRPC$InputPeer3.user_id + " chat_id = " + tLRPC$InputPeer3.chat_id + " channel_id = " + tLRPC$InputPeer3.channel_id + " access_hash = " + tLRPC$InputPeer3.access_hash);
-                                            }
-                                            if (arrayList8.size() != 100) {
-                                                i4 = i3;
-                                                if (i4 != arrayList.size() - 1 && (i4 == arrayList.size() - 1 || arrayList9.get(i4 + 1).getDialogId() == messageObject.getDialogId())) {
-                                                    arrayList6 = arrayList21;
-                                                    arrayList5 = arrayList22;
-                                                    arrayList2 = arrayList8;
-                                                    tLRPC$InputPeer = tLRPC$InputPeer3;
-                                                    tLRPC$Chat2 = tLRPC$Chat5;
-                                                    arrayList4 = arrayList20;
-                                                    i2 = i4;
+                                            tLRPC$Peer3 = tLRPC$Peer5;
+                                            if (tLRPC$Peer3.channel_id == 0 && z7) {
+                                                if (z9) {
+                                                    TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
+                                                    tLRPC$TL_message.from_id = tLRPC$TL_peerUser;
+                                                    tLRPC$TL_peerUser.user_id = clientUserId;
+                                                } else {
+                                                    tLRPC$TL_message.from_id = tLRPC$Peer3;
                                                 }
+                                                tLRPC$TL_message.post = true;
+                                                str4 = str3;
+                                                tLRPC$Chat4 = tLRPC$Chat3;
                                             } else {
-                                                i4 = i3;
-                                            }
-                                            getMessagesStorage().putMessages(new ArrayList<>(arrayList8), false, true, false, 0, i != 0);
-                                            getMessagesController().updateInterfaceWithMessages(j9, arrayList22, i != 0);
-                                            getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload, new Object[0]);
-                                            getUserConfig().saveConfig(false);
-                                            TLRPC$TL_messages_forwardMessages tLRPC$TL_messages_forwardMessages = new TLRPC$TL_messages_forwardMessages();
-                                            tLRPC$TL_messages_forwardMessages.to_peer = tLRPC$InputPeer3;
-                                            if (z3) {
-                                                if (!MessagesController.getNotificationsSettings(this.currentAccount).getBoolean("silent_" + j9, false)) {
-                                                    z13 = false;
-                                                    tLRPC$TL_messages_forwardMessages.silent = z13;
-                                                    if (i != 0) {
-                                                        tLRPC$TL_messages_forwardMessages.schedule_date = i;
-                                                        tLRPC$TL_messages_forwardMessages.flags |= 1024;
+                                                tLRPC$Chat4 = tLRPC$Chat3;
+                                                sendAsPeerId = ChatObject.getSendAsPeerId(tLRPC$Chat4, getMessagesController().getChatFull(-j9), true);
+                                                if (sendAsPeerId != clientUserId) {
+                                                    TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
+                                                    tLRPC$TL_message.from_id = tLRPC$TL_peerUser2;
+                                                    tLRPC$TL_peerUser2.user_id = clientUserId;
+                                                    tLRPC$TL_message.flags |= 256;
+                                                    str4 = str3;
+                                                } else {
+                                                    tLRPC$TL_message.from_id = getMessagesController().getPeer(sendAsPeerId);
+                                                    str4 = str3;
+                                                    if (str3 != null) {
+                                                        tLRPC$TL_message.post_author = str4;
+                                                        tLRPC$TL_message.flags |= 65536;
                                                     }
-                                                    if (!(messageObject.messageOwner.peer_id instanceof TLRPC$TL_peerChannel)) {
-                                                        i5 = i4;
-                                                        TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(messageObject.messageOwner.peer_id.channel_id));
-                                                        TLRPC$TL_inputPeerChannel tLRPC$TL_inputPeerChannel = new TLRPC$TL_inputPeerChannel();
-                                                        tLRPC$TL_messages_forwardMessages.from_peer = tLRPC$TL_inputPeerChannel;
-                                                        arrayList10 = arrayList8;
-                                                        tLRPC$TL_inputPeerChannel.channel_id = messageObject.messageOwner.peer_id.channel_id;
-                                                        if (chat2 != null) {
-                                                            tLRPC$TL_inputPeerChannel.access_hash = chat2.access_hash;
+                                                }
+                                            }
+                                            if (tLRPC$TL_message.random_id == 0) {
+                                                tLRPC$TL_message.random_id = getNextRandomId();
+                                            }
+                                            ArrayList<Long> arrayList20 = arrayList7;
+                                            arrayList20.add(Long.valueOf(tLRPC$TL_message.random_id));
+                                            LongSparseArray longSparseArray7 = longSparseArray3;
+                                            longSparseArray7.put(tLRPC$TL_message.random_id, tLRPC$TL_message);
+                                            ArrayList<Integer> arrayList21 = arrayList16;
+                                            arrayList21.add(Integer.valueOf(tLRPC$TL_message.fwd_msg_id));
+                                            tLRPC$TL_message.date = i == 0 ? i : getConnectionsManager().getCurrentTime();
+                                            longSparseArray2 = longSparseArray4;
+                                            TLRPC$InputPeer tLRPC$InputPeer3 = tLRPC$InputPeer2;
+                                            z11 = tLRPC$InputPeer3 instanceof TLRPC$TL_inputPeerChannel;
+                                            if (z11 || !z7) {
+                                                j4 = clientUserId;
+                                                tLRPC$Message = messageObject.messageOwner;
+                                                if ((tLRPC$Message.flags & 1024) != 0 && i == 0) {
+                                                    tLRPC$TL_message.views = tLRPC$Message.views;
+                                                    tLRPC$TL_message.flags |= 1024;
+                                                }
+                                                tLRPC$TL_message.unread = true;
+                                            } else {
+                                                j4 = clientUserId;
+                                                if (i == 0) {
+                                                    tLRPC$TL_message.views = 1;
+                                                    tLRPC$TL_message.flags |= 1024;
+                                                }
+                                            }
+                                            tLRPC$TL_message.dialog_id = j9;
+                                            tLRPC$TL_message.peer_id = tLRPC$Peer3;
+                                            if (!MessageObject.isVoiceMessage(tLRPC$TL_message) || MessageObject.isRoundVideoMessage(tLRPC$TL_message)) {
+                                                if (!z11 && messageObject.getChannelId() != 0) {
+                                                    tLRPC$TL_message.media_unread = messageObject.isContentUnread();
+                                                } else {
+                                                    z12 = true;
+                                                    tLRPC$TL_message.media_unread = true;
+                                                    longSparseArray = longSparseArray7;
+                                                    MessageObject messageObject2 = new MessageObject(this.currentAccount, tLRPC$TL_message, z12, z12);
+                                                    messageObject2.scheduled = i != 0;
+                                                    TLRPC$Message tLRPC$Message4 = messageObject2.messageOwner;
+                                                    int i12 = z12 ? 1 : 0;
+                                                    int i13 = z12 ? 1 : 0;
+                                                    tLRPC$Message4.send_state = i12;
+                                                    messageObject2.wasJustSent = z12;
+                                                    ArrayList<MessageObject> arrayList22 = arrayList17;
+                                                    arrayList22.add(messageObject2);
+                                                    arrayList8 = arrayList18;
+                                                    arrayList8.add(tLRPC$TL_message);
+                                                    tLRPC$Peer2 = tLRPC$Peer3;
+                                                    TLRPC$Chat tLRPC$Chat5 = tLRPC$Chat4;
+                                                    if (messageObject.replyMessageObject != null) {
+                                                        int i14 = 0;
+                                                        while (true) {
+                                                            if (i14 >= arrayList.size()) {
+                                                                arrayList9 = arrayList;
+                                                                str2 = str4;
+                                                                break;
+                                                            }
+                                                            arrayList9 = arrayList;
+                                                            str2 = str4;
+                                                            if (arrayList9.get(i14).getId() == messageObject.replyMessageObject.getId()) {
+                                                                TLRPC$Message tLRPC$Message5 = messageObject2.messageOwner;
+                                                                MessageObject messageObject3 = messageObject.replyMessageObject;
+                                                                tLRPC$Message5.replyMessage = messageObject3.messageOwner;
+                                                                messageObject2.replyMessageObject = messageObject3;
+                                                                break;
+                                                            }
+                                                            i14++;
+                                                            str4 = str2;
                                                         }
                                                     } else {
-                                                        i5 = i4;
-                                                        arrayList10 = arrayList8;
-                                                        tLRPC$TL_messages_forwardMessages.from_peer = new TLRPC$TL_inputPeerEmpty();
+                                                        str2 = str4;
+                                                        arrayList9 = arrayList;
+                                                    }
+                                                    putToSendingMessages(tLRPC$TL_message, i != 0);
+                                                    if (BuildVars.LOGS_ENABLED) {
+                                                        FileLog.d("forward message user_id = " + tLRPC$InputPeer3.user_id + " chat_id = " + tLRPC$InputPeer3.chat_id + " channel_id = " + tLRPC$InputPeer3.channel_id + " access_hash = " + tLRPC$InputPeer3.access_hash);
+                                                    }
+                                                    if (arrayList8.size() != 100) {
+                                                        i3 = i8;
+                                                        if (i3 != arrayList.size() - 1 && (i3 == arrayList.size() - 1 || arrayList9.get(i3 + 1).getDialogId() == messageObject.getDialogId())) {
+                                                            arrayList6 = arrayList21;
+                                                            arrayList5 = arrayList22;
+                                                            arrayList2 = arrayList8;
+                                                            tLRPC$InputPeer = tLRPC$InputPeer3;
+                                                            tLRPC$Chat2 = tLRPC$Chat5;
+                                                            arrayList4 = arrayList20;
+                                                            i2 = i3;
+                                                        }
+                                                    } else {
+                                                        i3 = i8;
+                                                    }
+                                                    getMessagesStorage().putMessages(new ArrayList<>(arrayList8), false, true, false, 0, i != 0);
+                                                    getMessagesController().updateInterfaceWithMessages(j9, arrayList22, i != 0);
+                                                    getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload, new Object[0]);
+                                                    getUserConfig().saveConfig(false);
+                                                    TLRPC$TL_messages_forwardMessages tLRPC$TL_messages_forwardMessages = new TLRPC$TL_messages_forwardMessages();
+                                                    tLRPC$TL_messages_forwardMessages.to_peer = tLRPC$InputPeer3;
+                                                    if (z3) {
+                                                        if (!MessagesController.getNotificationsSettings(this.currentAccount).getBoolean("silent_" + j9, false)) {
+                                                            z13 = false;
+                                                            tLRPC$TL_messages_forwardMessages.silent = z13;
+                                                            if (i != 0) {
+                                                                tLRPC$TL_messages_forwardMessages.schedule_date = i;
+                                                                tLRPC$TL_messages_forwardMessages.flags |= 1024;
+                                                            }
+                                                            if (!(messageObject.messageOwner.peer_id instanceof TLRPC$TL_peerChannel)) {
+                                                                i4 = i3;
+                                                                TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(messageObject.messageOwner.peer_id.channel_id));
+                                                                TLRPC$TL_inputPeerChannel tLRPC$TL_inputPeerChannel = new TLRPC$TL_inputPeerChannel();
+                                                                tLRPC$TL_messages_forwardMessages.from_peer = tLRPC$TL_inputPeerChannel;
+                                                                arrayList10 = arrayList8;
+                                                                tLRPC$TL_inputPeerChannel.channel_id = messageObject.messageOwner.peer_id.channel_id;
+                                                                if (chat2 != null) {
+                                                                    tLRPC$TL_inputPeerChannel.access_hash = chat2.access_hash;
+                                                                }
+                                                            } else {
+                                                                i4 = i3;
+                                                                arrayList10 = arrayList8;
+                                                                tLRPC$TL_messages_forwardMessages.from_peer = new TLRPC$TL_inputPeerEmpty();
+                                                            }
+                                                            tLRPC$TL_messages_forwardMessages.random_id = arrayList20;
+                                                            tLRPC$TL_messages_forwardMessages.id = arrayList21;
+                                                            tLRPC$TL_messages_forwardMessages.drop_author = z;
+                                                            tLRPC$TL_messages_forwardMessages.drop_media_captions = z2;
+                                                            tLRPC$TL_messages_forwardMessages.with_my_score = arrayList.size() != 1 && arrayList9.get(0).messageOwner.with_my_score;
+                                                            tLRPC$InputPeer = tLRPC$InputPeer3;
+                                                            arrayList6 = arrayList21;
+                                                            arrayList5 = arrayList22;
+                                                            tLRPC$Chat2 = tLRPC$Chat5;
+                                                            arrayList4 = arrayList20;
+                                                            i2 = i4;
+                                                            arrayList2 = arrayList10;
+                                                            getConnectionsManager().sendRequest(tLRPC$TL_messages_forwardMessages, new SendMessagesHelper$$ExternalSyntheticLambda79(this, j, i, i != 2147483646, z20, longSparseArray, arrayList10, new ArrayList(arrayList22), messageObject, tLRPC$Peer2, tLRPC$TL_messages_forwardMessages), 68);
+                                                            if (i2 != arrayList.size() - 1) {
+                                                                ArrayList<MessageObject> arrayList23 = new ArrayList<>();
+                                                                ArrayList arrayList24 = new ArrayList();
+                                                                ArrayList<Long> arrayList25 = new ArrayList<>();
+                                                                arrayList3 = new ArrayList<>();
+                                                                arrayList17 = arrayList23;
+                                                                arrayList2 = arrayList24;
+                                                                arrayList19 = arrayList25;
+                                                                longSparseArray = new LongSparseArray();
+                                                            }
+                                                        }
+                                                    }
+                                                    z13 = true;
+                                                    tLRPC$TL_messages_forwardMessages.silent = z13;
+                                                    if (i != 0) {
+                                                    }
+                                                    if (!(messageObject.messageOwner.peer_id instanceof TLRPC$TL_peerChannel)) {
                                                     }
                                                     tLRPC$TL_messages_forwardMessages.random_id = arrayList20;
                                                     tLRPC$TL_messages_forwardMessages.id = arrayList21;
@@ -2787,74 +2804,129 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                                     arrayList5 = arrayList22;
                                                     tLRPC$Chat2 = tLRPC$Chat5;
                                                     arrayList4 = arrayList20;
-                                                    i2 = i5;
+                                                    i2 = i4;
                                                     arrayList2 = arrayList10;
                                                     getConnectionsManager().sendRequest(tLRPC$TL_messages_forwardMessages, new SendMessagesHelper$$ExternalSyntheticLambda79(this, j, i, i != 2147483646, z20, longSparseArray, arrayList10, new ArrayList(arrayList22), messageObject, tLRPC$Peer2, tLRPC$TL_messages_forwardMessages), 68);
                                                     if (i2 != arrayList.size() - 1) {
-                                                        ArrayList<MessageObject> arrayList23 = new ArrayList<>();
-                                                        ArrayList arrayList24 = new ArrayList();
-                                                        ArrayList<Long> arrayList25 = new ArrayList<>();
-                                                        arrayList3 = new ArrayList<>();
-                                                        arrayList17 = arrayList23;
-                                                        arrayList2 = arrayList24;
-                                                        arrayList19 = arrayList25;
-                                                        longSparseArray = new LongSparseArray();
-                                                        i8 = i2 + 1;
-                                                        arrayList11 = arrayList;
-                                                        j9 = j;
-                                                        z18 = z;
-                                                        z19 = z2;
-                                                        longSparseArray4 = longSparseArray2;
-                                                        tLRPC$Peer5 = tLRPC$Peer2;
-                                                        longSparseArray6 = longSparseArray;
-                                                        clientUserId = j4;
-                                                        str = str2;
-                                                        tLRPC$Chat = tLRPC$Chat2;
-                                                        arrayList18 = arrayList2;
-                                                        arrayList16 = arrayList3;
-                                                        tLRPC$InputPeer2 = tLRPC$InputPeer;
-                                                        j2 = j3;
                                                     }
                                                 }
                                             }
+                                            z12 = true;
+                                            longSparseArray = longSparseArray7;
+                                            MessageObject messageObject22 = new MessageObject(this.currentAccount, tLRPC$TL_message, z12, z12);
+                                            messageObject22.scheduled = i != 0;
+                                            TLRPC$Message tLRPC$Message42 = messageObject22.messageOwner;
+                                            int i122 = z12 ? 1 : 0;
+                                            int i132 = z12 ? 1 : 0;
+                                            tLRPC$Message42.send_state = i122;
+                                            messageObject22.wasJustSent = z12;
+                                            ArrayList<MessageObject> arrayList222 = arrayList17;
+                                            arrayList222.add(messageObject22);
+                                            arrayList8 = arrayList18;
+                                            arrayList8.add(tLRPC$TL_message);
+                                            tLRPC$Peer2 = tLRPC$Peer3;
+                                            TLRPC$Chat tLRPC$Chat52 = tLRPC$Chat4;
+                                            if (messageObject.replyMessageObject != null) {
+                                            }
+                                            putToSendingMessages(tLRPC$TL_message, i != 0);
+                                            if (BuildVars.LOGS_ENABLED) {
+                                            }
+                                            if (arrayList8.size() != 100) {
+                                            }
+                                            getMessagesStorage().putMessages(new ArrayList<>(arrayList8), false, true, false, 0, i != 0);
+                                            getMessagesController().updateInterfaceWithMessages(j9, arrayList222, i != 0);
+                                            getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload, new Object[0]);
+                                            getUserConfig().saveConfig(false);
+                                            TLRPC$TL_messages_forwardMessages tLRPC$TL_messages_forwardMessages2 = new TLRPC$TL_messages_forwardMessages();
+                                            tLRPC$TL_messages_forwardMessages2.to_peer = tLRPC$InputPeer3;
+                                            if (z3) {
+                                            }
                                             z13 = true;
-                                            tLRPC$TL_messages_forwardMessages.silent = z13;
+                                            tLRPC$TL_messages_forwardMessages2.silent = z13;
                                             if (i != 0) {
                                             }
                                             if (!(messageObject.messageOwner.peer_id instanceof TLRPC$TL_peerChannel)) {
                                             }
-                                            tLRPC$TL_messages_forwardMessages.random_id = arrayList20;
-                                            tLRPC$TL_messages_forwardMessages.id = arrayList21;
-                                            tLRPC$TL_messages_forwardMessages.drop_author = z;
-                                            tLRPC$TL_messages_forwardMessages.drop_media_captions = z2;
-                                            tLRPC$TL_messages_forwardMessages.with_my_score = arrayList.size() != 1 && arrayList9.get(0).messageOwner.with_my_score;
+                                            tLRPC$TL_messages_forwardMessages2.random_id = arrayList20;
+                                            tLRPC$TL_messages_forwardMessages2.id = arrayList21;
+                                            tLRPC$TL_messages_forwardMessages2.drop_author = z;
+                                            tLRPC$TL_messages_forwardMessages2.drop_media_captions = z2;
+                                            tLRPC$TL_messages_forwardMessages2.with_my_score = arrayList.size() != 1 && arrayList9.get(0).messageOwner.with_my_score;
                                             tLRPC$InputPeer = tLRPC$InputPeer3;
                                             arrayList6 = arrayList21;
-                                            arrayList5 = arrayList22;
-                                            tLRPC$Chat2 = tLRPC$Chat5;
+                                            arrayList5 = arrayList222;
+                                            tLRPC$Chat2 = tLRPC$Chat52;
                                             arrayList4 = arrayList20;
-                                            i2 = i5;
+                                            i2 = i4;
                                             arrayList2 = arrayList10;
-                                            getConnectionsManager().sendRequest(tLRPC$TL_messages_forwardMessages, new SendMessagesHelper$$ExternalSyntheticLambda79(this, j, i, i != 2147483646, z20, longSparseArray, arrayList10, new ArrayList(arrayList22), messageObject, tLRPC$Peer2, tLRPC$TL_messages_forwardMessages), 68);
+                                            getConnectionsManager().sendRequest(tLRPC$TL_messages_forwardMessages2, new SendMessagesHelper$$ExternalSyntheticLambda79(this, j, i, i != 2147483646, z20, longSparseArray, arrayList10, new ArrayList(arrayList222), messageObject, tLRPC$Peer2, tLRPC$TL_messages_forwardMessages2), 68);
                                             if (i2 != arrayList.size() - 1) {
                                             }
                                         }
+                                    } else {
+                                        j3 = j6;
+                                    }
+                                    if (!tLRPC$TL_message.entities.isEmpty()) {
+                                    }
+                                    if (tLRPC$TL_message.attachPath == null) {
+                                    }
+                                    int newMessageId2 = getUserConfig().getNewMessageId();
+                                    tLRPC$TL_message.id = newMessageId2;
+                                    tLRPC$TL_message.local_id = newMessageId2;
+                                    tLRPC$TL_message.out = true;
+                                    j7 = messageObject.messageOwner.grouped_id;
+                                    if (j7 != 0) {
+                                    }
+                                    tLRPC$Peer3 = tLRPC$Peer5;
+                                    if (tLRPC$Peer3.channel_id == 0) {
+                                    }
+                                    tLRPC$Chat4 = tLRPC$Chat3;
+                                    sendAsPeerId = ChatObject.getSendAsPeerId(tLRPC$Chat4, getMessagesController().getChatFull(-j9), true);
+                                    if (sendAsPeerId != clientUserId) {
+                                    }
+                                    if (tLRPC$TL_message.random_id == 0) {
+                                    }
+                                    ArrayList<Long> arrayList202 = arrayList7;
+                                    arrayList202.add(Long.valueOf(tLRPC$TL_message.random_id));
+                                    LongSparseArray longSparseArray72 = longSparseArray3;
+                                    longSparseArray72.put(tLRPC$TL_message.random_id, tLRPC$TL_message);
+                                    ArrayList<Integer> arrayList212 = arrayList16;
+                                    arrayList212.add(Integer.valueOf(tLRPC$TL_message.fwd_msg_id));
+                                    tLRPC$TL_message.date = i == 0 ? i : getConnectionsManager().getCurrentTime();
+                                    longSparseArray2 = longSparseArray4;
+                                    TLRPC$InputPeer tLRPC$InputPeer32 = tLRPC$InputPeer2;
+                                    z11 = tLRPC$InputPeer32 instanceof TLRPC$TL_inputPeerChannel;
+                                    if (z11) {
+                                    }
+                                    j4 = clientUserId;
+                                    tLRPC$Message = messageObject.messageOwner;
+                                    if ((tLRPC$Message.flags & 1024) != 0) {
+                                        tLRPC$TL_message.views = tLRPC$Message.views;
+                                        tLRPC$TL_message.flags |= 1024;
+                                    }
+                                    tLRPC$TL_message.unread = true;
+                                    tLRPC$TL_message.dialog_id = j9;
+                                    tLRPC$TL_message.peer_id = tLRPC$Peer3;
+                                    if (!MessageObject.isVoiceMessage(tLRPC$TL_message)) {
+                                    }
+                                    if (!z11) {
                                     }
                                     z12 = true;
-                                    longSparseArray = longSparseArray7;
-                                    MessageObject messageObject22 = new MessageObject(this.currentAccount, tLRPC$TL_message, z12, z12);
-                                    messageObject22.scheduled = i != 0;
-                                    TLRPC$Message tLRPC$Message42 = messageObject22.messageOwner;
-                                    int i122 = z12 ? 1 : 0;
-                                    int i132 = z12 ? 1 : 0;
-                                    tLRPC$Message42.send_state = i122;
-                                    messageObject22.wasJustSent = z12;
-                                    ArrayList<MessageObject> arrayList222 = arrayList17;
-                                    arrayList222.add(messageObject22);
+                                    tLRPC$TL_message.media_unread = true;
+                                    longSparseArray = longSparseArray72;
+                                    MessageObject messageObject222 = new MessageObject(this.currentAccount, tLRPC$TL_message, z12, z12);
+                                    messageObject222.scheduled = i != 0;
+                                    TLRPC$Message tLRPC$Message422 = messageObject222.messageOwner;
+                                    int i1222 = z12 ? 1 : 0;
+                                    int i1322 = z12 ? 1 : 0;
+                                    tLRPC$Message422.send_state = i1222;
+                                    messageObject222.wasJustSent = z12;
+                                    ArrayList<MessageObject> arrayList2222 = arrayList17;
+                                    arrayList2222.add(messageObject222);
                                     arrayList8 = arrayList18;
                                     arrayList8.add(tLRPC$TL_message);
                                     tLRPC$Peer2 = tLRPC$Peer3;
-                                    TLRPC$Chat tLRPC$Chat52 = tLRPC$Chat4;
+                                    TLRPC$Chat tLRPC$Chat522 = tLRPC$Chat4;
                                     if (messageObject.replyMessageObject != null) {
                                     }
                                     putToSendingMessages(tLRPC$TL_message, i != 0);
@@ -2863,139 +2935,49 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     if (arrayList8.size() != 100) {
                                     }
                                     getMessagesStorage().putMessages(new ArrayList<>(arrayList8), false, true, false, 0, i != 0);
-                                    getMessagesController().updateInterfaceWithMessages(j9, arrayList222, i != 0);
+                                    getMessagesController().updateInterfaceWithMessages(j9, arrayList2222, i != 0);
                                     getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload, new Object[0]);
                                     getUserConfig().saveConfig(false);
-                                    TLRPC$TL_messages_forwardMessages tLRPC$TL_messages_forwardMessages2 = new TLRPC$TL_messages_forwardMessages();
-                                    tLRPC$TL_messages_forwardMessages2.to_peer = tLRPC$InputPeer3;
+                                    TLRPC$TL_messages_forwardMessages tLRPC$TL_messages_forwardMessages22 = new TLRPC$TL_messages_forwardMessages();
+                                    tLRPC$TL_messages_forwardMessages22.to_peer = tLRPC$InputPeer32;
                                     if (z3) {
                                     }
                                     z13 = true;
-                                    tLRPC$TL_messages_forwardMessages2.silent = z13;
+                                    tLRPC$TL_messages_forwardMessages22.silent = z13;
                                     if (i != 0) {
                                     }
                                     if (!(messageObject.messageOwner.peer_id instanceof TLRPC$TL_peerChannel)) {
                                     }
-                                    tLRPC$TL_messages_forwardMessages2.random_id = arrayList20;
-                                    tLRPC$TL_messages_forwardMessages2.id = arrayList21;
-                                    tLRPC$TL_messages_forwardMessages2.drop_author = z;
-                                    tLRPC$TL_messages_forwardMessages2.drop_media_captions = z2;
-                                    tLRPC$TL_messages_forwardMessages2.with_my_score = arrayList.size() != 1 && arrayList9.get(0).messageOwner.with_my_score;
-                                    tLRPC$InputPeer = tLRPC$InputPeer3;
-                                    arrayList6 = arrayList21;
-                                    arrayList5 = arrayList222;
-                                    tLRPC$Chat2 = tLRPC$Chat52;
-                                    arrayList4 = arrayList20;
-                                    i2 = i5;
+                                    tLRPC$TL_messages_forwardMessages22.random_id = arrayList202;
+                                    tLRPC$TL_messages_forwardMessages22.id = arrayList212;
+                                    tLRPC$TL_messages_forwardMessages22.drop_author = z;
+                                    tLRPC$TL_messages_forwardMessages22.drop_media_captions = z2;
+                                    tLRPC$TL_messages_forwardMessages22.with_my_score = arrayList.size() != 1 && arrayList9.get(0).messageOwner.with_my_score;
+                                    tLRPC$InputPeer = tLRPC$InputPeer32;
+                                    arrayList6 = arrayList212;
+                                    arrayList5 = arrayList2222;
+                                    tLRPC$Chat2 = tLRPC$Chat522;
+                                    arrayList4 = arrayList202;
+                                    i2 = i4;
                                     arrayList2 = arrayList10;
-                                    getConnectionsManager().sendRequest(tLRPC$TL_messages_forwardMessages2, new SendMessagesHelper$$ExternalSyntheticLambda79(this, j, i, i != 2147483646, z20, longSparseArray, arrayList10, new ArrayList(arrayList222), messageObject, tLRPC$Peer2, tLRPC$TL_messages_forwardMessages2), 68);
+                                    getConnectionsManager().sendRequest(tLRPC$TL_messages_forwardMessages22, new SendMessagesHelper$$ExternalSyntheticLambda79(this, j, i, i != 2147483646, z20, longSparseArray, arrayList10, new ArrayList(arrayList2222), messageObject, tLRPC$Peer2, tLRPC$TL_messages_forwardMessages22), 68);
                                     if (i2 != arrayList.size() - 1) {
                                     }
+                                } else if (i6 == 0) {
+                                    j3 = j2;
+                                    longSparseArray2 = longSparseArray4;
+                                    str2 = str;
+                                    tLRPC$Chat2 = tLRPC$Chat;
+                                    arrayList2 = arrayList18;
+                                    tLRPC$InputPeer = tLRPC$InputPeer2;
+                                    arrayList3 = arrayList16;
+                                    i6 = 8;
+                                    j4 = clientUserId;
+                                    longSparseArray = longSparseArray6;
+                                    tLRPC$Peer2 = tLRPC$Peer5;
+                                    i2 = i8;
                                 }
-                            } else {
-                                j3 = j6;
-                            }
-                            if (!tLRPC$TL_message.entities.isEmpty()) {
-                            }
-                            if (tLRPC$TL_message.attachPath == null) {
-                            }
-                            int newMessageId2 = getUserConfig().getNewMessageId();
-                            tLRPC$TL_message.id = newMessageId2;
-                            tLRPC$TL_message.local_id = newMessageId2;
-                            tLRPC$TL_message.out = true;
-                            j7 = messageObject.messageOwner.grouped_id;
-                            if (j7 != 0) {
-                            }
-                            tLRPC$Peer3 = tLRPC$Peer5;
-                            if (tLRPC$Peer3.channel_id == 0) {
-                            }
-                            tLRPC$Chat4 = tLRPC$Chat3;
-                            sendAsPeerId = ChatObject.getSendAsPeerId(tLRPC$Chat4, getMessagesController().getChatFull(-j9), true);
-                            if (sendAsPeerId != clientUserId) {
-                            }
-                            if (tLRPC$TL_message.random_id == 0) {
-                            }
-                            ArrayList<Long> arrayList202 = arrayList7;
-                            arrayList202.add(Long.valueOf(tLRPC$TL_message.random_id));
-                            LongSparseArray longSparseArray72 = longSparseArray3;
-                            longSparseArray72.put(tLRPC$TL_message.random_id, tLRPC$TL_message);
-                            ArrayList<Integer> arrayList212 = arrayList16;
-                            arrayList212.add(Integer.valueOf(tLRPC$TL_message.fwd_msg_id));
-                            tLRPC$TL_message.date = i == 0 ? i : getConnectionsManager().getCurrentTime();
-                            longSparseArray2 = longSparseArray4;
-                            TLRPC$InputPeer tLRPC$InputPeer32 = tLRPC$InputPeer2;
-                            z11 = tLRPC$InputPeer32 instanceof TLRPC$TL_inputPeerChannel;
-                            if (z11) {
-                            }
-                            j4 = clientUserId;
-                            tLRPC$Message = messageObject.messageOwner;
-                            if ((tLRPC$Message.flags & 1024) != 0) {
-                                tLRPC$TL_message.views = tLRPC$Message.views;
-                                tLRPC$TL_message.flags |= 1024;
-                            }
-                            tLRPC$TL_message.unread = true;
-                            tLRPC$TL_message.dialog_id = j9;
-                            tLRPC$TL_message.peer_id = tLRPC$Peer3;
-                            if (!MessageObject.isVoiceMessage(tLRPC$TL_message)) {
-                            }
-                            if (!z11) {
-                            }
-                            z12 = true;
-                            tLRPC$TL_message.media_unread = true;
-                            longSparseArray = longSparseArray72;
-                            MessageObject messageObject222 = new MessageObject(this.currentAccount, tLRPC$TL_message, z12, z12);
-                            messageObject222.scheduled = i != 0;
-                            TLRPC$Message tLRPC$Message422 = messageObject222.messageOwner;
-                            int i1222 = z12 ? 1 : 0;
-                            int i1322 = z12 ? 1 : 0;
-                            tLRPC$Message422.send_state = i1222;
-                            messageObject222.wasJustSent = z12;
-                            ArrayList<MessageObject> arrayList2222 = arrayList17;
-                            arrayList2222.add(messageObject222);
-                            arrayList8 = arrayList18;
-                            arrayList8.add(tLRPC$TL_message);
-                            tLRPC$Peer2 = tLRPC$Peer3;
-                            TLRPC$Chat tLRPC$Chat522 = tLRPC$Chat4;
-                            if (messageObject.replyMessageObject != null) {
-                            }
-                            putToSendingMessages(tLRPC$TL_message, i != 0);
-                            if (BuildVars.LOGS_ENABLED) {
-                            }
-                            if (arrayList8.size() != 100) {
-                            }
-                            getMessagesStorage().putMessages(new ArrayList<>(arrayList8), false, true, false, 0, i != 0);
-                            getMessagesController().updateInterfaceWithMessages(j9, arrayList2222, i != 0);
-                            getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload, new Object[0]);
-                            getUserConfig().saveConfig(false);
-                            TLRPC$TL_messages_forwardMessages tLRPC$TL_messages_forwardMessages22 = new TLRPC$TL_messages_forwardMessages();
-                            tLRPC$TL_messages_forwardMessages22.to_peer = tLRPC$InputPeer32;
-                            if (z3) {
-                            }
-                            z13 = true;
-                            tLRPC$TL_messages_forwardMessages22.silent = z13;
-                            if (i != 0) {
-                            }
-                            if (!(messageObject.messageOwner.peer_id instanceof TLRPC$TL_peerChannel)) {
-                            }
-                            tLRPC$TL_messages_forwardMessages22.random_id = arrayList202;
-                            tLRPC$TL_messages_forwardMessages22.id = arrayList212;
-                            tLRPC$TL_messages_forwardMessages22.drop_author = z;
-                            tLRPC$TL_messages_forwardMessages22.drop_media_captions = z2;
-                            tLRPC$TL_messages_forwardMessages22.with_my_score = arrayList.size() != 1 && arrayList9.get(0).messageOwner.with_my_score;
-                            tLRPC$InputPeer = tLRPC$InputPeer32;
-                            arrayList6 = arrayList212;
-                            arrayList5 = arrayList2222;
-                            tLRPC$Chat2 = tLRPC$Chat522;
-                            arrayList4 = arrayList202;
-                            i2 = i5;
-                            arrayList2 = arrayList10;
-                            getConnectionsManager().sendRequest(tLRPC$TL_messages_forwardMessages22, new SendMessagesHelper$$ExternalSyntheticLambda79(this, j, i, i != 2147483646, z20, longSparseArray, arrayList10, new ArrayList(arrayList2222), messageObject, tLRPC$Peer2, tLRPC$TL_messages_forwardMessages22), 68);
-                            if (i2 != arrayList.size() - 1) {
-                            }
-                        } else {
-                            if (i7 == 0) {
-                                i6 = ChatObject.isActionBannedByDefault(tLRPC$Chat, 10) ? 6 : 3;
-                                i7 = i6;
+                            } else if (i6 == 0) {
                                 j3 = j2;
                                 longSparseArray2 = longSparseArray4;
                                 str2 = str;
@@ -3003,44 +2985,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 arrayList2 = arrayList18;
                                 tLRPC$InputPeer = tLRPC$InputPeer2;
                                 arrayList3 = arrayList16;
+                                i6 = 7;
                                 j4 = clientUserId;
                                 longSparseArray = longSparseArray6;
                                 tLRPC$Peer2 = tLRPC$Peer5;
-                                i2 = i3;
-                                i8 = i2 + 1;
-                                arrayList11 = arrayList;
-                                j9 = j;
-                                z18 = z;
-                                z19 = z2;
-                                longSparseArray4 = longSparseArray2;
-                                tLRPC$Peer5 = tLRPC$Peer2;
-                                longSparseArray6 = longSparseArray;
-                                clientUserId = j4;
-                                str = str2;
-                                tLRPC$Chat = tLRPC$Chat2;
-                                arrayList18 = arrayList2;
-                                arrayList16 = arrayList3;
-                                tLRPC$InputPeer2 = tLRPC$InputPeer;
-                                j2 = j3;
+                                i2 = i8;
                             }
-                            j3 = j2;
-                            longSparseArray2 = longSparseArray4;
-                            str2 = str;
-                            tLRPC$Chat2 = tLRPC$Chat;
-                            arrayList4 = arrayList19;
-                            arrayList2 = arrayList18;
-                            arrayList5 = arrayList17;
-                            tLRPC$InputPeer = tLRPC$InputPeer2;
-                            arrayList6 = arrayList16;
-                            j4 = clientUserId;
-                            longSparseArray = longSparseArray6;
-                            tLRPC$Peer2 = tLRPC$Peer5;
-                            i2 = i3;
-                        }
-                    } else {
-                        if (i7 == 0) {
-                            i6 = ChatObject.isActionBannedByDefault(tLRPC$Chat, 8) ? 4 : 1;
-                            i7 = i6;
+                        } else if (i6 == 0) {
+                            i5 = ChatObject.isActionBannedByDefault(tLRPC$Chat, 10) ? 6 : 3;
+                            i6 = i5;
                             j3 = j2;
                             longSparseArray2 = longSparseArray4;
                             str2 = str;
@@ -3051,22 +3004,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             j4 = clientUserId;
                             longSparseArray = longSparseArray6;
                             tLRPC$Peer2 = tLRPC$Peer5;
-                            i2 = i3;
-                            i8 = i2 + 1;
-                            arrayList11 = arrayList;
-                            j9 = j;
-                            z18 = z;
-                            z19 = z2;
-                            longSparseArray4 = longSparseArray2;
-                            tLRPC$Peer5 = tLRPC$Peer2;
-                            longSparseArray6 = longSparseArray;
-                            clientUserId = j4;
-                            str = str2;
-                            tLRPC$Chat = tLRPC$Chat2;
-                            arrayList18 = arrayList2;
-                            arrayList16 = arrayList3;
-                            tLRPC$InputPeer2 = tLRPC$InputPeer;
-                            j2 = j3;
+                            i2 = i8;
                         }
                         j3 = j2;
                         longSparseArray2 = longSparseArray4;
@@ -3080,13 +3018,57 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         j4 = clientUserId;
                         longSparseArray = longSparseArray6;
                         tLRPC$Peer2 = tLRPC$Peer5;
-                        i2 = i3;
+                        i2 = i8;
+                    } else {
+                        if (i6 == 0) {
+                            i5 = ChatObject.isActionBannedByDefault(tLRPC$Chat, 8) ? 4 : 1;
+                            i6 = i5;
+                            j3 = j2;
+                            longSparseArray2 = longSparseArray4;
+                            str2 = str;
+                            tLRPC$Chat2 = tLRPC$Chat;
+                            arrayList2 = arrayList18;
+                            tLRPC$InputPeer = tLRPC$InputPeer2;
+                            arrayList3 = arrayList16;
+                            j4 = clientUserId;
+                            longSparseArray = longSparseArray6;
+                            tLRPC$Peer2 = tLRPC$Peer5;
+                            i2 = i8;
+                        }
+                        j3 = j2;
+                        longSparseArray2 = longSparseArray4;
+                        str2 = str;
+                        tLRPC$Chat2 = tLRPC$Chat;
+                        arrayList4 = arrayList19;
+                        arrayList2 = arrayList18;
+                        arrayList5 = arrayList17;
+                        tLRPC$InputPeer = tLRPC$InputPeer2;
+                        arrayList6 = arrayList16;
+                        j4 = clientUserId;
+                        longSparseArray = longSparseArray6;
+                        tLRPC$Peer2 = tLRPC$Peer5;
+                        i2 = i8;
                     }
+                    i7 = i2 + 1;
+                    arrayList11 = arrayList;
+                    j9 = j;
+                    z18 = z;
+                    z19 = z2;
+                    longSparseArray4 = longSparseArray2;
+                    tLRPC$Peer5 = tLRPC$Peer2;
+                    longSparseArray6 = longSparseArray;
+                    clientUserId = j4;
+                    str = str2;
+                    tLRPC$Chat = tLRPC$Chat2;
+                    arrayList18 = arrayList2;
+                    arrayList16 = arrayList3;
+                    tLRPC$InputPeer2 = tLRPC$InputPeer;
+                    j2 = j3;
                 }
                 arrayList3 = arrayList6;
                 arrayList17 = arrayList5;
                 arrayList19 = arrayList4;
-                i8 = i2 + 1;
+                i7 = i2 + 1;
                 arrayList11 = arrayList;
                 j9 = j;
                 z18 = z;
@@ -3102,7 +3084,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 tLRPC$InputPeer2 = tLRPC$InputPeer;
                 j2 = j3;
             }
-            return i7;
+            return i6;
         }
         for (int i15 = 0; i15 < arrayList.size(); i15++) {
             processForwardFromMyName(arrayList.get(i15), j);
@@ -4237,7 +4219,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 }
                                 AlertDialog.Builder builder = new AlertDialog.Builder(chatActivity.getParentActivity());
                                 builder.setTitle(str2);
-                                builder.setPositiveButton(LocaleController.getString("OK", 2131627075), null);
+                                builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
                                 builder.setMessage(tLRPC$TL_messages_botCallbackAnswer.message);
                                 chatActivity.showDialog(builder.create());
                                 return;
@@ -4296,17 +4278,17 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     return;
                 }
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(chatActivity.getParentActivity());
-                builder2.setTitle(LocaleController.getString("BotOwnershipTransfer", 2131624721));
-                builder2.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("BotOwnershipTransferReadyAlertText", 2131624724, new Object[0])));
-                builder2.setPositiveButton(LocaleController.getString("BotOwnershipTransferChangeOwner", 2131624723), new SendMessagesHelper$$ExternalSyntheticLambda0(this, z2, messageObject, tLRPC$KeyboardButton, chatActivity));
-                builder2.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                builder2.setTitle(LocaleController.getString("BotOwnershipTransfer", 2131624732));
+                builder2.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("BotOwnershipTransferReadyAlertText", 2131624735, new Object[0])));
+                builder2.setPositiveButton(LocaleController.getString("BotOwnershipTransferChangeOwner", 2131624734), new SendMessagesHelper$$ExternalSyntheticLambda0(this, z2, messageObject, tLRPC$KeyboardButton, chatActivity));
+                builder2.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 chatActivity.showDialog(builder2.create());
             } else if ("PASSWORD_MISSING".equals(tLRPC$TL_error.text) || tLRPC$TL_error.text.startsWith("PASSWORD_TOO_FRESH_") || tLRPC$TL_error.text.startsWith("SESSION_TOO_FRESH_")) {
                 if (twoStepVerificationActivity != null) {
                     twoStepVerificationActivity.needHideProgress();
                 }
                 AlertDialog.Builder builder3 = new AlertDialog.Builder(chatActivity.getParentActivity());
-                builder3.setTitle(LocaleController.getString("EditAdminTransferAlertTitle", 2131625563));
+                builder3.setTitle(LocaleController.getString("EditAdminTransferAlertTitle", 2131625579));
                 LinearLayout linearLayout = new LinearLayout(chatActivity.getParentActivity());
                 linearLayout.setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(24.0f), 0);
                 linearLayout.setOrientation(1);
@@ -4316,7 +4298,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 textView.setTextSize(1, 16.0f);
                 int i = 3;
                 textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-                textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BotOwnershipTransferAlertText", 2131624722, new Object[0])));
+                textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BotOwnershipTransferAlertText", 2131624733, new Object[0])));
                 linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2));
                 LinearLayout linearLayout2 = new LinearLayout(chatActivity.getParentActivity());
                 linearLayout2.setOrientation(0);
@@ -4329,7 +4311,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 textView2.setTextColor(Theme.getColor("dialogTextBlack"));
                 textView2.setTextSize(1, 16.0f);
                 textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-                textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString("EditAdminTransferAlertText1", 2131625560)));
+                textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString("EditAdminTransferAlertText1", 2131625576)));
                 if (LocaleController.isRTL) {
                     linearLayout2.addView(textView2, LayoutHelper.createLinear(-1, -2));
                     linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 5));
@@ -4348,7 +4330,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 textView3.setTextColor(Theme.getColor("dialogTextBlack"));
                 textView3.setTextSize(1, 16.0f);
                 textView3.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-                textView3.setText(AndroidUtilities.replaceTags(LocaleController.getString("EditAdminTransferAlertText2", 2131625561)));
+                textView3.setText(AndroidUtilities.replaceTags(LocaleController.getString("EditAdminTransferAlertText2", 2131625577)));
                 if (LocaleController.isRTL) {
                     linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
                     linearLayout3.addView(imageView2, LayoutHelper.createLinear(-2, -2, 5));
@@ -4357,8 +4339,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
                 }
                 if ("PASSWORD_MISSING".equals(tLRPC$TL_error.text)) {
-                    builder3.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", 2131625568), new SendMessagesHelper$$ExternalSyntheticLambda1(chatActivity));
-                    builder3.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                    builder3.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", 2131625584), new SendMessagesHelper$$ExternalSyntheticLambda1(chatActivity));
+                    builder3.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 } else {
                     TextView textView4 = new TextView(chatActivity.getParentActivity());
                     textView4.setTextColor(Theme.getColor("dialogTextBlack"));
@@ -4367,9 +4349,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         i = 5;
                     }
                     textView4.setGravity(i | 48);
-                    textView4.setText(LocaleController.getString("EditAdminTransferAlertText3", 2131625562));
+                    textView4.setText(LocaleController.getString("EditAdminTransferAlertText3", 2131625578));
                     linearLayout.addView(textView4, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
-                    builder3.setNegativeButton(LocaleController.getString("OK", 2131627075), null);
+                    builder3.setNegativeButton(LocaleController.getString("OK", 2131627127), null);
                 }
                 chatActivity.showDialog(builder3.create());
             } else if ("SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
@@ -4517,8 +4499,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         sendMessage(null, str2, null, tLRPC$TL_photo, null, null, null, null, null, null, j, str, messageObject, messageObject2, null, true, null, arrayList, tLRPC$ReplyMarkup, hashMap, z, i, i2, obj, null);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(8:866|(7:(1:877)(3:870|871|(7:873|1453|897|898|(2:900|901)(6:904|905|906|(1:908)|(1:912)|913)|(3:(5:916|917|(1:919)(1:920)|1397|921)(1:924)|925|(2:927|(1:929)))(1:931)|932))|1453|897|898|(0)(0)|(0)(0)|932)|1433|878|(1:880)|(2:889|890)|(1:895)(1:894)|896) */
-    /* JADX WARN: Code restructure failed: missing block: B:1145:0x16f8, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(8:866|(7:(1:877)(3:870|871|(7:873|1452|897|898|(2:900|901)(6:904|905|906|(1:908)|(1:912)|913)|(3:(5:916|917|(1:919)(1:920)|1399|921)(1:924)|925|(2:927|(1:929)))(1:931)|932))|1452|897|898|(0)(0)|(0)(0)|932)|1435|878|(1:880)|(2:889|890)|(1:895)(1:894)|896) */
+    /* JADX WARN: Code restructure failed: missing block: B:1145:0x16f9, code lost:
         r11 = r66;
         r3 = new org.telegram.messenger.SendMessagesHelper.DelayedMessage(r11);
         r3.encryptedChat = r8;
@@ -4528,35 +4510,35 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         r3.originalPath = r5;
         r3.obj = r2;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1146:0x170c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1146:0x170d, code lost:
         if (r64 == null) goto L1150;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1148:0x1714, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1148:0x1715, code lost:
         if (r64.containsKey(r44) == false) goto L1150;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1149:0x1716, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1149:0x1717, code lost:
         r3.parentObject = r64.get(r44);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1150:0x171d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1150:0x171e, code lost:
         r3.parentObject = r63;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1151:0x1721, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1151:0x1722, code lost:
         r3.performMediaUpload = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1152:0x1724, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1152:0x1725, code lost:
         if (r78 == 0) goto L1154;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1153:0x1726, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1153:0x1727, code lost:
         r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1154:0x1728, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1154:0x1729, code lost:
         r1 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1155:0x1729, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1155:0x172a, code lost:
         r3.scheduled = r1;
         r1 = r3;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1218:0x190d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1218:0x190e, code lost:
         r3 = new org.telegram.messenger.SendMessagesHelper.DelayedMessage(r11);
         r3.encryptedChat = r8;
         r3.type = 2;
@@ -4564,42 +4546,42 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         r3.originalPath = r5;
         r3.obj = r2;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1219:0x191d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1219:0x191e, code lost:
         if (r64 == null) goto L1223;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1221:0x1923, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1221:0x1924, code lost:
         if (r64.containsKey(r44) == false) goto L1223;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1222:0x1925, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1222:0x1926, code lost:
         r3.parentObject = r64.get(r44);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1223:0x192c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1223:0x192d, code lost:
         r3.parentObject = r63;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1224:0x1930, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1224:0x1931, code lost:
         r3.performMediaUpload = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1225:0x1933, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1225:0x1934, code lost:
         if (r78 == 0) goto L1227;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1226:0x1935, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1226:0x1936, code lost:
         r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1227:0x1937, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1227:0x1938, code lost:
         r1 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1228:0x1938, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1228:0x1939, code lost:
         r3.scheduled = r1;
         r1 = r3;
         r3 = r68;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:247:0x050a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:247:0x050b, code lost:
         if (r6.containsKey(r5) != false) goto L259;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:258:0x052b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:258:0x052c, code lost:
         if (r6.containsKey(r5) != false) goto L259;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:259:0x052d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:259:0x052e, code lost:
         r22 = r22;
         r32 = r5;
         r7 = r18;
@@ -4607,97 +4589,97 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         r14 = false;
         r19 = '\t';
      */
-    /* JADX WARN: Code restructure failed: missing block: B:741:0x0e9c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:741:0x0e9d, code lost:
         if (r14.roundVideo == false) goto L744;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:937:0x124c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:937:0x124d, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:938:0x124d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:938:0x124e, code lost:
         r18 = r18;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1076:0x1521  */
-    /* JADX WARN: Removed duplicated region for block: B:1134:0x168f A[Catch: Exception -> 0x1ad6, TryCatch #30 {Exception -> 0x1ad6, blocks: (B:1077:0x1538, B:1079:0x1542, B:1081:0x154b, B:1083:0x155f, B:1084:0x1568, B:1086:0x156e, B:1088:0x1574, B:1089:0x157c, B:1091:0x1582, B:1093:0x1588, B:1094:0x1591, B:1096:0x159f, B:1098:0x15a7, B:1099:0x15b5, B:1101:0x15be, B:1103:0x15c2, B:1104:0x15da, B:1105:0x15e1, B:1114:0x162d, B:1116:0x163c, B:1119:0x1643, B:1121:0x164c, B:1123:0x1650, B:1124:0x1655, B:1125:0x165d, B:1127:0x166a, B:1129:0x166e, B:1130:0x1673, B:1131:0x167a, B:1132:0x1687, B:1134:0x168f, B:1136:0x169b, B:1137:0x16aa, B:1138:0x16ad, B:1143:0x16c0, B:1145:0x16f8, B:1147:0x170e, B:1149:0x1716, B:1150:0x171d, B:1151:0x1721, B:1155:0x1729, B:1157:0x1733, B:1159:0x173b, B:1163:0x174e, B:1172:0x1790, B:1176:0x17a8, B:1178:0x17bf, B:1179:0x17d4, B:1180:0x17e2, B:1187:0x1801, B:1189:0x1807, B:1191:0x180e, B:1193:0x1839, B:1194:0x1840, B:1196:0x1857, B:1198:0x185e, B:1200:0x1868, B:1287:0x1a87, B:1292:0x1aa6), top: B:1441:0x1538 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1159:0x173b A[Catch: Exception -> 0x1ad6, TryCatch #30 {Exception -> 0x1ad6, blocks: (B:1077:0x1538, B:1079:0x1542, B:1081:0x154b, B:1083:0x155f, B:1084:0x1568, B:1086:0x156e, B:1088:0x1574, B:1089:0x157c, B:1091:0x1582, B:1093:0x1588, B:1094:0x1591, B:1096:0x159f, B:1098:0x15a7, B:1099:0x15b5, B:1101:0x15be, B:1103:0x15c2, B:1104:0x15da, B:1105:0x15e1, B:1114:0x162d, B:1116:0x163c, B:1119:0x1643, B:1121:0x164c, B:1123:0x1650, B:1124:0x1655, B:1125:0x165d, B:1127:0x166a, B:1129:0x166e, B:1130:0x1673, B:1131:0x167a, B:1132:0x1687, B:1134:0x168f, B:1136:0x169b, B:1137:0x16aa, B:1138:0x16ad, B:1143:0x16c0, B:1145:0x16f8, B:1147:0x170e, B:1149:0x1716, B:1150:0x171d, B:1151:0x1721, B:1155:0x1729, B:1157:0x1733, B:1159:0x173b, B:1163:0x174e, B:1172:0x1790, B:1176:0x17a8, B:1178:0x17bf, B:1179:0x17d4, B:1180:0x17e2, B:1187:0x1801, B:1189:0x1807, B:1191:0x180e, B:1193:0x1839, B:1194:0x1840, B:1196:0x1857, B:1198:0x185e, B:1200:0x1868, B:1287:0x1a87, B:1292:0x1aa6), top: B:1441:0x1538 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1263:0x1a36  */
-    /* JADX WARN: Removed duplicated region for block: B:1264:0x1a38  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x02b8 A[Catch: Exception -> 0x032a, TryCatch #1 {Exception -> 0x032a, blocks: (B:52:0x0122, B:54:0x0128, B:56:0x012f, B:59:0x0137, B:62:0x013f, B:64:0x0145, B:66:0x0161, B:68:0x0167, B:71:0x016f, B:73:0x0176, B:76:0x0188, B:85:0x01ad, B:90:0x01b7, B:104:0x020e, B:110:0x0234, B:112:0x024f, B:116:0x0270, B:121:0x0299, B:124:0x02a8, B:127:0x02b8, B:131:0x02c5, B:191:0x0411, B:200:0x0439, B:202:0x043d), top: B:1393:0x011a }] */
-    /* JADX WARN: Removed duplicated region for block: B:1295:0x1ab7  */
-    /* JADX WARN: Removed duplicated region for block: B:1298:0x1abd A[Catch: Exception -> 0x1c0c, TRY_ENTER, TryCatch #24 {Exception -> 0x1c0c, blocks: (B:1298:0x1abd, B:1300:0x1ac3, B:1302:0x1ac9, B:1309:0x1aeb, B:1313:0x1af7, B:1315:0x1b07, B:1316:0x1b13, B:1318:0x1b17, B:1320:0x1b1b, B:1322:0x1b25, B:1324:0x1b2a, B:1326:0x1b30, B:1328:0x1b3b, B:1333:0x1b4a, B:1335:0x1b5f, B:1337:0x1b65, B:1339:0x1b6b, B:1340:0x1b71, B:1342:0x1b7c, B:1344:0x1b82, B:1345:0x1b8a, B:1347:0x1b8e, B:1349:0x1b94, B:1351:0x1b9f, B:1353:0x1ba5, B:1354:0x1bb3, B:1356:0x1bc1, B:1358:0x1bc5, B:1359:0x1bd7, B:1360:0x1bde, B:1362:0x1bf9, B:1364:0x1bff, B:1366:0x1c05), top: B:1432:0x0c37 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1309:0x1aeb A[Catch: Exception -> 0x1c0c, TryCatch #24 {Exception -> 0x1c0c, blocks: (B:1298:0x1abd, B:1300:0x1ac3, B:1302:0x1ac9, B:1309:0x1aeb, B:1313:0x1af7, B:1315:0x1b07, B:1316:0x1b13, B:1318:0x1b17, B:1320:0x1b1b, B:1322:0x1b25, B:1324:0x1b2a, B:1326:0x1b30, B:1328:0x1b3b, B:1333:0x1b4a, B:1335:0x1b5f, B:1337:0x1b65, B:1339:0x1b6b, B:1340:0x1b71, B:1342:0x1b7c, B:1344:0x1b82, B:1345:0x1b8a, B:1347:0x1b8e, B:1349:0x1b94, B:1351:0x1b9f, B:1353:0x1ba5, B:1354:0x1bb3, B:1356:0x1bc1, B:1358:0x1bc5, B:1359:0x1bd7, B:1360:0x1bde, B:1362:0x1bf9, B:1364:0x1bff, B:1366:0x1c05), top: B:1432:0x0c37 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1076:0x1522  */
+    /* JADX WARN: Removed duplicated region for block: B:1134:0x1690 A[Catch: Exception -> 0x1ad7, TryCatch #31 {Exception -> 0x1ad7, blocks: (B:1077:0x1539, B:1079:0x1543, B:1081:0x154c, B:1083:0x1560, B:1084:0x1569, B:1086:0x156f, B:1088:0x1575, B:1089:0x157d, B:1091:0x1583, B:1093:0x1589, B:1094:0x1592, B:1096:0x15a0, B:1098:0x15a8, B:1099:0x15b6, B:1101:0x15bf, B:1103:0x15c3, B:1104:0x15db, B:1105:0x15e2, B:1114:0x162e, B:1116:0x163d, B:1119:0x1644, B:1121:0x164d, B:1123:0x1651, B:1124:0x1656, B:1125:0x165e, B:1127:0x166b, B:1129:0x166f, B:1130:0x1674, B:1131:0x167b, B:1132:0x1688, B:1134:0x1690, B:1136:0x169c, B:1137:0x16ab, B:1138:0x16ae, B:1143:0x16c1, B:1145:0x16f9, B:1147:0x170f, B:1149:0x1717, B:1150:0x171e, B:1151:0x1722, B:1155:0x172a, B:1157:0x1734, B:1159:0x173c, B:1163:0x174f, B:1172:0x1791, B:1176:0x17a9, B:1178:0x17c0, B:1179:0x17d5, B:1180:0x17e3, B:1187:0x1802, B:1189:0x1808, B:1191:0x180f, B:1193:0x183a, B:1194:0x1841, B:1196:0x1858, B:1198:0x185f, B:1200:0x1869, B:1287:0x1a88, B:1292:0x1aa7), top: B:1443:0x1539 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1159:0x173c A[Catch: Exception -> 0x1ad7, TryCatch #31 {Exception -> 0x1ad7, blocks: (B:1077:0x1539, B:1079:0x1543, B:1081:0x154c, B:1083:0x1560, B:1084:0x1569, B:1086:0x156f, B:1088:0x1575, B:1089:0x157d, B:1091:0x1583, B:1093:0x1589, B:1094:0x1592, B:1096:0x15a0, B:1098:0x15a8, B:1099:0x15b6, B:1101:0x15bf, B:1103:0x15c3, B:1104:0x15db, B:1105:0x15e2, B:1114:0x162e, B:1116:0x163d, B:1119:0x1644, B:1121:0x164d, B:1123:0x1651, B:1124:0x1656, B:1125:0x165e, B:1127:0x166b, B:1129:0x166f, B:1130:0x1674, B:1131:0x167b, B:1132:0x1688, B:1134:0x1690, B:1136:0x169c, B:1137:0x16ab, B:1138:0x16ae, B:1143:0x16c1, B:1145:0x16f9, B:1147:0x170f, B:1149:0x1717, B:1150:0x171e, B:1151:0x1722, B:1155:0x172a, B:1157:0x1734, B:1159:0x173c, B:1163:0x174f, B:1172:0x1791, B:1176:0x17a9, B:1178:0x17c0, B:1179:0x17d5, B:1180:0x17e3, B:1187:0x1802, B:1189:0x1808, B:1191:0x180f, B:1193:0x183a, B:1194:0x1841, B:1196:0x1858, B:1198:0x185f, B:1200:0x1869, B:1287:0x1a88, B:1292:0x1aa7), top: B:1443:0x1539 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1263:0x1a37  */
+    /* JADX WARN: Removed duplicated region for block: B:1264:0x1a39  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x02b8 A[Catch: Exception -> 0x032a, TryCatch #1 {Exception -> 0x032a, blocks: (B:52:0x0122, B:54:0x0128, B:56:0x012f, B:59:0x0137, B:62:0x013f, B:64:0x0145, B:66:0x0161, B:68:0x0167, B:71:0x016f, B:73:0x0176, B:76:0x0188, B:85:0x01ad, B:90:0x01b7, B:104:0x020e, B:110:0x0234, B:112:0x024f, B:116:0x0270, B:121:0x0299, B:124:0x02a8, B:127:0x02b8, B:131:0x02c5, B:191:0x0412, B:200:0x043a, B:202:0x043e), top: B:1393:0x011a }] */
+    /* JADX WARN: Removed duplicated region for block: B:1295:0x1ab8  */
+    /* JADX WARN: Removed duplicated region for block: B:1298:0x1abe A[Catch: Exception -> 0x1c0d, TRY_ENTER, TryCatch #25 {Exception -> 0x1c0d, blocks: (B:1298:0x1abe, B:1300:0x1ac4, B:1302:0x1aca, B:1309:0x1aec, B:1313:0x1af8, B:1315:0x1b08, B:1316:0x1b14, B:1318:0x1b18, B:1320:0x1b1c, B:1322:0x1b26, B:1324:0x1b2b, B:1326:0x1b31, B:1328:0x1b3c, B:1333:0x1b4b, B:1335:0x1b60, B:1337:0x1b66, B:1339:0x1b6c, B:1340:0x1b72, B:1342:0x1b7d, B:1344:0x1b83, B:1345:0x1b8b, B:1347:0x1b8f, B:1349:0x1b95, B:1351:0x1ba0, B:1353:0x1ba6, B:1354:0x1bb4, B:1356:0x1bc2, B:1358:0x1bc6, B:1359:0x1bd8, B:1360:0x1bdf, B:1362:0x1bfa, B:1364:0x1c00, B:1366:0x1c06), top: B:1434:0x0c38 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1309:0x1aec A[Catch: Exception -> 0x1c0d, TryCatch #25 {Exception -> 0x1c0d, blocks: (B:1298:0x1abe, B:1300:0x1ac4, B:1302:0x1aca, B:1309:0x1aec, B:1313:0x1af8, B:1315:0x1b08, B:1316:0x1b14, B:1318:0x1b18, B:1320:0x1b1c, B:1322:0x1b26, B:1324:0x1b2b, B:1326:0x1b31, B:1328:0x1b3c, B:1333:0x1b4b, B:1335:0x1b60, B:1337:0x1b66, B:1339:0x1b6c, B:1340:0x1b72, B:1342:0x1b7d, B:1344:0x1b83, B:1345:0x1b8b, B:1347:0x1b8f, B:1349:0x1b95, B:1351:0x1ba0, B:1353:0x1ba6, B:1354:0x1bb4, B:1356:0x1bc2, B:1358:0x1bc6, B:1359:0x1bd8, B:1360:0x1bdf, B:1362:0x1bfa, B:1364:0x1c00, B:1366:0x1c06), top: B:1434:0x0c38 }] */
     /* JADX WARN: Removed duplicated region for block: B:133:0x02cb  */
-    /* JADX WARN: Removed duplicated region for block: B:1340:0x1b71 A[Catch: Exception -> 0x1c0c, TryCatch #24 {Exception -> 0x1c0c, blocks: (B:1298:0x1abd, B:1300:0x1ac3, B:1302:0x1ac9, B:1309:0x1aeb, B:1313:0x1af7, B:1315:0x1b07, B:1316:0x1b13, B:1318:0x1b17, B:1320:0x1b1b, B:1322:0x1b25, B:1324:0x1b2a, B:1326:0x1b30, B:1328:0x1b3b, B:1333:0x1b4a, B:1335:0x1b5f, B:1337:0x1b65, B:1339:0x1b6b, B:1340:0x1b71, B:1342:0x1b7c, B:1344:0x1b82, B:1345:0x1b8a, B:1347:0x1b8e, B:1349:0x1b94, B:1351:0x1b9f, B:1353:0x1ba5, B:1354:0x1bb3, B:1356:0x1bc1, B:1358:0x1bc5, B:1359:0x1bd7, B:1360:0x1bde, B:1362:0x1bf9, B:1364:0x1bff, B:1366:0x1c05), top: B:1432:0x0c37 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1340:0x1b72 A[Catch: Exception -> 0x1c0d, TryCatch #25 {Exception -> 0x1c0d, blocks: (B:1298:0x1abe, B:1300:0x1ac4, B:1302:0x1aca, B:1309:0x1aec, B:1313:0x1af8, B:1315:0x1b08, B:1316:0x1b14, B:1318:0x1b18, B:1320:0x1b1c, B:1322:0x1b26, B:1324:0x1b2b, B:1326:0x1b31, B:1328:0x1b3c, B:1333:0x1b4b, B:1335:0x1b60, B:1337:0x1b66, B:1339:0x1b6c, B:1340:0x1b72, B:1342:0x1b7d, B:1344:0x1b83, B:1345:0x1b8b, B:1347:0x1b8f, B:1349:0x1b95, B:1351:0x1ba0, B:1353:0x1ba6, B:1354:0x1bb4, B:1356:0x1bc2, B:1358:0x1bc6, B:1359:0x1bd8, B:1360:0x1bdf, B:1362:0x1bfa, B:1364:0x1c00, B:1366:0x1c06), top: B:1434:0x0c38 }] */
     /* JADX WARN: Removed duplicated region for block: B:134:0x02cd  */
-    /* JADX WARN: Removed duplicated region for block: B:1384:0x1c30  */
-    /* JADX WARN: Removed duplicated region for block: B:1385:0x1c32  */
-    /* JADX WARN: Removed duplicated region for block: B:1388:0x1c38  */
-    /* JADX WARN: Removed duplicated region for block: B:1391:0x0b18 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1399:0x1a70 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1406:0x0898 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1436:0x0ec2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1384:0x1c31  */
+    /* JADX WARN: Removed duplicated region for block: B:1385:0x1c33  */
+    /* JADX WARN: Removed duplicated region for block: B:1388:0x1c39  */
+    /* JADX WARN: Removed duplicated region for block: B:1391:0x0b19 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1401:0x1a71 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1406:0x0899 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1438:0x0ec3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:143:0x0336  */
-    /* JADX WARN: Removed duplicated region for block: B:1449:0x0779 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1455:0x0aec A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1470:0x16ad A[EDGE_INSN: B:1470:0x16ad->B:1138:0x16ad ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x03d0 A[Catch: Exception -> 0x037d, TryCatch #36 {Exception -> 0x037d, blocks: (B:153:0x0368, B:155:0x036c, B:157:0x0370, B:162:0x0385, B:167:0x0393, B:169:0x0399, B:173:0x03b1, B:177:0x03d0, B:178:0x03d8, B:180:0x03e3, B:184:0x03ee), top: B:1448:0x0368 }] */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x03d8 A[Catch: Exception -> 0x037d, TryCatch #36 {Exception -> 0x037d, blocks: (B:153:0x0368, B:155:0x036c, B:157:0x0370, B:162:0x0385, B:167:0x0393, B:169:0x0399, B:173:0x03b1, B:177:0x03d0, B:178:0x03d8, B:180:0x03e3, B:184:0x03ee), top: B:1448:0x0368 }] */
-    /* JADX WARN: Removed duplicated region for block: B:386:0x0791 A[Catch: Exception -> 0x0788, TryCatch #37 {Exception -> 0x0788, blocks: (B:380:0x0779, B:382:0x077f, B:386:0x0791, B:387:0x0794, B:389:0x0798, B:390:0x079a, B:392:0x079e, B:393:0x07a0, B:396:0x07b3, B:399:0x07d1, B:401:0x07d8, B:402:0x07e9), top: B:1449:0x0779 }] */
-    /* JADX WARN: Removed duplicated region for block: B:387:0x0794 A[Catch: Exception -> 0x0788, TryCatch #37 {Exception -> 0x0788, blocks: (B:380:0x0779, B:382:0x077f, B:386:0x0791, B:387:0x0794, B:389:0x0798, B:390:0x079a, B:392:0x079e, B:393:0x07a0, B:396:0x07b3, B:399:0x07d1, B:401:0x07d8, B:402:0x07e9), top: B:1449:0x0779 }] */
-    /* JADX WARN: Removed duplicated region for block: B:392:0x079e A[Catch: Exception -> 0x0788, TryCatch #37 {Exception -> 0x0788, blocks: (B:380:0x0779, B:382:0x077f, B:386:0x0791, B:387:0x0794, B:389:0x0798, B:390:0x079a, B:392:0x079e, B:393:0x07a0, B:396:0x07b3, B:399:0x07d1, B:401:0x07d8, B:402:0x07e9), top: B:1449:0x0779 }] */
-    /* JADX WARN: Removed duplicated region for block: B:395:0x07b1 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:399:0x07d1 A[Catch: Exception -> 0x0788, TryCatch #37 {Exception -> 0x0788, blocks: (B:380:0x0779, B:382:0x077f, B:386:0x0791, B:387:0x0794, B:389:0x0798, B:390:0x079a, B:392:0x079e, B:393:0x07a0, B:396:0x07b3, B:399:0x07d1, B:401:0x07d8, B:402:0x07e9), top: B:1449:0x0779 }] */
-    /* JADX WARN: Removed duplicated region for block: B:401:0x07d8 A[Catch: Exception -> 0x0788, TryCatch #37 {Exception -> 0x0788, blocks: (B:380:0x0779, B:382:0x077f, B:386:0x0791, B:387:0x0794, B:389:0x0798, B:390:0x079a, B:392:0x079e, B:393:0x07a0, B:396:0x07b3, B:399:0x07d1, B:401:0x07d8, B:402:0x07e9), top: B:1449:0x0779 }] */
-    /* JADX WARN: Removed duplicated region for block: B:405:0x0811  */
-    /* JADX WARN: Removed duplicated region for block: B:414:0x083d  */
-    /* JADX WARN: Removed duplicated region for block: B:418:0x084a A[Catch: Exception -> 0x0836, TRY_LEAVE, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:421:0x0854 A[Catch: Exception -> 0x0836, TRY_ENTER, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:424:0x085e A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:427:0x086b A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:431:0x088a A[Catch: Exception -> 0x0836, TRY_LEAVE, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:436:0x0896  */
-    /* JADX WARN: Removed duplicated region for block: B:440:0x08a8  */
-    /* JADX WARN: Removed duplicated region for block: B:454:0x08e5 A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:457:0x08f8 A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:468:0x0941  */
-    /* JADX WARN: Removed duplicated region for block: B:471:0x094f A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:474:0x096b A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:478:0x097b A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:489:0x09ab A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x011c A[Catch: Exception -> 0x0331, TRY_ENTER, TRY_LEAVE, TryCatch #7 {Exception -> 0x0331, blocks: (B:49:0x011c, B:146:0x0344, B:150:0x035b, B:151:0x0361, B:189:0x0406, B:190:0x040c, B:198:0x042e, B:199:0x0434, B:210:0x045f), top: B:1393:0x011a }] */
-    /* JADX WARN: Removed duplicated region for block: B:507:0x09e8  */
-    /* JADX WARN: Removed duplicated region for block: B:516:0x0a18 A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:531:0x0a58 A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:536:0x0a65 A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:539:0x0a6e A[Catch: Exception -> 0x0836, TryCatch #3 {Exception -> 0x0836, blocks: (B:406:0x0813, B:416:0x0842, B:418:0x084a, B:421:0x0854, B:424:0x085e, B:426:0x0868, B:427:0x086b, B:428:0x087e, B:429:0x0884, B:431:0x088a, B:446:0x08ba, B:448:0x08cc, B:450:0x08d0, B:451:0x08d4, B:453:0x08db, B:454:0x08e5, B:455:0x08ea, B:457:0x08f8, B:459:0x0901, B:461:0x090d, B:463:0x091b, B:464:0x0922, B:467:0x0930, B:471:0x094f, B:475:0x096d, B:476:0x0975, B:478:0x097b, B:480:0x098b, B:482:0x0999, B:484:0x099f, B:486:0x09a3, B:489:0x09ab, B:491:0x09b9, B:492:0x09be, B:494:0x09c2, B:496:0x09c6, B:498:0x09cc, B:500:0x09d0, B:501:0x09d8, B:503:0x09dc, B:505:0x09e2, B:508:0x09e9, B:510:0x09f5, B:512:0x0a05, B:513:0x0a08, B:515:0x0a0d, B:516:0x0a18, B:518:0x0a1e, B:521:0x0a25, B:523:0x0a31, B:525:0x0a41, B:526:0x0a44, B:528:0x0a48, B:529:0x0a52, B:531:0x0a58, B:533:0x0a5e, B:534:0x0a61, B:536:0x0a65, B:537:0x0a69, B:539:0x0a6e, B:541:0x0a78, B:543:0x0a8d, B:549:0x0a9f), top: B:1396:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:548:0x0a9b  */
-    /* JADX WARN: Removed duplicated region for block: B:554:0x0ae1  */
-    /* JADX WARN: Removed duplicated region for block: B:555:0x0ae3  */
-    /* JADX WARN: Removed duplicated region for block: B:571:0x0b08  */
-    /* JADX WARN: Removed duplicated region for block: B:574:0x0b0d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:597:0x0b73  */
-    /* JADX WARN: Removed duplicated region for block: B:615:0x0bc7  */
-    /* JADX WARN: Removed duplicated region for block: B:619:0x0c31  */
-    /* JADX WARN: Removed duplicated region for block: B:622:0x0c39  */
-    /* JADX WARN: Removed duplicated region for block: B:648:0x0c6b A[Catch: Exception -> 0x0b9c, TryCatch #12 {Exception -> 0x0b9c, blocks: (B:590:0x0b5f, B:600:0x0b93, B:604:0x0ba0, B:608:0x0baf, B:612:0x0bbf, B:617:0x0bcb, B:648:0x0c6b, B:650:0x0c7a, B:652:0x0c82, B:654:0x0ca7, B:656:0x0cba, B:657:0x0cca, B:658:0x0cd2, B:659:0x0cd9, B:660:0x0ce3, B:661:0x0cea, B:663:0x0cf0, B:664:0x0cf8, B:666:0x0d09, B:667:0x0d17, B:669:0x0d1d, B:670:0x0d27, B:672:0x0d2b, B:677:0x0d3d, B:680:0x0d56, B:682:0x0d65, B:683:0x0d71, B:687:0x0d7c, B:689:0x0d82, B:691:0x0d86, B:692:0x0d8e, B:694:0x0d94, B:695:0x0d9c, B:697:0x0dba, B:699:0x0dc3, B:701:0x0dc9, B:706:0x0dd4, B:710:0x0dee, B:712:0x0df4, B:713:0x0e0e, B:715:0x0e12, B:717:0x0e25, B:718:0x0e2a, B:720:0x0e2e, B:721:0x0e38, B:722:0x0e3d, B:735:0x0e8c, B:738:0x0e94, B:740:0x0e9a, B:747:0x0eab, B:749:0x0eb2), top: B:1410:0x0b16 }] */
-    /* JADX WARN: Removed duplicated region for block: B:663:0x0cf0 A[Catch: Exception -> 0x0b9c, TryCatch #12 {Exception -> 0x0b9c, blocks: (B:590:0x0b5f, B:600:0x0b93, B:604:0x0ba0, B:608:0x0baf, B:612:0x0bbf, B:617:0x0bcb, B:648:0x0c6b, B:650:0x0c7a, B:652:0x0c82, B:654:0x0ca7, B:656:0x0cba, B:657:0x0cca, B:658:0x0cd2, B:659:0x0cd9, B:660:0x0ce3, B:661:0x0cea, B:663:0x0cf0, B:664:0x0cf8, B:666:0x0d09, B:667:0x0d17, B:669:0x0d1d, B:670:0x0d27, B:672:0x0d2b, B:677:0x0d3d, B:680:0x0d56, B:682:0x0d65, B:683:0x0d71, B:687:0x0d7c, B:689:0x0d82, B:691:0x0d86, B:692:0x0d8e, B:694:0x0d94, B:695:0x0d9c, B:697:0x0dba, B:699:0x0dc3, B:701:0x0dc9, B:706:0x0dd4, B:710:0x0dee, B:712:0x0df4, B:713:0x0e0e, B:715:0x0e12, B:717:0x0e25, B:718:0x0e2a, B:720:0x0e2e, B:721:0x0e38, B:722:0x0e3d, B:735:0x0e8c, B:738:0x0e94, B:740:0x0e9a, B:747:0x0eab, B:749:0x0eb2), top: B:1410:0x0b16 }] */
-    /* JADX WARN: Removed duplicated region for block: B:666:0x0d09 A[Catch: Exception -> 0x0b9c, TryCatch #12 {Exception -> 0x0b9c, blocks: (B:590:0x0b5f, B:600:0x0b93, B:604:0x0ba0, B:608:0x0baf, B:612:0x0bbf, B:617:0x0bcb, B:648:0x0c6b, B:650:0x0c7a, B:652:0x0c82, B:654:0x0ca7, B:656:0x0cba, B:657:0x0cca, B:658:0x0cd2, B:659:0x0cd9, B:660:0x0ce3, B:661:0x0cea, B:663:0x0cf0, B:664:0x0cf8, B:666:0x0d09, B:667:0x0d17, B:669:0x0d1d, B:670:0x0d27, B:672:0x0d2b, B:677:0x0d3d, B:680:0x0d56, B:682:0x0d65, B:683:0x0d71, B:687:0x0d7c, B:689:0x0d82, B:691:0x0d86, B:692:0x0d8e, B:694:0x0d94, B:695:0x0d9c, B:697:0x0dba, B:699:0x0dc3, B:701:0x0dc9, B:706:0x0dd4, B:710:0x0dee, B:712:0x0df4, B:713:0x0e0e, B:715:0x0e12, B:717:0x0e25, B:718:0x0e2a, B:720:0x0e2e, B:721:0x0e38, B:722:0x0e3d, B:735:0x0e8c, B:738:0x0e94, B:740:0x0e9a, B:747:0x0eab, B:749:0x0eb2), top: B:1410:0x0b16 }] */
-    /* JADX WARN: Removed duplicated region for block: B:667:0x0d17 A[Catch: Exception -> 0x0b9c, TryCatch #12 {Exception -> 0x0b9c, blocks: (B:590:0x0b5f, B:600:0x0b93, B:604:0x0ba0, B:608:0x0baf, B:612:0x0bbf, B:617:0x0bcb, B:648:0x0c6b, B:650:0x0c7a, B:652:0x0c82, B:654:0x0ca7, B:656:0x0cba, B:657:0x0cca, B:658:0x0cd2, B:659:0x0cd9, B:660:0x0ce3, B:661:0x0cea, B:663:0x0cf0, B:664:0x0cf8, B:666:0x0d09, B:667:0x0d17, B:669:0x0d1d, B:670:0x0d27, B:672:0x0d2b, B:677:0x0d3d, B:680:0x0d56, B:682:0x0d65, B:683:0x0d71, B:687:0x0d7c, B:689:0x0d82, B:691:0x0d86, B:692:0x0d8e, B:694:0x0d94, B:695:0x0d9c, B:697:0x0dba, B:699:0x0dc3, B:701:0x0dc9, B:706:0x0dd4, B:710:0x0dee, B:712:0x0df4, B:713:0x0e0e, B:715:0x0e12, B:717:0x0e25, B:718:0x0e2a, B:720:0x0e2e, B:721:0x0e38, B:722:0x0e3d, B:735:0x0e8c, B:738:0x0e94, B:740:0x0e9a, B:747:0x0eab, B:749:0x0eb2), top: B:1410:0x0b16 }] */
-    /* JADX WARN: Removed duplicated region for block: B:675:0x0d3a  */
-    /* JADX WARN: Removed duplicated region for block: B:676:0x0d3c  */
-    /* JADX WARN: Removed duplicated region for block: B:678:0x0d52  */
-    /* JADX WARN: Removed duplicated region for block: B:708:0x0deb  */
-    /* JADX WARN: Removed duplicated region for block: B:749:0x0eb2 A[Catch: Exception -> 0x0b9c, TRY_LEAVE, TryCatch #12 {Exception -> 0x0b9c, blocks: (B:590:0x0b5f, B:600:0x0b93, B:604:0x0ba0, B:608:0x0baf, B:612:0x0bbf, B:617:0x0bcb, B:648:0x0c6b, B:650:0x0c7a, B:652:0x0c82, B:654:0x0ca7, B:656:0x0cba, B:657:0x0cca, B:658:0x0cd2, B:659:0x0cd9, B:660:0x0ce3, B:661:0x0cea, B:663:0x0cf0, B:664:0x0cf8, B:666:0x0d09, B:667:0x0d17, B:669:0x0d1d, B:670:0x0d27, B:672:0x0d2b, B:677:0x0d3d, B:680:0x0d56, B:682:0x0d65, B:683:0x0d71, B:687:0x0d7c, B:689:0x0d82, B:691:0x0d86, B:692:0x0d8e, B:694:0x0d94, B:695:0x0d9c, B:697:0x0dba, B:699:0x0dc3, B:701:0x0dc9, B:706:0x0dd4, B:710:0x0dee, B:712:0x0df4, B:713:0x0e0e, B:715:0x0e12, B:717:0x0e25, B:718:0x0e2a, B:720:0x0e2e, B:721:0x0e38, B:722:0x0e3d, B:735:0x0e8c, B:738:0x0e94, B:740:0x0e9a, B:747:0x0eab, B:749:0x0eb2), top: B:1410:0x0b16 }] */
-    /* JADX WARN: Removed duplicated region for block: B:764:0x0f1a  */
-    /* JADX WARN: Removed duplicated region for block: B:765:0x0f1d A[Catch: Exception -> 0x0f9a, TryCatch #13 {Exception -> 0x0f9a, blocks: (B:757:0x0ee7, B:758:0x0efb, B:762:0x0f14, B:765:0x0f1d, B:767:0x0f37, B:769:0x0f3e, B:771:0x0f44, B:774:0x0f56), top: B:1411:0x0ee7 }] */
-    /* JADX WARN: Removed duplicated region for block: B:774:0x0f56 A[Catch: Exception -> 0x0f9a, TRY_LEAVE, TryCatch #13 {Exception -> 0x0f9a, blocks: (B:757:0x0ee7, B:758:0x0efb, B:762:0x0f14, B:765:0x0f1d, B:767:0x0f37, B:769:0x0f3e, B:771:0x0f44, B:774:0x0f56), top: B:1411:0x0ee7 }] */
-    /* JADX WARN: Removed duplicated region for block: B:781:0x0f72  */
-    /* JADX WARN: Removed duplicated region for block: B:784:0x0f84 A[Catch: Exception -> 0x1000, TryCatch #35 {Exception -> 0x1000, blocks: (B:776:0x0f60, B:780:0x0f6f, B:782:0x0f78, B:784:0x0f84, B:786:0x0f91, B:787:0x0f95, B:794:0x0fb7, B:796:0x0fd2, B:798:0x0fe5, B:799:0x0ff3), top: B:1447:0x0e79 }] */
-    /* JADX WARN: Removed duplicated region for block: B:857:0x10fe A[Catch: Exception -> 0x1154, TryCatch #31 {Exception -> 0x1154, blocks: (B:835:0x1093, B:843:0x10b2, B:845:0x10bf, B:847:0x10c7, B:850:0x10d7, B:852:0x10da, B:853:0x10ef, B:855:0x10fa, B:857:0x10fe, B:859:0x1106, B:862:0x111d, B:870:0x1149, B:880:0x1163, B:882:0x116f, B:884:0x1175, B:887:0x1183, B:892:0x1190), top: B:1401:0x1008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:900:0x11ab A[Catch: Exception -> 0x11b3, TRY_ENTER, TRY_LEAVE, TryCatch #6 {Exception -> 0x11b3, blocks: (B:821:0x104f, B:823:0x105d, B:826:0x1066, B:828:0x106c, B:830:0x107c, B:900:0x11ab), top: B:1401:0x1008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:904:0x11b8 A[Catch: Exception -> 0x1244, TRY_ENTER, TRY_LEAVE, TryCatch #39 {Exception -> 0x1244, blocks: (B:897:0x11a5, B:904:0x11b8), top: B:1453:0x11a5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:915:0x11f5  */
-    /* JADX WARN: Removed duplicated region for block: B:931:0x1237  */
+    /* JADX WARN: Removed duplicated region for block: B:1440:0x077a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1454:0x0aed A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1470:0x16ae A[EDGE_INSN: B:1470:0x16ae->B:1138:0x16ae ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x03d1 A[Catch: Exception -> 0x037d, TryCatch #36 {Exception -> 0x037d, blocks: (B:153:0x0368, B:155:0x036c, B:157:0x0370, B:162:0x0385, B:167:0x0393, B:169:0x0399, B:173:0x03b2, B:177:0x03d1, B:178:0x03d9, B:180:0x03e4, B:184:0x03ef), top: B:1449:0x0368 }] */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x03d9 A[Catch: Exception -> 0x037d, TryCatch #36 {Exception -> 0x037d, blocks: (B:153:0x0368, B:155:0x036c, B:157:0x0370, B:162:0x0385, B:167:0x0393, B:169:0x0399, B:173:0x03b2, B:177:0x03d1, B:178:0x03d9, B:180:0x03e4, B:184:0x03ef), top: B:1449:0x0368 }] */
+    /* JADX WARN: Removed duplicated region for block: B:386:0x0792 A[Catch: Exception -> 0x0789, TryCatch #29 {Exception -> 0x0789, blocks: (B:380:0x077a, B:382:0x0780, B:386:0x0792, B:387:0x0795, B:389:0x0799, B:390:0x079b, B:392:0x079f, B:393:0x07a1, B:396:0x07b4, B:399:0x07d2, B:401:0x07d9, B:402:0x07ea), top: B:1440:0x077a }] */
+    /* JADX WARN: Removed duplicated region for block: B:387:0x0795 A[Catch: Exception -> 0x0789, TryCatch #29 {Exception -> 0x0789, blocks: (B:380:0x077a, B:382:0x0780, B:386:0x0792, B:387:0x0795, B:389:0x0799, B:390:0x079b, B:392:0x079f, B:393:0x07a1, B:396:0x07b4, B:399:0x07d2, B:401:0x07d9, B:402:0x07ea), top: B:1440:0x077a }] */
+    /* JADX WARN: Removed duplicated region for block: B:392:0x079f A[Catch: Exception -> 0x0789, TryCatch #29 {Exception -> 0x0789, blocks: (B:380:0x077a, B:382:0x0780, B:386:0x0792, B:387:0x0795, B:389:0x0799, B:390:0x079b, B:392:0x079f, B:393:0x07a1, B:396:0x07b4, B:399:0x07d2, B:401:0x07d9, B:402:0x07ea), top: B:1440:0x077a }] */
+    /* JADX WARN: Removed duplicated region for block: B:395:0x07b2 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:399:0x07d2 A[Catch: Exception -> 0x0789, TryCatch #29 {Exception -> 0x0789, blocks: (B:380:0x077a, B:382:0x0780, B:386:0x0792, B:387:0x0795, B:389:0x0799, B:390:0x079b, B:392:0x079f, B:393:0x07a1, B:396:0x07b4, B:399:0x07d2, B:401:0x07d9, B:402:0x07ea), top: B:1440:0x077a }] */
+    /* JADX WARN: Removed duplicated region for block: B:401:0x07d9 A[Catch: Exception -> 0x0789, TryCatch #29 {Exception -> 0x0789, blocks: (B:380:0x077a, B:382:0x0780, B:386:0x0792, B:387:0x0795, B:389:0x0799, B:390:0x079b, B:392:0x079f, B:393:0x07a1, B:396:0x07b4, B:399:0x07d2, B:401:0x07d9, B:402:0x07ea), top: B:1440:0x077a }] */
+    /* JADX WARN: Removed duplicated region for block: B:405:0x0812  */
+    /* JADX WARN: Removed duplicated region for block: B:414:0x083e  */
+    /* JADX WARN: Removed duplicated region for block: B:418:0x084b A[Catch: Exception -> 0x0837, TRY_LEAVE, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:421:0x0855 A[Catch: Exception -> 0x0837, TRY_ENTER, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:424:0x085f A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:427:0x086c A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:431:0x088b A[Catch: Exception -> 0x0837, TRY_LEAVE, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:436:0x0897  */
+    /* JADX WARN: Removed duplicated region for block: B:440:0x08a9  */
+    /* JADX WARN: Removed duplicated region for block: B:454:0x08e6 A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:457:0x08f9 A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:468:0x0942  */
+    /* JADX WARN: Removed duplicated region for block: B:471:0x0950 A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:474:0x096c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:478:0x097c A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:489:0x09ac A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x011c A[Catch: Exception -> 0x0331, TRY_ENTER, TRY_LEAVE, TryCatch #8 {Exception -> 0x0331, blocks: (B:49:0x011c, B:146:0x0344, B:150:0x035b, B:151:0x0361, B:189:0x0407, B:190:0x040d, B:198:0x042f, B:199:0x0435, B:210:0x0460), top: B:1393:0x011a }] */
+    /* JADX WARN: Removed duplicated region for block: B:507:0x09e9  */
+    /* JADX WARN: Removed duplicated region for block: B:516:0x0a19 A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:531:0x0a59 A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:536:0x0a66 A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:539:0x0a6f A[Catch: Exception -> 0x0837, TryCatch #4 {Exception -> 0x0837, blocks: (B:406:0x0814, B:416:0x0843, B:418:0x084b, B:421:0x0855, B:424:0x085f, B:426:0x0869, B:427:0x086c, B:428:0x087f, B:429:0x0885, B:431:0x088b, B:446:0x08bb, B:448:0x08cd, B:450:0x08d1, B:451:0x08d5, B:453:0x08dc, B:454:0x08e6, B:455:0x08eb, B:457:0x08f9, B:459:0x0902, B:461:0x090e, B:463:0x091c, B:464:0x0923, B:467:0x0931, B:471:0x0950, B:475:0x096e, B:476:0x0976, B:478:0x097c, B:480:0x098c, B:482:0x099a, B:484:0x09a0, B:486:0x09a4, B:489:0x09ac, B:491:0x09ba, B:492:0x09bf, B:494:0x09c3, B:496:0x09c7, B:498:0x09cd, B:500:0x09d1, B:501:0x09d9, B:503:0x09dd, B:505:0x09e3, B:508:0x09ea, B:510:0x09f6, B:512:0x0a06, B:513:0x0a09, B:515:0x0a0e, B:516:0x0a19, B:518:0x0a1f, B:521:0x0a26, B:523:0x0a32, B:525:0x0a42, B:526:0x0a45, B:528:0x0a49, B:529:0x0a53, B:531:0x0a59, B:533:0x0a5f, B:534:0x0a62, B:536:0x0a66, B:537:0x0a6a, B:539:0x0a6f, B:541:0x0a79, B:543:0x0a8e, B:549:0x0aa0), top: B:1398:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:548:0x0a9c  */
+    /* JADX WARN: Removed duplicated region for block: B:554:0x0ae2  */
+    /* JADX WARN: Removed duplicated region for block: B:555:0x0ae4  */
+    /* JADX WARN: Removed duplicated region for block: B:571:0x0b09  */
+    /* JADX WARN: Removed duplicated region for block: B:574:0x0b0e A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:597:0x0b74  */
+    /* JADX WARN: Removed duplicated region for block: B:615:0x0bc8  */
+    /* JADX WARN: Removed duplicated region for block: B:619:0x0c32  */
+    /* JADX WARN: Removed duplicated region for block: B:622:0x0c3a  */
+    /* JADX WARN: Removed duplicated region for block: B:648:0x0c6c A[Catch: Exception -> 0x0b9d, TryCatch #12 {Exception -> 0x0b9d, blocks: (B:590:0x0b60, B:600:0x0b94, B:604:0x0ba1, B:608:0x0bb0, B:612:0x0bc0, B:617:0x0bcc, B:648:0x0c6c, B:650:0x0c7b, B:652:0x0c83, B:654:0x0ca8, B:656:0x0cbb, B:657:0x0ccb, B:658:0x0cd3, B:659:0x0cda, B:660:0x0ce4, B:661:0x0ceb, B:663:0x0cf1, B:664:0x0cf9, B:666:0x0d0a, B:667:0x0d18, B:669:0x0d1e, B:670:0x0d28, B:672:0x0d2c, B:677:0x0d3e, B:680:0x0d57, B:682:0x0d66, B:683:0x0d72, B:687:0x0d7d, B:689:0x0d83, B:691:0x0d87, B:692:0x0d8f, B:694:0x0d95, B:695:0x0d9d, B:697:0x0dbb, B:699:0x0dc4, B:701:0x0dca, B:706:0x0dd5, B:710:0x0def, B:712:0x0df5, B:713:0x0e0f, B:715:0x0e13, B:717:0x0e26, B:718:0x0e2b, B:720:0x0e2f, B:721:0x0e39, B:722:0x0e3e, B:735:0x0e8d, B:738:0x0e95, B:740:0x0e9b, B:747:0x0eac, B:749:0x0eb3), top: B:1410:0x0b17 }] */
+    /* JADX WARN: Removed duplicated region for block: B:663:0x0cf1 A[Catch: Exception -> 0x0b9d, TryCatch #12 {Exception -> 0x0b9d, blocks: (B:590:0x0b60, B:600:0x0b94, B:604:0x0ba1, B:608:0x0bb0, B:612:0x0bc0, B:617:0x0bcc, B:648:0x0c6c, B:650:0x0c7b, B:652:0x0c83, B:654:0x0ca8, B:656:0x0cbb, B:657:0x0ccb, B:658:0x0cd3, B:659:0x0cda, B:660:0x0ce4, B:661:0x0ceb, B:663:0x0cf1, B:664:0x0cf9, B:666:0x0d0a, B:667:0x0d18, B:669:0x0d1e, B:670:0x0d28, B:672:0x0d2c, B:677:0x0d3e, B:680:0x0d57, B:682:0x0d66, B:683:0x0d72, B:687:0x0d7d, B:689:0x0d83, B:691:0x0d87, B:692:0x0d8f, B:694:0x0d95, B:695:0x0d9d, B:697:0x0dbb, B:699:0x0dc4, B:701:0x0dca, B:706:0x0dd5, B:710:0x0def, B:712:0x0df5, B:713:0x0e0f, B:715:0x0e13, B:717:0x0e26, B:718:0x0e2b, B:720:0x0e2f, B:721:0x0e39, B:722:0x0e3e, B:735:0x0e8d, B:738:0x0e95, B:740:0x0e9b, B:747:0x0eac, B:749:0x0eb3), top: B:1410:0x0b17 }] */
+    /* JADX WARN: Removed duplicated region for block: B:666:0x0d0a A[Catch: Exception -> 0x0b9d, TryCatch #12 {Exception -> 0x0b9d, blocks: (B:590:0x0b60, B:600:0x0b94, B:604:0x0ba1, B:608:0x0bb0, B:612:0x0bc0, B:617:0x0bcc, B:648:0x0c6c, B:650:0x0c7b, B:652:0x0c83, B:654:0x0ca8, B:656:0x0cbb, B:657:0x0ccb, B:658:0x0cd3, B:659:0x0cda, B:660:0x0ce4, B:661:0x0ceb, B:663:0x0cf1, B:664:0x0cf9, B:666:0x0d0a, B:667:0x0d18, B:669:0x0d1e, B:670:0x0d28, B:672:0x0d2c, B:677:0x0d3e, B:680:0x0d57, B:682:0x0d66, B:683:0x0d72, B:687:0x0d7d, B:689:0x0d83, B:691:0x0d87, B:692:0x0d8f, B:694:0x0d95, B:695:0x0d9d, B:697:0x0dbb, B:699:0x0dc4, B:701:0x0dca, B:706:0x0dd5, B:710:0x0def, B:712:0x0df5, B:713:0x0e0f, B:715:0x0e13, B:717:0x0e26, B:718:0x0e2b, B:720:0x0e2f, B:721:0x0e39, B:722:0x0e3e, B:735:0x0e8d, B:738:0x0e95, B:740:0x0e9b, B:747:0x0eac, B:749:0x0eb3), top: B:1410:0x0b17 }] */
+    /* JADX WARN: Removed duplicated region for block: B:667:0x0d18 A[Catch: Exception -> 0x0b9d, TryCatch #12 {Exception -> 0x0b9d, blocks: (B:590:0x0b60, B:600:0x0b94, B:604:0x0ba1, B:608:0x0bb0, B:612:0x0bc0, B:617:0x0bcc, B:648:0x0c6c, B:650:0x0c7b, B:652:0x0c83, B:654:0x0ca8, B:656:0x0cbb, B:657:0x0ccb, B:658:0x0cd3, B:659:0x0cda, B:660:0x0ce4, B:661:0x0ceb, B:663:0x0cf1, B:664:0x0cf9, B:666:0x0d0a, B:667:0x0d18, B:669:0x0d1e, B:670:0x0d28, B:672:0x0d2c, B:677:0x0d3e, B:680:0x0d57, B:682:0x0d66, B:683:0x0d72, B:687:0x0d7d, B:689:0x0d83, B:691:0x0d87, B:692:0x0d8f, B:694:0x0d95, B:695:0x0d9d, B:697:0x0dbb, B:699:0x0dc4, B:701:0x0dca, B:706:0x0dd5, B:710:0x0def, B:712:0x0df5, B:713:0x0e0f, B:715:0x0e13, B:717:0x0e26, B:718:0x0e2b, B:720:0x0e2f, B:721:0x0e39, B:722:0x0e3e, B:735:0x0e8d, B:738:0x0e95, B:740:0x0e9b, B:747:0x0eac, B:749:0x0eb3), top: B:1410:0x0b17 }] */
+    /* JADX WARN: Removed duplicated region for block: B:675:0x0d3b  */
+    /* JADX WARN: Removed duplicated region for block: B:676:0x0d3d  */
+    /* JADX WARN: Removed duplicated region for block: B:678:0x0d53  */
+    /* JADX WARN: Removed duplicated region for block: B:708:0x0dec  */
+    /* JADX WARN: Removed duplicated region for block: B:749:0x0eb3 A[Catch: Exception -> 0x0b9d, TRY_LEAVE, TryCatch #12 {Exception -> 0x0b9d, blocks: (B:590:0x0b60, B:600:0x0b94, B:604:0x0ba1, B:608:0x0bb0, B:612:0x0bc0, B:617:0x0bcc, B:648:0x0c6c, B:650:0x0c7b, B:652:0x0c83, B:654:0x0ca8, B:656:0x0cbb, B:657:0x0ccb, B:658:0x0cd3, B:659:0x0cda, B:660:0x0ce4, B:661:0x0ceb, B:663:0x0cf1, B:664:0x0cf9, B:666:0x0d0a, B:667:0x0d18, B:669:0x0d1e, B:670:0x0d28, B:672:0x0d2c, B:677:0x0d3e, B:680:0x0d57, B:682:0x0d66, B:683:0x0d72, B:687:0x0d7d, B:689:0x0d83, B:691:0x0d87, B:692:0x0d8f, B:694:0x0d95, B:695:0x0d9d, B:697:0x0dbb, B:699:0x0dc4, B:701:0x0dca, B:706:0x0dd5, B:710:0x0def, B:712:0x0df5, B:713:0x0e0f, B:715:0x0e13, B:717:0x0e26, B:718:0x0e2b, B:720:0x0e2f, B:721:0x0e39, B:722:0x0e3e, B:735:0x0e8d, B:738:0x0e95, B:740:0x0e9b, B:747:0x0eac, B:749:0x0eb3), top: B:1410:0x0b17 }] */
+    /* JADX WARN: Removed duplicated region for block: B:764:0x0f1b  */
+    /* JADX WARN: Removed duplicated region for block: B:765:0x0f1e A[Catch: Exception -> 0x0f9b, TryCatch #13 {Exception -> 0x0f9b, blocks: (B:757:0x0ee8, B:758:0x0efc, B:762:0x0f15, B:765:0x0f1e, B:767:0x0f38, B:769:0x0f3f, B:771:0x0f45, B:774:0x0f57), top: B:1411:0x0ee8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:774:0x0f57 A[Catch: Exception -> 0x0f9b, TRY_LEAVE, TryCatch #13 {Exception -> 0x0f9b, blocks: (B:757:0x0ee8, B:758:0x0efc, B:762:0x0f15, B:765:0x0f1e, B:767:0x0f38, B:769:0x0f3f, B:771:0x0f45, B:774:0x0f57), top: B:1411:0x0ee8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:781:0x0f73  */
+    /* JADX WARN: Removed duplicated region for block: B:784:0x0f85 A[Catch: Exception -> 0x1001, TryCatch #41 {Exception -> 0x1001, blocks: (B:776:0x0f61, B:780:0x0f70, B:782:0x0f79, B:784:0x0f85, B:786:0x0f92, B:787:0x0f96, B:794:0x0fb8, B:796:0x0fd3, B:798:0x0fe6, B:799:0x0ff4), top: B:1457:0x0e7a }] */
+    /* JADX WARN: Removed duplicated region for block: B:857:0x10ff A[Catch: Exception -> 0x1155, TryCatch #32 {Exception -> 0x1155, blocks: (B:835:0x1094, B:843:0x10b3, B:845:0x10c0, B:847:0x10c8, B:850:0x10d8, B:852:0x10db, B:853:0x10f0, B:855:0x10fb, B:857:0x10ff, B:859:0x1107, B:862:0x111e, B:870:0x114a, B:880:0x1164, B:882:0x1170, B:884:0x1176, B:887:0x1184, B:892:0x1191), top: B:1403:0x1009 }] */
+    /* JADX WARN: Removed duplicated region for block: B:900:0x11ac A[Catch: Exception -> 0x11b4, TRY_ENTER, TRY_LEAVE, TryCatch #7 {Exception -> 0x11b4, blocks: (B:821:0x1050, B:823:0x105e, B:826:0x1067, B:828:0x106d, B:830:0x107d, B:900:0x11ac), top: B:1403:0x1009 }] */
+    /* JADX WARN: Removed duplicated region for block: B:904:0x11b9 A[Catch: Exception -> 0x1245, TRY_ENTER, TRY_LEAVE, TryCatch #38 {Exception -> 0x1245, blocks: (B:897:0x11a6, B:904:0x11b9), top: B:1452:0x11a6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:915:0x11f6  */
+    /* JADX WARN: Removed duplicated region for block: B:931:0x1238  */
     /* JADX WARN: Type inference failed for: r13v11 */
     /* JADX WARN: Type inference failed for: r13v12 */
     /* JADX WARN: Type inference failed for: r13v13 */
@@ -8225,7 +8207,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 } else if (videoEditedInfo2.encryptedFile != null) {
                     TLRPC$TL_decryptedMessage tLRPC$TL_decryptedMessage = (TLRPC$TL_decryptedMessage) delayedMessage.sendEncryptedRequest;
                     TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia = tLRPC$TL_decryptedMessage.media;
-                    tLRPC$DecryptedMessageMedia.size = (int) videoEditedInfo2.estimatedSize;
+                    tLRPC$DecryptedMessageMedia.size = videoEditedInfo2.estimatedSize;
                     tLRPC$DecryptedMessageMedia.key = videoEditedInfo2.key;
                     tLRPC$DecryptedMessageMedia.iv = videoEditedInfo2.iv;
                     SecretChatHelper secretChatHelper = getSecretChatHelper();
@@ -9912,7 +9894,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     public static /* synthetic */ void lambda$prepareImportHistory$67(MessagesStorage.LongCallback longCallback) {
-        Toast.makeText(ApplicationLoader.applicationContext, LocaleController.getString("ImportFileTooLarge", 2131626190), 0).show();
+        Toast.makeText(ApplicationLoader.applicationContext, LocaleController.getString("ImportFileTooLarge", 2131626237), 0).show();
         longCallback.run(0L);
     }
 
@@ -11382,7 +11364,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     public static /* synthetic */ void lambda$handleError$78(int i, AccountInstance accountInstance) {
         try {
             if (i == 1) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.getString("UnsupportedAttachment", 2131628753));
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.getString("UnsupportedAttachment", 2131628825));
             } else if (i != 2) {
             } else {
                 NotificationCenter.getInstance(accountInstance.getCurrentAccount()).postNotificationName(NotificationCenter.currentUserShowLimitReachedDialog, 6);
@@ -12109,16 +12091,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         mediaSendQueue.postRunnable(new SendMessagesHelper$$ExternalSyntheticLambda11(arrayList, j, z, z4, accountInstance, messageObject3, messageObject, messageObject2, z3, i, inputContentInfoCompat));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:242:0x062c, code lost:
-        if (r5 != null) goto L602;
+    /* JADX WARN: Code restructure failed: missing block: B:242:0x062e, code lost:
+        if (r5 != null) goto L596;
      */
     /* JADX WARN: Code restructure failed: missing block: B:25:0x005d, code lost:
         if (r4 != false) goto L27;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:266:0x066d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:266:0x066f, code lost:
         if (r3.endsWith(r8) != false) goto L276;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:383:0x08fe, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:383:0x0900, code lost:
         if (r11 == (r15 - 1)) goto L385;
      */
     /* JADX WARN: Code restructure failed: missing block: B:536:0x0cc6, code lost:
@@ -12127,15 +12109,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:134:0x02db A[Catch: Exception -> 0x02cc, TryCatch #1 {Exception -> 0x02cc, blocks: (B:125:0x02c4, B:132:0x02d1, B:134:0x02db, B:135:0x02e6), top: B:592:0x02c4 }] */
     /* JADX WARN: Removed duplicated region for block: B:135:0x02e6 A[Catch: Exception -> 0x02cc, TRY_LEAVE, TryCatch #1 {Exception -> 0x02cc, blocks: (B:125:0x02c4, B:132:0x02d1, B:134:0x02db, B:135:0x02e6), top: B:592:0x02c4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x02f3 A[Catch: Exception -> 0x0312, TryCatch #7 {Exception -> 0x0312, blocks: (B:137:0x02ed, B:139:0x02f3, B:143:0x02fd, B:145:0x0303, B:146:0x030e), top: B:604:0x02ed }] */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x02f3 A[Catch: Exception -> 0x0312, TryCatch #4 {Exception -> 0x0312, blocks: (B:137:0x02ed, B:139:0x02f3, B:143:0x02fd, B:145:0x0303, B:146:0x030e), top: B:598:0x02ed }] */
     /* JADX WARN: Removed duplicated region for block: B:152:0x0320  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x034b  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x035c  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x0367  */
-    /* JADX WARN: Removed duplicated region for block: B:323:0x07b3  */
-    /* JADX WARN: Removed duplicated region for block: B:380:0x08e0  */
-    /* JADX WARN: Removed duplicated region for block: B:386:0x0909  */
-    /* JADX WARN: Removed duplicated region for block: B:451:0x0b2e  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x034c  */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x035d  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x0368  */
+    /* JADX WARN: Removed duplicated region for block: B:323:0x07b5  */
+    /* JADX WARN: Removed duplicated region for block: B:380:0x08e2  */
+    /* JADX WARN: Removed duplicated region for block: B:386:0x090b  */
+    /* JADX WARN: Removed duplicated region for block: B:451:0x0b30  */
     /* JADX WARN: Removed duplicated region for block: B:507:0x0c27  */
     /* JADX WARN: Removed duplicated region for block: B:50:0x00ac  */
     /* JADX WARN: Removed duplicated region for block: B:513:0x0c3d  */
@@ -12144,7 +12126,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:528:0x0c98  */
     /* JADX WARN: Removed duplicated region for block: B:530:0x0c9d  */
     /* JADX WARN: Removed duplicated region for block: B:548:0x0d14 A[LOOP:4: B:546:0x0d0c->B:548:0x0d14, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:594:0x0627 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:590:0x0629 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:630:0x0c4c A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:83:0x0161  */
     /* JADX WARN: Removed duplicated region for block: B:84:0x0166  */
@@ -12937,7 +12919,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         tLRPC$TL_documentAttributeVideo.w = i15;
                                         tLRPC$TL_documentAttributeVideo.h = i16;
                                     }
-                                    tLRPC$TL_document5.size = (int) videoEditedInfo.estimatedSize;
+                                    tLRPC$TL_document5.size = videoEditedInfo.estimatedSize;
                                 } else {
                                     z9 = z23;
                                     if (file.exists()) {
@@ -13859,7 +13841,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     public static Bitmap createVideoThumbnailAtTime(String str, long j, int[] iArr, boolean z) {
         Bitmap bitmap;
         if (z) {
-            AnimatedFileDrawable animatedFileDrawable = new AnimatedFileDrawable(new File(str), true, 0L, null, null, null, 0L, 0, true);
+            AnimatedFileDrawable animatedFileDrawable = new AnimatedFileDrawable(new File(str), true, 0L, null, null, null, 0L, 0, true, null);
             bitmap = animatedFileDrawable.getFrameAtTime(j, z);
             if (iArr != null) {
                 iArr[0] = animatedFileDrawable.getOrientation();
@@ -13882,13 +13864,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         }
                     }
                     bitmap = frameAtTime;
-                } finally {
-                    try {
-                        mediaMetadataRetriever.release();
-                    } catch (RuntimeException unused2) {
-                    }
+                } catch (Exception unused2) {
                 }
-            } catch (Exception unused3) {
+            } finally {
+                try {
+                    mediaMetadataRetriever.release();
+                } catch (RuntimeException unused3) {
+                }
             }
         }
         return bitmap;
@@ -13896,9 +13878,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
 
     private static VideoEditedInfo createCompressionSettings(String str) {
         MediaCodecInfo selectCodec;
+        boolean z;
         int[] iArr = new int[11];
         AnimatedFileDrawable.getVideoInfo(str, iArr);
-        boolean z = false;
         if (iArr[0] == 0) {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("video hasn't avc1 atom");
@@ -13963,28 +13945,34 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (round > i) {
             round = i;
         }
-        if (round != i || Math.max(videoEditedInfo.originalWidth, videoEditedInfo.originalHeight) > 1280) {
-            if (round == 1) {
-                f2 = 432.0f;
-            } else if (round != 2) {
-                f2 = round != 3 ? 1280.0f : 848.0f;
+        if (new File(str).length() < 1048576000) {
+            if (round != i || Math.max(videoEditedInfo.originalWidth, videoEditedInfo.originalHeight) > 1280) {
+                if (round == 1) {
+                    f2 = 432.0f;
+                } else if (round != 2) {
+                    f2 = round != 3 ? 1280.0f : 848.0f;
+                }
+                int i6 = videoEditedInfo.originalWidth;
+                int i7 = videoEditedInfo.originalHeight;
+                float f3 = f2 / (i6 > i7 ? i6 : i7);
+                videoEditedInfo.resultWidth = Math.round((i6 * f3) / 2.0f) * 2;
+                videoEditedInfo.resultHeight = Math.round((videoEditedInfo.originalHeight * f3) / 2.0f) * 2;
+                z = true;
+            } else {
+                z = false;
             }
-            int i6 = videoEditedInfo.originalWidth;
-            int i7 = videoEditedInfo.originalHeight;
-            float f3 = f2 / (i6 > i7 ? i6 : i7);
-            videoEditedInfo.resultWidth = Math.round((i6 * f3) / 2.0f) * 2;
-            videoEditedInfo.resultHeight = Math.round((videoEditedInfo.originalHeight * f3) / 2.0f) * 2;
-            z = true;
+            videoBitrate = MediaController.makeVideoBitrate(videoEditedInfo.originalHeight, videoEditedInfo.originalWidth, videoBitrate, videoEditedInfo.resultHeight, videoEditedInfo.resultWidth);
+        } else {
+            z = false;
         }
-        int makeVideoBitrate = MediaController.makeVideoBitrate(videoEditedInfo.originalHeight, videoEditedInfo.originalWidth, videoBitrate, videoEditedInfo.resultHeight, videoEditedInfo.resultWidth);
         if (!z) {
             videoEditedInfo.resultWidth = videoEditedInfo.originalWidth;
             videoEditedInfo.resultHeight = videoEditedInfo.originalHeight;
-            videoEditedInfo.bitrate = makeVideoBitrate;
+            videoEditedInfo.bitrate = videoBitrate;
         } else {
-            videoEditedInfo.bitrate = makeVideoBitrate;
+            videoEditedInfo.bitrate = videoBitrate;
         }
-        long j2 = (int) (((float) j) + (((f / 1000.0f) * makeVideoBitrate) / 8.0f));
+        long j2 = ((float) j) + (((f / 1000.0f) * videoBitrate) / 8.0f);
         videoEditedInfo.estimatedSize = j2;
         if (j2 == 0) {
             videoEditedInfo.estimatedSize = 1L;
@@ -14000,12 +13988,12 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     /* JADX WARN: Removed duplicated region for block: B:100:0x027f  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x02e6  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x02f6  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0335  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x033b  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0340  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x0347  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x02e4  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x02f4  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x0333  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0339  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x033e  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x0345  */
     /* JADX WARN: Removed duplicated region for block: B:53:0x0120  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x024a  */
     /* JADX WARN: Removed duplicated region for block: B:96:0x0266  */
@@ -14138,7 +14126,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         tLRPC$TL_documentAttributeVideo.w = i5;
                                         tLRPC$TL_documentAttributeVideo.h = i4;
                                     }
-                                    tLRPC$TL_document3.size = (int) createCompressionSettings.estimatedSize;
+                                    tLRPC$TL_document3.size = createCompressionSettings.estimatedSize;
                                 } else {
                                     if (file.exists()) {
                                         tLRPC$TL_document3.size = (int) file.length();

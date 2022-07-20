@@ -426,9 +426,9 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
         if (this.isInclude) {
-            this.actionBar.setTitle(LocaleController.getString("FilterAlwaysShow", 2131625831));
+            this.actionBar.setTitle(LocaleController.getString("FilterAlwaysShow", 2131625872));
         } else {
-            this.actionBar.setTitle(LocaleController.getString("FilterNeverShow", 2131625869));
+            this.actionBar.setTitle(LocaleController.getString("FilterNeverShow", 2131625910));
         }
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
@@ -461,7 +461,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         int i2 = 5;
         this.editText.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.spansContainer.addView(this.editText);
-        this.editText.setHintText(LocaleController.getString("SearchForPeopleAndGroups", 2131628108));
+        this.editText.setHintText(LocaleController.getString("SearchForPeopleAndGroups", 2131628170));
         this.editText.setCustomSelectionActionModeCallback(new AnonymousClass5(this));
         this.editText.setOnKeyListener(new AnonymousClass6());
         this.editText.addTextChangedListener(new AnonymousClass7());
@@ -472,7 +472,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
             this.emptyView.showTextView();
         }
         this.emptyView.setShowAtCenter(true);
-        this.emptyView.setText(LocaleController.getString("NoContacts", 2131626815));
+        this.emptyView.setText(LocaleController.getString("NoContacts", 2131626867));
         anonymousClass22.addView(this.emptyView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
         RecyclerListView recyclerListView = new RecyclerListView(context);
@@ -516,7 +516,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         }
         anonymousClass22.addView(this.floatingButton);
         this.floatingButton.setOnClickListener(new FilterUsersActivity$$ExternalSyntheticLambda0(this));
-        this.floatingButton.setContentDescription(LocaleController.getString("Next", 2131626801));
+        this.floatingButton.setContentDescription(LocaleController.getString("Next", 2131626853));
         if (!this.isInclude) {
             i2 = 3;
         }
@@ -799,7 +799,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                 FilterUsersActivity.this.adapter.setSearching(true);
                 FilterUsersActivity.this.listView.setFastScrollVisible(false);
                 FilterUsersActivity.this.listView.setVerticalScrollBarEnabled(true);
-                FilterUsersActivity.this.emptyView.setText(LocaleController.getString("NoResult", 2131626858));
+                FilterUsersActivity.this.emptyView.setText(LocaleController.getString("NoResult", 2131626910));
                 FilterUsersActivity.this.emptyView.showProgress();
             }
             FilterUsersActivity.this.adapter.searchDialogs(FilterUsersActivity.this.editText.getText().toString());
@@ -1094,14 +1094,14 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         this.adapter.searchDialogs(null);
         this.listView.setFastScrollVisible(true);
         this.listView.setVerticalScrollBarEnabled(false);
-        this.emptyView.setText(LocaleController.getString("NoContacts", 2131626815));
+        this.emptyView.setText(LocaleController.getString("NoContacts", 2131626867));
     }
 
     public void updateHint() {
         int i = getUserConfig().isPremium() ? getMessagesController().dialogFiltersChatsLimitPremium : getMessagesController().dialogFiltersChatsLimitDefault;
         int i2 = this.selectedCount;
         if (i2 == 0) {
-            this.actionBar.setSubtitle(LocaleController.formatString("MembersCountZero", 2131626605, LocaleController.formatPluralString("Chats", i, new Object[0])));
+            this.actionBar.setSubtitle(LocaleController.formatString("MembersCountZero", 2131626652, LocaleController.formatPluralString("Chats", i, new Object[0])));
         } else {
             this.actionBar.setSubtitle(String.format(LocaleController.getPluralString("MembersCountSelected", i2), Integer.valueOf(this.selectedCount), Integer.valueOf(i)));
         }
@@ -1227,10 +1227,10 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                 }
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 if (i == 0) {
-                    graySectionCell.setText(LocaleController.getString("FilterChatTypes", 2131625839));
+                    graySectionCell.setText(LocaleController.getString("FilterChatTypes", 2131625880));
                     return;
                 } else {
-                    graySectionCell.setText(LocaleController.getString("FilterChats", 2131625840));
+                    graySectionCell.setText(LocaleController.getString("FilterChats", 2131625881));
                     return;
                 }
             }
@@ -1325,36 +1325,36 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                 if (i < i4) {
                     if (FilterUsersActivity.this.isInclude) {
                         if (i == 1) {
-                            str2 = LocaleController.getString("FilterContacts", 2131625845);
+                            str2 = LocaleController.getString("FilterContacts", 2131625886);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
                             str = "contacts";
                         } else if (i == 2) {
-                            str2 = LocaleController.getString("FilterNonContacts", 2131625875);
+                            str2 = LocaleController.getString("FilterNonContacts", 2131625916);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
                             str = "non_contacts";
                         } else if (i == 3) {
-                            str2 = LocaleController.getString("FilterGroups", 2131625862);
+                            str2 = LocaleController.getString("FilterGroups", 2131625903);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
                             str = "groups";
                         } else if (i == 4) {
-                            str2 = LocaleController.getString("FilterChannels", 2131625836);
+                            str2 = LocaleController.getString("FilterChannels", 2131625877);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
                             str = "channels";
                         } else {
-                            str2 = LocaleController.getString("FilterBots", 2131625835);
+                            str2 = LocaleController.getString("FilterBots", 2131625876);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_BOTS;
                             str = "bots";
                         }
                     } else if (i == 1) {
-                        str2 = LocaleController.getString("FilterMuted", 2131625865);
+                        str2 = LocaleController.getString("FilterMuted", 2131625906);
                         i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
                         str = "muted";
                     } else if (i == 2) {
-                        str2 = LocaleController.getString("FilterRead", 2131625876);
+                        str2 = LocaleController.getString("FilterRead", 2131625917);
                         i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
                         str = "read";
                     } else {
-                        str2 = LocaleController.getString("FilterArchived", 2131625832);
+                        str2 = LocaleController.getString("FilterArchived", 2131625873);
                         i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED;
                         str = "archived";
                     }
@@ -1474,9 +1474,9 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                     strArr2[c] = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name).toLowerCase();
                     str2 = tLRPC$User.username;
                     if (UserObject.isReplyUser(tLRPC$User)) {
-                        strArr2[2] = LocaleController.getString("RepliesTitle", 2131627920).toLowerCase();
+                        strArr2[2] = LocaleController.getString("RepliesTitle", 2131627982).toLowerCase();
                     } else if (tLRPC$User.self) {
-                        strArr2[2] = LocaleController.getString("SavedMessages", 2131628077).toLowerCase();
+                        strArr2[2] = LocaleController.getString("SavedMessages", 2131628139).toLowerCase();
                     }
                 } else {
                     TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;

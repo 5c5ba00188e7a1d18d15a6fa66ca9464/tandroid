@@ -11,8 +11,8 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda98 imple
 
     @Override // android.view.View.OnLongClickListener
     public final boolean onLongClick(View view) {
-        boolean lambda$createView$53;
-        lambda$createView$53 = this.f$0.lambda$createView$53(view);
-        return lambda$createView$53;
+        boolean lambda$createView$41;
+        lambda$createView$41 = this.f$0.lambda$createView$41(view);
+        return lambda$createView$41;
     }
 }

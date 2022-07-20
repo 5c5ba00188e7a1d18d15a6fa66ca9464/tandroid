@@ -136,7 +136,7 @@ public class AboutLinkCell extends FrameLayout {
         this.showMoreTextView.setLines(1);
         this.showMoreTextView.setMaxLines(1);
         this.showMoreTextView.setSingleLine(true);
-        this.showMoreTextView.setText(LocaleController.getString("DescriptionMore", 2131625461));
+        this.showMoreTextView.setText(LocaleController.getString("DescriptionMore", 2131625477));
         this.showMoreTextView.setOnClickListener(new AboutLinkCell$$ExternalSyntheticLambda1(this));
         this.showMoreTextView.setPadding(AndroidUtilities.dp(2.0f), 0, AndroidUtilities.dp(2.0f), 0);
         this.showMoreTextBackgroundView = new FrameLayout(context);
@@ -437,7 +437,7 @@ public class AboutLinkCell extends FrameLayout {
                 }
                 BottomSheet.Builder builder = new BottomSheet.Builder(AboutLinkCell.this.parentFragment.getParentActivity());
                 builder.setTitle(url);
-                builder.setItems(new CharSequence[]{LocaleController.getString("Open", 2131627090), LocaleController.getString("Copy", 2131625256)}, new AboutLinkCell$3$$ExternalSyntheticLambda0(this, (ClickableSpan) AboutLinkCell.this.pressedLink.getSpan(), url));
+                builder.setItems(new CharSequence[]{LocaleController.getString("Open", 2131627142), LocaleController.getString("Copy", 2131625272)}, new AboutLinkCell$3$$ExternalSyntheticLambda0(this, (ClickableSpan) AboutLinkCell.this.pressedLink.getSpan(), url));
                 builder.setOnPreDismissListener(new AboutLinkCell$3$$ExternalSyntheticLambda1(this));
                 builder.show();
                 AboutLinkCell.this.pressedLink = null;
@@ -454,11 +454,11 @@ public class AboutLinkCell extends FrameLayout {
                     return;
                 }
                 if (str.startsWith("@")) {
-                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("UsernameCopied", 2131628846)).show();
+                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("UsernameCopied", 2131628918)).show();
                 } else if (str.startsWith("#") || str.startsWith("$")) {
-                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("HashtagCopied", 2131626128)).show();
+                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("HashtagCopied", 2131626175)).show();
                 } else {
-                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("LinkCopied", 2131626433)).show();
+                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("LinkCopied", 2131626480)).show();
                 }
             }
         }

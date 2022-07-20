@@ -45,10 +45,11 @@ public class BotCommandsMenuContainer extends FrameLayout implements NestedScrol
 
     public BotCommandsMenuContainer(Context context) {
         super(context);
-        this.shadowDrawable = context.getResources().getDrawable(2131166138).mutate();
+        this.shadowDrawable = context.getResources().getDrawable(2131166140).mutate();
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
         this.listView = anonymousClass1;
-        anonymousClass1.setClipToPadding(false);
+        anonymousClass1.setOverScrollMode(2);
+        this.listView.setClipToPadding(false);
         addView(this.listView);
         updateColors();
         setClipChildren(false);
@@ -256,7 +257,7 @@ public class BotCommandsMenuContainer extends FrameLayout implements NestedScrol
     }
 
     public void updateColors() {
-        this.topBackground.setColor(Theme.getColor("dialogGrayLine"));
+        this.topBackground.setColor(Theme.getColor("key_sheet_scrollUp"));
         this.backgroundPaint.setColor(Theme.getColor("windowBackgroundWhite"));
         this.shadowDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhite"), PorterDuff.Mode.MULTIPLY));
         invalidate();

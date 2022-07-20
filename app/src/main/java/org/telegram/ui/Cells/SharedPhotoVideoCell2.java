@@ -130,7 +130,7 @@ public class SharedPhotoVideoCell2 extends View {
                     }
                 }
                 if (z) {
-                    this.imageReceiver.setImageBitmap(ContextCompat.getDrawable(getContext(), 2131166043));
+                    this.imageReceiver.setImageBitmap(ContextCompat.getDrawable(getContext(), 2131166045));
                 }
                 invalidate();
             }
@@ -535,7 +535,7 @@ public class SharedPhotoVideoCell2 extends View {
             this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
             this.textPaint.setColor(-1);
             this.textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-            Drawable drawable = ContextCompat.getDrawable(context, 2131166064);
+            Drawable drawable = ContextCompat.getDrawable(context, 2131166066);
             this.playDrawable = drawable;
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), this.playDrawable.getIntrinsicHeight());
             this.backgroundPaint.setColor(Theme.getColor("sharedMedia_photoPlaceholder", resourcesProvider));

@@ -127,7 +127,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.currentAccount = i;
         this.fragment = baseFragment;
         this.animationEnabled = (!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) || SharedConfig.getDevicePerformanceClass() == 0) ? false : z;
-        this.shadow = ContextCompat.getDrawable(context, 2131166108).mutate();
+        this.shadow = ContextCompat.getDrawable(context, 2131166110).mutate();
         android.graphics.Rect rect = this.shadowPad;
         int dp2 = AndroidUtilities.dp(7.0f);
         rect.bottom = dp2;

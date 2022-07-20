@@ -9,6 +9,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda130 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$deleteHistory$4();
+        this.f$0.lambda$new$5();
     }
 }

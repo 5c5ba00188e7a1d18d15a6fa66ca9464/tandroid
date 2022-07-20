@@ -524,7 +524,7 @@ public class VideoTimelineView extends View {
             TextPaint textPaint = new TextPaint(1);
             this.tooltipPaint = textPaint;
             textPaint.setTextSize(AndroidUtilities.dp(14.0f));
-            this.tooltipBackgroundArrow = ContextCompat.getDrawable(context, 2131166184);
+            this.tooltipBackgroundArrow = ContextCompat.getDrawable(context, 2131166186);
             updateColors();
             setTime(0);
         }

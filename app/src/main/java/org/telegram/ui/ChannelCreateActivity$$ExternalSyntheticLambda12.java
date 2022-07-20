@@ -9,6 +9,6 @@ public final /* synthetic */ class ChannelCreateActivity$$ExternalSyntheticLambd
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$createView$5();
+        this.f$0.lambda$showPremiumIncreaseLimitDialog$25();
     }
 }

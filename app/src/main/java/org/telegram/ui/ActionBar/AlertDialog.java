@@ -185,7 +185,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
     }
 
     public AlertDialog(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
-        super(context, 2131689509);
+        super(context, 2131689510);
         this.customViewHeight = -2;
         this.shadow = new BitmapDrawable[2];
         this.shadowVisibility = new boolean[2];
@@ -206,7 +206,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
         this.resourcesProvider = resourcesProvider;
         this.backgroundPaddings = new Rect();
         if (i != 3) {
-            Drawable mutate = context.getResources().getDrawable(2131166085).mutate();
+            Drawable mutate = context.getResources().getDrawable(2131166087).mutate();
             this.shadowDrawable = mutate;
             mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
             this.shadowDrawable.getPadding(this.backgroundPaddings);
@@ -260,7 +260,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                 }
             }
             this.topImageView.setScaleType(ImageView.ScaleType.CENTER);
-            this.topImageView.setBackgroundDrawable(getContext().getResources().getDrawable(2131166087));
+            this.topImageView.setBackgroundDrawable(getContext().getResources().getDrawable(2131166089));
             this.topImageView.getBackground().setColorFilter(new PorterDuffColorFilter(this.topBackgroundColor, PorterDuff.Mode.MULTIPLY));
             this.topImageView.setPadding(0, 0, 0, 0);
             anonymousClass1.addView(this.topImageView, LayoutHelper.createLinear(-1, this.topHeight, 51, -8, -8, 0, 0));
@@ -1041,10 +1041,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             return;
         }
         Builder builder = new Builder(getContext());
-        builder.setTitle(LocaleController.getString("AppName", 2131624375));
-        builder.setMessage(LocaleController.getString("StopLoading", 2131628471));
-        builder.setPositiveButton(LocaleController.getString("WaitMore", 2131629220), null);
-        builder.setNegativeButton(LocaleController.getString("Stop", 2131628463), new AlertDialog$$ExternalSyntheticLambda0(this));
+        builder.setTitle(LocaleController.getString("AppName", 2131624384));
+        builder.setMessage(LocaleController.getString("StopLoading", 2131628534));
+        builder.setPositiveButton(LocaleController.getString("WaitMore", 2131629294), null);
+        builder.setNegativeButton(LocaleController.getString("Stop", 2131628526), new AlertDialog$$ExternalSyntheticLambda0(this));
         builder.setOnDismissListener(new AlertDialog$$ExternalSyntheticLambda1(this));
         try {
             this.cancelDialog = builder.show();

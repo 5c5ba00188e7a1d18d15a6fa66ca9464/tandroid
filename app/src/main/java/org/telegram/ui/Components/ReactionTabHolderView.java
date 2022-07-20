@@ -46,7 +46,7 @@ public class ReactionTabHolderView extends FrameLayout {
         this.overlaySelectorView = view;
         addView(view, LayoutHelper.createFrame(-1, -1.0f));
         this.iconView = new ImageView(context);
-        Drawable mutate = ContextCompat.getDrawable(context, 2131165890).mutate();
+        Drawable mutate = ContextCompat.getDrawable(context, 2131165892).mutate();
         this.drawable = mutate;
         this.iconView.setImageDrawable(mutate);
         addView(this.iconView, LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388627, 8.0f, 0.0f, 8.0f, 0.0f));

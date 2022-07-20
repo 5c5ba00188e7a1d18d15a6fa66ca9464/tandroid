@@ -100,9 +100,9 @@ public class LinkEditActivity extends BaseFragment {
         this.actionBar.setAllowOverlayTitle(true);
         int i = this.type;
         if (i == 0) {
-            this.actionBar.setTitle(LocaleController.getString("NewLink", 2131626781));
+            this.actionBar.setTitle(LocaleController.getString("NewLink", 2131626833));
         } else if (i == 1) {
-            this.actionBar.setTitle(LocaleController.getString("EditLink", 2131625576));
+            this.actionBar.setTitle(LocaleController.getString("EditLink", 2131625592));
         }
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         TextView textView = new TextView(context);
@@ -113,9 +113,9 @@ public class LinkEditActivity extends BaseFragment {
         this.createTextView.setSingleLine();
         int i2 = this.type;
         if (i2 == 0) {
-            this.createTextView.setText(LocaleController.getString("CreateLinkHeader", 2131625273));
+            this.createTextView.setText(LocaleController.getString("CreateLinkHeader", 2131625289));
         } else if (i2 == 1) {
-            this.createTextView.setText(LocaleController.getString("SaveLinkHeader", 2131628065));
+            this.createTextView.setText(LocaleController.getString("SaveLinkHeader", 2131628127));
         }
         this.createTextView.setTextColor(Theme.getColor("actionBarDefaultTitle"));
         this.createTextView.setTextSize(1, 14.0f);
@@ -139,9 +139,9 @@ public class LinkEditActivity extends BaseFragment {
         this.buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         int i3 = this.type;
         if (i3 == 0) {
-            this.buttonTextView.setText(LocaleController.getString("CreateLink", 2131625272));
+            this.buttonTextView.setText(LocaleController.getString("CreateLink", 2131625288));
         } else if (i3 == 1) {
-            this.buttonTextView.setText(LocaleController.getString("SaveLink", 2131628064));
+            this.buttonTextView.setText(LocaleController.getString("SaveLink", 2131628126));
         }
         AnonymousClass4 anonymousClass4 = new AnonymousClass4(this, context);
         this.approveCell = anonymousClass4;
@@ -150,17 +150,17 @@ public class LinkEditActivity extends BaseFragment {
         this.approveCell.setDrawCheckRipple(true);
         this.approveCell.setHeight(56);
         this.approveCell.setTag("windowBackgroundUnchecked");
-        this.approveCell.setTextAndCheck(LocaleController.getString("ApproveNewMembers", 2131624389), false, false);
+        this.approveCell.setTextAndCheck(LocaleController.getString("ApproveNewMembers", 2131624398), false, false);
         this.approveCell.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.approveCell.setOnClickListener(new LinkEditActivity$$ExternalSyntheticLambda1(this));
         anonymousClass3.addView(this.approveCell, LayoutHelper.createLinear(-1, 56));
         TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
         textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(context, 2131165435, "windowBackgroundGrayShadow"));
-        textInfoPrivacyCell.setText(LocaleController.getString("ApproveNewMembersDescription", 2131624390));
+        textInfoPrivacyCell.setText(LocaleController.getString("ApproveNewMembersDescription", 2131624399));
         anonymousClass3.addView(textInfoPrivacyCell);
         HeaderCell headerCell = new HeaderCell(context);
         this.timeHeaderCell = headerCell;
-        headerCell.setText(LocaleController.getString("LimitByPeriod", 2131626398));
+        headerCell.setText(LocaleController.getString("LimitByPeriod", 2131626445));
         anonymousClass3.addView(this.timeHeaderCell);
         SlideChooseView slideChooseView = new SlideChooseView(context);
         this.timeChooseView = slideChooseView;
@@ -170,18 +170,18 @@ public class LinkEditActivity extends BaseFragment {
         textView3.setPadding(AndroidUtilities.dp(22.0f), 0, AndroidUtilities.dp(22.0f), 0);
         this.timeEditText.setGravity(16);
         this.timeEditText.setTextSize(1, 16.0f);
-        this.timeEditText.setHint(LocaleController.getString("TimeLimitHint", 2131628656));
+        this.timeEditText.setHint(LocaleController.getString("TimeLimitHint", 2131628723));
         this.timeEditText.setOnClickListener(new LinkEditActivity$$ExternalSyntheticLambda4(this, context));
         this.timeChooseView.setCallback(new LinkEditActivity$$ExternalSyntheticLambda11(this));
         resetDates();
         anonymousClass3.addView(this.timeEditText, LayoutHelper.createLinear(-1, 50));
         TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
         this.divider = textInfoPrivacyCell2;
-        textInfoPrivacyCell2.setText(LocaleController.getString("TimeLimitHelp", 2131628655));
+        textInfoPrivacyCell2.setText(LocaleController.getString("TimeLimitHelp", 2131628722));
         anonymousClass3.addView(this.divider);
         HeaderCell headerCell2 = new HeaderCell(context);
         this.usesHeaderCell = headerCell2;
-        headerCell2.setText(LocaleController.getString("LimitNumberOfUses", 2131626400));
+        headerCell2.setText(LocaleController.getString("LimitNumberOfUses", 2131626447));
         anonymousClass3.addView(this.usesHeaderCell);
         SlideChooseView slideChooseView2 = new SlideChooseView(context);
         this.usesChooseView = slideChooseView2;
@@ -193,14 +193,14 @@ public class LinkEditActivity extends BaseFragment {
         anonymousClass5.setPadding(AndroidUtilities.dp(22.0f), 0, AndroidUtilities.dp(22.0f), 0);
         this.usesEditText.setGravity(16);
         this.usesEditText.setTextSize(1, 16.0f);
-        this.usesEditText.setHint(LocaleController.getString("UsesLimitHint", 2131628875));
+        this.usesEditText.setHint(LocaleController.getString("UsesLimitHint", 2131628947));
         this.usesEditText.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
         this.usesEditText.setInputType(2);
         this.usesEditText.addTextChangedListener(new AnonymousClass6());
         anonymousClass3.addView(this.usesEditText, LayoutHelper.createLinear(-1, 50));
         TextInfoPrivacyCell textInfoPrivacyCell3 = new TextInfoPrivacyCell(context);
         this.dividerUses = textInfoPrivacyCell3;
-        textInfoPrivacyCell3.setText(LocaleController.getString("UsesLimitHelp", 2131628874));
+        textInfoPrivacyCell3.setText(LocaleController.getString("UsesLimitHelp", 2131628946));
         anonymousClass3.addView(this.dividerUses);
         AnonymousClass7 anonymousClass7 = new AnonymousClass7(this, context);
         this.nameEditText = anonymousClass7;
@@ -208,7 +208,7 @@ public class LinkEditActivity extends BaseFragment {
         this.nameEditText.setCursorVisible(false);
         this.nameEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(32)});
         this.nameEditText.setGravity(16);
-        this.nameEditText.setHint(LocaleController.getString("LinkNameHint", 2131626455));
+        this.nameEditText.setHint(LocaleController.getString("LinkNameHint", 2131626502));
         this.nameEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
         this.nameEditText.setLines(1);
         this.nameEditText.setPadding(AndroidUtilities.dp(22.0f), 0, AndroidUtilities.dp(22.0f), 0);
@@ -219,13 +219,13 @@ public class LinkEditActivity extends BaseFragment {
         TextInfoPrivacyCell textInfoPrivacyCell4 = new TextInfoPrivacyCell(context);
         this.dividerName = textInfoPrivacyCell4;
         textInfoPrivacyCell4.setBackground(Theme.getThemedDrawable(context, 2131165436, "windowBackgroundGrayShadow"));
-        this.dividerName.setText(LocaleController.getString("LinkNameHelp", 2131626454));
+        this.dividerName.setText(LocaleController.getString("LinkNameHelp", 2131626501));
         anonymousClass3.addView(this.dividerName);
         if (this.type == 1) {
             TextSettingsCell textSettingsCell = new TextSettingsCell(context);
             this.revokeLink = textSettingsCell;
             textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-            this.revokeLink.setText(LocaleController.getString("RevokeLink", 2131628043), false);
+            this.revokeLink.setText(LocaleController.getString("RevokeLink", 2131628105), false);
             this.revokeLink.setTextColor(Theme.getColor("windowBackgroundWhiteRedText5"));
             this.revokeLink.setOnClickListener(new LinkEditActivity$$ExternalSyntheticLambda3(this));
             anonymousClass3.addView(this.revokeLink);
@@ -589,10 +589,10 @@ public class LinkEditActivity extends BaseFragment {
 
     public /* synthetic */ void lambda$createView$6(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setMessage(LocaleController.getString("RevokeAlert", 2131628040));
-        builder.setTitle(LocaleController.getString("RevokeLink", 2131628043));
-        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628042), new LinkEditActivity$$ExternalSyntheticLambda0(this));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+        builder.setMessage(LocaleController.getString("RevokeAlert", 2131628102));
+        builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
+        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new LinkEditActivity$$ExternalSyntheticLambda0(this));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         showDialog(builder.create());
     }
 
@@ -811,7 +811,7 @@ public class LinkEditActivity extends BaseFragment {
         String[] strArr = new String[size];
         for (int i4 = 0; i4 < size; i4++) {
             if (i4 == size - 1) {
-                strArr[i4] = LocaleController.getString("NoLimit", 2131626829);
+                strArr[i4] = LocaleController.getString("NoLimit", 2131626881);
             } else {
                 strArr[i4] = this.dispalyedUses.get(i4).toString();
             }
@@ -848,7 +848,7 @@ public class LinkEditActivity extends BaseFragment {
         String[] strArr = new String[size];
         for (int i4 = 0; i4 < size; i4++) {
             if (i4 == size - 1) {
-                strArr[i4] = LocaleController.getString("NoLimit", 2131626829);
+                strArr[i4] = LocaleController.getString("NoLimit", 2131626881);
             } else if (this.dispalyedDates.get(i4).intValue() == this.defaultDates[0]) {
                 strArr[i4] = LocaleController.formatPluralString("Hours", 1, new Object[0]);
             } else if (this.dispalyedDates.get(i4).intValue() == this.defaultDates[1]) {
@@ -858,7 +858,7 @@ public class LinkEditActivity extends BaseFragment {
             } else {
                 long j2 = currentTime;
                 if (j2 < 86400) {
-                    strArr[i4] = LocaleController.getString("MessageScheduleToday", 2131626643);
+                    strArr[i4] = LocaleController.getString("MessageScheduleToday", 2131626695);
                 } else if (j2 < 31449600) {
                     strArr[i4] = LocaleController.getInstance().formatterScheduleDay.format(j * 1000);
                 } else {
@@ -878,7 +878,7 @@ public class LinkEditActivity extends BaseFragment {
                 this.dispalyedDates.add(Integer.valueOf(iArr[i]));
                 i++;
             } else {
-                this.timeChooseView.setOptions(3, LocaleController.formatPluralString("Hours", 1, new Object[0]), LocaleController.formatPluralString("Days", 1, new Object[0]), LocaleController.formatPluralString("Weeks", 1, new Object[0]), LocaleController.getString("NoLimit", 2131626829));
+                this.timeChooseView.setOptions(3, LocaleController.formatPluralString("Hours", 1, new Object[0]), LocaleController.formatPluralString("Days", 1, new Object[0]), LocaleController.formatPluralString("Weeks", 1, new Object[0]), LocaleController.getString("NoLimit", 2131626881));
                 return;
             }
         }
@@ -897,7 +897,7 @@ public class LinkEditActivity extends BaseFragment {
                 this.dispalyedUses.add(Integer.valueOf(iArr[i]));
                 i++;
             } else {
-                this.usesChooseView.setOptions(3, "1", "10", "100", LocaleController.getString("NoLimit", 2131626829));
+                this.usesChooseView.setOptions(3, "1", "10", "100", LocaleController.getString("NoLimit", 2131626881));
                 return;
             }
         }

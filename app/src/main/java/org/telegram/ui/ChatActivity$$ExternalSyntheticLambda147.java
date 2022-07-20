@@ -9,6 +9,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda147 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$didReceivedNotification$117();
+        this.f$0.lambda$showFieldPanel$102();
     }
 }

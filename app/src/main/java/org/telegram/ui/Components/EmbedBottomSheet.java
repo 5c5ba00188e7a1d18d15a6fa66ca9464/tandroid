@@ -128,8 +128,8 @@ public class EmbedBottomSheet extends BottomSheet {
 
         /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$1$1 */
         /* loaded from: classes3.dex */
-        class ViewTreeObserver$OnPreDrawListenerC00201 implements ViewTreeObserver.OnPreDrawListener {
-            ViewTreeObserver$OnPreDrawListenerC00201() {
+        class ViewTreeObserver$OnPreDrawListenerC00241 implements ViewTreeObserver.OnPreDrawListener {
+            ViewTreeObserver$OnPreDrawListenerC00241() {
                 AnonymousClass1.this = r1;
             }
 
@@ -145,7 +145,7 @@ public class EmbedBottomSheet extends BottomSheet {
             if (!PipVideoOverlay.isVisible() || !EmbedBottomSheet.this.videoView.isInline()) {
                 return;
             }
-            EmbedBottomSheet.this.videoView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver$OnPreDrawListenerC00201());
+            EmbedBottomSheet.this.videoView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver$OnPreDrawListenerC00241());
         }
     }
 
@@ -270,7 +270,7 @@ public class EmbedBottomSheet extends BottomSheet {
         textView3.setEllipsize(TextUtils.TruncateAt.END);
         textView3.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0));
         textView3.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-        textView3.setText(LocaleController.getString("Close", 2131625167).toUpperCase());
+        textView3.setText(LocaleController.getString("Close", 2131625183).toUpperCase());
         textView3.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         frameLayout2.addView(textView3, LayoutHelper.createLinear(-2, -1, 51));
         textView3.setOnClickListener(new EmbedBottomSheet$$ExternalSyntheticLambda1(this));
@@ -293,7 +293,7 @@ public class EmbedBottomSheet extends BottomSheet {
         ImageView imageView2 = new ImageView(context);
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
         imageView2.setImageResource(2131165697);
-        imageView2.setContentDescription(LocaleController.getString("CopyLink", 2131625258));
+        imageView2.setContentDescription(LocaleController.getString("CopyLink", 2131625274));
         imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogTextBlue4"), PorterDuff.Mode.MULTIPLY));
         imageView2.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0));
         this.imageButtonsContainer.addView(imageView2, LayoutHelper.createFrame(48, 48, 51));
@@ -307,7 +307,7 @@ public class EmbedBottomSheet extends BottomSheet {
         this.copyTextButton.setEllipsize(TextUtils.TruncateAt.END);
         this.copyTextButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0));
         this.copyTextButton.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-        this.copyTextButton.setText(LocaleController.getString("Copy", 2131625256).toUpperCase());
+        this.copyTextButton.setText(LocaleController.getString("Copy", 2131625272).toUpperCase());
         this.copyTextButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         linearLayout.addView(this.copyTextButton, LayoutHelper.createFrame(-2, -1, 51));
         this.copyTextButton.setOnClickListener(embedBottomSheet$$ExternalSyntheticLambda3);
@@ -319,7 +319,7 @@ public class EmbedBottomSheet extends BottomSheet {
         textView5.setEllipsize(TextUtils.TruncateAt.END);
         textView5.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0));
         textView5.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-        textView5.setText(LocaleController.getString("OpenInBrowser", 2131627099).toUpperCase());
+        textView5.setText(LocaleController.getString("OpenInBrowser", 2131627151).toUpperCase());
         textView5.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         linearLayout.addView(textView5, LayoutHelper.createFrame(-2, -1, 51));
         textView5.setOnClickListener(new EmbedBottomSheet$$ExternalSyntheticLambda2(this));

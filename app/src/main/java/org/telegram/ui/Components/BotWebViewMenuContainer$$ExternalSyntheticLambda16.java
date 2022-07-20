@@ -1,18 +1,18 @@
 package org.telegram.ui.Components;
 
-import org.telegram.messenger.GenericProvider;
+import org.telegram.ui.ActionBar.ActionBar;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class BotWebViewMenuContainer$$ExternalSyntheticLambda16 implements GenericProvider {
-    public final /* synthetic */ ChatActivityEnterView f$0;
+public final /* synthetic */ class BotWebViewMenuContainer$$ExternalSyntheticLambda16 implements Runnable {
+    public final /* synthetic */ BotWebViewMenuContainer f$0;
+    public final /* synthetic */ ActionBar f$1;
 
-    public /* synthetic */ BotWebViewMenuContainer$$ExternalSyntheticLambda16(ChatActivityEnterView chatActivityEnterView) {
-        this.f$0 = chatActivityEnterView;
+    public /* synthetic */ BotWebViewMenuContainer$$ExternalSyntheticLambda16(BotWebViewMenuContainer botWebViewMenuContainer, ActionBar actionBar) {
+        this.f$0 = botWebViewMenuContainer;
+        this.f$1 = actionBar;
     }
 
-    @Override // org.telegram.messenger.GenericProvider
-    public final Object provide(Object obj) {
-        Boolean lambda$new$7;
-        lambda$new$7 = BotWebViewMenuContainer.lambda$new$7(this.f$0, (Void) obj);
-        return lambda$new$7;
+    @Override // java.lang.Runnable
+    public final void run() {
+        this.f$0.lambda$new$5(this.f$1);
     }
 }

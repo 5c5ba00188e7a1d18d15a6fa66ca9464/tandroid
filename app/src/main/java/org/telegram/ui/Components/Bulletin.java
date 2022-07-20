@@ -36,10 +36,12 @@ import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimationProperties;
+import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.DialogsActivity;
 /* loaded from: classes3.dex */
 public class Bulletin {
@@ -1212,14 +1214,15 @@ public class Bulletin {
             this.imageView = rLottieImageView;
             rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
             addView(this.imageView, LayoutHelper.createFrameRelatively(56.0f, 48.0f, 8388627));
-            TextView textView = new TextView(context);
-            this.textView = textView;
-            textView.setSingleLine();
+            LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context);
+            this.textView = linksTextView;
+            linksTextView.setSingleLine();
             this.textView.setTypeface(Typeface.SANS_SERIF);
             this.textView.setTextSize(1, 15.0f);
             this.textView.setEllipsize(TextUtils.TruncateAt.END);
             this.textView.setPadding(0, AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f));
             addView(this.textView, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388627, 56.0f, 0.0f, 16.0f, 0.0f));
+            this.textView.setLinkTextColor(getThemedColor("undo_cancelColor"));
             setTextColor(getThemedColor("undo_infoColor"));
             setBackground(getThemedColor("undo_background"));
         }
@@ -1247,6 +1250,13 @@ public class Bulletin {
 
         public void setAnimation(int i, int i2, int i3, String... strArr) {
             this.imageView.setAnimation(i, i2, i3);
+            for (String str : strArr) {
+                this.imageView.setLayerColor(str + ".**", this.textColor);
+            }
+        }
+
+        public void setAnimation(TLRPC$Document tLRPC$Document, int i, int i2, String... strArr) {
+            this.imageView.setAnimation(tLRPC$Document, i, i2);
             for (String str : strArr) {
                 this.imageView.setLayerColor(str + ".**", this.textColor);
             }
@@ -1320,7 +1330,7 @@ public class Bulletin {
                 this.undoTextView.setTextSize(1, 14.0f);
                 this.undoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 this.undoTextView.setTextColor(themedColor);
-                this.undoTextView.setText(LocaleController.getString("Undo", 2131628728));
+                this.undoTextView.setText(LocaleController.getString("Undo", 2131628796));
                 this.undoTextView.setGravity(16);
                 ViewHelper.setPaddingRelative(this.undoTextView, 16.0f, 0.0f, 16.0f, 0.0f);
                 addView(this.undoTextView, LayoutHelper.createFrameRelatively(-2.0f, 48.0f, 16, 8.0f, 0.0f, 0.0f, 0.0f));

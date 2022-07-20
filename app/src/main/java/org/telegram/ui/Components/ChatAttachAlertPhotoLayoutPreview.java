@@ -115,7 +115,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         this.header.setMaxLines(1);
         this.header.setEllipsize(TextUtils.TruncateAt.END);
         this.header.setTextColor(getThemedColor("dialogTextBlack"));
-        this.header.setText(LocaleController.getString("AttachMediaPreview", 2131624495));
+        this.header.setText(LocaleController.getString("AttachMediaPreview", 2131624506));
         this.header.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.header.setCompoundDrawablePadding(AndroidUtilities.dp(4.0f));
         this.header.setPadding(0, 0, AndroidUtilities.dp(10.0f), 0);
@@ -145,7 +145,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         this.undoView = undoView;
         undoView.setEnterOffsetMargin(AndroidUtilities.dp(32.0f));
         addView(this.undoView, LayoutHelper.createFrame(-1, -2.0f, 83, 8.0f, 0.0f, 8.0f, 52.0f));
-        this.videoPlayImage = context.getResources().getDrawable(2131166064);
+        this.videoPlayImage = context.getResources().getDrawable(2131166066);
     }
 
     /* renamed from: org.telegram.ui.Components.ChatAttachAlertPhotoLayoutPreview$1 */
@@ -1073,7 +1073,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             setWillNotDraw(false);
             ChatActionCell chatActionCell = new ChatActionCell(context, true, r5.themeDelegate);
             this.hintView = chatActionCell;
-            chatActionCell.setCustomText(LocaleController.getString("AttachMediaDragHint", 2131624493));
+            chatActionCell.setCustomText(LocaleController.getString("AttachMediaDragHint", 2131624504));
             addView(this.hintView);
         }
 

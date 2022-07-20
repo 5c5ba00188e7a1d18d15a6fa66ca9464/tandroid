@@ -9,6 +9,6 @@ public final /* synthetic */ class BotWebViewMenuContainer$$ExternalSyntheticLam
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.invalidateActionBar();
+        this.f$0.lambda$new$4();
     }
 }

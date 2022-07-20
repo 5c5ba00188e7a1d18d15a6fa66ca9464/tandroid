@@ -171,10 +171,10 @@ public class WebviewActivity extends BaseFragment {
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
         ActionBarMenu createMenu = this.actionBar.createMenu();
-        this.progressItem = createMenu.addItemWithWidth(1, 2131166135, AndroidUtilities.dp(54.0f));
+        this.progressItem = createMenu.addItemWithWidth(1, 2131166137, AndroidUtilities.dp(54.0f));
         int i = this.type;
         if (i == 0) {
-            createMenu.addItem(0, 2131165453).addSubItem(2, 2131165831, LocaleController.getString("OpenInExternalApp", 2131627101));
+            createMenu.addItem(0, 2131165453).addSubItem(2, 2131165832, LocaleController.getString("OpenInExternalApp", 2131627153));
             this.actionBar.setTitle(this.currentGame);
             ActionBar actionBar = this.actionBar;
             actionBar.setSubtitle("@" + this.currentBot);
@@ -191,7 +191,7 @@ public class WebviewActivity extends BaseFragment {
             this.actionBar.setItemsBackgroundColor(Theme.getColor("player_actionBarSelector"), false);
             this.actionBar.setTitleColor(Theme.getColor("player_actionBarTitle"));
             this.actionBar.setSubtitleColor(Theme.getColor("player_actionBarSubtitle"));
-            this.actionBar.setTitle(LocaleController.getString("Statistics", 2131628437));
+            this.actionBar.setTitle(LocaleController.getString("Statistics", 2131628500));
             ContextProgressView contextProgressView2 = new ContextProgressView(context, 3);
             this.progressView = contextProgressView2;
             this.progressItem.addView(contextProgressView2, LayoutHelper.createFrame(-1, -1.0f));

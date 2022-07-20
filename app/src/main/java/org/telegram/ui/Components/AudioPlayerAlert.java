@@ -254,7 +254,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.actionBar.setItemsColor(getThemedColor("player_actionBarTitle"), false);
         this.actionBar.setItemsBackgroundColor(getThemedColor("player_actionBarSelector"), false);
         this.actionBar.setTitleColor(getThemedColor("player_actionBarTitle"));
-        this.actionBar.setTitle(LocaleController.getString("AttachMusic", 2131624501));
+        this.actionBar.setTitle(LocaleController.getString("AttachMusic", 2131624512));
         this.actionBar.setSubtitleColor(getThemedColor("player_actionBarSubtitle"));
         this.actionBar.setOccupyStatusBar(false);
         this.actionBar.setAlpha(0.0f);
@@ -279,9 +279,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass4());
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628092));
+        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628154));
         EditTextBoldCursor searchField = this.searchItem.getSearchField();
-        searchField.setHint(LocaleController.getString("Search", 2131628092));
+        searchField.setHint(LocaleController.getString("Search", 2131628154));
         searchField.setTextColor(getThemedColor("player_actionBarTitle"));
         searchField.setHintTextColor(getThemedColor("player_time"));
         searchField.setCursorColor(getThemedColor("player_actionBarTitle"));
@@ -335,10 +335,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.playbackSpeedButton.setAdditionalYOffset(-AndroidUtilities.dp(224.0f));
         this.playbackSpeedButton.setContentDescription(LocaleController.getString("AccDescrPlayerSpeed", 2131624043));
         this.playbackSpeedButton.setDelegate(new AudioPlayerAlert$$ExternalSyntheticLambda8(this));
-        this.speedItems[0] = this.playbackSpeedButton.addSubItem(1, 2131165943, LocaleController.getString("SpeedSlow", 2131628399));
-        this.speedItems[1] = this.playbackSpeedButton.addSubItem(2, 2131165944, LocaleController.getString("SpeedNormal", 2131628398));
-        this.speedItems[2] = this.playbackSpeedButton.addSubItem(3, 2131165945, LocaleController.getString("SpeedFast", 2131628397));
-        this.speedItems[3] = this.playbackSpeedButton.addSubItem(4, 2131165946, LocaleController.getString("SpeedVeryFast", 2131628400));
+        this.speedItems[0] = this.playbackSpeedButton.addSubItem(1, 2131165945, LocaleController.getString("SpeedSlow", 2131628462));
+        this.speedItems[1] = this.playbackSpeedButton.addSubItem(2, 2131165946, LocaleController.getString("SpeedNormal", 2131628461));
+        this.speedItems[2] = this.playbackSpeedButton.addSubItem(3, 2131165947, LocaleController.getString("SpeedFast", 2131628460));
+        this.speedItems[3] = this.playbackSpeedButton.addSubItem(4, 2131165948, LocaleController.getString("SpeedVeryFast", 2131628463));
         if (AndroidUtilities.density >= 3.0f) {
             this.playbackSpeedButton.setPadding(0, 1, 0, 0);
         }
@@ -363,10 +363,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
         anonymousClass12.addView(this.repeatButton, LayoutHelper.createFrame(48, 48, 51));
         this.repeatButton.setOnClickListener(new AudioPlayerAlert$$ExternalSyntheticLambda1(this));
-        this.repeatSongItem = this.repeatButton.addSubItem(3, 2131166075, LocaleController.getString("RepeatSong", 2131627917));
-        this.repeatListItem = this.repeatButton.addSubItem(4, 2131166074, LocaleController.getString("RepeatList", 2131627914));
-        this.shuffleListItem = this.repeatButton.addSubItem(2, 2131166076, LocaleController.getString("ShuffleList", 2131628354));
-        this.reverseOrderItem = this.repeatButton.addSubItem(1, 2131166068, LocaleController.getString("ReverseOrder", 2131628039));
+        this.repeatSongItem = this.repeatButton.addSubItem(3, 2131166077, LocaleController.getString("RepeatSong", 2131627979));
+        this.repeatListItem = this.repeatButton.addSubItem(4, 2131166076, LocaleController.getString("RepeatList", 2131627976));
+        this.shuffleListItem = this.repeatButton.addSubItem(2, 2131166078, LocaleController.getString("ShuffleList", 2131628417));
+        this.reverseOrderItem = this.repeatButton.addSubItem(1, 2131166070, LocaleController.getString("ReverseOrder", 2131628101));
         this.repeatButton.setShowedFromBottom(true);
         this.repeatButton.setDelegate(new AudioPlayerAlert$$ExternalSyntheticLambda9(this));
         int themedColor = getThemedColor("player_button");
@@ -376,7 +376,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.prevButton = anonymousClass13;
         viewArr2[1] = anonymousClass13;
         anonymousClass13.setScaleType(ImageView.ScaleType.CENTER);
-        this.prevButton.setAnimation(2131558504, 20, 20);
+        this.prevButton.setAnimation(2131558517, 20, 20);
         this.prevButton.setLayerColor("Triangle 3.**", themedColor);
         this.prevButton.setLayerColor("Triangle 4.**", themedColor);
         this.prevButton.setLayerColor("Rectangle 4.**", themedColor);
@@ -406,7 +406,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.nextButton = anonymousClass14;
         viewArr4[3] = anonymousClass14;
         anonymousClass14.setScaleType(ImageView.ScaleType.CENTER);
-        this.nextButton.setAnimation(2131558504, 20, 20);
+        this.nextButton.setAnimation(2131558517, 20, 20);
         this.nextButton.setLayerColor("Triangle 3.**", themedColor);
         this.nextButton.setLayerColor("Triangle 4.**", themedColor);
         this.nextButton.setLayerColor("Rectangle 4.**", themedColor);
@@ -415,7 +415,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             this.nextButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor("listSelectorSDK21"), 1, AndroidUtilities.dp(22.0f)));
         }
         anonymousClass12.addView(this.nextButton, LayoutHelper.createFrame(48, 48, 51));
-        this.nextButton.setContentDescription(LocaleController.getString("Next", 2131626801));
+        this.nextButton.setContentDescription(LocaleController.getString("Next", 2131626853));
         View[] viewArr5 = this.buttons;
         ActionBarMenuItem actionBarMenuItem3 = new ActionBarMenuItem(context, null, 0, themedColor, false, resourcesProvider);
         this.optionsButton = actionBarMenuItem3;
@@ -429,10 +429,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             this.optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor("listSelectorSDK21"), 1, AndroidUtilities.dp(18.0f)));
         }
         anonymousClass12.addView(this.optionsButton, LayoutHelper.createFrame(48, 48, 51));
-        this.optionsButton.addSubItem(1, 2131165741, LocaleController.getString("Forward", 2131625940));
-        this.optionsButton.addSubItem(2, 2131165939, LocaleController.getString("ShareFile", 2131628274));
-        this.optionsButton.addSubItem(5, 2131165709, LocaleController.getString("SaveToMusic", 2131628074));
-        this.optionsButton.addSubItem(4, 2131165800, LocaleController.getString("ShowInChat", 2131628338));
+        this.optionsButton.addSubItem(1, 2131165741, LocaleController.getString("Forward", 2131625981));
+        this.optionsButton.addSubItem(2, 2131165941, LocaleController.getString("ShareFile", 2131628336));
+        this.optionsButton.addSubItem(5, 2131165709, LocaleController.getString("SaveToMusic", 2131628136));
+        this.optionsButton.addSubItem(4, 2131165801, LocaleController.getString("ShowInChat", 2131628400));
         this.optionsButton.setShowedFromBottom(true);
         this.optionsButton.setOnClickListener(new AudioPlayerAlert$$ExternalSyntheticLambda2(this));
         this.optionsButton.setDelegate(new AudioPlayerAlert$$ExternalSyntheticLambda7(this));
@@ -446,14 +446,14 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.emptyView.setOnTouchListener(AudioPlayerAlert$$ExternalSyntheticLambda5.INSTANCE);
         ImageView imageView3 = new ImageView(context);
         this.emptyImageView = imageView3;
-        imageView3.setImageResource(2131165993);
+        imageView3.setImageResource(2131165995);
         this.emptyImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogEmptyImage"), PorterDuff.Mode.MULTIPLY));
         this.emptyView.addView(this.emptyImageView, LayoutHelper.createLinear(-2, -2));
         TextView textView2 = new TextView(context);
         this.emptyTitleTextView = textView2;
         textView2.setTextColor(getThemedColor("dialogEmptyText"));
         this.emptyTitleTextView.setGravity(17);
-        this.emptyTitleTextView.setText(LocaleController.getString("NoAudioFound", 2131626804));
+        this.emptyTitleTextView.setText(LocaleController.getString("NoAudioFound", 2131626856));
         this.emptyTitleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.emptyTitleTextView.setTextSize(1, 17.0f);
         this.emptyTitleTextView.setPadding(AndroidUtilities.dp(40.0f), 0, AndroidUtilities.dp(40.0f), 0);
@@ -1590,11 +1590,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.playbackSpeedButton.setTag(str);
         float fastPlaybackSpeed = MediaController.getInstance().getFastPlaybackSpeed(true);
         if (Math.abs(fastPlaybackSpeed - 1.8f) < 0.001f) {
-            this.playbackSpeedButton.setIcon(2131166210);
+            this.playbackSpeedButton.setIcon(2131166212);
         } else if (Math.abs(fastPlaybackSpeed - 1.5f) < 0.001f) {
-            this.playbackSpeedButton.setIcon(2131166209);
+            this.playbackSpeedButton.setIcon(2131166211);
         } else {
-            this.playbackSpeedButton.setIcon(2131166208);
+            this.playbackSpeedButton.setIcon(2131166210);
         }
         this.playbackSpeedButton.setIconColor(getThemedColor(str));
         if (Build.VERSION.SDK_INT >= 21) {
@@ -1662,13 +1662,13 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     } else {
                         intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(file));
                     }
-                    this.parentActivity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", 2131628274)), 500);
+                    this.parentActivity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", 2131628336)), 500);
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(this.parentActivity);
-                builder.setTitle(LocaleController.getString("AppName", 2131624375));
-                builder.setPositiveButton(LocaleController.getString("OK", 2131627075), null);
-                builder.setMessage(LocaleController.getString("PleaseDownload", 2131627559));
+                builder.setTitle(LocaleController.getString("AppName", 2131624384));
+                builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
+                builder.setMessage(LocaleController.getString("PleaseDownload", 2131627611));
                 builder.show();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -2032,7 +2032,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             if (i != 2) {
                 return;
             }
-            this.repeatButton.setIcon(2131166075);
+            this.repeatButton.setIcon(2131166077);
             this.repeatButton.setTag("player_buttonActive");
             this.repeatButton.setIconColor(getThemedColor("player_buttonActive"));
             Theme.setSelectorDrawableColor(this.repeatButton.getBackground(), 436207615 & getThemedColor("player_buttonActive"), true);
@@ -2041,16 +2041,16 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
         if (SharedConfig.shuffleMusic) {
             if (i == 0) {
-                this.repeatButton.setIcon(2131166076);
+                this.repeatButton.setIcon(2131166078);
             } else {
-                this.repeatButton.setIcon(2131166073);
+                this.repeatButton.setIcon(2131166075);
             }
         } else if (!SharedConfig.playOrderReversed) {
-            this.repeatButton.setIcon(2131166074);
+            this.repeatButton.setIcon(2131166076);
         } else if (i == 0) {
-            this.repeatButton.setIcon(2131166068);
+            this.repeatButton.setIcon(2131166070);
         } else {
-            this.repeatButton.setIcon(2131166072);
+            this.repeatButton.setIcon(2131166074);
         }
         if (i == 0 && !SharedConfig.shuffleMusic && !SharedConfig.playOrderReversed) {
             this.repeatButton.setTag("player_button");
@@ -2064,10 +2064,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         Theme.setSelectorDrawableColor(this.repeatButton.getBackground(), 436207615 & getThemedColor("player_buttonActive"), true);
         if (i == 0) {
             if (SharedConfig.shuffleMusic) {
-                this.repeatButton.setContentDescription(LocaleController.getString("ShuffleList", 2131628354));
+                this.repeatButton.setContentDescription(LocaleController.getString("ShuffleList", 2131628417));
                 return;
             } else {
-                this.repeatButton.setContentDescription(LocaleController.getString("ReverseOrder", 2131628039));
+                this.repeatButton.setContentDescription(LocaleController.getString("ReverseOrder", 2131628101));
                 return;
             }
         }
@@ -2462,7 +2462,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             this.searchResult = arrayList;
             notifyDataSetChanged();
             AudioPlayerAlert.this.layoutManager.scrollToPosition(0);
-            AudioPlayerAlert.this.emptySubtitleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("NoAudioFoundPlayerInfo", 2131626806, str)));
+            AudioPlayerAlert.this.emptySubtitleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("NoAudioFoundPlayerInfo", 2131626858, str)));
         }
     }
 

@@ -1,17 +1,20 @@
 package org.telegram.messenger;
 
-import org.telegram.tgnet.TLRPC$MessageEntity;
+import java.util.ArrayList;
+import java.util.Comparator;
+import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 /* loaded from: classes.dex */
-public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda131 implements GenericProvider {
-    public static final /* synthetic */ MediaDataController$$ExternalSyntheticLambda131 INSTANCE = new MediaDataController$$ExternalSyntheticLambda131();
+public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda131 implements Comparator {
+    public final /* synthetic */ ArrayList f$0;
 
-    private /* synthetic */ MediaDataController$$ExternalSyntheticLambda131() {
+    public /* synthetic */ MediaDataController$$ExternalSyntheticLambda131(ArrayList arrayList) {
+        this.f$0 = arrayList;
     }
 
-    @Override // org.telegram.messenger.GenericProvider
-    public final Object provide(Object obj) {
-        TLRPC$MessageEntity lambda$getEntities$139;
-        lambda$getEntities$139 = MediaDataController.lambda$getEntities$139((Void) obj);
-        return lambda$getEntities$139;
+    @Override // java.util.Comparator
+    public final int compare(Object obj, Object obj2) {
+        int lambda$reorderStickers$39;
+        lambda$reorderStickers$39 = MediaDataController.lambda$reorderStickers$39(this.f$0, (TLRPC$TL_messages_stickerSet) obj, (TLRPC$TL_messages_stickerSet) obj2);
+        return lambda$reorderStickers$39;
     }
 }

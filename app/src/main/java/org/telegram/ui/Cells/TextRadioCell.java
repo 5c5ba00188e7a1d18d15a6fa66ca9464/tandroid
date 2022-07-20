@@ -186,10 +186,10 @@ public class TextRadioCell extends FrameLayout {
         accessibilityNodeInfo.setCheckable(true);
         accessibilityNodeInfo.setChecked(this.radioButton.isChecked());
         if (this.radioButton.isChecked()) {
-            i = 2131627051;
+            i = 2131627103;
             str = "NotificationsOn";
         } else {
-            i = 2131627049;
+            i = 2131627101;
             str = "NotificationsOff";
         }
         accessibilityNodeInfo.setContentDescription(LocaleController.getString(str, i));

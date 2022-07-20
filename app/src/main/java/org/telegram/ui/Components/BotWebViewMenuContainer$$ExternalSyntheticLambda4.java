@@ -11,6 +11,6 @@ public final /* synthetic */ class BotWebViewMenuContainer$$ExternalSyntheticLam
 
     @Override // androidx.core.util.Consumer
     public final void accept(Object obj) {
-        this.f$0.lambda$onDismiss$18((Float) obj);
+        this.f$0.lambda$new$10((Float) obj);
     }
 }

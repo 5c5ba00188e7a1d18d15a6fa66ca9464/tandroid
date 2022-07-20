@@ -38,9 +38,9 @@ public class ScamDrawable extends Drawable {
         this.paint.setStyle(Paint.Style.STROKE);
         this.paint.setStrokeWidth(AndroidUtilities.dp(1.0f));
         if (i2 == 0) {
-            this.text = LocaleController.getString("ScamMessage", 2131628080);
+            this.text = LocaleController.getString("ScamMessage", 2131628142);
         } else {
-            this.text = LocaleController.getString("FakeMessage", 2131625795);
+            this.text = LocaleController.getString("FakeMessage", 2131625835);
         }
         this.textWidth = (int) Math.ceil(this.textPaint.measureText(this.text));
     }
@@ -48,9 +48,9 @@ public class ScamDrawable extends Drawable {
     public void checkText() {
         String str;
         if (this.currentType == 0) {
-            str = LocaleController.getString("ScamMessage", 2131628080);
+            str = LocaleController.getString("ScamMessage", 2131628142);
         } else {
-            str = LocaleController.getString("FakeMessage", 2131625795);
+            str = LocaleController.getString("FakeMessage", 2131625835);
         }
         if (!str.equals(this.text)) {
             this.text = str;

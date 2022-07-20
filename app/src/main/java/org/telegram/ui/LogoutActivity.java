@@ -90,7 +90,7 @@ public class LogoutActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
-        this.actionBar.setTitle(LocaleController.getString("LogOutTitle", 2131626500));
+        this.actionBar.setTitle(LocaleController.getString("LogOutTitle", 2131626547));
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
         }
@@ -159,10 +159,10 @@ public class LogoutActivity extends BaseFragment {
 
     public static AlertDialog makeLogOutDialog(Context context, int i) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(LocaleController.getString("AreYouSureLogout", 2131624459));
-        builder.setTitle(LocaleController.getString("LogOut", 2131626498));
-        builder.setPositiveButton(LocaleController.getString("LogOut", 2131626498), new LogoutActivity$$ExternalSyntheticLambda0(i));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+        builder.setMessage(LocaleController.getString("AreYouSureLogout", 2131624470));
+        builder.setTitle(LocaleController.getString("LogOut", 2131626545));
+        builder.setPositiveButton(LocaleController.getString("LogOut", 2131626545), new LogoutActivity$$ExternalSyntheticLambda0(i));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         AlertDialog create = builder.create();
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
@@ -211,7 +211,7 @@ public class LogoutActivity extends BaseFragment {
                 if (i != LogoutActivity.this.alternativeHeaderRow) {
                     return;
                 }
-                headerCell.setText(LocaleController.getString("AlternativeOptions", 2131624332));
+                headerCell.setText(LocaleController.getString("AlternativeOptions", 2131624341));
             } else if (itemViewType != 1) {
                 if (itemViewType == 3) {
                     TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
@@ -219,14 +219,14 @@ public class LogoutActivity extends BaseFragment {
                         return;
                     }
                     textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText5"));
-                    textSettingsCell.setText(LocaleController.getString("LogOutTitle", 2131626500), false);
+                    textSettingsCell.setText(LocaleController.getString("LogOutTitle", 2131626547), false);
                 } else if (itemViewType != 4) {
                 } else {
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                     if (i != LogoutActivity.this.logoutSectionRow) {
                         return;
                     }
-                    textInfoPrivacyCell.setText(LocaleController.getString("LogOutInfo", 2131626499));
+                    textInfoPrivacyCell.setText(LocaleController.getString("LogOutInfo", 2131626546));
                 }
             } else {
                 TextDetailSettingsCell textDetailSettingsCell = (TextDetailSettingsCell) viewHolder.itemView;
@@ -237,19 +237,19 @@ public class LogoutActivity extends BaseFragment {
                                 if (i != LogoutActivity.this.supportRow) {
                                     return;
                                 }
-                                textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ContactSupport", 2131625240), LocaleController.getString("ContactSupportInfo", 2131625241), 2131165757, false);
+                                textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ContactSupport", 2131625256), LocaleController.getString("ContactSupportInfo", 2131625257), 2131165758, false);
                                 return;
                             }
-                            textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ChangePhoneNumber", 2131624859), LocaleController.getString("ChangePhoneNumberInfo", 2131624860), 2131165826, true);
+                            textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ChangePhoneNumber", 2131624872), LocaleController.getString("ChangePhoneNumberInfo", 2131624873), 2131165827, true);
                             return;
                         }
-                        textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ClearCache", 2131625133), LocaleController.getString("ClearCacheInfo", 2131625135), 2131165685, true);
+                        textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ClearCache", 2131625147), LocaleController.getString("ClearCacheInfo", 2131625149), 2131165685, true);
                         return;
                     }
-                    textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("SetPasscode", 2131628244), LocaleController.getString("SetPasscodeInfo", 2131628245), 2131165841, true);
+                    textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("SetPasscode", 2131628306), LocaleController.getString("SetPasscodeInfo", 2131628307), 2131165842, true);
                     return;
                 }
-                textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("AddAnotherAccount", 2131624246), LocaleController.getString("AddAnotherAccountInfo", 2131624247), 2131165690, true);
+                textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("AddAnotherAccount", 2131624251), LocaleController.getString("AddAnotherAccountInfo", 2131624252), 2131165690, true);
             }
         }
 

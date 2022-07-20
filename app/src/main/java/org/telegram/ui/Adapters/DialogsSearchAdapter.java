@@ -685,7 +685,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         updateSearchResults(arrayList, arrayList2, arrayList3, i);
         FiltersView.fillTipDates(str, this.localTipDates);
         this.localTipArchive = false;
-        if (str.length() >= 3 && (LocaleController.getString("ArchiveSearchFilter", 2131624405).toLowerCase().startsWith(str) || "archive".startsWith(str2))) {
+        if (str.length() >= 3 && (LocaleController.getString("ArchiveSearchFilter", 2131624414).toLowerCase().startsWith(str) || "archive".startsWith(str2))) {
             this.localTipArchive = true;
         }
         AndroidUtilities.runOnUIThread(new DialogsSearchAdapter$$ExternalSyntheticLambda6(this));
@@ -1263,30 +1263,30 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 } else {
                     TextCell textCell = (TextCell) viewHolder.itemView;
                     textCell.setColors(null, "windowBackgroundWhiteBlueText2");
-                    textCell.setText(LocaleController.formatString("AddContactByPhone", 2131624260, PhoneFormat.getInstance().format("+" + ((String) getItem(i4)))), false);
+                    textCell.setText(LocaleController.formatString("AddContactByPhone", 2131624265, PhoneFormat.getInstance().format("+" + ((String) getItem(i4)))), false);
                     return;
                 }
             }
             GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
             if (!this.searchResultHashtags.isEmpty()) {
-                graySectionCell.setText(LocaleController.getString("Hashtags", 2131626129), LocaleController.getString("ClearButton", 2131625132), new DialogsSearchAdapter$$ExternalSyntheticLambda3(this));
+                graySectionCell.setText(LocaleController.getString("Hashtags", 2131626176), LocaleController.getString("ClearButton", 2131625146), new DialogsSearchAdapter$$ExternalSyntheticLambda3(this));
                 return;
             }
             if (isRecentSearchDisplayed()) {
                 int i6 = (this.searchWas || MediaDataController.getInstance(this.currentAccount).hints.isEmpty()) ? 0 : 1;
                 if (i4 < i6) {
-                    graySectionCell.setText(LocaleController.getString("ChatHints", 2131625008));
+                    graySectionCell.setText(LocaleController.getString("ChatHints", 2131625021));
                     return;
                 } else if (i4 == i6) {
                     if (!this.searchWas) {
-                        graySectionCell.setText(LocaleController.getString("Recent", 2131627858), LocaleController.getString("ClearButton", 2131625132), new DialogsSearchAdapter$$ExternalSyntheticLambda2(this));
+                        graySectionCell.setText(LocaleController.getString("Recent", 2131627920), LocaleController.getString("ClearButton", 2131625146), new DialogsSearchAdapter$$ExternalSyntheticLambda2(this));
                         return;
                     } else {
-                        graySectionCell.setText(LocaleController.getString("Recent", 2131627858), LocaleController.getString("Clear", 2131625131), new DialogsSearchAdapter$$ExternalSyntheticLambda1(this));
+                        graySectionCell.setText(LocaleController.getString("Recent", 2131627920), LocaleController.getString("Clear", 2131625145), new DialogsSearchAdapter$$ExternalSyntheticLambda1(this));
                         return;
                     }
                 } else if (i4 == getRecentItemsCount()) {
-                    graySectionCell.setText(LocaleController.getString("SearchAllChatsShort", 2131628093));
+                    graySectionCell.setText(LocaleController.getString("SearchAllChatsShort", 2131628155));
                     return;
                 } else {
                     i2 = i4 - getRecentItemsCount();
@@ -1312,17 +1312,17 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             if (i7 < 0 || i7 >= size3) {
                 int i8 = i7 - size3;
                 if (i8 >= 0 && i8 < i5) {
-                    String string = LocaleController.getString("GlobalSearch", 2131626079);
+                    String string = LocaleController.getString("GlobalSearch", 2131626126);
                     if (this.searchAdapterHelper.getGlobalSearch().size() > 3) {
                         z4 = this.globalSearchCollapsed;
                         runnable = new DialogsSearchAdapter$$ExternalSyntheticLambda17(this, globalSearch, i4, graySectionCell);
                     }
                     str7 = string;
                 } else {
-                    str7 = LocaleController.getString("SearchMessages", 2131628119);
+                    str7 = LocaleController.getString("SearchMessages", 2131628181);
                 }
             } else {
-                str7 = LocaleController.getString("PhoneNumberSearch", 2131627500);
+                str7 = LocaleController.getString("PhoneNumberSearch", 2131627552);
                 if (this.searchAdapterHelper.getPhoneSearch().size() > 3) {
                     z4 = this.phoneCollapsed;
                     runnable = new DialogsSearchAdapter$$ExternalSyntheticLambda18(this, graySectionCell);
@@ -1333,10 +1333,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 return;
             }
             if (z4) {
-                i3 = 2131628340;
+                i3 = 2131628402;
                 str8 = "ShowMore";
             } else {
-                i3 = 2131628339;
+                i3 = 2131628401;
                 str8 = "ShowLess";
             }
             graySectionCell.setText(str7, LocaleController.getString(str8, i3), new DialogsSearchAdapter$$ExternalSyntheticLambda0(runnable));
@@ -1451,7 +1451,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             str = r2;
             profileSearchCell.setChecked(false, false);
             if (tLRPC$User == null && tLRPC$User.id == this.selfUserId) {
-                str2 = LocaleController.getString("SavedMessages", 2131628077);
+                str2 = LocaleController.getString("SavedMessages", 2131628139);
                 z2 = true;
                 str3 = null;
             } else {
@@ -1531,10 +1531,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         boolean z = !this.phoneCollapsed;
         this.phoneCollapsed = z;
         if (z) {
-            i = 2131628340;
+            i = 2131628402;
             str = "ShowMore";
         } else {
-            i = 2131628339;
+            i = 2131628401;
             str = "ShowLess";
         }
         graySectionCell.setRightText(LocaleController.getString(str, i));
@@ -1565,10 +1565,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         boolean z2 = !this.globalSearchCollapsed;
         this.globalSearchCollapsed = z2;
         if (z2) {
-            i2 = 2131628340;
+            i2 = 2131628402;
             str = "ShowMore";
         } else {
-            i2 = 2131628339;
+            i2 = 2131628401;
             str = "ShowLess";
         }
         graySectionCell.setRightText(LocaleController.getString(str, i2), this.globalSearchCollapsed);

@@ -48,7 +48,7 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         super(context, false, resourcesProvider);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.liveLocationsChanged);
         this.delegate = sharingLocationsAlertDelegate;
-        Drawable mutate = context.getResources().getDrawable(2131166138).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
@@ -79,10 +79,10 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         this.containerView.addView(pickerBottomLayout, LayoutHelper.createFrame(-1, 48, 83));
         pickerBottomLayout.cancelButton.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
         pickerBottomLayout.cancelButton.setTextColor(getThemedColor("dialogTextRed"));
-        pickerBottomLayout.cancelButton.setText(LocaleController.getString("StopAllLocationSharings", 2131628464));
+        pickerBottomLayout.cancelButton.setText(LocaleController.getString("StopAllLocationSharings", 2131628527));
         pickerBottomLayout.cancelButton.setOnClickListener(new SharingLocationsAlert$$ExternalSyntheticLambda1(this));
         pickerBottomLayout.doneButtonTextView.setTextColor(getThemedColor("dialogTextBlue2"));
-        pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("Close", 2131625167).toUpperCase());
+        pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("Close", 2131625183).toUpperCase());
         pickerBottomLayout.doneButton.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
         pickerBottomLayout.doneButton.setOnClickListener(new SharingLocationsAlert$$ExternalSyntheticLambda0(this));
         pickerBottomLayout.doneButtonBadgeTextView.setVisibility(8);
@@ -337,7 +337,7 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
                 if (itemViewType != 1 || SharingLocationsAlert.this.textView == null) {
                     return;
                 }
-                SharingLocationsAlert.this.textView.setText(LocaleController.formatString("SharingLiveLocationTitle", 2131628324, LocaleController.formatPluralString("Chats", LocationController.getLocationsCount(), new Object[0])));
+                SharingLocationsAlert.this.textView.setText(LocaleController.formatString("SharingLiveLocationTitle", 2131628386, LocaleController.formatPluralString("Chats", LocationController.getLocationsCount(), new Object[0])));
                 return;
             }
             ((SharingLiveLocationCell) viewHolder.itemView).setDialog(SharingLocationsAlert.this.getLocation(i - 1));

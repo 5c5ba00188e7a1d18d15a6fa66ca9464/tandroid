@@ -277,7 +277,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         FrameLayout frameLayout2 = (FrameLayout) this.fragmentView;
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
-        emptyTextProgressView.setText(LocaleController.getString("NoResult", 2131626858));
+        emptyTextProgressView.setText(LocaleController.getString("NoResult", 2131626910));
         this.emptyView.setVisibility(8);
         LinearLayout linearLayout = new LinearLayout(context);
         this.progressLayout = linearLayout;
@@ -285,20 +285,20 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.imageView = rLottieImageView;
         rLottieImageView.setAutoRepeat(true);
-        this.imageView.setAnimation(2131558539, 120, 120);
+        this.imageView.setAnimation(2131558558, 120, 120);
         this.imageView.playAnimation();
         TextView textView = new TextView(context);
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextColor(Theme.getColor("player_actionBarTitle"));
         textView.setTag("player_actionBarTitle");
-        textView.setText(LocaleController.getString("LoadingStats", 2131626475));
+        textView.setText(LocaleController.getString("LoadingStats", 2131626522));
         textView.setGravity(1);
         TextView textView2 = new TextView(context);
         textView2.setTextSize(1, 15.0f);
         textView2.setTextColor(Theme.getColor("player_actionBarSubtitle"));
         textView2.setTag("player_actionBarSubtitle");
-        textView2.setText(LocaleController.getString("LoadingStatsDescription", 2131626476));
+        textView2.setText(LocaleController.getString("LoadingStatsDescription", 2131626523));
         textView2.setGravity(1);
         this.progressLayout.addView(this.imageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
         this.progressLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
@@ -535,7 +535,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
         ActionBarMenu createMenu = this.actionBar.createMenu();
         createMenu.clearItems();
-        createMenu.addItem(0, 2131165453).addSubItem(1, 2131165947, LocaleController.getString("ViewChannelStats", 2131628912));
+        createMenu.addItem(0, 2131165453).addSubItem(1, 2131165949, LocaleController.getString("ViewChannelStats", 2131628985));
     }
 
     public void loadChats(int i) {
@@ -624,7 +624,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             updateRows();
             return;
         }
-        StatisticActivity.ChartViewData createViewData = StatisticActivity.createViewData(((TLRPC$TL_stats_messageStats) tLObject).views_graph, LocaleController.getString("InteractionsChartTitle", 2131626239), 1, false);
+        StatisticActivity.ChartViewData createViewData = StatisticActivity.createViewData(((TLRPC$TL_stats_messageStats) tLObject).views_graph, LocaleController.getString("InteractionsChartTitle", 2131626286), 1, false);
         this.interactionsViewData = createViewData;
         if (createViewData != null && createViewData.chartData.x.length <= 5) {
             this.statsLoaded = false;
@@ -859,7 +859,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                         headerCell.setText(LocaleController.formatPluralString("PublicSharesCount", MessageStatisticActivity.this.publicChats, new Object[0]));
                         return;
                     } else {
-                        headerCell.setText(LocaleController.formatString("StatisticOverview", 2131628434, new Object[0]));
+                        headerCell.setText(LocaleController.formatString("StatisticOverview", 2131628497, new Object[0]));
                         return;
                     }
                 } else if (itemViewType != 4) {
@@ -974,11 +974,11 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
         public void setData() {
             this.primary[0].setText(AndroidUtilities.formatWholeNumber(MessageStatisticActivity.this.messageObject.messageOwner.views, 0));
-            this.title[0].setText(LocaleController.getString("StatisticViews", 2131628436));
+            this.title[0].setText(LocaleController.getString("StatisticViews", 2131628499));
             if (MessageStatisticActivity.this.publicChats > 0) {
                 this.cell[1].setVisibility(0);
                 this.primary[1].setText(AndroidUtilities.formatWholeNumber(MessageStatisticActivity.this.publicChats, 0));
-                this.title[1].setText(LocaleController.formatString("PublicShares", 2131627770, new Object[0]));
+                this.title[1].setText(LocaleController.formatString("PublicShares", 2131627832, new Object[0]));
             } else {
                 this.cell[1].setVisibility(8);
             }
@@ -986,7 +986,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             if (i > 0) {
                 this.cell[2].setVisibility(0);
                 this.primary[2].setText(AndroidUtilities.formatWholeNumber(i, 0));
-                this.title[2].setText(LocaleController.formatString("PrivateShares", 2131627738, new Object[0]));
+                this.title[2].setText(LocaleController.formatString("PrivateShares", 2131627800, new Object[0]));
             } else {
                 this.cell[2].setVisibility(8);
             }

@@ -29,12 +29,12 @@ public class Stripe {
 
         /* renamed from: com.stripe.android.Stripe$1$1 */
         /* loaded from: classes.dex */
-        class AsyncTaskC00051 extends AsyncTask<Void, Void, ResponseWrapper> {
+        class AsyncTaskC00091 extends AsyncTask<Void, Void, ResponseWrapper> {
             final /* synthetic */ TokenCallback val$callback;
             final /* synthetic */ Card val$card;
             final /* synthetic */ String val$publishableKey;
 
-            AsyncTaskC00051(String str, Card card, TokenCallback tokenCallback) {
+            AsyncTaskC00091(String str, Card card, TokenCallback tokenCallback) {
                 AnonymousClass1.this = r1;
                 this.val$publishableKey = str;
                 this.val$card = card;
@@ -56,7 +56,7 @@ public class Stripe {
 
         @Override // com.stripe.android.Stripe.TokenCreator
         public void create(Card card, String str, Executor executor, TokenCallback tokenCallback) {
-            Stripe.this.executeTokenTask(executor, new AsyncTaskC00051(str, card, tokenCallback));
+            Stripe.this.executeTokenTask(executor, new AsyncTaskC00091(str, card, tokenCallback));
         }
     }
 

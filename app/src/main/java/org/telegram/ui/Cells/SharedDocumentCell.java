@@ -436,7 +436,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             }
             String documentFileName = (messageObject.isVideo() || (messageObject.messageOwner.media instanceof TLRPC$TL_messageMediaPhoto) || MessageObject.isGifDocument(document)) ? null : FileLoader.getDocumentFileName(document);
             if (TextUtils.isEmpty(documentFileName) && (str = document.mime_type) != null) {
-                documentFileName = str.startsWith("video") ? MessageObject.isGifDocument(document) ? LocaleController.getString("AttachGif", 2131624483) : LocaleController.getString("AttachVideo", 2131624508) : document.mime_type.startsWith("image") ? MessageObject.isGifDocument(document) ? LocaleController.getString("AttachGif", 2131624483) : LocaleController.getString("AttachPhoto", 2131624502) : document.mime_type.startsWith("audio") ? LocaleController.getString("AttachAudio", 2131624476) : LocaleController.getString("AttachDocument", 2131624481);
+                documentFileName = str.startsWith("video") ? MessageObject.isGifDocument(document) ? LocaleController.getString("AttachGif", 2131624494) : LocaleController.getString("AttachVideo", 2131624519) : document.mime_type.startsWith("image") ? MessageObject.isGifDocument(document) ? LocaleController.getString("AttachGif", 2131624494) : LocaleController.getString("AttachPhoto", 2131624513) : document.mime_type.startsWith("audio") ? LocaleController.getString("AttachAudio", 2131624487) : LocaleController.getString("AttachDocument", 2131624492);
             }
             if (str5 == null) {
                 str5 = documentFileName;
@@ -533,7 +533,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             this.rightDateTextView.setText(LocaleController.stringForMessageListDate(this.message.messageOwner.date));
             return;
         }
-        this.dateTextView.setText(String.format("%s, %s", str, LocaleController.formatString("formatDateAtTime", 2131629349, LocaleController.getInstance().formatterYear.format(new Date(j)), LocaleController.getInstance().formatterDay.format(new Date(j)))));
+        this.dateTextView.setText(String.format("%s, %s", str, LocaleController.formatString("formatDateAtTime", 2131629423, LocaleController.getInstance().formatterYear.format(new Date(j)), LocaleController.getInstance().formatterDay.format(new Date(j)))));
     }
 
     public void updateFileExistIcon(boolean z) {
