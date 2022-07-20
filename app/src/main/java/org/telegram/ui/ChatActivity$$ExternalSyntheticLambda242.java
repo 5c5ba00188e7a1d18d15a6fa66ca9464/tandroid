@@ -12,6 +12,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda242 impl
 
     @Override // org.telegram.ui.Components.ChatGreetingsView.Listener
     public final void onGreetings(TLRPC$Document tLRPC$Document) {
-        this.f$0.lambda$createView$25(tLRPC$Document);
+        this.f$0.lambda$createView$26(tLRPC$Document);
     }
 }

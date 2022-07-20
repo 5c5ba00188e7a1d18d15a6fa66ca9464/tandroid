@@ -163,14 +163,14 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
             ofFloat4.setDuration(600L);
             ofFloat4.setInterpolator(AndroidUtilities.overshootInterpolator);
             GLIconTextureView.this.animatorSet.playTogether(ofFloat, ofFloat2, ofFloat3, ofFloat4);
-            GLIconTextureView.this.animatorSet.addListener(new C00281());
+            GLIconTextureView.this.animatorSet.addListener(new C00241());
             GLIconTextureView.this.animatorSet.start();
         }
 
         /* renamed from: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$1$1 */
         /* loaded from: classes3.dex */
-        public class C00281 extends AnimatorListenerAdapter {
-            C00281() {
+        public class C00241 extends AnimatorListenerAdapter {
+            C00241() {
                 AnonymousClass1.this = r1;
             }
 

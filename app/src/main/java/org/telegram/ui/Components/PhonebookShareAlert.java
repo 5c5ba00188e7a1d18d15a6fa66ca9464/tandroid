@@ -399,9 +399,9 @@ public class PhonebookShareAlert extends BottomSheet {
                 this.actionBar.setOccupyStatusBar(false);
                 this.actionBar.setAlpha(0.0f);
                 if (!this.isImport) {
-                    this.actionBar.setTitle(LocaleController.getString("AddContactPhonebookTitle", 2131624268));
+                    this.actionBar.setTitle(LocaleController.getString("AddContactPhonebookTitle", 2131624263));
                 } else {
-                    this.actionBar.setTitle(LocaleController.getString("ShareContactTitle", 2131628335));
+                    this.actionBar.setTitle(LocaleController.getString("ShareContactTitle", 2131628273));
                 }
                 this.containerView.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
                 this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass4());
@@ -422,9 +422,9 @@ public class PhonebookShareAlert extends BottomSheet {
                 this.buttonTextView.setTextColor(getThemedColor("featuredStickers_buttonText"));
                 this.buttonTextView.setTextSize(1, 14.0f);
                 if (!this.isImport) {
-                    this.buttonTextView.setText(LocaleController.getString("AddContactPhonebookTitle", 2131624268));
+                    this.buttonTextView.setText(LocaleController.getString("AddContactPhonebookTitle", 2131624263));
                 } else {
-                    this.buttonTextView.setText(LocaleController.getString("ShareContactTitle", 2131628335));
+                    this.buttonTextView.setText(LocaleController.getString("ShareContactTitle", 2131628273));
                 }
                 this.buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor("featuredStickers_addButton"), getThemedColor("featuredStickers_addButtonPressed")));
@@ -665,7 +665,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 return;
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this.parentFragment.getParentActivity());
-                builder.setItems(new CharSequence[]{LocaleController.getString("Copy", 2131625272)}, new PhonebookShareAlert$$ExternalSyntheticLambda0(this, vcardItem));
+                builder.setItems(new CharSequence[]{LocaleController.getString("Copy", 2131625256)}, new PhonebookShareAlert$$ExternalSyntheticLambda0(this, vcardItem));
                 builder.show();
                 return;
             }
@@ -701,7 +701,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 if (Build.VERSION.SDK_INT >= 31) {
                     return;
                 }
-                Toast.makeText(this.parentFragment.getParentActivity(), LocaleController.getString("TextCopied", 2131628662), 0).show();
+                Toast.makeText(this.parentFragment.getParentActivity(), LocaleController.getString("TextCopied", 2131628595), 0).show();
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -728,14 +728,14 @@ public class PhonebookShareAlert extends BottomSheet {
                 Bulletin.SimpleLayout simpleLayout = new Bulletin.SimpleLayout(context, resourcesProvider);
                 int i4 = vcardItem.type;
                 if (i4 == 0) {
-                    simpleLayout.textView.setText(LocaleController.getString("PhoneCopied", 2131627540));
+                    simpleLayout.textView.setText(LocaleController.getString("PhoneCopied", 2131627488));
                     simpleLayout.imageView.setImageResource(2131165664);
                 } else if (i4 == 1) {
-                    simpleLayout.textView.setText(LocaleController.getString("EmailCopied", 2131625613));
-                    simpleLayout.imageView.setImageResource(2131165800);
+                    simpleLayout.textView.setText(LocaleController.getString("EmailCopied", 2131625597));
+                    simpleLayout.imageView.setImageResource(2131165799);
                 } else {
-                    simpleLayout.textView.setText(LocaleController.getString("TextCopied", 2131628662));
-                    simpleLayout.imageView.setImageResource(2131165764);
+                    simpleLayout.textView.setText(LocaleController.getString("TextCopied", 2131628595));
+                    simpleLayout.imageView.setImageResource(2131165763);
                 }
                 if (Build.VERSION.SDK_INT < 31) {
                     Bulletin.make((FrameLayout) this.containerView, simpleLayout, 1500).show();
@@ -780,9 +780,9 @@ public class PhonebookShareAlert extends BottomSheet {
         StringBuilder sb;
         if (this.isImport) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle(LocaleController.getString("AddContactTitle", 2131624269));
-            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
-            builder.setItems(new CharSequence[]{LocaleController.getString("CreateNewContact", 2131625290), LocaleController.getString("AddToExistingContact", 2131624299)}, new AnonymousClass5());
+            builder.setTitle(LocaleController.getString("AddContactTitle", 2131624264));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+            builder.setItems(new CharSequence[]{LocaleController.getString("CreateNewContact", 2131625274), LocaleController.getString("AddToExistingContact", 2131624291)}, new AnonymousClass5());
             builder.show();
             return;
         }
@@ -1303,21 +1303,21 @@ public class PhonebookShareAlert extends BottomSheet {
             boolean z = true;
             if (i2 == 1) {
                 TextCheckBoxCell textCheckBoxCell = (TextCheckBoxCell) view;
-                int i3 = 2131165764;
+                int i3 = 2131165763;
                 if (i < PhonebookShareAlert.this.phoneStartRow || i >= PhonebookShareAlert.this.phoneEndRow) {
                     vcardItem = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(i - PhonebookShareAlert.this.vcardStartRow);
                     int i4 = vcardItem.type;
                     if (i4 == 1) {
-                        i3 = 2131165800;
+                        i3 = 2131165799;
                     } else if (i4 == 2) {
-                        i3 = 2131165789;
+                        i3 = 2131165788;
                     } else if (i4 == 3) {
-                        i3 = 2131165783;
+                        i3 = 2131165782;
                     } else if (i4 != 4) {
                         if (i4 == 5) {
                             i3 = 2131165662;
                         } else if (i4 == 6) {
-                            i3 = "ORG".equalsIgnoreCase(vcardItem.getRawType(true)) ? 2131165991 : 2131165773;
+                            i3 = "ORG".equalsIgnoreCase(vcardItem.getRawType(true)) ? 2131165989 : 2131165772;
                         }
                     }
                 } else {

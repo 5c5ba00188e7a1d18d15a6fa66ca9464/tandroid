@@ -176,15 +176,15 @@ public class InviteLinkBottomSheet extends BottomSheet {
         this.titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         if (!z) {
             if (tLRPC$TL_chatInviteExported.expired) {
-                this.titleTextView.setText(LocaleController.getString("ExpiredLink", 2131625829));
+                this.titleTextView.setText(LocaleController.getString("ExpiredLink", 2131625789));
             } else if (tLRPC$TL_chatInviteExported.revoked) {
-                this.titleTextView.setText(LocaleController.getString("RevokedLink", 2131628117));
+                this.titleTextView.setText(LocaleController.getString("RevokedLink", 2131628055));
             } else {
-                this.titleTextView.setText(LocaleController.getString("InviteLink", 2131626310));
+                this.titleTextView.setText(LocaleController.getString("InviteLink", 2131626263));
             }
             this.titleVisible = true;
         } else {
-            this.titleTextView.setText(LocaleController.getString("InviteLink", 2131626310));
+            this.titleTextView.setText(LocaleController.getString("InviteLink", 2131626263));
             this.titleVisible = false;
             this.titleTextView.setVisibility(4);
             this.titleTextView.setAlpha(0.0f);
@@ -828,7 +828,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 } else {
                     LinkEditActivity linkEditActivity = new LinkEditActivity(1, inviteLinkBottomSheet.chatId);
                     linkEditActivity.setInviteToEdit(InviteLinkBottomSheet.this.invite);
-                    linkEditActivity.setCallback(new C00261());
+                    linkEditActivity.setCallback(new C00221());
                     InviteLinkBottomSheet.this.fragment.presentFragment(linkEditActivity);
                 }
                 InviteLinkBottomSheet.this.dismiss();
@@ -836,7 +836,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
             /* renamed from: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$1$1 */
             /* loaded from: classes3.dex */
-            class C00261 implements LinkEditActivity.Callback {
+            class C00221 implements LinkEditActivity.Callback {
                 @Override // org.telegram.ui.LinkEditActivity.Callback
                 public void onLinkCreated(TLObject tLObject) {
                 }
@@ -849,7 +849,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 public void revokeLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
                 }
 
-                C00261() {
+                C00221() {
                     AnonymousClass1.this = r1;
                 }
 
@@ -919,14 +919,14 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 InviteLinkBottomSheet inviteLinkBottomSheet = InviteLinkBottomSheet.this;
                 if (i == inviteLinkBottomSheet.creatorHeaderRow) {
-                    headerCell.setText(LocaleController.getString("LinkCreatedeBy", 2131626483));
+                    headerCell.setText(LocaleController.getString("LinkCreatedeBy", 2131626436));
                     headerCell.setText2(null);
                 } else if (i == inviteLinkBottomSheet.joinedHeaderRow) {
                     int i5 = inviteLinkBottomSheet.invite.usage;
                     if (i5 > 0) {
                         headerCell.setText(LocaleController.formatPluralString("PeopleJoined", i5, new Object[0]));
                     } else {
-                        headerCell.setText(LocaleController.getString("NoOneJoined", 2131626892));
+                        headerCell.setText(LocaleController.getString("NoOneJoined", 2131626840));
                     }
                     TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = InviteLinkBottomSheet.this.invite;
                     if (!tLRPC$TL_chatInviteExported.expired && !tLRPC$TL_chatInviteExported.revoked && (i2 = tLRPC$TL_chatInviteExported.usage_limit) > 0 && (i3 = tLRPC$TL_chatInviteExported.usage) > 0) {
@@ -959,15 +959,15 @@ public class InviteLinkBottomSheet extends BottomSheet {
                                     if (!TextUtils.isEmpty(tLRPC$ChannelParticipant.rank)) {
                                         str2 = tLRPC$ChannelParticipant.rank;
                                     } else if (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator) {
-                                        str2 = LocaleController.getString("ChannelCreator", 2131624907);
+                                        str2 = LocaleController.getString("ChannelCreator", 2131624894);
                                     } else if (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantAdmin) {
-                                        str2 = LocaleController.getString("ChannelAdmin", 2131624888);
+                                        str2 = LocaleController.getString("ChannelAdmin", 2131624875);
                                     }
                                 } else {
                                     if (tLRPC$ChatParticipant instanceof TLRPC$TL_chatParticipantCreator) {
-                                        string = LocaleController.getString("ChannelCreator", 2131624907);
+                                        string = LocaleController.getString("ChannelCreator", 2131624894);
                                     } else if (tLRPC$ChatParticipant instanceof TLRPC$TL_chatParticipantAdmin) {
-                                        string = LocaleController.getString("ChannelAdmin", 2131624888);
+                                        string = LocaleController.getString("ChannelAdmin", 2131624875);
                                     }
                                     str2 = string;
                                 }
@@ -1019,14 +1019,14 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 timerPrivacyCell.setFixedSize(0);
                 TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = InviteLinkBottomSheet.this.invite;
                 if (tLRPC$TL_chatInviteExported2.revoked) {
-                    timerPrivacyCell.setText(LocaleController.getString("LinkIsNoActive", 2131626499));
+                    timerPrivacyCell.setText(LocaleController.getString("LinkIsNoActive", 2131626452));
                 } else if (tLRPC$TL_chatInviteExported2.expired) {
                     int i9 = tLRPC$TL_chatInviteExported2.usage_limit;
                     if (i9 > 0 && i9 == tLRPC$TL_chatInviteExported2.usage) {
-                        timerPrivacyCell.setText(LocaleController.getString("LinkIsExpiredLimitReached", 2131626498));
+                        timerPrivacyCell.setText(LocaleController.getString("LinkIsExpiredLimitReached", 2131626451));
                         return;
                     }
-                    timerPrivacyCell.setText(LocaleController.getString("LinkIsExpired", 2131626497));
+                    timerPrivacyCell.setText(LocaleController.getString("LinkIsExpired", 2131626450));
                     timerPrivacyCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText"));
                 } else if (tLRPC$TL_chatInviteExported2.expire_date > 0) {
                     long currentTimeMillis = System.currentTimeMillis() + (InviteLinkBottomSheet.this.timeDif * 1000);
@@ -1036,7 +1036,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                         j = 0;
                     }
                     if (j > 86400000) {
-                        timerPrivacyCell.setText(LocaleController.formatString("LinkExpiresIn", 2131626485, LocaleController.formatDateAudio(i10, false)));
+                        timerPrivacyCell.setText(LocaleController.formatString("LinkExpiresIn", 2131626438, LocaleController.formatDateAudio(i10, false)));
                         return;
                     }
                     long j2 = j / 1000;
@@ -1051,7 +1051,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     String sb2 = sb.toString();
                     timerPrivacyCell.timer = true;
                     timerPrivacyCell.runTimer();
-                    timerPrivacyCell.setText(LocaleController.formatString("LinkExpiresInTime", 2131626486, sb2));
+                    timerPrivacyCell.setText(LocaleController.formatString("LinkExpiresInTime", 2131626439, sb2));
                 } else {
                     timerPrivacyCell.setFixedSize(12);
                     timerPrivacyCell.setText(null);

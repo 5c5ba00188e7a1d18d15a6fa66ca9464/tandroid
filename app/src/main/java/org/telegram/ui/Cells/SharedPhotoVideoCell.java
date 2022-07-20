@@ -91,7 +91,7 @@ public class SharedPhotoVideoCell extends FrameLayout {
             this.videoInfoContainer.setPadding(AndroidUtilities.dp(5.0f), 0, AndroidUtilities.dp(5.0f), 0);
             this.container.addView(this.videoInfoContainer, LayoutHelper.createFrame(-2, 17.0f, 83, 4.0f, 0.0f, 0.0f, 4.0f));
             ImageView imageView = new ImageView(context);
-            imageView.setImageResource(2131166066);
+            imageView.setImageResource(2131166064);
             this.videoInfoContainer.addView(imageView, LayoutHelper.createFrame(-2, -2, 19));
             TextView textView = new TextView(context);
             this.videoTextView = textView;
@@ -208,7 +208,7 @@ public class SharedPhotoVideoCell extends FrameLayout {
             this.imageView.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(messageObject), false);
             if (!TextUtils.isEmpty(MessagesController.getRestrictionReason(messageObject.messageOwner.restriction_reason))) {
                 this.videoInfoContainer.setVisibility(4);
-                this.imageView.setImageResource(2131166045);
+                this.imageView.setImageResource(2131166043);
                 return;
             }
             TLRPC$PhotoSize tLRPC$PhotoSize = null;
@@ -226,11 +226,11 @@ public class SharedPhotoVideoCell extends FrameLayout {
                         this.imageView.setImage(ImageLocation.getForDocument(tLRPC$PhotoSize, document), "100_100", (String) null, messageObject.strippedThumb, messageObject);
                         return;
                     } else {
-                        this.imageView.setImage(ImageLocation.getForDocument(tLRPC$PhotoSize, document), "100_100", ImageLocation.getForDocument(closestPhotoSizeWithSize, document), "b", ApplicationLoader.applicationContext.getResources().getDrawable(2131166045), null, null, 0, messageObject);
+                        this.imageView.setImage(ImageLocation.getForDocument(tLRPC$PhotoSize, document), "100_100", ImageLocation.getForDocument(closestPhotoSizeWithSize, document), "b", ApplicationLoader.applicationContext.getResources().getDrawable(2131166043), null, null, 0, messageObject);
                         return;
                     }
                 }
-                this.imageView.setImageResource(2131166045);
+                this.imageView.setImageResource(2131166043);
                 return;
             }
             TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
@@ -267,12 +267,12 @@ public class SharedPhotoVideoCell extends FrameLayout {
                     this.imageView.setImage(null, null, null, null, bitmapDrawable2, null, null, 0, messageObject);
                     return;
                 } else {
-                    this.imageView.setImage(null, null, ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), "b", ApplicationLoader.applicationContext.getResources().getDrawable(2131166045), null, null, 0, messageObject);
+                    this.imageView.setImage(null, null, ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), "b", ApplicationLoader.applicationContext.getResources().getDrawable(2131166043), null, null, 0, messageObject);
                     return;
                 }
             }
             this.videoInfoContainer.setVisibility(4);
-            this.imageView.setImageResource(2131166045);
+            this.imageView.setImageResource(2131166043);
         }
 
         @Override // android.view.View
@@ -296,9 +296,9 @@ public class SharedPhotoVideoCell extends FrameLayout {
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
             if (this.currentMessageObject.isVideo()) {
-                accessibilityNodeInfo.setText(LocaleController.getString("AttachVideo", 2131624519) + ", " + LocaleController.formatDuration(this.currentMessageObject.getDuration()));
+                accessibilityNodeInfo.setText(LocaleController.getString("AttachVideo", 2131624508) + ", " + LocaleController.formatDuration(this.currentMessageObject.getDuration()));
             } else {
-                accessibilityNodeInfo.setText(LocaleController.getString("AttachPhoto", 2131624513));
+                accessibilityNodeInfo.setText(LocaleController.getString("AttachPhoto", 2131624502));
             }
             if (this.checkBox.isChecked()) {
                 accessibilityNodeInfo.setCheckable(true);

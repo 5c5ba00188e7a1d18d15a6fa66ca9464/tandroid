@@ -47,14 +47,14 @@ public class JoinToSendSettingsView extends LinearLayout {
         setOrientation(1);
         HeaderCell headerCell = new HeaderCell(context, 23);
         this.joinHeaderCell = headerCell;
-        headerCell.setText(LocaleController.getString("ChannelSettingsJoinTitle", 2131624974));
+        headerCell.setText(LocaleController.getString("ChannelSettingsJoinTitle", 2131624961));
         this.joinHeaderCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         addView(this.joinHeaderCell);
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
         this.joinToSendCell = anonymousClass1;
         anonymousClass1.setBackground(Theme.getSelectorDrawable(true));
         TextCheckCell textCheckCell = this.joinToSendCell;
-        String string = LocaleController.getString("ChannelSettingsJoinToSend", 2131624975);
+        String string = LocaleController.getString("ChannelSettingsJoinToSend", 2131624962);
         boolean z2 = this.isJoinToSend;
         textCheckCell.setTextAndCheck(string, z2, z2);
         int i = 0;
@@ -64,7 +64,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         AnonymousClass2 anonymousClass2 = new AnonymousClass2(this, context);
         this.joinRequestCell = anonymousClass2;
         anonymousClass2.setBackground(Theme.getSelectorDrawable(true));
-        this.joinRequestCell.setTextAndCheck(LocaleController.getString("ChannelSettingsJoinRequest", 2131624972), this.isJoinRequest, false);
+        this.joinRequestCell.setTextAndCheck(LocaleController.getString("ChannelSettingsJoinRequest", 2131624959), this.isJoinRequest, false);
         float f = 0.0f;
         this.joinRequestCell.setPivotY(0.0f);
         TextCheckCell textCheckCell2 = this.joinRequestCell;
@@ -76,11 +76,11 @@ public class JoinToSendSettingsView extends LinearLayout {
         addView(this.joinRequestCell);
         TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
         this.joinToSendInfoCell = textInfoPrivacyCell;
-        textInfoPrivacyCell.setText(LocaleController.getString("ChannelSettingsJoinToSendInfo", 2131624976));
+        textInfoPrivacyCell.setText(LocaleController.getString("ChannelSettingsJoinToSendInfo", 2131624963));
         addView(this.joinToSendInfoCell);
         TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
         this.joinRequestInfoCell = textInfoPrivacyCell2;
-        textInfoPrivacyCell2.setText(LocaleController.getString("ChannelSettingsJoinRequestInfo", 2131624973));
+        textInfoPrivacyCell2.setText(LocaleController.getString("ChannelSettingsJoinRequestInfo", 2131624960));
         addView(this.joinRequestInfoCell);
         boolean z3 = this.isJoinToSend;
         this.toggleValue = z3 ? 1.0f : f;
@@ -163,16 +163,6 @@ public class JoinToSendSettingsView extends LinearLayout {
         requestLayout();
     }
 
-    public void showJoinToSend(boolean z) {
-        this.joinToSendCell.setVisibility(z ? 0 : 8);
-        if (!z) {
-            this.isJoinToSend = true;
-            this.joinRequestCell.setVisibility(0);
-            updateToggleValue(1.0f);
-        }
-        requestLayout();
-    }
-
     /* renamed from: setJoinRequest */
     public void lambda$new$3(boolean z) {
         this.isJoinRequest = z;
@@ -229,15 +219,12 @@ public class JoinToSendSettingsView extends LinearLayout {
         int i5 = i3 - i;
         int measuredHeight = headerCell.getMeasuredHeight() + 0;
         headerCell.layout(0, 0, i5, measuredHeight);
-        if (this.joinToSendCell.getVisibility() == 0) {
-            TextCheckCell textCheckCell = this.joinToSendCell;
-            int measuredHeight2 = textCheckCell.getMeasuredHeight() + measuredHeight;
-            textCheckCell.layout(0, measuredHeight, i5, measuredHeight2);
-            measuredHeight = measuredHeight2;
-        }
+        TextCheckCell textCheckCell = this.joinToSendCell;
+        int measuredHeight2 = textCheckCell.getMeasuredHeight() + measuredHeight;
+        textCheckCell.layout(0, measuredHeight, i5, measuredHeight2);
         TextCheckCell textCheckCell2 = this.joinRequestCell;
-        int measuredHeight3 = textCheckCell2.getMeasuredHeight() + measuredHeight;
-        textCheckCell2.layout(0, measuredHeight, i5, measuredHeight3);
+        int measuredHeight3 = textCheckCell2.getMeasuredHeight() + measuredHeight2;
+        textCheckCell2.layout(0, measuredHeight2, i5, measuredHeight3);
         TextInfoPrivacyCell textInfoPrivacyCell = this.joinToSendInfoCell;
         textInfoPrivacyCell.layout(0, measuredHeight3, i5, textInfoPrivacyCell.getMeasuredHeight() + measuredHeight3);
         TextInfoPrivacyCell textInfoPrivacyCell2 = this.joinRequestInfoCell;
@@ -245,14 +232,7 @@ public class JoinToSendSettingsView extends LinearLayout {
     }
 
     private int calcHeight() {
-        float f;
-        float measuredHeight = this.joinHeaderCell.getMeasuredHeight();
-        if (this.joinToSendCell.getVisibility() == 0) {
-            f = this.joinToSendCell.getMeasuredHeight() + (this.joinRequestCell.getMeasuredHeight() * this.toggleValue);
-        } else {
-            f = this.joinRequestCell.getMeasuredHeight();
-        }
-        return (int) (measuredHeight + f + AndroidUtilities.lerp(this.joinToSendInfoCell.getMeasuredHeight(), this.joinRequestInfoCell.getMeasuredHeight(), this.toggleValue));
+        return (int) (this.joinHeaderCell.getMeasuredHeight() + this.joinToSendCell.getMeasuredHeight() + (this.joinRequestCell.getMeasuredHeight() * this.toggleValue) + AndroidUtilities.lerp(this.joinToSendInfoCell.getMeasuredHeight(), this.joinRequestInfoCell.getMeasuredHeight(), this.toggleValue));
     }
 
     @Override // android.widget.LinearLayout, android.view.View

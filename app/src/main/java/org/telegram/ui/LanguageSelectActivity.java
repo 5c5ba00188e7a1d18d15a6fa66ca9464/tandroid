@@ -76,9 +76,9 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         this.searching = false;
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("Language", 2131626393));
+        this.actionBar.setTitle(LocaleController.getString("Language", 2131626346));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
-        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2()).setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2()).setSearchFieldHint(LocaleController.getString("Search", 2131628092));
         this.listAdapter = new ListAdapter(context, false);
         this.searchListViewAdapter = new ListAdapter(context, true);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -87,7 +87,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         FrameLayout frameLayout2 = (FrameLayout) this.fragmentView;
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
-        emptyTextProgressView.setText(LocaleController.getString("NoResult", 2131626910));
+        emptyTextProgressView.setText(LocaleController.getString("NoResult", 2131626858));
         this.emptyView.showTextView();
         this.emptyView.setShowAtCenter(true);
         frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
@@ -234,10 +234,10 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             }
             if (localeInfo != null && localeInfo.pathToFile != null && (!localeInfo.isRemote() || localeInfo.serverIndex == Integer.MAX_VALUE)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("DeleteLocalizationTitle", 2131625432));
-                builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DeleteLocalizationText", 2131625431, localeInfo.name)));
-                builder.setPositiveButton(LocaleController.getString("Delete", 2131625384), new LanguageSelectActivity$$ExternalSyntheticLambda0(this, localeInfo));
-                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+                builder.setTitle(LocaleController.getString("DeleteLocalizationTitle", 2131625416));
+                builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DeleteLocalizationText", 2131625415, localeInfo.name)));
+                builder.setPositiveButton(LocaleController.getString("Delete", 2131625368), new LanguageSelectActivity$$ExternalSyntheticLambda0(this, localeInfo));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
                 AlertDialog create = builder.create();
                 showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
@@ -414,14 +414,14 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             this.header = headerCell;
             headerCell.setFocusable(true);
             this.header.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-            this.header.setText(LocaleController.getString("TranslateMessages", 2131628759));
-            this.header.setContentDescription(LocaleController.getString("TranslateMessages", 2131628759));
+            this.header.setText(LocaleController.getString("TranslateMessages", 2131628692));
+            this.header.setContentDescription(LocaleController.getString("TranslateMessages", 2131628692));
             addView(this.header, LayoutHelper.createLinear(-1, -2));
             boolean value = getValue();
             TextCheckCell textCheckCell = new TextCheckCell(context);
             this.showButtonCheck = textCheckCell;
             textCheckCell.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor("windowBackgroundWhite")));
-            this.showButtonCheck.setTextAndCheck(LocaleController.getString("ShowTranslateButton", 2131628410), value, value);
+            this.showButtonCheck.setTextAndCheck(LocaleController.getString("ShowTranslateButton", 2131628347), value, value);
             this.showButtonCheck.setOnClickListener(new LanguageSelectActivity$TranslateSettings$$ExternalSyntheticLambda1(this));
             addView(this.showButtonCheck, LayoutHelper.createLinear(-1, -2));
             TextSettingsCell textSettingsCell = new TextSettingsCell(context);
@@ -437,16 +437,16 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             textInfoPrivacyCell.setTopPadding(11);
             this.info.setBottomPadding(16);
             this.info.setFocusable(true);
-            this.info.setText(LocaleController.getString("TranslateMessagesInfo1", 2131628760));
-            this.info.setContentDescription(LocaleController.getString("TranslateMessagesInfo1", 2131628760));
+            this.info.setText(LocaleController.getString("TranslateMessagesInfo1", 2131628693));
+            this.info.setContentDescription(LocaleController.getString("TranslateMessagesInfo1", 2131628693));
             addView(this.info, LayoutHelper.createLinear(-1, -2));
             TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
             this.info2 = textInfoPrivacyCell2;
             textInfoPrivacyCell2.setTopPadding(0);
             this.info2.setBottomPadding(16);
             this.info2.setFocusable(true);
-            this.info2.setText(LocaleController.getString("TranslateMessagesInfo2", 2131628761));
-            this.info2.setContentDescription(LocaleController.getString("TranslateMessagesInfo2", 2131628761));
+            this.info2.setText(LocaleController.getString("TranslateMessagesInfo2", 2131628694));
+            this.info2.setContentDescription(LocaleController.getString("TranslateMessagesInfo2", 2131628694));
             this.info2.setAlpha(value ? 0.0f : f);
             addView(this.info2, LayoutHelper.createLinear(-1, -2));
             updateHeight();
@@ -494,7 +494,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             if (str == null) {
                 str = String.format(LocaleController.getPluralString("Languages", getRestrictedLanguages().size()), Integer.valueOf(getRestrictedLanguages().size()));
             }
-            this.doNotTranslateCell.setTextAndValue(LocaleController.getString("DoNotTranslate", 2131625539), str, false);
+            this.doNotTranslateCell.setTextAndValue(LocaleController.getString("DoNotTranslate", 2131625523), str, false);
             this.doNotTranslateCell.setClickable(z);
             this.info2.setVisibility(0);
             float[] fArr = new float[2];
@@ -666,7 +666,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 } else if (i == 3) {
                     HeaderCell headerCell = new HeaderCell(this.mContext);
                     headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    headerCell.setText(LocaleController.getString("Language", 2131626393));
+                    headerCell.setText(LocaleController.getString("Language", 2131626346));
                     textRadioCell = headerCell;
                 } else {
                     view = new ShadowSectionCell(this.mContext);
@@ -743,7 +743,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 localeInfo = (LocaleController.LocaleInfo) LanguageSelectActivity.this.unofficialLanguages.get(i);
             }
             if (localeInfo.isLocal()) {
-                textRadioCell.setTextAndValueAndCheck(String.format("%1$s (%2$s)", localeInfo.name, LocaleController.getString("LanguageCustom", 2131626396)), localeInfo.nameEnglish, false, false, !z);
+                textRadioCell.setTextAndValueAndCheck(String.format("%1$s (%2$s)", localeInfo.name, LocaleController.getString("LanguageCustom", 2131626349)), localeInfo.nameEnglish, false, false, !z);
             } else {
                 textRadioCell.setTextAndValueAndCheck(localeInfo.name, localeInfo.nameEnglish, false, false, !z);
             }

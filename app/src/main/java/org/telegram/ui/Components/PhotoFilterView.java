@@ -353,7 +353,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.cancelTextView.setGravity(17);
         this.cancelTextView.setBackgroundDrawable(Theme.createSelectorDrawable(-12763843, 0));
         this.cancelTextView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
-        this.cancelTextView.setText(LocaleController.getString("Cancel", 2131624832).toUpperCase());
+        this.cancelTextView.setText(LocaleController.getString("Cancel", 2131624819).toUpperCase());
         this.cancelTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         frameLayout2.addView(this.cancelTextView, LayoutHelper.createFrame(-2, -1, 51));
         TextView textView2 = new TextView(context);
@@ -363,7 +363,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.doneTextView.setGravity(17);
         this.doneTextView.setBackgroundDrawable(Theme.createSelectorDrawable(-12763843, 0));
         this.doneTextView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
-        this.doneTextView.setText(LocaleController.getString("Done", 2131625541).toUpperCase());
+        this.doneTextView.setText(LocaleController.getString("Done", 2131625525).toUpperCase());
         this.doneTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         frameLayout2.addView(this.doneTextView, LayoutHelper.createFrame(-2, -1, 53));
         LinearLayout linearLayout = new LinearLayout(context);
@@ -371,7 +371,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         ImageView imageView = new ImageView(context);
         this.tuneItem = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.tuneItem.setImageResource(2131165855);
+        this.tuneItem.setImageResource(2131165854);
         this.tuneItem.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY));
         this.tuneItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         linearLayout.addView(this.tuneItem, LayoutHelper.createLinear(56, 48));
@@ -379,7 +379,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         ImageView imageView2 = new ImageView(context);
         this.blurItem = imageView2;
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
-        this.blurItem.setImageResource(2131165844);
+        this.blurItem.setImageResource(2131165843);
         this.blurItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         linearLayout.addView(this.blurItem, LayoutHelper.createLinear(56, 48));
         this.blurItem.setOnClickListener(new PhotoFilterView$$ExternalSyntheticLambda3(this));
@@ -389,7 +389,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         ImageView imageView3 = new ImageView(context);
         this.curveItem = imageView3;
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
-        this.curveItem.setImageResource(2131165851);
+        this.curveItem.setImageResource(2131165850);
         this.curveItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         linearLayout.addView(this.curveItem, LayoutHelper.createLinear(56, 48));
         this.curveItem.setOnClickListener(new PhotoFilterView$$ExternalSyntheticLambda4(this));
@@ -419,23 +419,23 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             textView3.setTextSize(1, 12.0f);
             textView3.setGravity(16);
             if (i17 == 0) {
-                String string = LocaleController.getString("CurvesAll", 2131625311);
+                String string = LocaleController.getString("CurvesAll", 2131625295);
                 textView3.setText(string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase());
                 textView3.setTextColor(-1);
                 this.curveRadioButton[i17].setColor(-1, -1);
             } else if (i17 == 1) {
-                String string2 = LocaleController.getString("CurvesRed", 2131625314);
+                String string2 = LocaleController.getString("CurvesRed", 2131625298);
                 textView3.setText(string2.substring(0, 1).toUpperCase() + string2.substring(1).toLowerCase());
                 textView3.setTextColor(-1684147);
                 this.curveRadioButton[i17].setColor(-1684147, -1684147);
             } else {
                 if (i17 == 2) {
-                    String string3 = LocaleController.getString("CurvesGreen", 2131625313);
+                    String string3 = LocaleController.getString("CurvesGreen", 2131625297);
                     textView3.setText(string3.substring(0, 1).toUpperCase() + string3.substring(1).toLowerCase());
                     textView3.setTextColor(-10831009);
                     this.curveRadioButton[i17].setColor(-10831009, -10831009);
                 } else if (i17 == 3) {
-                    String string4 = LocaleController.getString("CurvesBlue", 2131625312);
+                    String string4 = LocaleController.getString("CurvesBlue", 2131625296);
                     textView3.setText(string4.substring(0, 1).toUpperCase() + string4.substring(1).toLowerCase());
                     textView3.setTextColor(-12734994);
                     this.curveRadioButton[i17].setColor(-12734994, -12734994);
@@ -459,7 +459,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         textView4.setCompoundDrawablePadding(AndroidUtilities.dp(2.0f));
         this.blurOffButton.setTextSize(1, 13.0f);
         this.blurOffButton.setGravity(1);
-        this.blurOffButton.setText(LocaleController.getString("BlurOff", 2131624712));
+        this.blurOffButton.setText(LocaleController.getString("BlurOff", 2131624701));
         this.blurLayout.addView(this.blurOffButton, LayoutHelper.createFrame(80, 60.0f));
         this.blurOffButton.setOnClickListener(new PhotoFilterView$$ExternalSyntheticLambda1(this));
         TextView textView5 = new TextView(context);
@@ -467,7 +467,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         textView5.setCompoundDrawablePadding(AndroidUtilities.dp(2.0f));
         this.blurRadialButton.setTextSize(1, 13.0f);
         this.blurRadialButton.setGravity(1);
-        this.blurRadialButton.setText(LocaleController.getString("BlurRadial", 2131624713));
+        this.blurRadialButton.setText(LocaleController.getString("BlurRadial", 2131624702));
         this.blurLayout.addView(this.blurRadialButton, LayoutHelper.createFrame(80, 80.0f, 51, 100.0f, 0.0f, 0.0f, 0.0f));
         this.blurRadialButton.setOnClickListener(new PhotoFilterView$$ExternalSyntheticLambda6(this));
         TextView textView6 = new TextView(context);
@@ -475,7 +475,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         textView6.setCompoundDrawablePadding(AndroidUtilities.dp(2.0f));
         this.blurLinearButton.setTextSize(1, 13.0f);
         this.blurLinearButton.setGravity(1);
-        this.blurLinearButton.setText(LocaleController.getString("BlurLinear", 2131624711));
+        this.blurLinearButton.setText(LocaleController.getString("BlurLinear", 2131624700));
         this.blurLayout.addView(this.blurLinearButton, LayoutHelper.createFrame(80, 80.0f, 51, 200.0f, 0.0f, 0.0f, 0.0f));
         this.blurLinearButton.setOnClickListener(new PhotoFilterView$$ExternalSyntheticLambda5(this));
         updateSelectedBlurType();
@@ -1139,42 +1139,42 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
                 PhotoEditRadioCell photoEditRadioCell = (PhotoEditRadioCell) viewHolder.itemView;
                 photoEditRadioCell.setTag(Integer.valueOf(i));
                 if (i == PhotoFilterView.this.tintShadowsTool) {
-                    photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintShadows", 2131628733), 0, PhotoFilterView.this.tintShadowsColor);
+                    photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintShadows", 2131628666), 0, PhotoFilterView.this.tintShadowsColor);
                     return;
                 } else if (i != PhotoFilterView.this.tintHighlightsTool) {
                     return;
                 } else {
-                    photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintHighlights", 2131628732), 0, PhotoFilterView.this.tintHighlightsColor);
+                    photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintHighlights", 2131628665), 0, PhotoFilterView.this.tintHighlightsColor);
                     return;
                 }
             }
             PhotoEditToolCell photoEditToolCell = (PhotoEditToolCell) viewHolder.itemView;
             photoEditToolCell.setTag(Integer.valueOf(i));
             if (i == PhotoFilterView.this.enhanceTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Enhance", 2131625680), PhotoFilterView.this.enhanceValue, 0, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Enhance", 2131625642), PhotoFilterView.this.enhanceValue, 0, 100);
             } else if (i == PhotoFilterView.this.highlightsTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Highlights", 2131626189), PhotoFilterView.this.highlightsValue, -100, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Highlights", 2131626142), PhotoFilterView.this.highlightsValue, -100, 100);
             } else if (i == PhotoFilterView.this.contrastTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Contrast", 2131625264), PhotoFilterView.this.contrastValue, -100, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Contrast", 2131625248), PhotoFilterView.this.contrastValue, -100, 100);
             } else if (i == PhotoFilterView.this.exposureTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Exposure", 2131625831), PhotoFilterView.this.exposureValue, -100, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Exposure", 2131625791), PhotoFilterView.this.exposureValue, -100, 100);
             } else if (i == PhotoFilterView.this.warmthTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Warmth", 2131629297), PhotoFilterView.this.warmthValue, -100, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Warmth", 2131629223), PhotoFilterView.this.warmthValue, -100, 100);
             } else if (i == PhotoFilterView.this.saturationTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Saturation", 2131628121), PhotoFilterView.this.saturationValue, -100, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Saturation", 2131628059), PhotoFilterView.this.saturationValue, -100, 100);
             } else if (i == PhotoFilterView.this.vignetteTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Vignette", 2131629017), PhotoFilterView.this.vignetteValue, 0, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Vignette", 2131628944), PhotoFilterView.this.vignetteValue, 0, 100);
             } else if (i == PhotoFilterView.this.shadowsTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Shadows", 2131628332), PhotoFilterView.this.shadowsValue, -100, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Shadows", 2131628270), PhotoFilterView.this.shadowsValue, -100, 100);
             } else if (i == PhotoFilterView.this.grainTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Grain", 2131626132), PhotoFilterView.this.grainValue, 0, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Grain", 2131626085), PhotoFilterView.this.grainValue, 0, 100);
             } else if (i == PhotoFilterView.this.sharpenTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Sharpen", 2131628388), PhotoFilterView.this.sharpenValue, 0, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Sharpen", 2131628326), PhotoFilterView.this.sharpenValue, 0, 100);
             } else if (i == PhotoFilterView.this.fadeTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Fade", 2131625834), PhotoFilterView.this.fadeValue, 0, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Fade", 2131625794), PhotoFilterView.this.fadeValue, 0, 100);
             } else if (i != PhotoFilterView.this.softenSkinTool) {
             } else {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("SoftenSkin", 2131628441), PhotoFilterView.this.softenSkinValue, 0, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("SoftenSkin", 2131628378), PhotoFilterView.this.softenSkinValue, 0, 100);
             }
         }
 

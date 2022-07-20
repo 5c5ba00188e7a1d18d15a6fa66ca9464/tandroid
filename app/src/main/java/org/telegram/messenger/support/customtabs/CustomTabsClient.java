@@ -73,11 +73,11 @@ public class CustomTabsClient {
 
         /* renamed from: org.telegram.messenger.support.customtabs.CustomTabsClient$2$2 */
         /* loaded from: classes.dex */
-        class RunnableC00102 implements Runnable {
+        class RunnableC00062 implements Runnable {
             final /* synthetic */ Bundle val$args;
             final /* synthetic */ String val$callbackName;
 
-            RunnableC00102(String str, Bundle bundle) {
+            RunnableC00062(String str, Bundle bundle) {
                 AnonymousClass2.this = r1;
                 this.val$callbackName = str;
                 this.val$args = bundle;
@@ -94,7 +94,7 @@ public class CustomTabsClient {
             if (this.val$callback == null) {
                 return;
             }
-            this.mHandler.post(new RunnableC00102(str, bundle));
+            this.mHandler.post(new RunnableC00062(str, bundle));
         }
 
         /* renamed from: org.telegram.messenger.support.customtabs.CustomTabsClient$2$3 */

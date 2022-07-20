@@ -548,12 +548,12 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                 break;
             case 2:
                 r1 = new HeaderCell(this.mContext);
-                r1.setText(LocaleController.getString("RecentlyViewed", 2131627927));
+                r1.setText(LocaleController.getString("RecentlyViewed", 2131627865));
                 TextView textView = new TextView(this.mContext);
                 textView.setTextSize(1, 15.0f);
                 textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueHeader"));
-                textView.setText(LocaleController.getString("RecentlyViewedHide", 2131627928));
+                textView.setText(LocaleController.getString("RecentlyViewedHide", 2131627866));
                 int i3 = 3;
                 textView.setGravity((LocaleController.isRTL ? 3 : 5) | 16);
                 if (!LocaleController.isRTL) {
@@ -652,20 +652,20 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                         if (i4 != 0) {
                             str = LocaleController.formatPluralStringComma("Subscribers", i4);
                         } else if (TextUtils.isEmpty(tLRPC$Chat.username)) {
-                            str = LocaleController.getString("ChannelPrivate", 2131624959).toLowerCase();
+                            str = LocaleController.getString("ChannelPrivate", 2131624946).toLowerCase();
                         } else {
-                            str = LocaleController.getString("ChannelPublic", 2131624962).toLowerCase();
+                            str = LocaleController.getString("ChannelPublic", 2131624949).toLowerCase();
                         }
                     } else {
                         int i5 = tLRPC$Chat.participants_count;
                         if (i5 != 0) {
                             str = LocaleController.formatPluralStringComma("Members", i5);
                         } else if (tLRPC$Chat.has_geo) {
-                            str = LocaleController.getString("MegaLocation", 2131626632);
+                            str = LocaleController.getString("MegaLocation", 2131626585);
                         } else if (TextUtils.isEmpty(tLRPC$Chat.username)) {
-                            str = LocaleController.getString("MegaPrivate", 2131626633).toLowerCase();
+                            str = LocaleController.getString("MegaPrivate", 2131626586).toLowerCase();
                         } else {
-                            str = LocaleController.getString("MegaPublic", 2131626636).toLowerCase();
+                            str = LocaleController.getString("MegaPublic", 2131626589).toLowerCase();
                         }
                     }
                 } else {
@@ -701,11 +701,11 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
             headerCell.setBackgroundColor(Theme.getColor("graySection"));
             int i6 = ((DialogsActivity.DialogsHeader) getItem(i)).headerType;
             if (i6 == 0) {
-                headerCell.setText(LocaleController.getString("MyChannels", 2131626806));
+                headerCell.setText(LocaleController.getString("MyChannels", 2131626754));
             } else if (i6 == 1) {
-                headerCell.setText(LocaleController.getString("MyGroups", 2131626807));
+                headerCell.setText(LocaleController.getString("MyGroups", 2131626755));
             } else if (i6 == 2) {
-                headerCell.setText(LocaleController.getString("FilterGroups", 2131625903));
+                headerCell.setText(LocaleController.getString("FilterGroups", 2131625862));
             }
         } else if (itemViewType == 4) {
             ((DialogMeUrlCell) viewHolder.itemView).setRecentMeUrl((TLRPC$RecentMeUrl) getItem(i));
@@ -741,15 +741,15 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
             HeaderCell headerCell2 = (HeaderCell) viewHolder.itemView;
             int i9 = this.dialogsType;
             if (i9 != 11 && i9 != 12 && i9 != 13) {
-                headerCell2.setText(LocaleController.getString((this.dialogsCount != 0 || !this.forceUpdatingContacts) ? 2131629350 : 2131625245));
+                headerCell2.setText(LocaleController.getString((this.dialogsCount != 0 || !this.forceUpdatingContacts) ? 2131629276 : 2131625229));
             } else if (i == 0) {
-                headerCell2.setText(LocaleController.getString("ImportHeader", 2131626238));
+                headerCell2.setText(LocaleController.getString("ImportHeader", 2131626191));
             } else {
-                headerCell2.setText(LocaleController.getString("ImportHeaderContacts", 2131626239));
+                headerCell2.setText(LocaleController.getString("ImportHeaderContacts", 2131626192));
             }
         } else if (itemViewType == 11) {
             TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-            textInfoPrivacyCell.setText(LocaleController.getString("TapOnThePencil", 2131628602));
+            textInfoPrivacyCell.setText(LocaleController.getString("TapOnThePencil", 2131628539));
             if (this.arrowDrawable == null) {
                 Drawable drawable = this.mContext.getResources().getDrawable(2131165260);
                 this.arrowDrawable = drawable;
@@ -762,11 +762,11 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
         } else if (itemViewType == 12) {
             TextCell textCell = (TextCell) viewHolder.itemView;
             textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
-            String string = LocaleController.getString("CreateGroupForImport", 2131625287);
+            String string = LocaleController.getString("CreateGroupForImport", 2131625271);
             if (this.dialogsCount != 0) {
                 z = true;
             }
-            textCell.setTextAndIcon(string, 2131165752, z);
+            textCell.setTextAndIcon(string, 2131165751, z);
             textCell.setIsInDialogs();
             textCell.setOffsetFromImage(75);
         }

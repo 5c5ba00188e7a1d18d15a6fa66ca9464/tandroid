@@ -5562,7 +5562,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             }
         }
 
-        public void onSmoothScrollerStopped(SmoothScroller smoothScroller) {
+        void onSmoothScrollerStopped(SmoothScroller smoothScroller) {
             if (this.mSmoothScroller == smoothScroller) {
                 this.mSmoothScroller = null;
             }

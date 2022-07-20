@@ -1,16 +1,16 @@
 package org.telegram.ui;
 
-import android.view.View;
+import java.util.concurrent.atomic.AtomicReference;
 /* loaded from: classes3.dex */
 public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda115 implements Runnable {
-    public final /* synthetic */ View f$0;
+    public final /* synthetic */ AtomicReference f$0;
 
-    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda115(View view) {
-        this.f$0 = view;
+    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda115(AtomicReference atomicReference) {
+        this.f$0 = atomicReference;
     }
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.performHapticFeedback(3, 2);
+        ChatActivity.lambda$createMenu$178(this.f$0);
     }
 }

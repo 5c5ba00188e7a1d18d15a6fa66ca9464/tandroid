@@ -109,12 +109,12 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("GroupStickers", 2131626151));
+        this.actionBar.setTitle(LocaleController.getString("GroupStickers", 2131626104));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         ActionBarMenuItem addItem = this.actionBar.createMenu().addItem(0, 2131165456);
         this.searchItem = addItem;
         addItem.setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
-        this.searchItem.setSearchFieldHint(LocaleController.getString(2131628154));
+        this.searchItem.setSearchFieldHint(LocaleController.getString(2131628092));
         this.listAdapter = new ListAdapter(context);
         this.searchAdapter = new SearchAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -283,7 +283,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
 
         @Override // org.telegram.ui.Components.StickersAlert.StickersAlertCustomButtonDelegate
         public String getCustomButtonText() {
-            return LocaleController.getString(this.val$isSelected ? 2131627965 : 2131628301);
+            return LocaleController.getString(this.val$isSelected ? 2131627903 : 2131628239);
         }
 
         @Override // org.telegram.ui.Components.StickersAlert.StickersAlertCustomButtonDelegate
@@ -435,7 +435,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             finishFragment();
         } else if (getParentActivity() == null) {
         } else {
-            Toast.makeText(getParentActivity(), LocaleController.getString("ErrorOccurred", 2131625695) + "\n" + tLRPC$TL_error.text, 0).show();
+            Toast.makeText(getParentActivity(), LocaleController.getString("ErrorOccurred", 2131625657) + "\n" + tLRPC$TL_error.text, 0).show();
         }
     }
 
@@ -602,7 +602,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             this.localSearchEntries = list2;
             notifyDataSetChanged();
             GroupStickersActivity.this.emptyView.title.setVisibility(8);
-            GroupStickersActivity.this.emptyView.subtitle.setText(LocaleController.formatString(2131625129, str));
+            GroupStickersActivity.this.emptyView.subtitle.setText(LocaleController.formatString(2131625115, str));
             GroupStickersActivity.this.emptyView.showProgress(false, true);
         }
 
@@ -617,7 +617,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             } else {
                 HeaderCell headerCell = new HeaderCell(this.mContext, "windowBackgroundWhiteGrayText4", 21, 0, 0, false, GroupStickersActivity.this.getResourceProvider());
                 headerCell.setBackground(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
-                headerCell.setText(LocaleController.getString(2131625128));
+                headerCell.setText(LocaleController.getString(2131625114));
                 stickerSetCell = headerCell;
             }
             stickerSetCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
@@ -694,10 +694,10 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 if (itemViewType != 4) {
                     return;
                 }
-                ((HeaderCell) viewHolder.itemView).setText(LocaleController.getString(2131625131));
+                ((HeaderCell) viewHolder.itemView).setText(LocaleController.getString(2131625117));
             } else if (i != GroupStickersActivity.this.infoRow) {
             } else {
-                String string = LocaleController.getString("ChooseStickerSetMy", 2131625132);
+                String string = LocaleController.getString("ChooseStickerSetMy", 2131625118);
                 int indexOf = string.indexOf("@stickers");
                 if (indexOf != -1) {
                     try {

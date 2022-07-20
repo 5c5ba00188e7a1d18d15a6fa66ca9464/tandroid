@@ -3908,7 +3908,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             stopProgressTimer();
             try {
                 if (this.audioPlayer != null) {
-                    if (!this.playingMessageObject.isVoice() && this.playingMessageObject.getDuration() * (1.0f - this.playingMessageObject.audioProgress) > 1.0f) {
+                    if (!this.playingMessageObject.isVoice() && this.playingMessageObject.getDuration() * (1.0f - this.playingMessageObject.audioProgress) > 1000.0f) {
                         ValueAnimator valueAnimator = this.audioVolumeAnimator;
                         if (valueAnimator != null) {
                             valueAnimator.removeAllUpdateListeners();
@@ -4322,7 +4322,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.currentAccount.getNotificationCenter().addObserver(this, NotificationCenter.fileLoadFailed);
             AlertDialog alertDialog = new AlertDialog(context, 2);
             this.progressDialog = alertDialog;
-            alertDialog.setMessage(LocaleController.getString("Loading", 2131626520));
+            alertDialog.setMessage(LocaleController.getString("Loading", 2131626473));
             this.progressDialog.setCanceledOnTouchOutside(false);
             this.progressDialog.setCancelable(true);
             this.progressDialog.setOnCancelListener(new MediaController$MediaLoader$$ExternalSyntheticLambda0(this));
@@ -4714,7 +4714,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 if (i != 0) {
                     try {
                         AlertDialog alertDialog2 = new AlertDialog(context, 2);
-                        alertDialog2.setMessage(LocaleController.getString("Loading", 2131626520));
+                        alertDialog2.setMessage(LocaleController.getString("Loading", 2131626473));
                         alertDialog2.setCanceledOnTouchOutside(false);
                         alertDialog2.setCancelable(true);
                         alertDialog2.setOnCancelListener(new MediaController$$ExternalSyntheticLambda1(zArr));
@@ -5767,7 +5767,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         PhotoEntry photoEntry = new PhotoEntry(i13, i11, cursor.getLong(columnIndex5), string, (int) (cursor.getLong(columnIndex6) / 1000), true, cursor.getInt(columnIndex7), cursor.getInt(columnIndex8), cursor.getLong(columnIndex9));
                         if (albumEntry5 == null) {
                             i4 = columnIndex6;
-                            albumEntry = new AlbumEntry(0, LocaleController.getString("AllVideos", 2131624329), photoEntry);
+                            albumEntry = new AlbumEntry(0, LocaleController.getString("AllVideos", 2131624320), photoEntry);
                             int i18 = 1;
                             try {
                                 albumEntry.videoOnly = true;
@@ -5808,7 +5808,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         }
                         if (obj2 == null) {
                             i5 = columnIndex7;
-                            albumEntry2 = new AlbumEntry(0, LocaleController.getString("AllMedia", 2131624320), photoEntry);
+                            albumEntry2 = new AlbumEntry(0, LocaleController.getString("AllMedia", 2131624311), photoEntry);
                             try {
                                 arrayList.add(0, albumEntry2);
                             } catch (Throwable th7) {
@@ -5951,7 +5951,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                                 i9 = columnIndex18;
                                                                 i8 = columnIndex17;
                                                                 i7 = columnIndex15;
-                                                                albumEntry3 = new AlbumEntry(0, LocaleController.getString("AllPhotos", 2131624327), photoEntry2);
+                                                                albumEntry3 = new AlbumEntry(0, LocaleController.getString("AllPhotos", 2131624318), photoEntry2);
                                                                 try {
                                                                     arrayList2.add(0, albumEntry3);
                                                                 } catch (Throwable th10) {
@@ -6001,7 +6001,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                             }
                                                             if (obj2 == null) {
                                                                 i10 = columnIndex12;
-                                                                albumEntry4 = new AlbumEntry(0, LocaleController.getString("AllMedia", 2131624320), photoEntry2);
+                                                                albumEntry4 = new AlbumEntry(0, LocaleController.getString("AllMedia", 2131624311), photoEntry2);
                                                                 try {
                                                                     arrayList.add(0, albumEntry4);
                                                                 } catch (Throwable th12) {

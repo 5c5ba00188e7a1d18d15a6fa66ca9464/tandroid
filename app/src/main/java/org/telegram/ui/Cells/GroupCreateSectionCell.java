@@ -20,7 +20,7 @@ public class GroupCreateSectionCell extends FrameLayout {
     public GroupCreateSectionCell(Context context) {
         super(context);
         setBackgroundColor(Theme.getColor("graySection"));
-        Drawable drawable = getResources().getDrawable(2131166136);
+        Drawable drawable = getResources().getDrawable(2131166134);
         this.drawable = drawable;
         drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("groupcreate_sectionShadow"), PorterDuff.Mode.MULTIPLY));
         TextView textView = new TextView(getContext());

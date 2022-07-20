@@ -1,20 +1,21 @@
 package org.telegram.ui.Components;
 
-import androidx.core.util.Consumer;
+import org.telegram.tgnet.RequestDelegate;
+import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class BotWebViewContainer$$ExternalSyntheticLambda8 implements Runnable {
+public final /* synthetic */ class BotWebViewContainer$$ExternalSyntheticLambda8 implements RequestDelegate {
     public final /* synthetic */ BotWebViewContainer f$0;
-    public final /* synthetic */ Consumer f$1;
-    public final /* synthetic */ String[] f$2;
+    public final /* synthetic */ ActionBarMenuSubItem f$1;
 
-    public /* synthetic */ BotWebViewContainer$$ExternalSyntheticLambda8(BotWebViewContainer botWebViewContainer, Consumer consumer, String[] strArr) {
+    public /* synthetic */ BotWebViewContainer$$ExternalSyntheticLambda8(BotWebViewContainer botWebViewContainer, ActionBarMenuSubItem actionBarMenuSubItem) {
         this.f$0 = botWebViewContainer;
-        this.f$1 = consumer;
-        this.f$2 = strArr;
+        this.f$1 = actionBarMenuSubItem;
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        this.f$0.lambda$runWithPermissions$3(this.f$1, this.f$2);
+    @Override // org.telegram.tgnet.RequestDelegate
+    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        this.f$0.lambda$loadFlickerAndSettingsItem$5(this.f$1, tLObject, tLRPC$TL_error);
     }
 }

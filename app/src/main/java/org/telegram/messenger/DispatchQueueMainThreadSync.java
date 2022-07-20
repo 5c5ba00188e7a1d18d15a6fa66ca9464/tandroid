@@ -49,10 +49,10 @@ public class DispatchQueueMainThreadSync extends Thread {
     }
 
     private void checkThread() {
-        if (BuildVars.DEBUG_PRIVATE_VERSION) {
-            Thread.currentThread();
-            ApplicationLoader.applicationHandler.getLooper().getThread();
+        if (!BuildVars.DEBUG_PRIVATE_VERSION || Thread.currentThread() == ApplicationLoader.applicationHandler.getLooper().getThread()) {
+            return;
         }
+        throw new IllegalStateException("Disaptch thread");
     }
 
     public void cancelRunnable(Runnable runnable) {

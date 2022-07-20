@@ -11,6 +11,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda111 impl
 
     @Override // android.widget.PopupWindow.OnDismissListener
     public final void onDismiss() {
-        this.f$0.lambda$createView$52();
+        this.f$0.lambda$createView$13();
     }
 }

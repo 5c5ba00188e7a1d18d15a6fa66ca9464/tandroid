@@ -1,20 +1,16 @@
 package org.telegram.ui.Components;
 
-import org.telegram.tgnet.RequestDelegate;
-import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda17 implements RequestDelegate {
+public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda17 implements ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate {
     public final /* synthetic */ BotWebViewSheet f$0;
-    public final /* synthetic */ int f$1;
 
-    public /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda17(BotWebViewSheet botWebViewSheet, int i) {
+    public /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda17(BotWebViewSheet botWebViewSheet) {
         this.f$0 = botWebViewSheet;
-        this.f$1 = i;
     }
 
-    @Override // org.telegram.tgnet.RequestDelegate
-    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        this.f$0.lambda$requestWebView$17(this.f$1, tLObject, tLRPC$TL_error);
+    @Override // org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate
+    public final void onDismiss() {
+        this.f$0.dismiss();
     }
 }

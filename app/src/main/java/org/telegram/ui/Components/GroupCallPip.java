@@ -138,7 +138,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.iconView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558459, "2131558459", AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f), true, null);
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558457, "2131558457", AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f), true, null);
         this.deleteIcon = rLottieDrawable;
         rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
         rLottieImageView.setAnimation(this.deleteIcon);

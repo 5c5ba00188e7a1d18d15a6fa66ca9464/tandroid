@@ -183,7 +183,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         crossOutDrawable.setCrossOut(true, false);
         this.pausedVideoDrawable.setOffsets(-AndroidUtilities.dp(4.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f));
         this.pausedVideoDrawable.setStrokeWidth(AndroidUtilities.dpf2(3.4f));
-        this.castingScreenDrawable = groupCallRenderersContainer.getContext().getResources().getDrawable(2131166118).mutate();
+        this.castingScreenDrawable = groupCallRenderersContainer.getContext().getResources().getDrawable(2131166116).mutate();
         TextPaint textPaint = new TextPaint(1);
         textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textPaint.setTextSize(AndroidUtilities.dp(13.0f));
@@ -192,11 +192,11 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         textPaint2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textPaint2.setTextSize(AndroidUtilities.dp(15.0f));
         textPaint2.setColor(-1);
-        String string = LocaleController.getString("VoipVideoOnPause", 2131629280);
-        StaticLayout staticLayout = new StaticLayout(LocaleController.getString("VoipVideoScreenSharingTwoLines", 2131629283), textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        String string = LocaleController.getString("VoipVideoOnPause", 2131629206);
+        StaticLayout staticLayout = new StaticLayout(LocaleController.getString("VoipVideoScreenSharingTwoLines", 2131629209), textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(call.chatId));
-        StaticLayout staticLayout2 = new StaticLayout(LocaleController.formatString("VoipVideoNotAvailable", 2131629278, LocaleController.formatPluralString("Participants", MessagesController.getInstance(this.currentAccount).groupCallVideoMaxParticipants, new Object[0])), textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-        String string2 = LocaleController.getString("VoipVideoScreenSharing", 2131629282);
+        StaticLayout staticLayout2 = new StaticLayout(LocaleController.formatString("VoipVideoNotAvailable", 2131629204, LocaleController.formatPluralString("Participants", MessagesController.getInstance(this.currentAccount).groupCallVideoMaxParticipants, new Object[0])), textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        String string2 = LocaleController.getString("VoipVideoScreenSharing", 2131629208);
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(groupCallRenderersContainer.getContext(), false, false, true, true, call, groupCallRenderersContainer, textPaint, staticLayout2, textPaint2, string2, textPaint2.measureText(string2), staticLayout, groupCallActivity, string, textPaint.measureText(string));
         this.textureView = anonymousClass1;
         anonymousClass1.renderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
@@ -233,12 +233,12 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.screencastIcon = imageView;
         addView(imageView, LayoutHelper.createFrame(24, 24.0f, 0, 4.0f, 6.0f, 4.0f, 0.0f));
         imageView.setPadding(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f));
-        imageView.setImageDrawable(ContextCompat.getDrawable(groupCallRenderersContainer.getContext(), 2131166219));
+        imageView.setImageDrawable(ContextCompat.getDrawable(groupCallRenderersContainer.getContext(), 2131166217));
         imageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
         Drawable createSimpleSelectorRoundRectDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(19.0f), 0, ColorUtils.setAlphaComponent(-1, 100));
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(groupCallRenderersContainer.getContext());
         this.stopSharingTextView = anonymousClass3;
-        anonymousClass3.setText(LocaleController.getString("VoipVideoScreenStopSharing", 2131629284));
+        anonymousClass3.setText(LocaleController.getString("VoipVideoScreenStopSharing", 2131629210));
         this.stopSharingTextView.setTextSize(1, 15.0f);
         this.stopSharingTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.stopSharingTextView.setPadding(AndroidUtilities.dp(21.0f), 0, AndroidUtilities.dp(21.0f), 0);
@@ -256,9 +256,9 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.noRtmpStreamTextView.setGravity(17);
         this.noRtmpStreamTextView.setAlpha(0.0f);
         if (ChatObject.canManageCalls(chat)) {
-            this.noRtmpStreamTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131626912)));
+            this.noRtmpStreamTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131626860)));
         } else {
-            this.noRtmpStreamTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("NoRtmpStreamFromAppViewer", 2131626913, chat.title)));
+            this.noRtmpStreamTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("NoRtmpStreamFromAppViewer", 2131626861, chat.title)));
         }
         addView(this.noRtmpStreamTextView, LayoutHelper.createFrame(-2, -2, 51));
     }
@@ -596,7 +596,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             ImageView imageView = GroupCallMiniTextureView.this.blurredFlippingStub;
             if (imageView != null && imageView.getParent() != null) {
                 if (GroupCallMiniTextureView.this.blurredFlippingStub.getAlpha() == 1.0f) {
-                    GroupCallMiniTextureView.this.blurredFlippingStub.animate().alpha(0.0f).setDuration(300L).setListener(new C00351()).start();
+                    GroupCallMiniTextureView.this.blurredFlippingStub.animate().alpha(0.0f).setDuration(300L).setListener(new C00301()).start();
                 } else if (GroupCallMiniTextureView.this.blurredFlippingStub.getParent() != null) {
                     GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
                     groupCallMiniTextureView.textureView.removeView(groupCallMiniTextureView.blurredFlippingStub);
@@ -612,8 +612,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
 
         /* renamed from: org.telegram.ui.Components.voip.GroupCallMiniTextureView$1$1 */
         /* loaded from: classes3.dex */
-        class C00351 extends AnimatorListenerAdapter {
-            C00351() {
+        class C00301 extends AnimatorListenerAdapter {
+            C00301() {
                 AnonymousClass1.this = r1;
             }
 

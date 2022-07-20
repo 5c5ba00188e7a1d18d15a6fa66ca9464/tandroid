@@ -20,25 +20,15 @@ public final class ProductDetails {
     /* compiled from: com.android.billingclient:billing@@5.0.0 */
     /* loaded from: classes.dex */
     public static final class OneTimePurchaseOfferDetails {
-        private final long zzb;
-        private final String zzc;
         private final String zzd;
 
         OneTimePurchaseOfferDetails(JSONObject jSONObject) {
             jSONObject.optString("formattedPrice");
-            this.zzb = jSONObject.optLong("priceAmountMicros");
-            this.zzc = jSONObject.optString("priceCurrencyCode");
+            jSONObject.optLong("priceAmountMicros");
+            jSONObject.optString("priceCurrencyCode");
             this.zzd = jSONObject.optString("offerIdToken");
             jSONObject.optString("offerId");
             jSONObject.optInt("offerType");
-        }
-
-        public long getPriceAmountMicros() {
-            return this.zzb;
-        }
-
-        public String getPriceCurrencyCode() {
-            return this.zzc;
         }
 
         public final String zza() {
@@ -51,13 +41,12 @@ public final class ProductDetails {
     public static final class PricingPhase {
         private final String billingPeriod;
         private final String formattedPrice;
-        private final long priceAmountMicros;
 
         PricingPhase(JSONObject jSONObject) {
             this.billingPeriod = jSONObject.optString("billingPeriod");
             jSONObject.optString("priceCurrencyCode");
             this.formattedPrice = jSONObject.optString("formattedPrice");
-            this.priceAmountMicros = jSONObject.optLong("priceAmountMicros");
+            jSONObject.optLong("priceAmountMicros");
             jSONObject.optInt("recurrenceMode");
             jSONObject.optInt("billingCycleCount");
         }
@@ -68,10 +57,6 @@ public final class ProductDetails {
 
         public String getFormattedPrice() {
             return this.formattedPrice;
-        }
-
-        public long getPriceAmountMicros() {
-            return this.priceAmountMicros;
         }
     }
 

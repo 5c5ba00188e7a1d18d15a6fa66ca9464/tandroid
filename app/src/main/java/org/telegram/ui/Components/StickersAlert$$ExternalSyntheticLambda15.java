@@ -1,18 +1,20 @@
 package org.telegram.ui.Components;
 
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.KeyEvent;
+import android.widget.TextView;
+import org.telegram.ui.ActionBar.AlertDialog;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class StickersAlert$$ExternalSyntheticLambda15 implements View.OnTouchListener {
-    public static final /* synthetic */ StickersAlert$$ExternalSyntheticLambda15 INSTANCE = new StickersAlert$$ExternalSyntheticLambda15();
+public final /* synthetic */ class StickersAlert$$ExternalSyntheticLambda15 implements TextView.OnEditorActionListener {
+    public final /* synthetic */ AlertDialog.Builder f$0;
 
-    private /* synthetic */ StickersAlert$$ExternalSyntheticLambda15() {
+    public /* synthetic */ StickersAlert$$ExternalSyntheticLambda15(AlertDialog.Builder builder) {
+        this.f$0 = builder;
     }
 
-    @Override // android.view.View.OnTouchListener
-    public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$init$9;
-        lambda$init$9 = StickersAlert.lambda$init$9(view, motionEvent);
-        return lambda$init$9;
+    @Override // android.widget.TextView.OnEditorActionListener
+    public final boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        boolean lambda$showNameEnterAlert$22;
+        lambda$showNameEnterAlert$22 = StickersAlert.lambda$showNameEnterAlert$22(this.f$0, textView, i, keyEvent);
+        return lambda$showNameEnterAlert$22;
     }
 }

@@ -63,7 +63,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private Rect srcRect = new Rect();
     private Rect destRect = new Rect();
     private Paint paint = new Paint();
-    private RLottieDrawable sunDrawable = new RLottieDrawable(2131558561, "2131558561", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+    private RLottieDrawable sunDrawable = new RLottieDrawable(2131558540, "2131558540", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
 
     public DrawerProfileCell(Context context, DrawerLayoutContainer drawerLayoutContainer) {
         super(context);
@@ -193,7 +193,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             }
             this.darkThemeView.playAnimation();
             if (Theme.selectedAutoNightType != 0) {
-                Toast.makeText(getContext(), LocaleController.getString("AutoNightModeOff", 2131624621), 0).show();
+                Toast.makeText(getContext(), LocaleController.getString("AutoNightModeOff", 2131624610), 0).show();
                 Theme.selectedAutoNightType = 0;
                 Theme.saveAutoNightThemeConfig();
                 Theme.cancelAutoNightThemeCallbacks();

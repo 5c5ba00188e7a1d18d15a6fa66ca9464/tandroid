@@ -35,9 +35,6 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
             case -83208409:
                 tLRPC$DocumentAttribute = new TLRPC$TL_documentAttributeSticker_old();
                 break;
-            case -48981863:
-                tLRPC$DocumentAttribute = new TLRPC$TL_documentAttributeCustomEmoji();
-                break;
             case 85215461:
                 tLRPC$DocumentAttribute = new TLRPC$TL_documentAttributeAudio_old();
                 break;

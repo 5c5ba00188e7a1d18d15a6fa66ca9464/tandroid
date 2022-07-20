@@ -112,7 +112,7 @@ public class MaxFileSizeCell extends FrameLayout {
                     if (f > 0.25f) {
                         i = (int) (104857600 + (((float) (2097152000 - 104857600)) * ((f - 0.25f) / 0.25f)));
                         long j = i;
-                        MaxFileSizeCell.this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", 2131624636, AndroidUtilities.formatFileSize(j)));
+                        MaxFileSizeCell.this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", 2131624625, AndroidUtilities.formatFileSize(j)));
                         MaxFileSizeCell.this.currentSize = j;
                         MaxFileSizeCell.this.didChangedSizeValue(i);
                     }
@@ -122,7 +122,7 @@ public class MaxFileSizeCell extends FrameLayout {
             }
             i = (int) (f2 + ((f / 0.25f) * f3));
             long j2 = i;
-            MaxFileSizeCell.this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", 2131624636, AndroidUtilities.formatFileSize(j2)));
+            MaxFileSizeCell.this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", 2131624625, AndroidUtilities.formatFileSize(j2)));
             MaxFileSizeCell.this.currentSize = j2;
             MaxFileSizeCell.this.didChangedSizeValue(i);
         }
@@ -179,7 +179,7 @@ public class MaxFileSizeCell extends FrameLayout {
         float f;
         float f2;
         this.currentSize = j;
-        this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", 2131624636, AndroidUtilities.formatFileSize(j)));
+        this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", 2131624625, AndroidUtilities.formatFileSize(j)));
         long j2 = j - 512000;
         if (j2 < 536576) {
             f = Math.max(0.0f, ((float) j2) / 536576.0f) * 0.25f;

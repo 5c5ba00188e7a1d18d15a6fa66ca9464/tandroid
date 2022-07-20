@@ -886,8 +886,8 @@ public class SecretChatHelper extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.encryptedChatUpdated, tLRPC$EncryptedChat);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:301:0x07da  */
-    /* JADX WARN: Removed duplicated region for block: B:302:0x07ea  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x07d9  */
+    /* JADX WARN: Removed duplicated region for block: B:302:0x07e9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2296,9 +2296,9 @@ public class SecretChatHelper extends BaseController {
                 FileLog.e(e);
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle(LocaleController.getString("AppName", 2131624384));
-            builder.setMessage(LocaleController.getString("CreateEncryptedChatError", 2131625285));
-            builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
+            builder.setTitle(LocaleController.getString("AppName", 2131624375));
+            builder.setMessage(LocaleController.getString("CreateEncryptedChatError", 2131625269));
+            builder.setPositiveButton(LocaleController.getString("OK", 2131627075), null);
             builder.show().setCanceledOnTouchOutside(true);
         }
     }

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$BotInlineResult;
@@ -55,13 +56,11 @@ public class MentionsContainerView extends BlurredFrameLayout {
     private boolean scrollToFirst = false;
     private boolean shown = false;
     private Runnable updateVisibilityRunnable = new MentionsContainerView$$ExternalSyntheticLambda3(this);
+    private int animationIndex = -1;
     private boolean listViewHiding = false;
     private float hideT = 0.0f;
     private boolean switchLayoutManagerOnEnd = false;
     private float listViewPadding = (int) Math.min(AndroidUtilities.dp(126.0f), AndroidUtilities.displaySize.y * 0.22f);
-
-    public static /* synthetic */ void lambda$updateListViewTranslation$3(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
-    }
 
     protected boolean canOpen() {
         return true;
@@ -545,13 +544,14 @@ public class MentionsContainerView extends BlurredFrameLayout {
                 return;
             }
             int i2 = UserConfig.selectedAccount;
+            this.animationIndex = NotificationCenter.getInstance(i2).setAnimationInProgress(this.animationIndex, null);
             SpringAnimation spring = new SpringAnimation(new FloatValueHolder(translationY)).setSpring(new SpringForce(f4).setDampingRatio(1.0f).setStiffness(550.0f));
             this.listViewTranslationAnimator = spring;
             spring.addUpdateListener(new MentionsContainerView$$ExternalSyntheticLambda2(this, f5, f6, translationY, f4));
             if (z) {
-                this.listViewTranslationAnimator.addEndListener(new MentionsContainerView$$ExternalSyntheticLambda0(this, z));
+                this.listViewTranslationAnimator.addEndListener(new MentionsContainerView$$ExternalSyntheticLambda1(this, z));
             }
-            this.listViewTranslationAnimator.addEndListener(MentionsContainerView$$ExternalSyntheticLambda1.INSTANCE);
+            this.listViewTranslationAnimator.addEndListener(new MentionsContainerView$$ExternalSyntheticLambda0(this, i2));
             this.listViewTranslationAnimator.start();
             return;
         }
@@ -583,6 +583,10 @@ public class MentionsContainerView extends BlurredFrameLayout {
             this.shown = true;
             updateVisibility(true);
         }
+    }
+
+    public /* synthetic */ void lambda$updateListViewTranslation$3(int i, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+        NotificationCenter.getInstance(i).onAnimationFinish(this.animationIndex);
     }
 
     /* loaded from: classes3.dex */

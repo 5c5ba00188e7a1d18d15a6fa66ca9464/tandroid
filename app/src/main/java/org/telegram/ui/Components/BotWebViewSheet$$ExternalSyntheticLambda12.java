@@ -1,18 +1,18 @@
 package org.telegram.ui.Components;
 
-import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.messenger.GenericProvider;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda12 implements Runnable {
+public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda12 implements GenericProvider {
     public final /* synthetic */ BotWebViewSheet f$0;
-    public final /* synthetic */ TLRPC$TL_error f$1;
 
-    public /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda12(BotWebViewSheet botWebViewSheet, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda12(BotWebViewSheet botWebViewSheet) {
         this.f$0 = botWebViewSheet;
-        this.f$1 = tLRPC$TL_error;
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        this.f$0.lambda$new$2(this.f$1);
+    @Override // org.telegram.messenger.GenericProvider
+    public final Object provide(Object obj) {
+        Boolean lambda$new$11;
+        lambda$new$11 = this.f$0.lambda$new$11((Void) obj);
+        return lambda$new$11;
     }
 }

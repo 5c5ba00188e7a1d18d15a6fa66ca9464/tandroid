@@ -98,7 +98,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
         this.hasOwnBackground = true;
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628177));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628115));
         EditTextBoldCursor searchField = this.searchItem.getSearchField();
         searchField.setTextColor(Theme.getColor("dialogTextBlack"));
         searchField.setCursorColor(Theme.getColor("dialogTextBlack"));
@@ -253,9 +253,9 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             PhotoPickerSearchActivity.this.switchToCurrentSelectedMode(true);
             PhotoPickerSearchActivity.this.animatingForward = z;
             if (i == 0) {
-                PhotoPickerSearchActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628177));
+                PhotoPickerSearchActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628115));
             } else {
-                PhotoPickerSearchActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchGifsTitle", 2131628174));
+                PhotoPickerSearchActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchGifsTitle", 2131628112));
             }
         }
 
@@ -885,8 +885,8 @@ public class PhotoPickerSearchActivity extends BaseFragment {
         if (scrollSlidingTextTabStrip == null) {
             return;
         }
-        scrollSlidingTextTabStrip.addTextTab(0, LocaleController.getString("ImagesTab2", 2131626219));
-        this.scrollSlidingTextTabStrip.addTextTab(1, LocaleController.getString("GifsTab2", 2131626102));
+        scrollSlidingTextTabStrip.addTextTab(0, LocaleController.getString("ImagesTab2", 2131626172));
+        this.scrollSlidingTextTabStrip.addTextTab(1, LocaleController.getString("GifsTab2", 2131626061));
         this.scrollSlidingTextTabStrip.setVisibility(0);
         this.actionBar.setExtraHeight(AndroidUtilities.dp(44.0f));
         int currentTabId = this.scrollSlidingTextTabStrip.getCurrentTabId();

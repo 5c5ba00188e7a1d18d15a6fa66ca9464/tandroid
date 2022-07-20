@@ -82,9 +82,9 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
         if (this.currentType == 0) {
-            this.actionBar.setTitle(LocaleController.getString("ArchivedStickers", 2131624425));
+            this.actionBar.setTitle(LocaleController.getString("ArchivedStickers", 2131624414));
         } else {
-            this.actionBar.setTitle(LocaleController.getString("ArchivedMasks", 2131624420));
+            this.actionBar.setTitle(LocaleController.getString("ArchivedMasks", 2131624409));
         }
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         this.listAdapter = new ListAdapter(context);
@@ -95,9 +95,9 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         if (this.currentType == 0) {
-            emptyTextProgressView.setText(LocaleController.getString("ArchivedStickersEmpty", 2131624428));
+            emptyTextProgressView.setText(LocaleController.getString("ArchivedStickersEmpty", 2131624417));
         } else {
-            emptyTextProgressView.setText(LocaleController.getString("ArchivedMasksEmpty", 2131624423));
+            emptyTextProgressView.setText(LocaleController.getString("ArchivedMasksEmpty", 2131624412));
         }
         frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         if (this.loadingStickers) {
@@ -254,9 +254,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         }
         tLRPC$TL_messages_getArchivedStickers.offset_id = j;
         tLRPC$TL_messages_getArchivedStickers.limit = 15;
-        int i = this.currentType;
-        tLRPC$TL_messages_getArchivedStickers.masks = i == 1;
-        if (i != 5) {
+        if (this.currentType != 1) {
             z = false;
         }
         tLRPC$TL_messages_getArchivedStickers.masks = z;
@@ -406,7 +404,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
                 if (i == ArchivedStickersActivity.this.archiveInfoRow) {
                     textInfoPrivacyCell.setTopPadding(17);
                     textInfoPrivacyCell.setBottomPadding(10);
-                    textInfoPrivacyCell.setText(LocaleController.getString("ArchivedStickersInfo", 2131624429));
+                    textInfoPrivacyCell.setText(LocaleController.getString("ArchivedStickersInfo", 2131624418));
                     return;
                 }
                 textInfoPrivacyCell.setTopPadding(10);

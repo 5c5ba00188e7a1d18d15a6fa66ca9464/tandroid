@@ -197,7 +197,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                     MediaDataController.getInstance(StickersSearchAdapter.this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
                 }
                 StickersSearchAdapter.this.delegate.setLastSearchKeyboardLanguage(currentKeyboardLanguage);
-                MediaDataController.getInstance(StickersSearchAdapter.this.currentAccount).getEmojiSuggestions(StickersSearchAdapter.this.delegate.getLastSearchKeyboardLanguage(), StickersSearchAdapter.this.searchQuery, false, new StickersSearchAdapter$1$$ExternalSyntheticLambda2(this, access$804, allStickers), false);
+                MediaDataController.getInstance(StickersSearchAdapter.this.currentAccount).getEmojiSuggestions(StickersSearchAdapter.this.delegate.getLastSearchKeyboardLanguage(), StickersSearchAdapter.this.searchQuery, false, new StickersSearchAdapter$1$$ExternalSyntheticLambda2(this, access$804, allStickers));
             }
             ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(StickersSearchAdapter.this.currentAccount).getStickerSets(0);
             int size2 = stickerSets.size();
@@ -438,13 +438,13 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                 ImageView imageView = new ImageView(this.context);
                 this.emptyImageView = imageView;
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
-                this.emptyImageView.setImageResource(2131166168);
+                this.emptyImageView.setImageResource(2131166166);
                 this.emptyImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_emojiPanelEmptyText"), PorterDuff.Mode.MULTIPLY));
                 linearLayout2.addView(this.emptyImageView, LayoutHelper.createLinear(-2, -2));
                 linearLayout2.addView(new Space(this.context), LayoutHelper.createLinear(-1, 15));
                 TextView textView = new TextView(this.context);
                 this.emptyTextView = textView;
-                textView.setText(LocaleController.getString("NoStickersFound", 2131626926));
+                textView.setText(LocaleController.getString("NoStickersFound", 2131626874));
                 this.emptyTextView.setTextSize(1, 16.0f);
                 this.emptyTextView.setTextColor(getThemedColor("chat_emojiPanelEmptyText"));
                 linearLayout2.addView(this.emptyTextView, LayoutHelper.createLinear(-2, -2));
@@ -644,7 +644,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
         }
         if (z6) {
-            mediaDataController.markFeaturedStickersByIdAsRead(false, tLRPC$StickerSetCovered.set.id);
+            mediaDataController.markFaturedStickersByIdAsRead(tLRPC$StickerSetCovered.set.id);
         }
         boolean z7 = this.installingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;
         boolean z8 = this.removingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;

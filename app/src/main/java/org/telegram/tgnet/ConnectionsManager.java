@@ -279,19 +279,16 @@ public class ConnectionsManager extends BaseController {
             sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig" + this.currentAccount, 0);
         }
         this.forceTryIpV6 = sharedPreferences.getBoolean("forceTryIpV6", false);
-        init(BuildVars.BUILD_VERSION, 144, BuildVars.APP_ID, str9, str10, str3, str, str8, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), isPushConnectionEnabled);
+        init(BuildVars.BUILD_VERSION, 143, BuildVars.APP_ID, str9, str10, str3, str, str8, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), isPushConnectionEnabled);
     }
 
     private String getRegId() {
         String str = SharedConfig.pushString;
-        if (!TextUtils.isEmpty(str) && SharedConfig.pushType == 13) {
-            str = "huawei://" + str;
-        }
         if (TextUtils.isEmpty(str) && !TextUtils.isEmpty(SharedConfig.pushStringStatus)) {
             str = SharedConfig.pushStringStatus;
         }
         if (TextUtils.isEmpty(str)) {
-            String str2 = "__" + (SharedConfig.pushType == 2 ? "FIREBASE" : "HUAWEI") + "_GENERATING_SINCE_" + getCurrentTime() + "__";
+            String str2 = "__FIREBASE_GENERATING_SINCE_" + getCurrentTime() + "__";
             SharedConfig.pushStringStatus = str2;
             return str2;
         }
@@ -493,19 +490,16 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
-    public static void setRegId(String str, int i, String str2) {
-        if (!TextUtils.isEmpty(str) && i == 13) {
-            str = "huawei://" + str;
+    public static void setRegId(String str, String str2) {
+        if (TextUtils.isEmpty(str) && !TextUtils.isEmpty(str2)) {
+            str = str2;
         }
-        if (!TextUtils.isEmpty(str) || TextUtils.isEmpty(str2)) {
-            str2 = str;
+        if (TextUtils.isEmpty(str)) {
+            str = "__FIREBASE_GENERATING_SINCE_" + getInstance(0).getCurrentTime() + "__";
+            SharedConfig.pushStringStatus = str;
         }
-        if (TextUtils.isEmpty(str2)) {
-            str2 = "__" + (i == 2 ? "FIREBASE" : "HUAWEI") + "_GENERATING_SINCE_" + getInstance(0).getCurrentTime() + "__";
-            SharedConfig.pushStringStatus = str2;
-        }
-        for (int i2 = 0; i2 < 4; i2++) {
-            native_setRegId(i2, str2);
+        for (int i = 0; i < 4; i++) {
+            native_setRegId(i, str);
         }
     }
 

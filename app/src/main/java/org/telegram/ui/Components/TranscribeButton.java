@@ -73,17 +73,18 @@ public class TranscribeButton {
         android.graphics.Rect rect = new android.graphics.Rect(this.bounds);
         this.pressBounds = rect;
         rect.inset(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558575, "transcribe_out", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558554, "transcribe_out", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
         this.outIconDrawable = rLottieDrawable;
         rLottieDrawable.setCurrentFrame(0);
         this.outIconDrawable.setCallback(chatMessageCell);
+        this.outIconDrawable.addParentView(chatMessageCell);
         this.outIconDrawable.setOnFinishCallback(new TranscribeButton$$ExternalSyntheticLambda5(this), 19);
         this.outIconDrawable.setAllowDecodeSingleFrame(true);
-        RLottieDrawable rLottieDrawable2 = new RLottieDrawable(2131558574, "transcribe_in", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
+        RLottieDrawable rLottieDrawable2 = new RLottieDrawable(2131558553, "transcribe_in", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
         this.inIconDrawable = rLottieDrawable2;
         rLottieDrawable2.setCurrentFrame(0);
         this.inIconDrawable.setCallback(chatMessageCell);
-        this.inIconDrawable.setMasterParent(chatMessageCell);
+        this.inIconDrawable.addParentView(chatMessageCell);
         this.inIconDrawable.setOnFinishCallback(new TranscribeButton$$ExternalSyntheticLambda4(this), 19);
         this.inIconDrawable.setAllowDecodeSingleFrame(true);
         this.premium = AccountInstance.getInstance(chatMessageCell.getMessageObject().currentAccount).getUserConfig().isPremium();
@@ -232,12 +233,12 @@ public class TranscribeButton {
             this.inIconDrawable.setLayerColor("Artboard Outlines.**", this.iconColor);
             this.inIconDrawable.commitApplyLayerColors();
             this.inIconDrawable.setAllowDecodeSingleFrame(true);
-            this.inIconDrawable.updateCurrentFrame(0L, false);
+            this.inIconDrawable.updateCurrentFrame();
             this.outIconDrawable.beginApplyLayerColors();
             this.outIconDrawable.setLayerColor("Artboard Outlines.**", this.iconColor);
             this.outIconDrawable.commitApplyLayerColors();
             this.outIconDrawable.setAllowDecodeSingleFrame(true);
-            this.outIconDrawable.updateCurrentFrame(0L, false);
+            this.outIconDrawable.updateCurrentFrame();
         }
         if (this.strokePaint == null) {
             Paint paint = new Paint(1);
@@ -402,7 +403,7 @@ public class TranscribeButton {
             this.lottie.setLayerColor("Comp 1.**", i);
             this.lottie.commitApplyLayerColors();
             this.lottie.setAllowDecodeSingleFrame(true);
-            this.lottie.updateCurrentFrame(0L, false);
+            this.lottie.updateCurrentFrame();
         }
 
         @Override // android.graphics.drawable.Drawable

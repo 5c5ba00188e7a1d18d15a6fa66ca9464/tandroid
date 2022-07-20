@@ -85,32 +85,32 @@ public class VoIPHelper {
         int i2;
         boolean z3 = true;
         if (tLRPC$UserFull != null && tLRPC$UserFull.phone_calls_private) {
-            new AlertDialog.Builder(activity).setTitle(LocaleController.getString("VoipFailed", 2131629097)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("CallNotAvailable", 2131624811, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name)))).setPositiveButton(LocaleController.getString("OK", 2131627127), null).show();
+            new AlertDialog.Builder(activity).setTitle(LocaleController.getString("VoipFailed", 2131629023)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("CallNotAvailable", 2131624798, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name)))).setPositiveButton(LocaleController.getString("OK", 2131627075), null).show();
         } else if (ConnectionsManager.getInstance(UserConfig.selectedAccount).getConnectionState() != 3) {
             if (Settings.System.getInt(activity.getContentResolver(), "airplane_mode_on", 0) == 0) {
                 z3 = false;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             if (z3) {
-                i = 2131629234;
+                i = 2131629160;
                 str = "VoipOfflineAirplaneTitle";
             } else {
-                i = 2131629236;
+                i = 2131629162;
                 str = "VoipOfflineTitle";
             }
             AlertDialog.Builder title = builder.setTitle(LocaleController.getString(str, i));
             if (z3) {
-                i2 = 2131629233;
+                i2 = 2131629159;
                 str2 = "VoipOfflineAirplane";
             } else {
-                i2 = 2131629232;
+                i2 = 2131629158;
                 str2 = "VoipOffline";
             }
-            AlertDialog.Builder positiveButton = title.setMessage(LocaleController.getString(str2, i2)).setPositiveButton(LocaleController.getString("OK", 2131627127), null);
+            AlertDialog.Builder positiveButton = title.setMessage(LocaleController.getString(str2, i2)).setPositiveButton(LocaleController.getString("OK", 2131627075), null);
             if (z3) {
                 Intent intent = new Intent("android.settings.AIRPLANE_MODE_SETTINGS");
                 if (intent.resolveActivity(activity.getPackageManager()) != null) {
-                    positiveButton.setNeutralButton(LocaleController.getString("VoipOfflineOpenSettings", 2131629235), new VoIPHelper$$ExternalSyntheticLambda1(activity, intent));
+                    positiveButton.setNeutralButton(LocaleController.getString("VoipOfflineOpenSettings", 2131629161), new VoIPHelper$$ExternalSyntheticLambda1(activity, intent));
                 }
             }
             try {
@@ -155,25 +155,25 @@ public class VoIPHelper {
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             if (z2) {
-                i = 2131629234;
+                i = 2131629160;
                 str2 = "VoipOfflineAirplaneTitle";
             } else {
-                i = 2131629236;
+                i = 2131629162;
                 str2 = "VoipOfflineTitle";
             }
             AlertDialog.Builder title = builder.setTitle(LocaleController.getString(str2, i));
             if (z2) {
-                i2 = 2131629154;
+                i2 = 2131629080;
                 str3 = "VoipGroupOfflineAirplane";
             } else {
-                i2 = 2131629153;
+                i2 = 2131629079;
                 str3 = "VoipGroupOffline";
             }
-            AlertDialog.Builder positiveButton = title.setMessage(LocaleController.getString(str3, i2)).setPositiveButton(LocaleController.getString("OK", 2131627127), null);
+            AlertDialog.Builder positiveButton = title.setMessage(LocaleController.getString(str3, i2)).setPositiveButton(LocaleController.getString("OK", 2131627075), null);
             if (z2) {
                 Intent intent = new Intent("android.settings.AIRPLANE_MODE_SETTINGS");
                 if (intent.resolveActivity(activity.getPackageManager()) != null) {
-                    positiveButton.setNeutralButton(LocaleController.getString("VoipOfflineOpenSettings", 2131629235), new VoIPHelper$$ExternalSyntheticLambda2(activity, intent));
+                    positiveButton.setNeutralButton(LocaleController.getString("VoipOfflineOpenSettings", 2131629161), new VoIPHelper$$ExternalSyntheticLambda2(activity, intent));
                 }
             }
             try {
@@ -217,19 +217,19 @@ public class VoIPHelper {
                         TLRPC$User user = sharedInstance.getUser();
                         str3 = ContactsController.formatName(user.first_name, user.last_name);
                         if (j > 0) {
-                            i = 2131629237;
+                            i = 2131629163;
                             str2 = "VoipOngoingAlert";
                         } else {
-                            i = 2131629238;
+                            i = 2131629164;
                             str2 = "VoipOngoingAlert2";
                         }
                     } else {
                         str3 = sharedInstance.getChat().title;
                         if (j > 0) {
-                            i = 2131629241;
+                            i = 2131629167;
                             str2 = "VoipOngoingChatAlert2";
                         } else {
-                            i = 2131629240;
+                            i = 2131629166;
                             str2 = "VoipOngoingChatAlert";
                         }
                     }
@@ -240,13 +240,13 @@ public class VoIPHelper {
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     if (callerId < 0) {
-                        i2 = 2131629242;
+                        i2 = 2131629168;
                         str5 = "VoipOngoingChatAlertTitle";
                     } else {
-                        i2 = 2131629239;
+                        i2 = 2131629165;
                         str5 = "VoipOngoingAlertTitle";
                     }
-                    builder.setTitle(LocaleController.getString(str5, i2)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString(str2, i, str3, str4))).setPositiveButton(LocaleController.getString("OK", 2131627127), new VoIPHelper$$ExternalSyntheticLambda5(tLRPC$User, tLRPC$Chat, str, z, z2, z3, activity, baseFragment, accountInstance)).setNegativeButton(LocaleController.getString("Cancel", 2131624832), null).show();
+                    builder.setTitle(LocaleController.getString(str5, i2)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString(str2, i, str3, str4))).setPositiveButton(LocaleController.getString("OK", 2131627075), new VoIPHelper$$ExternalSyntheticLambda5(tLRPC$User, tLRPC$Chat, str, z, z2, z3, activity, baseFragment, accountInstance)).setNegativeButton(LocaleController.getString("Cancel", 2131624819), null).show();
                 } else if (tLRPC$User != null || !(activity instanceof LaunchActivity)) {
                     activity.startActivity(new Intent(activity, LaunchActivity.class).setAction(tLRPC$User != null ? "voip" : "voip_chat"));
                 } else {
@@ -298,21 +298,21 @@ public class VoIPHelper {
             } else if (z6 && !z && (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerUser) && ChatObject.shouldSendAnonymously(tLRPC$Chat) && (!ChatObject.isChannel(tLRPC$Chat) || tLRPC$Chat.megagroup)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 if (ChatObject.isChannelOrGiga(tLRPC$Chat)) {
-                    i = 2131629074;
+                    i = 2131629000;
                     str2 = "VoipChannelVoiceChat";
                 } else {
-                    i = 2131629204;
+                    i = 2131629130;
                     str2 = "VoipGroupVoiceChat";
                 }
                 AlertDialog.Builder title = builder.setTitle(LocaleController.getString(str2, i));
                 if (ChatObject.isChannelOrGiga(tLRPC$Chat)) {
-                    i2 = 2131629048;
+                    i2 = 2131628974;
                     str3 = "VoipChannelJoinAnonymouseAlert";
                 } else {
-                    i2 = 2131629137;
+                    i2 = 2131629063;
                     str3 = "VoipGroupJoinAnonymouseAlert";
                 }
-                title.setMessage(LocaleController.getString(str3, i2)).setPositiveButton(LocaleController.getString("VoipChatJoin", 2131629078), new VoIPHelper$$ExternalSyntheticLambda4(tLRPC$User, tLRPC$Chat, str, tLRPC$InputPeer, z2, z3, z4, activity, baseFragment, accountInstance)).setNegativeButton(LocaleController.getString("Cancel", 2131624832), null).show();
+                title.setMessage(LocaleController.getString(str3, i2)).setPositiveButton(LocaleController.getString("VoipChatJoin", 2131629004), new VoIPHelper$$ExternalSyntheticLambda4(tLRPC$User, tLRPC$Chat, str, tLRPC$InputPeer, z2, z3, z4, activity, baseFragment, accountInstance)).setNegativeButton(LocaleController.getString("Cancel", 2131624819), null).show();
             } else {
                 if (tLRPC$Chat != null && tLRPC$InputPeer != null && (chatFull = accountInstance.getMessagesController().getChatFull(tLRPC$Chat.id)) != null) {
                     if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerUser) {
@@ -475,13 +475,13 @@ public class VoIPHelper {
         if (!activity.shouldShowRequestPermissionRationale("android.permission.RECORD_AUDIO") || (z && !activity.shouldShowRequestPermissionRationale("android.permission.CAMERA"))) {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             if (z) {
-                i2 = 2131629225;
+                i2 = 2131629151;
                 str = "VoipNeedMicCameraPermissionWithHint";
             } else {
-                i2 = 2131629227;
+                i2 = 2131629153;
                 str = "VoipNeedMicPermissionWithHint";
             }
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(str, i2))).setPositiveButton(LocaleController.getString("Settings", 2131628321), new VoIPHelper$$ExternalSyntheticLambda0(activity)).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", 2131625261), null).setOnDismissListener(new VoIPHelper$$ExternalSyntheticLambda7(runnable)).setTopAnimation(z ? 2131558506 : 2131558510, 72, false, Theme.getColor("dialogTopBackground")).show();
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(str, i2))).setPositiveButton(LocaleController.getString("Settings", 2131628259), new VoIPHelper$$ExternalSyntheticLambda0(activity)).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", 2131625245), null).setOnDismissListener(new VoIPHelper$$ExternalSyntheticLambda7(runnable)).setTopAnimation(z ? 2131558493 : 2131558497, 72, false, Theme.getColor("dialogTopBackground")).show();
         }
     }
 
@@ -551,7 +551,7 @@ public class VoIPHelper {
         textView.setTextSize(2, 16.0f);
         textView.setTextColor(Theme.getColor("dialogTextBlack"));
         textView.setGravity(17);
-        textView.setText(LocaleController.getString("VoipRateCallAlert", 2131629252));
+        textView.setText(LocaleController.getString("VoipRateCallAlert", 2131629178));
         linearLayout.addView(textView);
         BetterRatingView betterRatingView = new BetterRatingView(context);
         linearLayout.addView(betterRatingView, LayoutHelper.createLinear(-2, -2, 1, 0, 16, 0, 0));
@@ -576,31 +576,31 @@ public class VoIPHelper {
                 checkBoxCell.setTag(strArr[i3]);
                 switch (i3) {
                     case 0:
-                        str = LocaleController.getString("RateCallVideoDistorted", 2131627898);
+                        str = LocaleController.getString("RateCallVideoDistorted", 2131627836);
                         break;
                     case 1:
-                        str = LocaleController.getString("RateCallVideoPixelated", 2131627899);
+                        str = LocaleController.getString("RateCallVideoPixelated", 2131627837);
                         break;
                     case 2:
-                        str = LocaleController.getString("RateCallEcho", 2131627893);
+                        str = LocaleController.getString("RateCallEcho", 2131627831);
                         break;
                     case 3:
-                        str = LocaleController.getString("RateCallNoise", 2131627895);
+                        str = LocaleController.getString("RateCallNoise", 2131627833);
                         break;
                     case 4:
-                        str = LocaleController.getString("RateCallInterruptions", 2131627894);
+                        str = LocaleController.getString("RateCallInterruptions", 2131627832);
                         break;
                     case 5:
-                        str = LocaleController.getString("RateCallDistorted", 2131627891);
+                        str = LocaleController.getString("RateCallDistorted", 2131627829);
                         break;
                     case 6:
-                        str = LocaleController.getString("RateCallSilentLocal", 2131627896);
+                        str = LocaleController.getString("RateCallSilentLocal", 2131627834);
                         break;
                     case 7:
-                        str = LocaleController.getString("RateCallSilentRemote", 2131627897);
+                        str = LocaleController.getString("RateCallSilentRemote", 2131627835);
                         break;
                     case 8:
-                        str = LocaleController.getString("RateCallDropped", 2131627892);
+                        str = LocaleController.getString("RateCallDropped", 2131627830);
                         break;
                     default:
                         str = null;
@@ -617,7 +617,7 @@ public class VoIPHelper {
         linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-1, -2, -8.0f, 0.0f, -8.0f, 0.0f));
         linearLayout2.setVisibility(8);
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
-        editTextBoldCursor.setHint(LocaleController.getString("VoipFeedbackCommentHint", 2131629098));
+        editTextBoldCursor.setHint(LocaleController.getString("VoipFeedbackCommentHint", 2131629024));
         editTextBoldCursor.setInputType(147457);
         editTextBoldCursor.setTextColor(Theme.getColor("dialogTextBlack"));
         editTextBoldCursor.setHintTextColor(Theme.getColor("dialogTextHint"));
@@ -630,14 +630,14 @@ public class VoIPHelper {
         boolean[] zArr = {true};
         CheckBoxCell checkBoxCell2 = new CheckBoxCell(context, 1);
         VoIPHelper$$ExternalSyntheticLambda13 voIPHelper$$ExternalSyntheticLambda13 = new VoIPHelper$$ExternalSyntheticLambda13(zArr, checkBoxCell2);
-        checkBoxCell2.setText(LocaleController.getString("CallReportIncludeLogs", 2131624813), null, true, false);
+        checkBoxCell2.setText(LocaleController.getString("CallReportIncludeLogs", 2131624800), null, true, false);
         checkBoxCell2.setClipToPadding(false);
         checkBoxCell2.setOnClickListener(voIPHelper$$ExternalSyntheticLambda13);
         linearLayout.addView(checkBoxCell2, LayoutHelper.createLinear(-1, -2, -8.0f, 0.0f, -8.0f, 0.0f));
         TextView textView2 = new TextView(context);
         textView2.setTextSize(2, 14.0f);
         textView2.setTextColor(Theme.getColor("dialogTextGray3"));
-        textView2.setText(LocaleController.getString("CallReportLogsExplain", 2131624814));
+        textView2.setText(LocaleController.getString("CallReportLogsExplain", 2131624801));
         textView2.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), 0);
         textView2.setOnClickListener(voIPHelper$$ExternalSyntheticLambda13);
         linearLayout.addView(textView2);
@@ -646,7 +646,7 @@ public class VoIPHelper {
         if (!logFile.exists()) {
             zArr[0] = false;
         }
-        AlertDialog create = new AlertDialog.Builder(context).setTitle(LocaleController.getString("CallMessageReportProblem", 2131624804)).setView(linearLayout).setPositiveButton(LocaleController.getString("Send", 2131628237), VoIPHelper$$ExternalSyntheticLambda6.INSTANCE).setNegativeButton(LocaleController.getString("Cancel", 2131624832), null).setOnDismissListener(new VoIPHelper$$ExternalSyntheticLambda8(runnable)).create();
+        AlertDialog create = new AlertDialog.Builder(context).setTitle(LocaleController.getString("CallMessageReportProblem", 2131624791)).setView(linearLayout).setPositiveButton(LocaleController.getString("Send", 2131628175), VoIPHelper$$ExternalSyntheticLambda6.INSTANCE).setNegativeButton(LocaleController.getString("Cancel", 2131624819), null).setOnDismissListener(new VoIPHelper$$ExternalSyntheticLambda8(runnable)).create();
         if (BuildVars.LOGS_ENABLED && logFile.exists()) {
             create.setNeutralButton("Send log", new VoIPHelper$$ExternalSyntheticLambda3(context, logFile));
         }
@@ -687,10 +687,10 @@ public class VoIPHelper {
         view.setEnabled(i > 0);
         TextView textView = (TextView) view;
         if (i < 4) {
-            i2 = 2131626853;
+            i2 = 2131626801;
             str = "Next";
         } else {
-            i2 = 2131628237;
+            i2 = 2131628175;
             str = "Send";
         }
         textView.setText(LocaleController.getString(str, i2).toUpperCase());
@@ -728,14 +728,14 @@ public class VoIPHelper {
         iArr[0] = 1;
         betterRatingView.setVisibility(8);
         textView.setVisibility(8);
-        alertDialog.setTitle(LocaleController.getString("CallReportHint", 2131624812));
+        alertDialog.setTitle(LocaleController.getString("CallReportHint", 2131624799));
         editTextBoldCursor.setVisibility(0);
         if (file.exists()) {
             checkBoxCell.setVisibility(0);
             textView2.setVisibility(0);
         }
         linearLayout.setVisibility(0);
-        ((TextView) view).setText(LocaleController.getString("Send", 2131628237).toUpperCase());
+        ((TextView) view).setText(LocaleController.getString("Send", 2131628175).toUpperCase());
     }
 
     public static /* synthetic */ void lambda$showRateAlert$15(int i, boolean[] zArr, File file, TLRPC$TL_phone_setCallRating tLRPC$TL_phone_setCallRating, ArrayList arrayList, Context context, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -746,7 +746,7 @@ public class VoIPHelper {
             return;
         }
         SendMessagesHelper.prepareSendingDocument(AccountInstance.getInstance(UserConfig.selectedAccount), file.getAbsolutePath(), file.getAbsolutePath(), null, TextUtils.join(" ", arrayList), "text/plain", 4244000L, null, null, null, null, true, 0);
-        Toast.makeText(context, LocaleController.getString("CallReportSent", 2131624815), 1).show();
+        Toast.makeText(context, LocaleController.getString("CallReportSent", 2131624802), 1).show();
     }
 
     private static File getLogFile(long j) {
@@ -787,7 +787,7 @@ public class VoIPHelper {
             textCheckCell3.setOnClickListener(new VoIPHelper$$ExternalSyntheticLambda11(globalMainSettings, textCheckCell3));
             linearLayout.addView(textCheckCell3);
         }
-        new AlertDialog.Builder(context).setTitle(LocaleController.getString("DebugMenuCallSettings", 2131625353)).setView(linearLayout).show();
+        new AlertDialog.Builder(context).setTitle(LocaleController.getString("DebugMenuCallSettings", 2131625337)).setView(linearLayout).show();
     }
 
     public static /* synthetic */ void lambda$showCallDebugSettings$17(SharedPreferences sharedPreferences, TextCheckCell textCheckCell, View view) {

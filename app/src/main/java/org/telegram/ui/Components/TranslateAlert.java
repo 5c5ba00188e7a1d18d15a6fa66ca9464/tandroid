@@ -285,7 +285,7 @@ public class TranslateAlert extends Dialog {
     }
 
     public TranslateAlert(BaseFragment baseFragment, Context context, int i, TLRPC$InputPeer tLRPC$InputPeer, int i2, String str, String str2, CharSequence charSequence, boolean z, OnLinkPress onLinkPress, Runnable runnable) {
-        super(context, 2131689510);
+        super(context, 2131689509);
         int i3;
         int i4;
         this.blockIndex = 0;
@@ -369,7 +369,7 @@ public class TranslateAlert extends Dialog {
         textView.setPivotX(LocaleController.isRTL ? textView.getWidth() : 0.0f);
         this.titleView.setPivotY(0.0f);
         this.titleView.setLines(1);
-        this.titleView.setText(LocaleController.getString("AutomaticTranslation", 2131624638));
+        this.titleView.setText(LocaleController.getString("AutomaticTranslation", 2131624627));
         this.titleView.setGravity(LocaleController.isRTL ? 5 : 3);
         this.titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.titleView.setTextColor(Theme.getColor("dialogTextBlack"));
@@ -393,7 +393,7 @@ public class TranslateAlert extends Dialog {
         anonymousClass3.showLoadingText = false;
         ImageView imageView = new ImageView(context);
         this.subtitleArrowView = imageView;
-        imageView.setImageResource(2131166122);
+        imageView.setImageResource(2131166120);
         this.subtitleArrowView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("player_actionBarSubtitle"), PorterDuff.Mode.MULTIPLY));
         if (LocaleController.isRTL) {
             this.subtitleArrowView.setScaleX(-1.0f);
@@ -509,7 +509,7 @@ public class TranslateAlert extends Dialog {
         this.buttonTextView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
         this.buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.buttonTextView.setTextSize(1, 14.0f);
-        this.buttonTextView.setText(LocaleController.getString("CloseTranslation", 2131625185));
+        this.buttonTextView.setText(LocaleController.getString("CloseTranslation", 2131625169));
         FrameLayout frameLayout9 = new FrameLayout(context);
         this.buttonView = frameLayout9;
         frameLayout9.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor("featuredStickers_addButton"), 4.0f));
@@ -660,7 +660,7 @@ public class TranslateAlert extends Dialog {
         public boolean onTextContextMenuItem(int i) {
             if (i == 16908321 && isFocused()) {
                 ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", getText().subSequence(Math.max(0, Math.min(getSelectionStart(), getSelectionEnd())), Math.max(0, Math.max(getSelectionStart(), getSelectionEnd())))));
-                BulletinFactory.of(TranslateAlert.this.bulletinContainer, null).createCopyBulletin(LocaleController.getString("TextCopied", 2131628662)).show();
+                BulletinFactory.of(TranslateAlert.this.bulletinContainer, null).createCopyBulletin(LocaleController.getString("TextCopied", 2131628595)).show();
                 clearFocus();
                 return true;
             }
@@ -867,7 +867,7 @@ public class TranslateAlert extends Dialog {
         this.contentView.setPadding(0, 0, 0, 0);
         setContentView(this.contentView, new ViewGroup.LayoutParams(-1, -1));
         Window window = getWindow();
-        window.setWindowAnimations(2131689478);
+        window.setWindowAnimations(2131689477);
         WindowManager.LayoutParams attributes = window.getAttributes();
         attributes.width = -1;
         attributes.gravity = 51;
@@ -1179,9 +1179,9 @@ public class TranslateAlert extends Dialog {
 
     public /* synthetic */ void lambda$fetchNext$8(boolean z) {
         if (z) {
-            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert1", 2131628762), 0).show();
+            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert1", 2131628695), 0).show();
         } else {
-            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert2", 2131628763), 0).show();
+            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert2", 2131628696), 0).show();
         }
         if (this.blockIndex == 0) {
             dismiss();

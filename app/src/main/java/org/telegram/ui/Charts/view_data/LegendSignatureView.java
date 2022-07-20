@@ -101,7 +101,7 @@ public class LegendSignatureView extends FrameLayout {
         this.hourTime.setTextColor(Theme.getColor("dialogTextBlack"));
         this.chevron.setColorFilter(Theme.getColor("statisticChartChevronColor"));
         this.progressView.setProgressColor(Theme.getColor("statisticChartChevronColor"));
-        this.shadowDrawable = getContext().getResources().getDrawable(2131166161).mutate();
+        this.shadowDrawable = getContext().getResources().getDrawable(2131166159).mutate();
         this.backgroundDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), Theme.getColor("dialogBackground"), Theme.getColor("listSelectorSDK21"), -16777216);
         CombinedDrawable combinedDrawable = new CombinedDrawable(this.shadowDrawable, this.backgroundDrawable, AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f));
         combinedDrawable.setFullsize(true);

@@ -103,14 +103,14 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         TelephonyManager telephonyManager;
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("AddContactTitle", 2131624269));
+        this.actionBar.setTitle(LocaleController.getString("AddContactTitle", 2131624264));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         this.avatarDrawable = avatarDrawable;
         avatarDrawable.setInfo(5L, "", "");
         ActionBarMenuItem addItemWithWidth = this.actionBar.createMenu().addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f));
         this.editDoneItem = addItemWithWidth;
-        addItemWithWidth.setContentDescription(LocaleController.getString("Done", 2131625541));
+        addItemWithWidth.setContentDescription(LocaleController.getString("Done", 2131625525));
         ContextProgressView contextProgressView = new ContextProgressView(context, 1);
         this.editDoneItemProgress = contextProgressView;
         this.editDoneItem.addView(contextProgressView, LayoutHelper.createFrame(-1, -1.0f));
@@ -141,7 +141,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         this.firstNameField.setGravity(3);
         this.firstNameField.setInputType(49152);
         this.firstNameField.setImeOptions(5);
-        this.firstNameField.setHint(LocaleController.getString("FirstName", 2131625947));
+        this.firstNameField.setHint(LocaleController.getString("FirstName", 2131625906));
         this.firstNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.firstNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.firstNameField.setCursorWidth(1.5f);
@@ -169,7 +169,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         this.lastNameField.setGravity(3);
         this.lastNameField.setInputType(49152);
         this.lastNameField.setImeOptions(5);
-        this.lastNameField.setHint(LocaleController.getString("LastName", 2131626415));
+        this.lastNameField.setHint(LocaleController.getString("LastName", 2131626368));
         this.lastNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.lastNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.lastNameField.setCursorWidth(1.5f);
@@ -305,7 +305,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
                     this.codeField.setText(this.countriesMap.get(str2));
                 }
                 if (this.codeField.length() == 0) {
-                    this.countryButton.setText(LocaleController.getString("ChooseCountry", 2131625117));
+                    this.countryButton.setText(LocaleController.getString("ChooseCountry", 2131625104));
                     this.phoneField.setHintText((String) null);
                 }
             }
@@ -386,10 +386,10 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
             } else {
                 NewContactActivity.this.showEditDoneProgress(false, true);
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewContactActivity.this.getParentActivity());
-                builder.setTitle(LocaleController.getString("ContactNotRegisteredTitle", 2131625251));
-                builder.setMessage(LocaleController.formatString("ContactNotRegistered", 2131625250, ContactsController.formatName(tLRPC$TL_inputPhoneContact.first_name, tLRPC$TL_inputPhoneContact.last_name)));
-                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
-                builder.setPositiveButton(LocaleController.getString("Invite", 2131626305), new NewContactActivity$1$$ExternalSyntheticLambda0(this, tLRPC$TL_inputPhoneContact));
+                builder.setTitle(LocaleController.getString("ContactNotRegisteredTitle", 2131625235));
+                builder.setMessage(LocaleController.formatString("ContactNotRegistered", 2131625234, ContactsController.formatName(tLRPC$TL_inputPhoneContact.first_name, tLRPC$TL_inputPhoneContact.last_name)));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                builder.setPositiveButton(LocaleController.getString("Invite", 2131626258), new NewContactActivity$1$$ExternalSyntheticLambda0(this, tLRPC$TL_inputPhoneContact));
                 NewContactActivity.this.showDialog(builder.create());
             }
         }
@@ -507,7 +507,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
             NewContactActivity.this.codeField.setText(stripExceptNumbers);
             String str2 = null;
             if (stripExceptNumbers.length() == 0) {
-                NewContactActivity.this.countryButton.setText(LocaleController.getString("ChooseCountry", 2131625117));
+                NewContactActivity.this.countryButton.setText(LocaleController.getString("ChooseCountry", 2131625104));
                 NewContactActivity.this.phoneField.setHintText((String) null);
                 NewContactActivity.this.countryState = 1;
             } else {
@@ -556,12 +556,12 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
                         hintEditText.setHintText(str2);
                         NewContactActivity.this.countryState = 0;
                     } else {
-                        NewContactActivity.this.countryButton.setText(LocaleController.getString("WrongCountry", 2131629328));
+                        NewContactActivity.this.countryButton.setText(LocaleController.getString("WrongCountry", 2131629254));
                         NewContactActivity.this.phoneField.setHintText((String) null);
                         NewContactActivity.this.countryState = 2;
                     }
                 } else {
-                    NewContactActivity.this.countryButton.setText(LocaleController.getString("WrongCountry", 2131629328));
+                    NewContactActivity.this.countryButton.setText(LocaleController.getString("WrongCountry", 2131629254));
                     NewContactActivity.this.phoneField.setHintText((String) null);
                     NewContactActivity.this.countryState = 2;
                 }

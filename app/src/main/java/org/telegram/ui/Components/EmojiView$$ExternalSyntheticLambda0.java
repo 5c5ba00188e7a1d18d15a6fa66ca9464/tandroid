@@ -13,6 +13,6 @@ public final /* synthetic */ class EmojiView$$ExternalSyntheticLambda0 implement
 
     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-        this.f$0.lambda$animateTabsY$9(this.f$1, valueAnimator);
+        this.f$0.lambda$animateTabsY$8(this.f$1, valueAnimator);
     }
 }

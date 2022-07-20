@@ -1,16 +1,14 @@
 package org.telegram.messenger;
 
 import com.android.billingclient.api.BillingResult;
-import com.android.billingclient.api.ConsumeResponseListener;
+import com.android.billingclient.api.PurchasesResponseListener;
+import java.util.List;
 /* loaded from: classes.dex */
-public final /* synthetic */ class BillingController$$ExternalSyntheticLambda1 implements ConsumeResponseListener {
-    public static final /* synthetic */ BillingController$$ExternalSyntheticLambda1 INSTANCE = new BillingController$$ExternalSyntheticLambda1();
+public final /* synthetic */ class BillingController$$ExternalSyntheticLambda1 implements PurchasesResponseListener {
+    public final /* synthetic */ BillingController f$0;
 
-    private /* synthetic */ BillingController$$ExternalSyntheticLambda1() {
-    }
-
-    @Override // com.android.billingclient.api.ConsumeResponseListener
-    public final void onConsumeResponse(BillingResult billingResult, String str) {
-        BillingController.lambda$onPurchasesUpdated$3(billingResult, str);
+    @Override // com.android.billingclient.api.PurchasesResponseListener
+    public final void onQueryPurchasesResponse(BillingResult billingResult, List list) {
+        this.f$0.onPurchasesUpdated(billingResult, list);
     }
 }

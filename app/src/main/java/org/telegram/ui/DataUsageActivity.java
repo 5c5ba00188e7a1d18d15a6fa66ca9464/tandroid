@@ -71,7 +71,7 @@ public class DataUsageActivity extends BaseFragment {
     public View createView(Context context) {
         RecyclerListView.Holder holder;
         this.actionBar.setBackButtonImage(2131165449);
-        this.actionBar.setTitle(LocaleController.getString("NetworkUsage", 2131626815));
+        this.actionBar.setTitle(LocaleController.getString("NetworkUsage", 2131626763));
         boolean z = false;
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
@@ -526,10 +526,10 @@ public class DataUsageActivity extends BaseFragment {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("ResetStatisticsAlertTitle", 2131628071));
-        builder.setMessage(LocaleController.getString("ResetStatisticsAlert", 2131628070));
-        builder.setPositiveButton(LocaleController.getString("Reset", 2131628042), new DataUsageActivity$$ExternalSyntheticLambda0(this, listAdapter));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+        builder.setTitle(LocaleController.getString("ResetStatisticsAlertTitle", 2131628009));
+        builder.setMessage(LocaleController.getString("ResetStatisticsAlert", 2131628008));
+        builder.setPositiveButton(LocaleController.getString("Reset", 2131627980), new DataUsageActivity$$ExternalSyntheticLambda0(this, listAdapter));
+        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
         AlertDialog create = builder.create();
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
@@ -627,9 +627,9 @@ public class DataUsageActivity extends BaseFragment {
         if (scrollSlidingTextTabStrip == null) {
             return;
         }
-        scrollSlidingTextTabStrip.addTextTab(0, LocaleController.getString("NetworkUsageMobileTab", 2131626816));
-        this.scrollSlidingTextTabStrip.addTextTab(1, LocaleController.getString("NetworkUsageWiFiTab", 2131626819));
-        this.scrollSlidingTextTabStrip.addTextTab(2, LocaleController.getString("NetworkUsageRoamingTab", 2131626817));
+        scrollSlidingTextTabStrip.addTextTab(0, LocaleController.getString("NetworkUsageMobileTab", 2131626764));
+        this.scrollSlidingTextTabStrip.addTextTab(1, LocaleController.getString("NetworkUsageWiFiTab", 2131626767));
+        this.scrollSlidingTextTabStrip.addTextTab(2, LocaleController.getString("NetworkUsageRoamingTab", 2131626765));
         this.scrollSlidingTextTabStrip.setVisibility(0);
         this.actionBar.setExtraHeight(AndroidUtilities.dp(44.0f));
         int currentTabId = this.scrollSlidingTextTabStrip.getCurrentTabId();
@@ -872,39 +872,39 @@ public class DataUsageActivity extends BaseFragment {
                     }
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                     textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
-                    textInfoPrivacyCell.setText(LocaleController.formatString("NetworkUsageSince", 2131626818, LocaleController.getInstance().formatterStats.format(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getResetStatsDate(this.currentType))));
+                    textInfoPrivacyCell.setText(LocaleController.formatString("NetworkUsageSince", 2131626766, LocaleController.getInstance().formatterStats.format(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getResetStatsDate(this.currentType))));
                     return;
                 }
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i == this.totalSectionRow) {
-                    headerCell.setText(LocaleController.getString("TotalDataUsage", 2131628754));
+                    headerCell.setText(LocaleController.getString("TotalDataUsage", 2131628687));
                     return;
                 } else if (i == this.callsSectionRow) {
-                    headerCell.setText(LocaleController.getString("CallsDataUsage", 2131624823));
+                    headerCell.setText(LocaleController.getString("CallsDataUsage", 2131624810));
                     return;
                 } else if (i == this.filesSectionRow) {
-                    headerCell.setText(LocaleController.getString("FilesDataUsage", 2131625850));
+                    headerCell.setText(LocaleController.getString("FilesDataUsage", 2131625809));
                     return;
                 } else if (i == this.audiosSectionRow) {
-                    headerCell.setText(LocaleController.getString("LocalAudioCache", 2131626524));
+                    headerCell.setText(LocaleController.getString("LocalAudioCache", 2131626477));
                     return;
                 } else if (i == this.videosSectionRow) {
-                    headerCell.setText(LocaleController.getString("LocalVideoCache", 2131626535));
+                    headerCell.setText(LocaleController.getString("LocalVideoCache", 2131626488));
                     return;
                 } else if (i == this.photosSectionRow) {
-                    headerCell.setText(LocaleController.getString("LocalPhotoCache", 2131626534));
+                    headerCell.setText(LocaleController.getString("LocalPhotoCache", 2131626487));
                     return;
                 } else if (i != this.messagesSectionRow) {
                     return;
                 } else {
-                    headerCell.setText(LocaleController.getString("MessagesDataUsage", 2131626718));
+                    headerCell.setText(LocaleController.getString("MessagesDataUsage", 2131626666));
                     return;
                 }
             }
             TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
             if (i == this.resetRow) {
                 textSettingsCell.setTag("windowBackgroundWhiteRedText2");
-                textSettingsCell.setText(LocaleController.getString("ResetStatistics", 2131628069), false);
+                textSettingsCell.setText(LocaleController.getString("ResetStatistics", 2131628007), false);
                 textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText2"));
                 return;
             }
@@ -925,20 +925,20 @@ public class DataUsageActivity extends BaseFragment {
                 }
             }
             if (i == i3) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("OutgoingCalls", 2131627176), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentItemsCount(this.currentType, i2))), true);
+                textSettingsCell.setTextAndValue(LocaleController.getString("OutgoingCalls", 2131627124), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentItemsCount(this.currentType, i2))), true);
             } else if (i == this.callsReceivedRow) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("IncomingCalls", 2131626276), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getRecivedItemsCount(this.currentType, i2))), true);
+                textSettingsCell.setTextAndValue(LocaleController.getString("IncomingCalls", 2131626229), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getRecivedItemsCount(this.currentType, i2))), true);
             } else if (i == this.callsTotalTimeRow) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("CallsTotalTime", 2131624824), AndroidUtilities.formatShortDuration(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getCallsTotalTime(this.currentType)), false);
+                textSettingsCell.setTextAndValue(LocaleController.getString("CallsTotalTime", 2131624811), AndroidUtilities.formatShortDuration(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getCallsTotalTime(this.currentType)), false);
             } else if (i == this.messagesSentRow || i == this.photosSentRow || i == this.videosSentRow || i == this.audiosSentRow || i == this.filesSentRow) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("CountSent", 2131625282), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentItemsCount(this.currentType, i2))), true);
+                textSettingsCell.setTextAndValue(LocaleController.getString("CountSent", 2131625266), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentItemsCount(this.currentType, i2))), true);
             } else if (i == this.messagesReceivedRow || i == this.photosReceivedRow || i == this.videosReceivedRow || i == this.audiosReceivedRow || i == this.filesReceivedRow) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("CountReceived", 2131625281), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getRecivedItemsCount(this.currentType, i2))), true);
+                textSettingsCell.setTextAndValue(LocaleController.getString("CountReceived", 2131625265), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getRecivedItemsCount(this.currentType, i2))), true);
             } else if (i == this.messagesBytesSentRow || i == this.photosBytesSentRow || i == this.videosBytesSentRow || i == this.audiosBytesSentRow || i == this.filesBytesSentRow || i == this.callsBytesSentRow || i == this.totalBytesSentRow) {
-                textSettingsCell.setTextAndValue(LocaleController.getString("BytesSent", 2131624779), AndroidUtilities.formatFileSize(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentBytesCount(this.currentType, i2)), true);
+                textSettingsCell.setTextAndValue(LocaleController.getString("BytesSent", 2131624766), AndroidUtilities.formatFileSize(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentBytesCount(this.currentType, i2)), true);
             } else if (i != this.messagesBytesReceivedRow && i != this.photosBytesReceivedRow && i != this.videosBytesReceivedRow && i != this.audiosBytesReceivedRow && i != this.filesBytesReceivedRow && i != this.callsBytesReceivedRow && i != this.totalBytesReceivedRow) {
             } else {
-                String string = LocaleController.getString("BytesReceived", 2131624778);
+                String string = LocaleController.getString("BytesReceived", 2131624765);
                 String formatFileSize = AndroidUtilities.formatFileSize(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getReceivedBytesCount(this.currentType, i2));
                 if (i == this.callsBytesReceivedRow) {
                     z = true;

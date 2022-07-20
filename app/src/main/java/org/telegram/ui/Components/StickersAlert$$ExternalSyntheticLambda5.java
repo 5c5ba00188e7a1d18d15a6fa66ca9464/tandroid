@@ -11,6 +11,6 @@ public final /* synthetic */ class StickersAlert$$ExternalSyntheticLambda5 imple
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        this.f$0.lambda$updateFields$19(view);
+        this.f$0.lambda$init$12(view);
     }
 }

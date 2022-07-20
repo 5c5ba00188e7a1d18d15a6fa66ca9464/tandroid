@@ -494,17 +494,17 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         } else {
             int i2 = this.type;
             if (i2 == 0) {
-                this.actionBar.setTitle(LocaleController.getString("SearchImagesTitle", 2131628177));
+                this.actionBar.setTitle(LocaleController.getString("SearchImagesTitle", 2131628115));
             } else if (i2 == 1) {
-                this.actionBar.setTitle(LocaleController.getString("SearchGifsTitle", 2131628174));
+                this.actionBar.setTitle(LocaleController.getString("SearchGifsTitle", 2131628112));
             }
         }
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
         if (this.isDocumentsPicker) {
             ActionBarMenuItem addItem = this.actionBar.createMenu().addItem(0, 2131165453);
             addItem.setSubMenuDelegate(new AnonymousClass3());
-            this.showAsListItem = addItem.addSubItem(1, 2131165787, LocaleController.getString("ShowAsList", 2131628397));
-            addItem.addSubItem(2, 2131165832, LocaleController.getString("OpenInExternalApp", 2131627153));
+            this.showAsListItem = addItem.addSubItem(1, 2131165786, LocaleController.getString("ShowAsList", 2131628335));
+            addItem.addSubItem(2, 2131165831, LocaleController.getString("OpenInExternalApp", 2131627101));
         }
         if (this.selectedAlbum == null) {
             ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass4());
@@ -517,9 +517,9 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         if (this.selectedAlbum == null) {
             int i3 = this.type;
             if (i3 == 0) {
-                this.searchItem.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628177));
+                this.searchItem.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628115));
             } else if (i3 == 1) {
-                this.searchItem.setSearchFieldHint(LocaleController.getString("SearchGifsTitle", 2131628174));
+                this.searchItem.setSearchFieldHint(LocaleController.getString("SearchGifsTitle", 2131628112));
             }
         }
         AnonymousClass5 anonymousClass5 = new AnonymousClass5(context);
@@ -566,9 +566,9 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         this.emptyView.title.setTextColor(getThemedColor("windowBackgroundWhiteGrayText"));
         this.emptyView.addView(this.flickerView, 0);
         if (this.selectedAlbum != null) {
-            this.emptyView.title.setText(LocaleController.getString("NoPhotos", 2131626899));
+            this.emptyView.title.setText(LocaleController.getString("NoPhotos", 2131626847));
         } else {
-            this.emptyView.title.setText(LocaleController.getString("NoRecentSearches", 2131626908));
+            this.emptyView.title.setText(LocaleController.getString("NoRecentSearches", 2131626856));
         }
         this.emptyView.showProgress(false, false);
         this.sizeNotifierFrameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 126.0f, 0.0f, 0.0f));
@@ -593,9 +593,9 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             if (editTextEmoji != null) {
                 editTextEmoji.onDestroy();
             }
-            this.commentTextView = new EditTextEmoji(context, this.sizeNotifierFrameLayout, null, 1, false);
+            this.commentTextView = new EditTextEmoji(context, this.sizeNotifierFrameLayout, null, 1);
             this.commentTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MessagesController.getInstance(UserConfig.selectedAccount).maxCaptionLength)});
-            this.commentTextView.setHint(LocaleController.getString("AddCaption", 2131624263));
+            this.commentTextView.setHint(LocaleController.getString("AddCaption", 2131624258));
             this.commentTextView.onResume();
             EditTextCaption editText = this.commentTextView.getEditText();
             editText.setMaxLines(1);
@@ -712,14 +712,14 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             int i;
             ActionBarMenuSubItem actionBarMenuSubItem = PhotoPickerActivity.this.showAsListItem;
             if (PhotoPickerActivity.this.listSort) {
-                i = 2131628396;
+                i = 2131628334;
                 str = "ShowAsGrid";
             } else {
-                i = 2131628397;
+                i = 2131628335;
                 str = "ShowAsList";
             }
             actionBarMenuSubItem.setText(LocaleController.getString(str, i));
-            PhotoPickerActivity.this.showAsListItem.setIcon(PhotoPickerActivity.this.listSort ? 2131165799 : 2131165787);
+            PhotoPickerActivity.this.showAsListItem.setIcon(PhotoPickerActivity.this.listSort ? 2131165798 : 2131165786);
         }
     }
 
@@ -754,7 +754,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     ConnectionsManager.getInstance(((BaseFragment) PhotoPickerActivity.this).currentAccount).cancelRequest(PhotoPickerActivity.this.imageReqId, true);
                     PhotoPickerActivity.this.imageReqId = 0;
                 }
-                PhotoPickerActivity.this.emptyView.title.setText(LocaleController.getString("NoRecentSearches", 2131626908));
+                PhotoPickerActivity.this.emptyView.title.setText(LocaleController.getString("NoRecentSearches", 2131626856));
                 PhotoPickerActivity.this.emptyView.showProgress(false);
                 PhotoPickerActivity.this.updateSearchInterface();
                 return;
@@ -1049,10 +1049,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 return;
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("ClearSearchAlertTitle", 2131625177));
-                builder.setMessage(LocaleController.getString("ClearSearchAlert", 2131625170));
-                builder.setPositiveButton(LocaleController.getString("ClearButton", 2131625146).toUpperCase(), new PhotoPickerActivity$$ExternalSyntheticLambda0(this));
-                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+                builder.setTitle(LocaleController.getString("ClearSearchAlertTitle", 2131625161));
+                builder.setMessage(LocaleController.getString("ClearSearchAlert", 2131625154));
+                builder.setPositiveButton(LocaleController.getString("ClearButton", 2131625132).toUpperCase(), new PhotoPickerActivity$$ExternalSyntheticLambda0(this));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
                 AlertDialog create = builder.create();
                 showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
@@ -1294,12 +1294,12 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                         this.itemCells[i] = new ActionBarMenuSubItem(getParentActivity(), i == 0, i == 1);
                         if (i == 0) {
                             if (UserObject.isUserSelf(currentUser)) {
-                                this.itemCells[i].setTextAndIcon(LocaleController.getString("SetReminder", 2131628310), 2131165662);
+                                this.itemCells[i].setTextAndIcon(LocaleController.getString("SetReminder", 2131628248), 2131165662);
                             } else {
-                                this.itemCells[i].setTextAndIcon(LocaleController.getString("ScheduleMessage", 2131628144), 2131165662);
+                                this.itemCells[i].setTextAndIcon(LocaleController.getString("ScheduleMessage", 2131628082), 2131165662);
                             }
                         } else {
-                            this.itemCells[i].setTextAndIcon(LocaleController.getString("SendWithoutSound", 2131628274), 2131165539);
+                            this.itemCells[i].setTextAndIcon(LocaleController.getString("SendWithoutSound", 2131628212), 2131165539);
                         }
                         this.itemCells[i].setMinimumWidth(AndroidUtilities.dp(196.0f));
                         this.sendPopupLayout.addView((View) this.itemCells[i], LayoutHelper.createLinear(-1, 48));
@@ -1311,7 +1311,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.sendPopupLayout, -2, -2);
                 this.sendPopupWindow = actionBarPopupWindow;
                 actionBarPopupWindow.setAnimationEnabled(false);
-                this.sendPopupWindow.setAnimationStyle(2131689482);
+                this.sendPopupWindow.setAnimationStyle(2131689481);
                 this.sendPopupWindow.setOutsideTouchable(true);
                 this.sendPopupWindow.setClippingEnabled(true);
                 this.sendPopupWindow.setInputMethodMode(2);
@@ -1555,9 +1555,9 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         this.lastSearchString = obj;
         if (obj.length() == 0) {
             this.lastSearchString = null;
-            this.emptyView.title.setText(LocaleController.getString("NoRecentSearches", 2131626908));
+            this.emptyView.title.setText(LocaleController.getString("NoRecentSearches", 2131626856));
         } else {
-            this.emptyView.title.setText(LocaleController.formatString("NoResultFoundFor", 2131626911, this.lastSearchString));
+            this.emptyView.title.setText(LocaleController.formatString("NoResultFoundFor", 2131626859, this.lastSearchString));
         }
         updateSearchInterface();
     }
@@ -2108,7 +2108,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 if (!PhotoPickerActivity.this.allowOrder || PhotoPickerActivity.this.chatActivity == null || (currentChat = PhotoPickerActivity.this.chatActivity.getCurrentChat()) == null || ChatObject.hasAdminRights(currentChat) || !currentChat.slowmode_enabled || PhotoPickerActivity.this.alertOnlyOnce == 2) {
                     return;
                 }
-                AlertsCreator.showSimpleAlert(PhotoPickerActivity.this, LocaleController.getString("Slowmode", 2131628423), LocaleController.getString("SlowmodeSelectSendError", 2131628430));
+                AlertsCreator.showSimpleAlert(PhotoPickerActivity.this, LocaleController.getString("Slowmode", 2131628360), LocaleController.getString("SlowmodeSelectSendError", 2131628367));
                 if (PhotoPickerActivity.this.alertOnlyOnce != 1) {
                     return;
                 }
@@ -2225,10 +2225,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 } else {
                     TextCell textCell = (TextCell) viewHolder.itemView;
                     if (i < PhotoPickerActivity.this.recentSearches.size()) {
-                        textCell.setTextAndIcon((String) PhotoPickerActivity.this.recentSearches.get(i), 2131165893, false);
+                        textCell.setTextAndIcon((String) PhotoPickerActivity.this.recentSearches.get(i), 2131165891, false);
                         return;
                     } else {
-                        textCell.setTextAndIcon(LocaleController.getString("ClearRecentHistory", 2131625166), 2131165684, false);
+                        textCell.setTextAndIcon(LocaleController.getString("ClearRecentHistory", 2131625150), 2131165684, false);
                         return;
                     }
                 }

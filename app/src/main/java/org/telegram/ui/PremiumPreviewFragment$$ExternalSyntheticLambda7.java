@@ -1,14 +1,17 @@
 package org.telegram.ui;
-/* loaded from: classes3.dex */
-public final /* synthetic */ class PremiumPreviewFragment$$ExternalSyntheticLambda7 implements Runnable {
-    public final /* synthetic */ PremiumPreviewFragment f$0;
 
-    public /* synthetic */ PremiumPreviewFragment$$ExternalSyntheticLambda7(PremiumPreviewFragment premiumPreviewFragment) {
-        this.f$0 = premiumPreviewFragment;
+import org.telegram.tgnet.RequestDelegate;
+import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$TL_error;
+/* loaded from: classes3.dex */
+public final /* synthetic */ class PremiumPreviewFragment$$ExternalSyntheticLambda7 implements RequestDelegate {
+    public static final /* synthetic */ PremiumPreviewFragment$$ExternalSyntheticLambda7 INSTANCE = new PremiumPreviewFragment$$ExternalSyntheticLambda7();
+
+    private /* synthetic */ PremiumPreviewFragment$$ExternalSyntheticLambda7() {
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        this.f$0.lambda$createView$2();
+    @Override // org.telegram.tgnet.RequestDelegate
+    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        PremiumPreviewFragment.lambda$sentPremiumButtonClick$8(tLObject, tLRPC$TL_error);
     }
 }

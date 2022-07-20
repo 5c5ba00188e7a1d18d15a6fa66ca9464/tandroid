@@ -9,6 +9,6 @@ public final /* synthetic */ class ChatAttachAlertBotWebViewLayout$$ExternalSynt
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$onShown$11();
+        this.f$0.lambda$new$3();
     }
 }

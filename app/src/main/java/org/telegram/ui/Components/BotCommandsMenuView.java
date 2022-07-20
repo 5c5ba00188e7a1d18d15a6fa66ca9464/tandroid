@@ -38,7 +38,7 @@ public class BotCommandsMenuView extends View {
     final RectF rectTmp = new RectF();
     final Paint paint = new Paint(1);
     RLottieDrawable webViewAnimation = new AnonymousClass2(2131558411, String.valueOf(2131558411) + hashCode(), AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f));
-    private String menuText = LocaleController.getString(2131624767);
+    private String menuText = LocaleController.getString(2131624754);
     boolean drawBackgroundDrawable = true;
 
     protected void onTranslationChanged(float f) {
@@ -109,14 +109,14 @@ public class BotCommandsMenuView extends View {
     @Override // android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        this.webViewAnimation.setMasterParent(this);
+        this.webViewAnimation.addParentView(this);
         this.webViewAnimation.setCurrentParentView(this);
     }
 
     @Override // android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        this.webViewAnimation.setMasterParent(this);
+        this.webViewAnimation.removeParentView(this);
     }
 
     public void setWebView(boolean z) {
@@ -256,7 +256,7 @@ public class BotCommandsMenuView extends View {
 
     public boolean setMenuText(String str) {
         if (str == null) {
-            str = LocaleController.getString(2131624767);
+            str = LocaleController.getString(2131624754);
         }
         String str2 = this.menuText;
         boolean z = str2 == null || !str2.equals(str);
@@ -345,6 +345,9 @@ public class BotCommandsMenuView extends View {
                 return;
             }
             RLottieDrawable rLottieDrawable = this.webViewAnimation;
+            if (!rLottieDrawable.hasParentView()) {
+                rLottieDrawable.addParentView(this);
+            }
             rLottieDrawable.stop();
             rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
             if (z) {

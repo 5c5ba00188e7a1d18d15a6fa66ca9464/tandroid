@@ -605,10 +605,10 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(LocaleController.getString("AppName", 2131624384));
-        builder.setMessage(LocaleController.getString("PermissionNoAudioWithHint", 2131627524));
-        builder.setNegativeButton(LocaleController.getString("PermissionOpenSettings", 2131627535), new PopupNotificationActivity$$ExternalSyntheticLambda0(this));
-        builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
+        builder.setTitle(LocaleController.getString("AppName", 2131624375));
+        builder.setMessage(LocaleController.getString("PermissionNoAudioWithHint", 2131627472));
+        builder.setNegativeButton(LocaleController.getString("PermissionOpenSettings", 2131627483), new PopupNotificationActivity$$ExternalSyntheticLambda0(this));
+        builder.setPositiveButton(LocaleController.getString("OK", 2131627075), null);
         builder.show();
     }
 
@@ -1504,7 +1504,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         }
         TLRPC$User tLRPC$User2 = this.currentUser;
         if (tLRPC$User2 != null && tLRPC$User2.id == 777000) {
-            this.onlineTextView.setText(LocaleController.getString("ServiceNotifications", 2131628291));
+            this.onlineTextView.setText(LocaleController.getString("ServiceNotifications", 2131628229));
             return;
         }
         CharSequence printingString = MessagesController.getInstance(this.currentMessageObject.currentAccount).getPrintingString(this.currentMessageObject.getDialogId(), 0, false);

@@ -3,6 +3,7 @@ package org.telegram.ui.Cells;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.AccelerateInterpolator;
@@ -26,18 +27,17 @@ import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeSticker;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.ListView.RecyclerListViewWithOverlayDraw;
 import org.telegram.ui.Components.Premium.PremiumLockIconView;
 /* loaded from: classes3.dex */
-public class StickerEmojiCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, RecyclerListViewWithOverlayDraw.OverlayView {
+public class StickerEmojiCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static AccelerateInterpolator interpolator = new AccelerateInterpolator(0.5f);
     private boolean changingAlpha;
     private String currentEmoji;
-    private boolean drawInParentView;
     private TextView emojiTextView;
     private boolean fromEmojiPanel;
-    private ImageReceiver imageView;
+    private BackupImageView imageView;
     private boolean isPremiumSticker;
     private long lastUpdateTime;
     private Object parentObject;
@@ -56,19 +56,20 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
     public StickerEmojiCell(Context context, boolean z) {
         super(context);
         this.fromEmojiPanel = z;
-        ImageReceiver imageReceiver = new ImageReceiver();
-        this.imageView = imageReceiver;
-        imageReceiver.setAspectFit(true);
+        BackupImageView backupImageView = new BackupImageView(context);
+        this.imageView = backupImageView;
+        backupImageView.setAspectFit(true);
         this.imageView.setLayerNum(1);
+        addView(this.imageView, LayoutHelper.createFrame(66, 66, 17));
         TextView textView = new TextView(context);
         this.emojiTextView = textView;
         textView.setTextSize(1, 16.0f);
         new Paint(1).setColor(Theme.getColor("featuredStickers_addButton"));
         PremiumLockIconView premiumLockIconView = new PremiumLockIconView(context, PremiumLockIconView.TYPE_STICKERS_PREMIUM_LOCKED);
         this.premiumIconView = premiumLockIconView;
-        premiumLockIconView.setImageReceiver(this.imageView);
+        premiumLockIconView.setImageReceiver(this.imageView.getImageReceiver());
         this.premiumIconView.setPadding(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f));
-        this.premiumIconView.setImageReceiver(this.imageView);
+        this.premiumIconView.setImageReceiver(this.imageView.getImageReceiver());
         addView(this.premiumIconView, LayoutHelper.createFrame(24, 24.0f, 81, 0.0f, 0.0f, 0.0f, 0.0f));
         setFocusable(true);
     }
@@ -111,13 +112,13 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
     }
 
     public MessageObject.SendAnimationData getSendAnimationData() {
-        ImageReceiver imageReceiver = this.imageView;
+        ImageReceiver imageReceiver = this.imageView.getImageReceiver();
         if (!imageReceiver.hasNotThumb()) {
             return null;
         }
         MessageObject.SendAnimationData sendAnimationData = new MessageObject.SendAnimationData();
         int[] iArr = new int[2];
-        getLocationInWindow(iArr);
+        this.imageView.getLocationInWindow(iArr);
         sendAnimationData.x = imageReceiver.getCenterX() + iArr[0];
         sendAnimationData.y = imageReceiver.getCenterY() + iArr[1];
         sendAnimationData.width = imageReceiver.getImageWidth();
@@ -125,28 +126,23 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
         return sendAnimationData;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x01e4, code lost:
-        r7 = false;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void setSticker(TLRPC$Document tLRPC$Document, SendMessagesHelper.ImportingSticker importingSticker, Object obj, String str, boolean z) {
+        boolean z2;
         this.currentEmoji = str;
         boolean isPremiumSticker = MessageObject.isPremiumSticker(tLRPC$Document);
         this.isPremiumSticker = isPremiumSticker;
-        this.drawInParentView = false;
         if (isPremiumSticker) {
             this.premiumIconView.setColor(Theme.getColor("windowBackgroundWhite"));
             this.premiumIconView.setWaitingImage();
         }
+        TLRPC$PhotoSize tLRPC$PhotoSize = null;
         float f = 1.0f;
         if (importingSticker != null) {
             this.stickerPath = importingSticker;
             if (importingSticker.validated) {
-                this.imageView.setImage(ImageLocation.getForPath(importingSticker.path), "80_80", null, null, DocumentObject.getSvgRectThumb("dialogBackgroundGray", 1.0f), 0L, importingSticker.animated ? "tgs" : null, 0, 1);
+                this.imageView.setImage(ImageLocation.getForPath(importingSticker.path), "80_80", null, null, DocumentObject.getSvgRectThumb("dialogBackgroundGray", 1.0f), null, importingSticker.animated ? "tgs" : null, 0, null);
             } else {
-                this.imageView.setImage(null, null, null, null, DocumentObject.getSvgRectThumb("dialogBackgroundGray", 1.0f), 0L, importingSticker.animated ? "tgs" : null, 0, 1);
+                this.imageView.setImage(null, null, null, null, DocumentObject.getSvgRectThumb("dialogBackgroundGray", 1.0f), null, importingSticker.animated ? "tgs" : null, 0, null);
             }
             if (str != null) {
                 TextView textView = this.emojiTextView;
@@ -158,36 +154,33 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
         } else if (tLRPC$Document != null) {
             this.sticker = tLRPC$Document;
             this.parentObject = obj;
-            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
-            boolean z2 = this.fromEmojiPanel;
-            String str2 = z2 ? "emptyListPlaceholder" : "windowBackgroundGray";
-            if (z2) {
+            if (!MessageObject.isVideoSticker(tLRPC$Document) || !MessageObject.canAutoplayAnimatedSticker(tLRPC$Document)) {
+                tLRPC$PhotoSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
+            }
+            boolean z3 = this.fromEmojiPanel;
+            String str2 = z3 ? "emptyListPlaceholder" : "windowBackgroundGray";
+            if (z3) {
                 f = 0.2f;
             }
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document, str2, f);
-            String str3 = this.fromEmojiPanel ? "66_66_pcache_compress" : "66_66";
-            boolean z3 = true;
             if (MessageObject.canAutoplayAnimatedSticker(tLRPC$Document)) {
-                if (this.fromEmojiPanel) {
-                    this.drawInParentView = true;
-                }
                 if (svgThumb != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, null, svgThumb, 0L, null, this.parentObject, 1);
-                } else if (closestPhotoSizeWithSize != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), (String) null, (String) null, this.parentObject, 1);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "66_66", (String) null, svgThumb, this.parentObject);
+                } else if (tLRPC$PhotoSize != null) {
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "66_66", ImageLocation.getForDocument(tLRPC$PhotoSize, tLRPC$Document), (String) null, 0, this.parentObject);
                 } else {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, null, null, this.parentObject, 1);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "66_66", (String) null, (Drawable) null, this.parentObject);
                 }
             } else if (svgThumb != null) {
-                if (closestPhotoSizeWithSize != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), str3, svgThumb, "webp", this.parentObject, 1);
+                if (tLRPC$PhotoSize != null) {
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$PhotoSize, tLRPC$Document), "66_66", "webp", svgThumb, this.parentObject);
                 } else {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, svgThumb, "webp", this.parentObject, 1);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "66_66", "webp", svgThumb, this.parentObject);
                 }
-            } else if (closestPhotoSizeWithSize != null) {
-                this.imageView.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), str3, null, "webp", this.parentObject, 1);
+            } else if (tLRPC$PhotoSize != null) {
+                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$PhotoSize, tLRPC$Document), "66_66", "webp", (Drawable) null, this.parentObject);
             } else {
-                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, null, "webp", this.parentObject, 1);
+                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "66_66", "webp", (Drawable) null, this.parentObject);
             }
             if (str != null) {
                 TextView textView2 = this.emojiTextView;
@@ -201,16 +194,18 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
                     }
                     TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i);
                     if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) {
-                        String str4 = tLRPC$DocumentAttribute.alt;
-                        if (str4 != null && str4.length() > 0) {
+                        String str3 = tLRPC$DocumentAttribute.alt;
+                        if (str3 != null && str3.length() > 0) {
                             TextView textView3 = this.emojiTextView;
                             textView3.setText(Emoji.replaceEmoji(tLRPC$DocumentAttribute.alt, textView3.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false));
+                            z2 = true;
                         }
                     } else {
                         i++;
                     }
                 }
-                if (!z3) {
+                z2 = false;
+                if (!z2) {
                     this.emojiTextView.setText(Emoji.replaceEmoji(MediaDataController.getInstance(this.currentAccount).getEmojiForSticker(this.sticker.id), this.emojiTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false));
                 }
                 this.emojiTextView.setVisibility(0);
@@ -219,12 +214,7 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
             }
         }
         updatePremiumStatus(false);
-        this.imageView.setAlpha(this.alpha * this.premiumAlpha);
-        if (this.drawInParentView) {
-            this.imageView.setParentView((View) getParent());
-        } else {
-            this.imageView.setParentView(this);
-        }
+        this.imageView.getImageReceiver().setAlpha(this.alpha * this.premiumAlpha);
     }
 
     private void updatePremiumStatus(boolean z) {
@@ -260,7 +250,7 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
         this.changingAlpha = true;
         this.alpha = 0.5f;
         this.time = 0L;
-        this.imageView.setAlpha(0.5f * this.premiumAlpha);
+        this.imageView.getImageReceiver().setAlpha(this.alpha * this.premiumAlpha);
         this.imageView.invalidate();
         this.lastUpdateTime = System.currentTimeMillis();
         invalidate();
@@ -277,26 +267,75 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
     }
 
     public boolean showingBitmap() {
-        return this.imageView.getBitmap() != null;
+        return this.imageView.getImageReceiver().getBitmap() != null;
     }
 
-    public ImageReceiver getImageView() {
+    public BackupImageView getImageView() {
         return this.imageView;
     }
 
     @Override // android.view.View
     public void invalidate() {
-        if (this.drawInParentView && getParent() != null) {
-            ((View) getParent()).invalidate();
-        }
         this.emojiTextView.invalidate();
         super.invalidate();
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void dispatchDraw(Canvas canvas) {
+        this.imageView.getImageReceiver().setAlpha(this.alpha * this.premiumAlpha);
+        super.dispatchDraw(canvas);
+    }
+
+    @Override // android.view.ViewGroup
+    protected boolean drawChild(Canvas canvas, View view, long j) {
+        boolean z;
+        boolean drawChild = super.drawChild(canvas, view, j);
+        if (view == this.imageView && (this.changingAlpha || (((z = this.scaled) && this.scale != 0.8f) || (!z && this.scale != 1.0f)))) {
+            long currentTimeMillis = System.currentTimeMillis();
+            long j2 = currentTimeMillis - this.lastUpdateTime;
+            this.lastUpdateTime = currentTimeMillis;
+            if (this.changingAlpha) {
+                long j3 = this.time + j2;
+                this.time = j3;
+                if (j3 > 1050) {
+                    this.time = 1050L;
+                }
+                float interpolation = (interpolator.getInterpolation(((float) this.time) / 150.0f) * 0.5f) + 0.5f;
+                this.alpha = interpolation;
+                if (interpolation >= 1.0f) {
+                    this.changingAlpha = false;
+                    this.alpha = 1.0f;
+                }
+                this.imageView.getImageReceiver().setAlpha(this.alpha * this.premiumAlpha);
+            } else {
+                if (this.scaled) {
+                    float f = this.scale;
+                    if (f != 0.8f) {
+                        float f2 = f - (((float) j2) / 400.0f);
+                        this.scale = f2;
+                        if (f2 < 0.8f) {
+                            this.scale = 0.8f;
+                        }
+                    }
+                }
+                float f3 = this.scale + (((float) j2) / 400.0f);
+                this.scale = f3;
+                if (f3 > 1.0f) {
+                    this.scale = 1.0f;
+                }
+            }
+            this.imageView.setScaleX(this.scale);
+            this.imageView.setScaleY(this.scale);
+            this.imageView.invalidate();
+            invalidate();
+        }
+        return drawChild;
     }
 
     @Override // android.view.View
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-        String string = LocaleController.getString("AttachSticker", 2131624516);
+        String string = LocaleController.getString("AttachSticker", 2131624505);
         if (this.sticker != null) {
             int i = 0;
             while (true) {
@@ -323,19 +362,12 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (this.drawInParentView) {
-            this.imageView.setParentView((View) getParent());
-        } else {
-            this.imageView.setParentView(this);
-        }
-        this.imageView.onAttachedToWindow();
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
     }
 
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        this.imageView.onDetachedFromWindow();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
     }
 
@@ -344,76 +376,5 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
         if (i == NotificationCenter.currentUserPremiumStatusChanged) {
             updatePremiumStatus(true);
         }
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void dispatchDraw(Canvas canvas) {
-        if (!this.drawInParentView) {
-            drawInternal(this, canvas);
-        }
-        super.dispatchDraw(canvas);
-    }
-
-    @Override // org.telegram.ui.Components.ListView.RecyclerListViewWithOverlayDraw.OverlayView
-    public void preDraw(View view, Canvas canvas) {
-        if (this.drawInParentView) {
-            drawInternal(view, canvas);
-        }
-    }
-
-    private void drawInternal(View view, Canvas canvas) {
-        boolean z;
-        if (this.changingAlpha || (((z = this.scaled) && this.scale != 0.8f) || (!z && this.scale != 1.0f))) {
-            long currentTimeMillis = System.currentTimeMillis();
-            long j = currentTimeMillis - this.lastUpdateTime;
-            this.lastUpdateTime = currentTimeMillis;
-            if (this.changingAlpha) {
-                long j2 = this.time + j;
-                this.time = j2;
-                if (j2 > 1050) {
-                    this.time = 1050L;
-                }
-                float interpolation = (interpolator.getInterpolation(((float) this.time) / 150.0f) * 0.5f) + 0.5f;
-                this.alpha = interpolation;
-                if (interpolation >= 1.0f) {
-                    this.changingAlpha = false;
-                    this.alpha = 1.0f;
-                }
-                this.imageView.setAlpha(this.alpha * this.premiumAlpha);
-            } else {
-                if (this.scaled) {
-                    float f = this.scale;
-                    if (f != 0.8f) {
-                        float f2 = f - (((float) j) / 400.0f);
-                        this.scale = f2;
-                        if (f2 < 0.8f) {
-                            this.scale = 0.8f;
-                        }
-                    }
-                }
-                float f3 = this.scale + (((float) j) / 400.0f);
-                this.scale = f3;
-                if (f3 > 1.0f) {
-                    this.scale = 1.0f;
-                }
-            }
-            view.invalidate();
-        }
-        int min = Math.min(AndroidUtilities.dp(66.0f), Math.min(getMeasuredHeight(), getMeasuredWidth()));
-        float measuredWidth = getMeasuredWidth() >> 1;
-        float f4 = min;
-        float f5 = f4 / 2.0f;
-        float measuredHeight = getMeasuredHeight() >> 1;
-        this.imageView.setImageCoords(measuredWidth - f5, measuredHeight - f5, f4, f4);
-        this.imageView.setAlpha(this.alpha * this.premiumAlpha);
-        if (this.scale != 1.0f) {
-            canvas.save();
-            float f6 = this.scale;
-            canvas.scale(f6, f6, measuredWidth, measuredHeight);
-            this.imageView.draw(canvas);
-            canvas.restore();
-            return;
-        }
-        this.imageView.draw(canvas);
     }
 }

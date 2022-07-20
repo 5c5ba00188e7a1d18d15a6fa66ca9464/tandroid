@@ -69,7 +69,7 @@ public class StroageUsageView extends FrameLayout {
         TextView textView = new TextView(context);
         this.calculatingTextView = textView;
         textView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
-        String string = LocaleController.getString("CalculatingSize", 2131624783);
+        String string = LocaleController.getString("CalculatingSize", 2131624770);
         int indexOf = string.indexOf("...");
         if (indexOf >= 0) {
             SpannableString spannableString = new SpannableString(string);
@@ -167,9 +167,9 @@ public class StroageUsageView extends FrameLayout {
 
     public void setStorageUsage(boolean z, long j, long j2, long j3, long j4) {
         this.calculating = z;
-        this.freeSizeTextView.setText(LocaleController.formatString("TotalDeviceFreeSize", 2131628755, AndroidUtilities.formatFileSize(j3)));
+        this.freeSizeTextView.setText(LocaleController.formatString("TotalDeviceFreeSize", 2131628688, AndroidUtilities.formatFileSize(j3)));
         long j5 = j4 - j3;
-        this.totlaSizeTextView.setText(LocaleController.formatString("TotalDeviceSize", 2131628756, AndroidUtilities.formatFileSize(j5)));
+        this.totlaSizeTextView.setText(LocaleController.formatString("TotalDeviceSize", 2131628689, AndroidUtilities.formatFileSize(j5)));
         if (z) {
             this.calculatingTextView.setVisibility(0);
             this.telegramCacheTextView.setVisibility(8);
@@ -195,12 +195,12 @@ public class StroageUsageView extends FrameLayout {
                 this.textSettingsCell.setVisibility(0);
                 this.telegramCacheTextView.setVisibility(0);
                 this.telegramDatabaseTextView.setVisibility(8);
-                this.textSettingsCell.setText(LocaleController.getString("ClearTelegramCache", 2131625182), false);
-                this.telegramCacheTextView.setText(LocaleController.formatString("TelegramCacheSize", 2131628617, AndroidUtilities.formatFileSize(j2 + j)));
+                this.textSettingsCell.setText(LocaleController.getString("ClearTelegramCache", 2131625166), false);
+                this.telegramCacheTextView.setText(LocaleController.formatString("TelegramCacheSize", 2131628554, AndroidUtilities.formatFileSize(j2 + j)));
             } else {
                 this.telegramCacheTextView.setVisibility(8);
                 this.telegramDatabaseTextView.setVisibility(0);
-                this.telegramDatabaseTextView.setText(LocaleController.formatString("LocalDatabaseSize", 2131626530, AndroidUtilities.formatFileSize(j)));
+                this.telegramDatabaseTextView.setText(LocaleController.formatString("LocalDatabaseSize", 2131626483, AndroidUtilities.formatFileSize(j)));
                 this.divider.setVisibility(8);
                 this.textSettingsCell.setVisibility(8);
             }

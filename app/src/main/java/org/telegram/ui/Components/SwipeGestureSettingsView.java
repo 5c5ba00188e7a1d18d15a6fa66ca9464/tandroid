@@ -43,12 +43,12 @@ public class SwipeGestureSettingsView extends FrameLayout {
         String[] strArr = new String[6];
         this.strings = strArr;
         float f = 1.0f;
-        strArr[0] = LocaleController.getString("SwipeSettingsPin", 2131628580);
-        this.strings[1] = LocaleController.getString("SwipeSettingsRead", 2131628581);
-        this.strings[2] = LocaleController.getString("SwipeSettingsArchive", 2131628576);
-        this.strings[3] = LocaleController.getString("SwipeSettingsMute", 2131628579);
-        this.strings[4] = LocaleController.getString("SwipeSettingsDelete", 2131628577);
-        this.strings[5] = LocaleController.getString("SwipeSettingsFolders", 2131628578);
+        strArr[0] = LocaleController.getString("SwipeSettingsPin", 2131628517);
+        this.strings[1] = LocaleController.getString("SwipeSettingsRead", 2131628518);
+        this.strings[2] = LocaleController.getString("SwipeSettingsArchive", 2131628513);
+        this.strings[3] = LocaleController.getString("SwipeSettingsMute", 2131628516);
+        this.strings[4] = LocaleController.getString("SwipeSettingsDelete", 2131628514);
+        this.strings[5] = LocaleController.getString("SwipeSettingsFolders", 2131628515);
         String[] strArr2 = this.backgroundKeys;
         strArr2[0] = "chats_archiveBackground";
         strArr2[1] = "chats_archiveBackground";
@@ -283,7 +283,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
     public RLottieDrawable getIcon(int i) {
         RLottieDrawable[] rLottieDrawableArr = this.icons;
         if (rLottieDrawableArr[i] == null) {
-            int i2 = i != 1 ? i != 2 ? i != 3 ? i != 4 ? i != 5 ? 2131558566 : 2131558564 : 2131558563 : 2131558565 : 2131558420 : 2131558567;
+            int i2 = i != 1 ? i != 2 ? i != 3 ? i != 4 ? i != 5 ? 2131558545 : 2131558543 : 2131558542 : 2131558544 : 2131558420 : 2131558546;
             rLottieDrawableArr[i] = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
             updateIconColor(i);
         }

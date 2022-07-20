@@ -490,7 +490,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                 updateColors(false);
                 this.optionsDrawable = null;
             } else {
-                this.optionsDrawable = getResources().getDrawable(2131166093).mutate();
+                this.optionsDrawable = getResources().getDrawable(2131166091).mutate();
                 int previewBackgroundColor = this.themeInfo.getPreviewBackgroundColor();
                 this.backColor = previewBackgroundColor;
                 this.oldBackColor = previewBackgroundColor;
@@ -561,7 +561,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                     if (tLRPC$TL_theme.document != null) {
                         themeInfo2.themeLoaded = false;
                         this.placeholderAlpha = 1.0f;
-                        Drawable mutate = getResources().getDrawable(2131165958).mutate();
+                        Drawable mutate = getResources().getDrawable(2131165956).mutate();
                         this.loadingDrawable = mutate;
                         int color = Theme.getColor("windowBackgroundWhiteGrayText7");
                         this.loadingColor = color;
@@ -576,7 +576,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                             }
                         }
                     } else {
-                        Drawable mutate2 = getResources().getDrawable(2131166092).mutate();
+                        Drawable mutate2 = getResources().getDrawable(2131166090).mutate();
                         this.loadingDrawable = mutate2;
                         int color2 = Theme.getColor("windowBackgroundWhiteGrayText7");
                         this.loadingColor = color2;

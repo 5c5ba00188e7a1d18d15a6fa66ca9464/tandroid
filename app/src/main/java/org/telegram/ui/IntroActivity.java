@@ -101,8 +101,8 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         MessagesController.getGlobalMainSettings().edit().putLong("intro_crashed_time", System.currentTimeMillis()).apply();
-        this.titles = new String[]{LocaleController.getString("Page1Title", 2131627187), LocaleController.getString("Page2Title", 2131627189), LocaleController.getString("Page3Title", 2131627191), LocaleController.getString("Page5Title", 2131627195), LocaleController.getString("Page4Title", 2131627193), LocaleController.getString("Page6Title", 2131627197)};
-        this.messages = new String[]{LocaleController.getString("Page1Message", 2131627186), LocaleController.getString("Page2Message", 2131627188), LocaleController.getString("Page3Message", 2131627190), LocaleController.getString("Page5Message", 2131627194), LocaleController.getString("Page4Message", 2131627192), LocaleController.getString("Page6Message", 2131627196)};
+        this.titles = new String[]{LocaleController.getString("Page1Title", 2131627135), LocaleController.getString("Page2Title", 2131627137), LocaleController.getString("Page3Title", 2131627139), LocaleController.getString("Page5Title", 2131627143), LocaleController.getString("Page4Title", 2131627141), LocaleController.getString("Page6Title", 2131627145)};
+        this.messages = new String[]{LocaleController.getString("Page1Message", 2131627134), LocaleController.getString("Page2Message", 2131627136), LocaleController.getString("Page3Message", 2131627138), LocaleController.getString("Page5Message", 2131627142), LocaleController.getString("Page4Message", 2131627140), LocaleController.getString("Page6Message", 2131627144)};
         return true;
     }
 
@@ -117,7 +117,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, frameLayout, 4);
         this.frameContainerView = anonymousClass1;
         scrollView.addView(anonymousClass1, LayoutHelper.createScroll(-1, -2, 51));
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558561, String.valueOf(2131558561), AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558540, String.valueOf(2131558540), AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
         this.darkThemeDrawable = rLottieDrawable;
         rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
         this.darkThemeDrawable.beginApplyLayerColors();
@@ -143,7 +143,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.viewPager.addOnPageChangeListener(new AnonymousClass3());
         AnonymousClass4 anonymousClass4 = new AnonymousClass4(this, context);
         this.startMessagingButton = anonymousClass4;
-        anonymousClass4.setText(LocaleController.getString("StartMessaging", 2131628480));
+        anonymousClass4.setText(LocaleController.getString("StartMessaging", 2131628417));
         this.startMessagingButton.setGravity(17);
         this.startMessagingButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.startMessagingButton.setTextSize(1, 15.0f);

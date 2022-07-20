@@ -117,9 +117,9 @@ public class ChangeUsernameActivity extends BaseFragment {
         String str;
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("Username", 2131628915));
+        this.actionBar.setTitle(LocaleController.getString("Username", 2131628843));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
-        this.doneButton = this.actionBar.createMenu().addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", 2131625541));
+        this.doneButton = this.actionBar.createMenu().addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", 2131625525));
         TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).getClientUserId()));
         if (user == null) {
             user = UserConfig.getInstance(this.currentAccount).getCurrentUser();
@@ -143,7 +143,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         this.firstNameField.setGravity(LocaleController.isRTL ? 5 : 3);
         this.firstNameField.setInputType(180224);
         this.firstNameField.setImeOptions(6);
-        this.firstNameField.setHint(LocaleController.getString("UsernamePlaceholder", 2131628927));
+        this.firstNameField.setHint(LocaleController.getString("UsernamePlaceholder", 2131628855));
         this.firstNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.firstNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.firstNameField.setCursorWidth(1.5f);
@@ -161,7 +161,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         this.helpTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText8"));
         this.helpTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         TextView textView3 = this.helpTextView;
-        SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString("UsernameHelp", 2131628920));
+        SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString("UsernameHelp", 2131628848));
         this.infoText = replaceTags;
         textView3.setText(replaceTags);
         this.helpTextView.setLinkTextColor(Theme.getColor("windowBackgroundWhiteLinkText"));
@@ -237,7 +237,7 @@ public class ChangeUsernameActivity extends BaseFragment {
                 return;
             }
             String str = "https://" + MessagesController.getInstance(((BaseFragment) ChangeUsernameActivity.this).currentAccount).linkPrefix + "/" + obj;
-            String formatString = LocaleController.formatString("UsernameHelpLink", 2131628921, str);
+            String formatString = LocaleController.formatString("UsernameHelpLink", 2131628849, str);
             int indexOf = formatString.indexOf(str);
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(formatString);
             if (indexOf >= 0) {
@@ -277,7 +277,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             }
             if (str != null) {
                 if (str.startsWith("_") || str.endsWith("_")) {
-                    this.checkTextView.setText(LocaleController.getString("UsernameInvalid", 2131628923));
+                    this.checkTextView.setText(LocaleController.getString("UsernameInvalid", 2131628851));
                     this.checkTextView.setTag("windowBackgroundWhiteRedText4");
                     this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
                     return false;
@@ -286,18 +286,18 @@ public class ChangeUsernameActivity extends BaseFragment {
                     char charAt = str.charAt(i);
                     if (i == 0 && charAt >= '0' && charAt <= '9') {
                         if (z) {
-                            AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidStartNumber", 2131628926));
+                            AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidStartNumber", 2131628854));
                         } else {
-                            this.checkTextView.setText(LocaleController.getString("UsernameInvalidStartNumber", 2131628926));
+                            this.checkTextView.setText(LocaleController.getString("UsernameInvalidStartNumber", 2131628854));
                             this.checkTextView.setTag("windowBackgroundWhiteRedText4");
                             this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
                         }
                         return false;
                     } else if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && ((charAt < 'A' || charAt > 'Z') && charAt != '_'))) {
                         if (z) {
-                            AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalid", 2131628923));
+                            AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalid", 2131628851));
                         } else {
-                            this.checkTextView.setText(LocaleController.getString("UsernameInvalid", 2131628923));
+                            this.checkTextView.setText(LocaleController.getString("UsernameInvalid", 2131628851));
                             this.checkTextView.setTag("windowBackgroundWhiteRedText4");
                             this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
                         }
@@ -307,18 +307,18 @@ public class ChangeUsernameActivity extends BaseFragment {
             }
             if (str == null || str.length() < 5) {
                 if (z) {
-                    AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidShort", 2131628925));
+                    AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidShort", 2131628853));
                 } else {
-                    this.checkTextView.setText(LocaleController.getString("UsernameInvalidShort", 2131628925));
+                    this.checkTextView.setText(LocaleController.getString("UsernameInvalidShort", 2131628853));
                     this.checkTextView.setTag("windowBackgroundWhiteRedText4");
                     this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
                 }
                 return false;
             } else if (str.length() > 32) {
                 if (z) {
-                    AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidLong", 2131628924));
+                    AlertsCreator.showSimpleAlert(this, LocaleController.getString("UsernameInvalidLong", 2131628852));
                 } else {
-                    this.checkTextView.setText(LocaleController.getString("UsernameInvalidLong", 2131628924));
+                    this.checkTextView.setText(LocaleController.getString("UsernameInvalidLong", 2131628852));
                     this.checkTextView.setTag("windowBackgroundWhiteRedText4");
                     this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
                 }
@@ -330,12 +330,12 @@ public class ChangeUsernameActivity extends BaseFragment {
                         str2 = "";
                     }
                     if (str.equals(str2)) {
-                        this.checkTextView.setText(LocaleController.formatString("UsernameAvailable", 2131628916, str));
+                        this.checkTextView.setText(LocaleController.formatString("UsernameAvailable", 2131628844, str));
                         this.checkTextView.setTag("windowBackgroundWhiteGreenText");
                         this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGreenText"));
                         return true;
                     }
-                    this.checkTextView.setText(LocaleController.getString("UsernameChecking", 2131628917));
+                    this.checkTextView.setText(LocaleController.getString("UsernameChecking", 2131628845));
                     this.checkTextView.setTag("windowBackgroundWhiteGrayText8");
                     this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText8"));
                     this.lastCheckName = str;
@@ -366,12 +366,12 @@ public class ChangeUsernameActivity extends BaseFragment {
             return;
         }
         if (tLRPC$TL_error == null && (tLObject instanceof TLRPC$TL_boolTrue)) {
-            this.checkTextView.setText(LocaleController.formatString("UsernameAvailable", 2131628916, str));
+            this.checkTextView.setText(LocaleController.formatString("UsernameAvailable", 2131628844, str));
             this.checkTextView.setTag("windowBackgroundWhiteGreenText");
             this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGreenText"));
             return;
         }
-        this.checkTextView.setText(LocaleController.getString("UsernameInUse", 2131628922));
+        this.checkTextView.setText(LocaleController.getString("UsernameInUse", 2131628850));
         this.checkTextView.setTag("windowBackgroundWhiteRedText4");
         this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
     }

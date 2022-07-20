@@ -13,6 +13,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda175 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$unpinMessage$189(this.f$1);
+        this.f$0.lambda$updateMessagesVisiblePart$105(this.f$1);
     }
 }

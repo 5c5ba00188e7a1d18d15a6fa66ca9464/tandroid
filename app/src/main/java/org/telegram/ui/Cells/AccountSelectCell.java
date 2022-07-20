@@ -49,7 +49,7 @@ public class AccountSelectCell extends FrameLayout {
         if (z) {
             addView(this.textView, LayoutHelper.createFrame(-2, -2.0f, 51, 61.0f, 7.0f, 8.0f, 0.0f));
             this.textView.setTextColor(Theme.getColor("voipgroup_nameText"));
-            this.textView.setText(LocaleController.getString("VoipGroupDisplayAs", 2131629120));
+            this.textView.setText(LocaleController.getString("VoipGroupDisplayAs", 2131629046));
             TextView textView2 = new TextView(context);
             this.infoTextView = textView2;
             textView2.setTextColor(Theme.getColor("voipgroup_lastSeenText"));

@@ -28,7 +28,7 @@ public class ShareActivity extends Activity {
         ApplicationLoader.postInitApplication();
         AndroidUtilities.checkDisplaySize(this, getResources().getConfiguration());
         requestWindowFeature(1);
-        setTheme(2131689508);
+        setTheme(2131689507);
         super.onCreate(bundle);
         setContentView(new View(this), new ViewGroup.LayoutParams(-1, -1));
         Intent intent = getIntent();

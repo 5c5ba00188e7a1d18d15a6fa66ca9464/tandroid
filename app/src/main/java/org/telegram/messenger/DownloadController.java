@@ -1401,7 +1401,7 @@ public class DownloadController extends BaseController implements NotificationCe
             if (i != 0) {
                 return;
             }
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("MessageNotFound", 2131626683, new Object[0]));
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("MessageNotFound", 2131626631, new Object[0]));
         }
     }
 
@@ -1584,14 +1584,5 @@ public class DownloadController extends BaseController implements NotificationCe
         } catch (Exception e2) {
             FileLog.e(e2);
         }
-    }
-
-    public boolean isDownloading(int i) {
-        for (int i2 = 0; i2 < this.downloadingFiles.size(); i2++) {
-            if (this.downloadingFiles.get(i2).messageOwner.id == i) {
-                return true;
-            }
-        }
-        return false;
     }
 }

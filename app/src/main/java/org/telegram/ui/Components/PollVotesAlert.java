@@ -254,9 +254,9 @@ public class PollVotesAlert extends BottomSheet {
                     this.righTextView.setText(LocaleController.formatPluralString("Vote", i2, new Object[0]));
                 }
             } else if (i3 == 1) {
-                this.righTextView.setText(LocaleController.getString("PollExpand", 2131627633));
+                this.righTextView.setText(LocaleController.getString("PollExpand", 2131627581));
             } else {
-                this.righTextView.setText(LocaleController.getString("PollCollapse", 2131627632));
+                this.righTextView.setText(LocaleController.getString("PollCollapse", 2131627580));
             }
         }
     }
@@ -542,7 +542,7 @@ public class PollVotesAlert extends BottomSheet {
         updateButtons();
         Collections.sort(this.voters, new AnonymousClass2());
         updatePlaceholder();
-        Drawable mutate = parentActivity.getResources().getDrawable(2131166140).mutate();
+        Drawable mutate = parentActivity.getResources().getDrawable(2131166138).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(parentActivity);
@@ -585,7 +585,7 @@ public class PollVotesAlert extends BottomSheet {
         this.actionBar.setSubtitleColor(Theme.getColor("player_actionBarSubtitle"));
         this.actionBar.setOccupyStatusBar(false);
         this.actionBar.setAlpha(0.0f);
-        this.actionBar.setTitle(LocaleController.getString("PollResults", 2131627637));
+        this.actionBar.setTitle(LocaleController.getString("PollResults", 2131627585));
         if (this.poll.quiz) {
             this.actionBar.setSubtitle(LocaleController.formatPluralString("Answer", tLRPC$TL_messageMediaPoll.results.total_voters, new Object[0]));
         } else {
@@ -1217,7 +1217,7 @@ public class PollVotesAlert extends BottomSheet {
 
             @Override // org.telegram.ui.Components.PollVotesAlert.SectionCell
             protected void onCollapseClick() {
-                VotesList votesList = (VotesList) getTag(2131230876);
+                VotesList votesList = (VotesList) getTag(2131230875);
                 if (votesList.votes.size() <= 15) {
                     return;
                 }
@@ -1256,7 +1256,7 @@ public class PollVotesAlert extends BottomSheet {
                     if (Arrays.equals(tLRPC$TL_pollAnswer.option, votesList.option)) {
                         Button button = (Button) PollVotesAlert.this.votesPercents.get(votesList);
                         sectionCell.setText(tLRPC$TL_pollAnswer.text, button.percent, button.votesCount, votesList.getCollapsed());
-                        sectionCell.setTag(2131230876, votesList);
+                        sectionCell.setTag(2131230875, votesList);
                         break;
                     }
                     i2++;
@@ -1306,7 +1306,7 @@ public class PollVotesAlert extends BottomSheet {
                 if (Arrays.equals(tLRPC$TL_pollAnswer.option, votesList2.option)) {
                     Button button = (Button) PollVotesAlert.this.votesPercents.get(votesList2);
                     sectionCell.setText(tLRPC$TL_pollAnswer.text, button.percent, button.votesCount, votesList2.getCollapsed());
-                    sectionCell.setTag(2131230876, votesList2);
+                    sectionCell.setTag(2131230875, votesList2);
                     return;
                 }
             }

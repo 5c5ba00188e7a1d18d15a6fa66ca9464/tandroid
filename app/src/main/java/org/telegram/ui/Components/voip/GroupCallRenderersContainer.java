@@ -197,7 +197,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         anonymousClass4.setOnClickListener(new GroupCallRenderersContainer$$ExternalSyntheticLambda4(this));
         createSimpleSelectorRoundRectDrawable.setCallback(this.pinContainer);
         addView(this.pinContainer);
-        CrossOutDrawable crossOutDrawable = new CrossOutDrawable(context, 2131165862, null);
+        CrossOutDrawable crossOutDrawable = new CrossOutDrawable(context, 2131165861, null);
         this.pinDrawable = crossOutDrawable;
         crossOutDrawable.setOffsets(-AndroidUtilities.dp(1.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(1.0f));
         anonymousClass3.setImageDrawable(this.pinDrawable);
@@ -208,13 +208,13 @@ public class GroupCallRenderersContainer extends FrameLayout {
         textView.setTextColor(-1);
         this.pinTextView.setTextSize(1, 15.0f);
         this.pinTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        this.pinTextView.setText(LocaleController.getString("CallVideoPin", 2131624818));
+        this.pinTextView.setText(LocaleController.getString("CallVideoPin", 2131624805));
         TextView textView2 = new TextView(context);
         this.unpinTextView = textView2;
         textView2.setTextColor(-1);
         this.unpinTextView.setTextSize(1, 15.0f);
         this.unpinTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        this.unpinTextView.setText(LocaleController.getString("CallVideoUnpin", 2131624820));
+        this.unpinTextView.setText(LocaleController.getString("CallVideoUnpin", 2131624807));
         addView(this.pinTextView, LayoutHelper.createFrame(-2, -2, 51));
         addView(this.unpinTextView, LayoutHelper.createFrame(-2, -2, 51));
         ImageView imageView = new ImageView(context);

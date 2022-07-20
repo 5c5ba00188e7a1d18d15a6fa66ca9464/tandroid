@@ -37,10 +37,10 @@ public class ChatListCell extends LinearLayout {
             setWillNotDraw(false);
             this.isThreeLines = z;
             if (z) {
-                i = 2131625033;
+                i = 2131625020;
                 str = "ChatListExpanded";
             } else {
-                i = 2131625032;
+                i = 2131625019;
                 str = "ChatListDefault";
             }
             setContentDescription(LocaleController.getString(str, i));
@@ -90,10 +90,10 @@ public class ChatListCell extends LinearLayout {
             Theme.dialogs_onlineCirclePaint.setColor(Color.argb((int) ((1.0f - this.button.getProgress()) * 31.0f), red, green, blue));
             canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), Theme.dialogs_onlineCirclePaint);
             if (this.isThreeLines) {
-                i = 2131625033;
+                i = 2131625020;
                 str = "ChatListExpanded";
             } else {
-                i = 2131625032;
+                i = 2131625019;
                 str = "ChatListDefault";
             }
             String string = LocaleController.getString(str, i);
@@ -147,10 +147,10 @@ public class ChatListCell extends LinearLayout {
             accessibilityNodeInfo.setChecked(this.button.isChecked());
             accessibilityNodeInfo.setCheckable(true);
             if (this.isThreeLines) {
-                i = 2131625033;
+                i = 2131625020;
                 str = "ChatListExpanded";
             } else {
-                i = 2131625032;
+                i = 2131625019;
                 str = "ChatListDefault";
             }
             accessibilityNodeInfo.setContentDescription(LocaleController.getString(str, i));

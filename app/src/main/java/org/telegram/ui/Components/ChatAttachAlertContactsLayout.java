@@ -161,7 +161,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 return;
             }
             if (TextUtils.isEmpty(tLRPC$User.phone)) {
-                this.statusTextView.setText(LocaleController.getString("NumberUnknown", 2131627126));
+                this.statusTextView.setText(LocaleController.getString("NumberUnknown", 2131627074));
             } else if (this.formattedPhoneNumberUser != this.currentUser && (charSequence2 = this.formattedPhoneNumber) != null) {
                 this.statusTextView.setText(charSequence2);
             } else {
@@ -286,12 +286,12 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         frameLayout.setBackgroundColor(getThemedColor("dialogBackground"));
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, false, resourcesProvider);
         this.searchField = anonymousClass1;
-        anonymousClass1.setHint(LocaleController.getString("SearchFriends", 2131628171));
+        anonymousClass1.setHint(LocaleController.getString("SearchFriends", 2131628109));
         this.frameLayout.addView(this.searchField, LayoutHelper.createFrame(-1, -1, 51));
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context, null, resourcesProvider);
         this.emptyView = emptyTextProgressView;
         emptyTextProgressView.showTextView();
-        this.emptyView.setText(LocaleController.getString("NoContacts", 2131626867));
+        this.emptyView.setText(LocaleController.getString("NoContacts", 2131626815));
         addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 52.0f, 0.0f, 0.0f));
         AnonymousClass2 anonymousClass2 = new AnonymousClass2(context, resourcesProvider);
         this.listView = anonymousClass2;
@@ -337,11 +337,11 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         public void onTextChange(String str) {
             if (str.length() != 0) {
                 if (ChatAttachAlertContactsLayout.this.emptyView != null) {
-                    ChatAttachAlertContactsLayout.this.emptyView.setText(LocaleController.getString("NoResult", 2131626910));
+                    ChatAttachAlertContactsLayout.this.emptyView.setText(LocaleController.getString("NoResult", 2131626858));
                 }
             } else if (ChatAttachAlertContactsLayout.this.listView.getAdapter() != ChatAttachAlertContactsLayout.this.listAdapter) {
                 int currentTop = ChatAttachAlertContactsLayout.this.getCurrentTop();
-                ChatAttachAlertContactsLayout.this.emptyView.setText(LocaleController.getString("NoContacts", 2131626867));
+                ChatAttachAlertContactsLayout.this.emptyView.setText(LocaleController.getString("NoContacts", 2131626815));
                 ChatAttachAlertContactsLayout.this.emptyView.showTextView();
                 ChatAttachAlertContactsLayout.this.listView.setAdapter(ChatAttachAlertContactsLayout.this.listAdapter);
                 ChatAttachAlertContactsLayout.this.listAdapter.notifyDataSetChanged();

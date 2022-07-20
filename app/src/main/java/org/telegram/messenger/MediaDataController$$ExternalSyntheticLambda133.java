@@ -1,18 +1,18 @@
 package org.telegram.messenger;
 
-import java.util.Comparator;
-import org.telegram.tgnet.TLRPC$MessageEntity;
+import org.telegram.tgnet.RequestDelegate;
+import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$TL_error;
 /* loaded from: classes.dex */
-public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda133 implements Comparator {
-    public static final /* synthetic */ MediaDataController$$ExternalSyntheticLambda133 INSTANCE = new MediaDataController$$ExternalSyntheticLambda133();
+public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda133 implements RequestDelegate {
+    public final /* synthetic */ MediaDataController f$0;
 
-    private /* synthetic */ MediaDataController$$ExternalSyntheticLambda133() {
+    public /* synthetic */ MediaDataController$$ExternalSyntheticLambda133(MediaDataController mediaDataController) {
+        this.f$0 = mediaDataController;
     }
 
-    @Override // java.util.Comparator
-    public final int compare(Object obj, Object obj2) {
-        int lambda$static$124;
-        lambda$static$124 = MediaDataController.lambda$static$124((TLRPC$MessageEntity) obj, (TLRPC$MessageEntity) obj2);
-        return lambda$static$124;
+    @Override // org.telegram.tgnet.RequestDelegate
+    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        this.f$0.lambda$loadGroupStickerSet$29(tLObject, tLRPC$TL_error);
     }
 }

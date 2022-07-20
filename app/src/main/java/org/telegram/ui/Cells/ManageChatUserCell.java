@@ -312,13 +312,13 @@ public class ManageChatUserCell extends FrameLayout {
             } else if (tLRPC$User.bot) {
                 this.statusTextView.setTextColor(this.statusColor);
                 if (tLRPC$User.bot_chat_history || this.isAdmin) {
-                    this.statusTextView.setText(LocaleController.getString("BotStatusRead", 2131624748));
+                    this.statusTextView.setText(LocaleController.getString("BotStatusRead", 2131624737));
                 } else {
-                    this.statusTextView.setText(LocaleController.getString("BotStatusCantRead", 2131624747));
+                    this.statusTextView.setText(LocaleController.getString("BotStatusCantRead", 2131624736));
                 }
             } else if (tLRPC$User.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || (((tLRPC$UserStatus = tLRPC$User.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(tLRPC$User.id)))) {
                 this.statusTextView.setTextColor(this.statusOnlineColor);
-                this.statusTextView.setText(LocaleController.getString("Online", 2131627132));
+                this.statusTextView.setText(LocaleController.getString("Online", 2131627080));
             } else {
                 this.statusTextView.setTextColor(this.statusColor);
                 this.statusTextView.setText(LocaleController.formatUserStatus(this.currentAccount, tLRPC$User));
@@ -367,11 +367,11 @@ public class ManageChatUserCell extends FrameLayout {
                         this.statusTextView.setText(LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]));
                     }
                 } else if (tLRPC$Chat.has_geo) {
-                    this.statusTextView.setText(LocaleController.getString("MegaLocation", 2131626632));
+                    this.statusTextView.setText(LocaleController.getString("MegaLocation", 2131626585));
                 } else if (TextUtils.isEmpty(tLRPC$Chat.username)) {
-                    this.statusTextView.setText(LocaleController.getString("MegaPrivate", 2131626633));
+                    this.statusTextView.setText(LocaleController.getString("MegaPrivate", 2131626586));
                 } else {
-                    this.statusTextView.setText(LocaleController.getString("MegaPublic", 2131626636));
+                    this.statusTextView.setText(LocaleController.getString("MegaPublic", 2131626589));
                 }
             }
             this.lastAvatar = tLRPC$FileLocation4;

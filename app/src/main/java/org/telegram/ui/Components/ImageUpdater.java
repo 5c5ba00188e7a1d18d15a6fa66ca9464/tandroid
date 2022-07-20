@@ -141,28 +141,28 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             return;
         }
         BottomSheet.Builder builder = new BottomSheet.Builder(this.parentFragment.getParentActivity());
-        builder.setTitle(LocaleController.getString("ChoosePhoto", 2131625124), true);
+        builder.setTitle(LocaleController.getString("ChoosePhoto", 2131625111), true);
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
         ArrayList arrayList3 = new ArrayList();
-        arrayList.add(LocaleController.getString("ChooseTakePhoto", 2131625136));
+        arrayList.add(LocaleController.getString("ChooseTakePhoto", 2131625122));
         arrayList2.add(2131165671);
         arrayList3.add(0);
         if (this.canSelectVideo) {
-            arrayList.add(LocaleController.getString("ChooseRecordVideo", 2131625126));
-            arrayList2.add(2131165975);
+            arrayList.add(LocaleController.getString("ChooseRecordVideo", 2131625113));
+            arrayList2.add(2131165973);
             arrayList3.add(4);
         }
-        arrayList.add(LocaleController.getString("ChooseFromGallery", 2131625120));
-        arrayList2.add(2131165859);
+        arrayList.add(LocaleController.getString("ChooseFromGallery", 2131625107));
+        arrayList2.add(2131165858);
         arrayList3.add(1);
         if (this.searchAvailable) {
-            arrayList.add(LocaleController.getString("ChooseFromSearch", 2131625121));
-            arrayList2.add(2131165924);
+            arrayList.add(LocaleController.getString("ChooseFromSearch", 2131625108));
+            arrayList2.add(2131165922);
             arrayList3.add(2);
         }
         if (z) {
-            arrayList.add(LocaleController.getString("DeletePhoto", 2131625443));
+            arrayList.add(LocaleController.getString("DeletePhoto", 2131625427));
             arrayList2.add(2131165702);
             arrayList3.add(3);
         }

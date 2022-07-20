@@ -440,43 +440,43 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
             int i3 = this.sortType;
             if (i3 == 0) {
-                graySectionCell.setText(LocaleController.getString("Contacts", 2131625258));
+                graySectionCell.setText(LocaleController.getString("Contacts", 2131625242));
             } else if (i3 == 1) {
-                graySectionCell.setText(LocaleController.getString("SortedByName", 2131628446));
+                graySectionCell.setText(LocaleController.getString("SortedByName", 2131628383));
             } else {
-                graySectionCell.setText(LocaleController.getString("SortedByLastSeen", 2131628445));
+                graySectionCell.setText(LocaleController.getString("SortedByLastSeen", 2131628382));
             }
         } else {
             TextCell textCell = (TextCell) viewHolder.itemView;
             if (i == 0) {
                 if (this.needPhonebook) {
                     if (i2 == 0) {
-                        textCell.setTextAndIcon(LocaleController.getString("InviteFriends", 2131626308), 2131165768, false);
+                        textCell.setTextAndIcon(LocaleController.getString("InviteFriends", 2131626261), 2131165767, false);
                         return;
                     } else if (i2 != 1) {
                         return;
                     } else {
-                        textCell.setTextAndIcon(LocaleController.getString("AddPeopleNearby", 2131624285), 2131165789, false);
+                        textCell.setTextAndIcon(LocaleController.getString("AddPeopleNearby", 2131624277), 2131165788, false);
                         return;
                     }
                 } else if (this.isAdmin) {
                     if (this.isChannel) {
-                        textCell.setTextAndIcon(LocaleController.getString("ChannelInviteViaLink", 2131624919), 2131165784, false);
+                        textCell.setTextAndIcon(LocaleController.getString("ChannelInviteViaLink", 2131624906), 2131165783, false);
                         return;
                     } else {
-                        textCell.setTextAndIcon(LocaleController.getString("InviteToGroupByLink", 2131626327), 2131165784, false);
+                        textCell.setTextAndIcon(LocaleController.getString("InviteToGroupByLink", 2131626280), 2131165783, false);
                         return;
                     }
                 } else if (i2 == 0) {
-                    textCell.setTextAndIcon(LocaleController.getString("NewGroup", 2131626832), 2131165750, false);
+                    textCell.setTextAndIcon(LocaleController.getString("NewGroup", 2131626780), 2131165749, false);
                     return;
                 } else if (i2 == 1) {
-                    textCell.setTextAndIcon(LocaleController.getString("NewSecretChat", 2131626845), 2131165925, false);
+                    textCell.setTextAndIcon(LocaleController.getString("NewSecretChat", 2131626793), 2131165923, false);
                     return;
                 } else if (i2 != 2) {
                     return;
                 } else {
-                    textCell.setTextAndIcon(LocaleController.getString("NewChannel", 2131626824), 2131165673, false);
+                    textCell.setTextAndIcon(LocaleController.getString("NewChannel", 2131626772), 2131165673, false);
                     return;
                 }
             }

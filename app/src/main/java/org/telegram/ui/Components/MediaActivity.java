@@ -125,7 +125,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.dialogId));
                 if (user2 != null) {
                     if (user2.self) {
-                        this.nameTextView.setText(LocaleController.getString("SavedMessages", 2131628139));
+                        this.nameTextView.setText(LocaleController.getString("SavedMessages", 2131628077));
                         avatarDrawable.setAvatarType(1);
                         avatarDrawable.setSmallSize(true);
                     } else {
@@ -147,7 +147,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         }
         this.avatarImageView.setImage(ImageLocation.getForUserOrChat(tLObject, 1), "50_50", avatarDrawable, tLObject);
         if (TextUtils.isEmpty(this.nameTextView.getText())) {
-            this.nameTextView.setText(LocaleController.getString("SharedContentTitle", 2131628358));
+            this.nameTextView.setText(LocaleController.getString("SharedContentTitle", 2131628296));
         }
         if (this.sharedMediaLayout.isSearchItemVisible()) {
             z = false;
@@ -247,7 +247,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 if (Build.VERSION.SDK_INT < 21) {
                     return;
                 }
-                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", 2131627142)));
+                accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", 2131627090)));
                 accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(32, LocaleController.getString("AccDescrOpenInPhotoViewer", 2131624029)));
                 return;
             }

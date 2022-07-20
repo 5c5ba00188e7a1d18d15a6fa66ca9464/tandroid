@@ -4,13 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.Base64;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import org.telegram.tgnet.SerializedData;
-import org.telegram.tgnet.TLRPC$InputStorePaymentPurpose;
 import org.telegram.tgnet.TLRPC$TL_account_tmpPassword;
 import org.telegram.tgnet.TLRPC$TL_help_termsOfService;
 import org.telegram.tgnet.TLRPC$User;
@@ -27,7 +22,6 @@ public class UserConfig extends BaseController {
     public static final int i_dialogsLoadOffsetUserId = 2;
     public static int selectedAccount;
     public long autoDownloadConfigLoadTime;
-    public TLRPC$InputStorePaymentPurpose billingPaymentPurpose;
     public int botRatingLoadTime;
     public long clientUserId;
     private boolean configLoaded;
@@ -41,11 +35,9 @@ public class UserConfig extends BaseController {
     public int lastContactsSyncTime;
     public int lastHintsSyncTime;
     public int lastMyLocationShareTime;
-    public long lastUpdatedPremiumGiftsStickerPack;
     public int loginTime;
     public boolean notificationsSettingsLoaded;
     public boolean notificationsSignUpSettingsLoaded;
-    public String premiumGiftsStickerPack;
     public int ratingLoadTime;
     public boolean registeredForPush;
     public volatile byte[] savedPasswordHash;
@@ -66,7 +58,6 @@ public class UserConfig extends BaseController {
     public long migrateOffsetAccess = -1;
     public boolean syncContacts = true;
     public boolean suggestContacts = true;
-    public List<String> awaitBillingProductIds = new ArrayList();
 
     public static UserConfig getInstance(int i) {
         UserConfig userConfig = Instance[i];
@@ -153,18 +144,6 @@ public class UserConfig extends BaseController {
                 edit.putInt("sharingMyLocationUntil", this.sharingMyLocationUntil);
                 edit.putInt("lastMyLocationShareTime", this.lastMyLocationShareTime);
                 edit.putBoolean("filtersLoaded", this.filtersLoaded);
-                edit.putStringSet("awaitBillingProductIds", new HashSet(this.awaitBillingProductIds));
-                TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose = this.billingPaymentPurpose;
-                if (tLRPC$InputStorePaymentPurpose != null) {
-                    SerializedData serializedData = new SerializedData(tLRPC$InputStorePaymentPurpose.getObjectSize());
-                    this.billingPaymentPurpose.serializeToStream(serializedData);
-                    edit.putString("billingPaymentPurpose", Base64.encodeToString(serializedData.toByteArray(), 0));
-                    serializedData.cleanup();
-                } else {
-                    edit.remove("billingPaymentPurpose");
-                }
-                edit.putString("premiumGiftsStickerPack", this.premiumGiftsStickerPack);
-                edit.putLong("lastUpdatedPremiumGiftsStickerPack", this.lastUpdatedPremiumGiftsStickerPack);
                 edit.putInt("6migrateOffsetId", this.migrateOffsetId);
                 if (this.migrateOffsetId != -1) {
                     edit.putInt("6migrateOffsetDate", this.migrateOffsetDate);
@@ -176,10 +155,10 @@ public class UserConfig extends BaseController {
                 TLRPC$TL_help_termsOfService tLRPC$TL_help_termsOfService = this.unacceptedTermsOfService;
                 if (tLRPC$TL_help_termsOfService != null) {
                     try {
-                        SerializedData serializedData2 = new SerializedData(tLRPC$TL_help_termsOfService.getObjectSize());
-                        this.unacceptedTermsOfService.serializeToStream(serializedData2);
-                        edit.putString("terms", Base64.encodeToString(serializedData2.toByteArray(), 0));
-                        serializedData2.cleanup();
+                        SerializedData serializedData = new SerializedData(tLRPC$TL_help_termsOfService.getObjectSize());
+                        this.unacceptedTermsOfService.serializeToStream(serializedData);
+                        edit.putString("terms", Base64.encodeToString(serializedData.toByteArray(), 0));
+                        serializedData.cleanup();
                     } catch (Exception unused) {
                     }
                 } else {
@@ -187,20 +166,20 @@ public class UserConfig extends BaseController {
                 }
                 SharedConfig.saveConfig();
                 if (this.tmpPassword != null) {
-                    SerializedData serializedData3 = new SerializedData();
-                    this.tmpPassword.serializeToStream(serializedData3);
-                    edit.putString("tmpPassword", Base64.encodeToString(serializedData3.toByteArray(), 0));
-                    serializedData3.cleanup();
+                    SerializedData serializedData2 = new SerializedData();
+                    this.tmpPassword.serializeToStream(serializedData2);
+                    edit.putString("tmpPassword", Base64.encodeToString(serializedData2.toByteArray(), 0));
+                    serializedData2.cleanup();
                 } else {
                     edit.remove("tmpPassword");
                 }
                 if (this.currentUser == null) {
                     edit.remove("user");
                 } else if (z) {
-                    SerializedData serializedData4 = new SerializedData();
-                    this.currentUser.serializeToStream(serializedData4);
-                    edit.putString("user", Base64.encodeToString(serializedData4.toByteArray(), 0));
-                    serializedData4.cleanup();
+                    SerializedData serializedData3 = new SerializedData();
+                    this.currentUser.serializeToStream(serializedData3);
+                    edit.putString("user", Base64.encodeToString(serializedData3.toByteArray(), 0));
+                    serializedData3.cleanup();
                 }
                 edit.commit();
             } catch (Exception e) {
@@ -271,15 +250,15 @@ public class UserConfig extends BaseController {
         getMediaDataController().loadPremiumPromo(false);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(22:8|(1:10)|11|(18:16|18|(1:24)|25|56|26|(1:30)|33|(1:35)|36|(1:40)|41|(1:45)|46|(1:48)|49|50|51)|17|18|(3:20|22|24)|25|56|26|(2:28|30)|33|(0)|36|(2:38|40)|41|(2:43|45)|46|(0)|49|50|51) */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0162, code lost:
-        r2 = move-exception;
+    /* JADX WARN: Can't wrap try/catch for region: R(21:8|(1:10)|11|(17:16|18|19|50|20|(1:24)|27|(1:29)|30|(1:34)|35|(1:39)|40|(1:42)|43|44|45)|17|18|19|50|20|(2:22|24)|27|(0)|30|(2:32|34)|35|(2:37|39)|40|(0)|43|44|45) */
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0119, code lost:
+        r8 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0163, code lost:
-        org.telegram.messenger.FileLog.e(r2);
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x011a, code lost:
+        org.telegram.messenger.FileLog.e(r8);
      */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0170 A[Catch: all -> 0x01e9, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00d1, B:18:0x00dd, B:20:0x0111, B:22:0x0119, B:24:0x011f, B:25:0x0131, B:26:0x0141, B:28:0x0149, B:30:0x014f, B:32:0x0163, B:33:0x0166, B:35:0x0170, B:36:0x0198, B:38:0x01a0, B:40:0x01a6, B:41:0x01b8, B:43:0x01c0, B:45:0x01c6, B:46:0x01d8, B:48:0x01dc, B:49:0x01e5, B:50:0x01e7), top: B:55:0x0003, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x01dc A[Catch: all -> 0x01e9, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00d1, B:18:0x00dd, B:20:0x0111, B:22:0x0119, B:24:0x011f, B:25:0x0131, B:26:0x0141, B:28:0x0149, B:30:0x014f, B:32:0x0163, B:33:0x0166, B:35:0x0170, B:36:0x0198, B:38:0x01a0, B:40:0x01a6, B:41:0x01b8, B:43:0x01c0, B:45:0x01c6, B:46:0x01d8, B:48:0x01dc, B:49:0x01e5, B:50:0x01e7), top: B:55:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0127 A[Catch: all -> 0x01a0, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00d1, B:18:0x00dd, B:20:0x00f8, B:22:0x0100, B:24:0x0106, B:26:0x011a, B:27:0x011d, B:29:0x0127, B:30:0x014f, B:32:0x0157, B:34:0x015d, B:35:0x016f, B:37:0x0177, B:39:0x017d, B:40:0x018f, B:42:0x0193, B:43:0x019c, B:44:0x019e), top: B:49:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0193 A[Catch: all -> 0x01a0, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00d1, B:18:0x00dd, B:20:0x00f8, B:22:0x0100, B:24:0x0106, B:26:0x011a, B:27:0x011d, B:29:0x0127, B:30:0x014f, B:32:0x0157, B:34:0x015d, B:35:0x016f, B:37:0x0177, B:39:0x017d, B:40:0x018f, B:42:0x0193, B:43:0x019c, B:44:0x019e), top: B:49:0x0003, inners: #1 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -293,7 +272,6 @@ public class UserConfig extends BaseController {
         byte[] decode2;
         String string3;
         byte[] decode3;
-        String string4;
         synchronized (this.sync) {
             if (this.configLoaded) {
                 return;
@@ -326,19 +304,11 @@ public class UserConfig extends BaseController {
                 this.sharingMyLocationUntil = preferences.getInt("sharingMyLocationUntil", 0);
                 this.lastMyLocationShareTime = preferences.getInt("lastMyLocationShareTime", 0);
                 this.filtersLoaded = preferences.getBoolean("filtersLoaded", false);
-                this.awaitBillingProductIds = new ArrayList(preferences.getStringSet("awaitBillingProductIds", Collections.emptySet()));
-                if (preferences.contains("billingPaymentPurpose") && (string4 = preferences.getString("billingPaymentPurpose", null)) != null && Base64.decode(string4, 0) != null) {
-                    SerializedData serializedData = new SerializedData();
-                    this.billingPaymentPurpose = TLRPC$InputStorePaymentPurpose.TLdeserialize(serializedData, serializedData.readInt32(false), false);
-                    serializedData.cleanup();
-                }
-                this.premiumGiftsStickerPack = preferences.getString("premiumGiftsStickerPack", null);
-                this.lastUpdatedPremiumGiftsStickerPack = preferences.getLong("lastUpdatedPremiumGiftsStickerPack", 0L);
                 string3 = preferences.getString("terms", null);
                 if (string3 != null && (decode3 = Base64.decode(string3, 0)) != null) {
-                    SerializedData serializedData2 = new SerializedData(decode3);
-                    this.unacceptedTermsOfService = TLRPC$TL_help_termsOfService.TLdeserialize(serializedData2, serializedData2.readInt32(false), false);
-                    serializedData2.cleanup();
+                    SerializedData serializedData = new SerializedData(decode3);
+                    this.unacceptedTermsOfService = TLRPC$TL_help_termsOfService.TLdeserialize(serializedData, serializedData.readInt32(false), false);
+                    serializedData.cleanup();
                 }
                 i = preferences.getInt("6migrateOffsetId", 0);
                 this.migrateOffsetId = i;
@@ -351,15 +321,15 @@ public class UserConfig extends BaseController {
                 }
                 string = preferences.getString("tmpPassword", null);
                 if (string != null && (decode2 = Base64.decode(string, 0)) != null) {
-                    SerializedData serializedData3 = new SerializedData(decode2);
-                    this.tmpPassword = TLRPC$TL_account_tmpPassword.TLdeserialize(serializedData3, serializedData3.readInt32(false), false);
-                    serializedData3.cleanup();
+                    SerializedData serializedData2 = new SerializedData(decode2);
+                    this.tmpPassword = TLRPC$TL_account_tmpPassword.TLdeserialize(serializedData2, serializedData2.readInt32(false), false);
+                    serializedData2.cleanup();
                 }
                 string2 = preferences.getString("user", null);
                 if (string2 != null && (decode = Base64.decode(string2, 0)) != null) {
-                    SerializedData serializedData4 = new SerializedData(decode);
-                    this.currentUser = TLRPC$User.TLdeserialize(serializedData4, serializedData4.readInt32(false), false);
-                    serializedData4.cleanup();
+                    SerializedData serializedData3 = new SerializedData(decode);
+                    this.currentUser = TLRPC$User.TLdeserialize(serializedData3, serializedData3.readInt32(false), false);
+                    serializedData3.cleanup();
                 }
                 tLRPC$User = this.currentUser;
                 if (tLRPC$User != null) {
@@ -373,19 +343,11 @@ public class UserConfig extends BaseController {
             this.sharingMyLocationUntil = preferences.getInt("sharingMyLocationUntil", 0);
             this.lastMyLocationShareTime = preferences.getInt("lastMyLocationShareTime", 0);
             this.filtersLoaded = preferences.getBoolean("filtersLoaded", false);
-            this.awaitBillingProductIds = new ArrayList(preferences.getStringSet("awaitBillingProductIds", Collections.emptySet()));
-            if (preferences.contains("billingPaymentPurpose")) {
-                SerializedData serializedData5 = new SerializedData();
-                this.billingPaymentPurpose = TLRPC$InputStorePaymentPurpose.TLdeserialize(serializedData5, serializedData5.readInt32(false), false);
-                serializedData5.cleanup();
-            }
-            this.premiumGiftsStickerPack = preferences.getString("premiumGiftsStickerPack", null);
-            this.lastUpdatedPremiumGiftsStickerPack = preferences.getLong("lastUpdatedPremiumGiftsStickerPack", 0L);
             string3 = preferences.getString("terms", null);
             if (string3 != null) {
-                SerializedData serializedData22 = new SerializedData(decode3);
-                this.unacceptedTermsOfService = TLRPC$TL_help_termsOfService.TLdeserialize(serializedData22, serializedData22.readInt32(false), false);
-                serializedData22.cleanup();
+                SerializedData serializedData4 = new SerializedData(decode3);
+                this.unacceptedTermsOfService = TLRPC$TL_help_termsOfService.TLdeserialize(serializedData4, serializedData4.readInt32(false), false);
+                serializedData4.cleanup();
             }
             i = preferences.getInt("6migrateOffsetId", 0);
             this.migrateOffsetId = i;
@@ -393,15 +355,15 @@ public class UserConfig extends BaseController {
             }
             string = preferences.getString("tmpPassword", null);
             if (string != null) {
-                SerializedData serializedData32 = new SerializedData(decode2);
-                this.tmpPassword = TLRPC$TL_account_tmpPassword.TLdeserialize(serializedData32, serializedData32.readInt32(false), false);
-                serializedData32.cleanup();
+                SerializedData serializedData22 = new SerializedData(decode2);
+                this.tmpPassword = TLRPC$TL_account_tmpPassword.TLdeserialize(serializedData22, serializedData22.readInt32(false), false);
+                serializedData22.cleanup();
             }
             string2 = preferences.getString("user", null);
             if (string2 != null) {
-                SerializedData serializedData42 = new SerializedData(decode);
-                this.currentUser = TLRPC$User.TLdeserialize(serializedData42, serializedData42.readInt32(false), false);
-                serializedData42.cleanup();
+                SerializedData serializedData32 = new SerializedData(decode);
+                this.currentUser = TLRPC$User.TLdeserialize(serializedData32, serializedData32.readInt32(false), false);
+                serializedData32.cleanup();
             }
             tLRPC$User = this.currentUser;
             if (tLRPC$User != null) {

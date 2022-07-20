@@ -166,7 +166,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             addView(this.valueTextView, LayoutHelper.createFrame(-2, -2.0f, LocaleController.isRTL ? 5 : 3, 22.0f, 35.0f, 22.0f, 0.0f));
             ProgressButton progressButton = new ProgressButton(context);
             this.addButton = progressButton;
-            progressButton.setText(LocaleController.getString("Add", 2131624242));
+            progressButton.setText(LocaleController.getString("Add", 2131624237));
             this.addButton.setTextColor(Theme.getColor("featuredStickers_buttonText"));
             this.addButton.setProgressColor(Theme.getColor("featuredStickers_buttonProgress"));
             this.addButton.setBackgroundRoundRect(Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed"));
@@ -233,7 +233,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             textView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText4"));
             this.messageTextView.setTextSize(1, 14.0f);
             this.messageTextView.setGravity(17);
-            this.messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("CreateNewFilterInfo", 2131625292, new Object[0])));
+            this.messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("CreateNewFilterInfo", 2131625276, new Object[0])));
             addView(this.messageTextView, LayoutHelper.createFrame(-1, -2.0f, 49, 40.0f, 121.0f, 40.0f, 24.0f));
         }
 
@@ -269,7 +269,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             this.moveImageView.setScaleType(ImageView.ScaleType.CENTER);
             this.moveImageView.setImageResource(2131165577);
             this.moveImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
-            this.moveImageView.setContentDescription(LocaleController.getString("FilterReorder", 2131625929));
+            this.moveImageView.setContentDescription(LocaleController.getString("FilterReorder", 2131625888));
             this.moveImageView.setClickable(true);
             int i = 5;
             addView(this.moveImageView, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 5 : 3) | 16, 6.0f, 0.0f, 6.0f, 0.0f));
@@ -279,7 +279,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             this.textView.setTextSize(16);
             this.textView.setMaxLines(1);
             this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-            Drawable drawable = ContextCompat.getDrawable(getContext(), 2131166027);
+            Drawable drawable = ContextCompat.getDrawable(getContext(), 2131166025);
             drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
             this.textView.setRightDrawable(drawable);
             SimpleTextView simpleTextView2 = this.textView;
@@ -342,31 +342,31 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                         if (sb.length() != 0) {
                             sb.append(", ");
                         }
-                        sb.append(LocaleController.getString("FilterContacts", 2131625886));
+                        sb.append(LocaleController.getString("FilterContacts", 2131625845));
                     }
                     if ((dialogFilter.flags & MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS) != 0) {
                         if (sb.length() != 0) {
                             sb.append(", ");
                         }
-                        sb.append(LocaleController.getString("FilterNonContacts", 2131625916));
+                        sb.append(LocaleController.getString("FilterNonContacts", 2131625875));
                     }
                     if ((dialogFilter.flags & MessagesController.DIALOG_FILTER_FLAG_GROUPS) != 0) {
                         if (sb.length() != 0) {
                             sb.append(", ");
                         }
-                        sb.append(LocaleController.getString("FilterGroups", 2131625903));
+                        sb.append(LocaleController.getString("FilterGroups", 2131625862));
                     }
                     if ((dialogFilter.flags & MessagesController.DIALOG_FILTER_FLAG_CHANNELS) != 0) {
                         if (sb.length() != 0) {
                             sb.append(", ");
                         }
-                        sb.append(LocaleController.getString("FilterChannels", 2131625877));
+                        sb.append(LocaleController.getString("FilterChannels", 2131625836));
                     }
                     if ((dialogFilter.flags & MessagesController.DIALOG_FILTER_FLAG_BOTS) != 0) {
                         if (sb.length() != 0) {
                             sb.append(", ");
                         }
-                        sb.append(LocaleController.getString("FilterBots", 2131625876));
+                        sb.append(LocaleController.getString("FilterBots", 2131625835));
                     }
                     if (dialogFilter.alwaysShow.isEmpty() || !dialogFilter.neverShow.isEmpty()) {
                         if (sb.length() != 0) {
@@ -375,11 +375,11 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                         sb.append(LocaleController.formatPluralString("Exception", dialogFilter.alwaysShow.size() + dialogFilter.neverShow.size(), new Object[0]));
                     }
                     if (sb.length() == 0) {
-                        sb.append(LocaleController.getString("FilterNoChats", 2131625912));
+                        sb.append(LocaleController.getString("FilterNoChats", 2131625871));
                     }
                     String str = dialogFilter.name;
                     if (dialogFilter.isDefault()) {
-                        str = LocaleController.getString("FilterAllChats", 2131625870);
+                        str = LocaleController.getString("FilterAllChats", 2131625829);
                     }
                     if (!z2) {
                         this.progressToLock = this.currentFilter.locked ? 1.0f : 0.0f;
@@ -396,7 +396,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                     invalidate();
                 }
             }
-            sb.append(LocaleController.getString("FilterAllChats", 2131625870));
+            sb.append(LocaleController.getString("FilterAllChats", 2131625829));
             if (dialogFilter.alwaysShow.isEmpty()) {
             }
             if (sb.length() != 0) {
@@ -556,7 +556,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("Filters", 2131625940));
+        this.actionBar.setTitle(LocaleController.getString("Filters", 2131625899));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
@@ -703,7 +703,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             TextPaint textPaint = new TextPaint(1);
             textPaint.setTextSize(AndroidUtilities.dp(20.0f));
             builder.setTitle(Emoji.replaceEmoji(currentFilter.name, textPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
-            builder.setItems(new CharSequence[]{LocaleController.getString("FilterEditItem", 2131625897), LocaleController.getString("FilterDeleteItem", 2131625889)}, new int[]{2131165714, 2131165702}, new FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda1(this, currentFilter));
+            builder.setItems(new CharSequence[]{LocaleController.getString("FilterEditItem", 2131625856), LocaleController.getString("FilterDeleteItem", 2131625848)}, new int[]{2131165714, 2131165702}, new FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda1(this, currentFilter));
             AlertDialog create = builder.create();
             FiltersSetupActivity.this.showDialog(create);
             create.setItemColor(1, Theme.getColor("dialogTextRed2"), Theme.getColor("dialogRedIcon"));
@@ -721,10 +721,10 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             } else if (i != 1) {
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(FiltersSetupActivity.this.getParentActivity());
-                builder.setTitle(LocaleController.getString("FilterDelete", 2131625887));
-                builder.setMessage(LocaleController.getString("FilterDeleteAlert", 2131625888));
-                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
-                builder.setPositiveButton(LocaleController.getString("Delete", 2131625384), new FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda0(this, dialogFilter));
+                builder.setTitle(LocaleController.getString("FilterDelete", 2131625846));
+                builder.setMessage(LocaleController.getString("FilterDeleteAlert", 2131625847));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
+                builder.setPositiveButton(LocaleController.getString("Delete", 2131625368), new FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda0(this, dialogFilter));
                 AlertDialog create = builder.create();
                 FiltersSetupActivity.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
@@ -923,10 +923,10 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                     if (i != FiltersSetupActivity.this.recommendedHeaderRow) {
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("FilterRecommended", 2131625918));
+                    headerCell.setText(LocaleController.getString("FilterRecommended", 2131625877));
                     return;
                 }
-                headerCell.setText(LocaleController.getString("Filters", 2131625940));
+                headerCell.setText(LocaleController.getString("Filters", 2131625899));
                 return;
             }
             boolean z = true;
@@ -959,11 +959,11 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 if (i != FiltersSetupActivity.this.createFilterRow) {
                     return;
                 }
-                Drawable drawable = this.mContext.getResources().getDrawable(2131166080);
-                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166081);
+                Drawable drawable = this.mContext.getResources().getDrawable(2131166078);
+                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166079);
                 drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
-                textCell.setTextAndIcon(LocaleController.getString("CreateNewFilter", 2131625291), new CombinedDrawable(drawable, drawable2), false);
+                textCell.setTextAndIcon(LocaleController.getString("CreateNewFilter", 2131625275), new CombinedDrawable(drawable, drawable2), false);
             }
         }
 

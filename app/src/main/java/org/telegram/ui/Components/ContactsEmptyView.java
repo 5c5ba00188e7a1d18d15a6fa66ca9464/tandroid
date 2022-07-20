@@ -40,7 +40,7 @@ public class ContactsEmptyView extends LinearLayout implements NotificationCente
         textView.setTextSize(1, 20.0f);
         this.titleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.titleTextView.setGravity(1);
-        this.titleTextView.setText(LocaleController.getString("NoContactsYet", 2131626868));
+        this.titleTextView.setText(LocaleController.getString("NoContactsYet", 2131626816));
         this.titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.titleTextView.setMaxWidth(AndroidUtilities.dp(260.0f));
         addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 49, 0, 18, 0, 14));
@@ -65,11 +65,11 @@ public class ContactsEmptyView extends LinearLayout implements NotificationCente
                 this.textViews.add(textView2);
                 textView2.setGravity((LocaleController.isRTL ? 5 : i2) | 16);
                 if (i == 0) {
-                    textView2.setText(LocaleController.getString("NoContactsYetLine1", 2131626869));
+                    textView2.setText(LocaleController.getString("NoContactsYetLine1", 2131626817));
                 } else if (i == 1) {
-                    textView2.setText(LocaleController.getString("NoContactsYetLine2", 2131626870));
+                    textView2.setText(LocaleController.getString("NoContactsYetLine2", 2131626818));
                 } else if (i == 2) {
-                    textView2.setText(LocaleController.getString("NoContactsYetLine3", 2131626871));
+                    textView2.setText(LocaleController.getString("NoContactsYetLine3", 2131626819));
                 }
                 if (LocaleController.isRTL) {
                     linearLayout2.addView(textView2, LayoutHelper.createLinear(-2, -2));

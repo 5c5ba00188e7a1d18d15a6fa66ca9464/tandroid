@@ -55,9 +55,9 @@ public class GroupCallRecordAlert extends BottomSheet {
         viewGroup.setPadding(i, 0, i, 0);
         TextView textView = new TextView(getContext());
         if (ChatObject.isChannelOrGiga(tLRPC$Chat)) {
-            textView.setText(LocaleController.getString("VoipChannelRecordVoiceChat", 2131629055));
+            textView.setText(LocaleController.getString("VoipChannelRecordVoiceChat", 2131628981));
         } else {
-            textView.setText(LocaleController.getString("VoipRecordVoiceChat", 2131629258));
+            textView.setText(LocaleController.getString("VoipRecordVoiceChat", 2131629184));
         }
         textView.setTextColor(-1);
         textView.setTextSize(1, 20.0f);
@@ -66,7 +66,7 @@ public class GroupCallRecordAlert extends BottomSheet {
         textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         this.containerView.addView(textView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 24.0f, 29.0f, 24.0f, 0.0f));
         TextView textView2 = new TextView(getContext());
-        textView2.setText(LocaleController.getString("VoipRecordVoiceChatInfo", 2131629259));
+        textView2.setText(LocaleController.getString("VoipRecordVoiceChatInfo", 2131629185));
         textView2.setTextColor(-1);
         textView2.setTextSize(1, 14.0f);
         textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
@@ -96,7 +96,7 @@ public class GroupCallRecordAlert extends BottomSheet {
         this.positiveButton.setTextColor(Theme.getColor("voipgroup_nameText"));
         this.positiveButton.setGravity(17);
         this.positiveButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        this.positiveButton.setText(LocaleController.getString("VoipRecordStart", 2131629257));
+        this.positiveButton.setText(LocaleController.getString("VoipRecordStart", 2131629183));
         if (Build.VERSION.SDK_INT >= 23) {
             this.positiveButton.setForeground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_nameText"), 76)));
         }
@@ -121,11 +121,11 @@ public class GroupCallRecordAlert extends BottomSheet {
             this.titles[i3].setSingleLine(true);
             this.titlesLayout.addView(this.titles[i3], LayoutHelper.createLinear(-2, -1));
             if (i3 == 0) {
-                this.titles[i3].setText(LocaleController.getString("VoipRecordAudio", 2131629254));
+                this.titles[i3].setText(LocaleController.getString("VoipRecordAudio", 2131629180));
             } else if (i3 == 1) {
-                this.titles[i3].setText(LocaleController.getString("VoipRecordPortrait", 2131629256));
+                this.titles[i3].setText(LocaleController.getString("VoipRecordPortrait", 2131629182));
             } else {
-                this.titles[i3].setText(LocaleController.getString("VoipRecordLandscape", 2131629255));
+                this.titles[i3].setText(LocaleController.getString("VoipRecordLandscape", 2131629181));
             }
             this.titles[i3].setOnClickListener(new GroupCallRecordAlert$$ExternalSyntheticLambda1(this, i3));
             i3++;
@@ -384,13 +384,13 @@ public class GroupCallRecordAlert extends BottomSheet {
             anonymousClass1.setScaleType(ImageView.ScaleType.FIT_XY);
             anonymousClass1.setLayoutParams(new ViewGroup.LayoutParams(AndroidUtilities.dp(200.0f), -1));
             if (i == 0) {
-                anonymousClass1.setContentDescription(LocaleController.getString("VoipRecordAudio", 2131629254));
+                anonymousClass1.setContentDescription(LocaleController.getString("VoipRecordAudio", 2131629180));
             } else if (i == 1) {
-                anonymousClass1.setContentDescription(LocaleController.getString("VoipRecordPortrait", 2131629256));
+                anonymousClass1.setContentDescription(LocaleController.getString("VoipRecordPortrait", 2131629182));
             } else {
-                anonymousClass1.setContentDescription(LocaleController.getString("VoipRecordLandscape", 2131629255));
+                anonymousClass1.setContentDescription(LocaleController.getString("VoipRecordLandscape", 2131629181));
             }
-            SvgHelper.SvgDrawable drawable = SvgHelper.getDrawable(RLottieDrawable.readRes(null, i == 0 ? 2131558536 : i == 1 ? 2131558538 : 2131558537));
+            SvgHelper.SvgDrawable drawable = SvgHelper.getDrawable(RLottieDrawable.readRes(null, i == 0 ? 2131558520 : i == 1 ? 2131558522 : 2131558521));
             drawable.setAspectFill(false);
             anonymousClass1.setImageDrawable(drawable);
             if (anonymousClass1.getParent() != null) {

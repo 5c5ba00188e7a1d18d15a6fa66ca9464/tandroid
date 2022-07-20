@@ -29,7 +29,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         this.delegate = anonymousClass1;
         anonymousClass1.setShowLastItemDivider(false);
         setDimBehindAlpha(75);
-        this.searchView.searchEditText.setHint(LocaleController.getString("SearchMemberRequests", 2131628179));
+        this.searchView.searchEditText.setHint(LocaleController.getString("SearchMemberRequests", 2131628117));
         MemberRequestsDelegate.Adapter adapter = anonymousClass1.getAdapter();
         this.listViewAdapter = adapter;
         this.searchListViewAdapter = adapter;
@@ -48,7 +48,6 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         anonymousClass1.loadMembers();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* renamed from: org.telegram.ui.Components.MemberRequestsBottomSheet$1 */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 extends MemberRequestsDelegate {

@@ -48,7 +48,7 @@ public interface Brush {
         public Bitmap getStamp() {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = false;
-            return BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), 2131166032, options);
+            return BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), 2131166030, options);
         }
     }
 
@@ -83,7 +83,7 @@ public interface Brush {
         public Bitmap getStamp() {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = false;
-            return BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), 2131166030, options);
+            return BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), 2131166028, options);
         }
     }
 
@@ -118,7 +118,7 @@ public interface Brush {
         public Bitmap getStamp() {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = false;
-            return BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), 2131166031, options);
+            return BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), 2131166029, options);
         }
     }
 
@@ -153,7 +153,7 @@ public interface Brush {
         public Bitmap getStamp() {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = false;
-            return BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), 2131166032, options);
+            return BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), 2131166030, options);
         }
     }
 }

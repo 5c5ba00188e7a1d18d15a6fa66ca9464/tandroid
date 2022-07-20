@@ -82,17 +82,17 @@ public class HintView extends FrameLayout {
             addView(this.textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, z ? 6.0f : 0.0f, 0.0f, z ? 0.0f : 6.0f));
         }
         if (i == 0) {
-            this.textView.setText(LocaleController.getString("AutoplayVideoInfo", 2131624642));
+            this.textView.setText(LocaleController.getString("AutoplayVideoInfo", 2131624631));
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
-            imageView.setImageResource(2131166188);
+            imageView.setImageResource(2131166186);
             this.imageView.setScaleType(ImageView.ScaleType.CENTER);
             this.imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_gifSaveHintText"), PorterDuff.Mode.MULTIPLY));
             addView(this.imageView, LayoutHelper.createFrame(38, 34.0f, 51, 7.0f, 7.0f, 0.0f, 0.0f));
         }
         ImageView imageView2 = new ImageView(context);
         this.arrowImageView = imageView2;
-        imageView2.setImageResource(z ? 2131166187 : 2131166186);
+        imageView2.setImageResource(z ? 2131166185 : 2131166184);
         this.arrowImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_gifSaveHintBackground"), PorterDuff.Mode.MULTIPLY));
         addView(this.arrowImageView, LayoutHelper.createFrame(14, 6.0f, (z ? 48 : 80) | 3, 0.0f, 0.0f, 0.0f, 0.0f));
     }
@@ -160,15 +160,15 @@ public class HintView extends FrameLayout {
                 i6 += i2;
                 this.shownY = i2;
                 if (num.intValue() == -1) {
-                    this.textView.setText(LocaleController.getString("PollSelectOption", 2131627638));
+                    this.textView.setText(LocaleController.getString("PollSelectOption", 2131627586));
                 } else if (chatMessageCell.getMessageObject().isQuiz()) {
                     if (num.intValue() == 0) {
-                        this.textView.setText(LocaleController.getString("NoVotesQuiz", 2131626931));
+                        this.textView.setText(LocaleController.getString("NoVotesQuiz", 2131626879));
                     } else {
                         this.textView.setText(LocaleController.formatPluralString("Answer", num.intValue(), new Object[0]));
                     }
                 } else if (num.intValue() == 0) {
-                    this.textView.setText(LocaleController.getString("NoVotes", 2131626930));
+                    this.textView.setText(LocaleController.getString("NoVotes", 2131626878));
                 } else {
                     this.textView.setText(LocaleController.formatPluralString("Vote", num.intValue(), new Object[0]));
                 }
@@ -178,7 +178,7 @@ public class HintView extends FrameLayout {
                 MessageObject messageObject = chatMessageCell.getMessageObject();
                 String str = this.overrideText;
                 if (str == null) {
-                    this.textView.setText(LocaleController.getString("HidAccount", 2131626177));
+                    this.textView.setText(LocaleController.getString("HidAccount", 2131626130));
                 } else {
                     this.textView.setText(str);
                 }
@@ -502,10 +502,6 @@ public class HintView extends FrameLayout {
     }
 
     public void hide() {
-        hide(true);
-    }
-
-    public void hide(boolean z) {
         if (getTag() == null) {
             return;
         }
@@ -520,19 +516,12 @@ public class HintView extends FrameLayout {
             animatorSet.cancel();
             this.animatorSet = null;
         }
-        if (z) {
-            AnimatorSet animatorSet2 = new AnimatorSet();
-            this.animatorSet = animatorSet2;
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f));
-            this.animatorSet.addListener(new AnonymousClass3());
-            this.animatorSet.setDuration(300L);
-            this.animatorSet.start();
-            return;
-        }
-        setVisibility(4);
-        this.currentView = null;
-        this.messageCell = null;
-        this.animatorSet = null;
+        AnimatorSet animatorSet2 = new AnimatorSet();
+        this.animatorSet = animatorSet2;
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f));
+        this.animatorSet.addListener(new AnonymousClass3());
+        this.animatorSet.setDuration(300L);
+        this.animatorSet.start();
     }
 
     /* renamed from: org.telegram.ui.Components.HintView$3 */

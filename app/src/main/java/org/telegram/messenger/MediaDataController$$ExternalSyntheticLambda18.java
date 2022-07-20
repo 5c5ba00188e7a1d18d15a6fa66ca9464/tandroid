@@ -11,6 +11,6 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda1
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$processLoadedStickers$75(this.f$1);
+        this.f$0.lambda$processLoadedFeaturedStickers$44(this.f$1);
     }
 }

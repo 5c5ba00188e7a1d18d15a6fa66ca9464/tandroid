@@ -12,6 +12,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda249 impl
 
     @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
     public final void onItemClick(View view, int i) {
-        this.f$0.lambda$createView$46(view, i);
+        this.f$0.lambda$initStickers$90(view, i);
     }
 }

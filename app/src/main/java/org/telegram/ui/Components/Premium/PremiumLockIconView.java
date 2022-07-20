@@ -30,7 +30,6 @@ public class PremiumLockIconView extends ImageView {
     boolean waitingImage;
     boolean wasDrawn;
     private float[] colorFloat = new float[3];
-    boolean colorRetrieved = false;
     int currentColor = -1;
     Shader shader = null;
     Path path = new Path();
@@ -41,7 +40,7 @@ public class PremiumLockIconView extends ImageView {
     public PremiumLockIconView(Context context, int i) {
         super(context);
         this.type = i;
-        setImageResource(i == TYPE_REACTIONS ? 2131165876 : 2131165806);
+        setImageResource(i == TYPE_REACTIONS ? 2131165874 : 2131165805);
         if (i == TYPE_REACTIONS) {
             StarParticlesView.Drawable drawable = new StarParticlesView.Drawable(5);
             this.starParticles = drawable;
@@ -75,7 +74,6 @@ public class PremiumLockIconView extends ImageView {
     }
 
     public void setColor(int i) {
-        this.colorRetrieved = true;
         if (this.currentColor != i) {
             this.currentColor = i;
             if (this.type == TYPE_REACTIONS) {
@@ -209,10 +207,6 @@ public class PremiumLockIconView extends ImageView {
         invalidate();
     }
 
-    public boolean ready() {
-        return this.colorRetrieved;
-    }
-
     public void play(int i) {
         CellFlickerDrawable cellFlickerDrawable = this.cellFlickerDrawable;
         cellFlickerDrawable.progress = 0.0f;
@@ -228,7 +222,7 @@ public class PremiumLockIconView extends ImageView {
 
     public void setLocked(boolean z) {
         if (this.type != TYPE_REACTIONS) {
-            setImageResource(z ? 2131165806 : 2131165808);
+            setImageResource(z ? 2131165805 : 2131165807);
         }
     }
 }

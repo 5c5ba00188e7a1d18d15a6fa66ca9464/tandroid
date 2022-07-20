@@ -15,6 +15,6 @@ public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda9 imp
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$requestWebView$14(this.f$1, this.f$2);
+        this.f$0.lambda$requestWebView$15(this.f$1, this.f$2);
     }
 }

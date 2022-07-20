@@ -47,7 +47,7 @@ import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class FiltersView extends RecyclerListView {
     LinearLayoutManager layoutManager;
-    public static final MediaFilterData[] filters = {new MediaFilterData(2131166129, LocaleController.getString("SharedMediaTab2", 2131628366), new TLRPC$TL_inputMessagesFilterPhotoVideo(), 0), new MediaFilterData(2131166128, LocaleController.getString("SharedLinksTab2", 2131628363), new TLRPC$TL_inputMessagesFilterUrl(), 2), new MediaFilterData(2131166127, LocaleController.getString("SharedFilesTab2", 2131628359), new TLRPC$TL_inputMessagesFilterDocument(), 1), new MediaFilterData(2131166130, LocaleController.getString("SharedMusicTab2", 2131628368), new TLRPC$TL_inputMessagesFilterMusic(), 3), new MediaFilterData(2131166132, LocaleController.getString("SharedVoiceTab2", 2131628372), new TLRPC$TL_inputMessagesFilterRoundVoice(), 5)};
+    public static final MediaFilterData[] filters = {new MediaFilterData(2131166127, LocaleController.getString("SharedMediaTab2", 2131628304), new TLRPC$TL_inputMessagesFilterPhotoVideo(), 0), new MediaFilterData(2131166126, LocaleController.getString("SharedLinksTab2", 2131628301), new TLRPC$TL_inputMessagesFilterUrl(), 2), new MediaFilterData(2131166125, LocaleController.getString("SharedFilesTab2", 2131628297), new TLRPC$TL_inputMessagesFilterDocument(), 1), new MediaFilterData(2131166128, LocaleController.getString("SharedMusicTab2", 2131628306), new TLRPC$TL_inputMessagesFilterMusic(), 3), new MediaFilterData(2131166130, LocaleController.getString("SharedVoiceTab2", 2131628310), new TLRPC$TL_inputMessagesFilterRoundVoice(), 5)};
     private static final Pattern yearPatter = Pattern.compile("20[0-9]{1,2}");
     private static final Pattern monthYearOrDayPatter = Pattern.compile("(\\w{3,}) ([0-9]{0,4})");
     private static final Pattern yearOrDayAndMonthPatter = Pattern.compile("([0-9]{0,4}) (\\w{2,})");
@@ -260,11 +260,11 @@ public class FiltersView extends RecyclerListView {
                 if (obj instanceof TLRPC$User) {
                     TLRPC$User tLRPC$User = (TLRPC$User) obj;
                     if (UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser().id == tLRPC$User.id) {
-                        str = LocaleController.getString("SavedMessages", 2131628139);
+                        str = LocaleController.getString("SavedMessages", 2131628077);
                     } else {
                         str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name, 10);
                     }
-                    MediaFilterData mediaFilterData = new MediaFilterData(2131166131, str, null, 4);
+                    MediaFilterData mediaFilterData = new MediaFilterData(2131166129, str, null, 4);
                     mediaFilterData.setUser(tLRPC$User);
                     this.usersFilters.add(mediaFilterData);
                 } else if (obj instanceof TLRPC$Chat) {
@@ -273,7 +273,7 @@ public class FiltersView extends RecyclerListView {
                     if (str2.length() > 12) {
                         str2 = String.format("%s...", str2.substring(0, 10));
                     }
-                    MediaFilterData mediaFilterData2 = new MediaFilterData(2131166131, str2, null, 4);
+                    MediaFilterData mediaFilterData2 = new MediaFilterData(2131166129, str2, null, 4);
                     mediaFilterData2.setUser(tLRPC$Chat);
                     this.usersFilters.add(mediaFilterData2);
                 }
@@ -282,13 +282,13 @@ public class FiltersView extends RecyclerListView {
         if (arrayList2 != null) {
             for (int i2 = 0; i2 < arrayList2.size(); i2++) {
                 DateData dateData = arrayList2.get(i2);
-                MediaFilterData mediaFilterData3 = new MediaFilterData(2131166126, dateData.title, null, 6);
+                MediaFilterData mediaFilterData3 = new MediaFilterData(2131166124, dateData.title, null, 6);
                 mediaFilterData3.setDate(dateData);
                 this.usersFilters.add(mediaFilterData3);
             }
         }
         if (z) {
-            this.usersFilters.add(new MediaFilterData(2131165331, LocaleController.getString("ArchiveSearchFilter", 2131624414), null, 7));
+            this.usersFilters.add(new MediaFilterData(2131165331, LocaleController.getString("ArchiveSearchFilter", 2131624405), null, 7));
         }
         if (getAdapter() != null) {
             UpdateCallback updateCallback = new UpdateCallback(getAdapter(), null);
@@ -309,7 +309,7 @@ public class FiltersView extends RecyclerListView {
         if (trim.length() < 3) {
             return;
         }
-        if (LocaleController.getString("SearchTipToday", 2131628185).toLowerCase().startsWith(trim) || "today".startsWith(trim)) {
+        if (LocaleController.getString("SearchTipToday", 2131628123).toLowerCase().startsWith(trim) || "today".startsWith(trim)) {
             Calendar calendar = Calendar.getInstance();
             int i = calendar.get(1);
             int i2 = calendar.get(2);
@@ -317,15 +317,15 @@ public class FiltersView extends RecyclerListView {
             calendar.set(i, i2, i3, 0, 0, 0);
             long timeInMillis = calendar.getTimeInMillis();
             calendar.set(i, i2, i3 + 1, 0, 0, 0);
-            arrayList.add(new DateData(LocaleController.getString("SearchTipToday", 2131628185), timeInMillis, calendar.getTimeInMillis() - 1, null));
-        } else if (LocaleController.getString("SearchTipYesterday", 2131628186).toLowerCase().startsWith(trim) || "yesterday".startsWith(trim)) {
+            arrayList.add(new DateData(LocaleController.getString("SearchTipToday", 2131628123), timeInMillis, calendar.getTimeInMillis() - 1, null));
+        } else if (LocaleController.getString("SearchTipYesterday", 2131628124).toLowerCase().startsWith(trim) || "yesterday".startsWith(trim)) {
             Calendar calendar2 = Calendar.getInstance();
             int i4 = calendar2.get(1);
             int i5 = calendar2.get(2);
             int i6 = calendar2.get(5);
             calendar2.set(i4, i5, i6, 0, 0, 0);
             calendar2.set(i4, i5, i6 + 1, 0, 0, 0);
-            arrayList.add(new DateData(LocaleController.getString("SearchTipYesterday", 2131628186), calendar2.getTimeInMillis() - 86400000, calendar2.getTimeInMillis() - 86400001, null));
+            arrayList.add(new DateData(LocaleController.getString("SearchTipYesterday", 2131628124), calendar2.getTimeInMillis() - 86400000, calendar2.getTimeInMillis() - 86400001, null));
         } else {
             int dayOfWeek = getDayOfWeek(trim);
             if (dayOfWeek >= 0) {
@@ -534,7 +534,7 @@ public class FiltersView extends RecyclerListView {
     }
 
     public static int getMonth(String str) {
-        String[] strArr = {LocaleController.getString("January", 2131626358).toLowerCase(), LocaleController.getString("February", 2131625846).toLowerCase(), LocaleController.getString("March", 2131626587).toLowerCase(), LocaleController.getString("April", 2131624400).toLowerCase(), LocaleController.getString("May", 2131626603).toLowerCase(), LocaleController.getString("June", 2131626383).toLowerCase(), LocaleController.getString("July", 2131626381).toLowerCase(), LocaleController.getString("August", 2131624534).toLowerCase(), LocaleController.getString("September", 2131628290).toLowerCase(), LocaleController.getString("October", 2131627128).toLowerCase(), LocaleController.getString("November", 2131627124).toLowerCase(), LocaleController.getString("December", 2131625378).toLowerCase()};
+        String[] strArr = {LocaleController.getString("January", 2131626311).toLowerCase(), LocaleController.getString("February", 2131625805).toLowerCase(), LocaleController.getString("March", 2131626540).toLowerCase(), LocaleController.getString("April", 2131624391).toLowerCase(), LocaleController.getString("May", 2131626556).toLowerCase(), LocaleController.getString("June", 2131626336).toLowerCase(), LocaleController.getString("July", 2131626334).toLowerCase(), LocaleController.getString("August", 2131624523).toLowerCase(), LocaleController.getString("September", 2131628228).toLowerCase(), LocaleController.getString("October", 2131627076).toLowerCase(), LocaleController.getString("November", 2131627072).toLowerCase(), LocaleController.getString("December", 2131625362).toLowerCase()};
         String[] strArr2 = new String[12];
         Calendar calendar = Calendar.getInstance();
         for (int i = 1; i <= 12; i++) {

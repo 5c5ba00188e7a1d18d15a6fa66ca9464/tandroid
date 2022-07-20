@@ -1,15 +1,16 @@
 package com.android.billingclient.api;
 
+import com.google.android.gms.internal.play_billing.zzu;
 import java.util.List;
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
 public final class QueryProductDetailsParams {
-    private final com.google.android.gms.internal.play_billing.zzu zza;
+    private final zzu zza;
 
     /* compiled from: com.android.billingclient:billing@@5.0.0 */
     /* loaded from: classes.dex */
     public static class Builder {
-        private com.google.android.gms.internal.play_billing.zzu zza;
+        private zzu zza;
 
         /* synthetic */ Builder(zzbj zzbjVar) {
         }
@@ -29,7 +30,7 @@ public final class QueryProductDetailsParams {
                 z2 |= product.zzb().equals("subs");
             }
             if (!z || !z2) {
-                this.zza = com.google.android.gms.internal.play_billing.zzu.zzk(list);
+                this.zza = zzu.zzk(list);
                 return this;
             }
             throw new IllegalArgumentException("All products should be of the same product type.");
@@ -98,7 +99,7 @@ public final class QueryProductDetailsParams {
         return new Builder(null);
     }
 
-    public final com.google.android.gms.internal.play_billing.zzu zza() {
+    public final zzu zza() {
         return this.zza;
     }
 

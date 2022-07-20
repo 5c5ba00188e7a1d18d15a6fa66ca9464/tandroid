@@ -1,20 +1,17 @@
 package org.telegram.messenger;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import org.telegram.messenger.MediaDataController;
+import org.telegram.tgnet.TLRPC$MessageEntity;
 /* loaded from: classes.dex */
-public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda130 implements Comparator {
-    public final /* synthetic */ ArrayList f$0;
+public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda130 implements GenericProvider {
+    public static final /* synthetic */ MediaDataController$$ExternalSyntheticLambda130 INSTANCE = new MediaDataController$$ExternalSyntheticLambda130();
 
-    public /* synthetic */ MediaDataController$$ExternalSyntheticLambda130(ArrayList arrayList) {
-        this.f$0 = arrayList;
+    private /* synthetic */ MediaDataController$$ExternalSyntheticLambda130() {
     }
 
-    @Override // java.util.Comparator
-    public final int compare(Object obj, Object obj2) {
-        int lambda$getEmojiSuggestions$176;
-        lambda$getEmojiSuggestions$176 = MediaDataController.lambda$getEmojiSuggestions$176(this.f$0, (MediaDataController.KeywordResult) obj, (MediaDataController.KeywordResult) obj2);
-        return lambda$getEmojiSuggestions$176;
+    @Override // org.telegram.messenger.GenericProvider
+    public final Object provide(Object obj) {
+        TLRPC$MessageEntity lambda$getEntities$142;
+        lambda$getEntities$142 = MediaDataController.lambda$getEntities$142((Void) obj);
+        return lambda$getEntities$142;
     }
 }

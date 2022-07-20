@@ -176,16 +176,16 @@ public class PollCreateActivity extends BaseFragment {
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
         if (this.quizOnly == 1) {
-            this.actionBar.setTitle(LocaleController.getString("NewQuiz", 2131626844));
+            this.actionBar.setTitle(LocaleController.getString("NewQuiz", 2131626792));
         } else {
-            this.actionBar.setTitle(LocaleController.getString("NewPoll", 2131626843));
+            this.actionBar.setTitle(LocaleController.getString("NewPoll", 2131626791));
         }
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
         }
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
-        this.doneItem = this.actionBar.createMenu().addItem(1, LocaleController.getString("Create", 2131625284).toUpperCase());
+        this.doneItem = this.actionBar.createMenu().addItem(1, LocaleController.getString("Create", 2131625268).toUpperCase());
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
@@ -203,7 +203,7 @@ public class PollCreateActivity extends BaseFragment {
         this.listView.setOnScrollListener(new AnonymousClass3());
         HintView hintView = new HintView(context, 4);
         this.hintView = hintView;
-        hintView.setText(LocaleController.getString("PollTapToSelect", 2131627640));
+        hintView.setText(LocaleController.getString("PollTapToSelect", 2131627588));
         this.hintView.setAlpha(0.0f);
         this.hintView.setVisibility(4);
         frameLayout2.addView(this.hintView, LayoutHelper.createFrame(-2, -2.0f, 51, 19.0f, 0.0f, 19.0f, 0.0f));
@@ -590,10 +590,10 @@ public class PollCreateActivity extends BaseFragment {
         }
         if (!isEmpty) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString("CancelPollAlertTitle", 2131624850));
-            builder.setMessage(LocaleController.getString("CancelPollAlertText", 2131624849));
-            builder.setPositiveButton(LocaleController.getString("PassportDiscard", 2131627272), new PollCreateActivity$$ExternalSyntheticLambda0(this));
-            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+            builder.setTitle(LocaleController.getString("CancelPollAlertTitle", 2131624837));
+            builder.setMessage(LocaleController.getString("CancelPollAlertText", 2131624836));
+            builder.setPositiveButton(LocaleController.getString("PassportDiscard", 2131627220), new PollCreateActivity$$ExternalSyntheticLambda0(this));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
             showDialog(builder.create());
         }
         return isEmpty;
@@ -681,20 +681,20 @@ public class PollCreateActivity extends BaseFragment {
                 if (i != PollCreateActivity.this.questionHeaderRow) {
                     if (i == PollCreateActivity.this.answerHeaderRow) {
                         if (PollCreateActivity.this.quizOnly == 1) {
-                            headerCell.setText(LocaleController.getString("QuizAnswers", 2131627883));
+                            headerCell.setText(LocaleController.getString("QuizAnswers", 2131627821));
                             return;
                         } else {
-                            headerCell.setText(LocaleController.getString("AnswerOptions", 2131624367));
+                            headerCell.setText(LocaleController.getString("AnswerOptions", 2131624358));
                             return;
                         }
                     } else if (i != PollCreateActivity.this.settingsHeaderRow) {
                         return;
                     } else {
-                        headerCell.setText(LocaleController.getString("Settings", 2131628321));
+                        headerCell.setText(LocaleController.getString("Settings", 2131628259));
                         return;
                     }
                 }
-                headerCell.setText(LocaleController.getString("PollQuestion", 2131627635));
+                headerCell.setText(LocaleController.getString("PollQuestion", 2131627583));
                 return;
             }
             boolean z2 = false;
@@ -705,14 +705,14 @@ public class PollCreateActivity extends BaseFragment {
                         if (i != PollCreateActivity.this.quizRow) {
                             return;
                         }
-                        textCheckCell.setTextAndCheck(LocaleController.getString("PollQuiz", 2131627636), PollCreateActivity.this.quizPoll, false);
+                        textCheckCell.setTextAndCheck(LocaleController.getString("PollQuiz", 2131627584), PollCreateActivity.this.quizPoll, false);
                         if (PollCreateActivity.this.quizOnly != 0) {
                             z = false;
                         }
                         textCheckCell.setEnabled(z, null);
                         return;
                     }
-                    String string = LocaleController.getString("PollMultiple", 2131627634);
+                    String string = LocaleController.getString("PollMultiple", 2131627582);
                     boolean z3 = PollCreateActivity.this.multipleChoise;
                     if (PollCreateActivity.this.quizRow != -1) {
                         z2 = true;
@@ -721,7 +721,7 @@ public class PollCreateActivity extends BaseFragment {
                     textCheckCell.setEnabled(true, null);
                     return;
                 }
-                String string2 = LocaleController.getString("PollAnonymous", 2131627630);
+                String string2 = LocaleController.getString("PollAnonymous", 2131627578);
                 boolean z4 = PollCreateActivity.this.anonymousPoll;
                 if (PollCreateActivity.this.multipleRow != -1 || PollCreateActivity.this.quizRow != -1) {
                     z2 = true;
@@ -734,11 +734,11 @@ public class PollCreateActivity extends BaseFragment {
                 }
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(null, "windowBackgroundWhiteBlueText4");
-                Drawable drawable = this.mContext.getResources().getDrawable(2131166080);
-                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166081);
+                Drawable drawable = this.mContext.getResources().getDrawable(2131166078);
+                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166079);
                 drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
-                textCell.setTextAndIcon(LocaleController.getString("AddAnOption", 2131624248), (Drawable) new CombinedDrawable(drawable, drawable2), false);
+                textCell.setTextAndIcon(LocaleController.getString("AddAnOption", 2131624243), (Drawable) new CombinedDrawable(drawable, drawable2), false);
             } else {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 textInfoPrivacyCell.setFixedSize(0);
@@ -750,17 +750,17 @@ public class PollCreateActivity extends BaseFragment {
                             textInfoPrivacyCell.setText(null);
                             return;
                         }
-                        textInfoPrivacyCell.setText(LocaleController.getString("QuizInfo", 2131627884));
+                        textInfoPrivacyCell.setText(LocaleController.getString("QuizInfo", 2131627822));
                         return;
                     } else if (10 - PollCreateActivity.this.answersCount <= 0) {
-                        textInfoPrivacyCell.setText(LocaleController.getString("AddAnOptionInfoMax", 2131624250));
+                        textInfoPrivacyCell.setText(LocaleController.getString("AddAnOptionInfoMax", 2131624245));
                         return;
                     } else {
-                        textInfoPrivacyCell.setText(LocaleController.formatString("AddAnOptionInfo", 2131624249, LocaleController.formatPluralString("Option", 10 - PollCreateActivity.this.answersCount, new Object[0])));
+                        textInfoPrivacyCell.setText(LocaleController.formatString("AddAnOptionInfo", 2131624244, LocaleController.formatPluralString("Option", 10 - PollCreateActivity.this.answersCount, new Object[0])));
                         return;
                     }
                 }
-                textInfoPrivacyCell.setText(LocaleController.getString("AddAnExplanationInfo", 2131624247));
+                textInfoPrivacyCell.setText(LocaleController.getString("AddAnExplanationInfo", 2131624242));
             }
         }
 
@@ -774,7 +774,7 @@ public class PollCreateActivity extends BaseFragment {
                 if (PollCreateActivity.this.questionString != null) {
                     charSequence = PollCreateActivity.this.questionString;
                 }
-                pollEditTextCell.setTextAndHint(charSequence, LocaleController.getString("QuestionHint", 2131627877), false);
+                pollEditTextCell.setTextAndHint(charSequence, LocaleController.getString("QuestionHint", 2131627815), false);
                 pollEditTextCell.setTag(null);
                 PollCreateActivity.this.setTextLeft(viewHolder.itemView, viewHolder.getAdapterPosition());
             } else if (itemViewType != 5) {
@@ -786,14 +786,14 @@ public class PollCreateActivity extends BaseFragment {
                 if (PollCreateActivity.this.solutionString != null) {
                     charSequence = PollCreateActivity.this.solutionString;
                 }
-                pollEditTextCell2.setTextAndHint(charSequence, LocaleController.getString("AddAnExplanation", 2131624246), false);
+                pollEditTextCell2.setTextAndHint(charSequence, LocaleController.getString("AddAnExplanation", 2131624241), false);
                 pollEditTextCell2.setTag(null);
                 PollCreateActivity.this.setTextLeft(viewHolder.itemView, viewHolder.getAdapterPosition());
             } else {
                 int adapterPosition = viewHolder.getAdapterPosition();
                 PollEditTextCell pollEditTextCell3 = (PollEditTextCell) viewHolder.itemView;
                 pollEditTextCell3.setTag(1);
-                pollEditTextCell3.setTextAndHint(PollCreateActivity.this.answers[adapterPosition - PollCreateActivity.this.answerStartRow], LocaleController.getString("OptionHint", 2131627164), true);
+                pollEditTextCell3.setTextAndHint(PollCreateActivity.this.answers[adapterPosition - PollCreateActivity.this.answerStartRow], LocaleController.getString("OptionHint", 2131627112), true);
                 pollEditTextCell3.setTag(null);
                 if (PollCreateActivity.this.requestFieldFocusAtPosition == adapterPosition) {
                     EditTextBoldCursor textView = pollEditTextCell3.getTextView();

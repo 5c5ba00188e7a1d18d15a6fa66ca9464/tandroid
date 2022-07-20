@@ -117,7 +117,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
 
         public ActionBarPopupWindowLayout(Context context, Theme.ResourcesProvider resourcesProvider) {
-            this(context, 2131166088, resourcesProvider);
+            this(context, 2131166086, resourcesProvider);
         }
 
         public ActionBarPopupWindowLayout(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
@@ -208,9 +208,9 @@ public class ActionBarPopupWindow extends PopupWindow {
                     for (int i5 = 0; i5 < childCount; i5++) {
                         View childAt = getChildAt(i5);
                         if (childAt.getVisibility() != 8) {
-                            Object tag = childAt.getTag(2131230955);
-                            Object tag2 = childAt.getTag(2131230876);
-                            Object tag3 = childAt.getTag(2131230821);
+                            Object tag = childAt.getTag(2131230954);
+                            Object tag2 = childAt.getTag(2131230875);
+                            Object tag3 = childAt.getTag(2131230820);
                             if (tag != null) {
                                 childAt.getLayoutParams().width = -2;
                             }
@@ -640,7 +640,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             for (int i2 = 0; i2 < childCount; i2++) {
                 View childAt2 = this.linearLayout.getChildAt(i2);
                 if (childAt2.getVisibility() == 0) {
-                    Object tag = childAt2.getTag(2131230876);
+                    Object tag = childAt2.getTag(2131230875);
                     if (childAt2 instanceof ActionBarMenuSubItem) {
                         ((ActionBarMenuSubItem) childAt2).updateSelectorBackground(childAt2 == view || z, childAt2 == view2);
                     }

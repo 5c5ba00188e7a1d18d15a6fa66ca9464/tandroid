@@ -37,12 +37,12 @@ public class LauncherIconController {
 
     /* loaded from: classes3.dex */
     public enum LauncherIcon {
-        DEFAULT("DefaultIcon", 2131165523, 2131492893, 2131624379),
-        VINTAGE("VintageIcon", 2131165518, 2131492887, 2131624383),
-        AQUA("AquaIcon", 2131165512, 2131492893, 2131624377),
-        PREMIUM("PremiumIcon", 2131165509, 2131492872, 2131624381, true),
-        TURBO("TurboIcon", 2131165515, 2131492881, 2131624382, true),
-        NOX("NoxIcon", 2131165506, 2131492893, 2131624380, true);
+        DEFAULT("DefaultIcon", 2131165523, 2131492893, 2131624370),
+        VINTAGE("VintageIcon", 2131165518, 2131492887, 2131624374),
+        AQUA("AquaIcon", 2131165512, 2131492893, 2131624368),
+        PREMIUM("PremiumIcon", 2131165509, 2131492872, 2131624372, true),
+        TURBO("TurboIcon", 2131165515, 2131492881, 2131624373, true),
+        NOX("NoxIcon", 2131165506, 2131492893, 2131624371, true);
         
         public final int background;
         private ComponentName componentName;

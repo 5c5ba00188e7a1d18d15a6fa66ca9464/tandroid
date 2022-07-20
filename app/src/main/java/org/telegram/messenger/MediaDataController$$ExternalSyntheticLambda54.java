@@ -11,6 +11,6 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda5
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$fetchNewEmojiKeywords$168(this.f$1);
+        this.f$0.lambda$fetchNewEmojiKeywords$165(this.f$1);
     }
 }

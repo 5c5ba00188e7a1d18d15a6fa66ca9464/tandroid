@@ -11,6 +11,6 @@ public final /* synthetic */ class ChannelCreateActivity$$ExternalSyntheticLambd
 
     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-        this.f$0.lambda$updateDoneProgress$4(valueAnimator);
+        this.f$0.lambda$updateDoneProgress$3(valueAnimator);
     }
 }

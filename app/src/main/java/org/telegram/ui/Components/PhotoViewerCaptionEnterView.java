@@ -12,7 +12,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Vibrator;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -137,7 +136,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         this.emojiButton.setAlpha(0.58f);
         frameLayout.addView(this.emojiButton, LayoutHelper.createFrame(48, 48, 83));
         this.emojiButton.setOnClickListener(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda5(this));
-        this.emojiButton.setContentDescription(LocaleController.getString("Emoji", 2131625616));
+        this.emojiButton.setContentDescription(LocaleController.getString("Emoji", 2131625600));
         ImageView imageView2 = this.emojiButton;
         ReplaceableIconDrawable replaceableIconDrawable = new ReplaceableIconDrawable(context);
         this.emojiIconDrawable = replaceableIconDrawable;
@@ -155,7 +154,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         this.messageEditText.setSelectAllOnFocus(false);
         this.messageEditText.setDelegate(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda9(this));
         this.messageEditText.setWindowView(this.windowView);
-        this.messageEditText.setHint(LocaleController.getString("AddCaption", 2131624263));
+        this.messageEditText.setHint(LocaleController.getString("AddCaption", 2131624258));
         this.messageEditText.setImeOptions(268435456);
         this.messageEditText.setLinkTextColor(-8994063);
         EditTextCaption editTextCaption = this.messageEditText;
@@ -184,7 +183,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         imageView3.setImageDrawable(combinedDrawable);
         linearLayout.addView(imageView3, LayoutHelper.createLinear(48, 48, 80));
         imageView3.setOnClickListener(new PhotoViewerCaptionEnterView$$ExternalSyntheticLambda3(this));
-        imageView3.setContentDescription(LocaleController.getString("Done", 2131625541));
+        imageView3.setContentDescription(LocaleController.getString("Done", 2131625525));
         NumberTextView numberTextView = new NumberTextView(context);
         this.captionLimitView = numberTextView;
         numberTextView.setVisibility(8);
@@ -589,7 +588,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         if (this.emojiView != null) {
             return;
         }
-        EmojiView emojiView = new EmojiView(null, true, false, false, getContext(), false, null, null, null);
+        EmojiView emojiView = new EmojiView(false, false, getContext(), false, null, null, null);
         this.emojiView = emojiView;
         emojiView.setDelegate(new AnonymousClass3());
         this.sizeNotifierLayout.addView(this.emojiView);
@@ -704,28 +703,6 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             }
             PhotoViewerCaptionEnterView.this.messageEditText.dispatchKeyEvent(new KeyEvent(0, 67));
             return true;
-        }
-
-        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-        public void onCustomEmojiSelected(long j, String str) {
-            int selectionEnd = PhotoViewerCaptionEnterView.this.messageEditText.getSelectionEnd();
-            if (selectionEnd < 0) {
-                selectionEnd = 0;
-            }
-            try {
-                try {
-                    PhotoViewerCaptionEnterView.this.innerTextChange = true;
-                    SpannableString spannableString = new SpannableString(str);
-                    spannableString.setSpan(new AnimatedEmojiSpan(j, PhotoViewerCaptionEnterView.this.messageEditText.getPaint().getFontMetricsInt()), 0, spannableString.length(), 33);
-                    PhotoViewerCaptionEnterView.this.messageEditText.setText(PhotoViewerCaptionEnterView.this.messageEditText.getText().insert(selectionEnd, spannableString));
-                    int length = selectionEnd + spannableString.length();
-                    PhotoViewerCaptionEnterView.this.messageEditText.setSelection(length, length);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-            } finally {
-                PhotoViewerCaptionEnterView.this.innerTextChange = false;
-            }
         }
 
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate

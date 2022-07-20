@@ -94,7 +94,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             this.mediaSession = new MediaSession(this, "telegramAudioPlayer");
             this.playbackState = new PlaybackState.Builder();
             this.albumArtPlaceholder = Bitmap.createBitmap(AndroidUtilities.dp(102.0f), AndroidUtilities.dp(102.0f), Bitmap.Config.ARGB_8888);
-            Drawable drawable = getResources().getDrawable(2131166003);
+            Drawable drawable = getResources().getDrawable(2131166001);
             drawable.setBounds(0, 0, this.albumArtPlaceholder.getWidth(), this.albumArtPlaceholder.getHeight());
             drawable.draw(new Canvas(this.albumArtPlaceholder));
             this.mediaSession.setCallback(new AnonymousClass2());
@@ -261,7 +261,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             PendingIntent broadcast3 = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.next").setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
             PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.seek").setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
             Notification.Builder builder = new Notification.Builder(this);
-            builder.setSmallIcon(2131166068).setOngoing(z2).setContentTitle(musicTitle).setContentText(musicAuthor).setSubText(audioInfo != null ? audioInfo.getAlbum() : null).setContentIntent(activity).setDeleteIntent(service).setShowWhen(false).setCategory("transport").setPriority(2).setStyle(new Notification.MediaStyle().setMediaSession(this.mediaSession.getSessionToken()).setShowActionsInCompactView(0, 1, 2));
+            builder.setSmallIcon(2131166066).setOngoing(z2).setContentTitle(musicTitle).setContentText(musicAuthor).setSubText(audioInfo != null ? audioInfo.getAlbum() : null).setContentIntent(activity).setDeleteIntent(service).setShowWhen(false).setCategory("transport").setPriority(2).setStyle(new Notification.MediaStyle().setMediaSession(this.mediaSession.getSessionToken()).setShowActionsInCompactView(0, 1, 2));
             if (i3 >= 26) {
                 NotificationsController.checkOtherNotificationsChannel();
                 builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
@@ -271,12 +271,12 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             } else {
                 builder.setLargeIcon(this.albumArtPlaceholder);
             }
-            String string = LocaleController.getString("Next", 2131626853);
+            String string = LocaleController.getString("Next", 2131626801);
             String string2 = LocaleController.getString("AccDescrPrevious", 2131624045);
             if (MediaController.getInstance().isDownloadingCurrentMessage()) {
                 f = 1.0f;
                 this.playbackState.setState(6, 0L, 1.0f).setActions(0L);
-                builder.addAction(new Notification.Action.Builder(2131165460, string2, broadcast).build()).addAction(new Notification.Action.Builder(2131165585, LocaleController.getString("Loading", 2131626520), (PendingIntent) null).build()).addAction(new Notification.Action.Builder(2131165457, string, broadcast3).build());
+                builder.addAction(new Notification.Action.Builder(2131165460, string2, broadcast).build()).addAction(new Notification.Action.Builder(2131165585, LocaleController.getString("Loading", 2131626473), (PendingIntent) null).build()).addAction(new Notification.Action.Builder(2131165457, string, broadcast3).build());
                 str3 = musicTitle;
                 str2 = musicAuthor;
             } else {
@@ -308,9 +308,9 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         } else {
             str = musicTitle;
             f = 1.0f;
-            RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(), 2131427350);
-            RemoteViews remoteViews2 = supportBigNotifications ? new RemoteViews(getApplicationContext().getPackageName(), 2131427349) : null;
-            Notification build2 = new NotificationCompat.Builder(getApplicationContext()).setSmallIcon(2131166068).setContentIntent(activity).setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(str).build();
+            RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(), 2131427348);
+            RemoteViews remoteViews2 = supportBigNotifications ? new RemoteViews(getApplicationContext().getPackageName(), 2131427347) : null;
+            Notification build2 = new NotificationCompat.Builder(getApplicationContext()).setSmallIcon(2131166066).setContentIntent(activity).setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(str).build();
             build2.contentView = remoteViews;
             if (supportBigNotifications) {
                 build2.bigContentView = remoteViews2;
@@ -320,63 +320,63 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                 setListeners(remoteViews2);
             }
             if (bitmap != null) {
-                build2.contentView.setImageViewBitmap(2131230895, bitmap);
+                build2.contentView.setImageViewBitmap(2131230894, bitmap);
                 if (supportBigNotifications) {
-                    build2.bigContentView.setImageViewBitmap(2131230895, bitmap);
+                    build2.bigContentView.setImageViewBitmap(2131230894, bitmap);
                 }
             } else {
-                build2.contentView.setImageViewResource(2131230895, 2131166004);
+                build2.contentView.setImageViewResource(2131230894, 2131166002);
                 if (supportBigNotifications) {
-                    build2.bigContentView.setImageViewResource(2131230895, 2131166003);
+                    build2.bigContentView.setImageViewResource(2131230894, 2131166001);
                 }
             }
             if (MediaController.getInstance().isDownloadingCurrentMessage()) {
-                build2.contentView.setViewVisibility(2131230900, 8);
-                build2.contentView.setViewVisibility(2131230901, 8);
                 build2.contentView.setViewVisibility(2131230899, 8);
-                build2.contentView.setViewVisibility(2131230902, 8);
-                build2.contentView.setViewVisibility(2131230903, 0);
-                if (supportBigNotifications) {
-                    build2.bigContentView.setViewVisibility(2131230900, 8);
-                    build2.bigContentView.setViewVisibility(2131230901, 8);
-                    build2.bigContentView.setViewVisibility(2131230899, 8);
-                    build2.bigContentView.setViewVisibility(2131230902, 8);
-                    build2.bigContentView.setViewVisibility(2131230903, 0);
-                }
-            } else {
-                build2.contentView.setViewVisibility(2131230903, 8);
-                build2.contentView.setViewVisibility(2131230899, 0);
+                build2.contentView.setViewVisibility(2131230900, 8);
+                build2.contentView.setViewVisibility(2131230898, 8);
+                build2.contentView.setViewVisibility(2131230901, 8);
                 build2.contentView.setViewVisibility(2131230902, 0);
                 if (supportBigNotifications) {
-                    build2.bigContentView.setViewVisibility(2131230899, 0);
+                    build2.bigContentView.setViewVisibility(2131230899, 8);
+                    build2.bigContentView.setViewVisibility(2131230900, 8);
+                    build2.bigContentView.setViewVisibility(2131230898, 8);
+                    build2.bigContentView.setViewVisibility(2131230901, 8);
                     build2.bigContentView.setViewVisibility(2131230902, 0);
+                }
+            } else {
+                build2.contentView.setViewVisibility(2131230902, 8);
+                build2.contentView.setViewVisibility(2131230898, 0);
+                build2.contentView.setViewVisibility(2131230901, 0);
+                if (supportBigNotifications) {
+                    build2.bigContentView.setViewVisibility(2131230898, 0);
+                    build2.bigContentView.setViewVisibility(2131230901, 0);
                     i = 8;
-                    build2.bigContentView.setViewVisibility(2131230903, 8);
+                    build2.bigContentView.setViewVisibility(2131230902, 8);
                 } else {
                     i = 8;
                 }
                 if (MediaController.getInstance().isMessagePaused()) {
-                    build2.contentView.setViewVisibility(2131230900, i);
-                    build2.contentView.setViewVisibility(2131230901, 0);
+                    build2.contentView.setViewVisibility(2131230899, i);
+                    build2.contentView.setViewVisibility(2131230900, 0);
                     if (supportBigNotifications) {
-                        build2.bigContentView.setViewVisibility(2131230900, i);
-                        build2.bigContentView.setViewVisibility(2131230901, 0);
+                        build2.bigContentView.setViewVisibility(2131230899, i);
+                        build2.bigContentView.setViewVisibility(2131230900, 0);
                     }
                 } else {
-                    build2.contentView.setViewVisibility(2131230900, 0);
-                    build2.contentView.setViewVisibility(2131230901, i);
+                    build2.contentView.setViewVisibility(2131230899, 0);
+                    build2.contentView.setViewVisibility(2131230900, i);
                     if (supportBigNotifications) {
-                        build2.bigContentView.setViewVisibility(2131230900, 0);
-                        build2.bigContentView.setViewVisibility(2131230901, i);
+                        build2.bigContentView.setViewVisibility(2131230899, 0);
+                        build2.bigContentView.setViewVisibility(2131230900, i);
                     }
                 }
             }
-            build2.contentView.setTextViewText(2131230904, str);
-            build2.contentView.setTextViewText(2131230897, musicAuthor);
+            build2.contentView.setTextViewText(2131230903, str);
+            build2.contentView.setTextViewText(2131230896, musicAuthor);
             if (supportBigNotifications) {
-                build2.bigContentView.setTextViewText(2131230904, str);
-                build2.bigContentView.setTextViewText(2131230897, musicAuthor);
-                build2.bigContentView.setTextViewText(2131230896, (audioInfo == null || TextUtils.isEmpty(audioInfo.getAlbum())) ? "" : audioInfo.getAlbum());
+                build2.bigContentView.setTextViewText(2131230903, str);
+                build2.bigContentView.setTextViewText(2131230896, musicAuthor);
+                build2.bigContentView.setTextViewText(2131230895, (audioInfo == null || TextUtils.isEmpty(audioInfo.getAlbum())) ? "" : audioInfo.getAlbum());
             }
             build2.flags |= 2;
             startForeground(5, build2);
@@ -479,11 +479,11 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
     }
 
     public void setListeners(RemoteViews remoteViews) {
-        remoteViews.setOnClickPendingIntent(2131230902, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.previous"), 134217728));
-        remoteViews.setOnClickPendingIntent(2131230898, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.close"), 134217728));
-        remoteViews.setOnClickPendingIntent(2131230900, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.pause"), 134217728));
-        remoteViews.setOnClickPendingIntent(2131230899, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.next"), 134217728));
-        remoteViews.setOnClickPendingIntent(2131230901, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.play"), 134217728));
+        remoteViews.setOnClickPendingIntent(2131230901, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.previous"), 134217728));
+        remoteViews.setOnClickPendingIntent(2131230897, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.close"), 134217728));
+        remoteViews.setOnClickPendingIntent(2131230899, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.pause"), 134217728));
+        remoteViews.setOnClickPendingIntent(2131230898, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.next"), 134217728));
+        remoteViews.setOnClickPendingIntent(2131230900, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.play"), 134217728));
     }
 
     @Override // android.app.Service

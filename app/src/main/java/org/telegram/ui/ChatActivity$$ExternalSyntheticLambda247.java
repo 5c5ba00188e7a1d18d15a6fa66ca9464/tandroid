@@ -1,18 +1,17 @@
 package org.telegram.ui;
 
-import android.view.MotionEvent;
+import android.view.View;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda247 implements RecyclerListView.OnInterceptTouchListener {
-    public static final /* synthetic */ ChatActivity$$ExternalSyntheticLambda247 INSTANCE = new ChatActivity$$ExternalSyntheticLambda247();
+public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda247 implements RecyclerListView.OnItemClickListener {
+    public final /* synthetic */ ChatActivity f$0;
 
-    private /* synthetic */ ChatActivity$$ExternalSyntheticLambda247() {
+    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda247(ChatActivity chatActivity) {
+        this.f$0 = chatActivity;
     }
 
-    @Override // org.telegram.ui.Components.RecyclerListView.OnInterceptTouchListener
-    public final boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-        boolean lambda$showChatThemeBottomSheet$249;
-        lambda$showChatThemeBottomSheet$249 = ChatActivity.lambda$showChatThemeBottomSheet$249(motionEvent);
-        return lambda$showChatThemeBottomSheet$249;
+    @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+    public final void onItemClick(View view, int i) {
+        this.f$0.lambda$createView$54(view, i);
     }
 }

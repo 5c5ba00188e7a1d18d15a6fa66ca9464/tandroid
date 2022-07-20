@@ -27,20 +27,20 @@ public class UnlockPremiumView extends FrameLayout {
         textView.setTextSize(1, 13.0f);
         textView.setGravity(17);
         if (i == 0) {
-            textView.setText(LocaleController.getString("UnlockPremiumStickersDescription", 2131628809));
+            textView.setText(LocaleController.getString("UnlockPremiumStickersDescription", 2131628737));
         } else if (i == 1) {
-            textView.setText(LocaleController.getString("UnlockPremiumReactionsDescription", 2131628807));
+            textView.setText(LocaleController.getString("UnlockPremiumReactionsDescription", 2131628735));
         }
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 0, 16, 17, 17, 16));
         PremiumButtonView premiumButtonView = new PremiumButtonView(context, false);
         this.premiumButtonView = premiumButtonView;
         if (i == 0) {
-            str = LocaleController.getString("UnlockPremiumStickers", 2131628808);
+            str = LocaleController.getString("UnlockPremiumStickers", 2131628736);
         } else {
-            str = LocaleController.getString("UnlockPremiumReactions", 2131628806);
+            str = LocaleController.getString("UnlockPremiumReactions", 2131628734);
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-        spannableStringBuilder.append((CharSequence) "d ").setSpan(new ColoredImageSpan(ContextCompat.getDrawable(context, 2131165877)), 0, 1, 0);
+        spannableStringBuilder.append((CharSequence) "d ").setSpan(new ColoredImageSpan(ContextCompat.getDrawable(context, 2131165875)), 0, 1, 0);
         spannableStringBuilder.append((CharSequence) str);
         premiumButtonView.buttonTextView.setText(spannableStringBuilder);
         linearLayout.addView(premiumButtonView, LayoutHelper.createLinear(-1, 48, 0, 16, 0, 16, 16));

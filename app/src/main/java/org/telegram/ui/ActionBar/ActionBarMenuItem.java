@@ -359,7 +359,7 @@ public class ActionBarMenuItem extends FrameLayout {
         }
         this.rect = new Rect();
         this.location = new int[2];
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext(), 2131166088, this.resourcesProvider, 1);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext(), 2131166086, this.resourcesProvider, 1);
         this.popupLayout = actionBarPopupWindowLayout;
         actionBarPopupWindowLayout.setOnTouchListener(new ActionBarMenuItem$$ExternalSyntheticLambda8(this));
         this.popupLayout.setDispatchKeyEventListener(new ActionBarMenuItem$$ExternalSyntheticLambda14(this));
@@ -480,7 +480,7 @@ public class ActionBarMenuItem extends FrameLayout {
             }
             this.processedPopupClick = true;
             if (!this.allowCloseAnimation) {
-                this.popupWindow.setAnimationStyle(2131689480);
+                this.popupWindow.setAnimationStyle(2131689479);
             }
             this.popupWindow.dismiss(this.allowCloseAnimation);
         }
@@ -513,7 +513,7 @@ public class ActionBarMenuItem extends FrameLayout {
         View view = new View(getContext());
         view.setMinimumWidth(AndroidUtilities.dp(196.0f));
         view.setTag(Integer.valueOf(i));
-        view.setTag(2131230876, 1);
+        view.setTag(2131230875, 1);
         this.popupLayout.addView(view);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
         if (LocaleController.isRTL) {
@@ -715,7 +715,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 FrameLayout frameLayout = new FrameLayout(getContext());
                 frameLayout.setAlpha(0.0f);
                 frameLayout.animate().alpha(1.0f).setDuration(100L).start();
-                Drawable mutate = ContextCompat.getDrawable(getContext(), 2131166088).mutate();
+                Drawable mutate = ContextCompat.getDrawable(getContext(), 2131166086).mutate();
                 mutate.setColorFilter(new PorterDuffColorFilter(this.popupLayout.getBackgroundColor(), PorterDuff.Mode.MULTIPLY));
                 frameLayout.setBackground(mutate);
                 frameLayout.addView(view);
@@ -729,7 +729,7 @@ public class ActionBarMenuItem extends FrameLayout {
             if (this.animationEnabled && Build.VERSION.SDK_INT >= 19) {
                 actionBarPopupWindow2.setAnimationStyle(0);
             } else {
-                actionBarPopupWindow2.setAnimationStyle(2131689480);
+                actionBarPopupWindow2.setAnimationStyle(2131689479);
             }
             boolean z = this.animationEnabled;
             if (!z) {
@@ -1295,7 +1295,7 @@ public class ActionBarMenuItem extends FrameLayout {
             this.clearButton.setScaleX(0.0f);
             this.clearButton.setScaleY(0.0f);
             this.clearButton.setOnClickListener(new ActionBarMenuItem$$ExternalSyntheticLambda2(this));
-            this.clearButton.setContentDescription(LocaleController.getString("ClearButton", 2131625146));
+            this.clearButton.setContentDescription(LocaleController.getString("ClearButton", 2131625132));
             if (z2) {
                 this.wrappedSearchFrameLayout.addView(this.clearButton, LayoutHelper.createFrame(48, -1, 21));
             } else {
@@ -2167,7 +2167,7 @@ public class ActionBarMenuItem extends FrameLayout {
     public ActionBarPopupWindow.GapView addColoredGap() {
         createPopupLayout();
         ActionBarPopupWindow.GapView gapView = new ActionBarPopupWindow.GapView(getContext(), this.resourcesProvider, "actionBarDefaultSubmenuSeparator");
-        gapView.setTag(2131230821, 1);
+        gapView.setTag(2131230820, 1);
         this.popupLayout.addView((View) gapView, LayoutHelper.createLinear(-1, 8));
         return gapView;
     }

@@ -35,22 +35,22 @@ public class BasePermissionsActivity extends Activity {
                     groupCallActivity.enableCamera();
                 }
             } else {
-                showPermissionErrorAlert(2131558506, LocaleController.getString("VoipNeedCameraPermission", 2131629223));
+                showPermissionErrorAlert(2131558493, LocaleController.getString("VoipNeedCameraPermission", 2131629149));
             }
         } else if (i == 4 || i == 151) {
             if (!z) {
                 if (i == 151) {
-                    str = LocaleController.getString("PermissionNoStorageAvatar", 2131627534);
+                    str = LocaleController.getString("PermissionNoStorageAvatar", 2131627482);
                 } else {
-                    str = LocaleController.getString("PermissionStorageWithHint", 2131627537);
+                    str = LocaleController.getString("PermissionStorageWithHint", 2131627485);
                 }
-                showPermissionErrorAlert(2131558508, str);
+                showPermissionErrorAlert(2131558495, str);
             } else {
                 ImageLoader.getInstance().checkMediaPaths();
             }
         } else if (i == 5) {
             if (!z) {
-                showPermissionErrorAlert(2131558507, LocaleController.getString("PermissionNoContactsSharing", 2131627528));
+                showPermissionErrorAlert(2131558494, LocaleController.getString("PermissionNoContactsSharing", 2131627476));
                 return false;
             }
             ContactsController.getInstance(this.currentAccount).forceImportContacts();
@@ -66,11 +66,11 @@ public class BasePermissionsActivity extends Activity {
                 }
             }
             if (i == 150 && !(z2 && z3)) {
-                showPermissionErrorAlert(2131558506, LocaleController.getString("PermissionNoCameraMicVideo", 2131627526));
+                showPermissionErrorAlert(2131558493, LocaleController.getString("PermissionNoCameraMicVideo", 2131627474));
             } else if (!z2) {
-                showPermissionErrorAlert(2131558510, LocaleController.getString("PermissionNoAudioWithHint", 2131627524));
+                showPermissionErrorAlert(2131558497, LocaleController.getString("PermissionNoAudioWithHint", 2131627472));
             } else if (!z3) {
-                showPermissionErrorAlert(2131558506, LocaleController.getString("PermissionNoCameraWithHint", 2131627527));
+                showPermissionErrorAlert(2131558493, LocaleController.getString("PermissionNoCameraWithHint", 2131627475));
             } else {
                 if (SharedConfig.inappCamera) {
                     CameraController.getInstance().initCamera(null);
@@ -79,7 +79,7 @@ public class BasePermissionsActivity extends Activity {
             }
         } else if (i == 18 || i == 19 || i == 20 || i == 22) {
             if (!z) {
-                showPermissionErrorAlert(2131558506, LocaleController.getString("PermissionNoCameraWithHint", 2131627527));
+                showPermissionErrorAlert(2131558493, LocaleController.getString("PermissionNoCameraWithHint", 2131627475));
             }
         } else if (i == 2) {
             NotificationCenter.getGlobalInstance().postNotificationName(z ? NotificationCenter.locationPermissionGranted : NotificationCenter.locationPermissionDenied, new Object[0]);
@@ -88,7 +88,7 @@ public class BasePermissionsActivity extends Activity {
     }
 
     public AlertDialog createPermissionErrorAlert(int i, String str) {
-        return new AlertDialog.Builder(this).setTopAnimation(i, 72, false, Theme.getColor("dialogTopBackground")).setMessage(AndroidUtilities.replaceTags(str)).setPositiveButton(LocaleController.getString("PermissionOpenSettings", 2131627535), new BasePermissionsActivity$$ExternalSyntheticLambda0(this)).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", 2131625261), null).create();
+        return new AlertDialog.Builder(this).setTopAnimation(i, 72, false, Theme.getColor("dialogTopBackground")).setMessage(AndroidUtilities.replaceTags(str)).setPositiveButton(LocaleController.getString("PermissionOpenSettings", 2131627483), new BasePermissionsActivity$$ExternalSyntheticLambda0(this)).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", 2131625245), null).create();
     }
 
     public /* synthetic */ void lambda$createPermissionErrorAlert$0(DialogInterface dialogInterface, int i) {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_reorderStickerSets extends TLObject {
     public static int constructor = 2016638777;
-    public boolean emojis;
     public int flags;
     public boolean masks;
     public ArrayList<Long> order = new ArrayList<>();
@@ -19,14 +18,12 @@ public class TLRPC$TL_messages_reorderStickerSets extends TLObject {
         abstractSerializedData.writeInt32(constructor);
         int i = this.masks ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
-        int i2 = this.emojis ? i | 2 : i & (-3);
-        this.flags = i2;
-        abstractSerializedData.writeInt32(i2);
+        abstractSerializedData.writeInt32(i);
         abstractSerializedData.writeInt32(481674261);
         int size = this.order.size();
         abstractSerializedData.writeInt32(size);
-        for (int i3 = 0; i3 < size; i3++) {
-            abstractSerializedData.writeInt64(this.order.get(i3).longValue());
+        for (int i2 = 0; i2 < size; i2++) {
+            abstractSerializedData.writeInt64(this.order.get(i2).longValue());
         }
     }
 }

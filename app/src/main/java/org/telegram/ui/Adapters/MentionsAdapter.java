@@ -619,11 +619,11 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 if (!notificationsSettings.getBoolean("inlinegeo_" + this.foundContextBot.id, false) && (chatActivity = this.parentFragment) != null && chatActivity.getParentActivity() != null) {
                     TLRPC$User tLRPC$User2 = this.foundContextBot;
                     AlertDialog.Builder builder = new AlertDialog.Builder(this.parentFragment.getParentActivity());
-                    builder.setTitle(LocaleController.getString("ShareYouLocationTitle", 2131628352));
-                    builder.setMessage(LocaleController.getString("ShareYouLocationInline", 2131628351));
+                    builder.setTitle(LocaleController.getString("ShareYouLocationTitle", 2131628290));
+                    builder.setMessage(LocaleController.getString("ShareYouLocationInline", 2131628289));
                     boolean[] zArr = new boolean[1];
-                    builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new MentionsAdapter$$ExternalSyntheticLambda1(this, zArr, tLRPC$User2));
-                    builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), new MentionsAdapter$$ExternalSyntheticLambda0(this, zArr));
+                    builder.setPositiveButton(LocaleController.getString("OK", 2131627075), new MentionsAdapter$$ExternalSyntheticLambda1(this, zArr, tLRPC$User2));
+                    builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), new MentionsAdapter$$ExternalSyntheticLambda0(this, zArr));
                     this.parentFragment.showDialog(builder.create(), new MentionsAdapter$$ExternalSyntheticLambda2(this, zArr));
                 } else {
                     checkLocationPermissionsOrStart();
@@ -991,8 +991,8 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     /* JADX WARN: Removed duplicated region for block: B:229:0x03d6  */
     /* JADX WARN: Removed duplicated region for block: B:231:0x03dc  */
     /* JADX WARN: Type inference failed for: r20v0, types: [org.telegram.ui.Adapters.MentionsAdapter] */
+    /* JADX WARN: Type inference failed for: r6v59 */
     /* JADX WARN: Type inference failed for: r6v60 */
-    /* JADX WARN: Type inference failed for: r6v61 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1302,7 +1302,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             MediaDataController.getInstance(this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
                         }
                         this.lastSearchKeyboardLanguage = currentKeyboardLanguage;
-                        MediaDataController.getInstance(this.currentAccount).getEmojiSuggestions(this.lastSearchKeyboardLanguage, sb.toString(), false, new MentionsAdapter$$ExternalSyntheticLambda6(this), true);
+                        MediaDataController.getInstance(this.currentAccount).getEmojiSuggestions(this.lastSearchKeyboardLanguage, sb.toString(), false, new MentionsAdapter$$ExternalSyntheticLambda6(this));
                         return;
                     } else if (c != 4) {
                         return;
@@ -1910,11 +1910,11 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 return;
             }
             if (!ChatObject.hasAdminRights(currentChat) && (tLRPC$TL_chatBannedRights = currentChat.default_banned_rights) != null && tLRPC$TL_chatBannedRights.send_inline) {
-                textView.setText(LocaleController.getString("GlobalAttachInlineRestricted", 2131626123));
+                textView.setText(LocaleController.getString("GlobalAttachInlineRestricted", 2131626076));
             } else if (AndroidUtilities.isBannedForever(currentChat.banned_rights)) {
-                textView.setText(LocaleController.getString("AttachInlineRestrictedForever", 2131624498));
+                textView.setText(LocaleController.getString("AttachInlineRestrictedForever", 2131624487));
             } else {
-                textView.setText(LocaleController.formatString("AttachInlineRestricted", 2131624497, LocaleController.formatDateForBan(currentChat.banned_rights.until_date)));
+                textView.setText(LocaleController.formatString("AttachInlineRestricted", 2131624486, LocaleController.formatDateForBan(currentChat.banned_rights.until_date)));
             }
         } else if (this.searchResultBotContext != null) {
             boolean z = this.searchResultBotContextSwitch != null;

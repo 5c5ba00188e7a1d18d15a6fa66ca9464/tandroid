@@ -149,7 +149,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         boolean z = true;
         anonymousClass2.setFocusable(true);
         if (Build.VERSION.SDK_INT >= 21) {
-            RippleDrawable rippleDrawable = (RippleDrawable) Theme.createSelectorDrawable(getThemedColor("chat_emojiBottomPanelIcon"), 1, AndroidUtilities.dp(18.0f));
+            RippleDrawable rippleDrawable = (RippleDrawable) Theme.createSelectorDrawable(getThemedColor("chat_emojiBottomPanelIcon"));
             Theme.setRippleDrawableForceSoftware(rippleDrawable);
             anonymousClass2.setBackground(rippleDrawable);
         }

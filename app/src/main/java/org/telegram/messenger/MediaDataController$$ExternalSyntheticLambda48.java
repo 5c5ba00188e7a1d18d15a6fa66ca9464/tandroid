@@ -13,6 +13,6 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda4
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$getMediaCounts$96(this.f$1, this.f$2);
+        this.f$0.lambda$getMediaCounts$89(this.f$1, this.f$2);
     }
 }

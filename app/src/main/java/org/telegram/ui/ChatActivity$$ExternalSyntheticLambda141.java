@@ -9,6 +9,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda141 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$onResume$149();
+        this.f$0.lambda$checkListViewPaddings$147();
     }
 }

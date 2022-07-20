@@ -11,6 +11,6 @@ public final /* synthetic */ class ChannelCreateActivity$$ExternalSyntheticLambd
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        this.f$0.lambda$loadAdminedChannels$19(view);
+        this.f$0.lambda$createView$7(view);
     }
 }

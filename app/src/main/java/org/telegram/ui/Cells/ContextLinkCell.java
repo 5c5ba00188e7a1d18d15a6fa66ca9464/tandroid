@@ -192,7 +192,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     /* JADX WARN: Removed duplicated region for block: B:68:0x01ca  */
     /* JADX WARN: Removed duplicated region for block: B:78:0x01ec  */
     /* JADX WARN: Removed duplicated region for block: B:99:0x0240  */
-    /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v38 */
     /* JADX WARN: Type inference failed for: r3v39 */
     /* JADX WARN: Type inference failed for: r3v40 */
@@ -1438,28 +1438,28 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         StringBuilder sb = new StringBuilder();
         switch (this.documentAttachType) {
             case 1:
-                sb.append(LocaleController.getString("AttachDocument", 2131624492));
+                sb.append(LocaleController.getString("AttachDocument", 2131624481));
                 break;
             case 2:
-                sb.append(LocaleController.getString("AttachGif", 2131624494));
+                sb.append(LocaleController.getString("AttachGif", 2131624483));
                 break;
             case 3:
-                sb.append(LocaleController.getString("AttachAudio", 2131624487));
+                sb.append(LocaleController.getString("AttachAudio", 2131624476));
                 break;
             case 4:
-                sb.append(LocaleController.getString("AttachVideo", 2131624519));
+                sb.append(LocaleController.getString("AttachVideo", 2131624508));
                 break;
             case 5:
-                sb.append(LocaleController.getString("AttachMusic", 2131624512));
+                sb.append(LocaleController.getString("AttachMusic", 2131624501));
                 break;
             case 6:
-                sb.append(LocaleController.getString("AttachSticker", 2131624516));
+                sb.append(LocaleController.getString("AttachSticker", 2131624505));
                 break;
             case 7:
-                sb.append(LocaleController.getString("AttachPhoto", 2131624513));
+                sb.append(LocaleController.getString("AttachPhoto", 2131624502));
                 break;
             case 8:
-                sb.append(LocaleController.getString("AttachLocation", 2131624503));
+                sb.append(LocaleController.getString("AttachLocation", 2131624492));
                 break;
         }
         StaticLayout staticLayout = this.titleLayout;

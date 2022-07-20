@@ -135,7 +135,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         this.positiveButton.setTextColor(Theme.getColor("voipgroup_nameText"));
         this.positiveButton.setGravity(17);
         this.positiveButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        this.positiveButton.setText(LocaleController.getString("VoipShareVideo", 2131629266));
+        this.positiveButton.setText(LocaleController.getString("VoipShareVideo", 2131629192));
         if (Build.VERSION.SDK_INT >= 23) {
             this.positiveButton.setForeground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_nameText"), 76)));
         }
@@ -160,11 +160,11 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             this.titles[i].setSingleLine(true);
             this.titlesLayout.addView(this.titles[i], LayoutHelper.createLinear(-2, -1));
             if (i == 0 && this.needScreencast) {
-                this.titles[i].setText(LocaleController.getString("VoipPhoneScreen", 2131629249));
+                this.titles[i].setText(LocaleController.getString("VoipPhoneScreen", 2131629175));
             } else if (i == 0 || (i == 1 && this.needScreencast)) {
-                this.titles[i].setText(LocaleController.getString("VoipFrontCamera", 2131629100));
+                this.titles[i].setText(LocaleController.getString("VoipFrontCamera", 2131629026));
             } else {
-                this.titles[i].setText(LocaleController.getString("VoipBackCamera", 2131629035));
+                this.titles[i].setText(LocaleController.getString("VoipBackCamera", 2131628961));
             }
             this.titles[i].setOnClickListener(new PrivateVideoPreviewDialog$$ExternalSyntheticLambda1(this, i));
             i++;
@@ -185,7 +185,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             this.micIconView = rLottieImageView;
             rLottieImageView.setPadding(AndroidUtilities.dp(9.0f), AndroidUtilities.dp(9.0f), AndroidUtilities.dp(9.0f), AndroidUtilities.dp(9.0f));
             this.micIconView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(48.0f), ColorUtils.setAlphaComponent(-16777216, 76)));
-            RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558598, "2131558598", AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f), true, null);
+            RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558576, "2131558576", AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f), true, null);
             this.micIconView.setAnimation(rLottieDrawable);
             this.micIconView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             this.micEnabled = true;
@@ -627,10 +627,10 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                 frameLayout.setBackground(new MotionBackgroundDrawable(-14602694, -13935795, -14395293, -14203560, true));
                 ImageView imageView2 = new ImageView(PrivateVideoPreviewDialog.this.getContext());
                 imageView2.setScaleType(ImageView.ScaleType.CENTER);
-                imageView2.setImageResource(2131166118);
+                imageView2.setImageResource(2131166116);
                 frameLayout.addView(imageView2, LayoutHelper.createFrame(82, 82.0f, 17, 0.0f, 0.0f, 0.0f, 60.0f));
                 TextView textView = new TextView(PrivateVideoPreviewDialog.this.getContext());
-                textView.setText(LocaleController.getString("VoipVideoPrivateScreenSharing", 2131629281));
+                textView.setText(LocaleController.getString("VoipVideoPrivateScreenSharing", 2131629207));
                 textView.setGravity(17);
                 textView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
                 textView.setTextColor(-1);

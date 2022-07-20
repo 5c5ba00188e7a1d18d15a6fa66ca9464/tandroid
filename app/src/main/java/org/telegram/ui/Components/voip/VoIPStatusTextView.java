@@ -44,7 +44,7 @@ public class VoIPStatusTextView extends FrameLayout {
         this.reconnectTextView.setGravity(1);
         addView(this.reconnectTextView, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 22.0f, 0.0f, 0.0f));
         this.ellipsizeAnimator = new EllipsizeSpanAnimator(this);
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString("VoipReconnecting", 2131629253));
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString("VoipReconnecting", 2131629179));
         SpannableString spannableString = new SpannableString("...");
         this.ellipsizeAnimator.wrap(spannableString, 0);
         spannableStringBuilder.append((CharSequence) spannableString);

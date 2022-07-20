@@ -39,13 +39,9 @@ import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
@@ -83,10 +79,8 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     private TLRPC$User botUser;
     private String buttonData;
     private int currentAccount;
-    private AlertDialog currentDialog;
     private String currentPaymentSlug;
     private Delegate delegate;
-    private int dialogSequentialOpenTimes;
     private BackupImageView flickerView;
     private boolean hasUserPermissions;
     private boolean isBackButtonVisible;
@@ -95,8 +89,6 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     private boolean isRequestingPageOpen;
     private boolean isViewPortByMeasureSuppressed;
     private long lastClickMs;
-    private long lastDialogClosed;
-    private long lastDialogCooldownTime;
     private boolean lastExpanded;
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mUrl;
@@ -143,8 +135,6 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         void onWebAppSetActionBarColor(String str);
 
         void onWebAppSetBackgroundColor(int i);
-
-        void onWebAppSetupClosingBehavior(boolean z);
     }
 
     /* loaded from: classes3.dex */
@@ -171,7 +161,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         addView(this.flickerView, LayoutHelper.createFrame(-1, -2, 48));
         TextView textView = new TextView(context);
         this.webViewNotAvailableText = textView;
-        textView.setText(LocaleController.getString(2131624755));
+        textView.setText(LocaleController.getString(2131624742));
         this.webViewNotAvailableText.setTextColor(getColor("windowBackgroundWhiteGrayText"));
         this.webViewNotAvailableText.setTextSize(1, 15.0f);
         this.webViewNotAvailableText.setGravity(17);
@@ -189,14 +179,14 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         AnonymousClass1(Context context) {
             super(context);
             BotWebViewContainer.this = r1;
-            this.imageReceiver = new C00201(this);
+            this.imageReceiver = new C00161(this);
         }
 
         /* renamed from: org.telegram.ui.Components.BotWebViewContainer$1$1 */
         /* loaded from: classes3.dex */
-        public class C00201 extends ImageReceiver {
+        public class C00161 extends ImageReceiver {
             /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            C00201(View view) {
+            C00161(View view) {
                 super(view);
                 AnonymousClass1.this = r1;
             }
@@ -391,7 +381,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             Intent intent = new Intent("android.intent.action.GET_CONTENT");
             intent.addCategory("android.intent.category.OPENABLE");
             intent.setType("*/*");
-            activity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString(2131624754)), 3000);
+            activity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString(2131624741)), 3000);
             return true;
         }
 
@@ -405,7 +395,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         @Override // android.webkit.WebChromeClient
         public void onGeolocationPermissionsShowPrompt(String str, GeolocationPermissions.Callback callback) {
             if (BotWebViewContainer.this.parentActivity != null) {
-                Dialog createWebViewPermissionsRequestDialog = AlertsCreator.createWebViewPermissionsRequestDialog(BotWebViewContainer.this.parentActivity, BotWebViewContainer.this.resourcesProvider, new String[]{"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}, 2131558509, LocaleController.formatString(2131624762, UserObject.getUserName(BotWebViewContainer.this.botUser)), LocaleController.formatString(2131624763, UserObject.getUserName(BotWebViewContainer.this.botUser)), new BotWebViewContainer$4$$ExternalSyntheticLambda1(this, callback, str));
+                Dialog createWebViewPermissionsRequestDialog = AlertsCreator.createWebViewPermissionsRequestDialog(BotWebViewContainer.this.parentActivity, BotWebViewContainer.this.resourcesProvider, new String[]{"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}, 2131558496, LocaleController.formatString(2131624749, UserObject.getUserName(BotWebViewContainer.this.botUser)), LocaleController.formatString(2131624750, UserObject.getUserName(BotWebViewContainer.this.botUser)), new BotWebViewContainer$4$$ExternalSyntheticLambda1(this, callback, str));
                 this.lastPermissionsDialog = createWebViewPermissionsRequestDialog;
                 createWebViewPermissionsRequestDialog.show();
                 return;
@@ -456,12 +446,12 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 }
                 str.hashCode();
                 if (str.equals("android.webkit.resource.VIDEO_CAPTURE")) {
-                    Dialog createWebViewPermissionsRequestDialog = AlertsCreator.createWebViewPermissionsRequestDialog(BotWebViewContainer.this.parentActivity, BotWebViewContainer.this.resourcesProvider, new String[]{"android.permission.CAMERA"}, 2131558506, LocaleController.formatString(2131624759, UserObject.getUserName(BotWebViewContainer.this.botUser)), LocaleController.formatString(2131624760, UserObject.getUserName(BotWebViewContainer.this.botUser)), new BotWebViewContainer$4$$ExternalSyntheticLambda2(this, permissionRequest, str));
+                    Dialog createWebViewPermissionsRequestDialog = AlertsCreator.createWebViewPermissionsRequestDialog(BotWebViewContainer.this.parentActivity, BotWebViewContainer.this.resourcesProvider, new String[]{"android.permission.CAMERA"}, 2131558493, LocaleController.formatString(2131624746, UserObject.getUserName(BotWebViewContainer.this.botUser)), LocaleController.formatString(2131624747, UserObject.getUserName(BotWebViewContainer.this.botUser)), new BotWebViewContainer$4$$ExternalSyntheticLambda2(this, permissionRequest, str));
                     this.lastPermissionsDialog = createWebViewPermissionsRequestDialog;
                     createWebViewPermissionsRequestDialog.show();
                 } else if (!str.equals("android.webkit.resource.AUDIO_CAPTURE")) {
                 } else {
-                    Dialog createWebViewPermissionsRequestDialog2 = AlertsCreator.createWebViewPermissionsRequestDialog(BotWebViewContainer.this.parentActivity, BotWebViewContainer.this.resourcesProvider, new String[]{"android.permission.RECORD_AUDIO"}, 2131558510, LocaleController.formatString(2131624764, UserObject.getUserName(BotWebViewContainer.this.botUser)), LocaleController.formatString(2131624765, UserObject.getUserName(BotWebViewContainer.this.botUser)), new BotWebViewContainer$4$$ExternalSyntheticLambda4(this, permissionRequest, str));
+                    Dialog createWebViewPermissionsRequestDialog2 = AlertsCreator.createWebViewPermissionsRequestDialog(BotWebViewContainer.this.parentActivity, BotWebViewContainer.this.resourcesProvider, new String[]{"android.permission.RECORD_AUDIO"}, 2131558497, LocaleController.formatString(2131624751, UserObject.getUserName(BotWebViewContainer.this.botUser)), LocaleController.formatString(2131624752, UserObject.getUserName(BotWebViewContainer.this.botUser)), new BotWebViewContainer$4$$ExternalSyntheticLambda4(this, permissionRequest, str));
                     this.lastPermissionsDialog = createWebViewPermissionsRequestDialog2;
                     createWebViewPermissionsRequestDialog2.show();
                 }
@@ -535,7 +525,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     return;
                 }
                 this.isRequestingPageOpen = true;
-                new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(2131627160)).setMessage(LocaleController.formatString(2131627157, uri.toString())).setPositiveButton(LocaleController.getString(2131627142), new BotWebViewContainer$$ExternalSyntheticLambda0(this, uri)).setNegativeButton(LocaleController.getString(2131624832), null).setOnDismissListener(new BotWebViewContainer$$ExternalSyntheticLambda4(this)).show();
+                new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(2131627108)).setMessage(LocaleController.formatString(2131627105, uri.toString())).setPositiveButton(LocaleController.getString(2131627090), new BotWebViewContainer$$ExternalSyntheticLambda0(this, uri)).setNegativeButton(LocaleController.getString(2131624819), null).setOnDismissListener(new BotWebViewContainer$$ExternalSyntheticLambda1(this)).show();
             } else if (this.delegate != null) {
                 setDescendantFocusability(393216);
                 setFocusable(false);
@@ -543,7 +533,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 this.webView.setDescendantFocusability(393216);
                 this.webView.clearFocus();
                 ((InputMethodManager) getContext().getSystemService("input_method")).hideSoftInputFromWindow(getWindowToken(), 2);
-                this.delegate.onCloseRequested(new BotWebViewContainer$$ExternalSyntheticLambda7(this, uri));
+                this.delegate.onCloseRequested(new BotWebViewContainer$$ExternalSyntheticLambda3(this, uri));
             } else {
                 Browser.openUrl(getContext(), uri, true, false);
             }
@@ -623,7 +613,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         } else if (checkPermissions(strArr)) {
             consumer.accept(Boolean.TRUE);
         } else {
-            this.onPermissionsRequestResultCallback = new BotWebViewContainer$$ExternalSyntheticLambda8(this, consumer, strArr);
+            this.onPermissionsRequestResultCallback = new BotWebViewContainer$$ExternalSyntheticLambda4(this, consumer, strArr);
             Activity activity = this.parentActivity;
             if (activity == null) {
                 return;
@@ -831,11 +821,11 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         }
         TLRPC$TL_messages_getAttachMenuBot tLRPC$TL_messages_getAttachMenuBot = new TLRPC$TL_messages_getAttachMenuBot();
         tLRPC$TL_messages_getAttachMenuBot.bot = MessagesController.getInstance(i).getInputUser(j);
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new BotWebViewContainer$$ExternalSyntheticLambda12(this, actionBarMenuSubItem));
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new BotWebViewContainer$$ExternalSyntheticLambda8(this, actionBarMenuSubItem));
     }
 
     public /* synthetic */ void lambda$loadFlickerAndSettingsItem$5(ActionBarMenuSubItem actionBarMenuSubItem, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new BotWebViewContainer$$ExternalSyntheticLambda9(this, tLObject, actionBarMenuSubItem));
+        AndroidUtilities.runOnUIThread(new BotWebViewContainer$$ExternalSyntheticLambda5(this, tLObject, actionBarMenuSubItem));
     }
 
     public /* synthetic */ void lambda$loadFlickerAndSettingsItem$4(TLObject tLObject, ActionBarMenuSubItem actionBarMenuSubItem) {
@@ -933,7 +923,6 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 removeView(this.webView);
             }
             this.webView.destroy();
-            this.isPageLoaded = false;
         }
     }
 
@@ -948,7 +937,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             return;
         }
         if (Build.VERSION.SDK_INT >= 19) {
-            webView.evaluateJavascript(str, BotWebViewContainer$$ExternalSyntheticLambda6.INSTANCE);
+            webView.evaluateJavascript(str, BotWebViewContainer$$ExternalSyntheticLambda2.INSTANCE);
             return;
         }
         try {
@@ -993,19 +982,19 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:78:0x015a, code lost:
-        if (r7 == 1) goto L80;
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x012b, code lost:
+        if (r7 == 1) goto L71;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x015d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x012e, code lost:
         r12 = "windowBackgroundGray";
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x0223  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x0273 A[Catch: Exception -> 0x02f1, TryCatch #8 {Exception -> 0x02f1, blocks: (B:108:0x01e3, B:115:0x0202, B:118:0x020c, B:121:0x0216, B:129:0x0229, B:130:0x022d, B:137:0x0247, B:140:0x0251, B:143:0x025a, B:151:0x026d, B:152:0x0270, B:153:0x0273, B:155:0x0277, B:156:0x0281, B:158:0x0285, B:161:0x028f, B:164:0x0298, B:167:0x02a2, B:170:0x02ac, B:180:0x02c2, B:181:0x02c5, B:182:0x02c8, B:183:0x02cb, B:184:0x02ce, B:186:0x02d3, B:188:0x02d9, B:189:0x02e6), top: B:284:0x01e3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x0277 A[Catch: Exception -> 0x02f1, TryCatch #8 {Exception -> 0x02f1, blocks: (B:108:0x01e3, B:115:0x0202, B:118:0x020c, B:121:0x0216, B:129:0x0229, B:130:0x022d, B:137:0x0247, B:140:0x0251, B:143:0x025a, B:151:0x026d, B:152:0x0270, B:153:0x0273, B:155:0x0277, B:156:0x0281, B:158:0x0285, B:161:0x028f, B:164:0x0298, B:167:0x02a2, B:170:0x02ac, B:180:0x02c2, B:181:0x02c5, B:182:0x02c8, B:183:0x02cb, B:184:0x02ce, B:186:0x02d3, B:188:0x02d9, B:189:0x02e6), top: B:284:0x01e3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x02d3 A[Catch: Exception -> 0x02f1, TryCatch #8 {Exception -> 0x02f1, blocks: (B:108:0x01e3, B:115:0x0202, B:118:0x020c, B:121:0x0216, B:129:0x0229, B:130:0x022d, B:137:0x0247, B:140:0x0251, B:143:0x025a, B:151:0x026d, B:152:0x0270, B:153:0x0273, B:155:0x0277, B:156:0x0281, B:158:0x0285, B:161:0x028f, B:164:0x0298, B:167:0x02a2, B:170:0x02ac, B:180:0x02c2, B:181:0x02c5, B:182:0x02c8, B:183:0x02cb, B:184:0x02ce, B:186:0x02d3, B:188:0x02d9, B:189:0x02e6), top: B:284:0x01e3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:304:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x01f4  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0244 A[Catch: Exception -> 0x02c2, TryCatch #9 {Exception -> 0x02c2, blocks: (B:99:0x01b4, B:106:0x01d3, B:109:0x01dd, B:112:0x01e7, B:120:0x01fa, B:121:0x01fe, B:128:0x0218, B:131:0x0222, B:134:0x022b, B:142:0x023e, B:143:0x0241, B:144:0x0244, B:146:0x0248, B:147:0x0252, B:149:0x0256, B:152:0x0260, B:155:0x0269, B:158:0x0273, B:161:0x027d, B:171:0x0293, B:172:0x0296, B:173:0x0299, B:174:0x029c, B:175:0x029f, B:177:0x02a4, B:179:0x02aa, B:180:0x02b7), top: B:233:0x01b4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x0248 A[Catch: Exception -> 0x02c2, TryCatch #9 {Exception -> 0x02c2, blocks: (B:99:0x01b4, B:106:0x01d3, B:109:0x01dd, B:112:0x01e7, B:120:0x01fa, B:121:0x01fe, B:128:0x0218, B:131:0x0222, B:134:0x022b, B:142:0x023e, B:143:0x0241, B:144:0x0244, B:146:0x0248, B:147:0x0252, B:149:0x0256, B:152:0x0260, B:155:0x0269, B:158:0x0273, B:161:0x027d, B:171:0x0293, B:172:0x0296, B:173:0x0299, B:174:0x029c, B:175:0x029f, B:177:0x02a4, B:179:0x02aa, B:180:0x02b7), top: B:233:0x01b4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x02a4 A[Catch: Exception -> 0x02c2, TryCatch #9 {Exception -> 0x02c2, blocks: (B:99:0x01b4, B:106:0x01d3, B:109:0x01dd, B:112:0x01e7, B:120:0x01fa, B:121:0x01fe, B:128:0x0218, B:131:0x0222, B:134:0x022b, B:142:0x023e, B:143:0x0241, B:144:0x0244, B:146:0x0248, B:147:0x0252, B:149:0x0256, B:152:0x0260, B:155:0x0269, B:158:0x0273, B:161:0x027d, B:171:0x0293, B:172:0x0296, B:173:0x0299, B:174:0x029c, B:175:0x029f, B:177:0x02a4, B:179:0x02aa, B:180:0x02b7), top: B:233:0x01b4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:243:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1027,114 +1016,93 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 }
                 c = 65535;
                 break;
-            case -1693280352:
-                if (str.equals("web_app_open_popup")) {
-                    c = 1;
-                    break;
-                }
-                c = 65535;
-                break;
             case -1390641887:
                 if (str.equals("web_app_open_invoice")) {
-                    c = 2;
-                    break;
-                }
-                c = 65535;
-                break;
-            case -1341039673:
-                if (str.equals("web_app_setup_closing_behavior")) {
-                    c = 3;
-                    break;
-                }
-                c = 65535;
-                break;
-            case -1263619595:
-                if (str.equals("web_app_request_phone")) {
-                    c = 4;
+                    c = 1;
                     break;
                 }
                 c = 65535;
                 break;
             case -1259935152:
                 if (str.equals("web_app_request_theme")) {
-                    c = 5;
+                    c = 2;
                     break;
                 }
                 c = 65535;
                 break;
             case -921083201:
                 if (str.equals("web_app_request_viewport")) {
-                    c = 6;
+                    c = 3;
                     break;
                 }
                 c = 65535;
                 break;
             case -439770054:
                 if (str.equals("web_app_open_tg_link")) {
-                    c = 7;
+                    c = 4;
                     break;
                 }
                 c = 65535;
                 break;
             case -71726289:
                 if (str.equals("web_app_close")) {
-                    c = '\b';
+                    c = 5;
                     break;
                 }
                 c = 65535;
                 break;
             case -58095910:
                 if (str.equals("web_app_ready")) {
-                    c = '\t';
+                    c = 6;
                     break;
                 }
                 c = 65535;
                 break;
             case 668142772:
                 if (str.equals("web_app_data_send")) {
-                    c = '\n';
+                    c = 7;
                     break;
                 }
                 c = 65535;
                 break;
             case 1011447167:
                 if (str.equals("web_app_setup_back_button")) {
-                    c = 11;
+                    c = '\b';
                     break;
                 }
                 c = 65535;
                 break;
             case 1273834781:
                 if (str.equals("web_app_trigger_haptic_feedback")) {
-                    c = '\f';
+                    c = '\t';
                     break;
                 }
                 c = 65535;
                 break;
             case 1398490221:
                 if (str.equals("web_app_setup_main_button")) {
-                    c = '\r';
+                    c = '\n';
                     break;
                 }
                 c = 65535;
                 break;
             case 1917103703:
                 if (str.equals("web_app_set_header_color")) {
-                    c = 14;
+                    c = 11;
                     break;
                 }
                 c = 65535;
                 break;
             case 2001330488:
                 if (str.equals("web_app_set_background_color")) {
-                    c = 15;
+                    c = '\f';
                     break;
                 }
                 c = 65535;
                 break;
             case 2139805763:
                 if (str.equals("web_app_expand")) {
-                    c = 16;
+                    c = '\r';
                     break;
                 }
                 c = 65535;
@@ -1143,10 +1111,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 c = 65535;
                 break;
         }
-        String str3 = null;
-        r12 = null;
-        r12 = null;
         BotWebViewVibrationEffect botWebViewVibrationEffect2 = null;
+        String str3 = null;
+        botWebViewVibrationEffect2 = null;
+        botWebViewVibrationEffect2 = null;
         switch (c) {
             case 0:
                 try {
@@ -1162,139 +1130,58 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 }
             case 1:
                 try {
-                    if (this.currentDialog != null) {
-                        return;
+                    String optString = new JSONObject(str2).optString("slug");
+                    if (this.currentPaymentSlug != null) {
+                        onInvoiceStatusUpdate(optString, "cancelled", true);
+                    } else {
+                        this.currentPaymentSlug = optString;
+                        TLRPC$TL_payments_getPaymentForm tLRPC$TL_payments_getPaymentForm = new TLRPC$TL_payments_getPaymentForm();
+                        TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug = new TLRPC$TL_inputInvoiceSlug();
+                        tLRPC$TL_inputInvoiceSlug.slug = optString;
+                        tLRPC$TL_payments_getPaymentForm.invoice = tLRPC$TL_inputInvoiceSlug;
+                        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getPaymentForm, new BotWebViewContainer$$ExternalSyntheticLambda7(this, optString));
                     }
-                    if (System.currentTimeMillis() - this.lastDialogClosed <= 150) {
-                        int i = this.dialogSequentialOpenTimes + 1;
-                        this.dialogSequentialOpenTimes = i;
-                        if (i >= 3) {
-                            this.dialogSequentialOpenTimes = 0;
-                            this.lastDialogCooldownTime = System.currentTimeMillis();
-                            return;
-                        }
-                    }
-                    if (System.currentTimeMillis() - this.lastDialogCooldownTime <= 3000) {
-                        return;
-                    }
-                    JSONObject jSONObject = new JSONObject(str2);
-                    String optString = jSONObject.optString("title", null);
-                    String string = jSONObject.getString("message");
-                    JSONArray jSONArray = jSONObject.getJSONArray("buttons");
-                    AlertDialog.Builder message = new AlertDialog.Builder(getContext()).setTitle(optString).setMessage(string);
-                    ArrayList arrayList = new ArrayList();
-                    for (int i2 = 0; i2 < jSONArray.length(); i2++) {
-                        arrayList.add(new PopupButton(jSONArray.getJSONObject(i2)));
-                    }
-                    if (arrayList.size() > 3) {
-                        return;
-                    }
-                    Collections.reverse(arrayList);
-                    AtomicBoolean atomicBoolean = new AtomicBoolean();
-                    if (arrayList.size() >= 1) {
-                        PopupButton popupButton = (PopupButton) arrayList.get(0);
-                        message.setPositiveButton(popupButton.text, new BotWebViewContainer$$ExternalSyntheticLambda1(this, popupButton, atomicBoolean));
-                    }
-                    if (arrayList.size() >= 2) {
-                        PopupButton popupButton2 = (PopupButton) arrayList.get(1);
-                        message.setNegativeButton(popupButton2.text, new BotWebViewContainer$$ExternalSyntheticLambda3(this, popupButton2, atomicBoolean));
-                    }
-                    if (arrayList.size() == 3) {
-                        PopupButton popupButton3 = (PopupButton) arrayList.get(2);
-                        message.setNeutralButton(popupButton3.text, new BotWebViewContainer$$ExternalSyntheticLambda2(this, popupButton3, atomicBoolean));
-                    }
-                    message.setOnDismissListener(new BotWebViewContainer$$ExternalSyntheticLambda5(this, atomicBoolean));
-                    this.currentDialog = message.show();
-                    if (arrayList.size() >= 1) {
-                        PopupButton popupButton4 = (PopupButton) arrayList.get(0);
-                        if (popupButton4.textColorKey != null) {
-                            ((TextView) this.currentDialog.getButton(-1)).setTextColor(getColor(popupButton4.textColorKey));
-                        }
-                    }
-                    if (arrayList.size() >= 2) {
-                        PopupButton popupButton5 = (PopupButton) arrayList.get(1);
-                        if (popupButton5.textColorKey != null) {
-                            ((TextView) this.currentDialog.getButton(-2)).setTextColor(getColor(popupButton5.textColorKey));
-                        }
-                    }
-                    if (arrayList.size() != 3) {
-                        return;
-                    }
-                    PopupButton popupButton6 = (PopupButton) arrayList.get(2);
-                    if (popupButton6.textColorKey == null) {
-                        return;
-                    }
-                    ((TextView) this.currentDialog.getButton(-3)).setTextColor(getColor(popupButton6.textColorKey));
                     return;
                 } catch (JSONException e2) {
                     FileLog.e(e2);
                     return;
                 }
             case 2:
-                try {
-                    String optString2 = new JSONObject(str2).optString("slug");
-                    if (this.currentPaymentSlug != null) {
-                        onInvoiceStatusUpdate(optString2, "cancelled", true);
-                    } else {
-                        this.currentPaymentSlug = optString2;
-                        TLRPC$TL_payments_getPaymentForm tLRPC$TL_payments_getPaymentForm = new TLRPC$TL_payments_getPaymentForm();
-                        TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug = new TLRPC$TL_inputInvoiceSlug();
-                        tLRPC$TL_inputInvoiceSlug.slug = optString2;
-                        tLRPC$TL_payments_getPaymentForm.invoice = tLRPC$TL_inputInvoiceSlug;
-                        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getPaymentForm, new BotWebViewContainer$$ExternalSyntheticLambda11(this, optString2));
-                    }
-                    return;
-                } catch (JSONException e3) {
-                    FileLog.e(e3);
-                    return;
-                }
-            case 3:
-                try {
-                    this.delegate.onWebAppSetupClosingBehavior(new JSONObject(str2).optBoolean("need_confirmation"));
-                    return;
-                } catch (JSONException e4) {
-                    FileLog.e(e4);
-                    return;
-                }
-            case 4:
-            default:
-                return;
-            case 5:
                 notifyThemeChanged();
                 return;
-            case 6:
+            case 3:
                 if ((getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) && ((ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) getParent()).isSwipeInProgress()) {
                     c4 = 1;
                 }
                 invalidateViewPortHeight(c4 ^ 1, true);
                 return;
-            case 7:
+            case 4:
                 try {
-                    String optString3 = new JSONObject(str2).optString("path_full");
-                    if (optString3.startsWith("/")) {
-                        optString3 = optString3.substring(1);
+                    String optString2 = new JSONObject(str2).optString("path_full");
+                    if (optString2.startsWith("/")) {
+                        optString2 = optString2.substring(1);
                     }
-                    onOpenUri(Uri.parse("https://t.me/" + optString3));
+                    onOpenUri(Uri.parse("https://t.me/" + optString2));
                     return;
-                } catch (JSONException e5) {
-                    FileLog.e(e5);
+                } catch (JSONException e3) {
+                    FileLog.e(e3);
                     return;
                 }
-            case '\b':
+            case 5:
                 this.delegate.onCloseRequested(null);
                 return;
-            case '\t':
+            case 6:
                 setPageLoaded(this.webView.getUrl());
                 return;
-            case '\n':
+            case 7:
                 try {
                     this.delegate.onSendWebViewData(new JSONObject(str2).optString("data"));
                     return;
-                } catch (JSONException e6) {
-                    FileLog.e(e6);
+                } catch (JSONException e4) {
+                    FileLog.e(e4);
                     return;
                 }
-            case 11:
+            case '\b':
                 try {
                     boolean optBoolean = new JSONObject(str2).optBoolean("is_visible");
                     if (optBoolean == this.isBackButtonVisible) {
@@ -1303,17 +1190,17 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     this.isBackButtonVisible = optBoolean;
                     this.delegate.onSetBackButtonVisible(optBoolean);
                     return;
-                } catch (JSONException e7) {
-                    FileLog.e(e7);
+                } catch (JSONException e5) {
+                    FileLog.e(e5);
                     return;
                 }
-            case '\f':
+            case '\t':
                 try {
-                    JSONObject jSONObject2 = new JSONObject(str2);
-                    String optString4 = jSONObject2.optString("type");
-                    int hashCode = optString4.hashCode();
+                    JSONObject jSONObject = new JSONObject(str2);
+                    String optString3 = jSONObject.optString("type");
+                    int hashCode = optString3.hashCode();
                     if (hashCode == -1184809658) {
-                        if (optString4.equals("impact")) {
+                        if (optString3.equals("impact")) {
                             c2 = 0;
                             if (c2 == 0) {
                             }
@@ -1322,14 +1209,14 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                         if (c2 == 0) {
                         }
                     } else if (hashCode != 193071555) {
-                        if (hashCode == 595233003 && optString4.equals("notification")) {
+                        if (hashCode == 595233003 && optString3.equals("notification")) {
                             c2 = 1;
                             if (c2 == 0) {
                                 if (c2 == 1) {
-                                    String optString5 = jSONObject2.optString("notification_type");
-                                    int hashCode2 = optString5.hashCode();
+                                    String optString4 = jSONObject.optString("notification_type");
+                                    int hashCode2 = optString4.hashCode();
                                     if (hashCode2 == -1867169789) {
-                                        if (optString5.equals("success")) {
+                                        if (optString4.equals("success")) {
                                             c4 = 1;
                                             if (c4 != 0) {
                                             }
@@ -1340,7 +1227,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                                         }
                                         botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                     } else if (hashCode2 != 96784904) {
-                                        if (hashCode2 == 1124446108 && optString5.equals("warning")) {
+                                        if (hashCode2 == 1124446108 && optString4.equals("warning")) {
                                             c4 = 2;
                                             if (c4 != 0) {
                                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_ERROR;
@@ -1356,7 +1243,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                                         }
                                         botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                     } else {
-                                        if (optString5.equals("error")) {
+                                        if (optString4.equals("error")) {
                                             if (c4 != 0) {
                                             }
                                             botWebViewVibrationEffect2 = botWebViewVibrationEffect;
@@ -1380,37 +1267,37 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                                     return;
                                 }
                             }
-                            String optString6 = jSONObject2.optString("impact_style");
-                            switch (optString6.hashCode()) {
+                            String optString5 = jSONObject.optString("impact_style");
+                            switch (optString5.hashCode()) {
                                 case -1078030475:
-                                    if (optString6.equals("medium")) {
+                                    if (optString5.equals("medium")) {
                                         c4 = 1;
                                         break;
                                     }
                                     c4 = 65535;
                                     break;
                                 case 3535914:
-                                    if (optString6.equals("soft")) {
+                                    if (optString5.equals("soft")) {
                                         c4 = 4;
                                         break;
                                     }
                                     c4 = 65535;
                                     break;
                                 case 99152071:
-                                    if (optString6.equals("heavy")) {
+                                    if (optString5.equals("heavy")) {
                                         c4 = 2;
                                         break;
                                     }
                                     c4 = 65535;
                                     break;
                                 case 102970646:
-                                    if (optString6.equals("light")) {
+                                    if (optString5.equals("light")) {
                                         break;
                                     }
                                     c4 = 65535;
                                     break;
                                 case 108511787:
-                                    if (optString6.equals("rigid")) {
+                                    if (optString5.equals("rigid")) {
                                         c4 = 3;
                                         break;
                                     }
@@ -1440,7 +1327,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                         if (c2 == 0) {
                         }
                     } else {
-                        if (optString4.equals("selection_change")) {
+                        if (optString3.equals("selection_change")) {
                             c2 = 2;
                             if (c2 == 0) {
                             }
@@ -1449,41 +1336,41 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                         if (c2 == 0) {
                         }
                     }
-                } catch (Exception e8) {
-                    FileLog.e(e8);
+                } catch (Exception e6) {
+                    FileLog.e(e6);
                     return;
                 }
                 break;
-            case '\r':
+            case '\n':
                 try {
-                    JSONObject jSONObject3 = new JSONObject(str2);
-                    boolean optBoolean2 = jSONObject3.optBoolean("is_active", false);
-                    String trim = jSONObject3.optString("text", this.lastButtonText).trim();
-                    boolean z = jSONObject3.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim);
-                    int parseColor = jSONObject3.has("color") ? Color.parseColor(jSONObject3.optString("color")) : this.lastButtonColor;
-                    int parseColor2 = jSONObject3.has("text_color") ? Color.parseColor(jSONObject3.optString("text_color")) : this.lastButtonTextColor;
-                    boolean z2 = jSONObject3.optBoolean("is_progress_visible", false) && z;
+                    JSONObject jSONObject2 = new JSONObject(str2);
+                    boolean optBoolean2 = jSONObject2.optBoolean("is_active", false);
+                    String trim = jSONObject2.optString("text", this.lastButtonText).trim();
+                    boolean z = jSONObject2.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim);
+                    int parseColor = jSONObject2.has("color") ? Color.parseColor(jSONObject2.optString("color")) : this.lastButtonColor;
+                    int parseColor2 = jSONObject2.has("text_color") ? Color.parseColor(jSONObject2.optString("text_color")) : this.lastButtonTextColor;
+                    boolean z2 = jSONObject2.optBoolean("is_progress_visible", false) && z;
                     this.lastButtonColor = parseColor;
                     this.lastButtonTextColor = parseColor2;
                     this.lastButtonText = trim;
                     this.buttonData = str2;
                     this.delegate.onSetupMainButton(z, optBoolean2, trim, parseColor, parseColor2, z2);
                     return;
-                } catch (IllegalArgumentException | JSONException e9) {
-                    FileLog.e(e9);
+                } catch (IllegalArgumentException | JSONException e7) {
+                    FileLog.e(e7);
                     return;
                 }
-            case 14:
+            case 11:
                 try {
-                    String string2 = new JSONObject(str2).getString("color_key");
-                    int hashCode3 = string2.hashCode();
-                    if (hashCode3 != -1265068311) {
-                        if (hashCode3 == -210781868 && string2.equals("secondary_bg_color")) {
-                            c3 = 1;
+                    String string = new JSONObject(str2).getString("color_key");
+                    int hashCode3 = string.hashCode();
+                    if (hashCode3 == -1265068311) {
+                        if (string.equals("bg_color")) {
+                            c3 = 0;
                             break;
                         }
-                    } else if (string2.equals("bg_color")) {
-                        c3 = 0;
+                    } else if (hashCode3 == -210781868 && string.equals("secondary_bg_color")) {
+                        c3 = 1;
                         break;
                     }
                     str3 = "windowBackgroundWhite";
@@ -1492,67 +1379,31 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     }
                     this.delegate.onWebAppSetActionBarColor(str3);
                     return;
-                } catch (JSONException e10) {
-                    FileLog.e(e10);
+                } catch (JSONException e8) {
+                    FileLog.e(e8);
                     return;
                 }
-            case 15:
+            case '\f':
                 try {
-                    this.delegate.onWebAppSetBackgroundColor(Color.parseColor(new JSONObject(str2).optString("color", "#ffffff")) | (-16777216));
+                    this.delegate.onWebAppSetBackgroundColor(Color.parseColor(new JSONObject(str2).optString("color")) | (-16777216));
                     return;
-                } catch (IllegalArgumentException | JSONException e11) {
-                    FileLog.e(e11);
+                } catch (JSONException e9) {
+                    FileLog.e(e9);
                     return;
                 }
-            case 16:
+            case '\r':
                 this.delegate.onWebAppExpand();
+                return;
+            default:
                 return;
         }
     }
 
-    public /* synthetic */ void lambda$onEventReceived$9(PopupButton popupButton, AtomicBoolean atomicBoolean, DialogInterface dialogInterface, int i) {
-        dialogInterface.dismiss();
-        try {
-            notifyEvent("popup_closed", new JSONObject().put("button_id", popupButton.id));
-            atomicBoolean.set(true);
-        } catch (JSONException e) {
-            FileLog.e(e);
-        }
+    public /* synthetic */ void lambda$onEventReceived$8(String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new BotWebViewContainer$$ExternalSyntheticLambda6(this, tLRPC$TL_error, str, tLObject));
     }
 
-    public /* synthetic */ void lambda$onEventReceived$10(PopupButton popupButton, AtomicBoolean atomicBoolean, DialogInterface dialogInterface, int i) {
-        dialogInterface.dismiss();
-        try {
-            notifyEvent("popup_closed", new JSONObject().put("button_id", popupButton.id));
-            atomicBoolean.set(true);
-        } catch (JSONException e) {
-            FileLog.e(e);
-        }
-    }
-
-    public /* synthetic */ void lambda$onEventReceived$11(PopupButton popupButton, AtomicBoolean atomicBoolean, DialogInterface dialogInterface, int i) {
-        dialogInterface.dismiss();
-        try {
-            notifyEvent("popup_closed", new JSONObject().put("button_id", popupButton.id));
-            atomicBoolean.set(true);
-        } catch (JSONException e) {
-            FileLog.e(e);
-        }
-    }
-
-    public /* synthetic */ void lambda$onEventReceived$12(AtomicBoolean atomicBoolean, DialogInterface dialogInterface) {
-        if (!atomicBoolean.get()) {
-            notifyEvent("popup_closed", new JSONObject());
-        }
-        this.currentDialog = null;
-        this.lastDialogClosed = System.currentTimeMillis();
-    }
-
-    public /* synthetic */ void lambda$onEventReceived$14(String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new BotWebViewContainer$$ExternalSyntheticLambda10(this, tLRPC$TL_error, str, tLObject));
-    }
-
-    public /* synthetic */ void lambda$onEventReceived$13(TLRPC$TL_error tLRPC$TL_error, String str, TLObject tLObject) {
+    public /* synthetic */ void lambda$onEventReceived$7(TLRPC$TL_error tLRPC$TL_error, String str, TLObject tLObject) {
         if (tLRPC$TL_error != null) {
             onInvoiceStatusUpdate(str, "failed");
         } else {
@@ -1616,85 +1467,6 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         @JavascriptInterface
         public void postEvent(String str, String str2) {
             AndroidUtilities.runOnUIThread(new BotWebViewContainer$WebViewProxy$$ExternalSyntheticLambda0(this, str, str2));
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public static final class PopupButton {
-        public String id;
-        public String text;
-        public String textColorKey;
-
-        /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x007f  */
-        /* JADX WARN: Removed duplicated region for block: B:32:? A[RETURN, SYNTHETIC] */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public PopupButton(JSONObject jSONObject) throws JSONException {
-            char c;
-            this.id = jSONObject.getString("id");
-            String string = jSONObject.getString("type");
-            boolean z = true;
-            switch (string.hashCode()) {
-                case -1829997182:
-                    if (string.equals("destructive")) {
-                        c = 5;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case -1367724422:
-                    if (string.equals("cancel")) {
-                        c = 4;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 3548:
-                    if (string.equals("ok")) {
-                        c = 2;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 94756344:
-                    if (string.equals("close")) {
-                        c = 3;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 1544803905:
-                    if (string.equals("default")) {
-                        c = 1;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                default:
-                    c = 65535;
-                    break;
-            }
-            if (c == 2) {
-                this.text = LocaleController.getString(2131627127);
-            } else if (c == 3) {
-                this.text = LocaleController.getString(2131625183);
-            } else if (c != 4) {
-                if (c == 5) {
-                    this.textColorKey = "dialogTextRed";
-                }
-                if (z) {
-                    return;
-                }
-                this.text = jSONObject.getString("text");
-                return;
-            } else {
-                this.text = LocaleController.getString(2131624832);
-            }
-            z = false;
-            if (z) {
-            }
         }
     }
 }

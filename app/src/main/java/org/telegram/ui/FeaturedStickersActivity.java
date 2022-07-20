@@ -64,7 +64,7 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("FeaturedStickers", 2131625842));
+        this.actionBar.setTitle(LocaleController.getString("FeaturedStickers", 2131625801));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -203,7 +203,7 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
-        MediaDataController.getInstance(this.currentAccount).markFeaturedStickersAsRead(false, true);
+        MediaDataController.getInstance(this.currentAccount).markFaturedStickersAsRead(true);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

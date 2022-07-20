@@ -37,14 +37,14 @@ public class PhotoEditToolCell extends FrameLayout {
             PhotoEditToolCell.this.valueAnimation.playTogether(ObjectAnimator.ofFloat(PhotoEditToolCell.this.valueTextView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(PhotoEditToolCell.this.nameTextView, View.ALPHA, 1.0f));
             PhotoEditToolCell.this.valueAnimation.setDuration(250L);
             PhotoEditToolCell.this.valueAnimation.setInterpolator(new DecelerateInterpolator());
-            PhotoEditToolCell.this.valueAnimation.addListener(new C00131());
+            PhotoEditToolCell.this.valueAnimation.addListener(new C00091());
             PhotoEditToolCell.this.valueAnimation.start();
         }
 
         /* renamed from: org.telegram.ui.Cells.PhotoEditToolCell$1$1 */
         /* loaded from: classes3.dex */
-        class C00131 extends AnimatorListenerAdapter {
-            C00131() {
+        class C00091 extends AnimatorListenerAdapter {
+            C00091() {
                 AnonymousClass1.this = r1;
             }
 

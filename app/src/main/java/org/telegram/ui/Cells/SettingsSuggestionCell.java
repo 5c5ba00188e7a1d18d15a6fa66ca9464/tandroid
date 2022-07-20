@@ -94,17 +94,17 @@ public class SettingsSuggestionCell extends LinearLayout {
             if (i != 1) {
                 return;
             }
-            this.textView.setText(LocaleController.getString("YourPasswordHeader", 2131629369));
-            this.detailTextView.setText(LocaleController.getString("YourPasswordRemember", 2131629370));
-            this.yesButton.setText(LocaleController.getString("YourPasswordRememberYes", 2131629372));
-            this.noButton.setText(LocaleController.getString("YourPasswordRememberNo", 2131629371));
+            this.textView.setText(LocaleController.getString("YourPasswordHeader", 2131629295));
+            this.detailTextView.setText(LocaleController.getString("YourPasswordRemember", 2131629296));
+            this.yesButton.setText(LocaleController.getString("YourPasswordRememberYes", 2131629298));
+            this.noButton.setText(LocaleController.getString("YourPasswordRememberNo", 2131629297));
             return;
         }
         TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).clientUserId));
         TextView textView = this.textView;
         PhoneFormat phoneFormat = PhoneFormat.getInstance();
-        textView.setText(LocaleController.formatString("CheckPhoneNumber", 2131625111, phoneFormat.format("+" + user.phone)));
-        String string = LocaleController.getString("CheckPhoneNumberInfo", 2131625112);
+        textView.setText(LocaleController.formatString("CheckPhoneNumber", 2131625098, phoneFormat.format("+" + user.phone)));
+        String string = LocaleController.getString("CheckPhoneNumberInfo", 2131625099);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string);
         int indexOf = string.indexOf("**");
         int lastIndexOf = string.lastIndexOf("**");
@@ -112,14 +112,14 @@ public class SettingsSuggestionCell extends LinearLayout {
             spannableStringBuilder.replace(lastIndexOf, lastIndexOf + 2, (CharSequence) "");
             spannableStringBuilder.replace(indexOf, indexOf + 2, (CharSequence) "");
             try {
-                spannableStringBuilder.setSpan(new URLSpanNoUnderline(LocaleController.getString("CheckPhoneNumberLearnMoreUrl", 2131625113)), indexOf, lastIndexOf - 2, 33);
+                spannableStringBuilder.setSpan(new URLSpanNoUnderline(LocaleController.getString("CheckPhoneNumberLearnMoreUrl", 2131625100)), indexOf, lastIndexOf - 2, 33);
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
         this.detailTextView.setText(spannableStringBuilder);
-        this.yesButton.setText(LocaleController.getString("CheckPhoneNumberYes", 2131625115));
-        this.noButton.setText(LocaleController.getString("CheckPhoneNumberNo", 2131625114));
+        this.yesButton.setText(LocaleController.getString("CheckPhoneNumberYes", 2131625102));
+        this.noButton.setText(LocaleController.getString("CheckPhoneNumberNo", 2131625101));
     }
 
     @Override // android.widget.LinearLayout, android.view.View

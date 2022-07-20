@@ -13,6 +13,6 @@ public final /* synthetic */ class ChannelCreateActivity$$ExternalSyntheticLambd
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        this.f$0.lambda$generateLink$14(tLObject, tLRPC$TL_error);
+        this.f$0.lambda$loadAdminedChannels$16(tLObject, tLRPC$TL_error);
     }
 }

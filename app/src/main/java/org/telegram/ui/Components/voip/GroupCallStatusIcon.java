@@ -22,8 +22,8 @@ public class GroupCallStatusIcon {
     private Runnable raiseHandCallback = new GroupCallStatusIcon$$ExternalSyntheticLambda0(this);
     private Runnable updateRunnable = new GroupCallStatusIcon$$ExternalSyntheticLambda1(this);
     private Runnable checkRaiseRunnable = new GroupCallStatusIcon$$ExternalSyntheticLambda2(this);
-    RLottieDrawable micDrawable = new RLottieDrawable(2131558598, "2131558598", AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f), true, null);
-    RLottieDrawable shakeHandDrawable = new RLottieDrawable(2131558461, "2131558461", AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), true, null);
+    RLottieDrawable micDrawable = new RLottieDrawable(2131558576, "2131558576", AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f), true, null);
+    RLottieDrawable shakeHandDrawable = new RLottieDrawable(2131558459, "2131558459", AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), true, null);
 
     /* loaded from: classes3.dex */
     public interface Callback {

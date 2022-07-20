@@ -64,7 +64,7 @@ public class ReportAlert extends BottomSheet {
         FrameLayout frameLayout = new FrameLayout(context);
         scrollView.addView(frameLayout, LayoutHelper.createScroll(-1, -2, 51));
         RLottieImageView rLottieImageView = new RLottieImageView(context);
-        rLottieImageView.setAnimation(2131558539, 120, 120);
+        rLottieImageView.setAnimation(2131558523, 120, 120);
         rLottieImageView.playAnimation();
         frameLayout.addView(rLottieImageView, LayoutHelper.createFrame(160, 160.0f, 49, 17.0f, 14.0f, 17.0f, 0.0f));
         TextView textView = new TextView(context);
@@ -73,24 +73,24 @@ public class ReportAlert extends BottomSheet {
         textView.setTextColor(Theme.getColor("dialogTextBlack"));
         int i2 = 5;
         if (i == 0) {
-            textView.setText(LocaleController.getString("ReportTitleSpam", 2131628021));
+            textView.setText(LocaleController.getString("ReportTitleSpam", 2131627959));
         } else if (i == 6) {
-            textView.setText(LocaleController.getString("ReportTitleFake", 2131628019));
+            textView.setText(LocaleController.getString("ReportTitleFake", 2131627957));
         } else if (i == 1) {
-            textView.setText(LocaleController.getString("ReportTitleViolence", 2131628022));
+            textView.setText(LocaleController.getString("ReportTitleViolence", 2131627960));
         } else if (i == 2) {
-            textView.setText(LocaleController.getString("ReportTitleChild", 2131628018));
+            textView.setText(LocaleController.getString("ReportTitleChild", 2131627956));
         } else if (i == 5) {
-            textView.setText(LocaleController.getString("ReportTitlePornography", 2131628020));
+            textView.setText(LocaleController.getString("ReportTitlePornography", 2131627958));
         } else if (i == 100) {
-            textView.setText(LocaleController.getString("ReportChat", 2131627992));
+            textView.setText(LocaleController.getString("ReportChat", 2131627930));
         }
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 49, 17.0f, 197.0f, 17.0f, 0.0f));
         TextView textView2 = new TextView(context);
         textView2.setTextSize(1, 14.0f);
         textView2.setTextColor(Theme.getColor("dialogTextGray3"));
         textView2.setGravity(1);
-        textView2.setText(LocaleController.getString("ReportInfo", 2131628004));
+        textView2.setText(LocaleController.getString("ReportInfo", 2131627942));
         frameLayout.addView(textView2, LayoutHelper.createFrame(-2, -2.0f, 49, 30.0f, 235.0f, 30.0f, 44.0f));
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
         this.editText = editTextBoldCursor;
@@ -106,7 +106,7 @@ public class ReportAlert extends BottomSheet {
         this.editText.setGravity(!LocaleController.isRTL ? 3 : i2);
         this.editText.setInputType(180224);
         this.editText.setImeOptions(6);
-        this.editText.setHint(LocaleController.getString("ReportHint", 2131628003));
+        this.editText.setHint(LocaleController.getString("ReportHint", 2131627941));
         this.editText.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.editText.setCursorSize(AndroidUtilities.dp(20.0f));
         this.editText.setCursorWidth(1.5f);
@@ -115,7 +115,7 @@ public class ReportAlert extends BottomSheet {
         BottomSheetCell bottomSheetCell = new BottomSheetCell(context);
         this.clearButton = bottomSheetCell;
         bottomSheetCell.setBackground(null);
-        this.clearButton.setText(LocaleController.getString("ReportSend", 2131628008));
+        this.clearButton.setText(LocaleController.getString("ReportSend", 2131627946));
         this.clearButton.background.setOnClickListener(new ReportAlert$$ExternalSyntheticLambda0(this, i));
         frameLayout.addView(this.clearButton, LayoutHelper.createFrame(-1, 50.0f, 51, 0.0f, 357.0f, 0.0f, 0.0f));
         this.smoothKeyboardAnimationEnabled = true;

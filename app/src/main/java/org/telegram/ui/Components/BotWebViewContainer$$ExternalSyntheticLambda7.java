@@ -1,18 +1,20 @@
 package org.telegram.ui.Components;
 
-import android.net.Uri;
+import org.telegram.tgnet.RequestDelegate;
+import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$TL_error;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class BotWebViewContainer$$ExternalSyntheticLambda7 implements Runnable {
+public final /* synthetic */ class BotWebViewContainer$$ExternalSyntheticLambda7 implements RequestDelegate {
     public final /* synthetic */ BotWebViewContainer f$0;
-    public final /* synthetic */ Uri f$1;
+    public final /* synthetic */ String f$1;
 
-    public /* synthetic */ BotWebViewContainer$$ExternalSyntheticLambda7(BotWebViewContainer botWebViewContainer, Uri uri) {
+    public /* synthetic */ BotWebViewContainer$$ExternalSyntheticLambda7(BotWebViewContainer botWebViewContainer, String str) {
         this.f$0 = botWebViewContainer;
-        this.f$1 = uri;
+        this.f$1 = str;
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        this.f$0.lambda$onOpenUri$0(this.f$1);
+    @Override // org.telegram.tgnet.RequestDelegate
+    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        this.f$0.lambda$onEventReceived$8(this.f$1, tLObject, tLRPC$TL_error);
     }
 }

@@ -29,17 +29,14 @@ import java.util.Stack;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.ui.Cells.DialogCell;
-import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.EmptyStubSpan;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 /* loaded from: classes3.dex */
 public class SimpleTextView extends View {
-    private boolean attachedToWindow;
     private boolean buildFullLayout;
     private boolean canHideRightDrawable;
     private int currentScrollDelay;
-    private AnimatedEmojiSpan.EmojiGroupedSpans emojiStack;
     private Paint fadePaint;
     private Paint fadePaintBack;
     private Layout firstLineLayout;
@@ -112,17 +109,8 @@ public class SimpleTextView extends View {
     }
 
     @Override // android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        this.attachedToWindow = true;
-        this.emojiStack = AnimatedEmojiSpan.update(0, this, this.emojiStack, this.layout);
-    }
-
-    @Override // android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        this.attachedToWindow = false;
-        AnimatedEmojiSpan.release(this, this.emojiStack);
         this.wasLayout = false;
     }
 
@@ -337,10 +325,6 @@ public class SimpleTextView extends View {
             this.layout = null;
             this.textWidth = 0;
             this.textHeight = 0;
-        }
-        AnimatedEmojiSpan.release(this, this.emojiStack);
-        if (this.attachedToWindow) {
-            this.emojiStack = AnimatedEmojiSpan.update(0, this, this.emojiStack, this.layout);
         }
         invalidate();
         return true;
@@ -776,26 +760,16 @@ public class SimpleTextView extends View {
             canvas.translate(((-this.fullLayoutLeftOffset) * f) + (this.fullLayoutLeftCharactersOffset * f), 0.0f);
             canvas.save();
             clipOutSpoilers(canvas);
-            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.emojiStack;
-            if (emojiGroupedSpans != null) {
-                emojiGroupedSpans.clearPositions();
-            }
             this.layout.draw(canvas);
             canvas.restore();
-            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.emojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
             drawSpoilers(canvas);
             canvas.restore();
             return;
         }
         canvas.save();
         clipOutSpoilers(canvas);
-        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans2 = this.emojiStack;
-        if (emojiGroupedSpans2 != null) {
-            emojiGroupedSpans2.clearPositions();
-        }
         this.layout.draw(canvas);
         canvas.restore();
-        AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.emojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
         drawSpoilers(canvas);
     }
 

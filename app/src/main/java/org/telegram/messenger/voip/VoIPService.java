@@ -2551,7 +2551,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX WARN: Type inference failed for: r0v6, types: [org.telegram.messenger.AccountInstance, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r0v8, types: [int, java.lang.String] */
+    /* JADX WARN: Type inference failed for: r0v8, types: [java.lang.String, int] */
     public /* synthetic */ void lambda$createGroupInstance$45(int i, long j, long j2, int i2, int i3) {
         StringBuilder sb;
         if (i != 0) {
@@ -3553,20 +3553,20 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         int i;
         int i2 = 2;
         if (isBluetoothHeadsetConnected() && hasEarpiece()) {
-            BottomSheet.Builder title = new BottomSheet.Builder(context).setTitle(LocaleController.getString("VoipOutputDevices", 2131629244), true);
+            BottomSheet.Builder title = new BottomSheet.Builder(context).setTitle(LocaleController.getString("VoipOutputDevices", 2131629170), true);
             CharSequence[] charSequenceArr = new CharSequence[3];
-            charSequenceArr[0] = LocaleController.getString("VoipAudioRoutingSpeaker", 2131629034);
+            charSequenceArr[0] = LocaleController.getString("VoipAudioRoutingSpeaker", 2131628960);
             if (this.isHeadsetPlugged) {
-                i = 2131629032;
+                i = 2131628958;
                 str = "VoipAudioRoutingHeadset";
             } else {
-                i = 2131629031;
+                i = 2131628957;
                 str = "VoipAudioRoutingEarpiece";
             }
             charSequenceArr[1] = LocaleController.getString(str, i);
             String str2 = this.currentBluetoothDeviceName;
             if (str2 == null) {
-                str2 = LocaleController.getString("VoipAudioRoutingBluetooth", 2131629030);
+                str2 = LocaleController.getString("VoipAudioRoutingBluetooth", 2131628956);
             }
             charSequenceArr[2] = str2;
             int[] iArr = new int[3];
@@ -3780,17 +3780,17 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         Notification.Builder contentIntent = new Notification.Builder(this).setContentText(str).setContentIntent(PendingIntent.getActivity(this, 50, action, 0));
         if (this.groupCall != null) {
             if (ChatObject.isChannelOrGiga(this.chat)) {
-                i2 = 2131629215;
+                i2 = 2131629141;
                 str3 = "VoipLiveStream";
             } else {
-                i2 = 2131629286;
+                i2 = 2131629212;
                 str3 = "VoipVoiceChat";
             }
             contentIntent.setContentTitle(LocaleController.getString(str3, i2));
-            contentIntent.setSmallIcon(isMicMute() ? 2131166218 : 2131166217);
+            contentIntent.setSmallIcon(isMicMute() ? 2131166216 : 2131166215);
         } else {
-            contentIntent.setContentTitle(LocaleController.getString("VoipOutgoingCall", 2131629243));
-            contentIntent.setSmallIcon(2131166007);
+            contentIntent.setContentTitle(LocaleController.getString("VoipOutgoingCall", 2131629169));
+            contentIntent.setSmallIcon(2131166005);
         }
         int i3 = Build.VERSION.SDK_INT;
         if (i3 >= 16) {
@@ -3798,15 +3798,15 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             intent.setAction(getPackageName() + ".END_CALL");
             if (this.groupCall != null) {
                 if (ChatObject.isChannelOrGiga(this.chat)) {
-                    i = 2131629053;
+                    i = 2131628979;
                     str2 = "VoipChannelLeaveAlertTitle";
                 } else {
-                    i = 2131629146;
+                    i = 2131629072;
                     str2 = "VoipGroupLeaveAlertTitle";
                 }
                 contentIntent.addAction(2131165465, LocaleController.getString(str2, i), PendingIntent.getBroadcast(this, 0, intent, 134217728));
             } else {
-                contentIntent.addAction(2131165465, LocaleController.getString("VoipEndCall", 2131629094), PendingIntent.getBroadcast(this, 0, intent, 134217728));
+                contentIntent.addAction(2131165465, LocaleController.getString("VoipEndCall", 2131629020), PendingIntent.getBroadcast(this, 0, intent, 134217728));
             }
             contentIntent.setPriority(2);
         }
@@ -4488,11 +4488,11 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             return;
         }
         NotificationsController.checkOtherNotificationsChannel();
-        Notification.Builder showWhen = new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(LocaleController.getString("VoipOutgoingCall", 2131629243)).setShowWhen(false);
+        Notification.Builder showWhen = new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(LocaleController.getString("VoipOutgoingCall", 2131629169)).setShowWhen(false);
         if (this.groupCall != null) {
-            showWhen.setSmallIcon(isMicMute() ? 2131166218 : 2131166217);
+            showWhen.setSmallIcon(isMicMute() ? 2131166216 : 2131166215);
         } else {
-            showWhen.setSmallIcon(2131166007);
+            showWhen.setSmallIcon(2131166005);
         }
         startForeground(201, showWhen.build());
     }
@@ -4507,16 +4507,16 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     public /* synthetic */ void lambda$loadResources$76() {
         SoundPool soundPool = new SoundPool(1, 0, 0);
         this.soundPool = soundPool;
-        this.spConnectingId = soundPool.load(this, 2131558608, 1);
-        this.spRingbackID = this.soundPool.load(this, 2131558619, 1);
-        this.spFailedID = this.soundPool.load(this, 2131558610, 1);
-        this.spEndId = this.soundPool.load(this, 2131558609, 1);
-        this.spBusyId = this.soundPool.load(this, 2131558607, 1);
-        this.spVoiceChatEndId = this.soundPool.load(this, 2131558605, 1);
-        this.spVoiceChatStartId = this.soundPool.load(this, 2131558604, 1);
-        this.spVoiceChatConnecting = this.soundPool.load(this, 2131558603, 1);
-        this.spAllowTalkId = this.soundPool.load(this, 2131558615, 1);
-        this.spStartRecordId = this.soundPool.load(this, 2131558618, 1);
+        this.spConnectingId = soundPool.load(this, 2131558585, 1);
+        this.spRingbackID = this.soundPool.load(this, 2131558596, 1);
+        this.spFailedID = this.soundPool.load(this, 2131558587, 1);
+        this.spEndId = this.soundPool.load(this, 2131558586, 1);
+        this.spBusyId = this.soundPool.load(this, 2131558584, 1);
+        this.spVoiceChatEndId = this.soundPool.load(this, 2131558582, 1);
+        this.spVoiceChatStartId = this.soundPool.load(this, 2131558581, 1);
+        this.spVoiceChatConnecting = this.soundPool.load(this, 2131558580, 1);
+        this.spAllowTalkId = this.soundPool.load(this, 2131558592, 1);
+        this.spStartRecordId = this.soundPool.load(this, 2131558595, 1);
     }
 
     private void dispatchStateChanged(int i) {
@@ -4922,7 +4922,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         boolean z2;
         Intent intent = new Intent(this, LaunchActivity.class);
         intent.setAction("voip");
-        Notification.Builder contentIntent = new Notification.Builder(this).setContentTitle(z ? LocaleController.getString("VoipInVideoCallBranding", 2131629212) : LocaleController.getString("VoipInCallBranding", 2131629210)).setContentText(str).setSmallIcon(2131166007).setSubText(charSequence).setContentIntent(PendingIntent.getActivity(this, 0, intent, 0));
+        Notification.Builder contentIntent = new Notification.Builder(this).setContentTitle(z ? LocaleController.getString("VoipInVideoCallBranding", 2131629138) : LocaleController.getString("VoipInCallBranding", 2131629136)).setContentText(str).setSmallIcon(2131166005).setSubText(charSequence).setContentIntent(PendingIntent.getActivity(this, 0, intent, 0));
         Uri parse = Uri.parse("content://org.telegram.messenger.beta.call_sound_provider/start_ringing");
         int i5 = Build.VERSION.SDK_INT;
         if (i5 >= 26) {
@@ -4948,7 +4948,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                     if (!z2) {
                         AudioAttributes build = new AudioAttributes.Builder().setContentType(4).setLegacyStreamType(2).setUsage(2).build();
                         str2 = "VoipInVideoCallBranding";
-                        NotificationChannel notificationChannel3 = new NotificationChannel("incoming_calls3" + i6, LocaleController.getString("IncomingCalls", 2131626276), 4);
+                        NotificationChannel notificationChannel3 = new NotificationChannel("incoming_calls3" + i6, LocaleController.getString("IncomingCalls", 2131626229), 4);
                         notificationChannel3.setSound(parse, build);
                         notificationChannel3.enableVibration(false);
                         notificationChannel3.enableLights(false);
@@ -4980,7 +4980,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         Intent intent2 = new Intent(this, VoIPActionsReceiver.class);
         intent2.setAction(getPackageName() + ".DECLINE_CALL");
         intent2.putExtra("call_id", getCallID());
-        String string = LocaleController.getString("VoipDeclineCall", 2131629088);
+        String string = LocaleController.getString("VoipDeclineCall", 2131629014);
         if (i5 >= 24) {
             SpannableString spannableString = new SpannableString(string);
             i2 = 0;
@@ -4994,7 +4994,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         Intent intent3 = new Intent(this, VoIPActionsReceiver.class);
         intent3.setAction(getPackageName() + ".ANSWER_CALL");
         intent3.putExtra("call_id", getCallID());
-        String string2 = LocaleController.getString("VoipAnswerCall", 2131629028);
+        String string2 = LocaleController.getString("VoipAnswerCall", 2131628954);
         if (i5 >= 24) {
             SpannableString spannableString2 = new SpannableString(string2);
             i3 = 0;
@@ -5023,36 +5023,36 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
         Notification notification = contentIntent.getNotification();
         if (i5 >= 21) {
-            RemoteViews remoteViews = new RemoteViews(getPackageName(), LocaleController.isRTL ? 2131427330 : 2131427329);
-            remoteViews.setTextViewText(2131230870, str);
+            RemoteViews remoteViews = new RemoteViews(getPackageName(), LocaleController.isRTL ? 2131427329 : 2131427328);
+            remoteViews.setTextViewText(2131230869, str);
             if (TextUtils.isEmpty(charSequence)) {
-                remoteViews.setViewVisibility(2131230924, 8);
+                remoteViews.setViewVisibility(2131230923, 8);
                 if (UserConfig.getActivatedAccountsCount() > 1) {
                     TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
-                    remoteViews.setTextViewText(2131230948, z ? LocaleController.formatString("VoipInVideoCallBrandingWithName", 2131629213, ContactsController.formatName(currentUser.first_name, currentUser.last_name)) : LocaleController.formatString("VoipInCallBrandingWithName", 2131629211, ContactsController.formatName(currentUser.first_name, currentUser.last_name)));
+                    remoteViews.setTextViewText(2131230947, z ? LocaleController.formatString("VoipInVideoCallBrandingWithName", 2131629139, ContactsController.formatName(currentUser.first_name, currentUser.last_name)) : LocaleController.formatString("VoipInCallBrandingWithName", 2131629137, ContactsController.formatName(currentUser.first_name, currentUser.last_name)));
                 } else {
                     if (z) {
                         str4 = str2;
-                        i4 = 2131629212;
+                        i4 = 2131629138;
                     } else {
                         str4 = str3;
-                        i4 = 2131629210;
+                        i4 = 2131629136;
                     }
-                    remoteViews.setTextViewText(2131230948, LocaleController.getString(str4, i4));
+                    remoteViews.setTextViewText(2131230947, LocaleController.getString(str4, i4));
                 }
             } else {
                 if (UserConfig.getActivatedAccountsCount() > 1) {
                     TLRPC$User currentUser2 = UserConfig.getInstance(this.currentAccount).getCurrentUser();
-                    remoteViews.setTextViewText(2131230924, LocaleController.formatString("VoipAnsweringAsAccount", 2131629029, ContactsController.formatName(currentUser2.first_name, currentUser2.last_name)));
+                    remoteViews.setTextViewText(2131230923, LocaleController.formatString("VoipAnsweringAsAccount", 2131628955, ContactsController.formatName(currentUser2.first_name, currentUser2.last_name)));
                 } else {
-                    remoteViews.setViewVisibility(2131230924, 8);
+                    remoteViews.setViewVisibility(2131230923, 8);
                 }
-                remoteViews.setTextViewText(2131230948, charSequence);
+                remoteViews.setTextViewText(2131230947, charSequence);
             }
             Bitmap roundAvatarBitmap = getRoundAvatarBitmap(tLObject);
-            remoteViews.setTextViewText(2131230771, LocaleController.getString("VoipAnswerCall", 2131629028));
-            remoteViews.setTextViewText(2131230806, LocaleController.getString("VoipDeclineCall", 2131629088));
-            remoteViews.setImageViewBitmap(2131230893, roundAvatarBitmap);
+            remoteViews.setTextViewText(2131230771, LocaleController.getString("VoipAnswerCall", 2131628954));
+            remoteViews.setTextViewText(2131230806, LocaleController.getString("VoipDeclineCall", 2131629014));
+            remoteViews.setImageViewBitmap(2131230892, roundAvatarBitmap);
             remoteViews.setOnClickPendingIntent(2131230770, broadcast2);
             remoteViews.setOnClickPendingIntent(2131230805, broadcast);
             contentIntent.setLargeIcon(roundAvatarBitmap);

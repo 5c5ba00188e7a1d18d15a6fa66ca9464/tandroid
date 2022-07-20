@@ -65,7 +65,6 @@ public class PipVideoOverlay {
     private boolean isShowingControls;
     private boolean isVideoCompleted;
     private boolean isVisible;
-    private boolean isWebView;
     private int mVideoHeight;
     private int mVideoWidth;
     private boolean onSideToDismiss;
@@ -402,14 +401,14 @@ public class PipVideoOverlay {
         AndroidUtilities.cancelRunOnUIThread(this.progressRunnable);
         if (!videoPlayer.isPlaying()) {
             if (this.isVideoCompleted) {
-                this.playPauseButton.setImageResource(2131166061);
+                this.playPauseButton.setImageResource(2131166059);
                 return;
             } else {
-                this.playPauseButton.setImageResource(2131166060);
+                this.playPauseButton.setImageResource(2131166058);
                 return;
             }
         }
-        this.playPauseButton.setImageResource(2131166059);
+        this.playPauseButton.setImageResource(2131166057);
         AndroidUtilities.runOnUIThread(this.progressRunnable, 500L);
     }
 
@@ -550,7 +549,7 @@ public class PipVideoOverlay {
         this.controlsView.addView(view2, LayoutHelper.createFrame(-1, -1.0f));
         int dp = AndroidUtilities.dp(8.0f);
         ImageView imageView = new ImageView(context);
-        imageView.setImageResource(2131166062);
+        imageView.setImageResource(2131166060);
         imageView.setColorFilter(Theme.getColor("voipgroup_actionBarItems"), PorterDuff.Mode.MULTIPLY);
         imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21")));
         imageView.setPadding(dp, dp, dp, dp);
@@ -559,7 +558,7 @@ public class PipVideoOverlay {
         float f2 = 4;
         this.controlsView.addView(imageView, LayoutHelper.createFrame(38, f, 5, 0.0f, f2, f2, 0.0f));
         ImageView imageView2 = new ImageView(context);
-        imageView2.setImageResource(2131166063);
+        imageView2.setImageResource(2131166061);
         imageView2.setColorFilter(Theme.getColor("voipgroup_actionBarItems"), PorterDuff.Mode.MULTIPLY);
         imageView2.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21")));
         imageView2.setPadding(dp, dp, dp, dp);
@@ -570,9 +569,7 @@ public class PipVideoOverlay {
         imageView3.setColorFilter(Theme.getColor("voipgroup_actionBarItems"), PorterDuff.Mode.MULTIPLY);
         this.playPauseButton.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21")));
         this.playPauseButton.setOnClickListener(new PipVideoOverlay$$ExternalSyntheticLambda1(this));
-        boolean z3 = this.innerView instanceof WebView;
-        this.isWebView = z3;
-        this.playPauseButton.setVisibility(z3 ? 8 : 0);
+        this.playPauseButton.setVisibility(this.innerView instanceof WebView ? 8 : 0);
         this.controlsView.addView(this.playPauseButton, LayoutHelper.createFrame(38, 38, 17));
         VideoProgressView videoProgressView = new VideoProgressView(context);
         this.videoProgressView = videoProgressView;
@@ -1216,9 +1213,6 @@ public class PipVideoOverlay {
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            if (PipVideoOverlay.this.isWebView) {
-                return;
-            }
             int width = getWidth();
             int dp = AndroidUtilities.dp(10.0f);
             float f = (width - dp) - dp;

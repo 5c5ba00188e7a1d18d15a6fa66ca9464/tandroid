@@ -16,6 +16,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda23 imple
 
     @Override // android.content.DialogInterface.OnCancelListener
     public final void onCancel(DialogInterface dialogInterface) {
-        this.f$0.lambda$didPressMessageUrl$242(this.f$1, this.f$2, dialogInterface);
+        this.f$0.lambda$didPressMessageUrl$241(this.f$1, this.f$2, dialogInterface);
     }
 }

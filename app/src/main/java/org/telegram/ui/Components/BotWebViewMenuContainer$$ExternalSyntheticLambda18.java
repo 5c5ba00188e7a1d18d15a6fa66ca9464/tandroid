@@ -13,6 +13,6 @@ public final /* synthetic */ class BotWebViewMenuContainer$$ExternalSyntheticLam
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        this.f$0.lambda$loadWebView$17(tLObject, tLRPC$TL_error);
+        this.f$0.lambda$loadWebView$15(tLObject, tLRPC$TL_error);
     }
 }

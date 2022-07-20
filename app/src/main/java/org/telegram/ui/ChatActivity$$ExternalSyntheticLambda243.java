@@ -1,17 +1,19 @@
 package org.telegram.ui;
 
-import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.ui.Components.ChatGreetingsView;
+import org.telegram.ui.ActionBar.ActionBarPopupWindow;
+import org.telegram.ui.Components.ReactedUsersListView;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda243 implements ChatGreetingsView.Listener {
-    public final /* synthetic */ ChatActivity f$0;
+public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda243 implements ReactedUsersListView.OnHeightChangedListener {
+    public final /* synthetic */ ActionBarPopupWindow.ActionBarPopupWindowLayout f$0;
+    public final /* synthetic */ int[] f$1;
 
-    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda243(ChatActivity chatActivity) {
-        this.f$0 = chatActivity;
+    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda243(ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout, int[] iArr) {
+        this.f$0 = actionBarPopupWindowLayout;
+        this.f$1 = iArr;
     }
 
-    @Override // org.telegram.ui.Components.ChatGreetingsView.Listener
-    public final void onGreetings(TLRPC$Document tLRPC$Document) {
-        this.f$0.lambda$createView$26(tLRPC$Document);
+    @Override // org.telegram.ui.Components.ReactedUsersListView.OnHeightChangedListener
+    public final void onHeightChanged(ReactedUsersListView reactedUsersListView, int i) {
+        ChatActivity.lambda$createMenu$159(this.f$0, this.f$1, reactedUsersListView, i);
     }
 }

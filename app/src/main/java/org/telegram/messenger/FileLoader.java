@@ -698,14 +698,14 @@ public class FileLoader extends BaseController {
 
     /* JADX WARN: Removed duplicated region for block: B:101:0x01de  */
     /* JADX WARN: Removed duplicated region for block: B:102:0x01e0  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x0224  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x0253  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x02b6  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x02cd  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x02fb  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x0322  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x03aa  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x03e4  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x0218  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x0247  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x02aa  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x02c1  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x02ef  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0316  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x039e  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x03d8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -865,7 +865,7 @@ public class FileLoader extends BaseController {
                     } else if (i5 == 1) {
                         i7 = 2;
                     } else {
-                        i7 = (secureDocument != null || (tLRPC$TL_fileLocationToBeDeprecated != null && (imageLocation == null || imageLocation.imageType != 2)) || MessageObject.isImageWebDocument(webFile) || MessageObject.isStickerDocument(tLRPC$Document) || MessageObject.isAnimatedStickerDocument(tLRPC$Document) || MessageObject.isVideoStickerDocument(tLRPC$Document)) ? 1 : 0;
+                        i7 = (secureDocument != null || (tLRPC$TL_fileLocationToBeDeprecated != null && (imageLocation == null || imageLocation.imageType != 2)) || MessageObject.isImageWebDocument(webFile) || MessageObject.isStickerDocument(tLRPC$Document)) ? 1 : 0;
                     }
                     if (i4 == 0 && i4 != 10) {
                         if (i4 == 2) {

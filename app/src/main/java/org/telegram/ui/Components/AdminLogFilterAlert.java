@@ -120,7 +120,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         this.leavingRow = i7;
         this.callsRow = i8;
         this.allAdminsRow = i8 + 1 + 1;
-        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166138).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
@@ -149,7 +149,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         BottomSheet.BottomSheetCell bottomSheetCell = new BottomSheet.BottomSheetCell(context, 1);
         this.saveButton = bottomSheetCell;
         bottomSheetCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-        this.saveButton.setTextAndIcon(LocaleController.getString("Save", 2131628122).toUpperCase(), 0);
+        this.saveButton.setTextAndIcon(LocaleController.getString("Save", 2131628060).toUpperCase(), 0);
         this.saveButton.setTextColor(Theme.getColor("dialogTextBlue2"));
         this.saveButton.setOnClickListener(new AdminLogFilterAlert$$ExternalSyntheticLambda0(this));
         this.containerView.addView(this.saveButton, LayoutHelper.createFrame(-1, 48, 83));
@@ -613,14 +613,14 @@ public class AdminLogFilterAlert extends BottomSheet {
                         if (i != AdminLogFilterAlert.this.membersRow) {
                             if (i == AdminLogFilterAlert.this.infoRow) {
                                 if (AdminLogFilterAlert.this.isMegagroup) {
-                                    String string = LocaleController.getString("EventLogFilterGroupInfo", 2131625748);
+                                    String string = LocaleController.getString("EventLogFilterGroupInfo", 2131625708);
                                     if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.info) {
                                         z = true;
                                     }
                                     checkBoxCell.setText(string, "", z, true);
                                     return;
                                 }
-                                String string2 = LocaleController.getString("EventLogFilterChannelInfo", 2131625745);
+                                String string2 = LocaleController.getString("EventLogFilterChannelInfo", 2131625705);
                                 if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.info) {
                                     z = true;
                                 }
@@ -635,28 +635,28 @@ public class AdminLogFilterAlert extends BottomSheet {
                                                     if (i != AdminLogFilterAlert.this.allAdminsRow) {
                                                         return;
                                                     }
-                                                    String string3 = LocaleController.getString("EventLogAllAdmins", 2131625709);
+                                                    String string3 = LocaleController.getString("EventLogAllAdmins", 2131625669);
                                                     if (AdminLogFilterAlert.this.selectedAdmins == null) {
                                                         z = true;
                                                     }
                                                     checkBoxCell.setText(string3, "", z, true);
                                                     return;
                                                 }
-                                                String string4 = LocaleController.getString("EventLogFilterInvites", 2131625749);
+                                                String string4 = LocaleController.getString("EventLogFilterInvites", 2131625709);
                                                 if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.invites) {
                                                     z = true;
                                                 }
                                                 checkBoxCell.setText(string4, "", z, true);
                                                 return;
                                             }
-                                            String string5 = LocaleController.getString("EventLogFilterCalls", 2131625744);
+                                            String string5 = LocaleController.getString("EventLogFilterCalls", 2131625704);
                                             if (AdminLogFilterAlert.this.currentFilter != null && !AdminLogFilterAlert.this.currentFilter.group_call) {
                                                 z2 = false;
                                             }
                                             checkBoxCell.setText(string5, "", z2, false);
                                             return;
                                         }
-                                        String string6 = LocaleController.getString("EventLogFilterLeavingMembers", 2131625750);
+                                        String string6 = LocaleController.getString("EventLogFilterLeavingMembers", 2131625710);
                                         boolean z4 = AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.leave;
                                         if (AdminLogFilterAlert.this.callsRow != -1) {
                                             z = true;
@@ -664,21 +664,21 @@ public class AdminLogFilterAlert extends BottomSheet {
                                         checkBoxCell.setText(string6, "", z4, z);
                                         return;
                                     }
-                                    String string7 = LocaleController.getString("EventLogFilterPinnedMessages", 2131625754);
+                                    String string7 = LocaleController.getString("EventLogFilterPinnedMessages", 2131625714);
                                     if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.pinned) {
                                         z = true;
                                     }
                                     checkBoxCell.setText(string7, "", z, true);
                                     return;
                                 }
-                                String string8 = LocaleController.getString("EventLogFilterEditedMessages", 2131625747);
+                                String string8 = LocaleController.getString("EventLogFilterEditedMessages", 2131625707);
                                 if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.edit) {
                                     z = true;
                                 }
                                 checkBoxCell.setText(string8, "", z, true);
                                 return;
                             } else {
-                                String string9 = LocaleController.getString("EventLogFilterDeletedMessages", 2131625746);
+                                String string9 = LocaleController.getString("EventLogFilterDeletedMessages", 2131625706);
                                 if (AdminLogFilterAlert.this.currentFilter == null || AdminLogFilterAlert.this.currentFilter.delete) {
                                     z = true;
                                 }
@@ -686,28 +686,28 @@ public class AdminLogFilterAlert extends BottomSheet {
                                 return;
                             }
                         }
-                        String string10 = LocaleController.getString("EventLogFilterNewMembers", 2131625752);
+                        String string10 = LocaleController.getString("EventLogFilterNewMembers", 2131625712);
                         if (AdminLogFilterAlert.this.currentFilter == null || (AdminLogFilterAlert.this.currentFilter.invite && AdminLogFilterAlert.this.currentFilter.join)) {
                             z = true;
                         }
                         checkBoxCell.setText(string10, "", z, true);
                         return;
                     }
-                    String string11 = LocaleController.getString("EventLogFilterNewAdmins", 2131625751);
+                    String string11 = LocaleController.getString("EventLogFilterNewAdmins", 2131625711);
                     if (AdminLogFilterAlert.this.currentFilter == null || (AdminLogFilterAlert.this.currentFilter.promote && AdminLogFilterAlert.this.currentFilter.demote)) {
                         z = true;
                     }
                     checkBoxCell.setText(string11, "", z, true);
                     return;
                 }
-                String string12 = LocaleController.getString("EventLogFilterNewRestrictions", 2131625753);
+                String string12 = LocaleController.getString("EventLogFilterNewRestrictions", 2131625713);
                 if (AdminLogFilterAlert.this.currentFilter == null || (AdminLogFilterAlert.this.currentFilter.kick && AdminLogFilterAlert.this.currentFilter.ban && AdminLogFilterAlert.this.currentFilter.unkick && AdminLogFilterAlert.this.currentFilter.unban)) {
                     z = true;
                 }
                 checkBoxCell.setText(string12, "", z, true);
                 return;
             }
-            String string13 = LocaleController.getString("EventLogFilterAll", 2131625743);
+            String string13 = LocaleController.getString("EventLogFilterAll", 2131625703);
             if (AdminLogFilterAlert.this.currentFilter == null) {
                 z = true;
             }

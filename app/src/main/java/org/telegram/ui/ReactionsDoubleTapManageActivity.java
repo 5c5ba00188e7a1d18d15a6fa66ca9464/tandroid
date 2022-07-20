@@ -23,7 +23,6 @@ import org.telegram.ui.Cells.AvailableReactionCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.ThemePreviewMessagesCell;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SimpleThemeDescription;
 /* loaded from: classes3.dex */
@@ -44,7 +43,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        this.actionBar.setTitle(LocaleController.getString("Reactions", 2131627909));
+        this.actionBar.setTitle(LocaleController.getString("Reactions", 2131627847));
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
@@ -105,10 +104,10 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 availableReactionCell = themePreviewMessagesCell;
             } else if (i == 2) {
                 TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(this.val$context);
-                textInfoPrivacyCell.setText(LocaleController.getString("DoubleTapPreviewRational", 2131625544));
+                textInfoPrivacyCell.setText(LocaleController.getString("DoubleTapPreviewRational", 2131625528));
                 availableReactionCell = textInfoPrivacyCell;
             } else {
-                availableReactionCell = new AvailableReactionCell(this.val$context, true, true);
+                availableReactionCell = new AvailableReactionCell(this.val$context, true);
             }
             return new RecyclerListView.Holder(availableReactionCell);
         }
@@ -119,7 +118,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 return;
             }
             TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) ReactionsDoubleTapManageActivity.this.getAvailableReactions().get(i - ReactionsDoubleTapManageActivity.this.reactionsStartRow);
-            ((AvailableReactionCell) viewHolder.itemView).bind(tLRPC$TL_availableReaction, tLRPC$TL_availableReaction.reaction.contains(MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getDoubleTapReaction()), ((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount);
+            ((AvailableReactionCell) viewHolder.itemView).bind(tLRPC$TL_availableReaction, tLRPC$TL_availableReaction.reaction.contains(MediaDataController.getInstance(((BaseFragment) ReactionsDoubleTapManageActivity.this).currentAccount).getDoubleTapReaction()));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -139,12 +138,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
 
     public /* synthetic */ void lambda$createView$0(View view, int i) {
         if (view instanceof AvailableReactionCell) {
-            AvailableReactionCell availableReactionCell = (AvailableReactionCell) view;
-            if (availableReactionCell.locked && !getUserConfig().isPremium()) {
-                showDialog(new PremiumFeatureBottomSheet(this, 4, true));
-                return;
-            }
-            MediaDataController.getInstance(this.currentAccount).setDoubleTapReaction(availableReactionCell.react.reaction);
+            MediaDataController.getInstance(this.currentAccount).setDoubleTapReaction(((AvailableReactionCell) view).react.reaction);
             this.listView.getAdapter().notifyItemRangeChanged(0, this.listView.getAdapter().getItemCount());
         }
     }

@@ -84,7 +84,7 @@ public class FeaturedStickerSetCell extends FrameLayout {
         addView(backupImageView2, LayoutHelper.createFrame(48, 48.0f, (!z3 ? 3 : i) | 48, z3 ? 0.0f : 12.0f, 8.0f, z3 ? 12.0f : 0.0f, 0.0f));
         ProgressButton progressButton = new ProgressButton(context);
         this.addButton = progressButton;
-        progressButton.setText(LocaleController.getString("Add", 2131624242));
+        progressButton.setText(LocaleController.getString("Add", 2131624237));
         this.addButton.setTextColor(Theme.getColor("featuredStickers_buttonText"));
         this.addButton.setProgressColor(Theme.getColor("featuredStickers_buttonProgress"));
         this.addButton.setBackgroundRoundRect(Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed"));
@@ -92,7 +92,7 @@ public class FeaturedStickerSetCell extends FrameLayout {
         ImageView imageView = new ImageView(context);
         this.checkImage = imageView;
         imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("featuredStickers_addedIcon"), PorterDuff.Mode.MULTIPLY));
-        this.checkImage.setImageResource(2131166162);
+        this.checkImage.setImageResource(2131166160);
         addView(this.checkImage, LayoutHelper.createFrame(19, 14.0f));
     }
 

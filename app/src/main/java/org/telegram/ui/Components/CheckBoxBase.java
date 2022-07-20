@@ -17,7 +17,6 @@ import android.text.TextPaint;
 import android.view.View;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.GenericProvider;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class CheckBoxBase {
@@ -49,7 +48,6 @@ public class CheckBoxBase {
     private String backgroundColorKey = "chat_serviceBackground";
     private String background2ColorKey = "chat_serviceBackground";
     private boolean drawUnchecked = true;
-    private GenericProvider<Void, Paint> circlePaintProvider = CheckBoxBase$$ExternalSyntheticLambda0.INSTANCE;
     public long animationDuration = 200;
 
     /* loaded from: classes3.dex */
@@ -245,7 +243,7 @@ public class CheckBoxBase {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:15:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:162:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:160:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:16:0x0048  */
     /* JADX WARN: Removed duplicated region for block: B:19:0x0066  */
     /* JADX WARN: Removed duplicated region for block: B:35:0x00ef  */
@@ -420,19 +418,14 @@ public class CheckBoxBase {
             } else {
                 this.checkPaint.setColor(getThemedColor("checkboxCheck"));
             }
-            if (this.backgroundType != -1) {
-                Paint provide = this.circlePaintProvider.provide(null);
-                int i13 = this.backgroundType;
+            int i13 = this.backgroundType;
+            if (i13 != -1) {
                 if (i13 == 12 || i13 == 13) {
-                    int alpha3 = provide.getAlpha();
-                    provide.setAlpha((int) (f2 * 255.0f));
-                    this.bitmapCanvas.drawCircle(this.drawBitmap.getWidth() / 2, this.drawBitmap.getHeight() / 2, f * f2, provide);
-                    if (provide != paint) {
-                        provide.setAlpha(alpha3);
-                    }
+                    paint.setAlpha((int) (f2 * 255.0f));
+                    this.bitmapCanvas.drawCircle(this.drawBitmap.getWidth() / 2, this.drawBitmap.getHeight() / 2, f * f2, paint);
                 } else {
                     float dp2 = f - AndroidUtilities.dp(0.5f);
-                    this.bitmapCanvas.drawCircle(this.drawBitmap.getWidth() / 2, this.drawBitmap.getHeight() / 2, dp2, provide);
+                    this.bitmapCanvas.drawCircle(this.drawBitmap.getWidth() / 2, this.drawBitmap.getHeight() / 2, dp2, paint);
                     this.bitmapCanvas.drawCircle(this.drawBitmap.getWidth() / 2, this.drawBitmap.getHeight() / 2, dp2 * (1.0f - f2), eraser);
                 }
                 canvas.drawBitmap(this.drawBitmap, i3 - (bitmap.getWidth() / 2), i2 - (this.drawBitmap.getHeight() / 2), (Paint) null);
@@ -509,10 +502,6 @@ public class CheckBoxBase {
         i3 = centerX;
         if (f2 > 0.0f) {
         }
-    }
-
-    public void setCirclePaintProvider(GenericProvider<Void, Paint> genericProvider) {
-        this.circlePaintProvider = genericProvider;
     }
 
     private int getThemedColor(String str) {

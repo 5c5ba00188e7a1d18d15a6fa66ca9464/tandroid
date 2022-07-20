@@ -42,19 +42,19 @@ public class ArchiveHintInnerCell extends FrameLayout {
             imageView2.setImageResource(2131165332);
             this.imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_unreadCounter"), PorterDuff.Mode.MULTIPLY));
             addView(this.imageView2, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 20.0f, 8.0f, 0.0f));
-            this.headerTextView.setText(LocaleController.getString("ArchiveHintHeader1", 2131624406));
-            this.messageTextView.setText(LocaleController.getString("ArchiveHintText1", 2131624409));
+            this.headerTextView.setText(LocaleController.getString("ArchiveHintHeader1", 2131624397));
+            this.messageTextView.setText(LocaleController.getString("ArchiveHintText1", 2131624400));
             this.imageView.setImageResource(2131165333);
         } else if (i == 1) {
             addView(this.imageView, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 18.0f, 0.0f, 0.0f));
-            this.headerTextView.setText(LocaleController.getString("ArchiveHintHeader2", 2131624407));
-            this.messageTextView.setText(LocaleController.getString("ArchiveHintText2", 2131624410));
+            this.headerTextView.setText(LocaleController.getString("ArchiveHintHeader2", 2131624398));
+            this.messageTextView.setText(LocaleController.getString("ArchiveHintText2", 2131624401));
             this.imageView.setImageResource(2131165335);
         } else if (i != 2) {
         } else {
             addView(this.imageView, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 18.0f, 0.0f, 0.0f));
-            this.headerTextView.setText(LocaleController.getString("ArchiveHintHeader3", 2131624408));
-            this.messageTextView.setText(LocaleController.getString("ArchiveHintText3", 2131624411));
+            this.headerTextView.setText(LocaleController.getString("ArchiveHintHeader3", 2131624399));
+            this.messageTextView.setText(LocaleController.getString("ArchiveHintText3", 2131624402));
             this.imageView.setImageResource(2131165336);
         }
     }

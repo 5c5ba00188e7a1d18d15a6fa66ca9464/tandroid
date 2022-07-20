@@ -598,9 +598,9 @@ public class PhotoCropActivity extends BaseFragment {
         this.actionBar.setItemsColor(-1, false);
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("CropImage", 2131625305));
+        this.actionBar.setTitle(LocaleController.getString("CropImage", 2131625289));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
-        this.actionBar.createMenu().addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", 2131625541));
+        this.actionBar.createMenu().addItemWithWidth(1, 2131165450, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", 2131625525));
         PhotoCropView photoCropView = new PhotoCropView(context);
         this.view = photoCropView;
         this.fragmentView = photoCropView;

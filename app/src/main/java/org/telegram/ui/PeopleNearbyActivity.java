@@ -339,7 +339,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         this.actionBar.setAddToContainer(false);
         int i = 1;
         this.actionBar.setOccupyStatusBar(Build.VERSION.SDK_INT >= 21 && !AndroidUtilities.isTablet());
-        this.actionBar.setTitle(LocaleController.getString("PeopleNearby", 2131627505));
+        this.actionBar.setTitle(LocaleController.getString("PeopleNearby", 2131627453));
         this.actionBar.getTitleTextView().setAlpha(0.0f);
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
@@ -478,10 +478,10 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
                 updateRows(null);
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("MakeMyselfVisibleTitle", 2131626570));
-                builder.setMessage(LocaleController.getString("MakeMyselfVisibleInfo", 2131626569));
-                builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new PeopleNearbyActivity$$ExternalSyntheticLambda1(this, userConfig));
-                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+                builder.setTitle(LocaleController.getString("MakeMyselfVisibleTitle", 2131626523));
+                builder.setMessage(LocaleController.getString("MakeMyselfVisibleInfo", 2131626522));
+                builder.setPositiveButton(LocaleController.getString("OK", 2131627075), new PeopleNearbyActivity$$ExternalSyntheticLambda1(this, userConfig));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
                 showDialog(builder.create());
             }
             userConfig.saveConfig(false);
@@ -618,7 +618,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
 
     private void openGroupCreate() {
         if (!this.canCreateGroup) {
-            AlertsCreator.showSimpleAlert(this, LocaleController.getString("YourLocatedChannelsTooMuch", 2131629363));
+            AlertsCreator.showSimpleAlert(this, LocaleController.getString("YourLocatedChannelsTooMuch", 2131629289));
             return;
         }
         ActionIntroActivity actionIntroActivity = new ActionIntroActivity(2);
@@ -1069,14 +1069,14 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
             textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             this.titleTextView.setTextSize(1, 24.0f);
             this.titleTextView.setGravity(17);
-            this.titleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("PeopleNearby", 2131627505, new Object[0])));
+            this.titleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("PeopleNearby", 2131627453, new Object[0])));
             addView(this.titleTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 17.0f, currentActionBarHeight + 120, 17.0f, 27.0f));
             TextView textView2 = new TextView(context);
             this.messageTextView = textView2;
             textView2.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
             this.messageTextView.setTextSize(1, 15.0f);
             this.messageTextView.setGravity(17);
-            this.messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("PeopleNearbyInfo2", 2131627512, new Object[0])));
+            this.messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("PeopleNearbyInfo2", 2131627460, new Object[0])));
             addView(this.messageTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 40.0f, currentActionBarHeight + 161, 40.0f, 27.0f));
         }
     }
@@ -1228,10 +1228,10 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
                     if (i != PeopleNearbyActivity.this.chatsHeaderRow) {
                         return;
                     }
-                    headerCellProgress.setText(LocaleController.getString("ChatsNearbyHeader", 2131625079));
+                    headerCellProgress.setText(LocaleController.getString("ChatsNearbyHeader", 2131625066));
                     return;
                 }
-                headerCellProgress.setText(LocaleController.getString("PeopleNearbyHeader", 2131627511));
+                headerCellProgress.setText(LocaleController.getString("PeopleNearbyHeader", 2131627459));
             } else {
                 ManageChatTextCell manageChatTextCell = (ManageChatTextCell) viewHolder.itemView;
                 manageChatTextCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
@@ -1245,26 +1245,26 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
                     }
                     PeopleNearbyActivity peopleNearbyActivity = PeopleNearbyActivity.this;
                     if (peopleNearbyActivity.showingMe = peopleNearbyActivity.getUserConfig().sharingMyLocationUntil > PeopleNearbyActivity.this.getConnectionsManager().getCurrentTime()) {
-                        String string = LocaleController.getString("StopShowingMe", 2131628541);
+                        String string = LocaleController.getString("StopShowingMe", 2131628478);
                         if (PeopleNearbyActivity.this.usersStartRow != -1) {
                             z = true;
                         }
-                        manageChatTextCell.setText(string, null, 2131165825, z);
+                        manageChatTextCell.setText(string, null, 2131165824, z);
                         manageChatTextCell.setColors("windowBackgroundWhiteRedText5", "windowBackgroundWhiteRedText5");
                         return;
                     }
-                    String string2 = LocaleController.getString("MakeMyselfVisible", 2131626568);
+                    String string2 = LocaleController.getString("MakeMyselfVisible", 2131626521);
                     if (PeopleNearbyActivity.this.usersStartRow != -1) {
                         z = true;
                     }
-                    manageChatTextCell.setText(string2, null, 2131165821, z);
+                    manageChatTextCell.setText(string2, null, 2131165820, z);
                     return;
                 }
-                String string3 = LocaleController.getString("NearbyCreateGroup", 2131626808);
+                String string3 = LocaleController.getString("NearbyCreateGroup", 2131626756);
                 if (PeopleNearbyActivity.this.chatsStartRow != -1) {
                     z = true;
                 }
-                manageChatTextCell.setText(string3, null, 2131165752, z);
+                manageChatTextCell.setText(string3, null, 2131165751, z);
             }
         }
 

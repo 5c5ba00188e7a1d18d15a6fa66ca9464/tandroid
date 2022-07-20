@@ -764,7 +764,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             ManageChatUserCell manageChatUserCell;
             if (i == 0) {
                 ManageChatUserCell manageChatUserCell2 = new ManageChatUserCell(this.mContext, 2, 2, false);
-                manageChatUserCell2.setCustomRightImage(2131165772);
+                manageChatUserCell2.setCustomRightImage(2131165771);
                 manageChatUserCell2.setNameColor(Theme.getColor("voipgroup_nameText"));
                 manageChatUserCell2.setStatusColors(Theme.getColor("voipgroup_lastSeenTextUnscrolled"), Theme.getColor("voipgroup_listeningText"));
                 manageChatUserCell2.setDividerColor("voipgroup_listViewBackground");
@@ -802,12 +802,12 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                 }
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 if (i == this.groupStartRow) {
-                    graySectionCell.setText(LocaleController.getString("ChannelMembers", 2131624930));
+                    graySectionCell.setText(LocaleController.getString("ChannelMembers", 2131624917));
                     return;
                 } else if (i != this.globalStartRow) {
                     return;
                 } else {
-                    graySectionCell.setText(LocaleController.getString("GlobalSearch", 2131626126));
+                    graySectionCell.setText(LocaleController.getString("GlobalSearch", 2131626079));
                     return;
                 }
             }
@@ -934,7 +934,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             ManageChatUserCell manageChatUserCell;
             if (i == 0) {
                 ManageChatUserCell manageChatUserCell2 = new ManageChatUserCell(this.mContext, 6, 2, false);
-                manageChatUserCell2.setCustomRightImage(2131165772);
+                manageChatUserCell2.setCustomRightImage(2131165771);
                 manageChatUserCell2.setNameColor(Theme.getColor("voipgroup_nameText"));
                 manageChatUserCell2.setStatusColors(Theme.getColor("voipgroup_lastSeenTextUnscrolled"), Theme.getColor("voipgroup_listeningText"));
                 manageChatUserCell2.setDividerColor("voipgroup_actionBar");
@@ -979,7 +979,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                     if (i != GroupVoipInviteAlert.this.addNewRow) {
                         return;
                     }
-                    manageChatTextCell.setText(LocaleController.getString("VoipGroupCopyInviteLink", 2131629116), null, 2131165783, 7, (!GroupVoipInviteAlert.this.loadingUsers || GroupVoipInviteAlert.this.firstLoaded) && GroupVoipInviteAlert.this.membersHeaderRow == -1 && !GroupVoipInviteAlert.this.participants.isEmpty());
+                    manageChatTextCell.setText(LocaleController.getString("VoipGroupCopyInviteLink", 2131629042), null, 2131165782, 7, (!GroupVoipInviteAlert.this.loadingUsers || GroupVoipInviteAlert.this.firstLoaded) && GroupVoipInviteAlert.this.membersHeaderRow == -1 && !GroupVoipInviteAlert.this.participants.isEmpty());
                     return;
                 } else if (itemViewType != 2) {
                     return;
@@ -990,14 +990,14 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                             return;
                         }
                         if (GroupVoipInviteAlert.this.showContacts) {
-                            graySectionCell.setText(LocaleController.getString("YourContactsToInvite", 2131629351));
+                            graySectionCell.setText(LocaleController.getString("YourContactsToInvite", 2131629277));
                             return;
                         } else {
-                            graySectionCell.setText(LocaleController.getString("GroupContacts", 2131626136));
+                            graySectionCell.setText(LocaleController.getString("GroupContacts", 2131626089));
                             return;
                         }
                     }
-                    graySectionCell.setText(LocaleController.getString("ChannelOtherMembers", 2131624952));
+                    graySectionCell.setText(LocaleController.getString("ChannelOtherMembers", 2131624939));
                     return;
                 }
             }

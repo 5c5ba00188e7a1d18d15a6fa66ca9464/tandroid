@@ -1,22 +1,16 @@
 package org.telegram.ui;
 
-import android.widget.ImageView;
+import org.telegram.ui.ActionBar.AlertDialog;
 /* loaded from: classes3.dex */
 public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda206 implements Runnable {
-    public final /* synthetic */ long[] f$0;
-    public final /* synthetic */ boolean[] f$1;
-    public final /* synthetic */ ImageView f$2;
-    public final /* synthetic */ ImageView f$3;
+    public final /* synthetic */ AlertDialog[] f$0;
 
-    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda206(long[] jArr, boolean[] zArr, ImageView imageView, ImageView imageView2) {
-        this.f$0 = jArr;
-        this.f$1 = zArr;
-        this.f$2 = imageView;
-        this.f$3 = imageView2;
+    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda206(AlertDialog[] alertDialogArr) {
+        this.f$0 = alertDialogArr;
     }
 
     @Override // java.lang.Runnable
     public final void run() {
-        ChatActivity.lambda$createMenu$165(this.f$0, this.f$1, this.f$2, this.f$3);
+        ChatActivity.lambda$processSelectedOption$203(this.f$0);
     }
 }

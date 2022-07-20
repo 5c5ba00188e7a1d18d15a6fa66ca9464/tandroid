@@ -9,6 +9,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda131 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.showChecksHint();
+        this.f$0.inlineUpdate1();
     }
 }

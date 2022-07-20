@@ -55,7 +55,7 @@ public class VideoSeekPreviewImage extends View {
     public VideoSeekPreviewImage(Context context, VideoSeekPreviewImageDelegate videoSeekPreviewImageDelegate) {
         super(context);
         setVisibility(4);
-        this.frameDrawable = context.getResources().getDrawable(2131166208);
+        this.frameDrawable = context.getResources().getDrawable(2131166206);
         this.textPaint.setTextSize(AndroidUtilities.dp(13.0f));
         this.textPaint.setColor(-1);
         this.delegate = videoSeekPreviewImageDelegate;
@@ -190,9 +190,9 @@ public class VideoSeekPreviewImage extends View {
             } else {
                 str = FileLoader.getInstance(intValue).getPathToAttach(tLRPC$TL_document, false).getAbsolutePath();
             }
-            this.fileDrawable = new AnimatedFileDrawable(new File(str), true, tLRPC$TL_document.size, tLRPC$TL_document, null, parentObject, 0L, intValue, true, null);
+            this.fileDrawable = new AnimatedFileDrawable(new File(str), true, tLRPC$TL_document.size, tLRPC$TL_document, null, parentObject, 0L, intValue, true);
         } else {
-            this.fileDrawable = new AnimatedFileDrawable(new File(uri.getPath()), true, 0L, null, null, null, 0L, 0, true, null);
+            this.fileDrawable = new AnimatedFileDrawable(new File(uri.getPath()), true, 0L, null, null, null, 0L, 0, true);
         }
         this.duration = this.fileDrawable.getDurationMs();
         float f = this.pendingProgress;

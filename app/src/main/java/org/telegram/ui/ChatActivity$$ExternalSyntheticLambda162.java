@@ -11,6 +11,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda162 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$createView$18(this.f$1);
+        this.f$0.lambda$didReceivedNotification$121(this.f$1);
     }
 }

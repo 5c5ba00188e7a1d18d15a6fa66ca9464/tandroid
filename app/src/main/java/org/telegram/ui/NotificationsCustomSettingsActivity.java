@@ -132,14 +132,14 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
         if (this.currentType == -1) {
-            this.actionBar.setTitle(LocaleController.getString("NotificationsExceptions", 2131627083));
+            this.actionBar.setTitle(LocaleController.getString("NotificationsExceptions", 2131627031));
         } else {
-            this.actionBar.setTitle(LocaleController.getString("Notifications", 2131627068));
+            this.actionBar.setTitle(LocaleController.getString("Notifications", 2131627016));
         }
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         ArrayList<NotificationsSettingsActivity.NotificationException> arrayList = this.exceptions;
         if (arrayList != null && !arrayList.isEmpty()) {
-            this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2()).setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+            this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2()).setSearchFieldHint(LocaleController.getString("Search", 2131628092));
         }
         this.searchAdapter = new SearchAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -149,7 +149,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         emptyTextProgressView.setTextSize(18);
-        this.emptyView.setText(LocaleController.getString("NoExceptions", 2131626873));
+        this.emptyView.setText(LocaleController.getString("NoExceptions", 2131626821));
         this.emptyView.showTextView();
         frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context);
@@ -200,7 +200,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             NotificationsCustomSettingsActivity.this.searchAdapter.searchDialogs(null);
             NotificationsCustomSettingsActivity.this.searching = false;
             NotificationsCustomSettingsActivity.this.searchWas = false;
-            NotificationsCustomSettingsActivity.this.emptyView.setText(LocaleController.getString("NoExceptions", 2131626873));
+            NotificationsCustomSettingsActivity.this.emptyView.setText(LocaleController.getString("NoExceptions", 2131626821));
             NotificationsCustomSettingsActivity.this.listView.setAdapter(NotificationsCustomSettingsActivity.this.adapter);
             NotificationsCustomSettingsActivity.this.adapter.notifyDataSetChanged();
             NotificationsCustomSettingsActivity.this.listView.setFastScrollVisible(true);
@@ -217,7 +217,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             if (obj.length() != 0) {
                 NotificationsCustomSettingsActivity.this.searchWas = true;
                 if (NotificationsCustomSettingsActivity.this.listView != null) {
-                    NotificationsCustomSettingsActivity.this.emptyView.setText(LocaleController.getString("NoResult", 2131626910));
+                    NotificationsCustomSettingsActivity.this.emptyView.setText(LocaleController.getString("NoResult", 2131626858));
                     NotificationsCustomSettingsActivity.this.emptyView.showProgress();
                     NotificationsCustomSettingsActivity.this.listView.setAdapter(NotificationsCustomSettingsActivity.this.searchAdapter);
                     NotificationsCustomSettingsActivity.this.searchAdapter.notifyDataSetChanged();
@@ -310,10 +310,10 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             presentFragment(dialogsActivity);
         } else if (i == this.deleteAllRow) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString("NotificationsDeleteAllExceptionTitle", 2131627081));
-            builder.setMessage(LocaleController.getString("NotificationsDeleteAllExceptionAlert", 2131627080));
-            builder.setPositiveButton(LocaleController.getString("Delete", 2131625384), new NotificationsCustomSettingsActivity$$ExternalSyntheticLambda0(this));
-            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+            builder.setTitle(LocaleController.getString("NotificationsDeleteAllExceptionTitle", 2131627029));
+            builder.setMessage(LocaleController.getString("NotificationsDeleteAllExceptionAlert", 2131627028));
+            builder.setPositiveButton(LocaleController.getString("Delete", 2131625368), new NotificationsCustomSettingsActivity$$ExternalSyntheticLambda0(this));
+            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
             AlertDialog create = builder.create();
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
@@ -1079,7 +1079,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             String str = null;
             if (uri != null && (ringtone = RingtoneManager.getRingtone(getParentActivity(), uri)) != null) {
                 if (uri.equals(Settings.System.DEFAULT_NOTIFICATION_URI)) {
-                    str = LocaleController.getString("SoundDefault", 2131628450);
+                    str = LocaleController.getString("SoundDefault", 2131628387);
                 } else {
                     str = ringtone.getTitle(getParentActivity());
                 }
@@ -1448,7 +1448,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                 if (itemViewType != 1) {
                     return;
                 }
-                ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("AddToExceptions", 2131624298));
+                ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("AddToExceptions", 2131624290));
                 return;
             }
             UserCell userCell = (UserCell) viewHolder.itemView;
@@ -1464,7 +1464,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             }
             int size = i - (this.searchResult.size() + 1);
             ArrayList<TLObject> globalSearch = this.searchAdapterHelper.getGlobalSearch();
-            userCell.setData(globalSearch.get(size), null, LocaleController.getString("NotificationsOn", 2131627103), 0, size != globalSearch.size() - 1);
+            userCell.setData(globalSearch.get(size), null, LocaleController.getString("NotificationsOn", 2131627051), 0, size != globalSearch.size() - 1);
             userCell.setAddButtonVisible(true);
         }
 
@@ -1555,7 +1555,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                     if (i != NotificationsCustomSettingsActivity.this.messageSectionRow) {
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("SETTINGS", 2131628119));
+                    headerCell.setText(LocaleController.getString("SETTINGS", 2131628057));
                     return;
                 case 1:
                     TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
@@ -1572,7 +1572,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                     } else {
                         z = notificationsSettings.getBoolean("EnablePreviewAll", true);
                     }
-                    textCheckCell.setTextAndCheck(LocaleController.getString("MessagePreview", 2131626692), z, true);
+                    textCheckCell.setTextAndCheck(LocaleController.getString("MessagePreview", 2131626640), z, true);
                     return;
                 case 2:
                     UserCell userCell = (UserCell) viewHolder.itemView;
@@ -1603,7 +1603,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                             }
                         }
                     }
-                    textColorCell.setTextAndColor(LocaleController.getString("LedColor", 2131626443), i2, true);
+                    textColorCell.setTextAndColor(LocaleController.getString("LedColor", 2131626396), i2, true);
                     return;
                 case 4:
                     if (i == NotificationsCustomSettingsActivity.this.deleteAllSectionRow || ((i == NotificationsCustomSettingsActivity.this.groupSection2Row && NotificationsCustomSettingsActivity.this.exceptionsSection2Row == -1) || (i == NotificationsCustomSettingsActivity.this.exceptionsSection2Row && NotificationsCustomSettingsActivity.this.deleteAllRow == -1))) {
@@ -1619,29 +1619,29 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                     if (i == NotificationsCustomSettingsActivity.this.messageSoundRow) {
                         if (NotificationsCustomSettingsActivity.this.currentType != 1) {
                             if (NotificationsCustomSettingsActivity.this.currentType == 0) {
-                                str = notificationsSettings3.getString("GroupSound", LocaleController.getString("SoundDefault", 2131628450));
+                                str = notificationsSettings3.getString("GroupSound", LocaleController.getString("SoundDefault", 2131628387));
                                 j = notificationsSettings3.getLong("GroupSoundDocId", 0L);
                             } else {
-                                str = notificationsSettings3.getString("ChannelSound", LocaleController.getString("SoundDefault", 2131628450));
+                                str = notificationsSettings3.getString("ChannelSound", LocaleController.getString("SoundDefault", 2131628387));
                                 j = notificationsSettings3.getLong("ChannelDocId", 0L);
                             }
                         } else {
-                            str = notificationsSettings3.getString("GlobalSound", LocaleController.getString("SoundDefault", 2131628450));
+                            str = notificationsSettings3.getString("GlobalSound", LocaleController.getString("SoundDefault", 2131628387));
                             j = notificationsSettings3.getLong("GlobalSoundDocId", 0L);
                         }
                         if (j != 0) {
                             TLRPC$Document document = NotificationsCustomSettingsActivity.this.getMediaDataController().ringtoneDataStore.getDocument(j);
                             if (document == null) {
-                                str = LocaleController.getString("CustomSound", 2131625321);
+                                str = LocaleController.getString("CustomSound", 2131625305);
                             } else {
                                 str = NotificationsSoundActivity.trimTitle(document, FileLoader.getDocumentFileName(document));
                             }
                         } else if (str.equals("NoSound")) {
-                            str = LocaleController.getString("NoSound", 2131626924);
+                            str = LocaleController.getString("NoSound", 2131626872);
                         } else if (str.equals("Default")) {
-                            str = LocaleController.getString("SoundDefault", 2131628450);
+                            str = LocaleController.getString("SoundDefault", 2131628387);
                         }
-                        textSettingsCell.setTextAndValue(LocaleController.getString("Sound", 2131628447), str, true);
+                        textSettingsCell.setTextAndValue(LocaleController.getString("Sound", 2131628384), str, true);
                         return;
                     } else if (i == NotificationsCustomSettingsActivity.this.messageVibrateRow) {
                         if (NotificationsCustomSettingsActivity.this.currentType != 1) {
@@ -1654,21 +1654,21 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                             i5 = notificationsSettings3.getInt("vibrate_messages", 0);
                         }
                         if (i5 == 0) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628950), LocaleController.getString("VibrationDefault", 2131628951), true);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628878), LocaleController.getString("VibrationDefault", 2131628879), true);
                             return;
                         } else if (i5 == 1) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628950), LocaleController.getString("Short", 2131628389), true);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628878), LocaleController.getString("Short", 2131628327), true);
                             return;
                         } else if (i5 == 2) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628950), LocaleController.getString("VibrationDisabled", 2131628952), true);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628878), LocaleController.getString("VibrationDisabled", 2131628880), true);
                             return;
                         } else if (i5 == 3) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628950), LocaleController.getString("Long", 2131626554), true);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628878), LocaleController.getString("Long", 2131626507), true);
                             return;
                         } else if (i5 != 4) {
                             return;
                         } else {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628950), LocaleController.getString("OnlyIfSilent", 2131627139), true);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628878), LocaleController.getString("OnlyIfSilent", 2131627087), true);
                             return;
                         }
                     } else if (i == NotificationsCustomSettingsActivity.this.messagePriorityRow) {
@@ -1682,18 +1682,18 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                             i4 = notificationsSettings3.getInt("priority_messages", 1);
                         }
                         if (i4 == 0) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("NotificationsImportance", 2131627092), LocaleController.getString("NotificationsPriorityHigh", 2131627105), false);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("NotificationsImportance", 2131627040), LocaleController.getString("NotificationsPriorityHigh", 2131627053), false);
                             return;
                         } else if (i4 == 1 || i4 == 2) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("NotificationsImportance", 2131627092), LocaleController.getString("NotificationsPriorityUrgent", 2131627109), false);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("NotificationsImportance", 2131627040), LocaleController.getString("NotificationsPriorityUrgent", 2131627057), false);
                             return;
                         } else if (i4 == 4) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("NotificationsImportance", 2131627092), LocaleController.getString("NotificationsPriorityLow", 2131627106), false);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("NotificationsImportance", 2131627040), LocaleController.getString("NotificationsPriorityLow", 2131627054), false);
                             return;
                         } else if (i4 != 5) {
                             return;
                         } else {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("NotificationsImportance", 2131627092), LocaleController.getString("NotificationsPriorityMedium", 2131627107), false);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("NotificationsImportance", 2131627040), LocaleController.getString("NotificationsPriorityMedium", 2131627055), false);
                             return;
                         }
                     } else if (i != NotificationsCustomSettingsActivity.this.messagePopupNotificationRow) {
@@ -1709,15 +1709,15 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                             i3 = notificationsSettings3.getInt("popupAll", 0);
                         }
                         if (i3 == 0) {
-                            charSequence = LocaleController.getString("NoPopup", 2131626903);
+                            charSequence = LocaleController.getString("NoPopup", 2131626851);
                         } else if (i3 == 1) {
-                            charSequence = LocaleController.getString("OnlyWhenScreenOn", 2131627141);
+                            charSequence = LocaleController.getString("OnlyWhenScreenOn", 2131627089);
                         } else if (i3 == 2) {
-                            charSequence = LocaleController.getString("OnlyWhenScreenOff", 2131627140);
+                            charSequence = LocaleController.getString("OnlyWhenScreenOff", 2131627088);
                         } else {
-                            charSequence = LocaleController.getString("AlwaysShowPopup", 2131624345);
+                            charSequence = LocaleController.getString("AlwaysShowPopup", 2131624336);
                         }
-                        textSettingsCell.setTextAndValue(LocaleController.getString("PopupNotification", 2131627644), charSequence, true);
+                        textSettingsCell.setTextAndValue(LocaleController.getString("PopupNotification", 2131627592), charSequence, true);
                         return;
                     }
                 case 6:
@@ -1727,25 +1727,25 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                     SharedPreferences notificationsSettings4 = NotificationsCustomSettingsActivity.this.getNotificationsSettings();
                     if (NotificationsCustomSettingsActivity.this.currentType != 1) {
                         if (NotificationsCustomSettingsActivity.this.currentType == 0) {
-                            string = LocaleController.getString("NotificationsForGroups", 2131627088);
+                            string = LocaleController.getString("NotificationsForGroups", 2131627036);
                             i6 = notificationsSettings4.getInt("EnableGroup2", 0);
                         } else {
-                            string = LocaleController.getString("NotificationsForChannels", 2131627086);
+                            string = LocaleController.getString("NotificationsForChannels", 2131627034);
                             i6 = notificationsSettings4.getInt("EnableChannel2", 0);
                         }
                     } else {
-                        string = LocaleController.getString("NotificationsForPrivateChats", 2131627089);
+                        string = LocaleController.getString("NotificationsForPrivateChats", 2131627037);
                         i6 = notificationsSettings4.getInt("EnableAll2", 0);
                     }
                     String str2 = string;
                     int currentTime = NotificationsCustomSettingsActivity.this.getConnectionsManager().getCurrentTime();
                     boolean z4 = i6 < currentTime;
                     if (z4) {
-                        sb.append(LocaleController.getString("NotificationsOn", 2131627103));
+                        sb.append(LocaleController.getString("NotificationsOn", 2131627051));
                     } else if (i6 - 31536000 >= currentTime) {
-                        sb.append(LocaleController.getString("NotificationsOff", 2131627101));
+                        sb.append(LocaleController.getString("NotificationsOff", 2131627049));
                     } else {
-                        sb.append(LocaleController.formatString("NotificationsOffUntil", 2131627102, LocaleController.stringForMessageListDate(i6)));
+                        sb.append(LocaleController.formatString("NotificationsOffUntil", 2131627050, LocaleController.stringForMessageListDate(i6)));
                         i7 = 2;
                         notificationsCheckCell.setTextAndValueAndCheck(str2, sb, z4, i7, false);
                         return;
@@ -1759,11 +1759,11 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                         if (i != NotificationsCustomSettingsActivity.this.deleteAllRow) {
                             return;
                         }
-                        textCell.setText(LocaleController.getString("NotificationsDeleteAllException", 2131627079), false);
+                        textCell.setText(LocaleController.getString("NotificationsDeleteAllException", 2131627027), false);
                         textCell.setColors(null, "windowBackgroundWhiteRedText5");
                         return;
                     }
-                    String string2 = LocaleController.getString("NotificationsAddAnException", 2131627069);
+                    String string2 = LocaleController.getString("NotificationsAddAnException", 2131627017);
                     if (NotificationsCustomSettingsActivity.this.exceptionsStartRow != -1) {
                         z3 = true;
                     }

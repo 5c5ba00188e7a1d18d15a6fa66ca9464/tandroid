@@ -97,7 +97,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("EncryptionKey", 2131625674));
+        this.actionBar.setTitle(LocaleController.getString("EncryptionKey", 2131625636));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
@@ -186,10 +186,10 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
             this.codeTextView.setText(spannableStringBuilder.toString());
             spannableStringBuilder.clear();
             String str = user.first_name;
-            spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.formatString("EncryptionKeyDescription", 2131625675, str, str)));
+            spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.formatString("EncryptionKeyDescription", 2131625637, str, str)));
             int indexOf = spannableStringBuilder.toString().indexOf("telegram.org");
             if (indexOf != -1) {
-                spannableStringBuilder.setSpan(new URLSpanReplacement(LocaleController.getString("EncryptionKeyLink", 2131625676)), indexOf, indexOf + 12, 33);
+                spannableStringBuilder.setSpan(new URLSpanReplacement(LocaleController.getString("EncryptionKeyLink", 2131625638)), indexOf, indexOf + 12, 33);
             }
             this.textView.setText(spannableStringBuilder);
         }

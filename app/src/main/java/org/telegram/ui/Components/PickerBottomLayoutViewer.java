@@ -30,7 +30,7 @@ public class PickerBottomLayoutViewer extends FrameLayout {
         int i2 = -12763843;
         this.cancelButton.setBackgroundDrawable(Theme.createSelectorDrawable(this.isDarkTheme ? -12763843 : 788529152, 0));
         this.cancelButton.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
-        this.cancelButton.setText(LocaleController.getString("Cancel", 2131624832).toUpperCase());
+        this.cancelButton.setText(LocaleController.getString("Cancel", 2131624819).toUpperCase());
         this.cancelButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(this.cancelButton, LayoutHelper.createFrame(-2, -1, 51));
         TextView textView2 = new TextView(context);
@@ -40,7 +40,7 @@ public class PickerBottomLayoutViewer extends FrameLayout {
         this.doneButton.setGravity(17);
         this.doneButton.setBackgroundDrawable(Theme.createSelectorDrawable(!this.isDarkTheme ? 788529152 : i2, 0));
         this.doneButton.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
-        this.doneButton.setText(LocaleController.getString("Send", 2131628237).toUpperCase());
+        this.doneButton.setText(LocaleController.getString("Send", 2131628175).toUpperCase());
         this.doneButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(this.doneButton, LayoutHelper.createFrame(-2, -1, 53));
         TextView textView3 = new TextView(context);
@@ -49,7 +49,7 @@ public class PickerBottomLayoutViewer extends FrameLayout {
         this.doneButtonBadgeTextView.setTextSize(1, 13.0f);
         this.doneButtonBadgeTextView.setTextColor(-1);
         this.doneButtonBadgeTextView.setGravity(17);
-        this.doneButtonBadgeTextView.setBackgroundResource(this.isDarkTheme ? 2131166049 : 2131165276);
+        this.doneButtonBadgeTextView.setBackgroundResource(this.isDarkTheme ? 2131166047 : 2131165276);
         this.doneButtonBadgeTextView.setMinWidth(AndroidUtilities.dp(23.0f));
         this.doneButtonBadgeTextView.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), AndroidUtilities.dp(1.0f));
         addView(this.doneButtonBadgeTextView, LayoutHelper.createFrame(-2, 23.0f, 53, 0.0f, 0.0f, 7.0f, 0.0f));

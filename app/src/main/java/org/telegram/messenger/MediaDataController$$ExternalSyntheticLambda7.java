@@ -9,6 +9,6 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda7
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$loadAttachMenuBots$2();
+        this.f$0.lambda$processLoadedPremiumPromo$8();
     }
 }

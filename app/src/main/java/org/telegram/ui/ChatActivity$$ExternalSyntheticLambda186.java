@@ -13,6 +13,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda186 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$createMenu$153(this.f$1);
+        this.f$0.lambda$processSelectedOption$199(this.f$1);
     }
 }

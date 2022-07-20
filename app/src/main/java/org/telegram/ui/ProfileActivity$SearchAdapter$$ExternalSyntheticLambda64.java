@@ -11,6 +11,6 @@ public final /* synthetic */ class ProfileActivity$SearchAdapter$$ExternalSynthe
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$new$10();
+        this.f$0.lambda$new$39();
     }
 }

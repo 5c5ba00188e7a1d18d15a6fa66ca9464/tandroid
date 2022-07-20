@@ -1,16 +1,17 @@
 package org.telegram.ui.Components;
 
-import org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout;
+import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda18 implements ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate {
-    public final /* synthetic */ BotWebViewSheet f$0;
+public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda18 implements SimpleFloatPropertyCompat.Getter {
+    public static final /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda18 INSTANCE = new BotWebViewSheet$$ExternalSyntheticLambda18();
 
-    public /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda18(BotWebViewSheet botWebViewSheet) {
-        this.f$0 = botWebViewSheet;
+    private /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda18() {
     }
 
-    @Override // org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate
-    public final void onDismiss() {
-        this.f$0.lambda$new$11();
+    @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+    public final float get(Object obj) {
+        float f;
+        f = ((BotWebViewSheet) obj).actionBarTransitionProgress;
+        return f;
     }
 }

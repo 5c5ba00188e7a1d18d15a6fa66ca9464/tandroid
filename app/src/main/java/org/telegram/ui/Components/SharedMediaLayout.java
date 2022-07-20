@@ -1436,7 +1436,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.maximumVelocity = ViewConfiguration.get(context).getScaledMaximumFlingVelocity();
         this.searching = false;
         this.searchWas = false;
-        Drawable drawable = context.getResources().getDrawable(2131166052);
+        Drawable drawable = context.getResources().getDrawable(2131166050);
         this.pinnedHeaderShadowDrawable = drawable;
         drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor("windowBackgroundGrayShadow"), PorterDuff.Mode.MULTIPLY));
         ScrollSlidingTextTabStripInner scrollSlidingTextTabStripInner = this.scrollSlidingTextTabStrip;
@@ -1454,8 +1454,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass4());
         this.searchItem = actionBarMenuItemSearchListener;
         actionBarMenuItemSearchListener.setTranslationY(AndroidUtilities.dp(10.0f));
-        this.searchItem.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
-        this.searchItem.setContentDescription(LocaleController.getString("Search", 2131628154));
+        this.searchItem.setSearchFieldHint(LocaleController.getString("Search", 2131628092));
+        this.searchItem.setContentDescription(LocaleController.getString("Search", 2131628092));
         this.searchItem.setVisibility(4);
         ImageView imageView = new ImageView(context);
         this.photoVideoOptionsItem = imageView;
@@ -1489,7 +1489,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         imageView3.setImageDrawable(backDrawable);
         this.backDrawable.setColor(getThemedColor("windowBackgroundWhiteGrayText2"));
         this.closeButton.setBackground(Theme.createSelectorDrawable(getThemedColor("actionBarActionModeDefaultSelector"), 1));
-        this.closeButton.setContentDescription(LocaleController.getString("Close", 2131625183));
+        this.closeButton.setContentDescription(LocaleController.getString("Close", 2131625167));
         this.actionModeLayout.addView(this.closeButton, new LinearLayout.LayoutParams(AndroidUtilities.dp(54.0f), -1));
         this.actionModeViews.add(this.closeButton);
         this.closeButton.setOnClickListener(new SharedMediaLayout$$ExternalSyntheticLambda2(this));
@@ -1505,7 +1505,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             str2 = "windowBackgroundWhiteGrayText2";
             ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, getThemedColor("actionBarActionModeDefaultSelector"), getThemedColor("windowBackgroundWhiteGrayText2"), false);
             this.gotoItem = actionBarMenuItem;
-            actionBarMenuItem.setIcon(2131165801);
+            actionBarMenuItem.setIcon(2131165800);
             this.gotoItem.setContentDescription(LocaleController.getString("AccDescrGoToMessage", 2131623988));
             this.gotoItem.setDuplicateParentStateEnabled(false);
             this.actionModeLayout.addView(this.gotoItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54.0f), -1));
@@ -1514,7 +1514,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             ActionBarMenuItem actionBarMenuItem2 = new ActionBarMenuItem(context, (ActionBarMenu) null, getThemedColor(str), getThemedColor(str2), false);
             this.forwardItem = actionBarMenuItem2;
             actionBarMenuItem2.setIcon(2131165741);
-            this.forwardItem.setContentDescription(LocaleController.getString("Forward", 2131625981));
+            this.forwardItem.setContentDescription(LocaleController.getString("Forward", 2131625940));
             this.forwardItem.setDuplicateParentStateEnabled(false);
             this.actionModeLayout.addView(this.forwardItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54.0f), -1));
             this.actionModeViews.add(this.forwardItem);
@@ -1527,7 +1527,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         ActionBarMenuItem actionBarMenuItem3 = new ActionBarMenuItem(context, (ActionBarMenu) null, getThemedColor(str), getThemedColor(str2), false);
         this.deleteItem = actionBarMenuItem3;
         actionBarMenuItem3.setIcon(2131165702);
-        this.deleteItem.setContentDescription(LocaleController.getString("Delete", 2131625384));
+        this.deleteItem.setContentDescription(LocaleController.getString("Delete", 2131625368));
         this.deleteItem.setDuplicateParentStateEnabled(false);
         this.actionModeLayout.addView(this.deleteItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54.0f), -1));
         this.actionModeViews.add(this.deleteItem);
@@ -1610,8 +1610,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             mediaPageArr6[i7].addView(mediaPageArr6[i7].emptyView, LayoutHelper.createFrame(-1, -1.0f));
             this.mediaPages[i7].emptyView.setOnTouchListener(SharedMediaLayout$$ExternalSyntheticLambda4.INSTANCE);
             this.mediaPages[i7].emptyView.showProgress(true, false);
-            this.mediaPages[i7].emptyView.title.setText(LocaleController.getString("NoResult", 2131626910));
-            this.mediaPages[i7].emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+            this.mediaPages[i7].emptyView.title.setText(LocaleController.getString("NoResult", 2131626858));
+            this.mediaPages[i7].emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628098));
             this.mediaPages[i7].emptyView.addView(this.mediaPages[i7].progressView, LayoutHelper.createFrame(-1, -1.0f));
             this.mediaPages[i7].listView.setEmptyView(this.mediaPages[i7].emptyView);
             this.mediaPages[i7].listView.setAnimateEmptyView(true, 0);
@@ -1791,10 +1791,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             boolean z = true;
             ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(this.val$context, true, false);
             ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(this.val$context, false, false);
-            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("MediaZoomIn", 2131626618), 2131165992);
+            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("MediaZoomIn", 2131626571), 2131165990);
             actionBarMenuSubItem.setOnClickListener(new SharedMediaLayout$5$$ExternalSyntheticLambda0(this, actionBarMenuSubItem, actionBarMenuSubItem2));
             anonymousClass1.addView(actionBarMenuSubItem);
-            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("MediaZoomOut", 2131626619), 2131165993);
+            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("MediaZoomOut", 2131626572), 2131165991);
             actionBarMenuSubItem2.setOnClickListener(new AnonymousClass2(actionBarMenuSubItem2, actionBarMenuSubItem));
             if (SharedMediaLayout.this.mediaColumnsCount != 2) {
                 if (SharedMediaLayout.this.mediaColumnsCount == 9) {
@@ -1809,23 +1809,23 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             boolean z2 = (SharedMediaLayout.this.sharedMediaData[0].hasPhotos && SharedMediaLayout.this.sharedMediaData[0].hasVideos) || !SharedMediaLayout.this.sharedMediaData[0].endReached[0] || !SharedMediaLayout.this.sharedMediaData[0].endReached[1] || !SharedMediaLayout.this.sharedMediaData[0].startReached;
             if (!DialogObject.isEncryptedDialog(SharedMediaLayout.this.dialog_id)) {
                 ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(this.val$context, false, false);
-                actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("Calendar", 2131624784), 2131165662);
+                actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("Calendar", 2131624771), 2131165662);
                 anonymousClass1.addView(actionBarMenuSubItem3);
                 actionBarMenuSubItem3.setOnClickListener(new AnonymousClass3());
                 if (z2) {
                     anonymousClass1.addView(dividerCell);
                     ActionBarMenuSubItem actionBarMenuSubItem4 = new ActionBarMenuSubItem(this.val$context, true, false, false);
                     ActionBarMenuSubItem actionBarMenuSubItem5 = new ActionBarMenuSubItem(this.val$context, true, false, true);
-                    actionBarMenuSubItem4.setTextAndIcon(LocaleController.getString("MediaShowPhotos", 2131626616), 0);
+                    actionBarMenuSubItem4.setTextAndIcon(LocaleController.getString("MediaShowPhotos", 2131626569), 0);
                     actionBarMenuSubItem4.setChecked(SharedMediaLayout.this.sharedMediaData[0].filterType == 0 || SharedMediaLayout.this.sharedMediaData[0].filterType == 1);
                     actionBarMenuSubItem4.setOnClickListener(new AnonymousClass4(actionBarMenuSubItem5, actionBarMenuSubItem4));
                     anonymousClass1.addView(actionBarMenuSubItem4);
-                    actionBarMenuSubItem5.setTextAndIcon(LocaleController.getString("MediaShowVideos", 2131626617), 0);
+                    actionBarMenuSubItem5.setTextAndIcon(LocaleController.getString("MediaShowVideos", 2131626570), 0);
                     if (SharedMediaLayout.this.sharedMediaData[0].filterType != 0 && SharedMediaLayout.this.sharedMediaData[0].filterType != 2) {
                         z = false;
                     }
                     actionBarMenuSubItem5.setChecked(z);
-                    actionBarMenuSubItem5.setOnClickListener(new View$OnClickListenerC00345(actionBarMenuSubItem4, actionBarMenuSubItem5));
+                    actionBarMenuSubItem5.setOnClickListener(new View$OnClickListenerC00295(actionBarMenuSubItem4, actionBarMenuSubItem5));
                     anonymousClass1.addView(actionBarMenuSubItem5);
                 }
             }
@@ -1939,11 +1939,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         /* renamed from: org.telegram.ui.Components.SharedMediaLayout$5$5 */
         /* loaded from: classes3.dex */
-        class View$OnClickListenerC00345 implements View.OnClickListener {
+        class View$OnClickListenerC00295 implements View.OnClickListener {
             final /* synthetic */ ActionBarMenuSubItem val$showPhotosItem;
             final /* synthetic */ ActionBarMenuSubItem val$showVideosItem;
 
-            View$OnClickListenerC00345(ActionBarMenuSubItem actionBarMenuSubItem, ActionBarMenuSubItem actionBarMenuSubItem2) {
+            View$OnClickListenerC00295(ActionBarMenuSubItem actionBarMenuSubItem, ActionBarMenuSubItem actionBarMenuSubItem2) {
                 AnonymousClass5.this = r1;
                 this.val$showPhotosItem = actionBarMenuSubItem;
                 this.val$showVideosItem = actionBarMenuSubItem2;
@@ -3839,7 +3839,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     if (hintView == null) {
                         return;
                     }
-                    hintView.setText((!ChatObject.isChannel(chat) || chat.megagroup) ? LocaleController.getString("ForwardsRestrictedInfoGroup", 2131626064) : LocaleController.getString("ForwardsRestrictedInfoChannel", 2131626063));
+                    hintView.setText((!ChatObject.isChannel(chat) || chat.megagroup) ? LocaleController.getString("ForwardsRestrictedInfoGroup", 2131626023) : LocaleController.getString("ForwardsRestrictedInfoChannel", 2131626022));
                     this.fwdRestrictedHint.showForView(view, true);
                     return;
                 }
@@ -3849,7 +3849,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 if (hintView2 == null) {
                     return;
                 }
-                hintView2.setText(LocaleController.getString("ForwardsRestrictedInfoBot", 2131626062));
+                hintView2.setText(LocaleController.getString("ForwardsRestrictedInfoBot", 2131626021));
                 this.fwdRestrictedHint.showForView(view, true);
                 return;
             }
@@ -5111,10 +5111,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.chatUsersAdapter.chatInfo != null) goto L105;
      */
     /* JADX WARN: Code restructure failed: missing block: B:104:0x0157, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(0, org.telegram.messenger.LocaleController.getString("SharedMediaTabFull2", 2131628367), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(0, org.telegram.messenger.LocaleController.getString("SharedMediaTabFull2", 2131628305), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:105:0x0166, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(0, org.telegram.messenger.LocaleController.getString("SharedMediaTab2", 2131628366), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(0, org.telegram.messenger.LocaleController.getString("SharedMediaTab2", 2131628304), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:107:0x0178, code lost:
         if (r12.hasMedia[1] <= 0) goto L111;
@@ -5123,7 +5123,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(1) != false) goto L111;
      */
     /* JADX WARN: Code restructure failed: missing block: B:110:0x0182, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(1, org.telegram.messenger.LocaleController.getString("SharedFilesTab2", 2131628359), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(1, org.telegram.messenger.LocaleController.getString("SharedFilesTab2", 2131628297), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:112:0x019b, code lost:
         if (org.telegram.messenger.DialogObject.isEncryptedDialog(r12.dialog_id) != false) goto L123;
@@ -5135,7 +5135,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(3) != false) goto L118;
      */
     /* JADX WARN: Code restructure failed: missing block: B:117:0x01ab, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(3, org.telegram.messenger.LocaleController.getString("SharedLinksTab2", 2131628363), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(3, org.telegram.messenger.LocaleController.getString("SharedLinksTab2", 2131628301), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:119:0x01bd, code lost:
         if (r12.hasMedia[4] <= 0) goto L128;
@@ -5144,7 +5144,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(4) != false) goto L128;
      */
     /* JADX WARN: Code restructure failed: missing block: B:122:0x01c7, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(4, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", 2131628368), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(4, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", 2131628306), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:124:0x01d5, code lost:
         if (r12.hasMedia[4] <= 0) goto L128;
@@ -5153,7 +5153,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(4) != false) goto L128;
      */
     /* JADX WARN: Code restructure failed: missing block: B:127:0x01df, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(4, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", 2131628368), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(4, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", 2131628306), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:129:0x01ec, code lost:
         if (r12.hasMedia[2] <= 0) goto L133;
@@ -5162,7 +5162,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(2) != false) goto L133;
      */
     /* JADX WARN: Code restructure failed: missing block: B:132:0x01f6, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(2, org.telegram.messenger.LocaleController.getString("SharedVoiceTab2", 2131628372), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(2, org.telegram.messenger.LocaleController.getString("SharedVoiceTab2", 2131628310), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:134:0x0208, code lost:
         if (r12.hasMedia[5] <= 0) goto L138;
@@ -5171,7 +5171,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(5) != false) goto L138;
      */
     /* JADX WARN: Code restructure failed: missing block: B:137:0x0212, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(5, org.telegram.messenger.LocaleController.getString("SharedGIFsTab2", 2131628360), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(5, org.telegram.messenger.LocaleController.getString("SharedGIFsTab2", 2131628298), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:139:0x0224, code lost:
         if (r12.hasMedia[6] <= 0) goto L143;
@@ -5180,7 +5180,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(6) != false) goto L143;
      */
     /* JADX WARN: Code restructure failed: missing block: B:142:0x022e, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(6, org.telegram.messenger.LocaleController.getString("SharedGroupsTab2", 2131628361), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(6, org.telegram.messenger.LocaleController.getString("SharedGroupsTab2", 2131628299), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:143:0x023c, code lost:
         r13 = r12.scrollSlidingTextTabStrip.getCurrentTabId();
@@ -5285,7 +5285,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(7) != false) goto L86;
      */
     /* JADX WARN: Code restructure failed: missing block: B:85:0x0119, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(7, org.telegram.messenger.LocaleController.getString("GroupMembers", 2131626144), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(7, org.telegram.messenger.LocaleController.getString("GroupMembers", 2131626097), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:87:0x012b, code lost:
         if (r12.hasMedia[0] <= 0) goto L106;
@@ -5886,7 +5886,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
             BottomSheet.Builder builder = new BottomSheet.Builder(SharedMediaLayout.this.profileActivity.getParentActivity());
             builder.setTitle(str);
-            builder.setItems(new CharSequence[]{LocaleController.getString("Open", 2131627142), LocaleController.getString("Copy", 2131625272)}, new SharedMediaLayout$30$$ExternalSyntheticLambda0(this, str));
+            builder.setItems(new CharSequence[]{LocaleController.getString("Open", 2131627090), LocaleController.getString("Copy", 2131625256)}, new SharedMediaLayout$30$$ExternalSyntheticLambda0(this, str));
             SharedMediaLayout.this.profileActivity.showDialog(builder.create());
         }
 
@@ -6264,43 +6264,43 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         EmptyStubView emptyStubView = new EmptyStubView(context, resourcesProvider);
         if (i == 0) {
             if (DialogObject.isEncryptedDialog(j)) {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoMediaSecret", 2131626886));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoMediaSecret", 2131626834));
             } else {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoMedia", 2131626884));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoMedia", 2131626832));
             }
         } else if (i == 1) {
             if (DialogObject.isEncryptedDialog(j)) {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedFilesSecret", 2131626918));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedFilesSecret", 2131626866));
             } else {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedFiles", 2131626917));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedFiles", 2131626865));
             }
         } else if (i == 2) {
             if (DialogObject.isEncryptedDialog(j)) {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedVoiceSecret", 2131626923));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedVoiceSecret", 2131626871));
             } else {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedVoice", 2131626922));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedVoice", 2131626870));
             }
         } else if (i == 3) {
             if (DialogObject.isEncryptedDialog(j)) {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedLinksSecret", 2131626921));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedLinksSecret", 2131626869));
             } else {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedLinks", 2131626920));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedLinks", 2131626868));
             }
         } else if (i == 4) {
             if (DialogObject.isEncryptedDialog(j)) {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedAudioSecret", 2131626916));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedAudioSecret", 2131626864));
             } else {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedAudio", 2131626915));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedAudio", 2131626863));
             }
         } else if (i == 5) {
             if (DialogObject.isEncryptedDialog(j)) {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedGifSecret", 2131626919));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedGifSecret", 2131626867));
             } else {
-                emptyStubView.emptyTextView.setText(LocaleController.getString("NoGIFs", 2131626877));
+                emptyStubView.emptyTextView.setText(LocaleController.getString("NoGIFs", 2131626825));
             }
         } else if (i == 6) {
             emptyStubView.emptyImageView.setImageDrawable(null);
-            emptyStubView.emptyTextView.setText(LocaleController.getString("NoGroupsInCommon", 2131626879));
+            emptyStubView.emptyTextView.setText(LocaleController.getString("NoGroupsInCommon", 2131626827));
         } else if (i == 7) {
             emptyStubView.emptyImageView.setImageDrawable(null);
             emptyStubView.emptyTextView.setText("");
@@ -6706,7 +6706,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     for (int i2 = 0; i2 < SharedMediaLayout.this.mediaPages.length; i2++) {
                         if (SharedMediaLayout.this.mediaPages[i2].selectedType == this.currentType) {
                             if (this.searchesInProgress == 0 && itemCount2 == 0) {
-                                SharedMediaLayout.this.mediaPages[i2].emptyView.title.setText(LocaleController.formatString(2131626911, "NoResultFoundFor", str));
+                                SharedMediaLayout.this.mediaPages[i2].emptyView.title.setText(LocaleController.formatString(2131626859, "NoResultFoundFor", str));
                                 SharedMediaLayout.this.mediaPages[i2].emptyView.showProgress(false, true);
                             } else if (itemCount == 0) {
                                 SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
@@ -6855,7 +6855,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             for (int i = 0; i < SharedMediaLayout.this.mediaPages.length; i++) {
                 if (SharedMediaLayout.this.mediaPages[i].selectedType == this.currentType) {
                     if (this.searchesInProgress == 0 && itemCount2 == 0) {
-                        SharedMediaLayout.this.mediaPages[i].emptyView.title.setText(LocaleController.getString("NoResult", 2131626910));
+                        SharedMediaLayout.this.mediaPages[i].emptyView.title.setText(LocaleController.getString("NoResult", 2131626858));
                         SharedMediaLayout.this.mediaPages[i].emptyView.showProgress(false, true);
                     } else if (itemCount == 0) {
                         SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
@@ -7231,15 +7231,15 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     if (!TextUtils.isEmpty(tLRPC$ChannelParticipant.rank)) {
                         string = tLRPC$ChannelParticipant.rank;
                     } else if (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator) {
-                        string = LocaleController.getString("ChannelCreator", 2131624907);
+                        string = LocaleController.getString("ChannelCreator", 2131624894);
                     } else if (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantAdmin) {
-                        string = LocaleController.getString("ChannelAdmin", 2131624888);
+                        string = LocaleController.getString("ChannelAdmin", 2131624875);
                     }
                     str = string;
                 } else if (tLRPC$ChatParticipant instanceof TLRPC$TL_chatParticipantCreator) {
-                    str = LocaleController.getString("ChannelCreator", 2131624907);
+                    str = LocaleController.getString("ChannelCreator", 2131624894);
                 } else if (tLRPC$ChatParticipant instanceof TLRPC$TL_chatParticipantAdmin) {
-                    str = LocaleController.getString("ChannelAdmin", 2131624888);
+                    str = LocaleController.getString("ChannelAdmin", 2131624875);
                 }
                 userCell.setAdminRole(str);
                 TLRPC$User user = SharedMediaLayout.this.profileActivity.getMessagesController().getUser(Long.valueOf(tLRPC$ChatParticipant.user_id));

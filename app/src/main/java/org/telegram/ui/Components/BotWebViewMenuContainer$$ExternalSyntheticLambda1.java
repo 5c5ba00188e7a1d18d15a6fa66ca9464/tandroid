@@ -11,6 +11,6 @@ public final /* synthetic */ class BotWebViewMenuContainer$$ExternalSyntheticLam
 
     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-        this.f$0.lambda$onDismiss$19(valueAnimator);
+        this.f$0.lambda$new$8(valueAnimator);
     }
 }

@@ -130,9 +130,9 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         this.searching = false;
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("DoNotTranslate", 2131625539));
+        this.actionBar.setTitle(LocaleController.getString("DoNotTranslate", 2131625523));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
-        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass3()).setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass3()).setSearchFieldHint(LocaleController.getString("Search", 2131628092));
         this.listAdapter = new ListAdapter(context, false);
         this.searchListViewAdapter = new ListAdapter(context, true);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -141,7 +141,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         FrameLayout frameLayout2 = (FrameLayout) this.fragmentView;
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
-        emptyTextProgressView.setText(LocaleController.getString("NoResult", 2131626910));
+        emptyTextProgressView.setText(LocaleController.getString("NoResult", 2131626858));
         this.emptyView.showTextView();
         this.emptyView.setShowAtCenter(true);
         frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
@@ -273,10 +273,10 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             }
             if (localeInfo != null && localeInfo.pathToFile != null && (!localeInfo.isRemote() || localeInfo.serverIndex == Integer.MAX_VALUE)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("DeleteLocalizationTitle", 2131625432));
-                builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DeleteLocalizationText", 2131625431, localeInfo.name)));
-                builder.setPositiveButton(LocaleController.getString("Delete", 2131625384), new RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda0(this, localeInfo));
-                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+                builder.setTitle(LocaleController.getString("DeleteLocalizationTitle", 2131625416));
+                builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DeleteLocalizationText", 2131625415, localeInfo.name)));
+                builder.setPositiveButton(LocaleController.getString("Delete", 2131625368), new RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda0(this, localeInfo));
+                builder.setNegativeButton(LocaleController.getString("Cancel", 2131624819), null);
                 AlertDialog create = builder.create();
                 showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
@@ -454,7 +454,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             } else if (i == 2) {
                 HeaderCell headerCell = new HeaderCell(this.mContext);
                 headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                headerCell.setText(LocaleController.getString("ChooseLanguages", 2131625123));
+                headerCell.setText(LocaleController.getString("ChooseLanguages", 2131625110));
                 textCheckbox2Cell = headerCell;
             } else {
                 view = new ShadowSectionCell(this.mContext);
@@ -505,7 +505,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             String str = localeInfo.pluralLangCode;
             boolean contains = RestrictedLanguagesSelectActivity.this.selectedLanguages.contains(str);
             if (localeInfo.isLocal()) {
-                textCheckbox2Cell.setTextAndValue(String.format("%1$s (%2$s)", localeInfo.name, LocaleController.getString("LanguageCustom", 2131626396)), localeInfo.nameEnglish, false, !z);
+                textCheckbox2Cell.setTextAndValue(String.format("%1$s (%2$s)", localeInfo.name, LocaleController.getString("LanguageCustom", 2131626349)), localeInfo.nameEnglish, false, !z);
             } else {
                 textCheckbox2Cell.setTextAndValue(localeInfo.name, localeInfo.nameEnglish, false, !z);
             }

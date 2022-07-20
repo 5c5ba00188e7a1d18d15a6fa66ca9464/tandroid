@@ -118,7 +118,7 @@ public class Star3DIcon {
         this.mVertices.position(0);
         GLES20.glVertexAttribPointer(0, 3, 5126, false, 0, (Buffer) this.mVertices);
         GLES20.glEnableVertexAttribArray(0);
-        Bitmap bitmap = SvgHelper.getBitmap(2131558557, 80, 80, -1);
+        Bitmap bitmap = SvgHelper.getBitmap(2131558538, 80, 80, -1);
         Utilities.stackBlurBitmap(bitmap, 3);
         int[] iArr = new int[1];
         GLES20.glGenTextures(1, iArr, 0);

@@ -17,6 +17,7 @@ import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.QueryProductDetailsParams;
 import com.google.android.gms.internal.play_billing.zzb;
+import com.google.android.gms.internal.play_billing.zzu;
 import com.google.android.gms.internal.play_billing.zzz;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,13 +110,13 @@ public class BillingClientImpl extends BillingClient {
 
     private final void zzM(String str, PurchasesResponseListener purchasesResponseListener) {
         if (!isReady()) {
-            purchasesResponseListener.onQueryPurchasesResponse(zzbb.zzm, com.google.android.gms.internal.play_billing.zzu.zzl());
+            purchasesResponseListener.onQueryPurchasesResponse(zzbb.zzm, zzu.zzl());
         } else if (TextUtils.isEmpty(str)) {
             zzb.zzo("BillingClient", "Please provide a valid product type.");
-            purchasesResponseListener.onQueryPurchasesResponse(zzbb.zzg, com.google.android.gms.internal.play_billing.zzu.zzl());
+            purchasesResponseListener.onQueryPurchasesResponse(zzbb.zzg, zzu.zzl());
         } else if (zzJ(new zzai(this, str, purchasesResponseListener), 30000L, new zzad(purchasesResponseListener), zzF()) != null) {
         } else {
-            purchasesResponseListener.onQueryPurchasesResponse(zzH(), com.google.android.gms.internal.play_billing.zzu.zzl());
+            purchasesResponseListener.onQueryPurchasesResponse(zzH(), zzu.zzl());
         }
     }
 
@@ -162,16 +163,6 @@ public class BillingClientImpl extends BillingClient {
             }
         } while (!TextUtils.isEmpty(str2));
         return new zzbh(zzbb.zzl, arrayList);
-    }
-
-    @Override // com.android.billingclient.api.BillingClient
-    public final void consumeAsync(ConsumeParams consumeParams, ConsumeResponseListener consumeResponseListener) {
-        if (!isReady()) {
-            consumeResponseListener.onConsumeResponse(zzbb.zzm, consumeParams.getPurchaseToken());
-        } else if (zzJ(new zzu(this, consumeParams, consumeResponseListener), 30000L, new zzv(consumeResponseListener, consumeParams), zzF()) != null) {
-        } else {
-            consumeResponseListener.onConsumeResponse(zzH(), consumeParams.getPurchaseToken());
-        }
     }
 
     @Override // com.android.billingclient.api.BillingClient
@@ -500,44 +491,11 @@ public class BillingClientImpl extends BillingClient {
         return this.zzf.zzf(3, this.zze.getPackageName(), str, str2, null);
     }
 
-    public final /* synthetic */ Object zzl(ConsumeParams consumeParams, ConsumeResponseListener consumeResponseListener) throws Exception {
-        String str;
-        int i;
-        String purchaseToken = consumeParams.getPurchaseToken();
-        try {
-            zzb.zzn("BillingClient", "Consuming purchase with token: " + purchaseToken);
-            if (this.zzm) {
-                Bundle zze = this.zzf.zze(9, this.zze.getPackageName(), purchaseToken, zzb.zzd(consumeParams, this.zzm, this.zzb));
-                i = zze.getInt("RESPONSE_CODE");
-                str = zzb.zzk(zze, "BillingClient");
-            } else {
-                i = this.zzf.zza(3, this.zze.getPackageName(), purchaseToken);
-                str = "";
-            }
-            BillingResult.Builder newBuilder = BillingResult.newBuilder();
-            newBuilder.setResponseCode(i);
-            newBuilder.setDebugMessage(str);
-            BillingResult build = newBuilder.build();
-            if (i == 0) {
-                zzb.zzn("BillingClient", "Successfully consumed purchase.");
-                consumeResponseListener.onConsumeResponse(build, purchaseToken);
-                return null;
-            }
-            zzb.zzo("BillingClient", "Error consuming purchase with token. Response code: " + i);
-            consumeResponseListener.onConsumeResponse(build, purchaseToken);
-            return null;
-        } catch (Exception e) {
-            zzb.zzp("BillingClient", "Error consuming purchase!", e);
-            consumeResponseListener.onConsumeResponse(zzbb.zzm, purchaseToken);
-            return null;
-        }
-    }
-
     public final /* synthetic */ Object zzm(QueryProductDetailsParams queryProductDetailsParams, ProductDetailsResponseListener productDetailsResponseListener) throws Exception {
         String str;
         ArrayList arrayList = new ArrayList();
         String zzb = queryProductDetailsParams.zzb();
-        com.google.android.gms.internal.play_billing.zzu zza = queryProductDetailsParams.zza();
+        zzu zza = queryProductDetailsParams.zza();
         int size = zza.size();
         int i = 0;
         int i2 = 0;

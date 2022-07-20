@@ -98,23 +98,23 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
         int i = this.currentType;
         int i2 = 2;
         if (i == 1) {
-            this.actionBar.setTitle(LocaleController.getString("BlockedUsers", 2131624701));
+            this.actionBar.setTitle(LocaleController.getString("BlockedUsers", 2131624690));
         } else if (i == 2) {
             if (this.isAlwaysShare) {
-                this.actionBar.setTitle(LocaleController.getString("FilterAlwaysShow", 2131625872));
+                this.actionBar.setTitle(LocaleController.getString("FilterAlwaysShow", 2131625831));
             } else {
-                this.actionBar.setTitle(LocaleController.getString("FilterNeverShow", 2131625910));
+                this.actionBar.setTitle(LocaleController.getString("FilterNeverShow", 2131625869));
             }
         } else if (this.isGroup) {
             if (this.isAlwaysShare) {
-                this.actionBar.setTitle(LocaleController.getString("AlwaysAllow", 2131624342));
+                this.actionBar.setTitle(LocaleController.getString("AlwaysAllow", 2131624333));
             } else {
-                this.actionBar.setTitle(LocaleController.getString("NeverAllow", 2131626820));
+                this.actionBar.setTitle(LocaleController.getString("NeverAllow", 2131626768));
             }
         } else if (this.isAlwaysShare) {
-            this.actionBar.setTitle(LocaleController.getString("AlwaysShareWithTitle", 2131624344));
+            this.actionBar.setTitle(LocaleController.getString("AlwaysShareWithTitle", 2131624335));
         } else {
-            this.actionBar.setTitle(LocaleController.getString("NeverShareWithTitle", 2131626822));
+            this.actionBar.setTitle(LocaleController.getString("NeverShareWithTitle", 2131626770));
         }
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         FrameLayout frameLayout = new FrameLayout(context);
@@ -124,9 +124,9 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         if (this.currentType == 1) {
-            emptyTextProgressView.setText(LocaleController.getString("NoBlocked", 2131626859));
+            emptyTextProgressView.setText(LocaleController.getString("NoBlocked", 2131626807));
         } else {
-            emptyTextProgressView.setText(LocaleController.getString("NoContacts", 2131626867));
+            emptyTextProgressView.setText(LocaleController.getString("NoContacts", 2131626815));
         }
         frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context);
@@ -269,7 +269,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setItems(this.currentType == 1 ? new CharSequence[]{LocaleController.getString("Unblock", 2131628793)} : new CharSequence[]{LocaleController.getString("Delete", 2131625384)}, new PrivacyUsersActivity$$ExternalSyntheticLambda0(this, l));
+        builder.setItems(this.currentType == 1 ? new CharSequence[]{LocaleController.getString("Unblock", 2131628725)} : new CharSequence[]{LocaleController.getString("Delete", 2131625368)}, new PrivacyUsersActivity$$ExternalSyntheticLambda0(this, l));
         showDialog(builder.create());
     }
 
@@ -439,7 +439,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                     if (i == PrivacyUsersActivity.this.blockUserDetailRow) {
                         if (PrivacyUsersActivity.this.currentType == 1) {
-                            textInfoPrivacyCell.setText(LocaleController.getString("BlockedUsersInfo", 2131624708));
+                            textInfoPrivacyCell.setText(LocaleController.getString("BlockedUsersInfo", 2131624697));
                         } else {
                             textInfoPrivacyCell.setText(null);
                         }
@@ -461,10 +461,10 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                     ManageChatTextCell manageChatTextCell = (ManageChatTextCell) viewHolder.itemView;
                     manageChatTextCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
                     if (PrivacyUsersActivity.this.currentType == 1) {
-                        manageChatTextCell.setText(LocaleController.getString("BlockUser", 2131624690), null, 2131165690, false);
+                        manageChatTextCell.setText(LocaleController.getString("BlockUser", 2131624679), null, 2131165690, false);
                         return;
                     } else {
-                        manageChatTextCell.setText(LocaleController.getString("PrivacyAddAnException", 2131627750), null, 2131165690, false);
+                        manageChatTextCell.setText(LocaleController.getString("PrivacyAddAnException", 2131627693), null, 2131165690, false);
                         return;
                     }
                 } else if (itemViewType != 3) {
@@ -478,7 +478,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                         headerCell.setText(LocaleController.formatPluralString("BlockedUsersCount", PrivacyUsersActivity.this.getMessagesController().totalBlockedCount, new Object[0]));
                         return;
                     } else {
-                        headerCell.setText(LocaleController.getString("PrivacyExceptions", 2131627757));
+                        headerCell.setText(LocaleController.getString("PrivacyExceptions", 2131627700));
                         return;
                     }
                 }
@@ -492,13 +492,13 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                     return;
                 }
                 if (user.bot) {
-                    str2 = LocaleController.getString("Bot", 2131624715).substring(0, 1).toUpperCase() + LocaleController.getString("Bot", 2131624715).substring(1);
+                    str2 = LocaleController.getString("Bot", 2131624704).substring(0, 1).toUpperCase() + LocaleController.getString("Bot", 2131624704).substring(1);
                 } else {
                     String str3 = user.phone;
                     if (str3 != null && str3.length() != 0) {
                         str2 = PhoneFormat.getInstance().format("+" + user.phone);
                     } else {
-                        str2 = LocaleController.getString("NumberUnknown", 2131627126);
+                        str2 = LocaleController.getString("NumberUnknown", 2131627074);
                     }
                 }
                 if (i != PrivacyUsersActivity.this.usersEndRow - 1) {
@@ -515,11 +515,11 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             if (i2 != 0) {
                 str = LocaleController.formatPluralString("Members", i2, new Object[0]);
             } else if (chat.has_geo) {
-                str = LocaleController.getString("MegaLocation", 2131626632);
+                str = LocaleController.getString("MegaLocation", 2131626585);
             } else if (TextUtils.isEmpty(chat.username)) {
-                str = LocaleController.getString("MegaPrivate", 2131626633);
+                str = LocaleController.getString("MegaPrivate", 2131626586);
             } else {
-                str = LocaleController.getString("MegaPublic", 2131626636);
+                str = LocaleController.getString("MegaPublic", 2131626589);
             }
             if (i != PrivacyUsersActivity.this.usersEndRow - 1) {
                 z = true;

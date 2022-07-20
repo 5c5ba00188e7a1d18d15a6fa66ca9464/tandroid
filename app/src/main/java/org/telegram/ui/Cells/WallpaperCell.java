@@ -79,7 +79,7 @@ public class WallpaperCell extends FrameLayout {
             this.selector = view;
             view.setBackgroundDrawable(Theme.getSelectorDrawable(false));
             addView(this.selector, LayoutHelper.createFrame(-1, -1.0f));
-            CheckBox checkBox = new CheckBox(context, 2131166115);
+            CheckBox checkBox = new CheckBox(context, 2131166113);
             this.checkBox = checkBox;
             checkBox.setVisibility(4);
             this.checkBox.setColor(Theme.getColor("checkbox"), Theme.getColor("checkboxCheck"));

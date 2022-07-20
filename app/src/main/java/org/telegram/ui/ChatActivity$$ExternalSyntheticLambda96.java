@@ -13,6 +13,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda96 imple
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        ChatActivity.lambda$createMenu$169(this.f$0, this.f$1, view);
+        ChatActivity.lambda$createMenu$170(this.f$0, this.f$1, view);
     }
 }

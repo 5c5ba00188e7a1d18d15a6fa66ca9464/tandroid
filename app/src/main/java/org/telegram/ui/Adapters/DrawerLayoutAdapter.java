@@ -206,54 +206,54 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         }
         int eventType = Theme.getEventType();
         if (eventType == 0) {
-            i8 = 2131165754;
+            i8 = 2131165753;
             i7 = 2131165695;
             i6 = 2131165668;
-            i5 = 2131165920;
-            i4 = 2131165936;
-            i3 = 2131165771;
-            i2 = 2131165761;
-            i = 2131165824;
+            i5 = 2131165918;
+            i4 = 2131165934;
+            i3 = 2131165770;
+            i2 = 2131165760;
+            i = 2131165823;
         } else {
             if (eventType == 1) {
-                i8 = 2131165751;
-                i = 2131165926;
+                i8 = 2131165750;
+                i = 2131165924;
                 i7 = 2131165692;
                 i6 = 2131165665;
-                i5 = 2131165918;
-                i4 = 2131165934;
-                i3 = 2131165928;
+                i5 = 2131165916;
+                i4 = 2131165932;
+                i3 = 2131165926;
             } else if (eventType == 2) {
-                i8 = 2131165753;
+                i8 = 2131165752;
                 i7 = 2131165693;
                 i6 = 2131165666;
-                i5 = 2131165919;
-                i4 = 2131165935;
-                i3 = 2131165770;
-                i2 = 2131165760;
-                i = 2131165927;
+                i5 = 2131165917;
+                i4 = 2131165933;
+                i3 = 2131165769;
+                i2 = 2131165759;
+                i = 2131165925;
             } else {
-                i8 = 2131165750;
-                i = 2131165821;
+                i8 = 2131165749;
+                i = 2131165820;
                 i7 = 2131165691;
                 i6 = 2131165664;
-                i5 = 2131165917;
-                i4 = 2131165937;
-                i3 = 2131165768;
+                i5 = 2131165915;
+                i4 = 2131165935;
+                i3 = 2131165767;
             }
-            i2 = 2131165758;
+            i2 = 2131165757;
         }
-        this.items.add(new Item(2, LocaleController.getString("NewGroup", 2131626832), i8));
-        this.items.add(new Item(6, LocaleController.getString("Contacts", 2131625258), i7));
-        this.items.add(new Item(10, LocaleController.getString("Calls", 2131624822), i6));
+        this.items.add(new Item(2, LocaleController.getString("NewGroup", 2131626780), i8));
+        this.items.add(new Item(6, LocaleController.getString("Contacts", 2131625242), i7));
+        this.items.add(new Item(10, LocaleController.getString("Calls", 2131624809), i6));
         if (this.hasGps) {
-            this.items.add(new Item(12, LocaleController.getString("PeopleNearby", 2131627505), i));
+            this.items.add(new Item(12, LocaleController.getString("PeopleNearby", 2131627453), i));
         }
-        this.items.add(new Item(11, LocaleController.getString("SavedMessages", 2131628139), i5));
-        this.items.add(new Item(8, LocaleController.getString("Settings", 2131628321), i4));
+        this.items.add(new Item(11, LocaleController.getString("SavedMessages", 2131628077), i5));
+        this.items.add(new Item(8, LocaleController.getString("Settings", 2131628259), i4));
         this.items.add(null);
-        this.items.add(new Item(7, LocaleController.getString("InviteFriends", 2131626308), i3));
-        this.items.add(new Item(13, LocaleController.getString("TelegramFeatures", 2131628627), i2));
+        this.items.add(new Item(7, LocaleController.getString("InviteFriends", 2131626261), i3));
+        this.items.add(new Item(13, LocaleController.getString("TelegramFeatures", 2131628564), i2));
     }
 
     public static /* synthetic */ int lambda$resetItems$0(Integer num, Integer num2) {

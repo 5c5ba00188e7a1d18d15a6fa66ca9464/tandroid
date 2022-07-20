@@ -15,6 +15,6 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda1
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$updateBotInfo$162(this.f$1, this.f$2);
+        this.f$0.lambda$updateBotInfo$158(this.f$1, this.f$2);
     }
 }

@@ -13,6 +13,6 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda1
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$replaceStickerSet$25(this.f$1);
+        this.f$0.lambda$putSetToCache$30(this.f$1);
     }
 }

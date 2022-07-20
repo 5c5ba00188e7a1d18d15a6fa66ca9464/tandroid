@@ -11,6 +11,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda10 imple
 
     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-        this.f$0.lambda$showAlert$141(valueAnimator);
+        this.f$0.lambda$updateReactionsMentionButton$78(valueAnimator);
     }
 }

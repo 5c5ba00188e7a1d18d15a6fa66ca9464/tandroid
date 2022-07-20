@@ -134,21 +134,21 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             this.circleRadius = AndroidUtilities.dp(56.0f) / 2.0f;
             this.lastWidth = i;
             TLRPC$Chat tLRPC$Chat = this.nextChat;
-            String string = tLRPC$Chat != null ? tLRPC$Chat.title : LocaleController.getString("SwipeToGoNextChannelEnd", 2131628584);
+            String string = tLRPC$Chat != null ? tLRPC$Chat.title : LocaleController.getString("SwipeToGoNextChannelEnd", 2131628521);
             int measureText = (int) this.textPaint.measureText(string);
             this.chatNameWidth = measureText;
             this.chatNameWidth = Math.min(measureText, this.lastWidth - AndroidUtilities.dp(60.0f));
             this.chatNameLayout = new StaticLayout(string, this.textPaint, this.chatNameWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             boolean z = this.drawFolderBackground;
             if (z && (i2 = this.dialogFolderId) != this.folderId && i2 != 0) {
-                str2 = LocaleController.getString("SwipeToGoNextArchive", 2131628582);
-                str = LocaleController.getString("ReleaseToGoNextArchive", 2131627944);
+                str2 = LocaleController.getString("SwipeToGoNextArchive", 2131628519);
+                str = LocaleController.getString("ReleaseToGoNextArchive", 2131627882);
             } else if (z) {
-                str2 = LocaleController.getString("SwipeToGoNextFolder", 2131628585);
-                str = LocaleController.getString("ReleaseToGoNextFolder", 2131627946);
+                str2 = LocaleController.getString("SwipeToGoNextFolder", 2131628522);
+                str = LocaleController.getString("ReleaseToGoNextFolder", 2131627884);
             } else {
-                str2 = LocaleController.getString("SwipeToGoNextChannel", 2131628583);
-                str = LocaleController.getString("ReleaseToGoNextChannel", 2131627945);
+                str2 = LocaleController.getString("SwipeToGoNextChannel", 2131628520);
+                str = LocaleController.getString("ReleaseToGoNextChannel", 2131627883);
             }
             String str3 = str2;
             String str4 = str;

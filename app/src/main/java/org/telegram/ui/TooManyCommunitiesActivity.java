@@ -126,11 +126,11 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         this.type = this.arguments.getInt("type", 0);
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("LimitReached", 2131626449));
+        this.actionBar.setTitle(LocaleController.getString("LimitReached", 2131626402));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass3());
-        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628154));
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628092));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628092));
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
         RecyclerListView recyclerListView = new RecyclerListView(context);
@@ -156,7 +156,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         emptyTextProgressView.setShowAtCenter(true);
-        this.emptyView.setText(LocaleController.getString("NoResult", 2131626910));
+        this.emptyView.setText(LocaleController.getString("NoResult", 2131626858));
         this.emptyView.showTextView();
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.progressBar = radialProgressView;
@@ -356,7 +356,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             this.searchListView.setPadding(0, 0, 0, this.buttonHeight);
         }
         if (!this.selectedIds.isEmpty()) {
-            this.buttonTextView.setText(LocaleController.formatString("LeaveChats", 2131626435, LocaleController.formatPluralString("Chats", this.selectedIds.size(), new Object[0])));
+            this.buttonTextView.setText(LocaleController.formatString("LeaveChats", 2131626388, LocaleController.formatPluralString("Chats", this.selectedIds.size(), new Object[0])));
         }
     }
 
@@ -410,11 +410,11 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                     str = LocaleController.formatPluralString("Years", currentTime / 365, new Object[0]);
                 }
                 if (ChatObject.isMegagroup(tLRPC$Chat)) {
-                    arrayList.add(LocaleController.formatString("InactiveChatSignature", 2131626274, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), str));
+                    arrayList.add(LocaleController.formatString("InactiveChatSignature", 2131626227, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), str));
                 } else if (ChatObject.isChannel(tLRPC$Chat)) {
-                    arrayList.add(LocaleController.formatString("InactiveChannelSignature", 2131626273, str));
+                    arrayList.add(LocaleController.formatString("InactiveChannelSignature", 2131626226, str));
                 } else {
-                    arrayList.add(LocaleController.formatString("InactiveChatSignature", 2131626274, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), str));
+                    arrayList.add(LocaleController.formatString("InactiveChatSignature", 2131626227, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), str));
                 }
             }
             AndroidUtilities.runOnUIThread(new TooManyCommunitiesActivity$$ExternalSyntheticLambda2(this, arrayList, tLRPC$TL_messages_inactiveChats));
@@ -528,11 +528,11 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                 TooManyCommunitiesHintCell tooManyCommunitiesHintCell = TooManyCommunitiesActivity.this.hintCell;
                 int i2 = TooManyCommunitiesActivity.this.type;
                 if (i2 == 0) {
-                    str = LocaleController.getString("TooManyCommunitiesHintJoin", 2131628742);
+                    str = LocaleController.getString("TooManyCommunitiesHintJoin", 2131628675);
                 } else if (i2 == 1) {
-                    str = LocaleController.getString("TooManyCommunitiesHintEdit", 2131628741);
+                    str = LocaleController.getString("TooManyCommunitiesHintEdit", 2131628674);
                 } else {
-                    str = LocaleController.getString("TooManyCommunitiesHintCreate", 2131628740);
+                    str = LocaleController.getString("TooManyCommunitiesHintCreate", 2131628673);
                 }
                 TooManyCommunitiesActivity.this.hintCell.setMessageText(str);
                 RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-1, -2);
@@ -549,7 +549,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             } else if (i == 3) {
                 HeaderCell headerCell = new HeaderCell(viewGroup.getContext(), "windowBackgroundWhiteBlueHeader", 21, 8, false);
                 headerCell.setHeight(54);
-                headerCell.setText(LocaleController.getString("InactiveChats", 2131626275));
+                headerCell.setText(LocaleController.getString("InactiveChats", 2131626228));
                 groupCreateUserCell = headerCell;
             } else if (i == 5) {
                 groupCreateUserCell = new EmptyCell(viewGroup.getContext(), AndroidUtilities.dp(12.0f));

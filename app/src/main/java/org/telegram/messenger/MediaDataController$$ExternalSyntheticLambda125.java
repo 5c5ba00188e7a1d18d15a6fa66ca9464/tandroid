@@ -1,22 +1,18 @@
 package org.telegram.messenger;
 
-import java.util.ArrayList;
+import java.util.Comparator;
+import org.telegram.tgnet.TLRPC$MessageEntity;
 /* loaded from: classes.dex */
-public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda125 implements Runnable {
-    public final /* synthetic */ MediaDataController f$0;
-    public final /* synthetic */ boolean[] f$1;
-    public final /* synthetic */ ArrayList[] f$2;
-    public final /* synthetic */ Runnable f$3;
+public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda125 implements Comparator {
+    public static final /* synthetic */ MediaDataController$$ExternalSyntheticLambda125 INSTANCE = new MediaDataController$$ExternalSyntheticLambda125();
 
-    public /* synthetic */ MediaDataController$$ExternalSyntheticLambda125(MediaDataController mediaDataController, boolean[] zArr, ArrayList[] arrayListArr, Runnable runnable) {
-        this.f$0 = mediaDataController;
-        this.f$1 = zArr;
-        this.f$2 = arrayListArr;
-        this.f$3 = runnable;
+    private /* synthetic */ MediaDataController$$ExternalSyntheticLambda125() {
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        this.f$0.lambda$fillWithAnimatedEmoji$183(this.f$1, this.f$2, this.f$3);
+    @Override // java.util.Comparator
+    public final int compare(Object obj, Object obj2) {
+        int lambda$getTextStyleRuns$138;
+        lambda$getTextStyleRuns$138 = MediaDataController.lambda$getTextStyleRuns$138((TLRPC$MessageEntity) obj, (TLRPC$MessageEntity) obj2);
+        return lambda$getTextStyleRuns$138;
     }
 }

@@ -31,7 +31,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
-import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.lang.reflect.Field;
@@ -112,7 +111,6 @@ public class RecyclerListView extends RecyclerView {
     protected int selectorPosition;
     private int selectorRadius;
     protected android.graphics.Rect selectorRect;
-    Consumer<Canvas> selectorTransformer;
     private int selectorType;
     private boolean selfOnLayout;
     private int startSection;
@@ -236,10 +234,6 @@ public class RecyclerListView extends RecyclerView {
                 accessibilityNodeInfo.addAction(16);
             }
         }
-    }
-
-    public void setSelectorTransformer(Consumer<Canvas> consumer) {
-        this.selectorTransformer = consumer;
     }
 
     public FastScroll getFastScroll() {
@@ -1084,7 +1078,7 @@ public class RecyclerListView extends RecyclerView {
                             RecyclerListView.this.onItemClickListenerExtended.onItemClick(view, i, x - view.getX(), y - view.getY());
                         }
                     }
-                    AndroidUtilities.runOnUIThread(RecyclerListView.this.clickRunnable = new RunnableC00321(view, i, x, y), ViewConfiguration.getPressedStateDuration());
+                    AndroidUtilities.runOnUIThread(RecyclerListView.this.clickRunnable = new RunnableC00271(view, i, x, y), ViewConfiguration.getPressedStateDuration());
                     if (RecyclerListView.this.selectChildRunnable == null) {
                         return;
                     }
@@ -1098,13 +1092,13 @@ public class RecyclerListView extends RecyclerView {
 
             /* renamed from: org.telegram.ui.Components.RecyclerListView$RecyclerListViewItemClickListener$1$1 */
             /* loaded from: classes3.dex */
-            public class RunnableC00321 implements Runnable {
+            public class RunnableC00271 implements Runnable {
                 final /* synthetic */ int val$position;
                 final /* synthetic */ View val$view;
                 final /* synthetic */ float val$x;
                 final /* synthetic */ float val$y;
 
-                RunnableC00321(View view, int i, float f, float f2) {
+                RunnableC00271(View view, int i, float f, float f2) {
                     AnonymousClass1.this = r1;
                     this.val$view = view;
                     this.val$position = i;
@@ -2375,10 +2369,6 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
-    public android.graphics.Rect getSelectorRect() {
-        return this.selectorRect;
-    }
-
     @Override // android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         View view;
@@ -2388,24 +2378,12 @@ public class RecyclerListView extends RecyclerView {
         }
         if (this.drawSelectorBehind && !this.selectorRect.isEmpty()) {
             this.selectorDrawable.setBounds(this.selectorRect);
-            canvas.save();
-            Consumer<Canvas> consumer = this.selectorTransformer;
-            if (consumer != null) {
-                consumer.accept(canvas);
-            }
             this.selectorDrawable.draw(canvas);
-            canvas.restore();
         }
         super.dispatchDraw(canvas);
         if (!this.drawSelectorBehind && !this.selectorRect.isEmpty()) {
             this.selectorDrawable.setBounds(this.selectorRect);
-            canvas.save();
-            Consumer<Canvas> consumer2 = this.selectorTransformer;
-            if (consumer2 != null) {
-                consumer2.accept(canvas);
-            }
             this.selectorDrawable.draw(canvas);
-            canvas.restore();
         }
         FrameLayout frameLayout = this.overlayContainer;
         if (frameLayout != null) {

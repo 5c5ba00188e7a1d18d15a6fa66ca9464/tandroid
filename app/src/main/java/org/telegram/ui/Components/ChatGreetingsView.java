@@ -56,11 +56,11 @@ public class ChatGreetingsView extends LinearLayout {
         addView(this.stickerToSendView, LayoutHelper.createLinear(112, 112, 1, 0, 16, 0, 16));
         updateColors();
         if (i <= 0) {
-            this.titleView.setText(LocaleController.getString("NoMessages", 2131626889));
-            this.descriptionView.setText(LocaleController.getString("NoMessagesGreetingsDescription", 2131626891));
+            this.titleView.setText(LocaleController.getString("NoMessages", 2131626837));
+            this.descriptionView.setText(LocaleController.getString("NoMessagesGreetingsDescription", 2131626839));
         } else {
-            this.titleView.setText(LocaleController.formatString("NearbyPeopleGreetingsMessage", 2131626812, tLRPC$User.first_name, LocaleController.formatDistance(i, 1)));
-            this.descriptionView.setText(LocaleController.getString("NearbyPeopleGreetingsDescription", 2131626811));
+            this.titleView.setText(LocaleController.formatString("NearbyPeopleGreetingsMessage", 2131626760, tLRPC$User.first_name, LocaleController.formatDistance(i, 1)));
+            this.descriptionView.setText(LocaleController.getString("NearbyPeopleGreetingsDescription", 2131626759));
         }
         this.stickerToSendView.setContentDescription(this.descriptionView.getText());
         this.preloadedGreetingsSticker = tLRPC$Document;

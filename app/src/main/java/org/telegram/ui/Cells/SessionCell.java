@@ -232,7 +232,7 @@ public class SessionCell extends FrameLayout {
             this.nameTextView.setText(sb);
             if ((tLRPC$TL_authorization.flags & 1) != 0) {
                 setTag("windowBackgroundWhiteValueText");
-                str2 = LocaleController.getString("Online", 2131627132);
+                str2 = LocaleController.getString("Online", 2131627080);
             } else {
                 setTag("windowBackgroundWhiteGrayText3");
                 str2 = LocaleController.stringForMessageListDate(tLRPC$TL_authorization.date_active);

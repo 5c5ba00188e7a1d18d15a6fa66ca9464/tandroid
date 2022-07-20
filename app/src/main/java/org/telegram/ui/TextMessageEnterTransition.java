@@ -37,7 +37,6 @@ import org.telegram.tgnet.TLRPC$TL_messageMediaInvoice;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
-import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.ChatActivityEnterView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EmptyStubSpan;
@@ -102,7 +101,6 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         int i3;
         int i4;
         Theme.MessageDrawable currentBackgroundDrawable;
-        int i5;
         this.drawBitmaps = false;
         this.animationIndex = -1;
         this.resourcesProvider = resourcesProvider;
@@ -154,18 +152,17 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         z = false;
         if (text.length() != charSequence.length() || z) {
             this.crossfade = true;
-            int[] iArr = new int[1];
-            CharSequence trim = AndroidUtilities.trim(text, iArr);
-            if (iArr[0] > 0) {
-                i = chatActivityEnterView.getEditField().getLayout().getLineTop(chatActivityEnterView.getEditField().getLayout().getLineForOffset(iArr[0]));
-                i5 = chatActivityEnterView.getEditField().getLayout().getLineBottom(chatActivityEnterView.getEditField().getLayout().getLineForOffset(iArr[0] + trim.length())) - i;
+            String charSequence2 = text.toString();
+            String trim = charSequence2.trim();
+            int indexOf = charSequence2.indexOf(trim);
+            if (indexOf > 0) {
+                i = chatActivityEnterView.getEditField().getLayout().getLineTop(chatActivityEnterView.getEditField().getLayout().getLineForOffset(indexOf));
+                i2 = chatActivityEnterView.getEditField().getLayout().getLineBottom(chatActivityEnterView.getEditField().getLayout().getLineForOffset(indexOf + trim.length())) - i;
             } else {
-                i5 = height;
+                i2 = height;
                 i = 0;
             }
-            int i6 = i5;
-            charSequence = Emoji.replaceEmoji(text, textPaint.getFontMetricsInt(), dp, false);
-            i2 = i6;
+            charSequence = Emoji.replaceEmoji(trim, textPaint.getFontMetricsInt(), dp, false);
         } else {
             i2 = height;
             i = 0;
@@ -183,8 +180,8 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.fromStartY = ((AndroidUtilities.dp(10.0f) + y) - chatActivityEnterView.getEditField().getScrollY()) + i;
         this.toXOffset = 0.0f;
         float f2 = Float.MAX_VALUE;
-        for (int i7 = 0; i7 < this.layout.getLineCount(); i7++) {
-            float lineLeft = this.layout.getLineLeft(i7);
+        for (int i5 = 0; i5 < this.layout.getLineCount(); i5++) {
+            float lineLeft = this.layout.getLineLeft(i5);
             if (lineLeft < f2) {
                 f2 = lineLeft;
             }
@@ -209,23 +206,23 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.toColor = getThemedColor("chat_messageTextOut");
         if (staticLayout.getLineCount() == this.layout.getLineCount()) {
             lineCount = staticLayout.getLineCount();
-            int i8 = 0;
+            int i6 = 0;
             i4 = 0;
             i3 = 0;
             while (true) {
-                if (i8 >= lineCount) {
+                if (i6 >= lineCount) {
                     break;
                 }
-                if (isRtlLine(this.layout, i8)) {
+                if (isRtlLine(this.layout, i6)) {
                     i3++;
                 } else {
                     i4++;
                 }
-                if (staticLayout.getLineEnd(i8) != this.layout.getLineEnd(i8)) {
+                if (staticLayout.getLineEnd(i6) != this.layout.getLineEnd(i6)) {
                     this.crossfade = true;
                     break;
                 }
-                i8++;
+                i6++;
             }
         } else {
             this.crossfade = true;
@@ -236,13 +233,13 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             SpannableString spannableString = new SpannableString(charSequence);
             SpannableString spannableString2 = new SpannableString(charSequence);
             float f3 = Float.MAX_VALUE;
-            for (int i9 = 0; i9 < lineCount; i9++) {
-                if (isRtlLine(this.layout, i9)) {
-                    spannableString.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i9), this.layout.getLineEnd(i9), 0);
-                    float lineLeft2 = this.layout.getLineLeft(i9);
+            for (int i7 = 0; i7 < lineCount; i7++) {
+                if (isRtlLine(this.layout, i7)) {
+                    spannableString.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i7), this.layout.getLineEnd(i7), 0);
+                    float lineLeft2 = this.layout.getLineLeft(i7);
                     f3 = lineLeft2 < f3 ? lineLeft2 : f3;
                 } else {
-                    spannableString2.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i9), this.layout.getLineEnd(i9), 0);
+                    spannableString2.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i7), this.layout.getLineEnd(i7), 0);
                 }
             }
             if (Build.VERSION.SDK_INT >= 24) {
@@ -369,12 +366,12 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         return layout.getLineRight(i) == ((float) layout.getWidth()) && layout.getLineLeft(i) != 0.0f;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0362  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x036f  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x03a1  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x044c  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0462  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0353  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0360  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0392  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x03f8  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x043d  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0453  */
     @Override // org.telegram.ui.MessageEnterTransitionContainer.Transition
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -399,13 +396,8 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             this.initBitmaps = true;
             Canvas canvas2 = new Canvas(this.crossfadeTextBitmap);
             canvas2.translate(0.0f, this.crossfadeTextOffset);
-            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.messageView.animatedEmojiStack;
-            if (emojiGroupedSpans != null) {
-                emojiGroupedSpans.clearPositions();
-            }
             ChatMessageCell chatMessageCell = this.messageView;
             chatMessageCell.drawMessageText(canvas2, chatMessageCell.getMessageObject().textLayoutBlocks, true, 1.0f, true);
-            this.messageView.drawAnimatedEmojis(canvas2);
         }
         float y = (this.listView.getY() - this.container.getY()) + this.listView.getMeasuredHeight();
         float x = this.fromStartX - this.container.getX();
@@ -675,7 +667,6 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 Theme.chat_msgTextPaint.setColor(this.toColor);
                 ChatMessageCell chatMessageCell3 = this.messageView;
                 chatMessageCell3.drawMessageText(canvas, chatMessageCell3.getMessageObject().textLayoutBlocks, false, f4, true);
-                this.messageView.drawAnimatedEmojis(canvas);
                 if (Theme.chat_msgTextPaint.getColor() != color3) {
                     Theme.chat_msgTextPaint.setColor(color3);
                 }

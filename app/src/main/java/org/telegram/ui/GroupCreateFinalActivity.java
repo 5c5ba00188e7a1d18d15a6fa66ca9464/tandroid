@@ -254,23 +254,22 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
     public View createView(Context context) {
         String str;
         int i;
-        AnonymousClass2 anonymousClass2;
         EditTextEmoji editTextEmoji = this.editText;
         if (editTextEmoji != null) {
             editTextEmoji.onDestroy();
         }
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("NewGroup", 2131626832));
+        this.actionBar.setTitle(LocaleController.getString("NewGroup", 2131626780));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
-        AnonymousClass2 anonymousClass22 = new AnonymousClass2(context);
-        this.fragmentView = anonymousClass22;
-        anonymousClass22.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
+        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
+        this.fragmentView = anonymousClass2;
+        anonymousClass2.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
         this.fragmentView.setOnTouchListener(GroupCreateFinalActivity$$ExternalSyntheticLambda3.INSTANCE);
         this.shadowDrawable = context.getResources().getDrawable(2131165437).mutate();
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
         anonymousClass3.setOrientation(1);
-        anonymousClass22.addView(anonymousClass3, LayoutHelper.createFrame(-1, -1.0f));
+        anonymousClass2.addView(anonymousClass3, LayoutHelper.createFrame(-1, -1.0f));
         FrameLayout frameLayout = new FrameLayout(context);
         this.editTextContainer = frameLayout;
         anonymousClass3.addView(frameLayout, LayoutHelper.createLinear(-1, -2));
@@ -279,7 +278,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         anonymousClass4.setRoundRadius(AndroidUtilities.dp(32.0f));
         this.avatarDrawable.setInfo(5L, null, null);
         this.avatarImage.setImageDrawable(this.avatarDrawable);
-        this.avatarImage.setContentDescription(LocaleController.getString("ChoosePhoto", 2131625124));
+        this.avatarImage.setContentDescription(LocaleController.getString("ChoosePhoto", 2131625111));
         FrameLayout frameLayout2 = this.editTextContainer;
         BackupImageView backupImageView = this.avatarImage;
         boolean z = LocaleController.isRTL;
@@ -315,14 +314,14 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         boolean z4 = LocaleController.isRTL;
         frameLayout5.addView(radialProgressView, LayoutHelper.createFrame(64, 64.0f, (z4 ? 5 : 3) | 48, z4 ? 0.0f : 16.0f, 16.0f, z4 ? 16.0f : 0.0f, 16.0f));
         showAvatarProgress(false, false);
-        EditTextEmoji editTextEmoji2 = new EditTextEmoji(context, anonymousClass22, this, 0, false);
+        EditTextEmoji editTextEmoji2 = new EditTextEmoji(context, anonymousClass2, this, 0);
         this.editText = editTextEmoji2;
         int i3 = this.chatType;
         if (i3 == 0 || i3 == 4) {
-            i = 2131625685;
+            i = 2131625647;
             str = "EnterGroupNamePlaceholder";
         } else {
-            i = 2131625686;
+            i = 2131625648;
             str = "EnterListName";
         }
         editTextEmoji2.setHint(LocaleController.getString(str, i));
@@ -364,13 +363,10 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         this.floatingButtonContainer.setBackgroundDrawable(createSimpleSelectorCircleDrawable);
         if (i4 >= 21) {
             StateListAnimator stateListAnimator = new StateListAnimator();
-            anonymousClass2 = anonymousClass22;
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
             stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
             this.floatingButtonContainer.setStateListAnimator(stateListAnimator);
             this.floatingButtonContainer.setOutlineProvider(new AnonymousClass9(this));
-        } else {
-            anonymousClass2 = anonymousClass22;
         }
         VerticalPositionAutoAnimator.attach(this.floatingButtonContainer);
         View view = this.floatingButtonContainer;
@@ -389,7 +385,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         this.floatingButtonIcon.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_actionIcon"), PorterDuff.Mode.MULTIPLY));
         this.floatingButtonIcon.setImageResource(2131165345);
         this.floatingButtonIcon.setPadding(0, AndroidUtilities.dp(2.0f), 0, 0);
-        this.floatingButtonContainer.setContentDescription(LocaleController.getString("Done", 2131625541));
+        this.floatingButtonContainer.setContentDescription(LocaleController.getString("Done", 2131625525));
         FrameLayout frameLayout7 = this.floatingButtonContainer;
         ImageView imageView2 = this.floatingButtonIcon;
         if (i4 >= 21) {
@@ -1091,7 +1087,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             if (GroupCreateFinalActivity.this.currentGroupCreateAddress == null || i != 1) {
                 headerCell.setText(LocaleController.formatPluralString("Members", GroupCreateFinalActivity.this.selectedContacts.size(), new Object[0]));
             } else {
-                headerCell.setText(LocaleController.getString("AttachLocation", 2131624503));
+                headerCell.setText(LocaleController.getString("AttachLocation", 2131624492));
             }
         }
 

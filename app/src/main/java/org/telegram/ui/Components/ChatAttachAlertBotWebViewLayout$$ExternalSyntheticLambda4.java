@@ -9,6 +9,6 @@ public final /* synthetic */ class ChatAttachAlertBotWebViewLayout$$ExternalSynt
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.requestEnableKeyboard();
+        this.f$0.lambda$new$2();
     }
 }

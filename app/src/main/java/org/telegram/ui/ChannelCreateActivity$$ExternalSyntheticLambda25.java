@@ -1,20 +1,21 @@
 package org.telegram.ui;
 
-import org.telegram.tgnet.RequestDelegate;
-import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.ui.ActionBar.ThemeDescription;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class ChannelCreateActivity$$ExternalSyntheticLambda25 implements RequestDelegate {
+public final /* synthetic */ class ChannelCreateActivity$$ExternalSyntheticLambda25 implements ThemeDescription.ThemeDescriptionDelegate {
     public final /* synthetic */ ChannelCreateActivity f$0;
-    public final /* synthetic */ String f$1;
 
-    public /* synthetic */ ChannelCreateActivity$$ExternalSyntheticLambda25(ChannelCreateActivity channelCreateActivity, String str) {
+    public /* synthetic */ ChannelCreateActivity$$ExternalSyntheticLambda25(ChannelCreateActivity channelCreateActivity) {
         this.f$0 = channelCreateActivity;
-        this.f$1 = str;
     }
 
-    @Override // org.telegram.tgnet.RequestDelegate
-    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        this.f$0.lambda$checkUserName$23(this.f$1, tLObject, tLRPC$TL_error);
+    @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+    public final void didSetColor() {
+        this.f$0.lambda$getThemeDescriptions$25();
+    }
+
+    @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+    public /* synthetic */ void onAnimationProgress(float f) {
+        ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
     }
 }

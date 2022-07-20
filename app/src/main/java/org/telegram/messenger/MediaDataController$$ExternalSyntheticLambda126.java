@@ -1,16 +1,18 @@
 package org.telegram.messenger;
 
-import org.telegram.tgnet.TLRPC$Document;
+import java.util.Comparator;
+import org.telegram.tgnet.TLRPC$MessageEntity;
 /* loaded from: classes.dex */
-public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda126 implements Runnable {
-    public final /* synthetic */ TLRPC$Document f$0;
+public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda126 implements Comparator {
+    public static final /* synthetic */ MediaDataController$$ExternalSyntheticLambda126 INSTANCE = new MediaDataController$$ExternalSyntheticLambda126();
 
-    public /* synthetic */ MediaDataController$$ExternalSyntheticLambda126(TLRPC$Document tLRPC$Document) {
-        this.f$0 = tLRPC$Document;
+    private /* synthetic */ MediaDataController$$ExternalSyntheticLambda126() {
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        MediaDataController.lambda$addRecentGif$24(this.f$0);
+    @Override // java.util.Comparator
+    public final int compare(Object obj, Object obj2) {
+        int lambda$static$120;
+        lambda$static$120 = MediaDataController.lambda$static$120((TLRPC$MessageEntity) obj, (TLRPC$MessageEntity) obj2);
+        return lambda$static$120;
     }
 }

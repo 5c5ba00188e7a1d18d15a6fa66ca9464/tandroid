@@ -49,18 +49,18 @@ public class ChecksHintView extends FrameLayout {
             this.textView[i].setPivotX(0.0f);
             frameLayout.addView(this.textView[i], LayoutHelper.createFrame(-2, -2.0f, 51, 32.0f, i == 0 ? 2.0f : 26.0f, 10.0f, 0.0f));
             if (i == 0) {
-                this.imageView[i].setAnimation(2131558572, 24, 24);
-                this.textView[i].setText(LocaleController.getString("HintSent", 2131626191));
+                this.imageView[i].setAnimation(2131558551, 24, 24);
+                this.textView[i].setText(LocaleController.getString("HintSent", 2131626144));
             } else {
-                this.imageView[i].setAnimation(2131558571, 24, 24);
-                this.textView[i].setText(LocaleController.getString("HintRead", 2131626190));
+                this.imageView[i].setAnimation(2131558550, 24, 24);
+                this.textView[i].setText(LocaleController.getString("HintRead", 2131626143));
             }
             this.imageView[i].playAnimation();
             i++;
         }
         ImageView imageView = new ImageView(context);
         this.arrowImageView = imageView;
-        imageView.setImageResource(2131166186);
+        imageView.setImageResource(2131166184);
         this.arrowImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_gifSaveHintBackground"), PorterDuff.Mode.MULTIPLY));
         addView(this.arrowImageView, LayoutHelper.createFrame(14, 6.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
     }
