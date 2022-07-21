@@ -2,10 +2,11 @@ package com.coremedia.iso;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class IsoTypeReader {
     public static int byte2int(byte b) {
-        return b < 0 ? b + 256 : b;
+        return b < 0 ? b + ConnectionsManager.USE_IPV4_ONLY : b;
     }
 
     public static long readUInt32(ByteBuffer byteBuffer) {

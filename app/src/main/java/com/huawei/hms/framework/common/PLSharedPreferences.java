@@ -20,12 +20,12 @@ public class PLSharedPreferences {
 
     private SharedPreferences getSharedPreferences(Context context, String str) {
         if (context == null) {
-            Logger.e("PLSharedPreferences", "context is null, must call init method to set context");
+            Logger.e(TAG, "context is null, must call init method to set context");
             return null;
         }
         if (Build.VERSION.SDK_INT >= 24) {
             Context createDeviceProtectedStorageContext = context.createDeviceProtectedStorageContext();
-            SharedPreferences sharedPreferences = createDeviceProtectedStorageContext.getSharedPreferences("grs_move2DE_records", 0);
+            SharedPreferences sharedPreferences = createDeviceProtectedStorageContext.getSharedPreferences(MOVE_TO_DE_RECORDS, 0);
             if (!sharedPreferences.getBoolean(str, false)) {
                 if (createDeviceProtectedStorageContext.moveSharedPreferencesFrom(context, str)) {
                     SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -71,7 +71,7 @@ public class PLSharedPreferences {
                 }
             }
         } catch (JSONException e) {
-            Logger.w("PLSharedPreferences", "getHashMap parse Json to map error: %s", StringUtils.anonymizeMessage(e.getMessage()));
+            Logger.w(TAG, "getHashMap parse Json to map error: %s", StringUtils.anonymizeMessage(e.getMessage()));
         }
         return hashMap;
     }
@@ -102,7 +102,7 @@ public class PLSharedPreferences {
             try {
                 jSONObject.put(entry.getKey(), entry.getValue());
             } catch (JSONException e) {
-                Logger.w("PLSharedPreferences", "putHashMap one object error: %s", StringUtils.anonymizeMessage(e.getMessage()));
+                Logger.w(TAG, "putHashMap one object error: %s", StringUtils.anonymizeMessage(e.getMessage()));
             }
         }
         jSONArray.put(jSONObject);
@@ -150,7 +150,7 @@ public class PLSharedPreferences {
         StringBuilder sb = new StringBuilder();
         sb.append("sp size ");
         sb.append(all == null ? 0 : all.size());
-        Logger.i("PLSharedPreferences", sb.toString());
+        Logger.i(TAG, sb.toString());
         return all;
     }
 }

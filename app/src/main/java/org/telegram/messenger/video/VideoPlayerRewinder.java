@@ -14,36 +14,7 @@ public class VideoPlayerRewinder {
     private Runnable updateRewindRunnable;
     private VideoPlayer videoPlayer;
     private float playSpeed = 1.0f;
-    private final Runnable backSeek = new AnonymousClass1();
-
-    protected void onRewindCanceled() {
-    }
-
-    protected void onRewindStart(boolean z) {
-    }
-
-    protected void updateRewindProgressUi(long j, float f, boolean z) {
-    }
-
-    static /* synthetic */ long access$314(VideoPlayerRewinder videoPlayerRewinder, long j) {
-        long j2 = videoPlayerRewinder.rewindBackSeekPlayerPosition + j;
-        videoPlayerRewinder.rewindBackSeekPlayerPosition = j2;
-        return j2;
-    }
-
-    static /* synthetic */ long access$322(VideoPlayerRewinder videoPlayerRewinder, long j) {
-        long j2 = videoPlayerRewinder.rewindBackSeekPlayerPosition - j;
-        videoPlayerRewinder.rewindBackSeekPlayerPosition = j2;
-        return j2;
-    }
-
-    /* renamed from: org.telegram.messenger.video.VideoPlayerRewinder$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            VideoPlayerRewinder.this = r1;
-        }
-
+    private final Runnable backSeek = new Runnable() { // from class: org.telegram.messenger.video.VideoPlayerRewinder.1
         @Override // java.lang.Runnable
         public void run() {
             if (VideoPlayerRewinder.this.videoPlayer == null) {
@@ -97,6 +68,27 @@ public class VideoPlayerRewinder {
             }
             AndroidUtilities.runOnUIThread(videoPlayerRewinder7.backSeek, 16L);
         }
+    };
+
+    protected void onRewindCanceled() {
+    }
+
+    protected void onRewindStart(boolean z) {
+    }
+
+    protected void updateRewindProgressUi(long j, float f, boolean z) {
+    }
+
+    static /* synthetic */ long access$314(VideoPlayerRewinder videoPlayerRewinder, long j) {
+        long j2 = videoPlayerRewinder.rewindBackSeekPlayerPosition + j;
+        videoPlayerRewinder.rewindBackSeekPlayerPosition = j2;
+        return j2;
+    }
+
+    static /* synthetic */ long access$322(VideoPlayerRewinder videoPlayerRewinder, long j) {
+        long j2 = videoPlayerRewinder.rewindBackSeekPlayerPosition - j;
+        videoPlayerRewinder.rewindBackSeekPlayerPosition = j2;
+        return j2;
     }
 
     public void startRewind(VideoPlayer videoPlayer, boolean z, float f) {
@@ -197,9 +189,14 @@ public class VideoPlayerRewinder {
             if (runnable != null) {
                 AndroidUtilities.cancelRunOnUIThread(runnable);
             }
-            VideoPlayerRewinder$$ExternalSyntheticLambda0 videoPlayerRewinder$$ExternalSyntheticLambda0 = new VideoPlayerRewinder$$ExternalSyntheticLambda0(this);
-            this.updateRewindRunnable = videoPlayerRewinder$$ExternalSyntheticLambda0;
-            AndroidUtilities.runOnUIThread(videoPlayerRewinder$$ExternalSyntheticLambda0, 2000L);
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.video.VideoPlayerRewinder$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    VideoPlayerRewinder.this.lambda$incrementRewindCount$0();
+                }
+            };
+            this.updateRewindRunnable = runnable2;
+            AndroidUtilities.runOnUIThread(runnable2, 2000L);
         }
     }
 

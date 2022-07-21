@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.text.TextUtils;
 import com.google.android.gms.auth.api.AuthProxy;
 import com.google.android.gms.auth.api.AuthProxyOptions;
+import com.google.android.gms.common.GooglePlayServicesUtilLight;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
@@ -25,7 +26,7 @@ public final class zzak extends GmsClient<zzan> {
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient, com.google.android.gms.common.api.Api.Client
     public final int getMinApkVersion() {
-        return 12451000;
+        return GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient

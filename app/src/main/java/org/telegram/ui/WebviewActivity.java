@@ -21,6 +21,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import com.huawei.hms.framework.common.ContainerUtils;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
@@ -31,8 +32,10 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
@@ -47,6 +50,7 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.ContextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ShareAlert;
+import org.telegram.ui.WebviewActivity;
 /* loaded from: classes3.dex */
 public class WebviewActivity extends BaseFragment {
     private String currentBot;
@@ -60,7 +64,20 @@ public class WebviewActivity extends BaseFragment {
     private ContextProgressView progressView;
     private String short_param;
     private int type;
-    public Runnable typingRunnable = new AnonymousClass1();
+    public Runnable typingRunnable = new Runnable() { // from class: org.telegram.ui.WebviewActivity.1
+        @Override // java.lang.Runnable
+        public void run() {
+            if (WebviewActivity.this.currentMessageObject == null || WebviewActivity.this.getParentActivity() == null) {
+                return;
+            }
+            WebviewActivity webviewActivity = WebviewActivity.this;
+            if (webviewActivity.typingRunnable == null) {
+                return;
+            }
+            MessagesController.getInstance(((BaseFragment) webviewActivity).currentAccount).sendTyping(WebviewActivity.this.currentMessageObject.getDialogId(), 0, 6, 0);
+            AndroidUtilities.runOnUIThread(WebviewActivity.this.typingRunnable, 25000L);
+        }
+    };
     private WebView webView;
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -74,13 +91,14 @@ public class WebviewActivity extends BaseFragment {
             WebviewActivity.this = r1;
         }
 
-        /* synthetic */ TelegramWebviewProxy(WebviewActivity webviewActivity, AnonymousClass1 anonymousClass1) {
-            this();
-        }
-
         @JavascriptInterface
-        public void postEvent(String str, String str2) {
-            AndroidUtilities.runOnUIThread(new WebviewActivity$TelegramWebviewProxy$$ExternalSyntheticLambda0(this, str));
+        public void postEvent(final String str, String str2) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WebviewActivity$TelegramWebviewProxy$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    WebviewActivity.TelegramWebviewProxy.this.lambda$postEvent$0(str);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$postEvent$0(String str) {
@@ -98,27 +116,6 @@ public class WebviewActivity extends BaseFragment {
             }
             WebviewActivity webviewActivity = WebviewActivity.this;
             webviewActivity.showDialog(ShareAlert.createShareAlert(webviewActivity.getParentActivity(), WebviewActivity.this.currentMessageObject, null, false, WebviewActivity.this.linkToCopy, false));
-        }
-    }
-
-    /* renamed from: org.telegram.ui.WebviewActivity$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            WebviewActivity.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (WebviewActivity.this.currentMessageObject == null || WebviewActivity.this.getParentActivity() == null) {
-                return;
-            }
-            WebviewActivity webviewActivity = WebviewActivity.this;
-            if (webviewActivity.typingRunnable == null) {
-                return;
-            }
-            MessagesController.getInstance(((BaseFragment) webviewActivity).currentAccount).sendTyping(WebviewActivity.this.currentMessageObject.getDialogId(), 0, 6, 0);
-            AndroidUtilities.runOnUIThread(WebviewActivity.this.typingRunnable, 25000L);
         }
     }
 
@@ -167,14 +164,31 @@ public class WebviewActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     public View createView(Context context) {
-        this.actionBar.setBackButtonImage(2131165449);
+        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.WebviewActivity.2
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i) {
+                if (i == -1) {
+                    WebviewActivity.this.finishFragment();
+                } else if (i != 1) {
+                    if (i != 2) {
+                        return;
+                    }
+                    WebviewActivity.openGameInBrowser(WebviewActivity.this.currentUrl, WebviewActivity.this.currentMessageObject, WebviewActivity.this.getParentActivity(), WebviewActivity.this.short_param, WebviewActivity.this.currentBot);
+                } else if (WebviewActivity.this.currentMessageObject == null) {
+                } else {
+                    WebviewActivity.this.currentMessageObject.messageOwner.with_my_score = false;
+                    WebviewActivity webviewActivity = WebviewActivity.this;
+                    webviewActivity.showDialog(ShareAlert.createShareAlert(webviewActivity.getParentActivity(), WebviewActivity.this.currentMessageObject, null, false, WebviewActivity.this.linkToCopy, false));
+                }
+            }
+        });
         ActionBarMenu createMenu = this.actionBar.createMenu();
-        this.progressItem = createMenu.addItemWithWidth(1, 2131166140, AndroidUtilities.dp(54.0f));
+        this.progressItem = createMenu.addItemWithWidth(1, R.drawable.share, AndroidUtilities.dp(54.0f));
         int i = this.type;
         if (i == 0) {
-            createMenu.addItem(0, 2131165453).addSubItem(2, 2131165835, LocaleController.getString("OpenInExternalApp", 2131627153));
+            createMenu.addItem(0, R.drawable.ic_ab_other).addSubItem(2, R.drawable.msg_openin, LocaleController.getString("OpenInExternalApp", R.string.OpenInExternalApp));
             this.actionBar.setTitle(this.currentGame);
             ActionBar actionBar = this.actionBar;
             actionBar.setSubtitle("@" + this.currentBot);
@@ -191,7 +205,7 @@ public class WebviewActivity extends BaseFragment {
             this.actionBar.setItemsBackgroundColor(Theme.getColor("player_actionBarSelector"), false);
             this.actionBar.setTitleColor(Theme.getColor("player_actionBarTitle"));
             this.actionBar.setSubtitleColor(Theme.getColor("player_actionBarSubtitle"));
-            this.actionBar.setTitle(LocaleController.getString("Statistics", 2131628501));
+            this.actionBar.setTitle(LocaleController.getString("Statistics", R.string.Statistics));
             ContextProgressView contextProgressView2 = new ContextProgressView(context, 3);
             this.progressView = contextProgressView2;
             this.progressItem.addView(contextProgressView2, LayoutHelper.createFrame(-1, -1.0f));
@@ -217,122 +231,81 @@ public class WebviewActivity extends BaseFragment {
             this.webView.getSettings().setMixedContentMode(0);
             CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
             if (this.type == 0) {
-                this.webView.addJavascriptInterface(new TelegramWebviewProxy(this, null), "TelegramWebviewProxy");
+                this.webView.addJavascriptInterface(new TelegramWebviewProxy(), "TelegramWebviewProxy");
             }
         }
-        this.webView.setWebViewClient(new AnonymousClass3());
-        frameLayout2.addView(this.webView, LayoutHelper.createFrame(-1, -1.0f));
-        return this.fragmentView;
-    }
+        this.webView.setWebViewClient(new WebViewClient() { // from class: org.telegram.ui.WebviewActivity.3
+            private boolean isInternalUrl(String str) {
+                if (TextUtils.isEmpty(str)) {
+                    return false;
+                }
+                Uri parse = Uri.parse(str);
+                if (!"tg".equals(parse.getScheme())) {
+                    return false;
+                }
+                if (WebviewActivity.this.type == 1) {
+                    try {
+                        WebviewActivity.this.reloadStats(Uri.parse(str.replace("tg:statsrefresh", "tg://telegram.org")).getQueryParameter("params"));
+                    } catch (Throwable th) {
+                        FileLog.e(th);
+                    }
+                } else {
+                    WebviewActivity.this.finishFragment(false);
+                    try {
+                        Intent intent = new Intent("android.intent.action.VIEW", parse);
+                        intent.setComponent(new ComponentName(ApplicationLoader.applicationContext.getPackageName(), LaunchActivity.class.getName()));
+                        intent.putExtra("com.android.browser.application_id", ApplicationLoader.applicationContext.getPackageName());
+                        ApplicationLoader.applicationContext.startActivity(intent);
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                }
+                return true;
+            }
 
-    /* renamed from: org.telegram.ui.WebviewActivity$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass2() {
-            WebviewActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                WebviewActivity.this.finishFragment();
-            } else if (i != 1) {
-                if (i != 2) {
+            @Override // android.webkit.WebViewClient
+            public void onLoadResource(WebView webView2, String str) {
+                if (isInternalUrl(str)) {
                     return;
                 }
-                WebviewActivity.openGameInBrowser(WebviewActivity.this.currentUrl, WebviewActivity.this.currentMessageObject, WebviewActivity.this.getParentActivity(), WebviewActivity.this.short_param, WebviewActivity.this.currentBot);
-            } else if (WebviewActivity.this.currentMessageObject == null) {
-            } else {
-                WebviewActivity.this.currentMessageObject.messageOwner.with_my_score = false;
-                WebviewActivity webviewActivity = WebviewActivity.this;
-                webviewActivity.showDialog(ShareAlert.createShareAlert(webviewActivity.getParentActivity(), WebviewActivity.this.currentMessageObject, null, false, WebviewActivity.this.linkToCopy, false));
+                super.onLoadResource(webView2, str);
             }
-        }
-    }
 
-    /* renamed from: org.telegram.ui.WebviewActivity$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends WebViewClient {
-        AnonymousClass3() {
-            WebviewActivity.this = r1;
-        }
+            @Override // android.webkit.WebViewClient
+            public boolean shouldOverrideUrlLoading(WebView webView2, String str) {
+                return isInternalUrl(str) || super.shouldOverrideUrlLoading(webView2, str);
+            }
 
-        private boolean isInternalUrl(String str) {
-            if (TextUtils.isEmpty(str)) {
-                return false;
-            }
-            Uri parse = Uri.parse(str);
-            if (!"tg".equals(parse.getScheme())) {
-                return false;
-            }
-            if (WebviewActivity.this.type == 1) {
-                try {
-                    WebviewActivity.this.reloadStats(Uri.parse(str.replace("tg:statsrefresh", "tg://telegram.org")).getQueryParameter("params"));
-                } catch (Throwable th) {
-                    FileLog.e(th);
+            @Override // android.webkit.WebViewClient
+            public void onPageFinished(WebView webView2, String str) {
+                super.onPageFinished(webView2, str);
+                if (WebviewActivity.this.progressView == null || WebviewActivity.this.progressView.getVisibility() != 0) {
+                    return;
                 }
-            } else {
-                WebviewActivity.this.finishFragment(false);
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW", parse);
-                    intent.setComponent(new ComponentName(ApplicationLoader.applicationContext.getPackageName(), LaunchActivity.class.getName()));
-                    intent.putExtra("com.android.browser.application_id", ApplicationLoader.applicationContext.getPackageName());
-                    ApplicationLoader.applicationContext.startActivity(intent);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-            }
-            return true;
-        }
-
-        @Override // android.webkit.WebViewClient
-        public void onLoadResource(WebView webView, String str) {
-            if (isInternalUrl(str)) {
-                return;
-            }
-            super.onLoadResource(webView, str);
-        }
-
-        @Override // android.webkit.WebViewClient
-        public boolean shouldOverrideUrlLoading(WebView webView, String str) {
-            return isInternalUrl(str) || super.shouldOverrideUrlLoading(webView, str);
-        }
-
-        @Override // android.webkit.WebViewClient
-        public void onPageFinished(WebView webView, String str) {
-            super.onPageFinished(webView, str);
-            if (WebviewActivity.this.progressView == null || WebviewActivity.this.progressView.getVisibility() != 0) {
-                return;
-            }
-            AnimatorSet animatorSet = new AnimatorSet();
-            if (WebviewActivity.this.type == 0) {
-                WebviewActivity.this.progressItem.getContentView().setVisibility(0);
-                WebviewActivity.this.progressItem.setEnabled(true);
-                animatorSet.playTogether(ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "scaleX", 1.0f, 0.1f), ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "scaleY", 1.0f, 0.1f), ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "alpha", 1.0f, 0.0f), ObjectAnimator.ofFloat(WebviewActivity.this.progressItem.getContentView(), "scaleX", 0.0f, 1.0f), ObjectAnimator.ofFloat(WebviewActivity.this.progressItem.getContentView(), "scaleY", 0.0f, 1.0f), ObjectAnimator.ofFloat(WebviewActivity.this.progressItem.getContentView(), "alpha", 0.0f, 1.0f));
-            } else {
-                animatorSet.playTogether(ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "scaleX", 1.0f, 0.1f), ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "scaleY", 1.0f, 0.1f), ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "alpha", 1.0f, 0.0f));
-            }
-            animatorSet.addListener(new AnonymousClass1());
-            animatorSet.setDuration(150L);
-            animatorSet.start();
-        }
-
-        /* renamed from: org.telegram.ui.WebviewActivity$3$1 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass1 extends AnimatorListenerAdapter {
-            AnonymousClass1() {
-                AnonymousClass3.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (WebviewActivity.this.type == 1) {
-                    WebviewActivity.this.progressItem.setVisibility(8);
+                AnimatorSet animatorSet = new AnimatorSet();
+                if (WebviewActivity.this.type == 0) {
+                    WebviewActivity.this.progressItem.getContentView().setVisibility(0);
+                    WebviewActivity.this.progressItem.setEnabled(true);
+                    animatorSet.playTogether(ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "scaleX", 1.0f, 0.1f), ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "scaleY", 1.0f, 0.1f), ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "alpha", 1.0f, 0.0f), ObjectAnimator.ofFloat(WebviewActivity.this.progressItem.getContentView(), "scaleX", 0.0f, 1.0f), ObjectAnimator.ofFloat(WebviewActivity.this.progressItem.getContentView(), "scaleY", 0.0f, 1.0f), ObjectAnimator.ofFloat(WebviewActivity.this.progressItem.getContentView(), "alpha", 0.0f, 1.0f));
                 } else {
-                    WebviewActivity.this.progressView.setVisibility(4);
+                    animatorSet.playTogether(ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "scaleX", 1.0f, 0.1f), ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "scaleY", 1.0f, 0.1f), ObjectAnimator.ofFloat(WebviewActivity.this.progressView, "alpha", 1.0f, 0.0f));
                 }
+                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.WebviewActivity.3.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        if (WebviewActivity.this.type == 1) {
+                            WebviewActivity.this.progressItem.setVisibility(8);
+                        } else {
+                            WebviewActivity.this.progressView.setVisibility(4);
+                        }
+                    }
+                });
+                animatorSet.setDuration(150L);
+                animatorSet.start();
             }
-        }
+        });
+        frameLayout2.addView(this.webView, LayoutHelper.createFrame(-1, -1.0f));
+        return this.fragmentView;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -367,11 +340,21 @@ public class WebviewActivity extends BaseFragment {
         }
         tLRPC$TL_messages_getStatsURL.params = str;
         tLRPC$TL_messages_getStatsURL.dark = Theme.getCurrentTheme().isDark();
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getStatsURL, new WebviewActivity$$ExternalSyntheticLambda1(this));
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getStatsURL, new RequestDelegate() { // from class: org.telegram.ui.WebviewActivity$$ExternalSyntheticLambda1
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                WebviewActivity.this.lambda$reloadStats$1(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$reloadStats$1(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new WebviewActivity$$ExternalSyntheticLambda0(this, tLObject));
+    public /* synthetic */ void lambda$reloadStats$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WebviewActivity$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                WebviewActivity.this.lambda$reloadStats$0(tLObject);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$reloadStats$0(TLObject tLObject) {
@@ -407,7 +390,7 @@ public class WebviewActivity extends BaseFragment {
                 if (substring.indexOf(61) < 0 && substring.indexOf(63) < 0) {
                     str4 = substring.length() > 0 ? str + "?" + ((Object) sb2) : str + ((Object) sb2);
                 }
-                str4 = str + "&" + ((Object) sb2);
+                str4 = str + ContainerUtils.FIELD_DELIMITER + ((Object) sb2);
             }
             SharedPreferences.Editor edit = sharedPreferences.edit();
             edit.putInt(((Object) sb) + "_date", (int) (System.currentTimeMillis() / 1000));

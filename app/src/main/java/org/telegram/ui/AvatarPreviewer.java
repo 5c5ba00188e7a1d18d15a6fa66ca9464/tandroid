@@ -24,12 +24,14 @@ import androidx.core.util.Consumer;
 import androidx.core.util.Preconditions;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$Photo;
@@ -38,6 +40,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.ui.ActionBar.BottomSheet;
+import org.telegram.ui.AvatarPreviewer;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.RadialProgress2;
 /* loaded from: classes3.dex */
@@ -78,7 +81,12 @@ public class AvatarPreviewer {
             close();
             this.view = viewGroup;
             this.windowManager = (WindowManager) ContextCompat.getSystemService(context, WindowManager.class);
-            this.layout = new AnonymousClass1(context, callback);
+            this.layout = new Layout(context, callback) { // from class: org.telegram.ui.AvatarPreviewer.1
+                @Override // org.telegram.ui.AvatarPreviewer.Layout
+                protected void onHide() {
+                    AvatarPreviewer.this.close();
+                }
+            };
         }
         this.layout.setData(data);
         if (!this.visible) {
@@ -92,21 +100,6 @@ public class AvatarPreviewer {
             this.windowManager.addView(this.layout, layoutParams);
             viewGroup.requestDisallowInterceptTouchEvent(true);
             this.visible = true;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.AvatarPreviewer$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends Layout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context, Callback callback) {
-            super(context, callback);
-            AvatarPreviewer.this = r1;
-        }
-
-        @Override // org.telegram.ui.AvatarPreviewer.Layout
-        protected void onHide() {
-            AvatarPreviewer.this.close();
         }
     }
 
@@ -133,11 +126,11 @@ public class AvatarPreviewer {
 
     /* loaded from: classes3.dex */
     public enum MenuItem {
-        OPEN_PROFILE("OpenProfile", 2131627155, 2131165836),
-        OPEN_CHANNEL("OpenChannel2", 2131627146, 2131165673),
-        OPEN_GROUP("OpenGroup2", 2131627150, 2131165708),
-        SEND_MESSAGE("SendMessage", 2131628260, 2131165708),
-        MENTION("Mention", 2131626668, 2131165800);
+        OPEN_PROFILE("OpenProfile", R.string.OpenProfile, R.drawable.msg_openprofile),
+        OPEN_CHANNEL("OpenChannel2", R.string.OpenChannel2, R.drawable.msg_channel),
+        OPEN_GROUP("OpenGroup2", R.string.OpenGroup2, R.drawable.msg_discussion),
+        SEND_MESSAGE("SendMessage", R.string.SendMessage, R.drawable.msg_discussion),
+        MENTION("Mention", R.string.Mention, R.drawable.msg_mention);
         
         private final int iconResId;
         private final String labelKey;
@@ -187,7 +180,7 @@ public class AvatarPreviewer {
                 imageLocation = forPhoto;
             }
             if (imageLocation != null && imageLocation.imageType == 2) {
-                str2 = "g";
+                str2 = ImageLoader.AUTOPLAY_FILTER;
             }
             return new Data(forUserOrChat, forUserOrChat2, imageLocation, null, str3, str2, str, tLRPC$UserFull.user, menuItemArr, null);
         }
@@ -213,7 +206,7 @@ public class AvatarPreviewer {
                 imageLocation = ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$ChatFull.chat_photo);
                 str = FileLoader.getAttachFileName(tLRPC$VideoSize);
             }
-            return new Data(forUserOrChat, forUserOrChat2, imageLocation, null, str2, (imageLocation == null || imageLocation.imageType != 2) ? null : "g", str, tLRPC$Chat, menuItemArr, null);
+            return new Data(forUserOrChat, forUserOrChat2, imageLocation, null, str2, (imageLocation == null || imageLocation.imageType != 2) ? null : ImageLoader.AUTOPLAY_FILTER, str, tLRPC$Chat, menuItemArr, null);
         }
 
         private Data(ImageLocation imageLocation, ImageLocation imageLocation2, ImageLocation imageLocation3, String str, String str2, String str3, String str4, Object obj, MenuItem[] menuItemArr, InfoLoadTask<?, ?> infoLoadTask) {
@@ -277,20 +270,7 @@ public class AvatarPreviewer {
         private boolean loading;
         private final int notificationId;
         private Consumer<B> onResult;
-        private final NotificationCenter.NotificationCenterDelegate observer = new AnonymousClass1();
-        private final NotificationCenter notificationCenter = NotificationCenter.getInstance(UserConfig.selectedAccount);
-
-        protected abstract void load();
-
-        protected abstract void onReceiveNotification(Object... objArr);
-
-        /* renamed from: org.telegram.ui.AvatarPreviewer$InfoLoadTask$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements NotificationCenter.NotificationCenterDelegate {
-            AnonymousClass1() {
-                InfoLoadTask.this = r1;
-            }
-
+        private final NotificationCenter.NotificationCenterDelegate observer = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.AvatarPreviewer.InfoLoadTask.1
             @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
             public void didReceivedNotification(int i, int i2, Object... objArr) {
                 if (!InfoLoadTask.this.loading || i != InfoLoadTask.this.notificationId) {
@@ -298,7 +278,12 @@ public class AvatarPreviewer {
                 }
                 InfoLoadTask.this.onReceiveNotification(objArr);
             }
-        }
+        };
+        private final NotificationCenter notificationCenter = NotificationCenter.getInstance(UserConfig.selectedAccount);
+
+        protected abstract void load();
+
+        protected abstract void onReceiveNotification(Object... objArr);
 
         public InfoLoadTask(A a, int i, int i2) {
             this.argument = a;
@@ -374,7 +359,7 @@ public class AvatarPreviewer {
             radialProgress2.setOverrideAlpha(0.0f);
             radialProgress2.setIcon(10, false, false);
             radialProgress2.setColors(1107296256, 1107296256, -1, -1);
-            this.arrowDrawable = ContextCompat.getDrawable(context, 2131166093);
+            this.arrowDrawable = ContextCompat.getDrawable(context, R.drawable.preview_arrow);
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -429,7 +414,12 @@ public class AvatarPreviewer {
                             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.moveProgress, 0.0f);
                             this.moveAnimator = ofFloat;
                             ofFloat.setDuration(200L);
-                            this.moveAnimator.addUpdateListener(new AvatarPreviewer$Layout$$ExternalSyntheticLambda0(this));
+                            this.moveAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda0
+                                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                    AvatarPreviewer.Layout.this.lambda$onTouchEvent$0(valueAnimator);
+                                }
+                            });
                             this.moveAnimator.start();
                             showBottomSheet();
                         }
@@ -457,9 +447,19 @@ public class AvatarPreviewer {
                     iArr[i] = this.menuItems[i].iconResId;
                     i++;
                 } else {
-                    BottomSheet dimBehind = new BottomSheet.Builder(getContext()).setItems(charSequenceArr, iArr, new AvatarPreviewer$Layout$$ExternalSyntheticLambda3(this)).setDimBehind(false);
+                    BottomSheet dimBehind = new BottomSheet.Builder(getContext()).setItems(charSequenceArr, iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda3
+                        @Override // android.content.DialogInterface.OnClickListener
+                        public final void onClick(DialogInterface dialogInterface, int i2) {
+                            AvatarPreviewer.Layout.this.lambda$showBottomSheet$1(dialogInterface, i2);
+                        }
+                    }).setDimBehind(false);
                     this.visibleSheet = dimBehind;
-                    dimBehind.setOnDismissListener(new AvatarPreviewer$Layout$$ExternalSyntheticLambda4(this));
+                    dimBehind.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda4
+                        @Override // android.content.DialogInterface.OnDismissListener
+                        public final void onDismiss(DialogInterface dialogInterface) {
+                            AvatarPreviewer.Layout.this.lambda$showBottomSheet$2(dialogInterface);
+                        }
+                    });
                     this.visibleSheet.show();
                     return;
                 }
@@ -597,8 +597,19 @@ public class AvatarPreviewer {
                                 }
                                 ValueAnimator ofFloat = ValueAnimator.ofFloat(((Float) this.progressShowAnimator.getAnimatedValue()).floatValue(), 0.0f);
                                 this.progressHideAnimator = ofFloat;
-                                ofFloat.addListener(new AnonymousClass1());
-                                this.progressHideAnimator.addUpdateListener(new AvatarPreviewer$Layout$$ExternalSyntheticLambda1(this));
+                                ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.AvatarPreviewer.Layout.1
+                                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                    public void onAnimationEnd(Animator animator) {
+                                        Layout.this.showProgress = false;
+                                        Layout.this.invalidate();
+                                    }
+                                });
+                                this.progressHideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda1
+                                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                                    public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                                        AvatarPreviewer.Layout.this.lambda$onDraw$3(valueAnimator3);
+                                    }
+                                });
                                 this.progressHideAnimator.setDuration(250L);
                                 this.progressHideAnimator.start();
                             } else {
@@ -607,7 +618,12 @@ public class AvatarPreviewer {
                         } else if (this.progressShowAnimator == null) {
                             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
                             this.progressShowAnimator = ofFloat2;
-                            ofFloat2.addUpdateListener(new AvatarPreviewer$Layout$$ExternalSyntheticLambda2(this));
+                            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda2
+                                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                                public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                                    AvatarPreviewer.Layout.this.lambda$onDraw$4(valueAnimator3);
+                                }
+                            });
                             this.progressShowAnimator.setStartDelay(250L);
                             this.progressShowAnimator.setDuration(250L);
                             this.progressShowAnimator.start();
@@ -667,20 +683,6 @@ public class AvatarPreviewer {
             this.arrowDrawable.draw(canvas);
         }
 
-        /* renamed from: org.telegram.ui.AvatarPreviewer$Layout$1 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass1 extends AnimatorListenerAdapter {
-            AnonymousClass1() {
-                Layout.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                Layout.this.showProgress = false;
-                Layout.this.invalidate();
-            }
-        }
-
         public /* synthetic */ void lambda$onDraw$3(ValueAnimator valueAnimator) {
             invalidate();
         }
@@ -689,7 +691,7 @@ public class AvatarPreviewer {
             invalidate();
         }
 
-        public void setData(Data data) {
+        public void setData(final Data data) {
             this.menuItems = data.menuItems;
             this.showProgress = data.videoLocation != null;
             this.videoFileName = data.videoFileName;
@@ -697,7 +699,12 @@ public class AvatarPreviewer {
             if (data.infoLoadTask != null) {
                 InfoLoadTask<?, ?> infoLoadTask = data.infoLoadTask;
                 this.infoLoadTask = infoLoadTask;
-                infoLoadTask.load(new AvatarPreviewer$Layout$$ExternalSyntheticLambda5(this, data));
+                infoLoadTask.load(new Consumer() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda5
+                    @Override // androidx.core.util.Consumer
+                    public final void accept(Object obj) {
+                        AvatarPreviewer.Layout.this.lambda$setData$5(data, obj);
+                    }
+                });
             }
             this.imageReceiver.setCurrentAccount(UserConfig.selectedAccount);
             this.imageReceiver.setImage(data.videoLocation, data.videoFilter, data.imageLocation, data.imageFilter, data.thumbImageLocation, data.thumbImageFilter, null, 0L, null, data.parentObject, 1);

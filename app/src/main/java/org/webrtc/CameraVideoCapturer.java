@@ -75,41 +75,32 @@ public interface CameraVideoCapturer extends VideoCapturer {
             return i;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.webrtc.CameraVideoCapturer$CameraStatistics$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements Runnable {
-            AnonymousClass1() {
-                CameraStatistics.this = r1;
-            }
-
-            @Override // java.lang.Runnable
-            public void run() {
-                int round = Math.round((CameraStatistics.this.frameCount * 1000.0f) / 2000.0f);
-                Logging.d("CameraStatistics", "Camera fps: " + round + ".");
-                if (CameraStatistics.this.frameCount != 0) {
-                    CameraStatistics.this.freezePeriodCount = 0;
-                } else {
-                    CameraStatistics.access$104(CameraStatistics.this);
-                    if (CameraStatistics.this.freezePeriodCount * 2000 >= 4000 && CameraStatistics.this.eventsHandler != null) {
-                        Logging.e("CameraStatistics", "Camera freezed.");
-                        if (CameraStatistics.this.surfaceTextureHelper.isTextureInUse()) {
-                            CameraStatistics.this.eventsHandler.onCameraFreezed("Camera failure. Client must return video buffers.");
-                            return;
-                        } else {
-                            CameraStatistics.this.eventsHandler.onCameraFreezed("Camera failure.");
-                            return;
+        public CameraStatistics(SurfaceTextureHelper surfaceTextureHelper, CameraEventsHandler cameraEventsHandler) {
+            Runnable runnable = new Runnable() { // from class: org.webrtc.CameraVideoCapturer.CameraStatistics.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    int round = Math.round((CameraStatistics.this.frameCount * 1000.0f) / 2000.0f);
+                    Logging.d(CameraStatistics.TAG, "Camera fps: " + round + ".");
+                    if (CameraStatistics.this.frameCount != 0) {
+                        CameraStatistics.this.freezePeriodCount = 0;
+                    } else {
+                        CameraStatistics.access$104(CameraStatistics.this);
+                        if (CameraStatistics.this.freezePeriodCount * CameraStatistics.CAMERA_OBSERVER_PERIOD_MS >= CameraStatistics.CAMERA_FREEZE_REPORT_TIMOUT_MS && CameraStatistics.this.eventsHandler != null) {
+                            Logging.e(CameraStatistics.TAG, "Camera freezed.");
+                            if (CameraStatistics.this.surfaceTextureHelper.isTextureInUse()) {
+                                CameraStatistics.this.eventsHandler.onCameraFreezed("Camera failure. Client must return video buffers.");
+                                return;
+                            } else {
+                                CameraStatistics.this.eventsHandler.onCameraFreezed("Camera failure.");
+                                return;
+                            }
                         }
                     }
+                    CameraStatistics.this.frameCount = 0;
+                    CameraStatistics.this.surfaceTextureHelper.getHandler().postDelayed(this, 2000L);
                 }
-                CameraStatistics.this.frameCount = 0;
-                CameraStatistics.this.surfaceTextureHelper.getHandler().postDelayed(this, 2000L);
-            }
-        }
-
-        public CameraStatistics(SurfaceTextureHelper surfaceTextureHelper, CameraEventsHandler cameraEventsHandler) {
-            AnonymousClass1 anonymousClass1 = new AnonymousClass1();
-            this.cameraObserver = anonymousClass1;
+            };
+            this.cameraObserver = runnable;
             if (surfaceTextureHelper == null) {
                 throw new IllegalArgumentException("SurfaceTextureHelper is null");
             }
@@ -117,7 +108,7 @@ public interface CameraVideoCapturer extends VideoCapturer {
             this.eventsHandler = cameraEventsHandler;
             this.frameCount = 0;
             this.freezePeriodCount = 0;
-            surfaceTextureHelper.getHandler().postDelayed(anonymousClass1, 2000L);
+            surfaceTextureHelper.getHandler().postDelayed(runnable, 2000L);
         }
 
         private void checkThread() {

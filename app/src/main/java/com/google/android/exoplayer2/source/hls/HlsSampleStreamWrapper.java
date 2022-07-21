@@ -27,6 +27,7 @@ import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.chunk.Chunk;
 import com.google.android.exoplayer2.source.hls.HlsChunkSource;
+import com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
@@ -95,8 +96,18 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
     private boolean[] sampleQueueIsAudioVideoFlags = new boolean[0];
     private boolean[] sampleQueuesEnabledStates = new boolean[0];
     private final ArrayList<HlsSampleStream> hlsSampleStreams = new ArrayList<>();
-    private final Runnable maybeFinishPrepareRunnable = new HlsSampleStreamWrapper$$ExternalSyntheticLambda2(this);
-    private final Runnable onTracksEndedRunnable = new HlsSampleStreamWrapper$$ExternalSyntheticLambda1(this);
+    private final Runnable maybeFinishPrepareRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper$$ExternalSyntheticLambda2
+        @Override // java.lang.Runnable
+        public final void run() {
+            HlsSampleStreamWrapper.this.maybeFinishPrepare();
+        }
+    };
+    private final Runnable onTracksEndedRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper$$ExternalSyntheticLambda1
+        @Override // java.lang.Runnable
+        public final void run() {
+            HlsSampleStreamWrapper.this.onTracksEnded();
+        }
+    };
     private final Handler handler = new Handler();
 
     /* loaded from: classes.dex */
@@ -159,9 +170,14 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         }
         this.primaryTrackGroupIndex = i;
         Handler handler = this.handler;
-        Callback callback = this.callback;
+        final Callback callback = this.callback;
         callback.getClass();
-        handler.post(new HlsSampleStreamWrapper$$ExternalSyntheticLambda0(callback));
+        handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                HlsSampleStreamWrapper.Callback.this.onPrepared();
+            }
+        });
         setIsPrepared();
     }
 

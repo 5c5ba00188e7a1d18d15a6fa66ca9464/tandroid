@@ -18,6 +18,8 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.telegram.messenger.ImageReceiver;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class Cea708Decoder extends CeaDecoder {
     private final CueBuilder[] cueBuilders;
@@ -226,7 +228,7 @@ public final class Cea708Decoder extends CeaDecoder {
         CueBuilder cueBuilder;
         int i2 = 1;
         switch (i) {
-            case 128:
+            case ConnectionsManager.RequestFlagNeedQuickAck /* 128 */:
             case 129:
             case 130:
             case 131:
@@ -314,7 +316,7 @@ public final class Cea708Decoder extends CeaDecoder {
             case 147:
             case 148:
             case 149:
-            case 150:
+            case ImageReceiver.DEFAULT_CROSSFADE_DURATION /* 150 */:
             default:
                 Log.w("Cea708Decoder", "Invalid C1 command: " + i);
                 return;

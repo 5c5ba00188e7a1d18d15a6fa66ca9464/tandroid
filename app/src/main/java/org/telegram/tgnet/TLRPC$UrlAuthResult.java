@@ -6,7 +6,14 @@ public abstract class TLRPC$UrlAuthResult extends TLObject {
         if (i == -1886646706) {
             tLRPC$UrlAuthResult = new TLRPC$TL_urlAuthResultAccepted();
         } else if (i != -1831650802) {
-            tLRPC$UrlAuthResult = i != -1445536993 ? null : new TLRPC$TL_urlAuthResultDefault();
+            tLRPC$UrlAuthResult = i != -1445536993 ? null : new TLRPC$UrlAuthResult() { // from class: org.telegram.tgnet.TLRPC$TL_urlAuthResultDefault
+                public static int constructor = -1445536993;
+
+                @Override // org.telegram.tgnet.TLObject
+                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                    abstractSerializedData2.writeInt32(constructor);
+                }
+            };
         } else {
             tLRPC$UrlAuthResult = new TLRPC$TL_urlAuthResultRequest();
         }

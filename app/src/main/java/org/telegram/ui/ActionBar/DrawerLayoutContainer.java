@@ -30,6 +30,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 /* loaded from: classes3.dex */
 public class DrawerLayoutContainer extends FrameLayout {
     private boolean allowOpenDrawer;
@@ -76,10 +77,17 @@ public class DrawerLayoutContainer extends FrameLayout {
         setFocusableInTouchMode(true);
         if (Build.VERSION.SDK_INT >= 21) {
             setFitsSystemWindows(true);
-            setOnApplyWindowInsetsListener(new DrawerLayoutContainer$$ExternalSyntheticLambda0(this));
+            setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.ActionBar.DrawerLayoutContainer$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnApplyWindowInsetsListener
+                public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                    WindowInsets lambda$new$0;
+                    lambda$new$0 = DrawerLayoutContainer.this.lambda$new$0(view, windowInsets);
+                    return lambda$new$0;
+                }
+            });
             setSystemUiVisibility(1280);
         }
-        this.shadowLeft = getResources().getDrawable(2131165615);
+        this.shadowLeft = getResources().getDrawable(R.drawable.menu_shadow);
     }
 
     public /* synthetic */ WindowInsets lambda$new$0(View view, WindowInsets windowInsets) {
@@ -225,22 +233,14 @@ public class DrawerLayoutContainer extends FrameLayout {
         } else {
             animatorSet.setDuration(250L);
         }
-        animatorSet.addListener(new AnonymousClass1());
+        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.DrawerLayoutContainer.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                DrawerLayoutContainer.this.onDrawerAnimationEnd(true);
+            }
+        });
         animatorSet.start();
         this.currentAnimation = animatorSet;
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.DrawerLayoutContainer$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            DrawerLayoutContainer.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            DrawerLayoutContainer.this.onDrawerAnimationEnd(true);
-        }
     }
 
     public void closeDrawer(boolean z) {
@@ -256,21 +256,13 @@ public class DrawerLayoutContainer extends FrameLayout {
         } else {
             animatorSet.setDuration(250L);
         }
-        animatorSet.addListener(new AnonymousClass2());
+        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.DrawerLayoutContainer.2
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                DrawerLayoutContainer.this.onDrawerAnimationEnd(false);
+            }
+        });
         animatorSet.start();
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.DrawerLayoutContainer$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
-            DrawerLayoutContainer.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            DrawerLayoutContainer.this.onDrawerAnimationEnd(false);
-        }
     }
 
     public void onDrawerAnimationEnd(boolean z) {
@@ -752,6 +744,7 @@ public class DrawerLayoutContainer extends FrameLayout {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class PreviewForegroundDrawable extends Drawable {
         private final GradientDrawable bottomDrawable;

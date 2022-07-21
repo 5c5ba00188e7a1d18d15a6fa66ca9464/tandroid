@@ -62,7 +62,7 @@ public class HiAnalyticsUtils {
         if (!this.b) {
             return HmsHiAnalyticsUtils.getInitFlag();
         }
-        return HiAnalyticsManager.getInitFlag("hms_config_tag");
+        return HiAnalyticsManager.getInitFlag(HiAnalyticsConstant.HA_SERVICE_TAG);
     }
 
     public boolean hasError(Context context) {

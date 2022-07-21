@@ -61,7 +61,7 @@ public class PremiumButtonView extends FrameLayout {
         animatedTextView.setGravity(17);
         this.buttonTextView.setTextColor(-1);
         this.buttonTextView.setTextSize(AndroidUtilities.dp(14.0f));
-        this.buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.iconView = rLottieImageView;
         rLottieImageView.setColorFilter(-1);
@@ -80,7 +80,7 @@ public class PremiumButtonView extends FrameLayout {
             this.overlayTextView.setGravity(17);
             this.overlayTextView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
             this.overlayTextView.setTextSize(1, 14.0f);
-            this.overlayTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            this.overlayTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.overlayTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), 0, ColorUtils.setAlphaComponent(-1, 120)));
             addView(this.overlayTextView);
             this.paintOverlayPaint.setColor(Theme.getColor("featuredStickers_addButton"));
@@ -177,40 +177,24 @@ public class PremiumButtonView extends FrameLayout {
         fArr[1] = f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
         this.overlayAnimator = ofFloat;
-        ofFloat.addUpdateListener(new AnonymousClass1());
-        this.overlayAnimator.addListener(new AnonymousClass2());
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView.1
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                PremiumButtonView.this.overlayProgress = ((Float) valueAnimator2.getAnimatedValue()).floatValue();
+                PremiumButtonView.this.updateOverlayProgress();
+            }
+        });
+        this.overlayAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView.2
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                PremiumButtonView premiumButtonView = PremiumButtonView.this;
+                premiumButtonView.overlayProgress = premiumButtonView.showOverlay ? 1.0f : 0.0f;
+                PremiumButtonView.this.updateOverlayProgress();
+            }
+        });
         this.overlayAnimator.setDuration(250L);
         this.overlayAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.overlayAnimator.start();
-    }
-
-    /* renamed from: org.telegram.ui.Components.Premium.PremiumButtonView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements ValueAnimator.AnimatorUpdateListener {
-        AnonymousClass1() {
-            PremiumButtonView.this = r1;
-        }
-
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            PremiumButtonView.this.overlayProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            PremiumButtonView.this.updateOverlayProgress();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.Premium.PremiumButtonView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
-            PremiumButtonView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            PremiumButtonView premiumButtonView = PremiumButtonView.this;
-            premiumButtonView.overlayProgress = premiumButtonView.showOverlay ? 1.0f : 0.0f;
-            PremiumButtonView.this.updateOverlayProgress();
-        }
     }
 
     public void updateOverlayProgress() {
@@ -237,7 +221,12 @@ public class PremiumButtonView extends FrameLayout {
         this.iconView.setAnimation(i, 24, 24);
         CellFlickerDrawable cellFlickerDrawable = this.flickerDrawable;
         cellFlickerDrawable.progress = 2.0f;
-        cellFlickerDrawable.setOnRestartCallback(new PremiumButtonView$$ExternalSyntheticLambda0(this));
+        cellFlickerDrawable.setOnRestartCallback(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                PremiumButtonView.this.lambda$setIcon$0();
+            }
+        });
         invalidate();
         this.iconView.setVisibility(0);
     }

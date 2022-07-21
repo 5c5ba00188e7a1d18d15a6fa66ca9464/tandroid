@@ -16,7 +16,17 @@ public final class EventMessage implements Metadata.Entry {
     public final String value;
     private static final Format ID3_FORMAT = Format.createSampleFormat(null, "application/id3", Long.MAX_VALUE);
     private static final Format SCTE35_FORMAT = Format.createSampleFormat(null, "application/x-scte35", Long.MAX_VALUE);
-    public static final Parcelable.Creator<EventMessage> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<EventMessage> CREATOR = new Parcelable.Creator<EventMessage>() { // from class: com.google.android.exoplayer2.metadata.emsg.EventMessage.1
+        @Override // android.os.Parcelable.Creator
+        public EventMessage createFromParcel(Parcel parcel) {
+            return new EventMessage(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public EventMessage[] newArray(int i) {
+            return new EventMessage[i];
+        }
+    };
 
     @Override // android.os.Parcelable
     public int describeContents() {
@@ -121,22 +131,5 @@ public final class EventMessage implements Metadata.Entry {
         parcel.writeLong(this.durationMs);
         parcel.writeLong(this.id);
         parcel.writeByteArray(this.messageData);
-    }
-
-    /* renamed from: com.google.android.exoplayer2.metadata.emsg.EventMessage$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<EventMessage> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public EventMessage createFromParcel(Parcel parcel) {
-            return new EventMessage(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public EventMessage[] newArray(int i) {
-            return new EventMessage[i];
-        }
     }
 }

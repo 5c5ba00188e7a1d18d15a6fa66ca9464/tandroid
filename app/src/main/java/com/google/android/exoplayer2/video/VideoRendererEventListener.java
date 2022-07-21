@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.video.VideoRendererEventListener;
 /* loaded from: classes.dex */
 public interface VideoRendererEventListener {
     void onDroppedFrames(int i, long j);
@@ -32,10 +33,15 @@ public interface VideoRendererEventListener {
             this.listener = videoRendererEventListener;
         }
 
-        public void enabled(DecoderCounters decoderCounters) {
+        public void enabled(final DecoderCounters decoderCounters) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda4(this, decoderCounters));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda4
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoRendererEventListener.EventDispatcher.this.lambda$enabled$0(decoderCounters);
+                    }
+                });
             }
         }
 
@@ -43,10 +49,15 @@ public interface VideoRendererEventListener {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onVideoEnabled(decoderCounters);
         }
 
-        public void decoderInitialized(String str, long j, long j2) {
+        public void decoderInitialized(final String str, final long j, final long j2) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda6(this, str, j, j2));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda6
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoRendererEventListener.EventDispatcher.this.lambda$decoderInitialized$1(str, j, j2);
+                    }
+                });
             }
         }
 
@@ -54,10 +65,15 @@ public interface VideoRendererEventListener {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onVideoDecoderInitialized(str, j, j2);
         }
 
-        public void inputFormatChanged(Format format) {
+        public void inputFormatChanged(final Format format) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda3(this, format));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoRendererEventListener.EventDispatcher.this.lambda$inputFormatChanged$2(format);
+                    }
+                });
             }
         }
 
@@ -65,10 +81,15 @@ public interface VideoRendererEventListener {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onVideoInputFormatChanged(format);
         }
 
-        public void droppedFrames(int i, long j) {
+        public void droppedFrames(final int i, final long j) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda1(this, i, j));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoRendererEventListener.EventDispatcher.this.lambda$droppedFrames$3(i, j);
+                    }
+                });
             }
         }
 
@@ -76,10 +97,15 @@ public interface VideoRendererEventListener {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onDroppedFrames(i, j);
         }
 
-        public void videoSizeChanged(int i, int i2, int i3, float f) {
+        public void videoSizeChanged(final int i, final int i2, final int i3, final float f) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda0(this, i, i2, i3, f));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoRendererEventListener.EventDispatcher.this.lambda$videoSizeChanged$4(i, i2, i3, f);
+                    }
+                });
             }
         }
 
@@ -87,10 +113,15 @@ public interface VideoRendererEventListener {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onVideoSizeChanged(i, i2, i3, f);
         }
 
-        public void renderedFirstFrame(Surface surface) {
+        public void renderedFirstFrame(final Surface surface) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda2(this, surface));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoRendererEventListener.EventDispatcher.this.lambda$renderedFirstFrame$5(surface);
+                    }
+                });
             }
         }
 
@@ -98,11 +129,16 @@ public interface VideoRendererEventListener {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onRenderedFirstFrame(surface);
         }
 
-        public void disabled(DecoderCounters decoderCounters) {
+        public void disabled(final DecoderCounters decoderCounters) {
             decoderCounters.ensureUpdated();
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda5(this, decoderCounters));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoRendererEventListener.EventDispatcher.this.lambda$disabled$6(decoderCounters);
+                    }
+                });
             }
         }
 

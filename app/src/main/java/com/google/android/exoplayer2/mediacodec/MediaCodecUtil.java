@@ -8,18 +8,25 @@ import android.text.TextUtils;
 import android.util.Pair;
 import android.util.SparseIntArray;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.mediacodec.MediaCodecUtil;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.ColorInfo;
+import com.huawei.hms.adapter.internal.AvailableCode;
+import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
+import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.MediaController;
+import org.telegram.tgnet.ConnectionsManager;
 @SuppressLint({"InlinedApi"})
 /* loaded from: classes.dex */
 public final class MediaCodecUtil {
@@ -61,11 +68,11 @@ public final class MediaCodecUtil {
         switch (i) {
             case 8:
             case 16:
-            case 32:
+            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                 return 101376;
             case 64:
                 return 202752;
-            case 128:
+            case ConnectionsManager.RequestFlagNeedQuickAck /* 128 */:
             case 256:
                 return 414720;
             case 512:
@@ -80,7 +87,7 @@ public final class MediaCodecUtil {
             case 16384:
                 return 5652480;
             case 32768:
-            case 65536:
+            case CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT /* 65536 */:
                 return 9437184;
             default:
                 return -1;
@@ -112,7 +119,8 @@ public final class MediaCodecUtil {
         sparseIntArray2.put(13, 16);
         sparseIntArray2.put(20, 32);
         sparseIntArray2.put(21, 64);
-        sparseIntArray2.put(22, 128);
+        Integer valueOf = Integer.valueOf((int) ConnectionsManager.RequestFlagNeedQuickAck);
+        sparseIntArray2.put(22, ConnectionsManager.RequestFlagNeedQuickAck);
         sparseIntArray2.put(30, 256);
         sparseIntArray2.put(31, 512);
         sparseIntArray2.put(32, 1024);
@@ -121,7 +129,7 @@ public final class MediaCodecUtil {
         sparseIntArray2.put(42, 8192);
         sparseIntArray2.put(50, 16384);
         sparseIntArray2.put(51, 32768);
-        sparseIntArray2.put(52, 65536);
+        sparseIntArray2.put(52, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
         SparseIntArray sparseIntArray3 = new SparseIntArray();
         VP9_PROFILE_NUMBER_TO_CONST = sparseIntArray3;
         sparseIntArray3.put(0, 1);
@@ -137,7 +145,7 @@ public final class MediaCodecUtil {
         sparseIntArray4.put(30, 16);
         sparseIntArray4.put(31, 32);
         sparseIntArray4.put(40, 64);
-        sparseIntArray4.put(41, 128);
+        sparseIntArray4.put(41, ConnectionsManager.RequestFlagNeedQuickAck);
         sparseIntArray4.put(50, 256);
         sparseIntArray4.put(51, 512);
         sparseIntArray4.put(60, 2048);
@@ -153,15 +161,15 @@ public final class MediaCodecUtil {
         hashMap.put("L120", 1024);
         hashMap.put("L123", 4096);
         hashMap.put("L150", 16384);
-        hashMap.put("L153", 65536);
+        hashMap.put("L153", Integer.valueOf((int) CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT));
         hashMap.put("L156", 262144);
         hashMap.put("L180", 1048576);
         hashMap.put("L183", 4194304);
-        hashMap.put("L186", 16777216);
+        hashMap.put("L186", Integer.valueOf((int) ConnectionsManager.FileTypePhoto));
         hashMap.put("H30", 2);
         hashMap.put("H60", 8);
         hashMap.put("H63", 32);
-        hashMap.put("H90", 128);
+        hashMap.put("H90", valueOf);
         hashMap.put("H93", 512);
         hashMap.put("H120", 2048);
         hashMap.put("H123", 8192);
@@ -170,29 +178,29 @@ public final class MediaCodecUtil {
         hashMap.put("H156", 524288);
         hashMap.put("H180", 2097152);
         hashMap.put("H183", 8388608);
-        hashMap.put("H186", 33554432);
+        hashMap.put("H186", Integer.valueOf((int) ConnectionsManager.FileTypeVideo));
         HashMap hashMap2 = new HashMap();
         DOLBY_VISION_STRING_TO_PROFILE = hashMap2;
         hashMap2.put("00", 1);
-        hashMap2.put("01", 2);
+        hashMap2.put(HiAnalyticsConstant.KeyAndValue.NUMBER_01, 2);
         hashMap2.put("02", 4);
         hashMap2.put("03", 8);
         hashMap2.put("04", 16);
         hashMap2.put("05", 32);
         hashMap2.put("06", 64);
-        hashMap2.put("07", 128);
+        hashMap2.put("07", valueOf);
         hashMap2.put("08", 256);
         hashMap2.put("09", 512);
         HashMap hashMap3 = new HashMap();
         DOLBY_VISION_STRING_TO_LEVEL = hashMap3;
-        hashMap3.put("01", 1);
+        hashMap3.put(HiAnalyticsConstant.KeyAndValue.NUMBER_01, 1);
         hashMap3.put("02", 2);
         hashMap3.put("03", 4);
         hashMap3.put("04", 8);
         hashMap3.put("05", 16);
         hashMap3.put("06", 32);
         hashMap3.put("07", 64);
-        hashMap3.put("08", 128);
+        hashMap3.put("08", valueOf);
         hashMap3.put("09", 256);
         SparseIntArray sparseIntArray5 = new SparseIntArray();
         AV1_LEVEL_NUMBER_TO_CONST = sparseIntArray5;
@@ -203,7 +211,7 @@ public final class MediaCodecUtil {
         sparseIntArray5.put(4, 16);
         sparseIntArray5.put(5, 32);
         sparseIntArray5.put(6, 64);
-        sparseIntArray5.put(7, 128);
+        sparseIntArray5.put(7, ConnectionsManager.RequestFlagNeedQuickAck);
         sparseIntArray5.put(8, 256);
         sparseIntArray5.put(9, 512);
         sparseIntArray5.put(10, 1024);
@@ -212,7 +220,7 @@ public final class MediaCodecUtil {
         sparseIntArray5.put(13, 8192);
         sparseIntArray5.put(14, 16384);
         sparseIntArray5.put(15, 32768);
-        sparseIntArray5.put(16, 65536);
+        sparseIntArray5.put(16, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
         sparseIntArray5.put(17, 131072);
         sparseIntArray5.put(18, 262144);
         sparseIntArray5.put(19, 524288);
@@ -281,9 +289,16 @@ public final class MediaCodecUtil {
         }
     }
 
-    public static List<MediaCodecInfo> getDecoderInfosSortedByFormatSupport(List<MediaCodecInfo> list, Format format) {
+    public static List<MediaCodecInfo> getDecoderInfosSortedByFormatSupport(List<MediaCodecInfo> list, final Format format) {
         ArrayList arrayList = new ArrayList(list);
-        sortByScore(arrayList, new MediaCodecUtil$$ExternalSyntheticLambda0(format));
+        sortByScore(arrayList, new ScoreProvider() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.mediacodec.MediaCodecUtil.ScoreProvider
+            public final int getScore(Object obj) {
+                int lambda$getDecoderInfosSortedByFormatSupport$0;
+                lambda$getDecoderInfosSortedByFormatSupport$0 = MediaCodecUtil.lambda$getDecoderInfosSortedByFormatSupport$0(Format.this, (MediaCodecInfo) obj);
+                return lambda$getDecoderInfosSortedByFormatSupport$0;
+            }
+        });
         return arrayList;
     }
 
@@ -298,7 +313,7 @@ public final class MediaCodecUtil {
     public static int maxH264DecodableFrameSize() throws DecoderQueryException {
         if (maxH264DecodableFrameSize == -1) {
             int i = 0;
-            MediaCodecInfo decoderInfo = getDecoderInfo("video/avc", false, false);
+            MediaCodecInfo decoderInfo = getDecoderInfo(MediaController.VIDEO_MIME_TYPE, false, false);
             if (decoderInfo != null) {
                 MediaCodecInfo.CodecProfileLevel[] profileLevels = decoderInfo.getProfileLevels();
                 int length = profileLevels.length;
@@ -650,7 +665,7 @@ public final class MediaCodecUtil {
         return !isSoftwareOnly(mediaCodecInfo);
     }
 
-    @TargetApi(29)
+    @TargetApi(AvailableCode.HMS_IS_SPOOF)
     private static boolean isHardwareAcceleratedV29(android.media.MediaCodecInfo mediaCodecInfo) {
         return mediaCodecInfo.isHardwareAccelerated();
     }
@@ -666,7 +681,7 @@ public final class MediaCodecUtil {
         return lowerInvariant.startsWith("omx.google.") || lowerInvariant.startsWith("omx.ffmpeg.") || (lowerInvariant.startsWith("omx.sec.") && lowerInvariant.contains(".sw.")) || lowerInvariant.equals("omx.qcom.video.decoder.hevcswvdec") || lowerInvariant.startsWith("c2.android.") || lowerInvariant.startsWith("c2.google.") || (!lowerInvariant.startsWith("omx.") && !lowerInvariant.startsWith("c2."));
     }
 
-    @TargetApi(29)
+    @TargetApi(AvailableCode.HMS_IS_SPOOF)
     private static boolean isSoftwareOnlyV29(android.media.MediaCodecInfo mediaCodecInfo) {
         return mediaCodecInfo.isSoftwareOnly();
     }
@@ -679,7 +694,7 @@ public final class MediaCodecUtil {
         return !lowerInvariant.startsWith("omx.google.") && !lowerInvariant.startsWith("c2.android.") && !lowerInvariant.startsWith("c2.google.");
     }
 
-    @TargetApi(29)
+    @TargetApi(AvailableCode.HMS_IS_SPOOF)
     private static boolean isVendorV29(android.media.MediaCodecInfo mediaCodecInfo) {
         return mediaCodecInfo.isVendor();
     }
@@ -848,7 +863,7 @@ public final class MediaCodecUtil {
             return null;
         }
         try {
-            if ("audio/mp4a-latm".equals(MimeTypes.getMimeTypeFromMp4ObjectType(Integer.parseInt(strArr[1], 16)))) {
+            if (MediaController.AUIDO_MIME_TYPE.equals(MimeTypes.getMimeTypeFromMp4ObjectType(Integer.parseInt(strArr[1], 16)))) {
                 int i = MP4A_AUDIO_OBJECT_TYPE_TO_PROFILE.get(Integer.parseInt(strArr[2]), -1);
                 if (i != -1) {
                     return new Pair<>(Integer.valueOf(i), 0);
@@ -864,8 +879,15 @@ public final class MediaCodecUtil {
         return scoreProvider.getScore(obj2) - scoreProvider.getScore(obj);
     }
 
-    private static <T> void sortByScore(List<T> list, ScoreProvider<T> scoreProvider) {
-        Collections.sort(list, new MediaCodecUtil$$ExternalSyntheticLambda3(scoreProvider));
+    private static <T> void sortByScore(List<T> list, final ScoreProvider<T> scoreProvider) {
+        Collections.sort(list, new Comparator() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda3
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$sortByScore$3;
+                lambda$sortByScore$3 = MediaCodecUtil.lambda$sortByScore$3(MediaCodecUtil.ScoreProvider.this, obj, obj2);
+                return lambda$sortByScore$3;
+            }
+        });
     }
 
     @TargetApi(21)
@@ -940,7 +962,7 @@ public final class MediaCodecUtil {
 
         @Override // com.google.android.exoplayer2.mediacodec.MediaCodecUtil.MediaCodecListCompat
         public boolean isFeatureSupported(String str, String str2, MediaCodecInfo.CodecCapabilities codecCapabilities) {
-            return "secure-playback".equals(str) && "video/avc".equals(str2);
+            return "secure-playback".equals(str) && MediaController.VIDEO_MIME_TYPE.equals(str2);
         }
     }
 

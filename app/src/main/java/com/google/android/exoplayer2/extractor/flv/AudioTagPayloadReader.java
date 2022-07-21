@@ -7,7 +7,9 @@ import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.extractor.flv.TagPayloadReader;
 import com.google.android.exoplayer2.util.CodecSpecificDataUtil;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import com.huawei.hms.support.api.entity.core.JosStatusCodes;
 import java.util.Collections;
+import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 final class AudioTagPayloadReader extends TagPayloadReader {
     private static final int[] AUDIO_SAMPLING_RATE_TABLE = {5512, 11025, 22050, 44100};
@@ -29,7 +31,7 @@ final class AudioTagPayloadReader extends TagPayloadReader {
                 this.output.format(Format.createAudioSampleFormat(null, "audio/mpeg", null, -1, -1, 1, AUDIO_SAMPLING_RATE_TABLE[(readUnsignedByte >> 2) & 3], null, null, 0, null));
                 this.hasOutputFormat = true;
             } else if (i == 7 || i == 8) {
-                this.output.format(Format.createAudioSampleFormat(null, i == 7 ? "audio/g711-alaw" : "audio/g711-mlaw", null, -1, -1, 1, 8000, -1, null, null, 0, null));
+                this.output.format(Format.createAudioSampleFormat(null, i == 7 ? "audio/g711-alaw" : "audio/g711-mlaw", null, -1, -1, 1, JosStatusCodes.RTN_CODE_COMMON_ERROR, -1, null, null, 0, null));
                 this.hasOutputFormat = true;
             } else if (i != 10) {
                 throw new TagPayloadReader.UnsupportedFormatException("Audio format not supported: " + this.audioFormat);
@@ -55,7 +57,7 @@ final class AudioTagPayloadReader extends TagPayloadReader {
             byte[] bArr = new byte[bytesLeft2];
             parsableByteArray.readBytes(bArr, 0, bytesLeft2);
             Pair<Integer, Integer> parseAacAudioSpecificConfig = CodecSpecificDataUtil.parseAacAudioSpecificConfig(bArr);
-            this.output.format(Format.createAudioSampleFormat(null, "audio/mp4a-latm", null, -1, -1, ((Integer) parseAacAudioSpecificConfig.second).intValue(), ((Integer) parseAacAudioSpecificConfig.first).intValue(), Collections.singletonList(bArr), null, 0, null));
+            this.output.format(Format.createAudioSampleFormat(null, MediaController.AUIDO_MIME_TYPE, null, -1, -1, ((Integer) parseAacAudioSpecificConfig.second).intValue(), ((Integer) parseAacAudioSpecificConfig.first).intValue(), Collections.singletonList(bArr), null, 0, null));
             this.hasOutputFormat = true;
             return false;
         } else if (this.audioFormat == 10 && readUnsignedByte != 1) {

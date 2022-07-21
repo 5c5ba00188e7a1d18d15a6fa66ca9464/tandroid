@@ -15,7 +15,14 @@ public abstract class TLRPC$messages_AllStickers extends TLObject {
         if (i == -843329861) {
             tLRPC$messages_AllStickers = new TLRPC$TL_messages_allStickers();
         } else {
-            tLRPC$messages_AllStickers = i != -395967805 ? null : new TLRPC$TL_messages_allStickersNotModified();
+            tLRPC$messages_AllStickers = i != -395967805 ? null : new TLRPC$messages_AllStickers() { // from class: org.telegram.tgnet.TLRPC$TL_messages_allStickersNotModified
+                public static int constructor = -395967805;
+
+                @Override // org.telegram.tgnet.TLObject
+                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                    abstractSerializedData2.writeInt32(constructor);
+                }
+            };
         }
         if (tLRPC$messages_AllStickers != null || !z) {
             if (tLRPC$messages_AllStickers != null) {

@@ -44,21 +44,14 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     private final FirebaseInstallationServiceClient serviceClient;
     private final Utils utils;
     private static final Object lockGenerateFid = new Object();
-    private static final ThreadFactory THREAD_FACTORY = new AnonymousClass1();
-
-    /* renamed from: com.google.firebase.installations.FirebaseInstallations$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements ThreadFactory {
+    private static final ThreadFactory THREAD_FACTORY = new ThreadFactory() { // from class: com.google.firebase.installations.FirebaseInstallations.1
         private final AtomicInteger mCount = new AtomicInteger(1);
-
-        AnonymousClass1() {
-        }
 
         @Override // java.util.concurrent.ThreadFactory
         public Thread newThread(Runnable runnable) {
             return new Thread(runnable, String.format("firebase-installations-executor-%d", Integer.valueOf(this.mCount.getAndIncrement())));
         }
-    }
+    };
 
     public FirebaseInstallations(FirebaseApp firebaseApp, Provider<UserAgentPublisher> provider, Provider<HeartBeatInfo> provider2) {
         this(new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), THREAD_FACTORY), firebaseApp, new FirebaseInstallationServiceClient(firebaseApp.getApplicationContext(), provider, provider2), new PersistedInstallation(firebaseApp), Utils.getInstance(), new IidStore(firebaseApp), new RandomFidGenerator());
@@ -111,7 +104,12 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
             return Tasks.forResult(cacheFid);
         }
         Task<String> addGetIdListener = addGetIdListener();
-        this.backgroundExecutor.execute(new FirebaseInstallations$$ExternalSyntheticLambda0(this));
+        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                FirebaseInstallations.this.lambda$getId$0();
+            }
+        });
         return addGetIdListener;
     }
 
@@ -120,10 +118,15 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     }
 
     @Override // com.google.firebase.installations.FirebaseInstallationsApi
-    public Task<InstallationTokenResult> getToken(boolean z) {
+    public Task<InstallationTokenResult> getToken(final boolean z) {
         preConditionChecks();
         Task<InstallationTokenResult> addGetAuthTokenListener = addGetAuthTokenListener();
-        this.backgroundExecutor.execute(new FirebaseInstallations$$ExternalSyntheticLambda2(this, z));
+        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                FirebaseInstallations.this.lambda$getToken$1(z);
+            }
+        });
         return addGetAuthTokenListener;
     }
 
@@ -176,13 +179,18 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     }
 
     /* renamed from: doRegistrationOrRefresh */
-    public final void lambda$getToken$1(boolean z) {
+    public final void lambda$getToken$1(final boolean z) {
         PersistedInstallationEntry prefsWithGeneratedIdMultiProcessSafe = getPrefsWithGeneratedIdMultiProcessSafe();
         if (z) {
             prefsWithGeneratedIdMultiProcessSafe = prefsWithGeneratedIdMultiProcessSafe.withClearedAuthToken();
         }
         triggerOnStateReached(prefsWithGeneratedIdMultiProcessSafe);
-        this.networkExecutor.execute(new FirebaseInstallations$$ExternalSyntheticLambda1(this, z));
+        this.networkExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                FirebaseInstallations.this.lambda$doRegistrationOrRefresh$2(z);
+            }
+        });
     }
 
     /* JADX WARN: Removed duplicated region for block: B:17:0x0032  */

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.huawei.hms.framework.common.ExecutorsUtils;
 import com.huawei.hms.framework.common.Logger;
 import com.huawei.hms.framework.common.StringUtils;
+import com.huawei.hms.framework.common.hianalytics.CrashHianalyticsData;
 import com.huawei.hms.framework.network.grs.g.h;
 import com.huawei.hms.framework.network.grs.g.i;
 import java.util.HashMap;
@@ -113,7 +114,7 @@ public class c {
             return;
         }
         for (String str : map.keySet()) {
-            if (str.endsWith("time")) {
+            if (str.endsWith(CrashHianalyticsData.TIME)) {
                 String a2 = this.e.a(str, "");
                 long j2 = 0;
                 if (!TextUtils.isEmpty(a2) && a2.matches("\\d+")) {
@@ -201,7 +202,7 @@ public class c {
         String grsParasKey = this.a.getGrsParasKey(true, true, this.b);
         this.e.a(grsParasKey);
         com.huawei.hms.framework.network.grs.e.c cVar = this.e;
-        cVar.a(grsParasKey + "time");
+        cVar.a(grsParasKey + CrashHianalyticsData.TIME);
         com.huawei.hms.framework.network.grs.e.c cVar2 = this.e;
         cVar2.a(grsParasKey + "ETag");
         this.c.a(grsParasKey);

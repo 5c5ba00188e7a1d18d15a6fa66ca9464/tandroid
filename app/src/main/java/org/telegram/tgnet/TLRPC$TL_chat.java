@@ -14,7 +14,7 @@ public class TLRPC$TL_chat extends TLRPC$Chat {
         this.deactivated = (readInt32 & 32) != 0;
         this.call_active = (8388608 & readInt32) != 0;
         this.call_not_empty = (16777216 & readInt32) != 0;
-        if ((readInt32 & 33554432) != 0) {
+        if ((readInt32 & ConnectionsManager.FileTypeVideo) != 0) {
             z2 = true;
         }
         this.noforwards = z2;
@@ -48,9 +48,9 @@ public class TLRPC$TL_chat extends TLRPC$Chat {
         this.flags = i4;
         int i5 = this.call_active ? i4 | 8388608 : i4 & (-8388609);
         this.flags = i5;
-        int i6 = this.call_not_empty ? i5 | 16777216 : i5 & (-16777217);
+        int i6 = this.call_not_empty ? i5 | ConnectionsManager.FileTypePhoto : i5 & (-16777217);
         this.flags = i6;
-        int i7 = this.noforwards ? i6 | 33554432 : i6 & (-33554433);
+        int i7 = this.noforwards ? i6 | ConnectionsManager.FileTypeVideo : i6 & (-33554433);
         this.flags = i7;
         abstractSerializedData.writeInt32(i7);
         abstractSerializedData.writeInt64(this.id);

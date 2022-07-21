@@ -50,7 +50,7 @@ public class LibopusAudioRenderer extends SimpleDecoderAudioRenderer {
     @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
     public OpusDecoder createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws OpusDecoderException {
         int i = format.maxInputSize;
-        OpusDecoder opusDecoder = new OpusDecoder(16, 16, i != -1 ? i : 5760, format.initializationData, exoMediaCrypto);
+        OpusDecoder opusDecoder = new OpusDecoder(16, 16, i != -1 ? i : DEFAULT_INPUT_BUFFER_SIZE, format.initializationData, exoMediaCrypto);
         this.channelCount = opusDecoder.getChannelCount();
         this.sampleRate = opusDecoder.getSampleRate();
         return opusDecoder;

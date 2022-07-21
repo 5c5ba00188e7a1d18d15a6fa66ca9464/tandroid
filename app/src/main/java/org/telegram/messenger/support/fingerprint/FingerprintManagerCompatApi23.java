@@ -9,7 +9,8 @@ import java.security.Signature;
 import javax.crypto.Cipher;
 import javax.crypto.Mac;
 import org.telegram.messenger.FileLog;
-@TargetApi(23)
+import org.telegram.messenger.R;
+@TargetApi(R.styleable.MapAttrs_zOrderOnTop)
 /* loaded from: classes.dex */
 public final class FingerprintManagerCompatApi23 {
 
@@ -94,38 +95,28 @@ public final class FingerprintManagerCompatApi23 {
         return new CryptoObject(cryptoObject.getMac());
     }
 
-    /* renamed from: org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends FingerprintManager.AuthenticationCallback {
-        final /* synthetic */ AuthenticationCallback val$callback;
+    private static FingerprintManager.AuthenticationCallback wrapCallback(final AuthenticationCallback authenticationCallback) {
+        return new FingerprintManager.AuthenticationCallback() { // from class: org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.1
+            @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
+            public void onAuthenticationError(int i, CharSequence charSequence) {
+                authenticationCallback.onAuthenticationError(i, charSequence);
+            }
 
-        AnonymousClass1(AuthenticationCallback authenticationCallback) {
-            this.val$callback = authenticationCallback;
-        }
+            @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
+            public void onAuthenticationHelp(int i, CharSequence charSequence) {
+                authenticationCallback.onAuthenticationHelp(i, charSequence);
+            }
 
-        @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
-        public void onAuthenticationError(int i, CharSequence charSequence) {
-            this.val$callback.onAuthenticationError(i, charSequence);
-        }
+            @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
+            public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult authenticationResult) {
+                authenticationCallback.onAuthenticationSucceeded(new AuthenticationResultInternal(FingerprintManagerCompatApi23.unwrapCryptoObject(authenticationResult.getCryptoObject())));
+            }
 
-        @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
-        public void onAuthenticationHelp(int i, CharSequence charSequence) {
-            this.val$callback.onAuthenticationHelp(i, charSequence);
-        }
-
-        @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
-        public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult authenticationResult) {
-            this.val$callback.onAuthenticationSucceeded(new AuthenticationResultInternal(FingerprintManagerCompatApi23.unwrapCryptoObject(authenticationResult.getCryptoObject())));
-        }
-
-        @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
-        public void onAuthenticationFailed() {
-            this.val$callback.onAuthenticationFailed();
-        }
-    }
-
-    private static FingerprintManager.AuthenticationCallback wrapCallback(AuthenticationCallback authenticationCallback) {
-        return new AnonymousClass1(authenticationCallback);
+            @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
+            public void onAuthenticationFailed() {
+                authenticationCallback.onAuthenticationFailed();
+            }
+        };
     }
 
     /* loaded from: classes.dex */

@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.ext.ffmpeg;
 
 import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
 import com.google.android.exoplayer2.util.Log;
+import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class FfmpegLibrary {
     private static final String TAG = "FfmpegLibrary";
@@ -29,7 +30,7 @@ public final class FfmpegLibrary {
         if (ffmpegHasDecoder(codecName)) {
             return true;
         }
-        Log.w("FfmpegLibrary", "No " + codecName + " decoder available. Check the FFmpeg build configuration.");
+        Log.w(TAG, "No " + codecName + " decoder available. Check the FFmpeg build configuration.");
         return false;
     }
 
@@ -74,7 +75,7 @@ public final class FfmpegLibrary {
                 }
                 break;
             case -53558318:
-                if (str.equals("audio/mp4a-latm")) {
+                if (str.equals(MediaController.AUIDO_MIME_TYPE)) {
                     c = 6;
                     break;
                 }

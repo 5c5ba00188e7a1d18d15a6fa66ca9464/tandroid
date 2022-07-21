@@ -29,6 +29,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.VideoEditedInfo;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.BubbleActivity;
 import org.telegram.ui.Components.Crop.CropAreaView;
@@ -98,10 +99,6 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         public float width;
         public float x;
         public float y;
-
-        /* synthetic */ CropState(CropView cropView, int i, int i2, int i3, AnonymousClass1 anonymousClass1) {
-            this(i, i2, i3);
-        }
 
         private CropState(int i, int i2, int i3) {
             CropView.this = r1;
@@ -281,7 +278,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         this.areaView.setActualRect(f);
     }
 
-    public void setBitmap(Bitmap bitmap, int i, boolean z, boolean z2, PaintingOverlay paintingOverlay, CropTransform cropTransform, VideoEditTextureView videoEditTextureView, MediaController.CropState cropState) {
+    public void setBitmap(Bitmap bitmap, int i, boolean z, boolean z2, PaintingOverlay paintingOverlay, CropTransform cropTransform, VideoEditTextureView videoEditTextureView, final MediaController.CropState cropState) {
         this.freeform = z;
         this.videoEditTextureView = videoEditTextureView;
         this.cropTransform = cropTransform;
@@ -294,112 +291,97 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
             this.imageView.setImageDrawable(null);
             return;
         }
-        int currentWidth = getCurrentWidth();
-        int currentHeight = getCurrentHeight();
+        final int currentWidth = getCurrentWidth();
+        final int currentHeight = getCurrentHeight();
         CropState cropState2 = this.state;
         if (cropState2 != null && z2) {
             cropState2.update(currentWidth, currentHeight, i);
         } else {
-            this.state = new CropState(this, currentWidth, currentHeight, 0, null);
-            this.areaView.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass1(cropState, currentHeight, currentWidth));
+            this.state = new CropState(currentWidth, currentHeight, 0);
+            this.areaView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.Crop.CropView.1
+                @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                public boolean onPreDraw() {
+                    int i2;
+                    int i3;
+                    float f;
+                    float f2;
+                    CropView.this.reset();
+                    MediaController.CropState cropState3 = cropState;
+                    if (cropState3 != null) {
+                        float f3 = cropState3.lockedAspectRatio;
+                        boolean z3 = true;
+                        if (f3 > 1.0E-4f) {
+                            CropView.this.areaView.setLockedAspectRatio(f3);
+                            if (CropView.this.listener != null) {
+                                CropView.this.listener.onAspectLock(true);
+                            }
+                        }
+                        CropView.this.setFreeform(cropState.freeform);
+                        float aspectRatio = CropView.this.areaView.getAspectRatio();
+                        int i4 = cropState.transformRotation;
+                        if (i4 == 90 || i4 == 270) {
+                            aspectRatio = 1.0f / aspectRatio;
+                            CropState cropState4 = CropView.this.state;
+                            f = cropState4.height;
+                            f2 = cropState4.width;
+                            i3 = currentHeight;
+                            i2 = currentWidth;
+                        } else {
+                            CropState cropState5 = CropView.this.state;
+                            f = cropState5.width;
+                            f2 = cropState5.height;
+                            i3 = currentWidth;
+                            i2 = currentHeight;
+                        }
+                        boolean z4 = CropView.this.freeform;
+                        if (CropView.this.freeform && CropView.this.areaView.getLockAspectRatio() > 0.0f) {
+                            CropAreaView cropAreaView = CropView.this.areaView;
+                            cropAreaView.setLockedAspectRatio(1.0f / cropAreaView.getLockAspectRatio());
+                            CropAreaView cropAreaView2 = CropView.this.areaView;
+                            cropAreaView2.setActualRect(cropAreaView2.getLockAspectRatio());
+                            z4 = false;
+                        } else {
+                            CropView cropView = CropView.this;
+                            CropAreaView cropAreaView3 = cropView.areaView;
+                            int currentWidth2 = cropView.getCurrentWidth();
+                            int currentHeight2 = CropView.this.getCurrentHeight();
+                            if ((i4 + CropView.this.state.getBaseRotation()) % 180.0f == 0.0f) {
+                                z3 = false;
+                            }
+                            cropAreaView3.setBitmap(currentWidth2, currentHeight2, z3, CropView.this.freeform);
+                        }
+                        CropView cropView2 = CropView.this;
+                        cropView2.state.reset(cropView2.areaView, i4, z4);
+                        CropAreaView cropAreaView4 = CropView.this.areaView;
+                        MediaController.CropState cropState6 = cropState;
+                        cropAreaView4.setActualRect((aspectRatio * cropState6.cropPw) / cropState6.cropPh);
+                        CropState cropState7 = CropView.this.state;
+                        MediaController.CropState cropState8 = cropState;
+                        cropState7.mirrored = cropState8.mirrored;
+                        cropState7.rotate(cropState8.cropRotate, 0.0f, 0.0f);
+                        CropState cropState9 = CropView.this.state;
+                        MediaController.CropState cropState10 = cropState;
+                        float f4 = cropState10.cropPx * i3;
+                        float f5 = cropState9.minimumScale;
+                        cropState9.translate(f4 * f5, cropState10.cropPy * i2 * f5);
+                        float max = Math.max(CropView.this.areaView.getCropWidth() / f, CropView.this.areaView.getCropHeight() / f2);
+                        CropState cropState11 = CropView.this.state;
+                        cropState11.scale(cropState.cropScale * (max / cropState11.minimumScale), 0.0f, 0.0f);
+                        CropView.this.updateMatrix();
+                        if (CropView.this.listener != null) {
+                            CropView.this.listener.onChange(false);
+                        }
+                    }
+                    CropView.this.areaView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    return false;
+                }
+            });
         }
         ImageView imageView = this.imageView;
         if (videoEditTextureView == null) {
             bitmap2 = this.bitmap;
         }
         imageView.setImageBitmap(bitmap2);
-    }
-
-    /* renamed from: org.telegram.ui.Components.Crop.CropView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements ViewTreeObserver.OnPreDrawListener {
-        final /* synthetic */ int val$h;
-        final /* synthetic */ MediaController.CropState val$restoreState;
-        final /* synthetic */ int val$w;
-
-        AnonymousClass1(MediaController.CropState cropState, int i, int i2) {
-            CropView.this = r1;
-            this.val$restoreState = cropState;
-            this.val$h = i;
-            this.val$w = i2;
-        }
-
-        @Override // android.view.ViewTreeObserver.OnPreDrawListener
-        public boolean onPreDraw() {
-            int i;
-            int i2;
-            float f;
-            float f2;
-            CropView.this.reset();
-            MediaController.CropState cropState = this.val$restoreState;
-            if (cropState != null) {
-                float f3 = cropState.lockedAspectRatio;
-                boolean z = true;
-                if (f3 > 1.0E-4f) {
-                    CropView.this.areaView.setLockedAspectRatio(f3);
-                    if (CropView.this.listener != null) {
-                        CropView.this.listener.onAspectLock(true);
-                    }
-                }
-                CropView.this.setFreeform(this.val$restoreState.freeform);
-                float aspectRatio = CropView.this.areaView.getAspectRatio();
-                int i3 = this.val$restoreState.transformRotation;
-                if (i3 == 90 || i3 == 270) {
-                    aspectRatio = 1.0f / aspectRatio;
-                    CropState cropState2 = CropView.this.state;
-                    f = cropState2.height;
-                    f2 = cropState2.width;
-                    i2 = this.val$h;
-                    i = this.val$w;
-                } else {
-                    CropState cropState3 = CropView.this.state;
-                    f = cropState3.width;
-                    f2 = cropState3.height;
-                    i2 = this.val$w;
-                    i = this.val$h;
-                }
-                boolean z2 = CropView.this.freeform;
-                if (CropView.this.freeform && CropView.this.areaView.getLockAspectRatio() > 0.0f) {
-                    CropAreaView cropAreaView = CropView.this.areaView;
-                    cropAreaView.setLockedAspectRatio(1.0f / cropAreaView.getLockAspectRatio());
-                    CropAreaView cropAreaView2 = CropView.this.areaView;
-                    cropAreaView2.setActualRect(cropAreaView2.getLockAspectRatio());
-                    z2 = false;
-                } else {
-                    CropView cropView = CropView.this;
-                    CropAreaView cropAreaView3 = cropView.areaView;
-                    int currentWidth = cropView.getCurrentWidth();
-                    int currentHeight = CropView.this.getCurrentHeight();
-                    if ((i3 + CropView.this.state.getBaseRotation()) % 180.0f == 0.0f) {
-                        z = false;
-                    }
-                    cropAreaView3.setBitmap(currentWidth, currentHeight, z, CropView.this.freeform);
-                }
-                CropView cropView2 = CropView.this;
-                cropView2.state.reset(cropView2.areaView, i3, z2);
-                CropAreaView cropAreaView4 = CropView.this.areaView;
-                MediaController.CropState cropState4 = this.val$restoreState;
-                cropAreaView4.setActualRect((aspectRatio * cropState4.cropPw) / cropState4.cropPh);
-                CropState cropState5 = CropView.this.state;
-                MediaController.CropState cropState6 = this.val$restoreState;
-                cropState5.mirrored = cropState6.mirrored;
-                cropState5.rotate(cropState6.cropRotate, 0.0f, 0.0f);
-                CropState cropState7 = CropView.this.state;
-                MediaController.CropState cropState8 = this.val$restoreState;
-                float f4 = cropState8.cropPx * i2;
-                float f5 = cropState7.minimumScale;
-                cropState7.translate(f4 * f5, cropState8.cropPy * i * f5);
-                float max = Math.max(CropView.this.areaView.getCropWidth() / f, CropView.this.areaView.getCropHeight() / f2);
-                CropState cropState9 = CropView.this.state;
-                cropState9.scale(this.val$restoreState.cropScale * (max / cropState9.minimumScale), 0.0f, 0.0f);
-                CropView.this.updateMatrix();
-                if (CropView.this.listener != null) {
-                    CropView.this.listener.onChange(false);
-                }
-            }
-            CropView.this.areaView.getViewTreeObserver().removeOnPreDrawListener(this);
-            return false;
-        }
     }
 
     public void willShow() {
@@ -478,10 +460,10 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
     }
 
     private void fillAreaView(RectF rectF, boolean z) {
-        boolean z2;
-        float f;
+        final boolean z2;
+        final float f;
         int i = 0;
-        float[] fArr = {1.0f};
+        final float[] fArr = {1.0f};
         float max = Math.max(rectF.width() / this.areaView.getCropWidth(), rectF.height() / this.areaView.getCropHeight());
         if (this.state.getScale() * max > 30.0f) {
             f = 30.0f / this.state.getScale();
@@ -493,11 +475,23 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         if (Build.VERSION.SDK_INT >= 21 && !this.inBubbleMode) {
             i = AndroidUtilities.statusBarHeight;
         }
-        float orientedWidth = this.state.getOrientedWidth() * ((rectF.centerX() - (this.imageView.getWidth() / 2)) / this.areaView.getCropWidth());
-        float centerY = ((rectF.centerY() - (((this.imageView.getHeight() - this.bottomPadding) + i) / 2.0f)) / this.areaView.getCropHeight()) * this.state.getOrientedHeight();
+        final float orientedWidth = this.state.getOrientedWidth() * ((rectF.centerX() - (this.imageView.getWidth() / 2)) / this.areaView.getCropWidth());
+        final float centerY = ((rectF.centerY() - (((this.imageView.getHeight() - this.bottomPadding) + i) / 2.0f)) / this.areaView.getCropHeight()) * this.state.getOrientedHeight();
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new CropView$$ExternalSyntheticLambda1(this, f, fArr, orientedWidth, centerY));
-        ofFloat.addListener(new AnonymousClass2(z2));
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Crop.CropView$$ExternalSyntheticLambda1
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                CropView.this.lambda$fillAreaView$0(f, fArr, orientedWidth, centerY, valueAnimator);
+            }
+        });
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Crop.CropView.2
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (z2) {
+                    CropView.this.fitContentInBounds(false, false, true);
+                }
+            }
+        });
         this.areaView.fill(rectF, ofFloat, true);
         this.initialAreaRect.set(rectF);
     }
@@ -507,24 +501,6 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         fArr[0] = fArr[0] * floatValue;
         this.state.scale(floatValue, f2, f3);
         updateMatrix();
-    }
-
-    /* renamed from: org.telegram.ui.Components.Crop.CropView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$animEnsureFit;
-
-        AnonymousClass2(boolean z) {
-            CropView.this = r1;
-            this.val$animEnsureFit = z;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (this.val$animEnsureFit) {
-                CropView.this.fitContentInBounds(false, false, true);
-            }
-        }
     }
 
     private float fitScale(RectF rectF, float f, float f2) {
@@ -632,7 +608,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         fitContentInBounds(z, z2, z3, false);
     }
 
-    public void fitContentInBounds(boolean z, boolean z2, boolean z3, boolean z4) {
+    public void fitContentInBounds(final boolean z, final boolean z2, final boolean z3, final boolean z4) {
         float f;
         if (this.state == null) {
             return;
@@ -673,22 +649,36 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
             f = fitScale(rectF, scale, width);
             fitTranslation(rectF, calculateBoundingBox, pointF, radians);
         }
-        float x = pointF.x - this.state.getX();
-        float y = pointF.y - this.state.getY();
+        final float x = pointF.x - this.state.getX();
+        final float y = pointF.y - this.state.getY();
         if (!z3) {
             this.state.translate(x, y);
             this.state.scale(f / scale, 0.0f, 0.0f);
             updateMatrix();
             return;
         }
-        float f2 = f / scale;
+        final float f2 = f / scale;
         if (Math.abs(f2 - 1.0f) < 1.0E-5f && Math.abs(x) < 1.0E-5f && Math.abs(y) < 1.0E-5f) {
             return;
         }
         this.animating = true;
+        final float[] fArr = {1.0f, 0.0f, 0.0f};
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new CropView$$ExternalSyntheticLambda0(this, x, new float[]{1.0f, 0.0f, 0.0f}, y, f2));
-        ofFloat.addListener(new AnonymousClass3(z4, z, z2, z3));
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Crop.CropView$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                CropView.this.lambda$fitContentInBounds$1(x, fArr, y, f2, valueAnimator);
+            }
+        });
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Crop.CropView.3
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                CropView.this.animating = false;
+                if (!z4) {
+                    CropView.this.fitContentInBounds(z, z2, z3, true);
+                }
+            }
+        });
         ofFloat.setInterpolator(this.areaView.getInterpolator());
         ofFloat.setDuration(z4 ? 100L : 200L);
         ofFloat.start();
@@ -705,31 +695,6 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         fArr[0] = fArr[0] * f6;
         this.state.scale(f6, 0.0f, 0.0f);
         updateMatrix();
-    }
-
-    /* renamed from: org.telegram.ui.Components.Crop.CropView$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$allowScale;
-        final /* synthetic */ boolean val$animated;
-        final /* synthetic */ boolean val$fast;
-        final /* synthetic */ boolean val$maximize;
-
-        AnonymousClass3(boolean z, boolean z2, boolean z3, boolean z4) {
-            CropView.this = r1;
-            this.val$fast = z;
-            this.val$allowScale = z2;
-            this.val$maximize = z3;
-            this.val$animated = z4;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            CropView.this.animating = false;
-            if (!this.val$fast) {
-                CropView.this.fitContentInBounds(this.val$allowScale, this.val$maximize, this.val$animated, true);
-            }
-        }
     }
 
     public int getCurrentWidth() {
@@ -780,7 +745,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
     public void maximize(boolean z) {
         int i;
         float f;
-        float f2 = this.state.minimumScale;
+        final float f2 = this.state.minimumScale;
         this.areaView.resetAnimator();
         if (this.state.getOrientation() % 180.0f != 0.0f) {
             f = getCurrentHeight();
@@ -803,11 +768,20 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         resetRotationStartScale();
         if (z) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            RectF rectF = new RectF();
-            RectF rectF2 = new RectF();
+            final RectF rectF = new RectF();
+            final RectF rectF2 = new RectF();
             this.areaView.getCropRect(rectF);
             CropState cropState = this.state;
-            ofFloat.addUpdateListener(new CropView$$ExternalSyntheticLambda2(this, rectF, rectF2, cropState.x, cropState.y, cropState.rotation, cropState.scale, f2));
+            final float f5 = cropState.x;
+            final float f6 = cropState.y;
+            final float f7 = cropState.scale;
+            final float f8 = cropState.rotation;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Crop.CropView$$ExternalSyntheticLambda2
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    CropView.this.lambda$maximize$2(rectF, rectF2, f5, f6, f8, f7, f2, valueAnimator);
+                }
+            });
             ofFloat.setInterpolator(this.areaView.getInterpolator());
             ofFloat.setDuration(250L);
             ofFloat.start();
@@ -1271,9 +1245,9 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         if (this.state != null && !this.hasAspectRatioDialog) {
             this.hasAspectRatioDialog = true;
             String[] strArr = new String[8];
-            Integer[][] numArr = {new Integer[]{3, 2}, new Integer[]{5, 3}, new Integer[]{4, 3}, new Integer[]{5, 4}, new Integer[]{7, 5}, new Integer[]{16, 9}};
-            strArr[0] = LocaleController.getString("CropOriginal", 2131625306);
-            strArr[1] = LocaleController.getString("CropSquare", 2131625308);
+            final Integer[][] numArr = {new Integer[]{3, 2}, new Integer[]{5, 3}, new Integer[]{4, 3}, new Integer[]{5, 4}, new Integer[]{7, 5}, new Integer[]{16, 9}};
+            strArr[0] = LocaleController.getString("CropOriginal", R.string.CropOriginal);
+            strArr[1] = LocaleController.getString("CropSquare", R.string.CropSquare);
             int i = 2;
             for (int i2 = 0; i2 < 6; i2++) {
                 Integer[] numArr2 = numArr[i2];
@@ -1284,9 +1258,19 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
                 }
                 i++;
             }
-            AlertDialog create = new AlertDialog.Builder(getContext()).setItems(strArr, new CropView$$ExternalSyntheticLambda4(this, numArr)).create();
+            AlertDialog create = new AlertDialog.Builder(getContext()).setItems(strArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Crop.CropView$$ExternalSyntheticLambda4
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i3) {
+                    CropView.this.lambda$showAspectRatioDialog$3(numArr, dialogInterface, i3);
+                }
+            }).create();
             create.setCanceledOnTouchOutside(true);
-            create.setOnCancelListener(new CropView$$ExternalSyntheticLambda3(this));
+            create.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.Components.Crop.CropView$$ExternalSyntheticLambda3
+                @Override // android.content.DialogInterface.OnCancelListener
+                public final void onCancel(DialogInterface dialogInterface) {
+                    CropView.this.lambda$showAspectRatioDialog$4(dialogInterface);
+                }
+            });
             create.show();
         }
     }

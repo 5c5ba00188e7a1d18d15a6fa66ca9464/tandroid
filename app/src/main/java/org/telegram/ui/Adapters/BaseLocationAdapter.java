@@ -10,6 +10,7 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$BotInlineMessage;
 import org.telegram.tgnet.TLRPC$BotInlineResult;
@@ -58,7 +59,7 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
         this.delegate = baseLocationAdapterDelegate;
     }
 
-    public void searchDelayed(String str, Location location) {
+    public void searchDelayed(final String str, final Location location) {
         if (str == null || str.length() == 0) {
             this.places.clear();
             this.searchInProgress = false;
@@ -71,13 +72,23 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
         }
         this.searchInProgress = true;
         DispatchQueue dispatchQueue = Utilities.searchQueue;
-        BaseLocationAdapter$$ExternalSyntheticLambda0 baseLocationAdapter$$ExternalSyntheticLambda0 = new BaseLocationAdapter$$ExternalSyntheticLambda0(this, str, location);
-        this.searchRunnable = baseLocationAdapter$$ExternalSyntheticLambda0;
-        dispatchQueue.postRunnable(baseLocationAdapter$$ExternalSyntheticLambda0, 400L);
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                BaseLocationAdapter.this.lambda$searchDelayed$1(str, location);
+            }
+        };
+        this.searchRunnable = runnable;
+        dispatchQueue.postRunnable(runnable, 400L);
     }
 
-    public /* synthetic */ void lambda$searchDelayed$1(String str, Location location) {
-        AndroidUtilities.runOnUIThread(new BaseLocationAdapter$$ExternalSyntheticLambda1(this, str, location));
+    public /* synthetic */ void lambda$searchDelayed$1(final String str, final Location location) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                BaseLocationAdapter.this.lambda$searchDelayed$0(str, location);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$searchDelayed$0(String str, Location location) {
@@ -93,12 +104,22 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
         this.searchingUser = true;
         TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername = new TLRPC$TL_contacts_resolveUsername();
         tLRPC$TL_contacts_resolveUsername.username = MessagesController.getInstance(this.currentAccount).venueSearchBot;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new BaseLocationAdapter$$ExternalSyntheticLambda4(this));
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda4
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                BaseLocationAdapter.this.lambda$searchBotUser$3(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$searchBotUser$3(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$searchBotUser$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
-            AndroidUtilities.runOnUIThread(new BaseLocationAdapter$$ExternalSyntheticLambda2(this, tLObject));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    BaseLocationAdapter.this.lambda$searchBotUser$2(tLObject);
+                }
+            });
         }
     }
 
@@ -124,7 +145,7 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
         searchPlacesWithQuery(str, location, z, false);
     }
 
-    public void searchPlacesWithQuery(String str, Location location, boolean z, boolean z2) {
+    public void searchPlacesWithQuery(final String str, Location location, boolean z, boolean z2) {
         if (location != null) {
             Location location2 = this.lastSearchLocation;
             if (location2 != null && location.distanceTo(location2) < 200.0f) {
@@ -165,13 +186,23 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
             } else {
                 tLRPC$TL_messages_getInlineBotResults.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
             }
-            this.currentRequestNum = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new BaseLocationAdapter$$ExternalSyntheticLambda5(this, str));
+            this.currentRequestNum = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda5
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    BaseLocationAdapter.this.lambda$searchPlacesWithQuery$5(str, tLObject, tLRPC$TL_error);
+                }
+            });
             notifyDataSetChanged();
         }
     }
 
-    public /* synthetic */ void lambda$searchPlacesWithQuery$5(String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new BaseLocationAdapter$$ExternalSyntheticLambda3(this, tLRPC$TL_error, str, tLObject));
+    public /* synthetic */ void lambda$searchPlacesWithQuery$5(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                BaseLocationAdapter.this.lambda$searchPlacesWithQuery$4(tLRPC$TL_error, str, tLObject);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$searchPlacesWithQuery$4(TLRPC$TL_error tLRPC$TL_error, String str, TLObject tLObject) {

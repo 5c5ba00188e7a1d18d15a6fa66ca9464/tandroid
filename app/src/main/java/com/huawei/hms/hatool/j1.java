@@ -3,6 +3,7 @@ package com.huawei.hms.hatool;
 import android.content.Context;
 import android.text.TextUtils;
 import java.util.LinkedHashMap;
+import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public class j1 {
     public String a;
@@ -39,7 +40,7 @@ public class j1 {
         } else if (s0.a(str) || !c(0)) {
             y.e("hmsSdk", "onEvent() parameters check fail. Nothing will be recorded.TAG: " + this.a);
         } else {
-            if (!s0.a("value", str2, 65536)) {
+            if (!s0.a("value", str2, (int) CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT)) {
                 y.e("hmsSdk", "onEvent() parameter VALUE is overlong, content will be cleared.TAG: " + this.a);
                 str2 = "";
             }

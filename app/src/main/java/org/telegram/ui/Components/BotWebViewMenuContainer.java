@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
+import androidx.core.util.Consumer;
 import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.SpringAnimation;
@@ -26,11 +27,14 @@ import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_dataJSON;
 import org.telegram.tgnet.TLRPC$TL_error;
@@ -47,6 +51,7 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.BotWebViewContainer;
+import org.telegram.ui.Components.BotWebViewMenuContainer;
 import org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout;
 import org.telegram.ui.PaymentFormActivity;
 /* loaded from: classes3.dex */
@@ -86,7 +91,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
     private Paint backgroundPaint = new Paint(1);
     private Paint actionBarPaint = new Paint(1);
     private Paint linePaint = new Paint();
-    private Runnable pollRunnable = new BotWebViewMenuContainer$$ExternalSyntheticLambda10(this);
+    private Runnable pollRunnable = new Runnable() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda10
+        @Override // java.lang.Runnable
+        public final void run() {
+            BotWebViewMenuContainer.this.lambda$new$4();
+        }
+    };
 
     public static /* synthetic */ void lambda$static$1(BotWebViewMenuContainer botWebViewMenuContainer, float f) {
         botWebViewMenuContainer.actionBarTransitionProgress = f;
@@ -100,12 +110,22 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             tLRPC$TL_messages_prolongWebView.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.botId);
             tLRPC$TL_messages_prolongWebView.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.botId);
             tLRPC$TL_messages_prolongWebView.query_id = this.queryId;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_prolongWebView, new BotWebViewMenuContainer$$ExternalSyntheticLambda19(this));
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_prolongWebView, new RequestDelegate() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda19
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    BotWebViewMenuContainer.this.lambda$new$3(tLObject, tLRPC$TL_error);
+                }
+            });
         }
     }
 
-    public /* synthetic */ void lambda$new$3(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new BotWebViewMenuContainer$$ExternalSyntheticLambda15(this, tLRPC$TL_error));
+    public /* synthetic */ void lambda$new$3(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda15
+            @Override // java.lang.Runnable
+            public final void run() {
+                BotWebViewMenuContainer.this.lambda$new$2(tLRPC$TL_error);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$new$2(TLRPC$TL_error tLRPC$TL_error) {
@@ -119,14 +139,14 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     }
 
-    public BotWebViewMenuContainer(Context context, ChatActivityEnterView chatActivityEnterView) {
+    public BotWebViewMenuContainer(Context context, final ChatActivityEnterView chatActivityEnterView) {
         super(context);
         this.parentEnterView = chatActivityEnterView;
-        ActionBar actionBar = chatActivityEnterView.getParentFragment().getActionBar();
-        ActionBarMenuItem addItem = actionBar.createMenu().addItem(1000, 2131165453);
+        final ActionBar actionBar = chatActivityEnterView.getParentFragment().getActionBar();
+        ActionBarMenuItem addItem = actionBar.createMenu().addItem(1000, R.drawable.ic_ab_other);
         this.botMenuItem = addItem;
         addItem.setVisibility(8);
-        this.botMenuItem.addSubItem(2131230864, 2131165912, LocaleController.getString(2131624757));
+        this.botMenuItem.addSubItem(R.id.menu_reload_page, R.drawable.msg_retry, LocaleController.getString((int) R.string.BotWebViewReloadPage));
         this.actionBarOnItemClick = actionBar.getActionBarMenuOnItemClick();
         BotWebViewContainer botWebViewContainer = new BotWebViewContainer(context, chatActivityEnterView.getParentFragment().getResourceProvider(), getColor("windowBackgroundWhite"));
         this.webViewContainer = botWebViewContainer;
@@ -137,20 +157,90 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         this.linePaint.setStrokeWidth(AndroidUtilities.dp(4.0f));
         this.linePaint.setStrokeCap(Paint.Cap.ROUND);
         this.dimPaint.setColor(1073741824);
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-        this.swipeContainer = anonymousClass2;
-        anonymousClass2.setScrollListener(new BotWebViewMenuContainer$$ExternalSyntheticLambda16(this, actionBar));
-        this.swipeContainer.setScrollEndListener(new BotWebViewMenuContainer$$ExternalSyntheticLambda12(this));
+        ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer(context) { // from class: org.telegram.ui.Components.BotWebViewMenuContainer.2
+            /* JADX WARN: Removed duplicated region for block: B:10:0x001f  */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x0029  */
+            @Override // android.widget.FrameLayout, android.view.View
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
+            protected void onMeasure(int i, int i2) {
+                int i3;
+                float f;
+                int size = View.MeasureSpec.getSize(i2);
+                if (!AndroidUtilities.isTablet()) {
+                    android.graphics.Point point = AndroidUtilities.displaySize;
+                    if (point.x > point.y) {
+                        i3 = (int) (size / 3.5f);
+                        if (i3 < 0) {
+                            i3 = 0;
+                        }
+                        f = i3;
+                        if (getOffsetY() != f) {
+                            BotWebViewMenuContainer.this.ignoreLayout = true;
+                            setOffsetY(f);
+                            BotWebViewMenuContainer.this.ignoreLayout = false;
+                        }
+                        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i2) - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(24.0f)) - AndroidUtilities.dp(5.0f), 1073741824));
+                    }
+                }
+                i3 = (size / 5) * 2;
+                if (i3 < 0) {
+                }
+                f = i3;
+                if (getOffsetY() != f) {
+                }
+                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i2) - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(24.0f)) - AndroidUtilities.dp(5.0f), 1073741824));
+            }
+
+            @Override // android.view.View, android.view.ViewParent
+            public void requestLayout() {
+                if (BotWebViewMenuContainer.this.ignoreLayout) {
+                    return;
+                }
+                super.requestLayout();
+            }
+        };
+        this.swipeContainer = webViewSwipeContainer;
+        webViewSwipeContainer.setScrollListener(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda16
+            @Override // java.lang.Runnable
+            public final void run() {
+                BotWebViewMenuContainer.this.lambda$new$5(actionBar);
+            }
+        });
+        this.swipeContainer.setScrollEndListener(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda12
+            @Override // java.lang.Runnable
+            public final void run() {
+                BotWebViewMenuContainer.this.lambda$new$6();
+            }
+        });
         this.swipeContainer.addView(this.webViewContainer);
-        this.swipeContainer.setDelegate(new BotWebViewMenuContainer$$ExternalSyntheticLambda20(this));
+        this.swipeContainer.setDelegate(new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda20
+            @Override // org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate
+            public final void onDismiss() {
+                BotWebViewMenuContainer.this.lambda$new$7();
+            }
+        });
         this.swipeContainer.setTopActionBarOffsetY((ActionBar.getCurrentActionBarHeight() + AndroidUtilities.statusBarHeight) - AndroidUtilities.dp(24.0f));
         this.swipeContainer.setSwipeOffsetAnimationDisallowed(true);
-        this.swipeContainer.setIsKeyboardVisible(new BotWebViewMenuContainer$$ExternalSyntheticLambda17(chatActivityEnterView));
+        this.swipeContainer.setIsKeyboardVisible(new GenericProvider() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda17
+            @Override // org.telegram.messenger.GenericProvider
+            public final Object provide(Object obj) {
+                Boolean lambda$new$8;
+                lambda$new$8 = BotWebViewMenuContainer.lambda$new$8(ChatActivityEnterView.this, (Void) obj);
+                return lambda$new$8;
+            }
+        });
         addView(this.swipeContainer, LayoutHelper.createFrame(-1, -1.0f, 48, 0.0f, 24.0f, 0.0f, 0.0f));
         ChatAttachAlertBotWebViewLayout.WebProgressView webProgressView = new ChatAttachAlertBotWebViewLayout.WebProgressView(context, chatActivityEnterView.getParentFragment().getResourceProvider());
         this.progressView = webProgressView;
         addView(webProgressView, LayoutHelper.createFrame(-1, -2.0f, 80, 0.0f, 0.0f, 0.0f, 5.0f));
-        this.webViewContainer.setWebViewProgressListener(new BotWebViewMenuContainer$$ExternalSyntheticLambda4(this));
+        this.webViewContainer.setWebViewProgressListener(new Consumer() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda4
+            @Override // androidx.core.util.Consumer
+            public final void accept(Object obj) {
+                BotWebViewMenuContainer.this.lambda$new$10((Float) obj);
+            }
+        });
         setWillNotDraw(false);
     }
 
@@ -188,14 +278,19 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
         public void onWebAppSetActionBarColor(String str) {
-            int i = BotWebViewMenuContainer.this.overrideActionBarBackground;
-            int color = BotWebViewMenuContainer.this.getColor(str);
+            final int i = BotWebViewMenuContainer.this.overrideActionBarBackground;
+            final int color = BotWebViewMenuContainer.this.getColor(str);
             if (i == 0) {
                 BotWebViewMenuContainer.this.overrideActionBarBackground = color;
             }
             ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(200L);
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            duration.addUpdateListener(new BotWebViewMenuContainer$1$$ExternalSyntheticLambda0(this, i, color));
+            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$1$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    BotWebViewMenuContainer.AnonymousClass1.this.lambda$onWebAppSetActionBarColor$0(i, color, valueAnimator);
+                }
+            });
             duration.start();
         }
 
@@ -210,12 +305,17 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
-        public void onWebAppSetBackgroundColor(int i) {
+        public void onWebAppSetBackgroundColor(final int i) {
             BotWebViewMenuContainer.this.overrideBackgroundColor = true;
-            int color = BotWebViewMenuContainer.this.backgroundPaint.getColor();
+            final int color = BotWebViewMenuContainer.this.backgroundPaint.getColor();
             ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(200L);
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            duration.addUpdateListener(new BotWebViewMenuContainer$1$$ExternalSyntheticLambda1(this, color, i));
+            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$1$$ExternalSyntheticLambda1
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    BotWebViewMenuContainer.AnonymousClass1.this.lambda$onWebAppSetBackgroundColor$1(color, i, valueAnimator);
+                }
+            });
             duration.start();
         }
 
@@ -233,7 +333,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
-        public void onWebAppOpenInvoice(String str, TLObject tLObject) {
+        public void onWebAppOpenInvoice(final String str, TLObject tLObject) {
             PaymentFormActivity paymentFormActivity;
             ChatActivity parentFragment = this.val$parentEnterView.getParentFragment();
             if (tLObject instanceof TLRPC$TL_payments_paymentForm) {
@@ -244,7 +344,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
                 paymentFormActivity = tLObject instanceof TLRPC$TL_payments_paymentReceipt ? new PaymentFormActivity((TLRPC$TL_payments_paymentReceipt) tLObject) : null;
             }
             if (paymentFormActivity != null) {
-                paymentFormActivity.setPaymentFormCallback(new BotWebViewMenuContainer$1$$ExternalSyntheticLambda3(this, str));
+                paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$1$$ExternalSyntheticLambda3
+                    @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
+                    public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
+                        BotWebViewMenuContainer.AnonymousClass1.this.lambda$onWebAppOpenInvoice$2(str, invoiceStatus);
+                    }
+                });
                 parentFragment.presentFragment(paymentFormActivity);
             }
         }
@@ -257,7 +362,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         public void onSetupMainButton(boolean z, boolean z2, String str, int i, int i2, boolean z3) {
             ChatActivityBotWebViewButton botWebViewButton = this.val$parentEnterView.getBotWebViewButton();
             botWebViewButton.setupButtonParams(z2, str, i, i2, z3);
-            botWebViewButton.setOnClickListener(new BotWebViewMenuContainer$1$$ExternalSyntheticLambda2(this));
+            botWebViewButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$1$$ExternalSyntheticLambda2
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    BotWebViewMenuContainer.AnonymousClass1.this.lambda$onSetupMainButton$3(view);
+                }
+            });
             if (z != BotWebViewMenuContainer.this.botWebViewButtonWasVisible) {
                 BotWebViewMenuContainer.this.animateBotButton(z);
             }
@@ -273,62 +383,9 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
                 if (z) {
                     AndroidUtilities.updateImageViewImageAnimated(this.val$actionBar.getBackButton(), this.val$actionBar.getBackButtonDrawable());
                 } else {
-                    AndroidUtilities.updateImageViewImageAnimated(this.val$actionBar.getBackButton(), 2131165473);
+                    AndroidUtilities.updateImageViewImageAnimated(this.val$actionBar.getBackButton(), (int) R.drawable.ic_close_white);
                 }
             }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            BotWebViewMenuContainer.this = r1;
-        }
-
-        /* JADX WARN: Removed duplicated region for block: B:10:0x001f  */
-        /* JADX WARN: Removed duplicated region for block: B:13:0x0029  */
-        @Override // android.widget.FrameLayout, android.view.View
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        protected void onMeasure(int i, int i2) {
-            int i3;
-            float f;
-            int size = View.MeasureSpec.getSize(i2);
-            if (!AndroidUtilities.isTablet()) {
-                android.graphics.Point point = AndroidUtilities.displaySize;
-                if (point.x > point.y) {
-                    i3 = (int) (size / 3.5f);
-                    if (i3 < 0) {
-                        i3 = 0;
-                    }
-                    f = i3;
-                    if (getOffsetY() != f) {
-                        BotWebViewMenuContainer.this.ignoreLayout = true;
-                        setOffsetY(f);
-                        BotWebViewMenuContainer.this.ignoreLayout = false;
-                    }
-                    super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i2) - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(24.0f)) - AndroidUtilities.dp(5.0f), 1073741824));
-                }
-            }
-            i3 = (size / 5) * 2;
-            if (i3 < 0) {
-            }
-            f = i3;
-            if (getOffsetY() != f) {
-            }
-            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i2) - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(24.0f)) - AndroidUtilities.dp(5.0f), 1073741824));
-        }
-
-        @Override // android.view.View, android.view.ViewParent
-        public void requestLayout() {
-            if (BotWebViewMenuContainer.this.ignoreLayout) {
-                return;
-            }
-            super.requestLayout();
         }
     }
 
@@ -352,7 +409,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
                 this.springAnimation.start();
                 if (!this.webViewContainer.isBackButtonVisible()) {
                     if (f2 == 100.0f) {
-                        AndroidUtilities.updateImageViewImageAnimated(actionBar.getBackButton(), 2131165473);
+                        AndroidUtilities.updateImageViewImageAnimated(actionBar.getBackButton(), (int) R.drawable.ic_close_white);
                     } else {
                         AndroidUtilities.updateImageViewImageAnimated(actionBar.getBackButton(), actionBar.getBackButtonDrawable());
                     }
@@ -381,22 +438,19 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         if (f.floatValue() == 1.0f) {
             ValueAnimator duration = ValueAnimator.ofFloat(1.0f, 0.0f).setDuration(200L);
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            duration.addUpdateListener(new BotWebViewMenuContainer$$ExternalSyntheticLambda2(this));
-            duration.addListener(new AnonymousClass3());
+            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda2
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    BotWebViewMenuContainer.this.lambda$new$9(valueAnimator);
+                }
+            });
+            duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer.3
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    BotWebViewMenuContainer.this.progressView.setVisibility(8);
+                }
+            });
             duration.start();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        AnonymousClass3() {
-            BotWebViewMenuContainer.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            BotWebViewMenuContainer.this.progressView.setVisibility(8);
         }
     }
 
@@ -437,7 +491,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
     public boolean onCheckDismissByUser() {
         if (this.needCloseConfirmation) {
             TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.botId));
-            AlertDialog create = new AlertDialog.Builder(getContext()).setTitle(user != null ? ContactsController.formatName(user.first_name, user.last_name) : null).setMessage(LocaleController.getString(2131624751)).setPositiveButton(LocaleController.getString(2131624752), new BotWebViewMenuContainer$$ExternalSyntheticLambda3(this)).setNegativeButton(LocaleController.getString(2131624832), null).create();
+            AlertDialog create = new AlertDialog.Builder(getContext()).setTitle(user != null ? ContactsController.formatName(user.first_name, user.last_name) : null).setMessage(LocaleController.getString((int) R.string.BotWebViewChangesMayNotBeSaved)).setPositiveButton(LocaleController.getString((int) R.string.BotWebViewCloseAnyway), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda3
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i) {
+                    BotWebViewMenuContainer.this.lambda$onCheckDismissByUser$11(dialogInterface, i);
+                }
+            }).setNegativeButton(LocaleController.getString((int) R.string.Cancel), null).create();
             create.show();
             ((TextView) create.getButton(-1)).setTextColor(getColor("dialogTextRed"));
             return false;
@@ -450,8 +509,8 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         dismiss();
     }
 
-    public void animateBotButton(boolean z) {
-        ChatActivityBotWebViewButton botWebViewButton = this.parentEnterView.getBotWebViewButton();
+    public void animateBotButton(final boolean z) {
+        final ChatActivityBotWebViewButton botWebViewButton = this.parentEnterView.getBotWebViewButton();
         SpringAnimation springAnimation = this.botWebViewButtonAnimator;
         if (springAnimation != null) {
             springAnimation.cancel();
@@ -467,7 +526,17 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         if (z) {
             f = 1.0f;
         }
-        SpringAnimation addEndListener = springAnimation2.setSpring(new SpringForce(f * simpleFloatPropertyCompat.getMultiplier()).setStiffness(z ? 600.0f : 750.0f).setDampingRatio(1.0f)).addUpdateListener(new BotWebViewMenuContainer$$ExternalSyntheticLambda8(this)).addEndListener(new BotWebViewMenuContainer$$ExternalSyntheticLambda7(this, z, botWebViewButton));
+        SpringAnimation addEndListener = springAnimation2.setSpring(new SpringForce(f * simpleFloatPropertyCompat.getMultiplier()).setStiffness(z ? 600.0f : 750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda8
+            @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
+            public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f2, float f3) {
+                BotWebViewMenuContainer.this.lambda$animateBotButton$12(dynamicAnimation, f2, f3);
+            }
+        }).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda7
+            @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+            public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f2, float f3) {
+                BotWebViewMenuContainer.this.lambda$animateBotButton$13(z, botWebViewButton, dynamicAnimation, z2, f2, f3);
+            }
+        });
         this.botWebViewButtonAnimator = addEndListener;
         addEndListener.start();
         this.botWebViewButtonWasVisible = z;
@@ -492,7 +561,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (this.springAnimation == null) {
-            this.springAnimation = new SpringAnimation(this, ACTION_BAR_TRANSITION_PROGRESS_VALUE).setSpring(new SpringForce().setStiffness(1200.0f).setDampingRatio(1.0f)).addEndListener(new BotWebViewMenuContainer$$ExternalSyntheticLambda6(this));
+            this.springAnimation = new SpringAnimation(this, ACTION_BAR_TRANSITION_PROGRESS_VALUE).setSpring(new SpringForce().setStiffness(1200.0f).setDampingRatio(1.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda6
+                @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+                public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+                    BotWebViewMenuContainer.this.lambda$onAttachedToWindow$14(dynamicAnimation, z, f, f2);
+                }
+            });
         }
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.webViewResultSent);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewTheme);
@@ -507,47 +581,39 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         if (f == 100.0f && this.parentEnterView.hasBotWebView()) {
             parentFragment.showHeaderItem(false);
             this.botMenuItem.setVisibility(0);
-            actionBar.setActionBarMenuOnItemClick(new AnonymousClass4());
+            actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer.4
+                @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+                public void onItemClick(int i) {
+                    if (i == -1) {
+                        if (BotWebViewMenuContainer.this.webViewContainer.onBackPressed()) {
+                            return;
+                        }
+                        BotWebViewMenuContainer.this.onCheckDismissByUser();
+                    } else if (i != R.id.menu_reload_page) {
+                        if (i != R.id.menu_settings) {
+                            return;
+                        }
+                        BotWebViewMenuContainer.this.webViewContainer.onSettingsButtonPressed();
+                    } else {
+                        if (BotWebViewMenuContainer.this.webViewContainer.getWebView() != null) {
+                            BotWebViewMenuContainer.this.webViewContainer.getWebView().animate().cancel();
+                            BotWebViewMenuContainer.this.webViewContainer.getWebView().animate().alpha(0.0f).start();
+                        }
+                        BotWebViewMenuContainer.this.isLoaded = false;
+                        BotWebViewMenuContainer.this.progressView.setLoadProgress(0.0f);
+                        BotWebViewMenuContainer.this.progressView.setAlpha(1.0f);
+                        BotWebViewMenuContainer.this.progressView.setVisibility(0);
+                        BotWebViewMenuContainer.this.webViewContainer.setBotUser(MessagesController.getInstance(BotWebViewMenuContainer.this.currentAccount).getUser(Long.valueOf(BotWebViewMenuContainer.this.botId)));
+                        BotWebViewMenuContainer.this.webViewContainer.loadFlickerAndSettingsItem(BotWebViewMenuContainer.this.currentAccount, BotWebViewMenuContainer.this.botId, BotWebViewMenuContainer.this.settingsItem);
+                        BotWebViewMenuContainer.this.webViewContainer.reload();
+                    }
+                }
+            });
             return;
         }
         parentFragment.showHeaderItem(true);
         this.botMenuItem.setVisibility(8);
         actionBar.setActionBarMenuOnItemClick(this.actionBarOnItemClick);
-    }
-
-    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass4() {
-            BotWebViewMenuContainer.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                if (BotWebViewMenuContainer.this.webViewContainer.onBackPressed()) {
-                    return;
-                }
-                BotWebViewMenuContainer.this.onCheckDismissByUser();
-            } else if (i != 2131230864) {
-                if (i != 2131230865) {
-                    return;
-                }
-                BotWebViewMenuContainer.this.webViewContainer.onSettingsButtonPressed();
-            } else {
-                if (BotWebViewMenuContainer.this.webViewContainer.getWebView() != null) {
-                    BotWebViewMenuContainer.this.webViewContainer.getWebView().animate().cancel();
-                    BotWebViewMenuContainer.this.webViewContainer.getWebView().animate().alpha(0.0f).start();
-                }
-                BotWebViewMenuContainer.this.isLoaded = false;
-                BotWebViewMenuContainer.this.progressView.setLoadProgress(0.0f);
-                BotWebViewMenuContainer.this.progressView.setAlpha(1.0f);
-                BotWebViewMenuContainer.this.progressView.setVisibility(0);
-                BotWebViewMenuContainer.this.webViewContainer.setBotUser(MessagesController.getInstance(BotWebViewMenuContainer.this.currentAccount).getUser(Long.valueOf(BotWebViewMenuContainer.this.botId)));
-                BotWebViewMenuContainer.this.webViewContainer.loadFlickerAndSettingsItem(BotWebViewMenuContainer.this.currentAccount, BotWebViewMenuContainer.this.botId, BotWebViewMenuContainer.this.settingsItem);
-                BotWebViewMenuContainer.this.webViewContainer.reload();
-            }
-        }
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -599,12 +665,27 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             return;
         }
         int scrollY = this.webViewContainer.getWebView().getScrollY();
-        int i2 = (measureKeyboardHeight - i) + scrollY;
+        final int i2 = (measureKeyboardHeight - i) + scrollY;
         ValueAnimator duration = ValueAnimator.ofInt(scrollY, i2).setDuration(250L);
         this.webViewScrollAnimator = duration;
         duration.setInterpolator(ChatListItemAnimator.DEFAULT_INTERPOLATOR);
-        this.webViewScrollAnimator.addUpdateListener(new BotWebViewMenuContainer$$ExternalSyntheticLambda0(this));
-        this.webViewScrollAnimator.addListener(new AnonymousClass5(i2));
+        this.webViewScrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                BotWebViewMenuContainer.this.lambda$onPanTransitionStart$15(valueAnimator2);
+            }
+        });
+        this.webViewScrollAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer.5
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (BotWebViewMenuContainer.this.webViewContainer.getWebView() != null) {
+                    BotWebViewMenuContainer.this.webViewContainer.getWebView().setScrollY(i2);
+                }
+                if (animator == BotWebViewMenuContainer.this.webViewScrollAnimator) {
+                    BotWebViewMenuContainer.this.webViewScrollAnimator = null;
+                }
+            }
+        });
         this.webViewScrollAnimator.start();
     }
 
@@ -612,27 +693,6 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         int intValue = ((Integer) valueAnimator.getAnimatedValue()).intValue();
         if (this.webViewContainer.getWebView() != null) {
             this.webViewContainer.getWebView().setScrollY(intValue);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends AnimatorListenerAdapter {
-        final /* synthetic */ int val$toY;
-
-        AnonymousClass5(int i) {
-            BotWebViewMenuContainer.this = r1;
-            this.val$toY = i;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (BotWebViewMenuContainer.this.webViewContainer.getWebView() != null) {
-                BotWebViewMenuContainer.this.webViewContainer.getWebView().setScrollY(this.val$toY);
-            }
-            if (animator == BotWebViewMenuContainer.this.webViewScrollAnimator) {
-                BotWebViewMenuContainer.this.webViewScrollAnimator = null;
-            }
         }
     }
 
@@ -736,7 +796,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             view.removeOnLayoutChangeListener(this);
             BotWebViewMenuContainer.this.swipeContainer.setSwipeOffsetY(BotWebViewMenuContainer.this.swipeContainer.getHeight());
             BotWebViewMenuContainer.this.setAlpha(1.0f);
-            new SpringAnimation(BotWebViewMenuContainer.this.swipeContainer, ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.SWIPE_OFFSET_Y, 0.0f).setSpring(new SpringForce(0.0f).setDampingRatio(0.75f).setStiffness(500.0f)).addEndListener(new BotWebViewMenuContainer$6$$ExternalSyntheticLambda0(this)).start();
+            new SpringAnimation(BotWebViewMenuContainer.this.swipeContainer, ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.SWIPE_OFFSET_Y, 0.0f).setSpring(new SpringForce(0.0f).setDampingRatio(0.75f).setStiffness(500.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$6$$ExternalSyntheticLambda0
+                @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+                public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+                    BotWebViewMenuContainer.AnonymousClass6.this.lambda$onLayoutChange$0(dynamicAnimation, z, f, f2);
+                }
+            }).start();
         }
 
         public /* synthetic */ void lambda$onLayoutChange$0(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
@@ -773,11 +838,21 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             FileLog.e(e);
         }
         tLRPC$TL_messages_requestWebView.from_bot_menu = true;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_requestWebView, new BotWebViewMenuContainer$$ExternalSyntheticLambda18(this));
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_requestWebView, new RequestDelegate() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda18
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                BotWebViewMenuContainer.this.lambda$loadWebView$17(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$loadWebView$17(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new BotWebViewMenuContainer$$ExternalSyntheticLambda14(this, tLObject));
+    public /* synthetic */ void lambda$loadWebView$17(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda14
+            @Override // java.lang.Runnable
+            public final void run() {
+                BotWebViewMenuContainer.this.lambda$loadWebView$16(tLObject);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$loadWebView$16(TLObject tLObject) {
@@ -810,13 +885,18 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         dismiss(null);
     }
 
-    public void dismiss(Runnable runnable) {
+    public void dismiss(final Runnable runnable) {
         if (this.dismissed) {
             return;
         }
         this.dismissed = true;
         ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = this.swipeContainer;
-        webViewSwipeContainer.stickTo(webViewSwipeContainer.getHeight() + this.parentEnterView.getSizeNotifierLayout().measureKeyboardHeight(), new BotWebViewMenuContainer$$ExternalSyntheticLambda13(this, runnable));
+        webViewSwipeContainer.stickTo(webViewSwipeContainer.getHeight() + this.parentEnterView.getSizeNotifierLayout().measureKeyboardHeight(), new Runnable() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                BotWebViewMenuContainer.this.lambda$dismiss$18(runnable);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$dismiss$18(Runnable runnable) {
@@ -841,7 +921,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         BotWebViewContainer botWebViewContainer = new BotWebViewContainer(getContext(), this.parentEnterView.getParentFragment().getResourceProvider(), getColor("windowBackgroundWhite"));
         this.webViewContainer = botWebViewContainer;
         botWebViewContainer.setDelegate(this.webViewDelegate);
-        this.webViewContainer.setWebViewProgressListener(new BotWebViewMenuContainer$$ExternalSyntheticLambda5(this));
+        this.webViewContainer.setWebViewProgressListener(new Consumer() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda5
+            @Override // androidx.core.util.Consumer
+            public final void accept(Object obj) {
+                BotWebViewMenuContainer.this.lambda$onDismiss$20((Float) obj);
+            }
+        });
         this.swipeContainer.addView(this.webViewContainer);
         this.isLoaded = false;
         AndroidUtilities.cancelRunOnUIThread(this.pollRunnable);
@@ -850,7 +935,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             this.botWebViewButtonWasVisible = false;
             animateBotButton(false);
         }
-        AndroidUtilities.runOnUIThread(new BotWebViewMenuContainer$$ExternalSyntheticLambda9(this), z ? 200L : 0L);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda9
+            @Override // java.lang.Runnable
+            public final void run() {
+                BotWebViewMenuContainer.this.lambda$onDismiss$21();
+            }
+        }, z ? 200L : 0L);
     }
 
     public /* synthetic */ void lambda$onDismiss$20(Float f) {
@@ -858,22 +948,19 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         if (f.floatValue() == 1.0f) {
             ValueAnimator duration = ValueAnimator.ofFloat(1.0f, 0.0f).setDuration(200L);
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            duration.addUpdateListener(new BotWebViewMenuContainer$$ExternalSyntheticLambda1(this));
-            duration.addListener(new AnonymousClass7());
+            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda1
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    BotWebViewMenuContainer.this.lambda$onDismiss$19(valueAnimator);
+                }
+            });
+            duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer.7
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    BotWebViewMenuContainer.this.progressView.setVisibility(8);
+                }
+            });
             duration.start();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$7 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass7 extends AnimatorListenerAdapter {
-        AnonymousClass7() {
-            BotWebViewMenuContainer.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            BotWebViewMenuContainer.this.progressView.setVisibility(8);
         }
     }
 
@@ -918,7 +1005,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             this.webViewContainer.updateFlickerBackgroundColor(getColor("windowBackgroundWhite"));
             invalidate();
             invalidateActionBar();
-            AndroidUtilities.runOnUIThread(new BotWebViewMenuContainer$$ExternalSyntheticLambda11(this), 300L);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda11
+                @Override // java.lang.Runnable
+                public final void run() {
+                    BotWebViewMenuContainer.this.invalidateActionBar();
+                }
+            }, 300L);
         }
     }
 }

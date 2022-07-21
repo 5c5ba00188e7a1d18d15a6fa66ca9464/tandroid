@@ -72,16 +72,30 @@ public final class Component<T> {
     }
 
     @SafeVarargs
-    public static <T> Component<T> of(T t, Class<T> cls, Class<? super T>... clsArr) {
-        return builder(cls, clsArr).factory(new Component$$ExternalSyntheticLambda1(t)).build();
+    public static <T> Component<T> of(final T t, Class<T> cls, Class<? super T>... clsArr) {
+        return builder(cls, clsArr).factory(new ComponentFactory() { // from class: com.google.firebase.components.Component$$ExternalSyntheticLambda1
+            @Override // com.google.firebase.components.ComponentFactory
+            public final Object create(ComponentContainer componentContainer) {
+                Object lambda$of$1;
+                lambda$of$1 = Component.lambda$of$1(t, componentContainer);
+                return lambda$of$1;
+            }
+        }).build();
     }
 
     public static <T> Builder<T> intoSetBuilder(Class<T> cls) {
         return builder(cls).intoSet();
     }
 
-    public static <T> Component<T> intoSet(T t, Class<T> cls) {
-        return intoSetBuilder(cls).factory(new Component$$ExternalSyntheticLambda0(t)).build();
+    public static <T> Component<T> intoSet(final T t, Class<T> cls) {
+        return intoSetBuilder(cls).factory(new ComponentFactory() { // from class: com.google.firebase.components.Component$$ExternalSyntheticLambda0
+            @Override // com.google.firebase.components.ComponentFactory
+            public final Object create(ComponentContainer componentContainer) {
+                Object lambda$intoSet$2;
+                lambda$intoSet$2 = Component.lambda$intoSet$2(t, componentContainer);
+                return lambda$intoSet$2;
+            }
+        }).build();
     }
 
     /* loaded from: classes.dex */

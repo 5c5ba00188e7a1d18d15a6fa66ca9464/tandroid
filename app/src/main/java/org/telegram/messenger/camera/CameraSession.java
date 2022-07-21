@@ -1,6 +1,5 @@
 package org.telegram.messenger.camera;
 
-import android.content.Context;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
@@ -53,44 +52,33 @@ public class CameraSession {
         this.cameraInfo = cameraInfo;
         this.isRound = z;
         this.currentFlashMode = ApplicationLoader.applicationContext.getSharedPreferences("camera", 0).getString(this.cameraInfo.frontCamera != 0 ? "flashMode_front" : "flashMode", "off");
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(ApplicationLoader.applicationContext);
-        this.orientationEventListener = anonymousClass1;
-        if (anonymousClass1.canDetectOrientation()) {
+        OrientationEventListener orientationEventListener = new OrientationEventListener(ApplicationLoader.applicationContext) { // from class: org.telegram.messenger.camera.CameraSession.1
+            @Override // android.view.OrientationEventListener
+            public void onOrientationChanged(int i2) {
+                if (CameraSession.this.orientationEventListener == null || !CameraSession.this.initied || i2 == -1) {
+                    return;
+                }
+                CameraSession cameraSession = CameraSession.this;
+                cameraSession.jpegOrientation = cameraSession.roundOrientation(i2, cameraSession.jpegOrientation);
+                int rotation = ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getRotation();
+                if (CameraSession.this.lastOrientation == CameraSession.this.jpegOrientation && rotation == CameraSession.this.lastDisplayOrientation) {
+                    return;
+                }
+                if (!CameraSession.this.isVideo) {
+                    CameraSession.this.configurePhotoCamera();
+                }
+                CameraSession.this.lastDisplayOrientation = rotation;
+                CameraSession cameraSession2 = CameraSession.this;
+                cameraSession2.lastOrientation = cameraSession2.jpegOrientation;
+            }
+        };
+        this.orientationEventListener = orientationEventListener;
+        if (orientationEventListener.canDetectOrientation()) {
             this.orientationEventListener.enable();
             return;
         }
         this.orientationEventListener.disable();
         this.orientationEventListener = null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.camera.CameraSession$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends OrientationEventListener {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context) {
-            super(context);
-            CameraSession.this = r1;
-        }
-
-        @Override // android.view.OrientationEventListener
-        public void onOrientationChanged(int i) {
-            if (CameraSession.this.orientationEventListener == null || !CameraSession.this.initied || i == -1) {
-                return;
-            }
-            CameraSession cameraSession = CameraSession.this;
-            cameraSession.jpegOrientation = cameraSession.roundOrientation(i, cameraSession.jpegOrientation);
-            int rotation = ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getRotation();
-            if (CameraSession.this.lastOrientation == CameraSession.this.jpegOrientation && rotation == CameraSession.this.lastDisplayOrientation) {
-                return;
-            }
-            if (!CameraSession.this.isVideo) {
-                CameraSession.this.configurePhotoCamera();
-            }
-            CameraSession.this.lastDisplayOrientation = rotation;
-            CameraSession cameraSession2 = CameraSession.this;
-            cameraSession2.lastOrientation = cameraSession2.jpegOrientation;
-        }
     }
 
     private void updateCameraInfo() {

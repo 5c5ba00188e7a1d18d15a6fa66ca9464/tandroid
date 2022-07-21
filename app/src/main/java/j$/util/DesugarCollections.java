@@ -385,7 +385,7 @@ public class DesugarCollections {
             field.setAccessible(true);
         }
         try {
-            field2 = cls.getDeclaredField("c");
+            field2 = cls.getDeclaredField(com.huawei.hms.opendevice.c.a);
         } catch (NoSuchFieldException unused2) {
             field2 = null;
         }

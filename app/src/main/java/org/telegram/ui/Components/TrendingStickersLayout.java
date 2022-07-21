@@ -24,7 +24,9 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
@@ -47,6 +49,7 @@ import org.telegram.ui.Cells.GraySectionCell;
 import org.telegram.ui.Cells.StickerEmojiCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickersAlert;
+import org.telegram.ui.Components.TrendingStickersLayout;
 /* loaded from: classes3.dex */
 public class TrendingStickersLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final TrendingStickersAdapter adapter;
@@ -122,7 +125,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         this(context, delegate, new TLRPC$StickerSetCovered[10], new LongSparseArray(), new LongSparseArray(), null, null);
     }
 
-    public TrendingStickersLayout(Context context, Delegate delegate, TLRPC$StickerSetCovered[] tLRPC$StickerSetCoveredArr, LongSparseArray<TLRPC$StickerSetCovered> longSparseArray, LongSparseArray<TLRPC$StickerSetCovered> longSparseArray2, TLRPC$StickerSetCovered tLRPC$StickerSetCovered, Theme.ResourcesProvider resourcesProvider) {
+    public TrendingStickersLayout(Context context, final Delegate delegate, TLRPC$StickerSetCovered[] tLRPC$StickerSetCoveredArr, LongSparseArray<TLRPC$StickerSetCovered> longSparseArray, LongSparseArray<TLRPC$StickerSetCovered> longSparseArray2, TLRPC$StickerSetCovered tLRPC$StickerSetCovered, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         int i = UserConfig.selectedAccount;
         this.currentAccount = i;
@@ -136,30 +139,210 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         this.resourcesProvider = resourcesProvider;
         TrendingStickersAdapter trendingStickersAdapter = new TrendingStickersAdapter(context);
         this.adapter = trendingStickersAdapter;
-        this.searchAdapter = new StickersSearchAdapter(context, new AnonymousClass1(delegate), tLRPC$StickerSetCoveredArr, longSparseArray, longSparseArray2, resourcesProvider);
+        this.searchAdapter = new StickersSearchAdapter(context, new StickersSearchAdapter.Delegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout.1
+            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
+            public void onSearchStart() {
+                TrendingStickersLayout.this.searchView.getProgressDrawable().startAnimation();
+            }
+
+            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
+            public void onSearchStop() {
+                TrendingStickersLayout.this.searchView.getProgressDrawable().stopAnimation();
+            }
+
+            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
+            public void setAdapterVisible(boolean z) {
+                boolean z2 = true;
+                if (!z || TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.searchAdapter) {
+                    if (z || TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.adapter) {
+                        z2 = false;
+                    } else {
+                        TrendingStickersLayout.this.listView.setAdapter(TrendingStickersLayout.this.adapter);
+                    }
+                } else {
+                    TrendingStickersLayout.this.listView.setAdapter(TrendingStickersLayout.this.searchAdapter);
+                }
+                if (!z2 || TrendingStickersLayout.this.listView.getAdapter().getItemCount() <= 0) {
+                    return;
+                }
+                TrendingStickersLayout.this.layoutManager.scrollToPositionWithOffset(0, (-TrendingStickersLayout.this.listView.getPaddingTop()) + AndroidUtilities.dp(58.0f) + TrendingStickersLayout.this.topOffset, false);
+            }
+
+            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
+            public void onStickerSetAdd(TLRPC$StickerSetCovered tLRPC$StickerSetCovered2, boolean z) {
+                delegate.onStickerSetAdd(tLRPC$StickerSetCovered2, z);
+            }
+
+            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
+            public void onStickerSetRemove(TLRPC$StickerSetCovered tLRPC$StickerSetCovered2) {
+                delegate.onStickerSetRemove(tLRPC$StickerSetCovered2);
+            }
+
+            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
+            public int getStickersPerRow() {
+                return TrendingStickersLayout.this.adapter.stickersPerRow;
+            }
+
+            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
+            public String[] getLastSearchKeyboardLanguage() {
+                return delegate.getLastSearchKeyboardLanguage();
+            }
+
+            @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
+            public void setLastSearchKeyboardLanguage(String[] strArr) {
+                delegate.setLastSearchKeyboardLanguage(strArr);
+            }
+        }, tLRPC$StickerSetCoveredArr, longSparseArray, longSparseArray2, resourcesProvider);
         FrameLayout frameLayout = new FrameLayout(context);
         this.searchLayout = frameLayout;
         frameLayout.setBackgroundColor(getThemedColor("dialogBackground"));
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context, true, resourcesProvider);
-        this.searchView = anonymousClass2;
-        anonymousClass2.setHint(LocaleController.getString("SearchTrendingStickersHint", 2131628188));
-        frameLayout.addView(anonymousClass2, LayoutHelper.createFrame(-1, -1, 48));
-        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context, delegate);
-        this.listView = anonymousClass3;
-        TrendingStickersLayout$$ExternalSyntheticLambda1 trendingStickersLayout$$ExternalSyntheticLambda1 = new TrendingStickersLayout$$ExternalSyntheticLambda1(this);
-        anonymousClass3.setOnTouchListener(new TrendingStickersLayout$$ExternalSyntheticLambda0(this, delegate, trendingStickersLayout$$ExternalSyntheticLambda1));
-        anonymousClass3.setOverScrollMode(2);
-        anonymousClass3.setClipToPadding(false);
-        anonymousClass3.setItemAnimator(null);
-        anonymousClass3.setLayoutAnimation(null);
-        AnonymousClass4 anonymousClass4 = new AnonymousClass4(context, 5, AndroidUtilities.dp(58.0f), anonymousClass3);
-        this.layoutManager = anonymousClass4;
-        anonymousClass3.setLayoutManager(anonymousClass4);
-        anonymousClass4.setSpanSizeLookup(new AnonymousClass5());
-        anonymousClass3.setOnScrollListener(new AnonymousClass6());
-        anonymousClass3.setAdapter(trendingStickersAdapter);
-        anonymousClass3.setOnItemClickListener(trendingStickersLayout$$ExternalSyntheticLambda1);
-        addView(anonymousClass3, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 0.0f));
+        SearchField searchField = new SearchField(context, true, resourcesProvider) { // from class: org.telegram.ui.Components.TrendingStickersLayout.2
+            @Override // org.telegram.ui.Components.SearchField
+            public void onTextChange(String str) {
+                TrendingStickersLayout.this.searchAdapter.search(str);
+            }
+        };
+        this.searchView = searchField;
+        searchField.setHint(LocaleController.getString("SearchTrendingStickersHint", R.string.SearchTrendingStickersHint));
+        frameLayout.addView(searchField, LayoutHelper.createFrame(-1, -1, 48));
+        RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.TrendingStickersLayout.3
+            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
+            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                return super.onInterceptTouchEvent(motionEvent) || delegate.onListViewInterceptTouchEvent(this, motionEvent);
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
+            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+                TrendingStickersLayout.this.motionEventCatchedByListView = true;
+                return super.dispatchTouchEvent(motionEvent);
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
+            public boolean onTouchEvent(MotionEvent motionEvent) {
+                if (TrendingStickersLayout.this.glueToTopAnimator != null) {
+                    return false;
+                }
+                return super.onTouchEvent(motionEvent);
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View, android.view.ViewParent
+            public void requestLayout() {
+                if (!TrendingStickersLayout.this.ignoreLayout) {
+                    super.requestLayout();
+                }
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView
+            protected boolean allowSelectChildAtPosition(float f, float f2) {
+                return f2 >= ((float) (TrendingStickersLayout.this.topOffset + AndroidUtilities.dp(58.0f)));
+            }
+        };
+        this.listView = recyclerListView;
+        final RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+            public final void onItemClick(View view, int i2) {
+                TrendingStickersLayout.this.lambda$new$0(view, i2);
+            }
+        };
+        recyclerListView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$new$1;
+                lambda$new$1 = TrendingStickersLayout.this.lambda$new$1(delegate, onItemClickListener, view, motionEvent);
+                return lambda$new$1;
+            }
+        });
+        recyclerListView.setOverScrollMode(2);
+        recyclerListView.setClipToPadding(false);
+        recyclerListView.setItemAnimator(null);
+        recyclerListView.setLayoutAnimation(null);
+        FillLastGridLayoutManager fillLastGridLayoutManager = new FillLastGridLayoutManager(context, 5, AndroidUtilities.dp(58.0f), recyclerListView) { // from class: org.telegram.ui.Components.TrendingStickersLayout.4
+            @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+            public boolean supportsPredictiveItemAnimations() {
+                return false;
+            }
+
+            @Override // androidx.recyclerview.widget.LinearLayoutManager
+            public boolean isLayoutRTL() {
+                return LocaleController.isRTL;
+            }
+
+            @Override // org.telegram.ui.Components.FillLastGridLayoutManager
+            protected boolean shouldCalcLastItemHeight() {
+                return TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.searchAdapter;
+            }
+
+            @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+            public int scrollVerticallyBy(int i2, RecyclerView.Recycler recycler, RecyclerView.State state) {
+                int i3;
+                View findViewByPosition;
+                if (TrendingStickersLayout.this.scrollFromAnimator) {
+                    return super.scrollVerticallyBy(i2, recycler, state);
+                }
+                TrendingStickersLayout trendingStickersLayout = TrendingStickersLayout.this;
+                int i4 = 0;
+                if (trendingStickersLayout.glueToTopAnimator != null) {
+                    return 0;
+                }
+                if (trendingStickersLayout.gluedToTop) {
+                    while (true) {
+                        i3 = 1;
+                        if (i4 >= getChildCount()) {
+                            break;
+                        }
+                        int childAdapterPosition = TrendingStickersLayout.this.listView.getChildAdapterPosition(getChildAt(i4));
+                        if (childAdapterPosition < 1) {
+                            i3 = childAdapterPosition;
+                            break;
+                        }
+                        i4++;
+                    }
+                    if (i3 == 0 && (findViewByPosition = TrendingStickersLayout.this.layoutManager.findViewByPosition(i3)) != null && findViewByPosition.getTop() - i2 > AndroidUtilities.dp(58.0f)) {
+                        i2 = findViewByPosition.getTop() - AndroidUtilities.dp(58.0f);
+                    }
+                }
+                return super.scrollVerticallyBy(i2, recycler, state);
+            }
+        };
+        this.layoutManager = fillLastGridLayoutManager;
+        recyclerListView.setLayoutManager(fillLastGridLayoutManager);
+        fillLastGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.TrendingStickersLayout.5
+            @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+            public int getSpanSize(int i2) {
+                if (TrendingStickersLayout.this.listView.getAdapter() != TrendingStickersLayout.this.adapter) {
+                    return TrendingStickersLayout.this.searchAdapter.getSpanSize(i2);
+                }
+                if (!(TrendingStickersLayout.this.adapter.cache.get(i2) instanceof Integer) && i2 < TrendingStickersLayout.this.adapter.totalItems) {
+                    return 1;
+                }
+                return TrendingStickersLayout.this.adapter.stickersPerRow;
+            }
+        });
+        recyclerListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout.6
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
+                if (TrendingStickersLayout.this.onScrollListener != null) {
+                    TrendingStickersLayout.this.onScrollListener.onScrolled(TrendingStickersLayout.this.listView, i2, i3);
+                }
+                if (i3 <= 0 || TrendingStickersLayout.this.listView.getAdapter() != TrendingStickersLayout.this.adapter || !TrendingStickersLayout.this.loaded || TrendingStickersLayout.this.adapter.loadingMore || TrendingStickersLayout.this.adapter.endReached) {
+                    return;
+                }
+                if (TrendingStickersLayout.this.layoutManager.findLastVisibleItemPosition() < (TrendingStickersLayout.this.adapter.getItemCount() - ((TrendingStickersLayout.this.adapter.stickersPerRow + 1) * 10)) - 1) {
+                    return;
+                }
+                TrendingStickersLayout.this.adapter.loadMoreStickerSets();
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrollStateChanged(RecyclerView recyclerView, int i2) {
+                if (TrendingStickersLayout.this.onScrollListener != null) {
+                    TrendingStickersLayout.this.onScrollListener.onScrollStateChanged(recyclerView, i2);
+                }
+            }
+        });
+        recyclerListView.setAdapter(trendingStickersAdapter);
+        recyclerListView.setOnItemClickListener(onItemClickListener);
+        addView(recyclerListView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 0.0f));
         View view = new View(context);
         this.shadowView = view;
         view.setBackgroundColor(getThemedColor("dialogShadowLine"));
@@ -172,129 +355,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         NotificationCenter notificationCenter = NotificationCenter.getInstance(i);
         notificationCenter.addObserver(this, NotificationCenter.stickersDidLoad);
         notificationCenter.addObserver(this, NotificationCenter.featuredStickersDidLoad);
-    }
-
-    /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements StickersSearchAdapter.Delegate {
-        final /* synthetic */ Delegate val$delegate;
-
-        AnonymousClass1(Delegate delegate) {
-            TrendingStickersLayout.this = r1;
-            this.val$delegate = delegate;
-        }
-
-        @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-        public void onSearchStart() {
-            TrendingStickersLayout.this.searchView.getProgressDrawable().startAnimation();
-        }
-
-        @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-        public void onSearchStop() {
-            TrendingStickersLayout.this.searchView.getProgressDrawable().stopAnimation();
-        }
-
-        @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-        public void setAdapterVisible(boolean z) {
-            boolean z2 = true;
-            if (!z || TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.searchAdapter) {
-                if (z || TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.adapter) {
-                    z2 = false;
-                } else {
-                    TrendingStickersLayout.this.listView.setAdapter(TrendingStickersLayout.this.adapter);
-                }
-            } else {
-                TrendingStickersLayout.this.listView.setAdapter(TrendingStickersLayout.this.searchAdapter);
-            }
-            if (!z2 || TrendingStickersLayout.this.listView.getAdapter().getItemCount() <= 0) {
-                return;
-            }
-            TrendingStickersLayout.this.layoutManager.scrollToPositionWithOffset(0, (-TrendingStickersLayout.this.listView.getPaddingTop()) + AndroidUtilities.dp(58.0f) + TrendingStickersLayout.this.topOffset, false);
-        }
-
-        @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-        public void onStickerSetAdd(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, boolean z) {
-            this.val$delegate.onStickerSetAdd(tLRPC$StickerSetCovered, z);
-        }
-
-        @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-        public void onStickerSetRemove(TLRPC$StickerSetCovered tLRPC$StickerSetCovered) {
-            this.val$delegate.onStickerSetRemove(tLRPC$StickerSetCovered);
-        }
-
-        @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-        public int getStickersPerRow() {
-            return TrendingStickersLayout.this.adapter.stickersPerRow;
-        }
-
-        @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-        public String[] getLastSearchKeyboardLanguage() {
-            return this.val$delegate.getLastSearchKeyboardLanguage();
-        }
-
-        @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
-        public void setLastSearchKeyboardLanguage(String[] strArr) {
-            this.val$delegate.setLastSearchKeyboardLanguage(strArr);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends SearchField {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
-            super(context, z, resourcesProvider);
-            TrendingStickersLayout.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.SearchField
-        public void onTextChange(String str) {
-            TrendingStickersLayout.this.searchAdapter.search(str);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends RecyclerListView {
-        final /* synthetic */ Delegate val$delegate;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(Context context, Delegate delegate) {
-            super(context);
-            TrendingStickersLayout.this = r1;
-            this.val$delegate = delegate;
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
-        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            return super.onInterceptTouchEvent(motionEvent) || this.val$delegate.onListViewInterceptTouchEvent(this, motionEvent);
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-        public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-            TrendingStickersLayout.this.motionEventCatchedByListView = true;
-            return super.dispatchTouchEvent(motionEvent);
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            if (TrendingStickersLayout.this.glueToTopAnimator != null) {
-                return false;
-            }
-            return super.onTouchEvent(motionEvent);
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View, android.view.ViewParent
-        public void requestLayout() {
-            if (!TrendingStickersLayout.this.ignoreLayout) {
-                super.requestLayout();
-            }
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerListView
-        protected boolean allowSelectChildAtPosition(float f, float f2) {
-            return f2 >= ((float) (TrendingStickersLayout.this.topOffset + AndroidUtilities.dp(58.0f)));
-        }
     }
 
     public /* synthetic */ void lambda$new$0(View view, int i) {
@@ -313,111 +373,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
 
     public /* synthetic */ boolean lambda$new$1(Delegate delegate, RecyclerListView.OnItemClickListener onItemClickListener, View view, MotionEvent motionEvent) {
         return delegate.onListViewTouchEvent(this.listView, onItemClickListener, motionEvent);
-    }
-
-    /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends FillLastGridLayoutManager {
-        @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-        public boolean supportsPredictiveItemAnimations() {
-            return false;
-        }
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass4(Context context, int i, int i2, RecyclerView recyclerView) {
-            super(context, i, i2, recyclerView);
-            TrendingStickersLayout.this = r1;
-        }
-
-        @Override // androidx.recyclerview.widget.LinearLayoutManager
-        public boolean isLayoutRTL() {
-            return LocaleController.isRTL;
-        }
-
-        @Override // org.telegram.ui.Components.FillLastGridLayoutManager
-        protected boolean shouldCalcLastItemHeight() {
-            return TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.searchAdapter;
-        }
-
-        @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-        public int scrollVerticallyBy(int i, RecyclerView.Recycler recycler, RecyclerView.State state) {
-            int i2;
-            View findViewByPosition;
-            if (TrendingStickersLayout.this.scrollFromAnimator) {
-                return super.scrollVerticallyBy(i, recycler, state);
-            }
-            TrendingStickersLayout trendingStickersLayout = TrendingStickersLayout.this;
-            int i3 = 0;
-            if (trendingStickersLayout.glueToTopAnimator != null) {
-                return 0;
-            }
-            if (trendingStickersLayout.gluedToTop) {
-                while (true) {
-                    i2 = 1;
-                    if (i3 >= getChildCount()) {
-                        break;
-                    }
-                    int childAdapterPosition = TrendingStickersLayout.this.listView.getChildAdapterPosition(getChildAt(i3));
-                    if (childAdapterPosition < 1) {
-                        i2 = childAdapterPosition;
-                        break;
-                    }
-                    i3++;
-                }
-                if (i2 == 0 && (findViewByPosition = TrendingStickersLayout.this.layoutManager.findViewByPosition(i2)) != null && findViewByPosition.getTop() - i > AndroidUtilities.dp(58.0f)) {
-                    i = findViewByPosition.getTop() - AndroidUtilities.dp(58.0f);
-                }
-            }
-            return super.scrollVerticallyBy(i, recycler, state);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends GridLayoutManager.SpanSizeLookup {
-        AnonymousClass5() {
-            TrendingStickersLayout.this = r1;
-        }
-
-        @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-        public int getSpanSize(int i) {
-            if (TrendingStickersLayout.this.listView.getAdapter() != TrendingStickersLayout.this.adapter) {
-                return TrendingStickersLayout.this.searchAdapter.getSpanSize(i);
-            }
-            if (!(TrendingStickersLayout.this.adapter.cache.get(i) instanceof Integer) && i < TrendingStickersLayout.this.adapter.totalItems) {
-                return 1;
-            }
-            return TrendingStickersLayout.this.adapter.stickersPerRow;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 extends RecyclerView.OnScrollListener {
-        AnonymousClass6() {
-            TrendingStickersLayout.this = r1;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-            if (TrendingStickersLayout.this.onScrollListener != null) {
-                TrendingStickersLayout.this.onScrollListener.onScrolled(TrendingStickersLayout.this.listView, i, i2);
-            }
-            if (i2 <= 0 || TrendingStickersLayout.this.listView.getAdapter() != TrendingStickersLayout.this.adapter || !TrendingStickersLayout.this.loaded || TrendingStickersLayout.this.adapter.loadingMore || TrendingStickersLayout.this.adapter.endReached) {
-                return;
-            }
-            if (TrendingStickersLayout.this.layoutManager.findLastVisibleItemPosition() < (TrendingStickersLayout.this.adapter.getItemCount() - ((TrendingStickersLayout.this.adapter.stickersPerRow + 1) * 10)) - 1) {
-                return;
-            }
-            TrendingStickersLayout.this.adapter.loadMoreStickerSets();
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-        public void onScrollStateChanged(RecyclerView recyclerView, int i) {
-            if (TrendingStickersLayout.this.onScrollListener != null) {
-                TrendingStickersLayout.this.onScrollListener.onScrollStateChanged(recyclerView, i);
-            }
-        }
     }
 
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
@@ -508,64 +463,45 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$7 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass7 implements StickersAlert.StickersAlertDelegate {
-        AnonymousClass7() {
-            TrendingStickersLayout.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
-        public void onStickerSelected(TLRPC$Document tLRPC$Document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, boolean z2, int i) {
-            TrendingStickersLayout.this.delegate.onStickerSelected(tLRPC$Document, obj, z, z2, i);
-        }
-
-        @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
-        public boolean canSchedule() {
-            return TrendingStickersLayout.this.delegate.canSchedule();
-        }
-
-        @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
-        public boolean isInScheduleMode() {
-            return TrendingStickersLayout.this.delegate.isInScheduleMode();
-        }
-    }
-
-    private void showStickerSet(TLRPC$InputStickerSet tLRPC$InputStickerSet) {
-        StickersAlert stickersAlert = new StickersAlert(getContext(), this.parentFragment, tLRPC$InputStickerSet, null, this.delegate.canSendSticker() ? new AnonymousClass7() : null, this.resourcesProvider);
-        stickersAlert.setShowTooltipWhenToggle(false);
-        stickersAlert.setInstallDelegate(new AnonymousClass8(tLRPC$InputStickerSet));
-        this.parentFragment.showDialog(stickersAlert);
-    }
-
-    /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$8 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass8 implements StickersAlert.StickersAlertInstallDelegate {
-        final /* synthetic */ TLRPC$InputStickerSet val$inputStickerSet;
-
-        @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
-        public void onStickerSetUninstalled() {
-        }
-
-        AnonymousClass8(TLRPC$InputStickerSet tLRPC$InputStickerSet) {
-            TrendingStickersLayout.this = r1;
-            this.val$inputStickerSet = tLRPC$InputStickerSet;
-        }
-
-        @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
-        public void onStickerSetInstalled() {
-            if (TrendingStickersLayout.this.listView.getAdapter() != TrendingStickersLayout.this.adapter) {
-                TrendingStickersLayout.this.searchAdapter.installStickerSet(this.val$inputStickerSet);
-                return;
+    private void showStickerSet(final TLRPC$InputStickerSet tLRPC$InputStickerSet) {
+        StickersAlert stickersAlert = new StickersAlert(getContext(), this.parentFragment, tLRPC$InputStickerSet, null, this.delegate.canSendSticker() ? new StickersAlert.StickersAlertDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout.7
+            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
+            public void onStickerSelected(TLRPC$Document tLRPC$Document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, boolean z2, int i) {
+                TrendingStickersLayout.this.delegate.onStickerSelected(tLRPC$Document, obj, z, z2, i);
             }
-            for (int i = 0; i < TrendingStickersLayout.this.adapter.sets.size(); i++) {
-                TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) TrendingStickersLayout.this.adapter.sets.get(i);
-                if (tLRPC$StickerSetCovered.set.id == this.val$inputStickerSet.id) {
-                    TrendingStickersLayout.this.adapter.installStickerSet(tLRPC$StickerSetCovered, null);
+
+            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
+            public boolean canSchedule() {
+                return TrendingStickersLayout.this.delegate.canSchedule();
+            }
+
+            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertDelegate
+            public boolean isInScheduleMode() {
+                return TrendingStickersLayout.this.delegate.isInScheduleMode();
+            }
+        } : null, this.resourcesProvider);
+        stickersAlert.setShowTooltipWhenToggle(false);
+        stickersAlert.setInstallDelegate(new StickersAlert.StickersAlertInstallDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout.8
+            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
+            public void onStickerSetUninstalled() {
+            }
+
+            @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
+            public void onStickerSetInstalled() {
+                if (TrendingStickersLayout.this.listView.getAdapter() != TrendingStickersLayout.this.adapter) {
+                    TrendingStickersLayout.this.searchAdapter.installStickerSet(tLRPC$InputStickerSet);
                     return;
                 }
+                for (int i = 0; i < TrendingStickersLayout.this.adapter.sets.size(); i++) {
+                    TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) TrendingStickersLayout.this.adapter.sets.get(i);
+                    if (tLRPC$StickerSetCovered.set.id == tLRPC$InputStickerSet.id) {
+                        TrendingStickersLayout.this.adapter.installStickerSet(tLRPC$StickerSetCovered, null);
+                        return;
+                    }
+                }
             }
-        }
+        });
+        this.parentFragment.showDialog(stickersAlert);
     }
 
     public void recycle() {
@@ -693,11 +629,27 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             if (getContentTopOffset() <= 0 || this.glueToTopAnimator != null) {
                 return;
             }
-            int contentTopOffset = getContentTopOffset();
+            final int contentTopOffset = getContentTopOffset();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.glueToTopAnimator = ofFloat;
-            ofFloat.addUpdateListener(new AnonymousClass9(contentTopOffset));
-            this.glueToTopAnimator.addListener(new AnonymousClass10());
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout.9
+                int dy = 0;
+
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    int floatValue = (int) (contentTopOffset * ((Float) valueAnimator.getAnimatedValue()).floatValue());
+                    TrendingStickersLayout.this.scrollFromAnimator = true;
+                    TrendingStickersLayout.this.listView.scrollBy(0, floatValue - this.dy);
+                    TrendingStickersLayout.this.scrollFromAnimator = false;
+                    this.dy = floatValue;
+                }
+            });
+            this.glueToTopAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.TrendingStickersLayout.10
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    TrendingStickersLayout.this.glueToTopAnimator = null;
+                }
+            });
             this.glueToTopAnimator.setDuration(250L);
             this.glueToTopAnimator.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
             this.glueToTopAnimator.start();
@@ -710,40 +662,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         valueAnimator.removeAllListeners();
         this.glueToTopAnimator.cancel();
         this.glueToTopAnimator = null;
-    }
-
-    /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$9 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass9 implements ValueAnimator.AnimatorUpdateListener {
-        int dy = 0;
-        final /* synthetic */ int val$startFrom;
-
-        AnonymousClass9(int i) {
-            TrendingStickersLayout.this = r1;
-            this.val$startFrom = i;
-        }
-
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            int floatValue = (int) (this.val$startFrom * ((Float) valueAnimator.getAnimatedValue()).floatValue());
-            TrendingStickersLayout.this.scrollFromAnimator = true;
-            TrendingStickersLayout.this.listView.scrollBy(0, floatValue - this.dy);
-            TrendingStickersLayout.this.scrollFromAnimator = false;
-            this.dy = floatValue;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$10 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass10 extends AnimatorListenerAdapter {
-        AnonymousClass10() {
-            TrendingStickersLayout.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            TrendingStickersLayout.this.glueToTopAnimator = null;
-        }
     }
 
     /* loaded from: classes3.dex */
@@ -789,19 +707,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             return obj.equals(-1) ? 4 : 2;
         }
 
-        /* renamed from: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$1 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass1 extends StickerEmojiCell {
-            AnonymousClass1(TrendingStickersAdapter trendingStickersAdapter, Context context, boolean z) {
-                super(context, z);
-            }
-
-            @Override // android.widget.FrameLayout, android.view.View
-            public void onMeasure(int i, int i2) {
-                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
-            }
-        }
-
         public /* synthetic */ void lambda$onCreateViewHolder$0(View view) {
             FeaturedStickerSetInfoCell featuredStickerSetInfoCell = (FeaturedStickerSetInfoCell) view.getParent();
             TLRPC$StickerSetCovered stickerSet = featuredStickerSetInfoCell.getStickerSet();
@@ -820,17 +725,27 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             GraySectionCell graySectionCell;
-            AnonymousClass1 anonymousClass1;
+            StickerEmojiCell stickerEmojiCell;
             if (i == 0) {
-                AnonymousClass1 anonymousClass12 = new AnonymousClass1(this, this.context, false);
-                anonymousClass12.getImageView().setLayerNum(3);
-                anonymousClass1 = anonymousClass12;
+                StickerEmojiCell stickerEmojiCell2 = new StickerEmojiCell(this, this.context, false) { // from class: org.telegram.ui.Components.TrendingStickersLayout.TrendingStickersAdapter.1
+                    @Override // android.widget.FrameLayout, android.view.View
+                    public void onMeasure(int i2, int i3) {
+                        super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
+                    }
+                };
+                stickerEmojiCell2.getImageView().setLayerNum(3);
+                stickerEmojiCell = stickerEmojiCell2;
             } else {
                 if (i == 1) {
                     graySectionCell = new EmptyCell(this.context);
                 } else if (i == 2) {
                     FeaturedStickerSetInfoCell featuredStickerSetInfoCell = new FeaturedStickerSetInfoCell(this.context, 17, true, true, TrendingStickersLayout.this.resourcesProvider);
-                    featuredStickerSetInfoCell.setAddOnClickListener(new TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda0(this));
+                    featuredStickerSetInfoCell.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda0
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$0(view);
+                        }
+                    });
                     graySectionCell = featuredStickerSetInfoCell;
                 } else if (i == 3) {
                     graySectionCell = new View(this.context);
@@ -840,13 +755,18 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                     graySectionCell = null;
                 } else {
                     FeaturedStickerSetCell2 featuredStickerSetCell2 = new FeaturedStickerSetCell2(this.context, TrendingStickersLayout.this.resourcesProvider);
-                    featuredStickerSetCell2.setAddOnClickListener(new TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda1(this));
+                    featuredStickerSetCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda1
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$1(view);
+                        }
+                    });
                     featuredStickerSetCell2.getImageView().setLayerNum(3);
-                    anonymousClass1 = featuredStickerSetCell2;
+                    stickerEmojiCell = featuredStickerSetCell2;
                 }
                 return new RecyclerListView.Holder(graySectionCell);
             }
-            graySectionCell = anonymousClass1;
+            graySectionCell = stickerEmojiCell;
             return new RecyclerListView.Holder(graySectionCell);
         }
 
@@ -874,7 +794,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             } else {
                 if (itemViewType != 2) {
                     if (itemViewType == 4) {
-                        ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("OtherStickers", 2131627174));
+                        ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("OtherStickers", R.string.OtherStickers));
                         return;
                     } else if (itemViewType != 5) {
                         return;
@@ -1105,11 +1025,21 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             TLRPC$TL_messages_getOldFeaturedStickers tLRPC$TL_messages_getOldFeaturedStickers = new TLRPC$TL_messages_getOldFeaturedStickers();
             tLRPC$TL_messages_getOldFeaturedStickers.offset = this.otherPacks.size();
             tLRPC$TL_messages_getOldFeaturedStickers.limit = 40;
-            ConnectionsManager.getInstance(TrendingStickersLayout.this.currentAccount).sendRequest(tLRPC$TL_messages_getOldFeaturedStickers, new TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda3(this));
+            ConnectionsManager.getInstance(TrendingStickersLayout.this.currentAccount).sendRequest(tLRPC$TL_messages_getOldFeaturedStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda3
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    TrendingStickersLayout.TrendingStickersAdapter.this.lambda$loadMoreStickerSets$3(tLObject, tLRPC$TL_error);
+                }
+            });
         }
 
-        public /* synthetic */ void lambda$loadMoreStickerSets$3(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda2(this, tLRPC$TL_error, tLObject));
+        public /* synthetic */ void lambda$loadMoreStickerSets$3(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TrendingStickersLayout.TrendingStickersAdapter.this.lambda$loadMoreStickerSets$2(tLRPC$TL_error, tLObject);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$loadMoreStickerSets$2(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {

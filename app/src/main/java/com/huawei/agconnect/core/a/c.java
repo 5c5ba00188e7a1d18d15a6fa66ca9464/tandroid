@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class c {
     private final Context a;
@@ -113,7 +114,7 @@ public class c {
             return null;
         }
         try {
-            serviceInfo = packageManager.getServiceInfo(new ComponentName(this.a, ServiceDiscovery.class), 128);
+            serviceInfo = packageManager.getServiceInfo(new ComponentName(this.a, ServiceDiscovery.class), ConnectionsManager.RequestFlagNeedQuickAck);
         } catch (PackageManager.NameNotFoundException e) {
             Log.e("ServiceRegistrarParser", "get ServiceDiscovery exception." + e.getLocalizedMessage());
         }

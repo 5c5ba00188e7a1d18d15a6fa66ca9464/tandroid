@@ -21,6 +21,7 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.ui.ActionBar.Theme;
@@ -97,7 +98,7 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         this.blobDrawable2.minRadius = AndroidUtilities.dp(32.0f);
         this.blobDrawable.generateBlob();
         this.blobDrawable2.generateBlob();
-        this.bigMicDrawable = new RLottieDrawable(2131558600, "2131558600", AndroidUtilities.dp(22.0f), AndroidUtilities.dp(30.0f), true, null);
+        this.bigMicDrawable = new RLottieDrawable(R.raw.voice_outlined, "2131558600", AndroidUtilities.dp(22.0f), AndroidUtilities.dp(30.0f), true, null);
         setWillNotDraw(false);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.muteButton = rLottieImageView;
@@ -553,16 +554,16 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
             }
             VoIPService sharedInstance = VoIPService.getSharedInstance();
             if (sharedInstance != null && ChatObject.isChannelOrGiga(sharedInstance.getChat())) {
-                str = LocaleController.getString("VoipChannelVoiceChat", 2131629075);
+                str = LocaleController.getString("VoipChannelVoiceChat", R.string.VoipChannelVoiceChat);
             } else {
-                str = LocaleController.getString("VoipGroupVoiceChat", 2131629205);
+                str = LocaleController.getString("VoipGroupVoiceChat", R.string.VoipGroupVoiceChat);
             }
             if (i == 0) {
-                str = str + ", " + LocaleController.getString("VoipTapToMute", 2131629274);
+                str = str + ", " + LocaleController.getString("VoipTapToMute", R.string.VoipTapToMute);
             } else if (i == 2) {
-                str = str + ", " + LocaleController.getString("Connecting", 2131625241);
+                str = str + ", " + LocaleController.getString("Connecting", R.string.Connecting);
             } else if (i == 3) {
-                str = str + ", " + LocaleController.getString("VoipMutedByAdmin", 2131629218);
+                str = str + ", " + LocaleController.getString("VoipMutedByAdmin", R.string.VoipMutedByAdmin);
             }
             setContentDescription(str);
             invalidate();
@@ -578,10 +579,10 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
             return;
         }
         if (GroupCallPip.getInstance().showAlert) {
-            i = 2131623976;
+            i = R.string.AccDescrCloseMenu;
             str = "AccDescrCloseMenu";
         } else {
-            i = 2131624031;
+            i = R.string.AccDescrOpenMenu2;
             str = "AccDescrOpenMenu2";
         }
         accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString(str, i)));

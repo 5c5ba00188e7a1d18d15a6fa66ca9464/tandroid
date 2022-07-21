@@ -231,7 +231,12 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
         if (!this.manifest.isLive) {
             return;
         }
-        this.manifestRefreshHandler.postDelayed(new SsMediaSource$$ExternalSyntheticLambda0(this), Math.max(0L, (this.manifestLoadStartTimestamp + 5000) - SystemClock.elapsedRealtime()));
+        this.manifestRefreshHandler.postDelayed(new Runnable() { // from class: com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                SsMediaSource.this.startLoadingManifest();
+            }
+        }, Math.max(0L, (this.manifestLoadStartTimestamp + 5000) - SystemClock.elapsedRealtime()));
     }
 
     public void startLoadingManifest() {

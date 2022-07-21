@@ -16,6 +16,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatPhoto;
 import org.telegram.tgnet.TLRPC$User;
@@ -44,7 +45,7 @@ public class BackButtonMenu {
     /* JADX WARN: Type inference failed for: r14v4, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r15v0, types: [android.widget.FrameLayout, android.view.View] */
     /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View] */
-    public static ActionBarPopupWindow show(BaseFragment baseFragment, View view, long j, Theme.ResourcesProvider resourcesProvider) {
+    public static ActionBarPopupWindow show(final BaseFragment baseFragment, View view, long j, Theme.ResourcesProvider resourcesProvider) {
         View view2;
         android.graphics.Rect rect;
         View view3;
@@ -54,7 +55,7 @@ public class BackButtonMenu {
         if (baseFragment == null) {
             return null;
         }
-        ActionBarLayout parentLayout = baseFragment.getParentLayout();
+        final ActionBarLayout parentLayout = baseFragment.getParentLayout();
         Activity parentActivity = baseFragment.getParentActivity();
         View fragmentView = baseFragment.getFragmentView();
         if (parentLayout == null || parentActivity == null || fragmentView == null) {
@@ -66,12 +67,12 @@ public class BackButtonMenu {
         }
         ?? actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(parentActivity, resourcesProvider);
         android.graphics.Rect rect2 = new android.graphics.Rect();
-        baseFragment.getParentActivity().getResources().getDrawable(2131166090).mutate().getPadding(rect2);
+        baseFragment.getParentActivity().getResources().getDrawable(R.drawable.popup_fixed_alert).mutate().getPadding(rect2);
         actionBarPopupWindowLayout.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuBackground", resourcesProvider));
-        AtomicReference atomicReference = new AtomicReference();
+        final AtomicReference atomicReference = new AtomicReference();
         int i = 0;
         while (i < stackedHistoryDialogs.size()) {
-            PulledDialog pulledDialog = stackedHistoryDialogs.get(i);
+            final PulledDialog pulledDialog = stackedHistoryDialogs.get(i);
             TLRPC$Chat tLRPC$Chat = pulledDialog.chat;
             TLRPC$User tLRPC$User = pulledDialog.user;
             ?? frameLayout = new FrameLayout(parentActivity);
@@ -105,15 +106,15 @@ public class BackButtonMenu {
                 view3 = fragmentView;
                 rect = rect2;
                 if (pulledDialog.activity == ChatActivity.class && UserObject.isUserSelf(tLRPC$User)) {
-                    str = LocaleController.getString("SavedMessages", 2131628140);
+                    str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
                     avatarDrawable.setAvatarType(1);
                     backupImageView.setImageDrawable(avatarDrawable);
                 } else if (UserObject.isReplyUser(tLRPC$User)) {
-                    str = LocaleController.getString("RepliesTitle", 2131627982);
+                    str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
                     avatarDrawable.setAvatarType(12);
                     backupImageView.setImageDrawable(avatarDrawable);
                 } else if (UserObject.isDeleted(tLRPC$User)) {
-                    str = LocaleController.getString("HiddenName", 2131626178);
+                    str = LocaleController.getString("HiddenName", R.string.HiddenName);
                     avatarDrawable.setInfo(tLRPC$User);
                     backupImageView.setImage(ImageLocation.getForUser(tLRPC$User, 1), "50_50", avatarDrawable, tLRPC$User);
                 } else {
@@ -123,7 +124,12 @@ public class BackButtonMenu {
                 }
                 textView.setText(str);
                 frameLayout.setBackground(Theme.getSelectorDrawable(Theme.getColor("listSelectorSDK21", resourcesProvider), false));
-                frameLayout.setOnClickListener(new BackButtonMenu$$ExternalSyntheticLambda0(atomicReference, pulledDialog, parentLayout, baseFragment));
+                frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BackButtonMenu$$ExternalSyntheticLambda0
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view4) {
+                        BackButtonMenu.lambda$show$0(atomicReference, pulledDialog, parentLayout, baseFragment, view4);
+                    }
+                });
                 actionBarPopupWindowLayout.addView(frameLayout, LayoutHelper.createLinear(-1, 48));
                 i++;
                 parentActivity = activity;
@@ -134,7 +140,12 @@ public class BackButtonMenu {
             view3 = fragmentView;
             rect = rect2;
             frameLayout.setBackground(Theme.getSelectorDrawable(Theme.getColor("listSelectorSDK21", resourcesProvider), false));
-            frameLayout.setOnClickListener(new BackButtonMenu$$ExternalSyntheticLambda0(atomicReference, pulledDialog, parentLayout, baseFragment));
+            frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BackButtonMenu$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view4) {
+                    BackButtonMenu.lambda$show$0(atomicReference, pulledDialog, parentLayout, baseFragment, view4);
+                }
+            });
             actionBarPopupWindowLayout.addView(frameLayout, LayoutHelper.createLinear(-1, 48));
             i++;
             parentActivity = activity;
@@ -150,7 +161,7 @@ public class BackButtonMenu {
         actionBarPopupWindow.setDismissAnimationDuration(220);
         actionBarPopupWindow.setOutsideTouchable(true);
         actionBarPopupWindow.setClippingEnabled(true);
-        actionBarPopupWindow.setAnimationStyle(2131689481);
+        actionBarPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);
         actionBarPopupWindow.setFocusable(true);
         actionBarPopupWindowLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
         actionBarPopupWindow.setInputMethodMode(2);

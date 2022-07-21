@@ -1,4 +1,6 @@
 package org.telegram.tgnet;
+
+import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public class TLRPC$TL_userFull extends TLRPC$UserFull {
     public static int constructor = -994968513;
@@ -10,7 +12,7 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
         this.blocked = (readInt32 & 1) != 0;
         this.phone_calls_available = (readInt32 & 16) != 0;
         this.phone_calls_private = (readInt32 & 32) != 0;
-        this.can_pin_message = (readInt32 & 128) != 0;
+        this.can_pin_message = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         this.has_scheduled = (readInt32 & 4096) != 0;
         this.video_calls_available = (readInt32 & 8192) != 0;
         this.voice_messages_forbidden = (readInt32 & 1048576) != 0;
@@ -39,7 +41,7 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
         if ((this.flags & 32768) != 0) {
             this.theme_emoticon = abstractSerializedData.readString(z);
         }
-        if ((this.flags & 65536) != 0) {
+        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
             this.private_forward_name = abstractSerializedData.readString(z);
         }
         if ((this.flags & 131072) != 0) {
@@ -76,7 +78,7 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
         this.flags = i2;
         int i3 = this.phone_calls_private ? i2 | 32 : i2 & (-33);
         this.flags = i3;
-        int i4 = this.can_pin_message ? i3 | 128 : i3 & (-129);
+        int i4 = this.can_pin_message ? i3 | ConnectionsManager.RequestFlagNeedQuickAck : i3 & (-129);
         this.flags = i4;
         int i5 = this.has_scheduled ? i4 | 4096 : i4 & (-4097);
         this.flags = i5;
@@ -110,7 +112,7 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
         if ((this.flags & 32768) != 0) {
             abstractSerializedData.writeString(this.theme_emoticon);
         }
-        if ((this.flags & 65536) != 0) {
+        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
             abstractSerializedData.writeString(this.private_forward_name);
         }
         if ((this.flags & 131072) != 0) {

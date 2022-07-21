@@ -46,37 +46,33 @@ public class ScrollableHorizontalScrollView extends HorizontalScrollView {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(getScrollX(), i);
         this.scrollAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ScrollableHorizontalScrollView$$ExternalSyntheticLambda0(this));
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollableHorizontalScrollView$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                ScrollableHorizontalScrollView.this.lambda$scrollTo$0(valueAnimator2);
+            }
+        });
         this.scrollAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         this.scrollAnimator.setDuration(250L);
-        this.scrollAnimator.addListener(new AnonymousClass1());
+        this.scrollAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ScrollableHorizontalScrollView.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                ScrollableHorizontalScrollView.this.scrollingAnimation = false;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationStart(Animator animator) {
+                ScrollableHorizontalScrollView.this.scrollingAnimation = true;
+                if (ScrollableHorizontalScrollView.this.getParent() instanceof HorizontalScrollView) {
+                    ((HorizontalScrollView) ScrollableHorizontalScrollView.this.getParent()).requestDisallowInterceptTouchEvent(false);
+                }
+            }
+        });
         this.scrollAnimator.start();
     }
 
     public /* synthetic */ void lambda$scrollTo$0(ValueAnimator valueAnimator) {
         setScrollX((int) ((Float) valueAnimator.getAnimatedValue()).floatValue());
-    }
-
-    /* compiled from: EmojiTabsStrip.java */
-    /* renamed from: org.telegram.ui.Components.ScrollableHorizontalScrollView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            ScrollableHorizontalScrollView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ScrollableHorizontalScrollView.this.scrollingAnimation = false;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationStart(Animator animator) {
-            ScrollableHorizontalScrollView.this.scrollingAnimation = true;
-            if (ScrollableHorizontalScrollView.this.getParent() instanceof HorizontalScrollView) {
-                ((HorizontalScrollView) ScrollableHorizontalScrollView.this.getParent()).requestDisallowInterceptTouchEvent(false);
-            }
-        }
     }
 
     public void resetScrollTo() {

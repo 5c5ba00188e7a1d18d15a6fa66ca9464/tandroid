@@ -11,6 +11,8 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.ParsableNalUnitBitArray;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.telegram.messenger.MediaController;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class H264Reader implements ElementaryStreamReader {
     private final boolean allowNonIdrKeyframes;
@@ -24,9 +26,9 @@ public final class H264Reader implements ElementaryStreamReader {
     private final SeiReader seiReader;
     private long totalBytesWritten;
     private final boolean[] prefixFlags = new boolean[3];
-    private final NalUnitTargetBuffer sps = new NalUnitTargetBuffer(7, 128);
-    private final NalUnitTargetBuffer pps = new NalUnitTargetBuffer(8, 128);
-    private final NalUnitTargetBuffer sei = new NalUnitTargetBuffer(6, 128);
+    private final NalUnitTargetBuffer sps = new NalUnitTargetBuffer(7, ConnectionsManager.RequestFlagNeedQuickAck);
+    private final NalUnitTargetBuffer pps = new NalUnitTargetBuffer(8, ConnectionsManager.RequestFlagNeedQuickAck);
+    private final NalUnitTargetBuffer sei = new NalUnitTargetBuffer(6, ConnectionsManager.RequestFlagNeedQuickAck);
     private final ParsableByteArray seiWrapper = new ParsableByteArray();
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
@@ -125,7 +127,7 @@ public final class H264Reader implements ElementaryStreamReader {
                     NalUnitUtil.SpsData parseSpsNalUnit = NalUnitUtil.parseSpsNalUnit(nalUnitTargetBuffer3.nalData, 3, nalUnitTargetBuffer3.nalLength);
                     NalUnitTargetBuffer nalUnitTargetBuffer4 = this.pps;
                     NalUnitUtil.PpsData parsePpsNalUnit = NalUnitUtil.parsePpsNalUnit(nalUnitTargetBuffer4.nalData, 3, nalUnitTargetBuffer4.nalLength);
-                    this.output.format(Format.createVideoSampleFormat(this.formatId, "video/avc", CodecSpecificDataUtil.buildAvcCodecString(parseSpsNalUnit.profileIdc, parseSpsNalUnit.constraintsFlagsAndReservedZero2Bits, parseSpsNalUnit.levelIdc), -1, -1, parseSpsNalUnit.width, parseSpsNalUnit.height, -1.0f, arrayList, -1, parseSpsNalUnit.pixelWidthAspectRatio, null));
+                    this.output.format(Format.createVideoSampleFormat(this.formatId, MediaController.VIDEO_MIME_TYPE, CodecSpecificDataUtil.buildAvcCodecString(parseSpsNalUnit.profileIdc, parseSpsNalUnit.constraintsFlagsAndReservedZero2Bits, parseSpsNalUnit.levelIdc), -1, -1, parseSpsNalUnit.width, parseSpsNalUnit.height, -1.0f, arrayList, -1, parseSpsNalUnit.pixelWidthAspectRatio, null));
                     this.hasOutputFormat = true;
                     this.sampleReader.putSps(parseSpsNalUnit);
                     this.sampleReader.putPps(parsePpsNalUnit);
@@ -178,7 +180,7 @@ public final class H264Reader implements ElementaryStreamReader {
             this.output = trackOutput;
             this.allowNonIdrKeyframes = z;
             this.detectAccessUnits = z2;
-            byte[] bArr = new byte[128];
+            byte[] bArr = new byte[ConnectionsManager.RequestFlagNeedQuickAck];
             this.buffer = bArr;
             this.bitArray = new ParsableNalUnitBitArray(bArr, 0, 0);
             reset();

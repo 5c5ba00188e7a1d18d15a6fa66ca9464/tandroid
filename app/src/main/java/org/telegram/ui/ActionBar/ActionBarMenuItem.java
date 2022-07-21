@@ -37,6 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
@@ -45,9 +46,11 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.FiltersView;
@@ -190,7 +193,7 @@ public class ActionBarMenuItem extends FrameLayout {
             TextView textView = new TextView(context);
             this.textView = textView;
             textView.setTextSize(1, 15.0f);
-            this.textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.textView.setGravity(17);
             this.textView.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
             this.textView.setImportantForAccessibility(2);
@@ -227,9 +230,14 @@ public class ActionBarMenuItem extends FrameLayout {
         ActionBarPopupWindow actionBarPopupWindow3;
         if (motionEvent.getActionMasked() == 0) {
             if (this.longClickEnabled && hasSubMenu() && ((actionBarPopupWindow3 = this.popupWindow) == null || !actionBarPopupWindow3.isShowing())) {
-                ActionBarMenuItem$$ExternalSyntheticLambda11 actionBarMenuItem$$ExternalSyntheticLambda11 = new ActionBarMenuItem$$ExternalSyntheticLambda11(this);
-                this.showMenuRunnable = actionBarMenuItem$$ExternalSyntheticLambda11;
-                AndroidUtilities.runOnUIThread(actionBarMenuItem$$ExternalSyntheticLambda11, 200L);
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda11
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ActionBarMenuItem.this.lambda$onTouchEvent$0();
+                    }
+                };
+                this.showMenuRunnable = runnable;
+                AndroidUtilities.runOnUIThread(runnable, 200L);
             }
         } else if (motionEvent.getActionMasked() == 2) {
             if (this.showSubmenuByMove && hasSubMenu() && ((actionBarPopupWindow2 = this.popupWindow) == null || !actionBarPopupWindow2.isShowing())) {
@@ -359,14 +367,31 @@ public class ActionBarMenuItem extends FrameLayout {
         }
         this.rect = new Rect();
         this.location = new int[2];
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext(), 2131166091, this.resourcesProvider, 1);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext(), R.drawable.popup_fixed_alert2, this.resourcesProvider, 1);
         this.popupLayout = actionBarPopupWindowLayout;
-        actionBarPopupWindowLayout.setOnTouchListener(new ActionBarMenuItem$$ExternalSyntheticLambda8(this));
-        this.popupLayout.setDispatchKeyEventListener(new ActionBarMenuItem$$ExternalSyntheticLambda14(this));
+        actionBarPopupWindowLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda8
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$createPopupLayout$1;
+                lambda$createPopupLayout$1 = ActionBarMenuItem.this.lambda$createPopupLayout$1(view, motionEvent);
+                return lambda$createPopupLayout$1;
+            }
+        });
+        this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda14
+            @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
+            public final void onDispatchKeyEvent(KeyEvent keyEvent) {
+                ActionBarMenuItem.this.lambda$createPopupLayout$2(keyEvent);
+            }
+        });
         if (this.popupLayout.getSwipeBack() == null) {
             return;
         }
-        this.popupLayout.getSwipeBack().setOnClickListener(new ActionBarMenuItem$$ExternalSyntheticLambda1(this));
+        this.popupLayout.getSwipeBack().setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                ActionBarMenuItem.this.lambda$createPopupLayout$3(view);
+            }
+        });
     }
 
     public /* synthetic */ boolean lambda$createPopupLayout$1(View view, MotionEvent motionEvent) {
@@ -418,7 +443,12 @@ public class ActionBarMenuItem extends FrameLayout {
         view.setLayoutParams(new LinearLayout.LayoutParams(i2, i3));
         this.popupLayout.addView(view);
         view.setTag(Integer.valueOf(i));
-        view.setOnClickListener(new ActionBarMenuItem$$ExternalSyntheticLambda3(this));
+        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                ActionBarMenuItem.this.lambda$addSubItem$4(view2);
+            }
+        });
         view.setBackgroundDrawable(Theme.getSelectorDrawable(false));
     }
 
@@ -468,7 +498,12 @@ public class ActionBarMenuItem extends FrameLayout {
         layoutParams.width = -1;
         layoutParams.height = AndroidUtilities.dp(48.0f);
         textView.setLayoutParams(layoutParams);
-        textView.setOnClickListener(new ActionBarMenuItem$$ExternalSyntheticLambda0(this));
+        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                ActionBarMenuItem.this.lambda$addSubItem$5(view);
+            }
+        });
         return textView;
     }
 
@@ -480,7 +515,7 @@ public class ActionBarMenuItem extends FrameLayout {
             }
             this.processedPopupClick = true;
             if (!this.allowCloseAnimation) {
-                this.popupWindow.setAnimationStyle(2131689480);
+                this.popupWindow.setAnimationStyle(R.style.PopupAnimation);
             }
             this.popupWindow.dismiss(this.allowCloseAnimation);
         }
@@ -513,7 +548,7 @@ public class ActionBarMenuItem extends FrameLayout {
         View view = new View(getContext());
         view.setMinimumWidth(AndroidUtilities.dp(196.0f));
         view.setTag(Integer.valueOf(i));
-        view.setTag(2131230876, 1);
+        view.setTag(R.id.object_tag, 1);
         this.popupLayout.addView(view);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
         if (LocaleController.isRTL) {
@@ -529,7 +564,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return addSubItem(i, i2, drawable, charSequence, z, z2, null);
     }
 
-    public ActionBarMenuSubItem addSubItem(int i, int i2, Drawable drawable, CharSequence charSequence, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
+    public ActionBarMenuSubItem addSubItem(int i, int i2, Drawable drawable, CharSequence charSequence, final boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
         createPopupLayout();
         ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(getContext(), z2, false, false, resourcesProvider);
         actionBarMenuSubItem.setTextAndIcon(charSequence, i2, drawable);
@@ -543,7 +578,12 @@ public class ActionBarMenuItem extends FrameLayout {
         layoutParams.width = -1;
         layoutParams.height = AndroidUtilities.dp(48.0f);
         actionBarMenuSubItem.setLayoutParams(layoutParams);
-        actionBarMenuSubItem.setOnClickListener(new ActionBarMenuItem$$ExternalSyntheticLambda5(this, z));
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda5
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                ActionBarMenuItem.this.lambda$addSubItem$6(z, view);
+            }
+        });
         return actionBarMenuSubItem;
     }
 
@@ -570,10 +610,10 @@ public class ActionBarMenuItem extends FrameLayout {
 
     public ActionBarMenuSubItem addSwipeBackItem(int i, Drawable drawable, String str, View view) {
         createPopupLayout();
-        ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(getContext(), false, false, false, this.resourcesProvider);
+        final ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(getContext(), false, false, false, this.resourcesProvider);
         actionBarMenuSubItem.setTextAndIcon(str, i, drawable);
         actionBarMenuSubItem.setMinimumWidth(AndroidUtilities.dp(196.0f));
-        actionBarMenuSubItem.setRightIcon(2131165641);
+        actionBarMenuSubItem.setRightIcon(R.drawable.msg_arrowright);
         this.popupLayout.addView(actionBarMenuSubItem);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) actionBarMenuSubItem.getLayoutParams();
         if (LocaleController.isRTL) {
@@ -582,8 +622,19 @@ public class ActionBarMenuItem extends FrameLayout {
         layoutParams.width = -1;
         layoutParams.height = AndroidUtilities.dp(48.0f);
         actionBarMenuSubItem.setLayoutParams(layoutParams);
-        actionBarMenuSubItem.openSwipeBackLayout = new ActionBarMenuItem$$ExternalSyntheticLambda13(this, this.popupLayout.addViewToSwipeBack(view));
-        actionBarMenuSubItem.setOnClickListener(new ActionBarMenuItem$$ExternalSyntheticLambda6(actionBarMenuSubItem));
+        final int addViewToSwipeBack = this.popupLayout.addViewToSwipeBack(view);
+        actionBarMenuSubItem.openSwipeBackLayout = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                ActionBarMenuItem.this.lambda$addSwipeBackItem$7(addViewToSwipeBack);
+            }
+        };
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda6
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                ActionBarMenuSubItem.this.openSwipeBack();
+            }
+        });
         this.popupLayout.swipeBackGravityRight = true;
         return actionBarMenuSubItem;
     }
@@ -682,8 +733,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r12v6, types: [android.widget.LinearLayout, org.telegram.ui.ActionBar.ActionBarMenuItem$1] */
-    public void toggleSubMenu(View view, View view2) {
+    public void toggleSubMenu(final View view, View view2) {
         ActionBar actionBar;
         if (this.popupLayout != null) {
             ActionBarMenu actionBarMenu = this.parentMenu;
@@ -710,26 +760,37 @@ public class ActionBarMenuItem extends FrameLayout {
             }
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = this.popupLayout;
             if (view != null) {
-                ?? anonymousClass1 = new AnonymousClass1(getContext(), view);
-                anonymousClass1.setOrientation(1);
+                LinearLayout linearLayout = new LinearLayout(getContext()) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.1
+                    @Override // android.widget.LinearLayout, android.view.View
+                    protected void onMeasure(int i, int i2) {
+                        ActionBarMenuItem.this.popupLayout.measure(i, i2);
+                        if (ActionBarMenuItem.this.popupLayout.getSwipeBack() != null) {
+                            view.getLayoutParams().width = ActionBarMenuItem.this.popupLayout.getSwipeBack().getChildAt(0).getMeasuredWidth();
+                        } else {
+                            view.getLayoutParams().width = ActionBarMenuItem.this.popupLayout.getMeasuredWidth() - AndroidUtilities.dp(16.0f);
+                        }
+                        super.onMeasure(i, i2);
+                    }
+                };
+                linearLayout.setOrientation(1);
                 FrameLayout frameLayout = new FrameLayout(getContext());
                 frameLayout.setAlpha(0.0f);
                 frameLayout.animate().alpha(1.0f).setDuration(100L).start();
-                Drawable mutate = ContextCompat.getDrawable(getContext(), 2131166091).mutate();
+                Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.popup_fixed_alert2).mutate();
                 mutate.setColorFilter(new PorterDuffColorFilter(this.popupLayout.getBackgroundColor(), PorterDuff.Mode.MULTIPLY));
                 frameLayout.setBackground(mutate);
                 frameLayout.addView(view);
-                anonymousClass1.addView(frameLayout, LayoutHelper.createLinear(-2, -2));
-                anonymousClass1.addView(this.popupLayout, LayoutHelper.createLinear(-2, -2, 0, 0, -AndroidUtilities.dp(4.0f), 0, 0));
+                linearLayout.addView(frameLayout, LayoutHelper.createLinear(-2, -2));
+                linearLayout.addView(this.popupLayout, LayoutHelper.createLinear(-2, -2, 0, 0, -AndroidUtilities.dp(4.0f), 0, 0));
                 this.popupLayout.setTopView(frameLayout);
-                actionBarPopupWindowLayout = anonymousClass1;
+                actionBarPopupWindowLayout = linearLayout;
             }
             ActionBarPopupWindow actionBarPopupWindow2 = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);
             this.popupWindow = actionBarPopupWindow2;
             if (this.animationEnabled && Build.VERSION.SDK_INT >= 19) {
                 actionBarPopupWindow2.setAnimationStyle(0);
             } else {
-                actionBarPopupWindow2.setAnimationStyle(2131689480);
+                actionBarPopupWindow2.setAnimationStyle(R.style.PopupAnimation);
             }
             boolean z = this.animationEnabled;
             if (!z) {
@@ -743,8 +804,20 @@ public class ActionBarMenuItem extends FrameLayout {
             this.popupWindow.setInputMethodMode(2);
             this.popupWindow.setSoftInputMode(0);
             actionBarPopupWindowLayout.setFocusableInTouchMode(true);
-            actionBarPopupWindowLayout.setOnKeyListener(new ActionBarMenuItem$$ExternalSyntheticLambda7(this));
-            this.popupWindow.setOnDismissListener(new ActionBarMenuItem$$ExternalSyntheticLambda9(this));
+            actionBarPopupWindowLayout.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda7
+                @Override // android.view.View.OnKeyListener
+                public final boolean onKey(View view3, int i, KeyEvent keyEvent) {
+                    boolean lambda$toggleSubMenu$9;
+                    lambda$toggleSubMenu$9 = ActionBarMenuItem.this.lambda$toggleSubMenu$9(view3, i, keyEvent);
+                    return lambda$toggleSubMenu$9;
+                }
+            });
+            this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda9
+                @Override // android.widget.PopupWindow.OnDismissListener
+                public final void onDismiss() {
+                    ActionBarMenuItem.this.lambda$toggleSubMenu$10();
+                }
+            });
             actionBarPopupWindowLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.x - AndroidUtilities.dp(40.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.y, Integer.MIN_VALUE));
             this.processedPopupClick = false;
             this.popupWindow.setFocusable(true);
@@ -758,30 +831,6 @@ public class ActionBarMenuItem extends FrameLayout {
                 this.popupLayout.getSwipeBack().closeForeground(false);
             }
             this.popupWindow.startAnimation();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends LinearLayout {
-        final /* synthetic */ View val$topView;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context, View view) {
-            super(context);
-            ActionBarMenuItem.this = r1;
-            this.val$topView = view;
-        }
-
-        @Override // android.widget.LinearLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            ActionBarMenuItem.this.popupLayout.measure(i, i2);
-            if (ActionBarMenuItem.this.popupLayout.getSwipeBack() != null) {
-                this.val$topView.getLayoutParams().width = ActionBarMenuItem.this.popupLayout.getSwipeBack().getChildAt(0).getMeasuredWidth();
-            } else {
-                this.val$topView.getLayoutParams().width = ActionBarMenuItem.this.popupLayout.getMeasuredWidth() - AndroidUtilities.dp(16.0f);
-            }
-            super.onMeasure(i, i2);
         }
     }
 
@@ -831,7 +880,7 @@ public class ActionBarMenuItem extends FrameLayout {
             customToggleTransition.start();
             return true;
         }
-        ArrayList arrayList = new ArrayList();
+        final ArrayList arrayList = new ArrayList();
         for (int i = 0; i < this.parentMenu.getChildCount(); i++) {
             View childAt = this.parentMenu.getChildAt(i);
             if ((childAt instanceof ActionBarMenuItem) && (iconView = ((ActionBarMenuItem) childAt).getIconView()) != null) {
@@ -854,7 +903,16 @@ public class ActionBarMenuItem extends FrameLayout {
                 this.searchContainerAnimator.playTogether(ObjectAnimator.ofFloat((View) arrayList.get(i2), View.ALPHA, ((View) arrayList.get(i2)).getAlpha(), 1.0f));
             }
             this.searchContainerAnimator.setDuration(150L);
-            this.searchContainerAnimator.addListener(new AnonymousClass2(arrayList));
+            this.searchContainerAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    ActionBarMenuItem.this.searchContainer.setAlpha(0.0f);
+                    for (int i3 = 0; i3 < arrayList.size(); i3++) {
+                        ((View) arrayList.get(i3)).setAlpha(1.0f);
+                    }
+                    ActionBarMenuItem.this.searchContainer.setVisibility(8);
+                }
+            });
             this.searchContainerAnimator.start();
             this.searchField.clearFocus();
             setVisibility(0);
@@ -891,7 +949,15 @@ public class ActionBarMenuItem extends FrameLayout {
             this.searchContainerAnimator.playTogether(ObjectAnimator.ofFloat((View) arrayList.get(i4), View.ALPHA, ((View) arrayList.get(i4)).getAlpha(), 0.0f));
         }
         this.searchContainerAnimator.setDuration(150L);
-        this.searchContainerAnimator.addListener(new AnonymousClass3(arrayList));
+        this.searchContainerAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.3
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                ActionBarMenuItem.this.searchContainer.setAlpha(1.0f);
+                for (int i5 = 0; i5 < arrayList.size(); i5++) {
+                    ((View) arrayList.get(i5)).setAlpha(0.0f);
+                }
+            }
+        });
         this.searchContainerAnimator.start();
         setVisibility(8);
         clearSearchFilters();
@@ -906,45 +972,6 @@ public class ActionBarMenuItem extends FrameLayout {
         }
         this.searchContainer.setTag(1);
         return true;
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        final /* synthetic */ ArrayList val$menuIcons;
-
-        AnonymousClass2(ArrayList arrayList) {
-            ActionBarMenuItem.this = r1;
-            this.val$menuIcons = arrayList;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ActionBarMenuItem.this.searchContainer.setAlpha(0.0f);
-            for (int i = 0; i < this.val$menuIcons.size(); i++) {
-                ((View) this.val$menuIcons.get(i)).setAlpha(1.0f);
-            }
-            ActionBarMenuItem.this.searchContainer.setVisibility(8);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        final /* synthetic */ ArrayList val$menuIcons;
-
-        AnonymousClass3(ArrayList arrayList) {
-            ActionBarMenuItem.this = r1;
-            this.val$menuIcons = arrayList;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ActionBarMenuItem.this.searchContainer.setAlpha(1.0f);
-            for (int i = 0; i < this.val$menuIcons.size(); i++) {
-                ((View) this.val$menuIcons.get(i)).setAlpha(0.0f);
-            }
-        }
     }
 
     public void removeSearchFilter(FiltersView.MediaFilterData mediaFilterData) {
@@ -987,100 +1014,98 @@ public class ActionBarMenuItem extends FrameLayout {
             TransitionSet transitionSet = new TransitionSet();
             ChangeBounds changeBounds = new ChangeBounds();
             changeBounds.setDuration(150L);
-            transitionSet.addTransition(new AnonymousClass4(this).setDuration(150L)).addTransition(changeBounds);
+            transitionSet.addTransition(new Visibility(this) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.4
+                @Override // android.transition.Visibility
+                public Animator onAppear(ViewGroup viewGroup, View view, TransitionValues transitionValues, TransitionValues transitionValues2) {
+                    if (view instanceof SearchFilterView) {
+                        AnimatorSet animatorSet = new AnimatorSet();
+                        animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(view, View.SCALE_X, 0.5f, 1.0f), ObjectAnimator.ofFloat(view, View.SCALE_Y, 0.5f, 1.0f));
+                        animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                        return animatorSet;
+                    }
+                    return ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, 1.0f);
+                }
+
+                @Override // android.transition.Visibility
+                public Animator onDisappear(ViewGroup viewGroup, View view, TransitionValues transitionValues, TransitionValues transitionValues2) {
+                    if (view instanceof SearchFilterView) {
+                        AnimatorSet animatorSet = new AnimatorSet();
+                        animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, view.getAlpha(), 0.0f), ObjectAnimator.ofFloat(view, View.SCALE_X, view.getScaleX(), 0.5f), ObjectAnimator.ofFloat(view, View.SCALE_Y, view.getScaleX(), 0.5f));
+                        animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                        return animatorSet;
+                    }
+                    return ObjectAnimator.ofFloat(view, View.ALPHA, 1.0f, 0.0f);
+                }
+            }.setDuration(150L)).addTransition(changeBounds);
             transitionSet.setOrdering(0);
             transitionSet.setInterpolator((TimeInterpolator) CubicBezierInterpolator.EASE_OUT);
-            transitionSet.addListener((Transition.TransitionListener) new AnonymousClass5(UserConfig.selectedAccount));
+            final int i = UserConfig.selectedAccount;
+            transitionSet.addListener(new Transition.TransitionListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.5
+                @Override // android.transition.Transition.TransitionListener
+                public void onTransitionPause(Transition transition) {
+                }
+
+                @Override // android.transition.Transition.TransitionListener
+                public void onTransitionResume(Transition transition) {
+                }
+
+                @Override // android.transition.Transition.TransitionListener
+                public void onTransitionStart(Transition transition) {
+                    ActionBarMenuItem.this.notificationIndex = NotificationCenter.getInstance(i).setAnimationInProgress(ActionBarMenuItem.this.notificationIndex, null);
+                }
+
+                @Override // android.transition.Transition.TransitionListener
+                public void onTransitionEnd(Transition transition) {
+                    NotificationCenter.getInstance(i).onAnimationFinish(ActionBarMenuItem.this.notificationIndex);
+                }
+
+                @Override // android.transition.Transition.TransitionListener
+                public void onTransitionCancel(Transition transition) {
+                    NotificationCenter.getInstance(i).onAnimationFinish(ActionBarMenuItem.this.notificationIndex);
+                }
+            });
             TransitionManager.beginDelayedTransition(this.searchFilterLayout, transitionSet);
         }
-        int i = 0;
-        while (i < this.searchFilterLayout.getChildCount()) {
-            if (!arrayList.remove(((SearchFilterView) this.searchFilterLayout.getChildAt(i)).getFilter())) {
-                this.searchFilterLayout.removeViewAt(i);
-                i--;
+        int i2 = 0;
+        while (i2 < this.searchFilterLayout.getChildCount()) {
+            if (!arrayList.remove(((SearchFilterView) this.searchFilterLayout.getChildAt(i2)).getFilter())) {
+                this.searchFilterLayout.removeViewAt(i2);
+                i2--;
             }
-            i++;
+            i2++;
         }
-        for (int i2 = 0; i2 < arrayList.size(); i2++) {
-            SearchFilterView searchFilterView = new SearchFilterView(getContext(), this.resourcesProvider);
-            searchFilterView.setData((FiltersView.MediaFilterData) arrayList.get(i2));
-            searchFilterView.setOnClickListener(new ActionBarMenuItem$$ExternalSyntheticLambda4(this, searchFilterView));
+        for (int i3 = 0; i3 < arrayList.size(); i3++) {
+            final SearchFilterView searchFilterView = new SearchFilterView(getContext(), this.resourcesProvider);
+            searchFilterView.setData((FiltersView.MediaFilterData) arrayList.get(i3));
+            searchFilterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda4
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ActionBarMenuItem.this.lambda$onFiltersChanged$11(searchFilterView, view);
+                }
+            });
             this.searchFilterLayout.addView(searchFilterView, LayoutHelper.createLinear(-2, -1, 0, 0, 0, 6, 0));
         }
-        int i3 = 0;
-        while (i3 < this.searchFilterLayout.getChildCount()) {
-            ((SearchFilterView) this.searchFilterLayout.getChildAt(i3)).setExpanded(i3 == this.selectedFilterIndex);
-            i3++;
+        int i4 = 0;
+        while (i4 < this.searchFilterLayout.getChildCount()) {
+            ((SearchFilterView) this.searchFilterLayout.getChildAt(i4)).setExpanded(i4 == this.selectedFilterIndex);
+            i4++;
         }
         this.searchFilterLayout.setTag(z ? 1 : null);
-        float x = this.searchField.getX();
+        final float x = this.searchField.getX();
         if (this.searchContainer.getTag() != null) {
-            this.searchField.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass6(x));
+            this.searchField.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.6
+                @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                public boolean onPreDraw() {
+                    ActionBarMenuItem.this.searchField.getViewTreeObserver().removeOnPreDrawListener(this);
+                    if (ActionBarMenuItem.this.searchField.getX() != x) {
+                        ActionBarMenuItem.this.searchField.setTranslationX(x - ActionBarMenuItem.this.searchField.getX());
+                    }
+                    ActionBarMenuItem.this.searchField.animate().translationX(0.0f).setDuration(250L).setStartDelay(0L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+                    return true;
+                }
+            });
         }
         checkClearButton();
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends Visibility {
-        AnonymousClass4(ActionBarMenuItem actionBarMenuItem) {
-        }
-
-        @Override // android.transition.Visibility
-        public Animator onAppear(ViewGroup viewGroup, View view, TransitionValues transitionValues, TransitionValues transitionValues2) {
-            if (view instanceof SearchFilterView) {
-                AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(view, View.SCALE_X, 0.5f, 1.0f), ObjectAnimator.ofFloat(view, View.SCALE_Y, 0.5f, 1.0f));
-                animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                return animatorSet;
-            }
-            return ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, 1.0f);
-        }
-
-        @Override // android.transition.Visibility
-        public Animator onDisappear(ViewGroup viewGroup, View view, TransitionValues transitionValues, TransitionValues transitionValues2) {
-            if (view instanceof SearchFilterView) {
-                AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, view.getAlpha(), 0.0f), ObjectAnimator.ofFloat(view, View.SCALE_X, view.getScaleX(), 0.5f), ObjectAnimator.ofFloat(view, View.SCALE_Y, view.getScaleX(), 0.5f));
-                animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                return animatorSet;
-            }
-            return ObjectAnimator.ofFloat(view, View.ALPHA, 1.0f, 0.0f);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 implements Transition.TransitionListener {
-        final /* synthetic */ int val$selectedAccount;
-
-        @Override // android.transition.Transition.TransitionListener
-        public void onTransitionPause(Transition transition) {
-        }
-
-        @Override // android.transition.Transition.TransitionListener
-        public void onTransitionResume(Transition transition) {
-        }
-
-        AnonymousClass5(int i) {
-            ActionBarMenuItem.this = r1;
-            this.val$selectedAccount = i;
-        }
-
-        @Override // android.transition.Transition.TransitionListener
-        public void onTransitionStart(Transition transition) {
-            ActionBarMenuItem.this.notificationIndex = NotificationCenter.getInstance(this.val$selectedAccount).setAnimationInProgress(ActionBarMenuItem.this.notificationIndex, null);
-        }
-
-        @Override // android.transition.Transition.TransitionListener
-        public void onTransitionEnd(Transition transition) {
-            NotificationCenter.getInstance(this.val$selectedAccount).onAnimationFinish(ActionBarMenuItem.this.notificationIndex);
-        }
-
-        @Override // android.transition.Transition.TransitionListener
-        public void onTransitionCancel(Transition transition) {
-            NotificationCenter.getInstance(this.val$selectedAccount).onAnimationFinish(ActionBarMenuItem.this.notificationIndex);
-        }
     }
 
     public /* synthetic */ void lambda$onFiltersChanged$11(SearchFilterView searchFilterView, View view) {
@@ -1102,27 +1127,6 @@ public class ActionBarMenuItem extends FrameLayout {
             }
             actionBarMenuItemSearchListener.onSearchFilterCleared(filter);
             this.listener.onTextChanged(this.searchField);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 implements ViewTreeObserver.OnPreDrawListener {
-        final /* synthetic */ float val$oldX;
-
-        AnonymousClass6(float f) {
-            ActionBarMenuItem.this = r1;
-            this.val$oldX = f;
-        }
-
-        @Override // android.view.ViewTreeObserver.OnPreDrawListener
-        public boolean onPreDraw() {
-            ActionBarMenuItem.this.searchField.getViewTreeObserver().removeOnPreDrawListener(this);
-            if (ActionBarMenuItem.this.searchField.getX() != this.val$oldX) {
-                ActionBarMenuItem.this.searchField.setTranslationX(this.val$oldX - ActionBarMenuItem.this.searchField.getX());
-            }
-            ActionBarMenuItem.this.searchField.animate().translationX(0.0f).setDuration(250L).setStartDelay(0L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
-            return true;
         }
     }
 
@@ -1220,22 +1224,136 @@ public class ActionBarMenuItem extends FrameLayout {
         return setIsSearchField(z, false);
     }
 
-    public ActionBarMenuItem setIsSearchField(boolean z, boolean z2) {
+    public ActionBarMenuItem setIsSearchField(boolean z, final boolean z2) {
         if (this.parentMenu == null) {
             return this;
         }
         if (z && this.searchContainer == null) {
-            AnonymousClass7 anonymousClass7 = new AnonymousClass7(getContext(), z2);
-            this.searchContainer = anonymousClass7;
-            anonymousClass7.setClipChildren(false);
+            FrameLayout frameLayout = new FrameLayout(getContext()) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.7
+                private boolean ignoreRequestLayout;
+
+                @Override // android.view.View
+                public void setVisibility(int i) {
+                    super.setVisibility(i);
+                    if (ActionBarMenuItem.this.clearButton != null) {
+                        ActionBarMenuItem.this.clearButton.setVisibility(i);
+                    }
+                    if (ActionBarMenuItem.this.wrappedSearchFrameLayout != null) {
+                        ActionBarMenuItem.this.wrappedSearchFrameLayout.setVisibility(i);
+                    }
+                }
+
+                @Override // android.view.View
+                public void setAlpha(float f) {
+                    super.setAlpha(f);
+                    if (ActionBarMenuItem.this.clearButton == null || ActionBarMenuItem.this.clearButton.getTag() == null) {
+                        return;
+                    }
+                    ActionBarMenuItem.this.clearButton.setAlpha(f);
+                    ActionBarMenuItem.this.clearButton.setScaleX(f);
+                    ActionBarMenuItem.this.clearButton.setScaleY(f);
+                }
+
+                @Override // android.widget.FrameLayout, android.view.View
+                protected void onMeasure(int i, int i2) {
+                    int i3;
+                    int i4;
+                    if (!z2) {
+                        measureChildWithMargins(ActionBarMenuItem.this.clearButton, i, 0, i2, 0);
+                    }
+                    if (!LocaleController.isRTL) {
+                        if (ActionBarMenuItem.this.searchFieldCaption.getVisibility() == 0) {
+                            measureChildWithMargins(ActionBarMenuItem.this.searchFieldCaption, i, View.MeasureSpec.getSize(i) / 2, i2, 0);
+                            i4 = ActionBarMenuItem.this.searchFieldCaption.getMeasuredWidth() + AndroidUtilities.dp(4.0f);
+                        } else {
+                            i4 = 0;
+                        }
+                        int size = View.MeasureSpec.getSize(i);
+                        this.ignoreRequestLayout = true;
+                        measureChildWithMargins(ActionBarMenuItem.this.searchFilterLayout, i, i4, i2, 0);
+                        int measuredWidth = ActionBarMenuItem.this.searchFilterLayout.getVisibility() == 0 ? ActionBarMenuItem.this.searchFilterLayout.getMeasuredWidth() : 0;
+                        measureChildWithMargins(ActionBarMenuItem.this.searchField, i, i4 + measuredWidth, i2, 0);
+                        this.ignoreRequestLayout = false;
+                        setMeasuredDimension(Math.max(measuredWidth + ActionBarMenuItem.this.searchField.getMeasuredWidth(), size), View.MeasureSpec.getSize(i2));
+                        return;
+                    }
+                    if (ActionBarMenuItem.this.searchFieldCaption.getVisibility() == 0) {
+                        measureChildWithMargins(ActionBarMenuItem.this.searchFieldCaption, i, View.MeasureSpec.getSize(i) / 2, i2, 0);
+                        i3 = ActionBarMenuItem.this.searchFieldCaption.getMeasuredWidth() + AndroidUtilities.dp(4.0f);
+                    } else {
+                        i3 = 0;
+                    }
+                    int size2 = View.MeasureSpec.getSize(i);
+                    this.ignoreRequestLayout = true;
+                    measureChildWithMargins(ActionBarMenuItem.this.searchFilterLayout, i, i3, i2, 0);
+                    int measuredWidth2 = ActionBarMenuItem.this.searchFilterLayout.getVisibility() == 0 ? ActionBarMenuItem.this.searchFilterLayout.getMeasuredWidth() : 0;
+                    measureChildWithMargins(ActionBarMenuItem.this.searchField, View.MeasureSpec.makeMeasureSpec(size2 - AndroidUtilities.dp(12.0f), 0), i3 + measuredWidth2, i2, 0);
+                    this.ignoreRequestLayout = false;
+                    setMeasuredDimension(Math.max(measuredWidth2 + ActionBarMenuItem.this.searchField.getMeasuredWidth(), size2), View.MeasureSpec.getSize(i2));
+                }
+
+                @Override // android.view.View, android.view.ViewParent
+                public void requestLayout() {
+                    if (this.ignoreRequestLayout) {
+                        return;
+                    }
+                    super.requestLayout();
+                }
+
+                @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+                protected void onLayout(boolean z3, int i, int i2, int i3, int i4) {
+                    super.onLayout(z3, i, i2, i3, i4);
+                    int i5 = 0;
+                    if (!LocaleController.isRTL && ActionBarMenuItem.this.searchFieldCaption.getVisibility() == 0) {
+                        i5 = AndroidUtilities.dp(4.0f) + ActionBarMenuItem.this.searchFieldCaption.getMeasuredWidth();
+                    }
+                    if (ActionBarMenuItem.this.searchFilterLayout.getVisibility() == 0) {
+                        i5 += ActionBarMenuItem.this.searchFilterLayout.getMeasuredWidth();
+                    }
+                    ActionBarMenuItem.this.searchField.layout(i5, ActionBarMenuItem.this.searchField.getTop(), ActionBarMenuItem.this.searchField.getMeasuredWidth() + i5, ActionBarMenuItem.this.searchField.getBottom());
+                }
+            };
+            this.searchContainer = frameLayout;
+            frameLayout.setClipChildren(false);
             this.wrappedSearchFrameLayout = null;
             if (z2) {
                 this.wrappedSearchFrameLayout = new FrameLayout(getContext());
-                AnonymousClass8 anonymousClass8 = new AnonymousClass8(this, getContext());
-                anonymousClass8.addView(this.searchContainer, LayoutHelper.createScroll(-2, -1, 0));
-                anonymousClass8.setHorizontalScrollBarEnabled(false);
-                anonymousClass8.setClipChildren(false);
-                this.wrappedSearchFrameLayout.addView(anonymousClass8, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 0.0f, 48.0f, 0.0f));
+                HorizontalScrollView horizontalScrollView = new HorizontalScrollView(this, getContext()) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.8
+                    boolean isDragging;
+
+                    @Override // android.widget.HorizontalScrollView, android.view.ViewGroup
+                    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                        checkDragg(motionEvent);
+                        return super.onInterceptTouchEvent(motionEvent);
+                    }
+
+                    @Override // android.widget.HorizontalScrollView, android.view.View
+                    public boolean onTouchEvent(MotionEvent motionEvent) {
+                        checkDragg(motionEvent);
+                        return super.onTouchEvent(motionEvent);
+                    }
+
+                    private void checkDragg(MotionEvent motionEvent) {
+                        if (motionEvent.getAction() == 0) {
+                            this.isDragging = true;
+                        } else if (motionEvent.getAction() != 1 && motionEvent.getAction() != 3) {
+                        } else {
+                            this.isDragging = false;
+                        }
+                    }
+
+                    @Override // android.widget.HorizontalScrollView, android.view.View
+                    protected void onOverScrolled(int i, int i2, boolean z3, boolean z4) {
+                        if (!this.isDragging) {
+                            return;
+                        }
+                        super.onOverScrolled(i, i2, z3, z4);
+                    }
+                };
+                horizontalScrollView.addView(this.searchContainer, LayoutHelper.createScroll(-2, -1, 0));
+                horizontalScrollView.setHorizontalScrollBarEnabled(false);
+                horizontalScrollView.setClipChildren(false);
+                this.wrappedSearchFrameLayout.addView(horizontalScrollView, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 0.0f, 48.0f, 0.0f));
                 this.parentMenu.addView(this.wrappedSearchFrameLayout, 0, LayoutHelper.createLinear(0, -1, 1.0f, 0, 0, 0, 0));
             } else {
                 this.parentMenu.addView(this.searchContainer, 0, LayoutHelper.createLinear(0, -1, 1.0f, 6, 0, 0, 0));
@@ -1249,9 +1367,49 @@ public class ActionBarMenuItem extends FrameLayout {
             this.searchFieldCaption.setEllipsize(TextUtils.TruncateAt.END);
             this.searchFieldCaption.setVisibility(8);
             this.searchFieldCaption.setGravity(LocaleController.isRTL ? 5 : 3);
-            AnonymousClass9 anonymousClass9 = new AnonymousClass9(getContext());
-            this.searchField = anonymousClass9;
-            anonymousClass9.setScrollContainer(false);
+            EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(getContext()) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.9
+                @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+                public void onMeasure(int i, int i2) {
+                    super.onMeasure(i, i2);
+                    setMeasuredDimension(Math.max(View.MeasureSpec.getSize(i), getMeasuredWidth()) + AndroidUtilities.dp(3.0f), getMeasuredHeight());
+                }
+
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
+                public void onSelectionChanged(int i, int i2) {
+                    super.onSelectionChanged(i, i2);
+                }
+
+                @Override // android.widget.TextView, android.view.View, android.view.KeyEvent.Callback
+                public boolean onKeyDown(int i, KeyEvent keyEvent) {
+                    if (i == 67 && ActionBarMenuItem.this.searchField.length() == 0 && ((ActionBarMenuItem.this.searchFieldCaption.getVisibility() == 0 && ActionBarMenuItem.this.searchFieldCaption.length() > 0) || ActionBarMenuItem.this.hasRemovableFilters())) {
+                        if (ActionBarMenuItem.this.hasRemovableFilters()) {
+                            FiltersView.MediaFilterData mediaFilterData = (FiltersView.MediaFilterData) ActionBarMenuItem.this.currentSearchFilters.get(ActionBarMenuItem.this.currentSearchFilters.size() - 1);
+                            ActionBarMenuItemSearchListener actionBarMenuItemSearchListener = ActionBarMenuItem.this.listener;
+                            if (actionBarMenuItemSearchListener != null) {
+                                actionBarMenuItemSearchListener.onSearchFilterCleared(mediaFilterData);
+                            }
+                            ActionBarMenuItem.this.removeSearchFilter(mediaFilterData);
+                        } else {
+                            ActionBarMenuItem.this.clearButton.callOnClick();
+                        }
+                        return true;
+                    }
+                    return super.onKeyDown(i, keyEvent);
+                }
+
+                @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+                public boolean onTouchEvent(MotionEvent motionEvent) {
+                    boolean onTouchEvent = super.onTouchEvent(motionEvent);
+                    if (motionEvent.getAction() == 1 && !AndroidUtilities.showKeyboard(this)) {
+                        clearFocus();
+                        requestFocus();
+                    }
+                    return onTouchEvent;
+                }
+            };
+            this.searchField = editTextBoldCursor;
+            editTextBoldCursor.setScrollContainer(false);
             this.searchField.setCursorWidth(1.5f);
             this.searchField.setCursorColor(getThemedColor("actionBarDefaultSearch"));
             this.searchField.setTextSize(1, 18.0f);
@@ -1262,10 +1420,63 @@ public class ActionBarMenuItem extends FrameLayout {
             this.searchField.setPadding(0, 0, 0, 0);
             this.searchField.setInputType(this.searchField.getInputType() | 524288);
             if (Build.VERSION.SDK_INT < 23) {
-                this.searchField.setCustomSelectionActionModeCallback(new AnonymousClass10(this));
+                this.searchField.setCustomSelectionActionModeCallback(new ActionMode.Callback(this) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.10
+                    @Override // android.view.ActionMode.Callback
+                    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                        return false;
+                    }
+
+                    @Override // android.view.ActionMode.Callback
+                    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                        return false;
+                    }
+
+                    @Override // android.view.ActionMode.Callback
+                    public void onDestroyActionMode(ActionMode actionMode) {
+                    }
+
+                    @Override // android.view.ActionMode.Callback
+                    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                        return false;
+                    }
+                });
             }
-            this.searchField.setOnEditorActionListener(new ActionBarMenuItem$$ExternalSyntheticLambda10(this));
-            this.searchField.addTextChangedListener(new AnonymousClass11());
+            this.searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda10
+                @Override // android.widget.TextView.OnEditorActionListener
+                public final boolean onEditorAction(TextView textView2, int i, KeyEvent keyEvent) {
+                    boolean lambda$setIsSearchField$12;
+                    lambda$setIsSearchField$12 = ActionBarMenuItem.this.lambda$setIsSearchField$12(textView2, i, keyEvent);
+                    return lambda$setIsSearchField$12;
+                }
+            });
+            this.searchField.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.11
+                @Override // android.text.TextWatcher
+                public void afterTextChanged(Editable editable) {
+                }
+
+                @Override // android.text.TextWatcher
+                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                }
+
+                @Override // android.text.TextWatcher
+                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                    if (ActionBarMenuItem.this.ignoreOnTextChange) {
+                        ActionBarMenuItem.this.ignoreOnTextChange = false;
+                        return;
+                    }
+                    ActionBarMenuItem actionBarMenuItem = ActionBarMenuItem.this;
+                    ActionBarMenuItemSearchListener actionBarMenuItemSearchListener = actionBarMenuItem.listener;
+                    if (actionBarMenuItemSearchListener != null) {
+                        actionBarMenuItemSearchListener.onTextChanged(actionBarMenuItem.searchField);
+                    }
+                    ActionBarMenuItem.this.checkClearButton();
+                    if (ActionBarMenuItem.this.currentSearchFilters.isEmpty() || TextUtils.isEmpty(ActionBarMenuItem.this.searchField.getText()) || ActionBarMenuItem.this.selectedFilterIndex < 0) {
+                        return;
+                    }
+                    ActionBarMenuItem.this.selectedFilterIndex = -1;
+                    ActionBarMenuItem.this.onFiltersChanged();
+                }
+            });
             this.searchField.setImeOptions(33554435);
             this.searchField.setTextIsSelectable(false);
             this.searchField.setHighlightColor(getThemedColor("chat_inTextSelectionHighlight"));
@@ -1284,18 +1495,46 @@ public class ActionBarMenuItem extends FrameLayout {
                 this.searchContainer.addView(this.searchFieldCaption, LayoutHelper.createFrame(-2, 36.0f, 21, 0.0f, 5.5f, 48.0f, 0.0f));
             }
             this.searchFilterLayout.setClipChildren(false);
-            AnonymousClass12 anonymousClass12 = new AnonymousClass12(getContext());
-            this.clearButton = anonymousClass12;
-            AnonymousClass13 anonymousClass13 = new AnonymousClass13();
-            this.progressDrawable = anonymousClass13;
-            anonymousClass12.setImageDrawable(anonymousClass13);
+            ImageView imageView = new ImageView(getContext()) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.12
+                @Override // android.widget.ImageView, android.view.View
+                protected void onDetachedFromWindow() {
+                    super.onDetachedFromWindow();
+                    clearAnimation();
+                    if (getTag() == null) {
+                        ActionBarMenuItem.this.clearButton.setVisibility(4);
+                        ActionBarMenuItem.this.clearButton.setAlpha(0.0f);
+                        ActionBarMenuItem.this.clearButton.setRotation(45.0f);
+                        ActionBarMenuItem.this.clearButton.setScaleX(0.0f);
+                        ActionBarMenuItem.this.clearButton.setScaleY(0.0f);
+                        return;
+                    }
+                    ActionBarMenuItem.this.clearButton.setAlpha(1.0f);
+                    ActionBarMenuItem.this.clearButton.setRotation(0.0f);
+                    ActionBarMenuItem.this.clearButton.setScaleX(1.0f);
+                    ActionBarMenuItem.this.clearButton.setScaleY(1.0f);
+                }
+            };
+            this.clearButton = imageView;
+            CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.13
+                @Override // org.telegram.ui.Components.CloseProgressDrawable2
+                public int getCurrentColor() {
+                    return ActionBarMenuItem.this.parentMenu.parentActionBar.itemsColor;
+                }
+            };
+            this.progressDrawable = closeProgressDrawable2;
+            imageView.setImageDrawable(closeProgressDrawable2);
             this.clearButton.setScaleType(ImageView.ScaleType.CENTER);
             this.clearButton.setAlpha(0.0f);
             this.clearButton.setRotation(45.0f);
             this.clearButton.setScaleX(0.0f);
             this.clearButton.setScaleY(0.0f);
-            this.clearButton.setOnClickListener(new ActionBarMenuItem$$ExternalSyntheticLambda2(this));
-            this.clearButton.setContentDescription(LocaleController.getString("ClearButton", 2131625146));
+            this.clearButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda2
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ActionBarMenuItem.this.lambda$setIsSearchField$13(view);
+                }
+            });
+            this.clearButton.setContentDescription(LocaleController.getString("ClearButton", R.string.ClearButton));
             if (z2) {
                 this.wrappedSearchFrameLayout.addView(this.clearButton, LayoutHelper.createFrame(48, -1, 21));
             } else {
@@ -1304,215 +1543,6 @@ public class ActionBarMenuItem extends FrameLayout {
         }
         this.isSearchField = z;
         return this;
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$7 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass7 extends FrameLayout {
-        private boolean ignoreRequestLayout;
-        final /* synthetic */ boolean val$wrapInScrollView;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass7(Context context, boolean z) {
-            super(context);
-            ActionBarMenuItem.this = r1;
-            this.val$wrapInScrollView = z;
-        }
-
-        @Override // android.view.View
-        public void setVisibility(int i) {
-            super.setVisibility(i);
-            if (ActionBarMenuItem.this.clearButton != null) {
-                ActionBarMenuItem.this.clearButton.setVisibility(i);
-            }
-            if (ActionBarMenuItem.this.wrappedSearchFrameLayout != null) {
-                ActionBarMenuItem.this.wrappedSearchFrameLayout.setVisibility(i);
-            }
-        }
-
-        @Override // android.view.View
-        public void setAlpha(float f) {
-            super.setAlpha(f);
-            if (ActionBarMenuItem.this.clearButton == null || ActionBarMenuItem.this.clearButton.getTag() == null) {
-                return;
-            }
-            ActionBarMenuItem.this.clearButton.setAlpha(f);
-            ActionBarMenuItem.this.clearButton.setScaleX(f);
-            ActionBarMenuItem.this.clearButton.setScaleY(f);
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            int i3;
-            int i4;
-            if (!this.val$wrapInScrollView) {
-                measureChildWithMargins(ActionBarMenuItem.this.clearButton, i, 0, i2, 0);
-            }
-            if (!LocaleController.isRTL) {
-                if (ActionBarMenuItem.this.searchFieldCaption.getVisibility() == 0) {
-                    measureChildWithMargins(ActionBarMenuItem.this.searchFieldCaption, i, View.MeasureSpec.getSize(i) / 2, i2, 0);
-                    i4 = ActionBarMenuItem.this.searchFieldCaption.getMeasuredWidth() + AndroidUtilities.dp(4.0f);
-                } else {
-                    i4 = 0;
-                }
-                int size = View.MeasureSpec.getSize(i);
-                this.ignoreRequestLayout = true;
-                measureChildWithMargins(ActionBarMenuItem.this.searchFilterLayout, i, i4, i2, 0);
-                int measuredWidth = ActionBarMenuItem.this.searchFilterLayout.getVisibility() == 0 ? ActionBarMenuItem.this.searchFilterLayout.getMeasuredWidth() : 0;
-                measureChildWithMargins(ActionBarMenuItem.this.searchField, i, i4 + measuredWidth, i2, 0);
-                this.ignoreRequestLayout = false;
-                setMeasuredDimension(Math.max(measuredWidth + ActionBarMenuItem.this.searchField.getMeasuredWidth(), size), View.MeasureSpec.getSize(i2));
-                return;
-            }
-            if (ActionBarMenuItem.this.searchFieldCaption.getVisibility() == 0) {
-                measureChildWithMargins(ActionBarMenuItem.this.searchFieldCaption, i, View.MeasureSpec.getSize(i) / 2, i2, 0);
-                i3 = ActionBarMenuItem.this.searchFieldCaption.getMeasuredWidth() + AndroidUtilities.dp(4.0f);
-            } else {
-                i3 = 0;
-            }
-            int size2 = View.MeasureSpec.getSize(i);
-            this.ignoreRequestLayout = true;
-            measureChildWithMargins(ActionBarMenuItem.this.searchFilterLayout, i, i3, i2, 0);
-            int measuredWidth2 = ActionBarMenuItem.this.searchFilterLayout.getVisibility() == 0 ? ActionBarMenuItem.this.searchFilterLayout.getMeasuredWidth() : 0;
-            measureChildWithMargins(ActionBarMenuItem.this.searchField, View.MeasureSpec.makeMeasureSpec(size2 - AndroidUtilities.dp(12.0f), 0), i3 + measuredWidth2, i2, 0);
-            this.ignoreRequestLayout = false;
-            setMeasuredDimension(Math.max(measuredWidth2 + ActionBarMenuItem.this.searchField.getMeasuredWidth(), size2), View.MeasureSpec.getSize(i2));
-        }
-
-        @Override // android.view.View, android.view.ViewParent
-        public void requestLayout() {
-            if (this.ignoreRequestLayout) {
-                return;
-            }
-            super.requestLayout();
-        }
-
-        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            super.onLayout(z, i, i2, i3, i4);
-            int i5 = 0;
-            if (!LocaleController.isRTL && ActionBarMenuItem.this.searchFieldCaption.getVisibility() == 0) {
-                i5 = AndroidUtilities.dp(4.0f) + ActionBarMenuItem.this.searchFieldCaption.getMeasuredWidth();
-            }
-            if (ActionBarMenuItem.this.searchFilterLayout.getVisibility() == 0) {
-                i5 += ActionBarMenuItem.this.searchFilterLayout.getMeasuredWidth();
-            }
-            ActionBarMenuItem.this.searchField.layout(i5, ActionBarMenuItem.this.searchField.getTop(), ActionBarMenuItem.this.searchField.getMeasuredWidth() + i5, ActionBarMenuItem.this.searchField.getBottom());
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$8 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass8 extends HorizontalScrollView {
-        boolean isDragging;
-
-        AnonymousClass8(ActionBarMenuItem actionBarMenuItem, Context context) {
-            super(context);
-        }
-
-        @Override // android.widget.HorizontalScrollView, android.view.ViewGroup
-        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            checkDragg(motionEvent);
-            return super.onInterceptTouchEvent(motionEvent);
-        }
-
-        @Override // android.widget.HorizontalScrollView, android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            checkDragg(motionEvent);
-            return super.onTouchEvent(motionEvent);
-        }
-
-        private void checkDragg(MotionEvent motionEvent) {
-            if (motionEvent.getAction() == 0) {
-                this.isDragging = true;
-            } else if (motionEvent.getAction() != 1 && motionEvent.getAction() != 3) {
-            } else {
-                this.isDragging = false;
-            }
-        }
-
-        @Override // android.widget.HorizontalScrollView, android.view.View
-        protected void onOverScrolled(int i, int i2, boolean z, boolean z2) {
-            if (!this.isDragging) {
-                return;
-            }
-            super.onOverScrolled(i, i2, z, z2);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$9 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass9 extends EditTextBoldCursor {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass9(Context context) {
-            super(context);
-            ActionBarMenuItem.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-        public void onMeasure(int i, int i2) {
-            super.onMeasure(i, i2);
-            setMeasuredDimension(Math.max(View.MeasureSpec.getSize(i), getMeasuredWidth()) + AndroidUtilities.dp(3.0f), getMeasuredHeight());
-        }
-
-        @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-        public void onSelectionChanged(int i, int i2) {
-            super.onSelectionChanged(i, i2);
-        }
-
-        @Override // android.widget.TextView, android.view.View, android.view.KeyEvent.Callback
-        public boolean onKeyDown(int i, KeyEvent keyEvent) {
-            if (i == 67 && ActionBarMenuItem.this.searchField.length() == 0 && ((ActionBarMenuItem.this.searchFieldCaption.getVisibility() == 0 && ActionBarMenuItem.this.searchFieldCaption.length() > 0) || ActionBarMenuItem.this.hasRemovableFilters())) {
-                if (ActionBarMenuItem.this.hasRemovableFilters()) {
-                    FiltersView.MediaFilterData mediaFilterData = (FiltersView.MediaFilterData) ActionBarMenuItem.this.currentSearchFilters.get(ActionBarMenuItem.this.currentSearchFilters.size() - 1);
-                    ActionBarMenuItemSearchListener actionBarMenuItemSearchListener = ActionBarMenuItem.this.listener;
-                    if (actionBarMenuItemSearchListener != null) {
-                        actionBarMenuItemSearchListener.onSearchFilterCleared(mediaFilterData);
-                    }
-                    ActionBarMenuItem.this.removeSearchFilter(mediaFilterData);
-                } else {
-                    ActionBarMenuItem.this.clearButton.callOnClick();
-                }
-                return true;
-            }
-            return super.onKeyDown(i, keyEvent);
-        }
-
-        @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            boolean onTouchEvent = super.onTouchEvent(motionEvent);
-            if (motionEvent.getAction() == 1 && !AndroidUtilities.showKeyboard(this)) {
-                clearFocus();
-                requestFocus();
-            }
-            return onTouchEvent;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$10 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass10 implements ActionMode.Callback {
-        @Override // android.view.ActionMode.Callback
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            return false;
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public void onDestroyActionMode(ActionMode actionMode) {
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        AnonymousClass10(ActionBarMenuItem actionBarMenuItem) {
-        }
     }
 
     public /* synthetic */ boolean lambda$setIsSearchField$12(TextView textView, int i, KeyEvent keyEvent) {
@@ -1529,82 +1559,6 @@ public class ActionBarMenuItem extends FrameLayout {
             return false;
         }
         return false;
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$11 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass11 implements TextWatcher {
-        @Override // android.text.TextWatcher
-        public void afterTextChanged(Editable editable) {
-        }
-
-        @Override // android.text.TextWatcher
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        AnonymousClass11() {
-            ActionBarMenuItem.this = r1;
-        }
-
-        @Override // android.text.TextWatcher
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            if (ActionBarMenuItem.this.ignoreOnTextChange) {
-                ActionBarMenuItem.this.ignoreOnTextChange = false;
-                return;
-            }
-            ActionBarMenuItem actionBarMenuItem = ActionBarMenuItem.this;
-            ActionBarMenuItemSearchListener actionBarMenuItemSearchListener = actionBarMenuItem.listener;
-            if (actionBarMenuItemSearchListener != null) {
-                actionBarMenuItemSearchListener.onTextChanged(actionBarMenuItem.searchField);
-            }
-            ActionBarMenuItem.this.checkClearButton();
-            if (ActionBarMenuItem.this.currentSearchFilters.isEmpty() || TextUtils.isEmpty(ActionBarMenuItem.this.searchField.getText()) || ActionBarMenuItem.this.selectedFilterIndex < 0) {
-                return;
-            }
-            ActionBarMenuItem.this.selectedFilterIndex = -1;
-            ActionBarMenuItem.this.onFiltersChanged();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$12 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass12 extends ImageView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass12(Context context) {
-            super(context);
-            ActionBarMenuItem.this = r1;
-        }
-
-        @Override // android.widget.ImageView, android.view.View
-        protected void onDetachedFromWindow() {
-            super.onDetachedFromWindow();
-            clearAnimation();
-            if (getTag() == null) {
-                ActionBarMenuItem.this.clearButton.setVisibility(4);
-                ActionBarMenuItem.this.clearButton.setAlpha(0.0f);
-                ActionBarMenuItem.this.clearButton.setRotation(45.0f);
-                ActionBarMenuItem.this.clearButton.setScaleX(0.0f);
-                ActionBarMenuItem.this.clearButton.setScaleY(0.0f);
-                return;
-            }
-            ActionBarMenuItem.this.clearButton.setAlpha(1.0f);
-            ActionBarMenuItem.this.clearButton.setRotation(0.0f);
-            ActionBarMenuItem.this.clearButton.setScaleX(1.0f);
-            ActionBarMenuItem.this.clearButton.setScaleY(1.0f);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$13 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass13 extends CloseProgressDrawable2 {
-        AnonymousClass13() {
-            ActionBarMenuItem.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.CloseProgressDrawable2
-        public int getCurrentColor() {
-            return ActionBarMenuItem.this.parentMenu.parentActionBar.itemsColor;
-        }
     }
 
     public /* synthetic */ void lambda$setIsSearchField$13(View view) {
@@ -1653,7 +1607,12 @@ public class ActionBarMenuItem extends FrameLayout {
                 this.clearButton.setTag(null);
                 this.clearButton.clearAnimation();
                 if (this.animateClear) {
-                    this.clearButton.animate().setInterpolator(new DecelerateInterpolator()).alpha(0.0f).setDuration(180L).scaleY(0.0f).scaleX(0.0f).rotation(45.0f).withEndAction(new ActionBarMenuItem$$ExternalSyntheticLambda12(this)).start();
+                    this.clearButton.animate().setInterpolator(new DecelerateInterpolator()).alpha(0.0f).setDuration(180L).scaleY(0.0f).scaleX(0.0f).rotation(45.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda12
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ActionBarMenuItem.this.lambda$checkClearButton$14();
+                        }
+                    }).start();
                     return;
                 }
                 this.clearButton.setAlpha(0.0f);
@@ -1989,7 +1948,14 @@ public class ActionBarMenuItem extends FrameLayout {
         BackupImageView avatarImageView;
         ImageView closeIconView;
         FiltersView.MediaFilterData data;
-        Runnable removeSelectionRunnable = new AnonymousClass1();
+        Runnable removeSelectionRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.SearchFilterView.1
+            @Override // java.lang.Runnable
+            public void run() {
+                if (SearchFilterView.this.selectedForDelete) {
+                    SearchFilterView.this.setSelectedForDelete(false);
+                }
+            }
+        };
         private final Theme.ResourcesProvider resourcesProvider;
         ValueAnimator selectAnimator;
         private boolean selectedForDelete;
@@ -1997,21 +1963,6 @@ public class ActionBarMenuItem extends FrameLayout {
         ShapeDrawable shapeDrawable;
         Drawable thumbDrawable;
         TextView titleView;
-
-        /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$SearchFilterView$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements Runnable {
-            AnonymousClass1() {
-                SearchFilterView.this = r1;
-            }
-
-            @Override // java.lang.Runnable
-            public void run() {
-                if (SearchFilterView.this.selectedForDelete) {
-                    SearchFilterView.this.setSelectedForDelete(false);
-                }
-            }
-        }
 
         public SearchFilterView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
@@ -2021,7 +1972,7 @@ public class ActionBarMenuItem extends FrameLayout {
             addView(backupImageView, LayoutHelper.createFrame(32, 32.0f));
             ImageView imageView = new ImageView(context);
             this.closeIconView = imageView;
-            imageView.setImageResource(2131165473);
+            imageView.setImageResource(R.drawable.ic_close_white);
             addView(this.closeIconView, LayoutHelper.createFrame(24, 24.0f, 16, 8.0f, 0.0f, 0.0f, 0.0f));
             TextView textView = new TextView(context);
             this.titleView = textView;
@@ -2067,7 +2018,7 @@ public class ActionBarMenuItem extends FrameLayout {
             int i = mediaFilterData.filterType;
             if (i != 4) {
                 if (i == 7) {
-                    CombinedDrawable createCircleDrawableWithIcon2 = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(32.0f), 2131165331);
+                    CombinedDrawable createCircleDrawableWithIcon2 = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(32.0f), R.drawable.chats_archive);
                     createCircleDrawableWithIcon2.setIconSize(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
                     Theme.setCombinedDrawableColor(createCircleDrawableWithIcon2, getThemedColor("avatar_backgroundArchived"), false);
                     Theme.setCombinedDrawableColor(createCircleDrawableWithIcon2, getThemedColor("avatar_actionBarIconBlue"), true);
@@ -2081,7 +2032,7 @@ public class ActionBarMenuItem extends FrameLayout {
             if (tLObject instanceof TLRPC$User) {
                 TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                 if (UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser().id == tLRPC$User.id) {
-                    CombinedDrawable createCircleDrawableWithIcon3 = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(32.0f), 2131165340);
+                    CombinedDrawable createCircleDrawableWithIcon3 = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(32.0f), R.drawable.chats_saved);
                     createCircleDrawableWithIcon3.setIconSize(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
                     Theme.setCombinedDrawableColor(createCircleDrawableWithIcon3, getThemedColor("avatar_backgroundSaved"), false);
                     Theme.setCombinedDrawableColor(createCircleDrawableWithIcon3, getThemedColor("avatar_actionBarIconBlue"), true);
@@ -2106,7 +2057,7 @@ public class ActionBarMenuItem extends FrameLayout {
             setSelectedForDelete(false);
         }
 
-        public void setSelectedForDelete(boolean z) {
+        public void setSelectedForDelete(final boolean z) {
             if (this.selectedForDelete == z) {
                 return;
             }
@@ -2122,8 +2073,19 @@ public class ActionBarMenuItem extends FrameLayout {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.selectAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ActionBarMenuItem$SearchFilterView$$ExternalSyntheticLambda0(this));
-            this.selectAnimator.addListener(new AnonymousClass2(z));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$SearchFilterView$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    ActionBarMenuItem.SearchFilterView.this.lambda$setSelectedForDelete$0(valueAnimator2);
+                }
+            });
+            this.selectAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.SearchFilterView.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    SearchFilterView.this.selectedProgress = z ? 1.0f : 0.0f;
+                    SearchFilterView.this.updateColors();
+                }
+            });
             this.selectAnimator.setDuration(150L).start();
             if (!this.selectedForDelete) {
                 return;
@@ -2134,23 +2096,6 @@ public class ActionBarMenuItem extends FrameLayout {
         public /* synthetic */ void lambda$setSelectedForDelete$0(ValueAnimator valueAnimator) {
             this.selectedProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             updateColors();
-        }
-
-        /* renamed from: org.telegram.ui.ActionBar.ActionBarMenuItem$SearchFilterView$2 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends AnimatorListenerAdapter {
-            final /* synthetic */ boolean val$select;
-
-            AnonymousClass2(boolean z) {
-                SearchFilterView.this = r1;
-                this.val$select = z;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                SearchFilterView.this.selectedProgress = this.val$select ? 1.0f : 0.0f;
-                SearchFilterView.this.updateColors();
-            }
         }
 
         public FiltersView.MediaFilterData getFilter() {
@@ -2167,7 +2112,7 @@ public class ActionBarMenuItem extends FrameLayout {
     public ActionBarPopupWindow.GapView addColoredGap() {
         createPopupLayout();
         ActionBarPopupWindow.GapView gapView = new ActionBarPopupWindow.GapView(getContext(), this.resourcesProvider, "actionBarDefaultSubmenuSeparator");
-        gapView.setTag(2131230821, 1);
+        gapView.setTag(R.id.fit_width_tag, 1);
         this.popupLayout.addView((View) gapView, LayoutHelper.createLinear(-1, 8));
         return gapView;
     }

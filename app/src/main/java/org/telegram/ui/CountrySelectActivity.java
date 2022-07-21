@@ -33,6 +33,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -44,6 +45,7 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.CountrySelectActivity;
 /* loaded from: classes3.dex */
 public class CountrySelectActivity extends BaseFragment {
     private CountrySelectActivityDelegate delegate;
@@ -89,16 +91,54 @@ public class CountrySelectActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        this.actionBar.setBackButtonImage(2131165449);
+        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(false);
-        this.actionBar.setTitle(LocaleController.getString("ChooseCountry", 2131625117));
+        this.actionBar.setTitle(LocaleController.getString("ChooseCountry", R.string.ChooseCountry));
         this.actionBar.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         this.actionBar.setItemsColor(Theme.getColor("windowBackgroundWhiteBlackText"), false);
         this.actionBar.setItemsBackgroundColor(Theme.getColor("actionBarWhiteSelector"), false);
         this.actionBar.setTitleColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.CountrySelectActivity.1
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i) {
+                if (i == -1) {
+                    CountrySelectActivity.this.finishFragment();
+                }
+            }
+        });
         int i = 1;
-        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2()).setSearchFieldHint(LocaleController.getString("Search", 2131628155));
+        this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.CountrySelectActivity.2
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onSearchExpand() {
+                CountrySelectActivity.this.searching = true;
+            }
+
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onSearchCollapse() {
+                CountrySelectActivity.this.searchListViewAdapter.search(null);
+                CountrySelectActivity.this.searching = false;
+                CountrySelectActivity.this.searchWas = false;
+                CountrySelectActivity.this.listView.setAdapter(CountrySelectActivity.this.listViewAdapter);
+                CountrySelectActivity.this.listView.setFastScrollVisible(true);
+            }
+
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onTextChanged(EditText editText) {
+                String obj = editText.getText().toString();
+                if (TextUtils.isEmpty(obj)) {
+                    CountrySelectActivity.this.searchListViewAdapter.search(null);
+                    CountrySelectActivity.this.searchWas = false;
+                    CountrySelectActivity.this.listView.setAdapter(CountrySelectActivity.this.listViewAdapter);
+                    CountrySelectActivity.this.listView.setFastScrollVisible(true);
+                    return;
+                }
+                CountrySelectActivity.this.searchListViewAdapter.search(obj);
+                if (obj.length() == 0) {
+                    return;
+                }
+                CountrySelectActivity.this.searchWas = true;
+            }
+        }).setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
         this.actionBar.setSearchTextColor(Theme.getColor("windowBackgroundWhiteGrayText"), true);
         this.actionBar.setSearchTextColor(Theme.getColor("windowBackgroundWhiteBlackText"), false);
         this.actionBar.setSearchCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
@@ -114,7 +154,7 @@ public class CountrySelectActivity extends BaseFragment {
         this.emptyView = emptyTextProgressView;
         emptyTextProgressView.showTextView();
         this.emptyView.setShowAtCenter(true);
-        this.emptyView.setText(LocaleController.getString("NoResult", 2131626910));
+        this.emptyView.setText(LocaleController.getString("NoResult", R.string.NoResult));
         frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
@@ -131,63 +171,21 @@ public class CountrySelectActivity extends BaseFragment {
         }
         recyclerListView2.setVerticalScrollbarPosition(i);
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new CountrySelectActivity$$ExternalSyntheticLambda0(this));
-        this.listView.setOnScrollListener(new AnonymousClass3());
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.CountrySelectActivity$$ExternalSyntheticLambda0
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+            public final void onItemClick(View view, int i2) {
+                CountrySelectActivity.this.lambda$createView$0(view, i2);
+            }
+        });
+        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.CountrySelectActivity.3
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrollStateChanged(RecyclerView recyclerView, int i2) {
+                if (i2 == 1) {
+                    AndroidUtilities.hideKeyboard(CountrySelectActivity.this.getParentActivity().getCurrentFocus());
+                }
+            }
+        });
         return this.fragmentView;
-    }
-
-    /* renamed from: org.telegram.ui.CountrySelectActivity$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass1() {
-            CountrySelectActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                CountrySelectActivity.this.finishFragment();
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.CountrySelectActivity$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
-        AnonymousClass2() {
-            CountrySelectActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-        public void onSearchExpand() {
-            CountrySelectActivity.this.searching = true;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-        public void onSearchCollapse() {
-            CountrySelectActivity.this.searchListViewAdapter.search(null);
-            CountrySelectActivity.this.searching = false;
-            CountrySelectActivity.this.searchWas = false;
-            CountrySelectActivity.this.listView.setAdapter(CountrySelectActivity.this.listViewAdapter);
-            CountrySelectActivity.this.listView.setFastScrollVisible(true);
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-        public void onTextChanged(EditText editText) {
-            String obj = editText.getText().toString();
-            if (TextUtils.isEmpty(obj)) {
-                CountrySelectActivity.this.searchListViewAdapter.search(null);
-                CountrySelectActivity.this.searchWas = false;
-                CountrySelectActivity.this.listView.setAdapter(CountrySelectActivity.this.listViewAdapter);
-                CountrySelectActivity.this.listView.setFastScrollVisible(true);
-                return;
-            }
-            CountrySelectActivity.this.searchListViewAdapter.search(obj);
-            if (obj.length() == 0) {
-                return;
-            }
-            CountrySelectActivity.this.searchWas = true;
-        }
     }
 
     public /* synthetic */ void lambda$createView$0(View view, int i) {
@@ -211,21 +209,6 @@ public class CountrySelectActivity extends BaseFragment {
             return;
         }
         countrySelectActivityDelegate.didSelectCountry(country);
-    }
-
-    /* renamed from: org.telegram.ui.CountrySelectActivity$3 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass3 extends RecyclerView.OnScrollListener {
-        AnonymousClass3() {
-            CountrySelectActivity.this = r1;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-        public void onScrollStateChanged(RecyclerView recyclerView, int i) {
-            if (i == 1) {
-                AndroidUtilities.hideKeyboard(CountrySelectActivity.this.getParentActivity().getCurrentFocus());
-            }
-        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -438,7 +421,7 @@ public class CountrySelectActivity extends BaseFragment {
             }
         }
 
-        public void search(String str) {
+        public void search(final String str) {
             if (str == null) {
                 this.searchResult = null;
                 return;
@@ -453,33 +436,27 @@ public class CountrySelectActivity extends BaseFragment {
             }
             Timer timer2 = new Timer();
             this.searchTimer = timer2;
-            timer2.schedule(new AnonymousClass1(str), 100L, 300L);
-        }
-
-        /* renamed from: org.telegram.ui.CountrySelectActivity$CountrySearchAdapter$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends TimerTask {
-            final /* synthetic */ String val$query;
-
-            AnonymousClass1(String str) {
-                CountrySearchAdapter.this = r1;
-                this.val$query = str;
-            }
-
-            @Override // java.util.TimerTask, java.lang.Runnable
-            public void run() {
-                try {
-                    CountrySearchAdapter.this.searchTimer.cancel();
-                    CountrySearchAdapter.this.searchTimer = null;
-                } catch (Exception e) {
-                    FileLog.e(e);
+            timer2.schedule(new TimerTask() { // from class: org.telegram.ui.CountrySelectActivity.CountrySearchAdapter.1
+                @Override // java.util.TimerTask, java.lang.Runnable
+                public void run() {
+                    try {
+                        CountrySearchAdapter.this.searchTimer.cancel();
+                        CountrySearchAdapter.this.searchTimer = null;
+                    } catch (Exception e2) {
+                        FileLog.e(e2);
+                    }
+                    CountrySearchAdapter.this.processSearch(str);
                 }
-                CountrySearchAdapter.this.processSearch(this.val$query);
-            }
+            }, 100L, 300L);
         }
 
-        public void processSearch(String str) {
-            Utilities.searchQueue.postRunnable(new CountrySelectActivity$CountrySearchAdapter$$ExternalSyntheticLambda0(this, str));
+        public void processSearch(final String str) {
+            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.CountrySelectActivity$CountrySearchAdapter$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    CountrySelectActivity.CountrySearchAdapter.this.lambda$processSearch$0(str);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$processSearch$0(String str) {
@@ -503,8 +480,13 @@ public class CountrySelectActivity extends BaseFragment {
             updateSearchResults(arrayList);
         }
 
-        private void updateSearchResults(ArrayList<Country> arrayList) {
-            AndroidUtilities.runOnUIThread(new CountrySelectActivity$CountrySearchAdapter$$ExternalSyntheticLambda1(this, arrayList));
+        private void updateSearchResults(final ArrayList<Country> arrayList) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CountrySelectActivity$CountrySearchAdapter$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    CountrySelectActivity.CountrySearchAdapter.this.lambda$updateSearchResults$1(arrayList);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$updateSearchResults$1(ArrayList arrayList) {
@@ -573,9 +555,14 @@ public class CountrySelectActivity extends BaseFragment {
         private NotificationCenter.NotificationCenterDelegate listener;
         final /* synthetic */ TextSettingsCell val$view;
 
-        AnonymousClass4(TextSettingsCell textSettingsCell) {
+        AnonymousClass4(final TextSettingsCell textSettingsCell) {
             this.val$view = textSettingsCell;
-            this.listener = new CountrySelectActivity$4$$ExternalSyntheticLambda0(textSettingsCell);
+            this.listener = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.CountrySelectActivity$4$$ExternalSyntheticLambda0
+                @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+                public final void didReceivedNotification(int i, int i2, Object[] objArr) {
+                    CountrySelectActivity.AnonymousClass4.lambda$$0(TextSettingsCell.this, i, i2, objArr);
+                }
+            };
         }
 
         public static /* synthetic */ void lambda$$0(TextSettingsCell textSettingsCell, int i, int i2, Object[] objArr) {
@@ -600,26 +587,19 @@ public class CountrySelectActivity extends BaseFragment {
         String languageFlag = LocaleController.getLanguageFlag(country.shortname);
         if (languageFlag != null) {
             spannableStringBuilder.append((CharSequence) languageFlag).append((CharSequence) " ");
-            spannableStringBuilder.setSpan(new AnonymousClass5(), languageFlag.length(), languageFlag.length() + 1, 0);
+            spannableStringBuilder.setSpan(new ReplacementSpan() { // from class: org.telegram.ui.CountrySelectActivity.5
+                @Override // android.text.style.ReplacementSpan
+                public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
+                }
+
+                @Override // android.text.style.ReplacementSpan
+                public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
+                    return AndroidUtilities.dp(16.0f);
+                }
+            }, languageFlag.length(), languageFlag.length() + 1, 0);
         }
         spannableStringBuilder.append((CharSequence) country.name);
         return spannableStringBuilder;
-    }
-
-    /* renamed from: org.telegram.ui.CountrySelectActivity$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends ReplacementSpan {
-        @Override // android.text.style.ReplacementSpan
-        public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
-        }
-
-        AnonymousClass5() {
-        }
-
-        @Override // android.text.style.ReplacementSpan
-        public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
-            return AndroidUtilities.dp(16.0f);
-        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

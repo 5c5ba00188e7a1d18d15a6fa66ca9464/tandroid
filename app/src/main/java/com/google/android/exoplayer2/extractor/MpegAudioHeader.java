@@ -1,4 +1,7 @@
 package com.google.android.exoplayer2.extractor;
+
+import com.huawei.hms.support.api.entity.core.JosStatusCodes;
+import org.telegram.messenger.OneUIUtilities;
 /* loaded from: classes.dex */
 public final class MpegAudioHeader {
     public int bitrate;
@@ -13,8 +16,8 @@ public final class MpegAudioHeader {
     private static final int[] BITRATE_V1_L1 = {32000, 64000, 96000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 352000, 384000, 416000, 448000};
     private static final int[] BITRATE_V2_L1 = {32000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 144000, 160000, 176000, 192000, 224000, 256000};
     private static final int[] BITRATE_V1_L2 = {32000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 320000, 384000};
-    private static final int[] BITRATE_V1_L3 = {32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 320000};
-    private static final int[] BITRATE_V2 = {8000, 16000, 24000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 144000, 160000};
+    private static final int[] BITRATE_V1_L3 = {32000, OneUIUtilities.ONE_UI_4_0, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 320000};
+    private static final int[] BITRATE_V2 = {JosStatusCodes.RTN_CODE_COMMON_ERROR, 16000, 24000, 32000, OneUIUtilities.ONE_UI_4_0, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 144000, 160000};
 
     private static boolean isMagicPresent(int i) {
         return (i & (-2097152)) == -2097152;

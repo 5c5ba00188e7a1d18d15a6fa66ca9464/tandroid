@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.LayoutHelper;
@@ -61,16 +62,16 @@ public class EmojiReplacementCell extends FrameLayout {
             this.imageView.setImageDrawable(null);
         }
         if (i == -1) {
-            setBackgroundResource(2131166169);
+            setBackgroundResource(R.drawable.stickers_back_left);
             setPadding(AndroidUtilities.dp(7.0f), 0, 0, 0);
         } else if (i == 0) {
-            setBackgroundResource(2131166168);
+            setBackgroundResource(R.drawable.stickers_back_center);
             setPadding(0, 0, 0, 0);
         } else if (i == 1) {
-            setBackgroundResource(2131166170);
+            setBackgroundResource(R.drawable.stickers_back_right);
             setPadding(0, 0, AndroidUtilities.dp(7.0f), 0);
         } else if (i == 2) {
-            setBackgroundResource(2131166166);
+            setBackgroundResource(R.drawable.stickers_back_all);
             setPadding(AndroidUtilities.dp(3.0f), 0, AndroidUtilities.dp(3.0f), 0);
         }
         Drawable background = getBackground();

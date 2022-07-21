@@ -20,6 +20,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Message;
@@ -43,24 +44,15 @@ public class SharingLiveLocationCell extends FrameLayout {
     private RectF rect = new RectF();
     private Location location = new Location("network");
     private int currentAccount = UserConfig.selectedAccount;
-    private Runnable invalidateRunnable = new AnonymousClass1();
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Cells.SharingLiveLocationCell$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            SharingLiveLocationCell.this = r1;
-        }
-
+    private Runnable invalidateRunnable = new Runnable() { // from class: org.telegram.ui.Cells.SharingLiveLocationCell.1
         @Override // java.lang.Runnable
         public void run() {
             SharingLiveLocationCell sharingLiveLocationCell = SharingLiveLocationCell.this;
             sharingLiveLocationCell.invalidate(((int) sharingLiveLocationCell.rect.left) - 5, ((int) SharingLiveLocationCell.this.rect.top) - 5, ((int) SharingLiveLocationCell.this.rect.right) + 5, ((int) SharingLiveLocationCell.this.rect.bottom) + 5);
             AndroidUtilities.runOnUIThread(SharingLiveLocationCell.this.invalidateRunnable, 1000L);
         }
-    }
+    };
+    private AvatarDrawable avatarDrawable = new AvatarDrawable();
 
     public SharingLiveLocationCell(Context context, boolean z, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -72,7 +64,7 @@ public class SharingLiveLocationCell extends FrameLayout {
         this.nameTextView = simpleTextView;
         simpleTextView.setTextSize(16);
         this.nameTextView.setTextColor(getThemedColor("windowBackgroundWhiteBlackText"));
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         int i2 = 5;
         this.nameTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         float f = 0.0f;
@@ -157,7 +149,7 @@ public class SharingLiveLocationCell extends FrameLayout {
         String str2 = !TextUtils.isEmpty(messageObject.messageOwner.media.address) ? messageObject.messageOwner.media.address : null;
         if (!TextUtils.isEmpty(messageObject.messageOwner.media.title)) {
             str = messageObject.messageOwner.media.title;
-            Drawable drawable = getResources().getDrawable(2131166059);
+            Drawable drawable = getResources().getDrawable(R.drawable.pin);
             drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor("location_sendLocationIcon"), PorterDuff.Mode.MULTIPLY));
             int themedColor = getThemedColor("location_placeLocationBackground");
             CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(42.0f), themedColor, themedColor), drawable);
@@ -200,7 +192,7 @@ public class SharingLiveLocationCell extends FrameLayout {
         } else if (str2 != null) {
             this.distanceTextView.setText(str2);
         } else if (!z) {
-            this.distanceTextView.setText(LocaleController.getString("Loading", 2131626520));
+            this.distanceTextView.setText(LocaleController.getString("Loading", R.string.Loading));
         } else {
             this.distanceTextView.setText("");
         }

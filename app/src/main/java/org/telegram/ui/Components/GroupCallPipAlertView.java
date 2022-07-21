@@ -24,6 +24,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$GroupCall;
 import org.telegram.ui.ActionBar.Theme;
@@ -82,20 +83,38 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         VoIPService.StateListener.CC.$default$onVideoAvailableChange(this, z);
     }
 
-    public GroupCallPipAlertView(Context context, int i) {
+    public GroupCallPipAlertView(final Context context, int i) {
         super(context);
         setOrientation(1);
         this.currentAccount = i;
         this.paint.setAlpha(234);
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
-        this.groupInfoContainer = anonymousClass1;
-        anonymousClass1.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
+        FrameLayout frameLayout = new FrameLayout(this, context) { // from class: org.telegram.ui.Components.GroupCallPipAlertView.1
+            @Override // android.view.View
+            public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+                super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+                if (Build.VERSION.SDK_INT >= 21) {
+                    VoIPService sharedInstance = VoIPService.getSharedInstance();
+                    if (sharedInstance != null && ChatObject.isChannelOrGiga(sharedInstance.getChat())) {
+                        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("VoipChannelOpenVoiceChat", R.string.VoipChannelOpenVoiceChat)));
+                    } else {
+                        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("VoipGroupOpenVoiceChat", R.string.VoipGroupOpenVoiceChat)));
+                    }
+                }
+            }
+        };
+        this.groupInfoContainer = frameLayout;
+        frameLayout.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarImageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(22.0f));
         this.groupInfoContainer.addView(this.avatarImageView, LayoutHelper.createFrame(44, 44.0f));
         this.groupInfoContainer.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), 0, ColorUtils.setAlphaComponent(-1, 76)));
-        this.groupInfoContainer.setOnClickListener(new GroupCallPipAlertView$$ExternalSyntheticLambda0(this));
+        this.groupInfoContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.GroupCallPipAlertView$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                GroupCallPipAlertView.this.lambda$new$0(view);
+            }
+        });
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
         TextView textView = new TextView(context);
@@ -104,7 +123,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         this.titleView.setTextSize(15.0f);
         this.titleView.setMaxLines(2);
         this.titleView.setEllipsize(TextUtils.TruncateAt.END);
-        this.titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         linearLayout.addView(this.titleView, LayoutHelper.createLinear(-1, -2));
         TextView textView2 = new TextView(context);
         this.subtitleView = textView2;
@@ -116,18 +135,33 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         VoIPToggleButton voIPToggleButton = new VoIPToggleButton(context, 44.0f);
         this.soundButton = voIPToggleButton;
         voIPToggleButton.setTextSize(12);
-        this.soundButton.setOnClickListener(new GroupCallPipAlertView$$ExternalSyntheticLambda1(this, context));
+        this.soundButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.GroupCallPipAlertView$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                GroupCallPipAlertView.this.lambda$new$1(context, view);
+            }
+        });
         this.soundButton.setCheckable(true);
         this.soundButton.setBackgroundColor(ColorUtils.setAlphaComponent(-1, 38), ColorUtils.setAlphaComponent(-1, 76));
         VoIPToggleButton voIPToggleButton2 = new VoIPToggleButton(context, 44.0f);
         this.muteButton = voIPToggleButton2;
         voIPToggleButton2.setTextSize(12);
-        this.muteButton.setOnClickListener(new GroupCallPipAlertView$$ExternalSyntheticLambda2(this, context));
+        this.muteButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.GroupCallPipAlertView$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                GroupCallPipAlertView.this.lambda$new$2(context, view);
+            }
+        });
         VoIPToggleButton voIPToggleButton3 = new VoIPToggleButton(context, 44.0f);
         this.leaveButton = voIPToggleButton3;
         voIPToggleButton3.setTextSize(12);
-        this.leaveButton.setData(2131165307, -1, -3257782, 0.3f, false, LocaleController.getString("VoipGroupLeave", 2131629144), false, false);
-        this.leaveButton.setOnClickListener(new GroupCallPipAlertView$$ExternalSyntheticLambda3(this, context));
+        this.leaveButton.setData(R.drawable.calls_decline, -1, -3257782, 0.3f, false, LocaleController.getString("VoipGroupLeave", R.string.VoipGroupLeave), false, false);
+        this.leaveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.GroupCallPipAlertView$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                GroupCallPipAlertView.this.lambda$new$4(context, view);
+            }
+        });
         VoIPButtonsLayout voIPButtonsLayout = new VoIPButtonsLayout(context);
         voIPButtonsLayout.setChildSize(68);
         voIPButtonsLayout.setUseStartPadding(false);
@@ -136,27 +170,6 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         voIPButtonsLayout.addView(this.leaveButton, LayoutHelper.createFrame(68, 63.0f));
         setWillNotDraw(false);
         addView(voIPButtonsLayout, LayoutHelper.createLinear(-1, -2, 0, 6, 0, 6, 0));
-    }
-
-    /* renamed from: org.telegram.ui.Components.GroupCallPipAlertView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends FrameLayout {
-        AnonymousClass1(GroupCallPipAlertView groupCallPipAlertView, Context context) {
-            super(context);
-        }
-
-        @Override // android.view.View
-        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-            if (Build.VERSION.SDK_INT >= 21) {
-                VoIPService sharedInstance = VoIPService.getSharedInstance();
-                if (sharedInstance != null && ChatObject.isChannelOrGiga(sharedInstance.getChat())) {
-                    accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("VoipChannelOpenVoiceChat", 2131629055)));
-                } else {
-                    accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("VoipGroupOpenVoiceChat", 2131629161)));
-                }
-            }
-        }
     }
 
     public /* synthetic */ void lambda$new$0(View view) {
@@ -194,8 +207,13 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         }
     }
 
-    public /* synthetic */ void lambda$new$4(Context context, View view) {
-        GroupCallActivity.onLeaveClick(getContext(), new GroupCallPipAlertView$$ExternalSyntheticLambda4(context), Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(context));
+    public /* synthetic */ void lambda$new$4(final Context context, View view) {
+        GroupCallActivity.onLeaveClick(getContext(), new Runnable() { // from class: org.telegram.ui.Components.GroupCallPipAlertView$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                GroupCallPip.updateVisibility(context);
+            }
+        }, Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(context));
     }
 
     /* JADX WARN: Removed duplicated region for block: B:27:0x0055  */
@@ -426,7 +444,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         }
         int callState = sharedInstance.getCallState();
         if (!sharedInstance.isSwitchingStream() && (callState == 1 || callState == 2 || callState == 6 || callState == 5)) {
-            this.subtitleView.setText(LocaleController.getString("VoipGroupConnecting", 2131629115));
+            this.subtitleView.setText(LocaleController.getString("VoipGroupConnecting", R.string.VoipGroupConnecting));
             return;
         }
         TextView textView = this.subtitleView;
@@ -445,27 +463,27 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         boolean z2 = !isBluetoothOn && sharedInstance.isSpeakerphoneOn();
         this.soundButton.setChecked(z2, z);
         if (isBluetoothOn) {
-            this.soundButton.setData(2131165304, -1, 0, 0.1f, true, LocaleController.getString("VoipAudioRoutingBluetooth", 2131629031), false, z);
+            this.soundButton.setData(R.drawable.calls_bluetooth, -1, 0, 0.1f, true, LocaleController.getString("VoipAudioRoutingBluetooth", R.string.VoipAudioRoutingBluetooth), false, z);
         } else if (z2) {
-            this.soundButton.setData(2131165318, -1, 0, 0.3f, true, LocaleController.getString("VoipSpeaker", 2131629268), false, z);
+            this.soundButton.setData(R.drawable.calls_speaker, -1, 0, 0.3f, true, LocaleController.getString("VoipSpeaker", R.string.VoipSpeaker), false, z);
         } else if (sharedInstance.isHeadsetPlugged()) {
-            this.soundButton.setData(2131165309, -1, 0, 0.1f, true, LocaleController.getString("VoipAudioRoutingHeadset", 2131629033), false, z);
+            this.soundButton.setData(R.drawable.calls_headphones, -1, 0, 0.1f, true, LocaleController.getString("VoipAudioRoutingHeadset", R.string.VoipAudioRoutingHeadset), false, z);
         } else {
-            this.soundButton.setData(2131165318, -1, 0, 0.1f, true, LocaleController.getString("VoipSpeaker", 2131629268), false, z);
+            this.soundButton.setData(R.drawable.calls_speaker, -1, 0, 0.1f, true, LocaleController.getString("VoipSpeaker", R.string.VoipSpeaker), false, z);
         }
         if (sharedInstance.mutedByAdmin()) {
-            this.muteButton.setData(2131165320, -1, ColorUtils.setAlphaComponent(-1, 76), 0.1f, true, LocaleController.getString("VoipMutedByAdminShort", 2131629220), true, z);
+            this.muteButton.setData(R.drawable.calls_unmute, -1, ColorUtils.setAlphaComponent(-1, 76), 0.1f, true, LocaleController.getString("VoipMutedByAdminShort", R.string.VoipMutedByAdminShort), true, z);
         } else {
             VoIPToggleButton voIPToggleButton = this.muteButton;
             int alphaComponent = ColorUtils.setAlphaComponent(-1, (int) ((sharedInstance.isMicMute() ? 0.3f : 0.15f) * 255.0f));
             if (sharedInstance.isMicMute()) {
-                i = 2131629275;
+                i = R.string.VoipUnmute;
                 str = "VoipUnmute";
             } else {
-                i = 2131629217;
+                i = R.string.VoipMute;
                 str = "VoipMute";
             }
-            voIPToggleButton.setData(2131165320, -1, alphaComponent, 0.1f, true, LocaleController.getString(str, i), sharedInstance.isMicMute(), z);
+            voIPToggleButton.setData(R.drawable.calls_unmute, -1, alphaComponent, 0.1f, true, LocaleController.getString(str, i), sharedInstance.isMicMute(), z);
         }
         invalidate();
     }

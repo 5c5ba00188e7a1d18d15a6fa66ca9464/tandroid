@@ -130,7 +130,13 @@ public class NumberTextView extends View {
                 ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", fArr);
                 this.animator = ofFloat;
                 ofFloat.setDuration(this.addNumber ? 180L : 150L);
-                this.animator.addListener(new AnonymousClass1());
+                this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.NumberTextView.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        NumberTextView.this.animator = null;
+                        NumberTextView.this.oldLetters.clear();
+                    }
+                });
                 this.animator.start();
             } else {
                 OnTextWidthProgressChangedListener onTextWidthProgressChangedListener = this.onTextWidthProgressChangedListener;
@@ -139,20 +145,6 @@ public class NumberTextView extends View {
                 }
             }
             invalidate();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.NumberTextView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            NumberTextView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            NumberTextView.this.animator = null;
-            NumberTextView.this.oldLetters.clear();
         }
     }
 

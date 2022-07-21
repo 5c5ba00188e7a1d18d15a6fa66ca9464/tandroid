@@ -29,33 +29,20 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
     }
 
     @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader.Listener
-    public synchronized boolean onProgress(long j, long j2) {
+    public synchronized boolean onProgress(final long j, final long j2) {
         boolean z;
         z = false;
         AppCenterLog.verbose("AppCenterDistribute", String.format(Locale.ENGLISH, "Downloading %s (%d) update: %d KiB / %d KiB", this.mReleaseDetails.getShortVersion(), Integer.valueOf(this.mReleaseDetails.getVersion()), Long.valueOf(j / 1024), Long.valueOf(j2 / 1024)));
-        HandlerUtils.runOnUiThread(new AnonymousClass1(j, j2));
+        HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.distribute.ReleaseDownloadListener.1
+            @Override // java.lang.Runnable
+            public void run() {
+                ReleaseDownloadListener.this.updateProgressDialog(j, j2);
+            }
+        });
         if (this.mProgressDialog != null) {
             z = true;
         }
         return z;
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.ReleaseDownloadListener$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Runnable {
-        final /* synthetic */ long val$currentSize;
-        final /* synthetic */ long val$totalSize;
-
-        AnonymousClass1(long j, long j2) {
-            ReleaseDownloadListener.this = r1;
-            this.val$currentSize = j;
-            this.val$totalSize = j2;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            ReleaseDownloadListener.this.updateProgressDialog(this.val$currentSize, this.val$totalSize);
-        }
     }
 
     @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader.Listener
@@ -77,21 +64,13 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
     @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader.Listener
     public void onError(String str) {
         AppCenterLog.error("AppCenterDistribute", String.format(Locale.ENGLISH, "Failed to download %s (%d) update: %s", this.mReleaseDetails.getShortVersion(), Integer.valueOf(this.mReleaseDetails.getVersion()), str));
-        HandlerUtils.runOnUiThread(new AnonymousClass2());
+        HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.distribute.ReleaseDownloadListener.2
+            @Override // java.lang.Runnable
+            public void run() {
+                Toast.makeText(ReleaseDownloadListener.this.mContext, R$string.appcenter_distribute_downloading_error, 0).show();
+            }
+        });
         Distribute.getInstance().completeWorkflow(this.mReleaseDetails);
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.ReleaseDownloadListener$2 */
-    /* loaded from: classes.dex */
-    class AnonymousClass2 implements Runnable {
-        AnonymousClass2() {
-            ReleaseDownloadListener.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            Toast.makeText(ReleaseDownloadListener.this.mContext, R$string.appcenter_distribute_downloading_error, 0).show();
-        }
     }
 
     public synchronized ProgressDialog showDownloadProgress(Activity activity) {
@@ -110,27 +89,16 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
     }
 
     public synchronized void hideProgressDialog() {
-        ProgressDialog progressDialog = this.mProgressDialog;
+        final ProgressDialog progressDialog = this.mProgressDialog;
         if (progressDialog != null) {
             this.mProgressDialog = null;
-            HandlerUtils.runOnUiThread(new AnonymousClass3(this, progressDialog));
+            HandlerUtils.runOnUiThread(new Runnable(this) { // from class: com.microsoft.appcenter.distribute.ReleaseDownloadListener.3
+                @Override // java.lang.Runnable
+                public void run() {
+                    progressDialog.hide();
+                }
+            });
             HandlerUtils.getMainHandler().removeCallbacksAndMessages("Distribute.handler_token_check_progress");
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.microsoft.appcenter.distribute.ReleaseDownloadListener$3 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass3 implements Runnable {
-        final /* synthetic */ ProgressDialog val$progressDialog;
-
-        AnonymousClass3(ReleaseDownloadListener releaseDownloadListener, ProgressDialog progressDialog) {
-            this.val$progressDialog = progressDialog;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            this.val$progressDialog.hide();
         }
     }
 

@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.widget.Toast;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.microsoft.appcenter.AbstractAppCenterService;
 import com.microsoft.appcenter.DependencyConfiguration;
 import com.microsoft.appcenter.channel.Channel;
@@ -216,22 +217,14 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            Distribute.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            Distribute.this.resumeDistributeWorkflow();
-        }
-    }
-
     private void resumeWorkflowIfForeground() {
         if (this.mForegroundActivity != null) {
-            HandlerUtils.runOnUiThread(new AnonymousClass1());
+            HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.distribute.Distribute.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    Distribute.this.resumeDistributeWorkflow();
+                }
+            });
         } else {
             AppCenterLog.debug("AppCenterDistribute", "Distribute workflow will be resumed on activity resume event.");
         }
@@ -241,21 +234,13 @@ public class Distribute extends AbstractAppCenterService {
         this.mEnabledForDebuggableBuild = z;
     }
 
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$3 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass3 implements Runnable {
-        AnonymousClass3() {
-            Distribute.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            Distribute.this.handleCheckForUpdate();
-        }
-    }
-
     private void instanceCheckForUpdate() {
-        post(new AnonymousClass3());
+        post(new Runnable() { // from class: com.microsoft.appcenter.distribute.Distribute.3
+            @Override // java.lang.Runnable
+            public void run() {
+                Distribute.this.handleCheckForUpdate();
+            }
+        });
     }
 
     public synchronized void handleCheckForUpdate() {
@@ -436,7 +421,7 @@ public class Distribute extends AbstractAppCenterService {
     private synchronized void cancelNotification() {
         if (DistributeUtils.getStoredDownloadState() == 3) {
             AppCenterLog.debug("AppCenterDistribute", "Delete notification");
-            ((NotificationManager) this.mContext.getSystemService("notification")).cancel(DistributeUtils.getNotificationId());
+            ((NotificationManager) this.mContext.getSystemService(RemoteMessageConst.NOTIFICATION)).cancel(DistributeUtils.getNotificationId());
         }
     }
 
@@ -513,7 +498,7 @@ public class Distribute extends AbstractAppCenterService {
         enqueueDistributionStartSessionLog();
     }
 
-    synchronized void getLatestReleaseDetails(String str, String str2) {
+    synchronized void getLatestReleaseDetails(final String str, String str2) {
         String str3;
         AppCenterLog.debug("AppCenterDistribute", "Get latest release details...");
         HttpClient httpClient = DependencyConfiguration.getHttpClient();
@@ -531,64 +516,43 @@ public class Distribute extends AbstractAppCenterService {
         if (str2 != null) {
             hashMap.put("x-api-token", str2);
         }
-        Object obj = new Object();
+        final Object obj = new Object();
         this.mCheckReleaseCallId = obj;
-        this.mCheckReleaseApiCall = httpClient.callAsync(str3, "GET", hashMap, new AnonymousClass4(), new AnonymousClass5(obj, str));
-    }
+        this.mCheckReleaseApiCall = httpClient.callAsync(str3, "GET", hashMap, new HttpClient.CallTemplate() { // from class: com.microsoft.appcenter.distribute.Distribute.4
+            @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
+            public String buildRequestBody() {
+                return null;
+            }
 
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$4 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass4 implements HttpClient.CallTemplate {
-        @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
-        public String buildRequestBody() {
-            return null;
-        }
-
-        AnonymousClass4() {
-            Distribute.this = r1;
-        }
-
-        @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
-        public void onBeforeCalling(URL url, Map<String, String> map) {
-            if (AppCenterLog.getLogLevel() <= 2) {
-                String replaceAll = url.toString().replaceAll(Distribute.this.mAppSecret, HttpUtils.hideSecret(Distribute.this.mAppSecret));
-                AppCenterLog.verbose("AppCenterDistribute", "Calling " + replaceAll + "...");
-                HashMap hashMap = new HashMap(map);
-                String str = (String) hashMap.get("x-api-token");
-                if (str != null) {
-                    hashMap.put("x-api-token", HttpUtils.hideSecret(str));
+            @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
+            public void onBeforeCalling(URL url, Map<String, String> map) {
+                if (AppCenterLog.getLogLevel() <= 2) {
+                    String replaceAll = url.toString().replaceAll(Distribute.this.mAppSecret, HttpUtils.hideSecret(Distribute.this.mAppSecret));
+                    AppCenterLog.verbose("AppCenterDistribute", "Calling " + replaceAll + "...");
+                    HashMap hashMap2 = new HashMap(map);
+                    String str5 = (String) hashMap2.get("x-api-token");
+                    if (str5 != null) {
+                        hashMap2.put("x-api-token", HttpUtils.hideSecret(str5));
+                    }
+                    AppCenterLog.verbose("AppCenterDistribute", "Headers: " + hashMap2);
                 }
-                AppCenterLog.verbose("AppCenterDistribute", "Headers: " + hashMap);
             }
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$5 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass5 implements ServiceCallback {
-        final /* synthetic */ String val$distributionGroupId;
-        final /* synthetic */ Object val$releaseCallId;
-
-        AnonymousClass5(Object obj, String str) {
-            Distribute.this = r1;
-            this.val$releaseCallId = obj;
-            this.val$distributionGroupId = str;
-        }
-
-        @Override // com.microsoft.appcenter.http.ServiceCallback
-        public void onCallSucceeded(HttpResponse httpResponse) {
-            try {
-                String payload = httpResponse.getPayload();
-                Distribute.this.handleApiCallSuccess(this.val$releaseCallId, payload, ReleaseDetails.parse(payload), this.val$distributionGroupId);
-            } catch (JSONException e) {
-                onCallFailed(e);
+        }, new ServiceCallback() { // from class: com.microsoft.appcenter.distribute.Distribute.5
+            @Override // com.microsoft.appcenter.http.ServiceCallback
+            public void onCallSucceeded(HttpResponse httpResponse) {
+                try {
+                    String payload = httpResponse.getPayload();
+                    Distribute.this.handleApiCallSuccess(obj, payload, ReleaseDetails.parse(payload), str);
+                } catch (JSONException e) {
+                    onCallFailed(e);
+                }
             }
-        }
 
-        @Override // com.microsoft.appcenter.http.ServiceCallback
-        public void onCallFailed(Exception exc) {
-            Distribute.this.handleApiCallFailure(this.val$releaseCallId, exc);
-        }
+            @Override // com.microsoft.appcenter.http.ServiceCallback
+            public void onCallFailed(Exception exc) {
+                Distribute.this.handleApiCallFailure(obj, exc);
+            }
+        });
     }
 
     public synchronized void handleApiCallFailure(Object obj, Exception exc) {
@@ -799,72 +763,39 @@ public class Distribute extends AbstractAppCenterService {
             AppCenterLog.debug("AppCenterDistribute", "Show default update dialog.");
             AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
             builder.setTitle(R$string.appcenter_distribute_update_dialog_title);
-            ReleaseDetails releaseDetails = this.mReleaseDetails;
+            final ReleaseDetails releaseDetails = this.mReleaseDetails;
             if (releaseDetails.isMandatoryUpdate()) {
                 str = this.mContext.getString(R$string.appcenter_distribute_update_dialog_message_mandatory);
             } else {
                 str = this.mContext.getString(R$string.appcenter_distribute_update_dialog_message_optional);
             }
             builder.setMessage(formatAppNameAndVersion(str));
-            builder.setPositiveButton(R$string.appcenter_distribute_update_dialog_download, new AnonymousClass6(releaseDetails));
+            builder.setPositiveButton(R$string.appcenter_distribute_update_dialog_download, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.6
+                @Override // android.content.DialogInterface.OnClickListener
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Distribute.this.enqueueDownloadOrShowUnknownSourcesDialog(releaseDetails);
+                }
+            });
             builder.setCancelable(false);
             if (!releaseDetails.isMandatoryUpdate()) {
-                builder.setNegativeButton(R$string.appcenter_distribute_update_dialog_postpone, new AnonymousClass7(releaseDetails));
+                builder.setNegativeButton(R$string.appcenter_distribute_update_dialog_postpone, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.7
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Distribute.this.postponeRelease(releaseDetails);
+                    }
+                });
             }
             if (!TextUtils.isEmpty(releaseDetails.getReleaseNotes()) && releaseDetails.getReleaseNotesUrl() != null) {
-                builder.setNeutralButton(R$string.appcenter_distribute_update_dialog_view_release_notes, new AnonymousClass8(releaseDetails));
+                builder.setNeutralButton(R$string.appcenter_distribute_update_dialog_view_release_notes, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.8
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Distribute.this.viewReleaseNotes(releaseDetails);
+                    }
+                });
             }
             AlertDialog create = builder.create();
             this.mUpdateDialog = create;
             showAndRememberDialogActivity(create);
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$6 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass6 implements DialogInterface.OnClickListener {
-        final /* synthetic */ ReleaseDetails val$releaseDetails;
-
-        AnonymousClass6(ReleaseDetails releaseDetails) {
-            Distribute.this = r1;
-            this.val$releaseDetails = releaseDetails;
-        }
-
-        @Override // android.content.DialogInterface.OnClickListener
-        public void onClick(DialogInterface dialogInterface, int i) {
-            Distribute.this.enqueueDownloadOrShowUnknownSourcesDialog(this.val$releaseDetails);
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$7 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass7 implements DialogInterface.OnClickListener {
-        final /* synthetic */ ReleaseDetails val$releaseDetails;
-
-        AnonymousClass7(ReleaseDetails releaseDetails) {
-            Distribute.this = r1;
-            this.val$releaseDetails = releaseDetails;
-        }
-
-        @Override // android.content.DialogInterface.OnClickListener
-        public void onClick(DialogInterface dialogInterface, int i) {
-            Distribute.this.postponeRelease(this.val$releaseDetails);
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$8 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass8 implements DialogInterface.OnClickListener {
-        final /* synthetic */ ReleaseDetails val$releaseDetails;
-
-        AnonymousClass8(ReleaseDetails releaseDetails) {
-            Distribute.this = r1;
-            this.val$releaseDetails = releaseDetails;
-        }
-
-        @Override // android.content.DialogInterface.OnClickListener
-        public void onClick(DialogInterface dialogInterface, int i) {
-            Distribute.this.viewReleaseNotes(this.val$releaseDetails);
         }
     }
 
@@ -907,65 +838,32 @@ public class Distribute extends AbstractAppCenterService {
         AppCenterLog.debug("AppCenterDistribute", "Show new unknown sources dialog.");
         AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
         builder.setMessage(R$string.appcenter_distribute_unknown_sources_dialog_message);
-        ReleaseDetails releaseDetails = this.mReleaseDetails;
+        final ReleaseDetails releaseDetails = this.mReleaseDetails;
         if (releaseDetails.isMandatoryUpdate()) {
             builder.setCancelable(false);
         } else {
-            builder.setNegativeButton(17039360, new AnonymousClass9(releaseDetails));
-            builder.setOnCancelListener(new AnonymousClass10(releaseDetails));
+            builder.setNegativeButton(17039360, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.9
+                @Override // android.content.DialogInterface.OnClickListener
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Distribute.this.completeWorkflow(releaseDetails);
+                }
+            });
+            builder.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: com.microsoft.appcenter.distribute.Distribute.10
+                @Override // android.content.DialogInterface.OnCancelListener
+                public void onCancel(DialogInterface dialogInterface) {
+                    Distribute.this.completeWorkflow(releaseDetails);
+                }
+            });
         }
-        builder.setPositiveButton(R$string.appcenter_distribute_unknown_sources_dialog_settings, new AnonymousClass11(releaseDetails));
+        builder.setPositiveButton(R$string.appcenter_distribute_unknown_sources_dialog_settings, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.11
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Distribute.this.goToUnknownAppsSettings(releaseDetails);
+            }
+        });
         AlertDialog create = builder.create();
         this.mUnknownSourcesDialog = create;
         showAndRememberDialogActivity(create);
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$9 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass9 implements DialogInterface.OnClickListener {
-        final /* synthetic */ ReleaseDetails val$releaseDetails;
-
-        AnonymousClass9(ReleaseDetails releaseDetails) {
-            Distribute.this = r1;
-            this.val$releaseDetails = releaseDetails;
-        }
-
-        @Override // android.content.DialogInterface.OnClickListener
-        public void onClick(DialogInterface dialogInterface, int i) {
-            Distribute.this.completeWorkflow(this.val$releaseDetails);
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$10 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass10 implements DialogInterface.OnCancelListener {
-        final /* synthetic */ ReleaseDetails val$releaseDetails;
-
-        AnonymousClass10(ReleaseDetails releaseDetails) {
-            Distribute.this = r1;
-            this.val$releaseDetails = releaseDetails;
-        }
-
-        @Override // android.content.DialogInterface.OnCancelListener
-        public void onCancel(DialogInterface dialogInterface) {
-            Distribute.this.completeWorkflow(this.val$releaseDetails);
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$11 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass11 implements DialogInterface.OnClickListener {
-        final /* synthetic */ ReleaseDetails val$releaseDetails;
-
-        AnonymousClass11(ReleaseDetails releaseDetails) {
-            Distribute.this = r1;
-            this.val$releaseDetails = releaseDetails;
-        }
-
-        @Override // android.content.DialogInterface.OnClickListener
-        public void onClick(DialogInterface dialogInterface, int i) {
-            Distribute.this.goToUnknownAppsSettings(this.val$releaseDetails);
-        }
     }
 
     private synchronized void showUpdateSetupFailedDialog() {
@@ -977,38 +875,22 @@ public class Distribute extends AbstractAppCenterService {
         builder.setCancelable(false);
         builder.setTitle(R$string.appcenter_distribute_update_failed_dialog_title);
         builder.setMessage(R$string.appcenter_distribute_update_failed_dialog_message);
-        builder.setPositiveButton(R$string.appcenter_distribute_update_failed_dialog_ignore, new AnonymousClass12());
-        builder.setNegativeButton(R$string.appcenter_distribute_update_failed_dialog_reinstall, new AnonymousClass13());
+        builder.setPositiveButton(R$string.appcenter_distribute_update_failed_dialog_ignore, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.12
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Distribute.this.storeUpdateSetupFailedPackageHash(dialogInterface);
+            }
+        });
+        builder.setNegativeButton(R$string.appcenter_distribute_update_failed_dialog_reinstall, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.13
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Distribute.this.handleUpdateFailedDialogReinstallAction(dialogInterface);
+            }
+        });
         AlertDialog create = builder.create();
         this.mUpdateSetupFailedDialog = create;
         showAndRememberDialogActivity(create);
         SharedPreferencesManager.remove("Distribute.update_setup_failed_message");
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$12 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass12 implements DialogInterface.OnClickListener {
-        AnonymousClass12() {
-            Distribute.this = r1;
-        }
-
-        @Override // android.content.DialogInterface.OnClickListener
-        public void onClick(DialogInterface dialogInterface, int i) {
-            Distribute.this.storeUpdateSetupFailedPackageHash(dialogInterface);
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$13 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass13 implements DialogInterface.OnClickListener {
-        AnonymousClass13() {
-            Distribute.this = r1;
-        }
-
-        @Override // android.content.DialogInterface.OnClickListener
-        public void onClick(DialogInterface dialogInterface, int i) {
-            Distribute.this.handleUpdateFailedDialogReinstallAction(dialogInterface);
-        }
     }
 
     public synchronized void goToUnknownAppsSettings(ReleaseDetails releaseDetails) {
@@ -1076,7 +958,7 @@ public class Distribute extends AbstractAppCenterService {
         }
         if (this.mForegroundActivity == null && DistributeUtils.getStoredDownloadState() != 3) {
             AppCenterLog.debug("AppCenterDistribute", "Post a notification as the download finished in background.");
-            NotificationManager notificationManager = (NotificationManager) this.mContext.getSystemService("notification");
+            NotificationManager notificationManager = (NotificationManager) this.mContext.getSystemService(RemoteMessageConst.NOTIFICATION);
             if (Build.VERSION.SDK_INT >= 26) {
                 notificationManager.createNotificationChannel(new NotificationChannel("appcenter.distribute", this.mContext.getString(R$string.appcenter_distribute_notification_category), 3));
                 builder = new Notification.Builder(this.mContext, "appcenter.distribute");
@@ -1119,31 +1001,20 @@ public class Distribute extends AbstractAppCenterService {
 
     private synchronized void showMandatoryDownloadReadyDialog() {
         if (shouldRefreshDialog(this.mCompletedDownloadDialog)) {
-            ReleaseDetails releaseDetails = this.mReleaseDetails;
+            final ReleaseDetails releaseDetails = this.mReleaseDetails;
             AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
             builder.setCancelable(false);
             builder.setTitle(R$string.appcenter_distribute_install_ready_title);
             builder.setMessage(getInstallReadyMessage());
-            builder.setPositiveButton(R$string.appcenter_distribute_install, new AnonymousClass14(releaseDetails));
+            builder.setPositiveButton(R$string.appcenter_distribute_install, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.14
+                @Override // android.content.DialogInterface.OnClickListener
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Distribute.this.installMandatoryUpdate(releaseDetails);
+                }
+            });
             AlertDialog create = builder.create();
             this.mCompletedDownloadDialog = create;
             showAndRememberDialogActivity(create);
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$14 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass14 implements DialogInterface.OnClickListener {
-        final /* synthetic */ ReleaseDetails val$releaseDetails;
-
-        AnonymousClass14(ReleaseDetails releaseDetails) {
-            Distribute.this = r1;
-            this.val$releaseDetails = releaseDetails;
-        }
-
-        @Override // android.content.DialogInterface.OnClickListener
-        public void onClick(DialogInterface dialogInterface, int i) {
-            Distribute.this.installMandatoryUpdate(this.val$releaseDetails);
         }
     }
 
@@ -1201,22 +1072,14 @@ public class Distribute extends AbstractAppCenterService {
     private synchronized void enqueueDistributionStartSessionLog() {
         SessionContext.SessionInfo sessionAt = SessionContext.getInstance().getSessionAt(System.currentTimeMillis());
         if (sessionAt != null && sessionAt.getSessionId() != null) {
-            post(new AnonymousClass15());
+            post(new Runnable() { // from class: com.microsoft.appcenter.distribute.Distribute.15
+                @Override // java.lang.Runnable
+                public void run() {
+                    ((AbstractAppCenterService) Distribute.this).mChannel.enqueue(new DistributionStartSessionLog(), "group_distribute", 1);
+                }
+            });
             return;
         }
         AppCenterLog.debug("AppCenterDistribute", "No sessions were logged before, ignore sending of the distribution start session log.");
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.Distribute$15 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass15 implements Runnable {
-        AnonymousClass15() {
-            Distribute.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            ((AbstractAppCenterService) Distribute.this).mChannel.enqueue(new DistributionStartSessionLog(), "group_distribute", 1);
-        }
     }
 }

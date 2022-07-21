@@ -39,6 +39,7 @@ import org.telegram.tgnet.TLRPC$TL_photoStrippedSize;
 import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.Components.CircularViewPager;
+import org.telegram.ui.Components.ProfileGalleryView;
 import org.telegram.ui.PinchToZoomHelper;
 import org.telegram.ui.ProfileActivity;
 /* loaded from: classes3.dex */
@@ -120,10 +121,6 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
 
         private Item() {
         }
-
-        /* synthetic */ Item(AnonymousClass1 anonymousClass1) {
-            this();
-        }
     }
 
     public ProfileGalleryView(Context context, ActionBar actionBar, RecyclerListView recyclerListView, Callback callback) {
@@ -152,7 +149,56 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         this.parentActionBar = actionBar;
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         this.callback = callback;
-        addOnPageChangeListener(new AnonymousClass1());
+        addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.Components.ProfileGalleryView.1
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageScrollStateChanged(int i) {
+            }
+
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageSelected(int i) {
+            }
+
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageScrolled(int i, float f, int i2) {
+                ImageLocation imageLocation;
+                if (i2 == 0) {
+                    int realPosition = ProfileGalleryView.this.adapter.getRealPosition(i);
+                    if (ProfileGalleryView.this.hasActiveVideo) {
+                        realPosition--;
+                    }
+                    ProfileGalleryView.this.getCurrentItemView();
+                    int childCount = ProfileGalleryView.this.getChildCount();
+                    for (int i3 = 0; i3 < childCount; i3++) {
+                        View childAt = ProfileGalleryView.this.getChildAt(i3);
+                        if (childAt instanceof BackupImageView) {
+                            int realPosition2 = ProfileGalleryView.this.adapter.getRealPosition(ProfileGalleryView.this.adapter.imageViews.indexOf(childAt));
+                            if (ProfileGalleryView.this.hasActiveVideo) {
+                                realPosition2--;
+                            }
+                            ImageReceiver imageReceiver = ((BackupImageView) childAt).getImageReceiver();
+                            boolean allowStartAnimation = imageReceiver.getAllowStartAnimation();
+                            if (realPosition2 == realPosition) {
+                                if (!allowStartAnimation) {
+                                    imageReceiver.setAllowStartAnimation(true);
+                                    imageReceiver.startAnimation();
+                                }
+                                ImageLocation imageLocation2 = (ImageLocation) ProfileGalleryView.this.videoLocations.get(realPosition2);
+                                if (imageLocation2 != null) {
+                                    FileLoader.getInstance(ProfileGalleryView.this.currentAccount).setForceStreamLoadingFile(imageLocation2.location, "mp4");
+                                }
+                            } else if (allowStartAnimation) {
+                                AnimatedFileDrawable animation = imageReceiver.getAnimation();
+                                if (animation != null && (imageLocation = (ImageLocation) ProfileGalleryView.this.videoLocations.get(realPosition2)) != null) {
+                                    animation.seekTo(imageLocation.videoSeekTo, false, true);
+                                }
+                                imageReceiver.setAllowStartAnimation(false);
+                                imageReceiver.stopAnimation();
+                            }
+                        }
+                    }
+                }
+            }
+        });
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getContext(), null, actionBar);
         this.adapter = viewPagerAdapter;
         setAdapter((CircularViewPager.Adapter) viewPagerAdapter);
@@ -160,63 +206,6 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.fileLoaded);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.fileLoadProgressChanged);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.reloadDialogPhotos);
-    }
-
-    /* renamed from: org.telegram.ui.Components.ProfileGalleryView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements ViewPager.OnPageChangeListener {
-        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-        public void onPageScrollStateChanged(int i) {
-        }
-
-        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-        public void onPageSelected(int i) {
-        }
-
-        AnonymousClass1() {
-            ProfileGalleryView.this = r1;
-        }
-
-        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-        public void onPageScrolled(int i, float f, int i2) {
-            ImageLocation imageLocation;
-            if (i2 == 0) {
-                int realPosition = ProfileGalleryView.this.adapter.getRealPosition(i);
-                if (ProfileGalleryView.this.hasActiveVideo) {
-                    realPosition--;
-                }
-                ProfileGalleryView.this.getCurrentItemView();
-                int childCount = ProfileGalleryView.this.getChildCount();
-                for (int i3 = 0; i3 < childCount; i3++) {
-                    View childAt = ProfileGalleryView.this.getChildAt(i3);
-                    if (childAt instanceof BackupImageView) {
-                        int realPosition2 = ProfileGalleryView.this.adapter.getRealPosition(ProfileGalleryView.this.adapter.imageViews.indexOf(childAt));
-                        if (ProfileGalleryView.this.hasActiveVideo) {
-                            realPosition2--;
-                        }
-                        ImageReceiver imageReceiver = ((BackupImageView) childAt).getImageReceiver();
-                        boolean allowStartAnimation = imageReceiver.getAllowStartAnimation();
-                        if (realPosition2 == realPosition) {
-                            if (!allowStartAnimation) {
-                                imageReceiver.setAllowStartAnimation(true);
-                                imageReceiver.startAnimation();
-                            }
-                            ImageLocation imageLocation2 = (ImageLocation) ProfileGalleryView.this.videoLocations.get(realPosition2);
-                            if (imageLocation2 != null) {
-                                FileLoader.getInstance(ProfileGalleryView.this.currentAccount).setForceStreamLoadingFile(imageLocation2.location, "mp4");
-                            }
-                        } else if (allowStartAnimation) {
-                            AnimatedFileDrawable animation = imageReceiver.getAnimation();
-                            if (animation != null && (imageLocation = (ImageLocation) ProfileGalleryView.this.videoLocations.get(realPosition2)) != null) {
-                                animation.seekTo(imageLocation.videoSeekTo, false, true);
-                            }
-                            imageReceiver.setAllowStartAnimation(false);
-                            imageReceiver.stopAnimation();
-                        }
-                    }
-                }
-            }
-        }
     }
 
     public void setImagesLayerNum(int i) {
@@ -255,63 +244,55 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         setAdapter((CircularViewPager.Adapter) viewPagerAdapter);
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         this.callback = callback;
-        addOnPageChangeListener(new AnonymousClass2());
+        addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.Components.ProfileGalleryView.2
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageScrollStateChanged(int i2) {
+            }
+
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageSelected(int i2) {
+            }
+
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageScrolled(int i2, float f, int i3) {
+                ImageLocation imageLocation;
+                if (i3 == 0) {
+                    int realPosition = ProfileGalleryView.this.adapter.getRealPosition(i2);
+                    ProfileGalleryView.this.getCurrentItemView();
+                    int childCount = ProfileGalleryView.this.getChildCount();
+                    for (int i4 = 0; i4 < childCount; i4++) {
+                        View childAt = ProfileGalleryView.this.getChildAt(i4);
+                        if (childAt instanceof BackupImageView) {
+                            int realPosition2 = ProfileGalleryView.this.adapter.getRealPosition(ProfileGalleryView.this.adapter.imageViews.indexOf(childAt));
+                            ImageReceiver imageReceiver = ((BackupImageView) childAt).getImageReceiver();
+                            boolean allowStartAnimation = imageReceiver.getAllowStartAnimation();
+                            if (realPosition2 == realPosition) {
+                                if (!allowStartAnimation) {
+                                    imageReceiver.setAllowStartAnimation(true);
+                                    imageReceiver.startAnimation();
+                                }
+                                ImageLocation imageLocation2 = (ImageLocation) ProfileGalleryView.this.videoLocations.get(realPosition2);
+                                if (imageLocation2 != null) {
+                                    FileLoader.getInstance(ProfileGalleryView.this.currentAccount).setForceStreamLoadingFile(imageLocation2.location, "mp4");
+                                }
+                            } else if (allowStartAnimation) {
+                                AnimatedFileDrawable animation = imageReceiver.getAnimation();
+                                if (animation != null && (imageLocation = (ImageLocation) ProfileGalleryView.this.videoLocations.get(realPosition2)) != null) {
+                                    animation.seekTo(imageLocation.videoSeekTo, false, true);
+                                }
+                                imageReceiver.setAllowStartAnimation(false);
+                                imageReceiver.stopAnimation();
+                            }
+                        }
+                    }
+                }
+            }
+        });
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.dialogPhotosLoaded);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.fileLoaded);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.fileLoadProgressChanged);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.reloadDialogPhotos);
         MessagesController.getInstance(this.currentAccount).loadDialogPhotos(j, 80, 0, true, i);
-    }
-
-    /* renamed from: org.telegram.ui.Components.ProfileGalleryView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements ViewPager.OnPageChangeListener {
-        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-        public void onPageScrollStateChanged(int i) {
-        }
-
-        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-        public void onPageSelected(int i) {
-        }
-
-        AnonymousClass2() {
-            ProfileGalleryView.this = r1;
-        }
-
-        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-        public void onPageScrolled(int i, float f, int i2) {
-            ImageLocation imageLocation;
-            if (i2 == 0) {
-                int realPosition = ProfileGalleryView.this.adapter.getRealPosition(i);
-                ProfileGalleryView.this.getCurrentItemView();
-                int childCount = ProfileGalleryView.this.getChildCount();
-                for (int i3 = 0; i3 < childCount; i3++) {
-                    View childAt = ProfileGalleryView.this.getChildAt(i3);
-                    if (childAt instanceof BackupImageView) {
-                        int realPosition2 = ProfileGalleryView.this.adapter.getRealPosition(ProfileGalleryView.this.adapter.imageViews.indexOf(childAt));
-                        ImageReceiver imageReceiver = ((BackupImageView) childAt).getImageReceiver();
-                        boolean allowStartAnimation = imageReceiver.getAllowStartAnimation();
-                        if (realPosition2 == realPosition) {
-                            if (!allowStartAnimation) {
-                                imageReceiver.setAllowStartAnimation(true);
-                                imageReceiver.startAnimation();
-                            }
-                            ImageLocation imageLocation2 = (ImageLocation) ProfileGalleryView.this.videoLocations.get(realPosition2);
-                            if (imageLocation2 != null) {
-                                FileLoader.getInstance(ProfileGalleryView.this.currentAccount).setForceStreamLoadingFile(imageLocation2.location, "mp4");
-                            }
-                        } else if (allowStartAnimation) {
-                            AnimatedFileDrawable animation = imageReceiver.getAnimation();
-                            if (animation != null && (imageLocation = (ImageLocation) ProfileGalleryView.this.videoLocations.get(realPosition2)) != null) {
-                                animation.seekTo(imageLocation.videoSeekTo, false, true);
-                            }
-                            imageReceiver.setAllowStartAnimation(false);
-                            imageReceiver.stopAnimation();
-                        }
-                    }
-                }
-            }
-        }
     }
 
     public void onDestroy() {
@@ -1016,7 +997,16 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                 ProfileGalleryView.this.postInvalidateOnAnimation();
                             }
                         }
-                        item.imageView.getImageReceiver().setDelegate(new AnonymousClass1());
+                        item.imageView.getImageReceiver().setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.ProfileGalleryView.ViewPagerAdapter.1
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public void didSetImage(ImageReceiver imageReceiver, boolean z3, boolean z4, boolean z5) {
+                            }
+
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public void onAnimationReady(ImageReceiver imageReceiver) {
+                                ProfileGalleryView.this.callback.onVideoSet();
+                            }
+                        });
                         item.imageView.getImageReceiver().setCrossfadeAlpha((byte) 2);
                         item.imageView.setRoundRadius(ProfileGalleryView.this.roundTopRadius, ProfileGalleryView.this.roundTopRadius, ProfileGalleryView.this.roundBottomRadius, ProfileGalleryView.this.roundBottomRadius);
                         return item;
@@ -1041,27 +1031,19 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
             }
             if (z2) {
             }
-            item.imageView.getImageReceiver().setDelegate(new AnonymousClass1());
+            item.imageView.getImageReceiver().setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.ProfileGalleryView.ViewPagerAdapter.1
+                @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                public void didSetImage(ImageReceiver imageReceiver, boolean z3, boolean z4, boolean z5) {
+                }
+
+                @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                public void onAnimationReady(ImageReceiver imageReceiver) {
+                    ProfileGalleryView.this.callback.onVideoSet();
+                }
+            });
             item.imageView.getImageReceiver().setCrossfadeAlpha((byte) 2);
             item.imageView.setRoundRadius(ProfileGalleryView.this.roundTopRadius, ProfileGalleryView.this.roundTopRadius, ProfileGalleryView.this.roundBottomRadius, ProfileGalleryView.this.roundBottomRadius);
             return item;
-        }
-
-        /* renamed from: org.telegram.ui.Components.ProfileGalleryView$ViewPagerAdapter$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements ImageReceiver.ImageReceiverDelegate {
-            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public void didSetImage(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
-            }
-
-            AnonymousClass1() {
-                ViewPagerAdapter.this = r1;
-            }
-
-            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public void onAnimationReady(ImageReceiver imageReceiver) {
-                ProfileGalleryView.this.callback.onVideoSet();
-            }
         }
 
         @Override // androidx.viewpager.widget.PagerAdapter
@@ -1105,7 +1087,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
             }
             int extraCount = size + (getExtraCount() * 2);
             for (int i2 = 0; i2 < extraCount; i2++) {
-                this.objects.add(new Item(null));
+                this.objects.add(new Item());
                 this.imageViews.add(null);
             }
             super.notifyDataSetChanged();
@@ -1245,7 +1227,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
             PinchToZoomHelper pinchToZoomHelper = ProfileGalleryView.this.pinchToZoomHelper;
             if (pinchToZoomHelper == null || !pinchToZoomHelper.isInOverlayMode()) {
                 if (this.radialProgress != null) {
-                    int realPosition = ProfileGalleryView.this.getRealPosition(this.position);
+                    final int realPosition = ProfileGalleryView.this.getRealPosition(this.position);
                     if (ProfileGalleryView.this.hasActiveVideo) {
                         realPosition--;
                     }
@@ -1263,8 +1245,19 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                             ofFloat.setStartDelay(j);
                             this.radialProgressHideAnimator.setDuration(this.radialProgressHideAnimatorStartValue * 250.0f);
                             this.radialProgressHideAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                            this.radialProgressHideAnimator.addUpdateListener(new ProfileGalleryView$AvatarImageView$$ExternalSyntheticLambda0(this));
-                            this.radialProgressHideAnimator.addListener(new AnonymousClass1(realPosition));
+                            this.radialProgressHideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ProfileGalleryView$AvatarImageView$$ExternalSyntheticLambda0
+                                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                    ProfileGalleryView.AvatarImageView.this.lambda$onDraw$0(valueAnimator);
+                                }
+                            });
+                            this.radialProgressHideAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ProfileGalleryView.AvatarImageView.1
+                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                public void onAnimationEnd(Animator animator) {
+                                    AvatarImageView.this.radialProgress = null;
+                                    ProfileGalleryView.this.radialProgresses.delete(realPosition);
+                                }
+                            });
                             this.radialProgressHideAnimator.start();
                         }
                     } else {
@@ -1314,23 +1307,6 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
 
         public /* synthetic */ void lambda$onDraw$0(ValueAnimator valueAnimator) {
             this.radialProgress.setOverrideAlpha(AndroidUtilities.lerp(this.radialProgressHideAnimatorStartValue, 0.0f, valueAnimator.getAnimatedFraction()));
-        }
-
-        /* renamed from: org.telegram.ui.Components.ProfileGalleryView$AvatarImageView$1 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass1 extends AnimatorListenerAdapter {
-            final /* synthetic */ int val$finalRealPosition;
-
-            AnonymousClass1(int i) {
-                AvatarImageView.this = r1;
-                this.val$finalRealPosition = i;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                AvatarImageView.this.radialProgress = null;
-                ProfileGalleryView.this.radialProgresses.delete(this.val$finalRealPosition);
-            }
         }
 
         @Override // android.view.View

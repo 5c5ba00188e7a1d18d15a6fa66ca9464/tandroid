@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Arrays;
 import java.util.Collections;
+import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class AdtsReader implements ElementaryStreamReader {
     private static final byte[] ID3_IDENTIFIER = {73, 68, 51};
@@ -306,7 +307,7 @@ public final class AdtsReader implements ElementaryStreamReader {
             this.adtsScratch.skipBits(5);
             byte[] buildAacAudioSpecificConfig = CodecSpecificDataUtil.buildAacAudioSpecificConfig(readBits, this.firstFrameSampleRateIndex, this.adtsScratch.readBits(3));
             Pair<Integer, Integer> parseAacAudioSpecificConfig = CodecSpecificDataUtil.parseAacAudioSpecificConfig(buildAacAudioSpecificConfig);
-            Format createAudioSampleFormat = Format.createAudioSampleFormat(this.formatId, "audio/mp4a-latm", null, -1, -1, ((Integer) parseAacAudioSpecificConfig.second).intValue(), ((Integer) parseAacAudioSpecificConfig.first).intValue(), Collections.singletonList(buildAacAudioSpecificConfig), null, 0, this.language);
+            Format createAudioSampleFormat = Format.createAudioSampleFormat(this.formatId, MediaController.AUIDO_MIME_TYPE, null, -1, -1, ((Integer) parseAacAudioSpecificConfig.second).intValue(), ((Integer) parseAacAudioSpecificConfig.first).intValue(), Collections.singletonList(buildAacAudioSpecificConfig), null, 0, this.language);
             this.sampleDurationUs = 1024000000 / createAudioSampleFormat.sampleRate;
             this.output.format(createAudioSampleFormat);
             this.hasOutputFormat = true;

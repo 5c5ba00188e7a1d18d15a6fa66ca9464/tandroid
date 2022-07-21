@@ -12,106 +12,76 @@ public interface Predicate<T> {
     /* renamed from: org.webrtc.Predicate$-CC */
     /* loaded from: classes3.dex */
     public final /* synthetic */ class CC {
-        public static Predicate $default$or(Predicate _this, Predicate predicate) {
-            return new AnonymousClass1(predicate);
+        public static Predicate $default$or(final Predicate _this, final Predicate predicate) {
+            return new Predicate<T>() { // from class: org.webrtc.Predicate.1
+                @Override // org.webrtc.Predicate
+                public /* synthetic */ Predicate and(Predicate predicate2) {
+                    return CC.$default$and(this, predicate2);
+                }
+
+                @Override // org.webrtc.Predicate
+                public /* synthetic */ Predicate negate() {
+                    return CC.$default$negate(this);
+                }
+
+                @Override // org.webrtc.Predicate
+                public /* synthetic */ Predicate or(Predicate predicate2) {
+                    return CC.$default$or(this, predicate2);
+                }
+
+                @Override // org.webrtc.Predicate
+                public boolean test(T t) {
+                    return _this.test(t) || predicate.test(t);
+                }
+            };
         }
 
-        public static Predicate $default$and(Predicate _this, Predicate predicate) {
-            return new AnonymousClass2(predicate);
+        public static Predicate $default$and(final Predicate _this, final Predicate predicate) {
+            return new Predicate<T>() { // from class: org.webrtc.Predicate.2
+                @Override // org.webrtc.Predicate
+                public /* synthetic */ Predicate and(Predicate predicate2) {
+                    return CC.$default$and(this, predicate2);
+                }
+
+                @Override // org.webrtc.Predicate
+                public /* synthetic */ Predicate negate() {
+                    return CC.$default$negate(this);
+                }
+
+                @Override // org.webrtc.Predicate
+                public /* synthetic */ Predicate or(Predicate predicate2) {
+                    return CC.$default$or(this, predicate2);
+                }
+
+                @Override // org.webrtc.Predicate
+                public boolean test(T t) {
+                    return _this.test(t) && predicate.test(t);
+                }
+            };
         }
 
-        public static Predicate $default$negate(Predicate _this) {
-            return new AnonymousClass3();
-        }
-    }
+        public static Predicate $default$negate(final Predicate _this) {
+            return new Predicate<T>() { // from class: org.webrtc.Predicate.3
+                @Override // org.webrtc.Predicate
+                public /* synthetic */ Predicate and(Predicate predicate) {
+                    return CC.$default$and(this, predicate);
+                }
 
-    /* renamed from: org.webrtc.Predicate$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Predicate<T> {
-        final /* synthetic */ Predicate val$other;
+                @Override // org.webrtc.Predicate
+                public /* synthetic */ Predicate negate() {
+                    return CC.$default$negate(this);
+                }
 
-        @Override // org.webrtc.Predicate
-        public /* synthetic */ Predicate and(Predicate predicate) {
-            return CC.$default$and(this, predicate);
-        }
+                @Override // org.webrtc.Predicate
+                public /* synthetic */ Predicate or(Predicate predicate) {
+                    return CC.$default$or(this, predicate);
+                }
 
-        @Override // org.webrtc.Predicate
-        public /* synthetic */ Predicate negate() {
-            return CC.$default$negate(this);
-        }
-
-        @Override // org.webrtc.Predicate
-        public /* synthetic */ Predicate or(Predicate predicate) {
-            return CC.$default$or(this, predicate);
-        }
-
-        AnonymousClass1(Predicate predicate) {
-            Predicate.this = r1;
-            this.val$other = predicate;
-        }
-
-        @Override // org.webrtc.Predicate
-        public boolean test(T t) {
-            return Predicate.this.test(t) || this.val$other.test(t);
-        }
-    }
-
-    /* renamed from: org.webrtc.Predicate$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements Predicate<T> {
-        final /* synthetic */ Predicate val$other;
-
-        @Override // org.webrtc.Predicate
-        public /* synthetic */ Predicate and(Predicate predicate) {
-            return CC.$default$and(this, predicate);
-        }
-
-        @Override // org.webrtc.Predicate
-        public /* synthetic */ Predicate negate() {
-            return CC.$default$negate(this);
-        }
-
-        @Override // org.webrtc.Predicate
-        public /* synthetic */ Predicate or(Predicate predicate) {
-            return CC.$default$or(this, predicate);
-        }
-
-        AnonymousClass2(Predicate predicate) {
-            Predicate.this = r1;
-            this.val$other = predicate;
-        }
-
-        @Override // org.webrtc.Predicate
-        public boolean test(T t) {
-            return Predicate.this.test(t) && this.val$other.test(t);
-        }
-    }
-
-    /* renamed from: org.webrtc.Predicate$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 implements Predicate<T> {
-        @Override // org.webrtc.Predicate
-        public /* synthetic */ Predicate and(Predicate predicate) {
-            return CC.$default$and(this, predicate);
-        }
-
-        @Override // org.webrtc.Predicate
-        public /* synthetic */ Predicate negate() {
-            return CC.$default$negate(this);
-        }
-
-        @Override // org.webrtc.Predicate
-        public /* synthetic */ Predicate or(Predicate predicate) {
-            return CC.$default$or(this, predicate);
-        }
-
-        AnonymousClass3() {
-            Predicate.this = r1;
-        }
-
-        @Override // org.webrtc.Predicate
-        public boolean test(T t) {
-            return !Predicate.this.test(t);
+                @Override // org.webrtc.Predicate
+                public boolean test(T t) {
+                    return !_this.test(t);
+                }
+            };
         }
     }
 }

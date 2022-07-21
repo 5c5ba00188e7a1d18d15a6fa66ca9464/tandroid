@@ -31,6 +31,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.utils.CopyUtilities;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
@@ -64,36 +65,27 @@ public class EditTextCaption extends EditTextBoldCursor {
     public EditTextCaption(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.resourcesProvider = resourcesProvider;
-        addTextChangedListener(new AnonymousClass1());
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.EditTextCaption$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements TextWatcher {
-        @Override // android.text.TextWatcher
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override // android.text.TextWatcher
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        AnonymousClass1() {
-            EditTextCaption.this = r1;
-        }
-
-        @Override // android.text.TextWatcher
-        public void afterTextChanged(Editable editable) {
-            if (EditTextCaption.this.lineCount != EditTextCaption.this.getLineCount()) {
-                if (!EditTextCaption.this.isInitLineCount && EditTextCaption.this.getMeasuredWidth() > 0) {
-                    EditTextCaption editTextCaption = EditTextCaption.this;
-                    editTextCaption.onLineCountChanged(editTextCaption.lineCount, EditTextCaption.this.getLineCount());
-                }
-                EditTextCaption editTextCaption2 = EditTextCaption.this;
-                editTextCaption2.lineCount = editTextCaption2.getLineCount();
+        addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.EditTextCaption.1
+            @Override // android.text.TextWatcher
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
             }
-        }
+
+            @Override // android.text.TextWatcher
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            @Override // android.text.TextWatcher
+            public void afterTextChanged(Editable editable) {
+                if (EditTextCaption.this.lineCount != EditTextCaption.this.getLineCount()) {
+                    if (!EditTextCaption.this.isInitLineCount && EditTextCaption.this.getMeasuredWidth() > 0) {
+                        EditTextCaption editTextCaption = EditTextCaption.this;
+                        editTextCaption.onLineCountChanged(editTextCaption.lineCount, EditTextCaption.this.getLineCount());
+                    }
+                    EditTextCaption editTextCaption2 = EditTextCaption.this;
+                    editTextCaption2.lineCount = editTextCaption2.getLineCount();
+                }
+            }
+        });
     }
 
     public void setCaption(String str) {
@@ -157,25 +149,30 @@ public class EditTextCaption extends EditTextBoldCursor {
     }
 
     public void makeSelectedUrl() {
-        int i;
+        final int i;
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
-        builder.setTitle(LocaleController.getString("CreateLink", 2131625288));
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(this, getContext());
-        anonymousClass2.setTextSize(1, 18.0f);
-        anonymousClass2.setText("http://");
-        anonymousClass2.setTextColor(getThemedColor("dialogTextBlack"));
-        anonymousClass2.setHintText(LocaleController.getString("URL", 2131628788));
-        anonymousClass2.setHeaderHintColor(getThemedColor("windowBackgroundWhiteBlueHeader"));
-        anonymousClass2.setSingleLine(true);
-        anonymousClass2.setFocusable(true);
-        anonymousClass2.setTransformHintToHeader(true);
-        anonymousClass2.setLineColors(getThemedColor("windowBackgroundWhiteInputField"), getThemedColor("windowBackgroundWhiteInputFieldActivated"), getThemedColor("windowBackgroundWhiteRedText3"));
-        anonymousClass2.setImeOptions(6);
-        anonymousClass2.setBackgroundDrawable(null);
-        anonymousClass2.requestFocus();
-        anonymousClass2.setPadding(0, 0, 0, 0);
-        builder.setView(anonymousClass2);
-        int i2 = this.selectionStart;
+        builder.setTitle(LocaleController.getString("CreateLink", R.string.CreateLink));
+        final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(this, getContext()) { // from class: org.telegram.ui.Components.EditTextCaption.2
+            @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+            public void onMeasure(int i2, int i3) {
+                super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64.0f), 1073741824));
+            }
+        };
+        editTextBoldCursor.setTextSize(1, 18.0f);
+        editTextBoldCursor.setText("http://");
+        editTextBoldCursor.setTextColor(getThemedColor("dialogTextBlack"));
+        editTextBoldCursor.setHintText(LocaleController.getString("URL", R.string.URL));
+        editTextBoldCursor.setHeaderHintColor(getThemedColor("windowBackgroundWhiteBlueHeader"));
+        editTextBoldCursor.setSingleLine(true);
+        editTextBoldCursor.setFocusable(true);
+        editTextBoldCursor.setTransformHintToHeader(true);
+        editTextBoldCursor.setLineColors(getThemedColor("windowBackgroundWhiteInputField"), getThemedColor("windowBackgroundWhiteInputFieldActivated"), getThemedColor("windowBackgroundWhiteRedText3"));
+        editTextBoldCursor.setImeOptions(6);
+        editTextBoldCursor.setBackgroundDrawable(null);
+        editTextBoldCursor.requestFocus();
+        editTextBoldCursor.setPadding(0, 0, 0, 0);
+        builder.setView(editTextBoldCursor);
+        final int i2 = this.selectionStart;
         if (i2 >= 0 && (i = this.selectionEnd) >= 0) {
             this.selectionEnd = -1;
             this.selectionStart = -1;
@@ -183,10 +180,20 @@ public class EditTextCaption extends EditTextBoldCursor {
             i2 = getSelectionStart();
             i = getSelectionEnd();
         }
-        builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new EditTextCaption$$ExternalSyntheticLambda0(this, i2, i, anonymousClass2));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
-        builder.show().setOnShowListener(new EditTextCaption$$ExternalSyntheticLambda1(anonymousClass2));
-        ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) anonymousClass2.getLayoutParams();
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i3) {
+                EditTextCaption.this.lambda$makeSelectedUrl$0(i2, i, editTextBoldCursor, dialogInterface, i3);
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        builder.show().setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda1
+            @Override // android.content.DialogInterface.OnShowListener
+            public final void onShow(DialogInterface dialogInterface) {
+                EditTextCaption.lambda$makeSelectedUrl$1(EditTextBoldCursor.this, dialogInterface);
+            }
+        });
+        ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) editTextBoldCursor.getLayoutParams();
         if (marginLayoutParams != null) {
             if (marginLayoutParams instanceof FrameLayout.LayoutParams) {
                 ((FrameLayout.LayoutParams) marginLayoutParams).gravity = 1;
@@ -195,22 +202,9 @@ public class EditTextCaption extends EditTextBoldCursor {
             marginLayoutParams.leftMargin = dp;
             marginLayoutParams.rightMargin = dp;
             marginLayoutParams.height = AndroidUtilities.dp(36.0f);
-            anonymousClass2.setLayoutParams(marginLayoutParams);
+            editTextBoldCursor.setLayoutParams(marginLayoutParams);
         }
-        anonymousClass2.setSelection(0, anonymousClass2.getText().length());
-    }
-
-    /* renamed from: org.telegram.ui.Components.EditTextCaption$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends EditTextBoldCursor {
-        AnonymousClass2(EditTextCaption editTextCaption, Context context) {
-            super(context);
-        }
-
-        @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-        public void onMeasure(int i, int i2) {
-            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64.0f), 1073741824));
-        }
+        editTextBoldCursor.setSelection(0, editTextBoldCursor.getText().length());
     }
 
     public /* synthetic */ void lambda$makeSelectedUrl$0(int i, int i2, EditTextBoldCursor editTextBoldCursor, DialogInterface dialogInterface, int i3) {
@@ -283,117 +277,94 @@ public class EditTextCaption extends EditTextBoldCursor {
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.EditTextCaption$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 implements ActionMode.Callback {
-        final /* synthetic */ ActionMode.Callback val$callback;
-
-        AnonymousClass3(ActionMode.Callback callback) {
-            EditTextCaption.this = r1;
-            this.val$callback = callback;
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            EditTextCaption.this.copyPasteShowed = true;
-            return this.val$callback.onCreateActionMode(actionMode, menu);
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            return this.val$callback.onPrepareActionMode(actionMode, menu);
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            if (EditTextCaption.this.performMenuAction(menuItem.getItemId())) {
-                actionMode.finish();
-                return true;
+    private ActionMode.Callback overrideCallback(final ActionMode.Callback callback) {
+        final ActionMode.Callback callback2 = new ActionMode.Callback() { // from class: org.telegram.ui.Components.EditTextCaption.3
+            @Override // android.view.ActionMode.Callback
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                EditTextCaption.this.copyPasteShowed = true;
+                return callback.onCreateActionMode(actionMode, menu);
             }
-            try {
-                return this.val$callback.onActionItemClicked(actionMode, menuItem);
-            } catch (Exception unused) {
-                return true;
+
+            @Override // android.view.ActionMode.Callback
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return callback.onPrepareActionMode(actionMode, menu);
             }
-        }
 
-        @Override // android.view.ActionMode.Callback
-        public void onDestroyActionMode(ActionMode actionMode) {
-            EditTextCaption.this.copyPasteShowed = false;
-            this.val$callback.onDestroyActionMode(actionMode);
-        }
-    }
-
-    private ActionMode.Callback overrideCallback(ActionMode.Callback callback) {
-        AnonymousClass3 anonymousClass3 = new AnonymousClass3(callback);
-        return Build.VERSION.SDK_INT >= 23 ? new AnonymousClass4(this, anonymousClass3, callback) : anonymousClass3;
-    }
-
-    /* renamed from: org.telegram.ui.Components.EditTextCaption$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends ActionMode.Callback2 {
-        final /* synthetic */ ActionMode.Callback val$callback;
-        final /* synthetic */ ActionMode.Callback val$wrap;
-
-        AnonymousClass4(EditTextCaption editTextCaption, ActionMode.Callback callback, ActionMode.Callback callback2) {
-            this.val$wrap = callback;
-            this.val$callback = callback2;
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            return this.val$wrap.onCreateActionMode(actionMode, menu);
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            return this.val$wrap.onPrepareActionMode(actionMode, menu);
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            return this.val$wrap.onActionItemClicked(actionMode, menuItem);
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public void onDestroyActionMode(ActionMode actionMode) {
-            this.val$wrap.onDestroyActionMode(actionMode);
-        }
-
-        @Override // android.view.ActionMode.Callback2
-        public void onGetContentRect(ActionMode actionMode, View view, android.graphics.Rect rect) {
-            ActionMode.Callback callback = this.val$callback;
-            if (callback instanceof ActionMode.Callback2) {
-                ((ActionMode.Callback2) callback).onGetContentRect(actionMode, view, rect);
-            } else {
-                super.onGetContentRect(actionMode, view, rect);
+            @Override // android.view.ActionMode.Callback
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                if (EditTextCaption.this.performMenuAction(menuItem.getItemId())) {
+                    actionMode.finish();
+                    return true;
+                }
+                try {
+                    return callback.onActionItemClicked(actionMode, menuItem);
+                } catch (Exception unused) {
+                    return true;
+                }
             }
-        }
+
+            @Override // android.view.ActionMode.Callback
+            public void onDestroyActionMode(ActionMode actionMode) {
+                EditTextCaption.this.copyPasteShowed = false;
+                callback.onDestroyActionMode(actionMode);
+            }
+        };
+        return Build.VERSION.SDK_INT >= 23 ? new ActionMode.Callback2(this) { // from class: org.telegram.ui.Components.EditTextCaption.4
+            @Override // android.view.ActionMode.Callback
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                return callback2.onCreateActionMode(actionMode, menu);
+            }
+
+            @Override // android.view.ActionMode.Callback
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return callback2.onPrepareActionMode(actionMode, menu);
+            }
+
+            @Override // android.view.ActionMode.Callback
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                return callback2.onActionItemClicked(actionMode, menuItem);
+            }
+
+            @Override // android.view.ActionMode.Callback
+            public void onDestroyActionMode(ActionMode actionMode) {
+                callback2.onDestroyActionMode(actionMode);
+            }
+
+            @Override // android.view.ActionMode.Callback2
+            public void onGetContentRect(ActionMode actionMode, View view, android.graphics.Rect rect) {
+                ActionMode.Callback callback3 = callback;
+                if (callback3 instanceof ActionMode.Callback2) {
+                    ((ActionMode.Callback2) callback3).onGetContentRect(actionMode, view, rect);
+                } else {
+                    super.onGetContentRect(actionMode, view, rect);
+                }
+            }
+        } : callback2;
     }
 
     public boolean performMenuAction(int i) {
-        if (i == 2131230863) {
+        if (i == R.id.menu_regular) {
             makeSelectedRegular();
             return true;
-        } else if (i == 2131230856) {
+        } else if (i == R.id.menu_bold) {
             makeSelectedBold();
             return true;
-        } else if (i == 2131230859) {
+        } else if (i == R.id.menu_italic) {
             makeSelectedItalic();
             return true;
-        } else if (i == 2131230861) {
+        } else if (i == R.id.menu_mono) {
             makeSelectedMono();
             return true;
-        } else if (i == 2131230860) {
+        } else if (i == R.id.menu_link) {
             makeSelectedUrl();
             return true;
-        } else if (i == 2131230867) {
+        } else if (i == R.id.menu_strike) {
             makeSelectedStrike();
             return true;
-        } else if (i == 2131230868) {
+        } else if (i == R.id.menu_underline) {
             makeSelectedUnderline();
             return true;
-        } else if (i != 2131230866) {
+        } else if (i != R.id.menu_spoiler) {
             return false;
         } else {
             makeSelectedSpoiler();
@@ -519,14 +490,14 @@ public class EditTextCaption extends EditTextBoldCursor {
             i++;
         }
         if (hasSelection()) {
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230866, LocaleController.getString("Spoiler", 2131628466)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230856, LocaleController.getString("Bold", 2131624714)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230859, LocaleController.getString("Italic", 2131626357)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230861, LocaleController.getString("Mono", 2131626782)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230867, LocaleController.getString("Strike", 2131628547)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230868, LocaleController.getString("Underline", 2131628796)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230860, LocaleController.getString("CreateLink", 2131625288)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230863, LocaleController.getString("Regular", 2131627943)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_spoiler, LocaleController.getString("Spoiler", R.string.Spoiler)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_bold, LocaleController.getString("Bold", R.string.Bold)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_italic, LocaleController.getString("Italic", R.string.Italic)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_mono, LocaleController.getString("Mono", R.string.Mono)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_strike, LocaleController.getString("Strike", R.string.Strike)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_underline, LocaleController.getString("Underline", R.string.Underline)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_link, LocaleController.getString("CreateLink", R.string.CreateLink)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(R.id.menu_regular, LocaleController.getString("Regular", R.string.Regular)));
         }
     }
 

@@ -10,7 +10,17 @@ import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class HlsTrackMetadataEntry implements Metadata.Entry {
-    public static final Parcelable.Creator<HlsTrackMetadataEntry> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<HlsTrackMetadataEntry> CREATOR = new Parcelable.Creator<HlsTrackMetadataEntry>() { // from class: com.google.android.exoplayer2.source.hls.HlsTrackMetadataEntry.1
+        @Override // android.os.Parcelable.Creator
+        public HlsTrackMetadataEntry createFromParcel(Parcel parcel) {
+            return new HlsTrackMetadataEntry(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public HlsTrackMetadataEntry[] newArray(int i) {
+            return new HlsTrackMetadataEntry[i];
+        }
+    };
     public final String groupId;
     public final String name;
     public final List<VariantInfo> variantInfos;
@@ -32,7 +42,17 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
 
     /* loaded from: classes.dex */
     public static final class VariantInfo implements Parcelable {
-        public static final Parcelable.Creator<VariantInfo> CREATOR = new AnonymousClass1();
+        public static final Parcelable.Creator<VariantInfo> CREATOR = new Parcelable.Creator<VariantInfo>() { // from class: com.google.android.exoplayer2.source.hls.HlsTrackMetadataEntry.VariantInfo.1
+            @Override // android.os.Parcelable.Creator
+            public VariantInfo createFromParcel(Parcel parcel) {
+                return new VariantInfo(parcel);
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public VariantInfo[] newArray(int i) {
+                return new VariantInfo[i];
+            }
+        };
         public final String audioGroupId;
         public final long bitrate;
         public final String captionGroupId;
@@ -96,23 +116,6 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
             parcel.writeString(this.subtitleGroupId);
             parcel.writeString(this.captionGroupId);
         }
-
-        /* renamed from: com.google.android.exoplayer2.source.hls.HlsTrackMetadataEntry$VariantInfo$1 */
-        /* loaded from: classes.dex */
-        class AnonymousClass1 implements Parcelable.Creator<VariantInfo> {
-            AnonymousClass1() {
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public VariantInfo createFromParcel(Parcel parcel) {
-                return new VariantInfo(parcel);
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public VariantInfo[] newArray(int i) {
-                return new VariantInfo[i];
-            }
-        }
     }
 
     public HlsTrackMetadataEntry(String str, String str2, List<VariantInfo> list) {
@@ -175,23 +178,6 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
         parcel.writeInt(size);
         for (int i2 = 0; i2 < size; i2++) {
             parcel.writeParcelable(this.variantInfos.get(i2), 0);
-        }
-    }
-
-    /* renamed from: com.google.android.exoplayer2.source.hls.HlsTrackMetadataEntry$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<HlsTrackMetadataEntry> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public HlsTrackMetadataEntry createFromParcel(Parcel parcel) {
-            return new HlsTrackMetadataEntry(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public HlsTrackMetadataEntry[] newArray(int i) {
-            return new HlsTrackMetadataEntry[i];
         }
     }
 }

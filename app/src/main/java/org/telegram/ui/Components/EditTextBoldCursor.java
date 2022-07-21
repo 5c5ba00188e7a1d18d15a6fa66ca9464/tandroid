@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
-import android.graphics.drawable.shapes.Shape;
 import android.os.Build;
 import android.os.SystemClock;
 import android.text.Layout;
@@ -33,6 +32,7 @@ import android.widget.TextView;
 import androidx.annotation.Keep;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.huawei.hms.adapter.internal.AvailableCode;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -41,6 +41,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.XiaomiUtilities;
 import org.telegram.ui.ActionBar.FloatingActionMode;
 import org.telegram.ui.ActionBar.FloatingToolbar;
@@ -95,7 +96,15 @@ public class EditTextBoldCursor extends EditTextEffects {
     private boolean supportRtlHint;
     private boolean transformHintToHeader;
     private View windowView;
-    private Runnable invalidateRunnable = new AnonymousClass1();
+    private Runnable invalidateRunnable = new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor.1
+        @Override // java.lang.Runnable
+        public void run() {
+            EditTextBoldCursor.this.invalidate();
+            if (EditTextBoldCursor.this.attachedToWindow != null) {
+                AndroidUtilities.runOnUIThread(this, 500L);
+            }
+        }
+    };
     private android.graphics.Rect rect = new android.graphics.Rect();
     private boolean hintVisible = true;
     private float hintAlpha = 1.0f;
@@ -119,7 +128,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     @Override // android.widget.TextView, android.view.View
-    @TargetApi(26)
+    @TargetApi(AvailableCode.ERROR_NO_ACTIVITY)
     public int getAutofillType() {
         return 0;
     }
@@ -128,23 +137,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         return null;
     }
 
-    /* renamed from: org.telegram.ui.Components.EditTextBoldCursor$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            EditTextBoldCursor.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            EditTextBoldCursor.this.invalidate();
-            if (EditTextBoldCursor.this.attachedToWindow != null) {
-                AndroidUtilities.runOnUIThread(this, 500L);
-            }
-        }
-    }
-
-    @TargetApi(23)
+    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
     /* loaded from: classes3.dex */
     public class ActionModeCallback2Wrapper extends ActionMode.Callback2 {
         private final ActionMode.Callback mWrapped;
@@ -247,25 +240,15 @@ public class EditTextBoldCursor extends EditTextEffects {
         if (this.cursorDrawable != null) {
             return super.getTextCursorDrawable();
         }
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(new RectShape());
-        anonymousClass2.getPaint().setColor(0);
-        return anonymousClass2;
-    }
-
-    /* renamed from: org.telegram.ui.Components.EditTextBoldCursor$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends ShapeDrawable {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Shape shape) {
-            super(shape);
-            EditTextBoldCursor.this = r1;
-        }
-
-        @Override // android.graphics.drawable.ShapeDrawable, android.graphics.drawable.Drawable
-        public void draw(Canvas canvas) {
-            super.draw(canvas);
-            EditTextBoldCursor.this.cursorDrawn = true;
-        }
+        ShapeDrawable shapeDrawable = new ShapeDrawable(new RectShape()) { // from class: org.telegram.ui.Components.EditTextBoldCursor.2
+            @Override // android.graphics.drawable.ShapeDrawable, android.graphics.drawable.Drawable
+            public void draw(Canvas canvas) {
+                super.draw(canvas);
+                EditTextBoldCursor.this.cursorDrawn = true;
+            }
+        };
+        shapeDrawable.getPaint().setColor(0);
+        return shapeDrawable;
     }
 
     @SuppressLint({"PrivateApi"})
@@ -280,9 +263,29 @@ public class EditTextBoldCursor extends EditTextEffects {
             setImportantForAutofill(2);
         }
         if (i >= 29) {
-            AnonymousClass3 anonymousClass3 = new AnonymousClass3();
-            this.cursorDrawable = anonymousClass3;
-            anonymousClass3.setShape(new RectShape());
+            ShapeDrawable shapeDrawable = new ShapeDrawable() { // from class: org.telegram.ui.Components.EditTextBoldCursor.3
+                @Override // android.graphics.drawable.ShapeDrawable, android.graphics.drawable.Drawable
+                public void draw(Canvas canvas) {
+                    EditTextBoldCursor editTextBoldCursor = EditTextBoldCursor.this;
+                    if (editTextBoldCursor.drawInMaim) {
+                        editTextBoldCursor.cursorDrawn = true;
+                    } else {
+                        super.draw(canvas);
+                    }
+                }
+
+                @Override // android.graphics.drawable.ShapeDrawable, android.graphics.drawable.Drawable
+                public int getIntrinsicHeight() {
+                    return AndroidUtilities.dp(EditTextBoldCursor.this.cursorSize + 20);
+                }
+
+                @Override // android.graphics.drawable.ShapeDrawable, android.graphics.drawable.Drawable
+                public int getIntrinsicWidth() {
+                    return AndroidUtilities.dp(EditTextBoldCursor.this.cursorWidth);
+                }
+            };
+            this.cursorDrawable = shapeDrawable;
+            shapeDrawable.setShape(new RectShape());
             this.gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{-11230757, -11230757});
             setTextCursorDrawable(this.cursorDrawable);
         }
@@ -339,40 +342,12 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
                 Field field = mCursorDrawableResField;
                 if (field != null) {
-                    field.set(this, 2131165398);
+                    field.set(this, Integer.valueOf((int) org.telegram.messenger.beta.R.drawable.field_carret_empty));
                 }
             } catch (Throwable unused5) {
             }
         }
         this.cursorSize = AndroidUtilities.dp(24.0f);
-    }
-
-    /* renamed from: org.telegram.ui.Components.EditTextBoldCursor$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends ShapeDrawable {
-        AnonymousClass3() {
-            EditTextBoldCursor.this = r1;
-        }
-
-        @Override // android.graphics.drawable.ShapeDrawable, android.graphics.drawable.Drawable
-        public void draw(Canvas canvas) {
-            EditTextBoldCursor editTextBoldCursor = EditTextBoldCursor.this;
-            if (editTextBoldCursor.drawInMaim) {
-                editTextBoldCursor.cursorDrawn = true;
-            } else {
-                super.draw(canvas);
-            }
-        }
-
-        @Override // android.graphics.drawable.ShapeDrawable, android.graphics.drawable.Drawable
-        public int getIntrinsicHeight() {
-            return AndroidUtilities.dp(EditTextBoldCursor.this.cursorSize + 20);
-        }
-
-        @Override // android.graphics.drawable.ShapeDrawable, android.graphics.drawable.Drawable
-        public int getIntrinsicWidth() {
-            return AndroidUtilities.dp(EditTextBoldCursor.this.cursorWidth);
-        }
     }
 
     @SuppressLint({"PrivateApi"})
@@ -394,9 +369,14 @@ public class EditTextBoldCursor extends EditTextEffects {
                     declaredMethod.setAccessible(true);
                     this.listenerFixer = (ViewTreeObserver.OnPreDrawListener) declaredMethod.invoke(this.editor, new Object[0]);
                 }
-                ViewTreeObserver.OnPreDrawListener onPreDrawListener = this.listenerFixer;
+                final ViewTreeObserver.OnPreDrawListener onPreDrawListener = this.listenerFixer;
                 onPreDrawListener.getClass();
-                AndroidUtilities.runOnUIThread(new EditTextBoldCursor$$ExternalSyntheticLambda1(onPreDrawListener), 500L);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        onPreDrawListener.onPreDraw();
+                    }
+                }, 500L);
             } catch (Throwable unused) {
             }
             this.fixed = true;
@@ -449,7 +429,7 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     public void setLineColors(int i, int i2, int i3) {
         this.lineVisible = true;
-        getContext().getResources().getDrawable(2131166127).getPadding(this.padding);
+        getContext().getResources().getDrawable(org.telegram.messenger.beta.R.drawable.search_dark).getPadding(this.padding);
         android.graphics.Rect rect = this.padding;
         setPadding(rect.left, rect.top, rect.right, rect.bottom);
         this.lineColor = i;
@@ -1197,7 +1177,14 @@ public class EditTextBoldCursor extends EditTextEffects {
             }
             this.floatingToolbar = new FloatingToolbar(context, view, getActionModeStyle(), getResourcesProvider());
             this.floatingActionMode = new FloatingActionMode(getContext(), new ActionModeCallback2Wrapper(callback), this, this.floatingToolbar);
-            this.floatingToolbarPreDrawListener = new EditTextBoldCursor$$ExternalSyntheticLambda0(this);
+            this.floatingToolbarPreDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda0
+                @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                public final boolean onPreDraw() {
+                    boolean lambda$startActionMode$0;
+                    lambda$startActionMode$0 = EditTextBoldCursor.this.lambda$startActionMode$0();
+                    return lambda$startActionMode$0;
+                }
+            };
             FloatingActionMode floatingActionMode2 = this.floatingActionMode;
             callback.onCreateActionMode(floatingActionMode2, floatingActionMode2.getMenu());
             FloatingActionMode floatingActionMode3 = this.floatingActionMode;

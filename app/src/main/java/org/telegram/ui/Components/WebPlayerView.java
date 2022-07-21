@@ -26,12 +26,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.huawei.hms.framework.common.ContainerUtils;
+import com.huawei.hms.push.constant.RemoteMessageConst;
+import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -62,9 +66,12 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.ui.Components.VideoPlayer;
+import org.telegram.ui.Components.WebPlayerView;
+import org.webrtc.MediaStreamTrack;
 /* loaded from: classes3.dex */
 public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerDelegate, AudioManager.OnAudioFocusChangeListener {
     private static int lastContainerId = 4001;
@@ -180,30 +187,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         return f2;
     }
 
-    /* renamed from: org.telegram.ui.Components.WebPlayerView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            WebPlayerView.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (WebPlayerView.this.videoPlayer == null || !WebPlayerView.this.videoPlayer.isPlaying()) {
-                return;
-            }
-            WebPlayerView.this.controlsView.setProgress((int) (WebPlayerView.this.videoPlayer.getCurrentPosition() / 1000));
-            WebPlayerView.this.controlsView.setBufferedProgress((int) (WebPlayerView.this.videoPlayer.getBufferedPosition() / 1000));
-            AndroidUtilities.runOnUIThread(WebPlayerView.this.progressRunnable, 1000L);
-        }
-    }
-
     /* loaded from: classes3.dex */
     public static class JSExtractor {
         private String jsCode;
         ArrayList<String> codeLines = new ArrayList<>();
-        private String[] operators = {"|", "^", "&", ">>", "<<", "-", "+", "%", "/", "*"};
-        private String[] assign_operators = {"|=", "^=", "&=", ">>=", "<<=", "-=", "+=", "%=", "/=", "*=", "="};
+        private String[] operators = {HiAnalyticsConstant.REPORT_VAL_SEPARATOR, "^", ContainerUtils.FIELD_DELIMITER, ">>", "<<", "-", "+", "%", "/", "*"};
+        private String[] assign_operators = {"|=", "^=", "&=", ">>=", "<<=", "-=", "+=", "%=", "/=", "*=", ContainerUtils.KEY_VALUE_DELIMITER};
 
         public JSExtractor(String str) {
             this.jsCode = str;
@@ -644,7 +633,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             String str2;
             String str3;
             String str4;
-            String str5;
+            final String str5;
             String str6;
             boolean z2;
             boolean z3;
@@ -689,7 +678,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     return strArr2;
                 }
                 if (downloadUrlContent2 != null) {
-                    String[] split = downloadUrlContent2.split("&");
+                    String[] split = downloadUrlContent2.split(ContainerUtils.FIELD_DELIMITER);
                     boolean z5 = z4;
                     Object obj = strArr2;
                     int i4 = 0;
@@ -697,7 +686,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     z2 = false;
                     while (i4 < split.length) {
                         if (split[i4].startsWith("dashmpd")) {
-                            String[] split2 = split[i4].split("=");
+                            String[] split2 = split[i4].split(ContainerUtils.KEY_VALUE_DELIMITER);
                             if (split2.length == i2) {
                                 try {
                                     this.result[c2] = URLDecoder.decode(split2[c], "UTF-8");
@@ -708,7 +697,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                             str8 = str9;
                             z2 = true;
                         } else if (split[i4].startsWith("url_encoded_fmt_stream_map")) {
-                            String[] split3 = split[i4].split("=");
+                            String[] split3 = split[i4].split(ContainerUtils.KEY_VALUE_DELIMITER);
                             if (split3.length == i2) {
                                 try {
                                     String[] split4 = URLDecoder.decode(split3[c], "UTF-8").split("[&,]");
@@ -716,7 +705,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                     int i5 = 0;
                                     boolean z6 = false;
                                     while (i5 < split4.length) {
-                                        String[] split5 = split4[i5].split("=");
+                                        String[] split5 = split4[i5].split(ContainerUtils.KEY_VALUE_DELIMITER);
                                         String[] strArr4 = split4;
                                         str8 = str9;
                                         try {
@@ -724,7 +713,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                                 if (URLDecoder.decode(split5[1], "UTF-8").contains("video/mp4")) {
                                                     z6 = true;
                                                 }
-                                            } else if (split5[0].startsWith("url")) {
+                                            } else if (split5[0].startsWith(RemoteMessageConst.Notification.URL)) {
                                                 str11 = URLDecoder.decode(split5[1], "UTF-8");
                                             } else if (split5[0].startsWith("itag")) {
                                                 str11 = null;
@@ -756,12 +745,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                         } else {
                             str8 = str9;
                             if (split[i4].startsWith("use_cipher_signature")) {
-                                String[] split6 = split[i4].split("=");
+                                String[] split6 = split[i4].split(ContainerUtils.KEY_VALUE_DELIMITER);
                                 if (split6.length == 2 && split6[1].toLowerCase().equals("true")) {
                                     z5 = true;
                                 }
                             } else if (split[i4].startsWith("hlsvp")) {
-                                String[] split7 = split[i4].split("=");
+                                String[] split7 = split[i4].split(ContainerUtils.KEY_VALUE_DELIMITER);
                                 if (split7.length == 2) {
                                     try {
                                         obj = URLDecoder.decode(split7[1], "UTF-8");
@@ -770,7 +759,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                     }
                                 }
                             } else if (split[i4].startsWith("livestream")) {
-                                String[] split8 = split[i4].split("=");
+                                String[] split8 = split[i4].split(ContainerUtils.KEY_VALUE_DELIMITER);
                                 if (split8.length == 2 && split8[1].toLowerCase().equals("1")) {
                                     z3 = true;
                                 }
@@ -886,7 +875,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                             str5 = str4 + "window." + WebPlayerView.this.interfaceName + ".returnResultToJava(" + str3 + "('" + this.sig.substring(3) + "'));";
                                         }
                                         try {
-                                            AndroidUtilities.runOnUIThread(new WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda1(this, str5));
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda1
+                                                @Override // java.lang.Runnable
+                                                public final void run() {
+                                                    WebPlayerView.YoutubeVideoTask.this.lambda$doInBackground$1(str5);
+                                                }
+                                            });
                                             this.countDownLatch.await();
                                             z = false;
                                         } catch (Exception e9) {
@@ -915,7 +909,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
 
         public /* synthetic */ void lambda$doInBackground$1(String str) {
             if (Build.VERSION.SDK_INT >= 21) {
-                WebPlayerView.this.webView.evaluateJavascript(str, new WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda0(this));
+                WebPlayerView.this.webView.evaluateJavascript(str, new ValueCallback() { // from class: org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda0
+                    @Override // android.webkit.ValueCallback
+                    public final void onReceiveValue(Object obj) {
+                        WebPlayerView.YoutubeVideoTask.this.lambda$doInBackground$0((String) obj);
+                    }
+                });
                 return;
             }
             try {
@@ -986,14 +985,14 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 if (jSONObject.has("hls")) {
                     JSONObject jSONObject2 = jSONObject.getJSONObject("hls");
                     try {
-                        this.results[0] = jSONObject2.getString("url");
+                        this.results[0] = jSONObject2.getString(RemoteMessageConst.Notification.URL);
                     } catch (Exception unused) {
-                        this.results[0] = jSONObject2.getJSONObject("cdns").getJSONObject(jSONObject2.getString("default_cdn")).getString("url");
+                        this.results[0] = jSONObject2.getJSONObject("cdns").getJSONObject(jSONObject2.getString("default_cdn")).getString(RemoteMessageConst.Notification.URL);
                     }
                     this.results[1] = "hls";
                 } else if (jSONObject.has("progressive")) {
                     this.results[1] = "other";
-                    this.results[0] = jSONObject.getJSONArray("progressive").getJSONObject(0).getString("url");
+                    this.results[0] = jSONObject.getJSONArray("progressive").getJSONObject(0).getString(RemoteMessageConst.Notification.URL);
                 }
             } catch (Exception e) {
                 FileLog.e(e);
@@ -1200,8 +1199,8 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
             try {
                 JSONObject jSONObject = new JSONObject(downloadUrlContent).getJSONObject("file_versions").getJSONObject("mobile");
-                String string = jSONObject.getString("video");
-                String string2 = jSONObject.getJSONArray("audio").getString(0);
+                String string = jSONObject.getString(MediaStreamTrack.VIDEO_TRACK_KIND);
+                String string2 = jSONObject.getJSONArray(MediaStreamTrack.AUDIO_TRACK_KIND).getString(0);
                 if (string != null && string2 != null) {
                     String[] strArr = this.results;
                     strArr[0] = string;
@@ -1237,126 +1236,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.WebPlayerView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements TextureView.SurfaceTextureListener {
-        @Override // android.view.TextureView.SurfaceTextureListener
-        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
-        }
-
-        @Override // android.view.TextureView.SurfaceTextureListener
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
-        }
-
-        AnonymousClass2() {
-            WebPlayerView.this = r1;
-        }
-
-        @Override // android.view.TextureView.SurfaceTextureListener
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-            if (WebPlayerView.this.changingTextureView) {
-                if (WebPlayerView.this.switchingInlineMode) {
-                    WebPlayerView.this.waitingForFirstTextureUpload = 2;
-                }
-                WebPlayerView.this.textureView.setSurfaceTexture(surfaceTexture);
-                WebPlayerView.this.textureView.setVisibility(0);
-                WebPlayerView.this.changingTextureView = false;
-                return false;
-            }
-            return true;
-        }
-
-        /* renamed from: org.telegram.ui.Components.WebPlayerView$2$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements ViewTreeObserver.OnPreDrawListener {
-            AnonymousClass1() {
-                AnonymousClass2.this = r1;
-            }
-
-            @Override // android.view.ViewTreeObserver.OnPreDrawListener
-            public boolean onPreDraw() {
-                WebPlayerView.this.changedTextureView.getViewTreeObserver().removeOnPreDrawListener(this);
-                if (WebPlayerView.this.textureImageView != null) {
-                    WebPlayerView.this.textureImageView.setVisibility(4);
-                    WebPlayerView.this.textureImageView.setImageDrawable(null);
-                    if (WebPlayerView.this.currentBitmap != null) {
-                        WebPlayerView.this.currentBitmap.recycle();
-                        WebPlayerView.this.currentBitmap = null;
-                    }
-                }
-                AndroidUtilities.runOnUIThread(new WebPlayerView$2$1$$ExternalSyntheticLambda0(this));
-                WebPlayerView.this.waitingForFirstTextureUpload = 0;
-                return true;
-            }
-
-            public /* synthetic */ void lambda$onPreDraw$0() {
-                WebPlayerView.this.delegate.onInlineSurfaceTextureReady();
-            }
-        }
-
-        @Override // android.view.TextureView.SurfaceTextureListener
-        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-            if (WebPlayerView.this.waitingForFirstTextureUpload == 1) {
-                WebPlayerView.this.changedTextureView.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass1());
-                WebPlayerView.this.changedTextureView.invalidate();
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.WebPlayerView$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 implements Runnable {
-        AnonymousClass3() {
-            WebPlayerView.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            WebPlayerView.this.switchingInlineMode = false;
-            if (WebPlayerView.this.currentBitmap != null) {
-                WebPlayerView.this.currentBitmap.recycle();
-                WebPlayerView.this.currentBitmap = null;
-            }
-            WebPlayerView.this.changingTextureView = true;
-            if (WebPlayerView.this.textureImageView != null) {
-                try {
-                    WebPlayerView webPlayerView = WebPlayerView.this;
-                    webPlayerView.currentBitmap = Bitmaps.createBitmap(webPlayerView.textureView.getWidth(), WebPlayerView.this.textureView.getHeight(), Bitmap.Config.ARGB_8888);
-                    WebPlayerView.this.textureView.getBitmap(WebPlayerView.this.currentBitmap);
-                } catch (Throwable th) {
-                    if (WebPlayerView.this.currentBitmap != null) {
-                        WebPlayerView.this.currentBitmap.recycle();
-                        WebPlayerView.this.currentBitmap = null;
-                    }
-                    FileLog.e(th);
-                }
-                if (WebPlayerView.this.currentBitmap != null) {
-                    WebPlayerView.this.textureImageView.setVisibility(0);
-                    WebPlayerView.this.textureImageView.setImageBitmap(WebPlayerView.this.currentBitmap);
-                } else {
-                    WebPlayerView.this.textureImageView.setImageDrawable(null);
-                }
-            }
-            WebPlayerView.this.isInline = true;
-            WebPlayerView.this.updatePlayButton();
-            WebPlayerView.this.updateShareButton();
-            WebPlayerView.this.updateFullscreenButton();
-            WebPlayerView.this.updateInlineButton();
-            ViewGroup viewGroup = (ViewGroup) WebPlayerView.this.controlsView.getParent();
-            if (viewGroup != null) {
-                viewGroup.removeView(WebPlayerView.this.controlsView);
-            }
-            WebPlayerView webPlayerView2 = WebPlayerView.this;
-            webPlayerView2.changedTextureView = webPlayerView2.delegate.onSwitchInlineMode(WebPlayerView.this.controlsView, WebPlayerView.this.isInline, WebPlayerView.this.videoWidth, WebPlayerView.this.videoHeight, WebPlayerView.this.aspectRatioFrameLayout.getVideoRotation(), WebPlayerView.this.allowInlineAnimation);
-            WebPlayerView.this.changedTextureView.setVisibility(4);
-            ViewGroup viewGroup2 = (ViewGroup) WebPlayerView.this.textureView.getParent();
-            if (viewGroup2 != null) {
-                viewGroup2.removeView(WebPlayerView.this.textureView);
-            }
-            WebPlayerView.this.controlsView.show(false, false);
-        }
-    }
-
     /* loaded from: classes3.dex */
     public class ControlsView extends FrameLayout {
         private int bufferedPosition;
@@ -1374,7 +1253,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         private boolean progressPressed;
         private TextPaint textPaint;
         private boolean isVisible = true;
-        private Runnable hideRunnable = new WebPlayerView$ControlsView$$ExternalSyntheticLambda0(this);
+        private Runnable hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$ControlsView$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                WebPlayerView.ControlsView.this.lambda$new$0();
+            }
+        };
         private ImageReceiver imageReceiver = new ImageReceiver(this);
 
         public /* synthetic */ void lambda$new$0() {
@@ -1443,7 +1327,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     this.currentAnimation = animatorSet2;
                     animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 1.0f));
                     this.currentAnimation.setDuration(150L);
-                    this.currentAnimation.addListener(new AnonymousClass1());
+                    this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.WebPlayerView.ControlsView.1
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            ControlsView.this.currentAnimation = null;
+                        }
+                    });
                     this.currentAnimation.start();
                 } else {
                     setAlpha(1.0f);
@@ -1453,38 +1342,17 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 this.currentAnimation = animatorSet3;
                 animatorSet3.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f));
                 this.currentAnimation.setDuration(150L);
-                this.currentAnimation.addListener(new AnonymousClass2());
+                this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.WebPlayerView.ControlsView.2
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        ControlsView.this.currentAnimation = null;
+                    }
+                });
                 this.currentAnimation.start();
             } else {
                 setAlpha(0.0f);
             }
             checkNeedHide();
-        }
-
-        /* renamed from: org.telegram.ui.Components.WebPlayerView$ControlsView$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends AnimatorListenerAdapter {
-            AnonymousClass1() {
-                ControlsView.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                ControlsView.this.currentAnimation = null;
-            }
-        }
-
-        /* renamed from: org.telegram.ui.Components.WebPlayerView$ControlsView$2 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends AnimatorListenerAdapter {
-            AnonymousClass2() {
-                ControlsView.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                ControlsView.this.currentAnimation = null;
-            }
         }
 
         public void checkNeedHide() {
@@ -1704,19 +1572,159 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         lastContainerId++;
         this.allowInlineAnimation = Build.VERSION.SDK_INT >= 21;
         this.backgroundPaint = new Paint();
-        this.progressRunnable = new AnonymousClass1();
-        this.surfaceTextureListener = new AnonymousClass2();
-        this.switchToInlineRunnable = new AnonymousClass3();
+        this.progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView.1
+            @Override // java.lang.Runnable
+            public void run() {
+                if (WebPlayerView.this.videoPlayer == null || !WebPlayerView.this.videoPlayer.isPlaying()) {
+                    return;
+                }
+                WebPlayerView.this.controlsView.setProgress((int) (WebPlayerView.this.videoPlayer.getCurrentPosition() / 1000));
+                WebPlayerView.this.controlsView.setBufferedProgress((int) (WebPlayerView.this.videoPlayer.getBufferedPosition() / 1000));
+                AndroidUtilities.runOnUIThread(WebPlayerView.this.progressRunnable, 1000L);
+            }
+        };
+        this.surfaceTextureListener = new TextureView.SurfaceTextureListener() { // from class: org.telegram.ui.Components.WebPlayerView.2
+            @Override // android.view.TextureView.SurfaceTextureListener
+            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
+            }
+
+            @Override // android.view.TextureView.SurfaceTextureListener
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
+            }
+
+            @Override // android.view.TextureView.SurfaceTextureListener
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+                if (WebPlayerView.this.changingTextureView) {
+                    if (WebPlayerView.this.switchingInlineMode) {
+                        WebPlayerView.this.waitingForFirstTextureUpload = 2;
+                    }
+                    WebPlayerView.this.textureView.setSurfaceTexture(surfaceTexture);
+                    WebPlayerView.this.textureView.setVisibility(0);
+                    WebPlayerView.this.changingTextureView = false;
+                    return false;
+                }
+                return true;
+            }
+
+            /* renamed from: org.telegram.ui.Components.WebPlayerView$2$1 */
+            /* loaded from: classes3.dex */
+            public class AnonymousClass1 implements ViewTreeObserver.OnPreDrawListener {
+                AnonymousClass1() {
+                    AnonymousClass2.this = r1;
+                }
+
+                @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                public boolean onPreDraw() {
+                    WebPlayerView.this.changedTextureView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    if (WebPlayerView.this.textureImageView != null) {
+                        WebPlayerView.this.textureImageView.setVisibility(4);
+                        WebPlayerView.this.textureImageView.setImageDrawable(null);
+                        if (WebPlayerView.this.currentBitmap != null) {
+                            WebPlayerView.this.currentBitmap.recycle();
+                            WebPlayerView.this.currentBitmap = null;
+                        }
+                    }
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$2$1$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            WebPlayerView.AnonymousClass2.AnonymousClass1.this.lambda$onPreDraw$0();
+                        }
+                    });
+                    WebPlayerView.this.waitingForFirstTextureUpload = 0;
+                    return true;
+                }
+
+                public /* synthetic */ void lambda$onPreDraw$0() {
+                    WebPlayerView.this.delegate.onInlineSurfaceTextureReady();
+                }
+            }
+
+            @Override // android.view.TextureView.SurfaceTextureListener
+            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+                if (WebPlayerView.this.waitingForFirstTextureUpload == 1) {
+                    WebPlayerView.this.changedTextureView.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass1());
+                    WebPlayerView.this.changedTextureView.invalidate();
+                }
+            }
+        };
+        this.switchToInlineRunnable = new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView.3
+            @Override // java.lang.Runnable
+            public void run() {
+                WebPlayerView.this.switchingInlineMode = false;
+                if (WebPlayerView.this.currentBitmap != null) {
+                    WebPlayerView.this.currentBitmap.recycle();
+                    WebPlayerView.this.currentBitmap = null;
+                }
+                WebPlayerView.this.changingTextureView = true;
+                if (WebPlayerView.this.textureImageView != null) {
+                    try {
+                        WebPlayerView webPlayerView = WebPlayerView.this;
+                        webPlayerView.currentBitmap = Bitmaps.createBitmap(webPlayerView.textureView.getWidth(), WebPlayerView.this.textureView.getHeight(), Bitmap.Config.ARGB_8888);
+                        WebPlayerView.this.textureView.getBitmap(WebPlayerView.this.currentBitmap);
+                    } catch (Throwable th) {
+                        if (WebPlayerView.this.currentBitmap != null) {
+                            WebPlayerView.this.currentBitmap.recycle();
+                            WebPlayerView.this.currentBitmap = null;
+                        }
+                        FileLog.e(th);
+                    }
+                    if (WebPlayerView.this.currentBitmap != null) {
+                        WebPlayerView.this.textureImageView.setVisibility(0);
+                        WebPlayerView.this.textureImageView.setImageBitmap(WebPlayerView.this.currentBitmap);
+                    } else {
+                        WebPlayerView.this.textureImageView.setImageDrawable(null);
+                    }
+                }
+                WebPlayerView.this.isInline = true;
+                WebPlayerView.this.updatePlayButton();
+                WebPlayerView.this.updateShareButton();
+                WebPlayerView.this.updateFullscreenButton();
+                WebPlayerView.this.updateInlineButton();
+                ViewGroup viewGroup = (ViewGroup) WebPlayerView.this.controlsView.getParent();
+                if (viewGroup != null) {
+                    viewGroup.removeView(WebPlayerView.this.controlsView);
+                }
+                WebPlayerView webPlayerView2 = WebPlayerView.this;
+                webPlayerView2.changedTextureView = webPlayerView2.delegate.onSwitchInlineMode(WebPlayerView.this.controlsView, WebPlayerView.this.isInline, WebPlayerView.this.videoWidth, WebPlayerView.this.videoHeight, WebPlayerView.this.aspectRatioFrameLayout.getVideoRotation(), WebPlayerView.this.allowInlineAnimation);
+                WebPlayerView.this.changedTextureView.setVisibility(4);
+                ViewGroup viewGroup2 = (ViewGroup) WebPlayerView.this.textureView.getParent();
+                if (viewGroup2 != null) {
+                    viewGroup2.removeView(WebPlayerView.this.textureView);
+                }
+                WebPlayerView.this.controlsView.show(false, false);
+            }
+        };
         setWillNotDraw(false);
         this.delegate = webPlayerViewDelegate;
         this.backgroundPaint.setColor(-16777216);
-        AnonymousClass4 anonymousClass4 = new AnonymousClass4(context);
-        this.aspectRatioFrameLayout = anonymousClass4;
-        addView(anonymousClass4, LayoutHelper.createFrame(-1, -1, 17));
+        AspectRatioFrameLayout aspectRatioFrameLayout = new AspectRatioFrameLayout(context) { // from class: org.telegram.ui.Components.WebPlayerView.4
+            @Override // com.google.android.exoplayer2.ui.AspectRatioFrameLayout, android.widget.FrameLayout, android.view.View
+            public void onMeasure(int i, int i2) {
+                super.onMeasure(i, i2);
+                if (WebPlayerView.this.textureViewContainer != null) {
+                    ViewGroup.LayoutParams layoutParams = WebPlayerView.this.textureView.getLayoutParams();
+                    layoutParams.width = getMeasuredWidth();
+                    layoutParams.height = getMeasuredHeight();
+                    if (WebPlayerView.this.textureImageView == null) {
+                        return;
+                    }
+                    ViewGroup.LayoutParams layoutParams2 = WebPlayerView.this.textureImageView.getLayoutParams();
+                    layoutParams2.width = getMeasuredWidth();
+                    layoutParams2.height = getMeasuredHeight();
+                }
+            }
+        };
+        this.aspectRatioFrameLayout = aspectRatioFrameLayout;
+        addView(aspectRatioFrameLayout, LayoutHelper.createFrame(-1, -1, 17));
         this.interfaceName = "JavaScriptInterface";
         WebView webView = new WebView(context);
         this.webView = webView;
-        webView.addJavascriptInterface(new JavaScriptInterface(new WebPlayerView$$ExternalSyntheticLambda5(this)), this.interfaceName);
+        webView.addJavascriptInterface(new JavaScriptInterface(new CallJavaResultInterface() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda5
+            @Override // org.telegram.ui.Components.WebPlayerView.CallJavaResultInterface
+            public final void jsCallFinished(String str) {
+                WebPlayerView.this.lambda$new$0(str);
+            }
+        }), this.interfaceName);
         WebSettings settings = this.webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDefaultTextEncodingName("utf-8");
@@ -1760,57 +1768,51 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         this.fullscreenButton = imageView2;
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
         this.controlsView.addView(this.fullscreenButton, LayoutHelper.createFrame(56, 56.0f, 85, 0.0f, 0.0f, 0.0f, 5.0f));
-        this.fullscreenButton.setOnClickListener(new WebPlayerView$$ExternalSyntheticLambda3(this));
+        this.fullscreenButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                WebPlayerView.this.lambda$new$1(view);
+            }
+        });
         ImageView imageView3 = new ImageView(context);
         this.playButton = imageView3;
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
         this.controlsView.addView(this.playButton, LayoutHelper.createFrame(48, 48, 17));
-        this.playButton.setOnClickListener(new WebPlayerView$$ExternalSyntheticLambda0(this));
+        this.playButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                WebPlayerView.this.lambda$new$2(view);
+            }
+        });
         if (z) {
             ImageView imageView4 = new ImageView(context);
             this.inlineButton = imageView4;
             imageView4.setScaleType(ImageView.ScaleType.CENTER);
             this.controlsView.addView(this.inlineButton, LayoutHelper.createFrame(56, 48, 53));
-            this.inlineButton.setOnClickListener(new WebPlayerView$$ExternalSyntheticLambda2(this));
+            this.inlineButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda2
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    WebPlayerView.this.lambda$new$3(view);
+                }
+            });
         }
         if (z2) {
             ImageView imageView5 = new ImageView(context);
             this.shareButton = imageView5;
             imageView5.setScaleType(ImageView.ScaleType.CENTER);
-            this.shareButton.setImageResource(2131165500);
+            this.shareButton.setImageResource(R.drawable.ic_share_video);
             this.controlsView.addView(this.shareButton, LayoutHelper.createFrame(56, 48, 53));
-            this.shareButton.setOnClickListener(new WebPlayerView$$ExternalSyntheticLambda1(this));
+            this.shareButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    WebPlayerView.this.lambda$new$4(view);
+                }
+            });
         }
         updatePlayButton();
         updateFullscreenButton();
         updateInlineButton();
         updateShareButton();
-    }
-
-    /* renamed from: org.telegram.ui.Components.WebPlayerView$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends AspectRatioFrameLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass4(Context context) {
-            super(context);
-            WebPlayerView.this = r1;
-        }
-
-        @Override // com.google.android.exoplayer2.ui.AspectRatioFrameLayout, android.widget.FrameLayout, android.view.View
-        public void onMeasure(int i, int i2) {
-            super.onMeasure(i, i2);
-            if (WebPlayerView.this.textureViewContainer != null) {
-                ViewGroup.LayoutParams layoutParams = WebPlayerView.this.textureView.getLayoutParams();
-                layoutParams.width = getMeasuredWidth();
-                layoutParams.height = getMeasuredHeight();
-                if (WebPlayerView.this.textureImageView == null) {
-                    return;
-                }
-                ViewGroup.LayoutParams layoutParams2 = WebPlayerView.this.textureImageView.getLayoutParams();
-                layoutParams2.width = getMeasuredWidth();
-                layoutParams2.height = getMeasuredHeight();
-            }
-        }
     }
 
     public /* synthetic */ void lambda$new$0(String str) {
@@ -2079,14 +2081,14 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         AndroidUtilities.cancelRunOnUIThread(this.progressRunnable);
         if (!this.videoPlayer.isPlaying()) {
             if (this.isCompleted) {
-                this.playButton.setImageResource(this.isInline ? 2131165462 : 2131165461);
+                this.playButton.setImageResource(this.isInline ? R.drawable.ic_againinline : R.drawable.ic_again);
                 return;
             } else {
-                this.playButton.setImageResource(this.isInline ? 2131165494 : 2131165492);
+                this.playButton.setImageResource(this.isInline ? R.drawable.ic_playinline : R.drawable.ic_play);
                 return;
             }
         }
-        this.playButton.setImageResource(this.isInline ? 2131165490 : 2131165489);
+        this.playButton.setImageResource(this.isInline ? R.drawable.ic_pauseinline : R.drawable.ic_pause);
         AndroidUtilities.runOnUIThread(this.progressRunnable, 500L);
         checkAudioFocus();
     }
@@ -2094,13 +2096,18 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     private void checkAudioFocus() {
         if (!this.hasAudioFocus) {
             this.hasAudioFocus = true;
-            ((AudioManager) ApplicationLoader.applicationContext.getSystemService("audio")).requestAudioFocus(this, 3, 1);
+            ((AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND)).requestAudioFocus(this, 3, 1);
         }
     }
 
     @Override // android.media.AudioManager.OnAudioFocusChangeListener
-    public void onAudioFocusChange(int i) {
-        AndroidUtilities.runOnUIThread(new WebPlayerView$$ExternalSyntheticLambda4(this, i));
+    public void onAudioFocusChange(final int i) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                WebPlayerView.this.lambda$onAudioFocusChange$5(i);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$onAudioFocusChange$5(int i) {
@@ -2131,11 +2138,11 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
         this.fullscreenButton.setVisibility(0);
         if (!this.inFullscreen) {
-            this.fullscreenButton.setImageResource(2131165477);
+            this.fullscreenButton.setImageResource(R.drawable.ic_gofullscreen);
             this.fullscreenButton.setLayoutParams(LayoutHelper.createFrame(56, 56.0f, 85, 0.0f, 0.0f, 0.0f, 5.0f));
             return;
         }
-        this.fullscreenButton.setImageResource(2131165487);
+        this.fullscreenButton.setImageResource(R.drawable.ic_outfullscreen);
         this.fullscreenButton.setLayoutParams(LayoutHelper.createFrame(56, 56.0f, 85, 0.0f, 0.0f, 0.0f, 1.0f));
     }
 
@@ -2160,7 +2167,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         if (imageView == null) {
             return;
         }
-        imageView.setImageResource(this.isInline ? 2131165478 : 2131165488);
+        imageView.setImageResource(this.isInline ? R.drawable.ic_goinline : R.drawable.ic_outinline);
         this.inlineButton.setVisibility(this.videoPlayer.isPlayerPrepared() ? 0 : 8);
         if (this.isInline) {
             this.inlineButton.setLayoutParams(LayoutHelper.createFrame(40, 40, 53));
@@ -2823,7 +2830,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             animatorArr[0] = ObjectAnimator.ofFloat(radialProgressView, "alpha", fArr);
             animatorSet2.playTogether(animatorArr);
             this.progressAnimation.setDuration(150L);
-            this.progressAnimation.addListener(new AnonymousClass5());
+            this.progressAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.WebPlayerView.5
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    WebPlayerView.this.progressAnimation = null;
+                }
+            });
             this.progressAnimation.start();
             return;
         }
@@ -2832,18 +2844,5 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             f = 0.0f;
         }
         radialProgressView2.setAlpha(f);
-    }
-
-    /* renamed from: org.telegram.ui.Components.WebPlayerView$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends AnimatorListenerAdapter {
-        AnonymousClass5() {
-            WebPlayerView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            WebPlayerView.this.progressAnimation = null;
-        }
     }
 }

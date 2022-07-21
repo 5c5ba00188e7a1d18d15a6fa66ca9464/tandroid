@@ -3,7 +3,6 @@ package org.telegram.ui.Delegates;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Build;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$User;
@@ -58,20 +58,31 @@ public class ChatActivityMemberRequestsDelegate {
         if (this.root == null) {
             FrameLayout frameLayout = new FrameLayout(this.fragment.getParentActivity());
             this.root = frameLayout;
-            frameLayout.setBackgroundResource(2131165274);
+            frameLayout.setBackgroundResource(R.drawable.blockpanel);
             this.root.getBackground().mutate().setColorFilter(new PorterDuffColorFilter(this.fragment.getThemedColor("chat_topPanelBackground"), PorterDuff.Mode.MULTIPLY));
             this.root.setVisibility(8);
             this.pendingRequestsEnterOffset = -getViewHeight();
             View view = new View(this.fragment.getParentActivity());
             view.setBackground(Theme.getSelectorDrawable(false));
-            view.setOnClickListener(new ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda2(this));
+            view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda2
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view2) {
+                    ChatActivityMemberRequestsDelegate.this.lambda$getView$0(view2);
+                }
+            });
             this.root.addView(view, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 2.0f));
             LinearLayout linearLayout = new LinearLayout(this.fragment.getParentActivity());
             linearLayout.setOrientation(0);
             this.root.addView(linearLayout, LayoutHelper.createFrame(-1, -1.0f, 48, 0.0f, 0.0f, 36.0f, 0.0f));
-            AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, this.fragment.getParentActivity(), false);
-            this.avatarsView = anonymousClass1;
-            anonymousClass1.reset();
+            AvatarsImageView avatarsImageView = new AvatarsImageView(this, this.fragment.getParentActivity(), false) { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate.1
+                @Override // org.telegram.ui.Components.AvatarsImageView, android.view.View
+                public void onMeasure(int i, int i2) {
+                    int i3 = this.avatarsDarawable.count;
+                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(i3 == 0 ? 0 : ((i3 - 1) * 20) + 24), 1073741824), i2);
+                }
+            };
+            this.avatarsView = avatarsImageView;
+            avatarsImageView.reset();
             linearLayout.addView(this.avatarsView, LayoutHelper.createFrame(-2, -1.0f, 48, 8.0f, 0.0f, 10.0f, 0.0f));
             TextView textView = new TextView(this.fragment.getParentActivity());
             this.requestsCountTextView = textView;
@@ -80,7 +91,7 @@ public class ChatActivityMemberRequestsDelegate {
             this.requestsCountTextView.setSingleLine();
             this.requestsCountTextView.setText((CharSequence) null);
             this.requestsCountTextView.setTextColor(this.fragment.getThemedColor("chat_topPanelTitle"));
-            this.requestsCountTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            this.requestsCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             linearLayout.addView(this.requestsCountTextView, LayoutHelper.createFrame(-1, -1.0f, 48, 0.0f, 0.0f, 0.0f, 0.0f));
             ImageView imageView = new ImageView(this.fragment.getParentActivity());
             this.closeView = imageView;
@@ -88,10 +99,15 @@ public class ChatActivityMemberRequestsDelegate {
                 imageView.setBackground(Theme.createSelectorDrawable(this.fragment.getThemedColor("inappPlayerClose") & 436207615, 1, AndroidUtilities.dp(14.0f)));
             }
             this.closeView.setColorFilter(new PorterDuffColorFilter(this.fragment.getThemedColor("chat_topPanelClose"), PorterDuff.Mode.MULTIPLY));
-            this.closeView.setContentDescription(LocaleController.getString("Close", 2131625183));
-            this.closeView.setImageResource(2131165619);
+            this.closeView.setContentDescription(LocaleController.getString("Close", R.string.Close));
+            this.closeView.setImageResource(R.drawable.miniplayer_close);
             this.closeView.setScaleType(ImageView.ScaleType.CENTER);
-            this.closeView.setOnClickListener(new ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda1(this));
+            this.closeView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view2) {
+                    ChatActivityMemberRequestsDelegate.this.lambda$getView$1(view2);
+                }
+            });
             this.root.addView(this.closeView, LayoutHelper.createFrame(36, -1.0f, 53, 0.0f, 0.0f, 2.0f, 0.0f));
             TLRPC$ChatFull tLRPC$ChatFull = this.chatInfo;
             if (tLRPC$ChatFull != null) {
@@ -103,20 +119,6 @@ public class ChatActivityMemberRequestsDelegate {
 
     public /* synthetic */ void lambda$getView$0(View view) {
         showBottomSheet();
-    }
-
-    /* renamed from: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AvatarsImageView {
-        AnonymousClass1(ChatActivityMemberRequestsDelegate chatActivityMemberRequestsDelegate, Context context, boolean z) {
-            super(context, z);
-        }
-
-        @Override // org.telegram.ui.Components.AvatarsImageView, android.view.View
-        public void onMeasure(int i, int i2) {
-            int i3 = this.avatarsDarawable.count;
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(i3 == 0 ? 0 : ((i3 - 1) * 20) + 24), 1073741824), i2);
-        }
     }
 
     public /* synthetic */ void lambda$getView$1(View view) {
@@ -148,27 +150,17 @@ public class ChatActivityMemberRequestsDelegate {
         showBottomSheet();
     }
 
-    /* renamed from: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends MemberRequestsBottomSheet {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(BaseFragment baseFragment, long j) {
-            super(baseFragment, j);
-            ChatActivityMemberRequestsDelegate.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.UsersAlertBase, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
-        public void dismiss() {
-            if (ChatActivityMemberRequestsDelegate.this.bottomSheet != null && !ChatActivityMemberRequestsDelegate.this.bottomSheet.isNeedRestoreDialog()) {
-                ChatActivityMemberRequestsDelegate.this.bottomSheet = null;
-            }
-            super.dismiss();
-        }
-    }
-
     private void showBottomSheet() {
         if (this.bottomSheet == null) {
-            this.bottomSheet = new AnonymousClass2(this.fragment, this.currentChat.id);
+            this.bottomSheet = new MemberRequestsBottomSheet(this.fragment, this.currentChat.id) { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate.2
+                @Override // org.telegram.ui.Components.UsersAlertBase, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+                public void dismiss() {
+                    if (ChatActivityMemberRequestsDelegate.this.bottomSheet != null && !ChatActivityMemberRequestsDelegate.this.bottomSheet.isNeedRestoreDialog()) {
+                        ChatActivityMemberRequestsDelegate.this.bottomSheet = null;
+                    }
+                    super.dismiss();
+                }
+            };
         }
         this.fragment.showDialog(this.bottomSheet);
     }
@@ -203,7 +195,7 @@ public class ChatActivityMemberRequestsDelegate {
         }
     }
 
-    private void animatePendingRequests(boolean z, boolean z2) {
+    private void animatePendingRequests(final boolean z, boolean z2) {
         int i = 0;
         if (z == (this.root.getVisibility() == 0)) {
             return;
@@ -235,8 +227,27 @@ public class ChatActivityMemberRequestsDelegate {
             fArr[1] = f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.pendingRequestsAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda0(this));
-            this.pendingRequestsAnimator.addListener(new AnonymousClass3(z));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    ChatActivityMemberRequestsDelegate.this.lambda$animatePendingRequests$2(valueAnimator2);
+                }
+            });
+            this.pendingRequestsAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate.3
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationStart(Animator animator) {
+                    if (z) {
+                        ChatActivityMemberRequestsDelegate.this.root.setVisibility(0);
+                    }
+                }
+
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    if (!z) {
+                        ChatActivityMemberRequestsDelegate.this.root.setVisibility(8);
+                    }
+                }
+            });
             this.pendingRequestsAnimator.setDuration(200L);
             this.pendingRequestsAnimator.start();
             return;
@@ -262,31 +273,6 @@ public class ChatActivityMemberRequestsDelegate {
         Callback callback = this.callback;
         if (callback != null) {
             callback.onEnterOffsetChanged();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$appear;
-
-        AnonymousClass3(boolean z) {
-            ChatActivityMemberRequestsDelegate.this = r1;
-            this.val$appear = z;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationStart(Animator animator) {
-            if (this.val$appear) {
-                ChatActivityMemberRequestsDelegate.this.root.setVisibility(0);
-            }
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (!this.val$appear) {
-                ChatActivityMemberRequestsDelegate.this.root.setVisibility(8);
-            }
         }
     }
 

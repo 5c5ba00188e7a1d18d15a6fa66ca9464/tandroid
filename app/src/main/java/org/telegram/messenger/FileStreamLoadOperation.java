@@ -16,6 +16,7 @@ import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
+import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
 public class FileStreamLoadOperation extends BaseDataSource implements FileLoadOperationStream {
     private long bytesRemaining;
@@ -66,9 +67,9 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         TLRPC$TL_documentAttributeFilename tLRPC$TL_documentAttributeFilename = new TLRPC$TL_documentAttributeFilename();
         tLRPC$TL_documentAttributeFilename.file_name = this.uri.getQueryParameter("name");
         this.document.attributes.add(tLRPC$TL_documentAttributeFilename);
-        if (this.document.mime_type.startsWith("video")) {
+        if (this.document.mime_type.startsWith(MediaStreamTrack.VIDEO_TRACK_KIND)) {
             this.document.attributes.add(new TLRPC$TL_documentAttributeVideo());
-        } else if (this.document.mime_type.startsWith("audio")) {
+        } else if (this.document.mime_type.startsWith(MediaStreamTrack.AUDIO_TRACK_KIND)) {
             this.document.attributes.add(new TLRPC$TL_documentAttributeAudio());
         }
         FileLoader fileLoader = FileLoader.getInstance(this.currentAccount);

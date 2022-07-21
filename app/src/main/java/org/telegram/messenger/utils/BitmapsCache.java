@@ -91,11 +91,11 @@ public class BitmapsCache {
                     }
                 }
                 randomAccessFile.close();
-                RandomAccessFile randomAccessFile2 = new RandomAccessFile(this.file, "rw");
+                final RandomAccessFile randomAccessFile2 = new RandomAccessFile(this.file, "rw");
                 int i = N;
-                Bitmap[] bitmapArr = new Bitmap[i];
-                ByteArrayOutputStream[] byteArrayOutputStreamArr = new ByteArrayOutputStream[i];
-                CountDownLatch[] countDownLatchArr = new CountDownLatch[i];
+                final Bitmap[] bitmapArr = new Bitmap[i];
+                final ByteArrayOutputStream[] byteArrayOutputStreamArr = new ByteArrayOutputStream[i];
+                final CountDownLatch[] countDownLatchArr = new CountDownLatch[i];
                 for (int i2 = 0; i2 < N; i2++) {
                     bitmapArr[i2] = Bitmap.createBitmap(this.w, this.h, Bitmap.Config.ARGB_8888);
                     byteArrayOutputStreamArr[i2] = new ByteArrayOutputStream(this.w * this.h * 2);
@@ -122,44 +122,51 @@ public class BitmapsCache {
                     }
                     long currentTimeMillis3 = j2 + (System.currentTimeMillis() - currentTimeMillis2);
                     countDownLatchArr[i3] = new CountDownLatch(1);
+                    final int i5 = i3;
                     long j3 = j;
-                    ArrayList arrayList2 = arrayList;
+                    final int i6 = i4;
+                    final ArrayList arrayList2 = arrayList;
                     long j4 = currentTimeMillis;
                     CountDownLatch[] countDownLatchArr2 = countDownLatchArr;
-                    bitmapCompressExecutor.execute(new BitmapsCache$$ExternalSyntheticLambda0(this, bitmapArr, i3, byteArrayOutputStreamArr, i4, randomAccessFile2, arrayList2, countDownLatchArr));
-                    int i5 = i3 + 1;
+                    bitmapCompressExecutor.execute(new Runnable() { // from class: org.telegram.messenger.utils.BitmapsCache$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            BitmapsCache.this.lambda$createCache$0(bitmapArr, i5, byteArrayOutputStreamArr, i6, randomAccessFile2, arrayList2, countDownLatchArr);
+                        }
+                    });
+                    int i7 = i3 + 1;
                     i4++;
-                    i3 = i5 >= N ? 0 : i5;
+                    i3 = i7 >= N ? 0 : i7;
                     countDownLatchArr = countDownLatchArr2;
                     j2 = currentTimeMillis3;
                     j = j3;
                     arrayList = arrayList2;
                     currentTimeMillis = j4;
                 }
-                for (int i6 = 0; i6 < N; i6++) {
-                    if (countDownLatchArr[i6] != null) {
+                for (int i8 = 0; i8 < N; i8++) {
+                    if (countDownLatchArr[i8] != null) {
                         try {
-                            countDownLatchArr[i6].await();
+                            countDownLatchArr[i8].await();
                         } catch (InterruptedException e2) {
                             e2.printStackTrace();
                         }
                     }
-                    if (bitmapArr[i6] != null) {
+                    if (bitmapArr[i8] != null) {
                         try {
-                            bitmapArr[i6].recycle();
+                            bitmapArr[i8].recycle();
                         } catch (Exception unused2) {
                         }
                     }
-                    if (byteArrayOutputStreamArr[i6] != null) {
-                        byteArrayOutputStreamArr[i6].buf = null;
+                    if (byteArrayOutputStreamArr[i8] != null) {
+                        byteArrayOutputStreamArr[i8].buf = null;
                     }
                 }
                 int length = (int) randomAccessFile2.length();
                 Collections.sort(arrayList, Comparator$CC.comparingInt(BitmapsCache$$ExternalSyntheticLambda1.INSTANCE));
                 randomAccessFile2.writeInt(arrayList.size());
-                for (int i7 = 0; i7 < arrayList.size(); i7++) {
-                    randomAccessFile2.writeInt(((FrameOffset) arrayList.get(i7)).frameOffset);
-                    randomAccessFile2.writeInt(((FrameOffset) arrayList.get(i7)).frameSize);
+                for (int i9 = 0; i9 < arrayList.size(); i9++) {
+                    randomAccessFile2.writeInt(((FrameOffset) arrayList.get(i9)).frameOffset);
+                    randomAccessFile2.writeInt(((FrameOffset) arrayList.get(i9)).frameSize);
                 }
                 randomAccessFile2.seek(j);
                 randomAccessFile2.writeBoolean(true);

@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.huawei.agconnect.config.AGConnectServicesConfig;
 import com.huawei.hms.android.HwBuildEx;
 import com.huawei.hms.android.SystemUtils;
+import com.huawei.hms.push.constant.RemoteMessageConst;
+import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.PackageManagerHelper;
 import com.huawei.hms.utils.Util;
@@ -85,7 +87,7 @@ public class n {
             jSONObject.put("hardware", jSONObject4);
             jSONObject.put("aaid", str);
             jSONObject.put("token", str2);
-            jSONObject.put("app_id", AGConnectServicesConfig.fromContext(context).getString("client/app_id"));
+            jSONObject.put(HiAnalyticsConstant.BI_KEY_APP_ID, AGConnectServicesConfig.fromContext(context).getString("client/app_id"));
             jSONObject.put("region", AGConnectServicesConfig.fromContext(context).getString("region"));
             return jSONObject.toString();
         } catch (JSONException unused) {
@@ -138,7 +140,7 @@ public class n {
             sb2.append("Https response body's ret code: ");
             sb2.append(optInt);
             sb2.append(", error message: ");
-            sb2.append(jSONObject.optString("msg"));
+            sb2.append(jSONObject.optString(RemoteMessageConst.MessageBody.MSG));
             HMSLog.e("ReportAaidToken", sb2.toString());
         } catch (JSONException unused) {
             HMSLog.e("ReportAaidToken", "Has JSONException.");

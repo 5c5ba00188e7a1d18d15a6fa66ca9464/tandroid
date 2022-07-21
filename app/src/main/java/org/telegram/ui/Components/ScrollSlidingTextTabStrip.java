@@ -81,41 +81,6 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
         return f2;
     }
 
-    /* renamed from: org.telegram.ui.Components.ScrollSlidingTextTabStrip$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            ScrollSlidingTextTabStrip.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (!ScrollSlidingTextTabStrip.this.animatingIndicator) {
-                return;
-            }
-            long elapsedRealtime = SystemClock.elapsedRealtime() - ScrollSlidingTextTabStrip.this.lastAnimationTime;
-            if (elapsedRealtime > 17) {
-                elapsedRealtime = 17;
-            }
-            ScrollSlidingTextTabStrip.access$216(ScrollSlidingTextTabStrip.this, ((float) elapsedRealtime) / 200.0f);
-            ScrollSlidingTextTabStrip scrollSlidingTextTabStrip = ScrollSlidingTextTabStrip.this;
-            scrollSlidingTextTabStrip.setAnimationIdicatorProgress(scrollSlidingTextTabStrip.interpolator.getInterpolation(ScrollSlidingTextTabStrip.this.animationTime));
-            if (ScrollSlidingTextTabStrip.this.animationTime > 1.0f) {
-                ScrollSlidingTextTabStrip.this.animationTime = 1.0f;
-            }
-            if (ScrollSlidingTextTabStrip.this.animationTime < 1.0f) {
-                AndroidUtilities.runOnUIThread(ScrollSlidingTextTabStrip.this.animationRunnable);
-                return;
-            }
-            ScrollSlidingTextTabStrip.this.animatingIndicator = false;
-            ScrollSlidingTextTabStrip.this.setEnabled(true);
-            if (ScrollSlidingTextTabStrip.this.delegate == null) {
-                return;
-            }
-            ScrollSlidingTextTabStrip.this.delegate.onPageScrolled(1.0f);
-        }
-    }
-
     public ScrollSlidingTextTabStrip(Context context) {
         this(context, null);
     }
@@ -132,7 +97,38 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
         this.positionToId = new SparseIntArray(5);
         this.idToPosition = new SparseIntArray(5);
         this.positionToWidth = new SparseIntArray(5);
-        this.animationRunnable = new AnonymousClass1();
+        this.animationRunnable = new Runnable() { // from class: org.telegram.ui.Components.ScrollSlidingTextTabStrip.1
+            {
+                ScrollSlidingTextTabStrip.this = this;
+            }
+
+            @Override // java.lang.Runnable
+            public void run() {
+                if (!ScrollSlidingTextTabStrip.this.animatingIndicator) {
+                    return;
+                }
+                long elapsedRealtime = SystemClock.elapsedRealtime() - ScrollSlidingTextTabStrip.this.lastAnimationTime;
+                if (elapsedRealtime > 17) {
+                    elapsedRealtime = 17;
+                }
+                ScrollSlidingTextTabStrip.access$216(ScrollSlidingTextTabStrip.this, ((float) elapsedRealtime) / 200.0f);
+                ScrollSlidingTextTabStrip scrollSlidingTextTabStrip = ScrollSlidingTextTabStrip.this;
+                scrollSlidingTextTabStrip.setAnimationIdicatorProgress(scrollSlidingTextTabStrip.interpolator.getInterpolation(ScrollSlidingTextTabStrip.this.animationTime));
+                if (ScrollSlidingTextTabStrip.this.animationTime > 1.0f) {
+                    ScrollSlidingTextTabStrip.this.animationTime = 1.0f;
+                }
+                if (ScrollSlidingTextTabStrip.this.animationTime < 1.0f) {
+                    AndroidUtilities.runOnUIThread(ScrollSlidingTextTabStrip.this.animationRunnable);
+                    return;
+                }
+                ScrollSlidingTextTabStrip.this.animatingIndicator = false;
+                ScrollSlidingTextTabStrip.this.setEnabled(true);
+                if (ScrollSlidingTextTabStrip.this.delegate == null) {
+                    return;
+                }
+                ScrollSlidingTextTabStrip.this.delegate.onPageScrolled(1.0f);
+            }
+        };
         this.resourcesProvider = resourcesProvider;
         this.selectorDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, null);
         float dpf2 = AndroidUtilities.dpf2(3.0f);
@@ -141,28 +137,22 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
         setFillViewport(true);
         setWillNotDraw(false);
         setHorizontalScrollBarEnabled(false);
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-        this.tabsContainer = anonymousClass2;
-        anonymousClass2.setOrientation(0);
+        LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.ScrollSlidingTextTabStrip.2
+            {
+                ScrollSlidingTextTabStrip.this = this;
+            }
+
+            @Override // android.view.View
+            public void setAlpha(float f) {
+                super.setAlpha(f);
+                ScrollSlidingTextTabStrip.this.invalidate();
+            }
+        };
+        this.tabsContainer = linearLayout;
+        linearLayout.setOrientation(0);
         this.tabsContainer.setPadding(AndroidUtilities.dp(7.0f), 0, AndroidUtilities.dp(7.0f), 0);
         this.tabsContainer.setLayoutParams(new FrameLayout.LayoutParams(-1, -1));
         addView(this.tabsContainer);
-    }
-
-    /* renamed from: org.telegram.ui.Components.ScrollSlidingTextTabStrip$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends LinearLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            ScrollSlidingTextTabStrip.this = r1;
-        }
-
-        @Override // android.view.View
-        public void setAlpha(float f) {
-            super.setAlpha(f);
-            ScrollSlidingTextTabStrip.this.invalidate();
-        }
     }
 
     public void setDelegate(ScrollSlidingTabStripDelegate scrollSlidingTabStripDelegate) {
@@ -263,7 +253,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
         addTextTab(i, charSequence, null);
     }
 
-    public void addTextTab(int i, CharSequence charSequence, SparseArray<View> sparseArray) {
+    public void addTextTab(final int i, CharSequence charSequence, SparseArray<View> sparseArray) {
         int i2 = this.tabCount;
         this.tabCount = i2 + 1;
         if (i2 == 0 && this.selectedTabId == -1) {
@@ -282,40 +272,36 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
             sparseArray.delete(i);
         }
         if (textView == null) {
-            textView = new AnonymousClass3(getContext(), i);
+            textView = new TextView(getContext()) { // from class: org.telegram.ui.Components.ScrollSlidingTextTabStrip.3
+                {
+                    ScrollSlidingTextTabStrip.this = this;
+                }
+
+                @Override // android.view.View
+                public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+                    super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+                    accessibilityNodeInfo.setSelected(ScrollSlidingTextTabStrip.this.selectedTabId == i);
+                }
+            };
             textView.setWillNotDraw(false);
             textView.setGravity(17);
             textView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(this.selectorColorKey, this.resourcesProvider), 3));
             textView.setTextSize(1, 15.0f);
             textView.setSingleLine(true);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             textView.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
-            textView.setOnClickListener(new ScrollSlidingTextTabStrip$$ExternalSyntheticLambda1(this, i));
+            textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTextTabStrip$$ExternalSyntheticLambda1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ScrollSlidingTextTabStrip.this.lambda$addTextTab$0(i, view);
+                }
+            });
         }
         textView.setText(charSequence);
         int ceil = ((int) Math.ceil(textView.getPaint().measureText(charSequence, 0, charSequence.length()))) + textView.getPaddingLeft() + textView.getPaddingRight();
         this.tabsContainer.addView(textView, LayoutHelper.createLinear(0, -1));
         this.allTextWidth += ceil;
         this.positionToWidth.put(i2, ceil);
-    }
-
-    /* renamed from: org.telegram.ui.Components.ScrollSlidingTextTabStrip$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends TextView {
-        final /* synthetic */ int val$id;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(Context context, int i) {
-            super(context);
-            ScrollSlidingTextTabStrip.this = r1;
-            this.val$id = i;
-        }
-
-        @Override // android.view.View
-        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-            accessibilityNodeInfo.setSelected(ScrollSlidingTextTabStrip.this.selectedTabId == this.val$id);
-        }
     }
 
     public /* synthetic */ void lambda$addTextTab$0(int i, View view) {
@@ -496,8 +482,15 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
                 return;
             }
             if (i9 != i8 || i5 != i7) {
+                final int i10 = i9 - i8;
+                final int i11 = i5 - i7;
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(1.0f, 0.0f);
-                ofFloat.addUpdateListener(new ScrollSlidingTextTabStrip$$ExternalSyntheticLambda0(this, i9 - i8, i5 - i7));
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTextTabStrip$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        ScrollSlidingTextTabStrip.this.lambda$onLayout$1(i10, i11, valueAnimator);
+                    }
+                });
                 ofFloat.setDuration(200L);
                 ofFloat.setInterpolator(CubicBezierInterpolator.DEFAULT);
                 ofFloat.start();

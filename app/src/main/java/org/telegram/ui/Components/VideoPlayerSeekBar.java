@@ -141,7 +141,12 @@ public class VideoPlayerSeekBar {
                     seekBarDelegate.onSeekBarDrag(i9 / (this.width - thumbWidth));
                 }
                 this.pressed = false;
-                AndroidUtilities.runOnUIThread(new VideoPlayerSeekBar$$ExternalSyntheticLambda0(this), 50L);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayerSeekBar$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoPlayerSeekBar.this.lambda$onTouch$0();
+                    }
+                }, 50L);
                 return true;
             }
         } else if (i == 2 && this.pressed) {

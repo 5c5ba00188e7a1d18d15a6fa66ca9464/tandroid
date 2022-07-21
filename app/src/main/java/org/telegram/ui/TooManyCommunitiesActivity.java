@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +26,8 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$TL_channels_getInactiveChannels;
@@ -46,6 +49,7 @@ import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.TooManyCommunitiesActivity;
 /* loaded from: classes3.dex */
 public class TooManyCommunitiesActivity extends BaseFragment {
     private Adapter adapter;
@@ -66,24 +70,28 @@ public class TooManyCommunitiesActivity extends BaseFragment {
     private ArrayList<String> inactiveChatsSignatures = new ArrayList<>();
     private Set<Long> selectedIds = new HashSet();
     private int buttonHeight = AndroidUtilities.dp(64.0f);
-    Runnable showProgressRunnable = new AnonymousClass1();
-    RecyclerListView.OnItemClickListener onItemClickListener = new TooManyCommunitiesActivity$$ExternalSyntheticLambda5(this);
-    RecyclerListView.OnItemLongClickListener onItemLongClickListener = new TooManyCommunitiesActivity$$ExternalSyntheticLambda6(this);
-
-    /* renamed from: org.telegram.ui.TooManyCommunitiesActivity$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            TooManyCommunitiesActivity.this = r1;
-        }
-
+    Runnable showProgressRunnable = new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity.1
         @Override // java.lang.Runnable
         public void run() {
             TooManyCommunitiesActivity.this.progressBar.setVisibility(0);
             TooManyCommunitiesActivity.this.progressBar.setAlpha(0.0f);
             TooManyCommunitiesActivity.this.progressBar.animate().alpha(1.0f).start();
         }
-    }
+    };
+    RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda5
+        @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+        public final void onItemClick(View view, int i) {
+            TooManyCommunitiesActivity.this.lambda$new$0(view, i);
+        }
+    };
+    RecyclerListView.OnItemLongClickListener onItemLongClickListener = new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda6
+        @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
+        public final boolean onItemClick(View view, int i) {
+            boolean lambda$new$1;
+            lambda$new$1 = TooManyCommunitiesActivity.this.lambda$new$1(view, i);
+            return lambda$new$1;
+        }
+    };
 
     public /* synthetic */ void lambda$new$0(View view, int i) {
         if (view instanceof GroupCreateUserCell) {
@@ -124,13 +132,67 @@ public class TooManyCommunitiesActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.type = this.arguments.getInt("type", 0);
-        this.actionBar.setBackButtonImage(2131165449);
+        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("LimitReached", 2131626449));
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
-        ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass3());
-        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628155));
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
+        this.actionBar.setTitle(LocaleController.getString("LimitReached", R.string.LimitReached));
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.TooManyCommunitiesActivity.2
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i) {
+                if (i == -1) {
+                    TooManyCommunitiesActivity.this.finishFragment();
+                }
+            }
+        });
+        ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity.3
+            boolean expanded = false;
+
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onSearchCollapse() {
+                super.onSearchCollapse();
+                if (TooManyCommunitiesActivity.this.listView.getVisibility() != 0) {
+                    TooManyCommunitiesActivity.this.listView.setVisibility(0);
+                    TooManyCommunitiesActivity.this.listView.setAlpha(0.0f);
+                }
+                TooManyCommunitiesActivity.this.emptyView.setVisibility(8);
+                TooManyCommunitiesActivity.this.adapter.notifyDataSetChanged();
+                TooManyCommunitiesActivity.this.listView.animate().alpha(1.0f).setDuration(150L).setListener(null).start();
+                TooManyCommunitiesActivity.this.searchViewContainer.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TooManyCommunitiesActivity.3.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        TooManyCommunitiesActivity.this.searchViewContainer.setVisibility(8);
+                    }
+                }).start();
+                this.expanded = false;
+            }
+
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onTextChanged(EditText editText) {
+                String obj = editText.getText().toString();
+                TooManyCommunitiesActivity.this.searchAdapter.search(obj);
+                if (!this.expanded && !TextUtils.isEmpty(obj)) {
+                    if (TooManyCommunitiesActivity.this.searchViewContainer.getVisibility() != 0) {
+                        TooManyCommunitiesActivity.this.searchViewContainer.setVisibility(0);
+                        TooManyCommunitiesActivity.this.searchViewContainer.setAlpha(0.0f);
+                    }
+                    TooManyCommunitiesActivity.this.listView.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TooManyCommunitiesActivity.3.2
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            TooManyCommunitiesActivity.this.listView.setVisibility(8);
+                        }
+                    }).start();
+                    TooManyCommunitiesActivity.this.searchAdapter.searchResultsSignatures.clear();
+                    TooManyCommunitiesActivity.this.searchAdapter.searchResults.clear();
+                    TooManyCommunitiesActivity.this.searchAdapter.notifyDataSetChanged();
+                    TooManyCommunitiesActivity.this.searchViewContainer.animate().setListener(null).alpha(1.0f).setDuration(150L).start();
+                    this.expanded = true;
+                } else if (!this.expanded || !TextUtils.isEmpty(obj)) {
+                } else {
+                    onSearchCollapse();
+                }
+            }
+        });
+        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", R.string.Search));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
         RecyclerListView recyclerListView = new RecyclerListView(context);
@@ -152,11 +214,18 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         recyclerListView4.setAdapter(searchAdapter);
         this.searchListView.setOnItemClickListener(this.onItemClickListener);
         this.searchListView.setOnItemLongClickListener(this.onItemLongClickListener);
-        this.searchListView.setOnScrollListener(new AnonymousClass4());
+        this.searchListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity.4
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrollStateChanged(RecyclerView recyclerView, int i) {
+                if (i == 1) {
+                    AndroidUtilities.hideKeyboard(TooManyCommunitiesActivity.this.getParentActivity().getCurrentFocus());
+                }
+            }
+        });
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         emptyTextProgressView.setShowAtCenter(true);
-        this.emptyView.setText(LocaleController.getString("NoResult", 2131626910));
+        this.emptyView.setText(LocaleController.getString("NoResult", R.string.NoResult));
         this.emptyView.showTextView();
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.progressBar = radialProgressView;
@@ -172,137 +241,33 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         frameLayout.addView(this.searchViewContainer);
         loadInactiveChannels();
         this.fragmentView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        AnonymousClass5 anonymousClass5 = new AnonymousClass5(this, context);
-        this.buttonLayout = anonymousClass5;
-        anonymousClass5.setWillNotDraw(false);
+        FrameLayout frameLayout3 = new FrameLayout(this, context) { // from class: org.telegram.ui.TooManyCommunitiesActivity.5
+            @Override // android.view.View
+            protected void onDraw(Canvas canvas) {
+                super.onDraw(canvas);
+                canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), 1.0f, Theme.dividerPaint);
+            }
+        };
+        this.buttonLayout = frameLayout3;
+        frameLayout3.setWillNotDraw(false);
         TextView textView = new TextView(context);
         this.buttonTextView = textView;
         textView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
         this.buttonTextView.setGravity(17);
         this.buttonTextView.setTextSize(1, 14.0f);
-        this.buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.buttonTextView.setBackground(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 4.0f));
         frameLayout.addView(this.buttonLayout, LayoutHelper.createFrame(-1, 64, 80));
         this.buttonLayout.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         this.buttonLayout.addView(this.buttonTextView, LayoutHelper.createFrame(-1, -1.0f, 0, 16.0f, 12.0f, 16.0f, 12.0f));
         this.buttonLayout.setVisibility(8);
-        this.buttonTextView.setOnClickListener(new TooManyCommunitiesActivity$$ExternalSyntheticLambda1(this));
+        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                TooManyCommunitiesActivity.this.lambda$createView$2(view);
+            }
+        });
         return this.fragmentView;
-    }
-
-    /* renamed from: org.telegram.ui.TooManyCommunitiesActivity$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass2() {
-            TooManyCommunitiesActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                TooManyCommunitiesActivity.this.finishFragment();
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.TooManyCommunitiesActivity$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
-        boolean expanded = false;
-
-        AnonymousClass3() {
-            TooManyCommunitiesActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-        public void onSearchCollapse() {
-            super.onSearchCollapse();
-            if (TooManyCommunitiesActivity.this.listView.getVisibility() != 0) {
-                TooManyCommunitiesActivity.this.listView.setVisibility(0);
-                TooManyCommunitiesActivity.this.listView.setAlpha(0.0f);
-            }
-            TooManyCommunitiesActivity.this.emptyView.setVisibility(8);
-            TooManyCommunitiesActivity.this.adapter.notifyDataSetChanged();
-            TooManyCommunitiesActivity.this.listView.animate().alpha(1.0f).setDuration(150L).setListener(null).start();
-            TooManyCommunitiesActivity.this.searchViewContainer.animate().alpha(0.0f).setDuration(150L).setListener(new AnonymousClass1()).start();
-            this.expanded = false;
-        }
-
-        /* renamed from: org.telegram.ui.TooManyCommunitiesActivity$3$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends AnimatorListenerAdapter {
-            AnonymousClass1() {
-                AnonymousClass3.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                TooManyCommunitiesActivity.this.searchViewContainer.setVisibility(8);
-            }
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-        public void onTextChanged(EditText editText) {
-            String obj = editText.getText().toString();
-            TooManyCommunitiesActivity.this.searchAdapter.search(obj);
-            if (!this.expanded && !TextUtils.isEmpty(obj)) {
-                if (TooManyCommunitiesActivity.this.searchViewContainer.getVisibility() != 0) {
-                    TooManyCommunitiesActivity.this.searchViewContainer.setVisibility(0);
-                    TooManyCommunitiesActivity.this.searchViewContainer.setAlpha(0.0f);
-                }
-                TooManyCommunitiesActivity.this.listView.animate().alpha(0.0f).setDuration(150L).setListener(new AnonymousClass2()).start();
-                TooManyCommunitiesActivity.this.searchAdapter.searchResultsSignatures.clear();
-                TooManyCommunitiesActivity.this.searchAdapter.searchResults.clear();
-                TooManyCommunitiesActivity.this.searchAdapter.notifyDataSetChanged();
-                TooManyCommunitiesActivity.this.searchViewContainer.animate().setListener(null).alpha(1.0f).setDuration(150L).start();
-                this.expanded = true;
-            } else if (!this.expanded || !TextUtils.isEmpty(obj)) {
-            } else {
-                onSearchCollapse();
-            }
-        }
-
-        /* renamed from: org.telegram.ui.TooManyCommunitiesActivity$3$2 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass2 extends AnimatorListenerAdapter {
-            AnonymousClass2() {
-                AnonymousClass3.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                TooManyCommunitiesActivity.this.listView.setVisibility(8);
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.TooManyCommunitiesActivity$4 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass4 extends RecyclerView.OnScrollListener {
-        AnonymousClass4() {
-            TooManyCommunitiesActivity.this = r1;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-        public void onScrollStateChanged(RecyclerView recyclerView, int i) {
-            if (i == 1) {
-                AndroidUtilities.hideKeyboard(TooManyCommunitiesActivity.this.getParentActivity().getCurrentFocus());
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.TooManyCommunitiesActivity$5 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass5 extends FrameLayout {
-        AnonymousClass5(TooManyCommunitiesActivity tooManyCommunitiesActivity, Context context) {
-            super(context);
-        }
-
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), 1.0f, Theme.dividerPaint);
-        }
     }
 
     public /* synthetic */ void lambda$createView$2(View view) {
@@ -329,7 +294,13 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         if (this.selectedIds.isEmpty() && this.buttonAnimation != -1 && this.buttonLayout.getVisibility() == 0) {
             this.buttonAnimation = -1;
             this.buttonLayout.animate().setListener(null).cancel();
-            this.buttonLayout.animate().translationY(this.buttonHeight).setDuration(200L).setListener(new AnonymousClass6()).start();
+            this.buttonLayout.animate().translationY(this.buttonHeight).setDuration(200L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TooManyCommunitiesActivity.6
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    TooManyCommunitiesActivity.this.buttonAnimation = 0;
+                    TooManyCommunitiesActivity.this.buttonLayout.setVisibility(8);
+                }
+            }).start();
             RecyclerListView recyclerListView = this.searchViewContainer.getVisibility() == 0 ? this.searchListView : this.listView;
             recyclerListView.hideSelector(false);
             int findLastVisibleItemPosition = ((LinearLayoutManager) recyclerListView.getLayoutManager()).findLastVisibleItemPosition();
@@ -351,39 +322,17 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             this.buttonLayout.setVisibility(0);
             this.buttonLayout.setTranslationY(this.buttonHeight);
             this.buttonLayout.animate().setListener(null).cancel();
-            this.buttonLayout.animate().translationY(0.0f).setDuration(200L).setListener(new AnonymousClass7()).start();
+            this.buttonLayout.animate().translationY(0.0f).setDuration(200L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TooManyCommunitiesActivity.7
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    TooManyCommunitiesActivity.this.buttonAnimation = 0;
+                }
+            }).start();
             this.listView.setPadding(0, 0, 0, this.buttonHeight - AndroidUtilities.dp(12.0f));
             this.searchListView.setPadding(0, 0, 0, this.buttonHeight);
         }
         if (!this.selectedIds.isEmpty()) {
-            this.buttonTextView.setText(LocaleController.formatString("LeaveChats", 2131626435, LocaleController.formatPluralString("Chats", this.selectedIds.size(), new Object[0])));
-        }
-    }
-
-    /* renamed from: org.telegram.ui.TooManyCommunitiesActivity$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 extends AnimatorListenerAdapter {
-        AnonymousClass6() {
-            TooManyCommunitiesActivity.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            TooManyCommunitiesActivity.this.buttonAnimation = 0;
-            TooManyCommunitiesActivity.this.buttonLayout.setVisibility(8);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.TooManyCommunitiesActivity$7 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass7 extends AnimatorListenerAdapter {
-        AnonymousClass7() {
-            TooManyCommunitiesActivity.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            TooManyCommunitiesActivity.this.buttonAnimation = 0;
+            this.buttonTextView.setText(LocaleController.formatString("LeaveChats", R.string.LeaveChats, LocaleController.formatPluralString("Chats", this.selectedIds.size(), new Object[0])));
         }
     }
 
@@ -391,17 +340,22 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         this.adapter.notifyDataSetChanged();
         this.enterProgress = 0.0f;
         AndroidUtilities.runOnUIThread(this.showProgressRunnable, 500L);
-        getConnectionsManager().sendRequest(new TLRPC$TL_channels_getInactiveChannels(), new TooManyCommunitiesActivity$$ExternalSyntheticLambda3(this));
+        getConnectionsManager().sendRequest(new TLRPC$TL_channels_getInactiveChannels(), new RequestDelegate() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda3
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                TooManyCommunitiesActivity.this.lambda$loadInactiveChannels$5(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$loadInactiveChannels$5(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         String str;
         if (tLRPC$TL_error == null) {
-            TLRPC$TL_messages_inactiveChats tLRPC$TL_messages_inactiveChats = (TLRPC$TL_messages_inactiveChats) tLObject;
-            ArrayList arrayList = new ArrayList();
+            final TLRPC$TL_messages_inactiveChats tLRPC$TL_messages_inactiveChats = (TLRPC$TL_messages_inactiveChats) tLObject;
+            final ArrayList arrayList = new ArrayList();
             for (int i = 0; i < tLRPC$TL_messages_inactiveChats.chats.size(); i++) {
                 TLRPC$Chat tLRPC$Chat = tLRPC$TL_messages_inactiveChats.chats.get(i);
-                int currentTime = (getConnectionsManager().getCurrentTime() - tLRPC$TL_messages_inactiveChats.dates.get(i).intValue()) / 86400;
+                int currentTime = (getConnectionsManager().getCurrentTime() - tLRPC$TL_messages_inactiveChats.dates.get(i).intValue()) / RemoteMessageConst.DEFAULT_TTL;
                 if (currentTime < 30) {
                     str = LocaleController.formatPluralString("Days", currentTime, new Object[0]);
                 } else if (currentTime < 365) {
@@ -410,14 +364,19 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                     str = LocaleController.formatPluralString("Years", currentTime / 365, new Object[0]);
                 }
                 if (ChatObject.isMegagroup(tLRPC$Chat)) {
-                    arrayList.add(LocaleController.formatString("InactiveChatSignature", 2131626274, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), str));
+                    arrayList.add(LocaleController.formatString("InactiveChatSignature", R.string.InactiveChatSignature, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), str));
                 } else if (ChatObject.isChannel(tLRPC$Chat)) {
-                    arrayList.add(LocaleController.formatString("InactiveChannelSignature", 2131626273, str));
+                    arrayList.add(LocaleController.formatString("InactiveChannelSignature", R.string.InactiveChannelSignature, str));
                 } else {
-                    arrayList.add(LocaleController.formatString("InactiveChatSignature", 2131626274, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), str));
+                    arrayList.add(LocaleController.formatString("InactiveChatSignature", R.string.InactiveChatSignature, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), str));
                 }
             }
-            AndroidUtilities.runOnUIThread(new TooManyCommunitiesActivity$$ExternalSyntheticLambda2(this, arrayList, tLRPC$TL_messages_inactiveChats));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TooManyCommunitiesActivity.this.lambda$loadInactiveChannels$4(arrayList, tLRPC$TL_messages_inactiveChats);
+                }
+            });
         }
     }
 
@@ -430,7 +389,12 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         if (this.listView.getMeasuredHeight() > 0) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.enterAnimator = ofFloat;
-            ofFloat.addUpdateListener(new TooManyCommunitiesActivity$$ExternalSyntheticLambda0(this));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    TooManyCommunitiesActivity.this.lambda$loadInactiveChannels$3(valueAnimator);
+                }
+            });
             this.enterAnimator.setDuration(100L);
             this.enterAnimator.start();
         } else {
@@ -438,7 +402,12 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
         AndroidUtilities.cancelRunOnUIThread(this.showProgressRunnable);
         if (this.progressBar.getVisibility() == 0) {
-            this.progressBar.animate().alpha(0.0f).setListener(new AnonymousClass8()).start();
+            this.progressBar.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TooManyCommunitiesActivity.8
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    TooManyCommunitiesActivity.this.progressBar.setVisibility(8);
+                }
+            }).start();
         }
     }
 
@@ -454,19 +423,6 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             } else {
                 this.listView.getChildAt(i).setAlpha(1.0f);
             }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.TooManyCommunitiesActivity$8 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass8 extends AnimatorListenerAdapter {
-        AnonymousClass8() {
-            TooManyCommunitiesActivity.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            TooManyCommunitiesActivity.this.progressBar.setVisibility(8);
         }
     }
 
@@ -528,11 +484,11 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                 TooManyCommunitiesHintCell tooManyCommunitiesHintCell = TooManyCommunitiesActivity.this.hintCell;
                 int i2 = TooManyCommunitiesActivity.this.type;
                 if (i2 == 0) {
-                    str = LocaleController.getString("TooManyCommunitiesHintJoin", 2131628743);
+                    str = LocaleController.getString("TooManyCommunitiesHintJoin", R.string.TooManyCommunitiesHintJoin);
                 } else if (i2 == 1) {
-                    str = LocaleController.getString("TooManyCommunitiesHintEdit", 2131628742);
+                    str = LocaleController.getString("TooManyCommunitiesHintEdit", R.string.TooManyCommunitiesHintEdit);
                 } else {
-                    str = LocaleController.getString("TooManyCommunitiesHintCreate", 2131628741);
+                    str = LocaleController.getString("TooManyCommunitiesHintCreate", R.string.TooManyCommunitiesHintCreate);
                 }
                 TooManyCommunitiesActivity.this.hintCell.setMessageText(str);
                 RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-1, -2);
@@ -542,14 +498,14 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                 groupCreateUserCell = tooManyCommunitiesHintCell;
             } else if (i == 2) {
                 View shadowSectionCell = new ShadowSectionCell(viewGroup.getContext());
-                CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(viewGroup.getContext(), 2131165435, "windowBackgroundGrayShadow"));
+                CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(viewGroup.getContext(), (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
                 combinedDrawable.setFullsize(true);
                 shadowSectionCell.setBackground(combinedDrawable);
                 groupCreateUserCell = shadowSectionCell;
             } else if (i == 3) {
                 HeaderCell headerCell = new HeaderCell(viewGroup.getContext(), "windowBackgroundWhiteBlueHeader", 21, 8, false);
                 headerCell.setHeight(54);
-                headerCell.setText(LocaleController.getString("InactiveChats", 2131626275));
+                headerCell.setText(LocaleController.getString("InactiveChats", R.string.InactiveChats));
                 groupCreateUserCell = headerCell;
             } else if (i == 5) {
                 groupCreateUserCell = new EmptyCell(viewGroup.getContext(), AndroidUtilities.dp(12.0f));
@@ -646,7 +602,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             return this.searchResults.size();
         }
 
-        public void search(String str) {
+        public void search(final String str) {
             if (this.searchRunnable != null) {
                 Utilities.searchQueue.cancelRunnable(this.searchRunnable);
                 this.searchRunnable = null;
@@ -658,17 +614,27 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                 TooManyCommunitiesActivity.this.emptyView.setVisibility(8);
                 return;
             }
-            int i = this.lastSearchId + 1;
+            final int i = this.lastSearchId + 1;
             this.lastSearchId = i;
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda1 tooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda1 = new TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda1(this, str, i);
-            this.searchRunnable = tooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda1;
-            dispatchQueue.postRunnable(tooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda1, 300L);
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TooManyCommunitiesActivity.SearchAdapter.this.lambda$search$0(str, i);
+                }
+            };
+            this.searchRunnable = runnable;
+            dispatchQueue.postRunnable(runnable, 300L);
         }
 
         /* renamed from: processSearch */
-        public void lambda$search$0(String str, int i) {
-            Utilities.searchQueue.postRunnable(new TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda2(this, str, i));
+        public void lambda$search$0(final String str, final int i) {
+            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TooManyCommunitiesActivity.SearchAdapter.this.lambda$processSearch$1(str, i);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$processSearch$1(String str, int i) {
@@ -722,8 +688,13 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             updateSearchResults(arrayList, arrayList2, i);
         }
 
-        private void updateSearchResults(ArrayList<TLRPC$Chat> arrayList, ArrayList<String> arrayList2, int i) {
-            AndroidUtilities.runOnUIThread(new TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda0(this, i, arrayList, arrayList2));
+        private void updateSearchResults(final ArrayList<TLRPC$Chat> arrayList, final ArrayList<String> arrayList2, final int i) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TooManyCommunitiesActivity.SearchAdapter.this.lambda$updateSearchResults$2(i, arrayList, arrayList2);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$updateSearchResults$2(int i, ArrayList arrayList, ArrayList arrayList2) {
@@ -748,7 +719,17 @@ public class TooManyCommunitiesActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        TooManyCommunitiesActivity$$ExternalSyntheticLambda4 tooManyCommunitiesActivity$$ExternalSyntheticLambda4 = new TooManyCommunitiesActivity$$ExternalSyntheticLambda4(this);
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda4
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public final void didSetColor() {
+                TooManyCommunitiesActivity.this.lambda$getThemeDescriptions$6();
+            }
+
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public /* synthetic */ void onAnimationProgress(float f) {
+                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+            }
+        };
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "actionBarDefault"));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, "actionBarDefaultIcon"));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, "actionBarDefaultSelector"));
@@ -778,17 +759,17 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         arrayList.add(new ThemeDescription(this.searchListView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{GroupCreateUserCell.class}, new String[]{"nameTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
         arrayList.add(new ThemeDescription(this.searchListView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, new Class[]{GroupCreateUserCell.class}, new String[]{"statusTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText"));
         arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{GroupCreateUserCell.class}, null, Theme.avatarDrawables, null, "avatar_text"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, tooManyCommunitiesActivity$$ExternalSyntheticLambda4, "avatar_backgroundRed"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, tooManyCommunitiesActivity$$ExternalSyntheticLambda4, "avatar_backgroundOrange"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, tooManyCommunitiesActivity$$ExternalSyntheticLambda4, "avatar_backgroundViolet"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, tooManyCommunitiesActivity$$ExternalSyntheticLambda4, "avatar_backgroundGreen"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, tooManyCommunitiesActivity$$ExternalSyntheticLambda4, "avatar_backgroundCyan"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, tooManyCommunitiesActivity$$ExternalSyntheticLambda4, "avatar_backgroundBlue"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, tooManyCommunitiesActivity$$ExternalSyntheticLambda4, "avatar_backgroundPink"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundRed"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundOrange"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundViolet"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundGreen"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundCyan"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundBlue"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundPink"));
         arrayList.add(new ThemeDescription(this.emptyView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "emptyListPlaceholder"));
-        arrayList.add(new ThemeDescription(this.buttonTextView, 0, null, null, null, tooManyCommunitiesActivity$$ExternalSyntheticLambda4, "featuredStickers_addButton"));
-        arrayList.add(new ThemeDescription(this.buttonTextView, 0, null, null, null, tooManyCommunitiesActivity$$ExternalSyntheticLambda4, "featuredStickers_addButtonPressed"));
-        arrayList.add(new ThemeDescription(this.progressBar, 0, null, null, null, tooManyCommunitiesActivity$$ExternalSyntheticLambda4, "featuredStickers_addButtonPressed"));
+        arrayList.add(new ThemeDescription(this.buttonTextView, 0, null, null, null, themeDescriptionDelegate, "featuredStickers_addButton"));
+        arrayList.add(new ThemeDescription(this.buttonTextView, 0, null, null, null, themeDescriptionDelegate, "featuredStickers_addButtonPressed"));
+        arrayList.add(new ThemeDescription(this.progressBar, 0, null, null, null, themeDescriptionDelegate, "featuredStickers_addButtonPressed"));
         arrayList.add(new ThemeDescription(this.hintCell, 0, new Class[]{TooManyCommunitiesHintCell.class}, new String[]{"imageLayout"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "dialogRedIcon"));
         return arrayList;
     }

@@ -16,7 +16,7 @@ public class InnerBinderAdapter extends BinderAdapter {
 
     public static BinderAdapter getInstance(Context context, String str, String str2) {
         BinderAdapter binderAdapter;
-        HMSLog.i("InnerBinderAdapter", "InnerBinderAdapter getInstance.");
+        HMSLog.i(TAG, "InnerBinderAdapter getInstance.");
         synchronized (LOCK_OBJECT_INIT) {
             if (innerAdapter == null) {
                 innerAdapter = new InnerBinderAdapter(context, str, str2);
@@ -28,11 +28,11 @@ public class InnerBinderAdapter extends BinderAdapter {
 
     @Override // com.huawei.hms.adapter.BinderAdapter
     protected int getConnTimeOut() {
-        return 2001;
+        return INNER_MSG_CONN_TIMEOUT;
     }
 
     @Override // com.huawei.hms.adapter.BinderAdapter
     protected int getMsgDelayDisconnect() {
-        return 2002;
+        return INNER_MSG_DELAY_DISCONNECT;
     }
 }

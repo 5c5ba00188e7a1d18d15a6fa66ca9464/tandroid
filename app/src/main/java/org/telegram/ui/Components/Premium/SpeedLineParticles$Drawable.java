@@ -68,6 +68,7 @@ public class SpeedLineParticles$Drawable {
         canvas.drawLines(this.lines, this.paint);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Particle {
         float inProgress;

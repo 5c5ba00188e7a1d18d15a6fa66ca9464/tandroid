@@ -41,6 +41,8 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.beta.R;
+import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
@@ -117,7 +119,7 @@ public class ActionBarLayout extends FrameLayout {
     private AccelerateDecelerateInterpolator accelerateDecelerateInterpolator = new AccelerateDecelerateInterpolator();
     private ArrayList<int[]> animateStartColors = new ArrayList<>();
     private ArrayList<int[]> animateEndColors = new ArrayList<>();
-    StartColorsProvider startColorsProvider = new StartColorsProvider(this, null);
+    StartColorsProvider startColorsProvider = new StartColorsProvider();
     private ArrayList<ArrayList<ThemeDescription>> themeAnimatorDescriptions = new ArrayList<>();
     private ArrayList<ThemeDescription.ThemeDescriptionDelegate> themeAnimatorDelegate = new ArrayList<>();
     private Rect rect = new Rect();
@@ -375,7 +377,12 @@ public class ActionBarLayout extends FrameLayout {
                         i2 = Theme.moveUpDrawable.getAlpha();
                     }
                     ValueAnimator ofFloat = ValueAnimator.ofFloat(i2, 0.0f);
-                    ofFloat.addUpdateListener(new ActionBarLayout$LayoutContainer$$ExternalSyntheticLambda0(this));
+                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarLayout$LayoutContainer$$ExternalSyntheticLambda0
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            ActionBarLayout.LayoutContainer.this.lambda$processMenuButtonsTouch$0(valueAnimator);
+                        }
+                    });
                     ofFloat.setDuration(150L);
                     CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
                     ofFloat.setInterpolator(cubicBezierInterpolator);
@@ -434,8 +441,8 @@ public class ActionBarLayout extends FrameLayout {
         super(context);
         this.parentActivity = (Activity) context;
         if (layerShadowDrawable == null) {
-            layerShadowDrawable = getResources().getDrawable(2131165571);
-            headerShadowDrawable = getResources().getDrawable(2131165446).mutate();
+            layerShadowDrawable = getResources().getDrawable(R.drawable.layer_shadow);
+            headerShadowDrawable = getResources().getDrawable(R.drawable.header_shadow).mutate();
             scrimPaint = new Paint();
         }
     }
@@ -530,7 +537,7 @@ public class ActionBarLayout extends FrameLayout {
         if (baseFragment2.inPreviewMode || Build.VERSION.SDK_INT < 23 || SharedConfig.noStatusBar) {
             return;
         }
-        int i2 = Theme.getColor("actionBarDefault") == -1 ? 251658240 : 855638016;
+        int i2 = Theme.getColor("actionBarDefault") == -1 ? AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY : AndroidUtilities.DARK_STATUS_BAR_OVERLAY;
         int i3 = baseFragment.hasForceLightStatusBar() ? 0 : i2;
         if (!baseFragment2.hasForceLightStatusBar()) {
             i = i2;
@@ -914,7 +921,7 @@ public class ActionBarLayout extends FrameLayout {
                     float x = this.containerView.getX();
                     AnimatorSet animatorSet = new AnimatorSet();
                     float xVelocity2 = this.velocityTracker.getXVelocity();
-                    boolean z = x < ((float) this.containerView.getMeasuredWidth()) / 3.0f && (xVelocity2 < 3500.0f || xVelocity2 < this.velocityTracker.getYVelocity());
+                    final boolean z = x < ((float) this.containerView.getMeasuredWidth()) / 3.0f && (xVelocity2 < 3500.0f || xVelocity2 < this.velocityTracker.getYVelocity());
                     boolean shouldOverrideSlideTransition = baseFragment.shouldOverrideSlideTransition(false, z);
                     if (!z) {
                         x = this.containerView.getMeasuredWidth() - x;
@@ -939,7 +946,12 @@ public class ActionBarLayout extends FrameLayout {
                     if (baseFragment2 != null && (customSlideTransition = baseFragment2.getCustomSlideTransition(false, z, x)) != null) {
                         animatorSet.playTogether(customSlideTransition);
                     }
-                    animatorSet.addListener(new AnonymousClass1(z));
+                    animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.1
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            ActionBarLayout.this.onSlideAnimationEnd(z);
+                        }
+                    });
                     animatorSet.start();
                     this.animationInProgress = true;
                 } else {
@@ -962,22 +974,6 @@ public class ActionBarLayout extends FrameLayout {
             }
         }
         return this.startedTracking;
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$backAnimation;
-
-        AnonymousClass1(boolean z) {
-            ActionBarLayout.this = r1;
-            this.val$backAnimation = z;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ActionBarLayout.this.onSlideAnimationEnd(this.val$backAnimation);
-        }
     }
 
     public void onBackPressed() {
@@ -1113,115 +1109,100 @@ public class ActionBarLayout extends FrameLayout {
         return presentFragment(baseFragment, z, false, true, false, null);
     }
 
-    public void startLayoutAnimation(boolean z, boolean z2, boolean z3) {
+    public void startLayoutAnimation(final boolean z, final boolean z2, final boolean z3) {
         if (z2) {
             this.animationProgress = 0.0f;
             this.lastFrameTime = System.nanoTime() / 1000000;
         }
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(z2, z3, z);
-        this.animationRunnable = anonymousClass2;
-        AndroidUtilities.runOnUIThread(anonymousClass2);
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements Runnable {
-        final /* synthetic */ boolean val$first;
-        final /* synthetic */ boolean val$open;
-        final /* synthetic */ boolean val$preview;
-
-        AnonymousClass2(boolean z, boolean z2, boolean z3) {
-            ActionBarLayout.this = r1;
-            this.val$first = z;
-            this.val$preview = z2;
-            this.val$open = z3;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            float f;
-            if (ActionBarLayout.this.animationRunnable != this) {
-                return;
-            }
-            Integer num = null;
-            ActionBarLayout.this.animationRunnable = null;
-            if (this.val$first) {
-                ActionBarLayout.this.transitionAnimationStartTime = System.currentTimeMillis();
-            }
-            long nanoTime = System.nanoTime() / 1000000;
-            long j = nanoTime - ActionBarLayout.this.lastFrameTime;
-            if (j > 18) {
-                j = 18;
-            }
-            ActionBarLayout.this.lastFrameTime = nanoTime;
-            ActionBarLayout.access$1216(ActionBarLayout.this, ((float) j) / ((!this.val$preview || !this.val$open) ? 150.0f : 190.0f));
-            if (ActionBarLayout.this.animationProgress > 1.0f) {
-                ActionBarLayout.this.animationProgress = 1.0f;
-            }
-            if (ActionBarLayout.this.newFragment != null) {
-                ActionBarLayout.this.newFragment.onTransitionAnimationProgress(true, ActionBarLayout.this.animationProgress);
-            }
-            if (ActionBarLayout.this.oldFragment != null) {
-                ActionBarLayout.this.oldFragment.onTransitionAnimationProgress(false, ActionBarLayout.this.animationProgress);
-            }
-            Integer valueOf = ActionBarLayout.this.oldFragment != null ? Integer.valueOf(ActionBarLayout.this.oldFragment.getNavigationBarColor()) : null;
-            if (ActionBarLayout.this.newFragment != null) {
-                num = Integer.valueOf(ActionBarLayout.this.newFragment.getNavigationBarColor());
-            }
-            if (ActionBarLayout.this.newFragment != null && valueOf != null) {
-                ActionBarLayout.this.newFragment.setNavigationBarColor(ColorUtils.blendARGB(valueOf.intValue(), num.intValue(), MathUtils.clamp((ActionBarLayout.this.animationProgress * 2.0f) - (this.val$open ? 1.0f : 0.0f), 0.0f, 1.0f)));
-            }
-            if (!this.val$preview) {
-                f = ActionBarLayout.this.decelerateInterpolator.getInterpolation(ActionBarLayout.this.animationProgress);
-            } else {
-                f = this.val$open ? ActionBarLayout.this.overshootInterpolator.getInterpolation(ActionBarLayout.this.animationProgress) : CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(ActionBarLayout.this.animationProgress);
-            }
-            if (this.val$open) {
-                float clamp = MathUtils.clamp(f, 0.0f, 1.0f);
-                ActionBarLayout.this.containerView.setAlpha(clamp);
-                if (this.val$preview) {
-                    float f2 = (0.3f * f) + 0.7f;
-                    ActionBarLayout.this.containerView.setScaleX(f2);
-                    ActionBarLayout.this.containerView.setScaleY(f2);
-                    if (ActionBarLayout.this.previewMenu != null) {
-                        float f3 = 1.0f - f;
-                        ActionBarLayout.this.containerView.setTranslationY(AndroidUtilities.dp(40.0f) * f3);
-                        ActionBarLayout.this.previewMenu.setTranslationY((-AndroidUtilities.dp(70.0f)) * f3);
-                        float f4 = (f * 0.05f) + 0.95f;
-                        ActionBarLayout.this.previewMenu.setScaleX(f4);
-                        ActionBarLayout.this.previewMenu.setScaleY(f4);
-                    }
-                    ActionBarLayout.this.previewBackgroundDrawable.setAlpha((int) (46.0f * clamp));
-                    Theme.moveUpDrawable.setAlpha((int) (clamp * 255.0f));
-                    ActionBarLayout.this.containerView.invalidate();
-                    ActionBarLayout.this.invalidate();
-                } else {
-                    ActionBarLayout.this.containerView.setTranslationX(AndroidUtilities.dp(48.0f) * (1.0f - f));
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.2
+            @Override // java.lang.Runnable
+            public void run() {
+                float f;
+                if (ActionBarLayout.this.animationRunnable != this) {
+                    return;
                 }
-            } else {
-                float f5 = 1.0f - f;
-                float clamp2 = MathUtils.clamp(f5, 0.0f, 1.0f);
-                ActionBarLayout.this.containerViewBack.setAlpha(clamp2);
-                if (this.val$preview) {
-                    float f6 = (f5 * 0.1f) + 0.9f;
-                    ActionBarLayout.this.containerViewBack.setScaleX(f6);
-                    ActionBarLayout.this.containerViewBack.setScaleY(f6);
-                    ActionBarLayout.this.previewBackgroundDrawable.setAlpha((int) (46.0f * clamp2));
-                    if (ActionBarLayout.this.previewMenu == null) {
-                        Theme.moveUpDrawable.setAlpha((int) (clamp2 * 255.0f));
-                    }
-                    ActionBarLayout.this.containerView.invalidate();
-                    ActionBarLayout.this.invalidate();
+                Integer num = null;
+                ActionBarLayout.this.animationRunnable = null;
+                if (z2) {
+                    ActionBarLayout.this.transitionAnimationStartTime = System.currentTimeMillis();
+                }
+                long nanoTime = System.nanoTime() / 1000000;
+                long j = nanoTime - ActionBarLayout.this.lastFrameTime;
+                if (j > 18) {
+                    j = 18;
+                }
+                ActionBarLayout.this.lastFrameTime = nanoTime;
+                ActionBarLayout.access$1216(ActionBarLayout.this, ((float) j) / ((!z3 || !z) ? 150.0f : 190.0f));
+                if (ActionBarLayout.this.animationProgress > 1.0f) {
+                    ActionBarLayout.this.animationProgress = 1.0f;
+                }
+                if (ActionBarLayout.this.newFragment != null) {
+                    ActionBarLayout.this.newFragment.onTransitionAnimationProgress(true, ActionBarLayout.this.animationProgress);
+                }
+                if (ActionBarLayout.this.oldFragment != null) {
+                    ActionBarLayout.this.oldFragment.onTransitionAnimationProgress(false, ActionBarLayout.this.animationProgress);
+                }
+                Integer valueOf = ActionBarLayout.this.oldFragment != null ? Integer.valueOf(ActionBarLayout.this.oldFragment.getNavigationBarColor()) : null;
+                if (ActionBarLayout.this.newFragment != null) {
+                    num = Integer.valueOf(ActionBarLayout.this.newFragment.getNavigationBarColor());
+                }
+                if (ActionBarLayout.this.newFragment != null && valueOf != null) {
+                    ActionBarLayout.this.newFragment.setNavigationBarColor(ColorUtils.blendARGB(valueOf.intValue(), num.intValue(), MathUtils.clamp((ActionBarLayout.this.animationProgress * 2.0f) - (z ? 1.0f : 0.0f), 0.0f, 1.0f)));
+                }
+                if (!z3) {
+                    f = ActionBarLayout.this.decelerateInterpolator.getInterpolation(ActionBarLayout.this.animationProgress);
                 } else {
-                    ActionBarLayout.this.containerViewBack.setTranslationX(AndroidUtilities.dp(48.0f) * f);
+                    f = z ? ActionBarLayout.this.overshootInterpolator.getInterpolation(ActionBarLayout.this.animationProgress) : CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(ActionBarLayout.this.animationProgress);
+                }
+                if (z) {
+                    float clamp = MathUtils.clamp(f, 0.0f, 1.0f);
+                    ActionBarLayout.this.containerView.setAlpha(clamp);
+                    if (z3) {
+                        float f2 = (0.3f * f) + 0.7f;
+                        ActionBarLayout.this.containerView.setScaleX(f2);
+                        ActionBarLayout.this.containerView.setScaleY(f2);
+                        if (ActionBarLayout.this.previewMenu != null) {
+                            float f3 = 1.0f - f;
+                            ActionBarLayout.this.containerView.setTranslationY(AndroidUtilities.dp(40.0f) * f3);
+                            ActionBarLayout.this.previewMenu.setTranslationY((-AndroidUtilities.dp(70.0f)) * f3);
+                            float f4 = (f * 0.05f) + 0.95f;
+                            ActionBarLayout.this.previewMenu.setScaleX(f4);
+                            ActionBarLayout.this.previewMenu.setScaleY(f4);
+                        }
+                        ActionBarLayout.this.previewBackgroundDrawable.setAlpha((int) (46.0f * clamp));
+                        Theme.moveUpDrawable.setAlpha((int) (clamp * 255.0f));
+                        ActionBarLayout.this.containerView.invalidate();
+                        ActionBarLayout.this.invalidate();
+                    } else {
+                        ActionBarLayout.this.containerView.setTranslationX(AndroidUtilities.dp(48.0f) * (1.0f - f));
+                    }
+                } else {
+                    float f5 = 1.0f - f;
+                    float clamp2 = MathUtils.clamp(f5, 0.0f, 1.0f);
+                    ActionBarLayout.this.containerViewBack.setAlpha(clamp2);
+                    if (z3) {
+                        float f6 = (f5 * 0.1f) + 0.9f;
+                        ActionBarLayout.this.containerViewBack.setScaleX(f6);
+                        ActionBarLayout.this.containerViewBack.setScaleY(f6);
+                        ActionBarLayout.this.previewBackgroundDrawable.setAlpha((int) (46.0f * clamp2));
+                        if (ActionBarLayout.this.previewMenu == null) {
+                            Theme.moveUpDrawable.setAlpha((int) (clamp2 * 255.0f));
+                        }
+                        ActionBarLayout.this.containerView.invalidate();
+                        ActionBarLayout.this.invalidate();
+                    } else {
+                        ActionBarLayout.this.containerViewBack.setTranslationX(AndroidUtilities.dp(48.0f) * f);
+                    }
+                }
+                if (ActionBarLayout.this.animationProgress < 1.0f) {
+                    ActionBarLayout.this.startLayoutAnimation(z, false, z3);
+                } else {
+                    ActionBarLayout.this.onAnimationEndCheck(false);
                 }
             }
-            if (ActionBarLayout.this.animationProgress < 1.0f) {
-                ActionBarLayout.this.startLayoutAnimation(this.val$open, false, this.val$preview);
-            } else {
-                ActionBarLayout.this.onAnimationEndCheck(false);
-            }
-        }
+        };
+        this.animationRunnable = runnable;
+        AndroidUtilities.runOnUIThread(runnable);
     }
 
     public void resumeDelayedFragmentAnimation() {
@@ -1243,9 +1224,9 @@ public class ActionBarLayout extends FrameLayout {
         return presentFragment(baseFragment, z, z2, z3, z4, null);
     }
 
-    public boolean presentFragment(BaseFragment baseFragment, boolean z, boolean z2, boolean z3, boolean z4, ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout) {
+    public boolean presentFragment(final BaseFragment baseFragment, final boolean z, boolean z2, boolean z3, final boolean z4, final ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout) {
         ActionBarLayoutDelegate actionBarLayoutDelegate;
-        BaseFragment baseFragment2;
+        final BaseFragment baseFragment2;
         int i;
         if (baseFragment == null || checkTransitionAnimation() || (((actionBarLayoutDelegate = this.delegate) != null && z3 && !actionBarLayoutDelegate.needPresentFragment(baseFragment, z, z2, this)) || !baseFragment.onFragmentCreate())) {
             return false;
@@ -1358,7 +1339,13 @@ public class ActionBarLayout extends FrameLayout {
         this.containerView.setTranslationY(0.0f);
         if (z4) {
             if (Build.VERSION.SDK_INT >= 21) {
-                view.setOutlineProvider(new AnonymousClass3(this));
+                view.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.ActionBar.ActionBarLayout.3
+                    @Override // android.view.ViewOutlineProvider
+                    @TargetApi(21)
+                    public void getOutline(View view2, Outline outline) {
+                        outline.setRoundRect(0, AndroidUtilities.statusBarHeight, view2.getMeasuredWidth(), view2.getMeasuredHeight(), AndroidUtilities.dp(6.0f));
+                    }
+                });
                 view.setClipToOutline(true);
                 view.setElevation(AndroidUtilities.dp(4.0f));
             }
@@ -1384,7 +1371,12 @@ public class ActionBarLayout extends FrameLayout {
                 presentFragmentInternalRemoveOld(z, baseFragment2);
                 this.transitionAnimationStartTime = System.currentTimeMillis();
                 this.transitionAnimationInProgress = true;
-                this.onOpenAnimationEndRunnable = new ActionBarLayout$$ExternalSyntheticLambda5(baseFragment2, baseFragment);
+                this.onOpenAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ActionBarLayout.lambda$presentFragment$0(BaseFragment.this, baseFragment);
+                    }
+                };
                 ArrayList arrayList2 = new ArrayList();
                 arrayList2.add(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f));
                 View view3 = this.backgroundView;
@@ -1401,14 +1393,25 @@ public class ActionBarLayout extends FrameLayout {
                 animatorSet.playTogether(arrayList2);
                 this.currentAnimation.setInterpolator(this.accelerateDecelerateInterpolator);
                 this.currentAnimation.setDuration(200L);
-                this.currentAnimation.addListener(new AnonymousClass4());
+                this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.4
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        ActionBarLayout.this.onAnimationEndCheck(false);
+                    }
+                });
                 this.currentAnimation.start();
             } else {
                 this.transitionAnimationPreviewMode = z4;
                 this.transitionAnimationStartTime = System.currentTimeMillis();
                 this.transitionAnimationInProgress = true;
-                this.onOpenAnimationEndRunnable = new ActionBarLayout$$ExternalSyntheticLambda4(this, z4, actionBarPopupWindowLayout, z, baseFragment2, baseFragment);
-                boolean z6 = !baseFragment.needDelayOpenAnimation();
+                final BaseFragment baseFragment3 = baseFragment2;
+                this.onOpenAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout$$ExternalSyntheticLambda4
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ActionBarLayout.this.lambda$presentFragment$1(z4, actionBarPopupWindowLayout, z, baseFragment3, baseFragment);
+                    }
+                };
+                final boolean z6 = !baseFragment.needDelayOpenAnimation();
                 if (z6) {
                     if (baseFragment2 != null) {
                         baseFragment2.onTransitionAnimationStart(false, false);
@@ -1418,7 +1421,12 @@ public class ActionBarLayout extends FrameLayout {
                 this.delayedAnimationResumed = false;
                 this.oldFragment = baseFragment2;
                 this.newFragment = baseFragment;
-                AnimatorSet onCustomTransitionAnimation = !z4 ? baseFragment.onCustomTransitionAnimation(true, new ActionBarLayout$$ExternalSyntheticLambda1(this)) : null;
+                AnimatorSet onCustomTransitionAnimation = !z4 ? baseFragment.onCustomTransitionAnimation(true, new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ActionBarLayout.this.lambda$presentFragment$2();
+                    }
+                }) : null;
                 if (onCustomTransitionAnimation != null) {
                     if (!z4 && ((this.containerView.isKeyboardVisible || this.containerViewBack.isKeyboardVisible) && baseFragment2 != null)) {
                         baseFragment2.saveKeyboardPositionBeforeTransition();
@@ -1439,15 +1447,67 @@ public class ActionBarLayout extends FrameLayout {
                         if (baseFragment2 != null && !z4) {
                             baseFragment2.saveKeyboardPositionBeforeTransition();
                         }
-                        this.waitingForKeyboardCloseRunnable = new AnonymousClass5(z6, baseFragment2, baseFragment, z4);
+                        final BaseFragment baseFragment4 = baseFragment2;
+                        this.waitingForKeyboardCloseRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.5
+                            @Override // java.lang.Runnable
+                            public void run() {
+                                if (ActionBarLayout.this.waitingForKeyboardCloseRunnable != this) {
+                                    return;
+                                }
+                                ActionBarLayout.this.waitingForKeyboardCloseRunnable = null;
+                                if (!z6) {
+                                    if (ActionBarLayout.this.delayedOpenAnimationRunnable == null) {
+                                        return;
+                                    }
+                                    AndroidUtilities.cancelRunOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable);
+                                    if (ActionBarLayout.this.delayedAnimationResumed) {
+                                        ActionBarLayout.this.delayedOpenAnimationRunnable.run();
+                                        return;
+                                    } else {
+                                        AndroidUtilities.runOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable, 200L);
+                                        return;
+                                    }
+                                }
+                                BaseFragment baseFragment5 = baseFragment4;
+                                if (baseFragment5 != null) {
+                                    baseFragment5.onTransitionAnimationStart(false, false);
+                                }
+                                baseFragment.onTransitionAnimationStart(true, false);
+                                ActionBarLayout.this.startLayoutAnimation(true, true, z4);
+                            }
+                        };
                         if (baseFragment.needDelayOpenAnimation()) {
-                            this.delayedOpenAnimationRunnable = new AnonymousClass6(baseFragment2, baseFragment, z4);
+                            this.delayedOpenAnimationRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.6
+                                @Override // java.lang.Runnable
+                                public void run() {
+                                    if (ActionBarLayout.this.delayedOpenAnimationRunnable != this) {
+                                        return;
+                                    }
+                                    ActionBarLayout.this.delayedOpenAnimationRunnable = null;
+                                    BaseFragment baseFragment5 = baseFragment2;
+                                    if (baseFragment5 != null) {
+                                        baseFragment5.onTransitionAnimationStart(false, false);
+                                    }
+                                    baseFragment.onTransitionAnimationStart(true, false);
+                                    ActionBarLayout.this.startLayoutAnimation(true, true, z4);
+                                }
+                            };
                         }
                         AndroidUtilities.runOnUIThread(this.waitingForKeyboardCloseRunnable, SharedConfig.smoothKeyboard ? 250L : 200L);
                     } else if (baseFragment.needDelayOpenAnimation()) {
-                        AnonymousClass7 anonymousClass7 = new AnonymousClass7(baseFragment, z4);
-                        this.delayedOpenAnimationRunnable = anonymousClass7;
-                        AndroidUtilities.runOnUIThread(anonymousClass7, 200L);
+                        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.7
+                            @Override // java.lang.Runnable
+                            public void run() {
+                                if (ActionBarLayout.this.delayedOpenAnimationRunnable != this) {
+                                    return;
+                                }
+                                ActionBarLayout.this.delayedOpenAnimationRunnable = null;
+                                baseFragment.onTransitionAnimationStart(true, false);
+                                ActionBarLayout.this.startLayoutAnimation(true, true, z4);
+                            }
+                        };
+                        this.delayedOpenAnimationRunnable = runnable2;
+                        AndroidUtilities.runOnUIThread(runnable2, 200L);
                     } else {
                         startLayoutAnimation(true, true, z4);
                     }
@@ -1470,38 +1530,12 @@ public class ActionBarLayout extends FrameLayout {
         return true;
     }
 
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends ViewOutlineProvider {
-        AnonymousClass3(ActionBarLayout actionBarLayout) {
-        }
-
-        @Override // android.view.ViewOutlineProvider
-        @TargetApi(21)
-        public void getOutline(View view, Outline outline) {
-            outline.setRoundRect(0, AndroidUtilities.statusBarHeight, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(6.0f));
-        }
-    }
-
     public static /* synthetic */ void lambda$presentFragment$0(BaseFragment baseFragment, BaseFragment baseFragment2) {
         if (baseFragment != null) {
             baseFragment.onTransitionAnimationEnd(false, false);
         }
         baseFragment2.onTransitionAnimationEnd(true, false);
         baseFragment2.onBecomeFullyVisible();
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends AnimatorListenerAdapter {
-        AnonymousClass4() {
-            ActionBarLayout.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ActionBarLayout.this.onAnimationEndCheck(false);
-        }
     }
 
     public /* synthetic */ void lambda$presentFragment$1(boolean z, ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout, boolean z2, BaseFragment baseFragment, BaseFragment baseFragment2) {
@@ -1524,102 +1558,6 @@ public class ActionBarLayout extends FrameLayout {
 
     public /* synthetic */ void lambda$presentFragment$2() {
         onAnimationEndCheck(false);
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 implements Runnable {
-        final /* synthetic */ BaseFragment val$currentFragment;
-        final /* synthetic */ BaseFragment val$fragment;
-        final /* synthetic */ boolean val$noDelay;
-        final /* synthetic */ boolean val$preview;
-
-        AnonymousClass5(boolean z, BaseFragment baseFragment, BaseFragment baseFragment2, boolean z2) {
-            ActionBarLayout.this = r1;
-            this.val$noDelay = z;
-            this.val$currentFragment = baseFragment;
-            this.val$fragment = baseFragment2;
-            this.val$preview = z2;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (ActionBarLayout.this.waitingForKeyboardCloseRunnable != this) {
-                return;
-            }
-            ActionBarLayout.this.waitingForKeyboardCloseRunnable = null;
-            if (!this.val$noDelay) {
-                if (ActionBarLayout.this.delayedOpenAnimationRunnable == null) {
-                    return;
-                }
-                AndroidUtilities.cancelRunOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable);
-                if (ActionBarLayout.this.delayedAnimationResumed) {
-                    ActionBarLayout.this.delayedOpenAnimationRunnable.run();
-                    return;
-                } else {
-                    AndroidUtilities.runOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable, 200L);
-                    return;
-                }
-            }
-            BaseFragment baseFragment = this.val$currentFragment;
-            if (baseFragment != null) {
-                baseFragment.onTransitionAnimationStart(false, false);
-            }
-            this.val$fragment.onTransitionAnimationStart(true, false);
-            ActionBarLayout.this.startLayoutAnimation(true, true, this.val$preview);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 implements Runnable {
-        final /* synthetic */ BaseFragment val$currentFragment;
-        final /* synthetic */ BaseFragment val$fragment;
-        final /* synthetic */ boolean val$preview;
-
-        AnonymousClass6(BaseFragment baseFragment, BaseFragment baseFragment2, boolean z) {
-            ActionBarLayout.this = r1;
-            this.val$currentFragment = baseFragment;
-            this.val$fragment = baseFragment2;
-            this.val$preview = z;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (ActionBarLayout.this.delayedOpenAnimationRunnable != this) {
-                return;
-            }
-            ActionBarLayout.this.delayedOpenAnimationRunnable = null;
-            BaseFragment baseFragment = this.val$currentFragment;
-            if (baseFragment != null) {
-                baseFragment.onTransitionAnimationStart(false, false);
-            }
-            this.val$fragment.onTransitionAnimationStart(true, false);
-            ActionBarLayout.this.startLayoutAnimation(true, true, this.val$preview);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$7 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass7 implements Runnable {
-        final /* synthetic */ BaseFragment val$fragment;
-        final /* synthetic */ boolean val$preview;
-
-        AnonymousClass7(BaseFragment baseFragment, boolean z) {
-            ActionBarLayout.this = r1;
-            this.val$fragment = baseFragment;
-            this.val$preview = z;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (ActionBarLayout.this.delayedOpenAnimationRunnable != this) {
-                return;
-            }
-            ActionBarLayout.this.delayedOpenAnimationRunnable = null;
-            this.val$fragment.onTransitionAnimationStart(true, false);
-            ActionBarLayout.this.startLayoutAnimation(true, true, this.val$preview);
-        }
     }
 
     public void setFragmentStackChangedListener(Runnable runnable) {
@@ -1715,7 +1653,7 @@ public class ActionBarLayout extends FrameLayout {
         ArrayList<BaseFragment> arrayList = this.fragmentsStack;
         BaseFragment baseFragment = arrayList.get(arrayList.size() - 2);
         ArrayList<BaseFragment> arrayList2 = this.fragmentsStack;
-        BaseFragment baseFragment2 = arrayList2.get(arrayList2.size() - 1);
+        final BaseFragment baseFragment2 = arrayList2.get(arrayList2.size() - 1);
         if (Build.VERSION.SDK_INT >= 21) {
             baseFragment2.fragmentView.setOutlineProvider(null);
             baseFragment2.fragmentView.setClipToOutline(false);
@@ -1732,28 +1670,17 @@ public class ActionBarLayout extends FrameLayout {
         animatorSet.playTogether(ObjectAnimator.ofFloat(baseFragment2.fragmentView, View.SCALE_X, 1.0f, 1.05f, 1.0f), ObjectAnimator.ofFloat(baseFragment2.fragmentView, View.SCALE_Y, 1.0f, 1.05f, 1.0f));
         animatorSet.setDuration(200L);
         animatorSet.setInterpolator(new CubicBezierInterpolator(0.42d, 0.0d, 0.58d, 1.0d));
-        animatorSet.addListener(new AnonymousClass8(baseFragment2));
+        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.8
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                ActionBarLayout.this.previewOpenAnimationInProgress = false;
+                baseFragment2.onPreviewOpenAnimationEnd();
+            }
+        });
         animatorSet.start();
         performHapticFeedback(3);
         baseFragment2.setInPreviewMode(false);
         baseFragment2.setInMenuMode(false);
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$8 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass8 extends AnimatorListenerAdapter {
-        final /* synthetic */ BaseFragment val$fragment;
-
-        AnonymousClass8(BaseFragment baseFragment) {
-            ActionBarLayout.this = r1;
-            this.val$fragment = baseFragment;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ActionBarLayout.this.previewOpenAnimationInProgress = false;
-            this.val$fragment.onPreviewOpenAnimationEnd();
-        }
     }
 
     public void finishPreviewFragment() {
@@ -1772,7 +1699,7 @@ public class ActionBarLayout extends FrameLayout {
     }
 
     public void closeLastFragment(boolean z, boolean z2) {
-        BaseFragment baseFragment;
+        final BaseFragment baseFragment;
         ActionBarLayoutDelegate actionBarLayoutDelegate = this.delegate;
         if ((actionBarLayoutDelegate == null || actionBarLayoutDelegate.needCloseLastFragment(this)) && !checkTransitionAnimation() && !this.fragmentsStack.isEmpty()) {
             if (this.parentActivity.getCurrentFocus() != null) {
@@ -1781,7 +1708,7 @@ public class ActionBarLayout extends FrameLayout {
             setInnerTranslationX(0.0f);
             boolean z3 = !z2 && (this.inPreviewMode || this.transitionAnimationPreviewMode || (z && MessagesController.getGlobalMainSettings().getBoolean("view_animations", true)));
             ArrayList<BaseFragment> arrayList = this.fragmentsStack;
-            BaseFragment baseFragment2 = arrayList.get(arrayList.size() - 1);
+            final BaseFragment baseFragment2 = arrayList.get(arrayList.size() - 1);
             AnimatorSet animatorSet = null;
             if (this.fragmentsStack.size() > 1) {
                 ArrayList<BaseFragment> arrayList2 = this.fragmentsStack;
@@ -1848,15 +1775,34 @@ public class ActionBarLayout extends FrameLayout {
                     this.transitionAnimationStartTime = System.currentTimeMillis();
                     this.transitionAnimationInProgress = true;
                     baseFragment2.setRemovingFromStack(true);
-                    this.onCloseAnimationEndRunnable = new ActionBarLayout$$ExternalSyntheticLambda3(this, baseFragment2, baseFragment);
+                    this.onCloseAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout$$ExternalSyntheticLambda3
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ActionBarLayout.this.lambda$closeLastFragment$3(baseFragment2, baseFragment);
+                        }
+                    };
                     if (!this.inPreviewMode && !this.transitionAnimationPreviewMode) {
-                        animatorSet = baseFragment2.onCustomTransitionAnimation(false, new ActionBarLayout$$ExternalSyntheticLambda0(this));
+                        animatorSet = baseFragment2.onCustomTransitionAnimation(false, new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout$$ExternalSyntheticLambda0
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                ActionBarLayout.this.lambda$closeLastFragment$4();
+                            }
+                        });
                     }
                     if (animatorSet == null) {
                         if (!this.inPreviewMode && (this.containerView.isKeyboardVisible || this.containerViewBack.isKeyboardVisible)) {
-                            AnonymousClass9 anonymousClass9 = new AnonymousClass9();
-                            this.waitingForKeyboardCloseRunnable = anonymousClass9;
-                            AndroidUtilities.runOnUIThread(anonymousClass9, 200L);
+                            Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.9
+                                @Override // java.lang.Runnable
+                                public void run() {
+                                    if (ActionBarLayout.this.waitingForKeyboardCloseRunnable != this) {
+                                        return;
+                                    }
+                                    ActionBarLayout.this.waitingForKeyboardCloseRunnable = null;
+                                    ActionBarLayout.this.startLayoutAnimation(false, true, false);
+                                }
+                            };
+                            this.waitingForKeyboardCloseRunnable = runnable;
+                            AndroidUtilities.runOnUIThread(runnable, 200L);
                         } else {
                             startLayoutAnimation(false, true, this.inPreviewMode || this.transitionAnimationPreviewMode);
                         }
@@ -1876,7 +1822,12 @@ public class ActionBarLayout extends FrameLayout {
             } else if (this.useAlphaAnimations && !z2) {
                 this.transitionAnimationStartTime = System.currentTimeMillis();
                 this.transitionAnimationInProgress = true;
-                this.onCloseAnimationEndRunnable = new ActionBarLayout$$ExternalSyntheticLambda2(this, baseFragment2);
+                this.onCloseAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ActionBarLayout.this.lambda$closeLastFragment$5(baseFragment2);
+                    }
+                };
                 ArrayList arrayList3 = new ArrayList();
                 arrayList3.add(ObjectAnimator.ofFloat(this, View.ALPHA, 1.0f, 0.0f));
                 View view2 = this.backgroundView;
@@ -1888,7 +1839,17 @@ public class ActionBarLayout extends FrameLayout {
                 animatorSet2.playTogether(arrayList3);
                 this.currentAnimation.setInterpolator(this.accelerateDecelerateInterpolator);
                 this.currentAnimation.setDuration(200L);
-                this.currentAnimation.addListener(new AnonymousClass10());
+                this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.10
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationStart(Animator animator) {
+                        ActionBarLayout.this.transitionAnimationStartTime = System.currentTimeMillis();
+                    }
+
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        ActionBarLayout.this.onAnimationEndCheck(false);
+                    }
+                });
                 this.currentAnimation.start();
             } else {
                 removeFragmentFromStackInternal(baseFragment2);
@@ -1928,23 +1889,6 @@ public class ActionBarLayout extends FrameLayout {
         onAnimationEndCheck(false);
     }
 
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$9 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass9 implements Runnable {
-        AnonymousClass9() {
-            ActionBarLayout.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (ActionBarLayout.this.waitingForKeyboardCloseRunnable != this) {
-                return;
-            }
-            ActionBarLayout.this.waitingForKeyboardCloseRunnable = null;
-            ActionBarLayout.this.startLayoutAnimation(false, true, false);
-        }
-    }
-
     public /* synthetic */ void lambda$closeLastFragment$5(BaseFragment baseFragment) {
         removeFragmentFromStackInternal(baseFragment);
         setVisibility(8);
@@ -1955,24 +1899,6 @@ public class ActionBarLayout extends FrameLayout {
         DrawerLayoutContainer drawerLayoutContainer = this.drawerLayoutContainer;
         if (drawerLayoutContainer != null) {
             drawerLayoutContainer.setAllowOpenDrawer(true, false);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$10 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass10 extends AnimatorListenerAdapter {
-        AnonymousClass10() {
-            ActionBarLayout.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationStart(Animator animator) {
-            ActionBarLayout.this.transitionAnimationStartTime = System.currentTimeMillis();
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ActionBarLayout.this.onAnimationEndCheck(false);
         }
     }
 
@@ -2157,7 +2083,7 @@ public class ActionBarLayout extends FrameLayout {
         animateThemedValues(new ThemeAnimationSettings(themeInfo, i, z, z2));
     }
 
-    public void animateThemedValues(ThemeAnimationSettings themeAnimationSettings) {
+    public void animateThemedValues(final ThemeAnimationSettings themeAnimationSettings) {
         BaseFragment baseFragment;
         Theme.ThemeInfo themeInfo;
         if (this.transitionAnimationInProgress || this.startedTracking) {
@@ -2264,57 +2190,46 @@ public class ActionBarLayout extends FrameLayout {
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.themeAnimatorSet = animatorSet2;
-        animatorSet2.addListener(new AnonymousClass11(themeAnimationSettings));
+        animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.11
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (animator.equals(ActionBarLayout.this.themeAnimatorSet)) {
+                    ActionBarLayout.this.themeAnimatorDescriptions.clear();
+                    ActionBarLayout.this.animateStartColors.clear();
+                    ActionBarLayout.this.animateEndColors.clear();
+                    ActionBarLayout.this.themeAnimatorDelegate.clear();
+                    Theme.setAnimatingColor(false);
+                    ActionBarLayout.this.presentingFragmentDescriptions = null;
+                    ActionBarLayout.this.themeAnimatorSet = null;
+                    Runnable runnable4 = themeAnimationSettings.afterAnimationRunnable;
+                    if (runnable4 == null) {
+                        return;
+                    }
+                    runnable4.run();
+                }
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationCancel(Animator animator) {
+                if (animator.equals(ActionBarLayout.this.themeAnimatorSet)) {
+                    ActionBarLayout.this.themeAnimatorDescriptions.clear();
+                    ActionBarLayout.this.animateStartColors.clear();
+                    ActionBarLayout.this.animateEndColors.clear();
+                    ActionBarLayout.this.themeAnimatorDelegate.clear();
+                    Theme.setAnimatingColor(false);
+                    ActionBarLayout.this.presentingFragmentDescriptions = null;
+                    ActionBarLayout.this.themeAnimatorSet = null;
+                    Runnable runnable4 = themeAnimationSettings.afterAnimationRunnable;
+                    if (runnable4 == null) {
+                        return;
+                    }
+                    runnable4.run();
+                }
+            }
+        });
         this.themeAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, "themeAnimationValue", 0.0f, 1.0f));
         this.themeAnimatorSet.setDuration(themeAnimationSettings.duration);
         this.themeAnimatorSet.start();
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarLayout$11 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass11 extends AnimatorListenerAdapter {
-        final /* synthetic */ ThemeAnimationSettings val$settings;
-
-        AnonymousClass11(ThemeAnimationSettings themeAnimationSettings) {
-            ActionBarLayout.this = r1;
-            this.val$settings = themeAnimationSettings;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (animator.equals(ActionBarLayout.this.themeAnimatorSet)) {
-                ActionBarLayout.this.themeAnimatorDescriptions.clear();
-                ActionBarLayout.this.animateStartColors.clear();
-                ActionBarLayout.this.animateEndColors.clear();
-                ActionBarLayout.this.themeAnimatorDelegate.clear();
-                Theme.setAnimatingColor(false);
-                ActionBarLayout.this.presentingFragmentDescriptions = null;
-                ActionBarLayout.this.themeAnimatorSet = null;
-                Runnable runnable = this.val$settings.afterAnimationRunnable;
-                if (runnable == null) {
-                    return;
-                }
-                runnable.run();
-            }
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationCancel(Animator animator) {
-            if (animator.equals(ActionBarLayout.this.themeAnimatorSet)) {
-                ActionBarLayout.this.themeAnimatorDescriptions.clear();
-                ActionBarLayout.this.animateStartColors.clear();
-                ActionBarLayout.this.animateEndColors.clear();
-                ActionBarLayout.this.themeAnimatorDelegate.clear();
-                Theme.setAnimatingColor(false);
-                ActionBarLayout.this.presentingFragmentDescriptions = null;
-                ActionBarLayout.this.themeAnimatorSet = null;
-                Runnable runnable = this.val$settings.afterAnimationRunnable;
-                if (runnable == null) {
-                    return;
-                }
-                runnable.run();
-            }
-        }
     }
 
     public void rebuildLogout() {
@@ -2557,10 +2472,6 @@ public class ActionBarLayout extends FrameLayout {
         private StartColorsProvider(ActionBarLayout actionBarLayout) {
             this.colors = new HashMap<>();
             this.keysToSave = new String[]{"chat_outBubble", "chat_outBubbleGradient", "chat_outBubbleGradient2", "chat_outBubbleGradient3", "chat_outBubbleGradientAnimated", "chat_outBubbleShadow"};
-        }
-
-        /* synthetic */ StartColorsProvider(ActionBarLayout actionBarLayout, AnonymousClass1 anonymousClass1) {
-            this(actionBarLayout);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider

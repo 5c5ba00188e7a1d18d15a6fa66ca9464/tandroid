@@ -34,7 +34,9 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatInvite;
@@ -50,6 +52,7 @@ import org.telegram.tgnet.TLRPC$TL_topPeer;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$messages_Messages;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Adapters.DialogsSearchAdapter;
 import org.telegram.ui.Adapters.FiltersView;
 import org.telegram.ui.Adapters.SearchAdapterHelper;
 import org.telegram.ui.Cells.DialogCell;
@@ -226,67 +229,59 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         this.itemAnimator = defaultItemAnimator;
         SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(false);
         this.searchAdapterHelper = searchAdapterHelper;
-        searchAdapterHelper.setDelegate(new AnonymousClass1());
+        searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.1
+            @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
+            public /* synthetic */ LongSparseArray getExcludeCallParticipants() {
+                return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeCallParticipants(this);
+            }
+
+            @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
+            public /* synthetic */ LongSparseArray getExcludeUsers() {
+                return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeUsers(this);
+            }
+
+            @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
+            public void onDataSetChanged(int i3) {
+                DialogsSearchAdapter dialogsSearchAdapter = DialogsSearchAdapter.this;
+                dialogsSearchAdapter.waitingResponseCount--;
+                dialogsSearchAdapter.lastGlobalSearchId = i3;
+                if (DialogsSearchAdapter.this.lastLocalSearchId != i3) {
+                    DialogsSearchAdapter.this.searchResult.clear();
+                }
+                if (DialogsSearchAdapter.this.lastMessagesSearchId != i3) {
+                    DialogsSearchAdapter.this.searchResultMessages.clear();
+                }
+                DialogsSearchAdapter.this.searchWas = true;
+                if (DialogsSearchAdapter.this.delegate != null) {
+                    DialogsSearchAdapter.this.delegate.searchStateChanged(DialogsSearchAdapter.this.waitingResponseCount > 0, true);
+                }
+                DialogsSearchAdapter.this.notifyDataSetChanged();
+                if (DialogsSearchAdapter.this.delegate != null) {
+                    DialogsSearchAdapter.this.delegate.runResultsEnterAnimation();
+                }
+            }
+
+            @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
+            public void onSetHashtags(ArrayList<SearchAdapterHelper.HashtagObject> arrayList, HashMap<String, SearchAdapterHelper.HashtagObject> hashMap) {
+                for (int i3 = 0; i3 < arrayList.size(); i3++) {
+                    DialogsSearchAdapter.this.searchResultHashtags.add(arrayList.get(i3).hashtag);
+                }
+                if (DialogsSearchAdapter.this.delegate != null) {
+                    DialogsSearchAdapter.this.delegate.searchStateChanged(DialogsSearchAdapter.this.waitingResponseCount > 0, false);
+                }
+                DialogsSearchAdapter.this.notifyDataSetChanged();
+            }
+
+            @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
+            public boolean canApplySearchResults(int i3) {
+                return i3 == DialogsSearchAdapter.this.lastSearchId;
+            }
+        });
         this.mContext = context;
         this.needMessagesSearch = i;
         this.dialogsType = i2;
         loadRecentSearch();
         MediaDataController.getInstance(this.currentAccount).loadHints(true);
-    }
-
-    /* renamed from: org.telegram.ui.Adapters.DialogsSearchAdapter$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements SearchAdapterHelper.SearchAdapterHelperDelegate {
-        @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-        public /* synthetic */ LongSparseArray getExcludeCallParticipants() {
-            return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeCallParticipants(this);
-        }
-
-        @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-        public /* synthetic */ LongSparseArray getExcludeUsers() {
-            return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeUsers(this);
-        }
-
-        AnonymousClass1() {
-            DialogsSearchAdapter.this = r1;
-        }
-
-        @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-        public void onDataSetChanged(int i) {
-            DialogsSearchAdapter dialogsSearchAdapter = DialogsSearchAdapter.this;
-            dialogsSearchAdapter.waitingResponseCount--;
-            dialogsSearchAdapter.lastGlobalSearchId = i;
-            if (DialogsSearchAdapter.this.lastLocalSearchId != i) {
-                DialogsSearchAdapter.this.searchResult.clear();
-            }
-            if (DialogsSearchAdapter.this.lastMessagesSearchId != i) {
-                DialogsSearchAdapter.this.searchResultMessages.clear();
-            }
-            DialogsSearchAdapter.this.searchWas = true;
-            if (DialogsSearchAdapter.this.delegate != null) {
-                DialogsSearchAdapter.this.delegate.searchStateChanged(DialogsSearchAdapter.this.waitingResponseCount > 0, true);
-            }
-            DialogsSearchAdapter.this.notifyDataSetChanged();
-            if (DialogsSearchAdapter.this.delegate != null) {
-                DialogsSearchAdapter.this.delegate.runResultsEnterAnimation();
-            }
-        }
-
-        @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-        public void onSetHashtags(ArrayList<SearchAdapterHelper.HashtagObject> arrayList, HashMap<String, SearchAdapterHelper.HashtagObject> hashMap) {
-            for (int i = 0; i < arrayList.size(); i++) {
-                DialogsSearchAdapter.this.searchResultHashtags.add(arrayList.get(i).hashtag);
-            }
-            if (DialogsSearchAdapter.this.delegate != null) {
-                DialogsSearchAdapter.this.delegate.searchStateChanged(DialogsSearchAdapter.this.waitingResponseCount > 0, false);
-            }
-            DialogsSearchAdapter.this.notifyDataSetChanged();
-        }
-
-        @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
-        public boolean canApplySearchResults(int i) {
-            return i == DialogsSearchAdapter.this.lastSearchId;
-        }
     }
 
     public RecyclerListView getInnerListView() {
@@ -312,7 +307,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return this.lastMessagesSearchString;
     }
 
-    private void searchMessagesInternal(String str, int i) {
+    private void searchMessagesInternal(final String str, final int i) {
         if (this.needMessagesSearch != 0) {
             if (TextUtils.isEmpty(this.lastMessagesSearchString) && TextUtils.isEmpty(str)) {
                 return;
@@ -332,7 +327,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
             filterRecent(str);
             this.searchAdapterHelper.mergeResults(this.searchResult, this.filteredRecentSearchObjects);
-            TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal = new TLRPC$TL_messages_searchGlobal();
+            final TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal = new TLRPC$TL_messages_searchGlobal();
             tLRPC$TL_messages_searchGlobal.limit = 20;
             tLRPC$TL_messages_searchGlobal.q = str;
             tLRPC$TL_messages_searchGlobal.filter = new TLRPC$TL_inputMessagesFilterEmpty();
@@ -350,14 +345,19 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 tLRPC$TL_messages_searchGlobal.offset_peer = new TLRPC$TL_inputPeerEmpty();
             }
             this.lastMessagesSearchString = str;
-            int i2 = this.lastReqId + 1;
+            final int i2 = this.lastReqId + 1;
             this.lastReqId = i2;
-            this.reqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_searchGlobal, new DialogsSearchAdapter$$ExternalSyntheticLambda21(this, str, i2, i, tLRPC$TL_messages_searchGlobal), 2);
+            this.reqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_searchGlobal, new RequestDelegate() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda21
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    DialogsSearchAdapter.this.lambda$searchMessagesInternal$1(str, i2, i, tLRPC$TL_messages_searchGlobal, tLObject, tLRPC$TL_error);
+                }
+            }, 2);
         }
     }
 
-    public /* synthetic */ void lambda$searchMessagesInternal$1(String str, int i, int i2, TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        ArrayList arrayList = new ArrayList();
+    public /* synthetic */ void lambda$searchMessagesInternal$1(final String str, final int i, final int i2, final TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        final ArrayList arrayList = new ArrayList();
         if (tLRPC$TL_error == null) {
             TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
             LongSparseArray longSparseArray = new LongSparseArray();
@@ -376,7 +376,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 messageObject.setQuery(str);
             }
         }
-        AndroidUtilities.runOnUIThread(new DialogsSearchAdapter$$ExternalSyntheticLambda8(this, i, i2, tLRPC$TL_error, str, tLObject, tLRPC$TL_messages_searchGlobal, arrayList));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsSearchAdapter.this.lambda$searchMessagesInternal$0(i, i2, tLRPC$TL_error, str, tLObject, tLRPC$TL_messages_searchGlobal, arrayList);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$searchMessagesInternal$0(int i, int i2, TLRPC$TL_error tLRPC$TL_error, String str, TLObject tLObject, TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal, ArrayList arrayList) {
@@ -445,14 +450,24 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     public void loadRecentSearch() {
-        loadRecentSearch(this.currentAccount, this.dialogsType, new DialogsSearchAdapter$$ExternalSyntheticLambda22(this));
+        loadRecentSearch(this.currentAccount, this.dialogsType, new OnRecentSearchLoaded() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda22
+            @Override // org.telegram.ui.Adapters.DialogsSearchAdapter.OnRecentSearchLoaded
+            public final void setRecentSearch(ArrayList arrayList, LongSparseArray longSparseArray) {
+                DialogsSearchAdapter.this.lambda$loadRecentSearch$2(arrayList, longSparseArray);
+            }
+        });
     }
 
-    public static void loadRecentSearch(int i, int i2, OnRecentSearchLoaded onRecentSearchLoaded) {
-        MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new DialogsSearchAdapter$$ExternalSyntheticLambda4(i, i2, onRecentSearchLoaded));
+    public static void loadRecentSearch(final int i, final int i2, final OnRecentSearchLoaded onRecentSearchLoaded) {
+        MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsSearchAdapter.lambda$loadRecentSearch$5(i, i2, onRecentSearchLoaded);
+            }
+        });
     }
 
-    public static /* synthetic */ void lambda$loadRecentSearch$5(int i, int i2, OnRecentSearchLoaded onRecentSearchLoaded) {
+    public static /* synthetic */ void lambda$loadRecentSearch$5(int i, int i2, final OnRecentSearchLoaded onRecentSearchLoaded) {
         boolean z;
         try {
             SQLiteCursor queryFinalized = MessagesStorage.getInstance(i).getDatabase().queryFinalized("SELECT did, date FROM search_recent WHERE 1", new Object[0]);
@@ -460,8 +475,8 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             ArrayList arrayList2 = new ArrayList();
             ArrayList arrayList3 = new ArrayList();
             new ArrayList();
-            ArrayList arrayList4 = new ArrayList();
-            LongSparseArray longSparseArray = new LongSparseArray();
+            final ArrayList arrayList4 = new ArrayList();
+            final LongSparseArray longSparseArray = new LongSparseArray();
             while (queryFinalized.next()) {
                 long longValue = queryFinalized.longValue(0);
                 if (DialogObject.isEncryptedDialog(longValue)) {
@@ -538,7 +553,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 }
             }
             Collections.sort(arrayList4, DialogsSearchAdapter$$ExternalSyntheticLambda19.INSTANCE);
-            AndroidUtilities.runOnUIThread(new DialogsSearchAdapter$$ExternalSyntheticLambda5(onRecentSearchLoaded, arrayList4, longSparseArray));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DialogsSearchAdapter.OnRecentSearchLoaded.this.setRecentSearch(arrayList4, longSparseArray);
+                }
+            });
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -553,7 +573,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return i > i2 ? -1 : 0;
     }
 
-    public void putRecentSearch(long j, TLObject tLObject) {
+    public void putRecentSearch(final long j, TLObject tLObject) {
         RecentSearchObject recentSearchObject = this.recentSearchObjectsById.get(j);
         if (recentSearchObject == null) {
             recentSearchObject = new RecentSearchObject();
@@ -566,7 +586,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         recentSearchObject.object = tLObject;
         recentSearchObject.date = (int) (System.currentTimeMillis() / 1000);
         notifyDataSetChanged();
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new DialogsSearchAdapter$$ExternalSyntheticLambda12(this, j));
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda12
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsSearchAdapter.this.lambda$putRecentSearch$6(j);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$putRecentSearch$6(long j) {
@@ -583,7 +608,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     public void clearRecentSearch() {
-        StringBuilder sb;
+        final StringBuilder sb;
         if (this.searchWas) {
             sb = null;
             while (this.filteredRecentSearchObjects.size() > 0) {
@@ -610,7 +635,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             sb = new StringBuilder("1");
         }
         notifyDataSetChanged();
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new DialogsSearchAdapter$$ExternalSyntheticLambda16(this, sb));
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda16
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsSearchAdapter.this.lambda$clearRecentSearch$7(sb);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$clearRecentSearch$7(StringBuilder sb) {
@@ -622,7 +652,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
-    public void removeRecentSearch(long j) {
+    public void removeRecentSearch(final long j) {
         RecentSearchObject recentSearchObject = this.recentSearchObjectsById.get(j);
         if (recentSearchObject == null) {
             return;
@@ -630,7 +660,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         this.recentSearchObjectsById.remove(j);
         this.recentSearchObjects.remove(recentSearchObject);
         notifyDataSetChanged();
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new DialogsSearchAdapter$$ExternalSyntheticLambda11(this, j));
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda11
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsSearchAdapter.this.lambda$removeRecentSearch$8(j);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$removeRecentSearch$8(long j) {
@@ -664,17 +699,22 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         notifyDataSetChanged();
     }
 
-    private void searchDialogsInternal(String str, int i) {
+    private void searchDialogsInternal(final String str, final int i) {
         if (this.needMessagesSearch == 2) {
             return;
         }
-        String lowerCase = str.trim().toLowerCase();
+        final String lowerCase = str.trim().toLowerCase();
         if (lowerCase.length() == 0) {
             this.lastSearchId = 0;
             updateSearchResults(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), this.lastSearchId);
             return;
         }
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new DialogsSearchAdapter$$ExternalSyntheticLambda15(this, lowerCase, i, str));
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda15
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsSearchAdapter.this.lambda$searchDialogsInternal$10(lowerCase, i, str);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$searchDialogsInternal$10(String str, int i, String str2) {
@@ -685,10 +725,15 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         updateSearchResults(arrayList, arrayList2, arrayList3, i);
         FiltersView.fillTipDates(str, this.localTipDates);
         this.localTipArchive = false;
-        if (str.length() >= 3 && (LocaleController.getString("ArchiveSearchFilter", 2131624414).toLowerCase().startsWith(str) || "archive".startsWith(str2))) {
+        if (str.length() >= 3 && (LocaleController.getString("ArchiveSearchFilter", R.string.ArchiveSearchFilter).toLowerCase().startsWith(str) || "archive".startsWith(str2))) {
             this.localTipArchive = true;
         }
-        AndroidUtilities.runOnUIThread(new DialogsSearchAdapter$$ExternalSyntheticLambda6(this));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsSearchAdapter.this.lambda$searchDialogsInternal$9();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$searchDialogsInternal$9() {
@@ -698,12 +743,17 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
-    private void updateSearchResults(ArrayList<Object> arrayList, ArrayList<CharSequence> arrayList2, ArrayList<TLRPC$User> arrayList3, int i) {
-        AndroidUtilities.runOnUIThread(new DialogsSearchAdapter$$ExternalSyntheticLambda10(this, i, arrayList, arrayList2, arrayList3));
+    private void updateSearchResults(final ArrayList<Object> arrayList, final ArrayList<CharSequence> arrayList2, final ArrayList<TLRPC$User> arrayList3, final int i) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda10
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsSearchAdapter.this.lambda$updateSearchResults$12(i, arrayList, arrayList2, arrayList3);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$updateSearchResults$12(int i, ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3) {
-        long j;
+        final long j;
         boolean z;
         this.waitingResponseCount--;
         if (i != this.lastSearchId) {
@@ -721,7 +771,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         boolean z2 = false;
         int i2 = 0;
         while (i2 < arrayList.size()) {
-            Object obj = arrayList.get(i2);
+            final Object obj = arrayList.get(i2);
             if (obj instanceof TLRPC$User) {
                 TLRPC$User tLRPC$User = (TLRPC$User) obj;
                 MessagesController.getInstance(this.currentAccount).putUser(tLRPC$User, true);
@@ -737,7 +787,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 j = 0;
             }
             if (j != 0 && MessagesController.getInstance(this.currentAccount).dialogs_dict.get(j) == null) {
-                MessagesStorage.getInstance(this.currentAccount).getDialogFolderId(j, new DialogsSearchAdapter$$ExternalSyntheticLambda20(this, j, obj));
+                MessagesStorage.getInstance(this.currentAccount).getDialogFolderId(j, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda20
+                    @Override // org.telegram.messenger.MessagesStorage.IntCallback
+                    public final void run(int i3) {
+                        DialogsSearchAdapter.this.lambda$updateSearchResults$11(j, obj, i3);
+                    }
+                });
             }
             int i3 = 0;
             while (true) {
@@ -802,7 +857,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         notifyDataSetChanged();
     }
 
-    public void searchDialogs(String str, int i) {
+    public void searchDialogs(final String str, int i) {
         if (str == null || !str.equals(this.lastSearchText) || (i != this.folderId && !TextUtils.isEmpty(str))) {
             this.lastSearchText = str;
             this.folderId = i;
@@ -815,7 +870,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 AndroidUtilities.cancelRunOnUIThread(runnable);
                 this.searchRunnable2 = null;
             }
-            String trim = str != null ? str.trim() : null;
+            final String trim = str != null ? str.trim() : null;
             if (TextUtils.isEmpty(trim)) {
                 this.filteredRecentQuery = null;
                 this.searchAdapterHelper.unloadRecentHashtags();
@@ -869,7 +924,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             } else {
                 this.searchResultHashtags.clear();
             }
-            int i4 = this.lastSearchId + 1;
+            final int i4 = this.lastSearchId + 1;
             this.lastSearchId = i4;
             this.waitingResponseCount = 3;
             this.globalSearchCollapsed = true;
@@ -880,18 +935,28 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 dialogsSearchAdapterDelegate3.searchStateChanged(true, false);
             }
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            DialogsSearchAdapter$$ExternalSyntheticLambda14 dialogsSearchAdapter$$ExternalSyntheticLambda14 = new DialogsSearchAdapter$$ExternalSyntheticLambda14(this, trim, i4, str);
-            this.searchRunnable = dialogsSearchAdapter$$ExternalSyntheticLambda14;
-            dispatchQueue.postRunnable(dialogsSearchAdapter$$ExternalSyntheticLambda14, 300L);
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda14
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DialogsSearchAdapter.this.lambda$searchDialogs$14(trim, i4, str);
+                }
+            };
+            this.searchRunnable = runnable2;
+            dispatchQueue.postRunnable(runnable2, 300L);
         }
     }
 
-    public /* synthetic */ void lambda$searchDialogs$14(String str, int i, String str2) {
+    public /* synthetic */ void lambda$searchDialogs$14(final String str, final int i, final String str2) {
         this.searchRunnable = null;
         searchDialogsInternal(str, i);
-        DialogsSearchAdapter$$ExternalSyntheticLambda9 dialogsSearchAdapter$$ExternalSyntheticLambda9 = new DialogsSearchAdapter$$ExternalSyntheticLambda9(this, i, str, str2);
-        this.searchRunnable2 = dialogsSearchAdapter$$ExternalSyntheticLambda9;
-        AndroidUtilities.runOnUIThread(dialogsSearchAdapter$$ExternalSyntheticLambda9);
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda9
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsSearchAdapter.this.lambda$searchDialogs$13(i, str, str2);
+            }
+        };
+        this.searchRunnable2 = runnable;
+        AndroidUtilities.runOnUIThread(runnable);
     }
 
     public /* synthetic */ void lambda$searchDialogs$13(int i, String str, String str2) {
@@ -1091,40 +1156,6 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return (itemViewType == 1 || itemViewType == 3) ? false : true;
     }
 
-    /* renamed from: org.telegram.ui.Adapters.DialogsSearchAdapter$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends RecyclerListView {
-        AnonymousClass2(DialogsSearchAdapter dialogsSearchAdapter, Context context) {
-            super(context);
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
-        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            if (getParent() != null && getParent().getParent() != null) {
-                ViewParent parent = getParent().getParent();
-                boolean z = true;
-                if (!canScrollHorizontally(-1) && !canScrollHorizontally(1)) {
-                    z = false;
-                }
-                parent.requestDisallowInterceptTouchEvent(z);
-            }
-            return super.onInterceptTouchEvent(motionEvent);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Adapters.DialogsSearchAdapter$3 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass3 extends LinearLayoutManager {
-        @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-        public boolean supportsPredictiveItemAnimations() {
-            return false;
-        }
-
-        AnonymousClass3(DialogsSearchAdapter dialogsSearchAdapter, Context context) {
-            super(context);
-        }
-    }
-
     public /* synthetic */ void lambda$onCreateViewHolder$15(View view, int i) {
         DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
         if (dialogsSearchAdapterDelegate != null) {
@@ -1144,10 +1175,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     /* JADX WARN: Multi-variable type inference failed */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        AnonymousClass2 anonymousClass2;
+        RecyclerListView recyclerListView;
         DialogCell dialogCell;
         if (i == 0) {
-            anonymousClass2 = new ProfileSearchCell(this.mContext);
+            recyclerListView = new ProfileSearchCell(this.mContext);
         } else if (i != 1) {
             if (i == 2) {
                 dialogCell = new DialogCell(null, this.mContext, false, true);
@@ -1157,34 +1188,64 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 flickerLoadingView.setIsSingleCell(true);
                 dialogCell = flickerLoadingView;
             } else if (i == 4) {
-                anonymousClass2 = new HashtagSearchCell(this.mContext);
+                recyclerListView = new HashtagSearchCell(this.mContext);
             } else if (i == 5) {
-                AnonymousClass2 anonymousClass22 = new AnonymousClass2(this, this.mContext);
-                anonymousClass22.setSelectorDrawableColor(Theme.getColor("listSelectorSDK21"));
-                anonymousClass22.setTag(9);
-                anonymousClass22.setItemAnimator(null);
-                anonymousClass22.setLayoutAnimation(null);
-                AnonymousClass3 anonymousClass3 = new AnonymousClass3(this, this.mContext);
-                anonymousClass3.setOrientation(0);
-                anonymousClass22.setLayoutManager(anonymousClass3);
-                anonymousClass22.setAdapter(new CategoryAdapterRecycler(this.mContext, this.currentAccount, false));
-                anonymousClass22.setOnItemClickListener(new DialogsSearchAdapter$$ExternalSyntheticLambda23(this));
-                anonymousClass22.setOnItemLongClickListener(new DialogsSearchAdapter$$ExternalSyntheticLambda24(this));
-                this.innerListView = anonymousClass22;
-                anonymousClass2 = anonymousClass22;
+                RecyclerListView recyclerListView2 = new RecyclerListView(this, this.mContext) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.2
+                    @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
+                    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                        if (getParent() != null && getParent().getParent() != null) {
+                            ViewParent parent = getParent().getParent();
+                            boolean z = true;
+                            if (!canScrollHorizontally(-1) && !canScrollHorizontally(1)) {
+                                z = false;
+                            }
+                            parent.requestDisallowInterceptTouchEvent(z);
+                        }
+                        return super.onInterceptTouchEvent(motionEvent);
+                    }
+                };
+                recyclerListView2.setSelectorDrawableColor(Theme.getColor("listSelectorSDK21"));
+                recyclerListView2.setTag(9);
+                recyclerListView2.setItemAnimator(null);
+                recyclerListView2.setLayoutAnimation(null);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, this.mContext) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.3
+                    @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+                    public boolean supportsPredictiveItemAnimations() {
+                        return false;
+                    }
+                };
+                linearLayoutManager.setOrientation(0);
+                recyclerListView2.setLayoutManager(linearLayoutManager);
+                recyclerListView2.setAdapter(new CategoryAdapterRecycler(this.mContext, this.currentAccount, false));
+                recyclerListView2.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda23
+                    @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+                    public final void onItemClick(View view, int i2) {
+                        DialogsSearchAdapter.this.lambda$onCreateViewHolder$15(view, i2);
+                    }
+                });
+                recyclerListView2.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda24
+                    @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
+                    public final boolean onItemClick(View view, int i2) {
+                        boolean lambda$onCreateViewHolder$16;
+                        lambda$onCreateViewHolder$16 = DialogsSearchAdapter.this.lambda$onCreateViewHolder$16(view, i2);
+                        return lambda$onCreateViewHolder$16;
+                    }
+                });
+                this.innerListView = recyclerListView2;
+                recyclerListView = recyclerListView2;
             } else {
-                anonymousClass2 = new TextCell(this.mContext, 16, false);
+                recyclerListView = new TextCell(this.mContext, 16, false);
             }
-            anonymousClass2 = dialogCell;
+            recyclerListView = dialogCell;
         } else {
-            anonymousClass2 = new GraySectionCell(this.mContext);
+            recyclerListView = new GraySectionCell(this.mContext);
         }
         if (i == 5) {
-            anonymousClass2.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(86.0f)));
+            recyclerListView.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(86.0f)));
         } else {
-            anonymousClass2.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            recyclerListView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
         }
-        return new RecyclerListView.Holder(anonymousClass2);
+        return new RecyclerListView.Holder(recyclerListView);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:154:0x035d, code lost:
@@ -1229,10 +1290,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         String str7;
         String str8;
         int i3;
-        int i4 = i;
+        final int i4 = i;
         int itemViewType = viewHolder.getItemViewType();
         int i5 = 4;
-        Runnable runnable = null;
+        final Runnable runnable = null;
         boolean z4 = false;
         if (itemViewType != 0) {
             if (itemViewType != 1) {
@@ -1263,30 +1324,45 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 } else {
                     TextCell textCell = (TextCell) viewHolder.itemView;
                     textCell.setColors(null, "windowBackgroundWhiteBlueText2");
-                    textCell.setText(LocaleController.formatString("AddContactByPhone", 2131624265, PhoneFormat.getInstance().format("+" + ((String) getItem(i4)))), false);
+                    textCell.setText(LocaleController.formatString("AddContactByPhone", R.string.AddContactByPhone, PhoneFormat.getInstance().format("+" + ((String) getItem(i4)))), false);
                     return;
                 }
             }
-            GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
+            final GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
             if (!this.searchResultHashtags.isEmpty()) {
-                graySectionCell.setText(LocaleController.getString("Hashtags", 2131626176), LocaleController.getString("ClearButton", 2131625146), new DialogsSearchAdapter$$ExternalSyntheticLambda3(this));
+                graySectionCell.setText(LocaleController.getString("Hashtags", R.string.Hashtags), LocaleController.getString("ClearButton", R.string.ClearButton), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda3
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        DialogsSearchAdapter.this.lambda$onBindViewHolder$17(view);
+                    }
+                });
                 return;
             }
             if (isRecentSearchDisplayed()) {
                 int i6 = (this.searchWas || MediaDataController.getInstance(this.currentAccount).hints.isEmpty()) ? 0 : 1;
                 if (i4 < i6) {
-                    graySectionCell.setText(LocaleController.getString("ChatHints", 2131625021));
+                    graySectionCell.setText(LocaleController.getString("ChatHints", R.string.ChatHints));
                     return;
                 } else if (i4 == i6) {
                     if (!this.searchWas) {
-                        graySectionCell.setText(LocaleController.getString("Recent", 2131627920), LocaleController.getString("ClearButton", 2131625146), new DialogsSearchAdapter$$ExternalSyntheticLambda2(this));
+                        graySectionCell.setText(LocaleController.getString("Recent", R.string.Recent), LocaleController.getString("ClearButton", R.string.ClearButton), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda2
+                            @Override // android.view.View.OnClickListener
+                            public final void onClick(View view) {
+                                DialogsSearchAdapter.this.lambda$onBindViewHolder$18(view);
+                            }
+                        });
                         return;
                     } else {
-                        graySectionCell.setText(LocaleController.getString("Recent", 2131627920), LocaleController.getString("Clear", 2131625145), new DialogsSearchAdapter$$ExternalSyntheticLambda1(this));
+                        graySectionCell.setText(LocaleController.getString("Recent", R.string.Recent), LocaleController.getString("Clear", R.string.Clear), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda1
+                            @Override // android.view.View.OnClickListener
+                            public final void onClick(View view) {
+                                DialogsSearchAdapter.this.lambda$onBindViewHolder$19(view);
+                            }
+                        });
                         return;
                     }
                 } else if (i4 == getRecentItemsCount()) {
-                    graySectionCell.setText(LocaleController.getString("SearchAllChatsShort", 2131628156));
+                    graySectionCell.setText(LocaleController.getString("SearchAllChatsShort", R.string.SearchAllChatsShort));
                     return;
                 } else {
                     i2 = i4 - getRecentItemsCount();
@@ -1294,7 +1370,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             } else {
                 i2 = i4;
             }
-            ArrayList<TLObject> globalSearch = this.searchAdapterHelper.getGlobalSearch();
+            final ArrayList<TLObject> globalSearch = this.searchAdapterHelper.getGlobalSearch();
             int size = this.searchResult.size();
             int size2 = this.searchAdapterHelper.getLocalServerSearch().size();
             int size3 = this.searchAdapterHelper.getPhoneSearch().size();
@@ -1312,20 +1388,30 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             if (i7 < 0 || i7 >= size3) {
                 int i8 = i7 - size3;
                 if (i8 >= 0 && i8 < i5) {
-                    String string = LocaleController.getString("GlobalSearch", 2131626126);
+                    String string = LocaleController.getString("GlobalSearch", R.string.GlobalSearch);
                     if (this.searchAdapterHelper.getGlobalSearch().size() > 3) {
                         z4 = this.globalSearchCollapsed;
-                        runnable = new DialogsSearchAdapter$$ExternalSyntheticLambda17(this, globalSearch, i4, graySectionCell);
+                        runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda17
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                DialogsSearchAdapter.this.lambda$onBindViewHolder$23(globalSearch, i4, graySectionCell);
+                            }
+                        };
                     }
                     str7 = string;
                 } else {
-                    str7 = LocaleController.getString("SearchMessages", 2131628182);
+                    str7 = LocaleController.getString("SearchMessages", R.string.SearchMessages);
                 }
             } else {
-                str7 = LocaleController.getString("PhoneNumberSearch", 2131627552);
+                str7 = LocaleController.getString("PhoneNumberSearch", R.string.PhoneNumberSearch);
                 if (this.searchAdapterHelper.getPhoneSearch().size() > 3) {
                     z4 = this.phoneCollapsed;
-                    runnable = new DialogsSearchAdapter$$ExternalSyntheticLambda18(this, graySectionCell);
+                    runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda18
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            DialogsSearchAdapter.this.lambda$onBindViewHolder$20(graySectionCell);
+                        }
+                    };
                 }
             }
             if (runnable == null) {
@@ -1333,13 +1419,18 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 return;
             }
             if (z4) {
-                i3 = 2131628403;
+                i3 = R.string.ShowMore;
                 str8 = "ShowMore";
             } else {
-                i3 = 2131628402;
+                i3 = R.string.ShowLess;
                 str8 = "ShowLess";
             }
-            graySectionCell.setText(str7, LocaleController.getString(str8, i3), new DialogsSearchAdapter$$ExternalSyntheticLambda0(runnable));
+            graySectionCell.setText(str7, LocaleController.getString(str8, i3), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    runnable.run();
+                }
+            });
             return;
         }
         ProfileSearchCell profileSearchCell = (ProfileSearchCell) viewHolder.itemView;
@@ -1451,7 +1542,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             str = r2;
             profileSearchCell.setChecked(false, false);
             if (tLRPC$User == null && tLRPC$User.id == this.selfUserId) {
-                str2 = LocaleController.getString("SavedMessages", 2131628140);
+                str2 = LocaleController.getString("SavedMessages", R.string.SavedMessages);
                 z2 = true;
                 str3 = null;
             } else {
@@ -1531,17 +1622,17 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         boolean z = !this.phoneCollapsed;
         this.phoneCollapsed = z;
         if (z) {
-            i = 2131628403;
+            i = R.string.ShowMore;
             str = "ShowMore";
         } else {
-            i = 2131628402;
+            i = R.string.ShowLess;
             str = "ShowLess";
         }
         graySectionCell.setRightText(LocaleController.getString(str, i));
         notifyDataSetChanged();
     }
 
-    public /* synthetic */ void lambda$onBindViewHolder$23(ArrayList arrayList, int i, GraySectionCell graySectionCell) {
+    public /* synthetic */ void lambda$onBindViewHolder$23(ArrayList arrayList, final int i, GraySectionCell graySectionCell) {
         String str;
         int i2;
         long elapsedRealtime = SystemClock.elapsedRealtime();
@@ -1565,15 +1656,15 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         boolean z2 = !this.globalSearchCollapsed;
         this.globalSearchCollapsed = z2;
         if (z2) {
-            i2 = 2131628403;
+            i2 = R.string.ShowMore;
             str = "ShowMore";
         } else {
-            i2 = 2131628402;
+            i2 = R.string.ShowLess;
             str = "ShowLess";
         }
         graySectionCell.setRightText(LocaleController.getString(str, i2), this.globalSearchCollapsed);
         this.showMoreHeader = null;
-        View view = (View) graySectionCell.getParent();
+        final View view = (View) graySectionCell.getParent();
         if (view instanceof RecyclerView) {
             RecyclerView recyclerView = (RecyclerView) view;
             int i3 = !this.globalSearchCollapsed ? i + 4 : i + size + 1;
@@ -1596,7 +1687,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         } else {
             notifyItemRangeRemoved(i + 4, size - 3);
             if (z) {
-                AndroidUtilities.runOnUIThread(new DialogsSearchAdapter$$ExternalSyntheticLambda7(this, i), 350L);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda7
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DialogsSearchAdapter.this.lambda$onBindViewHolder$21(i);
+                    }
+                }, 350L);
             } else {
                 notifyItemChanged(i + 3);
             }
@@ -1607,9 +1703,14 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         if (z) {
             this.showMoreAnimation = true;
-            DialogsSearchAdapter$$ExternalSyntheticLambda13 dialogsSearchAdapter$$ExternalSyntheticLambda13 = new DialogsSearchAdapter$$ExternalSyntheticLambda13(this, view);
-            this.cancelShowMoreAnimation = dialogsSearchAdapter$$ExternalSyntheticLambda13;
-            AndroidUtilities.runOnUIThread(dialogsSearchAdapter$$ExternalSyntheticLambda13, 400L);
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda13
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DialogsSearchAdapter.this.lambda$onBindViewHolder$22(view);
+                }
+            };
+            this.cancelShowMoreAnimation = runnable2;
+            AndroidUtilities.runOnUIThread(runnable2, 400L);
             return;
         }
         this.showMoreAnimation = false;

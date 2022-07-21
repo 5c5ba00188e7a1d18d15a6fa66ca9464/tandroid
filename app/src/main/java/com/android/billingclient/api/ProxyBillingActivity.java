@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import com.google.android.apps.common.proguard.UsedByReflection;
 import com.google.android.gms.internal.play_billing.zzb;
+import org.telegram.messenger.FileLoader;
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 @UsedByReflection("PlatformActivityProxy")
 /* loaded from: classes.dex */
@@ -112,7 +113,7 @@ public class ProxyBillingActivity extends Activity {
                 } else if (getIntent().hasExtra("IN_APP_MESSAGE_INTENT")) {
                     pendingIntent = (PendingIntent) getIntent().getParcelableExtra("IN_APP_MESSAGE_INTENT");
                     this.inAppMessageResultReceiver = (ResultReceiver) getIntent().getParcelableExtra("in_app_message_result_receiver");
-                    i = 101;
+                    i = FileLoader.MEDIA_DIR_VIDEO_PUBLIC;
                     this.sendCancelledBroadcastIfFinished = true;
                     startIntentSenderForResult(pendingIntent.getIntentSender(), i, new Intent(), 0, 0, 0);
                     return;

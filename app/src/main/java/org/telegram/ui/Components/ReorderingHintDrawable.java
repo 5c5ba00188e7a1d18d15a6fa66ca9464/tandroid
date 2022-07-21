@@ -7,6 +7,8 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.view.animation.Interpolator;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ImageReceiver;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes3.dex */
 public class ReorderingHintDrawable extends Drawable {
     private final RectDrawable primaryRectDrawable;
@@ -75,7 +77,7 @@ public class ReorderingHintDrawable extends Drawable {
                         drawStage3(canvas, i2 / 150.0f);
                     } else {
                         drawStage3(canvas, 1.0f);
-                        if (i2 - 150 >= 100) {
+                        if (i2 - ImageReceiver.DEFAULT_CROSSFADE_DURATION >= 100) {
                             this.startedTime = System.currentTimeMillis();
                         }
                     }
@@ -107,7 +109,7 @@ public class ReorderingHintDrawable extends Drawable {
         rect3.top = dp2;
         this.tempRect.inset(-AndroidUtilities.dp(AndroidUtilities.lerp(10, 11, interpolation)), -AndroidUtilities.dp(AndroidUtilities.lerp(2, 3, interpolation)));
         this.primaryRectDrawable.setBounds(this.tempRect);
-        this.primaryRectDrawable.setAlpha(AndroidUtilities.lerp(128, 255, interpolation));
+        this.primaryRectDrawable.setAlpha(AndroidUtilities.lerp((int) ConnectionsManager.RequestFlagNeedQuickAck, 255, interpolation));
         this.primaryRectDrawable.draw(canvas);
     }
 
@@ -151,7 +153,7 @@ public class ReorderingHintDrawable extends Drawable {
         rect2.bottom = rect2.top + ((int) (AndroidUtilities.dpf2(4.0f) * this.scaleY));
         this.tempRect.offset(0, AndroidUtilities.dp(8.0f));
         this.primaryRectDrawable.setBounds(this.tempRect);
-        this.primaryRectDrawable.setAlpha(AndroidUtilities.lerp(255, 128, interpolation));
+        this.primaryRectDrawable.setAlpha(AndroidUtilities.lerp(255, (int) ConnectionsManager.RequestFlagNeedQuickAck, interpolation));
         this.primaryRectDrawable.draw(canvas);
     }
 

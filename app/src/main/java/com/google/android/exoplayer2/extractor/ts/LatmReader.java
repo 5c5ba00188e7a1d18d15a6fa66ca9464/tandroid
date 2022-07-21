@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.CodecSpecificDataUtil;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Collections;
+import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class LatmReader implements ElementaryStreamReader {
     private int audioMuxVersionA;
@@ -147,7 +148,7 @@ public final class LatmReader implements ElementaryStreamReader {
                 parsableBitArray.setPosition(position);
                 byte[] bArr = new byte[(parseAudioSpecificConfig + 7) / 8];
                 parsableBitArray.readBits(bArr, 0, parseAudioSpecificConfig);
-                Format createAudioSampleFormat = Format.createAudioSampleFormat(this.formatId, "audio/mp4a-latm", null, -1, -1, this.channelCount, this.sampleRateHz, Collections.singletonList(bArr), null, 0, this.language);
+                Format createAudioSampleFormat = Format.createAudioSampleFormat(this.formatId, MediaController.AUIDO_MIME_TYPE, null, -1, -1, this.channelCount, this.sampleRateHz, Collections.singletonList(bArr), null, 0, this.language);
                 if (!createAudioSampleFormat.equals(this.format)) {
                     this.format = createAudioSampleFormat;
                     this.sampleDurationUs = 1024000000 / createAudioSampleFormat.sampleRate;

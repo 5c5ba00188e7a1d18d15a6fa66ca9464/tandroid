@@ -71,7 +71,7 @@ public abstract class TaskApiCall<ClientT extends AnyClient, ResultT> {
     }
 
     public final void onResponse(ClientT clientt, ResponseErrorCode responseErrorCode, String str, TaskCompletionSource<ResultT> taskCompletionSource) {
-        HMSLog.i("TaskApiCall", "doExecute, uri:" + this.mUri + ", errorCode:" + responseErrorCode.getErrorCode() + ", transactionId:" + this.transactionId);
+        HMSLog.i(TAG, "doExecute, uri:" + this.mUri + ", errorCode:" + responseErrorCode.getErrorCode() + ", transactionId:" + this.transactionId);
         doExecute(clientt, responseErrorCode, str, taskCompletionSource);
     }
 

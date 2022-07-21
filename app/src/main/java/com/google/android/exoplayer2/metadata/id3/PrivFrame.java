@@ -6,7 +6,17 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class PrivFrame extends Id3Frame {
-    public static final Parcelable.Creator<PrivFrame> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<PrivFrame> CREATOR = new Parcelable.Creator<PrivFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.PrivFrame.1
+        @Override // android.os.Parcelable.Creator
+        public PrivFrame createFromParcel(Parcel parcel) {
+            return new PrivFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public PrivFrame[] newArray(int i) {
+            return new PrivFrame[i];
+        }
+    };
     public final String owner;
     public final byte[] privateData;
 
@@ -47,22 +57,5 @@ public final class PrivFrame extends Id3Frame {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.owner);
         parcel.writeByteArray(this.privateData);
-    }
-
-    /* renamed from: com.google.android.exoplayer2.metadata.id3.PrivFrame$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<PrivFrame> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public PrivFrame createFromParcel(Parcel parcel) {
-            return new PrivFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public PrivFrame[] newArray(int i) {
-            return new PrivFrame[i];
-        }
     }
 }

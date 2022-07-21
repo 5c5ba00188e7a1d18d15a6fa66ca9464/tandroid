@@ -9,6 +9,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -40,7 +41,7 @@ public class ReportAlert extends BottomSheet {
             this.textView.setGravity(17);
             this.textView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
             this.textView.setTextSize(1, 14.0f);
-            this.textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             addView(this.textView, LayoutHelper.createFrame(-2, -2, 17));
         }
 
@@ -54,7 +55,7 @@ public class ReportAlert extends BottomSheet {
         }
     }
 
-    public ReportAlert(Context context, int i) {
+    public ReportAlert(Context context, final int i) {
         super(context, true);
         setApplyBottomPadding(false);
         setApplyTopPadding(false);
@@ -64,33 +65,33 @@ public class ReportAlert extends BottomSheet {
         FrameLayout frameLayout = new FrameLayout(context);
         scrollView.addView(frameLayout, LayoutHelper.createScroll(-1, -2, 51));
         RLottieImageView rLottieImageView = new RLottieImageView(context);
-        rLottieImageView.setAnimation(2131558539, 120, 120);
+        rLottieImageView.setAnimation(R.raw.report_police, 120, 120);
         rLottieImageView.playAnimation();
         frameLayout.addView(rLottieImageView, LayoutHelper.createFrame(160, 160.0f, 49, 17.0f, 14.0f, 17.0f, 0.0f));
         TextView textView = new TextView(context);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView.setTextSize(1, 24.0f);
         textView.setTextColor(Theme.getColor("dialogTextBlack"));
         int i2 = 5;
         if (i == 0) {
-            textView.setText(LocaleController.getString("ReportTitleSpam", 2131628021));
+            textView.setText(LocaleController.getString("ReportTitleSpam", R.string.ReportTitleSpam));
         } else if (i == 6) {
-            textView.setText(LocaleController.getString("ReportTitleFake", 2131628019));
+            textView.setText(LocaleController.getString("ReportTitleFake", R.string.ReportTitleFake));
         } else if (i == 1) {
-            textView.setText(LocaleController.getString("ReportTitleViolence", 2131628022));
+            textView.setText(LocaleController.getString("ReportTitleViolence", R.string.ReportTitleViolence));
         } else if (i == 2) {
-            textView.setText(LocaleController.getString("ReportTitleChild", 2131628018));
+            textView.setText(LocaleController.getString("ReportTitleChild", R.string.ReportTitleChild));
         } else if (i == 5) {
-            textView.setText(LocaleController.getString("ReportTitlePornography", 2131628020));
+            textView.setText(LocaleController.getString("ReportTitlePornography", R.string.ReportTitlePornography));
         } else if (i == 100) {
-            textView.setText(LocaleController.getString("ReportChat", 2131627992));
+            textView.setText(LocaleController.getString("ReportChat", R.string.ReportChat));
         }
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 49, 17.0f, 197.0f, 17.0f, 0.0f));
         TextView textView2 = new TextView(context);
         textView2.setTextSize(1, 14.0f);
         textView2.setTextColor(Theme.getColor("dialogTextGray3"));
         textView2.setGravity(1);
-        textView2.setText(LocaleController.getString("ReportInfo", 2131628004));
+        textView2.setText(LocaleController.getString("ReportInfo", R.string.ReportInfo));
         frameLayout.addView(textView2, LayoutHelper.createFrame(-2, -2.0f, 49, 30.0f, 235.0f, 30.0f, 44.0f));
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
         this.editText = editTextBoldCursor;
@@ -106,17 +107,29 @@ public class ReportAlert extends BottomSheet {
         this.editText.setGravity(!LocaleController.isRTL ? 3 : i2);
         this.editText.setInputType(180224);
         this.editText.setImeOptions(6);
-        this.editText.setHint(LocaleController.getString("ReportHint", 2131628003));
+        this.editText.setHint(LocaleController.getString("ReportHint", R.string.ReportHint));
         this.editText.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.editText.setCursorSize(AndroidUtilities.dp(20.0f));
         this.editText.setCursorWidth(1.5f);
-        this.editText.setOnEditorActionListener(new ReportAlert$$ExternalSyntheticLambda1(this));
+        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.ReportAlert$$ExternalSyntheticLambda1
+            @Override // android.widget.TextView.OnEditorActionListener
+            public final boolean onEditorAction(TextView textView3, int i3, KeyEvent keyEvent) {
+                boolean lambda$new$0;
+                lambda$new$0 = ReportAlert.this.lambda$new$0(textView3, i3, keyEvent);
+                return lambda$new$0;
+            }
+        });
         frameLayout.addView(this.editText, LayoutHelper.createFrame(-1, 36.0f, 51, 17.0f, 305.0f, 17.0f, 0.0f));
         BottomSheetCell bottomSheetCell = new BottomSheetCell(context);
         this.clearButton = bottomSheetCell;
         bottomSheetCell.setBackground(null);
-        this.clearButton.setText(LocaleController.getString("ReportSend", 2131628008));
-        this.clearButton.background.setOnClickListener(new ReportAlert$$ExternalSyntheticLambda0(this, i));
+        this.clearButton.setText(LocaleController.getString("ReportSend", R.string.ReportSend));
+        this.clearButton.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ReportAlert$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                ReportAlert.this.lambda$new$1(i, view);
+            }
+        });
         frameLayout.addView(this.clearButton, LayoutHelper.createFrame(-1, 50.0f, 51, 0.0f, 357.0f, 0.0f, 0.0f));
         this.smoothKeyboardAnimationEnabled = true;
     }

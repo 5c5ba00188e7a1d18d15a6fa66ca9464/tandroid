@@ -36,7 +36,10 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SvgHelper;
+import org.telegram.messenger.beta.R;
+import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_theme;
 import org.telegram.tgnet.TLRPC$WallPaper;
 import org.telegram.tgnet.TLRPC$WallPaperSettings;
@@ -163,7 +166,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         super.dispatchDraw(canvas);
     }
 
-    public void setItem(ChatThemeBottomSheet.ChatThemeItem chatThemeItem, boolean z) {
+    public void setItem(final ChatThemeBottomSheet.ChatThemeItem chatThemeItem, boolean z) {
         TLRPC$TL_theme tLRPC$TL_theme;
         TLRPC$Document tLRPC$Document;
         boolean z2 = true;
@@ -207,10 +210,21 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
             updatePreviewBackground(this.themeDrawable);
             TLRPC$TL_theme tlTheme = chatThemeItem.chatTheme.getTlTheme(this.lastThemeIndex);
             if (tlTheme != null) {
-                long j = tlTheme.id;
+                final long j = tlTheme.id;
                 TLRPC$WallPaper wallpaper = chatThemeItem.chatTheme.getWallpaper(this.lastThemeIndex);
                 if (wallpaper != null) {
-                    chatThemeItem.chatTheme.loadWallpaperThumb(this.lastThemeIndex, new ThemeSmallPreviewView$$ExternalSyntheticLambda5(this, j, chatThemeItem, wallpaper.settings.intensity));
+                    final int i3 = wallpaper.settings.intensity;
+                    chatThemeItem.chatTheme.loadWallpaperThumb(this.lastThemeIndex, new ResultCallback() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda5
+                        @Override // org.telegram.tgnet.ResultCallback
+                        public final void onComplete(Object obj) {
+                            ThemeSmallPreviewView.this.lambda$setItem$0(j, chatThemeItem, i3, (Pair) obj);
+                        }
+
+                        @Override // org.telegram.tgnet.ResultCallback
+                        public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
+                            ResultCallback.CC.$default$onError(this, tLRPC$TL_error);
+                        }
+                    });
                 }
             } else {
                 SparseArray<Theme.ThemeAccent> sparseArray = chatThemeItem.chatTheme.getThemeInfo(this.lastThemeIndex).themeAccentsMap;
@@ -218,16 +232,31 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
                     themeAccent = sparseArray.get(chatThemeItem.chatTheme.getAccentId(this.lastThemeIndex));
                 }
                 if (themeAccent != null && (tLRPC$TL_theme = themeAccent.info) != null && tLRPC$TL_theme.settings.size() > 0) {
-                    TLRPC$WallPaper tLRPC$WallPaper = themeAccent.info.settings.get(0).wallpaper;
+                    final TLRPC$WallPaper tLRPC$WallPaper = themeAccent.info.settings.get(0).wallpaper;
                     if (tLRPC$WallPaper != null && (tLRPC$Document = tLRPC$WallPaper.document) != null) {
                         ImageLocation forDocument = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 120), tLRPC$Document);
                         ImageReceiver imageReceiver = new ImageReceiver();
                         imageReceiver.setImage(forDocument, "120_140", null, null, null, 1);
-                        imageReceiver.setDelegate(new ThemeSmallPreviewView$$ExternalSyntheticLambda4(this, chatThemeItem, tLRPC$WallPaper));
+                        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda4
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public final void didSetImage(ImageReceiver imageReceiver2, boolean z4, boolean z5, boolean z6) {
+                                ThemeSmallPreviewView.this.lambda$setItem$1(chatThemeItem, tLRPC$WallPaper, imageReceiver2, z4, z5, z6);
+                            }
+
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
+                                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver2);
+                            }
+                        });
                         ImageLoader.getInstance().loadImageForImageReceiver(imageReceiver);
                     }
                 } else if (themeAccent != null && themeAccent.info == null) {
-                    ChatThemeController.chatThemeQueue.postRunnable(new ThemeSmallPreviewView$$ExternalSyntheticLambda2(this, chatThemeItem));
+                    ChatThemeController.chatThemeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda2
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ThemeSmallPreviewView.this.lambda$setItem$3(chatThemeItem);
+                        }
+                    });
                 }
             }
         }
@@ -243,7 +272,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         }
         EmojiThemes emojiThemes = this.chatThemeItem.chatTheme;
         if (emojiThemes == null || emojiThemes.showAsDefaultStub) {
-            setContentDescription(LocaleController.getString("ChatNoTheme", 2131625036));
+            setContentDescription(LocaleController.getString("ChatNoTheme", R.string.ChatNoTheme));
         } else {
             setContentDescription(emojiThemes.getEmoticon());
         }
@@ -279,8 +308,14 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         invalidate();
     }
 
-    public /* synthetic */ void lambda$setItem$3(ChatThemeBottomSheet.ChatThemeItem chatThemeItem) {
-        AndroidUtilities.runOnUIThread(new ThemeSmallPreviewView$$ExternalSyntheticLambda3(this, chatThemeItem, SvgHelper.getBitmap(2131558436, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(140.0f), -16777216, AndroidUtilities.density)));
+    public /* synthetic */ void lambda$setItem$3(final ChatThemeBottomSheet.ChatThemeItem chatThemeItem) {
+        final Bitmap bitmap = SvgHelper.getBitmap(R.raw.default_pattern, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(140.0f), -16777216, AndroidUtilities.density);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                ThemeSmallPreviewView.this.lambda$setItem$2(chatThemeItem, bitmap);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$setItem$2(ChatThemeBottomSheet.ChatThemeItem chatThemeItem, Bitmap bitmap) {
@@ -293,7 +328,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         }
     }
 
-    public void setSelected(boolean z, boolean z2) {
+    public void setSelected(final boolean z, boolean z2) {
         float f = 1.0f;
         if (!z2) {
             ValueAnimator valueAnimator = this.strokeAlphaAnimator;
@@ -322,8 +357,20 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
             fArr[1] = f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.strokeAlphaAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ThemeSmallPreviewView$$ExternalSyntheticLambda0(this));
-            this.strokeAlphaAnimator.addListener(new AnonymousClass1(z));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                    ThemeSmallPreviewView.this.lambda$setSelected$4(valueAnimator3);
+                }
+            });
+            this.strokeAlphaAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView.1
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    super.onAnimationEnd(animator);
+                    ThemeSmallPreviewView.this.selectionProgress = z ? 1.0f : 0.0f;
+                    ThemeSmallPreviewView.this.invalidate();
+                }
+            });
             this.strokeAlphaAnimator.setDuration(250L);
             this.strokeAlphaAnimator.start();
         }
@@ -333,24 +380,6 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
     public /* synthetic */ void lambda$setSelected$4(ValueAnimator valueAnimator) {
         this.selectionProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
-    }
-
-    /* renamed from: org.telegram.ui.Components.ThemeSmallPreviewView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$selected;
-
-        AnonymousClass1(boolean z) {
-            ThemeSmallPreviewView.this = r1;
-            this.val$selected = z;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            super.onAnimationEnd(animator);
-            ThemeSmallPreviewView.this.selectionProgress = this.val$selected ? 1.0f : 0.0f;
-            ThemeSmallPreviewView.this.invalidate();
-        }
     }
 
     private Bitmap prescaleBitmap(Bitmap bitmap) {
@@ -510,8 +539,8 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         this.noThemeTextPaint = textPaint;
         textPaint.setColor(getThemedColor("chat_emojiPanelTrendingDescription"));
         this.noThemeTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
-        this.noThemeTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        StaticLayout createStaticLayout2 = StaticLayoutEx.createStaticLayout2(LocaleController.getString("ChatNoTheme", 2131625036), this.noThemeTextPaint, AndroidUtilities.dp(52.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true, TextUtils.TruncateAt.END, AndroidUtilities.dp(52.0f), 3);
+        this.noThemeTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        StaticLayout createStaticLayout2 = StaticLayoutEx.createStaticLayout2(LocaleController.getString("ChatNoTheme", R.string.ChatNoTheme), this.noThemeTextPaint, AndroidUtilities.dp(52.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true, TextUtils.TruncateAt.END, AndroidUtilities.dp(52.0f), 3);
         this.textLayout = createStaticLayout2;
         return createStaticLayout2;
     }
@@ -531,9 +560,14 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
                 this.backupImageView.getImageReceiver().getLottieAnimation().start();
             }
             this.backupImageView.animate().scaleX(2.0f).scaleY(2.0f).setDuration(300L).setInterpolator(AndroidUtilities.overshootInterpolator).start();
-            ThemeSmallPreviewView$$ExternalSyntheticLambda1 themeSmallPreviewView$$ExternalSyntheticLambda1 = new ThemeSmallPreviewView$$ExternalSyntheticLambda1(this);
-            this.animationCancelRunnable = themeSmallPreviewView$$ExternalSyntheticLambda1;
-            AndroidUtilities.runOnUIThread(themeSmallPreviewView$$ExternalSyntheticLambda1, 2500L);
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ThemeSmallPreviewView.this.lambda$playEmojiAnimation$5();
+                }
+            };
+            this.animationCancelRunnable = runnable;
+            AndroidUtilities.runOnUIThread(runnable, 2500L);
         }
     }
 

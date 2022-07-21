@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
@@ -46,6 +47,7 @@ import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messages_updateDialogFiltersOrder;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.ViewPagerFixed;
 /* loaded from: classes3.dex */
 public class ViewPagerFixed extends FrameLayout {
     private static final Interpolator interpolator = ViewPagerFixed$$ExternalSyntheticLambda0.INSTANCE;
@@ -66,7 +68,20 @@ public class ViewPagerFixed extends FrameLayout {
     TabsView tabsView;
     private VelocityTracker velocityTracker;
     protected SparseArray<View> viewsByType = new SparseArray<>();
-    ValueAnimator.AnimatorUpdateListener updateTabProgress = new AnonymousClass1();
+    ValueAnimator.AnimatorUpdateListener updateTabProgress = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ViewPagerFixed.1
+        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+            if (ViewPagerFixed.this.tabsAnimationInProgress) {
+                float abs = Math.abs(ViewPagerFixed.this.viewPages[0].getTranslationX()) / ViewPagerFixed.this.viewPages[0].getMeasuredWidth();
+                ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
+                TabsView tabsView = viewPagerFixed.tabsView;
+                if (tabsView == null) {
+                    return;
+                }
+                tabsView.selectTab(viewPagerFixed.nextPosition, viewPagerFixed.currentPosition, 1.0f - abs);
+            }
+        }
+    };
     private android.graphics.Rect rect = new android.graphics.Rect();
     private final float touchSlop = AndroidUtilities.getPixelsInCM(0.3f, true);
     private int[] viewTypes = new int[2];
@@ -100,28 +115,6 @@ public class ViewPagerFixed extends FrameLayout {
     protected void onItemSelected(View view, View view2, int i, int i2) {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.ViewPagerFixed$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements ValueAnimator.AnimatorUpdateListener {
-        AnonymousClass1() {
-            ViewPagerFixed.this = r1;
-        }
-
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            if (ViewPagerFixed.this.tabsAnimationInProgress) {
-                float abs = Math.abs(ViewPagerFixed.this.viewPages[0].getTranslationX()) / ViewPagerFixed.this.viewPages[0].getMeasuredWidth();
-                ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
-                TabsView tabsView = viewPagerFixed.tabsView;
-                if (tabsView == null) {
-                    return;
-                }
-                tabsView.selectTab(viewPagerFixed.nextPosition, viewPagerFixed.currentPosition, 1.0f - abs);
-            }
-        }
-    }
-
     public ViewPagerFixed(Context context) {
         super(context);
         this.maximumVelocity = ViewConfiguration.get(context).getScaledMaximumFlingVelocity();
@@ -138,80 +131,72 @@ public class ViewPagerFixed extends FrameLayout {
         fillTabs();
     }
 
-    /* renamed from: org.telegram.ui.Components.ViewPagerFixed$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements TabsView.TabsViewDelegate {
-        @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
-        public void onSamePageSelected() {
-        }
-
-        AnonymousClass2() {
-            ViewPagerFixed.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
-        public void onPageSelected(int i, boolean z) {
-            ViewPagerFixed.this.animatingForward = z;
-            ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
-            viewPagerFixed.nextPosition = i;
-            viewPagerFixed.updateViewForIndex(1);
-            if (z) {
-                View[] viewArr = ViewPagerFixed.this.viewPages;
-                viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth());
-                return;
-            }
-            View[] viewArr2 = ViewPagerFixed.this.viewPages;
-            viewArr2[1].setTranslationX(-viewArr2[0].getMeasuredWidth());
-        }
-
-        @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
-        public void onPageScrolled(float f) {
-            if (f == 1.0f) {
-                ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
-                if (viewPagerFixed.viewPages[1] == null) {
-                    return;
-                }
-                viewPagerFixed.swapViews();
-                ViewPagerFixed viewPagerFixed2 = ViewPagerFixed.this;
-                viewPagerFixed2.viewsByType.put(viewPagerFixed2.viewTypes[1], ViewPagerFixed.this.viewPages[1]);
-                ViewPagerFixed viewPagerFixed3 = ViewPagerFixed.this;
-                viewPagerFixed3.removeView(viewPagerFixed3.viewPages[1]);
-                ViewPagerFixed.this.viewPages[0].setTranslationX(0.0f);
-                ViewPagerFixed.this.viewPages[1] = null;
-                return;
-            }
-            ViewPagerFixed viewPagerFixed4 = ViewPagerFixed.this;
-            if (viewPagerFixed4.viewPages[1] == null) {
-                return;
-            }
-            if (viewPagerFixed4.animatingForward) {
-                View[] viewArr = ViewPagerFixed.this.viewPages;
-                viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth() * (1.0f - f));
-                View[] viewArr2 = ViewPagerFixed.this.viewPages;
-                viewArr2[0].setTranslationX((-viewArr2[0].getMeasuredWidth()) * f);
-                return;
-            }
-            View[] viewArr3 = ViewPagerFixed.this.viewPages;
-            viewArr3[1].setTranslationX((-viewArr3[0].getMeasuredWidth()) * (1.0f - f));
-            View[] viewArr4 = ViewPagerFixed.this.viewPages;
-            viewArr4[0].setTranslationX(viewArr4[0].getMeasuredWidth() * f);
-        }
-
-        @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
-        public boolean canPerformActions() {
-            return !ViewPagerFixed.this.tabsAnimationInProgress && !ViewPagerFixed.this.startedTracking;
-        }
-
-        @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
-        public void invalidateBlur() {
-            ViewPagerFixed.this.invalidateBlur();
-        }
-    }
-
     public TabsView createTabsView() {
         TabsView tabsView = new TabsView(getContext());
         this.tabsView = tabsView;
-        tabsView.setDelegate(new AnonymousClass2());
+        tabsView.setDelegate(new TabsView.TabsViewDelegate() { // from class: org.telegram.ui.Components.ViewPagerFixed.2
+            @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
+            public void onSamePageSelected() {
+            }
+
+            @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
+            public void onPageSelected(int i, boolean z) {
+                ViewPagerFixed.this.animatingForward = z;
+                ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
+                viewPagerFixed.nextPosition = i;
+                viewPagerFixed.updateViewForIndex(1);
+                if (z) {
+                    View[] viewArr = ViewPagerFixed.this.viewPages;
+                    viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth());
+                    return;
+                }
+                View[] viewArr2 = ViewPagerFixed.this.viewPages;
+                viewArr2[1].setTranslationX(-viewArr2[0].getMeasuredWidth());
+            }
+
+            @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
+            public void onPageScrolled(float f) {
+                if (f == 1.0f) {
+                    ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
+                    if (viewPagerFixed.viewPages[1] == null) {
+                        return;
+                    }
+                    viewPagerFixed.swapViews();
+                    ViewPagerFixed viewPagerFixed2 = ViewPagerFixed.this;
+                    viewPagerFixed2.viewsByType.put(viewPagerFixed2.viewTypes[1], ViewPagerFixed.this.viewPages[1]);
+                    ViewPagerFixed viewPagerFixed3 = ViewPagerFixed.this;
+                    viewPagerFixed3.removeView(viewPagerFixed3.viewPages[1]);
+                    ViewPagerFixed.this.viewPages[0].setTranslationX(0.0f);
+                    ViewPagerFixed.this.viewPages[1] = null;
+                    return;
+                }
+                ViewPagerFixed viewPagerFixed4 = ViewPagerFixed.this;
+                if (viewPagerFixed4.viewPages[1] == null) {
+                    return;
+                }
+                if (viewPagerFixed4.animatingForward) {
+                    View[] viewArr = ViewPagerFixed.this.viewPages;
+                    viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth() * (1.0f - f));
+                    View[] viewArr2 = ViewPagerFixed.this.viewPages;
+                    viewArr2[0].setTranslationX((-viewArr2[0].getMeasuredWidth()) * f);
+                    return;
+                }
+                View[] viewArr3 = ViewPagerFixed.this.viewPages;
+                viewArr3[1].setTranslationX((-viewArr3[0].getMeasuredWidth()) * (1.0f - f));
+                View[] viewArr4 = ViewPagerFixed.this.viewPages;
+                viewArr4[0].setTranslationX(viewArr4[0].getMeasuredWidth() * f);
+            }
+
+            @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
+            public boolean canPerformActions() {
+                return !ViewPagerFixed.this.tabsAnimationInProgress && !ViewPagerFixed.this.startedTracking;
+            }
+
+            @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
+            public void invalidateBlur() {
+                ViewPagerFixed.this.invalidateBlur();
+            }
+        });
         fillTabs();
         return this.tabsView;
     }
@@ -465,8 +450,31 @@ public class ViewPagerFixed extends FrameLayout {
                     } else {
                         i = (int) (((f3 / getMeasuredWidth()) + 1.0f) * 100.0f);
                     }
-                    this.tabsAnimation.setDuration(Math.max(150, Math.min(i, 600)));
-                    this.tabsAnimation.addListener(new AnonymousClass3());
+                    this.tabsAnimation.setDuration(Math.max((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, Math.min(i, 600)));
+                    this.tabsAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ViewPagerFixed.3
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            ViewPagerFixed.this.tabsAnimation = null;
+                            ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
+                            if (viewPagerFixed.viewPages[1] != null) {
+                                if (!viewPagerFixed.backAnimation) {
+                                    ViewPagerFixed.this.swapViews();
+                                }
+                                ViewPagerFixed viewPagerFixed2 = ViewPagerFixed.this;
+                                viewPagerFixed2.viewsByType.put(viewPagerFixed2.viewTypes[1], ViewPagerFixed.this.viewPages[1]);
+                                ViewPagerFixed viewPagerFixed3 = ViewPagerFixed.this;
+                                viewPagerFixed3.removeView(viewPagerFixed3.viewPages[1]);
+                                ViewPagerFixed.this.viewPages[1].setVisibility(8);
+                                ViewPagerFixed.this.viewPages[1] = null;
+                            }
+                            ViewPagerFixed.this.tabsAnimationInProgress = false;
+                            ViewPagerFixed.this.maybeStartTracking = false;
+                            TabsView tabsView4 = ViewPagerFixed.this.tabsView;
+                            if (tabsView4 != null) {
+                                tabsView4.setEnabled(true);
+                            }
+                        }
+                    });
                     this.tabsAnimation.start();
                     this.tabsAnimationInProgress = true;
                     this.startedTracking = false;
@@ -486,37 +494,6 @@ public class ViewPagerFixed extends FrameLayout {
             return this.startedTracking || this.maybeStartTracking;
         }
         return false;
-    }
-
-    /* renamed from: org.telegram.ui.Components.ViewPagerFixed$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        AnonymousClass3() {
-            ViewPagerFixed.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ViewPagerFixed.this.tabsAnimation = null;
-            ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
-            if (viewPagerFixed.viewPages[1] != null) {
-                if (!viewPagerFixed.backAnimation) {
-                    ViewPagerFixed.this.swapViews();
-                }
-                ViewPagerFixed viewPagerFixed2 = ViewPagerFixed.this;
-                viewPagerFixed2.viewsByType.put(viewPagerFixed2.viewTypes[1], ViewPagerFixed.this.viewPages[1]);
-                ViewPagerFixed viewPagerFixed3 = ViewPagerFixed.this;
-                viewPagerFixed3.removeView(viewPagerFixed3.viewPages[1]);
-                ViewPagerFixed.this.viewPages[1].setVisibility(8);
-                ViewPagerFixed.this.viewPages[1] = null;
-            }
-            ViewPagerFixed.this.tabsAnimationInProgress = false;
-            ViewPagerFixed.this.maybeStartTracking = false;
-            TabsView tabsView = ViewPagerFixed.this.tabsView;
-            if (tabsView != null) {
-                tabsView.setEnabled(true);
-            }
-        }
     }
 
     public void swapViews() {
@@ -687,7 +664,34 @@ public class ViewPagerFixed extends FrameLayout {
         private SparseIntArray idToPosition = new SparseIntArray(5);
         private SparseIntArray positionToWidth = new SparseIntArray(5);
         private SparseIntArray positionToX = new SparseIntArray(5);
-        private Runnable animationRunnable = new AnonymousClass1();
+        private Runnable animationRunnable = new Runnable() { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.1
+            @Override // java.lang.Runnable
+            public void run() {
+                if (!TabsView.this.animatingIndicator) {
+                    return;
+                }
+                long elapsedRealtime = SystemClock.elapsedRealtime() - TabsView.this.lastAnimationTime;
+                if (elapsedRealtime > 17) {
+                    elapsedRealtime = 17;
+                }
+                TabsView.access$2716(TabsView.this, ((float) elapsedRealtime) / 200.0f);
+                TabsView tabsView = TabsView.this;
+                tabsView.setAnimationIdicatorProgress(tabsView.interpolator.getInterpolation(TabsView.this.animationTime));
+                if (TabsView.this.animationTime > 1.0f) {
+                    TabsView.this.animationTime = 1.0f;
+                }
+                if (TabsView.this.animationTime < 1.0f) {
+                    AndroidUtilities.runOnUIThread(TabsView.this.animationRunnable);
+                    return;
+                }
+                TabsView.this.animatingIndicator = false;
+                TabsView.this.setEnabled(true);
+                if (TabsView.this.delegate == null) {
+                    return;
+                }
+                TabsView.this.delegate.onPageScrolled(1.0f);
+            }
+        };
         private GradientDrawable selectorDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, null);
 
         /* loaded from: classes3.dex */
@@ -893,48 +897,12 @@ public class ViewPagerFixed extends FrameLayout {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.Components.ViewPagerFixed$TabsView$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements Runnable {
-            AnonymousClass1() {
-                TabsView.this = r1;
-            }
-
-            @Override // java.lang.Runnable
-            public void run() {
-                if (!TabsView.this.animatingIndicator) {
-                    return;
-                }
-                long elapsedRealtime = SystemClock.elapsedRealtime() - TabsView.this.lastAnimationTime;
-                if (elapsedRealtime > 17) {
-                    elapsedRealtime = 17;
-                }
-                TabsView.access$2716(TabsView.this, ((float) elapsedRealtime) / 200.0f);
-                TabsView tabsView = TabsView.this;
-                tabsView.setAnimationIdicatorProgress(tabsView.interpolator.getInterpolation(TabsView.this.animationTime));
-                if (TabsView.this.animationTime > 1.0f) {
-                    TabsView.this.animationTime = 1.0f;
-                }
-                if (TabsView.this.animationTime < 1.0f) {
-                    AndroidUtilities.runOnUIThread(TabsView.this.animationRunnable);
-                    return;
-                }
-                TabsView.this.animatingIndicator = false;
-                TabsView.this.setEnabled(true);
-                if (TabsView.this.delegate == null) {
-                    return;
-                }
-                TabsView.this.delegate.onPageScrolled(1.0f);
-            }
-        }
-
         public TabsView(Context context) {
             super(context);
             this.textCounterPaint.setTextSize(AndroidUtilities.dp(13.0f));
-            this.textCounterPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            this.textCounterPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.textPaint.setTextSize(AndroidUtilities.dp(15.0f));
-            this.textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.deletePaint.setStyle(Paint.Style.STROKE);
             this.deletePaint.setStrokeCap(Paint.Cap.ROUND);
             this.deletePaint.setStrokeWidth(AndroidUtilities.dp(1.5f));
@@ -942,120 +910,108 @@ public class ViewPagerFixed extends FrameLayout {
             this.selectorDrawable.setCornerRadii(new float[]{dpf2, dpf2, dpf2, dpf2, 0.0f, 0.0f, 0.0f, 0.0f});
             this.selectorDrawable.setColor(Theme.getColor(this.tabLineColorKey));
             setHorizontalScrollBarEnabled(false);
-            AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-            this.listView = anonymousClass2;
-            ((DefaultItemAnimator) anonymousClass2.getItemAnimator()).setDelayAnimations(false);
+            RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.2
+                @Override // android.view.ViewGroup
+                public void addView(View view, int i, ViewGroup.LayoutParams layoutParams) {
+                    super.addView(view, i, layoutParams);
+                    if (TabsView.this.isInHiddenMode) {
+                        view.setScaleX(0.3f);
+                        view.setScaleY(0.3f);
+                        view.setAlpha(0.0f);
+                        return;
+                    }
+                    view.setScaleX(1.0f);
+                    view.setScaleY(1.0f);
+                    view.setAlpha(1.0f);
+                }
+
+                @Override // android.view.View
+                public void setAlpha(float f) {
+                    super.setAlpha(f);
+                    TabsView.this.invalidate();
+                }
+
+                @Override // org.telegram.ui.Components.RecyclerListView
+                public boolean canHighlightChildAt(View view, float f, float f2) {
+                    if (TabsView.this.isEditing) {
+                        TabView tabView = (TabView) view;
+                        float dp = AndroidUtilities.dp(6.0f);
+                        if (tabView.rect.left - dp < f && tabView.rect.right + dp > f) {
+                            return false;
+                        }
+                    }
+                    return super.canHighlightChildAt(view, f, f2);
+                }
+            };
+            this.listView = recyclerListView;
+            ((DefaultItemAnimator) recyclerListView.getItemAnimator()).setDelayAnimations(false);
             this.listView.setSelectorType(8);
             this.listView.setSelectorRadius(6);
             this.listView.setSelectorDrawableColor(Theme.getColor(this.selectorColorKey));
-            RecyclerListView recyclerListView = this.listView;
-            AnonymousClass3 anonymousClass3 = new AnonymousClass3(context, 0, false);
-            this.layoutManager = anonymousClass3;
-            recyclerListView.setLayoutManager(anonymousClass3);
+            RecyclerListView recyclerListView2 = this.listView;
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 0, false) { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.3
+                @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
+                public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i) {
+                    LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.3.1
+                        @Override // androidx.recyclerview.widget.LinearSmoothScroller, androidx.recyclerview.widget.RecyclerView.SmoothScroller
+                        protected void onTargetFound(View view, RecyclerView.State state2, RecyclerView.SmoothScroller.Action action) {
+                            int calculateDxToMakeVisible = calculateDxToMakeVisible(view, getHorizontalSnapPreference());
+                            if (calculateDxToMakeVisible > 0 || (calculateDxToMakeVisible == 0 && view.getLeft() - AndroidUtilities.dp(21.0f) < 0)) {
+                                calculateDxToMakeVisible += AndroidUtilities.dp(60.0f);
+                            } else if (calculateDxToMakeVisible < 0 || (calculateDxToMakeVisible == 0 && view.getRight() + AndroidUtilities.dp(21.0f) > TabsView.this.getMeasuredWidth())) {
+                                calculateDxToMakeVisible -= AndroidUtilities.dp(60.0f);
+                            }
+                            int calculateDyToMakeVisible = calculateDyToMakeVisible(view, getVerticalSnapPreference());
+                            int max = Math.max(180, calculateTimeForDeceleration((int) Math.sqrt((calculateDxToMakeVisible * calculateDxToMakeVisible) + (calculateDyToMakeVisible * calculateDyToMakeVisible))));
+                            if (max > 0) {
+                                action.update(-calculateDxToMakeVisible, -calculateDyToMakeVisible, max, this.mDecelerateInterpolator);
+                            }
+                        }
+                    };
+                    linearSmoothScroller.setTargetPosition(i);
+                    startSmoothScroll(linearSmoothScroller);
+                }
+
+                @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
+                public void onInitializeAccessibilityNodeInfo(RecyclerView.Recycler recycler, RecyclerView.State state, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
+                    super.onInitializeAccessibilityNodeInfo(recycler, state, accessibilityNodeInfoCompat);
+                    if (TabsView.this.isInHiddenMode) {
+                        accessibilityNodeInfoCompat.setVisibleToUser(false);
+                    }
+                }
+            };
+            this.layoutManager = linearLayoutManager;
+            recyclerListView2.setLayoutManager(linearLayoutManager);
             this.listView.setPadding(AndroidUtilities.dp(7.0f), 0, AndroidUtilities.dp(7.0f), 0);
             this.listView.setClipToPadding(false);
             this.listView.setDrawSelectorBehind(true);
-            RecyclerListView recyclerListView2 = this.listView;
+            RecyclerListView recyclerListView3 = this.listView;
             ListAdapter listAdapter = new ListAdapter(context);
             this.adapter = listAdapter;
-            recyclerListView2.setAdapter(listAdapter);
-            this.listView.setOnItemClickListener(new ViewPagerFixed$TabsView$$ExternalSyntheticLambda1(this));
-            this.listView.setOnScrollListener(new AnonymousClass4());
+            recyclerListView3.setAdapter(listAdapter);
+            this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.ViewPagerFixed$TabsView$$ExternalSyntheticLambda1
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+                public /* synthetic */ boolean hasDoubleTap(View view, int i) {
+                    return RecyclerListView.OnItemClickListenerExtended.CC.$default$hasDoubleTap(this, view, i);
+                }
+
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+                public /* synthetic */ void onDoubleTap(View view, int i, float f, float f2) {
+                    RecyclerListView.OnItemClickListenerExtended.CC.$default$onDoubleTap(this, view, i, f, f2);
+                }
+
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+                public final void onItemClick(View view, int i, float f, float f2) {
+                    ViewPagerFixed.TabsView.this.lambda$new$0(view, i, f, f2);
+                }
+            });
+            this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.4
+                @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+                public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+                    TabsView.this.invalidate();
+                }
+            });
             addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.Components.ViewPagerFixed$TabsView$2 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends RecyclerListView {
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            AnonymousClass2(Context context) {
-                super(context);
-                TabsView.this = r1;
-            }
-
-            @Override // android.view.ViewGroup
-            public void addView(View view, int i, ViewGroup.LayoutParams layoutParams) {
-                super.addView(view, i, layoutParams);
-                if (TabsView.this.isInHiddenMode) {
-                    view.setScaleX(0.3f);
-                    view.setScaleY(0.3f);
-                    view.setAlpha(0.0f);
-                    return;
-                }
-                view.setScaleX(1.0f);
-                view.setScaleY(1.0f);
-                view.setAlpha(1.0f);
-            }
-
-            @Override // android.view.View
-            public void setAlpha(float f) {
-                super.setAlpha(f);
-                TabsView.this.invalidate();
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView
-            public boolean canHighlightChildAt(View view, float f, float f2) {
-                if (TabsView.this.isEditing) {
-                    TabView tabView = (TabView) view;
-                    float dp = AndroidUtilities.dp(6.0f);
-                    if (tabView.rect.left - dp < f && tabView.rect.right + dp > f) {
-                        return false;
-                    }
-                }
-                return super.canHighlightChildAt(view, f, f2);
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.Components.ViewPagerFixed$TabsView$3 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass3 extends LinearLayoutManager {
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            AnonymousClass3(Context context, int i, boolean z) {
-                super(context, i, z);
-                TabsView.this = r1;
-            }
-
-            /* renamed from: org.telegram.ui.Components.ViewPagerFixed$TabsView$3$1 */
-            /* loaded from: classes3.dex */
-            class AnonymousClass1 extends LinearSmoothScroller {
-                /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-                AnonymousClass1(Context context) {
-                    super(context);
-                    AnonymousClass3.this = r1;
-                }
-
-                @Override // androidx.recyclerview.widget.LinearSmoothScroller, androidx.recyclerview.widget.RecyclerView.SmoothScroller
-                protected void onTargetFound(View view, RecyclerView.State state, RecyclerView.SmoothScroller.Action action) {
-                    int calculateDxToMakeVisible = calculateDxToMakeVisible(view, getHorizontalSnapPreference());
-                    if (calculateDxToMakeVisible > 0 || (calculateDxToMakeVisible == 0 && view.getLeft() - AndroidUtilities.dp(21.0f) < 0)) {
-                        calculateDxToMakeVisible += AndroidUtilities.dp(60.0f);
-                    } else if (calculateDxToMakeVisible < 0 || (calculateDxToMakeVisible == 0 && view.getRight() + AndroidUtilities.dp(21.0f) > TabsView.this.getMeasuredWidth())) {
-                        calculateDxToMakeVisible -= AndroidUtilities.dp(60.0f);
-                    }
-                    int calculateDyToMakeVisible = calculateDyToMakeVisible(view, getVerticalSnapPreference());
-                    int max = Math.max(180, calculateTimeForDeceleration((int) Math.sqrt((calculateDxToMakeVisible * calculateDxToMakeVisible) + (calculateDyToMakeVisible * calculateDyToMakeVisible))));
-                    if (max > 0) {
-                        action.update(-calculateDxToMakeVisible, -calculateDyToMakeVisible, max, this.mDecelerateInterpolator);
-                    }
-                }
-            }
-
-            @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i) {
-                AnonymousClass1 anonymousClass1 = new AnonymousClass1(recyclerView.getContext());
-                anonymousClass1.setTargetPosition(i);
-                startSmoothScroll(anonymousClass1);
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public void onInitializeAccessibilityNodeInfo(RecyclerView.Recycler recycler, RecyclerView.State state, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
-                super.onInitializeAccessibilityNodeInfo(recycler, state, accessibilityNodeInfoCompat);
-                if (TabsView.this.isInHiddenMode) {
-                    accessibilityNodeInfoCompat.setVisibleToUser(false);
-                }
-            }
         }
 
         public /* synthetic */ void lambda$new$0(View view, int i, float f, float f2) {
@@ -1068,20 +1024,6 @@ public class ViewPagerFixed extends FrameLayout {
                 scrollToTab(tabView.currentTab.id, i);
             } else {
                 tabsViewDelegate.onSamePageSelected();
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.Components.ViewPagerFixed$TabsView$4 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass4 extends RecyclerView.OnScrollListener {
-            AnonymousClass4() {
-                TabsView.this = r1;
-            }
-
-            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                TabsView.this.invalidate();
             }
         }
 
@@ -1119,46 +1061,30 @@ public class ViewPagerFixed extends FrameLayout {
             scrollToChild(i2);
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.tabsAnimator = ofFloat;
-            ofFloat.addUpdateListener(new AnonymousClass5());
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.5
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    float floatValue = ((Float) valueAnimator2.getAnimatedValue()).floatValue();
+                    TabsView.this.setAnimationIdicatorProgress(floatValue);
+                    if (TabsView.this.delegate != null) {
+                        TabsView.this.delegate.onPageScrolled(floatValue);
+                    }
+                }
+            });
             this.tabsAnimator.setDuration(250L);
             this.tabsAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            this.tabsAnimator.addListener(new AnonymousClass6());
+            this.tabsAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.6
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    TabsView.this.animatingIndicator = false;
+                    TabsView.this.setEnabled(true);
+                    if (TabsView.this.delegate != null) {
+                        TabsView.this.delegate.onPageScrolled(1.0f);
+                    }
+                    TabsView.this.invalidate();
+                }
+            });
             this.tabsAnimator.start();
-        }
-
-        /* renamed from: org.telegram.ui.Components.ViewPagerFixed$TabsView$5 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass5 implements ValueAnimator.AnimatorUpdateListener {
-            AnonymousClass5() {
-                TabsView.this = r1;
-            }
-
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-                TabsView.this.setAnimationIdicatorProgress(floatValue);
-                if (TabsView.this.delegate != null) {
-                    TabsView.this.delegate.onPageScrolled(floatValue);
-                }
-            }
-        }
-
-        /* renamed from: org.telegram.ui.Components.ViewPagerFixed$TabsView$6 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass6 extends AnimatorListenerAdapter {
-            AnonymousClass6() {
-                TabsView.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                TabsView.this.animatingIndicator = false;
-                TabsView.this.setEnabled(true);
-                if (TabsView.this.delegate != null) {
-                    TabsView.this.delegate.onPageScrolled(1.0f);
-                }
-                TabsView.this.invalidate();
-            }
         }
 
         public void setAnimationIdicatorProgress(float f) {

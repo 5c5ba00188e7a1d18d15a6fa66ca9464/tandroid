@@ -8,11 +8,14 @@ import android.os.IBinder;
 import android.util.Log;
 import com.google.android.gms.common.stats.ConnectionTracker;
 import com.google.android.gms.common.util.concurrent.NamedThreadFactory;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.firebase.messaging.WithinAppServiceConnection;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
@@ -36,7 +39,31 @@ class WithinAppServiceConnection implements ServiceConnection {
         }
 
         void arrangeTimeout(ScheduledExecutorService scheduledExecutorService) {
-            getTask().addOnCompleteListener(scheduledExecutorService, new WithinAppServiceConnection$BindRequest$$Lambda$1(scheduledExecutorService.schedule(new WithinAppServiceConnection$BindRequest$$Lambda$0(this), 9000L, TimeUnit.MILLISECONDS)));
+            getTask().addOnCompleteListener(scheduledExecutorService, new OnCompleteListener(scheduledExecutorService.schedule(new Runnable(this) { // from class: com.google.firebase.messaging.WithinAppServiceConnection$BindRequest$$Lambda$0
+                private final WithinAppServiceConnection.BindRequest arg$1;
+
+                /* JADX INFO: Access modifiers changed from: package-private */
+                {
+                    this.arg$1 = this;
+                }
+
+                @Override // java.lang.Runnable
+                public void run() {
+                    this.arg$1.lambda$arrangeTimeout$0$WithinAppServiceConnection$BindRequest();
+                }
+            }, 9000L, TimeUnit.MILLISECONDS)) { // from class: com.google.firebase.messaging.WithinAppServiceConnection$BindRequest$$Lambda$1
+                private final ScheduledFuture arg$1;
+
+                /* JADX INFO: Access modifiers changed from: package-private */
+                {
+                    this.arg$1 = schedule;
+                }
+
+                @Override // com.google.android.gms.tasks.OnCompleteListener
+                public void onComplete(Task task) {
+                    this.arg$1.cancel(false);
+                }
+            });
         }
 
         public void finish() {

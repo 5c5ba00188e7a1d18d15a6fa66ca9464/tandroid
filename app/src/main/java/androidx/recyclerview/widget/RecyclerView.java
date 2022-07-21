@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.BuildVars;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class RecyclerView extends ViewGroup implements NestedScrollingChild {
     static final boolean ALLOW_SIZE_IN_UNSPECIFIED_SPEC;
@@ -215,32 +216,13 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             z = false;
         }
         IGNORE_DETACHED_FOCUSED_CHILD = z;
-        sQuinticInterpolator = new AnonymousClass3();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: androidx.recyclerview.widget.RecyclerView$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            RecyclerView.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            RecyclerView recyclerView = RecyclerView.this;
-            if (!recyclerView.mFirstLayoutComplete || recyclerView.isLayoutRequested()) {
-                return;
+        sQuinticInterpolator = new Interpolator() { // from class: androidx.recyclerview.widget.RecyclerView.3
+            @Override // android.animation.TimeInterpolator
+            public float getInterpolation(float f) {
+                float f2 = f - 1.0f;
+                return (f2 * f2 * f2 * f2 * f2) + 1.0f;
             }
-            RecyclerView recyclerView2 = RecyclerView.this;
-            if (!recyclerView2.mIsAttached) {
-                recyclerView2.requestLayout();
-            } else if (recyclerView2.mLayoutSuppressed) {
-                recyclerView2.mLayoutWasDefered = true;
-            } else {
-                recyclerView2.consumePendingUpdateOperations();
-            }
-        }
+        };
     }
 
     public void setTopGlowOffset(int i) {
@@ -301,78 +283,6 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         edgeEffect.setColor(num.intValue());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: androidx.recyclerview.widget.RecyclerView$2 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass2 implements Runnable {
-        AnonymousClass2() {
-            RecyclerView.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            ItemAnimator itemAnimator = RecyclerView.this.mItemAnimator;
-            if (itemAnimator != null) {
-                itemAnimator.runPendingAnimations();
-            }
-            RecyclerView.this.mPostedAnimatorRunner = false;
-        }
-    }
-
-    /* renamed from: androidx.recyclerview.widget.RecyclerView$3 */
-    /* loaded from: classes.dex */
-    class AnonymousClass3 implements Interpolator {
-        @Override // android.animation.TimeInterpolator
-        public float getInterpolation(float f) {
-            float f2 = f - 1.0f;
-            return (f2 * f2 * f2 * f2 * f2) + 1.0f;
-        }
-
-        AnonymousClass3() {
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: androidx.recyclerview.widget.RecyclerView$4 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass4 implements ViewInfoStore.ProcessCallback {
-        AnonymousClass4() {
-            RecyclerView.this = r1;
-        }
-
-        @Override // androidx.recyclerview.widget.ViewInfoStore.ProcessCallback
-        public void processDisappeared(ViewHolder viewHolder, ItemAnimator.ItemHolderInfo itemHolderInfo, ItemAnimator.ItemHolderInfo itemHolderInfo2) {
-            RecyclerView.this.mRecycler.unscrapView(viewHolder);
-            RecyclerView.this.animateDisappearance(viewHolder, itemHolderInfo, itemHolderInfo2);
-        }
-
-        @Override // androidx.recyclerview.widget.ViewInfoStore.ProcessCallback
-        public void processAppeared(ViewHolder viewHolder, ItemAnimator.ItemHolderInfo itemHolderInfo, ItemAnimator.ItemHolderInfo itemHolderInfo2) {
-            RecyclerView.this.animateAppearance(viewHolder, itemHolderInfo, itemHolderInfo2);
-        }
-
-        @Override // androidx.recyclerview.widget.ViewInfoStore.ProcessCallback
-        public void processPersistent(ViewHolder viewHolder, ItemAnimator.ItemHolderInfo itemHolderInfo, ItemAnimator.ItemHolderInfo itemHolderInfo2) {
-            viewHolder.setIsRecyclable(false);
-            RecyclerView recyclerView = RecyclerView.this;
-            if (recyclerView.mDataSetHasChangedAfterLayout) {
-                if (!recyclerView.mItemAnimator.animateChange(viewHolder, viewHolder, itemHolderInfo, itemHolderInfo2)) {
-                    return;
-                }
-                RecyclerView.this.postAnimationRunner();
-            } else if (!recyclerView.mItemAnimator.animatePersistence(viewHolder, itemHolderInfo, itemHolderInfo2)) {
-            } else {
-                RecyclerView.this.postAnimationRunner();
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.ViewInfoStore.ProcessCallback
-        public void unused(ViewHolder viewHolder) {
-            RecyclerView recyclerView = RecyclerView.this;
-            recyclerView.mLayout.removeAndRecycleView(viewHolder.itemView, recyclerView.mRecycler);
-        }
-    }
-
     public RecyclerView(Context context) {
         this(context, null);
     }
@@ -386,7 +296,23 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         this.mObserver = new RecyclerViewDataObserver();
         this.mRecycler = new Recycler();
         this.mViewInfoStore = new ViewInfoStore();
-        this.mUpdateChildViewsRunnable = new AnonymousClass1();
+        this.mUpdateChildViewsRunnable = new Runnable() { // from class: androidx.recyclerview.widget.RecyclerView.1
+            @Override // java.lang.Runnable
+            public void run() {
+                RecyclerView recyclerView = RecyclerView.this;
+                if (!recyclerView.mFirstLayoutComplete || recyclerView.isLayoutRequested()) {
+                    return;
+                }
+                RecyclerView recyclerView2 = RecyclerView.this;
+                if (!recyclerView2.mIsAttached) {
+                    recyclerView2.requestLayout();
+                } else if (recyclerView2.mLayoutSuppressed) {
+                    recyclerView2.mLayoutWasDefered = true;
+                } else {
+                    recyclerView2.consumePendingUpdateOperations();
+                }
+            }
+        };
         this.mTempRect = new Rect();
         this.mTempRect2 = new Rect();
         this.mTempRectF = new RectF();
@@ -420,8 +346,49 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         this.glowColor = null;
         this.mReusableIntPair = new int[2];
         this.mPendingAccessibilityImportanceChange = new ArrayList();
-        this.mItemAnimatorRunner = new AnonymousClass2();
-        this.mViewInfoProcessCallback = new AnonymousClass4();
+        this.mItemAnimatorRunner = new Runnable() { // from class: androidx.recyclerview.widget.RecyclerView.2
+            @Override // java.lang.Runnable
+            public void run() {
+                ItemAnimator itemAnimator = RecyclerView.this.mItemAnimator;
+                if (itemAnimator != null) {
+                    itemAnimator.runPendingAnimations();
+                }
+                RecyclerView.this.mPostedAnimatorRunner = false;
+            }
+        };
+        this.mViewInfoProcessCallback = new ViewInfoStore.ProcessCallback() { // from class: androidx.recyclerview.widget.RecyclerView.4
+            @Override // androidx.recyclerview.widget.ViewInfoStore.ProcessCallback
+            public void processDisappeared(ViewHolder viewHolder, ItemAnimator.ItemHolderInfo itemHolderInfo, ItemAnimator.ItemHolderInfo itemHolderInfo2) {
+                RecyclerView.this.mRecycler.unscrapView(viewHolder);
+                RecyclerView.this.animateDisappearance(viewHolder, itemHolderInfo, itemHolderInfo2);
+            }
+
+            @Override // androidx.recyclerview.widget.ViewInfoStore.ProcessCallback
+            public void processAppeared(ViewHolder viewHolder, ItemAnimator.ItemHolderInfo itemHolderInfo, ItemAnimator.ItemHolderInfo itemHolderInfo2) {
+                RecyclerView.this.animateAppearance(viewHolder, itemHolderInfo, itemHolderInfo2);
+            }
+
+            @Override // androidx.recyclerview.widget.ViewInfoStore.ProcessCallback
+            public void processPersistent(ViewHolder viewHolder, ItemAnimator.ItemHolderInfo itemHolderInfo, ItemAnimator.ItemHolderInfo itemHolderInfo2) {
+                viewHolder.setIsRecyclable(false);
+                RecyclerView recyclerView = RecyclerView.this;
+                if (recyclerView.mDataSetHasChangedAfterLayout) {
+                    if (!recyclerView.mItemAnimator.animateChange(viewHolder, viewHolder, itemHolderInfo, itemHolderInfo2)) {
+                        return;
+                    }
+                    RecyclerView.this.postAnimationRunner();
+                } else if (!recyclerView.mItemAnimator.animatePersistence(viewHolder, itemHolderInfo, itemHolderInfo2)) {
+                } else {
+                    RecyclerView.this.postAnimationRunner();
+                }
+            }
+
+            @Override // androidx.recyclerview.widget.ViewInfoStore.ProcessCallback
+            public void unused(ViewHolder viewHolder) {
+                RecyclerView recyclerView = RecyclerView.this;
+                recyclerView.mLayout.removeAndRecycleView(viewHolder.itemView, recyclerView.mRecycler);
+            }
+        };
         if (attributeSet != null) {
             TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, CLIP_TO_PADDING_ATTR, i, 0);
             this.mClipToPadding = obtainStyledAttributes.getBoolean(0, true);
@@ -471,185 +438,169 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         ViewCompat.setAccessibilityDelegate(this, recyclerViewAccessibilityDelegate);
     }
 
-    /* renamed from: androidx.recyclerview.widget.RecyclerView$5 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass5 implements ChildHelper.Callback {
-        AnonymousClass5() {
-            RecyclerView.this = r1;
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public int getChildCount() {
-            return RecyclerView.this.getChildCount();
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public void addView(View view, int i) {
-            RecyclerView.this.addView(view, i);
-            RecyclerView.this.dispatchChildAttached(view);
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public int indexOfChild(View view) {
-            return RecyclerView.this.indexOfChild(view);
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public void removeViewAt(int i) {
-            View childAt = RecyclerView.this.getChildAt(i);
-            if (childAt != null) {
-                RecyclerView.this.dispatchChildDetached(childAt);
-                childAt.clearAnimation();
-            }
-            RecyclerView.this.removeViewAt(i);
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public View getChildAt(int i) {
-            return RecyclerView.this.getChildAt(i);
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public void removeAllViews() {
-            int childCount = getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childAt = getChildAt(i);
-                RecyclerView.this.dispatchChildDetached(childAt);
-                childAt.clearAnimation();
-            }
-            RecyclerView.this.removeAllViews();
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public ViewHolder getChildViewHolder(View view) {
-            return RecyclerView.getChildViewHolderInt(view);
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public void attachViewToParent(View view, int i, ViewGroup.LayoutParams layoutParams) {
-            ViewHolder childViewHolderInt = RecyclerView.getChildViewHolderInt(view);
-            if (childViewHolderInt != null) {
-                if (!childViewHolderInt.isTmpDetached() && !childViewHolderInt.shouldIgnore()) {
-                    throw new IllegalArgumentException("Called attach on a child which is not detached: " + childViewHolderInt + RecyclerView.this.exceptionLabel());
-                }
-                childViewHolderInt.clearTmpDetachFlag();
-            }
-            RecyclerView.this.attachViewToParent(view, i, layoutParams);
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public void detachViewFromParent(int i) {
-            ViewHolder childViewHolderInt;
-            View childAt = getChildAt(i);
-            if (childAt != null && (childViewHolderInt = RecyclerView.getChildViewHolderInt(childAt)) != null) {
-                if (childViewHolderInt.isTmpDetached() && !childViewHolderInt.shouldIgnore()) {
-                    throw new IllegalArgumentException("called detach on an already detached child " + childViewHolderInt + RecyclerView.this.exceptionLabel());
-                }
-                childViewHolderInt.addFlags(256);
-            }
-            RecyclerView.this.detachViewFromParent(i);
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public void onEnteredHiddenState(View view) {
-            ViewHolder childViewHolderInt = RecyclerView.getChildViewHolderInt(view);
-            if (childViewHolderInt != null) {
-                childViewHolderInt.onEnteredHiddenState(RecyclerView.this);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.ChildHelper.Callback
-        public void onLeftHiddenState(View view) {
-            ViewHolder childViewHolderInt = RecyclerView.getChildViewHolderInt(view);
-            if (childViewHolderInt != null) {
-                childViewHolderInt.onLeftHiddenState(RecyclerView.this);
-            }
-        }
-    }
-
     private void initChildrenHelper() {
-        this.mChildHelper = new ChildHelper(new AnonymousClass5());
-    }
-
-    /* renamed from: androidx.recyclerview.widget.RecyclerView$6 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass6 implements AdapterHelper.Callback {
-        AnonymousClass6() {
-            RecyclerView.this = r1;
-        }
-
-        @Override // androidx.recyclerview.widget.AdapterHelper.Callback
-        public ViewHolder findViewHolder(int i) {
-            ViewHolder findViewHolderForPosition = RecyclerView.this.findViewHolderForPosition(i, true);
-            if (findViewHolderForPosition != null && !RecyclerView.this.mChildHelper.isHidden(findViewHolderForPosition.itemView)) {
-                return findViewHolderForPosition;
+        this.mChildHelper = new ChildHelper(new ChildHelper.Callback() { // from class: androidx.recyclerview.widget.RecyclerView.5
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public int getChildCount() {
+                return RecyclerView.this.getChildCount();
             }
-            return null;
-        }
 
-        @Override // androidx.recyclerview.widget.AdapterHelper.Callback
-        public void offsetPositionsForRemovingInvisible(int i, int i2) {
-            RecyclerView.this.offsetPositionRecordsForRemove(i, i2, true);
-            RecyclerView recyclerView = RecyclerView.this;
-            recyclerView.mItemsAddedOrRemoved = true;
-            recyclerView.mState.mDeletedInvisibleItemCountSincePreviousLayout += i2;
-        }
-
-        @Override // androidx.recyclerview.widget.AdapterHelper.Callback
-        public void offsetPositionsForRemovingLaidOutOrNewView(int i, int i2) {
-            RecyclerView.this.offsetPositionRecordsForRemove(i, i2, false);
-            RecyclerView.this.mItemsAddedOrRemoved = true;
-        }
-
-        @Override // androidx.recyclerview.widget.AdapterHelper.Callback
-        public void markViewHoldersUpdated(int i, int i2, Object obj) {
-            RecyclerView.this.viewRangeUpdate(i, i2, obj);
-            RecyclerView.this.mItemsChanged = true;
-        }
-
-        @Override // androidx.recyclerview.widget.AdapterHelper.Callback
-        public void onDispatchFirstPass(AdapterHelper.UpdateOp updateOp) {
-            dispatchUpdate(updateOp);
-        }
-
-        void dispatchUpdate(AdapterHelper.UpdateOp updateOp) {
-            int i = updateOp.cmd;
-            if (i == 1) {
-                RecyclerView recyclerView = RecyclerView.this;
-                recyclerView.mLayout.onItemsAdded(recyclerView, updateOp.positionStart, updateOp.itemCount);
-            } else if (i == 2) {
-                RecyclerView recyclerView2 = RecyclerView.this;
-                recyclerView2.mLayout.onItemsRemoved(recyclerView2, updateOp.positionStart, updateOp.itemCount);
-            } else if (i == 4) {
-                RecyclerView recyclerView3 = RecyclerView.this;
-                recyclerView3.mLayout.onItemsUpdated(recyclerView3, updateOp.positionStart, updateOp.itemCount, updateOp.payload);
-            } else if (i != 8) {
-            } else {
-                RecyclerView recyclerView4 = RecyclerView.this;
-                recyclerView4.mLayout.onItemsMoved(recyclerView4, updateOp.positionStart, updateOp.itemCount, 1);
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public void addView(View view, int i) {
+                RecyclerView.this.addView(view, i);
+                RecyclerView.this.dispatchChildAttached(view);
             }
-        }
 
-        @Override // androidx.recyclerview.widget.AdapterHelper.Callback
-        public void onDispatchSecondPass(AdapterHelper.UpdateOp updateOp) {
-            dispatchUpdate(updateOp);
-        }
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public int indexOfChild(View view) {
+                return RecyclerView.this.indexOfChild(view);
+            }
 
-        @Override // androidx.recyclerview.widget.AdapterHelper.Callback
-        public void offsetPositionsForAdd(int i, int i2) {
-            RecyclerView.this.offsetPositionRecordsForInsert(i, i2);
-            RecyclerView.this.mItemsAddedOrRemoved = true;
-        }
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public void removeViewAt(int i) {
+                View childAt = RecyclerView.this.getChildAt(i);
+                if (childAt != null) {
+                    RecyclerView.this.dispatchChildDetached(childAt);
+                    childAt.clearAnimation();
+                }
+                RecyclerView.this.removeViewAt(i);
+            }
 
-        @Override // androidx.recyclerview.widget.AdapterHelper.Callback
-        public void offsetPositionsForMove(int i, int i2) {
-            RecyclerView.this.offsetPositionRecordsForMove(i, i2);
-            RecyclerView.this.mItemsAddedOrRemoved = true;
-        }
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public View getChildAt(int i) {
+                return RecyclerView.this.getChildAt(i);
+            }
+
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public void removeAllViews() {
+                int childCount = getChildCount();
+                for (int i = 0; i < childCount; i++) {
+                    View childAt = getChildAt(i);
+                    RecyclerView.this.dispatchChildDetached(childAt);
+                    childAt.clearAnimation();
+                }
+                RecyclerView.this.removeAllViews();
+            }
+
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public ViewHolder getChildViewHolder(View view) {
+                return RecyclerView.getChildViewHolderInt(view);
+            }
+
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public void attachViewToParent(View view, int i, ViewGroup.LayoutParams layoutParams) {
+                ViewHolder childViewHolderInt = RecyclerView.getChildViewHolderInt(view);
+                if (childViewHolderInt != null) {
+                    if (!childViewHolderInt.isTmpDetached() && !childViewHolderInt.shouldIgnore()) {
+                        throw new IllegalArgumentException("Called attach on a child which is not detached: " + childViewHolderInt + RecyclerView.this.exceptionLabel());
+                    }
+                    childViewHolderInt.clearTmpDetachFlag();
+                }
+                RecyclerView.this.attachViewToParent(view, i, layoutParams);
+            }
+
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public void detachViewFromParent(int i) {
+                ViewHolder childViewHolderInt;
+                View childAt = getChildAt(i);
+                if (childAt != null && (childViewHolderInt = RecyclerView.getChildViewHolderInt(childAt)) != null) {
+                    if (childViewHolderInt.isTmpDetached() && !childViewHolderInt.shouldIgnore()) {
+                        throw new IllegalArgumentException("called detach on an already detached child " + childViewHolderInt + RecyclerView.this.exceptionLabel());
+                    }
+                    childViewHolderInt.addFlags(256);
+                }
+                RecyclerView.this.detachViewFromParent(i);
+            }
+
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public void onEnteredHiddenState(View view) {
+                ViewHolder childViewHolderInt = RecyclerView.getChildViewHolderInt(view);
+                if (childViewHolderInt != null) {
+                    childViewHolderInt.onEnteredHiddenState(RecyclerView.this);
+                }
+            }
+
+            @Override // androidx.recyclerview.widget.ChildHelper.Callback
+            public void onLeftHiddenState(View view) {
+                ViewHolder childViewHolderInt = RecyclerView.getChildViewHolderInt(view);
+                if (childViewHolderInt != null) {
+                    childViewHolderInt.onLeftHiddenState(RecyclerView.this);
+                }
+            }
+        });
     }
 
     void initAdapterManager() {
-        this.mAdapterHelper = new AdapterHelper(new AnonymousClass6());
+        this.mAdapterHelper = new AdapterHelper(new AdapterHelper.Callback() { // from class: androidx.recyclerview.widget.RecyclerView.6
+            @Override // androidx.recyclerview.widget.AdapterHelper.Callback
+            public ViewHolder findViewHolder(int i) {
+                ViewHolder findViewHolderForPosition = RecyclerView.this.findViewHolderForPosition(i, true);
+                if (findViewHolderForPosition != null && !RecyclerView.this.mChildHelper.isHidden(findViewHolderForPosition.itemView)) {
+                    return findViewHolderForPosition;
+                }
+                return null;
+            }
+
+            @Override // androidx.recyclerview.widget.AdapterHelper.Callback
+            public void offsetPositionsForRemovingInvisible(int i, int i2) {
+                RecyclerView.this.offsetPositionRecordsForRemove(i, i2, true);
+                RecyclerView recyclerView = RecyclerView.this;
+                recyclerView.mItemsAddedOrRemoved = true;
+                recyclerView.mState.mDeletedInvisibleItemCountSincePreviousLayout += i2;
+            }
+
+            @Override // androidx.recyclerview.widget.AdapterHelper.Callback
+            public void offsetPositionsForRemovingLaidOutOrNewView(int i, int i2) {
+                RecyclerView.this.offsetPositionRecordsForRemove(i, i2, false);
+                RecyclerView.this.mItemsAddedOrRemoved = true;
+            }
+
+            @Override // androidx.recyclerview.widget.AdapterHelper.Callback
+            public void markViewHoldersUpdated(int i, int i2, Object obj) {
+                RecyclerView.this.viewRangeUpdate(i, i2, obj);
+                RecyclerView.this.mItemsChanged = true;
+            }
+
+            @Override // androidx.recyclerview.widget.AdapterHelper.Callback
+            public void onDispatchFirstPass(AdapterHelper.UpdateOp updateOp) {
+                dispatchUpdate(updateOp);
+            }
+
+            void dispatchUpdate(AdapterHelper.UpdateOp updateOp) {
+                int i = updateOp.cmd;
+                if (i == 1) {
+                    RecyclerView recyclerView = RecyclerView.this;
+                    recyclerView.mLayout.onItemsAdded(recyclerView, updateOp.positionStart, updateOp.itemCount);
+                } else if (i == 2) {
+                    RecyclerView recyclerView2 = RecyclerView.this;
+                    recyclerView2.mLayout.onItemsRemoved(recyclerView2, updateOp.positionStart, updateOp.itemCount);
+                } else if (i == 4) {
+                    RecyclerView recyclerView3 = RecyclerView.this;
+                    recyclerView3.mLayout.onItemsUpdated(recyclerView3, updateOp.positionStart, updateOp.itemCount, updateOp.payload);
+                } else if (i != 8) {
+                } else {
+                    RecyclerView recyclerView4 = RecyclerView.this;
+                    recyclerView4.mLayout.onItemsMoved(recyclerView4, updateOp.positionStart, updateOp.itemCount, 1);
+                }
+            }
+
+            @Override // androidx.recyclerview.widget.AdapterHelper.Callback
+            public void onDispatchSecondPass(AdapterHelper.UpdateOp updateOp) {
+                dispatchUpdate(updateOp);
+            }
+
+            @Override // androidx.recyclerview.widget.AdapterHelper.Callback
+            public void offsetPositionsForAdd(int i, int i2) {
+                RecyclerView.this.offsetPositionRecordsForInsert(i, i2);
+                RecyclerView.this.mItemsAddedOrRemoved = true;
+            }
+
+            @Override // androidx.recyclerview.widget.AdapterHelper.Callback
+            public void offsetPositionsForMove(int i, int i2) {
+                RecyclerView.this.offsetPositionRecordsForMove(i, i2);
+                RecyclerView.this.mItemsAddedOrRemoved = true;
+            }
+        });
     }
 
     public void setHasFixedSize(boolean z) {
@@ -4781,80 +4732,62 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
 
         public LayoutManager() {
-            AnonymousClass1 anonymousClass1 = new AnonymousClass1();
-            this.mHorizontalBoundCheckCallback = anonymousClass1;
-            AnonymousClass2 anonymousClass2 = new AnonymousClass2();
-            this.mVerticalBoundCheckCallback = anonymousClass2;
-            this.mHorizontalBoundCheck = new ViewBoundsCheck(anonymousClass1);
-            this.mVerticalBoundCheck = new ViewBoundsCheck(anonymousClass2);
-        }
+            ViewBoundsCheck.Callback callback = new ViewBoundsCheck.Callback() { // from class: androidx.recyclerview.widget.RecyclerView.LayoutManager.1
+                @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
+                public View getChildAt(int i) {
+                    return LayoutManager.this.getChildAt(i);
+                }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: androidx.recyclerview.widget.RecyclerView$LayoutManager$1 */
-        /* loaded from: classes.dex */
-        public class AnonymousClass1 implements ViewBoundsCheck.Callback {
-            AnonymousClass1() {
-                LayoutManager.this = r1;
-            }
+                @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
+                public int getParentStart() {
+                    return LayoutManager.this.getPaddingLeft();
+                }
 
-            @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
-            public View getChildAt(int i) {
-                return LayoutManager.this.getChildAt(i);
-            }
+                @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
+                public int getParentEnd() {
+                    return LayoutManager.this.getWidth() - LayoutManager.this.getPaddingRight();
+                }
 
-            @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
-            public int getParentStart() {
-                return LayoutManager.this.getPaddingLeft();
-            }
+                @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
+                public int getChildStart(View view) {
+                    return LayoutManager.this.getDecoratedLeft(view) - ((ViewGroup.MarginLayoutParams) ((LayoutParams) view.getLayoutParams())).leftMargin;
+                }
 
-            @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
-            public int getParentEnd() {
-                return LayoutManager.this.getWidth() - LayoutManager.this.getPaddingRight();
-            }
+                @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
+                public int getChildEnd(View view) {
+                    return LayoutManager.this.getDecoratedRight(view) + ((ViewGroup.MarginLayoutParams) ((LayoutParams) view.getLayoutParams())).rightMargin;
+                }
+            };
+            this.mHorizontalBoundCheckCallback = callback;
+            ViewBoundsCheck.Callback callback2 = new ViewBoundsCheck.Callback() { // from class: androidx.recyclerview.widget.RecyclerView.LayoutManager.2
+                @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
+                public View getChildAt(int i) {
+                    return LayoutManager.this.getChildAt(i);
+                }
 
-            @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
-            public int getChildStart(View view) {
-                return LayoutManager.this.getDecoratedLeft(view) - ((ViewGroup.MarginLayoutParams) ((LayoutParams) view.getLayoutParams())).leftMargin;
-            }
+                @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
+                public int getParentStart() {
+                    return LayoutManager.this.getParentStart();
+                }
 
-            @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
-            public int getChildEnd(View view) {
-                return LayoutManager.this.getDecoratedRight(view) + ((ViewGroup.MarginLayoutParams) ((LayoutParams) view.getLayoutParams())).rightMargin;
-            }
-        }
+                @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
+                public int getParentEnd() {
+                    return LayoutManager.this.getHeight() - LayoutManager.this.getPaddingBottom();
+                }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: androidx.recyclerview.widget.RecyclerView$LayoutManager$2 */
-        /* loaded from: classes.dex */
-        public class AnonymousClass2 implements ViewBoundsCheck.Callback {
-            AnonymousClass2() {
-                LayoutManager.this = r1;
-            }
+                @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
+                public int getChildStart(View view) {
+                    return LayoutManager.this.getDecoratedTop(view) - ((ViewGroup.MarginLayoutParams) ((LayoutParams) view.getLayoutParams())).topMargin;
+                }
 
-            @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
-            public View getChildAt(int i) {
-                return LayoutManager.this.getChildAt(i);
-            }
-
-            @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
-            public int getParentStart() {
-                return LayoutManager.this.getParentStart();
-            }
-
-            @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
-            public int getParentEnd() {
-                return LayoutManager.this.getHeight() - LayoutManager.this.getPaddingBottom();
-            }
-
-            @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
-            public int getChildStart(View view) {
-                return LayoutManager.this.getDecoratedTop(view) - ((ViewGroup.MarginLayoutParams) ((LayoutParams) view.getLayoutParams())).topMargin;
-            }
-
-            @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
-            public int getChildEnd(View view) {
-                return LayoutManager.this.getDecoratedBottom(view) + ((ViewGroup.MarginLayoutParams) ((LayoutParams) view.getLayoutParams())).bottomMargin;
-            }
+                @Override // androidx.recyclerview.widget.ViewBoundsCheck.Callback
+                public int getChildEnd(View view) {
+                    return LayoutManager.this.getDecoratedBottom(view) + ((ViewGroup.MarginLayoutParams) ((LayoutParams) view.getLayoutParams())).bottomMargin;
+                }
+            };
+            this.mVerticalBoundCheckCallback = callback2;
+            this.mHorizontalBoundCheck = new ViewBoundsCheck(callback);
+            this.mVerticalBoundCheck = new ViewBoundsCheck(callback2);
         }
 
         void setRecyclerView(RecyclerView recyclerView) {
@@ -5249,7 +5182,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
                 throw new IllegalArgumentException("View should be fully attached to be ignored" + this.mRecyclerView.exceptionLabel());
             }
             ViewHolder childViewHolderInt = RecyclerView.getChildViewHolderInt(view);
-            childViewHolderInt.addFlags(128);
+            childViewHolderInt.addFlags(ConnectionsManager.RequestFlagNeedQuickAck);
             this.mRecyclerView.mViewInfoStore.removeViewHolder(childViewHolderInt);
         }
 
@@ -5823,7 +5756,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
 
         public boolean shouldIgnore() {
-            return (this.mFlags & 128) != 0;
+            return (this.mFlags & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         }
 
         @Deprecated
@@ -6496,7 +6429,22 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
 
     /* loaded from: classes.dex */
     public static class SavedState extends AbsSavedState {
-        public static final Parcelable.Creator<SavedState> CREATOR = new AnonymousClass1();
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.ClassLoaderCreator<SavedState>() { // from class: androidx.recyclerview.widget.RecyclerView.SavedState.1
+            @Override // android.os.Parcelable.ClassLoaderCreator
+            public SavedState createFromParcel(Parcel parcel, ClassLoader classLoader) {
+                return new SavedState(parcel, classLoader);
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public SavedState createFromParcel(Parcel parcel) {
+                return new SavedState(parcel, null);
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public SavedState[] newArray(int i) {
+                return new SavedState[i];
+            }
+        };
         Parcelable mLayoutState;
 
         SavedState(Parcel parcel, ClassLoader classLoader) {
@@ -6516,28 +6464,6 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
 
         void copyFrom(SavedState savedState) {
             this.mLayoutState = savedState.mLayoutState;
-        }
-
-        /* renamed from: androidx.recyclerview.widget.RecyclerView$SavedState$1 */
-        /* loaded from: classes.dex */
-        class AnonymousClass1 implements Parcelable.ClassLoaderCreator<SavedState> {
-            AnonymousClass1() {
-            }
-
-            @Override // android.os.Parcelable.ClassLoaderCreator
-            public SavedState createFromParcel(Parcel parcel, ClassLoader classLoader) {
-                return new SavedState(parcel, classLoader);
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public SavedState createFromParcel(Parcel parcel) {
-                return new SavedState(parcel, null);
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public SavedState[] newArray(int i) {
-                return new SavedState[i];
-            }
         }
     }
 

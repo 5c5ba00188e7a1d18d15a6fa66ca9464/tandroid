@@ -22,7 +22,14 @@ public abstract class TLRPC$DialogFilter extends TLObject {
     public static TLRPC$DialogFilter TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$DialogFilter tLRPC$DialogFilter;
         if (i == 909284270) {
-            tLRPC$DialogFilter = new TLRPC$TL_dialogFilterDefault();
+            tLRPC$DialogFilter = new TLRPC$DialogFilter() { // from class: org.telegram.tgnet.TLRPC$TL_dialogFilterDefault
+                public static int constructor = 909284270;
+
+                @Override // org.telegram.tgnet.TLObject
+                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                    abstractSerializedData2.writeInt32(constructor);
+                }
+            };
         } else {
             tLRPC$DialogFilter = i != 1949890536 ? null : new TLRPC$TL_dialogFilter();
         }

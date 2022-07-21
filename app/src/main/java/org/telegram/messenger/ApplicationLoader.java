@@ -91,7 +91,20 @@ public class ApplicationLoader extends Application {
         }
         try {
             connectivityManager = (ConnectivityManager) applicationContext.getSystemService("connectivity");
-            applicationContext.registerReceiver(new AnonymousClass1(), new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+            applicationContext.registerReceiver(new BroadcastReceiver() { // from class: org.telegram.messenger.ApplicationLoader.1
+                @Override // android.content.BroadcastReceiver
+                public void onReceive(Context context, Intent intent) {
+                    try {
+                        ApplicationLoader.currentNetworkInfo = ApplicationLoader.connectivityManager.getActiveNetworkInfo();
+                    } catch (Throwable unused) {
+                    }
+                    boolean isConnectionSlow = ApplicationLoader.isConnectionSlow();
+                    for (int i = 0; i < 4; i++) {
+                        ConnectionsManager.getInstance(i).checkConnection();
+                        FileLoader.getInstance(i).onNetworkChanged(isConnectionSlow);
+                    }
+                }
+            }, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         } catch (Exception e2) {
             e2.printStackTrace();
         }
@@ -139,26 +152,6 @@ public class ApplicationLoader extends Application {
         BillingController.getInstance().startConnection();
     }
 
-    /* renamed from: org.telegram.messenger.ApplicationLoader$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends BroadcastReceiver {
-        AnonymousClass1() {
-        }
-
-        @Override // android.content.BroadcastReceiver
-        public void onReceive(Context context, Intent intent) {
-            try {
-                ApplicationLoader.currentNetworkInfo = ApplicationLoader.connectivityManager.getActiveNetworkInfo();
-            } catch (Throwable unused) {
-            }
-            boolean isConnectionSlow = ApplicationLoader.isConnectionSlow();
-            for (int i = 0; i < 4; i++) {
-                ConnectionsManager.getInstance(i).checkConnection();
-                FileLoader.getInstance(i).onNetworkChanged(isConnectionSlow);
-            }
-        }
-    }
-
     @Override // android.app.Application
     public void onCreate() {
         try {
@@ -180,32 +173,22 @@ public class ApplicationLoader extends Application {
         }
         NativeLoader.initNativeLibs(applicationContext);
         ConnectionsManager.native_setJava(false);
-        new AnonymousClass2(this);
+        new ForegroundDetector(this) { // from class: org.telegram.messenger.ApplicationLoader.2
+            @Override // org.telegram.ui.Components.ForegroundDetector, android.app.Application.ActivityLifecycleCallbacks
+            public void onActivityStarted(Activity activity) {
+                boolean isBackground = isBackground();
+                super.onActivityStarted(activity);
+                if (isBackground) {
+                    ApplicationLoader.ensureCurrentNetworkGet(true);
+                }
+            }
+        };
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("load libs time = " + (SystemClock.elapsedRealtime() - startTime));
         }
         applicationHandler = new Handler(applicationContext.getMainLooper());
         AndroidUtilities.runOnUIThread(ApplicationLoader$$ExternalSyntheticLambda4.INSTANCE);
         LauncherIconController.tryFixLauncherIconIfNeeded();
-    }
-
-    /* renamed from: org.telegram.messenger.ApplicationLoader$2 */
-    /* loaded from: classes.dex */
-    class AnonymousClass2 extends ForegroundDetector {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Application application) {
-            super(application);
-            ApplicationLoader.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.ForegroundDetector, android.app.Application.ActivityLifecycleCallbacks
-        public void onActivityStarted(Activity activity) {
-            boolean isBackground = isBackground();
-            super.onActivityStarted(activity);
-            if (isBackground) {
-                ApplicationLoader.ensureCurrentNetworkGet(true);
-            }
-        }
     }
 
     public static void startPushService() {
@@ -241,7 +224,12 @@ public class ApplicationLoader extends Application {
     }
 
     private void initPushServices() {
-        AndroidUtilities.runOnUIThread(new ApplicationLoader$$ExternalSyntheticLambda2(this), 1000L);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                ApplicationLoader.this.lambda$initPushServices$3();
+            }
+        }, 1000L);
     }
 
     public /* synthetic */ void lambda$initPushServices$3() {
@@ -266,7 +254,12 @@ public class ApplicationLoader extends Application {
         if (checkHuaweiServices) {
             FirebaseMessaging.getInstance().setAutoInitEnabled(false);
             HmsMessaging.getInstance(this).setAutoInitEnabled(true);
-            Utilities.globalQueue.postRunnable(new ApplicationLoader$$ExternalSyntheticLambda1(this));
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ApplicationLoader.this.lambda$initPushServices$2();
+                }
+            });
             return;
         }
         if (BuildVars.LOGS_ENABLED) {
@@ -304,7 +297,7 @@ public class ApplicationLoader extends Application {
 
     public /* synthetic */ void lambda$initPushServices$2() {
         try {
-            String token = HmsInstanceId.getInstance(this).getToken(BuildVars.HUAWEI_APP_ID, "HCM");
+            String token = HmsInstanceId.getInstance(this).getToken(BuildVars.HUAWEI_APP_ID, HmsMessaging.DEFAULT_TOKEN_SCOPE);
             SharedConfig.pushStringGetTimeEnd = SystemClock.elapsedRealtime();
             if (TextUtils.isEmpty(token)) {
                 return;
@@ -352,27 +345,20 @@ public class ApplicationLoader extends Application {
                 if (Build.VERSION.SDK_INT < 24 || networkCallback != null) {
                     return;
                 }
-                networkCallback = new AnonymousClass3();
+                networkCallback = new ConnectivityManager.NetworkCallback() { // from class: org.telegram.messenger.ApplicationLoader.3
+                    @Override // android.net.ConnectivityManager.NetworkCallback
+                    public void onAvailable(Network network) {
+                        int unused = ApplicationLoader.lastKnownNetworkType = -1;
+                    }
+
+                    @Override // android.net.ConnectivityManager.NetworkCallback
+                    public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
+                        int unused = ApplicationLoader.lastKnownNetworkType = -1;
+                    }
+                };
                 connectivityManager.registerDefaultNetworkCallback(networkCallback);
             } catch (Throwable unused) {
             }
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.ApplicationLoader$3 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass3 extends ConnectivityManager.NetworkCallback {
-        AnonymousClass3() {
-        }
-
-        @Override // android.net.ConnectivityManager.NetworkCallback
-        public void onAvailable(Network network) {
-            int unused = ApplicationLoader.lastKnownNetworkType = -1;
-        }
-
-        @Override // android.net.ConnectivityManager.NetworkCallback
-        public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
-            int unused = ApplicationLoader.lastKnownNetworkType = -1;
         }
     }
 

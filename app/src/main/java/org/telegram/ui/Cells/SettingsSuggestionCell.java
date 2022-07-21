@@ -12,6 +12,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
@@ -39,7 +40,7 @@ public class SettingsSuggestionCell extends LinearLayout {
         TextView textView = new TextView(context);
         this.textView = textView;
         textView.setTextSize(1, 15.0f);
-        this.textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueHeader", resourcesProvider));
@@ -67,14 +68,24 @@ public class SettingsSuggestionCell extends LinearLayout {
             textView3.setGravity(17);
             textView3.setTextColor(Theme.getColor("featuredStickers_buttonText", resourcesProvider));
             textView3.setTextSize(1, 14.0f);
-            textView3.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             linearLayout.addView(textView3, LayoutHelper.createLinear(0, 40, 0.5f, i == 0 ? 0 : 4, 0, i == 0 ? 4 : 0, 0));
             if (i == 0) {
                 this.yesButton = textView3;
-                textView3.setOnClickListener(new SettingsSuggestionCell$$ExternalSyntheticLambda1(this));
+                textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.SettingsSuggestionCell$$ExternalSyntheticLambda1
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        SettingsSuggestionCell.this.lambda$new$0(view);
+                    }
+                });
             } else {
                 this.noButton = textView3;
-                textView3.setOnClickListener(new SettingsSuggestionCell$$ExternalSyntheticLambda0(this));
+                textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.SettingsSuggestionCell$$ExternalSyntheticLambda0
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        SettingsSuggestionCell.this.lambda$new$1(view);
+                    }
+                });
             }
             i++;
         }
@@ -94,17 +105,17 @@ public class SettingsSuggestionCell extends LinearLayout {
             if (i != 1) {
                 return;
             }
-            this.textView.setText(LocaleController.getString("YourPasswordHeader", 2131629370));
-            this.detailTextView.setText(LocaleController.getString("YourPasswordRemember", 2131629371));
-            this.yesButton.setText(LocaleController.getString("YourPasswordRememberYes", 2131629373));
-            this.noButton.setText(LocaleController.getString("YourPasswordRememberNo", 2131629372));
+            this.textView.setText(LocaleController.getString("YourPasswordHeader", R.string.YourPasswordHeader));
+            this.detailTextView.setText(LocaleController.getString("YourPasswordRemember", R.string.YourPasswordRemember));
+            this.yesButton.setText(LocaleController.getString("YourPasswordRememberYes", R.string.YourPasswordRememberYes));
+            this.noButton.setText(LocaleController.getString("YourPasswordRememberNo", R.string.YourPasswordRememberNo));
             return;
         }
         TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).clientUserId));
         TextView textView = this.textView;
         PhoneFormat phoneFormat = PhoneFormat.getInstance();
-        textView.setText(LocaleController.formatString("CheckPhoneNumber", 2131625111, phoneFormat.format("+" + user.phone)));
-        String string = LocaleController.getString("CheckPhoneNumberInfo", 2131625112);
+        textView.setText(LocaleController.formatString("CheckPhoneNumber", R.string.CheckPhoneNumber, phoneFormat.format("+" + user.phone)));
+        String string = LocaleController.getString("CheckPhoneNumberInfo", R.string.CheckPhoneNumberInfo);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string);
         int indexOf = string.indexOf("**");
         int lastIndexOf = string.lastIndexOf("**");
@@ -112,14 +123,14 @@ public class SettingsSuggestionCell extends LinearLayout {
             spannableStringBuilder.replace(lastIndexOf, lastIndexOf + 2, (CharSequence) "");
             spannableStringBuilder.replace(indexOf, indexOf + 2, (CharSequence) "");
             try {
-                spannableStringBuilder.setSpan(new URLSpanNoUnderline(LocaleController.getString("CheckPhoneNumberLearnMoreUrl", 2131625113)), indexOf, lastIndexOf - 2, 33);
+                spannableStringBuilder.setSpan(new URLSpanNoUnderline(LocaleController.getString("CheckPhoneNumberLearnMoreUrl", R.string.CheckPhoneNumberLearnMoreUrl)), indexOf, lastIndexOf - 2, 33);
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
         this.detailTextView.setText(spannableStringBuilder);
-        this.yesButton.setText(LocaleController.getString("CheckPhoneNumberYes", 2131625115));
-        this.noButton.setText(LocaleController.getString("CheckPhoneNumberNo", 2131625114));
+        this.yesButton.setText(LocaleController.getString("CheckPhoneNumberYes", R.string.CheckPhoneNumberYes));
+        this.noButton.setText(LocaleController.getString("CheckPhoneNumberNo", R.string.CheckPhoneNumberNo));
     }
 
     @Override // android.widget.LinearLayout, android.view.View

@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.os.SystemClock;
 import com.google.android.gms.common.internal.Preconditions;
+import com.google.android.gms.internal.mlkit_language_id.zzai;
 import com.google.android.gms.internal.mlkit_language_id.zzaj;
 import com.google.android.gms.internal.mlkit_language_id.zzcv;
 import com.google.android.gms.internal.mlkit_language_id.zzq;
+import com.google.android.gms.internal.mlkit_language_id.zzy$zzad;
+import com.google.android.gms.internal.mlkit_language_id.zzy$zzaf;
+import com.google.android.gms.internal.mlkit_language_id.zzy$zzau;
 import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.Task;
 import com.google.mlkit.common.MlKitException;
@@ -45,7 +49,30 @@ public class LanguageIdentificationJni extends ModelResource {
 
     public final <T> Task<T> zza(Executor executor, Callable<T> callable, CancellationToken cancellationToken) {
         AtomicReference atomicReference = new AtomicReference(Thread.currentThread());
-        Task<T> callAfterLoad = callAfterLoad(new zzb(this, atomicReference, executor), callable, cancellationToken);
+        Task<T> callAfterLoad = callAfterLoad(new Executor(this, atomicReference, executor) { // from class: com.google.mlkit.nl.languageid.internal.zzb
+            private final LanguageIdentificationJni zza;
+            private final AtomicReference zzb;
+            private final Executor zzc;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zza = this;
+                this.zzb = atomicReference;
+                this.zzc = executor;
+            }
+
+            @Override // java.util.concurrent.Executor
+            public final void execute(Runnable runnable) {
+                LanguageIdentificationJni languageIdentificationJni = this.zza;
+                AtomicReference atomicReference2 = this.zzb;
+                Executor executor2 = this.zzc;
+                if (Thread.currentThread().equals(atomicReference2.get()) && languageIdentificationJni.isLoaded()) {
+                    runnable.run();
+                } else {
+                    executor2.execute(runnable);
+                }
+            }
+        }, callable, cancellationToken);
         atomicReference.set(null);
         return callAfterLoad;
     }
@@ -92,7 +119,19 @@ public class LanguageIdentificationJni extends ModelResource {
                 throw new MlKitException("Couldn't open language detection model file", 13, e);
             }
         } catch (MlKitException e2) {
-            this.zzc.zza(new zza(SystemClock.elapsedRealtime() - elapsedRealtime), zzaj.ON_DEVICE_LANGUAGE_IDENTIFICATION_LOAD);
+            this.zzc.zza(new zzcv.zza(SystemClock.elapsedRealtime() - elapsedRealtime) { // from class: com.google.mlkit.nl.languageid.internal.zza
+                private final long zza;
+
+                /* JADX INFO: Access modifiers changed from: package-private */
+                {
+                    this.zza = elapsedRealtime2;
+                }
+
+                @Override // com.google.android.gms.internal.mlkit_language_id.zzcv.zza
+                public final zzy$zzad.zza zza() {
+                    return zzy$zzad.zzb().zza(zzy$zzau.zza().zza(zzy$zzaf.zza().zza(this.zza).zza(zzai.UNKNOWN_ERROR)));
+                }
+            }, zzaj.ON_DEVICE_LANGUAGE_IDENTIFICATION_LOAD);
             throw e2;
         }
     }

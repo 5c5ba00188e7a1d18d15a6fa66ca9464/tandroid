@@ -37,7 +37,7 @@ public class TLRPC$TL_webPage extends TLRPC$WebPage {
         if ((this.flags & 64) != 0) {
             this.embed_height = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 128) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             this.duration = abstractSerializedData.readInt32(z);
         }
         if ((this.flags & 256) != 0) {
@@ -103,7 +103,7 @@ public class TLRPC$TL_webPage extends TLRPC$WebPage {
         if ((this.flags & 64) != 0) {
             abstractSerializedData.writeInt32(this.embed_height);
         }
-        if ((this.flags & 128) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             abstractSerializedData.writeInt32(this.duration);
         }
         if ((this.flags & 256) != 0) {

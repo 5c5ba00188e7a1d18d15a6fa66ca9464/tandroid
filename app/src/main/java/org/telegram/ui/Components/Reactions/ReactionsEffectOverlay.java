@@ -29,6 +29,7 @@ import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RLottieDrawable;
+import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.ReactionsContainerLayout;
 /* loaded from: classes3.dex */
@@ -450,7 +451,12 @@ public class ReactionsEffectOverlay {
                     ReactionsEffectOverlay.access$216(ReactionsEffectOverlay.this, 0.10666667f);
                     if (ReactionsEffectOverlay.this.dismissProgress > 1.0f) {
                         ReactionsEffectOverlay.this.dismissProgress = 1.0f;
-                        AndroidUtilities.runOnUIThread(new ReactionsEffectOverlay$1$$ExternalSyntheticLambda1(this));
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ReactionsEffectOverlay$1$$ExternalSyntheticLambda1
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                ReactionsEffectOverlay.AnonymousClass1.this.lambda$dispatchDraw$0();
+                            }
+                        });
                     }
                 }
                 if (ReactionsEffectOverlay.this.dismissProgress != 1.0f) {
@@ -605,7 +611,12 @@ public class ReactionsEffectOverlay {
                             if (this.val$cell.getCurrentMessagesGroup() != null && this.val$cell.getParent() != null) {
                                 ((View) this.val$cell.getParent()).invalidate();
                             }
-                            AndroidUtilities.runOnUIThread(new ReactionsEffectOverlay$1$$ExternalSyntheticLambda0(this));
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ReactionsEffectOverlay$1$$ExternalSyntheticLambda0
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    ReactionsEffectOverlay.AnonymousClass1.this.lambda$dispatchDraw$1();
+                                }
+                            });
                         }
                     }
                 }
@@ -899,6 +910,7 @@ public class ReactionsEffectOverlay {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class AnimationView extends BackupImageView {
         boolean wasPlaying;
@@ -943,6 +955,7 @@ public class ReactionsEffectOverlay {
         return (int) (Math.round(Math.min(dp, Math.min(point.x, point.y)) * 0.7f) / AndroidUtilities.density);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class AvatarParticle {
         float currentRotation;

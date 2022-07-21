@@ -29,25 +29,17 @@ public class TextCheckbox2Cell extends FrameLayout {
     private TextView textView;
     private TextView valueTextView;
 
-    /* renamed from: org.telegram.ui.Cells.TextCheckbox2Cell$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends AnimationProperties.FloatProperty<TextCheckbox2Cell> {
-        AnonymousClass1(String str) {
-            super(str);
-        }
-
-        public void setValue(TextCheckbox2Cell textCheckbox2Cell, float f) {
-            textCheckbox2Cell.setAnimationProgress(f);
-            textCheckbox2Cell.invalidate();
-        }
-
-        public Float get(TextCheckbox2Cell textCheckbox2Cell) {
-            return Float.valueOf(textCheckbox2Cell.animationProgress);
-        }
-    }
-
     static {
-        new AnonymousClass1("animationProgress");
+        new AnimationProperties.FloatProperty<TextCheckbox2Cell>("animationProgress") { // from class: org.telegram.ui.Cells.TextCheckbox2Cell.1
+            public void setValue(TextCheckbox2Cell textCheckbox2Cell, float f) {
+                textCheckbox2Cell.setAnimationProgress(f);
+                textCheckbox2Cell.invalidate();
+            }
+
+            public Float get(TextCheckbox2Cell textCheckbox2Cell) {
+                return Float.valueOf(textCheckbox2Cell.animationProgress);
+            }
+        };
     }
 
     public TextCheckbox2Cell(Context context) {

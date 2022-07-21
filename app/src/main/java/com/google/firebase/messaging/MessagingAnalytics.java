@@ -18,7 +18,9 @@ import com.google.firebase.analytics.connector.AnalyticsConnector;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.messaging.reporting.MessagingClientEvent;
 import com.google.firebase.messaging.reporting.MessagingClientEventExtension;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.concurrent.ExecutionException;
+import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class MessagingAnalytics {
@@ -34,7 +36,7 @@ public class MessagingAnalytics {
             }
             try {
                 PackageManager packageManager = applicationContext.getPackageManager();
-                if (packageManager != null && (applicationInfo = packageManager.getApplicationInfo(applicationContext.getPackageName(), 128)) != null && (bundle = applicationInfo.metaData) != null && bundle.containsKey("delivery_metrics_exported_to_big_query_enabled")) {
+                if (packageManager != null && (applicationInfo = packageManager.getApplicationInfo(applicationContext.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck)) != null && (bundle = applicationInfo.metaData) != null && bundle.containsKey("delivery_metrics_exported_to_big_query_enabled")) {
                     return applicationInfo.metaData.getBoolean("delivery_metrics_exported_to_big_query_enabled", false);
                 }
             } catch (PackageManager.NameNotFoundException unused) {
@@ -137,7 +139,7 @@ public class MessagingAnalytics {
     }
 
     static String getMessageTypeForScion(Bundle bundle) {
-        return true != NotificationParams.isNotification(bundle) ? "data" : "display";
+        return true != NotificationParams.isNotification(bundle) ? RemoteMessageConst.DATA : "display";
     }
 
     static String getPackageName() {
@@ -187,7 +189,7 @@ public class MessagingAnalytics {
     }
 
     static String getTopic(Bundle bundle) {
-        String string = bundle.getString("from");
+        String string = bundle.getString(RemoteMessageConst.FROM);
         if (string == null || !string.startsWith("/topics/")) {
             return null;
         }
@@ -222,7 +224,7 @@ public class MessagingAnalytics {
     }
 
     private static boolean isDirectBootMessage(Intent intent) {
-        return "com.google.firebase.messaging.RECEIVE_DIRECT_BOOT".equals(intent.getAction());
+        return FirebaseMessagingService.ACTION_DIRECT_BOOT_REMOTE_INTENT.equals(intent.getAction());
     }
 
     public static void logNotificationDismiss(Intent intent) {
@@ -342,7 +344,7 @@ public class MessagingAnalytics {
                 analyticsConnector.setUserProperty("fcm", "_ln", string);
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("source", "Firebase");
-                bundle2.putString("medium", "notification");
+                bundle2.putString("medium", RemoteMessageConst.NOTIFICATION);
                 bundle2.putString("campaign", string);
                 analyticsConnector.logEvent("fcm", "_cmp", bundle2);
                 return;

@@ -83,21 +83,13 @@ public class PatternCell extends BackupImageView implements DownloadController.F
         this.radialProgress = radialProgress2;
         radialProgress2.setProgressRect(AndroidUtilities.dp(30.0f), AndroidUtilities.dp(30.0f), AndroidUtilities.dp(70.0f), AndroidUtilities.dp(70.0f));
         if (Build.VERSION.SDK_INT >= 21) {
-            setOutlineProvider(new AnonymousClass1(this));
+            setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Cells.PatternCell.1
+                @Override // android.view.ViewOutlineProvider
+                public void getOutline(View view, Outline outline) {
+                    outline.setRoundRect(AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), view.getMeasuredWidth() - AndroidUtilities.dp(1.0f), view.getMeasuredHeight() - AndroidUtilities.dp(1.0f), AndroidUtilities.dp(6.0f));
+                }
+            });
             setClipToOutline(true);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Cells.PatternCell$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends ViewOutlineProvider {
-        AnonymousClass1(PatternCell patternCell) {
-        }
-
-        @Override // android.view.ViewOutlineProvider
-        public void getOutline(View view, Outline outline) {
-            outline.setRoundRect(AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), view.getMeasuredWidth() - AndroidUtilities.dp(1.0f), view.getMeasuredHeight() - AndroidUtilities.dp(1.0f), AndroidUtilities.dp(6.0f));
         }
     }
 

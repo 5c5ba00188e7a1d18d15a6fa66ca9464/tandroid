@@ -13,6 +13,8 @@ import androidx.annotation.Keep;
 import com.google.android.datatransport.TransportFactory;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.util.concurrent.NamedThreadFactory;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
@@ -25,6 +27,8 @@ import com.google.firebase.heartbeatinfo.HeartBeatInfo;
 import com.google.firebase.iid.internal.FirebaseInstanceIdInternal;
 import com.google.firebase.inject.Provider;
 import com.google.firebase.installations.FirebaseInstallationsApi;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RequestDeduplicator;
 import com.google.firebase.messaging.Store;
 import com.google.firebase.platforminfo.UserAgentPublisher;
 import java.io.IOException;
@@ -34,6 +38,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.concurrent.GuardedBy;
+import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class FirebaseMessaging {
@@ -85,7 +90,7 @@ public class FirebaseMessaging {
             }
             try {
                 PackageManager packageManager = applicationContext.getPackageManager();
-                if (packageManager != null && (applicationInfo = packageManager.getApplicationInfo(applicationContext.getPackageName(), 128)) != null && (bundle = applicationInfo.metaData) != null && bundle.containsKey("firebase_messaging_auto_init_enabled")) {
+                if (packageManager != null && (applicationInfo = packageManager.getApplicationInfo(applicationContext.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck)) != null && (bundle = applicationInfo.metaData) != null && bundle.containsKey("firebase_messaging_auto_init_enabled")) {
                     return Boolean.valueOf(applicationInfo.metaData.getBoolean("firebase_messaging_auto_init_enabled"));
                 }
                 return null;
@@ -101,9 +106,21 @@ public class FirebaseMessaging {
             Boolean readEnabled = readEnabled();
             this.autoInitEnabled = readEnabled;
             if (readEnabled == null) {
-                FirebaseMessaging$AutoInit$$Lambda$0 firebaseMessaging$AutoInit$$Lambda$0 = new FirebaseMessaging$AutoInit$$Lambda$0(this);
-                this.dataCollectionDefaultChangeEventHandler = firebaseMessaging$AutoInit$$Lambda$0;
-                this.subscriber.subscribe(DataCollectionDefaultChange.class, firebaseMessaging$AutoInit$$Lambda$0);
+                EventHandler<DataCollectionDefaultChange> eventHandler = new EventHandler(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$AutoInit$$Lambda$0
+                    private final FirebaseMessaging.AutoInit arg$1;
+
+                    /* JADX INFO: Access modifiers changed from: package-private */
+                    {
+                        this.arg$1 = this;
+                    }
+
+                    @Override // com.google.firebase.events.EventHandler
+                    public void handle(Event event) {
+                        this.arg$1.lambda$initialize$0$FirebaseMessaging$AutoInit(event);
+                    }
+                };
+                this.dataCollectionDefaultChangeEventHandler = eventHandler;
+                this.subscriber.subscribe(DataCollectionDefaultChange.class, eventHandler);
             }
             this.initialized = true;
         }
@@ -206,7 +223,21 @@ public class FirebaseMessaging {
         }
         String defaultSenderId = Metadata.getDefaultSenderId(this.firebaseApp);
         try {
-            String str = (String) Tasks.await(this.fis.getId().continueWithTask(FcmExecutors.newNetworkIOExecutor(), new FirebaseMessaging$$Lambda$8(this, defaultSenderId)));
+            String str = (String) Tasks.await(this.fis.getId().continueWithTask(FcmExecutors.newNetworkIOExecutor(), new Continuation(this, defaultSenderId) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$8
+                private final FirebaseMessaging arg$1;
+                private final String arg$2;
+
+                /* JADX INFO: Access modifiers changed from: package-private */
+                {
+                    this.arg$1 = this;
+                    this.arg$2 = defaultSenderId;
+                }
+
+                @Override // com.google.android.gms.tasks.Continuation
+                public Object then(Task task) {
+                    return this.arg$1.lambda$blockingGetToken$9$FirebaseMessaging(this.arg$2, task);
+                }
+            }));
             store.saveToken(getSubtype(), defaultSenderId, str, this.metadata.getAppVersionCode());
             if (tokenWithoutTriggeringSync == null || !str.equals(tokenWithoutTriggeringSync.token)) {
                 invokeOnTokenRefresh(str);
@@ -236,7 +267,21 @@ public class FirebaseMessaging {
             return firebaseInstanceIdInternal.getTokenTask();
         }
         TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
-        this.fileIoExecutor.execute(new FirebaseMessaging$$Lambda$3(this, taskCompletionSource));
+        this.fileIoExecutor.execute(new Runnable(this, taskCompletionSource) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$3
+            private final FirebaseMessaging arg$1;
+            private final TaskCompletionSource arg$2;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.arg$1 = this;
+                this.arg$2 = taskCompletionSource;
+            }
+
+            @Override // java.lang.Runnable
+            public void run() {
+                this.arg$1.lambda$getToken$2$FirebaseMessaging(this.arg$2);
+            }
+        });
         return taskCompletionSource.getTask();
     }
 
@@ -257,7 +302,21 @@ public class FirebaseMessaging {
     }
 
     public final /* synthetic */ Task lambda$blockingGetToken$9$FirebaseMessaging(String str, Task task) throws Exception {
-        return this.requestDeduplicator.getOrStartGetTokenRequest(str, new FirebaseMessaging$$Lambda$9(this, task));
+        return this.requestDeduplicator.getOrStartGetTokenRequest(str, new RequestDeduplicator.GetTokenRequest(this, task) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$9
+            private final FirebaseMessaging arg$1;
+            private final Task arg$2;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.arg$1 = this;
+                this.arg$2 = task;
+            }
+
+            @Override // com.google.firebase.messaging.RequestDeduplicator.GetTokenRequest
+            public Task start() {
+                return this.arg$1.lambda$blockingGetToken$8$FirebaseMessaging(this.arg$2);
+            }
+        });
     }
 
     public final /* synthetic */ void lambda$getToken$2$FirebaseMessaging(TaskCompletionSource taskCompletionSource) {
@@ -339,16 +398,41 @@ public class FirebaseMessaging {
             Log.w("FirebaseMessaging", sb.toString());
         }
         if (firebaseInstanceIdInternal != null) {
-            firebaseInstanceIdInternal.addNewTokenListener(new FirebaseMessaging$$Lambda$0(this));
+            firebaseInstanceIdInternal.addNewTokenListener(new FirebaseInstanceIdInternal.NewTokenListener(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$0
+            });
         }
         synchronized (FirebaseMessaging.class) {
             if (store == null) {
                 store = new Store(applicationContext);
             }
         }
-        executor2.execute(new FirebaseMessaging$$Lambda$1(this));
+        executor2.execute(new Runnable(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$1
+            private final FirebaseMessaging arg$1;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.arg$1 = this;
+            }
+
+            @Override // java.lang.Runnable
+            public void run() {
+                this.arg$1.lambda$new$0$FirebaseMessaging();
+            }
+        });
         Task<TopicsSubscriber> createInstance = TopicsSubscriber.createInstance(this, firebaseInstallationsApi, metadata, gmsRpc, applicationContext, FcmExecutors.newTopicsSyncExecutor());
         this.topicsSubscriberTask = createInstance;
-        createInstance.addOnSuccessListener(FcmExecutors.newTopicsSyncTriggerExecutor(), new FirebaseMessaging$$Lambda$2(this));
+        createInstance.addOnSuccessListener(FcmExecutors.newTopicsSyncTriggerExecutor(), new OnSuccessListener(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$2
+            private final FirebaseMessaging arg$1;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.arg$1 = this;
+            }
+
+            @Override // com.google.android.gms.tasks.OnSuccessListener
+            public void onSuccess(Object obj) {
+                this.arg$1.lambda$new$1$FirebaseMessaging((TopicsSubscriber) obj);
+            }
+        });
     }
 }

@@ -14,11 +14,13 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.telegram.tgnet.ConnectionsManager;
 import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
 public class FileProvider extends ContentProvider {
@@ -137,7 +139,7 @@ public class FileProvider extends ContentProvider {
 
     private static PathStrategy parsePathStrategy(Context context, String authority) throws IOException, XmlPullParserException {
         SimplePathStrategy simplePathStrategy = new SimplePathStrategy(authority);
-        ProviderInfo resolveContentProvider = context.getPackageManager().resolveContentProvider(authority, 128);
+        ProviderInfo resolveContentProvider = context.getPackageManager().resolveContentProvider(authority, ConnectionsManager.RequestFlagNeedQuickAck);
         if (resolveContentProvider == null) {
             throw new IllegalArgumentException("Couldn't find meta-data for provider with authority " + authority);
         }
@@ -227,7 +229,7 @@ public class FileProvider extends ContentProvider {
                 } else {
                     str = canonicalPath.substring(path2.length() + 1);
                 }
-                return new Uri.Builder().scheme("content").authority(this.mAuthority).encodedPath(Uri.encode(entry.getKey()) + '/' + Uri.encode(str, "/")).build();
+                return new Uri.Builder().scheme(RemoteMessageConst.Notification.CONTENT).authority(this.mAuthority).encodedPath(Uri.encode(entry.getKey()) + '/' + Uri.encode(str, "/")).build();
             } catch (IOException unused) {
                 throw new IllegalArgumentException("Failed to resolve canonical path for " + file);
             }

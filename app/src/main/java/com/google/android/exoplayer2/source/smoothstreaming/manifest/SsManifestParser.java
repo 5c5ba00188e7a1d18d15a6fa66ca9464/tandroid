@@ -14,6 +14,7 @@ import com.google.android.exoplayer2.upstream.ParsingLoadable;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.CodecSpecificDataUtil;
 import com.google.android.exoplayer2.util.Util;
+import com.huawei.hms.opendevice.c;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import org.telegram.messenger.MediaController;
+import org.webrtc.MediaStreamTrack;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -382,12 +385,12 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
         public boolean handleChildInline(String str) {
-            return "c".equals(str);
+            return c.a.equals(str);
         }
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
         public void parseStartTag(XmlPullParser xmlPullParser) throws ParserException {
-            if ("c".equals(xmlPullParser.getName())) {
+            if (c.a.equals(xmlPullParser.getName())) {
                 parseStreamFragmentStartTag(xmlPullParser);
             } else {
                 parseStreamElementStartTag(xmlPullParser);
@@ -454,10 +457,10 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         private int parseType(XmlPullParser xmlPullParser) throws ParserException {
             String attributeValue = xmlPullParser.getAttributeValue(null, "Type");
             if (attributeValue != null) {
-                if ("audio".equalsIgnoreCase(attributeValue)) {
+                if (MediaStreamTrack.AUDIO_TRACK_KIND.equalsIgnoreCase(attributeValue)) {
                     return 1;
                 }
-                if ("video".equalsIgnoreCase(attributeValue)) {
+                if (MediaStreamTrack.VIDEO_TRACK_KIND.equalsIgnoreCase(attributeValue)) {
                     return 2;
                 }
                 if ("text".equalsIgnoreCase(attributeValue)) {
@@ -510,12 +513,12 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
                 this.format = Format.createContainerFormat(attributeValue, str, "application/mp4", fourCCToMimeType, null, parseRequiredInt, 0, 0, null);
             } else {
                 if (fourCCToMimeType == null) {
-                    fourCCToMimeType = "audio/mp4a-latm";
+                    fourCCToMimeType = MediaController.AUIDO_MIME_TYPE;
                 }
                 int parseRequiredInt2 = parseRequiredInt(xmlPullParser, "Channels");
                 int parseRequiredInt3 = parseRequiredInt(xmlPullParser, "SamplingRate");
                 List<byte[]> buildCodecSpecificData = buildCodecSpecificData(xmlPullParser.getAttributeValue(null, "CodecPrivateData"));
-                if (buildCodecSpecificData.isEmpty() && "audio/mp4a-latm".equals(fourCCToMimeType)) {
+                if (buildCodecSpecificData.isEmpty() && MediaController.AUIDO_MIME_TYPE.equals(fourCCToMimeType)) {
                     buildCodecSpecificData = Collections.singletonList(CodecSpecificDataUtil.buildAacLcAudioSpecificConfig(parseRequiredInt3, parseRequiredInt2));
                 }
                 this.format = Format.createAudioContainerFormat(attributeValue, str, "audio/mp4", fourCCToMimeType, null, null, parseRequiredInt, parseRequiredInt2, parseRequiredInt3, buildCodecSpecificData, 0, 0, (String) getNormalizedAttribute("Language"));
@@ -543,10 +546,10 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
 
         private static String fourCCToMimeType(String str) {
             if (str.equalsIgnoreCase("H264") || str.equalsIgnoreCase("X264") || str.equalsIgnoreCase("AVC1") || str.equalsIgnoreCase("DAVC")) {
-                return "video/avc";
+                return MediaController.VIDEO_MIME_TYPE;
             }
             if (str.equalsIgnoreCase("AAC") || str.equalsIgnoreCase("AACL") || str.equalsIgnoreCase("AACH") || str.equalsIgnoreCase("AACP")) {
-                return "audio/mp4a-latm";
+                return MediaController.AUIDO_MIME_TYPE;
             }
             if (str.equalsIgnoreCase("TTML") || str.equalsIgnoreCase("DFXP")) {
                 return "application/ttml+xml";

@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
@@ -43,6 +44,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$InputDocument;
@@ -65,6 +67,7 @@ import org.telegram.ui.Components.Paint.Views.EntitiesContainerView;
 import org.telegram.ui.Components.Paint.Views.EntityView;
 import org.telegram.ui.Components.Paint.Views.StickerView;
 import org.telegram.ui.Components.Paint.Views.TextPaintView;
+import org.telegram.ui.Components.StickerMasksAlert;
 import org.telegram.ui.PhotoViewer;
 @SuppressLint({"NewApi"})
 /* loaded from: classes3.dex */
@@ -121,7 +124,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
     protected void onTextAdd() {
     }
 
-    public PhotoPaintView(Context context, Bitmap bitmap, Bitmap bitmap2, int i, ArrayList<VideoEditedInfo.MediaEntity> arrayList, MediaController.CropState cropState, Runnable runnable, Theme.ResourcesProvider resourcesProvider) {
+    public PhotoPaintView(Context context, Bitmap bitmap, Bitmap bitmap2, int i, ArrayList<VideoEditedInfo.MediaEntity> arrayList, MediaController.CropState cropState, final Runnable runnable, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         StickerView stickerView;
         this.resourcesProvider = resourcesProvider;
@@ -132,7 +135,12 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         this.facesBitmap = bitmap2;
         UndoStore undoStore = new UndoStore();
         this.undoStore = undoStore;
-        undoStore.setDelegate(new PhotoPaintView$$ExternalSyntheticLambda20(this));
+        undoStore.setDelegate(new UndoStore.UndoStoreDelegate() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda20
+            @Override // org.telegram.ui.Components.Paint.UndoStore.UndoStoreDelegate
+            public final void historyChanged() {
+                PhotoPaintView.this.lambda$new$0();
+            }
+        });
         FrameLayout frameLayout = new FrameLayout(context);
         this.curtainView = frameLayout;
         frameLayout.setBackgroundColor(570425344);
@@ -140,13 +148,54 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         addView(this.curtainView, LayoutHelper.createFrame(-1, -1.0f));
         RenderView renderView = new RenderView(context, new Painting(getPaintingSize()), bitmap);
         this.renderView = renderView;
-        renderView.setDelegate(new AnonymousClass1(runnable));
+        renderView.setDelegate(new RenderView.RenderViewDelegate() { // from class: org.telegram.ui.Components.PhotoPaintView.1
+            @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
+            public void onFirstDraw() {
+                runnable.run();
+            }
+
+            @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
+            public void onBeganDrawing() {
+                if (PhotoPaintView.this.currentEntityView != null) {
+                    PhotoPaintView.this.selectEntity(null);
+                }
+            }
+
+            @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
+            public void onFinishedDrawing(boolean z) {
+                PhotoPaintView.this.colorPicker.setUndoEnabled(PhotoPaintView.this.undoStore.canUndo());
+            }
+
+            @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
+            public boolean shouldDraw() {
+                boolean z = PhotoPaintView.this.currentEntityView == null;
+                if (!z) {
+                    PhotoPaintView.this.selectEntity(null);
+                }
+                return z;
+            }
+        });
         this.renderView.setUndoStore(this.undoStore);
         this.renderView.setQueue(this.queue);
         this.renderView.setVisibility(4);
         this.renderView.setBrush(this.brushes[0]);
         addView(this.renderView, LayoutHelper.createFrame(-1, -1, 51));
-        EntitiesContainerView entitiesContainerView = new EntitiesContainerView(context, new AnonymousClass2());
+        EntitiesContainerView entitiesContainerView = new EntitiesContainerView(context, new EntitiesContainerView.EntitiesContainerViewDelegate() { // from class: org.telegram.ui.Components.PhotoPaintView.2
+            @Override // org.telegram.ui.Components.Paint.Views.EntitiesContainerView.EntitiesContainerViewDelegate
+            public boolean shouldReceiveTouches() {
+                return PhotoPaintView.this.textDimView.getVisibility() != 0;
+            }
+
+            @Override // org.telegram.ui.Components.Paint.Views.EntitiesContainerView.EntitiesContainerViewDelegate
+            public EntityView onSelectedEntityRequest() {
+                return PhotoPaintView.this.currentEntityView;
+            }
+
+            @Override // org.telegram.ui.Components.Paint.Views.EntitiesContainerView.EntitiesContainerViewDelegate
+            public void onEntityDeselect() {
+                PhotoPaintView.this.selectEntity(null);
+            }
+        });
         this.entitiesView = entitiesContainerView;
         addView(entitiesContainerView);
         FrameLayout frameLayout2 = new FrameLayout(context);
@@ -160,22 +209,75 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         frameLayout3.setAlpha(0.0f);
         this.textDimView.setBackgroundColor(1711276032);
         this.textDimView.setVisibility(8);
-        this.textDimView.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda3(this));
+        this.textDimView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                PhotoPaintView.this.lambda$new$1(view);
+            }
+        });
         this.backgroundView = new FrameLayout(context);
-        Drawable mutate = getResources().getDrawable(2131165431).mutate();
+        Drawable mutate = getResources().getDrawable(R.drawable.gradient_bottom).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
         this.backgroundView.setBackground(mutate);
         addView(this.backgroundView, LayoutHelper.createFrame(-1, 72, 87));
-        AnonymousClass3 anonymousClass3 = new AnonymousClass3(this, context);
-        this.selectionContainerView = anonymousClass3;
-        addView(anonymousClass3);
+        FrameLayout frameLayout4 = new FrameLayout(this, context) { // from class: org.telegram.ui.Components.PhotoPaintView.3
+            @Override // android.view.View
+            public boolean onTouchEvent(MotionEvent motionEvent) {
+                return false;
+            }
+        };
+        this.selectionContainerView = frameLayout4;
+        addView(frameLayout4);
         org.telegram.ui.Components.Paint.Views.ColorPicker colorPicker = new org.telegram.ui.Components.Paint.Views.ColorPicker(context);
         this.colorPicker = colorPicker;
         addView(colorPicker);
-        this.colorPicker.setDelegate(new AnonymousClass4());
-        FrameLayout frameLayout4 = new FrameLayout(context);
-        this.toolsView = frameLayout4;
-        frameLayout4.setBackgroundColor(-16777216);
+        this.colorPicker.setDelegate(new ColorPicker.ColorPickerDelegate() { // from class: org.telegram.ui.Components.PhotoPaintView.4
+            @Override // org.telegram.ui.Components.Paint.Views.ColorPicker.ColorPickerDelegate
+            public void onBeganColorPicking() {
+                if (!(PhotoPaintView.this.currentEntityView instanceof TextPaintView)) {
+                    PhotoPaintView.this.setDimVisibility(true);
+                }
+            }
+
+            @Override // org.telegram.ui.Components.Paint.Views.ColorPicker.ColorPickerDelegate
+            public void onColorValueChanged() {
+                PhotoPaintView photoPaintView = PhotoPaintView.this;
+                photoPaintView.setCurrentSwatch(photoPaintView.colorPicker.getSwatch(), false);
+            }
+
+            @Override // org.telegram.ui.Components.Paint.Views.ColorPicker.ColorPickerDelegate
+            public void onFinishedColorPicking() {
+                PhotoPaintView photoPaintView = PhotoPaintView.this;
+                photoPaintView.setCurrentSwatch(photoPaintView.colorPicker.getSwatch(), false);
+                if (!(PhotoPaintView.this.currentEntityView instanceof TextPaintView)) {
+                    PhotoPaintView.this.setDimVisibility(false);
+                }
+            }
+
+            @Override // org.telegram.ui.Components.Paint.Views.ColorPicker.ColorPickerDelegate
+            public void onSettingsPressed() {
+                if (PhotoPaintView.this.currentEntityView != null) {
+                    if (PhotoPaintView.this.currentEntityView instanceof StickerView) {
+                        PhotoPaintView.this.mirrorSticker();
+                        return;
+                    } else if (!(PhotoPaintView.this.currentEntityView instanceof TextPaintView)) {
+                        return;
+                    } else {
+                        PhotoPaintView.this.showTextSettings();
+                        return;
+                    }
+                }
+                PhotoPaintView.this.showBrushSettings();
+            }
+
+            @Override // org.telegram.ui.Components.Paint.Views.ColorPicker.ColorPickerDelegate
+            public void onUndoPressed() {
+                PhotoPaintView.this.undoStore.undo();
+            }
+        });
+        FrameLayout frameLayout5 = new FrameLayout(context);
+        this.toolsView = frameLayout5;
+        frameLayout5.setBackgroundColor(-16777216);
         addView(this.toolsView, LayoutHelper.createFrame(-1, 48, 83));
         TextView textView = new TextView(context);
         this.cancelTextView = textView;
@@ -184,8 +286,8 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         this.cancelTextView.setGravity(17);
         this.cancelTextView.setBackgroundDrawable(Theme.createSelectorDrawable(-12763843, 0));
         this.cancelTextView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
-        this.cancelTextView.setText(LocaleController.getString("Cancel", 2131624832).toUpperCase());
-        this.cancelTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.cancelTextView.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
+        this.cancelTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.toolsView.addView(this.cancelTextView, LayoutHelper.createFrame(-2, -1, 51));
         TextView textView2 = new TextView(context);
         this.doneTextView = textView2;
@@ -194,30 +296,45 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         this.doneTextView.setGravity(17);
         this.doneTextView.setBackgroundDrawable(Theme.createSelectorDrawable(-12763843, 0));
         this.doneTextView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
-        this.doneTextView.setText(LocaleController.getString("Done", 2131625541).toUpperCase());
-        this.doneTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.doneTextView.setText(LocaleController.getString("Done", R.string.Done).toUpperCase());
+        this.doneTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.toolsView.addView(this.doneTextView, LayoutHelper.createFrame(-2, -1, 53));
         ImageView imageView = new ImageView(context);
         this.paintButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.paintButton.setContentDescription(LocaleController.getString("AccDescrPaint", 2131624033));
-        this.paintButton.setImageResource(2131165855);
+        this.paintButton.setContentDescription(LocaleController.getString("AccDescrPaint", R.string.AccDescrPaint));
+        this.paintButton.setImageResource(R.drawable.msg_photo_draw);
         this.paintButton.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.toolsView.addView(this.paintButton, LayoutHelper.createFrame(54, -1.0f, 17, 0.0f, 0.0f, 56.0f, 0.0f));
-        this.paintButton.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda4(this));
+        this.paintButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda4
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                PhotoPaintView.this.lambda$new$2(view);
+            }
+        });
         ImageView imageView2 = new ImageView(context);
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
-        imageView2.setImageResource(2131165953);
+        imageView2.setImageResource(R.drawable.msg_sticker);
         imageView2.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.toolsView.addView(imageView2, LayoutHelper.createFrame(54, -1, 17));
-        imageView2.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda2(this));
+        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                PhotoPaintView.this.lambda$new$3(view);
+            }
+        });
         ImageView imageView3 = new ImageView(context);
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
-        imageView3.setContentDescription(LocaleController.getString("AccDescrPlaceText", 2131624041));
-        imageView3.setImageResource(2131165860);
+        imageView3.setContentDescription(LocaleController.getString("AccDescrPlaceText", R.string.AccDescrPlaceText));
+        imageView3.setImageResource(R.drawable.msg_photo_text);
         imageView3.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.toolsView.addView(imageView3, LayoutHelper.createFrame(54, -1.0f, 17, 56.0f, 0.0f, 0.0f, 0.0f));
-        imageView3.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda6(this));
+        imageView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda6
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                PhotoPaintView.this.lambda$new$4(view);
+            }
+        });
         this.colorPicker.setUndoEnabled(false);
         setCurrentSwatch(this.colorPicker.getSwatch(), false);
         updateSettingsButton();
@@ -262,132 +379,8 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         this.colorPicker.setUndoEnabled(this.undoStore.canUndo());
     }
 
-    /* renamed from: org.telegram.ui.Components.PhotoPaintView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements RenderView.RenderViewDelegate {
-        final /* synthetic */ Runnable val$onInit;
-
-        AnonymousClass1(Runnable runnable) {
-            PhotoPaintView.this = r1;
-            this.val$onInit = runnable;
-        }
-
-        @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
-        public void onFirstDraw() {
-            this.val$onInit.run();
-        }
-
-        @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
-        public void onBeganDrawing() {
-            if (PhotoPaintView.this.currentEntityView != null) {
-                PhotoPaintView.this.selectEntity(null);
-            }
-        }
-
-        @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
-        public void onFinishedDrawing(boolean z) {
-            PhotoPaintView.this.colorPicker.setUndoEnabled(PhotoPaintView.this.undoStore.canUndo());
-        }
-
-        @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
-        public boolean shouldDraw() {
-            boolean z = PhotoPaintView.this.currentEntityView == null;
-            if (!z) {
-                PhotoPaintView.this.selectEntity(null);
-            }
-            return z;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.PhotoPaintView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements EntitiesContainerView.EntitiesContainerViewDelegate {
-        AnonymousClass2() {
-            PhotoPaintView.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.EntitiesContainerView.EntitiesContainerViewDelegate
-        public boolean shouldReceiveTouches() {
-            return PhotoPaintView.this.textDimView.getVisibility() != 0;
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.EntitiesContainerView.EntitiesContainerViewDelegate
-        public EntityView onSelectedEntityRequest() {
-            return PhotoPaintView.this.currentEntityView;
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.EntitiesContainerView.EntitiesContainerViewDelegate
-        public void onEntityDeselect() {
-            PhotoPaintView.this.selectEntity(null);
-        }
-    }
-
     public /* synthetic */ void lambda$new$1(View view) {
         closeTextEnter(true);
-    }
-
-    /* renamed from: org.telegram.ui.Components.PhotoPaintView$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends FrameLayout {
-        @Override // android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            return false;
-        }
-
-        AnonymousClass3(PhotoPaintView photoPaintView, Context context) {
-            super(context);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.PhotoPaintView$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 implements ColorPicker.ColorPickerDelegate {
-        AnonymousClass4() {
-            PhotoPaintView.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.ColorPicker.ColorPickerDelegate
-        public void onBeganColorPicking() {
-            if (!(PhotoPaintView.this.currentEntityView instanceof TextPaintView)) {
-                PhotoPaintView.this.setDimVisibility(true);
-            }
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.ColorPicker.ColorPickerDelegate
-        public void onColorValueChanged() {
-            PhotoPaintView photoPaintView = PhotoPaintView.this;
-            photoPaintView.setCurrentSwatch(photoPaintView.colorPicker.getSwatch(), false);
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.ColorPicker.ColorPickerDelegate
-        public void onFinishedColorPicking() {
-            PhotoPaintView photoPaintView = PhotoPaintView.this;
-            photoPaintView.setCurrentSwatch(photoPaintView.colorPicker.getSwatch(), false);
-            if (!(PhotoPaintView.this.currentEntityView instanceof TextPaintView)) {
-                PhotoPaintView.this.setDimVisibility(false);
-            }
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.ColorPicker.ColorPickerDelegate
-        public void onSettingsPressed() {
-            if (PhotoPaintView.this.currentEntityView != null) {
-                if (PhotoPaintView.this.currentEntityView instanceof StickerView) {
-                    PhotoPaintView.this.mirrorSticker();
-                    return;
-                } else if (!(PhotoPaintView.this.currentEntityView instanceof TextPaintView)) {
-                    return;
-                } else {
-                    PhotoPaintView.this.showTextSettings();
-                    return;
-                }
-            }
-            PhotoPaintView.this.showBrushSettings();
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.ColorPicker.ColorPickerDelegate
-        public void onUndoPressed() {
-            PhotoPaintView.this.undoStore.undo();
-        }
     }
 
     public /* synthetic */ void lambda$new$2(View view) {
@@ -454,18 +447,18 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
     }
 
     private void updateSettingsButton() {
-        this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("AccDescrBrushType", 2131623965));
+        this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("AccDescrBrushType", R.string.AccDescrBrushType));
         EntityView entityView = this.currentEntityView;
-        int i = 2131166047;
+        int i = R.drawable.photo_paint_brush;
         if (entityView != null) {
             if (entityView instanceof StickerView) {
-                i = 2131165856;
-                this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("AccDescrMirror", 2131624002));
+                i = R.drawable.msg_photo_flip;
+                this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("AccDescrMirror", R.string.AccDescrMirror));
             } else if (entityView instanceof TextPaintView) {
-                i = 2131166046;
-                this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("PaintOutlined", 2131627205));
+                i = R.drawable.photo_outline;
+                this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("PaintOutlined", R.string.PaintOutlined));
             }
-            this.paintButton.setImageResource(2131165855);
+            this.paintButton.setImageResource(R.drawable.msg_photo_draw);
             this.paintButton.setColorFilter((ColorFilter) null);
         } else {
             Swatch swatch = this.brushSwatch;
@@ -474,7 +467,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
                 this.brushSwatch = null;
             }
             this.paintButton.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY));
-            this.paintButton.setImageResource(2131165855);
+            this.paintButton.setImageResource(R.drawable.msg_photo_draw);
         }
         this.backgroundView.setVisibility(this.currentEntityView instanceof TextPaintView ? 4 : 0);
         this.colorPicker.setSettingsButtonImage(i);
@@ -690,7 +683,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         return this.lcm.longValue();
     }
 
-    public void maybeShowDismissalAlert(PhotoViewer photoViewer, Activity activity, Runnable runnable) {
+    public void maybeShowDismissalAlert(PhotoViewer photoViewer, Activity activity, final Runnable runnable) {
         if (this.editingText) {
             closeTextEnter(false);
         } else if (!hasChanges()) {
@@ -698,10 +691,15 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         } else if (activity == null) {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setMessage(LocaleController.getString("PhotoEditorDiscardAlert", 2131627556));
-            builder.setTitle(LocaleController.getString("DiscardChanges", 2131625502));
-            builder.setPositiveButton(LocaleController.getString("PassportDiscard", 2131627272), new PhotoPaintView$$ExternalSyntheticLambda0(runnable));
-            builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+            builder.setMessage(LocaleController.getString("PhotoEditorDiscardAlert", R.string.PhotoEditorDiscardAlert));
+            builder.setTitle(LocaleController.getString("DiscardChanges", R.string.DiscardChanges));
+            builder.setPositiveButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda0
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i) {
+                    runnable.run();
+                }
+            });
+            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
             photoViewer.showAlertDialog(builder);
         }
     }
@@ -721,7 +719,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         }
     }
 
-    public void setDimVisibility(boolean z) {
+    public void setDimVisibility(final boolean z) {
         ObjectAnimator objectAnimator;
         if (z) {
             this.dimView.setVisibility(0);
@@ -729,30 +727,19 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         } else {
             objectAnimator = ObjectAnimator.ofFloat(this.dimView, View.ALPHA, 1.0f, 0.0f);
         }
-        objectAnimator.addListener(new AnonymousClass5(z));
+        objectAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoPaintView.5
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (!z) {
+                    PhotoPaintView.this.dimView.setVisibility(8);
+                }
+            }
+        });
         objectAnimator.setDuration(200L);
         objectAnimator.start();
     }
 
-    /* renamed from: org.telegram.ui.Components.PhotoPaintView$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$visible;
-
-        AnonymousClass5(boolean z) {
-            PhotoPaintView.this = r1;
-            this.val$visible = z;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (!this.val$visible) {
-                PhotoPaintView.this.dimView.setVisibility(8);
-            }
-        }
-    }
-
-    private void setTextDimVisibility(boolean z, EntityView entityView) {
+    private void setTextDimVisibility(final boolean z, EntityView entityView) {
         ObjectAnimator objectAnimator;
         if (z && entityView != null) {
             ViewGroup viewGroup = (ViewGroup) entityView.getParent();
@@ -768,31 +755,20 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         } else {
             objectAnimator = ObjectAnimator.ofFloat(this.textDimView, View.ALPHA, 1.0f, 0.0f);
         }
-        objectAnimator.addListener(new AnonymousClass6(z));
+        objectAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoPaintView.6
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (!z) {
+                    PhotoPaintView.this.textDimView.setVisibility(8);
+                    if (PhotoPaintView.this.textDimView.getParent() == null) {
+                        return;
+                    }
+                    ((EntitiesContainerView) PhotoPaintView.this.textDimView.getParent()).removeView(PhotoPaintView.this.textDimView);
+                }
+            }
+        });
         objectAnimator.setDuration(200L);
         objectAnimator.start();
-    }
-
-    /* renamed from: org.telegram.ui.Components.PhotoPaintView$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$visible;
-
-        AnonymousClass6(boolean z) {
-            PhotoPaintView.this = r1;
-            this.val$visible = z;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (!this.val$visible) {
-                PhotoPaintView.this.textDimView.setVisibility(8);
-                if (PhotoPaintView.this.textDimView.getParent() == null) {
-                    return;
-                }
-                ((EntitiesContainerView) PhotoPaintView.this.textDimView.getParent()).removeView(PhotoPaintView.this.textDimView);
-            }
-        }
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -1177,8 +1153,18 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
 
     private void openStickersView() {
         StickerMasksAlert stickerMasksAlert = new StickerMasksAlert(getContext(), this.facesBitmap == null, this.resourcesProvider);
-        stickerMasksAlert.setDelegate(new PhotoPaintView$$ExternalSyntheticLambda21(this));
-        stickerMasksAlert.setOnDismissListener(new PhotoPaintView$$ExternalSyntheticLambda1(this));
+        stickerMasksAlert.setDelegate(new StickerMasksAlert.StickerMasksAlertDelegate() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda21
+            @Override // org.telegram.ui.Components.StickerMasksAlert.StickerMasksAlertDelegate
+            public final void onStickerSelected(Object obj, TLRPC$Document tLRPC$Document) {
+                PhotoPaintView.this.lambda$openStickersView$7(obj, tLRPC$Document);
+            }
+        });
+        stickerMasksAlert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda1
+            @Override // android.content.DialogInterface.OnDismissListener
+            public final void onDismiss(DialogInterface dialogInterface) {
+                PhotoPaintView.this.lambda$openStickersView$8(dialogInterface);
+            }
+        });
         stickerMasksAlert.show();
         onOpenCloseStickersAlert(true);
     }
@@ -1198,35 +1184,30 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         return new Size(floor, floor);
     }
 
-    private void registerRemovalUndo(EntityView entityView) {
-        this.undoStore.registerUndo(entityView.getUUID(), new PhotoPaintView$$ExternalSyntheticLambda17(this, entityView));
-    }
-
-    /* renamed from: org.telegram.ui.Components.PhotoPaintView$7 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass7 extends StickerView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass7(Context context, Point point, float f, float f2, Size size, TLRPC$Document tLRPC$Document, Object obj) {
-            super(context, point, f, f2, size, tLRPC$Document, obj);
-            PhotoPaintView.this = r10;
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Views.StickerView
-        protected void didSetAnimatedSticker(RLottieDrawable rLottieDrawable) {
-            PhotoPaintView.this.didSetAnimatedSticker(rLottieDrawable);
-        }
+    private void registerRemovalUndo(final EntityView entityView) {
+        this.undoStore.registerUndo(entityView.getUUID(), new Runnable() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda17
+            @Override // java.lang.Runnable
+            public final void run() {
+                PhotoPaintView.this.lambda$registerRemovalUndo$9(entityView);
+            }
+        });
     }
 
     private StickerView createSticker(Object obj, TLRPC$Document tLRPC$Document, boolean z) {
         StickerPosition calculateStickerPosition = calculateStickerPosition(tLRPC$Document);
-        AnonymousClass7 anonymousClass7 = new AnonymousClass7(getContext(), calculateStickerPosition.position, calculateStickerPosition.angle, calculateStickerPosition.scale, baseStickerSize(), tLRPC$Document, obj);
-        anonymousClass7.setDelegate(this);
-        this.entitiesView.addView(anonymousClass7);
+        StickerView stickerView = new StickerView(getContext(), calculateStickerPosition.position, calculateStickerPosition.angle, calculateStickerPosition.scale, baseStickerSize(), tLRPC$Document, obj) { // from class: org.telegram.ui.Components.PhotoPaintView.7
+            @Override // org.telegram.ui.Components.Paint.Views.StickerView
+            protected void didSetAnimatedSticker(RLottieDrawable rLottieDrawable) {
+                PhotoPaintView.this.didSetAnimatedSticker(rLottieDrawable);
+            }
+        };
+        stickerView.setDelegate(this);
+        this.entitiesView.addView(stickerView);
         if (z) {
-            registerRemovalUndo(anonymousClass7);
-            selectEntity(anonymousClass7);
+            registerRemovalUndo(stickerView);
+            selectEntity(stickerView);
         }
-        return anonymousClass7;
+        return stickerView;
     }
 
     public void mirrorSticker() {
@@ -1380,12 +1361,17 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         return 0.0f;
     }
 
-    private void showMenuForEntity(EntityView entityView) {
+    private void showMenuForEntity(final EntityView entityView) {
         int[] centerLocationInWindow = getCenterLocationInWindow(entityView);
-        showPopup(new PhotoPaintView$$ExternalSyntheticLambda16(this, entityView), this, 51, centerLocationInWindow[0], centerLocationInWindow[1] - AndroidUtilities.dp(32.0f));
+        showPopup(new Runnable() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda16
+            @Override // java.lang.Runnable
+            public final void run() {
+                PhotoPaintView.this.lambda$showMenuForEntity$13(entityView);
+            }
+        }, this, 51, centerLocationInWindow[0], centerLocationInWindow[1] - AndroidUtilities.dp(32.0f));
     }
 
-    public /* synthetic */ void lambda$showMenuForEntity$13(EntityView entityView) {
+    public /* synthetic */ void lambda$showMenuForEntity$13(final EntityView entityView) {
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(0);
         TextView textView = new TextView(getContext());
@@ -1395,8 +1381,13 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         textView.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(14.0f), 0);
         textView.setTextSize(1, 18.0f);
         textView.setTag(0);
-        textView.setText(LocaleController.getString("PaintDelete", 2131627199));
-        textView.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda10(this, entityView));
+        textView.setText(LocaleController.getString("PaintDelete", R.string.PaintDelete));
+        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda10
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                PhotoPaintView.this.lambda$showMenuForEntity$10(entityView, view);
+            }
+        });
         linearLayout.addView(textView, LayoutHelper.createLinear(-2, 48));
         if (entityView instanceof TextPaintView) {
             TextView textView2 = new TextView(getContext());
@@ -1406,8 +1397,13 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
             textView2.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
             textView2.setTextSize(1, 18.0f);
             textView2.setTag(1);
-            textView2.setText(LocaleController.getString("PaintEdit", 2131627201));
-            textView2.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda7(this));
+            textView2.setText(LocaleController.getString("PaintEdit", R.string.PaintEdit));
+            textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda7
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    PhotoPaintView.this.lambda$showMenuForEntity$11(view);
+                }
+            });
             linearLayout.addView(textView2, LayoutHelper.createLinear(-2, 48));
         }
         TextView textView3 = new TextView(getContext());
@@ -1417,8 +1413,13 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         textView3.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(16.0f), 0);
         textView3.setTextSize(1, 18.0f);
         textView3.setTag(2);
-        textView3.setText(LocaleController.getString("PaintDuplicate", 2131627200));
-        textView3.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda5(this));
+        textView3.setText(LocaleController.getString("PaintDuplicate", R.string.PaintDuplicate));
+        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda5
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                PhotoPaintView.this.lambda$showMenuForEntity$12(view);
+            }
+        });
         linearLayout.addView(textView3, LayoutHelper.createLinear(-2, 48));
         this.popupLayout.addView(linearLayout);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
@@ -1454,46 +1455,43 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         this.popupWindow.dismiss(true);
     }
 
-    /* renamed from: org.telegram.ui.Components.PhotoPaintView$8 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass8 extends LinearLayout {
-        @Override // android.view.ViewGroup
-        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            return true;
-        }
-
-        AnonymousClass8(PhotoPaintView photoPaintView, Context context) {
-            super(context);
-        }
-    }
-
-    private LinearLayout buttonForBrush(int i, int i2, String str, boolean z) {
-        AnonymousClass8 anonymousClass8 = new AnonymousClass8(this, getContext());
+    private LinearLayout buttonForBrush(final int i, int i2, String str, boolean z) {
+        LinearLayout linearLayout = new LinearLayout(this, getContext()) { // from class: org.telegram.ui.Components.PhotoPaintView.8
+            @Override // android.view.ViewGroup
+            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                return true;
+            }
+        };
         int i3 = 0;
-        anonymousClass8.setOrientation(0);
-        anonymousClass8.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-        anonymousClass8.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda8(this, i));
+        linearLayout.setOrientation(0);
+        linearLayout.setBackgroundDrawable(Theme.getSelectorDrawable(false));
+        linearLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda8
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                PhotoPaintView.this.lambda$buttonForBrush$14(i, view);
+            }
+        });
         ImageView imageView = new ImageView(getContext());
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         imageView.setImageResource(i2);
         imageView.setColorFilter(getThemedColor("actionBarDefaultSubmenuItem"));
-        anonymousClass8.addView(imageView, LayoutHelper.createLinear(-2, -2, 19, 16, 0, 16, 0));
+        linearLayout.addView(imageView, LayoutHelper.createLinear(-2, -2, 19, 16, 0, 16, 0));
         TextView textView = new TextView(getContext());
         textView.setTextColor(getThemedColor("actionBarDefaultSubmenuItem"));
         textView.setTextSize(1, 16.0f);
         textView.setText(str);
         textView.setMinWidth(AndroidUtilities.dp(70.0f));
-        anonymousClass8.addView(textView, LayoutHelper.createLinear(-2, -2, 19, 0, 0, 16, 0));
+        linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 19, 0, 0, 16, 0));
         ImageView imageView2 = new ImageView(getContext());
-        imageView2.setImageResource(2131165957);
+        imageView2.setImageResource(R.drawable.msg_text_check);
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
         imageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor("radioBackgroundChecked"), PorterDuff.Mode.MULTIPLY));
         if (!z) {
             i3 = 4;
         }
         imageView2.setVisibility(i3);
-        anonymousClass8.addView(imageView2, LayoutHelper.createLinear(50, -1));
-        return anonymousClass8;
+        linearLayout.addView(imageView2, LayoutHelper.createLinear(50, -1));
+        return linearLayout;
     }
 
     public /* synthetic */ void lambda$buttonForBrush$14(int i, View view) {
@@ -1506,57 +1504,59 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
     }
 
     public void showBrushSettings() {
-        showPopup(new PhotoPaintView$$ExternalSyntheticLambda13(this), this, 85, 0, AndroidUtilities.dp(48.0f));
+        showPopup(new Runnable() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                PhotoPaintView.this.lambda$showBrushSettings$15();
+            }
+        }, this, 85, 0, AndroidUtilities.dp(48.0f));
     }
 
     public /* synthetic */ void lambda$showBrushSettings$15() {
         boolean z = false;
-        this.popupLayout.addView((View) buttonForBrush(0, 2131165713, LocaleController.getString("PaintPen", 2131627206), this.currentBrush == 0), LayoutHelper.createLinear(-1, 54));
-        this.popupLayout.addView((View) buttonForBrush(1, 2131165711, LocaleController.getString("PaintMarker", 2131627203), this.currentBrush == 1), LayoutHelper.createLinear(-1, 54));
-        this.popupLayout.addView((View) buttonForBrush(2, 2131165712, LocaleController.getString("PaintNeon", 2131627204), this.currentBrush == 2), LayoutHelper.createLinear(-1, 54));
-        String string = LocaleController.getString("PaintArrow", 2131627198);
+        this.popupLayout.addView((View) buttonForBrush(0, R.drawable.msg_draw_pen, LocaleController.getString("PaintPen", R.string.PaintPen), this.currentBrush == 0), LayoutHelper.createLinear(-1, 54));
+        this.popupLayout.addView((View) buttonForBrush(1, R.drawable.msg_draw_marker, LocaleController.getString("PaintMarker", R.string.PaintMarker), this.currentBrush == 1), LayoutHelper.createLinear(-1, 54));
+        this.popupLayout.addView((View) buttonForBrush(2, R.drawable.msg_draw_neon, LocaleController.getString("PaintNeon", R.string.PaintNeon), this.currentBrush == 2), LayoutHelper.createLinear(-1, 54));
+        String string = LocaleController.getString("PaintArrow", R.string.PaintArrow);
         if (this.currentBrush == 3) {
             z = true;
         }
-        this.popupLayout.addView((View) buttonForBrush(3, 2131165710, string, z), LayoutHelper.createLinear(-1, 54));
+        this.popupLayout.addView((View) buttonForBrush(3, R.drawable.msg_draw_arrow, string, z), LayoutHelper.createLinear(-1, 54));
     }
 
-    /* renamed from: org.telegram.ui.Components.PhotoPaintView$9 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass9 extends LinearLayout {
-        @Override // android.view.ViewGroup
-        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            return true;
-        }
-
-        AnonymousClass9(PhotoPaintView photoPaintView, Context context) {
-            super(context);
-        }
-    }
-
-    private LinearLayout buttonForText(int i, String str, int i2, boolean z) {
-        AnonymousClass9 anonymousClass9 = new AnonymousClass9(this, getContext());
-        anonymousClass9.setOrientation(0);
-        anonymousClass9.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-        anonymousClass9.setOnClickListener(new PhotoPaintView$$ExternalSyntheticLambda9(this, i));
+    private LinearLayout buttonForText(final int i, String str, int i2, boolean z) {
+        LinearLayout linearLayout = new LinearLayout(this, getContext()) { // from class: org.telegram.ui.Components.PhotoPaintView.9
+            @Override // android.view.ViewGroup
+            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                return true;
+            }
+        };
+        linearLayout.setOrientation(0);
+        linearLayout.setBackgroundDrawable(Theme.getSelectorDrawable(false));
+        linearLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda9
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                PhotoPaintView.this.lambda$buttonForText$16(i, view);
+            }
+        });
         ImageView imageView = new ImageView(getContext());
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         imageView.setImageResource(i2);
         imageView.setColorFilter(getThemedColor("actionBarDefaultSubmenuItem"));
-        anonymousClass9.addView(imageView, LayoutHelper.createLinear(-2, -2, 19, 16, 0, 16, 0));
+        linearLayout.addView(imageView, LayoutHelper.createLinear(-2, -2, 19, 16, 0, 16, 0));
         TextView textView = new TextView(getContext());
         textView.setTextColor(getThemedColor("actionBarDefaultSubmenuItem"));
         textView.setTextSize(1, 16.0f);
         textView.setText(str);
-        anonymousClass9.addView(textView, LayoutHelper.createLinear(-2, -2, 19, 0, 0, 16, 0));
+        linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 19, 0, 0, 16, 0));
         if (z) {
             ImageView imageView2 = new ImageView(getContext());
-            imageView2.setImageResource(2131165957);
+            imageView2.setImageResource(R.drawable.msg_text_check);
             imageView2.setScaleType(ImageView.ScaleType.CENTER);
             imageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor("radioBackgroundChecked"), PorterDuff.Mode.MULTIPLY));
-            anonymousClass9.addView(imageView2, LayoutHelper.createLinear(50, -1));
+            linearLayout.addView(imageView2, LayoutHelper.createLinear(50, -1));
         }
-        return anonymousClass9;
+        return linearLayout;
     }
 
     public /* synthetic */ void lambda$buttonForText$16(int i, View view) {
@@ -1569,7 +1569,12 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
     }
 
     public void showTextSettings() {
-        showPopup(new PhotoPaintView$$ExternalSyntheticLambda14(this), this, 85, 0, AndroidUtilities.dp(48.0f));
+        showPopup(new Runnable() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda14
+            @Override // java.lang.Runnable
+            public final void run() {
+                PhotoPaintView.this.lambda$showTextSettings$17();
+            }
+        }, this, 85, 0, AndroidUtilities.dp(48.0f));
     }
 
     public /* synthetic */ void lambda$showTextSettings$17() {
@@ -1578,14 +1583,14 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         for (int i2 = 0; i2 < 3; i2++) {
             boolean z = true;
             if (i2 == 0) {
-                str = LocaleController.getString("PaintOutlined", 2131627205);
-                i = 2131165959;
+                str = LocaleController.getString("PaintOutlined", R.string.PaintOutlined);
+                i = R.drawable.msg_text_outlined;
             } else if (i2 == 1) {
-                str = LocaleController.getString("PaintRegular", 2131627207);
-                i = 2131165960;
+                str = LocaleController.getString("PaintRegular", R.string.PaintRegular);
+                i = R.drawable.msg_text_regular;
             } else {
-                str = LocaleController.getString("PaintFramed", 2131627202);
-                i = 2131165958;
+                str = LocaleController.getString("PaintFramed", R.string.PaintFramed);
+                i = R.drawable.msg_text_framed;
             }
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = this.popupLayout;
             if (this.selectedTextType != i2) {
@@ -1606,8 +1611,20 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext());
             this.popupLayout = actionBarPopupWindowLayout;
             actionBarPopupWindowLayout.setAnimationEnabled(false);
-            this.popupLayout.setOnTouchListener(new PhotoPaintView$$ExternalSyntheticLambda11(this));
-            this.popupLayout.setDispatchKeyEventListener(new PhotoPaintView$$ExternalSyntheticLambda19(this));
+            this.popupLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda11
+                @Override // android.view.View.OnTouchListener
+                public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                    boolean lambda$showPopup$18;
+                    lambda$showPopup$18 = PhotoPaintView.this.lambda$showPopup$18(view2, motionEvent);
+                    return lambda$showPopup$18;
+                }
+            });
+            this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda19
+                @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
+                public final void onDispatchKeyEvent(KeyEvent keyEvent) {
+                    PhotoPaintView.this.lambda$showPopup$19(keyEvent);
+                }
+            });
             this.popupLayout.setShownFromBottom(true);
         }
         this.popupLayout.removeInnerViews();
@@ -1616,13 +1633,18 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
             ActionBarPopupWindow actionBarPopupWindow2 = new ActionBarPopupWindow(this.popupLayout, -2, -2);
             this.popupWindow = actionBarPopupWindow2;
             actionBarPopupWindow2.setAnimationEnabled(false);
-            this.popupWindow.setAnimationStyle(2131689480);
+            this.popupWindow.setAnimationStyle(R.style.PopupAnimation);
             this.popupWindow.setOutsideTouchable(true);
             this.popupWindow.setClippingEnabled(true);
             this.popupWindow.setInputMethodMode(2);
             this.popupWindow.setSoftInputMode(0);
             this.popupWindow.getContentView().setFocusableInTouchMode(true);
-            this.popupWindow.setOnDismissListener(new PhotoPaintView$$ExternalSyntheticLambda12(this));
+            this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda12
+                @Override // android.widget.PopupWindow.OnDismissListener
+                public final void onDismiss() {
+                    PhotoPaintView.this.lambda$showPopup$20();
+                }
+            });
         }
         this.popupLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
         this.popupWindow.setFocusable(true);
@@ -1676,7 +1698,12 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
     }
 
     private void detectFaces() {
-        this.queue.postRunnable(new PhotoPaintView$$ExternalSyntheticLambda15(this));
+        this.queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.PhotoPaintView$$ExternalSyntheticLambda15
+            @Override // java.lang.Runnable
+            public final void run() {
+                PhotoPaintView.this.lambda$detectFaces$21();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$detectFaces$21() {

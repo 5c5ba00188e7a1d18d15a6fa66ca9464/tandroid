@@ -250,83 +250,38 @@ public class DefaultChannel implements Channel {
         sendLogs(groupState, this.mCurrentState, arrayList, logs);
     }
 
-    private void sendLogs(GroupState groupState, int i, List<Log> list, String str) {
+    private void sendLogs(final GroupState groupState, final int i, List<Log> list, final String str) {
         LogContainer logContainer = new LogContainer();
         logContainer.setLogs(list);
-        groupState.mIngestion.sendAsync(this.mAppSecret, this.mInstallId, logContainer, new AnonymousClass1(groupState, str));
-        this.mAppCenterHandler.post(new AnonymousClass2(groupState, i));
-    }
-
-    /* renamed from: com.microsoft.appcenter.channel.DefaultChannel$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements ServiceCallback {
-        final /* synthetic */ String val$batchId;
-        final /* synthetic */ GroupState val$groupState;
-
-        AnonymousClass1(GroupState groupState, String str) {
-            DefaultChannel.this = r1;
-            this.val$groupState = groupState;
-            this.val$batchId = str;
-        }
-
-        /* renamed from: com.microsoft.appcenter.channel.DefaultChannel$1$1 */
-        /* loaded from: classes.dex */
-        class RunnableC00061 implements Runnable {
-            RunnableC00061() {
-                AnonymousClass1.this = r1;
+        groupState.mIngestion.sendAsync(this.mAppSecret, this.mInstallId, logContainer, new ServiceCallback() { // from class: com.microsoft.appcenter.channel.DefaultChannel.1
+            @Override // com.microsoft.appcenter.http.ServiceCallback
+            public void onCallSucceeded(HttpResponse httpResponse) {
+                DefaultChannel.this.mAppCenterHandler.post(new Runnable() { // from class: com.microsoft.appcenter.channel.DefaultChannel.1.1
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        AnonymousClass1 anonymousClass1 = AnonymousClass1.this;
+                        DefaultChannel.this.handleSendingSuccess(groupState, str);
+                    }
+                });
             }
 
+            @Override // com.microsoft.appcenter.http.ServiceCallback
+            public void onCallFailed(final Exception exc) {
+                DefaultChannel.this.mAppCenterHandler.post(new Runnable() { // from class: com.microsoft.appcenter.channel.DefaultChannel.1.2
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        AnonymousClass1 anonymousClass1 = AnonymousClass1.this;
+                        DefaultChannel.this.handleSendingFailure(groupState, str, exc);
+                    }
+                });
+            }
+        });
+        this.mAppCenterHandler.post(new Runnable() { // from class: com.microsoft.appcenter.channel.DefaultChannel.2
             @Override // java.lang.Runnable
             public void run() {
-                AnonymousClass1 anonymousClass1 = AnonymousClass1.this;
-                DefaultChannel.this.handleSendingSuccess(anonymousClass1.val$groupState, anonymousClass1.val$batchId);
+                DefaultChannel.this.checkPendingLogsAfterPost(groupState, i);
             }
-        }
-
-        @Override // com.microsoft.appcenter.http.ServiceCallback
-        public void onCallSucceeded(HttpResponse httpResponse) {
-            DefaultChannel.this.mAppCenterHandler.post(new RunnableC00061());
-        }
-
-        /* renamed from: com.microsoft.appcenter.channel.DefaultChannel$1$2 */
-        /* loaded from: classes.dex */
-        class AnonymousClass2 implements Runnable {
-            final /* synthetic */ Exception val$e;
-
-            AnonymousClass2(Exception exc) {
-                AnonymousClass1.this = r1;
-                this.val$e = exc;
-            }
-
-            @Override // java.lang.Runnable
-            public void run() {
-                AnonymousClass1 anonymousClass1 = AnonymousClass1.this;
-                DefaultChannel.this.handleSendingFailure(anonymousClass1.val$groupState, anonymousClass1.val$batchId, this.val$e);
-            }
-        }
-
-        @Override // com.microsoft.appcenter.http.ServiceCallback
-        public void onCallFailed(Exception exc) {
-            DefaultChannel.this.mAppCenterHandler.post(new AnonymousClass2(exc));
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.channel.DefaultChannel$2 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass2 implements Runnable {
-        final /* synthetic */ int val$currentState;
-        final /* synthetic */ GroupState val$groupState;
-
-        AnonymousClass2(GroupState groupState, int i) {
-            DefaultChannel.this = r1;
-            this.val$groupState = groupState;
-            this.val$currentState = i;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            DefaultChannel.this.checkPendingLogsAfterPost(this.val$groupState, this.val$currentState);
-        }
+        });
     }
 
     public void checkPendingLogsAfterPost(GroupState groupState, int i) {
@@ -525,23 +480,14 @@ public class DefaultChannel implements Channel {
         boolean mScheduled;
         final Map<String, List<Log>> mSendingBatches = new HashMap();
         final Collection<String> mPausedTargetKeys = new HashSet();
-        final Runnable mRunnable = new AnonymousClass1();
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: com.microsoft.appcenter.channel.DefaultChannel$GroupState$1 */
-        /* loaded from: classes.dex */
-        public class AnonymousClass1 implements Runnable {
-            AnonymousClass1() {
-                GroupState.this = r1;
-            }
-
+        final Runnable mRunnable = new Runnable() { // from class: com.microsoft.appcenter.channel.DefaultChannel.GroupState.1
             @Override // java.lang.Runnable
             public void run() {
                 GroupState groupState = GroupState.this;
                 groupState.mScheduled = false;
                 DefaultChannel.this.triggerIngestion(groupState);
             }
-        }
+        };
 
         GroupState(String str, int i, long j, int i2, Ingestion ingestion, Channel.GroupListener groupListener) {
             DefaultChannel.this = r1;

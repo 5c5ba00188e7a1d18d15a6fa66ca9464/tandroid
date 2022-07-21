@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import com.huawei.hms.framework.network.grs.GrsApp;
 import com.huawei.hms.support.log.HMSLog;
+import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: AnalyticsSwitchHolder.java */
 /* loaded from: classes.dex */
 public class a {
@@ -22,7 +23,7 @@ public class a {
         PackageManager packageManager = context.getPackageManager();
         if (packageManager != null) {
             try {
-                ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), 128).applicationInfo;
+                ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).applicationInfo;
                 if (applicationInfo != null && (bundle = applicationInfo.metaData) != null) {
                     return bundle.getBoolean("com.huawei.hms.client.bireport.setting");
                 }
@@ -45,7 +46,7 @@ public class a {
         PackageManager packageManager = context.getPackageManager();
         if (packageManager != null) {
             try {
-                ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), 128).applicationInfo;
+                ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).applicationInfo;
                 if (applicationInfo != null && (bundle = applicationInfo.metaData) != null) {
                     return bundle.getBoolean("com.huawei.hms.client.bi.setting");
                 }

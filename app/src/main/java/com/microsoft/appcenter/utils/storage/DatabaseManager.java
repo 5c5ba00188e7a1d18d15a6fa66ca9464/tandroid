@@ -27,38 +27,24 @@ public class DatabaseManager implements Closeable {
         void onUpgrade(SQLiteDatabase sQLiteDatabase, int i, int i2);
     }
 
-    public DatabaseManager(Context context, String str, String str2, int i, ContentValues contentValues, String str3, Listener listener) {
+    public DatabaseManager(Context context, String str, String str2, int i, ContentValues contentValues, final String str3, Listener listener) {
         this.mContext = context;
         this.mDatabase = str;
         this.mDefaultTable = str2;
         this.mSchema = contentValues;
         this.mListener = listener;
-        this.mSQLiteOpenHelper = new AnonymousClass1(context, str, null, i, str3);
-    }
+        this.mSQLiteOpenHelper = new SQLiteOpenHelper(context, str, null, i) { // from class: com.microsoft.appcenter.utils.storage.DatabaseManager.1
+            @Override // android.database.sqlite.SQLiteOpenHelper
+            public void onCreate(SQLiteDatabase sQLiteDatabase) {
+                sQLiteDatabase.execSQL(str3);
+                DatabaseManager.this.mListener.onCreate(sQLiteDatabase);
+            }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.microsoft.appcenter.utils.storage.DatabaseManager$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends SQLiteOpenHelper {
-        final /* synthetic */ String val$sqlCreateCommand;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context, String str, SQLiteDatabase.CursorFactory cursorFactory, int i, String str2) {
-            super(context, str, cursorFactory, i);
-            DatabaseManager.this = r1;
-            this.val$sqlCreateCommand = str2;
-        }
-
-        @Override // android.database.sqlite.SQLiteOpenHelper
-        public void onCreate(SQLiteDatabase sQLiteDatabase) {
-            sQLiteDatabase.execSQL(this.val$sqlCreateCommand);
-            DatabaseManager.this.mListener.onCreate(sQLiteDatabase);
-        }
-
-        @Override // android.database.sqlite.SQLiteOpenHelper
-        public void onUpgrade(SQLiteDatabase sQLiteDatabase, int i, int i2) {
-            DatabaseManager.this.mListener.onUpgrade(sQLiteDatabase, i, i2);
-        }
+            @Override // android.database.sqlite.SQLiteOpenHelper
+            public void onUpgrade(SQLiteDatabase sQLiteDatabase, int i2, int i3) {
+                DatabaseManager.this.mListener.onUpgrade(sQLiteDatabase, i2, i3);
+            }
+        };
     }
 
     private static ContentValues buildValues(Cursor cursor, ContentValues contentValues) {

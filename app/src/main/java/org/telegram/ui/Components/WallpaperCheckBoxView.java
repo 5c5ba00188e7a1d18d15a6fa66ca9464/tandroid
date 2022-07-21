@@ -30,19 +30,7 @@ public class WallpaperCheckBoxView extends View {
     private float progress;
     private TextPaint textPaint;
     private int[] colors = new int[4];
-    public final Property<WallpaperCheckBoxView, Float> PROGRESS_PROPERTY = new AnonymousClass1("progress");
-    private RectF rect = new RectF();
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.WallpaperCheckBoxView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimationProperties.FloatProperty<WallpaperCheckBoxView> {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(String str) {
-            super(str);
-            WallpaperCheckBoxView.this = r1;
-        }
-
+    public final Property<WallpaperCheckBoxView, Float> PROGRESS_PROPERTY = new AnimationProperties.FloatProperty<WallpaperCheckBoxView>("progress") { // from class: org.telegram.ui.Components.WallpaperCheckBoxView.1
         public void setValue(WallpaperCheckBoxView wallpaperCheckBoxView, float f) {
             WallpaperCheckBoxView.this.progress = f;
             WallpaperCheckBoxView.this.invalidate();
@@ -51,7 +39,8 @@ public class WallpaperCheckBoxView extends View {
         public Float get(WallpaperCheckBoxView wallpaperCheckBoxView) {
             return Float.valueOf(WallpaperCheckBoxView.this.progress);
         }
-    }
+    };
+    private RectF rect = new RectF();
 
     public WallpaperCheckBoxView(Context context, boolean z, View view) {
         super(context);
@@ -63,7 +52,7 @@ public class WallpaperCheckBoxView extends View {
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
         textPaint.setTextSize(AndroidUtilities.dp(14.0f));
-        this.textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         Paint paint = new Paint(1);
         this.checkPaint = paint;
         paint.setStyle(Paint.Style.STROKE);

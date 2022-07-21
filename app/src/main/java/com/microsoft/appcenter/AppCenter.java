@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Handler;
 import android.os.HandlerThread;
+import com.huawei.hms.framework.common.ContainerUtils;
 import com.microsoft.appcenter.channel.Channel;
 import com.microsoft.appcenter.channel.DefaultChannel;
 import com.microsoft.appcenter.channel.OneCollectorChannelListener;
@@ -103,7 +104,7 @@ public class AppCenter {
         return this.mApplication != null;
     }
 
-    private synchronized boolean configureInstance(Application application, String str, boolean z) {
+    private synchronized boolean configureInstance(Application application, String str, final boolean z) {
         if (application == null) {
             AppCenterLog.error("AppCenter", "Application context may not be null.");
             return false;
@@ -118,7 +119,13 @@ public class AppCenter {
         if (this.mHandler != null) {
             String str3 = this.mAppSecret;
             if (str3 != null && !str3.equals(str2)) {
-                this.mHandler.post(new AnonymousClass4());
+                this.mHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.4
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        AppCenter.this.mChannel.setAppSecret(AppCenter.this.mAppSecret);
+                        AppCenter.this.applyStorageMaxSize();
+                    }
+                });
             }
             return true;
         }
@@ -127,58 +134,25 @@ public class AppCenter {
         this.mHandlerThread = handlerThread;
         handlerThread.start();
         this.mHandler = new Handler(this.mHandlerThread.getLooper());
-        this.mAppCenterHandler = new AnonymousClass5();
+        this.mAppCenterHandler = new AppCenterHandler() { // from class: com.microsoft.appcenter.AppCenter.5
+            @Override // com.microsoft.appcenter.AppCenterHandler
+            public void post(Runnable runnable, Runnable runnable2) {
+                AppCenter.this.handlerAppCenterOperation(runnable, runnable2);
+            }
+        };
         ApplicationLifecycleListener applicationLifecycleListener = new ApplicationLifecycleListener(this.mHandler);
         this.mApplicationLifecycleListener = applicationLifecycleListener;
         this.mApplication.registerActivityLifecycleCallbacks(applicationLifecycleListener);
         this.mServices = new HashSet();
         this.mServicesStartedFromLibrary = new HashSet();
-        this.mHandler.post(new AnonymousClass6(z));
+        this.mHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.6
+            @Override // java.lang.Runnable
+            public void run() {
+                AppCenter.this.finishConfiguration(z);
+            }
+        });
         AppCenterLog.info("AppCenter", "App Center SDK configured successfully.");
         return true;
-    }
-
-    /* renamed from: com.microsoft.appcenter.AppCenter$4 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass4 implements Runnable {
-        AnonymousClass4() {
-            AppCenter.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            AppCenter.this.mChannel.setAppSecret(AppCenter.this.mAppSecret);
-            AppCenter.this.applyStorageMaxSize();
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.AppCenter$5 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass5 implements AppCenterHandler {
-        AnonymousClass5() {
-            AppCenter.this = r1;
-        }
-
-        @Override // com.microsoft.appcenter.AppCenterHandler
-        public void post(Runnable runnable, Runnable runnable2) {
-            AppCenter.this.handlerAppCenterOperation(runnable, runnable2);
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.AppCenter$6 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass6 implements Runnable {
-        final /* synthetic */ boolean val$configureFromApp;
-
-        AnonymousClass6(boolean z) {
-            AppCenter.this = r1;
-            this.val$configureFromApp = z;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            AppCenter.this.finishConfiguration(this.val$configureFromApp);
-        }
     }
 
     private boolean configureSecretString(String str) {
@@ -189,7 +163,7 @@ public class AppCenter {
         this.mConfiguredFromApp = true;
         if (str != null) {
             for (String str2 : str.split(";")) {
-                String[] split = str2.split("=", -1);
+                String[] split = str2.split(ContainerUtils.KEY_VALUE_DELIMITER, -1);
                 String str3 = split[0];
                 if (split.length == 1) {
                     if (!str3.isEmpty()) {
@@ -208,40 +182,27 @@ public class AppCenter {
         return true;
     }
 
-    /* renamed from: com.microsoft.appcenter.AppCenter$7 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass7 implements Runnable {
-        final /* synthetic */ Runnable val$disabledRunnable;
-        final /* synthetic */ Runnable val$runnable;
-
-        AnonymousClass7(Runnable runnable, Runnable runnable2) {
-            AppCenter.this = r1;
-            this.val$runnable = runnable;
-            this.val$disabledRunnable = runnable2;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (AppCenter.this.isInstanceEnabled()) {
-                this.val$runnable.run();
-                return;
-            }
-            Runnable runnable = this.val$disabledRunnable;
-            if (runnable != null) {
-                runnable.run();
-            } else {
-                AppCenterLog.error("AppCenter", "App Center SDK is disabled.");
-            }
-        }
-    }
-
-    public synchronized void handlerAppCenterOperation(Runnable runnable, Runnable runnable2) {
+    public synchronized void handlerAppCenterOperation(final Runnable runnable, final Runnable runnable2) {
         if (checkPrecondition()) {
-            AnonymousClass7 anonymousClass7 = new AnonymousClass7(runnable, runnable2);
+            Runnable runnable3 = new Runnable() { // from class: com.microsoft.appcenter.AppCenter.7
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (AppCenter.this.isInstanceEnabled()) {
+                        runnable.run();
+                        return;
+                    }
+                    Runnable runnable4 = runnable2;
+                    if (runnable4 != null) {
+                        runnable4.run();
+                    } else {
+                        AppCenterLog.error("AppCenter", "App Center SDK is disabled.");
+                    }
+                }
+            };
             if (Thread.currentThread() == this.mHandlerThread) {
                 runnable.run();
             } else {
-                this.mHandler.post(anonymousClass7);
+                this.mHandler.post(runnable3);
             }
         }
     }
@@ -300,7 +261,7 @@ public class AppCenter {
     }
 
     @SafeVarargs
-    private final synchronized void startServices(boolean z, Class<? extends AppCenterService>... clsArr) {
+    private final synchronized void startServices(final boolean z, Class<? extends AppCenterService>... clsArr) {
         if (clsArr == null) {
             AppCenterLog.error("AppCenter", "Cannot start services, services array is null. Failed to start services.");
             return;
@@ -315,8 +276,8 @@ public class AppCenter {
             AppCenterLog.error("AppCenter", "Cannot start services, App Center has not been configured. Failed to start the following services:\n" + ((Object) sb));
             return;
         }
-        ArrayList arrayList = new ArrayList();
-        ArrayList arrayList2 = new ArrayList();
+        final ArrayList arrayList = new ArrayList();
+        final ArrayList arrayList2 = new ArrayList();
         for (Class<? extends AppCenterService> cls2 : clsArr) {
             if (cls2 == null) {
                 AppCenterLog.warn("AppCenter", "Skipping null service, please check your varargs/array does not contain any null reference.");
@@ -328,27 +289,12 @@ public class AppCenter {
                 }
             }
         }
-        this.mHandler.post(new AnonymousClass8(arrayList2, arrayList, z));
-    }
-
-    /* renamed from: com.microsoft.appcenter.AppCenter$8 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass8 implements Runnable {
-        final /* synthetic */ boolean val$startFromApp;
-        final /* synthetic */ Collection val$startedServices;
-        final /* synthetic */ Collection val$updatedServices;
-
-        AnonymousClass8(Collection collection, Collection collection2, boolean z) {
-            AppCenter.this = r1;
-            this.val$updatedServices = collection;
-            this.val$startedServices = collection2;
-            this.val$startFromApp = z;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            AppCenter.this.finishStartServices(this.val$updatedServices, this.val$startedServices, this.val$startFromApp);
-        }
+        this.mHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.8
+            @Override // java.lang.Runnable
+            public void run() {
+                AppCenter.this.finishStartServices(arrayList2, arrayList, z);
+            }
+        });
     }
 
     private void startOrUpdateService(AppCenterService appCenterService, Collection<AppCenterService> collection, Collection<AppCenterService> collection2, boolean z) {

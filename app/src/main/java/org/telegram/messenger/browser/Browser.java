@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import com.huawei.hms.framework.common.ContainerUtils;
 import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.ShareBroadcastReceiver;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.support.customtabs.CustomTabsCallback;
 import org.telegram.messenger.support.customtabs.CustomTabsClient;
 import org.telegram.messenger.support.customtabs.CustomTabsIntent;
@@ -34,6 +36,7 @@ import org.telegram.messenger.support.customtabsclient.shared.CustomTabsHelper;
 import org.telegram.messenger.support.customtabsclient.shared.ServiceConnection;
 import org.telegram.messenger.support.customtabsclient.shared.ServiceConnectionCallback;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messageMediaWebPage;
@@ -60,7 +63,7 @@ public class Browser {
         if (customTabsClient2 == null) {
             customTabsSession = null;
         } else if (customTabsSession == null) {
-            CustomTabsSession newSession = customTabsClient2.newSession(new NavigationCallback(null));
+            CustomTabsSession newSession = customTabsClient2.newSession(new NavigationCallback());
             customTabsSession = newSession;
             setCurrentSession(newSession);
         }
@@ -85,7 +88,25 @@ public class Browser {
                     return;
                 }
             }
-            ServiceConnection serviceConnection = new ServiceConnection(new AnonymousClass1());
+            ServiceConnection serviceConnection = new ServiceConnection(new ServiceConnectionCallback() { // from class: org.telegram.messenger.browser.Browser.1
+                @Override // org.telegram.messenger.support.customtabsclient.shared.ServiceConnectionCallback
+                public void onServiceConnected(CustomTabsClient customTabsClient2) {
+                    CustomTabsClient unused = Browser.customTabsClient = customTabsClient2;
+                    if (!SharedConfig.customTabs || Browser.customTabsClient == null) {
+                        return;
+                    }
+                    try {
+                        Browser.customTabsClient.warmup(0L);
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                }
+
+                @Override // org.telegram.messenger.support.customtabsclient.shared.ServiceConnectionCallback
+                public void onServiceDisconnected() {
+                    CustomTabsClient unused = Browser.customTabsClient = null;
+                }
+            });
             customTabsServiceConnection = serviceConnection;
             if (CustomTabsClient.bindCustomTabsService(activity, customTabsPackageToBind, serviceConnection)) {
                 return;
@@ -93,31 +114,6 @@ public class Browser {
             customTabsServiceConnection = null;
         } catch (Exception e) {
             FileLog.e(e);
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.browser.Browser$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements ServiceConnectionCallback {
-        AnonymousClass1() {
-        }
-
-        @Override // org.telegram.messenger.support.customtabsclient.shared.ServiceConnectionCallback
-        public void onServiceConnected(CustomTabsClient customTabsClient) {
-            CustomTabsClient unused = Browser.customTabsClient = customTabsClient;
-            if (!SharedConfig.customTabs || Browser.customTabsClient == null) {
-                return;
-            }
-            try {
-                Browser.customTabsClient.warmup(0L);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // org.telegram.messenger.support.customtabsclient.shared.ServiceConnectionCallback
-        public void onServiceDisconnected() {
-            CustomTabsClient unused = Browser.customTabsClient = null;
         }
     }
 
@@ -144,10 +140,6 @@ public class Browser {
         }
 
         private NavigationCallback() {
-        }
-
-        /* synthetic */ NavigationCallback(AnonymousClass1 anonymousClass1) {
-            this();
         }
     }
 
@@ -203,23 +195,34 @@ public class Browser {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static void openUrl(Context context, Uri uri, boolean z, boolean z2) {
+    public static void openUrl(final Context context, final Uri uri, final boolean z, boolean z2) {
         String[] strArr;
         List<ResolveInfo> queryIntentActivities;
         Uri uri2 = uri;
         if (context == null || uri2 == null) {
             return;
         }
-        int i = UserConfig.selectedAccount;
+        final int i = UserConfig.selectedAccount;
         boolean[] zArr = {false};
         boolean isInternalUri = isInternalUri(uri2, zArr);
         if (z2) {
             try {
                 if (isTelegraphUrl(uri.getHost().toLowerCase(), true) || uri.toString().toLowerCase().contains("telegram.org/faq") || uri.toString().toLowerCase().contains("telegram.org/privacy")) {
-                    AlertDialog[] alertDialogArr = {new AlertDialog(context, 3)};
+                    final AlertDialog[] alertDialogArr = {new AlertDialog(context, 3)};
                     TLRPC$TL_messages_getWebPagePreview tLRPC$TL_messages_getWebPagePreview = new TLRPC$TL_messages_getWebPagePreview();
                     tLRPC$TL_messages_getWebPagePreview.message = uri.toString();
-                    AndroidUtilities.runOnUIThread(new Browser$$ExternalSyntheticLambda1(alertDialogArr, ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getWebPagePreview, new Browser$$ExternalSyntheticLambda3(alertDialogArr, i, uri, context, z))), 1000L);
+                    final int sendRequest = ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda3
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                            Browser.lambda$openUrl$1(alertDialogArr, i, uri, context, z, tLObject, tLRPC$TL_error);
+                        }
+                    });
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda1
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            Browser.lambda$openUrl$3(alertDialogArr, sendRequest);
+                        }
+                    }, 1000L);
                     return;
                 }
             } catch (Exception unused) {
@@ -249,7 +252,7 @@ public class Browser {
                 if (encodedFragment != null) {
                     uri3 = uri3.substring(0, uri3.indexOf("#" + encodedFragment));
                 }
-                String str3 = uri3.indexOf(63) >= 0 ? uri3 + "&" + str2 : uri3 + "?" + str2;
+                String str3 = uri3.indexOf(63) >= 0 ? uri3 + ContainerUtils.FIELD_DELIMITER + str2 : uri3 + "?" + str2;
                 if (encodedFragment != null) {
                     str3 = str3 + "#" + encodedFragment;
                 }
@@ -310,10 +313,10 @@ public class Browser {
                         intent.setAction("android.intent.action.SEND");
                         PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 134217728);
                         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession());
-                        builder.addMenuItem(LocaleController.getString("CopyLink", 2131625274), broadcast);
+                        builder.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), broadcast);
                         builder.setToolbarColor(Theme.getColor("actionBarBrowser"));
                         builder.setShowTitle(true);
-                        builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), 2131165729), LocaleController.getString("ShareFile", 2131628337), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent, 0), true);
+                        builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent, 0), true);
                         CustomTabsIntent build = builder.build();
                         build.setUseNewTask();
                         build.launchUrl(context, uri2);
@@ -332,10 +335,10 @@ public class Browser {
                 intent2.setAction("android.intent.action.SEND");
                 PendingIntent broadcast2 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 134217728);
                 CustomTabsIntent.Builder builder2 = new CustomTabsIntent.Builder(getSession());
-                builder2.addMenuItem(LocaleController.getString("CopyLink", 2131625274), broadcast2);
+                builder2.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), broadcast2);
                 builder2.setToolbarColor(Theme.getColor("actionBarBrowser"));
                 builder2.setShowTitle(true);
-                builder2.setActionButton(BitmapFactory.decodeResource(context.getResources(), 2131165729), LocaleController.getString("ShareFile", 2131628337), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent2, 0), true);
+                builder2.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent2, 0), true);
                 CustomTabsIntent build2 = builder2.build();
                 build2.setUseNewTask();
                 build2.launchUrl(context, uri2);
@@ -357,8 +360,13 @@ public class Browser {
         }
     }
 
-    public static /* synthetic */ void lambda$openUrl$1(AlertDialog[] alertDialogArr, int i, Uri uri, Context context, boolean z, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Browser$$ExternalSyntheticLambda2(alertDialogArr, tLObject, i, uri, context, z));
+    public static /* synthetic */ void lambda$openUrl$1(final AlertDialog[] alertDialogArr, final int i, final Uri uri, final Context context, final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                Browser.lambda$openUrl$0(alertDialogArr, tLObject, i, uri, context, z);
+            }
+        });
     }
 
     /* JADX WARN: Removed duplicated region for block: B:14:0x0036  */
@@ -390,12 +398,17 @@ public class Browser {
         }
     }
 
-    public static /* synthetic */ void lambda$openUrl$3(AlertDialog[] alertDialogArr, int i) {
+    public static /* synthetic */ void lambda$openUrl$3(AlertDialog[] alertDialogArr, final int i) {
         if (alertDialogArr[0] == null) {
             return;
         }
         try {
-            alertDialogArr[0].setOnCancelListener(new Browser$$ExternalSyntheticLambda0(i));
+            alertDialogArr[0].setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda0
+                @Override // android.content.DialogInterface.OnCancelListener
+                public final void onCancel(DialogInterface dialogInterface) {
+                    Browser.lambda$openUrl$2(i, dialogInterface);
+                }
+            });
             alertDialogArr[0].show();
         } catch (Exception unused) {
         }

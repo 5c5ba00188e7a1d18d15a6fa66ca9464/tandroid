@@ -23,8 +23,15 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
         return new Thread(runnable, "heartbeat-information-executor");
     }
 
-    private DefaultHeartBeatInfo(Context context, Set<HeartBeatConsumer> set) {
-        this(new Lazy(new DefaultHeartBeatInfo$$ExternalSyntheticLambda1(context)), set, new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), THREAD_FACTORY));
+    private DefaultHeartBeatInfo(final Context context, Set<HeartBeatConsumer> set) {
+        this(new Lazy(new Provider() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda1
+            @Override // com.google.firebase.inject.Provider
+            public final Object get() {
+                HeartBeatInfoStorage heartBeatInfoStorage;
+                heartBeatInfoStorage = HeartBeatInfoStorage.getInstance(context);
+                return heartBeatInfoStorage;
+            }
+        }), set, new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), THREAD_FACTORY));
     }
 
     DefaultHeartBeatInfo(Provider<HeartBeatInfoStorage> provider, Set<HeartBeatConsumer> set, Executor executor) {

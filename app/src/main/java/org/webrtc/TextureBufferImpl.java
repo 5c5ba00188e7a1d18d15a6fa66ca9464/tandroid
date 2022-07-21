@@ -3,6 +3,7 @@ package org.webrtc;
 import android.graphics.Matrix;
 import android.os.Handler;
 import java.nio.ByteBuffer;
+import java.util.concurrent.Callable;
 import org.telegram.messenger.FileLog;
 import org.webrtc.VideoFrame;
 /* loaded from: classes3.dex */
@@ -33,41 +34,31 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
         return VideoFrame.Buffer.CC.$default$getBufferType(this);
     }
 
-    /* renamed from: org.webrtc.TextureBufferImpl$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 implements RefCountMonitor {
-        final /* synthetic */ Runnable val$releaseCallback;
-
-        @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
-        public void onRelease(TextureBufferImpl textureBufferImpl) {
-        }
-
-        @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
-        public void onRetain(TextureBufferImpl textureBufferImpl) {
-        }
-
-        AnonymousClass1(Runnable runnable) {
-            this.val$releaseCallback = runnable;
-        }
-
-        @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
-        public void onDestroy(TextureBufferImpl textureBufferImpl) {
-            Runnable runnable = this.val$releaseCallback;
-            if (runnable != null) {
-                runnable.run();
+    public TextureBufferImpl(int i, int i2, VideoFrame.TextureBuffer.Type type, int i3, Matrix matrix, Handler handler, YuvConverter yuvConverter, final Runnable runnable) {
+        this(i, i2, i, i2, type, i3, matrix, handler, yuvConverter, new RefCountMonitor() { // from class: org.webrtc.TextureBufferImpl.1
+            @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
+            public void onRelease(TextureBufferImpl textureBufferImpl) {
             }
-        }
-    }
 
-    public TextureBufferImpl(int i, int i2, VideoFrame.TextureBuffer.Type type, int i3, Matrix matrix, Handler handler, YuvConverter yuvConverter, Runnable runnable) {
-        this(i, i2, i, i2, type, i3, matrix, handler, yuvConverter, new AnonymousClass1(runnable));
+            @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
+            public void onRetain(TextureBufferImpl textureBufferImpl) {
+            }
+
+            @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
+            public void onDestroy(TextureBufferImpl textureBufferImpl) {
+                Runnable runnable2 = runnable;
+                if (runnable2 != null) {
+                    runnable2.run();
+                }
+            }
+        });
     }
 
     public TextureBufferImpl(int i, int i2, VideoFrame.TextureBuffer.Type type, int i3, Matrix matrix, Handler handler, YuvConverter yuvConverter, RefCountMonitor refCountMonitor) {
         this(i, i2, i, i2, type, i3, matrix, handler, yuvConverter, refCountMonitor);
     }
 
-    private TextureBufferImpl(int i, int i2, int i3, int i4, VideoFrame.TextureBuffer.Type type, int i5, Matrix matrix, Handler handler, YuvConverter yuvConverter, RefCountMonitor refCountMonitor) {
+    private TextureBufferImpl(int i, int i2, int i3, int i4, VideoFrame.TextureBuffer.Type type, int i5, Matrix matrix, Handler handler, YuvConverter yuvConverter, final RefCountMonitor refCountMonitor) {
         this.unscaledWidth = i;
         this.unscaledHeight = i2;
         this.width = i3;
@@ -77,7 +68,12 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
         this.transformMatrix = matrix;
         this.toI420Handler = handler;
         this.yuvConverter = yuvConverter;
-        this.refCountDelegate = new RefCountDelegate(new TextureBufferImpl$$ExternalSyntheticLambda1(this, refCountMonitor));
+        this.refCountDelegate = new RefCountDelegate(new Runnable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                TextureBufferImpl.this.lambda$new$0(refCountMonitor);
+            }
+        });
         this.refCountMonitor = refCountMonitor;
     }
 
@@ -113,14 +109,21 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
     @Override // org.webrtc.VideoFrame.Buffer
     public VideoFrame.I420Buffer toI420() {
         try {
-            return (VideoFrame.I420Buffer) ThreadUtils.invokeAtFrontUninterruptibly(this.toI420Handler, new TextureBufferImpl$$ExternalSyntheticLambda2(this));
+            return (VideoFrame.I420Buffer) ThreadUtils.invokeAtFrontUninterruptibly(this.toI420Handler, new Callable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda2
+                @Override // java.util.concurrent.Callable
+                public final Object call() {
+                    VideoFrame.I420Buffer lambda$toI420$1;
+                    lambda$toI420$1 = TextureBufferImpl.this.lambda$toI420$1();
+                    return lambda$toI420$1;
+                }
+            });
         } catch (Throwable th) {
             FileLog.e(th);
             int width = getWidth();
             int height = getHeight();
             int i = ((width + 7) / 8) * 8;
             int i2 = (height + 1) / 2;
-            ByteBuffer nativeAllocateByteBuffer = JniCommon.nativeAllocateByteBuffer((height + i2) * i);
+            final ByteBuffer nativeAllocateByteBuffer = JniCommon.nativeAllocateByteBuffer((height + i2) * i);
             while (nativeAllocateByteBuffer.hasRemaining()) {
                 nativeAllocateByteBuffer.put((byte) 0);
             }
@@ -137,7 +140,12 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
             ByteBuffer slice2 = nativeAllocateByteBuffer.slice();
             nativeAllocateByteBuffer.position(i6);
             nativeAllocateByteBuffer.limit(i6 + i7);
-            return JavaI420Buffer.wrap(width, height, slice, i, slice2, i, nativeAllocateByteBuffer.slice(), i, new TextureBufferImpl$$ExternalSyntheticLambda0(nativeAllocateByteBuffer));
+            return JavaI420Buffer.wrap(width, height, slice, i, slice2, i, nativeAllocateByteBuffer.slice(), i, new Runnable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    JniCommon.nativeFreeByteBuffer(nativeAllocateByteBuffer);
+                }
+            });
         }
     }
 
@@ -190,29 +198,21 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
         Matrix matrix2 = new Matrix(this.transformMatrix);
         matrix2.preConcat(matrix);
         retain();
-        return new TextureBufferImpl(i, i2, i3, i4, this.type, this.id, matrix2, this.toI420Handler, this.yuvConverter, new AnonymousClass2());
-    }
+        return new TextureBufferImpl(i, i2, i3, i4, this.type, this.id, matrix2, this.toI420Handler, this.yuvConverter, new RefCountMonitor() { // from class: org.webrtc.TextureBufferImpl.2
+            @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
+            public void onRetain(TextureBufferImpl textureBufferImpl) {
+                TextureBufferImpl.this.refCountMonitor.onRetain(TextureBufferImpl.this);
+            }
 
-    /* renamed from: org.webrtc.TextureBufferImpl$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements RefCountMonitor {
-        AnonymousClass2() {
-            TextureBufferImpl.this = r1;
-        }
+            @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
+            public void onRelease(TextureBufferImpl textureBufferImpl) {
+                TextureBufferImpl.this.refCountMonitor.onRelease(TextureBufferImpl.this);
+            }
 
-        @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
-        public void onRetain(TextureBufferImpl textureBufferImpl) {
-            TextureBufferImpl.this.refCountMonitor.onRetain(TextureBufferImpl.this);
-        }
-
-        @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
-        public void onRelease(TextureBufferImpl textureBufferImpl) {
-            TextureBufferImpl.this.refCountMonitor.onRelease(TextureBufferImpl.this);
-        }
-
-        @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
-        public void onDestroy(TextureBufferImpl textureBufferImpl) {
-            TextureBufferImpl.this.release();
-        }
+            @Override // org.webrtc.TextureBufferImpl.RefCountMonitor
+            public void onDestroy(TextureBufferImpl textureBufferImpl) {
+                TextureBufferImpl.this.release();
+            }
+        });
     }
 }

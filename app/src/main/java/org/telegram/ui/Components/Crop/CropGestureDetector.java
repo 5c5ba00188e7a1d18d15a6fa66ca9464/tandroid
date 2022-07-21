@@ -35,35 +35,26 @@ public class CropGestureDetector {
 
     public CropGestureDetector(Context context) {
         this.mMinimumVelocity = ViewConfiguration.get(context).getScaledMinimumFlingVelocity();
-        this.mDetector = new ScaleGestureDetector(context, new AnonymousClass1());
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.Crop.CropGestureDetector$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements ScaleGestureDetector.OnScaleGestureListener {
-        @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
-        public boolean onScaleBegin(ScaleGestureDetector scaleGestureDetector) {
-            return true;
-        }
-
-        @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
-        public void onScaleEnd(ScaleGestureDetector scaleGestureDetector) {
-        }
-
-        AnonymousClass1() {
-            CropGestureDetector.this = r1;
-        }
-
-        @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
-        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
-            float scaleFactor = scaleGestureDetector.getScaleFactor();
-            if (Float.isNaN(scaleFactor) || Float.isInfinite(scaleFactor)) {
-                return false;
+        this.mDetector = new ScaleGestureDetector(context, new ScaleGestureDetector.OnScaleGestureListener() { // from class: org.telegram.ui.Components.Crop.CropGestureDetector.1
+            @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
+            public boolean onScaleBegin(ScaleGestureDetector scaleGestureDetector) {
+                return true;
             }
-            CropGestureDetector.this.mListener.onScale(scaleFactor, scaleGestureDetector.getFocusX(), scaleGestureDetector.getFocusY());
-            return true;
-        }
+
+            @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
+            public void onScaleEnd(ScaleGestureDetector scaleGestureDetector) {
+            }
+
+            @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
+            public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+                float scaleFactor = scaleGestureDetector.getScaleFactor();
+                if (Float.isNaN(scaleFactor) || Float.isInfinite(scaleFactor)) {
+                    return false;
+                }
+                CropGestureDetector.this.mListener.onScale(scaleFactor, scaleGestureDetector.getFocusX(), scaleGestureDetector.getFocusY());
+                return true;
+            }
+        });
     }
 
     float getActiveX(MotionEvent motionEvent) {

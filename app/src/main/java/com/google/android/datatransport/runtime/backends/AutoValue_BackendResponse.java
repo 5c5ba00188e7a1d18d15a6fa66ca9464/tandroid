@@ -1,6 +1,7 @@
 package com.google.android.datatransport.runtime.backends;
 
 import com.google.android.datatransport.runtime.backends.BackendResponse;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AutoValue_BackendResponse extends BackendResponse {
     private final long nextRequestWaitMillis;

@@ -1,6 +1,7 @@
 package com.huawei.hms.push;
 
 import android.text.TextUtils;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.support.log.HMSLog;
 import java.nio.charset.Charset;
 import org.json.JSONException;
@@ -49,23 +50,23 @@ public class k {
 
     public final JSONObject a(JSONObject jSONObject) throws JSONException {
         JSONObject jSONObject2 = new JSONObject();
-        jSONObject2.put("msgContent", jSONObject);
+        jSONObject2.put(RemoteMessageConst.MessageBody.MSG_CONTENT, jSONObject);
         jSONObject2.put("group", this.a);
-        jSONObject2.put("tag", this.A);
-        jSONObject2.put("autoCancel", this.x);
-        jSONObject2.put("visibility", this.y);
-        jSONObject2.put("when", this.z);
+        jSONObject2.put(RemoteMessageConst.Notification.TAG, this.A);
+        jSONObject2.put(RemoteMessageConst.Notification.AUTO_CANCEL, this.x);
+        jSONObject2.put(RemoteMessageConst.Notification.VISIBILITY, this.y);
+        jSONObject2.put(RemoteMessageConst.Notification.WHEN, this.z);
         return jSONObject2;
     }
 
     public final JSONObject b(JSONObject jSONObject) throws JSONException {
         JSONObject jSONObject2 = new JSONObject();
         jSONObject2.put("cmd", this.g);
-        jSONObject2.put("content", this.h);
-        jSONObject2.put("notifyIcon", this.i);
-        jSONObject2.put("notifyTitle", this.j);
+        jSONObject2.put(RemoteMessageConst.Notification.CONTENT, this.h);
+        jSONObject2.put(RemoteMessageConst.Notification.NOTIFY_ICON, this.i);
+        jSONObject2.put(RemoteMessageConst.Notification.NOTIFY_TITLE, this.j);
         jSONObject2.put("notifySummary", this.k);
-        jSONObject2.put("param", jSONObject);
+        jSONObject2.put(RemoteMessageConst.MessageBody.PARAM, jSONObject);
         return jSONObject2;
     }
 
@@ -90,11 +91,11 @@ public class k {
         if (jSONObject == null) {
             return false;
         }
-        if (jSONObject.has("acn")) {
-            this.m = jSONObject.getString("acn");
+        if (jSONObject.has(RemoteMessageConst.Notification.CLICK_ACTION)) {
+            this.m = jSONObject.getString(RemoteMessageConst.Notification.CLICK_ACTION);
         }
-        if (jSONObject.has("intentUri")) {
-            this.c = jSONObject.getString("intentUri");
+        if (jSONObject.has(RemoteMessageConst.Notification.INTENT_URI)) {
+            this.c = jSONObject.getString(RemoteMessageConst.Notification.INTENT_URI);
         }
         if (jSONObject.has("appPackageName")) {
             this.l = jSONObject.getString("appPackageName");
@@ -105,8 +106,8 @@ public class k {
     }
 
     public final boolean e(JSONObject jSONObject) throws JSONException {
-        if (jSONObject.has("msgId")) {
-            Object obj = jSONObject.get("msgId");
+        if (jSONObject.has(RemoteMessageConst.MSGID)) {
+            Object obj = jSONObject.get(RemoteMessageConst.MSGID);
             if (obj instanceof String) {
                 this.e = (String) obj;
                 return true;
@@ -124,13 +125,13 @@ public class k {
     public final boolean f(JSONObject jSONObject) {
         HMSLog.d("PushSelfShowLog", "enter parseNotifyParam");
         try {
-            JSONObject jSONObject2 = jSONObject.getJSONObject("notifyDetail");
+            JSONObject jSONObject2 = jSONObject.getJSONObject(RemoteMessageConst.MessageBody.NOTIFY_DETAIL);
             if (jSONObject2.has("style")) {
                 this.t = jSONObject2.getInt("style");
             }
             this.u = jSONObject2.optString("bigTitle");
             this.v = jSONObject2.optString("bigContent");
-            this.E = jSONObject2.optString("icon");
+            this.E = jSONObject2.optString(RemoteMessageConst.Notification.ICON);
             return true;
         } catch (JSONException e) {
             HMSLog.i("PushSelfShowLog", e.toString());
@@ -141,23 +142,23 @@ public class k {
     public final void g(JSONObject jSONObject) {
         this.a = jSONObject.optString("group");
         HMSLog.d("PushSelfShowLog", "NOTIFY_GROUP:" + this.a);
-        this.x = jSONObject.optInt("autoCancel", 1);
+        this.x = jSONObject.optInt(RemoteMessageConst.Notification.AUTO_CANCEL, 1);
         HMSLog.d("PushSelfShowLog", "autoCancel: " + this.x);
-        this.y = jSONObject.optInt("visibility", 0);
-        this.z = jSONObject.optString("when");
-        this.A = jSONObject.optString("tag");
+        this.y = jSONObject.optInt(RemoteMessageConst.Notification.VISIBILITY, 0);
+        this.z = jSONObject.optString(RemoteMessageConst.Notification.WHEN);
+        this.A = jSONObject.optString(RemoteMessageConst.Notification.TAG);
     }
 
     public final boolean h(JSONObject jSONObject) {
         try {
-            JSONObject jSONObject2 = jSONObject.getJSONObject("param");
+            JSONObject jSONObject2 = jSONObject.getJSONObject(RemoteMessageConst.MessageBody.PARAM);
             if (jSONObject2.has("autoClear")) {
                 this.b = jSONObject2.getInt("autoClear");
             } else {
                 this.b = 0;
             }
             if (!"app".equals(this.g) && !"cosa".equals(this.g)) {
-                if ("url".equals(this.g)) {
+                if (RemoteMessageConst.Notification.URL.equals(this.g)) {
                     k(jSONObject2);
                     return true;
                 } else if (!"rp".equals(this.g)) {
@@ -176,15 +177,15 @@ public class k {
     }
 
     public final boolean i(JSONObject jSONObject) throws JSONException {
-        if (jSONObject.has("psContent")) {
-            JSONObject jSONObject2 = jSONObject.getJSONObject("psContent");
+        if (jSONObject.has(RemoteMessageConst.MessageBody.PS_CONTENT)) {
+            JSONObject jSONObject2 = jSONObject.getJSONObject(RemoteMessageConst.MessageBody.PS_CONTENT);
             this.g = jSONObject2.getString("cmd");
-            this.h = jSONObject2.optString("content");
-            this.i = jSONObject2.optString("notifyIcon");
-            this.j = jSONObject2.optString("notifyTitle");
+            this.h = jSONObject2.optString(RemoteMessageConst.Notification.CONTENT);
+            this.i = jSONObject2.optString(RemoteMessageConst.Notification.NOTIFY_ICON);
+            this.j = jSONObject2.optString(RemoteMessageConst.Notification.NOTIFY_TITLE);
             this.k = jSONObject2.optString("notifySummary");
-            this.D = jSONObject2.optString("ticker");
-            if ((!jSONObject2.has("notifyDetail") || f(jSONObject2)) && jSONObject2.has("param")) {
+            this.D = jSONObject2.optString(RemoteMessageConst.Notification.TICKER);
+            if ((!jSONObject2.has(RemoteMessageConst.MessageBody.NOTIFY_DETAIL) || f(jSONObject2)) && jSONObject2.has(RemoteMessageConst.MessageBody.PARAM)) {
                 return h(jSONObject2);
             }
         }
@@ -215,8 +216,8 @@ public class k {
         if (jSONObject == null) {
             return false;
         }
-        if (jSONObject.has("url")) {
-            this.n = jSONObject.getString("url");
+        if (jSONObject.has(RemoteMessageConst.Notification.URL)) {
+            this.n = jSONObject.getString(RemoteMessageConst.Notification.URL);
             if (jSONObject.has("appPackageName")) {
                 this.l = jSONObject.getString("appPackageName");
             }
@@ -289,13 +290,13 @@ public class k {
     public final JSONObject v() throws JSONException {
         JSONObject jSONObject = new JSONObject();
         jSONObject.put("autoClear", this.b);
-        jSONObject.put("url", this.n);
+        jSONObject.put(RemoteMessageConst.Notification.URL, this.n);
         jSONObject.put("rpl", this.o);
         jSONObject.put("rpt", this.p);
         jSONObject.put("rpct", this.q);
         jSONObject.put("appPackageName", this.l);
-        jSONObject.put("acn", this.m);
-        jSONObject.put("intentUri", this.c);
+        jSONObject.put(RemoteMessageConst.Notification.CLICK_ACTION, this.m);
+        jSONObject.put(RemoteMessageConst.Notification.INTENT_URI, this.c);
         return jSONObject;
     }
 
@@ -319,15 +320,15 @@ public class k {
             }
             JSONObject jSONObject = new JSONObject(this.r);
             g(jSONObject);
-            JSONObject jSONObject2 = jSONObject.getJSONObject("msgContent");
+            JSONObject jSONObject2 = jSONObject.getJSONObject(RemoteMessageConst.MessageBody.MSG_CONTENT);
             if (!e(jSONObject2)) {
                 return false;
             }
             this.f = jSONObject2.optString("dispPkgName");
             c(jSONObject2);
-            this.B = jSONObject2.optInt("notifyId", -1);
-            this.C = jSONObject2.optString("data");
-            this.F = jSONObject2.optString("analyticInfo");
+            this.B = jSONObject2.optInt(RemoteMessageConst.Notification.NOTIFY_ID, -1);
+            this.C = jSONObject2.optString(RemoteMessageConst.DATA);
+            this.F = jSONObject2.optString(RemoteMessageConst.ANALYTIC_INFO);
             return i(jSONObject2);
         } catch (JSONException unused) {
             HMSLog.d("PushSelfShowLog", "parse message exception.");
@@ -341,13 +342,13 @@ public class k {
     public final JSONObject a(JSONObject jSONObject, JSONObject jSONObject2) throws JSONException {
         JSONObject jSONObject3 = new JSONObject();
         jSONObject3.put("dispPkgName", this.f);
-        jSONObject3.put("msgId", this.e);
+        jSONObject3.put(RemoteMessageConst.MSGID, this.e);
         jSONObject3.put("ap", this.d);
-        jSONObject3.put("notifyId", this.B);
-        jSONObject3.put("psContent", jSONObject);
-        jSONObject3.put("notifyDetail", jSONObject2);
-        jSONObject3.put("ticker", this.D);
-        jSONObject3.put("data", this.C);
+        jSONObject3.put(RemoteMessageConst.Notification.NOTIFY_ID, this.B);
+        jSONObject3.put(RemoteMessageConst.MessageBody.PS_CONTENT, jSONObject);
+        jSONObject3.put(RemoteMessageConst.MessageBody.NOTIFY_DETAIL, jSONObject2);
+        jSONObject3.put(RemoteMessageConst.Notification.TICKER, this.D);
+        jSONObject3.put(RemoteMessageConst.DATA, this.C);
         return jSONObject3;
     }
 

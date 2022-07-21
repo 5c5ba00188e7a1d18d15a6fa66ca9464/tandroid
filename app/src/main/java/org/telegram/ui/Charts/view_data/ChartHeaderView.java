@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Charts.BaseChartView;
 import org.telegram.ui.Components.LayoutHelper;
@@ -32,12 +33,12 @@ public class ChartHeaderView extends FrameLayout {
         super(context);
         TextPaint textPaint = new TextPaint();
         textPaint.setTextSize(14.0f);
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textMargin = (int) textPaint.measureText("00 MMM 0000 - 00 MMM 000");
         TextView textView = new TextView(context);
         this.title = textView;
         textView.setTextSize(1, 15.0f);
-        this.title.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.title.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         addView(this.title, LayoutHelper.createFrame(-2, -2.0f, 8388627, 16.0f, 0.0f, this.textMargin, 0.0f));
         TextView textView2 = new TextView(context);
         this.back = textView2;
@@ -48,25 +49,30 @@ public class ChartHeaderView extends FrameLayout {
         TextView textView3 = new TextView(context);
         this.dates = textView3;
         textView3.setTextSize(1, 13.0f);
-        this.dates.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.dates.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.dates.setGravity(8388629);
         addView(this.dates, LayoutHelper.createFrame(-2, -2.0f, 8388629, 16.0f, 0.0f, 16.0f, 0.0f));
         TextView textView4 = new TextView(context);
         this.datesTmp = textView4;
         textView4.setTextSize(1, 13.0f);
-        this.datesTmp.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.datesTmp.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.datesTmp.setGravity(8388629);
         addView(this.datesTmp, LayoutHelper.createFrame(-2, -2.0f, 8388629, 16.0f, 0.0f, 16.0f, 0.0f));
         this.datesTmp.setVisibility(8);
         this.back.setVisibility(8);
-        this.back.setText(LocaleController.getString("ZoomOut", 2131629379));
-        Drawable drawable = ContextCompat.getDrawable(getContext(), 2131165997);
+        this.back.setText(LocaleController.getString("ZoomOut", R.string.ZoomOut));
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.msg_zoomout_stats);
         this.zoomIcon = drawable;
         this.back.setCompoundDrawablesWithIntrinsicBounds(drawable, (Drawable) null, (Drawable) null, (Drawable) null);
         this.back.setCompoundDrawablePadding(AndroidUtilities.dp(4.0f));
         this.back.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(4.0f));
         this.back.setBackground(Theme.getRoundRectSelectorDrawable(Theme.getColor("featuredStickers_removeButtonText")));
-        this.datesTmp.addOnLayoutChangeListener(new ChartHeaderView$$ExternalSyntheticLambda0(this));
+        this.datesTmp.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Charts.view_data.ChartHeaderView$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnLayoutChangeListener
+            public final void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
+                ChartHeaderView.this.lambda$new$0(view, i, i2, i3, i4, i5, i6, i7, i8);
+            }
+        });
         recolor();
     }
 

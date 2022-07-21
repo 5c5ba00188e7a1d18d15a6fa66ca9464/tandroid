@@ -42,6 +42,7 @@ import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
@@ -97,7 +98,10 @@ public class SpoilerEffect extends Drawable {
     }
 
     private static int measureMaxParticlesCount() {
-        return SharedConfig.getDevicePerformanceClass() != 2 ? 100 : 150;
+        if (SharedConfig.getDevicePerformanceClass() != 2) {
+            return 100;
+        }
+        return ImageReceiver.DEFAULT_CROSSFADE_DURATION;
     }
 
     public SpoilerEffect() {
@@ -155,7 +159,7 @@ public class SpoilerEffect extends Drawable {
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
-        int alpha = this.reverseAnimator ? 255 : this.particlePaints[ALPHAS.length - 1].getAlpha();
+        final int alpha = this.reverseAnimator ? 255 : this.particlePaints[ALPHAS.length - 1].getAlpha();
         float[] fArr = new float[2];
         fArr[0] = this.rippleProgress;
         if (z) {
@@ -165,8 +169,31 @@ public class SpoilerEffect extends Drawable {
         ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(MathUtils.clamp(this.rippleMaxRadius * 0.3f, 250.0f, 550.0f));
         this.rippleAnimator = duration;
         duration.setInterpolator(this.rippleInterpolator);
-        this.rippleAnimator.addUpdateListener(new SpoilerEffect$$ExternalSyntheticLambda1(this, alpha));
-        this.rippleAnimator.addListener(new AnonymousClass1());
+        this.rippleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect$$ExternalSyntheticLambda1
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                SpoilerEffect.this.lambda$startRipple$1(alpha, valueAnimator2);
+            }
+        });
+        this.rippleAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                Iterator it = SpoilerEffect.this.particles.iterator();
+                while (it.hasNext()) {
+                    Particle particle = (Particle) it.next();
+                    if (SpoilerEffect.this.particlesPool.size() < SpoilerEffect.this.maxParticles) {
+                        SpoilerEffect.this.particlesPool.push(particle);
+                    }
+                    it.remove();
+                }
+                if (SpoilerEffect.this.onRippleEndCallback != null) {
+                    SpoilerEffect.this.onRippleEndCallback.run();
+                    SpoilerEffect.this.onRippleEndCallback = null;
+                }
+                SpoilerEffect.this.rippleAnimator = null;
+                SpoilerEffect.this.invalidateSelf();
+            }
+        });
         this.rippleAnimator.start();
         invalidateSelf();
     }
@@ -177,32 +204,6 @@ public class SpoilerEffect extends Drawable {
         setAlpha((int) (i * (1.0f - floatValue)));
         this.shouldInvalidateColor = true;
         invalidateSelf();
-    }
-
-    /* renamed from: org.telegram.ui.Components.spoilers.SpoilerEffect$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            SpoilerEffect.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            Iterator it = SpoilerEffect.this.particles.iterator();
-            while (it.hasNext()) {
-                Particle particle = (Particle) it.next();
-                if (SpoilerEffect.this.particlesPool.size() < SpoilerEffect.this.maxParticles) {
-                    SpoilerEffect.this.particlesPool.push(particle);
-                }
-                it.remove();
-            }
-            if (SpoilerEffect.this.onRippleEndCallback != null) {
-                SpoilerEffect.this.onRippleEndCallback.run();
-                SpoilerEffect.this.onRippleEndCallback = null;
-            }
-            SpoilerEffect.this.rippleAnimator = null;
-            SpoilerEffect.this.invalidateSelf();
-        }
     }
 
     public void setRippleInterpolator(TimeInterpolator timeInterpolator) {
@@ -307,7 +308,7 @@ public class SpoilerEffect extends Drawable {
                         fArr[i11] = f5;
                     }
                     float f6 = f5;
-                    Particle pop = !this.particlesPool.isEmpty() ? this.particlesPool.pop() : new Particle(null);
+                    Particle pop = !this.particlesPool.isEmpty() ? this.particlesPool.pop() : new Particle();
                     int i12 = 0;
                     while (true) {
                         generateRandomLocation(pop, i10);
@@ -497,7 +498,7 @@ public class SpoilerEffect extends Drawable {
     public void setMaxParticlesCount(int i) {
         this.maxParticles = i;
         while (this.particlesPool.size() + this.particles.size() < i) {
-            this.particlesPool.push(new Particle(null));
+            this.particlesPool.push(new Particle());
         }
     }
 
@@ -675,8 +676,17 @@ public class SpoilerEffect extends Drawable {
                         int length2 = emojiSpanArr.length;
                         int i5 = 0;
                         while (i5 < length2) {
-                            Emoji.EmojiSpan emojiSpan = emojiSpanArr[i5];
-                            spannableStringBuilder.setSpan(new AnonymousClass2(emojiSpan), spannable.getSpanStart(emojiSpan), spannable.getSpanEnd(emojiSpan), spannable.getSpanFlags(textStyleSpan));
+                            final Emoji.EmojiSpan emojiSpan = emojiSpanArr[i5];
+                            spannableStringBuilder.setSpan(new ReplacementSpan() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect.2
+                                @Override // android.text.style.ReplacementSpan
+                                public void draw(Canvas canvas2, CharSequence charSequence, int i6, int i7, float f, int i8, int i9, int i10, Paint paint) {
+                                }
+
+                                @Override // android.text.style.ReplacementSpan
+                                public int getSize(Paint paint, CharSequence charSequence, int i6, int i7, Paint.FontMetricsInt fontMetricsInt) {
+                                    return emojiSpan.getSize(paint, charSequence, i6, i7, fontMetricsInt);
+                                }
+                            }, spannable.getSpanStart(emojiSpan), spannable.getSpanEnd(emojiSpan), spannable.getSpanFlags(textStyleSpan));
                             spannableStringBuilder.removeSpan(emojiSpan);
                             i5++;
                             textStyleSpanArr2 = textStyleSpanArr2;
@@ -768,25 +778,6 @@ public class SpoilerEffect extends Drawable {
         canvas.restore();
     }
 
-    /* renamed from: org.telegram.ui.Components.spoilers.SpoilerEffect$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends ReplacementSpan {
-        final /* synthetic */ Emoji.EmojiSpan val$e;
-
-        @Override // android.text.style.ReplacementSpan
-        public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
-        }
-
-        AnonymousClass2(Emoji.EmojiSpan emojiSpan) {
-            this.val$e = emojiSpan;
-        }
-
-        @Override // android.text.style.ReplacementSpan
-        public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
-            return this.val$e.getSize(paint, charSequence, i, i2, fontMetricsInt);
-        }
-    }
-
     /* loaded from: classes3.dex */
     public static class Particle {
         private int alpha;
@@ -799,10 +790,6 @@ public class SpoilerEffect extends Drawable {
         private float y;
 
         private Particle() {
-        }
-
-        /* synthetic */ Particle(AnonymousClass1 anonymousClass1) {
-            this();
         }
 
         static /* synthetic */ float access$516(Particle particle, float f) {

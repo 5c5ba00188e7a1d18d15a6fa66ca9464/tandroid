@@ -10,6 +10,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.DividerCell;
@@ -206,54 +207,54 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         }
         int eventType = Theme.getEventType();
         if (eventType == 0) {
-            i8 = 2131165754;
-            i7 = 2131165695;
-            i6 = 2131165668;
-            i5 = 2131165923;
-            i4 = 2131165939;
-            i3 = 2131165771;
-            i2 = 2131165761;
-            i = 2131165827;
+            i8 = R.drawable.msg_groups_ny;
+            i7 = R.drawable.msg_contacts_ny;
+            i6 = R.drawable.msg_calls_ny;
+            i5 = R.drawable.msg_saved_ny;
+            i4 = R.drawable.msg_settings_ny;
+            i3 = R.drawable.msg_invite_ny;
+            i2 = R.drawable.msg_help_ny;
+            i = R.drawable.msg_nearby_ny;
         } else {
             if (eventType == 1) {
-                i8 = 2131165751;
-                i = 2131165929;
-                i7 = 2131165692;
-                i6 = 2131165665;
-                i5 = 2131165921;
-                i4 = 2131165937;
-                i3 = 2131165931;
+                i8 = R.drawable.msg_groups_14;
+                i = R.drawable.msg_secret_14;
+                i7 = R.drawable.msg_contacts_14;
+                i6 = R.drawable.msg_calls_14;
+                i5 = R.drawable.msg_saved_14;
+                i4 = R.drawable.msg_settings_14;
+                i3 = R.drawable.msg_secret_ny;
             } else if (eventType == 2) {
-                i8 = 2131165753;
-                i7 = 2131165693;
-                i6 = 2131165666;
-                i5 = 2131165922;
-                i4 = 2131165938;
-                i3 = 2131165770;
-                i2 = 2131165760;
-                i = 2131165930;
+                i8 = R.drawable.msg_groups_hw;
+                i7 = R.drawable.msg_contacts_hw;
+                i6 = R.drawable.msg_calls_hw;
+                i5 = R.drawable.msg_saved_hw;
+                i4 = R.drawable.msg_settings_hw;
+                i3 = R.drawable.msg_invite_hw;
+                i2 = R.drawable.msg_help_hw;
+                i = R.drawable.msg_secret_hw;
             } else {
-                i8 = 2131165750;
-                i = 2131165824;
-                i7 = 2131165691;
-                i6 = 2131165664;
-                i5 = 2131165920;
-                i4 = 2131165940;
-                i3 = 2131165768;
+                i8 = R.drawable.msg_groups;
+                i = R.drawable.msg_nearby;
+                i7 = R.drawable.msg_contacts;
+                i6 = R.drawable.msg_calls;
+                i5 = R.drawable.msg_saved;
+                i4 = R.drawable.msg_settings_old;
+                i3 = R.drawable.msg_invite;
             }
-            i2 = 2131165758;
+            i2 = R.drawable.msg_help;
         }
-        this.items.add(new Item(2, LocaleController.getString("NewGroup", 2131626832), i8));
-        this.items.add(new Item(6, LocaleController.getString("Contacts", 2131625258), i7));
-        this.items.add(new Item(10, LocaleController.getString("Calls", 2131624822), i6));
+        this.items.add(new Item(2, LocaleController.getString("NewGroup", R.string.NewGroup), i8));
+        this.items.add(new Item(6, LocaleController.getString("Contacts", R.string.Contacts), i7));
+        this.items.add(new Item(10, LocaleController.getString("Calls", R.string.Calls), i6));
         if (this.hasGps) {
-            this.items.add(new Item(12, LocaleController.getString("PeopleNearby", 2131627505), i));
+            this.items.add(new Item(12, LocaleController.getString("PeopleNearby", R.string.PeopleNearby), i));
         }
-        this.items.add(new Item(11, LocaleController.getString("SavedMessages", 2131628140), i5));
-        this.items.add(new Item(8, LocaleController.getString("Settings", 2131628322), i4));
+        this.items.add(new Item(11, LocaleController.getString("SavedMessages", R.string.SavedMessages), i5));
+        this.items.add(new Item(8, LocaleController.getString("Settings", R.string.Settings), i4));
         this.items.add(null);
-        this.items.add(new Item(7, LocaleController.getString("InviteFriends", 2131626308), i3));
-        this.items.add(new Item(13, LocaleController.getString("TelegramFeatures", 2131628628), i2));
+        this.items.add(new Item(7, LocaleController.getString("InviteFriends", R.string.InviteFriends), i3));
+        this.items.add(new Item(13, LocaleController.getString("TelegramFeatures", R.string.TelegramFeatures), i2));
     }
 
     public static /* synthetic */ int lambda$resetItems$0(Integer num, Integer num2) {

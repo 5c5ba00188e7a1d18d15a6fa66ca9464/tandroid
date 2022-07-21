@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.telegram.tgnet.ConnectionsManager;
 import org.webrtc.DataChannel;
 import org.webrtc.MediaStreamTrack;
 import org.webrtc.RtpTransceiver;
@@ -472,7 +473,7 @@ public class PeerConnection {
         LOOPBACK(16),
         ADAPTER_TYPE_ANY(32),
         CELLULAR_2G(64),
-        CELLULAR_3G(128),
+        CELLULAR_3G(Integer.valueOf((int) ConnectionsManager.RequestFlagNeedQuickAck)),
         CELLULAR_4G(256),
         CELLULAR_5G(512);
         

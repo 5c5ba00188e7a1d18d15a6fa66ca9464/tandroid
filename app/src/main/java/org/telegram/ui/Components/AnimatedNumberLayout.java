@@ -14,22 +14,7 @@ import java.util.Locale;
 import org.telegram.ui.Components.AnimationProperties;
 /* loaded from: classes3.dex */
 public class AnimatedNumberLayout {
-    public static final Property<AnimatedNumberLayout, Float> PROGRESS = new AnonymousClass1("progress");
-    private ObjectAnimator animator;
-    private final View parentView;
-    private final TextPaint textPaint;
-    private ArrayList<StaticLayout> letters = new ArrayList<>();
-    private ArrayList<StaticLayout> oldLetters = new ArrayList<>();
-    private float progress = 0.0f;
-    private int currentNumber = 1;
-
-    /* renamed from: org.telegram.ui.Components.AnimatedNumberLayout$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends AnimationProperties.FloatProperty<AnimatedNumberLayout> {
-        AnonymousClass1(String str) {
-            super(str);
-        }
-
+    public static final Property<AnimatedNumberLayout, Float> PROGRESS = new AnimationProperties.FloatProperty<AnimatedNumberLayout>("progress") { // from class: org.telegram.ui.Components.AnimatedNumberLayout.1
         public void setValue(AnimatedNumberLayout animatedNumberLayout, float f) {
             animatedNumberLayout.setProgress(f);
         }
@@ -37,7 +22,14 @@ public class AnimatedNumberLayout {
         public Float get(AnimatedNumberLayout animatedNumberLayout) {
             return Float.valueOf(animatedNumberLayout.progress);
         }
-    }
+    };
+    private ObjectAnimator animator;
+    private final View parentView;
+    private final TextPaint textPaint;
+    private ArrayList<StaticLayout> letters = new ArrayList<>();
+    private ArrayList<StaticLayout> oldLetters = new ArrayList<>();
+    private float progress = 0.0f;
+    private int currentNumber = 1;
 
     public AnimatedNumberLayout(View view, TextPaint textPaint) {
         this.textPaint = textPaint;
@@ -99,24 +91,16 @@ public class AnimatedNumberLayout {
                 ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, property, fArr);
                 this.animator = ofFloat;
                 ofFloat.setDuration(150L);
-                this.animator.addListener(new AnonymousClass2());
+                this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AnimatedNumberLayout.2
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        AnimatedNumberLayout.this.animator = null;
+                        AnimatedNumberLayout.this.oldLetters.clear();
+                    }
+                });
                 this.animator.start();
             }
             this.parentView.invalidate();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.AnimatedNumberLayout$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
-            AnimatedNumberLayout.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            AnimatedNumberLayout.this.animator = null;
-            AnimatedNumberLayout.this.oldLetters.clear();
         }
     }
 

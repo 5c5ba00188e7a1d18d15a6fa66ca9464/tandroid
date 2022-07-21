@@ -7,7 +7,12 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 /* loaded from: classes.dex */
 public class NativeByteBuffer extends AbstractSerializedData {
-    private static final ThreadLocal<LinkedList<NativeByteBuffer>> addressWrappers = new AnonymousClass1();
+    private static final ThreadLocal<LinkedList<NativeByteBuffer>> addressWrappers = new ThreadLocal<LinkedList<NativeByteBuffer>>() { // from class: org.telegram.tgnet.NativeByteBuffer.1
+        @Override // java.lang.ThreadLocal
+        public LinkedList<NativeByteBuffer> initialValue() {
+            return new LinkedList<>();
+        }
+    };
     protected long address;
     public ByteBuffer buffer;
     private boolean justCalc;
@@ -25,19 +30,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
     public static native void native_reuse(long j);
 
     public int getIntFromByte(byte b) {
-        return b >= 0 ? b : b + 256;
-    }
-
-    /* renamed from: org.telegram.tgnet.NativeByteBuffer$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 extends ThreadLocal<LinkedList<NativeByteBuffer>> {
-        AnonymousClass1() {
-        }
-
-        @Override // java.lang.ThreadLocal
-        public LinkedList<NativeByteBuffer> initialValue() {
-            return new LinkedList<>();
-        }
+        return b >= 0 ? b : b + ConnectionsManager.USE_IPV4_ONLY;
     }
 
     public static NativeByteBuffer wrap(long j) {

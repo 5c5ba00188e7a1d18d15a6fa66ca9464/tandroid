@@ -22,7 +22,7 @@ import com.google.android.exoplayer2.upstream.TransferListener;
 import java.io.IOException;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
-public final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback<ChunkSampleStream<SsChunkSource>> {
+final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback<ChunkSampleStream<SsChunkSource>> {
     private final Allocator allocator;
     private MediaPeriod.Callback callback;
     private final SsChunkSource.Factory chunkSourceFactory;

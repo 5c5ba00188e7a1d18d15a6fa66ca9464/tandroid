@@ -17,6 +17,7 @@ import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.PhotoAlbumPickerActivity;
@@ -44,19 +45,24 @@ public class WallpaperUpdater {
         this.delegate = wallpaperUpdaterDelegate;
     }
 
-    public void showAlert(boolean z) {
+    public void showAlert(final boolean z) {
         CharSequence[] charSequenceArr;
         int[] iArr;
         BottomSheet.Builder builder = new BottomSheet.Builder(this.parentActivity);
-        builder.setTitle(LocaleController.getString("ChoosePhoto", 2131625124), true);
+        builder.setTitle(LocaleController.getString("ChoosePhoto", R.string.ChoosePhoto), true);
         if (z) {
-            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", 2131625136), LocaleController.getString("SelectFromGallery", 2131628231), LocaleController.getString("SelectColor", 2131628224), LocaleController.getString("Default", 2131625382)};
+            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", R.string.ChooseTakePhoto), LocaleController.getString("SelectFromGallery", R.string.SelectFromGallery), LocaleController.getString("SelectColor", R.string.SelectColor), LocaleController.getString("Default", R.string.Default)};
             iArr = null;
         } else {
-            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", 2131625136), LocaleController.getString("SelectFromGallery", 2131628231)};
-            iArr = new int[]{2131165671, 2131165862};
+            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", R.string.ChooseTakePhoto), LocaleController.getString("SelectFromGallery", R.string.SelectFromGallery)};
+            iArr = new int[]{R.drawable.msg_camera, R.drawable.msg_photos};
         }
-        builder.setItems(charSequenceArr, iArr, new WallpaperUpdater$$ExternalSyntheticLambda0(this, z));
+        builder.setItems(charSequenceArr, iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.WallpaperUpdater$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                WallpaperUpdater.this.lambda$showAlert$0(z, dialogInterface, i);
+            }
+        });
         builder.show();
     }
 
@@ -111,37 +117,29 @@ public class WallpaperUpdater {
             }
             PhotoAlbumPickerActivity photoAlbumPickerActivity = new PhotoAlbumPickerActivity(PhotoAlbumPickerActivity.SELECT_TYPE_WALLPAPER, false, false, null);
             photoAlbumPickerActivity.setAllowSearchImages(false);
-            photoAlbumPickerActivity.setDelegate(new AnonymousClass1());
+            photoAlbumPickerActivity.setDelegate(new PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate() { // from class: org.telegram.ui.Components.WallpaperUpdater.1
+                @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
+                public void didSelectPhotos(ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList, boolean z, int i) {
+                    WallpaperUpdater.this.didSelectPhotos(arrayList);
+                }
+
+                @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
+                public void startPhotoSelectActivity() {
+                    try {
+                        Intent intent = new Intent("android.intent.action.PICK");
+                        intent.setType("image/*");
+                        WallpaperUpdater.this.parentActivity.startActivityForResult(intent, 11);
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                }
+            });
             this.parentFragment.presentFragment(photoAlbumPickerActivity);
             return;
         }
         Intent intent = new Intent("android.intent.action.PICK");
         intent.setType("image/*");
         this.parentActivity.startActivityForResult(intent, 11);
-    }
-
-    /* renamed from: org.telegram.ui.Components.WallpaperUpdater$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate {
-        AnonymousClass1() {
-            WallpaperUpdater.this = r1;
-        }
-
-        @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
-        public void didSelectPhotos(ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList, boolean z, int i) {
-            WallpaperUpdater.this.didSelectPhotos(arrayList);
-        }
-
-        @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
-        public void startPhotoSelectActivity() {
-            try {
-                Intent intent = new Intent("android.intent.action.PICK");
-                intent.setType("image/*");
-                WallpaperUpdater.this.parentActivity.startActivityForResult(intent, 11);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
     }
 
     public void didSelectPhotos(ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList) {

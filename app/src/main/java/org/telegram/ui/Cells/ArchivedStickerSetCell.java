@@ -23,6 +23,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SvgHelper;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -60,7 +61,7 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
             ProgressButton progressButton = new ProgressButton(context);
             this.addButton = progressButton;
             this.currentButton = progressButton;
-            progressButton.setText(LocaleController.getString("Add", 2131624242));
+            progressButton.setText(LocaleController.getString("Add", R.string.Add));
             progressButton.setTextColor(Theme.getColor("featuredStickers_buttonText"));
             progressButton.setProgressColor(Theme.getColor("featuredStickers_buttonProgress"));
             progressButton.setBackgroundRoundRect(Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed"));
@@ -73,17 +74,22 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
             progressButton2.setMinimumWidth(dp);
             progressButton2.setTextSize(1, 14.0f);
             progressButton2.setTextColor(Theme.getColor("featuredStickers_removeButtonText"));
-            progressButton2.setText(LocaleController.getString("StickersRemove", 2131628515));
+            progressButton2.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
             progressButton2.setBackground(Theme.getRoundRectSelectorDrawable(Theme.getColor("featuredStickers_removeButtonText")));
-            progressButton2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            progressButton2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             ViewHelper.setPadding(progressButton2, 8.0f, 0.0f, 8.0f, 0.0f);
             if (Build.VERSION.SDK_INT >= 21) {
                 progressButton2.setOutlineProvider(null);
             }
             addView(progressButton2, LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 18.0f, 14.0f, 0.0f));
-            ArchivedStickerSetCell$$ExternalSyntheticLambda0 archivedStickerSetCell$$ExternalSyntheticLambda0 = new ArchivedStickerSetCell$$ExternalSyntheticLambda0(this);
-            progressButton.setOnClickListener(archivedStickerSetCell$$ExternalSyntheticLambda0);
-            progressButton2.setOnClickListener(archivedStickerSetCell$$ExternalSyntheticLambda0);
+            View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Cells.ArchivedStickerSetCell$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ArchivedStickerSetCell.this.lambda$new$0(view);
+                }
+            };
+            progressButton.setOnClickListener(onClickListener);
+            progressButton2.setOnClickListener(onClickListener);
             syncButtons(false);
         } else {
             this.addButton = null;
@@ -214,7 +220,16 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
                 this.animatorSet = animatorSet2;
                 animatorSet2.setDuration(250L);
                 this.animatorSet.playTogether(ObjectAnimator.ofFloat(this.deleteButton, View.ALPHA, f2), ObjectAnimator.ofFloat(this.deleteButton, View.SCALE_X, f2), ObjectAnimator.ofFloat(this.deleteButton, View.SCALE_Y, f2), ObjectAnimator.ofFloat(this.addButton, View.ALPHA, f), ObjectAnimator.ofFloat(this.addButton, View.SCALE_X, f), ObjectAnimator.ofFloat(this.addButton, View.SCALE_Y, f));
-                this.animatorSet.addListener(new AnonymousClass1());
+                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.ArchivedStickerSetCell.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        if (ArchivedStickerSetCell.this.currentButton == ArchivedStickerSetCell.this.addButton) {
+                            ArchivedStickerSetCell.this.deleteButton.setVisibility(4);
+                        } else {
+                            ArchivedStickerSetCell.this.addButton.setVisibility(4);
+                        }
+                    }
+                });
                 this.animatorSet.setInterpolator(new OvershootInterpolator(1.02f));
                 this.animatorSet.start();
                 return;
@@ -231,23 +246,6 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
             this.addButton.setAlpha(f);
             this.addButton.setScaleX(f);
             this.addButton.setScaleY(f);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Cells.ArchivedStickerSetCell$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            ArchivedStickerSetCell.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (ArchivedStickerSetCell.this.currentButton == ArchivedStickerSetCell.this.addButton) {
-                ArchivedStickerSetCell.this.deleteButton.setVisibility(4);
-            } else {
-                ArchivedStickerSetCell.this.addButton.setVisibility(4);
-            }
         }
     }
 

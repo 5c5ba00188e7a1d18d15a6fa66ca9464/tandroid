@@ -17,6 +17,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 /* loaded from: classes3.dex */
 public class FireworksOverlay extends View {
     private static int[] colors;
@@ -181,7 +182,7 @@ public class FireworksOverlay extends View {
             if (i >= drawableArr.length) {
                 return;
             }
-            drawableArr[i] = ApplicationLoader.applicationContext.getResources().getDrawable(2131165448).mutate();
+            drawableArr[i] = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.heart_confetti).mutate();
             heartDrawable[i].setColorFilter(new PorterDuffColorFilter(heartColors[i], PorterDuff.Mode.MULTIPLY));
             i++;
         }
@@ -304,7 +305,12 @@ public class FireworksOverlay extends View {
         if (Build.VERSION.SDK_INT < 18) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new FireworksOverlay$$ExternalSyntheticLambda0(this));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FireworksOverlay$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                FireworksOverlay.this.lambda$onDraw$0();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$onDraw$0() {

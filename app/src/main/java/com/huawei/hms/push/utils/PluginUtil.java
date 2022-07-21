@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import com.huawei.hms.aaid.constant.ErrorEnum;
 import com.huawei.hms.aaid.plugin.ProxyCenter;
 import com.huawei.hms.aaid.utils.PushPreferences;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.push.e;
 import com.huawei.hms.push.h;
 import com.huawei.hms.push.i;
@@ -56,8 +57,8 @@ public class PluginUtil {
         intent.setPackage(context.getPackageName());
         Bundle bundle = new Bundle();
         bundle.putString("message_id", str);
-        bundle.putByteArray("message_body", str2.getBytes(x.a));
-        bundle.putString("message_type", "received_message");
+        bundle.putByteArray(RemoteMessageConst.MSGBODY, str2.getBytes(x.a));
+        bundle.putString(RemoteMessageConst.MSGTYPE, "received_message");
         return new h().a(context, bundle, intent);
     }
 
@@ -70,7 +71,7 @@ public class PluginUtil {
         intent.setPackage(context.getPackageName());
         Bundle bundle = new Bundle();
         bundle.putString("message_proxy_type", ProxyCenter.getProxy().getProxyType());
-        bundle.putString("message_type", "server_deleted_message");
+        bundle.putString(RemoteMessageConst.MSGTYPE, "server_deleted_message");
         return new h().a(context, bundle, intent);
     }
 
@@ -95,8 +96,8 @@ public class PluginUtil {
         intent.setPackage(context.getPackageName());
         Bundle bundle = new Bundle();
         bundle.putInt("error", errorEnum.getInternalCode());
-        bundle.putString("message_type", "new_token");
-        bundle.putString("device_token", str);
+        bundle.putString(RemoteMessageConst.MSGTYPE, "new_token");
+        bundle.putString(RemoteMessageConst.DEVICE_TOKEN, str);
         if (TextUtils.equals(str2, context.getPackageName())) {
             bundle.putString("subjectId", null);
         } else {
@@ -133,8 +134,8 @@ public class PluginUtil {
         try {
             JSONObject jSONObject = new JSONObject();
             JSONObject jSONObject2 = new JSONObject();
-            jSONObject.put("data", str);
-            jSONObject2.put("msgContent", jSONObject);
+            jSONObject.put(RemoteMessageConst.DATA, str);
+            jSONObject2.put(RemoteMessageConst.MessageBody.MSG_CONTENT, jSONObject);
             return jSONObject2.toString();
         } catch (JSONException unused) {
             HMSLog.e("PluginUtil", "rebuild message failed");

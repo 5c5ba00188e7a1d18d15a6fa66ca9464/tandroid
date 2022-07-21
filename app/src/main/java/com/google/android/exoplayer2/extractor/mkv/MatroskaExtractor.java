@@ -24,6 +24,8 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.AvcConfig;
 import com.google.android.exoplayer2.video.ColorInfo;
 import com.google.android.exoplayer2.video.HevcConfig;
+import com.huawei.hms.adapter.internal.AvailableCode;
+import com.huawei.hms.support.api.entity.core.JosStatusCodes;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -33,6 +35,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import org.telegram.messenger.MediaController;
+import org.telegram.messenger.R;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class MatroskaExtractor implements Extractor {
     private final ParsableByteArray blockAdditionalData;
@@ -958,8 +963,9 @@ public class MatroskaExtractor implements Extractor {
             if (!this.sampleEncodingHandled) {
                 if (track.hasContentEncryption) {
                     this.blockFlags &= -1073741825;
-                    int i3 = 128;
-                    if (!this.sampleSignalByteRead) {
+                    boolean z2 = this.sampleSignalByteRead;
+                    int i3 = ConnectionsManager.RequestFlagNeedQuickAck;
+                    if (!z2) {
                         extractorInput.readFully(this.scratch.data, 0, 1);
                         this.sampleBytesRead++;
                         byte[] bArr = this.scratch.data;
@@ -971,7 +977,7 @@ public class MatroskaExtractor implements Extractor {
                     }
                     byte b = this.sampleSignalByte;
                     if ((b & 1) == 1) {
-                        boolean z2 = (b & 2) == 2;
+                        boolean z3 = (b & 2) == 2;
                         this.blockFlags |= 1073741824;
                         if (!this.sampleInitializationVectorRead) {
                             extractorInput.readFully(this.encryptionInitializationVector.data, 0, 8);
@@ -979,7 +985,7 @@ public class MatroskaExtractor implements Extractor {
                             this.sampleInitializationVectorRead = true;
                             ParsableByteArray parsableByteArray = this.scratch;
                             byte[] bArr2 = parsableByteArray.data;
-                            if (!z2) {
+                            if (!z3) {
                                 i3 = 0;
                             }
                             bArr2[0] = (byte) (i3 | 8);
@@ -990,7 +996,7 @@ public class MatroskaExtractor implements Extractor {
                             trackOutput.sampleData(this.encryptionInitializationVector, 8);
                             this.sampleBytesWritten += 8;
                         }
-                        if (z2) {
+                        if (z3) {
                             if (!this.samplePartitionCountRead) {
                                 extractorInput.readFully(this.scratch.data, 0, 1);
                                 this.sampleBytesRead++;
@@ -1451,7 +1457,7 @@ public class MatroskaExtractor implements Extractor {
             this.minMasteringLuminance = -1.0f;
             this.channelCount = 1;
             this.audioBitDepth = -1;
-            this.sampleRate = 8000;
+            this.sampleRate = JosStatusCodes.RTN_CODE_COMMON_ERROR;
             this.codecDelayNs = 0L;
             this.seekPreRollNs = 0L;
             this.flagDefault = true;
@@ -1769,7 +1775,7 @@ public class MatroskaExtractor implements Extractor {
                     AvcConfig parse = AvcConfig.parse(new ParsableByteArray(this.codecPrivate));
                     list2 = parse.initializationData;
                     this.nalUnitLengthFieldLength = parse.nalUnitLengthFieldLength;
-                    str = "video/avc";
+                    str = MediaController.VIDEO_MIME_TYPE;
                     list = list2;
                     str5 = str;
                     i3 = -1;
@@ -1790,7 +1796,7 @@ public class MatroskaExtractor implements Extractor {
                     break;
                 case '\r':
                     list = Collections.singletonList(this.codecPrivate);
-                    str = "audio/mp4a-latm";
+                    str = MediaController.AUIDO_MIME_TYPE;
                     str5 = str;
                     i3 = -1;
                     i2 = -1;
@@ -1837,14 +1843,14 @@ public class MatroskaExtractor implements Extractor {
                     i3 = -1;
                     i2 = -1;
                     break;
-                case 20:
+                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
                     str2 = "video/x-unknown";
                     str5 = str2;
                     list = null;
                     i3 = -1;
                     i2 = -1;
                     break;
-                case 22:
+                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
                     pcmEncoding = Util.getPcmEncoding(this.audioBitDepth);
                     if (pcmEncoding == 0) {
                         Log.w("MatroskaExtractor", "Unsupported PCM bit depth: " + this.audioBitDepth + ". Setting mimeType to " + str5);
@@ -1857,7 +1863,7 @@ public class MatroskaExtractor implements Extractor {
                     str5 = "audio/raw";
                     list = null;
                     i2 = -1;
-                case 23:
+                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
                     str5 = "text/x-ssa";
                     list = null;
                     i3 = -1;
@@ -1873,34 +1879,34 @@ public class MatroskaExtractor implements Extractor {
                     i3 = -1;
                     i2 = -1;
                     break;
-                case 25:
+                case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
                     str5 = "application/x-subrip";
                     list = null;
                     i3 = -1;
                     i2 = -1;
                     break;
-                case 26:
+                case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
                     str2 = "video/mpeg2";
                     str5 = str2;
                     list = null;
                     i3 = -1;
                     i2 = -1;
                     break;
-                case 27:
+                case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
                     str2 = "audio/eac3";
                     str5 = str2;
                     list = null;
                     i3 = -1;
                     i2 = -1;
                     break;
-                case 28:
+                case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
                     list = Collections.singletonList(this.codecPrivate);
                     str = "audio/flac";
                     str5 = str;
                     i3 = -1;
                     i2 = -1;
                     break;
-                case 29:
+                case AvailableCode.HMS_IS_SPOOF /* 29 */:
                     list = new ArrayList<>(3);
                     list.add(this.codecPrivate);
                     ByteBuffer allocate = ByteBuffer.allocate(8);

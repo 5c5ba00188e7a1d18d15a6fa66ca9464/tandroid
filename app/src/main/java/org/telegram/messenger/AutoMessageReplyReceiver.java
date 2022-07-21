@@ -15,7 +15,7 @@ public class AutoMessageReplyReceiver extends BroadcastReceiver {
         if (resultsFromIntent == null) {
             return;
         }
-        CharSequence charSequence = resultsFromIntent.getCharSequence("extra_voice_reply");
+        CharSequence charSequence = resultsFromIntent.getCharSequence(NotificationsController.EXTRA_VOICE_REPLY);
         if (TextUtils.isEmpty(charSequence)) {
             return;
         }

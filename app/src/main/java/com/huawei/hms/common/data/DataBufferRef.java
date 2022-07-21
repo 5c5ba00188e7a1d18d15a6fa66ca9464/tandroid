@@ -29,7 +29,7 @@ public class DataBufferRef {
     }
 
     protected boolean getBoolean(String str) {
-        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, "type_boolean");
+        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, DataHolder.TYPE_BOOLEAN);
         if (value != null) {
             return ((Boolean) value).booleanValue();
         }
@@ -37,7 +37,7 @@ public class DataBufferRef {
     }
 
     protected byte[] getByteArray(String str) {
-        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, "type_byte_array");
+        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, DataHolder.TYPE_BYTE_ARRAY);
         if (value != null) {
             return (byte[]) value;
         }
@@ -49,7 +49,7 @@ public class DataBufferRef {
     }
 
     protected double getDouble(String str) {
-        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, "type_double");
+        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, DataHolder.TYPE_DOUBLE);
         if (value != null) {
             return ((Double) value).doubleValue();
         }
@@ -57,7 +57,7 @@ public class DataBufferRef {
     }
 
     protected float getFloat(String str) {
-        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, "type_float");
+        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, DataHolder.TYPE_FLOAT);
         if (value != null) {
             return ((Float) value).floatValue();
         }
@@ -65,7 +65,7 @@ public class DataBufferRef {
     }
 
     protected int getInteger(String str) {
-        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, "type_int");
+        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, DataHolder.TYPE_INT);
         if (value != null) {
             return ((Integer) value).intValue();
         }
@@ -73,7 +73,7 @@ public class DataBufferRef {
     }
 
     protected long getLong(String str) {
-        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, "type_long");
+        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, DataHolder.TYPE_LONG);
         if (value != null) {
             return ((Long) value).longValue();
         }
@@ -81,7 +81,7 @@ public class DataBufferRef {
     }
 
     protected String getString(String str) {
-        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, "type_string");
+        Object value = this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, DataHolder.TYPE_STRING);
         return value != null ? (String) value : "";
     }
 
@@ -108,7 +108,7 @@ public class DataBufferRef {
     }
 
     protected Uri parseUri(String str) {
-        String str2 = (String) this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, "type_string");
+        String str2 = (String) this.mDataHolder.getValue(str, this.mDataRow, this.windowIndex, DataHolder.TYPE_STRING);
         if (str2 == null) {
             return null;
         }

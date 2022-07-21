@@ -1,6 +1,7 @@
 package com.huawei.secure.android.common.encrypt.utils;
 
 import android.annotation.SuppressLint;
+import com.huawei.hms.android.HwBuildEx;
 import com.huawei.secure.android.common.encrypt.hash.PBKDF2;
 /* loaded from: classes.dex */
 public class BaseKeyUtil {
@@ -28,7 +29,7 @@ public class BaseKeyUtil {
 
     @SuppressLint({"NewApi"})
     public static byte[] exportRootKey(String str, String str2, String str3, byte[] bArr, int i, boolean z) {
-        return exportRootKey(str, str2, str3, bArr, 10000, i, z);
+        return exportRootKey(str, str2, str3, bArr, HwBuildEx.VersionCodes.CUR_DEVELOPMENT, i, z);
     }
 
     private static boolean a(byte[] bArr) {

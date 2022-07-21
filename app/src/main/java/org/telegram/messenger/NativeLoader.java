@@ -76,9 +76,9 @@ public class NativeLoader {
             try {
                 zipFile = new ZipFile(context.getApplicationInfo().sourceDir);
                 try {
-                    ZipEntry entry = zipFile.getEntry("lib/" + str + "/libtmessages.42.so");
+                    ZipEntry entry = zipFile.getEntry("lib/" + str + "/" + LIB_SO_NAME);
                     if (entry == null) {
-                        throw new Exception("Unable to find file in apk:lib/" + str + "/tmessages.42");
+                        throw new Exception("Unable to find file in apk:lib/" + str + "/" + LIB_NAME);
                     }
                     InputStream inputStream2 = zipFile.getInputStream(entry);
                     FileOutputStream fileOutputStream = new FileOutputStream(file2);
@@ -177,7 +177,7 @@ public class NativeLoader {
                 return;
             }
             try {
-                System.loadLibrary("tmessages.42");
+                System.loadLibrary(LIB_NAME);
                 nativeLoaded = true;
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("loaded normal lib");
@@ -214,7 +214,7 @@ public class NativeLoader {
                 }
                 File file = new File(context.getFilesDir(), "lib");
                 file.mkdirs();
-                File file2 = new File(file, "libtmessages.42loc.so");
+                File file2 = new File(file, LOCALE_LIB_SO_NAME);
                 if (file2.exists()) {
                     try {
                         if (BuildVars.LOGS_ENABLED) {
@@ -239,7 +239,7 @@ public class NativeLoader {
                     return;
                 }
                 try {
-                    System.loadLibrary("tmessages.42");
+                    System.loadLibrary(LIB_NAME);
                     nativeLoaded = true;
                 } catch (Error e4) {
                     FileLog.e(e4);

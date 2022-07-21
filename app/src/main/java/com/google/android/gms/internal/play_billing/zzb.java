@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.json.JSONException;
+import org.telegram.messenger.OneUIUtilities;
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
 public final class zzb {
@@ -183,7 +184,7 @@ public final class zzb {
     public static void zzn(String str, String str2) {
         if (Log.isLoggable(str, 2)) {
             if (!str2.isEmpty()) {
-                int i = 40000;
+                int i = OneUIUtilities.ONE_UI_4_0;
                 while (!str2.isEmpty() && i > 0) {
                     int min = Math.min(str2.length(), Math.min(4000, i));
                     Log.v(str, str2.substring(0, min));

@@ -12,7 +12,17 @@ import java.util.Map;
 public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDelegate {
     private static final CharSequence SEEK_BAR_CLASS_NAME = android.widget.SeekBar.class.getName();
     private final Map<View, Runnable> accessibilityEventRunnables = new HashMap(4);
-    private final View.OnAttachStateChangeListener onAttachStateChangeListener = new AnonymousClass1();
+    private final View.OnAttachStateChangeListener onAttachStateChangeListener = new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Components.SeekBarAccessibilityDelegate.1
+        @Override // android.view.View.OnAttachStateChangeListener
+        public void onViewAttachedToWindow(View view) {
+        }
+
+        @Override // android.view.View.OnAttachStateChangeListener
+        public void onViewDetachedFromWindow(View view) {
+            view.removeCallbacks((Runnable) SeekBarAccessibilityDelegate.this.accessibilityEventRunnables.remove(view));
+            view.removeOnAttachStateChangeListener(this);
+        }
+    };
 
     protected abstract boolean canScrollBackward(View view);
 
@@ -22,24 +32,6 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
 
     protected CharSequence getContentDescription(View view) {
         return null;
-    }
-
-    /* renamed from: org.telegram.ui.Components.SeekBarAccessibilityDelegate$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements View.OnAttachStateChangeListener {
-        @Override // android.view.View.OnAttachStateChangeListener
-        public void onViewAttachedToWindow(View view) {
-        }
-
-        AnonymousClass1() {
-            SeekBarAccessibilityDelegate.this = r1;
-        }
-
-        @Override // android.view.View.OnAttachStateChangeListener
-        public void onViewDetachedFromWindow(View view) {
-            view.removeCallbacks((Runnable) SeekBarAccessibilityDelegate.this.accessibilityEventRunnables.remove(view));
-            view.removeOnAttachStateChangeListener(this);
-        }
     }
 
     @Override // android.view.View.AccessibilityDelegate
@@ -69,17 +61,22 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
         return performAccessibilityActionInternal(null, i, bundle);
     }
 
-    private void postAccessibilityEventRunnable(View view) {
+    private void postAccessibilityEventRunnable(final View view) {
         if (!ViewCompat.isAttachedToWindow(view)) {
             return;
         }
         Runnable runnable = this.accessibilityEventRunnables.get(view);
         if (runnable == null) {
             Map<View, Runnable> map = this.accessibilityEventRunnables;
-            SeekBarAccessibilityDelegate$$ExternalSyntheticLambda0 seekBarAccessibilityDelegate$$ExternalSyntheticLambda0 = new SeekBarAccessibilityDelegate$$ExternalSyntheticLambda0(this, view);
-            map.put(view, seekBarAccessibilityDelegate$$ExternalSyntheticLambda0);
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.SeekBarAccessibilityDelegate$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SeekBarAccessibilityDelegate.this.lambda$postAccessibilityEventRunnable$0(view);
+                }
+            };
+            map.put(view, runnable2);
             view.addOnAttachStateChangeListener(this.onAttachStateChangeListener);
-            runnable = seekBarAccessibilityDelegate$$ExternalSyntheticLambda0;
+            runnable = runnable2;
         } else {
             view.removeCallbacks(runnable);
         }

@@ -5,7 +5,17 @@ import android.os.Parcelable;
 /* compiled from: FragmentManager.java */
 /* loaded from: classes.dex */
 public final class FragmentManagerState implements Parcelable {
-    public static final Parcelable.Creator<FragmentManagerState> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<FragmentManagerState> CREATOR = new Parcelable.Creator<FragmentManagerState>() { // from class: androidx.fragment.app.FragmentManagerState.1
+        @Override // android.os.Parcelable.Creator
+        public FragmentManagerState createFromParcel(Parcel parcel) {
+            return new FragmentManagerState(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public FragmentManagerState[] newArray(int i) {
+            return new FragmentManagerState[i];
+        }
+    };
     FragmentState[] mActive;
     int[] mAdded;
     BackStackState[] mBackStack;
@@ -37,23 +47,5 @@ public final class FragmentManagerState implements Parcelable {
         parcel.writeTypedArray(this.mBackStack, i);
         parcel.writeInt(this.mPrimaryNavActiveIndex);
         parcel.writeInt(this.mNextFragmentIndex);
-    }
-
-    /* compiled from: FragmentManager.java */
-    /* renamed from: androidx.fragment.app.FragmentManagerState$1 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass1 implements Parcelable.Creator<FragmentManagerState> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public FragmentManagerState createFromParcel(Parcel parcel) {
-            return new FragmentManagerState(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public FragmentManagerState[] newArray(int i) {
-            return new FragmentManagerState[i];
-        }
     }
 }

@@ -20,6 +20,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.messenger.FileLoader;
 /* loaded from: classes.dex */
 public class FastDateParser implements DateParser, Serializable {
     private static final long serialVersionUID = 2;
@@ -35,8 +36,22 @@ public class FastDateParser implements DateParser, Serializable {
     static final Locale JAPANESE_IMPERIAL = new Locale("ja", "JP", "JP");
     private static final Pattern formatPattern = Pattern.compile("D+|E+|F+|G+|H+|K+|M+|L+|S+|W+|Z+|a+|d+|h+|k+|m+|s+|w+|y+|z+|''|'[^']++(''[^']*+)*+'|[^'A-Za-z]++");
     private static final ConcurrentMap<Locale, Strategy>[] caches = new ConcurrentMap[17];
-    private static final Strategy ABBREVIATED_YEAR_STRATEGY = new AnonymousClass1(1);
-    private static final Strategy NUMBER_MONTH_STRATEGY = new AnonymousClass2(2);
+    private static final Strategy ABBREVIATED_YEAR_STRATEGY = new NumberStrategy(1) { // from class: org.telegram.messenger.time.FastDateParser.1
+        @Override // org.telegram.messenger.time.FastDateParser.NumberStrategy, org.telegram.messenger.time.FastDateParser.Strategy
+        void setCalendar(FastDateParser fastDateParser, Calendar calendar, String str) {
+            int parseInt = Integer.parseInt(str);
+            if (parseInt < 100) {
+                parseInt = fastDateParser.adjustYear(parseInt);
+            }
+            calendar.set(1, parseInt);
+        }
+    };
+    private static final Strategy NUMBER_MONTH_STRATEGY = new NumberStrategy(2) { // from class: org.telegram.messenger.time.FastDateParser.2
+        @Override // org.telegram.messenger.time.FastDateParser.NumberStrategy
+        int modify(int i) {
+            return i - 1;
+        }
+    };
     private static final Strategy LITERAL_YEAR_STRATEGY = new NumberStrategy(1);
     private static final Strategy WEEK_OF_YEAR_STRATEGY = new NumberStrategy(3);
     private static final Strategy WEEK_OF_MONTH_STRATEGY = new NumberStrategy(4);
@@ -44,8 +59,18 @@ public class FastDateParser implements DateParser, Serializable {
     private static final Strategy DAY_OF_MONTH_STRATEGY = new NumberStrategy(5);
     private static final Strategy DAY_OF_WEEK_IN_MONTH_STRATEGY = new NumberStrategy(8);
     private static final Strategy HOUR_OF_DAY_STRATEGY = new NumberStrategy(11);
-    private static final Strategy MODULO_HOUR_OF_DAY_STRATEGY = new AnonymousClass3(11);
-    private static final Strategy MODULO_HOUR_STRATEGY = new AnonymousClass4(10);
+    private static final Strategy MODULO_HOUR_OF_DAY_STRATEGY = new NumberStrategy(11) { // from class: org.telegram.messenger.time.FastDateParser.3
+        @Override // org.telegram.messenger.time.FastDateParser.NumberStrategy
+        int modify(int i) {
+            return i % 24;
+        }
+    };
+    private static final Strategy MODULO_HOUR_STRATEGY = new NumberStrategy(10) { // from class: org.telegram.messenger.time.FastDateParser.4
+        @Override // org.telegram.messenger.time.FastDateParser.NumberStrategy
+        int modify(int i) {
+            return i % 12;
+        }
+    };
     private static final Strategy HOUR_STRATEGY = new NumberStrategy(10);
     private static final Strategy MINUTE_STRATEGY = new NumberStrategy(12);
     private static final Strategy SECOND_STRATEGY = new NumberStrategy(13);
@@ -294,10 +319,6 @@ public class FastDateParser implements DateParser, Serializable {
 
         private Strategy() {
         }
-
-        /* synthetic */ Strategy(AnonymousClass1 anonymousClass1) {
-            this();
-        }
     }
 
     private Strategy getStrategy(String str, Calendar calendar) {
@@ -320,7 +341,7 @@ public class FastDateParser implements DateParser, Serializable {
                     break;
                 case 'a':
                     return getLocaleSpecificStrategy(9, calendar);
-                case 'd':
+                case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
                     return DAY_OF_MONTH_STRATEGY;
                 case 'h':
                     return MODULO_HOUR_STRATEGY;
@@ -393,7 +414,7 @@ public class FastDateParser implements DateParser, Serializable {
         private final String formatField;
 
         CopyQuotedStrategy(String str) {
-            super(null);
+            super();
             this.formatField = str;
         }
 
@@ -419,7 +440,7 @@ public class FastDateParser implements DateParser, Serializable {
         private final Map<String, Integer> keyValues;
 
         TextStrategy(int i, Calendar calendar, Locale locale) {
-            super(null);
+            super();
             this.field = i;
             this.keyValues = FastDateParser.getDisplayNames(i, calendar, locale);
         }
@@ -466,7 +487,7 @@ public class FastDateParser implements DateParser, Serializable {
         }
 
         NumberStrategy(int i) {
-            super(null);
+            super();
             this.field = i;
         }
 
@@ -488,24 +509,6 @@ public class FastDateParser implements DateParser, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.time.FastDateParser$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends NumberStrategy {
-        AnonymousClass1(int i) {
-            super(i);
-        }
-
-        @Override // org.telegram.messenger.time.FastDateParser.NumberStrategy, org.telegram.messenger.time.FastDateParser.Strategy
-        void setCalendar(FastDateParser fastDateParser, Calendar calendar, String str) {
-            int parseInt = Integer.parseInt(str);
-            if (parseInt < 100) {
-                parseInt = fastDateParser.adjustYear(parseInt);
-            }
-            calendar.set(1, parseInt);
-        }
-    }
-
     /* loaded from: classes.dex */
     public static class TimeZoneStrategy extends Strategy {
         private static final int ID = 0;
@@ -517,7 +520,7 @@ public class FastDateParser implements DateParser, Serializable {
         private final String validTimeZoneChars;
 
         TimeZoneStrategy(Locale locale) {
-            super(null);
+            super();
             String[][] zoneStrings;
             for (String[] strArr : DateFormatSymbols.getInstance(locale).getZoneStrings()) {
                 if (!strArr[0].startsWith("GMT")) {
@@ -567,45 +570,6 @@ public class FastDateParser implements DateParser, Serializable {
                 }
             }
             calendar.setTimeZone(timeZone);
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.time.FastDateParser$2 */
-    /* loaded from: classes.dex */
-    class AnonymousClass2 extends NumberStrategy {
-        @Override // org.telegram.messenger.time.FastDateParser.NumberStrategy
-        int modify(int i) {
-            return i - 1;
-        }
-
-        AnonymousClass2(int i) {
-            super(i);
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.time.FastDateParser$3 */
-    /* loaded from: classes.dex */
-    class AnonymousClass3 extends NumberStrategy {
-        AnonymousClass3(int i) {
-            super(i);
-        }
-
-        @Override // org.telegram.messenger.time.FastDateParser.NumberStrategy
-        int modify(int i) {
-            return i % 24;
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.time.FastDateParser$4 */
-    /* loaded from: classes.dex */
-    class AnonymousClass4 extends NumberStrategy {
-        AnonymousClass4(int i) {
-            super(i);
-        }
-
-        @Override // org.telegram.messenger.time.FastDateParser.NumberStrategy
-        int modify(int i) {
-            return i % 12;
         }
     }
 }

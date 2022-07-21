@@ -1,6 +1,7 @@
 package com.huawei.hms.utils;
 
 import android.content.Context;
+import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import com.huawei.hms.support.log.HMSLog;
 import java.io.File;
 import java.io.IOException;
@@ -99,6 +100,6 @@ public abstract class FileUtil {
             }
             a = true;
         }
-        writeFile(file2, str + "|" + j + "|" + i, 10240L);
+        writeFile(file2, str + HiAnalyticsConstant.REPORT_VAL_SEPARATOR + j + HiAnalyticsConstant.REPORT_VAL_SEPARATOR + i, LOCAL_REPORT_FILE_MAX_SIZE);
     }
 }

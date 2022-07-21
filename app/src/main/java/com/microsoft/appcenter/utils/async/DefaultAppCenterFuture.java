@@ -30,34 +30,22 @@ public class DefaultAppCenterFuture<T> implements AppCenterFuture<T> {
         }
     }
 
-    public synchronized void complete(T t) {
+    public synchronized void complete(final T t) {
         if (!isDone()) {
             this.mResult = t;
             this.mLatch.countDown();
             if (this.mConsumers != null) {
-                HandlerUtils.runOnUiThread(new AnonymousClass2(t));
+                HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.utils.async.DefaultAppCenterFuture.2
+                    /* JADX WARN: Multi-variable type inference failed */
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (AppCenterConsumer appCenterConsumer : DefaultAppCenterFuture.this.mConsumers) {
+                            appCenterConsumer.accept(t);
+                        }
+                        DefaultAppCenterFuture.this.mConsumers = null;
+                    }
+                });
             }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.microsoft.appcenter.utils.async.DefaultAppCenterFuture$2 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass2 implements Runnable {
-        final /* synthetic */ Object val$value;
-
-        AnonymousClass2(Object obj) {
-            DefaultAppCenterFuture.this = r1;
-            this.val$value = obj;
-        }
-
-        /* JADX WARN: Multi-variable type inference failed */
-        @Override // java.lang.Runnable
-        public void run() {
-            for (AppCenterConsumer appCenterConsumer : DefaultAppCenterFuture.this.mConsumers) {
-                appCenterConsumer.accept(this.val$value);
-            }
-            DefaultAppCenterFuture.this.mConsumers = null;
         }
     }
 }

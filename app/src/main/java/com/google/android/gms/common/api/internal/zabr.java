@@ -11,6 +11,7 @@ import com.google.android.gms.common.internal.RootTelemetryConfiguration;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import org.telegram.messenger.FileLoader;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zabr<T> implements OnCompleteListener<T> {
@@ -83,7 +84,7 @@ public final class zabr<T> implements OnCompleteListener<T> {
                     i4 = connectionResult == null ? -1 : connectionResult.getErrorCode();
                     i5 = statusCode;
                 } else {
-                    i5 = 101;
+                    i5 = FileLoader.MEDIA_DIR_VIDEO_PUBLIC;
                 }
             }
             i4 = -1;

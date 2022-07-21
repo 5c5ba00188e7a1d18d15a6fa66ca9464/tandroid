@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class ErrorLogHelper {
     private static File sErrorLogDirectory;
@@ -118,21 +119,13 @@ public class ErrorLogHelper {
         return file;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.microsoft.appcenter.crashes.utils.ErrorLogHelper$1 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass1 implements FilenameFilter {
-        AnonymousClass1() {
-        }
-
-        @Override // java.io.FilenameFilter
-        public boolean accept(File file, String str) {
-            return str.endsWith(".json");
-        }
-    }
-
     public static File[] getStoredErrorLogFiles() {
-        File[] listFiles = getErrorStorageDirectory().listFiles(new AnonymousClass1());
+        File[] listFiles = getErrorStorageDirectory().listFiles(new FilenameFilter() { // from class: com.microsoft.appcenter.crashes.utils.ErrorLogHelper.1
+            @Override // java.io.FilenameFilter
+            public boolean accept(File file, String str) {
+                return str.endsWith(".json");
+            }
+        });
         return listFiles != null ? listFiles : new File[0];
     }
 
@@ -141,21 +134,13 @@ public class ErrorLogHelper {
         return listFiles != null ? listFiles : new File[0];
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.microsoft.appcenter.crashes.utils.ErrorLogHelper$2 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass2 implements FilenameFilter {
-        AnonymousClass2() {
-        }
-
-        @Override // java.io.FilenameFilter
-        public boolean accept(File file, String str) {
-            return str.equals("deviceInfo");
-        }
-    }
-
     public static Device getStoredDeviceInfo(File file) {
-        File[] listFiles = file.listFiles(new AnonymousClass2());
+        File[] listFiles = file.listFiles(new FilenameFilter() { // from class: com.microsoft.appcenter.crashes.utils.ErrorLogHelper.2
+            @Override // java.io.FilenameFilter
+            public boolean accept(File file2, String str) {
+                return str.equals("deviceInfo");
+            }
+        });
         if (listFiles == null || listFiles.length == 0) {
             AppCenterLog.warn("AppCenterCrashes", "No stored deviceinfo file found in a minidump folder.");
             return null;
@@ -179,24 +164,16 @@ public class ErrorLogHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.microsoft.appcenter.crashes.utils.ErrorLogHelper$3 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass3 implements FilenameFilter {
-        AnonymousClass3() {
-        }
-
-        @Override // java.io.FilenameFilter
-        public boolean accept(File file, String str) {
-            if (ErrorLogHelper.sNewMinidumpDirectory != null) {
-                return !str.equals(ErrorLogHelper.sNewMinidumpDirectory.getName());
-            }
-            return true;
-        }
-    }
-
     public static void removeStaleMinidumpSubfolders() {
-        File[] listFiles = getNewMinidumpDirectory().listFiles(new AnonymousClass3());
+        File[] listFiles = getNewMinidumpDirectory().listFiles(new FilenameFilter() { // from class: com.microsoft.appcenter.crashes.utils.ErrorLogHelper.3
+            @Override // java.io.FilenameFilter
+            public boolean accept(File file, String str) {
+                if (ErrorLogHelper.sNewMinidumpDirectory != null) {
+                    return !str.equals(ErrorLogHelper.sNewMinidumpDirectory.getName());
+                }
+                return true;
+            }
+        });
         if (listFiles == null || listFiles.length == 0) {
             AppCenterLog.debug("AppCenterCrashes", "No previous minidump sub-folders.");
             return;
@@ -210,21 +187,13 @@ public class ErrorLogHelper {
         FileManager.deleteDirectory(new File(getErrorStorageDirectory().getAbsolutePath(), "minidump"));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.microsoft.appcenter.crashes.utils.ErrorLogHelper$4 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass4 implements FilenameFilter {
-        AnonymousClass4() {
-        }
-
-        @Override // java.io.FilenameFilter
-        public boolean accept(File file, String str) {
-            return str.endsWith(".json");
-        }
-    }
-
     public static File getLastErrorLogFile() {
-        return FileManager.lastModifiedFile(getErrorStorageDirectory(), new AnonymousClass4());
+        return FileManager.lastModifiedFile(getErrorStorageDirectory(), new FilenameFilter() { // from class: com.microsoft.appcenter.crashes.utils.ErrorLogHelper.4
+            @Override // java.io.FilenameFilter
+            public boolean accept(File file, String str) {
+                return str.endsWith(".json");
+            }
+        });
     }
 
     public static File getStoredThrowableFile(UUID uuid) {
@@ -262,25 +231,13 @@ public class ErrorLogHelper {
         return errorReport;
     }
 
-    /* renamed from: com.microsoft.appcenter.crashes.utils.ErrorLogHelper$5 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass5 implements FilenameFilter {
-        final /* synthetic */ String val$extension;
-        final /* synthetic */ UUID val$id;
-
-        AnonymousClass5(UUID uuid, String str) {
-            this.val$id = uuid;
-            this.val$extension = str;
-        }
-
-        @Override // java.io.FilenameFilter
-        public boolean accept(File file, String str) {
-            return str.startsWith(this.val$id.toString()) && str.endsWith(this.val$extension);
-        }
-    }
-
-    private static File getStoredFile(UUID uuid, String str) {
-        File[] listFiles = getErrorStorageDirectory().listFiles(new AnonymousClass5(uuid, str));
+    private static File getStoredFile(final UUID uuid, final String str) {
+        File[] listFiles = getErrorStorageDirectory().listFiles(new FilenameFilter() { // from class: com.microsoft.appcenter.crashes.utils.ErrorLogHelper.5
+            @Override // java.io.FilenameFilter
+            public boolean accept(File file, String str2) {
+                return str2.startsWith(uuid.toString()) && str2.endsWith(str);
+            }
+        });
         if (listFiles == null || listFiles.length <= 0) {
             return null;
         }
@@ -318,8 +275,8 @@ public class ErrorLogHelper {
         StackTraceElement[] stackTrace = th.getStackTrace();
         if (stackTrace.length > 256) {
             StackTraceElement[] stackTraceElementArr = new StackTraceElement[256];
-            System.arraycopy(stackTrace, 0, stackTraceElementArr, 0, 128);
-            System.arraycopy(stackTrace, stackTrace.length - 128, stackTraceElementArr, 128, 128);
+            System.arraycopy(stackTrace, 0, stackTraceElementArr, 0, ConnectionsManager.RequestFlagNeedQuickAck);
+            System.arraycopy(stackTrace, stackTrace.length - ConnectionsManager.RequestFlagNeedQuickAck, stackTraceElementArr, ConnectionsManager.RequestFlagNeedQuickAck, ConnectionsManager.RequestFlagNeedQuickAck);
             th.setStackTrace(stackTraceElementArr);
             AppCenterLog.warn("AppCenterCrashes", "Crash frames truncated from " + stackTrace.length + " to 256 frames.");
             stackTrace = stackTraceElementArr;

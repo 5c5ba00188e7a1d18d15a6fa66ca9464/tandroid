@@ -40,6 +40,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -53,6 +54,7 @@ import org.telegram.ui.Components.GroupCreateDividerItemDecoration;
 import org.telegram.ui.Components.GroupCreateSpan;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.InviteContactsActivity;
 /* loaded from: classes3.dex */
 public class InviteContactsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, View.OnClickListener {
     private InviteAdapter adapter;
@@ -230,7 +232,15 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             this.animationStarted = false;
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.currentAnimation = animatorSet2;
-            animatorSet2.addListener(new AnonymousClass1());
+            animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.InviteContactsActivity.SpansContainer.1
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    SpansContainer.this.addingSpan = null;
+                    SpansContainer.this.currentAnimation = null;
+                    SpansContainer.this.animationStarted = false;
+                    InviteContactsActivity.this.editText.setAllowDrawCursor(true);
+                }
+            });
             this.currentAnimation.setDuration(150L);
             this.addingSpan = groupCreateSpan;
             this.animators.clear();
@@ -240,23 +250,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             addView(groupCreateSpan);
         }
 
-        /* renamed from: org.telegram.ui.InviteContactsActivity$SpansContainer$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends AnimatorListenerAdapter {
-            AnonymousClass1() {
-                SpansContainer.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                SpansContainer.this.addingSpan = null;
-                SpansContainer.this.currentAnimation = null;
-                SpansContainer.this.animationStarted = false;
-                InviteContactsActivity.this.editText.setAllowDrawCursor(true);
-            }
-        }
-
-        public void removeSpan(GroupCreateSpan groupCreateSpan) {
+        public void removeSpan(final GroupCreateSpan groupCreateSpan) {
             InviteContactsActivity.this.ignoreScrollEvent = true;
             InviteContactsActivity.this.selectedContacts.remove(groupCreateSpan.getKey());
             InviteContactsActivity.this.allSpans.remove(groupCreateSpan);
@@ -269,7 +263,19 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             this.animationStarted = false;
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.currentAnimation = animatorSet2;
-            animatorSet2.addListener(new AnonymousClass2(groupCreateSpan));
+            animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.InviteContactsActivity.SpansContainer.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    SpansContainer.this.removeView(groupCreateSpan);
+                    SpansContainer.this.removingSpan = null;
+                    SpansContainer.this.currentAnimation = null;
+                    SpansContainer.this.animationStarted = false;
+                    InviteContactsActivity.this.editText.setAllowDrawCursor(true);
+                    if (InviteContactsActivity.this.allSpans.isEmpty()) {
+                        InviteContactsActivity.this.editText.setHintVisible(true);
+                    }
+                }
+            });
             this.currentAnimation.setDuration(150L);
             this.removingSpan = groupCreateSpan;
             this.animators.clear();
@@ -277,29 +283,6 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             this.animators.add(ObjectAnimator.ofFloat(this.removingSpan, "scaleY", 1.0f, 0.01f));
             this.animators.add(ObjectAnimator.ofFloat(this.removingSpan, "alpha", 1.0f, 0.0f));
             requestLayout();
-        }
-
-        /* renamed from: org.telegram.ui.InviteContactsActivity$SpansContainer$2 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends AnimatorListenerAdapter {
-            final /* synthetic */ GroupCreateSpan val$span;
-
-            AnonymousClass2(GroupCreateSpan groupCreateSpan) {
-                SpansContainer.this = r1;
-                this.val$span = groupCreateSpan;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                SpansContainer.this.removeView(this.val$span);
-                SpansContainer.this.removingSpan = null;
-                SpansContainer.this.currentAnimation = null;
-                SpansContainer.this.animationStarted = false;
-                InviteContactsActivity.this.editText.setAllowDrawCursor(true);
-                if (InviteContactsActivity.this.allSpans.isEmpty()) {
-                    InviteContactsActivity.this.editText.setHintVisible(true);
-                }
-            }
         }
     }
 
@@ -346,24 +329,96 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.allSpans.clear();
         this.selectedContacts.clear();
         this.currentDeletingSpan = null;
-        this.actionBar.setBackButtonImage(2131165449);
+        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("InviteFriends", 2131626308));
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-        this.fragmentView = anonymousClass2;
-        AnonymousClass2 anonymousClass22 = anonymousClass2;
-        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
-        this.scrollView = anonymousClass3;
-        anonymousClass3.setVerticalScrollBarEnabled(false);
+        this.actionBar.setTitle(LocaleController.getString("InviteFriends", R.string.InviteFriends));
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.InviteContactsActivity.1
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i) {
+                if (i == -1) {
+                    InviteContactsActivity.this.finishFragment();
+                }
+            }
+        });
+        ViewGroup viewGroup = new ViewGroup(context) { // from class: org.telegram.ui.InviteContactsActivity.2
+            @Override // android.view.View
+            protected void onMeasure(int i, int i2) {
+                int i3;
+                int size = View.MeasureSpec.getSize(i);
+                int size2 = View.MeasureSpec.getSize(i2);
+                setMeasuredDimension(size, size2);
+                if (AndroidUtilities.isTablet() || size2 > size) {
+                    i3 = AndroidUtilities.dp(144.0f);
+                } else {
+                    i3 = AndroidUtilities.dp(56.0f);
+                }
+                InviteContactsActivity.this.infoTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(i3, Integer.MIN_VALUE));
+                InviteContactsActivity.this.counterView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
+                int measuredHeight = InviteContactsActivity.this.infoTextView.getVisibility() == 0 ? InviteContactsActivity.this.infoTextView.getMeasuredHeight() : InviteContactsActivity.this.counterView.getMeasuredHeight();
+                InviteContactsActivity.this.scrollView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(i3, Integer.MIN_VALUE));
+                InviteContactsActivity.this.listView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((size2 - InviteContactsActivity.this.scrollView.getMeasuredHeight()) - measuredHeight, 1073741824));
+                InviteContactsActivity.this.emptyView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((size2 - InviteContactsActivity.this.scrollView.getMeasuredHeight()) - AndroidUtilities.dp(72.0f), 1073741824));
+            }
+
+            @Override // android.view.ViewGroup, android.view.View
+            protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+                InviteContactsActivity.this.scrollView.layout(0, 0, InviteContactsActivity.this.scrollView.getMeasuredWidth(), InviteContactsActivity.this.scrollView.getMeasuredHeight());
+                InviteContactsActivity.this.listView.layout(0, InviteContactsActivity.this.scrollView.getMeasuredHeight(), InviteContactsActivity.this.listView.getMeasuredWidth(), InviteContactsActivity.this.scrollView.getMeasuredHeight() + InviteContactsActivity.this.listView.getMeasuredHeight());
+                InviteContactsActivity.this.emptyView.layout(0, InviteContactsActivity.this.scrollView.getMeasuredHeight() + AndroidUtilities.dp(72.0f), InviteContactsActivity.this.emptyView.getMeasuredWidth(), InviteContactsActivity.this.scrollView.getMeasuredHeight() + InviteContactsActivity.this.emptyView.getMeasuredHeight());
+                int i5 = i4 - i2;
+                int measuredHeight = i5 - InviteContactsActivity.this.infoTextView.getMeasuredHeight();
+                InviteContactsActivity.this.infoTextView.layout(0, measuredHeight, InviteContactsActivity.this.infoTextView.getMeasuredWidth(), InviteContactsActivity.this.infoTextView.getMeasuredHeight() + measuredHeight);
+                int measuredHeight2 = i5 - InviteContactsActivity.this.counterView.getMeasuredHeight();
+                InviteContactsActivity.this.counterView.layout(0, measuredHeight2, InviteContactsActivity.this.counterView.getMeasuredWidth(), InviteContactsActivity.this.counterView.getMeasuredHeight() + measuredHeight2);
+            }
+
+            @Override // android.view.ViewGroup
+            protected boolean drawChild(Canvas canvas, View view, long j) {
+                boolean drawChild = super.drawChild(canvas, view, j);
+                if (view == InviteContactsActivity.this.listView || view == InviteContactsActivity.this.emptyView) {
+                    ((BaseFragment) InviteContactsActivity.this).parentLayout.drawHeaderShadow(canvas, InviteContactsActivity.this.scrollView.getMeasuredHeight());
+                }
+                return drawChild;
+            }
+        };
+        this.fragmentView = viewGroup;
+        ViewGroup viewGroup2 = viewGroup;
+        ScrollView scrollView = new ScrollView(context) { // from class: org.telegram.ui.InviteContactsActivity.3
+            @Override // android.widget.ScrollView, android.view.ViewGroup, android.view.ViewParent
+            public boolean requestChildRectangleOnScreen(View view, Rect rect, boolean z) {
+                if (InviteContactsActivity.this.ignoreScrollEvent) {
+                    InviteContactsActivity.this.ignoreScrollEvent = false;
+                    return false;
+                }
+                rect.offset(view.getLeft() - view.getScrollX(), view.getTop() - view.getScrollY());
+                rect.top += InviteContactsActivity.this.fieldY + AndroidUtilities.dp(20.0f);
+                rect.bottom += InviteContactsActivity.this.fieldY + AndroidUtilities.dp(50.0f);
+                return super.requestChildRectangleOnScreen(view, rect, z);
+            }
+        };
+        this.scrollView = scrollView;
+        scrollView.setVerticalScrollBarEnabled(false);
         AndroidUtilities.setScrollViewEdgeEffectColor(this.scrollView, Theme.getColor("windowBackgroundWhite"));
-        anonymousClass22.addView(this.scrollView);
+        viewGroup2.addView(this.scrollView);
         SpansContainer spansContainer = new SpansContainer(context);
         this.spansContainer = spansContainer;
         this.scrollView.addView(spansContainer, LayoutHelper.createFrame(-1, -2.0f));
-        AnonymousClass4 anonymousClass4 = new AnonymousClass4(context);
-        this.editText = anonymousClass4;
-        anonymousClass4.setTextSize(1, 18.0f);
+        EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.InviteContactsActivity.4
+            @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+            public boolean onTouchEvent(MotionEvent motionEvent) {
+                if (InviteContactsActivity.this.currentDeletingSpan != null) {
+                    InviteContactsActivity.this.currentDeletingSpan.cancelDeleteAnimation();
+                    InviteContactsActivity.this.currentDeletingSpan = null;
+                }
+                if (motionEvent.getAction() == 0 && !AndroidUtilities.showKeyboard(this)) {
+                    clearFocus();
+                    requestFocus();
+                }
+                return super.onTouchEvent(motionEvent);
+            }
+        };
+        this.editText = editTextBoldCursor;
+        editTextBoldCursor.setTextSize(1, 18.0f);
         this.editText.setHintColor(Theme.getColor("groupcreate_hintText"));
         this.editText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.editText.setCursorColor(Theme.getColor("groupcreate_cursor"));
@@ -378,18 +433,79 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.editText.setImeOptions(268435462);
         this.editText.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.spansContainer.addView(this.editText);
-        this.editText.setHintText(LocaleController.getString("SearchFriends", 2131628172));
-        this.editText.setCustomSelectionActionModeCallback(new AnonymousClass5(this));
-        this.editText.setOnKeyListener(new AnonymousClass6());
-        this.editText.addTextChangedListener(new AnonymousClass7());
+        this.editText.setHintText(LocaleController.getString("SearchFriends", R.string.SearchFriends));
+        this.editText.setCustomSelectionActionModeCallback(new ActionMode.Callback(this) { // from class: org.telegram.ui.InviteContactsActivity.5
+            @Override // android.view.ActionMode.Callback
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                return false;
+            }
+
+            @Override // android.view.ActionMode.Callback
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                return false;
+            }
+
+            @Override // android.view.ActionMode.Callback
+            public void onDestroyActionMode(ActionMode actionMode) {
+            }
+
+            @Override // android.view.ActionMode.Callback
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return false;
+            }
+        });
+        this.editText.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.InviteContactsActivity.6
+            private boolean wasEmpty;
+
+            @Override // android.view.View.OnKeyListener
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                boolean z = true;
+                if (keyEvent.getAction() == 0) {
+                    if (InviteContactsActivity.this.editText.length() != 0) {
+                        z = false;
+                    }
+                    this.wasEmpty = z;
+                } else if (keyEvent.getAction() == 1 && this.wasEmpty && !InviteContactsActivity.this.allSpans.isEmpty()) {
+                    InviteContactsActivity.this.spansContainer.removeSpan((GroupCreateSpan) InviteContactsActivity.this.allSpans.get(InviteContactsActivity.this.allSpans.size() - 1));
+                    InviteContactsActivity.this.updateHint();
+                    InviteContactsActivity.this.checkVisibleRows();
+                    return true;
+                }
+                return false;
+            }
+        });
+        this.editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.InviteContactsActivity.7
+            @Override // android.text.TextWatcher
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            @Override // android.text.TextWatcher
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            @Override // android.text.TextWatcher
+            public void afterTextChanged(Editable editable) {
+                if (InviteContactsActivity.this.editText.length() != 0) {
+                    InviteContactsActivity.this.searching = true;
+                    InviteContactsActivity.this.searchWas = true;
+                    InviteContactsActivity.this.adapter.setSearching(true);
+                    InviteContactsActivity.this.adapter.searchDialogs(InviteContactsActivity.this.editText.getText().toString());
+                    InviteContactsActivity.this.listView.setFastScrollVisible(false);
+                    InviteContactsActivity.this.listView.setVerticalScrollBarEnabled(true);
+                    InviteContactsActivity.this.emptyView.setText(LocaleController.getString("NoResult", R.string.NoResult));
+                    return;
+                }
+                InviteContactsActivity.this.closeSearch();
+            }
+        });
         this.emptyView = new EmptyTextProgressView(context);
         if (ContactsController.getInstance(this.currentAccount).isLoadingContacts()) {
             this.emptyView.showProgress();
         } else {
             this.emptyView.showTextView();
         }
-        this.emptyView.setText(LocaleController.getString("NoContacts", 2131626867));
-        anonymousClass22.addView(this.emptyView);
+        this.emptyView.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
+        viewGroup2.addView(this.emptyView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
@@ -405,31 +521,48 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         GroupCreateDividerItemDecoration groupCreateDividerItemDecoration = new GroupCreateDividerItemDecoration();
         this.decoration = groupCreateDividerItemDecoration;
         recyclerListView3.addItemDecoration(groupCreateDividerItemDecoration);
-        anonymousClass22.addView(this.listView);
-        this.listView.setOnItemClickListener(new InviteContactsActivity$$ExternalSyntheticLambda3(this));
-        this.listView.setOnScrollListener(new AnonymousClass8());
+        viewGroup2.addView(this.listView);
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+            public final void onItemClick(View view, int i) {
+                InviteContactsActivity.this.lambda$createView$0(view, i);
+            }
+        });
+        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.InviteContactsActivity.8
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrollStateChanged(RecyclerView recyclerView, int i) {
+                if (i == 1) {
+                    AndroidUtilities.hideKeyboard(InviteContactsActivity.this.editText);
+                }
+            }
+        });
         TextView textView = new TextView(context);
         this.infoTextView = textView;
         textView.setBackgroundColor(Theme.getColor("contacts_inviteBackground"));
         this.infoTextView.setTextColor(Theme.getColor("contacts_inviteText"));
         this.infoTextView.setGravity(17);
-        this.infoTextView.setText(LocaleController.getString("InviteFriendsHelp", 2131626309));
+        this.infoTextView.setText(LocaleController.getString("InviteFriendsHelp", R.string.InviteFriendsHelp));
         this.infoTextView.setTextSize(1, 13.0f);
-        this.infoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.infoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.infoTextView.setPadding(AndroidUtilities.dp(17.0f), AndroidUtilities.dp(9.0f), AndroidUtilities.dp(17.0f), AndroidUtilities.dp(9.0f));
-        anonymousClass22.addView(this.infoTextView, LayoutHelper.createFrame(-1, -2, 83));
+        viewGroup2.addView(this.infoTextView, LayoutHelper.createFrame(-1, -2, 83));
         FrameLayout frameLayout = new FrameLayout(context);
         this.counterView = frameLayout;
         frameLayout.setBackgroundColor(Theme.getColor("contacts_inviteBackground"));
         this.counterView.setVisibility(4);
-        anonymousClass22.addView(this.counterView, LayoutHelper.createFrame(-1, 48, 83));
-        this.counterView.setOnClickListener(new InviteContactsActivity$$ExternalSyntheticLambda0(this));
+        viewGroup2.addView(this.counterView, LayoutHelper.createFrame(-1, 48, 83));
+        this.counterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                InviteContactsActivity.this.lambda$createView$1(view);
+            }
+        });
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(0);
         this.counterView.addView(linearLayout, LayoutHelper.createFrame(-2, -1, 17));
         TextView textView2 = new TextView(context);
         this.counterTextView = textView2;
-        textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.counterTextView.setTextSize(1, 14.0f);
         this.counterTextView.setTextColor(Theme.getColor("contacts_inviteBackground"));
         this.counterTextView.setGravity(17);
@@ -443,206 +576,12 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.textView.setTextColor(Theme.getColor("contacts_inviteText"));
         this.textView.setGravity(17);
         this.textView.setCompoundDrawablePadding(AndroidUtilities.dp(8.0f));
-        this.textView.setText(LocaleController.getString("InviteToTelegram", 2131626337).toUpperCase());
-        this.textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.textView.setText(LocaleController.getString("InviteToTelegram", R.string.InviteToTelegram).toUpperCase());
+        this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         linearLayout.addView(this.textView, LayoutHelper.createLinear(-2, -2, 16));
         updateHint();
         this.adapter.notifyDataSetChanged();
         return this.fragmentView;
-    }
-
-    /* renamed from: org.telegram.ui.InviteContactsActivity$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass1() {
-            InviteContactsActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                InviteContactsActivity.this.finishFragment();
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.InviteContactsActivity$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends ViewGroup {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            InviteContactsActivity.this = r1;
-        }
-
-        @Override // android.view.View
-        protected void onMeasure(int i, int i2) {
-            int i3;
-            int size = View.MeasureSpec.getSize(i);
-            int size2 = View.MeasureSpec.getSize(i2);
-            setMeasuredDimension(size, size2);
-            if (AndroidUtilities.isTablet() || size2 > size) {
-                i3 = AndroidUtilities.dp(144.0f);
-            } else {
-                i3 = AndroidUtilities.dp(56.0f);
-            }
-            InviteContactsActivity.this.infoTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(i3, Integer.MIN_VALUE));
-            InviteContactsActivity.this.counterView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
-            int measuredHeight = InviteContactsActivity.this.infoTextView.getVisibility() == 0 ? InviteContactsActivity.this.infoTextView.getMeasuredHeight() : InviteContactsActivity.this.counterView.getMeasuredHeight();
-            InviteContactsActivity.this.scrollView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(i3, Integer.MIN_VALUE));
-            InviteContactsActivity.this.listView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((size2 - InviteContactsActivity.this.scrollView.getMeasuredHeight()) - measuredHeight, 1073741824));
-            InviteContactsActivity.this.emptyView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((size2 - InviteContactsActivity.this.scrollView.getMeasuredHeight()) - AndroidUtilities.dp(72.0f), 1073741824));
-        }
-
-        @Override // android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            InviteContactsActivity.this.scrollView.layout(0, 0, InviteContactsActivity.this.scrollView.getMeasuredWidth(), InviteContactsActivity.this.scrollView.getMeasuredHeight());
-            InviteContactsActivity.this.listView.layout(0, InviteContactsActivity.this.scrollView.getMeasuredHeight(), InviteContactsActivity.this.listView.getMeasuredWidth(), InviteContactsActivity.this.scrollView.getMeasuredHeight() + InviteContactsActivity.this.listView.getMeasuredHeight());
-            InviteContactsActivity.this.emptyView.layout(0, InviteContactsActivity.this.scrollView.getMeasuredHeight() + AndroidUtilities.dp(72.0f), InviteContactsActivity.this.emptyView.getMeasuredWidth(), InviteContactsActivity.this.scrollView.getMeasuredHeight() + InviteContactsActivity.this.emptyView.getMeasuredHeight());
-            int i5 = i4 - i2;
-            int measuredHeight = i5 - InviteContactsActivity.this.infoTextView.getMeasuredHeight();
-            InviteContactsActivity.this.infoTextView.layout(0, measuredHeight, InviteContactsActivity.this.infoTextView.getMeasuredWidth(), InviteContactsActivity.this.infoTextView.getMeasuredHeight() + measuredHeight);
-            int measuredHeight2 = i5 - InviteContactsActivity.this.counterView.getMeasuredHeight();
-            InviteContactsActivity.this.counterView.layout(0, measuredHeight2, InviteContactsActivity.this.counterView.getMeasuredWidth(), InviteContactsActivity.this.counterView.getMeasuredHeight() + measuredHeight2);
-        }
-
-        @Override // android.view.ViewGroup
-        protected boolean drawChild(Canvas canvas, View view, long j) {
-            boolean drawChild = super.drawChild(canvas, view, j);
-            if (view == InviteContactsActivity.this.listView || view == InviteContactsActivity.this.emptyView) {
-                ((BaseFragment) InviteContactsActivity.this).parentLayout.drawHeaderShadow(canvas, InviteContactsActivity.this.scrollView.getMeasuredHeight());
-            }
-            return drawChild;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.InviteContactsActivity$3 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass3 extends ScrollView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(Context context) {
-            super(context);
-            InviteContactsActivity.this = r1;
-        }
-
-        @Override // android.widget.ScrollView, android.view.ViewGroup, android.view.ViewParent
-        public boolean requestChildRectangleOnScreen(View view, Rect rect, boolean z) {
-            if (InviteContactsActivity.this.ignoreScrollEvent) {
-                InviteContactsActivity.this.ignoreScrollEvent = false;
-                return false;
-            }
-            rect.offset(view.getLeft() - view.getScrollX(), view.getTop() - view.getScrollY());
-            rect.top += InviteContactsActivity.this.fieldY + AndroidUtilities.dp(20.0f);
-            rect.bottom += InviteContactsActivity.this.fieldY + AndroidUtilities.dp(50.0f);
-            return super.requestChildRectangleOnScreen(view, rect, z);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.InviteContactsActivity$4 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass4 extends EditTextBoldCursor {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass4(Context context) {
-            super(context);
-            InviteContactsActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            if (InviteContactsActivity.this.currentDeletingSpan != null) {
-                InviteContactsActivity.this.currentDeletingSpan.cancelDeleteAnimation();
-                InviteContactsActivity.this.currentDeletingSpan = null;
-            }
-            if (motionEvent.getAction() == 0 && !AndroidUtilities.showKeyboard(this)) {
-                clearFocus();
-                requestFocus();
-            }
-            return super.onTouchEvent(motionEvent);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.InviteContactsActivity$5 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass5 implements ActionMode.Callback {
-        @Override // android.view.ActionMode.Callback
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            return false;
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public void onDestroyActionMode(ActionMode actionMode) {
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        AnonymousClass5(InviteContactsActivity inviteContactsActivity) {
-        }
-    }
-
-    /* renamed from: org.telegram.ui.InviteContactsActivity$6 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass6 implements View.OnKeyListener {
-        private boolean wasEmpty;
-
-        AnonymousClass6() {
-            InviteContactsActivity.this = r1;
-        }
-
-        @Override // android.view.View.OnKeyListener
-        public boolean onKey(View view, int i, KeyEvent keyEvent) {
-            boolean z = true;
-            if (keyEvent.getAction() == 0) {
-                if (InviteContactsActivity.this.editText.length() != 0) {
-                    z = false;
-                }
-                this.wasEmpty = z;
-            } else if (keyEvent.getAction() == 1 && this.wasEmpty && !InviteContactsActivity.this.allSpans.isEmpty()) {
-                InviteContactsActivity.this.spansContainer.removeSpan((GroupCreateSpan) InviteContactsActivity.this.allSpans.get(InviteContactsActivity.this.allSpans.size() - 1));
-                InviteContactsActivity.this.updateHint();
-                InviteContactsActivity.this.checkVisibleRows();
-                return true;
-            }
-            return false;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.InviteContactsActivity$7 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass7 implements TextWatcher {
-        @Override // android.text.TextWatcher
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override // android.text.TextWatcher
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        AnonymousClass7() {
-            InviteContactsActivity.this = r1;
-        }
-
-        @Override // android.text.TextWatcher
-        public void afterTextChanged(Editable editable) {
-            if (InviteContactsActivity.this.editText.length() != 0) {
-                InviteContactsActivity.this.searching = true;
-                InviteContactsActivity.this.searchWas = true;
-                InviteContactsActivity.this.adapter.setSearching(true);
-                InviteContactsActivity.this.adapter.searchDialogs(InviteContactsActivity.this.editText.getText().toString());
-                InviteContactsActivity.this.listView.setFastScrollVisible(false);
-                InviteContactsActivity.this.listView.setVerticalScrollBarEnabled(true);
-                InviteContactsActivity.this.emptyView.setText(LocaleController.getString("NoResult", 2131626910));
-                return;
-            }
-            InviteContactsActivity.this.closeSearch();
-        }
     }
 
     public /* synthetic */ void lambda$createView$0(View view, int i) {
@@ -678,21 +617,6 @@ public class InviteContactsActivity extends BaseFragment implements Notification
                 return;
             }
             this.editText.setText((CharSequence) null);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.InviteContactsActivity$8 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass8 extends RecyclerView.OnScrollListener {
-        AnonymousClass8() {
-            InviteContactsActivity.this = r1;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-        public void onScrollStateChanged(RecyclerView recyclerView, int i) {
-            if (i == 1) {
-                AndroidUtilities.hideKeyboard(InviteContactsActivity.this.editText);
-            }
         }
     }
 
@@ -779,7 +703,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.adapter.searchDialogs(null);
         this.listView.setFastScrollVisible(true);
         this.listView.setVerticalScrollBarEnabled(false);
-        this.emptyView.setText(LocaleController.getString("NoContacts", 2131626867));
+        this.emptyView.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
     }
 
     private void fetchContacts() {
@@ -844,7 +768,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             InviteUserCell inviteUserCell;
             if (i == 1) {
                 InviteTextCell inviteTextCell = new InviteTextCell(this.context);
-                inviteTextCell.setTextAndIcon(LocaleController.getString("ShareTelegram", 2131628348), 2131166140);
+                inviteTextCell.setTextAndIcon(LocaleController.getString("ShareTelegram", R.string.ShareTelegram), R.drawable.share);
                 inviteUserCell = inviteTextCell;
             } else {
                 inviteUserCell = new InviteUserCell(this.context, true);
@@ -922,11 +846,22 @@ public class InviteContactsActivity extends BaseFragment implements Notification
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
-                AndroidUtilities.runOnUIThread(new InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda1(this, this.val$query));
+                final String str = this.val$query;
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        InviteContactsActivity.InviteAdapter.AnonymousClass1.this.lambda$run$1(str);
+                    }
+                });
             }
 
-            public /* synthetic */ void lambda$run$1(String str) {
-                Utilities.searchQueue.postRunnable(new InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda0(this, str));
+            public /* synthetic */ void lambda$run$1(final String str) {
+                Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        InviteContactsActivity.InviteAdapter.AnonymousClass1.this.lambda$run$0(str);
+                    }
+                });
             }
 
             /* JADX WARN: Code restructure failed: missing block: B:34:0x00c6, code lost:
@@ -991,8 +926,13 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             }
         }
 
-        public void updateSearchResults(ArrayList<ContactsController.Contact> arrayList, ArrayList<CharSequence> arrayList2) {
-            AndroidUtilities.runOnUIThread(new InviteContactsActivity$InviteAdapter$$ExternalSyntheticLambda0(this, arrayList, arrayList2));
+        public void updateSearchResults(final ArrayList<ContactsController.Contact> arrayList, final ArrayList<CharSequence> arrayList2) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    InviteContactsActivity.InviteAdapter.this.lambda$updateSearchResults$0(arrayList, arrayList2);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$updateSearchResults$0(ArrayList arrayList, ArrayList arrayList2) {
@@ -1021,7 +961,17 @@ public class InviteContactsActivity extends BaseFragment implements Notification
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        InviteContactsActivity$$ExternalSyntheticLambda2 inviteContactsActivity$$ExternalSyntheticLambda2 = new InviteContactsActivity$$ExternalSyntheticLambda2(this);
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public final void didSetColor() {
+                InviteContactsActivity.this.lambda$getThemeDescriptions$3();
+            }
+
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public /* synthetic */ void onAnimationProgress(float f) {
+                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+            }
+        };
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "actionBarDefault"));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, "actionBarDefault"));
@@ -1049,13 +999,13 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, new Class[]{InviteUserCell.class}, new String[]{"statusTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueText"));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, new Class[]{InviteUserCell.class}, new String[]{"statusTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText"));
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{InviteUserCell.class}, null, Theme.avatarDrawables, null, "avatar_text"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, inviteContactsActivity$$ExternalSyntheticLambda2, "avatar_backgroundRed"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, inviteContactsActivity$$ExternalSyntheticLambda2, "avatar_backgroundOrange"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, inviteContactsActivity$$ExternalSyntheticLambda2, "avatar_backgroundViolet"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, inviteContactsActivity$$ExternalSyntheticLambda2, "avatar_backgroundGreen"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, inviteContactsActivity$$ExternalSyntheticLambda2, "avatar_backgroundCyan"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, inviteContactsActivity$$ExternalSyntheticLambda2, "avatar_backgroundBlue"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, inviteContactsActivity$$ExternalSyntheticLambda2, "avatar_backgroundPink"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundRed"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundOrange"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundViolet"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundGreen"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundCyan"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundBlue"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundPink"));
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{InviteTextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{InviteTextCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayIcon"));
         arrayList.add(new ThemeDescription(this.spansContainer, 0, new Class[]{GroupCreateSpan.class}, null, null, null, "groupcreate_spanBackground"));

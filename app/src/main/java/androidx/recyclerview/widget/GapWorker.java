@@ -13,7 +13,27 @@ import org.telegram.messenger.FileLog;
 /* loaded from: classes.dex */
 public final class GapWorker implements Runnable {
     static final ThreadLocal<GapWorker> sGapWorker = new ThreadLocal<>();
-    static Comparator<Task> sTaskComparator = new AnonymousClass1();
+    static Comparator<Task> sTaskComparator = new Comparator<Task>() { // from class: androidx.recyclerview.widget.GapWorker.1
+        public int compare(Task task, Task task2) {
+            RecyclerView recyclerView = task.view;
+            if ((recyclerView == null) != (task2.view == null)) {
+                return recyclerView == null ? 1 : -1;
+            }
+            boolean z = task.immediate;
+            if (z != task2.immediate) {
+                return z ? -1 : 1;
+            }
+            int i = task2.viewVelocity - task.viewVelocity;
+            if (i != 0) {
+                return i;
+            }
+            int i2 = task.distanceToItem - task2.distanceToItem;
+            if (i2 == 0) {
+                return 0;
+            }
+            return i2;
+        }
+    };
     long mFrameIntervalNs;
     long mPostTimeNs;
     ArrayList<RecyclerView> mRecyclerViews = new ArrayList<>();
@@ -141,33 +161,6 @@ public final class GapWorker implements Runnable {
         recyclerView.mPrefetchRegistry.setPrefetchVector(i, i2);
     }
 
-    /* renamed from: androidx.recyclerview.widget.GapWorker$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Comparator<Task> {
-        AnonymousClass1() {
-        }
-
-        public int compare(Task task, Task task2) {
-            RecyclerView recyclerView = task.view;
-            if ((recyclerView == null) != (task2.view == null)) {
-                return recyclerView == null ? 1 : -1;
-            }
-            boolean z = task.immediate;
-            if (z != task2.immediate) {
-                return z ? -1 : 1;
-            }
-            int i = task2.viewVelocity - task.viewVelocity;
-            if (i != 0) {
-                return i;
-            }
-            int i2 = task.distanceToItem - task2.distanceToItem;
-            if (i2 == 0) {
-                return 0;
-            }
-            return i2;
-        }
-    }
-
     private void buildTaskList() {
         Task task;
         int size = this.mRecyclerViews.size();
@@ -219,7 +212,7 @@ public final class GapWorker implements Runnable {
     }
 
     @SuppressLint({"NotifyDataSetChanged"})
-    private RecyclerView.ViewHolder prefetchPositionWithDeadline(RecyclerView recyclerView, int i, long j) {
+    private RecyclerView.ViewHolder prefetchPositionWithDeadline(final RecyclerView recyclerView, int i, long j) {
         if (isPrefetchPositionAttached(recyclerView, i)) {
             return null;
         }
@@ -237,7 +230,12 @@ public final class GapWorker implements Runnable {
             return tryGetViewHolderForPositionByDeadline;
         } catch (Exception e) {
             FileLog.e(e);
-            AndroidUtilities.runOnUIThread(new GapWorker$$ExternalSyntheticLambda0(recyclerView));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: androidx.recyclerview.widget.GapWorker$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    GapWorker.lambda$prefetchPositionWithDeadline$0(RecyclerView.this);
+                }
+            });
             return null;
         } finally {
             recyclerView.onExitLayoutOrScroll(false);

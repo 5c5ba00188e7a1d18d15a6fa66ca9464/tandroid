@@ -48,29 +48,20 @@ public class EntityView extends FrameLayout {
     public EntityView(Context context, Point point) {
         super(context);
         this.position = point;
-        this.gestureDetector = new GestureDetector(context, new AnonymousClass1());
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.Paint.Views.EntityView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends GestureDetector.SimpleOnGestureListener {
-        AnonymousClass1() {
-            EntityView.this = r1;
-        }
-
-        @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-        public void onLongPress(MotionEvent motionEvent) {
-            if (EntityView.this.hasPanned || EntityView.this.hasTransformed || EntityView.this.hasReleased) {
-                return;
+        this.gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView.1
+            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+            public void onLongPress(MotionEvent motionEvent) {
+                if (EntityView.this.hasPanned || EntityView.this.hasTransformed || EntityView.this.hasReleased) {
+                    return;
+                }
+                EntityView.this.recognizedLongPress = true;
+                if (EntityView.this.delegate == null) {
+                    return;
+                }
+                EntityView.this.performHapticFeedback(0);
+                EntityView.this.delegate.onEntityLongClicked(EntityView.this);
             }
-            EntityView.this.recognizedLongPress = true;
-            if (EntityView.this.delegate == null) {
-                return;
-            }
-            EntityView.this.performHapticFeedback(0);
-            EntityView.this.delegate.onEntityLongClicked(EntityView.this);
-        }
+        });
     }
 
     public UUID getUUID() {

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.firebase.appindexing.builders.IndexableBuilder;
 import com.google.firebase.appindexing.internal.zzc;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 /* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public interface Action {
@@ -23,6 +24,7 @@ public interface Action {
             this.zzb = str;
         }
 
+        /* JADX WARN: Type inference failed for: r1v3, types: [com.google.firebase.appindexing.Action$Metadata$Builder] */
         public Action build() {
             Preconditions.checkNotNull(this.zzc, "setObject is required before calling build().");
             Preconditions.checkNotNull(this.zzd, "setObject is required before calling build().");
@@ -32,7 +34,13 @@ public interface Action {
             String str4 = this.zze;
             com.google.firebase.appindexing.internal.zzb zzbVar = this.zzf;
             if (zzbVar == null) {
-                zzbVar = new Action$Metadata$Builder().zza();
+                zzbVar = new Object() { // from class: com.google.firebase.appindexing.Action$Metadata$Builder
+                    private boolean zza = true;
+
+                    public final com.google.firebase.appindexing.internal.zzb zza() {
+                        return new com.google.firebase.appindexing.internal.zzb(this.zza, null, null, null, false);
+                    }
+                }.zza();
             }
             return new zzc(str, str2, str3, str4, zzbVar, this.zzg, this.zza);
         }
@@ -52,7 +60,7 @@ public interface Action {
         public final Builder setUrl(String str) {
             Preconditions.checkNotNull(str);
             this.zzd = str;
-            return put("url", str);
+            return put(RemoteMessageConst.Notification.URL, str);
         }
 
         public final String zza() {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.RemoteException;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.internal.RemoteCall;
 import com.google.android.gms.common.api.internal.TaskApiCall;
 import com.google.android.gms.common.internal.zaaa;
 import com.google.android.gms.common.internal.zaac;
@@ -23,7 +24,19 @@ public final class zaq extends GoogleApi<Api.ApiOptions.NoOptions> implements za
 
     @Override // com.google.android.gms.common.internal.zaac
     public final Task<Void> zaa(zaaa zaaaVar) {
-        return doBestEffortWrite(TaskApiCall.builder().setFeatures(zae.zaa).setAutoResolveMissingFeatures(false).run(new zap(zaaaVar)).build());
+        return doBestEffortWrite(TaskApiCall.builder().setFeatures(zae.zaa).setAutoResolveMissingFeatures(false).run(new RemoteCall(zaaaVar) { // from class: com.google.android.gms.common.internal.service.zap
+            private final zaaa zaa;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zaa = zaaaVar;
+            }
+
+            @Override // com.google.android.gms.common.api.internal.RemoteCall
+            public final void accept(Object obj, Object obj2) {
+                zaq.zaa(this.zaa, (zar) obj, (TaskCompletionSource) obj2);
+            }
+        }).build());
     }
 
     public static final /* synthetic */ void zaa(zaaa zaaaVar, zar zarVar, TaskCompletionSource taskCompletionSource) throws RemoteException {

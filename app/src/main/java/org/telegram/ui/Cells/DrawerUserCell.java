@@ -45,7 +45,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         this.textView = simpleTextView;
         simpleTextView.setTextColor(Theme.getColor("chats_menuItemText"));
         this.textView.setTextSize(15);
-        this.textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textView.setMaxLines(1);
         this.textView.setGravity(19);
         addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 19, 72.0f, 0.0f, 60.0f, 0.0f));

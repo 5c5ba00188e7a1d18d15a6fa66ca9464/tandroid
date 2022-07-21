@@ -85,9 +85,9 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         Context applicationContext = getApplicationContext();
         this.mediaSession.setSessionActivity(PendingIntent.getActivity(applicationContext, 99, new Intent(applicationContext, LaunchActivity.class), 134217728));
         Bundle bundle = new Bundle();
-        bundle.putBoolean("com.google.android.gms.car.media.ALWAYS_RESERVE_SPACE_FOR.ACTION_QUEUE", true);
-        bundle.putBoolean("com.google.android.gms.car.media.ALWAYS_RESERVE_SPACE_FOR.ACTION_SKIP_TO_PREVIOUS", true);
-        bundle.putBoolean("com.google.android.gms.car.media.ALWAYS_RESERVE_SPACE_FOR.ACTION_SKIP_TO_NEXT", true);
+        bundle.putBoolean(SLOT_RESERVATION_QUEUE, true);
+        bundle.putBoolean(SLOT_RESERVATION_SKIP_TO_PREV, true);
+        bundle.putBoolean(SLOT_RESERVATION_SKIP_TO_NEXT, true);
         this.mediaSession.setExtras(bundle);
         updatePlaybackState(null);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
@@ -108,25 +108,30 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         if (str == null || (1000 != i && Process.myUid() != i && !str.equals("com.google.android.mediasimulator") && !str.equals("com.google.android.projection.gearhead"))) {
             return null;
         }
-        return new MediaBrowserService.BrowserRoot("__ROOT__", null);
+        return new MediaBrowserService.BrowserRoot(MEDIA_ID_ROOT, null);
     }
 
     @Override // android.service.media.MediaBrowserService
-    public void onLoadChildren(String str, MediaBrowserService.Result<List<MediaBrowser.MediaItem>> result) {
+    public void onLoadChildren(final String str, final MediaBrowserService.Result<List<MediaBrowser.MediaItem>> result) {
         if (!this.chatsLoaded) {
             result.detach();
             if (this.loadingChats) {
                 return;
             }
             this.loadingChats = true;
-            MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-            messagesStorage.getStorageQueue().postRunnable(new MusicBrowserService$$ExternalSyntheticLambda1(this, messagesStorage, str, result));
+            final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MusicBrowserService$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MusicBrowserService.this.lambda$onLoadChildren$1(messagesStorage, str, result);
+                }
+            });
             return;
         }
         loadChildrenImpl(str, result);
     }
 
-    public /* synthetic */ void lambda$onLoadChildren$1(MessagesStorage messagesStorage, String str, MediaBrowserService.Result result) {
+    public /* synthetic */ void lambda$onLoadChildren$1(MessagesStorage messagesStorage, final String str, final MediaBrowserService.Result result) {
         try {
             ArrayList arrayList = new ArrayList();
             ArrayList arrayList2 = new ArrayList();
@@ -194,7 +199,12 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         } catch (Exception e) {
             FileLog.e(e);
         }
-        AndroidUtilities.runOnUIThread(new MusicBrowserService$$ExternalSyntheticLambda0(this, str, result));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MusicBrowserService$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                MusicBrowserService.this.lambda$onLoadChildren$0(str, result);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$onLoadChildren$0(String str, MediaBrowserService.Result result) {
@@ -251,7 +261,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         TLRPC$FileLocation tLRPC$FileLocation;
         ArrayList arrayList = new ArrayList();
         int i2 = 0;
-        if ("__ROOT__".equals(str)) {
+        if (MEDIA_ID_ROOT.equals(str)) {
             while (i2 < this.dialogs.size()) {
                 long longValue = this.dialogs.get(i2).longValue();
                 MediaDescription.Builder mediaId = new MediaDescription.Builder().setMediaId("__CHAT_" + longValue);

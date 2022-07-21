@@ -8,6 +8,11 @@ import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+import com.huawei.hms.adapter.internal.CommonCode;
+import com.huawei.hms.framework.common.hianalytics.CrashHianalyticsData;
+import com.huawei.hms.framework.network.grs.GrsBaseInfo;
+import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
+import org.telegram.messenger.R;
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
 public final class ConnectionResult extends AbstractSafeParcelable {
@@ -68,7 +73,7 @@ public final class ConnectionResult extends AbstractSafeParcelable {
             }
             switch (i) {
                 case -1:
-                    return "UNKNOWN";
+                    return GrsBaseInfo.CountryCodeSource.UNKNOWN;
                 case 0:
                     return "SUCCESS";
                 case 1:
@@ -109,13 +114,13 @@ public final class ConnectionResult extends AbstractSafeParcelable {
                             return "SERVICE_UPDATING";
                         case 19:
                             return "SERVICE_MISSING_PERMISSION";
-                        case 20:
+                        case R.styleable.MapAttrs_uiZoomControls /* 20 */:
                             return "RESTRICTED_PROFILE";
                         case 21:
                             return "API_VERSION_UPDATE_REQUIRED";
-                        case 22:
+                        case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
                             return "RESOLUTION_ACTIVITY_NOT_FOUND";
-                        case 23:
+                        case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
                             return "API_DISABLED";
                         default:
                             StringBuilder sb = new StringBuilder(31);
@@ -146,7 +151,7 @@ public final class ConnectionResult extends AbstractSafeParcelable {
 
     @RecentlyNonNull
     public final String toString() {
-        return Objects.toStringHelper(this).add("statusCode", zza(this.zzb)).add("resolution", this.zzc).add("message", this.zzd).toString();
+        return Objects.toStringHelper(this).add(HiAnalyticsConstant.HaKey.BI_KEY_RESULT, zza(this.zzb)).add(CommonCode.MapKey.HAS_RESOLUTION, this.zzc).add(CrashHianalyticsData.MESSAGE, this.zzd).toString();
     }
 
     @Override // android.os.Parcelable

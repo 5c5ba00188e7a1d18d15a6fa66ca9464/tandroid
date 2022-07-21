@@ -131,7 +131,12 @@ public class TypingDotsDrawable extends StatusDrawable {
             if (!NotificationCenter.getInstance(this.currentAccount).isAnimationInProgress()) {
                 update();
             } else {
-                AndroidUtilities.runOnUIThread(new TypingDotsDrawable$$ExternalSyntheticLambda0(this), 100L);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TypingDotsDrawable$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        TypingDotsDrawable.this.checkUpdate();
+                    }
+                }, 100L);
             }
         }
     }

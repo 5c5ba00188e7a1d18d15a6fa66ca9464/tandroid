@@ -193,13 +193,18 @@ public class Input {
         return new Point(d4 + (d5 * d2), d6 + (d7 * d) + (d8 * d2), 1.0d);
     }
 
-    private void paintPath(Path path) {
+    private void paintPath(final Path path) {
         path.setup(this.renderView.getCurrentColor(), this.renderView.getCurrentWeight(), this.renderView.getCurrentBrush());
         if (this.clearBuffer) {
             this.lastRemainder = 0.0d;
         }
         path.remainder = this.lastRemainder;
-        this.renderView.getPainting().paintStroke(path, this.clearBuffer, new Input$$ExternalSyntheticLambda1(this, path));
+        this.renderView.getPainting().paintStroke(path, this.clearBuffer, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                Input.this.lambda$paintPath$1(path);
+            }
+        });
         this.clearBuffer = false;
     }
 
@@ -207,7 +212,12 @@ public class Input {
         this.lastRemainder = path.remainder;
     }
 
-    public /* synthetic */ void lambda$paintPath$1(Path path) {
-        AndroidUtilities.runOnUIThread(new Input$$ExternalSyntheticLambda0(this, path));
+    public /* synthetic */ void lambda$paintPath$1(final Path path) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                Input.this.lambda$paintPath$0(path);
+            }
+        });
     }
 }

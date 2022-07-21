@@ -1,4 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
+import org.telegram.messenger.FileLoader;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzaj implements zzet {
@@ -98,7 +100,7 @@ public enum zzaj implements zzet {
     AUTOML_IMAGE_LABELING_CLOSE(183),
     AUTOML_IMAGE_LABELING_LOAD(184),
     MODEL_DOWNLOAD(100),
-    MODEL_UPDATE(101),
+    MODEL_UPDATE(FileLoader.MEDIA_DIR_VIDEO_PUBLIC),
     REMOTE_MODEL_IS_DOWNLOADED(251),
     REMOTE_MODEL_DELETE_ON_DEVICE(252),
     ACCELERATION_ANALYTICS(260),
@@ -145,6 +147,7 @@ public enum zzaj implements zzet {
     }
 
     static {
-        new zzam();
+        new Object() { // from class: com.google.android.gms.internal.mlkit_language_id.zzam
+        };
     }
 }

@@ -2,6 +2,7 @@ package com.huawei.agconnect.config.impl;
 
 import android.text.TextUtils;
 import android.util.Log;
+import com.huawei.hms.android.HwBuildEx;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
@@ -26,7 +27,7 @@ public class e implements g {
             String a3 = this.a.a("/code/code3", null);
             String a4 = this.a.a("/code/code4", null);
             if (a != null && a2 != null && a3 != null && a4 != null) {
-                this.b = i.a(Hex.decodeHexString(a), Hex.decodeHexString(a2), Hex.decodeHexString(a3), Hex.decodeHexString(a4), 10000);
+                this.b = i.a(Hex.decodeHexString(a), Hex.decodeHexString(a2), Hex.decodeHexString(a3), Hex.decodeHexString(a4), HwBuildEx.VersionCodes.CUR_DEVELOPMENT);
             }
         } catch (IllegalArgumentException | NoSuchAlgorithmException | InvalidKeySpecException unused) {
             Log.e("ExclamationMark", "Exception when reading the 'K&I' for 'Config'.");

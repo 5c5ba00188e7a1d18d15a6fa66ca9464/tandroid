@@ -22,7 +22,7 @@ public class FailedBinderCallBack {
     }
 
     private void agingCheck() {
-        long time = new Timestamp(System.currentTimeMillis()).getTime() - 10000;
+        long time = new Timestamp(System.currentTimeMillis()).getTime() - AGING_TIME;
         for (Long l : binderCallBackMap.keySet()) {
             if (time >= l.longValue()) {
                 binderCallBackMap.remove(l);
@@ -41,7 +41,7 @@ public class FailedBinderCallBack {
 
     private void putCallBackInMap(Long l, BinderCallBack binderCallBack) {
         if (binderCallBackMap == null) {
-            HMSLog.e("FailedBinderCallBack", "binderCallBackMap is null");
+            HMSLog.e(TAG, "binderCallBackMap is null");
             return;
         }
         agingCheck();
@@ -51,7 +51,7 @@ public class FailedBinderCallBack {
     public BinderCallBack getCallBack(Long l) {
         Map<Long, BinderCallBack> map = binderCallBackMap;
         if (map == null) {
-            HMSLog.e("FailedBinderCallBack", "binderCallBackMap is null");
+            HMSLog.e(TAG, "binderCallBackMap is null");
             return null;
         }
         return map.remove(l);

@@ -17,8 +17,13 @@ public class GcmPushListenerService extends FirebaseMessagingService {
     }
 
     @Override // com.google.firebase.messaging.FirebaseMessagingService
-    public void onNewToken(String str) {
-        AndroidUtilities.runOnUIThread(new GcmPushListenerService$$ExternalSyntheticLambda0(str));
+    public void onNewToken(final String str) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.GcmPushListenerService$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                GcmPushListenerService.lambda$onNewToken$0(str);
+            }
+        });
     }
 
     public static /* synthetic */ void lambda$onNewToken$0(String str) {

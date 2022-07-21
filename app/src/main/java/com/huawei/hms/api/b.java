@@ -17,6 +17,7 @@ import com.huawei.hms.activity.EnableServiceActivity;
 import com.huawei.hms.activity.ForegroundIntentBuilder;
 import com.huawei.hms.activity.internal.BusResponseCallback;
 import com.huawei.hms.activity.internal.BusResponseResult;
+import com.huawei.hms.adapter.internal.CommonCode;
 import com.huawei.hms.common.ErrorDialogFragment;
 import com.huawei.hms.common.HuaweiApi;
 import com.huawei.hms.common.api.AvailabilityException;
@@ -33,6 +34,7 @@ import com.huawei.hms.utils.Checker;
 import com.huawei.hms.utils.HMSPackageManager;
 import com.huawei.hms.utils.PackageManagerHelper;
 import com.huawei.hms.utils.Util;
+import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: HuaweiApiAvailabilityImpl.java */
 /* loaded from: classes.dex */
 public final class b extends HuaweiApiAvailability {
@@ -76,7 +78,7 @@ public final class b extends HuaweiApiAvailability {
         HMSLog.i("HuaweiApiAvailabilityImpl", "Enter getResolveErrorPendingIntent, errorCode: " + i);
         Intent a2 = a(context, i);
         if (a2 != null) {
-            return PendingIntent.getActivity(context, 0, a2, 67108864);
+            return PendingIntent.getActivity(context, 0, a2, ConnectionsManager.FileTypeFile);
         }
         return null;
     }
@@ -128,9 +130,9 @@ public final class b extends HuaweiApiAvailability {
         Intent resolveErrorIntent = getResolveErrorIntent(activity, isHuaweiMobileServicesAvailable);
         Intent intentStartBridgeActivity = BridgeActivity.getIntentStartBridgeActivity(activity, ResolutionDelegate.class.getName());
         if (resolveErrorIntent != null) {
-            ForegroundIntentBuilder.registerResponseCallback("CALLBACK_METHOD", new a(this, taskCompletionSourceArr));
+            ForegroundIntentBuilder.registerResponseCallback(ResolutionDelegate.CALLBACK_METHOD, new a(this, taskCompletionSourceArr));
             Bundle bundle = new Bundle();
-            bundle.putParcelable("resolution", resolveErrorIntent);
+            bundle.putParcelable(CommonCode.MapKey.HAS_RESOLUTION, resolveErrorIntent);
             intentStartBridgeActivity.putExtras(bundle);
             activity.startActivity(intentStartBridgeActivity);
         } else if (isHuaweiMobileServicesAvailable == 3) {
@@ -166,7 +168,7 @@ public final class b extends HuaweiApiAvailability {
         HMSLog.i("HuaweiApiAvailabilityImpl", "Enter getResolveErrorPendingIntent, errorCode: " + i);
         Intent resolveErrorIntent = getResolveErrorIntent(activity, i);
         if (resolveErrorIntent != null) {
-            return PendingIntent.getActivity(activity, 0, resolveErrorIntent, 67108864);
+            return PendingIntent.getActivity(activity, 0, resolveErrorIntent, ConnectionsManager.FileTypeFile);
         }
         return null;
     }
@@ -261,7 +263,7 @@ public final class b extends HuaweiApiAvailability {
         if (errorDialog == null) {
             return false;
         }
-        a(activity, errorDialog, "HuaweiMobileServicesErrorDialog", onCancelListener);
+        a(activity, errorDialog, HuaweiMobileServicesUtil.HMS_ERROR_DIALOG, onCancelListener);
         return true;
     }
 
@@ -291,7 +293,7 @@ public final class b extends HuaweiApiAvailability {
         HMSLog.i("HuaweiApiAvailabilityImpl", "Enter getResolveErrorPendingIntent, errorCode: " + i + " requestCode: " + i2);
         Intent a2 = a(context, i);
         if (a2 != null) {
-            return PendingIntent.getActivity(context, i2, a2, 67108864);
+            return PendingIntent.getActivity(context, i2, a2, ConnectionsManager.FileTypeFile);
         }
         return null;
     }

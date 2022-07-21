@@ -20,7 +20,9 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
@@ -79,7 +81,7 @@ public class ReactedHeaderView extends FrameLayout {
         ImageView imageView = new ImageView(context);
         this.iconView = imageView;
         addView(imageView, LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388627, 11.0f, 0.0f, 0.0f, 0.0f));
-        Drawable mutate = ContextCompat.getDrawable(context, 2131165893).mutate();
+        Drawable mutate = ContextCompat.getDrawable(context, R.drawable.msg_reactions).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("actionBarDefaultSubmenuItemIcon"), PorterDuff.Mode.MULTIPLY));
         this.iconView.setImageDrawable(mutate);
         this.iconView.setVisibility(8);
@@ -100,14 +102,20 @@ public class ReactedHeaderView extends FrameLayout {
         super.onAttachedToWindow();
         if (!this.isLoaded) {
             MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-            TLRPC$Chat chat = messagesController.getChat(Long.valueOf(this.message.getChatId()));
+            final TLRPC$Chat chat = messagesController.getChat(Long.valueOf(this.message.getChatId()));
             TLRPC$ChatFull chatFull = messagesController.getChatFull(this.message.getChatId());
             if (chat != null && this.message.isOutOwner() && this.message.isSent() && !this.message.isEditing() && !this.message.isSending() && !this.message.isSendError() && !this.message.isContentUnread() && !this.message.isUnread() && ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - this.message.messageOwner.date < 604800 && (ChatObject.isMegagroup(chat) || !ChatObject.isChannel(chat)) && chatFull != null && chatFull.participants_count <= MessagesController.getInstance(this.currentAccount).chatReadMarkSizeThreshold && !(this.message.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest)) {
                 TLRPC$TL_messages_getMessageReadParticipants tLRPC$TL_messages_getMessageReadParticipants = new TLRPC$TL_messages_getMessageReadParticipants();
                 tLRPC$TL_messages_getMessageReadParticipants.msg_id = this.message.getId();
                 tLRPC$TL_messages_getMessageReadParticipants.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.message.getDialogId());
                 TLRPC$Peer tLRPC$Peer = this.message.messageOwner.from_id;
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new ReactedHeaderView$$ExternalSyntheticLambda5(this, tLRPC$Peer != null ? tLRPC$Peer.user_id : 0L, chat), 64);
+                final long j = tLRPC$Peer != null ? tLRPC$Peer.user_id : 0L;
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda5
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        ReactedHeaderView.this.lambda$onAttachedToWindow$5(j, chat, tLObject, tLRPC$TL_error);
+                    }
+                }, 64);
                 return;
             }
             loadReactions();
@@ -116,7 +124,7 @@ public class ReactedHeaderView extends FrameLayout {
 
     public /* synthetic */ void lambda$onAttachedToWindow$5(long j, TLRPC$Chat tLRPC$Chat, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$Vector) {
-            ArrayList arrayList = new ArrayList();
+            final ArrayList arrayList = new ArrayList();
             Iterator<Object> it = ((TLRPC$Vector) tLObject).objects.iterator();
             while (it.hasNext()) {
                 Object next = it.next();
@@ -128,20 +136,35 @@ public class ReactedHeaderView extends FrameLayout {
                 }
             }
             arrayList.add(Long.valueOf(j));
-            ArrayList arrayList2 = new ArrayList();
-            ReactedHeaderView$$ExternalSyntheticLambda1 reactedHeaderView$$ExternalSyntheticLambda1 = new ReactedHeaderView$$ExternalSyntheticLambda1(this, arrayList2);
+            final ArrayList arrayList2 = new ArrayList();
+            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ReactedHeaderView.this.lambda$onAttachedToWindow$0(arrayList2);
+                }
+            };
             if (ChatObject.isChannel(tLRPC$Chat)) {
                 TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants = new TLRPC$TL_channels_getParticipants();
                 tLRPC$TL_channels_getParticipants.limit = MessagesController.getInstance(this.currentAccount).chatReadMarkSizeThreshold;
                 tLRPC$TL_channels_getParticipants.offset = 0;
                 tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsRecent();
                 tLRPC$TL_channels_getParticipants.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(tLRPC$Chat.id);
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getParticipants, new ReactedHeaderView$$ExternalSyntheticLambda7(this, arrayList, arrayList2, reactedHeaderView$$ExternalSyntheticLambda1));
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda7
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
+                        ReactedHeaderView.this.lambda$onAttachedToWindow$2(arrayList, arrayList2, runnable, tLObject2, tLRPC$TL_error2);
+                    }
+                });
                 return;
             }
             TLRPC$TL_messages_getFullChat tLRPC$TL_messages_getFullChat = new TLRPC$TL_messages_getFullChat();
             tLRPC$TL_messages_getFullChat.chat_id = tLRPC$Chat.id;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getFullChat, new ReactedHeaderView$$ExternalSyntheticLambda6(this, arrayList, arrayList2, reactedHeaderView$$ExternalSyntheticLambda1));
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getFullChat, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda6
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
+                    ReactedHeaderView.this.lambda$onAttachedToWindow$4(arrayList, arrayList2, runnable, tLObject2, tLRPC$TL_error2);
+                }
+            });
         }
     }
 
@@ -173,8 +196,13 @@ public class ReactedHeaderView extends FrameLayout {
         loadReactions();
     }
 
-    public /* synthetic */ void lambda$onAttachedToWindow$2(List list, List list2, Runnable runnable, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new ReactedHeaderView$$ExternalSyntheticLambda2(this, tLObject, list, list2, runnable));
+    public /* synthetic */ void lambda$onAttachedToWindow$2(final List list, final List list2, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                ReactedHeaderView.this.lambda$onAttachedToWindow$1(tLObject, list, list2, runnable);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$onAttachedToWindow$1(TLObject tLObject, List list, List list2, Runnable runnable) {
@@ -191,8 +219,13 @@ public class ReactedHeaderView extends FrameLayout {
         runnable.run();
     }
 
-    public /* synthetic */ void lambda$onAttachedToWindow$4(List list, List list2, Runnable runnable, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new ReactedHeaderView$$ExternalSyntheticLambda3(this, tLObject, list, list2, runnable));
+    public /* synthetic */ void lambda$onAttachedToWindow$4(final List list, final List list2, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                ReactedHeaderView.this.lambda$onAttachedToWindow$3(tLObject, list, list2, runnable);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$onAttachedToWindow$3(TLObject tLObject, List list, List list2, Runnable runnable) {
@@ -217,13 +250,24 @@ public class ReactedHeaderView extends FrameLayout {
         tLRPC$TL_messages_getMessageReactionsList.limit = 3;
         tLRPC$TL_messages_getMessageReactionsList.reaction = null;
         tLRPC$TL_messages_getMessageReactionsList.offset = null;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReactionsList, new ReactedHeaderView$$ExternalSyntheticLambda4(this), 64);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReactionsList, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda4
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ReactedHeaderView.this.lambda$loadReactions$7(tLObject, tLRPC$TL_error);
+            }
+        }, 64);
     }
 
     public /* synthetic */ void lambda$loadReactions$7(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$TL_messages_messageReactionsList) {
-            TLRPC$TL_messages_messageReactionsList tLRPC$TL_messages_messageReactionsList = (TLRPC$TL_messages_messageReactionsList) tLObject;
-            post(new ReactedHeaderView$$ExternalSyntheticLambda0(this, tLRPC$TL_messages_messageReactionsList.count, tLRPC$TL_messages_messageReactionsList));
+            final TLRPC$TL_messages_messageReactionsList tLRPC$TL_messages_messageReactionsList = (TLRPC$TL_messages_messageReactionsList) tLObject;
+            final int i = tLRPC$TL_messages_messageReactionsList.count;
+            post(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ReactedHeaderView.this.lambda$loadReactions$6(i, tLRPC$TL_messages_messageReactionsList);
+                }
+            });
         }
     }
 

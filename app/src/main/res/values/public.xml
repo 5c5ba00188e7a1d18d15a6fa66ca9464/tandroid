@@ -7328,44 +7328,44 @@
     <public type="string" name="push_cat_head" id="0x7f0e15a1" />
     <public type="string" name="status_bar_notification_info_overflow" id="0x7f0e15a2" />
     <public type="string" name="wallet_buy_button_place_holder" id="0x7f0e15a3" />
-    <public type="style" name="ActionBar.Transparent.TMessages.Item" id="0x7f0f0000" />
-    <public type="style" name="ActionBar.Transparent.TMessages.Start" id="0x7f0f0001" />
-    <public type="style" name="Base.TMessages.AppWidget.Background" id="0x7f0f0002" />
-    <public type="style" name="Base.TMessages.AppWidget.Badge" id="0x7f0f0003" />
-    <public type="style" name="Base.Theme.TMessages.AppWidget" id="0x7f0f0004" />
+    <public type="style" name="ActionBar_Transparent_TMessages_Item" id="0x7f0f0000" />
+    <public type="style" name="ActionBar_Transparent_TMessages_Start" id="0x7f0f0001" />
+    <public type="style" name="Base_TMessages_AppWidget_Background" id="0x7f0f0002" />
+    <public type="style" name="Base_TMessages_AppWidget_Badge" id="0x7f0f0003" />
+    <public type="style" name="Base_Theme_TMessages_AppWidget" id="0x7f0f0004" />
     <public type="style" name="Base_Translucent" id="0x7f0f0005" />
     <public type="style" name="DialogNoAnimation" id="0x7f0f0006" />
     <public type="style" name="MyTextViewStyle" id="0x7f0f0007" />
     <public type="style" name="PopupAnimation" id="0x7f0f0008" />
     <public type="style" name="PopupContextAnimation" id="0x7f0f0009" />
     <public type="style" name="PopupContextAnimation2" id="0x7f0f000a" />
-    <public type="style" name="TMessages.AppWidget.Background" id="0x7f0f000b" />
-    <public type="style" name="TMessages.AppWidget.Badge" id="0x7f0f000c" />
-    <public type="style" name="TextAppearance.Compat.Notification" id="0x7f0f000d" />
-    <public type="style" name="TextAppearance.Compat.Notification.Info" id="0x7f0f000e" />
-    <public type="style" name="TextAppearance.Compat.Notification.Line2" id="0x7f0f000f" />
-    <public type="style" name="TextAppearance.Compat.Notification.Time" id="0x7f0f0010" />
-    <public type="style" name="TextAppearance.Compat.Notification.Title" id="0x7f0f0011" />
-    <public type="style" name="Theme.TMessages" id="0x7f0f0012" />
-    <public type="style" name="Theme.TMessages.AppWidget" id="0x7f0f0013" />
-    <public type="style" name="Theme.TMessages.AppWidget.Preview" id="0x7f0f0014" />
-    <public type="style" name="Theme.TMessages.AppWidget.Preview2" id="0x7f0f0015" />
-    <public type="style" name="Theme.TMessages.AppWidget.Preview3" id="0x7f0f0016" />
-    <public type="style" name="Theme.TMessages.AppWidget.Preview4" id="0x7f0f0017" />
-    <public type="style" name="Theme.TMessages.AppWidget.Preview5" id="0x7f0f0018" />
-    <public type="style" name="Theme.TMessages.AppWidget.Preview6" id="0x7f0f0019" />
-    <public type="style" name="Theme.TMessages.AppWidget.Preview7" id="0x7f0f001a" />
-    <public type="style" name="Theme.TMessages.BorderLessButton" id="0x7f0f001b" />
-    <public type="style" name="Theme.TMessages.CalendarView" id="0x7f0f001c" />
-    <public type="style" name="Theme.TMessages.DatePicker" id="0x7f0f001d" />
-    <public type="style" name="Theme.TMessages.DayOfWeek" id="0x7f0f001e" />
-    <public type="style" name="Theme.TMessages.Dialog.Alert" id="0x7f0f001f" />
-    <public type="style" name="Theme.TMessages.ListView" id="0x7f0f0020" />
-    <public type="style" name="Theme.TMessages.PopupNotification" id="0x7f0f0021" />
-    <public type="style" name="Theme.TMessages.Start" id="0x7f0f0022" />
-    <public type="style" name="Theme.TMessages.TimePicker" id="0x7f0f0023" />
-    <public type="style" name="Theme.TMessages.Transparent" id="0x7f0f0024" />
-    <public type="style" name="Theme.TMessages.TransparentWithAlerts" id="0x7f0f0025" />
+    <public type="style" name="TMessages_AppWidget_Background" id="0x7f0f000b" />
+    <public type="style" name="TMessages_AppWidget_Badge" id="0x7f0f000c" />
+    <public type="style" name="TextAppearance_Compat_Notification" id="0x7f0f000d" />
+    <public type="style" name="TextAppearance_Compat_Notification_Info" id="0x7f0f000e" />
+    <public type="style" name="TextAppearance_Compat_Notification_Line2" id="0x7f0f000f" />
+    <public type="style" name="TextAppearance_Compat_Notification_Time" id="0x7f0f0010" />
+    <public type="style" name="TextAppearance_Compat_Notification_Title" id="0x7f0f0011" />
+    <public type="style" name="Theme_TMessages" id="0x7f0f0012" />
+    <public type="style" name="Theme_TMessages_AppWidget" id="0x7f0f0013" />
+    <public type="style" name="Theme_TMessages_AppWidget_Preview" id="0x7f0f0014" />
+    <public type="style" name="Theme_TMessages_AppWidget_Preview2" id="0x7f0f0015" />
+    <public type="style" name="Theme_TMessages_AppWidget_Preview3" id="0x7f0f0016" />
+    <public type="style" name="Theme_TMessages_AppWidget_Preview4" id="0x7f0f0017" />
+    <public type="style" name="Theme_TMessages_AppWidget_Preview5" id="0x7f0f0018" />
+    <public type="style" name="Theme_TMessages_AppWidget_Preview6" id="0x7f0f0019" />
+    <public type="style" name="Theme_TMessages_AppWidget_Preview7" id="0x7f0f001a" />
+    <public type="style" name="Theme_TMessages_BorderLessButton" id="0x7f0f001b" />
+    <public type="style" name="Theme_TMessages_CalendarView" id="0x7f0f001c" />
+    <public type="style" name="Theme_TMessages_DatePicker" id="0x7f0f001d" />
+    <public type="style" name="Theme_TMessages_DayOfWeek" id="0x7f0f001e" />
+    <public type="style" name="Theme_TMessages_Dialog_Alert" id="0x7f0f001f" />
+    <public type="style" name="Theme_TMessages_ListView" id="0x7f0f0020" />
+    <public type="style" name="Theme_TMessages_PopupNotification" id="0x7f0f0021" />
+    <public type="style" name="Theme_TMessages_Start" id="0x7f0f0022" />
+    <public type="style" name="Theme_TMessages_TimePicker" id="0x7f0f0023" />
+    <public type="style" name="Theme_TMessages_Transparent" id="0x7f0f0024" />
+    <public type="style" name="Theme_TMessages_TransparentWithAlerts" id="0x7f0f0025" />
     <public type="style" name="TransparentDialog" id="0x7f0f0026" />
     <public type="style" name="TransparentDialog2" id="0x7f0f0027" />
     <public type="style" name="TransparentDialogNoAnimation" id="0x7f0f0028" />
@@ -7373,9 +7373,9 @@
     <public type="style" name="WalletFragmentDefaultDetailsHeaderTextAppearance" id="0x7f0f002a" />
     <public type="style" name="WalletFragmentDefaultDetailsTextAppearance" id="0x7f0f002b" />
     <public type="style" name="WalletFragmentDefaultStyle" id="0x7f0f002c" />
-    <public type="style" name="Widget.Compat.NotificationActionContainer" id="0x7f0f002d" />
-    <public type="style" name="Widget.Compat.NotificationActionText" id="0x7f0f002e" />
-    <public type="style" name="Widget.Support.CoordinatorLayout" id="0x7f0f002f" />
+    <public type="style" name="Widget_Compat_NotificationActionContainer" id="0x7f0f002d" />
+    <public type="style" name="Widget_Compat_NotificationActionText" id="0x7f0f002e" />
+    <public type="style" name="Widget_Support_CoordinatorLayout" id="0x7f0f002f" />
     <public type="style" name="scrollbarShapeStyle" id="0x7f0f0030" />
     <public type="xml" name="actions" id="0x7f110000" />
     <public type="xml" name="auth" id="0x7f110001" />

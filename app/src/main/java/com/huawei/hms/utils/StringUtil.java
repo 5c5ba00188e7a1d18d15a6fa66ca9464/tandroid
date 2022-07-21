@@ -1,5 +1,6 @@
 package com.huawei.hms.utils;
 
+import com.huawei.hms.framework.common.ExceptionCode;
 import java.util.regex.Pattern;
 /* loaded from: classes.dex */
 public class StringUtil {
@@ -30,7 +31,7 @@ public class StringUtil {
             if (split.length < 3) {
                 return 0;
             }
-            int parseInt = (Integer.parseInt(split[0]) * 10000000) + (Integer.parseInt(split[1]) * 100000) + (Integer.parseInt(split[2]) * 1000);
+            int parseInt = (Integer.parseInt(split[0]) * ExceptionCode.CRASH_EXCEPTION) + (Integer.parseInt(split[1]) * 100000) + (Integer.parseInt(split[2]) * 1000);
             return split.length == 4 ? parseInt + Integer.parseInt(split[3]) : parseInt;
         }
         return 0;

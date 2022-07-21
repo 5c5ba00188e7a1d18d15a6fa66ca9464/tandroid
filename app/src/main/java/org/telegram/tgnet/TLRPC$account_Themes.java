@@ -6,7 +6,14 @@ public abstract class TLRPC$account_Themes extends TLObject {
         if (i == -1707242387) {
             tLRPC$account_Themes = new TLRPC$TL_account_themes();
         } else {
-            tLRPC$account_Themes = i != -199313886 ? null : new TLRPC$TL_account_themesNotModified();
+            tLRPC$account_Themes = i != -199313886 ? null : new TLRPC$account_Themes() { // from class: org.telegram.tgnet.TLRPC$TL_account_themesNotModified
+                public static int constructor = -199313886;
+
+                @Override // org.telegram.tgnet.TLObject
+                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                    abstractSerializedData2.writeInt32(constructor);
+                }
+            };
         }
         if (tLRPC$account_Themes != null || !z) {
             if (tLRPC$account_Themes != null) {

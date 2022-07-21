@@ -45,6 +45,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$Message;
@@ -58,6 +59,7 @@ import org.telegram.ui.Components.Scroller;
 import org.telegram.ui.Components.TimerParticles;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.PhotoViewer;
+import org.telegram.ui.SecretMediaViewer;
 /* loaded from: classes3.dex */
 public class SecretMediaViewer implements NotificationCenter.NotificationCenterDelegate, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
     @SuppressLint({"StaticFieldLeak"})
@@ -256,7 +258,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             Paint paint3 = new Paint(1);
             this.circlePaint = paint3;
             paint3.setColor(2130706432);
-            this.drawable = context.getResources().getDrawable(2131165408);
+            this.drawable = context.getResources().getDrawable(R.drawable.flame_small);
         }
 
         public void setDestroyTime(long j, long j2, boolean z) {
@@ -464,13 +466,13 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             }
             if (i == 4 || i == 1) {
                 try {
-                    SecretMediaViewer.this.parentActivity.getWindow().clearFlags(128);
+                    SecretMediaViewer.this.parentActivity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
             } else {
                 try {
-                    SecretMediaViewer.this.parentActivity.getWindow().addFlags(128);
+                    SecretMediaViewer.this.parentActivity.getWindow().addFlags(ConnectionsManager.RequestFlagNeedQuickAck);
                 } catch (Exception e2) {
                     FileLog.e(e2);
                 }
@@ -503,7 +505,13 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         public void onError(VideoPlayer videoPlayer, Exception exc) {
             if (SecretMediaViewer.this.playerRetryPlayCount > 0) {
                 SecretMediaViewer.access$1210(SecretMediaViewer.this);
-                AndroidUtilities.runOnUIThread(new SecretMediaViewer$1$$ExternalSyntheticLambda0(this, this.val$file), 100L);
+                final File file = this.val$file;
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$1$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        SecretMediaViewer.AnonymousClass1.this.lambda$onError$0(file);
+                    }
+                }, 100L);
                 return;
             }
             FileLog.e(exc);
@@ -543,7 +551,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         try {
             Activity activity = this.parentActivity;
             if (activity != null) {
-                activity.getWindow().clearFlags(128);
+                activity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
             }
         } catch (Exception e) {
             FileLog.e(e);
@@ -568,14 +576,81 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
         this.parentActivity = activity;
         this.scroller = new Scroller(activity);
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(activity);
-        this.windowView = anonymousClass2;
-        anonymousClass2.setBackgroundDrawable(this.photoBackgroundDrawable);
+        FrameLayout frameLayout = new FrameLayout(activity) { // from class: org.telegram.ui.SecretMediaViewer.2
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i2, int i3) {
+                int size = View.MeasureSpec.getSize(i2);
+                int size2 = View.MeasureSpec.getSize(i3);
+                int i4 = Build.VERSION.SDK_INT;
+                if (i4 >= 21 && SecretMediaViewer.this.lastInsets != null) {
+                    WindowInsets windowInsets = (WindowInsets) SecretMediaViewer.this.lastInsets;
+                    if (AndroidUtilities.incorrectDisplaySizeFix) {
+                        int i5 = AndroidUtilities.displaySize.y;
+                        if (size2 > i5) {
+                            size2 = i5;
+                        }
+                        size2 += AndroidUtilities.statusBarHeight;
+                    }
+                    size2 -= windowInsets.getSystemWindowInsetBottom();
+                    size -= windowInsets.getSystemWindowInsetRight();
+                } else {
+                    int i6 = AndroidUtilities.displaySize.y;
+                    if (size2 > i6) {
+                        size2 = i6;
+                    }
+                }
+                setMeasuredDimension(size, size2);
+                if (i4 >= 21 && SecretMediaViewer.this.lastInsets != null) {
+                    size -= ((WindowInsets) SecretMediaViewer.this.lastInsets).getSystemWindowInsetLeft();
+                }
+                SecretMediaViewer.this.containerView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
+            }
+
+            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                int systemWindowInsetLeft = (Build.VERSION.SDK_INT < 21 || SecretMediaViewer.this.lastInsets == null) ? 0 : ((WindowInsets) SecretMediaViewer.this.lastInsets).getSystemWindowInsetLeft() + 0;
+                SecretMediaViewer.this.containerView.layout(systemWindowInsetLeft, 0, SecretMediaViewer.this.containerView.getMeasuredWidth() + systemWindowInsetLeft, SecretMediaViewer.this.containerView.getMeasuredHeight());
+                if (z) {
+                    if (SecretMediaViewer.this.imageMoveAnimation == null) {
+                        SecretMediaViewer.this.scale = 1.0f;
+                        SecretMediaViewer.this.translationX = 0.0f;
+                        SecretMediaViewer.this.translationY = 0.0f;
+                    }
+                    SecretMediaViewer secretMediaViewer = SecretMediaViewer.this;
+                    secretMediaViewer.updateMinMax(secretMediaViewer.scale);
+                }
+            }
+
+            @Override // android.view.View
+            protected void onDraw(Canvas canvas) {
+                if (Build.VERSION.SDK_INT < 21 || !SecretMediaViewer.this.isVisible || SecretMediaViewer.this.lastInsets == null) {
+                    return;
+                }
+                WindowInsets windowInsets = (WindowInsets) SecretMediaViewer.this.lastInsets;
+                if (SecretMediaViewer.this.photoAnimationInProgress != 0) {
+                    SecretMediaViewer.this.blackPaint.setAlpha(SecretMediaViewer.this.photoBackgroundDrawable.getAlpha());
+                } else {
+                    SecretMediaViewer.this.blackPaint.setAlpha(255);
+                }
+                canvas.drawRect(0.0f, getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight() + windowInsets.getSystemWindowInsetBottom(), SecretMediaViewer.this.blackPaint);
+            }
+        };
+        this.windowView = frameLayout;
+        frameLayout.setBackgroundDrawable(this.photoBackgroundDrawable);
         this.windowView.setFocusable(true);
         this.windowView.setFocusableInTouchMode(true);
-        AnonymousClass3 anonymousClass3 = new AnonymousClass3(activity);
-        this.containerView = anonymousClass3;
-        anonymousClass3.setFocusable(false);
+        FrameLayoutDrawer frameLayoutDrawer = new FrameLayoutDrawer(activity) { // from class: org.telegram.ui.SecretMediaViewer.3
+            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                super.onLayout(z, i2, i3, i4, i5);
+                if (SecretMediaViewer.this.secretDeleteTimer != null) {
+                    int currentActionBarHeight = ((ActionBar.getCurrentActionBarHeight() - SecretMediaViewer.this.secretDeleteTimer.getMeasuredHeight()) / 2) + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
+                    SecretMediaViewer.this.secretDeleteTimer.layout(SecretMediaViewer.this.secretDeleteTimer.getLeft(), currentActionBarHeight, SecretMediaViewer.this.secretDeleteTimer.getRight(), SecretMediaViewer.this.secretDeleteTimer.getMeasuredHeight() + currentActionBarHeight);
+                }
+            }
+        };
+        this.containerView = frameLayoutDrawer;
+        frameLayoutDrawer.setFocusable(false);
         this.windowView.addView(this.containerView);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.containerView.getLayoutParams();
         layoutParams.width = -1;
@@ -585,7 +660,14 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         int i2 = Build.VERSION.SDK_INT;
         if (i2 >= 21) {
             this.containerView.setFitsSystemWindows(true);
-            this.containerView.setOnApplyWindowInsetsListener(new SecretMediaViewer$$ExternalSyntheticLambda0(this));
+            this.containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.SecretMediaViewer$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnApplyWindowInsetsListener
+                public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                    WindowInsets lambda$setParentActivity$0;
+                    lambda$setParentActivity$0 = SecretMediaViewer.this.lambda$setParentActivity$0(view, windowInsets);
+                    return lambda$setParentActivity$0;
+                }
+            });
             this.containerView.setSystemUiVisibility(1280);
         }
         GestureDetector gestureDetector = new GestureDetector(this.containerView.getContext(), this);
@@ -598,10 +680,17 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         this.actionBar.setBackgroundColor(2130706432);
         this.actionBar.setOccupyStatusBar(i2 >= 21);
         this.actionBar.setItemsBackgroundColor(1090519039, false);
-        this.actionBar.setBackButtonImage(2131165449);
+        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setTitleRightMargin(AndroidUtilities.dp(70.0f));
         this.containerView.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass4());
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.SecretMediaViewer.4
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i3) {
+                if (i3 == -1) {
+                    SecretMediaViewer.this.closePhoto(true, false);
+                }
+            }
+        });
         SecretDeleteTimer secretDeleteTimer = new SecretDeleteTimer(activity);
         this.secretDeleteTimer = secretDeleteTimer;
         this.containerView.addView(secretDeleteTimer, LayoutHelper.createFrame(119, 48.0f, 53, 0.0f, 0.0f, 0.0f, 0.0f));
@@ -622,93 +711,6 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         this.centerImage.setForceCrossfade(true);
     }
 
-    /* renamed from: org.telegram.ui.SecretMediaViewer$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends FrameLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            SecretMediaViewer.this = r1;
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            int size = View.MeasureSpec.getSize(i);
-            int size2 = View.MeasureSpec.getSize(i2);
-            int i3 = Build.VERSION.SDK_INT;
-            if (i3 >= 21 && SecretMediaViewer.this.lastInsets != null) {
-                WindowInsets windowInsets = (WindowInsets) SecretMediaViewer.this.lastInsets;
-                if (AndroidUtilities.incorrectDisplaySizeFix) {
-                    int i4 = AndroidUtilities.displaySize.y;
-                    if (size2 > i4) {
-                        size2 = i4;
-                    }
-                    size2 += AndroidUtilities.statusBarHeight;
-                }
-                size2 -= windowInsets.getSystemWindowInsetBottom();
-                size -= windowInsets.getSystemWindowInsetRight();
-            } else {
-                int i5 = AndroidUtilities.displaySize.y;
-                if (size2 > i5) {
-                    size2 = i5;
-                }
-            }
-            setMeasuredDimension(size, size2);
-            if (i3 >= 21 && SecretMediaViewer.this.lastInsets != null) {
-                size -= ((WindowInsets) SecretMediaViewer.this.lastInsets).getSystemWindowInsetLeft();
-            }
-            SecretMediaViewer.this.containerView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
-        }
-
-        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            int systemWindowInsetLeft = (Build.VERSION.SDK_INT < 21 || SecretMediaViewer.this.lastInsets == null) ? 0 : ((WindowInsets) SecretMediaViewer.this.lastInsets).getSystemWindowInsetLeft() + 0;
-            SecretMediaViewer.this.containerView.layout(systemWindowInsetLeft, 0, SecretMediaViewer.this.containerView.getMeasuredWidth() + systemWindowInsetLeft, SecretMediaViewer.this.containerView.getMeasuredHeight());
-            if (z) {
-                if (SecretMediaViewer.this.imageMoveAnimation == null) {
-                    SecretMediaViewer.this.scale = 1.0f;
-                    SecretMediaViewer.this.translationX = 0.0f;
-                    SecretMediaViewer.this.translationY = 0.0f;
-                }
-                SecretMediaViewer secretMediaViewer = SecretMediaViewer.this;
-                secretMediaViewer.updateMinMax(secretMediaViewer.scale);
-            }
-        }
-
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            if (Build.VERSION.SDK_INT < 21 || !SecretMediaViewer.this.isVisible || SecretMediaViewer.this.lastInsets == null) {
-                return;
-            }
-            WindowInsets windowInsets = (WindowInsets) SecretMediaViewer.this.lastInsets;
-            if (SecretMediaViewer.this.photoAnimationInProgress != 0) {
-                SecretMediaViewer.this.blackPaint.setAlpha(SecretMediaViewer.this.photoBackgroundDrawable.getAlpha());
-            } else {
-                SecretMediaViewer.this.blackPaint.setAlpha(255);
-            }
-            canvas.drawRect(0.0f, getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight() + windowInsets.getSystemWindowInsetBottom(), SecretMediaViewer.this.blackPaint);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.SecretMediaViewer$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends FrameLayoutDrawer {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(Context context) {
-            super(context);
-            SecretMediaViewer.this = r1;
-        }
-
-        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            super.onLayout(z, i, i2, i3, i4);
-            if (SecretMediaViewer.this.secretDeleteTimer != null) {
-                int currentActionBarHeight = ((ActionBar.getCurrentActionBarHeight() - SecretMediaViewer.this.secretDeleteTimer.getMeasuredHeight()) / 2) + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
-                SecretMediaViewer.this.secretDeleteTimer.layout(SecretMediaViewer.this.secretDeleteTimer.getLeft(), currentActionBarHeight, SecretMediaViewer.this.secretDeleteTimer.getRight(), SecretMediaViewer.this.secretDeleteTimer.getMeasuredHeight() + currentActionBarHeight);
-            }
-        }
-    }
-
     public /* synthetic */ WindowInsets lambda$setParentActivity$0(View view, WindowInsets windowInsets) {
         WindowInsets windowInsets2 = (WindowInsets) this.lastInsets;
         this.lastInsets = windowInsets;
@@ -721,23 +723,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         return windowInsets.consumeSystemWindowInsets();
     }
 
-    /* renamed from: org.telegram.ui.SecretMediaViewer$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass4() {
-            SecretMediaViewer.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                SecretMediaViewer.this.closePhoto(true, false);
-            }
-        }
-    }
-
-    public void openMedia(MessageObject messageObject, PhotoViewer.PhotoViewerProvider photoViewerProvider, Runnable runnable) {
-        PhotoViewer.PlaceProviderObject placeForPhoto;
+    public void openMedia(MessageObject messageObject, PhotoViewer.PhotoViewerProvider photoViewerProvider, final Runnable runnable) {
+        final PhotoViewer.PlaceProviderObject placeForPhoto;
         int i;
         char c;
         int i2;
@@ -845,7 +832,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         this.currentThumb = placeForPhoto.imageReceiver.getThumbBitmapSafe();
         if (document != null) {
             if (MessageObject.isGifDocument(document)) {
-                this.actionBar.setTitle(LocaleController.getString("DisappearingGif", 2131625499));
+                this.actionBar.setTitle(LocaleController.getString("DisappearingGif", R.string.DisappearingGif));
                 i2 = 21;
                 c = 4;
                 this.centerImage.setImage(ImageLocation.getForDocument(document), (String) null, this.currentThumb != null ? new BitmapDrawable(this.currentThumb.bitmap) : null, -1L, (String) null, messageObject, 1);
@@ -856,7 +843,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 i2 = 21;
                 c = 4;
                 this.playerRetryPlayCount = 1;
-                this.actionBar.setTitle(LocaleController.getString("DisappearingVideo", 2131625501));
+                this.actionBar.setTitle(LocaleController.getString("DisappearingVideo", R.string.DisappearingVideo));
                 File file = new File(messageObject.messageOwner.attachPath);
                 if (file.exists()) {
                     preparePlayer(file);
@@ -881,7 +868,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         } else {
             i2 = 21;
             c = 4;
-            this.actionBar.setTitle(LocaleController.getString("DisappearingPhoto", 2131625500));
+            this.actionBar.setTitle(LocaleController.getString("DisappearingPhoto", R.string.DisappearingPhoto));
             this.centerImage.setImage(ImageLocation.getForObject(FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize()), messageObject.photoThumbsObject), (String) null, this.currentThumb != null ? new BitmapDrawable(this.currentThumb.bitmap) : null, -1L, (String) null, messageObject, 2);
             SecretDeleteTimer secretDeleteTimer3 = this.secretDeleteTimer;
             TLRPC$Message tLRPC$Message3 = messageObject.messageOwner;
@@ -915,16 +902,34 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         animatorArr[c] = ObjectAnimator.ofFloat(this, "animationValue", 0.0f, 1.0f);
         animatorSet.playTogether(animatorArr);
         this.photoAnimationInProgress = 3;
-        this.photoAnimationEndRunnable = new SecretMediaViewer$$ExternalSyntheticLambda2(this, runnable);
+        this.photoAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                SecretMediaViewer.this.lambda$openMedia$1(runnable);
+            }
+        };
         this.imageMoveAnimation.setDuration(250L);
-        this.imageMoveAnimation.addListener(new AnonymousClass5());
+        this.imageMoveAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SecretMediaViewer.5
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (SecretMediaViewer.this.photoAnimationEndRunnable != null) {
+                    SecretMediaViewer.this.photoAnimationEndRunnable.run();
+                    SecretMediaViewer.this.photoAnimationEndRunnable = null;
+                }
+            }
+        });
         this.photoTransitionAnimationStartTime = System.currentTimeMillis();
         if (i7 >= 18) {
             this.containerView.setLayerType(2, null);
         }
         this.imageMoveAnimation.setInterpolator(new DecelerateInterpolator());
         this.photoBackgroundDrawable.frame = 0;
-        this.photoBackgroundDrawable.drawRunnable = new SecretMediaViewer$$ExternalSyntheticLambda4(this, placeForPhoto);
+        this.photoBackgroundDrawable.drawRunnable = new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                SecretMediaViewer.this.lambda$openMedia$2(placeForPhoto);
+            }
+        };
         this.imageMoveAnimation.start();
     }
 
@@ -946,22 +951,6 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             return;
         }
         closePhoto(true, true);
-    }
-
-    /* renamed from: org.telegram.ui.SecretMediaViewer$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends AnimatorListenerAdapter {
-        AnonymousClass5() {
-            SecretMediaViewer.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (SecretMediaViewer.this.photoAnimationEndRunnable != null) {
-                SecretMediaViewer.this.photoAnimationEndRunnable.run();
-                SecretMediaViewer.this.photoAnimationEndRunnable = null;
-            }
-        }
     }
 
     public /* synthetic */ void lambda$openMedia$2(PhotoViewer.PlaceProviderObject placeProviderObject) {
@@ -995,7 +984,16 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             this.currentActionBarAnimation = animatorSet;
             animatorSet.playTogether(arrayList);
             if (!z) {
-                this.currentActionBarAnimation.addListener(new AnonymousClass6());
+                this.currentActionBarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SecretMediaViewer.6
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        if (SecretMediaViewer.this.currentActionBarAnimation == null || !SecretMediaViewer.this.currentActionBarAnimation.equals(animator)) {
+                            return;
+                        }
+                        SecretMediaViewer.this.actionBar.setVisibility(8);
+                        SecretMediaViewer.this.currentActionBarAnimation = null;
+                    }
+                });
             }
             this.currentActionBarAnimation.setDuration(200L);
             this.currentActionBarAnimation.start();
@@ -1010,23 +1008,6 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             return;
         }
         this.actionBar.setVisibility(8);
-    }
-
-    /* renamed from: org.telegram.ui.SecretMediaViewer$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 extends AnimatorListenerAdapter {
-        AnonymousClass6() {
-            SecretMediaViewer.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (SecretMediaViewer.this.currentActionBarAnimation == null || !SecretMediaViewer.this.currentActionBarAnimation.equals(animator)) {
-                return;
-            }
-            SecretMediaViewer.this.actionBar.setVisibility(8);
-            SecretMediaViewer.this.currentActionBarAnimation = null;
-        }
     }
 
     public boolean isVisible() {
@@ -1347,7 +1328,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean closePhoto(boolean z, boolean z2) {
-        PhotoViewer.PlaceProviderObject placeProviderObject;
+        final PhotoViewer.PlaceProviderObject placeProviderObject;
         VideoPlayer videoPlayer;
         int i;
         int[] iArr;
@@ -1429,7 +1410,12 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                         this.centerImage.setManualAlphaAnimator(true);
                         this.imageMoveAnimation.playTogether(ObjectAnimator.ofInt(this.photoBackgroundDrawable, (Property<PhotoBackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0), ObjectAnimator.ofFloat(this, "animationValue", 0.0f, 1.0f), ObjectAnimator.ofFloat(this.actionBar, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.secretDeleteTimer, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.centerImage, "currentAlpha", 0.0f));
                     }
-                    this.photoAnimationEndRunnable = new SecretMediaViewer$$ExternalSyntheticLambda5(this, placeProviderObject);
+                    this.photoAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$$ExternalSyntheticLambda5
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            SecretMediaViewer.this.lambda$closePhoto$3(placeProviderObject);
+                        }
+                    };
                     this.imageMoveAnimation.setInterpolator(new DecelerateInterpolator());
                     this.imageMoveAnimation.setDuration(250L);
                     this.imageMoveAnimation.addListener(new AnonymousClass7(placeProviderObject));
@@ -1442,9 +1428,22 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     AnimatorSet animatorSet = new AnimatorSet();
                     animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.SCALE_X, 0.9f), ObjectAnimator.ofFloat(this.containerView, View.SCALE_Y, 0.9f), ObjectAnimator.ofInt(this.photoBackgroundDrawable, (Property<PhotoBackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0), ObjectAnimator.ofFloat(this.actionBar, View.ALPHA, 0.0f));
                     this.photoAnimationInProgress = 2;
-                    this.photoAnimationEndRunnable = new SecretMediaViewer$$ExternalSyntheticLambda3(this, placeProviderObject);
+                    this.photoAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$$ExternalSyntheticLambda3
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            SecretMediaViewer.this.lambda$closePhoto$4(placeProviderObject);
+                        }
+                    };
                     animatorSet.setDuration(200L);
-                    animatorSet.addListener(new AnonymousClass8());
+                    animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SecretMediaViewer.8
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            if (SecretMediaViewer.this.photoAnimationEndRunnable != null) {
+                                SecretMediaViewer.this.photoAnimationEndRunnable.run();
+                                SecretMediaViewer.this.photoAnimationEndRunnable = null;
+                            }
+                        }
+                    });
                     this.photoTransitionAnimationStartTime = System.currentTimeMillis();
                     if (Build.VERSION.SDK_INT >= 18) {
                         this.containerView.setLayerType(2, null);
@@ -1490,7 +1489,12 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 placeProviderObject.imageReceiver.setVisible(true, true);
             }
             SecretMediaViewer.this.isVisible = false;
-            AndroidUtilities.runOnUIThread(new SecretMediaViewer$7$$ExternalSyntheticLambda0(this));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$7$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SecretMediaViewer.AnonymousClass7.this.lambda$onAnimationEnd$0();
+                }
+            });
         }
 
         public /* synthetic */ void lambda$onAnimationEnd$0() {
@@ -1516,29 +1520,18 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         this.containerView.setScaleY(1.0f);
     }
 
-    /* renamed from: org.telegram.ui.SecretMediaViewer$8 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass8 extends AnimatorListenerAdapter {
-        AnonymousClass8() {
-            SecretMediaViewer.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (SecretMediaViewer.this.photoAnimationEndRunnable != null) {
-                SecretMediaViewer.this.photoAnimationEndRunnable.run();
-                SecretMediaViewer.this.photoAnimationEndRunnable = null;
-            }
-        }
-    }
-
     private void onPhotoClosed(PhotoViewer.PlaceProviderObject placeProviderObject) {
         this.isVisible = false;
         this.currentProvider = null;
         this.disableShowCheck = false;
         releasePlayer();
         new ArrayList();
-        AndroidUtilities.runOnUIThread(new SecretMediaViewer$$ExternalSyntheticLambda1(this), 50L);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                SecretMediaViewer.this.lambda$onPhotoClosed$5();
+            }
+        }, 50L);
     }
 
     public /* synthetic */ void lambda$onPhotoClosed$5() {
@@ -1841,22 +1834,14 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         animatorSet.playTogether(ObjectAnimator.ofFloat(this, "animationValue", 0.0f, 1.0f));
         this.imageMoveAnimation.setInterpolator(this.interpolator);
         this.imageMoveAnimation.setDuration(i);
-        this.imageMoveAnimation.addListener(new AnonymousClass9());
+        this.imageMoveAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SecretMediaViewer.9
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                SecretMediaViewer.this.imageMoveAnimation = null;
+                SecretMediaViewer.this.containerView.invalidate();
+            }
+        });
         this.imageMoveAnimation.start();
-    }
-
-    /* renamed from: org.telegram.ui.SecretMediaViewer$9 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass9 extends AnimatorListenerAdapter {
-        AnonymousClass9() {
-            SecretMediaViewer.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            SecretMediaViewer.this.imageMoveAnimation = null;
-            SecretMediaViewer.this.containerView.invalidate();
-        }
     }
 
     @Keep

@@ -10,8 +10,11 @@ import android.os.Messenger;
 import android.text.TextUtils;
 import com.huawei.hms.aaid.constant.ErrorEnum;
 import com.huawei.hms.aaid.utils.BaseUtils;
+import com.huawei.hms.adapter.internal.CommonCode;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.push.t;
 import com.huawei.hms.push.utils.PushBiUtil;
+import com.huawei.hms.support.api.entity.push.PushNaming;
 import com.huawei.hms.support.log.HMSLog;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +45,7 @@ public class HmsMessageService extends Service {
             }
             Intent intent = new Intent();
             intent.putExtras(data);
-            intent.putExtra("inputType", data.getInt("inputType", -1));
+            intent.putExtra(RemoteMessageConst.INPUT_TYPE, data.getInt(RemoteMessageConst.INPUT_TYPE, -1));
             HmsMessageService.this.handleIntentMessage(intent);
         }
     }
@@ -71,7 +74,7 @@ public class HmsMessageService extends Service {
             for (int i = 0; i < jSONArray.length(); i++) {
                 JSONObject jSONObject = jSONArray.getJSONObject(i);
                 String optString = jSONObject.optString("transactionId");
-                String optString2 = jSONObject.optString("msgId");
+                String optString2 = jSONObject.optString(RemoteMessageConst.MSGID);
                 int optInt = jSONObject.optInt("ret", ErrorEnum.ERROR_UNKNOWN.getInternalCode());
                 if (ErrorEnum.SUCCESS.getInternalCode() == optInt) {
                     b(optString, optString2);
@@ -95,8 +98,8 @@ public class HmsMessageService extends Service {
         }
         try {
             String stringExtra = intent.getStringExtra("message_id");
-            String stringExtra2 = intent.getStringExtra("message_type");
-            String stringExtra3 = intent.getStringExtra("transaction_id");
+            String stringExtra2 = intent.getStringExtra(RemoteMessageConst.MSGTYPE);
+            String stringExtra3 = intent.getStringExtra(CommonCode.MapKey.TRANSACTION_ID);
             if ("new_token".equals(stringExtra2)) {
                 HMSLog.i("HmsMessageService", "onNewToken");
                 a(intent, stringExtra3);
@@ -105,7 +108,7 @@ public class HmsMessageService extends Service {
                 sb.append("onMessageReceived, message id:");
                 sb.append(stringExtra);
                 HMSLog.i("HmsMessageService", sb.toString());
-                a("push.receiveMessage", stringExtra, ErrorEnum.SUCCESS.getInternalCode());
+                a(PushNaming.RECEIVE_MSG_RSP, stringExtra, ErrorEnum.SUCCESS.getInternalCode());
                 doMsgReceived(intent);
             } else if ("sent_message".equals(stringExtra2)) {
                 b(stringExtra3, stringExtra);
@@ -121,7 +124,7 @@ public class HmsMessageService extends Service {
                 sb2.append(", transactionId: ");
                 sb2.append(stringExtra3);
                 HMSLog.i("HmsMessageService", sb2.toString());
-                a("push.deliveryMessage", stringExtra3, intExtra);
+                a(PushNaming.UPSEND_RECEIPT, stringExtra3, intExtra);
                 onMessageDelivered(stringExtra, new SendException(intExtra));
             } else if ("server_deleted_message".equals(stringExtra2)) {
                 StringBuilder sb3 = new StringBuilder();
@@ -193,33 +196,33 @@ public class HmsMessageService extends Service {
     public final Bundle a(Intent intent) {
         Bundle bundle = new Bundle();
         bundle.putString("message_id", intent.getStringExtra("message_id"));
-        bundle.putByteArray("message_body", intent.getByteArrayExtra("message_body"));
-        bundle.putString("device_token", intent.getStringExtra("device_token"));
-        if (intent.getIntExtra("inputType", -1) == 1) {
-            bundle.putInt("inputType", 1);
+        bundle.putByteArray(RemoteMessageConst.MSGBODY, intent.getByteArrayExtra(RemoteMessageConst.MSGBODY));
+        bundle.putString(RemoteMessageConst.DEVICE_TOKEN, intent.getStringExtra(RemoteMessageConst.DEVICE_TOKEN));
+        if (intent.getIntExtra(RemoteMessageConst.INPUT_TYPE, -1) == 1) {
+            bundle.putInt(RemoteMessageConst.INPUT_TYPE, 1);
         }
         return bundle;
     }
 
     public final void b(String str, String str2) {
         HMSLog.i("HmsMessageService", "onMessageSent, message id:" + str2 + ", transactionId: " + str);
-        a("push.sendMessageRet", str, ErrorEnum.SUCCESS.getInternalCode());
+        a(PushNaming.UPSEND_MSG_ASYNC_RSP, str, ErrorEnum.SUCCESS.getInternalCode());
         onMessageSent(str2);
     }
 
     public final void a(Intent intent, String str) {
         ErrorEnum errorEnum = ErrorEnum.SUCCESS;
         int intExtra = intent.getIntExtra("error", errorEnum.getInternalCode());
-        a("push.onNewToken", str, intExtra);
+        a(PushNaming.GETTOKEN_ASYNC_RSP, str, intExtra);
         String stringExtra = intent.getStringExtra("subjectId");
         String stringExtra2 = intent.getStringExtra("message_proxy_type");
         HMSLog.i("HmsMessageService", "doOnNewToken:transactionId = " + str + " , internalCode = " + intExtra + ",subjectId:" + stringExtra + ",proxyType:" + stringExtra2);
         Bundle bundle = new Bundle();
         if (!TextUtils.isEmpty(stringExtra)) {
-            bundle.putString("subject_id", stringExtra);
+            bundle.putString(SUBJECT_ID, stringExtra);
         }
         if (!TextUtils.isEmpty(stringExtra2)) {
-            bundle.putString("proxy_type", stringExtra2);
+            bundle.putString(PROXY_TYPE, stringExtra2);
         }
         if (intExtra == errorEnum.getInternalCode()) {
             HMSLog.i("HmsMessageService", "Apply token OnNewToken, subId: " + stringExtra);
@@ -232,7 +235,7 @@ public class HmsMessageService extends Service {
 
     public final void b(String str, String str2, int i) {
         HMSLog.i("HmsMessageService", "onSendError, message id:" + str2 + " error:" + i + ", transactionId: " + str);
-        a("push.sendMessageRet", str, i);
+        a(PushNaming.UPSEND_MSG_ASYNC_RSP, str, i);
         onSendError(str2, new SendException(i));
     }
 
@@ -249,7 +252,7 @@ public class HmsMessageService extends Service {
             if (subjectIds != null && subjectIds.length != 0) {
                 for (int i2 = 0; i2 < subjectIds.length; i2++) {
                     Bundle bundle2 = new Bundle();
-                    bundle2.putString("subject_id", subjectIds[i2]);
+                    bundle2.putString(SUBJECT_ID, subjectIds[i2]);
                     HMSLog.i("HmsMessageService", "onTokenError to sub app, subjectId:" + subjectIds[i2]);
                     onTokenError(new BaseException(i), bundle2);
                 }
@@ -264,7 +267,7 @@ public class HmsMessageService extends Service {
     }
 
     public final synchronized void a(Intent intent, Bundle bundle, String str) {
-        String stringExtra = intent.getStringExtra("device_token");
+        String stringExtra = intent.getStringExtra(RemoteMessageConst.DEVICE_TOKEN);
         a(stringExtra, str);
         Context applicationContext = getApplicationContext();
         boolean z = !TextUtils.isEmpty(BaseUtils.getCacheData(applicationContext, applicationContext.getPackageName(), false));
@@ -278,7 +281,7 @@ public class HmsMessageService extends Service {
             if (subjectIds != null && subjectIds.length != 0) {
                 for (int i = 0; i < subjectIds.length; i++) {
                     Bundle bundle2 = new Bundle();
-                    bundle2.putString("subject_id", subjectIds[i]);
+                    bundle2.putString(SUBJECT_ID, subjectIds[i]);
                     HMSLog.i("HmsMessageService", "onNewToken to sub app, subjectId:" + subjectIds[i]);
                     onNewToken(stringExtra, bundle2);
                     a(stringExtra, subjectIds[i]);

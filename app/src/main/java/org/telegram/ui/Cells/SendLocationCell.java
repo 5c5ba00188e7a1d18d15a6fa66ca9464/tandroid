@@ -13,6 +13,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.LocationController;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.ui.ActionBar.SimpleTextView;
@@ -30,16 +31,7 @@ public class SendLocationCell extends FrameLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private SimpleTextView titleTextView;
     private int currentAccount = UserConfig.selectedAccount;
-    private Runnable invalidateRunnable = new AnonymousClass1();
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Cells.SendLocationCell$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            SendLocationCell.this = r1;
-        }
-
+    private Runnable invalidateRunnable = new Runnable() { // from class: org.telegram.ui.Cells.SendLocationCell.1
         @Override // java.lang.Runnable
         public void run() {
             SendLocationCell.this.checkText();
@@ -47,7 +39,7 @@ public class SendLocationCell extends FrameLayout {
             sendLocationCell.invalidate(((int) sendLocationCell.rect.left) - 5, ((int) SendLocationCell.this.rect.top) - 5, ((int) SendLocationCell.this.rect.right) + 5, ((int) SendLocationCell.this.rect.bottom) + 5);
             AndroidUtilities.runOnUIThread(SendLocationCell.this.invalidateRunnable, 1000L);
         }
-    }
+    };
 
     public SendLocationCell(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -68,7 +60,7 @@ public class SendLocationCell extends FrameLayout {
             AndroidUtilities.runOnUIThread(this.invalidateRunnable, 1000L);
             setWillNotDraw(false);
         } else {
-            Drawable drawable = getResources().getDrawable(2131166059);
+            Drawable drawable = getResources().getDrawable(R.drawable.pin);
             drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor("location_sendLocationIcon"), PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable2 = new CombinedDrawable(createSimpleSelectorCircleDrawable, drawable);
             combinedDrawable2.setCustomSize(AndroidUtilities.dp(42.0f), AndroidUtilities.dp(42.0f));
@@ -86,7 +78,7 @@ public class SendLocationCell extends FrameLayout {
         this.titleTextView.setTag(z ? str2 : "location_sendLocationText");
         this.titleTextView.setTextColor(getThemedColor(!z ? "location_sendLocationText" : str2));
         this.titleTextView.setGravity(LocaleController.isRTL ? 5 : 3);
-        this.titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         SimpleTextView simpleTextView2 = this.titleTextView;
         boolean z3 = LocaleController.isRTL;
         addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, (z3 ? 5 : 3) | 48, z3 ? 16.0f : 73.0f, 12.0f, z3 ? 73.0f : 16.0f, 0.0f));
@@ -154,13 +146,13 @@ public class SendLocationCell extends FrameLayout {
     public void checkText() {
         LocationController.SharingLocationInfo sharingLocationInfo = LocationController.getInstance(this.currentAccount).getSharingLocationInfo(this.dialogId);
         if (sharingLocationInfo != null) {
-            String string = LocaleController.getString("StopLiveLocation", 2131628530);
+            String string = LocaleController.getString("StopLiveLocation", R.string.StopLiveLocation);
             TLRPC$Message tLRPC$Message = sharingLocationInfo.messageObject.messageOwner;
             int i = tLRPC$Message.edit_date;
             setText(string, LocaleController.formatLocationUpdateDate(i != 0 ? i : tLRPC$Message.date));
             return;
         }
-        setText(LocaleController.getString("SendLiveLocation", 2131628253), LocaleController.getString("SendLiveLocationInfo", 2131628257));
+        setText(LocaleController.getString("SendLiveLocation", R.string.SendLiveLocation), LocaleController.getString("SendLiveLocationInfo", R.string.SendLiveLocationInfo));
     }
 
     @Override // android.view.View

@@ -29,6 +29,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.WebFile;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessageMedia;
@@ -174,7 +175,7 @@ public class PinchToZoomHelper {
             this.isHardwareVideo = true;
             MediaController.getInstance().setTextureView(this.overlayView.videoTextureView, this.overlayView.aspectRatioFrameLayout, this.overlayView.videoPlayerContainer, true);
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.overlayView.videoPlayerContainer.getLayoutParams();
-            this.overlayView.videoPlayerContainer.setTag(2131230879, imageReceiver);
+            this.overlayView.videoPlayerContainer.setTag(R.id.parent_tag, imageReceiver);
             if (layoutParams.width != imageReceiver.getImageWidth() || layoutParams.height != imageReceiver.getImageHeight()) {
                 this.overlayView.aspectRatioFrameLayout.setResizeMode(3);
                 layoutParams.width = (int) imageReceiver.getImageWidth();
@@ -260,8 +261,26 @@ public class PinchToZoomHelper {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(1.0f, 0.0f);
         this.finishTransition = ofFloat;
-        ofFloat.addUpdateListener(new PinchToZoomHelper$$ExternalSyntheticLambda0(this));
-        this.finishTransition.addListener(new AnonymousClass1());
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PinchToZoomHelper$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                PinchToZoomHelper.this.lambda$finishZoom$0(valueAnimator);
+            }
+        });
+        this.finishTransition.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PinchToZoomHelper.1
+            {
+                PinchToZoomHelper.this = this;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                PinchToZoomHelper pinchToZoomHelper = PinchToZoomHelper.this;
+                if (pinchToZoomHelper.finishTransition != null) {
+                    pinchToZoomHelper.finishTransition = null;
+                    pinchToZoomHelper.clear();
+                }
+            }
+        });
         this.finishTransition.setDuration(220L);
         this.finishTransition.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.finishTransition.start();
@@ -270,23 +289,6 @@ public class PinchToZoomHelper {
     public /* synthetic */ void lambda$finishZoom$0(ValueAnimator valueAnimator) {
         this.finishProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidateViews();
-    }
-
-    /* renamed from: org.telegram.ui.PinchToZoomHelper$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            PinchToZoomHelper.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            PinchToZoomHelper pinchToZoomHelper = PinchToZoomHelper.this;
-            if (pinchToZoomHelper.finishTransition != null) {
-                pinchToZoomHelper.finishTransition = null;
-                pinchToZoomHelper.clear();
-            }
-        }
     }
 
     public void clear() {
@@ -382,10 +384,69 @@ public class PinchToZoomHelper {
             if (Build.VERSION.SDK_INT >= 21) {
                 FrameLayout frameLayout = new FrameLayout(context);
                 this.videoPlayerContainer = frameLayout;
-                frameLayout.setOutlineProvider(new AnonymousClass1(this, r5));
+                frameLayout.setOutlineProvider(new ViewOutlineProvider(this, r5) { // from class: org.telegram.ui.PinchToZoomHelper.ZoomOverlayView.1
+                    @Override // android.view.ViewOutlineProvider
+                    @TargetApi(21)
+                    public void getOutline(View view, Outline outline) {
+                        ImageReceiver imageReceiver = (ImageReceiver) view.getTag(R.id.parent_tag);
+                        if (imageReceiver != null) {
+                            int[] roundRadius = imageReceiver.getRoundRadius();
+                            int i = 0;
+                            for (int i2 = 0; i2 < 4; i2++) {
+                                i = Math.max(i, roundRadius[i2]);
+                            }
+                            outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), i);
+                            return;
+                        }
+                        int i3 = AndroidUtilities.roundMessageSize;
+                        outline.setOval(0, 0, i3, i3);
+                    }
+                });
                 this.videoPlayerContainer.setClipToOutline(true);
             } else {
-                this.videoPlayerContainer = new AnonymousClass2(context, r5);
+                this.videoPlayerContainer = new FrameLayout(context, r5) { // from class: org.telegram.ui.PinchToZoomHelper.ZoomOverlayView.2
+                    RectF rect = new RectF();
+
+                    {
+                        ZoomOverlayView.this = this;
+                    }
+
+                    @Override // android.view.View
+                    protected void onSizeChanged(int i, int i2, int i3, int i4) {
+                        super.onSizeChanged(i, i2, i3, i4);
+                        ZoomOverlayView.this.aspectPath.reset();
+                        ImageReceiver imageReceiver = (ImageReceiver) getTag(R.id.parent_tag);
+                        if (imageReceiver == null) {
+                            float f = i / 2;
+                            ZoomOverlayView.this.aspectPath.addCircle(f, i2 / 2, f, Path.Direction.CW);
+                        } else {
+                            int[] roundRadius = imageReceiver.getRoundRadius();
+                            int i5 = 0;
+                            for (int i6 = 0; i6 < 4; i6++) {
+                                i5 = Math.max(i5, roundRadius[i6]);
+                            }
+                            this.rect.set(0.0f, 0.0f, i, i2);
+                            ZoomOverlayView.this.aspectPath.addRoundRect(this.rect, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), Path.Direction.CW);
+                        }
+                        ZoomOverlayView.this.aspectPath.toggleInverseFillType();
+                    }
+
+                    @Override // android.view.View
+                    public void setVisibility(int i) {
+                        super.setVisibility(i);
+                        if (i == 0) {
+                            setLayerType(2, null);
+                        }
+                    }
+
+                    @Override // android.view.ViewGroup, android.view.View
+                    protected void dispatchDraw(Canvas canvas) {
+                        super.dispatchDraw(canvas);
+                        if (getTag() == null) {
+                            canvas.drawPath(ZoomOverlayView.this.aspectPath, ZoomOverlayView.this.aspectPaint);
+                        }
+                    }
+                };
                 this.aspectPath = new Path();
                 Paint paint = new Paint(1);
                 this.aspectPaint = paint;
@@ -406,78 +467,6 @@ public class PinchToZoomHelper {
             this.aspectRatioFrameLayout.addView(this.videoTextureView, LayoutHelper.createFrame(-1, -1.0f));
             addView(this.videoPlayerContainer, LayoutHelper.createFrame(-2, -2.0f));
             setWillNotDraw(false);
-        }
-
-        /* renamed from: org.telegram.ui.PinchToZoomHelper$ZoomOverlayView$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends ViewOutlineProvider {
-            AnonymousClass1(ZoomOverlayView zoomOverlayView, PinchToZoomHelper pinchToZoomHelper) {
-            }
-
-            @Override // android.view.ViewOutlineProvider
-            @TargetApi(21)
-            public void getOutline(View view, Outline outline) {
-                ImageReceiver imageReceiver = (ImageReceiver) view.getTag(2131230879);
-                if (imageReceiver != null) {
-                    int[] roundRadius = imageReceiver.getRoundRadius();
-                    int i = 0;
-                    for (int i2 = 0; i2 < 4; i2++) {
-                        i = Math.max(i, roundRadius[i2]);
-                    }
-                    outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), i);
-                    return;
-                }
-                int i3 = AndroidUtilities.roundMessageSize;
-                outline.setOval(0, 0, i3, i3);
-            }
-        }
-
-        /* renamed from: org.telegram.ui.PinchToZoomHelper$ZoomOverlayView$2 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends FrameLayout {
-            RectF rect = new RectF();
-
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            AnonymousClass2(Context context, PinchToZoomHelper pinchToZoomHelper) {
-                super(context);
-                ZoomOverlayView.this = r1;
-            }
-
-            @Override // android.view.View
-            protected void onSizeChanged(int i, int i2, int i3, int i4) {
-                super.onSizeChanged(i, i2, i3, i4);
-                ZoomOverlayView.this.aspectPath.reset();
-                ImageReceiver imageReceiver = (ImageReceiver) getTag(2131230879);
-                if (imageReceiver == null) {
-                    float f = i / 2;
-                    ZoomOverlayView.this.aspectPath.addCircle(f, i2 / 2, f, Path.Direction.CW);
-                } else {
-                    int[] roundRadius = imageReceiver.getRoundRadius();
-                    int i5 = 0;
-                    for (int i6 = 0; i6 < 4; i6++) {
-                        i5 = Math.max(i5, roundRadius[i6]);
-                    }
-                    this.rect.set(0.0f, 0.0f, i, i2);
-                    ZoomOverlayView.this.aspectPath.addRoundRect(this.rect, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), Path.Direction.CW);
-                }
-                ZoomOverlayView.this.aspectPath.toggleInverseFillType();
-            }
-
-            @Override // android.view.View
-            public void setVisibility(int i) {
-                super.setVisibility(i);
-                if (i == 0) {
-                    setLayerType(2, null);
-                }
-            }
-
-            @Override // android.view.ViewGroup, android.view.View
-            protected void dispatchDraw(Canvas canvas) {
-                super.dispatchDraw(canvas);
-                if (getTag() == null) {
-                    canvas.drawPath(ZoomOverlayView.this.aspectPath, ZoomOverlayView.this.aspectPaint);
-                }
-            }
         }
 
         @Override // android.view.ViewGroup, android.view.View

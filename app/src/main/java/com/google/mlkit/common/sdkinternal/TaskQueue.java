@@ -1,6 +1,8 @@
 package com.google.mlkit.common.sdkinternal;
 
 import com.google.android.gms.common.internal.Preconditions;
+import com.google.android.gms.internal.mlkit_common.zzan;
+import com.google.mlkit.common.sdkinternal.TaskQueue;
 import java.io.Closeable;
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -56,7 +58,34 @@ public class TaskQueue {
 
     private final void zza(Executor executor, Runnable runnable) {
         try {
-            executor.execute(new zzp(this, runnable));
+            executor.execute(new Runnable(this, runnable) { // from class: com.google.mlkit.common.sdkinternal.zzp
+                private final TaskQueue zza;
+                private final Runnable zzb;
+
+                /* JADX INFO: Access modifiers changed from: package-private */
+                {
+                    this.zza = this;
+                    this.zzb = runnable;
+                }
+
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TaskQueue taskQueue = this.zza;
+                    Runnable runnable2 = this.zzb;
+                    TaskQueue.zza zzaVar = new TaskQueue.zza();
+                    try {
+                        runnable2.run();
+                        zzaVar.close();
+                    } catch (Throwable th) {
+                        try {
+                            zzaVar.close();
+                        } catch (Throwable th2) {
+                            zzan.zza(th, th2);
+                        }
+                        throw th;
+                    }
+                }
+            });
         } catch (RejectedExecutionException unused) {
             zza();
         }

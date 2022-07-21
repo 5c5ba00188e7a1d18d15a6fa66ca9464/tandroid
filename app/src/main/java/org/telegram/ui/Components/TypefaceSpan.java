@@ -3,6 +3,7 @@ package org.telegram.ui.Components;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes3.dex */
 public class TypefaceSpan extends MetricAffectingSpan {
     private int color;
@@ -35,7 +36,7 @@ public class TypefaceSpan extends MetricAffectingSpan {
         if (i != 0) {
             textPaint.setTextSize(i);
         }
-        textPaint.setFlags(textPaint.getFlags() | 128);
+        textPaint.setFlags(textPaint.getFlags() | ConnectionsManager.RequestFlagNeedQuickAck);
     }
 
     @Override // android.text.style.CharacterStyle
@@ -52,6 +53,6 @@ public class TypefaceSpan extends MetricAffectingSpan {
         if (i2 != 0) {
             textPaint.setColor(i2);
         }
-        textPaint.setFlags(textPaint.getFlags() | 128);
+        textPaint.setFlags(textPaint.getFlags() | ConnectionsManager.RequestFlagNeedQuickAck);
     }
 }

@@ -10,6 +10,7 @@ import com.huawei.hms.aaid.plugin.ProxyCenter;
 import com.huawei.hms.aaid.task.PushClientBuilder;
 import com.huawei.hms.aaid.utils.PushPreferences;
 import com.huawei.hms.api.Api;
+import com.huawei.hms.api.HuaweiApiAvailability;
 import com.huawei.hms.common.ApiException;
 import com.huawei.hms.common.HuaweiApi;
 import com.huawei.hms.common.internal.Preconditions;
@@ -31,7 +32,7 @@ public class HmsInstanceIdEx {
         this.b = null;
         this.a = context;
         this.b = new PushPreferences(context, "aaid");
-        HuaweiApi<Api.ApiOptions.NoOptions> huaweiApi = new HuaweiApi<>(context, new Api("HuaweiPush.API"), (Api.ApiOptions) null, new PushClientBuilder());
+        HuaweiApi<Api.ApiOptions.NoOptions> huaweiApi = new HuaweiApi<>(context, new Api(HuaweiApiAvailability.HMS_API_NAME_PUSH), (Api.ApiOptions) null, new PushClientBuilder());
         this.c = huaweiApi;
         huaweiApi.setKitSdkVersion(60300305);
     }

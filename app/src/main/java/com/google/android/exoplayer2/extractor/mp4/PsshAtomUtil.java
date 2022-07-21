@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.nio.ByteBuffer;
 import java.util.UUID;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class PsshAtomUtil {
     public static byte[] buildPsshAtom(UUID uuid, byte[] bArr) {
@@ -18,7 +19,7 @@ public final class PsshAtomUtil {
         ByteBuffer allocate = ByteBuffer.allocate(length);
         allocate.putInt(length);
         allocate.putInt(1886614376);
-        allocate.putInt(uuidArr != null ? 16777216 : 0);
+        allocate.putInt(uuidArr != null ? ConnectionsManager.FileTypePhoto : 0);
         allocate.putLong(uuid.getMostSignificantBits());
         allocate.putLong(uuid.getLeastSignificantBits());
         if (uuidArr != null) {

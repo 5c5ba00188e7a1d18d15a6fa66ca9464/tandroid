@@ -16,26 +16,26 @@ public class ReflectionUtils {
         try {
             return method.invoke(obj, objArr);
         } catch (RuntimeException e) {
-            Logger.e("ReflectionUtils", "RuntimeException in invoke:", e);
+            Logger.e(TAG, "RuntimeException in invoke:", e);
             return null;
         } catch (Exception e2) {
-            Logger.e("ReflectionUtils", "Exception in invoke:", e2);
+            Logger.e(TAG, "Exception in invoke:", e2);
             return null;
         }
     }
 
     public static Method getMethod(Class<?> cls, String str, Class<?>... clsArr) {
         if (cls == null || str == null) {
-            Logger.w("ReflectionUtils", "targetClass is  null pr name is null:");
+            Logger.w(TAG, "targetClass is  null pr name is null:");
             return null;
         }
         try {
             return cls.getDeclaredMethod(str, clsArr);
         } catch (NoSuchMethodException e) {
-            Logger.e("ReflectionUtils", "NoSuchMethodException:", e);
+            Logger.e(TAG, "NoSuchMethodException:", e);
             return null;
         } catch (SecurityException e2) {
-            Logger.e("ReflectionUtils", "SecurityException:", e2);
+            Logger.e(TAG, "SecurityException:", e2);
             return null;
         }
     }
@@ -98,36 +98,26 @@ public class ReflectionUtils {
             return null;
         }
         try {
-            Field declaredField = obj.getClass().getDeclaredField(str);
-            AccessController.doPrivileged(new AnonymousClass1(declaredField));
+            final Field declaredField = obj.getClass().getDeclaredField(str);
+            AccessController.doPrivileged(new PrivilegedAction() { // from class: com.huawei.hms.framework.common.ReflectionUtils.1
+                @Override // java.security.PrivilegedAction
+                public Object run() {
+                    declaredField.setAccessible(true);
+                    return null;
+                }
+            });
             return declaredField.get(obj);
         } catch (IllegalAccessException e) {
-            Logger.e("ReflectionUtils", "Exception in getFieldObj :: IllegalAccessException:", e);
+            Logger.e(TAG, "Exception in getFieldObj :: IllegalAccessException:", e);
             return null;
         } catch (IllegalArgumentException e2) {
-            Logger.e("ReflectionUtils", "Exception in getFieldObj :: IllegalArgumentException:", e2);
+            Logger.e(TAG, "Exception in getFieldObj :: IllegalArgumentException:", e2);
             return null;
         } catch (NoSuchFieldException e3) {
-            Logger.e("ReflectionUtils", "Exception in getFieldObj :: NoSuchFieldException:", e3);
+            Logger.e(TAG, "Exception in getFieldObj :: NoSuchFieldException:", e3);
             return null;
         } catch (SecurityException e4) {
-            Logger.e("ReflectionUtils", "not security int method getFieldObj,SecurityException:", e4);
-            return null;
-        }
-    }
-
-    /* renamed from: com.huawei.hms.framework.common.ReflectionUtils$1 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass1 implements PrivilegedAction {
-        final /* synthetic */ Field val$field;
-
-        AnonymousClass1(Field field) {
-            this.val$field = field;
-        }
-
-        @Override // java.security.PrivilegedAction
-        public Object run() {
-            this.val$field.setAccessible(true);
+            Logger.e(TAG, "not security int method getFieldObj,SecurityException:", e4);
             return null;
         }
     }
@@ -135,34 +125,24 @@ public class ReflectionUtils {
     public static Field getField(Object obj, String str) {
         if (obj != null && !TextUtils.isEmpty(str)) {
             try {
-                Field declaredField = obj.getClass().getDeclaredField(str);
-                AccessController.doPrivileged(new AnonymousClass2(declaredField));
+                final Field declaredField = obj.getClass().getDeclaredField(str);
+                AccessController.doPrivileged(new PrivilegedAction() { // from class: com.huawei.hms.framework.common.ReflectionUtils.2
+                    @Override // java.security.PrivilegedAction
+                    public Object run() {
+                        declaredField.setAccessible(true);
+                        return null;
+                    }
+                });
                 return declaredField;
             } catch (IllegalArgumentException e) {
-                Logger.e("ReflectionUtils", "Exception in getField :: IllegalArgumentException:", e);
+                Logger.e(TAG, "Exception in getField :: IllegalArgumentException:", e);
             } catch (NoSuchFieldException e2) {
-                Logger.e("ReflectionUtils", "Exception in getField :: NoSuchFieldException:", e2);
+                Logger.e(TAG, "Exception in getField :: NoSuchFieldException:", e2);
             } catch (SecurityException e3) {
-                Logger.e("ReflectionUtils", "not security int method getField,SecurityException:", e3);
+                Logger.e(TAG, "not security int method getField,SecurityException:", e3);
             }
         }
         return null;
-    }
-
-    /* renamed from: com.huawei.hms.framework.common.ReflectionUtils$2 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass2 implements PrivilegedAction {
-        final /* synthetic */ Field val$field;
-
-        AnonymousClass2(Field field) {
-            this.val$field = field;
-        }
-
-        @Override // java.security.PrivilegedAction
-        public Object run() {
-            this.val$field.setAccessible(true);
-            return null;
-        }
     }
 
     public static Object getStaticFieldObj(String str, String str2) {
@@ -171,37 +151,26 @@ public class ReflectionUtils {
             return null;
         }
         try {
-            Field declaredField = cls.getDeclaredField(str2);
-            AccessController.doPrivileged(new AnonymousClass3(declaredField));
+            final Field declaredField = cls.getDeclaredField(str2);
+            AccessController.doPrivileged(new PrivilegedAction() { // from class: com.huawei.hms.framework.common.ReflectionUtils.3
+                @Override // java.security.PrivilegedAction
+                public Object run() {
+                    declaredField.setAccessible(true);
+                    return null;
+                }
+            });
             return declaredField.get(cls);
         } catch (IllegalAccessException e) {
-            Logger.e("ReflectionUtils", "Exception in getFieldObj :: IllegalAccessException:", e);
+            Logger.e(TAG, "Exception in getFieldObj :: IllegalAccessException:", e);
             return null;
         } catch (IllegalArgumentException e2) {
-            Logger.e("ReflectionUtils", "Exception in getFieldObj :: IllegalArgumentException:", e2);
+            Logger.e(TAG, "Exception in getFieldObj :: IllegalArgumentException:", e2);
             return null;
         } catch (NoSuchFieldException e3) {
-            Logger.e("ReflectionUtils", "Exception in getFieldObj :: NoSuchFieldException:", e3);
+            Logger.e(TAG, "Exception in getFieldObj :: NoSuchFieldException:", e3);
             return null;
         } catch (SecurityException e4) {
-            Logger.e("ReflectionUtils", "not security int method getStaticFieldObj,SecurityException:", e4);
-            return null;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.huawei.hms.framework.common.ReflectionUtils$3 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass3 implements PrivilegedAction {
-        final /* synthetic */ Field val$field;
-
-        AnonymousClass3(Field field) {
-            this.val$field = field;
-        }
-
-        @Override // java.security.PrivilegedAction
-        public Object run() {
-            this.val$field.setAccessible(true);
+            Logger.e(TAG, "not security int method getStaticFieldObj,SecurityException:", e4);
             return null;
         }
     }
@@ -211,7 +180,7 @@ public class ReflectionUtils {
             tryLoadClass(str);
             return true;
         } catch (Exception unused) {
-            Logger.w("ReflectionUtils", str + "ClassNotFoundException");
+            Logger.w(TAG, str + "ClassNotFoundException");
             return false;
         }
     }
@@ -219,17 +188,17 @@ public class ReflectionUtils {
     public static boolean checkCompatible(String str, String str2, Class<?>... clsArr) {
         try {
             if (str == null || str2 == null) {
-                Logger.w("ReflectionUtils", "targetClass is  null or name is null:");
+                Logger.w(TAG, "targetClass is  null or name is null:");
                 return false;
             }
             Class.forName(str).getDeclaredMethod(str2, clsArr);
-            Logger.v("ReflectionUtils", "has method : " + str2);
+            Logger.v(TAG, "has method : " + str2);
             return true;
         } catch (RuntimeException unused) {
-            Logger.w("ReflectionUtils", str + " RuntimeException");
+            Logger.w(TAG, str + " RuntimeException");
             return false;
         } catch (Exception unused2) {
-            Logger.w("ReflectionUtils", str2 + " NoSuchMethodException");
+            Logger.w(TAG, str2 + " NoSuchMethodException");
             return false;
         }
     }

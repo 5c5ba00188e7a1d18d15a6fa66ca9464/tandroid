@@ -36,7 +36,7 @@ public final class Base64Utils {
             try {
                 return Base64.decode(str, 0);
             } catch (IllegalArgumentException e) {
-                HMSLog.e("Base64Utils", "decode failed : " + e.getMessage());
+                HMSLog.e(TAG, "decode failed : " + e.getMessage());
             }
         }
         return bArr;
@@ -48,7 +48,7 @@ public final class Base64Utils {
             try {
                 return Base64.decode(str, 10);
             } catch (IllegalArgumentException e) {
-                HMSLog.e("Base64Utils", "decodeUrlSafe failed : " + e.getMessage());
+                HMSLog.e(TAG, "decodeUrlSafe failed : " + e.getMessage());
             }
         }
         return bArr;
@@ -60,7 +60,7 @@ public final class Base64Utils {
             try {
                 return Base64.decode(str, 11);
             } catch (IllegalArgumentException e) {
-                HMSLog.e("Base64Utils", "decodeUrlSafeNoPadding failed : " + e.getMessage());
+                HMSLog.e(TAG, "decodeUrlSafeNoPadding failed : " + e.getMessage());
             }
         }
         return bArr;

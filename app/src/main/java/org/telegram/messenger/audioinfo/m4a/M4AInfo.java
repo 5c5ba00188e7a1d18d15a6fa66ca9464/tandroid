@@ -2,6 +2,7 @@ package org.telegram.messenger.audioinfo.m4a;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -195,7 +196,7 @@ public class M4AInfo extends AudioInfo {
                     logger2.log(level, nextChild.getPath() + ": contains no value");
                 }
             } else {
-                data(nextChild.nextChildUpTo("data"));
+                data(nextChild.nextChildUpTo(RemoteMessageConst.DATA));
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.google.firebase.remoteconfig;
 
 import android.content.Context;
+import com.google.android.gms.common.util.BiConsumer;
 import com.google.android.gms.common.util.Clock;
 import com.google.android.gms.common.util.DefaultClock;
 import com.google.android.gms.tasks.Tasks;
@@ -10,6 +11,7 @@ import com.google.firebase.analytics.connector.AnalyticsConnector;
 import com.google.firebase.inject.Provider;
 import com.google.firebase.installations.FirebaseInstallationsApi;
 import com.google.firebase.remoteconfig.internal.ConfigCacheClient;
+import com.google.firebase.remoteconfig.internal.ConfigContainer;
 import com.google.firebase.remoteconfig.internal.ConfigFetchHandler;
 import com.google.firebase.remoteconfig.internal.ConfigFetchHttpClient;
 import com.google.firebase.remoteconfig.internal.ConfigGetParameterHandler;
@@ -19,6 +21,7 @@ import com.google.firebase.remoteconfig.internal.Personalization;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -55,7 +58,12 @@ public class RemoteConfigComponent {
         this.analyticsConnector = provider;
         this.appId = firebaseApp.getOptions().getApplicationId();
         if (z) {
-            Tasks.call(executorService, new RemoteConfigComponent$$ExternalSyntheticLambda2(this));
+            Tasks.call(executorService, new Callable() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda2
+                @Override // java.util.concurrent.Callable
+                public final Object call() {
+                    return RemoteConfigComponent.this.getDefault();
+                }
+            });
         }
     }
 
@@ -74,9 +82,14 @@ public class RemoteConfigComponent {
         cacheClient3 = getCacheClient(str, "defaults");
         metadataClient = getMetadataClient(this.context, this.appId, str);
         getHandler = getGetHandler(cacheClient2, cacheClient3);
-        Personalization personalization = getPersonalization(this.firebaseApp, str, this.analyticsConnector);
+        final Personalization personalization = getPersonalization(this.firebaseApp, str, this.analyticsConnector);
         if (personalization != null) {
-            getHandler.addListener(new RemoteConfigComponent$$ExternalSyntheticLambda0(personalization));
+            getHandler.addListener(new BiConsumer() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda0
+                @Override // com.google.android.gms.common.util.BiConsumer
+                public final void accept(Object obj, Object obj2) {
+                    Personalization.this.logArmActive((String) obj, (ConfigContainer) obj2);
+                }
+            });
         }
         return get(this.firebaseApp, str, this.firebaseInstallations, this.firebaseAbt, this.executorService, cacheClient, cacheClient2, cacheClient3, getFetchHandler(str, cacheClient, metadataClient), getHandler, metadataClient);
     }

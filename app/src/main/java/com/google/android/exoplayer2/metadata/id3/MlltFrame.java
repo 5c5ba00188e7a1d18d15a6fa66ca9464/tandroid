@@ -6,7 +6,17 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class MlltFrame extends Id3Frame {
-    public static final Parcelable.Creator<MlltFrame> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<MlltFrame> CREATOR = new Parcelable.Creator<MlltFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.MlltFrame.1
+        @Override // android.os.Parcelable.Creator
+        public MlltFrame createFromParcel(Parcel parcel) {
+            return new MlltFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public MlltFrame[] newArray(int i) {
+            return new MlltFrame[i];
+        }
+    };
     public final int bytesBetweenReference;
     public final int[] bytesDeviations;
     public final int millisecondsBetweenReference;
@@ -58,22 +68,5 @@ public final class MlltFrame extends Id3Frame {
         parcel.writeInt(this.millisecondsBetweenReference);
         parcel.writeIntArray(this.bytesDeviations);
         parcel.writeIntArray(this.millisecondsDeviations);
-    }
-
-    /* renamed from: com.google.android.exoplayer2.metadata.id3.MlltFrame$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<MlltFrame> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public MlltFrame createFromParcel(Parcel parcel) {
-            return new MlltFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public MlltFrame[] newArray(int i) {
-            return new MlltFrame[i];
-        }
     }
 }

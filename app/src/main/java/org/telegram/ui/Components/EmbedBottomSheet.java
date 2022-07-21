@@ -46,10 +46,13 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.EmbedBottomSheet;
 import org.telegram.ui.Components.WebPlayerView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
@@ -84,7 +87,21 @@ public class EmbedBottomSheet extends BottomSheet {
     private int width;
     private int[] position = new int[2];
     private int prevOrientation = -2;
-    private DialogInterface.OnShowListener onShowListener = new AnonymousClass1();
+    private DialogInterface.OnShowListener onShowListener = new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.EmbedBottomSheet.1
+        @Override // android.content.DialogInterface.OnShowListener
+        public void onShow(DialogInterface dialogInterface) {
+            if (!PipVideoOverlay.isVisible() || !EmbedBottomSheet.this.videoView.isInline()) {
+                return;
+            }
+            EmbedBottomSheet.this.videoView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.EmbedBottomSheet.1.1
+                @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                public boolean onPreDraw() {
+                    EmbedBottomSheet.this.videoView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    return true;
+                }
+            });
+        }
+    };
 
     public static /* synthetic */ boolean lambda$new$0(View view, MotionEvent motionEvent) {
         return true;
@@ -100,14 +117,15 @@ public class EmbedBottomSheet extends BottomSheet {
             EmbedBottomSheet.this = r1;
         }
 
-        /* synthetic */ YoutubeProxy(EmbedBottomSheet embedBottomSheet, AnonymousClass1 anonymousClass1) {
-            this();
-        }
-
         @JavascriptInterface
         public void postEvent(String str, String str2) {
             if ("loaded".equals(str)) {
-                AndroidUtilities.runOnUIThread(new EmbedBottomSheet$YoutubeProxy$$ExternalSyntheticLambda0(this));
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmbedBottomSheet$YoutubeProxy$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        EmbedBottomSheet.YoutubeProxy.this.lambda$postEvent$0();
+                    }
+                });
             }
         }
 
@@ -116,36 +134,6 @@ public class EmbedBottomSheet extends BottomSheet {
             EmbedBottomSheet.this.progressBarBlackBackground.setVisibility(4);
             EmbedBottomSheet.this.pipButton.setEnabled(true);
             EmbedBottomSheet.this.pipButton.setAlpha(1.0f);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements DialogInterface.OnShowListener {
-        AnonymousClass1() {
-            EmbedBottomSheet.this = r1;
-        }
-
-        /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$1$1 */
-        /* loaded from: classes3.dex */
-        class ViewTreeObserver$OnPreDrawListenerC00241 implements ViewTreeObserver.OnPreDrawListener {
-            ViewTreeObserver$OnPreDrawListenerC00241() {
-                AnonymousClass1.this = r1;
-            }
-
-            @Override // android.view.ViewTreeObserver.OnPreDrawListener
-            public boolean onPreDraw() {
-                EmbedBottomSheet.this.videoView.getViewTreeObserver().removeOnPreDrawListener(this);
-                return true;
-            }
-        }
-
-        @Override // android.content.DialogInterface.OnShowListener
-        public void onShow(DialogInterface dialogInterface) {
-            if (!PipVideoOverlay.isVisible() || !EmbedBottomSheet.this.videoView.isInline()) {
-                return;
-            }
-            EmbedBottomSheet.this.videoView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver$OnPreDrawListenerC00241());
         }
     }
 
@@ -200,13 +188,53 @@ public class EmbedBottomSheet extends BottomSheet {
         this.fullscreenVideoContainer.setOnTouchListener(EmbedBottomSheet$$ExternalSyntheticLambda4.INSTANCE);
         this.container.addView(this.fullscreenVideoContainer, LayoutHelper.createFrame(-1, -1.0f));
         this.fullscreenVideoContainer.setVisibility(4);
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-        this.containerLayout = anonymousClass2;
-        anonymousClass2.setOnTouchListener(EmbedBottomSheet$$ExternalSyntheticLambda5.INSTANCE);
+        FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.Components.EmbedBottomSheet.2
+            @Override // android.view.ViewGroup, android.view.View
+            protected void onDetachedFromWindow() {
+                super.onDetachedFromWindow();
+                try {
+                    if ((!PipVideoOverlay.isVisible() || EmbedBottomSheet.this.webView.getVisibility() != 0) && EmbedBottomSheet.this.webView.getParent() != null) {
+                        removeView(EmbedBottomSheet.this.webView);
+                        EmbedBottomSheet.this.webView.stopLoading();
+                        EmbedBottomSheet.this.webView.loadUrl("about:blank");
+                        EmbedBottomSheet.this.webView.destroy();
+                    }
+                    if (EmbedBottomSheet.this.videoView.isInline() || PipVideoOverlay.isVisible()) {
+                        return;
+                    }
+                    if (EmbedBottomSheet.instance == EmbedBottomSheet.this) {
+                        EmbedBottomSheet unused = EmbedBottomSheet.instance = null;
+                    }
+                    EmbedBottomSheet.this.videoView.destroy();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            }
+
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i5, int i6) {
+                super.onMeasure(i5, View.MeasureSpec.makeMeasureSpec(((int) Math.min(EmbedBottomSheet.this.height / (EmbedBottomSheet.this.width / View.MeasureSpec.getSize(i5)), AndroidUtilities.displaySize.y / 2)) + AndroidUtilities.dp((EmbedBottomSheet.this.hasDescription ? 22 : 0) + 84) + 1, 1073741824));
+            }
+        };
+        this.containerLayout = frameLayout2;
+        frameLayout2.setOnTouchListener(EmbedBottomSheet$$ExternalSyntheticLambda5.INSTANCE);
         setCustomView(this.containerLayout);
-        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
-        this.webView = anonymousClass3;
-        anonymousClass3.getSettings().setJavaScriptEnabled(true);
+        WebView webView = new WebView(context) { // from class: org.telegram.ui.Components.EmbedBottomSheet.3
+            @Override // android.webkit.WebView, android.view.View
+            public boolean onTouchEvent(MotionEvent motionEvent) {
+                boolean onTouchEvent = super.onTouchEvent(motionEvent);
+                if (onTouchEvent) {
+                    if (motionEvent.getAction() == 1) {
+                        EmbedBottomSheet.this.setDisableScroll(false);
+                    } else {
+                        EmbedBottomSheet.this.setDisableScroll(true);
+                    }
+                }
+                return onTouchEvent;
+            }
+        };
+        this.webView = webView;
+        webView.getSettings().setJavaScriptEnabled(true);
         this.webView.getSettings().setDomStorageEnabled(true);
         if (i4 >= 17) {
             this.webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
@@ -215,11 +243,299 @@ public class EmbedBottomSheet extends BottomSheet {
             this.webView.getSettings().setMixedContentMode(0);
             CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
         }
-        this.webView.setWebChromeClient(new AnonymousClass4());
-        this.webView.setWebViewClient(new AnonymousClass5());
+        this.webView.setWebChromeClient(new WebChromeClient() { // from class: org.telegram.ui.Components.EmbedBottomSheet.4
+            @Override // android.webkit.WebChromeClient
+            public void onShowCustomView(View view, int i5, WebChromeClient.CustomViewCallback customViewCallback) {
+                onShowCustomView(view, customViewCallback);
+            }
+
+            @Override // android.webkit.WebChromeClient
+            public void onShowCustomView(View view, WebChromeClient.CustomViewCallback customViewCallback) {
+                if (EmbedBottomSheet.this.customView != null || PipVideoOverlay.isVisible()) {
+                    customViewCallback.onCustomViewHidden();
+                    return;
+                }
+                EmbedBottomSheet.this.exitFromPip();
+                EmbedBottomSheet.this.customView = view;
+                EmbedBottomSheet.this.getSheetContainer().setVisibility(4);
+                EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(0);
+                EmbedBottomSheet.this.fullscreenVideoContainer.addView(view, LayoutHelper.createFrame(-1, -1.0f));
+                EmbedBottomSheet.this.customViewCallback = customViewCallback;
+            }
+
+            @Override // android.webkit.WebChromeClient
+            public void onHideCustomView() {
+                super.onHideCustomView();
+                if (EmbedBottomSheet.this.customView == null) {
+                    return;
+                }
+                EmbedBottomSheet.this.getSheetContainer().setVisibility(0);
+                EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(4);
+                EmbedBottomSheet.this.fullscreenVideoContainer.removeView(EmbedBottomSheet.this.customView);
+                if (EmbedBottomSheet.this.customViewCallback != null && !EmbedBottomSheet.this.customViewCallback.getClass().getName().contains(".chromium.")) {
+                    EmbedBottomSheet.this.customViewCallback.onCustomViewHidden();
+                }
+                EmbedBottomSheet.this.customView = null;
+            }
+        });
+        this.webView.setWebViewClient(new WebViewClient() { // from class: org.telegram.ui.Components.EmbedBottomSheet.5
+            @Override // android.webkit.WebViewClient
+            public void onLoadResource(WebView webView2, String str5) {
+                super.onLoadResource(webView2, str5);
+            }
+
+            @Override // android.webkit.WebViewClient
+            public void onPageFinished(WebView webView2, String str5) {
+                super.onPageFinished(webView2, str5);
+                if (!EmbedBottomSheet.this.isYouTube || Build.VERSION.SDK_INT < 17) {
+                    EmbedBottomSheet.this.progressBar.setVisibility(4);
+                    EmbedBottomSheet.this.progressBarBlackBackground.setVisibility(4);
+                    EmbedBottomSheet.this.pipButton.setEnabled(true);
+                    EmbedBottomSheet.this.pipButton.setAlpha(1.0f);
+                }
+            }
+
+            @Override // android.webkit.WebViewClient
+            public boolean shouldOverrideUrlLoading(WebView webView2, String str5) {
+                if (EmbedBottomSheet.this.isYouTube) {
+                    Browser.openUrl(webView2.getContext(), str5);
+                    return true;
+                }
+                return super.shouldOverrideUrlLoading(webView2, str5);
+            }
+        });
         int i5 = 22;
         this.containerLayout.addView(this.webView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, (this.hasDescription ? 22 : 0) + 84));
-        WebPlayerView webPlayerView = new WebPlayerView(context, true, false, new AnonymousClass6());
+        WebPlayerView webPlayerView = new WebPlayerView(context, true, false, new WebPlayerView.WebPlayerViewDelegate() { // from class: org.telegram.ui.Components.EmbedBottomSheet.6
+            @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
+            public void onSharePressed() {
+            }
+
+            @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
+            public void onVideoSizeChanged(float f, int i6) {
+            }
+
+            @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
+            public void onInitFailed() {
+                EmbedBottomSheet.this.webView.setVisibility(0);
+                EmbedBottomSheet.this.imageButtonsContainer.setVisibility(0);
+                EmbedBottomSheet.this.copyTextButton.setVisibility(4);
+                EmbedBottomSheet.this.webView.setKeepScreenOn(true);
+                EmbedBottomSheet.this.videoView.setVisibility(4);
+                EmbedBottomSheet.this.videoView.getControlsView().setVisibility(4);
+                EmbedBottomSheet.this.videoView.getTextureView().setVisibility(4);
+                if (EmbedBottomSheet.this.videoView.getTextureImageView() != null) {
+                    EmbedBottomSheet.this.videoView.getTextureImageView().setVisibility(4);
+                }
+                EmbedBottomSheet.this.videoView.loadVideo(null, null, null, null, false);
+                HashMap hashMap = new HashMap();
+                hashMap.put("Referer", "messenger.telegram.org");
+                try {
+                    EmbedBottomSheet.this.webView.loadUrl(EmbedBottomSheet.this.embedUrl, hashMap);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            }
+
+            @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
+            public TextureView onSwitchToFullscreen(View view, boolean z, float f, int i6, boolean z2) {
+                if (z) {
+                    EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(0);
+                    EmbedBottomSheet.this.fullscreenVideoContainer.setAlpha(1.0f);
+                    EmbedBottomSheet.this.fullscreenVideoContainer.addView(EmbedBottomSheet.this.videoView.getAspectRatioView());
+                    EmbedBottomSheet.this.wasInLandscape = false;
+                    EmbedBottomSheet.this.fullscreenedByButton = z2;
+                    if (EmbedBottomSheet.this.parentActivity == null) {
+                        return null;
+                    }
+                    try {
+                        EmbedBottomSheet embedBottomSheet = EmbedBottomSheet.this;
+                        embedBottomSheet.prevOrientation = embedBottomSheet.parentActivity.getRequestedOrientation();
+                        if (z2) {
+                            if (((WindowManager) EmbedBottomSheet.this.parentActivity.getSystemService("window")).getDefaultDisplay().getRotation() == 3) {
+                                EmbedBottomSheet.this.parentActivity.setRequestedOrientation(8);
+                            } else {
+                                EmbedBottomSheet.this.parentActivity.setRequestedOrientation(0);
+                            }
+                        }
+                        ((BottomSheet) EmbedBottomSheet.this).containerView.setSystemUiVisibility(1028);
+                        return null;
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                        return null;
+                    }
+                }
+                EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(4);
+                EmbedBottomSheet.this.fullscreenedByButton = false;
+                if (EmbedBottomSheet.this.parentActivity == null) {
+                    return null;
+                }
+                try {
+                    ((BottomSheet) EmbedBottomSheet.this).containerView.setSystemUiVisibility(0);
+                    EmbedBottomSheet.this.parentActivity.setRequestedOrientation(EmbedBottomSheet.this.prevOrientation);
+                    return null;
+                } catch (Exception e2) {
+                    FileLog.e(e2);
+                    return null;
+                }
+            }
+
+            @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
+            public void onInlineSurfaceTextureReady() {
+                if (EmbedBottomSheet.this.videoView.isInline()) {
+                    EmbedBottomSheet.this.dismissInternal();
+                }
+            }
+
+            @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
+            public void prepareToSwitchInlineMode(boolean z, final Runnable runnable, float f, boolean z2) {
+                if (z) {
+                    if (EmbedBottomSheet.this.parentActivity != null) {
+                        try {
+                            ((BottomSheet) EmbedBottomSheet.this).containerView.setSystemUiVisibility(0);
+                            if (EmbedBottomSheet.this.prevOrientation != -2) {
+                                EmbedBottomSheet.this.parentActivity.setRequestedOrientation(EmbedBottomSheet.this.prevOrientation);
+                            }
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                    }
+                    if (EmbedBottomSheet.this.fullscreenVideoContainer.getVisibility() == 0) {
+                        ((BottomSheet) EmbedBottomSheet.this).containerView.setTranslationY(((BottomSheet) EmbedBottomSheet.this).containerView.getMeasuredHeight() + AndroidUtilities.dp(10.0f));
+                        ((BottomSheet) EmbedBottomSheet.this).backDrawable.setAlpha(0);
+                    }
+                    EmbedBottomSheet.this.setOnShowListener(null);
+                    if (z2) {
+                        TextureView textureView = EmbedBottomSheet.this.videoView.getTextureView();
+                        View controlsView = EmbedBottomSheet.this.videoView.getControlsView();
+                        ImageView textureImageView = EmbedBottomSheet.this.videoView.getTextureImageView();
+                        Rect pipRect = PipVideoOverlay.getPipRect(true, f);
+                        float width = pipRect.width / textureView.getWidth();
+                        AnimatorSet animatorSet = new AnimatorSet();
+                        animatorSet.playTogether(ObjectAnimator.ofFloat(textureImageView, View.SCALE_X, width), ObjectAnimator.ofFloat(textureImageView, View.SCALE_Y, width), ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_X, pipRect.x), ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_Y, pipRect.y), ObjectAnimator.ofFloat(textureView, View.SCALE_X, width), ObjectAnimator.ofFloat(textureView, View.SCALE_Y, width), ObjectAnimator.ofFloat(textureView, View.TRANSLATION_X, pipRect.x), ObjectAnimator.ofFloat(textureView, View.TRANSLATION_Y, pipRect.y), ObjectAnimator.ofFloat(((BottomSheet) EmbedBottomSheet.this).containerView, View.TRANSLATION_Y, ((BottomSheet) EmbedBottomSheet.this).containerView.getMeasuredHeight() + AndroidUtilities.dp(10.0f)), ObjectAnimator.ofInt(((BottomSheet) EmbedBottomSheet.this).backDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0), ObjectAnimator.ofFloat(EmbedBottomSheet.this.fullscreenVideoContainer, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(controlsView, View.ALPHA, 0.0f));
+                        animatorSet.setInterpolator(new DecelerateInterpolator());
+                        animatorSet.setDuration(250L);
+                        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.EmbedBottomSheet.6.1
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                if (EmbedBottomSheet.this.fullscreenVideoContainer.getVisibility() == 0) {
+                                    EmbedBottomSheet.this.fullscreenVideoContainer.setAlpha(1.0f);
+                                    EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(4);
+                                }
+                                runnable.run();
+                            }
+                        });
+                        animatorSet.start();
+                        return;
+                    }
+                    if (EmbedBottomSheet.this.fullscreenVideoContainer.getVisibility() == 0) {
+                        EmbedBottomSheet.this.fullscreenVideoContainer.setAlpha(1.0f);
+                        EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(4);
+                    }
+                    runnable.run();
+                    EmbedBottomSheet.this.dismissInternal();
+                    return;
+                }
+                if (ApplicationLoader.mainInterfacePaused) {
+                    try {
+                        EmbedBottomSheet.this.parentActivity.startService(new Intent(ApplicationLoader.applicationContext, BringAppForegroundService.class));
+                    } catch (Throwable th) {
+                        FileLog.e(th);
+                    }
+                }
+                if (z2) {
+                    EmbedBottomSheet embedBottomSheet = EmbedBottomSheet.this;
+                    embedBottomSheet.setOnShowListener(embedBottomSheet.onShowListener);
+                    Rect pipRect2 = PipVideoOverlay.getPipRect(false, f);
+                    TextureView textureView2 = EmbedBottomSheet.this.videoView.getTextureView();
+                    ImageView textureImageView2 = EmbedBottomSheet.this.videoView.getTextureImageView();
+                    float f2 = pipRect2.width / textureView2.getLayoutParams().width;
+                    textureImageView2.setScaleX(f2);
+                    textureImageView2.setScaleY(f2);
+                    textureImageView2.setTranslationX(pipRect2.x);
+                    textureImageView2.setTranslationY(pipRect2.y);
+                    textureView2.setScaleX(f2);
+                    textureView2.setScaleY(f2);
+                    textureView2.setTranslationX(pipRect2.x);
+                    textureView2.setTranslationY(pipRect2.y);
+                } else {
+                    PipVideoOverlay.dismiss();
+                }
+                EmbedBottomSheet.this.setShowWithoutAnimation(true);
+                EmbedBottomSheet.this.show();
+                if (!z2) {
+                    return;
+                }
+                EmbedBottomSheet.this.waitingForDraw = 4;
+                ((BottomSheet) EmbedBottomSheet.this).backDrawable.setAlpha(1);
+                ((BottomSheet) EmbedBottomSheet.this).containerView.setTranslationY(((BottomSheet) EmbedBottomSheet.this).containerView.getMeasuredHeight() + AndroidUtilities.dp(10.0f));
+            }
+
+            @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
+            public TextureView onSwitchInlineMode(View view, boolean z, int i6, int i7, int i8, boolean z2) {
+                if (z) {
+                    view.setTranslationY(0.0f);
+                    TextureView textureView = new TextureView(EmbedBottomSheet.this.parentActivity);
+                    if (!PipVideoOverlay.show(false, EmbedBottomSheet.this.parentActivity, textureView, i6, i7)) {
+                        return null;
+                    }
+                    PipVideoOverlay.setParentSheet(EmbedBottomSheet.this);
+                    return textureView;
+                }
+                if (z2) {
+                    EmbedBottomSheet.this.animationInProgress = true;
+                    EmbedBottomSheet.this.videoView.getAspectRatioView().getLocationInWindow(EmbedBottomSheet.this.position);
+                    int[] iArr = EmbedBottomSheet.this.position;
+                    iArr[0] = iArr[0] - EmbedBottomSheet.this.getLeftInset();
+                    int[] iArr2 = EmbedBottomSheet.this.position;
+                    iArr2[1] = (int) (iArr2[1] - ((BottomSheet) EmbedBottomSheet.this).containerView.getTranslationY());
+                    TextureView textureView2 = EmbedBottomSheet.this.videoView.getTextureView();
+                    ImageView textureImageView = EmbedBottomSheet.this.videoView.getTextureImageView();
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    animatorSet.playTogether(ObjectAnimator.ofFloat(textureImageView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(textureImageView, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_X, EmbedBottomSheet.this.position[0]), ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_Y, EmbedBottomSheet.this.position[1]), ObjectAnimator.ofFloat(textureView2, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(textureView2, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(textureView2, View.TRANSLATION_X, EmbedBottomSheet.this.position[0]), ObjectAnimator.ofFloat(textureView2, View.TRANSLATION_Y, EmbedBottomSheet.this.position[1]), ObjectAnimator.ofFloat(((BottomSheet) EmbedBottomSheet.this).containerView, View.TRANSLATION_Y, 0.0f), ObjectAnimator.ofInt(((BottomSheet) EmbedBottomSheet.this).backDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 51));
+                    animatorSet.setInterpolator(new DecelerateInterpolator());
+                    animatorSet.setDuration(250L);
+                    animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.EmbedBottomSheet.6.2
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            EmbedBottomSheet.this.animationInProgress = false;
+                        }
+                    });
+                    animatorSet.start();
+                } else {
+                    ((BottomSheet) EmbedBottomSheet.this).containerView.setTranslationY(0.0f);
+                }
+                return null;
+            }
+
+            @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
+            public void onPlayStateChanged(WebPlayerView webPlayerView2, boolean z) {
+                if (z) {
+                    try {
+                        EmbedBottomSheet.this.parentActivity.getWindow().addFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                        return;
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                        return;
+                    }
+                }
+                try {
+                    EmbedBottomSheet.this.parentActivity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                } catch (Exception e2) {
+                    FileLog.e(e2);
+                }
+            }
+
+            @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
+            public boolean checkInlinePermissions() {
+                return EmbedBottomSheet.this.checkInlinePermissions();
+            }
+
+            @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
+            public ViewGroup getTextureViewContainer() {
+                return ((BottomSheet) EmbedBottomSheet.this).container;
+            }
+        });
         this.videoView = webPlayerView;
         webPlayerView.setVisibility(4);
         this.containerLayout.addView(this.videoView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, ((this.hasDescription ? 22 : 0) + 84) - 10));
@@ -238,7 +554,7 @@ public class EmbedBottomSheet extends BottomSheet {
             textView.setTextColor(Theme.getColor("dialogTextBlack"));
             textView.setText(str2);
             textView.setSingleLine(true);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             textView.setEllipsize(TextUtils.TruncateAt.END);
             textView.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
             this.containerLayout.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 83, 0.0f, 0.0f, 0.0f, 77.0f));
@@ -255,13 +571,13 @@ public class EmbedBottomSheet extends BottomSheet {
         view2.setBackgroundColor(Theme.getColor("dialogGrayLine"));
         this.containerLayout.addView(view2, new FrameLayout.LayoutParams(-1, 1, 83));
         ((FrameLayout.LayoutParams) view2.getLayoutParams()).bottomMargin = AndroidUtilities.dp(48.0f);
-        FrameLayout frameLayout2 = new FrameLayout(context);
-        frameLayout2.setBackgroundColor(Theme.getColor("dialogBackground"));
-        this.containerLayout.addView(frameLayout2, LayoutHelper.createFrame(-1, 48, 83));
+        FrameLayout frameLayout3 = new FrameLayout(context);
+        frameLayout3.setBackgroundColor(Theme.getColor("dialogBackground"));
+        this.containerLayout.addView(frameLayout3, LayoutHelper.createFrame(-1, 48, 83));
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(0);
         linearLayout.setWeightSum(1.0f);
-        frameLayout2.addView(linearLayout, LayoutHelper.createFrame(-2, -1, 53));
+        frameLayout3.addView(linearLayout, LayoutHelper.createFrame(-2, -1, 53));
         TextView textView3 = new TextView(context);
         textView3.setTextSize(1, 14.0f);
         textView3.setTextColor(Theme.getColor("dialogTextBlue4"));
@@ -270,34 +586,49 @@ public class EmbedBottomSheet extends BottomSheet {
         textView3.setEllipsize(TextUtils.TruncateAt.END);
         textView3.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0));
         textView3.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-        textView3.setText(LocaleController.getString("Close", 2131625183).toUpperCase());
-        textView3.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        frameLayout2.addView(textView3, LayoutHelper.createLinear(-2, -1, 51));
-        textView3.setOnClickListener(new EmbedBottomSheet$$ExternalSyntheticLambda1(this));
+        textView3.setText(LocaleController.getString("Close", R.string.Close).toUpperCase());
+        textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        frameLayout3.addView(textView3, LayoutHelper.createLinear(-2, -1, 51));
+        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmbedBottomSheet$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view3) {
+                EmbedBottomSheet.this.lambda$new$2(view3);
+            }
+        });
         LinearLayout linearLayout2 = new LinearLayout(context);
         this.imageButtonsContainer = linearLayout2;
         linearLayout2.setVisibility(4);
-        frameLayout2.addView(this.imageButtonsContainer, LayoutHelper.createFrame(-2, -1, 17));
+        frameLayout3.addView(this.imageButtonsContainer, LayoutHelper.createFrame(-2, -1, 17));
         ImageView imageView = new ImageView(context);
         this.pipButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.pipButton.setImageResource(2131165478);
-        this.pipButton.setContentDescription(LocaleController.getString("AccDescrPipMode", 2131624040));
+        this.pipButton.setImageResource(R.drawable.ic_goinline);
+        this.pipButton.setContentDescription(LocaleController.getString("AccDescrPipMode", R.string.AccDescrPipMode));
         this.pipButton.setEnabled(false);
         this.pipButton.setAlpha(0.5f);
         this.pipButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogTextBlue4"), PorterDuff.Mode.MULTIPLY));
         this.pipButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0));
         this.imageButtonsContainer.addView(this.pipButton, LayoutHelper.createFrame(48, 48.0f, 51, 0.0f, 0.0f, 4.0f, 0.0f));
-        this.pipButton.setOnClickListener(new EmbedBottomSheet$$ExternalSyntheticLambda0(this));
-        EmbedBottomSheet$$ExternalSyntheticLambda3 embedBottomSheet$$ExternalSyntheticLambda3 = new EmbedBottomSheet$$ExternalSyntheticLambda3(this);
+        this.pipButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmbedBottomSheet$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view3) {
+                EmbedBottomSheet.this.lambda$new$3(view3);
+            }
+        });
+        View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Components.EmbedBottomSheet$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view3) {
+                EmbedBottomSheet.this.lambda$new$4(view3);
+            }
+        };
         ImageView imageView2 = new ImageView(context);
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
-        imageView2.setImageResource(2131165697);
-        imageView2.setContentDescription(LocaleController.getString("CopyLink", 2131625274));
+        imageView2.setImageResource(R.drawable.msg_copy);
+        imageView2.setContentDescription(LocaleController.getString("CopyLink", R.string.CopyLink));
         imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogTextBlue4"), PorterDuff.Mode.MULTIPLY));
         imageView2.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0));
         this.imageButtonsContainer.addView(imageView2, LayoutHelper.createFrame(48, 48, 51));
-        imageView2.setOnClickListener(embedBottomSheet$$ExternalSyntheticLambda3);
+        imageView2.setOnClickListener(onClickListener);
         TextView textView4 = new TextView(context);
         this.copyTextButton = textView4;
         textView4.setTextSize(1, 14.0f);
@@ -307,10 +638,10 @@ public class EmbedBottomSheet extends BottomSheet {
         this.copyTextButton.setEllipsize(TextUtils.TruncateAt.END);
         this.copyTextButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0));
         this.copyTextButton.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-        this.copyTextButton.setText(LocaleController.getString("Copy", 2131625272).toUpperCase());
-        this.copyTextButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.copyTextButton.setText(LocaleController.getString("Copy", R.string.Copy).toUpperCase());
+        this.copyTextButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         linearLayout.addView(this.copyTextButton, LayoutHelper.createFrame(-2, -1, 51));
-        this.copyTextButton.setOnClickListener(embedBottomSheet$$ExternalSyntheticLambda3);
+        this.copyTextButton.setOnClickListener(onClickListener);
         TextView textView5 = new TextView(context);
         textView5.setTextSize(1, 14.0f);
         textView5.setTextColor(Theme.getColor("dialogTextBlue4"));
@@ -319,17 +650,122 @@ public class EmbedBottomSheet extends BottomSheet {
         textView5.setEllipsize(TextUtils.TruncateAt.END);
         textView5.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0));
         textView5.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-        textView5.setText(LocaleController.getString("OpenInBrowser", 2131627151).toUpperCase());
-        textView5.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView5.setText(LocaleController.getString("OpenInBrowser", R.string.OpenInBrowser).toUpperCase());
+        textView5.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         linearLayout.addView(textView5, LayoutHelper.createFrame(-2, -1, 51));
-        textView5.setOnClickListener(new EmbedBottomSheet$$ExternalSyntheticLambda2(this));
-        boolean z = this.videoView.canHandleUrl(this.embedUrl) || this.videoView.canHandleUrl(str3);
+        textView5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmbedBottomSheet$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view3) {
+                EmbedBottomSheet.this.lambda$new$5(view3);
+            }
+        });
+        final boolean z = this.videoView.canHandleUrl(this.embedUrl) || this.videoView.canHandleUrl(str3);
         this.videoView.setVisibility(z ? 0 : 4);
         if (z) {
             this.videoView.willHandle();
         }
-        setDelegate(new AnonymousClass8(z));
-        this.orientationEventListener = new AnonymousClass9(ApplicationLoader.applicationContext);
+        setDelegate(new BottomSheet.BottomSheetDelegate() { // from class: org.telegram.ui.Components.EmbedBottomSheet.8
+            @Override // org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegate, org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegateInterface
+            public void onOpenAnimationEnd() {
+                int intValue;
+                if (z && EmbedBottomSheet.this.videoView.loadVideo(EmbedBottomSheet.this.embedUrl, null, null, EmbedBottomSheet.this.openUrl, true)) {
+                    EmbedBottomSheet.this.progressBar.setVisibility(4);
+                    EmbedBottomSheet.this.webView.setVisibility(4);
+                    EmbedBottomSheet.this.videoView.setVisibility(0);
+                    return;
+                }
+                EmbedBottomSheet.this.progressBar.setVisibility(0);
+                EmbedBottomSheet.this.webView.setVisibility(0);
+                EmbedBottomSheet.this.imageButtonsContainer.setVisibility(0);
+                EmbedBottomSheet.this.copyTextButton.setVisibility(4);
+                EmbedBottomSheet.this.webView.setKeepScreenOn(true);
+                EmbedBottomSheet.this.videoView.setVisibility(4);
+                EmbedBottomSheet.this.videoView.getControlsView().setVisibility(4);
+                EmbedBottomSheet.this.videoView.getTextureView().setVisibility(4);
+                if (EmbedBottomSheet.this.videoView.getTextureImageView() != null) {
+                    EmbedBottomSheet.this.videoView.getTextureImageView().setVisibility(4);
+                }
+                EmbedBottomSheet.this.videoView.loadVideo(null, null, null, null, false);
+                HashMap hashMap = new HashMap();
+                hashMap.put("Referer", "messenger.telegram.org");
+                try {
+                    String youtubeId = EmbedBottomSheet.this.videoView.getYoutubeId();
+                    if (youtubeId != null) {
+                        EmbedBottomSheet.this.progressBarBlackBackground.setVisibility(0);
+                        EmbedBottomSheet.this.isYouTube = true;
+                        String str5 = null;
+                        if (Build.VERSION.SDK_INT >= 17) {
+                            EmbedBottomSheet.this.webView.addJavascriptInterface(new YoutubeProxy(), "YoutubeProxy");
+                        }
+                        if (EmbedBottomSheet.this.openUrl != null) {
+                            try {
+                                Uri parse = Uri.parse(EmbedBottomSheet.this.openUrl);
+                                if (EmbedBottomSheet.this.seekTimeOverride > 0) {
+                                    str5 = "" + EmbedBottomSheet.this.seekTimeOverride;
+                                }
+                                if (str5 == null && (str5 = parse.getQueryParameter("t")) == null) {
+                                    str5 = parse.getQueryParameter("time_continue");
+                                }
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                            if (str5 != null) {
+                                if (str5.contains("m")) {
+                                    String[] split = str5.split("m");
+                                    intValue = (Utilities.parseInt((CharSequence) split[0]).intValue() * 60) + Utilities.parseInt((CharSequence) split[1]).intValue();
+                                } else {
+                                    intValue = Utilities.parseInt((CharSequence) str5).intValue();
+                                }
+                                EmbedBottomSheet.this.webView.loadDataWithBaseURL("https://messenger.telegram.org/", String.format(Locale.US, "<!DOCTYPE html><html><head><style>body { margin: 0; width:100%%; height:100%%;  background-color:#000; }html { width:100%%; height:100%%; background-color:#000; }.embed-container iframe,.embed-container object,   .embed-container embed {       position: absolute;       top: 0;       left: 0;       width: 100%% !important;       height: 100%% !important;   }   </style></head><body>   <div class=\"embed-container\">       <div id=\"player\"></div>   </div>   <script src=\"https://www.youtube.com/iframe_api\"></script>   <script>   var player;   var observer;   var videoEl;   var playing;   var posted = false;   YT.ready(function() {       player = new YT.Player(\"player\", {                              \"width\" : \"100%%\",                              \"events\" : {                              \"onReady\" : \"onReady\",                              \"onError\" : \"onError\",                              \"onStateChange\" : \"onStateChange\",                              },                              \"videoId\" : \"%1$s\",                              \"height\" : \"100%%\",                              \"playerVars\" : {                              \"start\" : %2$d,                              \"rel\" : 1,                              \"showinfo\" : 0,                              \"modestbranding\" : 0,                              \"iv_load_policy\" : 3,                              \"autohide\" : 1,                              \"autoplay\" : 1,                              \"cc_load_policy\" : 1,                              \"playsinline\" : 1,                              \"controls\" : 1                              }                            });        player.setSize(window.innerWidth, window.innerHeight);    });    function hideControls() {        playing = !videoEl.paused;       videoEl.controls = 0;       observer.observe(videoEl, {attributes: true});    }    function showControls() {        playing = !videoEl.paused;       observer.disconnect();       videoEl.controls = 1;    }    function onError(event) {       if (!posted) {            if (window.YoutubeProxy !== undefined) {                   YoutubeProxy.postEvent(\"loaded\", null);             }            posted = true;       }    }    function onStateChange(event) {       if (event.data == YT.PlayerState.PLAYING && !posted) {            if (window.YoutubeProxy !== undefined) {                   YoutubeProxy.postEvent(\"loaded\", null);             }            posted = true;       }    }    function onReady(event) {       player.playVideo();    }    window.onresize = function() {       player.setSize(window.innerWidth, window.innerHeight);       player.playVideo();    }    </script></body></html>", youtubeId, Integer.valueOf(intValue)), "text/html", "UTF-8", "https://youtube.com");
+                                return;
+                            }
+                        }
+                        intValue = 0;
+                        EmbedBottomSheet.this.webView.loadDataWithBaseURL("https://messenger.telegram.org/", String.format(Locale.US, "<!DOCTYPE html><html><head><style>body { margin: 0; width:100%%; height:100%%;  background-color:#000; }html { width:100%%; height:100%%; background-color:#000; }.embed-container iframe,.embed-container object,   .embed-container embed {       position: absolute;       top: 0;       left: 0;       width: 100%% !important;       height: 100%% !important;   }   </style></head><body>   <div class=\"embed-container\">       <div id=\"player\"></div>   </div>   <script src=\"https://www.youtube.com/iframe_api\"></script>   <script>   var player;   var observer;   var videoEl;   var playing;   var posted = false;   YT.ready(function() {       player = new YT.Player(\"player\", {                              \"width\" : \"100%%\",                              \"events\" : {                              \"onReady\" : \"onReady\",                              \"onError\" : \"onError\",                              \"onStateChange\" : \"onStateChange\",                              },                              \"videoId\" : \"%1$s\",                              \"height\" : \"100%%\",                              \"playerVars\" : {                              \"start\" : %2$d,                              \"rel\" : 1,                              \"showinfo\" : 0,                              \"modestbranding\" : 0,                              \"iv_load_policy\" : 3,                              \"autohide\" : 1,                              \"autoplay\" : 1,                              \"cc_load_policy\" : 1,                              \"playsinline\" : 1,                              \"controls\" : 1                              }                            });        player.setSize(window.innerWidth, window.innerHeight);    });    function hideControls() {        playing = !videoEl.paused;       videoEl.controls = 0;       observer.observe(videoEl, {attributes: true});    }    function showControls() {        playing = !videoEl.paused;       observer.disconnect();       videoEl.controls = 1;    }    function onError(event) {       if (!posted) {            if (window.YoutubeProxy !== undefined) {                   YoutubeProxy.postEvent(\"loaded\", null);             }            posted = true;       }    }    function onStateChange(event) {       if (event.data == YT.PlayerState.PLAYING && !posted) {            if (window.YoutubeProxy !== undefined) {                   YoutubeProxy.postEvent(\"loaded\", null);             }            posted = true;       }    }    function onReady(event) {       player.playVideo();    }    window.onresize = function() {       player.setSize(window.innerWidth, window.innerHeight);       player.playVideo();    }    </script></body></html>", youtubeId, Integer.valueOf(intValue)), "text/html", "UTF-8", "https://youtube.com");
+                        return;
+                    }
+                    EmbedBottomSheet.this.webView.loadUrl(EmbedBottomSheet.this.embedUrl, hashMap);
+                } catch (Exception e2) {
+                    FileLog.e(e2);
+                }
+            }
+
+            @Override // org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegateInterface
+            public boolean canDismiss() {
+                if (EmbedBottomSheet.this.videoView.isInFullscreen()) {
+                    EmbedBottomSheet.this.videoView.exitFullscreen();
+                    return false;
+                }
+                try {
+                    EmbedBottomSheet.this.parentActivity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                    return true;
+                } catch (Exception e) {
+                    FileLog.e(e);
+                    return true;
+                }
+            }
+        });
+        this.orientationEventListener = new OrientationEventListener(ApplicationLoader.applicationContext) { // from class: org.telegram.ui.Components.EmbedBottomSheet.9
+            @Override // android.view.OrientationEventListener
+            public void onOrientationChanged(int i6) {
+                if (EmbedBottomSheet.this.orientationEventListener == null || EmbedBottomSheet.this.videoView.getVisibility() != 0 || EmbedBottomSheet.this.parentActivity == null || !EmbedBottomSheet.this.videoView.isInFullscreen() || !EmbedBottomSheet.this.fullscreenedByButton) {
+                    return;
+                }
+                if (i6 < 240 || i6 > 300) {
+                    if (!EmbedBottomSheet.this.wasInLandscape || i6 <= 0) {
+                        return;
+                    }
+                    if (i6 < 330 && i6 > 30) {
+                        return;
+                    }
+                    EmbedBottomSheet.this.parentActivity.setRequestedOrientation(EmbedBottomSheet.this.prevOrientation);
+                    EmbedBottomSheet.this.fullscreenedByButton = false;
+                    EmbedBottomSheet.this.wasInLandscape = false;
+                    return;
+                }
+                EmbedBottomSheet.this.wasInLandscape = true;
+            }
+        };
         String youTubeVideoId = WebPlayerView.getYouTubeVideoId(this.embedUrl);
         if (youTubeVideoId != null || !z) {
             this.progressBar.setVisibility(0);
@@ -357,397 +793,6 @@ public class EmbedBottomSheet extends BottomSheet {
             this.orientationEventListener = null;
         }
         instance = this;
-    }
-
-    /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends FrameLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            EmbedBottomSheet.this = r1;
-        }
-
-        @Override // android.view.ViewGroup, android.view.View
-        protected void onDetachedFromWindow() {
-            super.onDetachedFromWindow();
-            try {
-                if ((!PipVideoOverlay.isVisible() || EmbedBottomSheet.this.webView.getVisibility() != 0) && EmbedBottomSheet.this.webView.getParent() != null) {
-                    removeView(EmbedBottomSheet.this.webView);
-                    EmbedBottomSheet.this.webView.stopLoading();
-                    EmbedBottomSheet.this.webView.loadUrl("about:blank");
-                    EmbedBottomSheet.this.webView.destroy();
-                }
-                if (EmbedBottomSheet.this.videoView.isInline() || PipVideoOverlay.isVisible()) {
-                    return;
-                }
-                if (EmbedBottomSheet.instance == EmbedBottomSheet.this) {
-                    EmbedBottomSheet unused = EmbedBottomSheet.instance = null;
-                }
-                EmbedBottomSheet.this.videoView.destroy();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(((int) Math.min(EmbedBottomSheet.this.height / (EmbedBottomSheet.this.width / View.MeasureSpec.getSize(i)), AndroidUtilities.displaySize.y / 2)) + AndroidUtilities.dp((EmbedBottomSheet.this.hasDescription ? 22 : 0) + 84) + 1, 1073741824));
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends WebView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(Context context) {
-            super(context);
-            EmbedBottomSheet.this = r1;
-        }
-
-        @Override // android.webkit.WebView, android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            boolean onTouchEvent = super.onTouchEvent(motionEvent);
-            if (onTouchEvent) {
-                if (motionEvent.getAction() == 1) {
-                    EmbedBottomSheet.this.setDisableScroll(false);
-                } else {
-                    EmbedBottomSheet.this.setDisableScroll(true);
-                }
-            }
-            return onTouchEvent;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends WebChromeClient {
-        AnonymousClass4() {
-            EmbedBottomSheet.this = r1;
-        }
-
-        @Override // android.webkit.WebChromeClient
-        public void onShowCustomView(View view, int i, WebChromeClient.CustomViewCallback customViewCallback) {
-            onShowCustomView(view, customViewCallback);
-        }
-
-        @Override // android.webkit.WebChromeClient
-        public void onShowCustomView(View view, WebChromeClient.CustomViewCallback customViewCallback) {
-            if (EmbedBottomSheet.this.customView != null || PipVideoOverlay.isVisible()) {
-                customViewCallback.onCustomViewHidden();
-                return;
-            }
-            EmbedBottomSheet.this.exitFromPip();
-            EmbedBottomSheet.this.customView = view;
-            EmbedBottomSheet.this.getSheetContainer().setVisibility(4);
-            EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(0);
-            EmbedBottomSheet.this.fullscreenVideoContainer.addView(view, LayoutHelper.createFrame(-1, -1.0f));
-            EmbedBottomSheet.this.customViewCallback = customViewCallback;
-        }
-
-        @Override // android.webkit.WebChromeClient
-        public void onHideCustomView() {
-            super.onHideCustomView();
-            if (EmbedBottomSheet.this.customView == null) {
-                return;
-            }
-            EmbedBottomSheet.this.getSheetContainer().setVisibility(0);
-            EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(4);
-            EmbedBottomSheet.this.fullscreenVideoContainer.removeView(EmbedBottomSheet.this.customView);
-            if (EmbedBottomSheet.this.customViewCallback != null && !EmbedBottomSheet.this.customViewCallback.getClass().getName().contains(".chromium.")) {
-                EmbedBottomSheet.this.customViewCallback.onCustomViewHidden();
-            }
-            EmbedBottomSheet.this.customView = null;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends WebViewClient {
-        AnonymousClass5() {
-            EmbedBottomSheet.this = r1;
-        }
-
-        @Override // android.webkit.WebViewClient
-        public void onLoadResource(WebView webView, String str) {
-            super.onLoadResource(webView, str);
-        }
-
-        @Override // android.webkit.WebViewClient
-        public void onPageFinished(WebView webView, String str) {
-            super.onPageFinished(webView, str);
-            if (!EmbedBottomSheet.this.isYouTube || Build.VERSION.SDK_INT < 17) {
-                EmbedBottomSheet.this.progressBar.setVisibility(4);
-                EmbedBottomSheet.this.progressBarBlackBackground.setVisibility(4);
-                EmbedBottomSheet.this.pipButton.setEnabled(true);
-                EmbedBottomSheet.this.pipButton.setAlpha(1.0f);
-            }
-        }
-
-        @Override // android.webkit.WebViewClient
-        public boolean shouldOverrideUrlLoading(WebView webView, String str) {
-            if (EmbedBottomSheet.this.isYouTube) {
-                Browser.openUrl(webView.getContext(), str);
-                return true;
-            }
-            return super.shouldOverrideUrlLoading(webView, str);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 implements WebPlayerView.WebPlayerViewDelegate {
-        @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
-        public void onSharePressed() {
-        }
-
-        @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
-        public void onVideoSizeChanged(float f, int i) {
-        }
-
-        AnonymousClass6() {
-            EmbedBottomSheet.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
-        public void onInitFailed() {
-            EmbedBottomSheet.this.webView.setVisibility(0);
-            EmbedBottomSheet.this.imageButtonsContainer.setVisibility(0);
-            EmbedBottomSheet.this.copyTextButton.setVisibility(4);
-            EmbedBottomSheet.this.webView.setKeepScreenOn(true);
-            EmbedBottomSheet.this.videoView.setVisibility(4);
-            EmbedBottomSheet.this.videoView.getControlsView().setVisibility(4);
-            EmbedBottomSheet.this.videoView.getTextureView().setVisibility(4);
-            if (EmbedBottomSheet.this.videoView.getTextureImageView() != null) {
-                EmbedBottomSheet.this.videoView.getTextureImageView().setVisibility(4);
-            }
-            EmbedBottomSheet.this.videoView.loadVideo(null, null, null, null, false);
-            HashMap hashMap = new HashMap();
-            hashMap.put("Referer", "messenger.telegram.org");
-            try {
-                EmbedBottomSheet.this.webView.loadUrl(EmbedBottomSheet.this.embedUrl, hashMap);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-
-        @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
-        public TextureView onSwitchToFullscreen(View view, boolean z, float f, int i, boolean z2) {
-            if (z) {
-                EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(0);
-                EmbedBottomSheet.this.fullscreenVideoContainer.setAlpha(1.0f);
-                EmbedBottomSheet.this.fullscreenVideoContainer.addView(EmbedBottomSheet.this.videoView.getAspectRatioView());
-                EmbedBottomSheet.this.wasInLandscape = false;
-                EmbedBottomSheet.this.fullscreenedByButton = z2;
-                if (EmbedBottomSheet.this.parentActivity == null) {
-                    return null;
-                }
-                try {
-                    EmbedBottomSheet embedBottomSheet = EmbedBottomSheet.this;
-                    embedBottomSheet.prevOrientation = embedBottomSheet.parentActivity.getRequestedOrientation();
-                    if (z2) {
-                        if (((WindowManager) EmbedBottomSheet.this.parentActivity.getSystemService("window")).getDefaultDisplay().getRotation() == 3) {
-                            EmbedBottomSheet.this.parentActivity.setRequestedOrientation(8);
-                        } else {
-                            EmbedBottomSheet.this.parentActivity.setRequestedOrientation(0);
-                        }
-                    }
-                    ((BottomSheet) EmbedBottomSheet.this).containerView.setSystemUiVisibility(1028);
-                    return null;
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    return null;
-                }
-            }
-            EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(4);
-            EmbedBottomSheet.this.fullscreenedByButton = false;
-            if (EmbedBottomSheet.this.parentActivity == null) {
-                return null;
-            }
-            try {
-                ((BottomSheet) EmbedBottomSheet.this).containerView.setSystemUiVisibility(0);
-                EmbedBottomSheet.this.parentActivity.setRequestedOrientation(EmbedBottomSheet.this.prevOrientation);
-                return null;
-            } catch (Exception e2) {
-                FileLog.e(e2);
-                return null;
-            }
-        }
-
-        @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
-        public void onInlineSurfaceTextureReady() {
-            if (EmbedBottomSheet.this.videoView.isInline()) {
-                EmbedBottomSheet.this.dismissInternal();
-            }
-        }
-
-        @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
-        public void prepareToSwitchInlineMode(boolean z, Runnable runnable, float f, boolean z2) {
-            if (z) {
-                if (EmbedBottomSheet.this.parentActivity != null) {
-                    try {
-                        ((BottomSheet) EmbedBottomSheet.this).containerView.setSystemUiVisibility(0);
-                        if (EmbedBottomSheet.this.prevOrientation != -2) {
-                            EmbedBottomSheet.this.parentActivity.setRequestedOrientation(EmbedBottomSheet.this.prevOrientation);
-                        }
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                }
-                if (EmbedBottomSheet.this.fullscreenVideoContainer.getVisibility() == 0) {
-                    ((BottomSheet) EmbedBottomSheet.this).containerView.setTranslationY(((BottomSheet) EmbedBottomSheet.this).containerView.getMeasuredHeight() + AndroidUtilities.dp(10.0f));
-                    ((BottomSheet) EmbedBottomSheet.this).backDrawable.setAlpha(0);
-                }
-                EmbedBottomSheet.this.setOnShowListener(null);
-                if (z2) {
-                    TextureView textureView = EmbedBottomSheet.this.videoView.getTextureView();
-                    View controlsView = EmbedBottomSheet.this.videoView.getControlsView();
-                    ImageView textureImageView = EmbedBottomSheet.this.videoView.getTextureImageView();
-                    Rect pipRect = PipVideoOverlay.getPipRect(true, f);
-                    float width = pipRect.width / textureView.getWidth();
-                    AnimatorSet animatorSet = new AnimatorSet();
-                    animatorSet.playTogether(ObjectAnimator.ofFloat(textureImageView, View.SCALE_X, width), ObjectAnimator.ofFloat(textureImageView, View.SCALE_Y, width), ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_X, pipRect.x), ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_Y, pipRect.y), ObjectAnimator.ofFloat(textureView, View.SCALE_X, width), ObjectAnimator.ofFloat(textureView, View.SCALE_Y, width), ObjectAnimator.ofFloat(textureView, View.TRANSLATION_X, pipRect.x), ObjectAnimator.ofFloat(textureView, View.TRANSLATION_Y, pipRect.y), ObjectAnimator.ofFloat(((BottomSheet) EmbedBottomSheet.this).containerView, View.TRANSLATION_Y, ((BottomSheet) EmbedBottomSheet.this).containerView.getMeasuredHeight() + AndroidUtilities.dp(10.0f)), ObjectAnimator.ofInt(((BottomSheet) EmbedBottomSheet.this).backDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0), ObjectAnimator.ofFloat(EmbedBottomSheet.this.fullscreenVideoContainer, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(controlsView, View.ALPHA, 0.0f));
-                    animatorSet.setInterpolator(new DecelerateInterpolator());
-                    animatorSet.setDuration(250L);
-                    animatorSet.addListener(new AnonymousClass1(runnable));
-                    animatorSet.start();
-                    return;
-                }
-                if (EmbedBottomSheet.this.fullscreenVideoContainer.getVisibility() == 0) {
-                    EmbedBottomSheet.this.fullscreenVideoContainer.setAlpha(1.0f);
-                    EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(4);
-                }
-                runnable.run();
-                EmbedBottomSheet.this.dismissInternal();
-                return;
-            }
-            if (ApplicationLoader.mainInterfacePaused) {
-                try {
-                    EmbedBottomSheet.this.parentActivity.startService(new Intent(ApplicationLoader.applicationContext, BringAppForegroundService.class));
-                } catch (Throwable th) {
-                    FileLog.e(th);
-                }
-            }
-            if (z2) {
-                EmbedBottomSheet embedBottomSheet = EmbedBottomSheet.this;
-                embedBottomSheet.setOnShowListener(embedBottomSheet.onShowListener);
-                Rect pipRect2 = PipVideoOverlay.getPipRect(false, f);
-                TextureView textureView2 = EmbedBottomSheet.this.videoView.getTextureView();
-                ImageView textureImageView2 = EmbedBottomSheet.this.videoView.getTextureImageView();
-                float f2 = pipRect2.width / textureView2.getLayoutParams().width;
-                textureImageView2.setScaleX(f2);
-                textureImageView2.setScaleY(f2);
-                textureImageView2.setTranslationX(pipRect2.x);
-                textureImageView2.setTranslationY(pipRect2.y);
-                textureView2.setScaleX(f2);
-                textureView2.setScaleY(f2);
-                textureView2.setTranslationX(pipRect2.x);
-                textureView2.setTranslationY(pipRect2.y);
-            } else {
-                PipVideoOverlay.dismiss();
-            }
-            EmbedBottomSheet.this.setShowWithoutAnimation(true);
-            EmbedBottomSheet.this.show();
-            if (!z2) {
-                return;
-            }
-            EmbedBottomSheet.this.waitingForDraw = 4;
-            ((BottomSheet) EmbedBottomSheet.this).backDrawable.setAlpha(1);
-            ((BottomSheet) EmbedBottomSheet.this).containerView.setTranslationY(((BottomSheet) EmbedBottomSheet.this).containerView.getMeasuredHeight() + AndroidUtilities.dp(10.0f));
-        }
-
-        /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$6$1 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass1 extends AnimatorListenerAdapter {
-            final /* synthetic */ Runnable val$switchInlineModeRunnable;
-
-            AnonymousClass1(Runnable runnable) {
-                AnonymousClass6.this = r1;
-                this.val$switchInlineModeRunnable = runnable;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (EmbedBottomSheet.this.fullscreenVideoContainer.getVisibility() == 0) {
-                    EmbedBottomSheet.this.fullscreenVideoContainer.setAlpha(1.0f);
-                    EmbedBottomSheet.this.fullscreenVideoContainer.setVisibility(4);
-                }
-                this.val$switchInlineModeRunnable.run();
-            }
-        }
-
-        @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
-        public TextureView onSwitchInlineMode(View view, boolean z, int i, int i2, int i3, boolean z2) {
-            if (z) {
-                view.setTranslationY(0.0f);
-                TextureView textureView = new TextureView(EmbedBottomSheet.this.parentActivity);
-                if (!PipVideoOverlay.show(false, EmbedBottomSheet.this.parentActivity, textureView, i, i2)) {
-                    return null;
-                }
-                PipVideoOverlay.setParentSheet(EmbedBottomSheet.this);
-                return textureView;
-            }
-            if (z2) {
-                EmbedBottomSheet.this.animationInProgress = true;
-                EmbedBottomSheet.this.videoView.getAspectRatioView().getLocationInWindow(EmbedBottomSheet.this.position);
-                int[] iArr = EmbedBottomSheet.this.position;
-                iArr[0] = iArr[0] - EmbedBottomSheet.this.getLeftInset();
-                int[] iArr2 = EmbedBottomSheet.this.position;
-                iArr2[1] = (int) (iArr2[1] - ((BottomSheet) EmbedBottomSheet.this).containerView.getTranslationY());
-                TextureView textureView2 = EmbedBottomSheet.this.videoView.getTextureView();
-                ImageView textureImageView = EmbedBottomSheet.this.videoView.getTextureImageView();
-                AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.playTogether(ObjectAnimator.ofFloat(textureImageView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(textureImageView, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_X, EmbedBottomSheet.this.position[0]), ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_Y, EmbedBottomSheet.this.position[1]), ObjectAnimator.ofFloat(textureView2, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(textureView2, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(textureView2, View.TRANSLATION_X, EmbedBottomSheet.this.position[0]), ObjectAnimator.ofFloat(textureView2, View.TRANSLATION_Y, EmbedBottomSheet.this.position[1]), ObjectAnimator.ofFloat(((BottomSheet) EmbedBottomSheet.this).containerView, View.TRANSLATION_Y, 0.0f), ObjectAnimator.ofInt(((BottomSheet) EmbedBottomSheet.this).backDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 51));
-                animatorSet.setInterpolator(new DecelerateInterpolator());
-                animatorSet.setDuration(250L);
-                animatorSet.addListener(new AnonymousClass2());
-                animatorSet.start();
-            } else {
-                ((BottomSheet) EmbedBottomSheet.this).containerView.setTranslationY(0.0f);
-            }
-            return null;
-        }
-
-        /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$6$2 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass2 extends AnimatorListenerAdapter {
-            AnonymousClass2() {
-                AnonymousClass6.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                EmbedBottomSheet.this.animationInProgress = false;
-            }
-        }
-
-        @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
-        public void onPlayStateChanged(WebPlayerView webPlayerView, boolean z) {
-            if (z) {
-                try {
-                    EmbedBottomSheet.this.parentActivity.getWindow().addFlags(128);
-                    return;
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    return;
-                }
-            }
-            try {
-                EmbedBottomSheet.this.parentActivity.getWindow().clearFlags(128);
-            } catch (Exception e2) {
-                FileLog.e(e2);
-            }
-        }
-
-        @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
-        public boolean checkInlinePermissions() {
-            return EmbedBottomSheet.this.checkInlinePermissions();
-        }
-
-        @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
-        public ViewGroup getTextureViewContainer() {
-            return ((BottomSheet) EmbedBottomSheet.this).container;
-        }
     }
 
     public /* synthetic */ void lambda$new$2(View view) {
@@ -791,127 +836,6 @@ public class EmbedBottomSheet extends BottomSheet {
     public /* synthetic */ void lambda$new$5(View view) {
         Browser.openUrl(this.parentActivity, this.openUrl);
         dismiss();
-    }
-
-    /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$8 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass8 extends BottomSheet.BottomSheetDelegate {
-        final /* synthetic */ boolean val$canHandleUrl;
-
-        AnonymousClass8(boolean z) {
-            EmbedBottomSheet.this = r1;
-            this.val$canHandleUrl = z;
-        }
-
-        @Override // org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegate, org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegateInterface
-        public void onOpenAnimationEnd() {
-            int intValue;
-            if (this.val$canHandleUrl && EmbedBottomSheet.this.videoView.loadVideo(EmbedBottomSheet.this.embedUrl, null, null, EmbedBottomSheet.this.openUrl, true)) {
-                EmbedBottomSheet.this.progressBar.setVisibility(4);
-                EmbedBottomSheet.this.webView.setVisibility(4);
-                EmbedBottomSheet.this.videoView.setVisibility(0);
-                return;
-            }
-            EmbedBottomSheet.this.progressBar.setVisibility(0);
-            EmbedBottomSheet.this.webView.setVisibility(0);
-            EmbedBottomSheet.this.imageButtonsContainer.setVisibility(0);
-            EmbedBottomSheet.this.copyTextButton.setVisibility(4);
-            EmbedBottomSheet.this.webView.setKeepScreenOn(true);
-            EmbedBottomSheet.this.videoView.setVisibility(4);
-            EmbedBottomSheet.this.videoView.getControlsView().setVisibility(4);
-            EmbedBottomSheet.this.videoView.getTextureView().setVisibility(4);
-            if (EmbedBottomSheet.this.videoView.getTextureImageView() != null) {
-                EmbedBottomSheet.this.videoView.getTextureImageView().setVisibility(4);
-            }
-            EmbedBottomSheet.this.videoView.loadVideo(null, null, null, null, false);
-            HashMap hashMap = new HashMap();
-            hashMap.put("Referer", "messenger.telegram.org");
-            try {
-                String youtubeId = EmbedBottomSheet.this.videoView.getYoutubeId();
-                if (youtubeId != null) {
-                    EmbedBottomSheet.this.progressBarBlackBackground.setVisibility(0);
-                    EmbedBottomSheet.this.isYouTube = true;
-                    String str = null;
-                    if (Build.VERSION.SDK_INT >= 17) {
-                        EmbedBottomSheet.this.webView.addJavascriptInterface(new YoutubeProxy(EmbedBottomSheet.this, null), "YoutubeProxy");
-                    }
-                    if (EmbedBottomSheet.this.openUrl != null) {
-                        try {
-                            Uri parse = Uri.parse(EmbedBottomSheet.this.openUrl);
-                            if (EmbedBottomSheet.this.seekTimeOverride > 0) {
-                                str = "" + EmbedBottomSheet.this.seekTimeOverride;
-                            }
-                            if (str == null && (str = parse.getQueryParameter("t")) == null) {
-                                str = parse.getQueryParameter("time_continue");
-                            }
-                        } catch (Exception e) {
-                            FileLog.e(e);
-                        }
-                        if (str != null) {
-                            if (str.contains("m")) {
-                                String[] split = str.split("m");
-                                intValue = (Utilities.parseInt((CharSequence) split[0]).intValue() * 60) + Utilities.parseInt((CharSequence) split[1]).intValue();
-                            } else {
-                                intValue = Utilities.parseInt((CharSequence) str).intValue();
-                            }
-                            EmbedBottomSheet.this.webView.loadDataWithBaseURL("https://messenger.telegram.org/", String.format(Locale.US, "<!DOCTYPE html><html><head><style>body { margin: 0; width:100%%; height:100%%;  background-color:#000; }html { width:100%%; height:100%%; background-color:#000; }.embed-container iframe,.embed-container object,   .embed-container embed {       position: absolute;       top: 0;       left: 0;       width: 100%% !important;       height: 100%% !important;   }   </style></head><body>   <div class=\"embed-container\">       <div id=\"player\"></div>   </div>   <script src=\"https://www.youtube.com/iframe_api\"></script>   <script>   var player;   var observer;   var videoEl;   var playing;   var posted = false;   YT.ready(function() {       player = new YT.Player(\"player\", {                              \"width\" : \"100%%\",                              \"events\" : {                              \"onReady\" : \"onReady\",                              \"onError\" : \"onError\",                              \"onStateChange\" : \"onStateChange\",                              },                              \"videoId\" : \"%1$s\",                              \"height\" : \"100%%\",                              \"playerVars\" : {                              \"start\" : %2$d,                              \"rel\" : 1,                              \"showinfo\" : 0,                              \"modestbranding\" : 0,                              \"iv_load_policy\" : 3,                              \"autohide\" : 1,                              \"autoplay\" : 1,                              \"cc_load_policy\" : 1,                              \"playsinline\" : 1,                              \"controls\" : 1                              }                            });        player.setSize(window.innerWidth, window.innerHeight);    });    function hideControls() {        playing = !videoEl.paused;       videoEl.controls = 0;       observer.observe(videoEl, {attributes: true});    }    function showControls() {        playing = !videoEl.paused;       observer.disconnect();       videoEl.controls = 1;    }    function onError(event) {       if (!posted) {            if (window.YoutubeProxy !== undefined) {                   YoutubeProxy.postEvent(\"loaded\", null);             }            posted = true;       }    }    function onStateChange(event) {       if (event.data == YT.PlayerState.PLAYING && !posted) {            if (window.YoutubeProxy !== undefined) {                   YoutubeProxy.postEvent(\"loaded\", null);             }            posted = true;       }    }    function onReady(event) {       player.playVideo();    }    window.onresize = function() {       player.setSize(window.innerWidth, window.innerHeight);       player.playVideo();    }    </script></body></html>", youtubeId, Integer.valueOf(intValue)), "text/html", "UTF-8", "https://youtube.com");
-                            return;
-                        }
-                    }
-                    intValue = 0;
-                    EmbedBottomSheet.this.webView.loadDataWithBaseURL("https://messenger.telegram.org/", String.format(Locale.US, "<!DOCTYPE html><html><head><style>body { margin: 0; width:100%%; height:100%%;  background-color:#000; }html { width:100%%; height:100%%; background-color:#000; }.embed-container iframe,.embed-container object,   .embed-container embed {       position: absolute;       top: 0;       left: 0;       width: 100%% !important;       height: 100%% !important;   }   </style></head><body>   <div class=\"embed-container\">       <div id=\"player\"></div>   </div>   <script src=\"https://www.youtube.com/iframe_api\"></script>   <script>   var player;   var observer;   var videoEl;   var playing;   var posted = false;   YT.ready(function() {       player = new YT.Player(\"player\", {                              \"width\" : \"100%%\",                              \"events\" : {                              \"onReady\" : \"onReady\",                              \"onError\" : \"onError\",                              \"onStateChange\" : \"onStateChange\",                              },                              \"videoId\" : \"%1$s\",                              \"height\" : \"100%%\",                              \"playerVars\" : {                              \"start\" : %2$d,                              \"rel\" : 1,                              \"showinfo\" : 0,                              \"modestbranding\" : 0,                              \"iv_load_policy\" : 3,                              \"autohide\" : 1,                              \"autoplay\" : 1,                              \"cc_load_policy\" : 1,                              \"playsinline\" : 1,                              \"controls\" : 1                              }                            });        player.setSize(window.innerWidth, window.innerHeight);    });    function hideControls() {        playing = !videoEl.paused;       videoEl.controls = 0;       observer.observe(videoEl, {attributes: true});    }    function showControls() {        playing = !videoEl.paused;       observer.disconnect();       videoEl.controls = 1;    }    function onError(event) {       if (!posted) {            if (window.YoutubeProxy !== undefined) {                   YoutubeProxy.postEvent(\"loaded\", null);             }            posted = true;       }    }    function onStateChange(event) {       if (event.data == YT.PlayerState.PLAYING && !posted) {            if (window.YoutubeProxy !== undefined) {                   YoutubeProxy.postEvent(\"loaded\", null);             }            posted = true;       }    }    function onReady(event) {       player.playVideo();    }    window.onresize = function() {       player.setSize(window.innerWidth, window.innerHeight);       player.playVideo();    }    </script></body></html>", youtubeId, Integer.valueOf(intValue)), "text/html", "UTF-8", "https://youtube.com");
-                    return;
-                }
-                EmbedBottomSheet.this.webView.loadUrl(EmbedBottomSheet.this.embedUrl, hashMap);
-            } catch (Exception e2) {
-                FileLog.e(e2);
-            }
-        }
-
-        @Override // org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegateInterface
-        public boolean canDismiss() {
-            if (EmbedBottomSheet.this.videoView.isInFullscreen()) {
-                EmbedBottomSheet.this.videoView.exitFullscreen();
-                return false;
-            }
-            try {
-                EmbedBottomSheet.this.parentActivity.getWindow().clearFlags(128);
-                return true;
-            } catch (Exception e) {
-                FileLog.e(e);
-                return true;
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.EmbedBottomSheet$9 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass9 extends OrientationEventListener {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass9(Context context) {
-            super(context);
-            EmbedBottomSheet.this = r1;
-        }
-
-        @Override // android.view.OrientationEventListener
-        public void onOrientationChanged(int i) {
-            if (EmbedBottomSheet.this.orientationEventListener == null || EmbedBottomSheet.this.videoView.getVisibility() != 0 || EmbedBottomSheet.this.parentActivity == null || !EmbedBottomSheet.this.videoView.isInFullscreen() || !EmbedBottomSheet.this.fullscreenedByButton) {
-                return;
-            }
-            if (i < 240 || i > 300) {
-                if (!EmbedBottomSheet.this.wasInLandscape || i <= 0) {
-                    return;
-                }
-                if (i < 330 && i > 30) {
-                    return;
-                }
-                EmbedBottomSheet.this.parentActivity.setRequestedOrientation(EmbedBottomSheet.this.prevOrientation);
-                EmbedBottomSheet.this.fullscreenedByButton = false;
-                EmbedBottomSheet.this.wasInLandscape = false;
-                return;
-            }
-            EmbedBottomSheet.this.wasInLandscape = true;
-        }
     }
 
     private void runJsCode(String str) {

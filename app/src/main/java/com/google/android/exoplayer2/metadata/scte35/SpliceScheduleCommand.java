@@ -6,14 +6,21 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class SpliceScheduleCommand extends SpliceCommand {
-    public static final Parcelable.Creator<SpliceScheduleCommand> CREATOR = new AnonymousClass1();
-    public final List<Event> events;
+    public static final Parcelable.Creator<SpliceScheduleCommand> CREATOR = new Parcelable.Creator<SpliceScheduleCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.SpliceScheduleCommand.1
+        @Override // android.os.Parcelable.Creator
+        public SpliceScheduleCommand createFromParcel(Parcel parcel) {
+            return new SpliceScheduleCommand(parcel);
+        }
 
-    /* synthetic */ SpliceScheduleCommand(Parcel parcel, AnonymousClass1 anonymousClass1) {
-        this(parcel);
-    }
+        @Override // android.os.Parcelable.Creator
+        public SpliceScheduleCommand[] newArray(int i) {
+            return new SpliceScheduleCommand[i];
+        }
+    };
+    public final List<Event> events;
 
     /* loaded from: classes.dex */
     public static final class Event {
@@ -76,11 +83,11 @@ public final class SpliceScheduleCommand extends SpliceCommand {
             long j3;
             boolean z4;
             long readUnsignedInt = parsableByteArray.readUnsignedInt();
-            boolean z5 = (parsableByteArray.readUnsignedByte() & 128) != 0;
+            boolean z5 = (parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
             ArrayList arrayList2 = new ArrayList();
             if (!z5) {
                 int readUnsignedByte = parsableByteArray.readUnsignedByte();
-                boolean z6 = (readUnsignedByte & 128) != 0;
+                boolean z6 = (readUnsignedByte & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                 boolean z7 = (readUnsignedByte & 64) != 0;
                 boolean z8 = (readUnsignedByte & 32) != 0;
                 long readUnsignedInt2 = z7 ? parsableByteArray.readUnsignedInt() : -9223372036854775807L;
@@ -88,7 +95,7 @@ public final class SpliceScheduleCommand extends SpliceCommand {
                     int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
                     ArrayList arrayList3 = new ArrayList(readUnsignedByte2);
                     for (int i4 = 0; i4 < readUnsignedByte2; i4++) {
-                        arrayList3.add(new ComponentSplice(parsableByteArray.readUnsignedByte(), parsableByteArray.readUnsignedInt(), null));
+                        arrayList3.add(new ComponentSplice(parsableByteArray.readUnsignedByte(), parsableByteArray.readUnsignedInt()));
                     }
                     arrayList2 = arrayList3;
                 }
@@ -156,10 +163,6 @@ public final class SpliceScheduleCommand extends SpliceCommand {
         public final int componentTag;
         public final long utcSpliceTime;
 
-        /* synthetic */ ComponentSplice(int i, long j, AnonymousClass1 anonymousClass1) {
-            this(i, j);
-        }
-
         private ComponentSplice(int i, long j) {
             this.componentTag = i;
             this.utcSpliceTime = j;
@@ -203,23 +206,6 @@ public final class SpliceScheduleCommand extends SpliceCommand {
         parcel.writeInt(size);
         for (int i2 = 0; i2 < size; i2++) {
             this.events.get(i2).writeToParcel(parcel);
-        }
-    }
-
-    /* renamed from: com.google.android.exoplayer2.metadata.scte35.SpliceScheduleCommand$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Parcelable.Creator<SpliceScheduleCommand> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public SpliceScheduleCommand createFromParcel(Parcel parcel) {
-            return new SpliceScheduleCommand(parcel, null);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public SpliceScheduleCommand[] newArray(int i) {
-            return new SpliceScheduleCommand[i];
         }
     }
 }

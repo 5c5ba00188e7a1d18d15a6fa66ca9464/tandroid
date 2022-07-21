@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.extractor.flv.TagPayloadReader;
 import com.google.android.exoplayer2.util.NalUnitUtil;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.video.AvcConfig;
+import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 final class VideoTagPayloadReader extends TagPayloadReader {
     private int frameType;
@@ -41,7 +42,7 @@ final class VideoTagPayloadReader extends TagPayloadReader {
             parsableByteArray.readBytes(parsableByteArray2.data, 0, parsableByteArray.bytesLeft());
             AvcConfig parse = AvcConfig.parse(parsableByteArray2);
             this.nalUnitLengthFieldLength = parse.nalUnitLengthFieldLength;
-            this.output.format(Format.createVideoSampleFormat(null, "video/avc", null, -1, -1, parse.width, parse.height, -1.0f, parse.initializationData, -1, parse.pixelWidthAspectRatio, null));
+            this.output.format(Format.createVideoSampleFormat(null, MediaController.VIDEO_MIME_TYPE, null, -1, -1, parse.width, parse.height, -1.0f, parse.initializationData, -1, parse.pixelWidthAspectRatio, null));
             this.hasOutputFormat = true;
             return false;
         } else if (readUnsignedByte != 1 || !this.hasOutputFormat) {

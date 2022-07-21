@@ -22,7 +22,7 @@ public class Logger {
     public static void setExtLogger(ExtLogger extLogger2, boolean z) {
         extLogger = extLogger2;
         kitPrint = z;
-        i("NetworkKit_Logger", "logger = " + extLogger2 + z);
+        i(TAG, "logger = " + extLogger2 + z);
     }
 
     public static void v(String str, String str2, Object... objArr) {
@@ -111,11 +111,11 @@ public class Logger {
     }
 
     private static String complexTag(String str) {
-        return "NetworkKit_" + str;
+        return TAG_NETWORKKIT_PRE + str;
     }
 
     private static String complexAppTag(String str) {
-        return "NetworkSdk_" + str;
+        return TAG_NETWORK_SDK_PRE + str;
     }
 
     private static String complexMsg(String str, int i) {
@@ -185,7 +185,7 @@ public class Logger {
     }
 
     public static boolean isLoggable(int i) {
-        return Log.isLoggable("NetworkKit_", i);
+        return Log.isLoggable(TAG_NETWORKKIT_PRE, i);
     }
 
     private static boolean isAPPLoggable(int i) {
@@ -238,13 +238,13 @@ public class Logger {
             return;
         }
         if (str2 == null) {
-            Log.w("NetworkKit_Logger", "format is null, not log");
+            Log.w(TAG, "format is null, not log");
             return;
         }
         try {
             logPrintln(i, str, StringUtils.format(str2, objArr));
         } catch (IllegalFormatException e) {
-            w("NetworkKit_Logger", "log format error" + str2, e);
+            w(TAG, "log format error" + str2, e);
         }
     }
 }

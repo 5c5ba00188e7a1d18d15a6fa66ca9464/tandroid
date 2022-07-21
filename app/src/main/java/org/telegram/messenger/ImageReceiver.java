@@ -320,7 +320,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         this.overrideAlpha = 1.0f;
         this.previousAlpha = 1.0f;
         this.crossfadeAlpha = (byte) 1;
-        this.crossfadeDuration = 150;
+        this.crossfadeDuration = DEFAULT_CROSSFADE_DURATION;
         this.loadingOperations = new ArrayList<>();
         this.clip = true;
         this.parentView = view;

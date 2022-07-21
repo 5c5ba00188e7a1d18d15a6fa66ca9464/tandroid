@@ -7,9 +7,20 @@ import com.google.android.exoplayer2.util.TimestampAdjuster;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class SpliceInsertCommand extends SpliceCommand {
-    public static final Parcelable.Creator<SpliceInsertCommand> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<SpliceInsertCommand> CREATOR = new Parcelable.Creator<SpliceInsertCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.SpliceInsertCommand.1
+        @Override // android.os.Parcelable.Creator
+        public SpliceInsertCommand createFromParcel(Parcel parcel) {
+            return new SpliceInsertCommand(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public SpliceInsertCommand[] newArray(int i) {
+            return new SpliceInsertCommand[i];
+        }
+    };
     public final boolean autoReturn;
     public final int availNum;
     public final int availsExpected;
@@ -23,10 +34,6 @@ public final class SpliceInsertCommand extends SpliceCommand {
     public final long spliceEventId;
     public final boolean spliceImmediateFlag;
     public final int uniqueProgramId;
-
-    /* synthetic */ SpliceInsertCommand(Parcel parcel, AnonymousClass1 anonymousClass1) {
-        this(parcel);
-    }
 
     private SpliceInsertCommand(long j, boolean z, boolean z2, boolean z3, boolean z4, long j2, long j3, List<ComponentSplice> list, boolean z5, long j4, int i, int i2, int i3) {
         this.spliceEventId = j;
@@ -80,11 +87,11 @@ public final class SpliceInsertCommand extends SpliceCommand {
         long j4;
         boolean z5;
         long readUnsignedInt = parsableByteArray.readUnsignedInt();
-        boolean z6 = (parsableByteArray.readUnsignedByte() & 128) != 0;
+        boolean z6 = (parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         List emptyList = Collections.emptyList();
         if (!z6) {
             int readUnsignedByte = parsableByteArray.readUnsignedByte();
-            boolean z7 = (readUnsignedByte & 128) != 0;
+            boolean z7 = (readUnsignedByte & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
             boolean z8 = (readUnsignedByte & 64) != 0;
             boolean z9 = (readUnsignedByte & 32) != 0;
             boolean z10 = (readUnsignedByte & 16) != 0;
@@ -95,7 +102,7 @@ public final class SpliceInsertCommand extends SpliceCommand {
                 for (int i4 = 0; i4 < readUnsignedByte2; i4++) {
                     int readUnsignedByte3 = parsableByteArray.readUnsignedByte();
                     long parseSpliceTime2 = !z10 ? TimeSignalCommand.parseSpliceTime(parsableByteArray, j) : -9223372036854775807L;
-                    arrayList.add(new ComponentSplice(readUnsignedByte3, parseSpliceTime2, timestampAdjuster.adjustTsTimestamp(parseSpliceTime2), null));
+                    arrayList.add(new ComponentSplice(readUnsignedByte3, parseSpliceTime2, timestampAdjuster.adjustTsTimestamp(parseSpliceTime2)));
                 }
                 emptyList = arrayList;
             }
@@ -140,10 +147,6 @@ public final class SpliceInsertCommand extends SpliceCommand {
         public final long componentSplicePts;
         public final int componentTag;
 
-        /* synthetic */ ComponentSplice(int i, long j, long j2, AnonymousClass1 anonymousClass1) {
-            this(i, j, j2);
-        }
-
         private ComponentSplice(int i, long j, long j2) {
             this.componentTag = i;
             this.componentSplicePts = j;
@@ -180,23 +183,5 @@ public final class SpliceInsertCommand extends SpliceCommand {
         parcel.writeInt(this.uniqueProgramId);
         parcel.writeInt(this.availNum);
         parcel.writeInt(this.availsExpected);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.google.android.exoplayer2.metadata.scte35.SpliceInsertCommand$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Parcelable.Creator<SpliceInsertCommand> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public SpliceInsertCommand createFromParcel(Parcel parcel) {
-            return new SpliceInsertCommand(parcel, null);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public SpliceInsertCommand[] newArray(int i) {
-            return new SpliceInsertCommand[i];
-        }
     }
 }

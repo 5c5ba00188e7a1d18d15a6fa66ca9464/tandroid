@@ -28,7 +28,19 @@ public abstract class ModelResource {
 
     public void unpin(Executor executor) {
         Preconditions.checkState(this.zza.get() > 0);
-        this.taskQueue.submit(executor, new zzk(this));
+        this.taskQueue.submit(executor, new Runnable(this) { // from class: com.google.mlkit.common.sdkinternal.zzk
+            private final ModelResource zza;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zza = this;
+            }
+
+            @Override // java.lang.Runnable
+            public final void run() {
+                this.zza.zza();
+            }
+        });
     }
 
     public <T> Task<T> callAfterLoad(Executor executor, Callable<T> callable, CancellationToken cancellationToken) {
@@ -38,7 +50,58 @@ public abstract class ModelResource {
         }
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         TaskCompletionSource taskCompletionSource = new TaskCompletionSource(cancellationTokenSource.getToken());
-        this.taskQueue.submit(new zzm(executor, cancellationToken, cancellationTokenSource, taskCompletionSource), new zzl(this, cancellationToken, cancellationTokenSource, callable, taskCompletionSource));
+        this.taskQueue.submit(new Executor(executor, cancellationToken, cancellationTokenSource, taskCompletionSource) { // from class: com.google.mlkit.common.sdkinternal.zzm
+            private final Executor zza;
+            private final CancellationToken zzb;
+            private final CancellationTokenSource zzc;
+            private final TaskCompletionSource zzd;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zza = executor;
+                this.zzb = cancellationToken;
+                this.zzc = cancellationTokenSource;
+                this.zzd = taskCompletionSource;
+            }
+
+            @Override // java.util.concurrent.Executor
+            public final void execute(Runnable runnable) {
+                Executor executor2 = this.zza;
+                CancellationToken cancellationToken2 = this.zzb;
+                CancellationTokenSource cancellationTokenSource2 = this.zzc;
+                TaskCompletionSource taskCompletionSource2 = this.zzd;
+                try {
+                    executor2.execute(runnable);
+                } catch (RuntimeException e) {
+                    if (cancellationToken2.isCancellationRequested()) {
+                        cancellationTokenSource2.cancel();
+                    } else {
+                        taskCompletionSource2.setException(e);
+                    }
+                    throw e;
+                }
+            }
+        }, new Runnable(this, cancellationToken, cancellationTokenSource, callable, taskCompletionSource) { // from class: com.google.mlkit.common.sdkinternal.zzl
+            private final ModelResource zza;
+            private final CancellationToken zzb;
+            private final CancellationTokenSource zzc;
+            private final Callable zzd;
+            private final TaskCompletionSource zze;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zza = this;
+                this.zzb = cancellationToken;
+                this.zzc = cancellationTokenSource;
+                this.zzd = callable;
+                this.zze = taskCompletionSource;
+            }
+
+            @Override // java.lang.Runnable
+            public final void run() {
+                this.zza.zza(this.zzb, this.zzc, this.zzd, this.zze);
+            }
+        });
         return taskCompletionSource.getTask();
     }
 

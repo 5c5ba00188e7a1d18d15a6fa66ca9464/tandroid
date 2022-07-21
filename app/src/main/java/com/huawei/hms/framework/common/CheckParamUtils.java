@@ -18,7 +18,7 @@ public class CheckParamUtils {
         if (i > i3 || i < i2) {
             return i4;
         }
-        Logger.d("CheckParamUtils", str);
+        Logger.d(TAG, str);
         return i;
     }
 
@@ -26,7 +26,7 @@ public class CheckParamUtils {
         if (j > j3 || j < j2) {
             return j4;
         }
-        Logger.d("CheckParamUtils", str);
+        Logger.d(TAG, str);
         return j;
     }
 

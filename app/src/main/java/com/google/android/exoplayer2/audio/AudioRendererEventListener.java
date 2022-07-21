@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.audio;
 
 import android.os.Handler;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.audio.AudioRendererEventListener;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
@@ -29,10 +30,15 @@ public interface AudioRendererEventListener {
             this.listener = audioRendererEventListener;
         }
 
-        public void enabled(DecoderCounters decoderCounters) {
+        public void enabled(final DecoderCounters decoderCounters) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda3(this, decoderCounters));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AudioRendererEventListener.EventDispatcher.this.lambda$enabled$0(decoderCounters);
+                    }
+                });
             }
         }
 
@@ -40,10 +46,15 @@ public interface AudioRendererEventListener {
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioEnabled(decoderCounters);
         }
 
-        public void decoderInitialized(String str, long j, long j2) {
+        public void decoderInitialized(final String str, final long j, final long j2) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda5(this, str, j, j2));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AudioRendererEventListener.EventDispatcher.this.lambda$decoderInitialized$1(str, j, j2);
+                    }
+                });
             }
         }
 
@@ -51,10 +62,15 @@ public interface AudioRendererEventListener {
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioDecoderInitialized(str, j, j2);
         }
 
-        public void inputFormatChanged(Format format) {
+        public void inputFormatChanged(final Format format) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda2(this, format));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AudioRendererEventListener.EventDispatcher.this.lambda$inputFormatChanged$2(format);
+                    }
+                });
             }
         }
 
@@ -62,10 +78,15 @@ public interface AudioRendererEventListener {
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioInputFormatChanged(format);
         }
 
-        public void audioTrackUnderrun(int i, long j, long j2) {
+        public void audioTrackUnderrun(final int i, final long j, final long j2) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda1(this, i, j, j2));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AudioRendererEventListener.EventDispatcher.this.lambda$audioTrackUnderrun$3(i, j, j2);
+                    }
+                });
             }
         }
 
@@ -73,11 +94,16 @@ public interface AudioRendererEventListener {
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioSinkUnderrun(i, j, j2);
         }
 
-        public void disabled(DecoderCounters decoderCounters) {
+        public void disabled(final DecoderCounters decoderCounters) {
             decoderCounters.ensureUpdated();
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda4(this, decoderCounters));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda4
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AudioRendererEventListener.EventDispatcher.this.lambda$disabled$4(decoderCounters);
+                    }
+                });
             }
         }
 
@@ -86,10 +112,15 @@ public interface AudioRendererEventListener {
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioDisabled(decoderCounters);
         }
 
-        public void audioSessionId(int i) {
+        public void audioSessionId(final int i) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda0(this, i));
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AudioRendererEventListener.EventDispatcher.this.lambda$audioSessionId$5(i);
+                    }
+                });
             }
         }
 

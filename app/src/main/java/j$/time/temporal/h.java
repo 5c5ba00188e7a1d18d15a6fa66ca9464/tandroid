@@ -1,33 +1,52 @@
 package j$.time.temporal;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class h extends Enum implements k {
-    public static final h DAY_OF_QUARTER;
-    public static final h QUARTER_OF_YEAR;
-    public static final h WEEK_BASED_YEAR;
-    public static final h WEEK_OF_WEEK_BASED_YEAR;
-    private static final /* synthetic */ h[] a;
+public enum h implements k {
+    DAY_OF_QUARTER { // from class: j$.time.temporal.d
+        @Override // j$.time.temporal.k
+        public n a() {
+            return n.d(1L, 90L, 92L);
+        }
 
-    static {
-        d dVar = new d("DAY_OF_QUARTER", 0);
-        DAY_OF_QUARTER = dVar;
-        e eVar = new e("QUARTER_OF_YEAR", 1);
-        QUARTER_OF_YEAR = eVar;
-        f fVar = new f("WEEK_OF_WEEK_BASED_YEAR", 2);
-        WEEK_OF_WEEK_BASED_YEAR = fVar;
-        g gVar = new g("WEEK_BASED_YEAR", 3);
-        WEEK_BASED_YEAR = gVar;
-        a = new h[]{dVar, eVar, fVar, gVar};
-    }
+        @Override // java.lang.Enum
+        public String toString() {
+            return "DayOfQuarter";
+        }
+    },
+    QUARTER_OF_YEAR { // from class: j$.time.temporal.e
+        @Override // j$.time.temporal.k
+        public n a() {
+            return n.c(1L, 4L);
+        }
 
-    public h(String str, int i, c cVar) {
-        super(str, i);
-    }
+        @Override // java.lang.Enum
+        public String toString() {
+            return "QuarterOfYear";
+        }
+    },
+    WEEK_OF_WEEK_BASED_YEAR { // from class: j$.time.temporal.f
+        @Override // j$.time.temporal.k
+        public n a() {
+            return n.d(1L, 52L, 53L);
+        }
 
-    public static h valueOf(String str) {
-        return (h) Enum.valueOf(h.class, str);
-    }
+        @Override // java.lang.Enum
+        public String toString() {
+            return "WeekOfWeekBasedYear";
+        }
+    },
+    WEEK_BASED_YEAR { // from class: j$.time.temporal.g
+        @Override // j$.time.temporal.k
+        public n a() {
+            return a.YEAR.a();
+        }
 
-    public static h[] values() {
-        return (h[]) a.clone();
+        @Override // java.lang.Enum
+        public String toString() {
+            return "WeekBasedYear";
+        }
+    };
+
+    h(c cVar) {
     }
 }

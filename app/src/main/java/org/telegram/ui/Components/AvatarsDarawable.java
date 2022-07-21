@@ -132,8 +132,32 @@ public class AvatarsDarawable {
         if (z2) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.transitionProgressAnimator = ofFloat;
-            ofFloat.addUpdateListener(new AvatarsDarawable$$ExternalSyntheticLambda0(this));
-            this.transitionProgressAnimator.addListener(new AnonymousClass1());
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AvatarsDarawable$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    AvatarsDarawable.this.lambda$commitTransition$0(valueAnimator2);
+                }
+            });
+            this.transitionProgressAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AvatarsDarawable.1
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    AvatarsDarawable avatarsDarawable = AvatarsDarawable.this;
+                    if (avatarsDarawable.transitionProgressAnimator != null) {
+                        avatarsDarawable.transitionProgress = 1.0f;
+                        avatarsDarawable.swapStates();
+                        AvatarsDarawable avatarsDarawable2 = AvatarsDarawable.this;
+                        if (avatarsDarawable2.updateAfterTransition) {
+                            avatarsDarawable2.updateAfterTransition = false;
+                            Runnable runnable = avatarsDarawable2.updateDelegate;
+                            if (runnable != null) {
+                                runnable.run();
+                            }
+                        }
+                        AvatarsDarawable.this.invalidate();
+                    }
+                    AvatarsDarawable.this.transitionProgressAnimator = null;
+                }
+            });
             this.transitionProgressAnimator.setDuration(this.transitionDuration);
             this.transitionProgressAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
             this.transitionProgressAnimator.start();
@@ -146,33 +170,6 @@ public class AvatarsDarawable {
     public /* synthetic */ void lambda$commitTransition$0(ValueAnimator valueAnimator) {
         this.transitionProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
-    }
-
-    /* renamed from: org.telegram.ui.Components.AvatarsDarawable$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            AvatarsDarawable.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            AvatarsDarawable avatarsDarawable = AvatarsDarawable.this;
-            if (avatarsDarawable.transitionProgressAnimator != null) {
-                avatarsDarawable.transitionProgress = 1.0f;
-                avatarsDarawable.swapStates();
-                AvatarsDarawable avatarsDarawable2 = AvatarsDarawable.this;
-                if (avatarsDarawable2.updateAfterTransition) {
-                    avatarsDarawable2.updateAfterTransition = false;
-                    Runnable runnable = avatarsDarawable2.updateDelegate;
-                    if (runnable != null) {
-                        runnable.run();
-                    }
-                }
-                AvatarsDarawable.this.invalidate();
-            }
-            AvatarsDarawable.this.transitionProgressAnimator = null;
-        }
     }
 
     public void swapStates() {
@@ -250,22 +247,18 @@ public class AvatarsDarawable {
 
         private DrawingState() {
         }
-
-        /* synthetic */ DrawingState(AnonymousClass1 anonymousClass1) {
-            this();
-        }
     }
 
     public AvatarsDarawable(View view, boolean z) {
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
         this.parent = view;
         for (int i = 0; i < 3; i++) {
-            this.currentStates[i] = new DrawingState(null);
+            this.currentStates[i] = new DrawingState();
             this.currentStates[i].imageReceiver = new ImageReceiver(view);
             this.currentStates[i].imageReceiver.setRoundRadius(AndroidUtilities.dp(12.0f));
             this.currentStates[i].avatarDrawable = new AvatarDrawable();
             this.currentStates[i].avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
-            this.animatingStates[i] = new DrawingState(null);
+            this.animatingStates[i] = new DrawingState();
             this.animatingStates[i].imageReceiver = new ImageReceiver(view);
             this.animatingStates[i].imageReceiver.setRoundRadius(AndroidUtilities.dp(12.0f));
             this.animatingStates[i].avatarDrawable = new AvatarDrawable();

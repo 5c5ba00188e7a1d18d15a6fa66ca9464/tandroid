@@ -12,7 +12,7 @@ import com.google.android.gms.maps.internal.zzbz;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
 /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
 /* loaded from: classes.dex */
-public final class zzag implements LifecycleDelegate {
+final class zzag implements LifecycleDelegate {
     private final ViewGroup zza;
     private final IMapViewDelegate zzb;
     private View zzc;

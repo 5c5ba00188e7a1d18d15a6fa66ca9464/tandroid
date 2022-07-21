@@ -48,6 +48,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -143,7 +144,12 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     public float progressToNoVideoStub = 1.0f;
     ImageReceiver imageReceiver = new ImageReceiver();
     ArrayList<Runnable> onFirstFrameRunnables = new ArrayList<>();
-    private Runnable noRtmpStreamCallback = new GroupCallMiniTextureView$$ExternalSyntheticLambda5(this);
+    private Runnable noRtmpStreamCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda5
+        @Override // java.lang.Runnable
+        public final void run() {
+            GroupCallMiniTextureView.this.lambda$new$0();
+        }
+    };
     private Rect rect = new Rect();
 
     static /* synthetic */ float access$116(GroupCallMiniTextureView groupCallMiniTextureView, float f) {
@@ -174,36 +180,375 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.noRtmpStreamTextView.animate().alpha(1.0f).setDuration(150L).start();
     }
 
-    public GroupCallMiniTextureView(GroupCallRenderersContainer groupCallRenderersContainer, ArrayList<GroupCallMiniTextureView> arrayList, ChatObject.Call call, GroupCallActivity groupCallActivity) {
+    public GroupCallMiniTextureView(final GroupCallRenderersContainer groupCallRenderersContainer, ArrayList<GroupCallMiniTextureView> arrayList, final ChatObject.Call call, final GroupCallActivity groupCallActivity) {
         super(groupCallRenderersContainer.getContext());
         this.call = call;
         this.currentAccount = groupCallActivity.getCurrentAccount();
-        CrossOutDrawable crossOutDrawable = new CrossOutDrawable(groupCallRenderersContainer.getContext(), 2131165321, null);
+        CrossOutDrawable crossOutDrawable = new CrossOutDrawable(groupCallRenderersContainer.getContext(), R.drawable.calls_video, null);
         this.pausedVideoDrawable = crossOutDrawable;
         crossOutDrawable.setCrossOut(true, false);
         this.pausedVideoDrawable.setOffsets(-AndroidUtilities.dp(4.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f));
         this.pausedVideoDrawable.setStrokeWidth(AndroidUtilities.dpf2(3.4f));
-        this.castingScreenDrawable = groupCallRenderersContainer.getContext().getResources().getDrawable(2131166121).mutate();
-        TextPaint textPaint = new TextPaint(1);
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.castingScreenDrawable = groupCallRenderersContainer.getContext().getResources().getDrawable(R.drawable.screencast_big).mutate();
+        final TextPaint textPaint = new TextPaint(1);
+        textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textPaint.setTextSize(AndroidUtilities.dp(13.0f));
         textPaint.setColor(-1);
-        TextPaint textPaint2 = new TextPaint(1);
-        textPaint2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        final TextPaint textPaint2 = new TextPaint(1);
+        textPaint2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textPaint2.setTextSize(AndroidUtilities.dp(15.0f));
         textPaint2.setColor(-1);
-        String string = LocaleController.getString("VoipVideoOnPause", 2131629281);
-        StaticLayout staticLayout = new StaticLayout(LocaleController.getString("VoipVideoScreenSharingTwoLines", 2131629284), textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        final String string = LocaleController.getString("VoipVideoOnPause", R.string.VoipVideoOnPause);
+        final StaticLayout staticLayout = new StaticLayout(LocaleController.getString("VoipVideoScreenSharingTwoLines", R.string.VoipVideoScreenSharingTwoLines), textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(call.chatId));
-        StaticLayout staticLayout2 = new StaticLayout(LocaleController.formatString("VoipVideoNotAvailable", 2131629279, LocaleController.formatPluralString("Participants", MessagesController.getInstance(this.currentAccount).groupCallVideoMaxParticipants, new Object[0])), textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-        String string2 = LocaleController.getString("VoipVideoScreenSharing", 2131629283);
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(groupCallRenderersContainer.getContext(), false, false, true, true, call, groupCallRenderersContainer, textPaint, staticLayout2, textPaint2, string2, textPaint2.measureText(string2), staticLayout, groupCallActivity, string, textPaint.measureText(string));
-        this.textureView = anonymousClass1;
-        anonymousClass1.renderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
+        final StaticLayout staticLayout2 = new StaticLayout(LocaleController.formatString("VoipVideoNotAvailable", R.string.VoipVideoNotAvailable, LocaleController.formatPluralString("Participants", MessagesController.getInstance(this.currentAccount).groupCallVideoMaxParticipants, new Object[0])), textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        final String string2 = LocaleController.getString("VoipVideoScreenSharing", R.string.VoipVideoScreenSharing);
+        final float measureText = textPaint.measureText(string);
+        final float measureText2 = textPaint2.measureText(string2);
+        VoIPTextureView voIPTextureView = new VoIPTextureView(groupCallRenderersContainer.getContext(), false, false, true, true) { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.1
+            float overlayIconAlphaFrom;
+
+            @Override // org.telegram.ui.Components.voip.VoIPTextureView
+            public void animateToLayout() {
+                super.animateToLayout();
+                this.overlayIconAlphaFrom = GroupCallMiniTextureView.this.overlayIconAlpha;
+            }
+
+            @Override // org.telegram.ui.Components.voip.VoIPTextureView
+            public void updateRendererSize() {
+                super.updateRendererSize();
+                ImageView imageView = GroupCallMiniTextureView.this.blurredFlippingStub;
+                if (imageView == null || imageView.getParent() == null) {
+                    return;
+                }
+                GroupCallMiniTextureView.this.blurredFlippingStub.getLayoutParams().width = GroupCallMiniTextureView.this.textureView.renderer.getMeasuredWidth();
+                GroupCallMiniTextureView.this.blurredFlippingStub.getLayoutParams().height = GroupCallMiniTextureView.this.textureView.renderer.getMeasuredHeight();
+            }
+
+            @Override // org.telegram.ui.Components.voip.VoIPTextureView, android.view.ViewGroup, android.view.View
+            public void dispatchDraw(Canvas canvas) {
+                float f;
+                float f2;
+                float f3;
+                float f4;
+                int i;
+                if (!this.renderer.isFirstFrameRendered() || ((this.renderer.getAlpha() != 1.0f && this.blurRenderer.getAlpha() != 1.0f) || GroupCallMiniTextureView.this.videoIsPaused)) {
+                    if (GroupCallMiniTextureView.this.progressToBackground != 1.0f) {
+                        GroupCallMiniTextureView.access$116(GroupCallMiniTextureView.this, 0.10666667f);
+                        if (GroupCallMiniTextureView.this.progressToBackground > 1.0f) {
+                            GroupCallMiniTextureView.this.progressToBackground = 1.0f;
+                        } else {
+                            invalidate();
+                        }
+                    }
+                    GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
+                    if (groupCallMiniTextureView.thumb != null) {
+                        canvas.save();
+                        float f5 = this.currentThumbScale;
+                        canvas.scale(f5, f5, getMeasuredWidth() / 2.0f, getMeasuredHeight() / 2.0f);
+                        GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
+                        if (groupCallMiniTextureView2.thumbPaint == null) {
+                            groupCallMiniTextureView2.thumbPaint = new Paint(1);
+                            GroupCallMiniTextureView.this.thumbPaint.setFilterBitmap(true);
+                        }
+                        canvas.drawBitmap(GroupCallMiniTextureView.this.thumb, (getMeasuredWidth() - GroupCallMiniTextureView.this.thumb.getWidth()) / 2.0f, (getMeasuredHeight() - GroupCallMiniTextureView.this.thumb.getHeight()) / 2.0f, GroupCallMiniTextureView.this.thumbPaint);
+                        canvas.restore();
+                    } else {
+                        groupCallMiniTextureView.imageReceiver.setImageCoords(this.currentClipHorizontal, this.currentClipVertical, getMeasuredWidth() - (this.currentClipHorizontal * 2.0f), getMeasuredHeight() - (this.currentClipVertical * 2.0f));
+                        GroupCallMiniTextureView groupCallMiniTextureView3 = GroupCallMiniTextureView.this;
+                        groupCallMiniTextureView3.imageReceiver.setAlpha(groupCallMiniTextureView3.progressToBackground);
+                        GroupCallMiniTextureView.this.imageReceiver.draw(canvas);
+                    }
+                    GroupCallMiniTextureView groupCallMiniTextureView4 = GroupCallMiniTextureView.this;
+                    ChatObject.VideoParticipant videoParticipant = groupCallMiniTextureView4.participant;
+                    if (videoParticipant == call.videoNotAvailableParticipant) {
+                        if (groupCallMiniTextureView4.showingInFullscreen || !groupCallRenderersContainer.inFullscreenMode) {
+                            float dp = AndroidUtilities.dp(48.0f);
+                            textPaint.setAlpha(255);
+                            canvas.save();
+                            canvas.translate((((getMeasuredWidth() - dp) / 2.0f) - (AndroidUtilities.dp(400.0f) / 2.0f)) + (dp / 2.0f), ((getMeasuredHeight() / 2) - dp) + dp + AndroidUtilities.dp(10.0f));
+                            staticLayout2.draw(canvas);
+                            canvas.restore();
+                        }
+                        if (GroupCallMiniTextureView.this.stopSharingTextView.getVisibility() != 4) {
+                            GroupCallMiniTextureView.this.stopSharingTextView.setVisibility(4);
+                        }
+                    } else if (!videoParticipant.presentation || !videoParticipant.participant.self) {
+                        if (groupCallMiniTextureView4.stopSharingTextView.getVisibility() != 4) {
+                            GroupCallMiniTextureView.this.stopSharingTextView.setVisibility(4);
+                        }
+                        groupCallActivity.cellFlickerDrawable.draw(canvas, GroupCallMiniTextureView.this);
+                    } else {
+                        if (groupCallMiniTextureView4.stopSharingTextView.getVisibility() != 0) {
+                            GroupCallMiniTextureView.this.stopSharingTextView.setVisibility(0);
+                            GroupCallMiniTextureView.this.stopSharingTextView.setScaleX(1.0f);
+                            GroupCallMiniTextureView.this.stopSharingTextView.setScaleY(1.0f);
+                        }
+                        float f6 = GroupCallMiniTextureView.this.drawFirst ? 0.0f : groupCallRenderersContainer.progressToFullscreenMode;
+                        int dp2 = AndroidUtilities.dp(33.0f);
+                        GroupCallMiniTextureView groupCallMiniTextureView5 = GroupCallMiniTextureView.this;
+                        if (groupCallMiniTextureView5.animateToFullscreen || groupCallMiniTextureView5.showingInFullscreen) {
+                            f3 = dp2;
+                            f2 = AndroidUtilities.dp(10.0f) + (AndroidUtilities.dp(39.0f) * groupCallRenderersContainer.progressToFullscreenMode);
+                        } else {
+                            f3 = dp2;
+                            f2 = AndroidUtilities.dp(10.0f) * Math.max(1.0f - groupCallRenderersContainer.progressToFullscreenMode, (GroupCallMiniTextureView.this.showingAsScrimView || GroupCallMiniTextureView.this.animateToScrimView) ? groupCallRenderersContainer.progressToScrimView : 0.0f);
+                        }
+                        int i2 = (int) (f3 + f2);
+                        int measuredWidth = (getMeasuredWidth() - i2) / 2;
+                        float f7 = (GroupCallMiniTextureView.this.showingAsScrimView || GroupCallMiniTextureView.this.animateToScrimView) ? groupCallRenderersContainer.progressToScrimView : 0.0f;
+                        GroupCallMiniTextureView groupCallMiniTextureView6 = GroupCallMiniTextureView.this;
+                        if (groupCallMiniTextureView6.showingInFullscreen) {
+                            f4 = f6;
+                        } else {
+                            f6 = groupCallMiniTextureView6.animateToFullscreen ? groupCallRenderersContainer.progressToFullscreenMode : f7;
+                            f4 = (groupCallMiniTextureView6.showingAsScrimView || GroupCallMiniTextureView.this.animateToScrimView) ? groupCallRenderersContainer.progressToScrimView : groupCallRenderersContainer.progressToFullscreenMode;
+                        }
+                        float measuredHeight = ((getMeasuredHeight() - i2) / 2) - AndroidUtilities.dp(28.0f);
+                        float dp3 = AndroidUtilities.dp(17.0f);
+                        float dp4 = AndroidUtilities.dp(74.0f);
+                        GroupCallMiniTextureView groupCallMiniTextureView7 = GroupCallMiniTextureView.this;
+                        int dp5 = (int) ((measuredHeight - ((dp3 + (dp4 * ((groupCallMiniTextureView7.showingInFullscreen || groupCallMiniTextureView7.animateToFullscreen) ? groupCallRenderersContainer.progressToFullscreenMode : 0.0f))) * f6)) + (AndroidUtilities.dp(17.0f) * f4));
+                        GroupCallMiniTextureView.this.castingScreenDrawable.setBounds(measuredWidth, dp5, measuredWidth + i2, dp5 + i2);
+                        GroupCallMiniTextureView.this.castingScreenDrawable.draw(canvas);
+                        float f8 = groupCallRenderersContainer.progressToFullscreenMode;
+                        if (f8 <= 0.0f && f7 <= 0.0f) {
+                            GroupCallMiniTextureView.this.stopSharingTextView.setAlpha(0.0f);
+                        } else {
+                            float max = Math.max(f8, f7) * f6;
+                            textPaint2.setAlpha((int) (max * 255.0f));
+                            GroupCallMiniTextureView groupCallMiniTextureView8 = GroupCallMiniTextureView.this;
+                            if (groupCallMiniTextureView8.animateToFullscreen || groupCallMiniTextureView8.showingInFullscreen) {
+                                groupCallMiniTextureView8.stopSharingTextView.setAlpha(max * (1.0f - f7));
+                            } else {
+                                groupCallMiniTextureView8.stopSharingTextView.setAlpha(0.0f);
+                            }
+                            canvas.drawText(string2, (measuredWidth - (measureText2 / 2.0f)) + (i2 / 2.0f), AndroidUtilities.dp(32.0f) + i, textPaint2);
+                        }
+                        GroupCallMiniTextureView.this.stopSharingTextView.setTranslationY(((AndroidUtilities.dp(72.0f) + i) + GroupCallMiniTextureView.this.swipeToBackDy) - this.currentClipVertical);
+                        GroupCallMiniTextureView.this.stopSharingTextView.setTranslationX(((getMeasuredWidth() - GroupCallMiniTextureView.this.stopSharingTextView.getMeasuredWidth()) / 2.0f) - this.currentClipHorizontal);
+                        float f9 = groupCallRenderersContainer.progressToFullscreenMode;
+                        if (f9 < 1.0f && f7 < 1.0f) {
+                            TextPaint textPaint3 = textPaint;
+                            double max2 = Math.max(f9, f7);
+                            Double.isNaN(max2);
+                            textPaint3.setAlpha((int) ((1.0d - max2) * 255.0d));
+                            canvas.save();
+                            canvas.translate((measuredWidth - (AndroidUtilities.dp(400.0f) / 2.0f)) + (i2 / 2.0f), i + AndroidUtilities.dp(10.0f));
+                            staticLayout.draw(canvas);
+                            canvas.restore();
+                        }
+                    }
+                    invalidate();
+                }
+                GroupCallMiniTextureView.this.noRtmpStreamTextView.setTranslationY((((getMeasuredHeight() - GroupCallMiniTextureView.this.noRtmpStreamTextView.getMeasuredHeight()) / 2.0f) + GroupCallMiniTextureView.this.swipeToBackDy) - this.currentClipVertical);
+                GroupCallMiniTextureView.this.noRtmpStreamTextView.setTranslationX(((getMeasuredWidth() - GroupCallMiniTextureView.this.noRtmpStreamTextView.getMeasuredWidth()) / 2.0f) - this.currentClipHorizontal);
+                ImageView imageView = GroupCallMiniTextureView.this.blurredFlippingStub;
+                if (imageView != null && imageView.getParent() != null) {
+                    GroupCallMiniTextureView groupCallMiniTextureView9 = GroupCallMiniTextureView.this;
+                    groupCallMiniTextureView9.blurredFlippingStub.setScaleX(groupCallMiniTextureView9.textureView.renderer.getScaleX());
+                    GroupCallMiniTextureView groupCallMiniTextureView10 = GroupCallMiniTextureView.this;
+                    groupCallMiniTextureView10.blurredFlippingStub.setScaleY(groupCallMiniTextureView10.textureView.renderer.getScaleY());
+                }
+                super.dispatchDraw(canvas);
+                float measuredHeight2 = (getMeasuredHeight() - this.currentClipVertical) - AndroidUtilities.dp(80.0f);
+                if (GroupCallMiniTextureView.this.participant != call.videoNotAvailableParticipant) {
+                    canvas.save();
+                    GroupCallMiniTextureView groupCallMiniTextureView11 = GroupCallMiniTextureView.this;
+                    if ((groupCallMiniTextureView11.showingInFullscreen || groupCallMiniTextureView11.animateToFullscreen) && !GroupCallActivity.isLandscapeMode && !GroupCallActivity.isTabletMode) {
+                        GroupCallRenderersContainer groupCallRenderersContainer2 = groupCallRenderersContainer;
+                        measuredHeight2 -= (AndroidUtilities.dp(90.0f) * groupCallRenderersContainer2.progressToFullscreenMode) * (1.0f - groupCallRenderersContainer2.progressToHideUi);
+                    }
+                    canvas.translate(0.0f, measuredHeight2);
+                    canvas.drawPaint(GroupCallMiniTextureView.this.gradientPaint);
+                    canvas.restore();
+                }
+                if (GroupCallMiniTextureView.this.videoIsPaused || GroupCallMiniTextureView.this.videoIsPausedProgress != 0.0f) {
+                    if (!GroupCallMiniTextureView.this.videoIsPaused || GroupCallMiniTextureView.this.videoIsPausedProgress == 1.0f) {
+                        if (!GroupCallMiniTextureView.this.videoIsPaused && GroupCallMiniTextureView.this.videoIsPausedProgress != 0.0f) {
+                            GroupCallMiniTextureView.access$724(GroupCallMiniTextureView.this, 0.064f);
+                            if (GroupCallMiniTextureView.this.videoIsPausedProgress < 0.0f) {
+                                GroupCallMiniTextureView.this.videoIsPausedProgress = 0.0f;
+                            } else {
+                                invalidate();
+                            }
+                        }
+                    } else {
+                        GroupCallMiniTextureView.access$716(GroupCallMiniTextureView.this, 0.064f);
+                        if (GroupCallMiniTextureView.this.videoIsPausedProgress > 1.0f) {
+                            GroupCallMiniTextureView.this.videoIsPausedProgress = 1.0f;
+                        } else {
+                            invalidate();
+                        }
+                    }
+                    float f10 = GroupCallMiniTextureView.this.videoIsPausedProgress;
+                    if (isInAnimation()) {
+                        float f11 = this.overlayIconAlphaFrom;
+                        float f12 = this.animationProgress;
+                        f = (f11 * (1.0f - f12)) + (GroupCallMiniTextureView.this.overlayIconAlpha * f12);
+                    } else {
+                        f = GroupCallMiniTextureView.this.overlayIconAlpha;
+                    }
+                    float f13 = f10 * f;
+                    if (f13 <= 0.0f) {
+                        return;
+                    }
+                    float dp6 = AndroidUtilities.dp(48.0f);
+                    float measuredWidth2 = (getMeasuredWidth() - dp6) / 2.0f;
+                    float measuredHeight3 = (getMeasuredHeight() - dp6) / 2.0f;
+                    if (GroupCallMiniTextureView.this.participant == call.videoNotAvailableParticipant) {
+                        measuredHeight3 -= dp6 / 2.5f;
+                    }
+                    RectF rectF = AndroidUtilities.rectTmp;
+                    float f14 = measuredHeight3 + dp6;
+                    rectF.set((int) measuredWidth2, (int) measuredHeight3, (int) (measuredWidth2 + dp6), (int) f14);
+                    if (f13 != 1.0f) {
+                        canvas.saveLayerAlpha(rectF, (int) (f13 * 255.0f), 31);
+                    } else {
+                        canvas.save();
+                    }
+                    GroupCallMiniTextureView.this.pausedVideoDrawable.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
+                    GroupCallMiniTextureView.this.pausedVideoDrawable.draw(canvas);
+                    canvas.restore();
+                    float f15 = f13 * groupCallRenderersContainer.progressToFullscreenMode;
+                    if (f15 <= 0.0f || GroupCallMiniTextureView.this.participant == call.videoNotAvailableParticipant) {
+                        return;
+                    }
+                    textPaint.setAlpha((int) (f15 * 255.0f));
+                    canvas.drawText(string, (measuredWidth2 - (measureText / 2.0f)) + (dp6 / 2.0f), f14 + AndroidUtilities.dp(16.0f), textPaint);
+                }
+            }
+
+            @Override // android.view.ViewGroup
+            protected boolean drawChild(Canvas canvas, View view, long j) {
+                GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
+                if (groupCallMiniTextureView.inPinchToZoom && view == groupCallMiniTextureView.textureView.renderer) {
+                    canvas.save();
+                    GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
+                    float f = groupCallMiniTextureView2.pinchScale;
+                    canvas.scale(f, f, groupCallMiniTextureView2.pinchCenterX, groupCallMiniTextureView2.pinchCenterY);
+                    GroupCallMiniTextureView groupCallMiniTextureView3 = GroupCallMiniTextureView.this;
+                    canvas.translate(groupCallMiniTextureView3.pinchTranslationX, groupCallMiniTextureView3.pinchTranslationY);
+                    boolean drawChild = super.drawChild(canvas, view, j);
+                    canvas.restore();
+                    return drawChild;
+                }
+                return super.drawChild(canvas, view, j);
+            }
+
+            @Override // android.view.View
+            public void invalidate() {
+                super.invalidate();
+                GroupCallMiniTextureView.this.invalidateFromChild = true;
+                GroupCallMiniTextureView.this.invalidate();
+                GroupCallMiniTextureView.this.invalidateFromChild = false;
+            }
+
+            @Override // org.telegram.ui.Components.voip.VoIPTextureView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+                int i5;
+                ChatObject.VideoParticipant videoParticipant;
+                GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
+                if (groupCallMiniTextureView.attached && groupCallMiniTextureView.checkScale) {
+                    TextureViewRenderer textureViewRenderer = this.renderer;
+                    if (textureViewRenderer.rotatedFrameHeight != 0 && textureViewRenderer.rotatedFrameWidth != 0) {
+                        if (GroupCallMiniTextureView.this.showingAsScrimView) {
+                            GroupCallMiniTextureView.this.textureView.scaleType = VoIPTextureView.SCALE_TYPE_FIT;
+                        } else {
+                            GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
+                            if (groupCallMiniTextureView2.showingInFullscreen) {
+                                groupCallMiniTextureView2.textureView.scaleType = VoIPTextureView.SCALE_TYPE_FIT;
+                            } else if (groupCallRenderersContainer.inFullscreenMode) {
+                                groupCallMiniTextureView2.textureView.scaleType = VoIPTextureView.SCALE_TYPE_FILL;
+                            } else if (groupCallMiniTextureView2.participant.presentation) {
+                                groupCallMiniTextureView2.textureView.scaleType = VoIPTextureView.SCALE_TYPE_FIT;
+                            } else {
+                                groupCallMiniTextureView2.textureView.scaleType = VoIPTextureView.SCALE_TYPE_ADAPTIVE;
+                            }
+                        }
+                        GroupCallMiniTextureView.this.checkScale = false;
+                    }
+                }
+                super.onLayout(z, i, i2, i3, i4);
+                TextureViewRenderer textureViewRenderer2 = this.renderer;
+                int i6 = textureViewRenderer2.rotatedFrameHeight;
+                if (i6 == 0 || (i5 = textureViewRenderer2.rotatedFrameWidth) == 0 || (videoParticipant = GroupCallMiniTextureView.this.participant) == null) {
+                    return;
+                }
+                videoParticipant.setAspectRatio(i5, i6, call);
+            }
+
+            @Override // org.telegram.ui.Components.voip.VoIPTextureView, android.view.View, android.view.ViewParent
+            public void requestLayout() {
+                GroupCallMiniTextureView.this.requestLayout();
+                super.requestLayout();
+            }
+
+            @Override // org.telegram.ui.Components.voip.VoIPTextureView
+            protected void onFirstFrameRendered() {
+                int i;
+                ChatObject.VideoParticipant videoParticipant;
+                invalidate();
+                ChatObject.Call call2 = call;
+                if (call2 != null && call2.call.rtmp_stream && GroupCallMiniTextureView.this.postedNoRtmpStreamCallback) {
+                    AndroidUtilities.cancelRunOnUIThread(GroupCallMiniTextureView.this.noRtmpStreamCallback);
+                    GroupCallMiniTextureView.this.postedNoRtmpStreamCallback = false;
+                    GroupCallMiniTextureView.this.noRtmpStreamTextView.animate().cancel();
+                    GroupCallMiniTextureView.this.noRtmpStreamTextView.animate().alpha(0.0f).setDuration(150L).start();
+                    GroupCallMiniTextureView.this.textureView.animate().cancel();
+                    GroupCallMiniTextureView.this.textureView.animate().alpha(1.0f).setDuration(150L).start();
+                }
+                if (!GroupCallMiniTextureView.this.videoIsPaused && this.renderer.getAlpha() != 1.0f) {
+                    this.renderer.animate().setDuration(300L).alpha(1.0f);
+                }
+                TextureView textureView = this.blurRenderer;
+                if (textureView != null && textureView.getAlpha() != 1.0f) {
+                    this.blurRenderer.animate().setDuration(300L).alpha(1.0f);
+                }
+                ImageView imageView = GroupCallMiniTextureView.this.blurredFlippingStub;
+                if (imageView != null && imageView.getParent() != null) {
+                    if (GroupCallMiniTextureView.this.blurredFlippingStub.getAlpha() == 1.0f) {
+                        GroupCallMiniTextureView.this.blurredFlippingStub.animate().alpha(0.0f).setDuration(300L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.1.1
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                if (GroupCallMiniTextureView.this.blurredFlippingStub.getParent() != null) {
+                                    GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
+                                    groupCallMiniTextureView.textureView.removeView(groupCallMiniTextureView.blurredFlippingStub);
+                                }
+                            }
+                        }).start();
+                    } else if (GroupCallMiniTextureView.this.blurredFlippingStub.getParent() != null) {
+                        GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
+                        groupCallMiniTextureView.textureView.removeView(groupCallMiniTextureView.blurredFlippingStub);
+                    }
+                }
+                TextureViewRenderer textureViewRenderer = this.renderer;
+                int i2 = textureViewRenderer.rotatedFrameHeight;
+                if (i2 == 0 || (i = textureViewRenderer.rotatedFrameWidth) == 0 || (videoParticipant = GroupCallMiniTextureView.this.participant) == null) {
+                    return;
+                }
+                videoParticipant.setAspectRatio(i, i2, call);
+            }
+        };
+        this.textureView = voIPTextureView;
+        voIPTextureView.renderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
         this.parentContainer = groupCallRenderersContainer;
         this.attachedRenderers = arrayList;
         this.activity = groupCallActivity;
-        this.textureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new AnonymousClass2());
+        this.textureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new RendererCommon.RendererEvents() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.2
+            @Override // org.webrtc.RendererCommon.RendererEvents
+            public void onFrameResolutionChanged(int i, int i2, int i3) {
+            }
+
+            @Override // org.webrtc.RendererCommon.RendererEvents
+            public void onFirstFrameRendered() {
+                for (int i = 0; i < GroupCallMiniTextureView.this.onFirstFrameRunnables.size(); i++) {
+                    AndroidUtilities.cancelRunOnUIThread(GroupCallMiniTextureView.this.onFirstFrameRunnables.get(i));
+                    GroupCallMiniTextureView.this.onFirstFrameRunnables.get(i).run();
+                }
+                GroupCallMiniTextureView.this.onFirstFrameRunnables.clear();
+            }
+        });
         this.textureView.attachBackgroundRenderer();
         setClipChildren(false);
         this.textureView.renderer.setAlpha(0.0f);
@@ -215,7 +560,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.nameView = simpleTextView;
         simpleTextView.setTextSize(13);
         simpleTextView.setTextColor(ColorUtils.setAlphaComponent(-1, 229));
-        simpleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        simpleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         simpleTextView.setFullTextMaxLines(1);
         simpleTextView.setBuildFullLayout(true);
         FrameLayout frameLayout = new FrameLayout(groupCallRenderersContainer.getContext());
@@ -233,437 +578,47 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.screencastIcon = imageView;
         addView(imageView, LayoutHelper.createFrame(24, 24.0f, 0, 4.0f, 6.0f, 4.0f, 0.0f));
         imageView.setPadding(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f));
-        imageView.setImageDrawable(ContextCompat.getDrawable(groupCallRenderersContainer.getContext(), 2131166222));
+        imageView.setImageDrawable(ContextCompat.getDrawable(groupCallRenderersContainer.getContext(), R.drawable.voicechat_screencast));
         imageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
         Drawable createSimpleSelectorRoundRectDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(19.0f), 0, ColorUtils.setAlphaComponent(-1, 100));
-        AnonymousClass3 anonymousClass3 = new AnonymousClass3(groupCallRenderersContainer.getContext());
-        this.stopSharingTextView = anonymousClass3;
-        anonymousClass3.setText(LocaleController.getString("VoipVideoScreenStopSharing", 2131629285));
+        TextView textView = new TextView(groupCallRenderersContainer.getContext()) { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.3
+            @Override // android.widget.TextView, android.view.View
+            public boolean onTouchEvent(MotionEvent motionEvent) {
+                if (Math.abs(GroupCallMiniTextureView.this.stopSharingTextView.getAlpha() - 1.0f) > 0.001f) {
+                    return false;
+                }
+                return super.onTouchEvent(motionEvent);
+            }
+        };
+        this.stopSharingTextView = textView;
+        textView.setText(LocaleController.getString("VoipVideoScreenStopSharing", R.string.VoipVideoScreenStopSharing));
         this.stopSharingTextView.setTextSize(1, 15.0f);
-        this.stopSharingTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.stopSharingTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.stopSharingTextView.setPadding(AndroidUtilities.dp(21.0f), 0, AndroidUtilities.dp(21.0f), 0);
         this.stopSharingTextView.setTextColor(-1);
         this.stopSharingTextView.setBackground(createSimpleSelectorRoundRectDrawable);
         this.stopSharingTextView.setGravity(17);
-        this.stopSharingTextView.setOnClickListener(new GroupCallMiniTextureView$$ExternalSyntheticLambda3(this));
+        this.stopSharingTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                GroupCallMiniTextureView.this.lambda$new$1(view);
+            }
+        });
         addView(this.stopSharingTextView, LayoutHelper.createFrame(-2, 38, 51));
-        TextView textView = new TextView(groupCallRenderersContainer.getContext());
-        this.noRtmpStreamTextView = textView;
-        textView.setTextSize(1, 15.0f);
+        TextView textView2 = new TextView(groupCallRenderersContainer.getContext());
+        this.noRtmpStreamTextView = textView2;
+        textView2.setTextSize(1, 15.0f);
         this.noRtmpStreamTextView.setPadding(AndroidUtilities.dp(21.0f), 0, AndroidUtilities.dp(21.0f), 0);
         this.noRtmpStreamTextView.setTextColor(Theme.getColor("voipgroup_lastSeenText"));
         this.noRtmpStreamTextView.setBackground(createSimpleSelectorRoundRectDrawable);
         this.noRtmpStreamTextView.setGravity(17);
         this.noRtmpStreamTextView.setAlpha(0.0f);
         if (ChatObject.canManageCalls(chat)) {
-            this.noRtmpStreamTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131626912)));
+            this.noRtmpStreamTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString((int) R.string.NoRtmpStreamFromAppOwner)));
         } else {
-            this.noRtmpStreamTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("NoRtmpStreamFromAppViewer", 2131626913, chat.title)));
+            this.noRtmpStreamTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("NoRtmpStreamFromAppViewer", R.string.NoRtmpStreamFromAppViewer, chat.title)));
         }
         addView(this.noRtmpStreamTextView, LayoutHelper.createFrame(-2, -2, 51));
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.GroupCallMiniTextureView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends VoIPTextureView {
-        float overlayIconAlphaFrom;
-        final /* synthetic */ GroupCallActivity val$activity;
-        final /* synthetic */ ChatObject.Call val$call;
-        final /* synthetic */ StaticLayout val$noVideoLayout;
-        final /* synthetic */ GroupCallRenderersContainer val$parentContainer;
-        final /* synthetic */ String val$sharingScreenString;
-        final /* synthetic */ StaticLayout val$staticLayout;
-        final /* synthetic */ TextPaint val$textPaint;
-        final /* synthetic */ TextPaint val$textPaint2;
-        final /* synthetic */ float val$textW;
-        final /* synthetic */ float val$textW3;
-        final /* synthetic */ String val$videoOnPauseString;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context, boolean z, boolean z2, boolean z3, boolean z4, ChatObject.Call call, GroupCallRenderersContainer groupCallRenderersContainer, TextPaint textPaint, StaticLayout staticLayout, TextPaint textPaint2, String str, float f, StaticLayout staticLayout2, GroupCallActivity groupCallActivity, String str2, float f2) {
-            super(context, z, z2, z3, z4);
-            GroupCallMiniTextureView.this = r3;
-            this.val$call = call;
-            this.val$parentContainer = groupCallRenderersContainer;
-            this.val$textPaint = textPaint;
-            this.val$noVideoLayout = staticLayout;
-            this.val$textPaint2 = textPaint2;
-            this.val$sharingScreenString = str;
-            this.val$textW3 = f;
-            this.val$staticLayout = staticLayout2;
-            this.val$activity = groupCallActivity;
-            this.val$videoOnPauseString = str2;
-            this.val$textW = f2;
-        }
-
-        @Override // org.telegram.ui.Components.voip.VoIPTextureView
-        public void animateToLayout() {
-            super.animateToLayout();
-            this.overlayIconAlphaFrom = GroupCallMiniTextureView.this.overlayIconAlpha;
-        }
-
-        @Override // org.telegram.ui.Components.voip.VoIPTextureView
-        public void updateRendererSize() {
-            super.updateRendererSize();
-            ImageView imageView = GroupCallMiniTextureView.this.blurredFlippingStub;
-            if (imageView == null || imageView.getParent() == null) {
-                return;
-            }
-            GroupCallMiniTextureView.this.blurredFlippingStub.getLayoutParams().width = GroupCallMiniTextureView.this.textureView.renderer.getMeasuredWidth();
-            GroupCallMiniTextureView.this.blurredFlippingStub.getLayoutParams().height = GroupCallMiniTextureView.this.textureView.renderer.getMeasuredHeight();
-        }
-
-        @Override // org.telegram.ui.Components.voip.VoIPTextureView, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
-            float f;
-            float f2;
-            float f3;
-            float f4;
-            int i;
-            if (!this.renderer.isFirstFrameRendered() || ((this.renderer.getAlpha() != 1.0f && this.blurRenderer.getAlpha() != 1.0f) || GroupCallMiniTextureView.this.videoIsPaused)) {
-                if (GroupCallMiniTextureView.this.progressToBackground != 1.0f) {
-                    GroupCallMiniTextureView.access$116(GroupCallMiniTextureView.this, 0.10666667f);
-                    if (GroupCallMiniTextureView.this.progressToBackground > 1.0f) {
-                        GroupCallMiniTextureView.this.progressToBackground = 1.0f;
-                    } else {
-                        invalidate();
-                    }
-                }
-                GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
-                if (groupCallMiniTextureView.thumb != null) {
-                    canvas.save();
-                    float f5 = this.currentThumbScale;
-                    canvas.scale(f5, f5, getMeasuredWidth() / 2.0f, getMeasuredHeight() / 2.0f);
-                    GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
-                    if (groupCallMiniTextureView2.thumbPaint == null) {
-                        groupCallMiniTextureView2.thumbPaint = new Paint(1);
-                        GroupCallMiniTextureView.this.thumbPaint.setFilterBitmap(true);
-                    }
-                    canvas.drawBitmap(GroupCallMiniTextureView.this.thumb, (getMeasuredWidth() - GroupCallMiniTextureView.this.thumb.getWidth()) / 2.0f, (getMeasuredHeight() - GroupCallMiniTextureView.this.thumb.getHeight()) / 2.0f, GroupCallMiniTextureView.this.thumbPaint);
-                    canvas.restore();
-                } else {
-                    groupCallMiniTextureView.imageReceiver.setImageCoords(this.currentClipHorizontal, this.currentClipVertical, getMeasuredWidth() - (this.currentClipHorizontal * 2.0f), getMeasuredHeight() - (this.currentClipVertical * 2.0f));
-                    GroupCallMiniTextureView groupCallMiniTextureView3 = GroupCallMiniTextureView.this;
-                    groupCallMiniTextureView3.imageReceiver.setAlpha(groupCallMiniTextureView3.progressToBackground);
-                    GroupCallMiniTextureView.this.imageReceiver.draw(canvas);
-                }
-                GroupCallMiniTextureView groupCallMiniTextureView4 = GroupCallMiniTextureView.this;
-                ChatObject.VideoParticipant videoParticipant = groupCallMiniTextureView4.participant;
-                if (videoParticipant == this.val$call.videoNotAvailableParticipant) {
-                    if (groupCallMiniTextureView4.showingInFullscreen || !this.val$parentContainer.inFullscreenMode) {
-                        float dp = AndroidUtilities.dp(48.0f);
-                        this.val$textPaint.setAlpha(255);
-                        canvas.save();
-                        canvas.translate((((getMeasuredWidth() - dp) / 2.0f) - (AndroidUtilities.dp(400.0f) / 2.0f)) + (dp / 2.0f), ((getMeasuredHeight() / 2) - dp) + dp + AndroidUtilities.dp(10.0f));
-                        this.val$noVideoLayout.draw(canvas);
-                        canvas.restore();
-                    }
-                    if (GroupCallMiniTextureView.this.stopSharingTextView.getVisibility() != 4) {
-                        GroupCallMiniTextureView.this.stopSharingTextView.setVisibility(4);
-                    }
-                } else if (!videoParticipant.presentation || !videoParticipant.participant.self) {
-                    if (groupCallMiniTextureView4.stopSharingTextView.getVisibility() != 4) {
-                        GroupCallMiniTextureView.this.stopSharingTextView.setVisibility(4);
-                    }
-                    this.val$activity.cellFlickerDrawable.draw(canvas, GroupCallMiniTextureView.this);
-                } else {
-                    if (groupCallMiniTextureView4.stopSharingTextView.getVisibility() != 0) {
-                        GroupCallMiniTextureView.this.stopSharingTextView.setVisibility(0);
-                        GroupCallMiniTextureView.this.stopSharingTextView.setScaleX(1.0f);
-                        GroupCallMiniTextureView.this.stopSharingTextView.setScaleY(1.0f);
-                    }
-                    float f6 = GroupCallMiniTextureView.this.drawFirst ? 0.0f : this.val$parentContainer.progressToFullscreenMode;
-                    int dp2 = AndroidUtilities.dp(33.0f);
-                    GroupCallMiniTextureView groupCallMiniTextureView5 = GroupCallMiniTextureView.this;
-                    if (groupCallMiniTextureView5.animateToFullscreen || groupCallMiniTextureView5.showingInFullscreen) {
-                        f3 = dp2;
-                        f2 = AndroidUtilities.dp(10.0f) + (AndroidUtilities.dp(39.0f) * this.val$parentContainer.progressToFullscreenMode);
-                    } else {
-                        f3 = dp2;
-                        f2 = AndroidUtilities.dp(10.0f) * Math.max(1.0f - this.val$parentContainer.progressToFullscreenMode, (GroupCallMiniTextureView.this.showingAsScrimView || GroupCallMiniTextureView.this.animateToScrimView) ? this.val$parentContainer.progressToScrimView : 0.0f);
-                    }
-                    int i2 = (int) (f3 + f2);
-                    int measuredWidth = (getMeasuredWidth() - i2) / 2;
-                    float f7 = (GroupCallMiniTextureView.this.showingAsScrimView || GroupCallMiniTextureView.this.animateToScrimView) ? this.val$parentContainer.progressToScrimView : 0.0f;
-                    GroupCallMiniTextureView groupCallMiniTextureView6 = GroupCallMiniTextureView.this;
-                    if (groupCallMiniTextureView6.showingInFullscreen) {
-                        f4 = f6;
-                    } else {
-                        f6 = groupCallMiniTextureView6.animateToFullscreen ? this.val$parentContainer.progressToFullscreenMode : f7;
-                        f4 = (groupCallMiniTextureView6.showingAsScrimView || GroupCallMiniTextureView.this.animateToScrimView) ? this.val$parentContainer.progressToScrimView : this.val$parentContainer.progressToFullscreenMode;
-                    }
-                    float measuredHeight = ((getMeasuredHeight() - i2) / 2) - AndroidUtilities.dp(28.0f);
-                    float dp3 = AndroidUtilities.dp(17.0f);
-                    float dp4 = AndroidUtilities.dp(74.0f);
-                    GroupCallMiniTextureView groupCallMiniTextureView7 = GroupCallMiniTextureView.this;
-                    int dp5 = (int) ((measuredHeight - ((dp3 + (dp4 * ((groupCallMiniTextureView7.showingInFullscreen || groupCallMiniTextureView7.animateToFullscreen) ? this.val$parentContainer.progressToFullscreenMode : 0.0f))) * f6)) + (AndroidUtilities.dp(17.0f) * f4));
-                    GroupCallMiniTextureView.this.castingScreenDrawable.setBounds(measuredWidth, dp5, measuredWidth + i2, dp5 + i2);
-                    GroupCallMiniTextureView.this.castingScreenDrawable.draw(canvas);
-                    float f8 = this.val$parentContainer.progressToFullscreenMode;
-                    if (f8 <= 0.0f && f7 <= 0.0f) {
-                        GroupCallMiniTextureView.this.stopSharingTextView.setAlpha(0.0f);
-                    } else {
-                        float max = Math.max(f8, f7) * f6;
-                        this.val$textPaint2.setAlpha((int) (max * 255.0f));
-                        GroupCallMiniTextureView groupCallMiniTextureView8 = GroupCallMiniTextureView.this;
-                        if (groupCallMiniTextureView8.animateToFullscreen || groupCallMiniTextureView8.showingInFullscreen) {
-                            groupCallMiniTextureView8.stopSharingTextView.setAlpha(max * (1.0f - f7));
-                        } else {
-                            groupCallMiniTextureView8.stopSharingTextView.setAlpha(0.0f);
-                        }
-                        canvas.drawText(this.val$sharingScreenString, (measuredWidth - (this.val$textW3 / 2.0f)) + (i2 / 2.0f), AndroidUtilities.dp(32.0f) + i, this.val$textPaint2);
-                    }
-                    GroupCallMiniTextureView.this.stopSharingTextView.setTranslationY(((AndroidUtilities.dp(72.0f) + i) + GroupCallMiniTextureView.this.swipeToBackDy) - this.currentClipVertical);
-                    GroupCallMiniTextureView.this.stopSharingTextView.setTranslationX(((getMeasuredWidth() - GroupCallMiniTextureView.this.stopSharingTextView.getMeasuredWidth()) / 2.0f) - this.currentClipHorizontal);
-                    float f9 = this.val$parentContainer.progressToFullscreenMode;
-                    if (f9 < 1.0f && f7 < 1.0f) {
-                        TextPaint textPaint = this.val$textPaint;
-                        double max2 = Math.max(f9, f7);
-                        Double.isNaN(max2);
-                        textPaint.setAlpha((int) ((1.0d - max2) * 255.0d));
-                        canvas.save();
-                        canvas.translate((measuredWidth - (AndroidUtilities.dp(400.0f) / 2.0f)) + (i2 / 2.0f), i + AndroidUtilities.dp(10.0f));
-                        this.val$staticLayout.draw(canvas);
-                        canvas.restore();
-                    }
-                }
-                invalidate();
-            }
-            GroupCallMiniTextureView.this.noRtmpStreamTextView.setTranslationY((((getMeasuredHeight() - GroupCallMiniTextureView.this.noRtmpStreamTextView.getMeasuredHeight()) / 2.0f) + GroupCallMiniTextureView.this.swipeToBackDy) - this.currentClipVertical);
-            GroupCallMiniTextureView.this.noRtmpStreamTextView.setTranslationX(((getMeasuredWidth() - GroupCallMiniTextureView.this.noRtmpStreamTextView.getMeasuredWidth()) / 2.0f) - this.currentClipHorizontal);
-            ImageView imageView = GroupCallMiniTextureView.this.blurredFlippingStub;
-            if (imageView != null && imageView.getParent() != null) {
-                GroupCallMiniTextureView groupCallMiniTextureView9 = GroupCallMiniTextureView.this;
-                groupCallMiniTextureView9.blurredFlippingStub.setScaleX(groupCallMiniTextureView9.textureView.renderer.getScaleX());
-                GroupCallMiniTextureView groupCallMiniTextureView10 = GroupCallMiniTextureView.this;
-                groupCallMiniTextureView10.blurredFlippingStub.setScaleY(groupCallMiniTextureView10.textureView.renderer.getScaleY());
-            }
-            super.dispatchDraw(canvas);
-            float measuredHeight2 = (getMeasuredHeight() - this.currentClipVertical) - AndroidUtilities.dp(80.0f);
-            if (GroupCallMiniTextureView.this.participant != this.val$call.videoNotAvailableParticipant) {
-                canvas.save();
-                GroupCallMiniTextureView groupCallMiniTextureView11 = GroupCallMiniTextureView.this;
-                if ((groupCallMiniTextureView11.showingInFullscreen || groupCallMiniTextureView11.animateToFullscreen) && !GroupCallActivity.isLandscapeMode && !GroupCallActivity.isTabletMode) {
-                    GroupCallRenderersContainer groupCallRenderersContainer = this.val$parentContainer;
-                    measuredHeight2 -= (AndroidUtilities.dp(90.0f) * groupCallRenderersContainer.progressToFullscreenMode) * (1.0f - groupCallRenderersContainer.progressToHideUi);
-                }
-                canvas.translate(0.0f, measuredHeight2);
-                canvas.drawPaint(GroupCallMiniTextureView.this.gradientPaint);
-                canvas.restore();
-            }
-            if (GroupCallMiniTextureView.this.videoIsPaused || GroupCallMiniTextureView.this.videoIsPausedProgress != 0.0f) {
-                if (!GroupCallMiniTextureView.this.videoIsPaused || GroupCallMiniTextureView.this.videoIsPausedProgress == 1.0f) {
-                    if (!GroupCallMiniTextureView.this.videoIsPaused && GroupCallMiniTextureView.this.videoIsPausedProgress != 0.0f) {
-                        GroupCallMiniTextureView.access$724(GroupCallMiniTextureView.this, 0.064f);
-                        if (GroupCallMiniTextureView.this.videoIsPausedProgress < 0.0f) {
-                            GroupCallMiniTextureView.this.videoIsPausedProgress = 0.0f;
-                        } else {
-                            invalidate();
-                        }
-                    }
-                } else {
-                    GroupCallMiniTextureView.access$716(GroupCallMiniTextureView.this, 0.064f);
-                    if (GroupCallMiniTextureView.this.videoIsPausedProgress > 1.0f) {
-                        GroupCallMiniTextureView.this.videoIsPausedProgress = 1.0f;
-                    } else {
-                        invalidate();
-                    }
-                }
-                float f10 = GroupCallMiniTextureView.this.videoIsPausedProgress;
-                if (isInAnimation()) {
-                    float f11 = this.overlayIconAlphaFrom;
-                    float f12 = this.animationProgress;
-                    f = (f11 * (1.0f - f12)) + (GroupCallMiniTextureView.this.overlayIconAlpha * f12);
-                } else {
-                    f = GroupCallMiniTextureView.this.overlayIconAlpha;
-                }
-                float f13 = f10 * f;
-                if (f13 <= 0.0f) {
-                    return;
-                }
-                float dp6 = AndroidUtilities.dp(48.0f);
-                float measuredWidth2 = (getMeasuredWidth() - dp6) / 2.0f;
-                float measuredHeight3 = (getMeasuredHeight() - dp6) / 2.0f;
-                if (GroupCallMiniTextureView.this.participant == this.val$call.videoNotAvailableParticipant) {
-                    measuredHeight3 -= dp6 / 2.5f;
-                }
-                RectF rectF = AndroidUtilities.rectTmp;
-                float f14 = measuredHeight3 + dp6;
-                rectF.set((int) measuredWidth2, (int) measuredHeight3, (int) (measuredWidth2 + dp6), (int) f14);
-                if (f13 != 1.0f) {
-                    canvas.saveLayerAlpha(rectF, (int) (f13 * 255.0f), 31);
-                } else {
-                    canvas.save();
-                }
-                GroupCallMiniTextureView.this.pausedVideoDrawable.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
-                GroupCallMiniTextureView.this.pausedVideoDrawable.draw(canvas);
-                canvas.restore();
-                float f15 = f13 * this.val$parentContainer.progressToFullscreenMode;
-                if (f15 <= 0.0f || GroupCallMiniTextureView.this.participant == this.val$call.videoNotAvailableParticipant) {
-                    return;
-                }
-                this.val$textPaint.setAlpha((int) (f15 * 255.0f));
-                canvas.drawText(this.val$videoOnPauseString, (measuredWidth2 - (this.val$textW / 2.0f)) + (dp6 / 2.0f), f14 + AndroidUtilities.dp(16.0f), this.val$textPaint);
-            }
-        }
-
-        @Override // android.view.ViewGroup
-        protected boolean drawChild(Canvas canvas, View view, long j) {
-            GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
-            if (groupCallMiniTextureView.inPinchToZoom && view == groupCallMiniTextureView.textureView.renderer) {
-                canvas.save();
-                GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
-                float f = groupCallMiniTextureView2.pinchScale;
-                canvas.scale(f, f, groupCallMiniTextureView2.pinchCenterX, groupCallMiniTextureView2.pinchCenterY);
-                GroupCallMiniTextureView groupCallMiniTextureView3 = GroupCallMiniTextureView.this;
-                canvas.translate(groupCallMiniTextureView3.pinchTranslationX, groupCallMiniTextureView3.pinchTranslationY);
-                boolean drawChild = super.drawChild(canvas, view, j);
-                canvas.restore();
-                return drawChild;
-            }
-            return super.drawChild(canvas, view, j);
-        }
-
-        @Override // android.view.View
-        public void invalidate() {
-            super.invalidate();
-            GroupCallMiniTextureView.this.invalidateFromChild = true;
-            GroupCallMiniTextureView.this.invalidate();
-            GroupCallMiniTextureView.this.invalidateFromChild = false;
-        }
-
-        @Override // org.telegram.ui.Components.voip.VoIPTextureView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            int i5;
-            ChatObject.VideoParticipant videoParticipant;
-            GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
-            if (groupCallMiniTextureView.attached && groupCallMiniTextureView.checkScale) {
-                TextureViewRenderer textureViewRenderer = this.renderer;
-                if (textureViewRenderer.rotatedFrameHeight != 0 && textureViewRenderer.rotatedFrameWidth != 0) {
-                    if (GroupCallMiniTextureView.this.showingAsScrimView) {
-                        GroupCallMiniTextureView.this.textureView.scaleType = VoIPTextureView.SCALE_TYPE_FIT;
-                    } else {
-                        GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
-                        if (groupCallMiniTextureView2.showingInFullscreen) {
-                            groupCallMiniTextureView2.textureView.scaleType = VoIPTextureView.SCALE_TYPE_FIT;
-                        } else if (this.val$parentContainer.inFullscreenMode) {
-                            groupCallMiniTextureView2.textureView.scaleType = VoIPTextureView.SCALE_TYPE_FILL;
-                        } else if (groupCallMiniTextureView2.participant.presentation) {
-                            groupCallMiniTextureView2.textureView.scaleType = VoIPTextureView.SCALE_TYPE_FIT;
-                        } else {
-                            groupCallMiniTextureView2.textureView.scaleType = VoIPTextureView.SCALE_TYPE_ADAPTIVE;
-                        }
-                    }
-                    GroupCallMiniTextureView.this.checkScale = false;
-                }
-            }
-            super.onLayout(z, i, i2, i3, i4);
-            TextureViewRenderer textureViewRenderer2 = this.renderer;
-            int i6 = textureViewRenderer2.rotatedFrameHeight;
-            if (i6 == 0 || (i5 = textureViewRenderer2.rotatedFrameWidth) == 0 || (videoParticipant = GroupCallMiniTextureView.this.participant) == null) {
-                return;
-            }
-            videoParticipant.setAspectRatio(i5, i6, this.val$call);
-        }
-
-        @Override // org.telegram.ui.Components.voip.VoIPTextureView, android.view.View, android.view.ViewParent
-        public void requestLayout() {
-            GroupCallMiniTextureView.this.requestLayout();
-            super.requestLayout();
-        }
-
-        @Override // org.telegram.ui.Components.voip.VoIPTextureView
-        protected void onFirstFrameRendered() {
-            int i;
-            ChatObject.VideoParticipant videoParticipant;
-            invalidate();
-            ChatObject.Call call = this.val$call;
-            if (call != null && call.call.rtmp_stream && GroupCallMiniTextureView.this.postedNoRtmpStreamCallback) {
-                AndroidUtilities.cancelRunOnUIThread(GroupCallMiniTextureView.this.noRtmpStreamCallback);
-                GroupCallMiniTextureView.this.postedNoRtmpStreamCallback = false;
-                GroupCallMiniTextureView.this.noRtmpStreamTextView.animate().cancel();
-                GroupCallMiniTextureView.this.noRtmpStreamTextView.animate().alpha(0.0f).setDuration(150L).start();
-                GroupCallMiniTextureView.this.textureView.animate().cancel();
-                GroupCallMiniTextureView.this.textureView.animate().alpha(1.0f).setDuration(150L).start();
-            }
-            if (!GroupCallMiniTextureView.this.videoIsPaused && this.renderer.getAlpha() != 1.0f) {
-                this.renderer.animate().setDuration(300L).alpha(1.0f);
-            }
-            TextureView textureView = this.blurRenderer;
-            if (textureView != null && textureView.getAlpha() != 1.0f) {
-                this.blurRenderer.animate().setDuration(300L).alpha(1.0f);
-            }
-            ImageView imageView = GroupCallMiniTextureView.this.blurredFlippingStub;
-            if (imageView != null && imageView.getParent() != null) {
-                if (GroupCallMiniTextureView.this.blurredFlippingStub.getAlpha() == 1.0f) {
-                    GroupCallMiniTextureView.this.blurredFlippingStub.animate().alpha(0.0f).setDuration(300L).setListener(new C00351()).start();
-                } else if (GroupCallMiniTextureView.this.blurredFlippingStub.getParent() != null) {
-                    GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
-                    groupCallMiniTextureView.textureView.removeView(groupCallMiniTextureView.blurredFlippingStub);
-                }
-            }
-            TextureViewRenderer textureViewRenderer = this.renderer;
-            int i2 = textureViewRenderer.rotatedFrameHeight;
-            if (i2 == 0 || (i = textureViewRenderer.rotatedFrameWidth) == 0 || (videoParticipant = GroupCallMiniTextureView.this.participant) == null) {
-                return;
-            }
-            videoParticipant.setAspectRatio(i, i2, this.val$call);
-        }
-
-        /* renamed from: org.telegram.ui.Components.voip.GroupCallMiniTextureView$1$1 */
-        /* loaded from: classes3.dex */
-        class C00351 extends AnimatorListenerAdapter {
-            C00351() {
-                AnonymousClass1.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (GroupCallMiniTextureView.this.blurredFlippingStub.getParent() != null) {
-                    GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
-                    groupCallMiniTextureView.textureView.removeView(groupCallMiniTextureView.blurredFlippingStub);
-                }
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.GroupCallMiniTextureView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements RendererCommon.RendererEvents {
-        @Override // org.webrtc.RendererCommon.RendererEvents
-        public void onFrameResolutionChanged(int i, int i2, int i3) {
-        }
-
-        AnonymousClass2() {
-            GroupCallMiniTextureView.this = r1;
-        }
-
-        @Override // org.webrtc.RendererCommon.RendererEvents
-        public void onFirstFrameRendered() {
-            for (int i = 0; i < GroupCallMiniTextureView.this.onFirstFrameRunnables.size(); i++) {
-                AndroidUtilities.cancelRunOnUIThread(GroupCallMiniTextureView.this.onFirstFrameRunnables.get(i));
-                GroupCallMiniTextureView.this.onFirstFrameRunnables.get(i).run();
-            }
-            GroupCallMiniTextureView.this.onFirstFrameRunnables.clear();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.GroupCallMiniTextureView$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends TextView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(Context context) {
-            super(context);
-            GroupCallMiniTextureView.this = r1;
-        }
-
-        @Override // android.widget.TextView, android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            if (Math.abs(GroupCallMiniTextureView.this.stopSharingTextView.getAlpha() - 1.0f) > 0.001f) {
-                return false;
-            }
-            return super.onTouchEvent(motionEvent);
-        }
     }
 
     public /* synthetic */ void lambda$new$1(View view) {
@@ -1105,11 +1060,25 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     saveThumb();
                     if (this.textureView.currentAnimation != null && z8) {
                         this.parentContainer.detach(this);
-                        animate().scaleX(0.5f).scaleY(0.5f).alpha(0.0f).setListener(new AnonymousClass4(this)).setDuration(150L).start();
+                        animate().scaleX(0.5f).scaleY(0.5f).alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.4
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                this.setScaleX(1.0f);
+                                this.setScaleY(1.0f);
+                                this.setAlpha(1.0f);
+                                GroupCallMiniTextureView.this.parentContainer.removeView(this);
+                                GroupCallMiniTextureView.this.release();
+                            }
+                        }).setDuration(150L).start();
                     } else {
                         groupCallRenderersContainer = this.parentContainer;
                         if (!groupCallRenderersContainer.inLayout) {
-                            AndroidUtilities.runOnUIThread(new GroupCallMiniTextureView$$ExternalSyntheticLambda7(this, this));
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda7
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    GroupCallMiniTextureView.this.lambda$updateAttachState$2(this);
+                                }
+                            });
                         } else {
                             groupCallRenderersContainer.removeView(this);
                         }
@@ -1221,7 +1190,14 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     setAlpha(0.0f);
                     this.animateEnter = true;
                     invalidate();
-                    animate().scaleX(1.0f).scaleY(1.0f).alpha(1.0f).setListener(new AnonymousClass5()).setDuration(100L).start();
+                    animate().scaleX(1.0f).scaleY(1.0f).alpha(1.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.5
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
+                            groupCallMiniTextureView.animateEnter = false;
+                            groupCallMiniTextureView.invalidate();
+                        }
+                    }).setDuration(100L).start();
                     invalidate();
                 } else {
                     setScaleY(1.0f);
@@ -1279,7 +1255,12 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                                 } else {
                                                     this.textureView.requestLayout();
                                                 }
-                                                AndroidUtilities.runOnUIThread(new GroupCallMiniTextureView$$ExternalSyntheticLambda4(this));
+                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda4
+                                                    @Override // java.lang.Runnable
+                                                    public final void run() {
+                                                        GroupCallMiniTextureView.this.requestLayout();
+                                                    }
+                                                });
                                                 this.parentContainer.requestLayout();
                                                 invalidate();
                                             }
@@ -1322,8 +1303,22 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                                             fArr[1] = this.hasVideo ? 0.0f : 1.0f;
                                                             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
                                                             this.noVideoStubAnimator = ofFloat;
-                                                            ofFloat.addUpdateListener(new GroupCallMiniTextureView$$ExternalSyntheticLambda1(this));
-                                                            this.noVideoStubAnimator.addListener(new AnonymousClass6());
+                                                            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda1
+                                                                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                                                                public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                                                                    GroupCallMiniTextureView.this.lambda$updateAttachState$3(valueAnimator3);
+                                                                }
+                                                            });
+                                                            this.noVideoStubAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.6
+                                                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                                                public void onAnimationEnd(Animator animator) {
+                                                                    GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
+                                                                    groupCallMiniTextureView.progressToNoVideoStub = groupCallMiniTextureView.hasVideo ? 0.0f : 1.0f;
+                                                                    groupCallMiniTextureView.noVideoStubLayout.setAlpha(GroupCallMiniTextureView.this.progressToNoVideoStub);
+                                                                    GroupCallMiniTextureView.this.noVideoStubLayout.setVisibility(GroupCallMiniTextureView.this.hasVideo ? 8 : 0);
+                                                                    GroupCallMiniTextureView.this.textureView.invalidate();
+                                                                }
+                                                            });
                                                             this.noVideoStubAnimator.start();
                                                         } else {
                                                             boolean z12 = this.hasVideo;
@@ -1483,7 +1478,12 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                             this.checkScale = true;
                                             if (!z3) {
                                             }
-                                            AndroidUtilities.runOnUIThread(new GroupCallMiniTextureView$$ExternalSyntheticLambda4(this));
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda4
+                                                @Override // java.lang.Runnable
+                                                public final void run() {
+                                                    GroupCallMiniTextureView.this.requestLayout();
+                                                }
+                                            });
                                             this.parentContainer.requestLayout();
                                             invalidate();
                                         }
@@ -1659,43 +1659,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         updateInfo();
     }
 
-    /* renamed from: org.telegram.ui.Components.voip.GroupCallMiniTextureView$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends AnimatorListenerAdapter {
-        final /* synthetic */ GroupCallMiniTextureView val$viewToRemove;
-
-        AnonymousClass4(GroupCallMiniTextureView groupCallMiniTextureView) {
-            GroupCallMiniTextureView.this = r1;
-            this.val$viewToRemove = groupCallMiniTextureView;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            this.val$viewToRemove.setScaleX(1.0f);
-            this.val$viewToRemove.setScaleY(1.0f);
-            this.val$viewToRemove.setAlpha(1.0f);
-            GroupCallMiniTextureView.this.parentContainer.removeView(this.val$viewToRemove);
-            GroupCallMiniTextureView.this.release();
-        }
-    }
-
     public /* synthetic */ void lambda$updateAttachState$2(View view) {
         this.parentContainer.removeView(view);
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.GroupCallMiniTextureView$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends AnimatorListenerAdapter {
-        AnonymousClass5() {
-            GroupCallMiniTextureView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
-            groupCallMiniTextureView.animateEnter = false;
-            groupCallMiniTextureView.invalidate();
-        }
     }
 
     public /* synthetic */ void lambda$updateAttachState$3(ValueAnimator valueAnimator) {
@@ -1703,23 +1668,6 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.progressToNoVideoStub = floatValue;
         this.noVideoStubLayout.setAlpha(floatValue);
         this.textureView.invalidate();
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.GroupCallMiniTextureView$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 extends AnimatorListenerAdapter {
-        AnonymousClass6() {
-            GroupCallMiniTextureView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
-            groupCallMiniTextureView.progressToNoVideoStub = groupCallMiniTextureView.hasVideo ? 0.0f : 1.0f;
-            groupCallMiniTextureView.noVideoStubLayout.setAlpha(GroupCallMiniTextureView.this.progressToNoVideoStub);
-            GroupCallMiniTextureView.this.noVideoStubLayout.setVisibility(GroupCallMiniTextureView.this.hasVideo ? 8 : 0);
-            GroupCallMiniTextureView.this.textureView.invalidate();
-        }
     }
 
     private void loadThumb() {
@@ -1984,15 +1932,25 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         if (this.participant == null || this.textureView.renderer.getMeasuredHeight() == 0 || this.textureView.renderer.getMeasuredWidth() == 0) {
             return;
         }
-        getRenderBufferBitmap(new GroupCallMiniTextureView$$ExternalSyntheticLambda8(this));
+        getRenderBufferBitmap(new GlGenericDrawer.TextureCallback() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda8
+            @Override // org.webrtc.GlGenericDrawer.TextureCallback
+            public final void run(Bitmap bitmap, int i) {
+                GroupCallMiniTextureView.this.lambda$saveThumb$5(bitmap, i);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$saveThumb$5(Bitmap bitmap, int i) {
+    public /* synthetic */ void lambda$saveThumb$5(final Bitmap bitmap, int i) {
         if (bitmap == null || bitmap.getPixel(0, 0) == 0) {
             return;
         }
         Utilities.stackBlurBitmap(bitmap, Math.max(7, Math.max(bitmap.getWidth(), bitmap.getHeight()) / 180));
-        AndroidUtilities.runOnUIThread(new GroupCallMiniTextureView$$ExternalSyntheticLambda6(this, bitmap));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                GroupCallMiniTextureView.this.lambda$saveThumb$4(bitmap);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$saveThumb$4(Bitmap bitmap) {
@@ -2061,8 +2019,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void updateIconColor(boolean z) {
-        int i;
-        int i2;
+        final int i;
+        final int i2;
         GroupCallStatusIcon groupCallStatusIcon = this.statusIcon;
         if (groupCallStatusIcon == null) {
             return;
@@ -2088,13 +2046,35 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                 paint.setColor(i);
                 return;
             }
-            int i3 = this.lastIconColor;
-            int i4 = this.lastSpeakingFrameColor;
+            final int i3 = this.lastIconColor;
+            final int i4 = this.lastSpeakingFrameColor;
             this.animateToColor = i2;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.colorAnimator = ofFloat;
-            ofFloat.addUpdateListener(new GroupCallMiniTextureView$$ExternalSyntheticLambda2(this, i3, i2, i4, i));
-            this.colorAnimator.addListener(new AnonymousClass7(i2, i));
+            final int i5 = i2;
+            final int i6 = i;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda2
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    GroupCallMiniTextureView.this.lambda$updateIconColor$6(i3, i5, i4, i6, valueAnimator2);
+                }
+            });
+            this.colorAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.7
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
+                    int i7 = i2;
+                    groupCallMiniTextureView.lastIconColor = i7;
+                    groupCallMiniTextureView.animateToColor = i7;
+                    int i8 = i;
+                    groupCallMiniTextureView.lastSpeakingFrameColor = i8;
+                    groupCallMiniTextureView.speakingPaint.setColor(i8);
+                    GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
+                    if (groupCallMiniTextureView2.progressToSpeaking > 0.0f) {
+                        groupCallMiniTextureView2.invalidate();
+                    }
+                }
+            });
             this.colorAnimator.start();
             return;
         }
@@ -2111,34 +2091,6 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.speakingPaint.setColor(blendARGB);
         if (this.progressToSpeaking > 0.0f) {
             invalidate();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.GroupCallMiniTextureView$7 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass7 extends AnimatorListenerAdapter {
-        final /* synthetic */ int val$newColor;
-        final /* synthetic */ int val$newSpeakingFrameColor;
-
-        AnonymousClass7(int i, int i2) {
-            GroupCallMiniTextureView.this = r1;
-            this.val$newColor = i;
-            this.val$newSpeakingFrameColor = i2;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
-            int i = this.val$newColor;
-            groupCallMiniTextureView.lastIconColor = i;
-            groupCallMiniTextureView.animateToColor = i;
-            int i2 = this.val$newSpeakingFrameColor;
-            groupCallMiniTextureView.lastSpeakingFrameColor = i2;
-            groupCallMiniTextureView.speakingPaint.setColor(i2);
-            GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
-            if (groupCallMiniTextureView2.progressToSpeaking > 0.0f) {
-                groupCallMiniTextureView2.invalidate();
-            }
         }
     }
 
@@ -2400,8 +2352,25 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         ((FrameLayout.LayoutParams) this.blurredFlippingStub.getLayoutParams()).gravity = 17;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.flipAnimator = ofFloat;
-        ofFloat.addUpdateListener(new GroupCallMiniTextureView$$ExternalSyntheticLambda0(this));
-        this.flipAnimator.addListener(new AnonymousClass8());
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                GroupCallMiniTextureView.this.lambda$startFlipAnimation$7(valueAnimator);
+            }
+        });
+        this.flipAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.8
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                super.onAnimationEnd(animator);
+                GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
+                groupCallMiniTextureView.flipAnimator = null;
+                groupCallMiniTextureView.textureView.setRotationY(0.0f);
+                GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
+                if (!groupCallMiniTextureView2.flipHalfReached) {
+                    groupCallMiniTextureView2.textureView.renderer.clearImage();
+                }
+            }
+        });
         this.flipAnimator.setDuration(400L);
         this.flipAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.flipAnimator.start();
@@ -2424,25 +2393,5 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         float f = floatValue * 180.0f;
         this.blurredFlippingStub.setRotationY(f);
         this.textureView.renderer.setRotationY(f);
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.GroupCallMiniTextureView$8 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass8 extends AnimatorListenerAdapter {
-        AnonymousClass8() {
-            GroupCallMiniTextureView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            super.onAnimationEnd(animator);
-            GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
-            groupCallMiniTextureView.flipAnimator = null;
-            groupCallMiniTextureView.textureView.setRotationY(0.0f);
-            GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
-            if (!groupCallMiniTextureView2.flipHalfReached) {
-                groupCallMiniTextureView2.textureView.renderer.clearImage();
-            }
-        }
     }
 }

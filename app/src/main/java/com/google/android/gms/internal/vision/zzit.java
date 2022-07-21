@@ -9,75 +9,75 @@ final /* synthetic */ class zzit {
         int[] iArr = new int[zzml.values().length];
         zzb = iArr;
         try {
-            iArr[zzml.zza.ordinal()] = 1;
+            iArr[zzml.DOUBLE.ordinal()] = 1;
         } catch (NoSuchFieldError unused) {
         }
         try {
-            zzb[zzml.zzb.ordinal()] = 2;
+            zzb[zzml.FLOAT.ordinal()] = 2;
         } catch (NoSuchFieldError unused2) {
         }
         try {
-            zzb[zzml.zzc.ordinal()] = 3;
+            zzb[zzml.INT64.ordinal()] = 3;
         } catch (NoSuchFieldError unused3) {
         }
         try {
-            zzb[zzml.zzd.ordinal()] = 4;
+            zzb[zzml.UINT64.ordinal()] = 4;
         } catch (NoSuchFieldError unused4) {
         }
         try {
-            zzb[zzml.zze.ordinal()] = 5;
+            zzb[zzml.INT32.ordinal()] = 5;
         } catch (NoSuchFieldError unused5) {
         }
         try {
-            zzb[zzml.zzf.ordinal()] = 6;
+            zzb[zzml.FIXED64.ordinal()] = 6;
         } catch (NoSuchFieldError unused6) {
         }
         try {
-            zzb[zzml.zzg.ordinal()] = 7;
+            zzb[zzml.FIXED32.ordinal()] = 7;
         } catch (NoSuchFieldError unused7) {
         }
         try {
-            zzb[zzml.zzh.ordinal()] = 8;
+            zzb[zzml.BOOL.ordinal()] = 8;
         } catch (NoSuchFieldError unused8) {
         }
         try {
-            zzb[zzml.zzj.ordinal()] = 9;
+            zzb[zzml.GROUP.ordinal()] = 9;
         } catch (NoSuchFieldError unused9) {
         }
         try {
-            zzb[zzml.zzk.ordinal()] = 10;
+            zzb[zzml.MESSAGE.ordinal()] = 10;
         } catch (NoSuchFieldError unused10) {
         }
         try {
-            zzb[zzml.zzi.ordinal()] = 11;
+            zzb[zzml.STRING.ordinal()] = 11;
         } catch (NoSuchFieldError unused11) {
         }
         try {
-            zzb[zzml.zzl.ordinal()] = 12;
+            zzb[zzml.BYTES.ordinal()] = 12;
         } catch (NoSuchFieldError unused12) {
         }
         try {
-            zzb[zzml.zzm.ordinal()] = 13;
+            zzb[zzml.UINT32.ordinal()] = 13;
         } catch (NoSuchFieldError unused13) {
         }
         try {
-            zzb[zzml.zzo.ordinal()] = 14;
+            zzb[zzml.SFIXED32.ordinal()] = 14;
         } catch (NoSuchFieldError unused14) {
         }
         try {
-            zzb[zzml.zzp.ordinal()] = 15;
+            zzb[zzml.SFIXED64.ordinal()] = 15;
         } catch (NoSuchFieldError unused15) {
         }
         try {
-            zzb[zzml.zzq.ordinal()] = 16;
+            zzb[zzml.SINT32.ordinal()] = 16;
         } catch (NoSuchFieldError unused16) {
         }
         try {
-            zzb[zzml.zzr.ordinal()] = 17;
+            zzb[zzml.SINT64.ordinal()] = 17;
         } catch (NoSuchFieldError unused17) {
         }
         try {
-            zzb[zzml.zzn.ordinal()] = 18;
+            zzb[zzml.ENUM.ordinal()] = 18;
         } catch (NoSuchFieldError unused18) {
         }
         int[] iArr2 = new int[zzmo.values().length];

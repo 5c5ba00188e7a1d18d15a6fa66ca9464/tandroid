@@ -19,6 +19,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -93,15 +94,39 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         String str;
         this.actionBar.setItemsBackgroundColor(Theme.getColor("avatar_actionBarSelectorBlue", this.resourcesProvider), false);
         this.actionBar.setItemsColor(Theme.getColor("actionBarDefaultIcon", this.resourcesProvider), false);
-        this.actionBar.setBackButtonImage(2131165449);
+        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
         if (this.addContact) {
-            this.actionBar.setTitle(LocaleController.getString("NewContact", 2131626826));
+            this.actionBar.setTitle(LocaleController.getString("NewContact", R.string.NewContact));
         } else {
-            this.actionBar.setTitle(LocaleController.getString("EditName", 2131625603));
+            this.actionBar.setTitle(LocaleController.getString("EditName", R.string.EditName));
         }
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
-        this.doneButton = this.actionBar.createMenu().addItem(1, LocaleController.getString("Done", 2131625541).toUpperCase());
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ContactAddActivity.1
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i) {
+                if (i != -1) {
+                    if (i != 1 || ContactAddActivity.this.firstNameField.getText().length() == 0) {
+                        return;
+                    }
+                    TLRPC$User user = ContactAddActivity.this.getMessagesController().getUser(Long.valueOf(ContactAddActivity.this.user_id));
+                    user.first_name = ContactAddActivity.this.firstNameField.getText().toString();
+                    user.last_name = ContactAddActivity.this.lastNameField.getText().toString();
+                    ContactAddActivity.this.getContactsController().addContact(user, ContactAddActivity.this.checkBoxCell != null && ContactAddActivity.this.checkBoxCell.isChecked());
+                    SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(((BaseFragment) ContactAddActivity.this).currentAccount).edit();
+                    edit.putInt("dialog_bar_vis3" + ContactAddActivity.this.user_id, 3).commit();
+                    ContactAddActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
+                    ContactAddActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.peerSettingsDidLoad, Long.valueOf(ContactAddActivity.this.user_id));
+                    ContactAddActivity.this.finishFragment();
+                    if (ContactAddActivity.this.delegate == null) {
+                        return;
+                    }
+                    ContactAddActivity.this.delegate.didAddToContacts();
+                    return;
+                }
+                ContactAddActivity.this.finishFragment();
+            }
+        });
+        this.doneButton = this.actionBar.createMenu().addItem(1, LocaleController.getString("Done", R.string.Done).toUpperCase());
         this.fragmentView = new ScrollView(context);
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
@@ -122,7 +147,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.nameTextView.setSingleLine(true);
         this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.nameTextView.setGravity(LocaleController.isRTL ? 5 : 3);
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         TextView textView2 = this.nameTextView;
         boolean z = LocaleController.isRTL;
         frameLayout.addView(textView2, LayoutHelper.createFrame(-2, -2.0f, (z ? 5 : 3) | 48, z ? 0.0f : 80.0f, 3.0f, z ? 80.0f : 0.0f, 0.0f));
@@ -138,9 +163,14 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         TextView textView4 = this.onlineTextView;
         boolean z2 = LocaleController.isRTL;
         frameLayout.addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 80.0f, 32.0f, z2 ? 80.0f : 0.0f, 0.0f));
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-        this.firstNameField = anonymousClass2;
-        anonymousClass2.setTextSize(1, 18.0f);
+        EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ContactAddActivity.2
+            @Override // org.telegram.ui.Components.EditTextBoldCursor
+            protected Theme.ResourcesProvider getResourcesProvider() {
+                return ContactAddActivity.this.resourcesProvider;
+            }
+        };
+        this.firstNameField = editTextBoldCursor;
+        editTextBoldCursor.setTextSize(1, 18.0f);
         this.firstNameField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText", this.resourcesProvider));
         this.firstNameField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
         this.firstNameField.setBackgroundDrawable(null);
@@ -151,16 +181,38 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.firstNameField.setGravity(LocaleController.isRTL ? 5 : 3);
         this.firstNameField.setInputType(49152);
         this.firstNameField.setImeOptions(5);
-        this.firstNameField.setHint(LocaleController.getString("FirstName", 2131625947));
+        this.firstNameField.setHint(LocaleController.getString("FirstName", R.string.FirstName));
         this.firstNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
         this.firstNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.firstNameField.setCursorWidth(1.5f);
         linearLayout.addView(this.firstNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 24.0f, 24.0f, 0.0f));
-        this.firstNameField.setOnEditorActionListener(new ContactAddActivity$$ExternalSyntheticLambda2(this));
-        this.firstNameField.setOnFocusChangeListener(new AnonymousClass3());
-        AnonymousClass4 anonymousClass4 = new AnonymousClass4(context);
-        this.lastNameField = anonymousClass4;
-        anonymousClass4.setTextSize(1, 18.0f);
+        this.firstNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda2
+            @Override // android.widget.TextView.OnEditorActionListener
+            public final boolean onEditorAction(TextView textView5, int i, KeyEvent keyEvent) {
+                boolean lambda$createView$1;
+                lambda$createView$1 = ContactAddActivity.this.lambda$createView$1(textView5, i, keyEvent);
+                return lambda$createView$1;
+            }
+        });
+        this.firstNameField.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.ContactAddActivity.3
+            boolean focused;
+
+            @Override // android.view.View.OnFocusChangeListener
+            public void onFocusChange(View view, boolean z3) {
+                if (!ContactAddActivity.this.paused && !z3 && this.focused) {
+                    FileLog.d("changed");
+                }
+                this.focused = z3;
+            }
+        });
+        EditTextBoldCursor editTextBoldCursor2 = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ContactAddActivity.4
+            @Override // org.telegram.ui.Components.EditTextBoldCursor
+            protected Theme.ResourcesProvider getResourcesProvider() {
+                return ContactAddActivity.this.resourcesProvider;
+            }
+        };
+        this.lastNameField = editTextBoldCursor2;
+        editTextBoldCursor2.setTextSize(1, 18.0f);
         this.lastNameField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText", this.resourcesProvider));
         this.lastNameField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
         this.lastNameField.setBackgroundDrawable(null);
@@ -171,20 +223,27 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.lastNameField.setGravity(LocaleController.isRTL ? 5 : 3);
         this.lastNameField.setInputType(49152);
         this.lastNameField.setImeOptions(6);
-        this.lastNameField.setHint(LocaleController.getString("LastName", 2131626415));
+        this.lastNameField.setHint(LocaleController.getString("LastName", R.string.LastName));
         this.lastNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
         this.lastNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.lastNameField.setCursorWidth(1.5f);
         linearLayout.addView(this.lastNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 16.0f, 24.0f, 0.0f));
-        this.lastNameField.setOnEditorActionListener(new ContactAddActivity$$ExternalSyntheticLambda3(this));
+        this.lastNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda3
+            @Override // android.widget.TextView.OnEditorActionListener
+            public final boolean onEditorAction(TextView textView5, int i, KeyEvent keyEvent) {
+                boolean lambda$createView$2;
+                lambda$createView$2 = ContactAddActivity.this.lambda$createView$2(textView5, i, keyEvent);
+                return lambda$createView$2;
+            }
+        });
         TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.user_id));
         if (user != null) {
             if (user.phone == null && (str = this.phone) != null) {
                 user.phone = PhoneFormat.stripExceptNumbers(str);
             }
             this.firstNameField.setText(user.first_name);
-            EditTextBoldCursor editTextBoldCursor = this.firstNameField;
-            editTextBoldCursor.setSelection(editTextBoldCursor.length());
+            EditTextBoldCursor editTextBoldCursor3 = this.firstNameField;
+            editTextBoldCursor3.setSelection(editTextBoldCursor3.length());
             this.lastNameField.setText(user.last_name);
         }
         TextView textView5 = new TextView(context);
@@ -200,60 +259,18 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 CheckBoxCell checkBoxCell = new CheckBoxCell(getParentActivity(), 0);
                 this.checkBoxCell = checkBoxCell;
                 checkBoxCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                this.checkBoxCell.setText(LocaleController.formatString("SharePhoneNumberWith", 2131628345, UserObject.getFirstName(user)), "", true, false);
+                this.checkBoxCell.setText(LocaleController.formatString("SharePhoneNumberWith", R.string.SharePhoneNumberWith, UserObject.getFirstName(user)), "", true, false);
                 this.checkBoxCell.setPadding(AndroidUtilities.dp(7.0f), 0, AndroidUtilities.dp(7.0f), 0);
-                this.checkBoxCell.setOnClickListener(new ContactAddActivity$$ExternalSyntheticLambda0(this));
+                this.checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda0
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        ContactAddActivity.this.lambda$createView$3(view);
+                    }
+                });
                 linearLayout.addView(this.checkBoxCell, LayoutHelper.createLinear(-1, -2, 0.0f, 10.0f, 0.0f, 0.0f));
             }
         }
         return this.fragmentView;
-    }
-
-    /* renamed from: org.telegram.ui.ContactAddActivity$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass1() {
-            ContactAddActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i != -1) {
-                if (i != 1 || ContactAddActivity.this.firstNameField.getText().length() == 0) {
-                    return;
-                }
-                TLRPC$User user = ContactAddActivity.this.getMessagesController().getUser(Long.valueOf(ContactAddActivity.this.user_id));
-                user.first_name = ContactAddActivity.this.firstNameField.getText().toString();
-                user.last_name = ContactAddActivity.this.lastNameField.getText().toString();
-                ContactAddActivity.this.getContactsController().addContact(user, ContactAddActivity.this.checkBoxCell != null && ContactAddActivity.this.checkBoxCell.isChecked());
-                SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(((BaseFragment) ContactAddActivity.this).currentAccount).edit();
-                edit.putInt("dialog_bar_vis3" + ContactAddActivity.this.user_id, 3).commit();
-                ContactAddActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
-                ContactAddActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.peerSettingsDidLoad, Long.valueOf(ContactAddActivity.this.user_id));
-                ContactAddActivity.this.finishFragment();
-                if (ContactAddActivity.this.delegate == null) {
-                    return;
-                }
-                ContactAddActivity.this.delegate.didAddToContacts();
-                return;
-            }
-            ContactAddActivity.this.finishFragment();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ContactAddActivity$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends EditTextBoldCursor {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            ContactAddActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.EditTextBoldCursor
-        protected Theme.ResourcesProvider getResourcesProvider() {
-            return ContactAddActivity.this.resourcesProvider;
-        }
     }
 
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
@@ -264,39 +281,6 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             return true;
         }
         return false;
-    }
-
-    /* renamed from: org.telegram.ui.ContactAddActivity$3 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass3 implements View.OnFocusChangeListener {
-        boolean focused;
-
-        AnonymousClass3() {
-            ContactAddActivity.this = r1;
-        }
-
-        @Override // android.view.View.OnFocusChangeListener
-        public void onFocusChange(View view, boolean z) {
-            if (!ContactAddActivity.this.paused && !z && this.focused) {
-                FileLog.d("changed");
-            }
-            this.focused = z;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ContactAddActivity$4 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass4 extends EditTextBoldCursor {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass4(Context context) {
-            super(context);
-            ContactAddActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.EditTextBoldCursor
-        protected Theme.ResourcesProvider getResourcesProvider() {
-            return ContactAddActivity.this.resourcesProvider;
-        }
     }
 
     public /* synthetic */ boolean lambda$createView$2(TextView textView, int i, KeyEvent keyEvent) {
@@ -322,14 +306,14 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             return;
         }
         if (TextUtils.isEmpty(user.phone)) {
-            this.nameTextView.setText(LocaleController.getString("MobileHidden", 2131626779));
-            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("MobileHiddenExceptionInfo", 2131626780, UserObject.getFirstName(user))));
+            this.nameTextView.setText(LocaleController.getString("MobileHidden", R.string.MobileHidden));
+            this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("MobileHiddenExceptionInfo", R.string.MobileHiddenExceptionInfo, UserObject.getFirstName(user))));
         } else {
             TextView textView = this.nameTextView;
             PhoneFormat phoneFormat = PhoneFormat.getInstance();
             textView.setText(phoneFormat.format("+" + user.phone));
             if (this.needAddException) {
-                this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("MobileVisibleInfo", 2131626781, UserObject.getFirstName(user))));
+                this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("MobileVisibleInfo", R.string.MobileVisibleInfo, UserObject.getFirstName(user))));
             }
         }
         this.onlineTextView.setText(LocaleController.formatUserStatus(this.currentAccount, user));
@@ -381,7 +365,17 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ContactAddActivity$$ExternalSyntheticLambda4 contactAddActivity$$ExternalSyntheticLambda4 = new ContactAddActivity$$ExternalSyntheticLambda4(this);
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda4
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public final void didSetColor() {
+                ContactAddActivity.this.lambda$getThemeDescriptions$4();
+            }
+
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public /* synthetic */ void onAnimationProgress(float f) {
+                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+            }
+        };
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "actionBarDefault"));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, "actionBarDefaultIcon"));
@@ -398,14 +392,14 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputField"));
         arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, "windowBackgroundWhiteInputFieldActivated"));
         arrayList.add(new ThemeDescription(this.infoTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteGrayText4"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, Theme.avatarDrawables, contactAddActivity$$ExternalSyntheticLambda4, "avatar_text"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, contactAddActivity$$ExternalSyntheticLambda4, "avatar_backgroundRed"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, contactAddActivity$$ExternalSyntheticLambda4, "avatar_backgroundOrange"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, contactAddActivity$$ExternalSyntheticLambda4, "avatar_backgroundViolet"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, contactAddActivity$$ExternalSyntheticLambda4, "avatar_backgroundGreen"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, contactAddActivity$$ExternalSyntheticLambda4, "avatar_backgroundCyan"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, contactAddActivity$$ExternalSyntheticLambda4, "avatar_backgroundBlue"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, contactAddActivity$$ExternalSyntheticLambda4, "avatar_backgroundPink"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, Theme.avatarDrawables, themeDescriptionDelegate, "avatar_text"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundRed"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundOrange"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundViolet"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundGreen"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundCyan"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundBlue"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundPink"));
         return arrayList;
     }
 

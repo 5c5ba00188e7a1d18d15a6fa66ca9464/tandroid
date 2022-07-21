@@ -11,6 +11,7 @@ import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import org.telegram.messenger.BuildVars;
+import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.Utilities;
@@ -1001,12 +1002,12 @@ public class MediaCodecVideoConvertor {
                             if (BuildVars.LOGS_ENABLED) {
                                 FileLog.d("create photo encoder " + i89 + " " + i105 + " duration = " + j4);
                             }
-                            createVideoFormat2 = MediaFormat.createVideoFormat("video/avc", i89, i105);
+                            createVideoFormat2 = MediaFormat.createVideoFormat(MediaController.VIDEO_MIME_TYPE, i89, i105);
                             createVideoFormat2.setInteger("color-format", 2130708361);
                             createVideoFormat2.setInteger("bitrate", i106);
                             createVideoFormat2.setInteger("frame-rate", 30);
                             createVideoFormat2.setInteger("i-frame-interval", 1);
-                            createEncoderByType2 = MediaCodec.createEncoderByType("video/avc");
+                            createEncoderByType2 = MediaCodec.createEncoderByType(MediaController.VIDEO_MIME_TYPE);
                         } catch (Exception e16) {
                             mediaCodecVideoConvertor = this;
                             i88 = i106;
@@ -1078,16 +1079,19 @@ public class MediaCodecVideoConvertor {
                         try {
                             inputSurface5.makeCurrent();
                             createEncoderByType2.start();
+                            float f2 = i6;
                             str11 = "csd-0";
                             i88 = i106;
+                            int i113 = i89;
+                            int i114 = i105;
                             byteBufferArr4 = inputSurface5;
                             i97 = i105;
                             i96 = i89;
-                            str12 = "video/avc";
+                            str12 = MediaController.VIDEO_MIME_TYPE;
                             str13 = "prepend-sps-pps-to-idr-frames";
                             try {
                                 try {
-                                    outputSurface7 = new OutputSurface(savedFilterState, str, str2, arrayList, null, i89, i105, i2, i3, i, i6, true);
+                                    outputSurface7 = new OutputSurface(savedFilterState, str, str2, arrayList, null, i113, i114, i2, i3, i, f2, true);
                                     try {
                                         if (Build.VERSION.SDK_INT < 21) {
                                             try {
@@ -1343,11 +1347,11 @@ public class MediaCodecVideoConvertor {
                         z37 = !z32;
                     } catch (Exception e23) {
                         e11 = e23;
-                        int i113 = i9;
+                        int i115 = i9;
                         i11 = i97;
                         mediaCodecVideoConvertor = this;
                         mediaCodec10 = createEncoderByType2;
-                        i90 = i113;
+                        i90 = i115;
                     } catch (Throwable th29) {
                         i11 = i97;
                         mediaCodecVideoConvertor2 = this;
@@ -1836,37 +1840,37 @@ public class MediaCodecVideoConvertor {
                                                 try {
                                                     if (i103 > 1) {
                                                         try {
-                                                            int i114 = bufferInfo5.flags;
-                                                            if ((i114 & 2) == 0) {
-                                                                if (i11 == 0 || (i114 & 1) == 0) {
+                                                            int i116 = bufferInfo5.flags;
+                                                            if ((i116 & 2) == 0) {
+                                                                if (i11 == 0 || (i116 & 1) == 0) {
                                                                     byteBufferArr8 = outputBuffers2;
                                                                 } else {
                                                                     byteBufferArr8 = outputBuffers2;
                                                                     bufferInfo5.offset += i11;
                                                                     bufferInfo5.size = i103 - i11;
                                                                 }
-                                                                if (z33 && (i114 & 1) != 0) {
+                                                                if (z33 && (i116 & 1) != 0) {
                                                                     if (bufferInfo5.size > 100) {
                                                                         byteBuffer6.position(bufferInfo5.offset);
                                                                         byte[] bArr3 = new byte[100];
                                                                         byteBuffer6.get(bArr3);
-                                                                        int i115 = 0;
-                                                                        int i116 = 0;
+                                                                        int i117 = 0;
+                                                                        int i118 = 0;
                                                                         while (true) {
-                                                                            if (i115 >= 96) {
+                                                                            if (i117 >= 96) {
                                                                                 break;
                                                                             }
-                                                                            if (bArr3[i115] == 0 && bArr3[i115 + 1] == 0 && bArr3[i115 + 2] == 0) {
+                                                                            if (bArr3[i117] == 0 && bArr3[i117 + 1] == 0 && bArr3[i117 + 2] == 0) {
                                                                                 bArr2 = bArr3;
-                                                                                if (bArr3[i115 + 3] == 1 && (i116 = i116 + 1) > 1) {
-                                                                                    bufferInfo5.offset += i115;
-                                                                                    bufferInfo5.size -= i115;
+                                                                                if (bArr3[i117 + 3] == 1 && (i118 = i118 + 1) > 1) {
+                                                                                    bufferInfo5.offset += i117;
+                                                                                    bufferInfo5.size -= i117;
                                                                                     break;
                                                                                 }
                                                                             } else {
                                                                                 bArr2 = bArr3;
                                                                             }
-                                                                            i115++;
+                                                                            i117++;
                                                                             bArr3 = bArr2;
                                                                         }
                                                                     }
@@ -1895,20 +1899,20 @@ public class MediaCodecVideoConvertor {
                                                                     byteBuffer6.position(bufferInfo5.offset);
                                                                     byteBuffer6.get(bArr4);
                                                                     byte b = 1;
-                                                                    int i117 = bufferInfo5.size - 1;
-                                                                    while (i117 >= 0 && i117 > 3) {
-                                                                        if (bArr4[i117] == b && bArr4[i117 - 1] == 0 && bArr4[i117 - 2] == 0) {
-                                                                            int i118 = i117 - 3;
-                                                                            if (bArr4[i118] == 0) {
-                                                                                byteBuffer8 = ByteBuffer.allocate(i118);
-                                                                                byteBuffer7 = ByteBuffer.allocate(bufferInfo5.size - i118);
+                                                                    int i119 = bufferInfo5.size - 1;
+                                                                    while (i119 >= 0 && i119 > 3) {
+                                                                        if (bArr4[i119] == b && bArr4[i119 - 1] == 0 && bArr4[i119 - 2] == 0) {
+                                                                            int i120 = i119 - 3;
+                                                                            if (bArr4[i120] == 0) {
+                                                                                byteBuffer8 = ByteBuffer.allocate(i120);
+                                                                                byteBuffer7 = ByteBuffer.allocate(bufferInfo5.size - i120);
                                                                                 i101 = i11;
-                                                                                byteBuffer8.put(bArr4, 0, i118).position(0);
-                                                                                byteBuffer7.put(bArr4, i118, bufferInfo5.size - i118).position(0);
+                                                                                byteBuffer8.put(bArr4, 0, i120).position(0);
+                                                                                byteBuffer7.put(bArr4, i120, bufferInfo5.size - i120).position(0);
                                                                                 break;
                                                                             }
                                                                         }
-                                                                        i117--;
+                                                                        i119--;
                                                                         i11 = i11;
                                                                         b = 1;
                                                                     }
@@ -2440,7 +2444,7 @@ public class MediaCodecVideoConvertor {
                         findTrack = -1;
                     }
                     if (findTrack2 >= 0) {
-                        if (!this.extractor.getTrackFormat(findTrack2).getString("mime").equals("video/avc")) {
+                        if (!this.extractor.getTrackFormat(findTrack2).getString("mime").equals(MediaController.VIDEO_MIME_TYPE)) {
                             z9 = z2;
                             z10 = true;
                             if (!z9 || z10) {
@@ -2474,14 +2478,14 @@ public class MediaCodecVideoConvertor {
                                                         sb4.append("bitrate: ");
                                                         sb4.append(i25);
                                                         sb4.append(" framerate: ");
-                                                        int i119 = i23 == 1 ? 1 : 0;
-                                                        int i120 = i23 == 1 ? 1 : 0;
                                                         int i121 = i23 == 1 ? 1 : 0;
                                                         int i122 = i23 == 1 ? 1 : 0;
                                                         int i123 = i23 == 1 ? 1 : 0;
                                                         int i124 = i23 == 1 ? 1 : 0;
                                                         int i125 = i23 == 1 ? 1 : 0;
-                                                        sb4.append(i119);
+                                                        int i126 = i23 == 1 ? 1 : 0;
+                                                        int i127 = i23 == 1 ? 1 : 0;
+                                                        sb4.append(i121);
                                                         sb4.append(" size: ");
                                                         i21 = i5;
                                                         try {
@@ -2741,14 +2745,14 @@ public class MediaCodecVideoConvertor {
                                                 sb42.append("bitrate: ");
                                                 sb42.append(i25);
                                                 sb42.append(" framerate: ");
-                                                int i1192 = i23 == 1 ? 1 : 0;
-                                                int i1202 = i23 == 1 ? 1 : 0;
                                                 int i1212 = i23 == 1 ? 1 : 0;
                                                 int i1222 = i23 == 1 ? 1 : 0;
                                                 int i1232 = i23 == 1 ? 1 : 0;
                                                 int i1242 = i23 == 1 ? 1 : 0;
                                                 int i1252 = i23 == 1 ? 1 : 0;
-                                                sb42.append(i1192);
+                                                int i1262 = i23 == 1 ? 1 : 0;
+                                                int i1272 = i23 == 1 ? 1 : 0;
+                                                sb42.append(i1212);
                                                 sb42.append(" size: ");
                                                 i21 = i5;
                                                 sb42.append(i21);
@@ -2932,9 +2936,9 @@ public class MediaCodecVideoConvertor {
                                                                 i85 = cropState2.transformWidth;
                                                                 i84 = cropState2.transformHeight;
                                                             }
-                                                            int i126 = i84;
+                                                            int i128 = i84;
                                                             i34 = i85;
-                                                            i35 = i126;
+                                                            i35 = i128;
                                                         } else {
                                                             i34 = i4;
                                                             i35 = i5;
@@ -2942,7 +2946,7 @@ public class MediaCodecVideoConvertor {
                                                         if (BuildVars.LOGS_ENABLED) {
                                                             FileLog.d("create encoder with w = " + i34 + " h = " + i35);
                                                         }
-                                                        createVideoFormat = MediaFormat.createVideoFormat("video/avc", i34, i35);
+                                                        createVideoFormat = MediaFormat.createVideoFormat(MediaController.VIDEO_MIME_TYPE, i34, i35);
                                                         createVideoFormat.setInteger("color-format", 2130708361);
                                                         createVideoFormat.setInteger("bitrate", i25);
                                                         createVideoFormat.setInteger("frame-rate", i6);
@@ -2969,14 +2973,14 @@ public class MediaCodecVideoConvertor {
                                                         sb422.append("bitrate: ");
                                                         sb422.append(i25);
                                                         sb422.append(" framerate: ");
-                                                        int i11922 = i23 == 1 ? 1 : 0;
-                                                        int i12022 = i23 == 1 ? 1 : 0;
                                                         int i12122 = i23 == 1 ? 1 : 0;
                                                         int i12222 = i23 == 1 ? 1 : 0;
                                                         int i12322 = i23 == 1 ? 1 : 0;
                                                         int i12422 = i23 == 1 ? 1 : 0;
                                                         int i12522 = i23 == 1 ? 1 : 0;
-                                                        sb422.append(i11922);
+                                                        int i12622 = i23 == 1 ? 1 : 0;
+                                                        int i12722 = i23 == 1 ? 1 : 0;
+                                                        sb422.append(i12122);
                                                         sb422.append(" size: ");
                                                         i21 = i5;
                                                         sb422.append(i21);
@@ -3025,37 +3029,38 @@ public class MediaCodecVideoConvertor {
                                                     if (i36 >= 23) {
                                                         i37 = i35;
                                                         if (Math.min(i35, i34) <= 480) {
-                                                            int i127 = 921600;
+                                                            int i129 = 921600;
                                                             if (i25 <= 921600) {
-                                                                i127 = i25;
+                                                                i129 = i25;
                                                             }
                                                             try {
-                                                                createVideoFormat.setInteger("bitrate", i127);
-                                                                i19 = i127;
-                                                                createEncoderByType = MediaCodec.createEncoderByType("video/avc");
+                                                                createVideoFormat.setInteger("bitrate", i129);
+                                                                i19 = i129;
+                                                                createEncoderByType = MediaCodec.createEncoderByType(MediaController.VIDEO_MIME_TYPE);
                                                                 createEncoderByType.configure(createVideoFormat, (Surface) null, (MediaCrypto) null, 1);
                                                                 InputSurface inputSurface6 = new InputSurface(createEncoderByType.createInputSurface());
                                                                 inputSurface6.makeCurrent();
                                                                 createEncoderByType.start();
                                                                 createDecoderByType = MediaCodec.createDecoderByType(trackFormat.getString("mime"));
-                                                                int i128 = i32;
+                                                                float f3 = i6;
+                                                                int i130 = i32;
                                                                 i39 = i37;
                                                                 inputSurface = inputSurface6;
                                                                 mediaCodec5 = createEncoderByType;
                                                                 i40 = i31;
                                                                 bufferInfo = bufferInfo5;
-                                                                str4 = "video/avc";
+                                                                str4 = MediaController.VIDEO_MIME_TYPE;
                                                                 str5 = "prepend-sps-pps-to-idr-frames";
                                                                 i41 = i34;
                                                                 str6 = str3;
                                                                 j17 = j14;
                                                                 mediaCodecVideoConvertor2 = this;
                                                                 outputSurface4 = outputSurface3;
-                                                                outputSurface3 = new OutputSurface(savedFilterState, null, str2, arrayList, cropState, i4, i5, i2, i3, i, i6, false);
+                                                                outputSurface3 = new OutputSurface(savedFilterState, null, str2, arrayList, cropState, i4, i5, i2, i3, i, f3, false);
                                                             } catch (Exception e40) {
                                                                 j5 = j2;
                                                                 exc = e40;
-                                                                i25 = i127;
+                                                                i25 = i129;
                                                                 i23 = i6;
                                                                 j6 = j14;
                                                                 i24 = i31;
@@ -3072,14 +3077,14 @@ public class MediaCodecVideoConvertor {
                                                                 sb4222.append("bitrate: ");
                                                                 sb4222.append(i25);
                                                                 sb4222.append(" framerate: ");
-                                                                int i119222 = i23 == 1 ? 1 : 0;
-                                                                int i120222 = i23 == 1 ? 1 : 0;
                                                                 int i121222 = i23 == 1 ? 1 : 0;
                                                                 int i122222 = i23 == 1 ? 1 : 0;
                                                                 int i123222 = i23 == 1 ? 1 : 0;
                                                                 int i124222 = i23 == 1 ? 1 : 0;
                                                                 int i125222 = i23 == 1 ? 1 : 0;
-                                                                sb4222.append(i119222);
+                                                                int i126222 = i23 == 1 ? 1 : 0;
+                                                                int i127222 = i23 == 1 ? 1 : 0;
+                                                                sb4222.append(i121222);
                                                                 sb4222.append(" size: ");
                                                                 i21 = i5;
                                                                 sb4222.append(i21);
@@ -3128,7 +3133,7 @@ public class MediaCodecVideoConvertor {
                                                                 i11 = i5;
                                                                 j5 = j2;
                                                                 th = th49;
-                                                                i106 = i127;
+                                                                i106 = i129;
                                                                 i10 = i6;
                                                                 j6 = j14;
                                                                 z6 = false;
@@ -3197,14 +3202,14 @@ public class MediaCodecVideoConvertor {
                                                                     sb42222.append("bitrate: ");
                                                                     sb42222.append(i25);
                                                                     sb42222.append(" framerate: ");
-                                                                    int i1192222 = i23 == 1 ? 1 : 0;
-                                                                    int i1202222 = i23 == 1 ? 1 : 0;
                                                                     int i1212222 = i23 == 1 ? 1 : 0;
                                                                     int i1222222 = i23 == 1 ? 1 : 0;
                                                                     int i1232222 = i23 == 1 ? 1 : 0;
                                                                     int i1242222 = i23 == 1 ? 1 : 0;
                                                                     int i1252222 = i23 == 1 ? 1 : 0;
-                                                                    sb42222.append(i1192222);
+                                                                    int i1262222 = i23 == 1 ? 1 : 0;
+                                                                    int i1272222 = i23 == 1 ? 1 : 0;
+                                                                    sb42222.append(i1212222);
                                                                     sb42222.append(" size: ");
                                                                     i21 = i5;
                                                                     sb42222.append(i21);
@@ -3324,14 +3329,14 @@ public class MediaCodecVideoConvertor {
                                                                                     sb422222.append("bitrate: ");
                                                                                     sb422222.append(i25);
                                                                                     sb422222.append(" framerate: ");
-                                                                                    int i11922222 = i23 == 1 ? 1 : 0;
-                                                                                    int i12022222 = i23 == 1 ? 1 : 0;
                                                                                     int i12122222 = i23 == 1 ? 1 : 0;
                                                                                     int i12222222 = i23 == 1 ? 1 : 0;
                                                                                     int i12322222 = i23 == 1 ? 1 : 0;
                                                                                     int i12422222 = i23 == 1 ? 1 : 0;
                                                                                     int i12522222 = i23 == 1 ? 1 : 0;
-                                                                                    sb422222.append(i11922222);
+                                                                                    int i12622222 = i23 == 1 ? 1 : 0;
+                                                                                    int i12722222 = i23 == 1 ? 1 : 0;
+                                                                                    sb422222.append(i12122222);
                                                                                     sb422222.append(" size: ");
                                                                                     i21 = i5;
                                                                                     sb422222.append(i21);
@@ -3381,7 +3386,7 @@ public class MediaCodecVideoConvertor {
                                                                                 inputBuffers = null;
                                                                                 outputBuffers = null;
                                                                             }
-                                                                            i44 = i128;
+                                                                            i44 = i130;
                                                                         } catch (Exception e44) {
                                                                             e10 = e44;
                                                                             i83 = i6;
@@ -3405,14 +3410,14 @@ public class MediaCodecVideoConvertor {
                                                                             sb4222222.append("bitrate: ");
                                                                             sb4222222.append(i25);
                                                                             sb4222222.append(" framerate: ");
-                                                                            int i119222222 = i23 == 1 ? 1 : 0;
-                                                                            int i120222222 = i23 == 1 ? 1 : 0;
                                                                             int i121222222 = i23 == 1 ? 1 : 0;
                                                                             int i122222222 = i23 == 1 ? 1 : 0;
                                                                             int i123222222 = i23 == 1 ? 1 : 0;
                                                                             int i124222222 = i23 == 1 ? 1 : 0;
                                                                             int i125222222 = i23 == 1 ? 1 : 0;
-                                                                            sb4222222.append(i119222222);
+                                                                            int i126222222 = i23 == 1 ? 1 : 0;
+                                                                            int i127222222 = i23 == 1 ? 1 : 0;
+                                                                            sb4222222.append(i121222222);
                                                                             sb4222222.append(" size: ");
                                                                             i21 = i5;
                                                                             sb4222222.append(i21);
@@ -3466,7 +3471,7 @@ public class MediaCodecVideoConvertor {
                                                                             } catch (Throwable th52) {
                                                                                 th5 = th52;
                                                                             }
-                                                                            if (!trackFormat2.getString("mime").equals("audio/mp4a-latm")) {
+                                                                            if (!trackFormat2.getString("mime").equals(MediaController.AUIDO_MIME_TYPE)) {
                                                                                 try {
                                                                                 } catch (Exception e46) {
                                                                                     e = e46;
@@ -3492,14 +3497,14 @@ public class MediaCodecVideoConvertor {
                                                                                     sb42222222.append("bitrate: ");
                                                                                     sb42222222.append(i25);
                                                                                     sb42222222.append(" framerate: ");
-                                                                                    int i1192222222 = i23 == 1 ? 1 : 0;
-                                                                                    int i1202222222 = i23 == 1 ? 1 : 0;
                                                                                     int i1212222222 = i23 == 1 ? 1 : 0;
                                                                                     int i1222222222 = i23 == 1 ? 1 : 0;
                                                                                     int i1232222222 = i23 == 1 ? 1 : 0;
                                                                                     int i1242222222 = i23 == 1 ? 1 : 0;
                                                                                     int i1252222222 = i23 == 1 ? 1 : 0;
-                                                                                    sb42222222.append(i1192222222);
+                                                                                    int i1262222222 = i23 == 1 ? 1 : 0;
+                                                                                    int i1272222222 = i23 == 1 ? 1 : 0;
+                                                                                    sb42222222.append(i1212222222);
                                                                                     sb42222222.append(" size: ");
                                                                                     i21 = i5;
                                                                                     sb42222222.append(i21);
@@ -3562,7 +3567,7 @@ public class MediaCodecVideoConvertor {
                                                                                                     i48 = 0;
                                                                                                 }
                                                                                                 if (i48 <= 0) {
-                                                                                                    i48 = 65536;
+                                                                                                    i48 = CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
                                                                                                 }
                                                                                                 ByteBuffer allocateDirect = ByteBuffer.allocateDirect(i48);
                                                                                                 byteBufferArr = outputBuffers;
@@ -3648,14 +3653,14 @@ public class MediaCodecVideoConvertor {
                                                                                                 sb422222222.append("bitrate: ");
                                                                                                 sb422222222.append(i25);
                                                                                                 sb422222222.append(" framerate: ");
-                                                                                                int i11922222222 = i23 == 1 ? 1 : 0;
-                                                                                                int i12022222222 = i23 == 1 ? 1 : 0;
                                                                                                 int i12122222222 = i23 == 1 ? 1 : 0;
                                                                                                 int i12222222222 = i23 == 1 ? 1 : 0;
                                                                                                 int i12322222222 = i23 == 1 ? 1 : 0;
                                                                                                 int i12422222222 = i23 == 1 ? 1 : 0;
                                                                                                 int i12522222222 = i23 == 1 ? 1 : 0;
-                                                                                                sb422222222.append(i11922222222);
+                                                                                                int i12622222222 = i23 == 1 ? 1 : 0;
+                                                                                                int i12722222222 = i23 == 1 ? 1 : 0;
+                                                                                                sb422222222.append(i12122222222);
                                                                                                 sb422222222.append(" size: ");
                                                                                                 i21 = i5;
                                                                                                 sb422222222.append(i21);
@@ -3791,14 +3796,14 @@ public class MediaCodecVideoConvertor {
                                                                                                     sb4222222222.append("bitrate: ");
                                                                                                     sb4222222222.append(i25);
                                                                                                     sb4222222222.append(" framerate: ");
-                                                                                                    int i119222222222 = i23 == 1 ? 1 : 0;
-                                                                                                    int i120222222222 = i23 == 1 ? 1 : 0;
                                                                                                     int i121222222222 = i23 == 1 ? 1 : 0;
                                                                                                     int i122222222222 = i23 == 1 ? 1 : 0;
                                                                                                     int i123222222222 = i23 == 1 ? 1 : 0;
                                                                                                     int i124222222222 = i23 == 1 ? 1 : 0;
                                                                                                     int i125222222222 = i23 == 1 ? 1 : 0;
-                                                                                                    sb4222222222.append(i119222222222);
+                                                                                                    int i126222222222 = i23 == 1 ? 1 : 0;
+                                                                                                    int i127222222222 = i23 == 1 ? 1 : 0;
+                                                                                                    sb4222222222.append(i121222222222);
                                                                                                     sb4222222222.append(" size: ");
                                                                                                     i21 = i5;
                                                                                                     sb4222222222.append(i21);
@@ -3917,14 +3922,14 @@ public class MediaCodecVideoConvertor {
                                                                                                 sb42222222222.append("bitrate: ");
                                                                                                 sb42222222222.append(i25);
                                                                                                 sb42222222222.append(" framerate: ");
-                                                                                                int i1192222222222 = i23 == 1 ? 1 : 0;
-                                                                                                int i1202222222222 = i23 == 1 ? 1 : 0;
                                                                                                 int i1212222222222 = i23 == 1 ? 1 : 0;
                                                                                                 int i1222222222222 = i23 == 1 ? 1 : 0;
                                                                                                 int i1232222222222 = i23 == 1 ? 1 : 0;
                                                                                                 int i1242222222222 = i23 == 1 ? 1 : 0;
                                                                                                 int i1252222222222 = i23 == 1 ? 1 : 0;
-                                                                                                sb42222222222.append(i1192222222222);
+                                                                                                int i1262222222222 = i23 == 1 ? 1 : 0;
+                                                                                                int i1272222222222 = i23 == 1 ? 1 : 0;
+                                                                                                sb42222222222.append(i1212222222222);
                                                                                                 sb42222222222.append(" size: ");
                                                                                                 i21 = i5;
                                                                                                 sb42222222222.append(i21);
@@ -4060,14 +4065,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                 sb422222222222.append("bitrate: ");
                                                                                                                 sb422222222222.append(i25);
                                                                                                                 sb422222222222.append(" framerate: ");
-                                                                                                                int i11922222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                int i12022222222222 = i23 == 1 ? 1 : 0;
                                                                                                                 int i12122222222222 = i23 == 1 ? 1 : 0;
                                                                                                                 int i12222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                 int i12322222222222 = i23 == 1 ? 1 : 0;
                                                                                                                 int i12422222222222 = i23 == 1 ? 1 : 0;
                                                                                                                 int i12522222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                sb422222222222.append(i11922222222222);
+                                                                                                                int i12622222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                int i12722222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                sb422222222222.append(i12122222222222);
                                                                                                                 sb422222222222.append(" size: ");
                                                                                                                 i21 = i5;
                                                                                                                 sb422222222222.append(i21);
@@ -4161,8 +4166,8 @@ public class MediaCodecVideoConvertor {
                                                                                                         try {
                                                                                                             int sampleTrackIndex = mediaCodecVideoConvertor2.extractor.getSampleTrackIndex();
                                                                                                             audioRecoder = audioRecoder2;
-                                                                                                            int i129 = i40;
-                                                                                                            if (sampleTrackIndex == i129) {
+                                                                                                            int i131 = i40;
+                                                                                                            if (sampleTrackIndex == i131) {
                                                                                                                 ?? r4 = 2500;
                                                                                                                 try {
                                                                                                                     int dequeueInputBuffer = mediaCodec3.dequeueInputBuffer(2500L);
@@ -4175,24 +4180,24 @@ public class MediaCodecVideoConvertor {
                                                                                                                         byteBufferArr3 = byteBufferArr2;
                                                                                                                         int readSampleData = mediaCodecVideoConvertor2.extractor.readSampleData(byteBuffer2, 0);
                                                                                                                         if (readSampleData < 0) {
-                                                                                                                            int i130 = dequeueInputBuffer;
-                                                                                                                            mediaCodec3.queueInputBuffer(i130, 0, 0, 0L, 4);
+                                                                                                                            int i132 = dequeueInputBuffer;
+                                                                                                                            mediaCodec3.queueInputBuffer(i132, 0, 0, 0L, 4);
                                                                                                                             z18 = true;
                                                                                                                             r4 = byteBuffer2;
-                                                                                                                            i59 = i130;
+                                                                                                                            i59 = i132;
                                                                                                                         } else {
-                                                                                                                            int i131 = dequeueInputBuffer;
-                                                                                                                            mediaCodec3.queueInputBuffer(i131, 0, readSampleData, mediaCodecVideoConvertor2.extractor.getSampleTime(), 0);
+                                                                                                                            int i133 = dequeueInputBuffer;
+                                                                                                                            mediaCodec3.queueInputBuffer(i133, 0, readSampleData, mediaCodecVideoConvertor2.extractor.getSampleTime(), 0);
                                                                                                                             mediaCodecVideoConvertor2.extractor.advance();
                                                                                                                             r4 = byteBuffer2;
-                                                                                                                            i59 = i131;
+                                                                                                                            i59 = i133;
                                                                                                                         }
                                                                                                                     } else {
                                                                                                                         byteBufferArr3 = byteBufferArr2;
                                                                                                                         i59 = j28;
                                                                                                                     }
                                                                                                                     i55 = i46;
-                                                                                                                    i24 = i129;
+                                                                                                                    i24 = i131;
                                                                                                                     i54 = i44;
                                                                                                                     j5 = j21;
                                                                                                                     bufferInfo2 = bufferInfo;
@@ -4206,7 +4211,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                     i57 = i6;
                                                                                                                     j31 = j24;
                                                                                                                     exc = e53;
-                                                                                                                    i24 = i129;
+                                                                                                                    i24 = i131;
                                                                                                                     j5 = j21;
                                                                                                                     i53 = i57;
                                                                                                                     j27 = j31;
@@ -4224,14 +4229,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                     sb4222222222222.append("bitrate: ");
                                                                                                                     sb4222222222222.append(i25);
                                                                                                                     sb4222222222222.append(" framerate: ");
-                                                                                                                    int i119222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                    int i120222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                     int i121222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                     int i122222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                     int i123222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                     int i124222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                     int i125222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                    sb4222222222222.append(i119222222222222);
+                                                                                                                    int i126222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                    int i127222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                    sb4222222222222.append(i121222222222222);
                                                                                                                     sb4222222222222.append(" size: ");
                                                                                                                     i21 = i5;
                                                                                                                     sb4222222222222.append(i21);
@@ -4283,7 +4288,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                     i56 = -1;
                                                                                                                     if (i44 == -1) {
                                                                                                                         i55 = i46;
-                                                                                                                        i24 = i129;
+                                                                                                                        i24 = i131;
                                                                                                                         i54 = i44;
                                                                                                                         j5 = j21;
                                                                                                                         bufferInfo2 = bufferInfo;
@@ -4301,11 +4306,11 @@ public class MediaCodecVideoConvertor {
                                                                                                                     } else if (sampleTrackIndex == i44) {
                                                                                                                         try {
                                                                                                                             try {
-                                                                                                                                int i132 = Build.VERSION.SDK_INT;
-                                                                                                                                if (i132 >= 28) {
+                                                                                                                                int i134 = Build.VERSION.SDK_INT;
+                                                                                                                                if (i134 >= 28) {
                                                                                                                                     try {
                                                                                                                                         long sampleSize = mediaCodecVideoConvertor2.extractor.getSampleSize();
-                                                                                                                                        i24 = i129;
+                                                                                                                                        i24 = i131;
                                                                                                                                         i54 = i44;
                                                                                                                                         if (sampleSize > i47) {
                                                                                                                                             i47 = (int) (sampleSize + 1024);
@@ -4333,14 +4338,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                 sb42222222222222.append("bitrate: ");
                                                                                                                                                 sb42222222222222.append(i25);
                                                                                                                                                 sb42222222222222.append(" framerate: ");
-                                                                                                                                                int i1192222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                int i1202222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i1212222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i1222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i1232222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i1242222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i1252222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                sb42222222222222.append(i1192222222222222);
+                                                                                                                                                int i1262222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                int i1272222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                sb42222222222222.append(i1212222222222222);
                                                                                                                                                 sb42222222222222.append(" size: ");
                                                                                                                                                 i21 = i5;
                                                                                                                                                 sb42222222222222.append(i21);
@@ -4389,17 +4394,17 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         }
                                                                                                                                     } catch (Exception e55) {
                                                                                                                                         e5 = e55;
-                                                                                                                                        i24 = i129;
+                                                                                                                                        i24 = i131;
                                                                                                                                     }
                                                                                                                                 } else {
-                                                                                                                                    i24 = i129;
+                                                                                                                                    i24 = i131;
                                                                                                                                     i54 = i44;
                                                                                                                                 }
                                                                                                                                 inputSurface2 = byteBuffer9;
                                                                                                                                 try {
                                                                                                                                     bufferInfo2 = bufferInfo;
                                                                                                                                     bufferInfo2.size = mediaCodecVideoConvertor2.extractor.readSampleData(inputSurface2, 0);
-                                                                                                                                    if (i132 < 21) {
+                                                                                                                                    if (i134 < 21) {
                                                                                                                                         inputSurface2.position(0);
                                                                                                                                         inputSurface2.limit(bufferInfo2.size);
                                                                                                                                     }
@@ -4447,14 +4452,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                 sb422222222222222.append("bitrate: ");
                                                                                                                                                 sb422222222222222.append(i25);
                                                                                                                                                 sb422222222222222.append(" framerate: ");
-                                                                                                                                                int i11922222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                int i12022222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i12122222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i12222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i12322222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i12422222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i12522222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                sb422222222222222.append(i11922222222222222);
+                                                                                                                                                int i12622222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                int i12722222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                sb422222222222222.append(i12122222222222222);
                                                                                                                                                 sb422222222222222.append(" size: ");
                                                                                                                                                 i21 = i5;
                                                                                                                                                 sb422222222222222.append(i21);
@@ -4570,14 +4575,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                 sb4222222222222222.append("bitrate: ");
                                                                                                                                                 sb4222222222222222.append(i25);
                                                                                                                                                 sb4222222222222222.append(" framerate: ");
-                                                                                                                                                int i119222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                int i120222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i121222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i122222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i123222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i124222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i125222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                sb4222222222222222.append(i119222222222222222);
+                                                                                                                                                int i126222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                int i127222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                sb4222222222222222.append(i121222222222222222);
                                                                                                                                                 sb4222222222222222.append(" size: ");
                                                                                                                                                 i21 = i5;
                                                                                                                                                 sb4222222222222222.append(i21);
@@ -4698,14 +4703,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                     sb42222222222222222.append("bitrate: ");
                                                                                                                                     sb42222222222222222.append(i25);
                                                                                                                                     sb42222222222222222.append(" framerate: ");
-                                                                                                                                    int i1192222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                    int i1202222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                     int i1212222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                     int i1222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                     int i1232222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                     int i1242222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                     int i1252222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                    sb42222222222222222.append(i1192222222222222222);
+                                                                                                                                    int i1262222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                    int i1272222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                    sb42222222222222222.append(i1212222222222222222);
                                                                                                                                     sb42222222222222222.append(" size: ");
                                                                                                                                     i21 = i5;
                                                                                                                                     sb42222222222222222.append(i21);
@@ -4753,7 +4758,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                 }
                                                                                                                             } catch (Exception e59) {
                                                                                                                                 e4 = e59;
-                                                                                                                                i24 = i129;
+                                                                                                                                i24 = i131;
                                                                                                                             }
                                                                                                                         } catch (Throwable th61) {
                                                                                                                             th6 = th61;
@@ -4762,7 +4767,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                     }
                                                                                                                 }
                                                                                                                 i55 = i46;
-                                                                                                                i24 = i129;
+                                                                                                                i24 = i131;
                                                                                                                 i54 = i44;
                                                                                                                 j5 = j21;
                                                                                                                 bufferInfo2 = bufferInfo;
@@ -4865,14 +4870,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                             sb422222222222222222.append("bitrate: ");
                                                                                                                             sb422222222222222222.append(i25);
                                                                                                                             sb422222222222222222.append(" framerate: ");
-                                                                                                                            int i11922222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                            int i12022222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                             int i12122222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                             int i12222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                             int i12322222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                             int i12422222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                             int i12522222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                            sb422222222222222222.append(i11922222222222222222);
+                                                                                                                            int i12622222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                            int i12722222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                            sb422222222222222222.append(i12122222222222222222);
                                                                                                                             sb422222222222222222.append(" size: ");
                                                                                                                             i21 = i5;
                                                                                                                             sb422222222222222222.append(i21);
@@ -4998,14 +5003,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                 sb4222222222222222222.append("bitrate: ");
                                                                                                                                                 sb4222222222222222222.append(i25);
                                                                                                                                                 sb4222222222222222222.append(" framerate: ");
-                                                                                                                                                int i119222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                int i120222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i121222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i122222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i123222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i124222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                 int i125222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                sb4222222222222222222.append(i119222222222222222222);
+                                                                                                                                                int i126222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                int i127222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                sb4222222222222222222.append(i121222222222222222222);
                                                                                                                                                 sb4222222222222222222.append(" size: ");
                                                                                                                                                 i21 = i5;
                                                                                                                                                 sb4222222222222222222.append(i21);
@@ -5132,21 +5137,21 @@ public class MediaCodecVideoConvertor {
                                                                                                                                 if (byteBuffer3 == null) {
                                                                                                                                     throw new RuntimeException("encoderOutputBuffer " + dequeueOutputBuffer + " was null");
                                                                                                                                 }
-                                                                                                                                int i133 = bufferInfo2.size;
+                                                                                                                                int i135 = bufferInfo2.size;
                                                                                                                                 outputSurface2 = outputSurface4;
                                                                                                                                 try {
-                                                                                                                                    if (i133 > 1) {
+                                                                                                                                    if (i135 > 1) {
                                                                                                                                         try {
-                                                                                                                                            int i134 = bufferInfo2.flags;
-                                                                                                                                            if ((i134 & 2) == 0) {
-                                                                                                                                                if (i50 == 0 || (i134 & 1) == 0) {
+                                                                                                                                            int i136 = bufferInfo2.flags;
+                                                                                                                                            if ((i136 & 2) == 0) {
+                                                                                                                                                if (i50 == 0 || (i136 & 1) == 0) {
                                                                                                                                                     j28 = j34;
                                                                                                                                                 } else {
                                                                                                                                                     j47 = j34;
                                                                                                                                                     try {
                                                                                                                                                         try {
                                                                                                                                                             bufferInfo2.offset += i50;
-                                                                                                                                                            bufferInfo2.size = i133 - i50;
+                                                                                                                                                            bufferInfo2.size = i135 - i50;
                                                                                                                                                             j28 = j47;
                                                                                                                                                         } catch (Throwable th66) {
                                                                                                                                                             th7 = th66;
@@ -5207,14 +5212,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                         sb42222222222222222222.append("bitrate: ");
                                                                                                                                                         sb42222222222222222222.append(i25);
                                                                                                                                                         sb42222222222222222222.append(" framerate: ");
-                                                                                                                                                        int i1192222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                        int i1202222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                         int i1212222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                         int i1222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                         int i1232222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                         int i1242222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                         int i1252222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                        sb42222222222222222222.append(i1192222222222222222222);
+                                                                                                                                                        int i1262222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                        int i1272222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                        sb42222222222222222222.append(i1212222222222222222222);
                                                                                                                                                         sb42222222222222222222.append(" size: ");
                                                                                                                                                         i21 = i5;
                                                                                                                                                         sb42222222222222222222.append(i21);
@@ -5261,28 +5266,28 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                         }
                                                                                                                                                     }
                                                                                                                                                 }
-                                                                                                                                                if (z50 && (i134 & 1) != 0) {
+                                                                                                                                                if (z50 && (i136 & 1) != 0) {
                                                                                                                                                     if (bufferInfo2.size > 100) {
                                                                                                                                                         byteBuffer3.position(bufferInfo2.offset);
                                                                                                                                                         byte[] bArr5 = new byte[100];
                                                                                                                                                         byteBuffer3.get(bArr5);
-                                                                                                                                                        int i135 = 0;
-                                                                                                                                                        int i136 = 0;
+                                                                                                                                                        int i137 = 0;
+                                                                                                                                                        int i138 = 0;
                                                                                                                                                         while (true) {
-                                                                                                                                                            if (i135 >= 96) {
+                                                                                                                                                            if (i137 >= 96) {
                                                                                                                                                                 break;
                                                                                                                                                             }
-                                                                                                                                                            if (bArr5[i135] == 0 && bArr5[i135 + 1] == 0 && bArr5[i135 + 2] == 0) {
+                                                                                                                                                            if (bArr5[i137] == 0 && bArr5[i137 + 1] == 0 && bArr5[i137 + 2] == 0) {
                                                                                                                                                                 bArr = bArr5;
-                                                                                                                                                                if (bArr5[i135 + 3] == 1 && (i136 = i136 + 1) > 1) {
-                                                                                                                                                                    bufferInfo2.offset += i135;
-                                                                                                                                                                    bufferInfo2.size -= i135;
+                                                                                                                                                                if (bArr5[i137 + 3] == 1 && (i138 = i138 + 1) > 1) {
+                                                                                                                                                                    bufferInfo2.offset += i137;
+                                                                                                                                                                    bufferInfo2.size -= i137;
                                                                                                                                                                     break;
                                                                                                                                                                 }
                                                                                                                                                             } else {
                                                                                                                                                                 bArr = bArr5;
                                                                                                                                                             }
-                                                                                                                                                            i135++;
+                                                                                                                                                            i137++;
                                                                                                                                                             bArr5 = bArr;
                                                                                                                                                         }
                                                                                                                                                     }
@@ -5331,14 +5336,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                 sb422222222222222222222.append("bitrate: ");
                                                                                                                                                                 sb422222222222222222222.append(i25);
                                                                                                                                                                 sb422222222222222222222.append(" framerate: ");
-                                                                                                                                                                int i11922222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                int i12022222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                 int i12122222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                 int i12222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                 int i12322222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                 int i12422222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                 int i12522222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                sb422222222222222222222.append(i11922222222222222222222);
+                                                                                                                                                                int i12622222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                int i12722222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                sb422222222222222222222.append(i12122222222222222222222);
                                                                                                                                                                 sb422222222222222222222.append(" size: ");
                                                                                                                                                                 i21 = i5;
                                                                                                                                                                 sb422222222222222222222.append(i21);
@@ -5404,14 +5409,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                     sb4222222222222222222222.append("bitrate: ");
                                                                                                                                                     sb4222222222222222222222.append(i25);
                                                                                                                                                     sb4222222222222222222222.append(" framerate: ");
-                                                                                                                                                    int i119222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                    int i120222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                     int i121222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                     int i122222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                     int i123222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                     int i124222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                     int i125222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                    sb4222222222222222222222.append(i119222222222222222222222);
+                                                                                                                                                    int i126222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                    int i127222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                    sb4222222222222222222222.append(i121222222222222222222222);
                                                                                                                                                     sb4222222222222222222222.append(" size: ");
                                                                                                                                                     i21 = i5;
                                                                                                                                                     sb4222222222222222222222.append(i21);
@@ -5464,38 +5469,38 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                 mediaCodec9 = mediaCodec11;
                                                                                                                                                 j49 = j68;
                                                                                                                                                 if (i60 == -5) {
-                                                                                                                                                    byte[] bArr6 = new byte[i133];
-                                                                                                                                                    byteBuffer3.limit(bufferInfo2.offset + i133);
+                                                                                                                                                    byte[] bArr6 = new byte[i135];
+                                                                                                                                                    byteBuffer3.limit(bufferInfo2.offset + i135);
                                                                                                                                                     byteBuffer3.position(bufferInfo2.offset);
                                                                                                                                                     byteBuffer3.get(bArr6);
                                                                                                                                                     byte b2 = 1;
-                                                                                                                                                    int i137 = bufferInfo2.size - 1;
-                                                                                                                                                    while (i137 >= 0 && i137 > 3) {
-                                                                                                                                                        if (bArr6[i137] == b2 && bArr6[i137 - 1] == 0 && bArr6[i137 - 2] == 0) {
-                                                                                                                                                            int i138 = i137 - 3;
-                                                                                                                                                            if (bArr6[i138] == 0) {
-                                                                                                                                                                byteBuffer5 = ByteBuffer.allocate(i138);
-                                                                                                                                                                byteBuffer4 = ByteBuffer.allocate(bufferInfo2.size - i138);
-                                                                                                                                                                byteBuffer5.put(bArr6, 0, i138).position(0);
-                                                                                                                                                                byteBuffer4.put(bArr6, i138, bufferInfo2.size - i138).position(0);
+                                                                                                                                                    int i139 = bufferInfo2.size - 1;
+                                                                                                                                                    while (i139 >= 0 && i139 > 3) {
+                                                                                                                                                        if (bArr6[i139] == b2 && bArr6[i139 - 1] == 0 && bArr6[i139 - 2] == 0) {
+                                                                                                                                                            int i140 = i139 - 3;
+                                                                                                                                                            if (bArr6[i140] == 0) {
+                                                                                                                                                                byteBuffer5 = ByteBuffer.allocate(i140);
+                                                                                                                                                                byteBuffer4 = ByteBuffer.allocate(bufferInfo2.size - i140);
+                                                                                                                                                                byteBuffer5.put(bArr6, 0, i140).position(0);
+                                                                                                                                                                byteBuffer4.put(bArr6, i140, bufferInfo2.size - i140).position(0);
                                                                                                                                                                 break;
                                                                                                                                                             }
                                                                                                                                                         }
-                                                                                                                                                        i137--;
+                                                                                                                                                        i139--;
                                                                                                                                                         b2 = 1;
                                                                                                                                                     }
                                                                                                                                                     byteBuffer5 = null;
                                                                                                                                                     byteBuffer4 = null;
-                                                                                                                                                    int i139 = i39;
+                                                                                                                                                    int i141 = i39;
                                                                                                                                                     str8 = str4;
                                                                                                                                                     i70 = i41;
-                                                                                                                                                    MediaFormat createVideoFormat4 = MediaFormat.createVideoFormat(str8, i70, i139);
+                                                                                                                                                    MediaFormat createVideoFormat4 = MediaFormat.createVideoFormat(str8, i70, i141);
                                                                                                                                                     if (byteBuffer5 != null && byteBuffer4 != null) {
                                                                                                                                                         createVideoFormat4.setByteBuffer(str9, byteBuffer5);
                                                                                                                                                         createVideoFormat4.setByteBuffer("csd-1", byteBuffer4);
                                                                                                                                                     }
                                                                                                                                                     i60 = mediaCodecVideoConvertor2.mediaMuxer.addTrack(createVideoFormat4, false);
-                                                                                                                                                    i80 = i139;
+                                                                                                                                                    i80 = i141;
                                                                                                                                                     mediaCodec8 = mediaCodec11;
                                                                                                                                                     j28 = j68;
                                                                                                                                                     boolean z54 = (bufferInfo2.flags & 4) != 0;
@@ -5559,7 +5564,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                             try {
                                                                                                                                                                                                 str6 = str9;
                                                                                                                                                                                                 str4 = str8;
-                                                                                                                                                                                                if (Math.abs(j28 - j29) > 1000000 / i64) {
+                                                                                                                                                                                                if (Math.abs(j28 - j29) > MediaController.VIDEO_BITRATE_480 / i64) {
                                                                                                                                                                                                     if (j29 > 0) {
                                                                                                                                                                                                         try {
                                                                                                                                                                                                             mediaCodecVideoConvertor2.extractor.seekTo(j29, 0);
@@ -5701,14 +5706,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                 sb42222222222222222222222.append("bitrate: ");
                                                                                                                                                                                                                 sb42222222222222222222222.append(i25);
                                                                                                                                                                                                                 sb42222222222222222222222.append(" framerate: ");
-                                                                                                                                                                                                                int i1192222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                                                                int i1202222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                 int i1212222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                 int i1222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                 int i1232222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                 int i1242222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                 int i1252222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                                                                sb42222222222222222222222.append(i1192222222222222222222222);
+                                                                                                                                                                                                                int i1262222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                                                                int i1272222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                                                                sb42222222222222222222222.append(i1212222222222222222222222);
                                                                                                                                                                                                                 sb42222222222222222222222.append(" size: ");
                                                                                                                                                                                                                 i21 = i5;
                                                                                                                                                                                                                 sb42222222222222222222222.append(i21);
@@ -5819,14 +5824,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                 sb422222222222222222222222.append("bitrate: ");
                                                                                                                                                                                                                 sb422222222222222222222222.append(i25);
                                                                                                                                                                                                                 sb422222222222222222222222.append(" framerate: ");
-                                                                                                                                                                                                                int i11922222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                                                                int i12022222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                 int i12122222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                 int i12222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                 int i12322222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                 int i12422222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                 int i12522222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                                                                sb422222222222222222222222.append(i11922222222222222222222222);
+                                                                                                                                                                                                                int i12622222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                                                                int i12722222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                                                                sb422222222222222222222222.append(i12122222222222222222222222);
                                                                                                                                                                                                                 sb422222222222222222222222.append(" size: ");
                                                                                                                                                                                                                 i21 = i5;
                                                                                                                                                                                                                 sb422222222222222222222222.append(i21);
@@ -5909,14 +5914,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                     sb4222222222222222222222222.append("bitrate: ");
                                                                                                                                                                                                                     sb4222222222222222222222222.append(i25);
                                                                                                                                                                                                                     sb4222222222222222222222222.append(" framerate: ");
-                                                                                                                                                                                                                    int i119222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                                                                    int i120222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                     int i121222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                     int i122222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                     int i123222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                     int i124222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                                     int i125222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                                                                    sb4222222222222222222222222.append(i119222222222222222222222222);
+                                                                                                                                                                                                                    int i126222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                                                                    int i127222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                                                                    sb4222222222222222222222222.append(i121222222222222222222222222);
                                                                                                                                                                                                                     sb4222222222222222222222222.append(" size: ");
                                                                                                                                                                                                                     i21 = i5;
                                                                                                                                                                                                                     sb4222222222222222222222222.append(i21);
@@ -5999,14 +6004,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                         sb42222222222222222222222222.append("bitrate: ");
                                                                                                                                                                                                         sb42222222222222222222222222.append(i25);
                                                                                                                                                                                                         sb42222222222222222222222222.append(" framerate: ");
-                                                                                                                                                                                                        int i1192222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                                                        int i1202222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                         int i1212222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                         int i1222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                         int i1232222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                         int i1242222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                                         int i1252222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                                                        sb42222222222222222222222222.append(i1192222222222222222222222222);
+                                                                                                                                                                                                        int i1262222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                                                        int i1272222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                                                        sb42222222222222222222222222.append(i1212222222222222222222222222);
                                                                                                                                                                                                         sb42222222222222222222222222.append(" size: ");
                                                                                                                                                                                                         i21 = i5;
                                                                                                                                                                                                         sb42222222222222222222222222.append(i21);
@@ -6183,14 +6188,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                             sb422222222222222222222222222.append("bitrate: ");
                                                                                                                                                                                             sb422222222222222222222222222.append(i25);
                                                                                                                                                                                             sb422222222222222222222222222.append(" framerate: ");
-                                                                                                                                                                                            int i11922222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                                            int i12022222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                             int i12122222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                             int i12222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                             int i12322222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                             int i12422222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                                                                             int i12522222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                                                                            sb422222222222222222222222222.append(i11922222222222222222222222222);
+                                                                                                                                                                                            int i12622222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                                            int i12722222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                                                                            sb422222222222222222222222222.append(i12122222222222222222222222222);
                                                                                                                                                                                             sb422222222222222222222222222.append(" size: ");
                                                                                                                                                                                             i21 = i5;
                                                                                                                                                                                             sb422222222222222222222222222.append(i21);
@@ -6409,14 +6414,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                     sb4222222222222222222222222222.append("bitrate: ");
                                                                                                                                     sb4222222222222222222222222222.append(i25);
                                                                                                                                     sb4222222222222222222222222222.append(" framerate: ");
-                                                                                                                                    int i119222222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                    int i120222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                     int i121222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                     int i122222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                     int i123222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                     int i124222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                     int i125222222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                    sb4222222222222222222222222222.append(i119222222222222222222222222222);
+                                                                                                                                    int i126222222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                    int i127222222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                    sb4222222222222222222222222222.append(i121222222222222222222222222222);
                                                                                                                                     sb4222222222222222222222222222.append(" size: ");
                                                                                                                                     i21 = i5;
                                                                                                                                     sb4222222222222222222222222222.append(i21);
@@ -6538,14 +6543,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                 sb42222222222222222222222222222.append("bitrate: ");
                                                                                                                                 sb42222222222222222222222222222.append(i25);
                                                                                                                                 sb42222222222222222222222222222.append(" framerate: ");
-                                                                                                                                int i1192222222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                int i1202222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                 int i1212222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                 int i1222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                 int i1232222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                 int i1242222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                                 int i1252222222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                                sb42222222222222222222222222222.append(i1192222222222222222222222222222);
+                                                                                                                                int i1262222222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                int i1272222222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                                sb42222222222222222222222222222.append(i1212222222222222222222222222222);
                                                                                                                                 sb42222222222222222222222222222.append(" size: ");
                                                                                                                                 i21 = i5;
                                                                                                                                 sb42222222222222222222222222222.append(i21);
@@ -6620,14 +6625,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                     sb422222222222222222222222222222.append("bitrate: ");
                                                                                                                     sb422222222222222222222222222222.append(i25);
                                                                                                                     sb422222222222222222222222222222.append(" framerate: ");
-                                                                                                                    int i11922222222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                    int i12022222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                     int i12122222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                     int i12222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                     int i12322222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                     int i12422222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                                                                                     int i12522222222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                                                                                    sb422222222222222222222222222222.append(i11922222222222222222222222222222);
+                                                                                                                    int i12622222222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                    int i12722222222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                                                                                    sb422222222222222222222222222222.append(i12122222222222222222222222222222);
                                                                                                                     sb422222222222222222222222222222.append(" size: ");
                                                                                                                     i21 = i5;
                                                                                                                     sb422222222222222222222222222222.append(i21);
@@ -6903,7 +6908,7 @@ public class MediaCodecVideoConvertor {
                                                             mediaCodec3.start();
                                                             if (i36 >= 21) {
                                                             }
-                                                            i44 = i128;
+                                                            i44 = i130;
                                                             if (i44 < 0) {
                                                             }
                                                             byteBuffer = null;
@@ -7002,26 +7007,27 @@ public class MediaCodecVideoConvertor {
                                                         i37 = i35;
                                                     }
                                                     i19 = i25;
-                                                    createEncoderByType = MediaCodec.createEncoderByType("video/avc");
+                                                    createEncoderByType = MediaCodec.createEncoderByType(MediaController.VIDEO_MIME_TYPE);
                                                     createEncoderByType.configure(createVideoFormat, (Surface) null, (MediaCrypto) null, 1);
                                                     InputSurface inputSurface62 = new InputSurface(createEncoderByType.createInputSurface());
                                                     inputSurface62.makeCurrent();
                                                     createEncoderByType.start();
                                                     createDecoderByType = MediaCodec.createDecoderByType(trackFormat.getString("mime"));
-                                                    int i1282 = i32;
+                                                    float f32 = i6;
+                                                    int i1302 = i32;
                                                     i39 = i37;
                                                     inputSurface = inputSurface62;
                                                     mediaCodec5 = createEncoderByType;
                                                     i40 = i31;
                                                     bufferInfo = bufferInfo5;
-                                                    str4 = "video/avc";
+                                                    str4 = MediaController.VIDEO_MIME_TYPE;
                                                     str5 = "prepend-sps-pps-to-idr-frames";
                                                     i41 = i34;
                                                     str6 = str3;
                                                     j17 = j14;
                                                     mediaCodecVideoConvertor2 = this;
                                                     outputSurface4 = outputSurface3;
-                                                    outputSurface3 = new OutputSurface(savedFilterState, null, str2, arrayList, cropState, i4, i5, i2, i3, i, i6, false);
+                                                    outputSurface3 = new OutputSurface(savedFilterState, null, str2, arrayList, cropState, i4, i5, i2, i3, i, f32, false);
                                                     if (!z5) {
                                                     }
                                                     z14 = true;
@@ -7030,7 +7036,7 @@ public class MediaCodecVideoConvertor {
                                                     mediaCodec3.start();
                                                     if (i36 >= 21) {
                                                     }
-                                                    i44 = i1282;
+                                                    i44 = i1302;
                                                     if (i44 < 0) {
                                                     }
                                                     byteBuffer = null;
@@ -7153,14 +7159,14 @@ public class MediaCodecVideoConvertor {
                                                             sb4222222222222222222222222222222.append("bitrate: ");
                                                             sb4222222222222222222222222222222.append(i25);
                                                             sb4222222222222222222222222222222.append(" framerate: ");
-                                                            int i119222222222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                            int i120222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                             int i121222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                             int i122222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                             int i123222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                             int i124222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                             int i125222222222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                            sb4222222222222222222222222222222.append(i119222222222222222222222222222222);
+                                                            int i126222222222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                            int i127222222222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                            sb4222222222222222222222222222222.append(i121222222222222222222222222222222);
                                                             sb4222222222222222222222222222222.append(" size: ");
                                                             i21 = i5;
                                                             sb4222222222222222222222222222222.append(i21);
@@ -7275,14 +7281,14 @@ public class MediaCodecVideoConvertor {
                                                         sb42222222222222222222222222222222.append("bitrate: ");
                                                         sb42222222222222222222222222222222.append(i25);
                                                         sb42222222222222222222222222222222.append(" framerate: ");
-                                                        int i1192222222222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                        int i1202222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                         int i1212222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                         int i1222222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                         int i1232222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                         int i1242222222222222222222222222222222 = i23 == 1 ? 1 : 0;
                                                         int i1252222222222222222222222222222222 = i23 == 1 ? 1 : 0;
-                                                        sb42222222222222222222222222222222.append(i1192222222222222222222222222222222);
+                                                        int i1262222222222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                        int i1272222222222222222222222222222222 = i23 == 1 ? 1 : 0;
+                                                        sb42222222222222222222222222222222.append(i1212222222222222222222222222222222);
                                                         sb42222222222222222222222222222222.append(" size: ");
                                                         i21 = i5;
                                                         sb42222222222222222222222222222222.append(i21);
@@ -7376,7 +7382,7 @@ public class MediaCodecVideoConvertor {
                                                     }
                                                 }
                                             }
-                                            outputSurface3 = new OutputSurface(savedFilterState, null, str2, arrayList, cropState, i4, i5, i2, i3, i, i6, false);
+                                            outputSurface3 = new OutputSurface(savedFilterState, null, str2, arrayList, cropState, i4, i5, i2, i3, i, f32, false);
                                             if (!z5) {
                                             }
                                             z14 = true;
@@ -7385,7 +7391,7 @@ public class MediaCodecVideoConvertor {
                                             mediaCodec3.start();
                                             if (i36 >= 21) {
                                             }
-                                            i44 = i1282;
+                                            i44 = i1302;
                                             if (i44 < 0) {
                                             }
                                             byteBuffer = null;
@@ -7522,19 +7528,20 @@ public class MediaCodecVideoConvertor {
                                             if (z6) {
                                             }
                                         }
-                                        createEncoderByType = MediaCodec.createEncoderByType("video/avc");
+                                        createEncoderByType = MediaCodec.createEncoderByType(MediaController.VIDEO_MIME_TYPE);
                                         createEncoderByType.configure(createVideoFormat, (Surface) null, (MediaCrypto) null, 1);
                                         InputSurface inputSurface622 = new InputSurface(createEncoderByType.createInputSurface());
                                         inputSurface622.makeCurrent();
                                         createEncoderByType.start();
                                         createDecoderByType = MediaCodec.createDecoderByType(trackFormat.getString("mime"));
-                                        int i12822 = i32;
+                                        float f322 = i6;
+                                        int i13022 = i32;
                                         i39 = i37;
                                         inputSurface = inputSurface622;
                                         mediaCodec5 = createEncoderByType;
                                         i40 = i31;
                                         bufferInfo = bufferInfo5;
-                                        str4 = "video/avc";
+                                        str4 = MediaController.VIDEO_MIME_TYPE;
                                         str5 = "prepend-sps-pps-to-idr-frames";
                                         i41 = i34;
                                         str6 = str3;
@@ -7552,7 +7559,7 @@ public class MediaCodecVideoConvertor {
                                     }
                                     if (BuildVars.LOGS_ENABLED) {
                                     }
-                                    createVideoFormat = MediaFormat.createVideoFormat("video/avc", i34, i35);
+                                    createVideoFormat = MediaFormat.createVideoFormat(MediaController.VIDEO_MIME_TYPE, i34, i35);
                                     createVideoFormat.setInteger("color-format", 2130708361);
                                     createVideoFormat.setInteger("bitrate", i25);
                                     createVideoFormat.setInteger("frame-rate", i6);
@@ -7884,7 +7891,7 @@ public class MediaCodecVideoConvertor {
             i4 = -1;
         }
         if (i3 <= 0) {
-            i3 = 65536;
+            i3 = CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
         }
         ByteBuffer allocateDirect = ByteBuffer.allocateDirect(i3);
         if (i >= 0 || findTrack >= 0) {

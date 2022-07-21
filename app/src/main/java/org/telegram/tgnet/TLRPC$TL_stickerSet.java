@@ -12,7 +12,7 @@ public class TLRPC$TL_stickerSet extends TLRPC$StickerSet {
         this.masks = (readInt32 & 8) != 0;
         this.animated = (readInt32 & 32) != 0;
         this.videos = (readInt32 & 64) != 0;
-        this.emojis = (readInt32 & 128) != 0;
+        this.emojis = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         if ((readInt32 & 1) != 0) {
             this.installed_date = abstractSerializedData.readInt32(z);
         }
@@ -63,7 +63,7 @@ public class TLRPC$TL_stickerSet extends TLRPC$StickerSet {
         this.flags = i4;
         int i5 = this.videos ? i4 | 64 : i4 & (-65);
         this.flags = i5;
-        int i6 = this.emojis ? i5 | 128 : i5 & (-129);
+        int i6 = this.emojis ? i5 | ConnectionsManager.RequestFlagNeedQuickAck : i5 & (-129);
         this.flags = i6;
         abstractSerializedData.writeInt32(i6);
         if ((this.flags & 1) != 0) {

@@ -22,7 +22,7 @@ public final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
 
     static int zza(zzfl zzflVar, int i, Object obj) {
         int zzr = zzbn.zzr(i);
-        if (zzflVar == zzfl.zzql) {
+        if (zzflVar == zzfl.GROUP) {
             zzci.zzf((zzdo) obj);
             zzr <<= 1;
         }

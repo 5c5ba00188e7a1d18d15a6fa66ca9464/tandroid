@@ -32,7 +32,7 @@ public final class EmuInputDevicesDetector {
     }
 
     private static List<String> getInputDevicesNames() {
-        File file = new File("/proc/bus/input/devices");
+        File file = new File(INPUT_DEVICES_FILE);
         if (!file.canRead()) {
             return null;
         }
@@ -44,7 +44,7 @@ public final class EmuInputDevicesDetector {
                 if (readLine == null) {
                     return arrayList;
                 }
-                if (readLine.startsWith("N: Name=\"")) {
+                if (readLine.startsWith(NAME_PREFIX)) {
                     String substring = readLine.substring(9, readLine.length() - 1);
                     if (!TextUtils.isEmpty(substring)) {
                         arrayList.add(substring);

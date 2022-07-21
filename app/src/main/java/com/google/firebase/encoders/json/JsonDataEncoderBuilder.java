@@ -22,7 +22,7 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
     private static final ObjectEncoder<Object> DEFAULT_FALLBACK_ENCODER = JsonDataEncoderBuilder$$ExternalSyntheticLambda0.INSTANCE;
     private static final ValueEncoder<String> STRING_ENCODER = JsonDataEncoderBuilder$$ExternalSyntheticLambda2.INSTANCE;
     private static final ValueEncoder<Boolean> BOOLEAN_ENCODER = JsonDataEncoderBuilder$$ExternalSyntheticLambda1.INSTANCE;
-    private static final TimestampEncoder TIMESTAMP_ENCODER = new TimestampEncoder(null);
+    private static final TimestampEncoder TIMESTAMP_ENCODER = new TimestampEncoder();
     private final Map<Class<?>, ObjectEncoder<?>> objectEncoders = new HashMap();
     private final Map<Class<?>, ValueEncoder<?>> valueEncoders = new HashMap();
     private ObjectEncoder<Object> fallbackEncoder = DEFAULT_FALLBACK_ENCODER;
@@ -38,10 +38,6 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
         private static final DateFormat rfc339;
 
         private TimestampEncoder() {
-        }
-
-        /* synthetic */ TimestampEncoder(AnonymousClass1 anonymousClass1) {
-            this();
         }
 
         static {
@@ -88,23 +84,14 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.google.firebase.encoders.json.JsonDataEncoderBuilder$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements DataEncoder {
-        AnonymousClass1() {
-            JsonDataEncoderBuilder.this = r1;
-        }
-
-        @Override // com.google.firebase.encoders.DataEncoder
-        public void encode(Object obj, Writer writer) throws IOException {
-            JsonValueObjectEncoderContext jsonValueObjectEncoderContext = new JsonValueObjectEncoderContext(writer, JsonDataEncoderBuilder.this.objectEncoders, JsonDataEncoderBuilder.this.valueEncoders, JsonDataEncoderBuilder.this.fallbackEncoder, JsonDataEncoderBuilder.this.ignoreNullValues);
-            jsonValueObjectEncoderContext.add(obj, false);
-            jsonValueObjectEncoderContext.close();
-        }
-    }
-
     public DataEncoder build() {
-        return new AnonymousClass1();
+        return new DataEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder.1
+            @Override // com.google.firebase.encoders.DataEncoder
+            public void encode(Object obj, Writer writer) throws IOException {
+                JsonValueObjectEncoderContext jsonValueObjectEncoderContext = new JsonValueObjectEncoderContext(writer, JsonDataEncoderBuilder.this.objectEncoders, JsonDataEncoderBuilder.this.valueEncoders, JsonDataEncoderBuilder.this.fallbackEncoder, JsonDataEncoderBuilder.this.ignoreNullValues);
+                jsonValueObjectEncoderContext.add(obj, false);
+                jsonValueObjectEncoderContext.close();
+            }
+        };
     }
 }

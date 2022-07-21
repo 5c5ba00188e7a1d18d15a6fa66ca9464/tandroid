@@ -11,6 +11,7 @@ import android.os.Build;
 import android.text.TextPaint;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLoader;
 import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Charts.data.StackLinearChartData;
 import org.telegram.ui.Charts.view_data.ChartHorizontalLinesData;
@@ -30,7 +31,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
     RectF rectF = new RectF();
     float MIN_TEXT_SIZE = AndroidUtilities.dp(9.0f);
     float MAX_TEXT_SIZE = AndroidUtilities.dp(13.0f);
-    String[] lookupTable = new String[101];
+    String[] lookupTable = new String[FileLoader.MEDIA_DIR_VIDEO_PUBLIC];
     float emptyDataAlpha = 1.0f;
     int oldW = 0;
     int lastStartIndex = -1;
@@ -672,13 +673,18 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
             return;
         }
         while (i < size) {
-            PieChartViewData pieChartViewData = (PieChartViewData) this.lines.get(i);
+            final PieChartViewData pieChartViewData = (PieChartViewData) this.lines.get(i);
             Animator animator = pieChartViewData.animator;
             if (animator != null) {
                 animator.cancel();
             }
             float f3 = this.sum;
-            ValueAnimator createAnimator = createAnimator(pieChartViewData.drawingPart, f3 == 0.0f ? 0.0f : this.values[i] / f3, new PieChartView$$ExternalSyntheticLambda0(this, pieChartViewData));
+            ValueAnimator createAnimator = createAnimator(pieChartViewData.drawingPart, f3 == 0.0f ? 0.0f : this.values[i] / f3, new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.PieChartView$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    PieChartView.this.lambda$updateCharValues$0(pieChartViewData, valueAnimator);
+                }
+            });
             pieChartViewData.animator = createAnimator;
             createAnimator.start();
             i++;

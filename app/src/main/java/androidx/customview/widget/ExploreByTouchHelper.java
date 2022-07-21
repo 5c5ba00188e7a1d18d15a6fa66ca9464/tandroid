@@ -15,6 +15,8 @@ import androidx.core.view.accessibility.AccessibilityNodeProviderCompat;
 import androidx.core.view.accessibility.AccessibilityRecordCompat;
 import java.util.ArrayList;
 import java.util.List;
+import org.telegram.messenger.CharacterCompat;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
     private static final Rect INVALID_PARENT_BOUNDS = new Rect(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
@@ -50,8 +52,10 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
     }
 
     static {
-        new AnonymousClass1();
-        new AnonymousClass2();
+        new Object() { // from class: androidx.customview.widget.ExploreByTouchHelper.1
+        };
+        new Object() { // from class: androidx.customview.widget.ExploreByTouchHelper.2
+        };
     }
 
     public ExploreByTouchHelper(View view) {
@@ -92,20 +96,6 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         }
     }
 
-    /* renamed from: androidx.customview.widget.ExploreByTouchHelper$1 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass1 {
-        AnonymousClass1() {
-        }
-    }
-
-    /* renamed from: androidx.customview.widget.ExploreByTouchHelper$2 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass2 {
-        AnonymousClass2() {
-        }
-    }
-
     public final boolean sendEventForVirtualView(int i, int i2) {
         ViewParent parent;
         if (i == Integer.MIN_VALUE || !this.mManager.isEnabled() || (parent = this.mHost.getParent()) == null) {
@@ -120,7 +110,7 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
             return;
         }
         this.mHoveredVirtualViewId = i;
-        sendEventForVirtualView(i, 128);
+        sendEventForVirtualView(i, ConnectionsManager.RequestFlagNeedQuickAck);
         sendEventForVirtualView(i2, 256);
     }
 
@@ -211,14 +201,14 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         if ((actions & 64) != 0) {
             throw new RuntimeException("Callbacks must not add ACTION_ACCESSIBILITY_FOCUS in populateNodeForVirtualViewId()");
         }
-        if ((actions & 128) != 0) {
+        if ((actions & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             throw new RuntimeException("Callbacks must not add ACTION_CLEAR_ACCESSIBILITY_FOCUS in populateNodeForVirtualViewId()");
         }
         obtain.setPackageName(this.mHost.getContext().getPackageName());
         obtain.setSource(this.mHost, i);
         if (this.mAccessibilityFocusedVirtualViewId == i) {
             obtain.setAccessibilityFocused(true);
-            obtain.addAction(128);
+            obtain.addAction(ConnectionsManager.RequestFlagNeedQuickAck);
         } else {
             obtain.setAccessibilityFocused(false);
             obtain.addAction(64);
@@ -321,7 +311,7 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         if (this.mAccessibilityFocusedVirtualViewId == i) {
             this.mAccessibilityFocusedVirtualViewId = Integer.MIN_VALUE;
             this.mHost.invalidate();
-            sendEventForVirtualView(i, 65536);
+            sendEventForVirtualView(i, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
             return true;
         }
         return false;

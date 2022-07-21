@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import java.lang.reflect.InvocationTargetException;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public abstract class f {
 
@@ -108,7 +109,7 @@ public abstract class f {
         Bundle bundle;
         Object obj;
         try {
-            ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), 128);
+            ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck);
             if (applicationInfo == null || (bundle = applicationInfo.metaData) == null || (obj = bundle.get("CHANNEL")) == null) {
                 return "Unknown";
             }

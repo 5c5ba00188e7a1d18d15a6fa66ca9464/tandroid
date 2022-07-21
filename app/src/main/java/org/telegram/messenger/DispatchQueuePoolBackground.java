@@ -12,26 +12,16 @@ public class DispatchQueuePoolBackground {
     private int maxCount;
     private int totalTasksCount;
     private static final ArrayList<ArrayList<Runnable>> freeCollections = new ArrayList<>();
-    private static final Runnable finishCollectUpdateRunnable = new AnonymousClass2();
+    private static final Runnable finishCollectUpdateRunnable = new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground.2
+        @Override // java.lang.Runnable
+        public void run() {
+            DispatchQueuePoolBackground.finishCollectUpdateRunnables();
+        }
+    };
     private ArrayList<DispatchQueue> queues = new ArrayList<>(10);
     private SparseIntArray busyQueuesMap = new SparseIntArray();
     private ArrayList<DispatchQueue> busyQueues = new ArrayList<>(10);
-    private Runnable cleanupRunnable = new AnonymousClass1();
-    private int guid = Utilities.random.nextInt();
-
-    static /* synthetic */ int access$110(DispatchQueuePoolBackground dispatchQueuePoolBackground) {
-        int i = dispatchQueuePoolBackground.createdCount;
-        dispatchQueuePoolBackground.createdCount = i - 1;
-        return i;
-    }
-
-    /* renamed from: org.telegram.messenger.DispatchQueuePoolBackground$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            DispatchQueuePoolBackground.this = r1;
-        }
-
+    private Runnable cleanupRunnable = new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground.1
         @Override // java.lang.Runnable
         public void run() {
             if (!DispatchQueuePoolBackground.this.queues.isEmpty()) {
@@ -55,6 +45,13 @@ public class DispatchQueuePoolBackground {
             Utilities.globalQueue.postRunnable(this, 30000L);
             DispatchQueuePoolBackground.this.cleanupScheduled = true;
         }
+    };
+    private int guid = Utilities.random.nextInt();
+
+    static /* synthetic */ int access$110(DispatchQueuePoolBackground dispatchQueuePoolBackground) {
+        int i = dispatchQueuePoolBackground.createdCount;
+        dispatchQueuePoolBackground.createdCount = i - 1;
+        return i;
     }
 
     private DispatchQueuePoolBackground(int i) {
@@ -62,9 +59,9 @@ public class DispatchQueuePoolBackground {
     }
 
     private void execute(ArrayList<Runnable> arrayList) {
-        DispatchQueue dispatchQueue;
+        final DispatchQueue dispatchQueue;
         for (int i = 0; i < arrayList.size(); i++) {
-            Runnable runnable = arrayList.get(i);
+            final Runnable runnable = arrayList.get(i);
             if (runnable != null) {
                 if (!this.busyQueues.isEmpty() && (this.totalTasksCount / 2 <= this.busyQueues.size() || (this.queues.isEmpty() && this.createdCount >= this.maxCount))) {
                     dispatchQueue = this.busyQueues.remove(0);
@@ -82,14 +79,24 @@ public class DispatchQueuePoolBackground {
                 this.totalTasksCount++;
                 this.busyQueues.add(dispatchQueue);
                 this.busyQueuesMap.put(dispatchQueue.index, this.busyQueuesMap.get(dispatchQueue.index, 0) + 1);
-                dispatchQueue.postRunnable(new DispatchQueuePoolBackground$$ExternalSyntheticLambda2(this, runnable, dispatchQueue));
+                dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DispatchQueuePoolBackground.this.lambda$execute$1(runnable, dispatchQueue);
+                    }
+                });
             }
         }
     }
 
-    public /* synthetic */ void lambda$execute$1(Runnable runnable, DispatchQueue dispatchQueue) {
+    public /* synthetic */ void lambda$execute$1(Runnable runnable, final DispatchQueue dispatchQueue) {
         runnable.run();
-        Utilities.globalQueue.postRunnable(new DispatchQueuePoolBackground$$ExternalSyntheticLambda3(this, dispatchQueue));
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                DispatchQueuePoolBackground.this.lambda$execute$0(dispatchQueue);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$execute$0(DispatchQueue dispatchQueue) {
@@ -102,18 +109,6 @@ public class DispatchQueuePoolBackground {
             return;
         }
         this.busyQueuesMap.put(dispatchQueue.index, i);
-    }
-
-    /* renamed from: org.telegram.messenger.DispatchQueuePoolBackground$2 */
-    /* loaded from: classes.dex */
-    class AnonymousClass2 implements Runnable {
-        AnonymousClass2() {
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            DispatchQueuePoolBackground.finishCollectUpdateRunnables();
-        }
     }
 
     public static void execute(Runnable runnable) {
@@ -138,18 +133,28 @@ public class DispatchQueuePoolBackground {
             updateTaskCollection = null;
             return;
         }
-        ArrayList<Runnable> arrayList2 = updateTaskCollection;
+        final ArrayList<Runnable> arrayList2 = updateTaskCollection;
         updateTaskCollection = null;
         if (backgroundQueue == null) {
             backgroundQueue = new DispatchQueuePoolBackground(Math.max(1, Runtime.getRuntime().availableProcessors() - 2));
         }
-        Utilities.globalQueue.postRunnable(new DispatchQueuePoolBackground$$ExternalSyntheticLambda0(arrayList2));
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                DispatchQueuePoolBackground.lambda$finishCollectUpdateRunnables$3(arrayList2);
+            }
+        });
     }
 
-    public static /* synthetic */ void lambda$finishCollectUpdateRunnables$3(ArrayList arrayList) {
+    public static /* synthetic */ void lambda$finishCollectUpdateRunnables$3(final ArrayList arrayList) {
         backgroundQueue.execute(arrayList);
         arrayList.clear();
-        AndroidUtilities.runOnUIThread(new DispatchQueuePoolBackground$$ExternalSyntheticLambda1(arrayList));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                DispatchQueuePoolBackground.lambda$finishCollectUpdateRunnables$2(arrayList);
+            }
+        });
     }
 
     public static /* synthetic */ void lambda$finishCollectUpdateRunnables$2(ArrayList arrayList) {

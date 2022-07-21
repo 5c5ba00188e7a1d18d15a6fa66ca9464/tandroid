@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 import java.util.ArrayList;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes.dex */
 public class ContactsWidgetProvider extends AppWidgetProvider {
@@ -65,8 +66,9 @@ public class ContactsWidgetProvider extends AppWidgetProvider {
         intent.putExtra("appWidgetId", i);
         intent.setData(Uri.parse(intent.toUri(1)));
         SharedPreferences sharedPreferences = context.getSharedPreferences("shortcut_widget", 0);
-        int i2 = 2131427334;
-        if (!sharedPreferences.getBoolean("deleted" + i, false)) {
+        boolean z = sharedPreferences.getBoolean("deleted" + i, false);
+        int i2 = org.telegram.messenger.beta.R.layout.contacts_widget_layout_1;
+        if (!z) {
             int i3 = sharedPreferences.getInt("account" + i, -1);
             if (i3 == -1) {
                 SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -79,18 +81,18 @@ public class ContactsWidgetProvider extends AppWidgetProvider {
             }
             int ceil = (int) Math.ceil(arrayList.size() / 2.0f);
             if (cellsForSize != 1 && ceil > 1) {
-                i2 = (cellsForSize == 2 || ceil <= 2) ? 2131427335 : (cellsForSize == 3 || ceil <= 3) ? 2131427336 : 2131427337;
+                i2 = (cellsForSize == 2 || ceil <= 2) ? org.telegram.messenger.beta.R.layout.contacts_widget_layout_2 : (cellsForSize == 3 || ceil <= 3) ? org.telegram.messenger.beta.R.layout.contacts_widget_layout_3 : org.telegram.messenger.beta.R.layout.contacts_widget_layout_4;
             }
         }
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), i2);
-        remoteViews.setRemoteAdapter(i, 2131230851, intent);
-        remoteViews.setEmptyView(2131230851, 2131230813);
+        remoteViews.setRemoteAdapter(i, org.telegram.messenger.beta.R.id.list_view, intent);
+        remoteViews.setEmptyView(org.telegram.messenger.beta.R.id.list_view, org.telegram.messenger.beta.R.id.empty_view);
         Intent intent2 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
         intent2.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
-        intent2.addFlags(67108864);
+        intent2.addFlags(ConnectionsManager.FileTypeFile);
         intent2.addCategory("android.intent.category.LAUNCHER");
-        remoteViews.setPendingIntentTemplate(2131230851, PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 134217728));
+        remoteViews.setPendingIntentTemplate(org.telegram.messenger.beta.R.id.list_view, PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 134217728));
         appWidgetManager.updateAppWidget(i, remoteViews);
-        appWidgetManager.notifyAppWidgetViewDataChanged(i, 2131230851);
+        appWidgetManager.notifyAppWidgetViewDataChanged(i, org.telegram.messenger.beta.R.id.list_view);
     }
 }

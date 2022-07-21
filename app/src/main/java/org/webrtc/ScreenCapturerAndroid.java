@@ -85,7 +85,12 @@ public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
     @Override // org.webrtc.VideoCapturer
     public synchronized void stopCapture() {
         checkNotDisposed();
-        ThreadUtils.invokeAtFrontUninterruptibly(this.surfaceTextureHelper.getHandler(), new ScreenCapturerAndroid$$ExternalSyntheticLambda1(this));
+        ThreadUtils.invokeAtFrontUninterruptibly(this.surfaceTextureHelper.getHandler(), new Runnable() { // from class: org.webrtc.ScreenCapturerAndroid$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                ScreenCapturerAndroid.this.lambda$stopCapture$0();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$stopCapture$0() {
@@ -117,7 +122,12 @@ public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
         if (this.virtualDisplay == null) {
             return;
         }
-        ThreadUtils.invokeAtFrontUninterruptibly(this.surfaceTextureHelper.getHandler(), new ScreenCapturerAndroid$$ExternalSyntheticLambda0(this));
+        ThreadUtils.invokeAtFrontUninterruptibly(this.surfaceTextureHelper.getHandler(), new Runnable() { // from class: org.webrtc.ScreenCapturerAndroid$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                ScreenCapturerAndroid.this.lambda$changeCaptureFormat$1();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$changeCaptureFormat$1() {
@@ -128,7 +138,7 @@ public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
     private void createVirtualDisplay() {
         this.surfaceTextureHelper.setTextureSize(this.width, this.height);
         try {
-            this.virtualDisplay = this.mediaProjection.createVirtualDisplay("WebRTC_ScreenCapture", this.width, this.height, 400, 3, new Surface(this.surfaceTextureHelper.getSurfaceTexture()), null, null);
+            this.virtualDisplay = this.mediaProjection.createVirtualDisplay("WebRTC_ScreenCapture", this.width, this.height, VIRTUAL_DISPLAY_DPI, 3, new Surface(this.surfaceTextureHelper.getSurfaceTexture()), null, null);
         } catch (Throwable th) {
             FileLog.e(th);
         }

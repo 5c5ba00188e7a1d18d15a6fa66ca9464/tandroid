@@ -6,7 +6,7 @@ import android.graphics.Outline;
 import android.graphics.Rect;
 import android.view.Gravity;
 /* loaded from: classes.dex */
-public class RoundedBitmapDrawable21 extends RoundedBitmapDrawable {
+class RoundedBitmapDrawable21 extends RoundedBitmapDrawable {
     public RoundedBitmapDrawable21(Resources res, Bitmap bitmap) {
         super(res, bitmap);
     }

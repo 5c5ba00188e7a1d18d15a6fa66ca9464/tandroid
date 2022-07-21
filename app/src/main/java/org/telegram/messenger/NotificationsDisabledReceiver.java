@@ -7,7 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.text.TextUtils;
-@TargetApi(28)
+import com.huawei.hms.adapter.internal.AvailableCode;
+@TargetApi(AvailableCode.APP_IS_BACKGROUND_OR_LOCKED)
 /* loaded from: classes.dex */
 public class NotificationsDisabledReceiver extends BroadcastReceiver {
     @Override // android.content.BroadcastReceiver

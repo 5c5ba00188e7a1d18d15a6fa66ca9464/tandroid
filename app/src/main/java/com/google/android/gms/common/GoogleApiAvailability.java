@@ -34,6 +34,8 @@ import com.google.android.gms.common.internal.zac;
 import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.common.util.PlatformVersion;
 import com.google.android.gms.internal.base.zas;
+import com.huawei.hms.push.constant.RemoteMessageConst;
+import org.telegram.messenger.R;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
@@ -103,7 +105,7 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
         zaa(context, i, (String) null, getErrorResolutionPendingIntent(context, i, 0, "n"));
     }
 
-    @TargetApi(20)
+    @TargetApi(R.styleable.MapAttrs_uiZoomControls)
     private final void zaa(Context context, int i, String str, PendingIntent pendingIntent) {
         int i2;
         Log.w("GoogleApiAvailability", String.format("GMS core API Availability. ConnectionResult=%s, tag=%s", Integer.valueOf(i), null), new IllegalArgumentException());
@@ -118,7 +120,7 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
             String zab2 = zac.zab(context, i);
             String zad = zac.zad(context, i);
             Resources resources = context.getResources();
-            NotificationManager notificationManager = (NotificationManager) Preconditions.checkNotNull(context.getSystemService("notification"));
+            NotificationManager notificationManager = (NotificationManager) Preconditions.checkNotNull(context.getSystemService(RemoteMessageConst.NOTIFICATION));
             NotificationCompat.Builder style = new NotificationCompat.Builder(context).setLocalOnly(true).setAutoCancel(true).setContentTitle(zab2).setStyle(new NotificationCompat.BigTextStyle().bigText(zad));
             if (DeviceProperties.isWearable(context)) {
                 Preconditions.checkState(PlatformVersion.isAtLeastKitKatWatch());

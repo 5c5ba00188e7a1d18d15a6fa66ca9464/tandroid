@@ -189,7 +189,13 @@ public class AudioRecordJNI {
             throw new IllegalStateException("thread already started");
         }
         this.running = true;
-        Thread thread = new Thread(new AudioRecordJNI$$ExternalSyntheticLambda0(this, this.needResampling ? ByteBuffer.allocateDirect(1764) : null));
+        final ByteBuffer allocateDirect = this.needResampling ? ByteBuffer.allocateDirect(1764) : null;
+        Thread thread = new Thread(new Runnable() { // from class: org.telegram.messenger.voip.AudioRecordJNI$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                AudioRecordJNI.this.lambda$startThread$0(allocateDirect);
+            }
+        });
         this.thread = thread;
         thread.start();
     }

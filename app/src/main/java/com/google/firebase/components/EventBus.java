@@ -22,7 +22,7 @@ public class EventBus implements Subscriber, Publisher {
         this.defaultExecutor = executor;
     }
 
-    public void publish(Event<?> event) {
+    public void publish(final Event<?> event) {
         Preconditions.checkNotNull(event);
         synchronized (this) {
             Queue<Event<?>> queue = this.pendingEvents;
@@ -30,8 +30,13 @@ public class EventBus implements Subscriber, Publisher {
                 queue.add(event);
                 return;
             }
-            for (Map.Entry<EventHandler<Object>, Executor> entry : getHandlers(event)) {
-                entry.getValue().execute(new EventBus$$ExternalSyntheticLambda0(entry, event));
+            for (final Map.Entry<EventHandler<Object>, Executor> entry : getHandlers(event)) {
+                entry.getValue().execute(new Runnable() { // from class: com.google.firebase.components.EventBus$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        EventBus.lambda$publish$0(entry, event);
+                    }
+                });
             }
         }
     }

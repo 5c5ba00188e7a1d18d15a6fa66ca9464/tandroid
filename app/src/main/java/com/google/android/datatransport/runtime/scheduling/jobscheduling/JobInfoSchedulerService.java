@@ -6,6 +6,7 @@ import android.util.Base64;
 import com.google.android.datatransport.runtime.TransportContext;
 import com.google.android.datatransport.runtime.TransportRuntime;
 import com.google.android.datatransport.runtime.util.PriorityMapping;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 /* loaded from: classes.dex */
 public class JobInfoSchedulerService extends JobService {
     @Override // android.app.job.JobService
@@ -14,17 +15,22 @@ public class JobInfoSchedulerService extends JobService {
     }
 
     @Override // android.app.job.JobService
-    public boolean onStartJob(JobParameters jobParameters) {
+    public boolean onStartJob(final JobParameters jobParameters) {
         String string = jobParameters.getExtras().getString("backendName");
         String string2 = jobParameters.getExtras().getString("extras");
-        int i = jobParameters.getExtras().getInt("priority");
+        int i = jobParameters.getExtras().getInt(RemoteMessageConst.Notification.PRIORITY);
         int i2 = jobParameters.getExtras().getInt("attemptNumber");
         TransportRuntime.initialize(getApplicationContext());
         TransportContext.Builder priority = TransportContext.builder().setBackendName(string).setPriority(PriorityMapping.valueOf(i));
         if (string2 != null) {
             priority.setExtras(Base64.decode(string2, 0));
         }
-        TransportRuntime.getInstance().getUploader().upload(priority.build(), i2, new JobInfoSchedulerService$$ExternalSyntheticLambda0(this, jobParameters));
+        TransportRuntime.getInstance().getUploader().upload(priority.build(), i2, new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                JobInfoSchedulerService.this.lambda$onStartJob$0(jobParameters);
+            }
+        });
         return true;
     }
 

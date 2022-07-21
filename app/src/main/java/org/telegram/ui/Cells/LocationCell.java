@@ -51,7 +51,7 @@ public class LocationCell extends FrameLayout {
         this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.nameTextView.setSingleLine(true);
         this.nameTextView.setTextColor(getThemedColor("windowBackgroundWhiteBlackText"));
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.nameTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         TextView textView2 = this.nameTextView;
         boolean z3 = LocaleController.isRTL;
@@ -131,11 +131,17 @@ public class LocationCell extends FrameLayout {
             valueAnimator.cancel();
         }
         boolean z2 = tLRPC$TL_messageMediaVenue == null;
-        float f = this.enterAlpha;
-        float f2 = z2 ? 0.0f : 1.0f;
-        long abs = Math.abs(f - f2) * 150.0f;
+        final float f = this.enterAlpha;
+        final float f2 = z2 ? 0.0f : 1.0f;
+        final long abs = Math.abs(f - f2) * 150.0f;
         this.enterAnimator = ValueAnimator.ofFloat(f, f2);
-        this.enterAnimator.addUpdateListener(new LocationCell$$ExternalSyntheticLambda0(this, SystemClock.elapsedRealtime(), abs, f, f2));
+        final long elapsedRealtime = SystemClock.elapsedRealtime();
+        this.enterAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.LocationCell$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                LocationCell.this.lambda$setLocation$0(elapsedRealtime, abs, f, f2, valueAnimator2);
+            }
+        });
         ValueAnimator valueAnimator2 = this.enterAnimator;
         if (z2) {
             abs = Long.MAX_VALUE;

@@ -49,16 +49,21 @@ public class FingerprintController {
         }
     }
 
-    public static void generateNewKey(boolean z) {
+    public static void generateNewKey(final boolean z) {
         KeyPairGenerator keyPairGenerator2 = getKeyPairGenerator();
         if (keyPairGenerator2 != null) {
             try {
                 Locale locale = Locale.getDefault();
                 setLocale(Locale.ENGLISH);
-                keyPairGenerator2.initialize(new KeyGenParameterSpec.Builder("tmessages_passcode", 3).setDigests("SHA-256", "SHA-512").setEncryptionPaddings("OAEPPadding").setUserAuthenticationRequired(true).build());
+                keyPairGenerator2.initialize(new KeyGenParameterSpec.Builder(KEY_ALIAS, 3).setDigests("SHA-256", "SHA-512").setEncryptionPaddings("OAEPPadding").setUserAuthenticationRequired(true).build());
                 keyPairGenerator2.generateKeyPair();
                 setLocale(locale);
-                AndroidUtilities.runOnUIThread(new FingerprintController$$ExternalSyntheticLambda0(z));
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FingerprintController.lambda$generateNewKey$0(z);
+                    }
+                });
             } catch (InvalidAlgorithmParameterException e) {
                 FileLog.e(e);
             } catch (Exception e2) {
@@ -76,7 +81,7 @@ public class FingerprintController {
 
     public static void deleteInvalidKey() {
         try {
-            getKeyStore().deleteEntry("tmessages_passcode");
+            getKeyStore().deleteEntry(KEY_ALIAS);
         } catch (KeyStoreException e) {
             FileLog.e(e);
         }
@@ -88,16 +93,21 @@ public class FingerprintController {
         checkKeyReady(true);
     }
 
-    public static void checkKeyReady(boolean z) {
+    public static void checkKeyReady(final boolean z) {
         if (isKeyReady() || !AndroidUtilities.isKeyguardSecure() || !FingerprintManagerCompat.from(ApplicationLoader.applicationContext).isHardwareDetected() || !FingerprintManagerCompat.from(ApplicationLoader.applicationContext).hasEnrolledFingerprints()) {
             return;
         }
-        Utilities.globalQueue.postRunnable(new FingerprintController$$ExternalSyntheticLambda1(z));
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                FingerprintController.generateNewKey(z);
+            }
+        });
     }
 
     public static boolean isKeyReady() {
         try {
-            return getKeyStore().containsAlias("tmessages_passcode");
+            return getKeyStore().containsAlias(KEY_ALIAS);
         } catch (KeyStoreException e) {
             FileLog.e(e);
             return false;
@@ -110,7 +120,7 @@ public class FingerprintController {
             return bool.booleanValue();
         }
         try {
-            Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding").init(2, keyStore.getKey("tmessages_passcode", null));
+            Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding").init(2, keyStore.getKey(KEY_ALIAS, null));
             hasChangedFingerprints = Boolean.FALSE;
             return false;
         } catch (KeyPermanentlyInvalidatedException unused) {

@@ -62,6 +62,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.XiaomiUtilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$InputPeer;
@@ -70,6 +71,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_translateText;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LinkSpanDrawable;
+import org.telegram.ui.Components.TranslateAlert;
 /* loaded from: classes3.dex */
 public class TranslateAlert extends Dialog {
     private Spannable allTexts;
@@ -197,7 +199,7 @@ public class TranslateAlert extends Dialog {
         openAnimationTo(f, z, null);
     }
 
-    private void openAnimationTo(float f, boolean z, Runnable runnable) {
+    private void openAnimationTo(float f, boolean z, final Runnable runnable) {
         if (!this.openAnimationToAnimatorPriority || z) {
             this.openAnimationToAnimatorPriority = z;
             float min = Math.min(Math.max(f, 0.0f), 1.0f);
@@ -207,8 +209,31 @@ public class TranslateAlert extends Dialog {
             }
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.containerOpenAnimationT, min);
             this.openAnimationToAnimator = ofFloat;
-            ofFloat.addUpdateListener(new TranslateAlert$$ExternalSyntheticLambda0(this));
-            this.openAnimationToAnimator.addListener(new AnonymousClass1(runnable));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    TranslateAlert.this.lambda$openAnimationTo$0(valueAnimator2);
+                }
+            });
+            this.openAnimationToAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.TranslateAlert.1
+                {
+                    TranslateAlert.this = this;
+                }
+
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    TranslateAlert.this.openAnimationToAnimatorPriority = false;
+                    Runnable runnable2 = runnable;
+                    if (runnable2 != null) {
+                        runnable2.run();
+                    }
+                }
+
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationCancel(Animator animator) {
+                    TranslateAlert.this.openAnimationToAnimatorPriority = false;
+                }
+            });
             this.openAnimationToAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
             this.openAnimationToAnimator.setDuration(220L);
             this.openAnimationToAnimator.start();
@@ -216,31 +241,6 @@ public class TranslateAlert extends Dialog {
                 return;
             }
             fetchNext();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TranslateAlert$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        final /* synthetic */ Runnable val$onAnimationEnd;
-
-        AnonymousClass1(Runnable runnable) {
-            TranslateAlert.this = r1;
-            this.val$onAnimationEnd = runnable;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            TranslateAlert.this.openAnimationToAnimatorPriority = false;
-            Runnable runnable = this.val$onAnimationEnd;
-            if (runnable != null) {
-                runnable.run();
-            }
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationCancel(Animator animator) {
-            TranslateAlert.this.openAnimationToAnimatorPriority = false;
         }
     }
 
@@ -285,7 +285,7 @@ public class TranslateAlert extends Dialog {
     }
 
     public TranslateAlert(BaseFragment baseFragment, Context context, int i, TLRPC$InputPeer tLRPC$InputPeer, int i2, String str, String str2, CharSequence charSequence, boolean z, OnLinkPress onLinkPress, Runnable runnable) {
-        super(context, 2131689510);
+        super(context, R.style.TransparentDialog);
         int i3;
         int i4;
         this.blockIndex = 0;
@@ -310,7 +310,17 @@ public class TranslateAlert extends Dialog {
         this.fromScrollViewY = 0.0f;
         this.allTexts = null;
         this.openingT = 0.0f;
-        this.backDrawable = new AnonymousClass6(-16777216);
+        this.backDrawable = new ColorDrawable(-16777216) { // from class: org.telegram.ui.Components.TranslateAlert.6
+            {
+                TranslateAlert.this = this;
+            }
+
+            @Override // android.graphics.drawable.ColorDrawable, android.graphics.drawable.Drawable
+            public void setAlpha(int i5) {
+                super.setAlpha(i5);
+                TranslateAlert.this.container.invalidate();
+            }
+        };
         this.dismissed = false;
         this.heightMaxPercent = 0.85f;
         this.fastHide = false;
@@ -357,29 +367,76 @@ public class TranslateAlert extends Dialog {
                 this.contentView.setSystemUiVisibility(1280);
             }
         }
-        Paint paint = new Paint();
+        final Paint paint = new Paint();
         paint.setColor(Theme.getColor("dialogBackground"));
         paint.setShadowLayer(AndroidUtilities.dp(2.0f), 0.0f, AndroidUtilities.dp(-0.66f), 503316480);
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context, paint);
-        this.container = anonymousClass2;
-        anonymousClass2.setWillNotDraw(false);
+        FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.Components.TranslateAlert.2
+            private int contentHeight = Integer.MAX_VALUE;
+            private RectF containerRect = new RectF();
+
+            {
+                TranslateAlert.this = this;
+                new Path();
+                new RectF();
+            }
+
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i6, int i7) {
+                int size = View.MeasureSpec.getSize(i6);
+                View.MeasureSpec.getSize(i6);
+                int i8 = (int) (AndroidUtilities.displayMetrics.heightPixels * TranslateAlert.this.heightMaxPercent);
+                if (TranslateAlert.this.textsView != null && TranslateAlert.this.textsView.getMeasuredHeight() <= 0) {
+                    TranslateAlert.this.textsView.measure(View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i6) - TranslateAlert.this.textsView.getPaddingLeft()) - TranslateAlert.this.textsView.getPaddingRight()) - TranslateAlert.this.textsContainerView.getPaddingLeft()) - TranslateAlert.this.textsContainerView.getPaddingRight(), 1073741824), 0);
+                }
+                int min = Math.min(i8, TranslateAlert.this.minHeight());
+                int i9 = (int) (min + ((AndroidUtilities.displayMetrics.heightPixels - min) * TranslateAlert.this.containerOpenAnimationT));
+                TranslateAlert.this.updateCanExpand();
+                super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) Math.max(size * 0.8f, Math.min(AndroidUtilities.dp(480.0f), size)), View.MeasureSpec.getMode(i6)), View.MeasureSpec.makeMeasureSpec(i9, 1073741824));
+            }
+
+            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            protected void onLayout(boolean z2, int i6, int i7, int i8, int i9) {
+                super.onLayout(z2, i6, i7, i8, i9);
+                this.contentHeight = Math.min(this.contentHeight, i9 - i7);
+            }
+
+            @Override // android.view.View
+            protected void onDraw(Canvas canvas) {
+                int width = getWidth();
+                int height = getHeight();
+                int dp = AndroidUtilities.dp((1.0f - TranslateAlert.this.containerOpenAnimationT) * 12.0f);
+                canvas.clipRect(0, 0, width, height);
+                this.containerRect.set(0.0f, 0.0f, width, height + dp);
+                canvas.translate(0.0f, (1.0f - TranslateAlert.this.openingT) * height);
+                float f = dp;
+                canvas.drawRoundRect(this.containerRect, f, f, paint);
+                super.onDraw(canvas);
+            }
+        };
+        this.container = frameLayout2;
+        frameLayout2.setWillNotDraw(false);
         this.header = new FrameLayout(context);
         TextView textView = new TextView(context);
         this.titleView = textView;
         textView.setPivotX(LocaleController.isRTL ? textView.getWidth() : 0.0f);
         this.titleView.setPivotY(0.0f);
         this.titleView.setLines(1);
-        this.titleView.setText(LocaleController.getString("AutomaticTranslation", 2131624638));
+        this.titleView.setText(LocaleController.getString("AutomaticTranslation", R.string.AutomaticTranslation));
         this.titleView.setGravity(LocaleController.isRTL ? 5 : 3);
-        this.titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.titleView.setTextColor(Theme.getColor("dialogTextBlack"));
         this.titleView.setTextSize(0, AndroidUtilities.dp(19.0f));
-        FrameLayout frameLayout2 = this.header;
+        FrameLayout frameLayout3 = this.header;
         View view = this.titleView;
         FrameLayout.LayoutParams createFrame = LayoutHelper.createFrame(-1, -2.0f, 55, 22.0f, 22.0f, 22.0f, 0.0f);
         this.titleLayout = createFrame;
-        frameLayout2.addView(view, createFrame);
-        this.titleView.post(new TranslateAlert$$ExternalSyntheticLambda8(this));
+        frameLayout3.addView(view, createFrame);
+        this.titleView.post(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                TranslateAlert.this.lambda$new$1();
+            }
+        });
         LinearLayout linearLayout = new LinearLayout(context);
         this.subtitleView = linearLayout;
         linearLayout.setOrientation(0);
@@ -388,12 +445,29 @@ public class TranslateAlert extends Dialog {
         }
         this.subtitleView.setGravity(LocaleController.isRTL ? 5 : 3);
         String languageName = languageName(str);
-        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context, languageName == null ? languageName(str2) : languageName, AndroidUtilities.dp(14.0f), Theme.getColor("player_actionBarSubtitle"));
-        this.subtitleFromView = anonymousClass3;
-        anonymousClass3.showLoadingText = false;
+        InlineLoadingTextView inlineLoadingTextView = new InlineLoadingTextView(context, languageName == null ? languageName(str2) : languageName, AndroidUtilities.dp(14.0f), Theme.getColor("player_actionBarSubtitle")) { // from class: org.telegram.ui.Components.TranslateAlert.3
+            {
+                TranslateAlert.this = this;
+            }
+
+            @Override // org.telegram.ui.Components.TranslateAlert.InlineLoadingTextView
+            protected void onLoadAnimation(float f) {
+                ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) TranslateAlert.this.subtitleFromView.getLayoutParams();
+                if (marginLayoutParams != null) {
+                    if (LocaleController.isRTL) {
+                        marginLayoutParams.leftMargin = AndroidUtilities.dp(2.0f - (f * 6.0f));
+                    } else {
+                        marginLayoutParams.rightMargin = AndroidUtilities.dp(2.0f - (f * 6.0f));
+                    }
+                    TranslateAlert.this.subtitleFromView.setLayoutParams(marginLayoutParams);
+                }
+            }
+        };
+        this.subtitleFromView = inlineLoadingTextView;
+        inlineLoadingTextView.showLoadingText = false;
         ImageView imageView = new ImageView(context);
         this.subtitleArrowView = imageView;
-        imageView.setImageResource(2131166125);
+        imageView.setImageResource(R.drawable.search_arrow);
         this.subtitleArrowView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("player_actionBarSubtitle"), PorterDuff.Mode.MULTIPLY));
         if (LocaleController.isRTL) {
             this.subtitleArrowView.setScaleX(-1.0f);
@@ -418,42 +492,99 @@ public class TranslateAlert extends Dialog {
         if (languageName != null) {
             this.subtitleFromView.set(languageName);
         }
-        FrameLayout frameLayout3 = this.header;
+        FrameLayout frameLayout4 = this.header;
         View view2 = this.subtitleView;
         int i6 = LocaleController.isRTL ? 5 : 3;
         int i7 = LoadingTextView2.paddingHorizontal;
         float f = AndroidUtilities.density;
         FrameLayout.LayoutParams createFrame2 = LayoutHelper.createFrame(-1, -2.0f, i6 | 48, 22.0f - (i7 / AndroidUtilities.density), 47.0f - (LoadingTextView2.paddingVertical / f), 22.0f - (i7 / f), 0.0f);
         this.subtitleLayout = createFrame2;
-        frameLayout3.addView(view2, createFrame2);
+        frameLayout4.addView(view2, createFrame2);
         ImageView imageView2 = new ImageView(context);
         this.backButton = imageView2;
-        imageView2.setImageResource(2131165449);
+        imageView2.setImageResource(R.drawable.ic_ab_back);
         this.backButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogTextBlack"), PorterDuff.Mode.MULTIPLY));
         this.backButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         this.backButton.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
         this.backButton.setBackground(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector")));
         this.backButton.setClickable(false);
         this.backButton.setAlpha(0.0f);
-        this.backButton.setOnClickListener(new TranslateAlert$$ExternalSyntheticLambda2(this));
+        this.backButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view3) {
+                TranslateAlert.this.lambda$new$2(view3);
+            }
+        });
         this.header.addView(this.backButton, LayoutHelper.createFrame(56, 56, 3));
-        FrameLayout frameLayout4 = new FrameLayout(context);
-        this.headerShadowView = frameLayout4;
-        frameLayout4.setBackgroundColor(Theme.getColor("dialogShadowLine"));
+        FrameLayout frameLayout5 = new FrameLayout(context);
+        this.headerShadowView = frameLayout5;
+        frameLayout5.setBackgroundColor(Theme.getColor("dialogShadowLine"));
         this.headerShadowView.setAlpha(0.0f);
         this.header.addView(this.headerShadowView, LayoutHelper.createFrame(-1, 1, 87));
         this.header.setClipChildren(false);
-        FrameLayout frameLayout5 = this.container;
+        FrameLayout frameLayout6 = this.container;
         View view3 = this.header;
         FrameLayout.LayoutParams createFrame3 = LayoutHelper.createFrame(-1, 70, 55);
         this.headerLayout = createFrame3;
-        frameLayout5.addView(view3, createFrame3);
-        AnonymousClass4 anonymousClass4 = new AnonymousClass4(context);
-        this.scrollView = anonymousClass4;
-        anonymousClass4.setClipChildren(true);
-        AnonymousClass5 anonymousClass5 = new AnonymousClass5(context);
-        this.allTextsView = anonymousClass5;
-        this.links = new LinkSpanDrawable.LinkCollector(anonymousClass5);
+        frameLayout6.addView(view3, createFrame3);
+        NestedScrollView nestedScrollView = new NestedScrollView(context) { // from class: org.telegram.ui.Components.TranslateAlert.4
+            {
+                TranslateAlert.this = this;
+            }
+
+            @Override // androidx.core.widget.NestedScrollView, android.view.ViewGroup
+            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                return TranslateAlert.this.allowScroll && TranslateAlert.this.containerOpenAnimationT >= 1.0f && TranslateAlert.this.canExpand() && super.onInterceptTouchEvent(motionEvent);
+            }
+
+            @Override // androidx.core.widget.NestedScrollView, android.view.ViewGroup, android.view.ViewParent, androidx.core.view.NestedScrollingParent
+            public void onNestedScroll(View view4, int i8, int i9, int i10, int i11) {
+                super.onNestedScroll(view4, i8, i9, i10, i11);
+            }
+
+            @Override // androidx.core.widget.NestedScrollView, android.view.View
+            public void onScrollChanged(int i8, int i9, int i10, int i11) {
+                super.onScrollChanged(i8, i9, i10, i11);
+                if (TranslateAlert.this.checkForNextLoading()) {
+                    TranslateAlert.this.openAnimationTo(1.0f, true);
+                }
+            }
+        };
+        this.scrollView = nestedScrollView;
+        nestedScrollView.setClipChildren(true);
+        TextView textView3 = new TextView(context) { // from class: org.telegram.ui.Components.TranslateAlert.5
+            {
+                TranslateAlert.this = this;
+            }
+
+            @Override // android.widget.TextView, android.view.View
+            protected void onMeasure(int i8, int i9) {
+                super.onMeasure(i8, TranslateAlert.MOST_SPEC);
+            }
+
+            @Override // android.widget.TextView, android.view.View
+            protected void onDraw(Canvas canvas) {
+                super.onDraw(canvas);
+                canvas.translate(getPaddingLeft(), getPaddingTop());
+                if (TranslateAlert.this.links == null || !TranslateAlert.this.links.draw(canvas)) {
+                    return;
+                }
+                invalidate();
+            }
+
+            @Override // android.widget.TextView
+            public boolean onTextContextMenuItem(int i8) {
+                if (i8 == 16908321 && isFocused()) {
+                    ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", getText().subSequence(Math.max(0, Math.min(getSelectionStart(), getSelectionEnd())), Math.max(0, Math.max(getSelectionStart(), getSelectionEnd())))));
+                    BulletinFactory.of(TranslateAlert.this.bulletinContainer, null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
+                    clearFocus();
+                    return true;
+                }
+                return super.onTextContextMenuItem(i8);
+            }
+        };
+        this.allTextsView = textView3;
+        this.links = new LinkSpanDrawable.LinkCollector(textView3);
         this.allTextsView.setTextColor(0);
         this.allTextsView.setTextSize(1, 16.0f);
         this.allTextsView.setTextIsSelectable(!z);
@@ -485,91 +616,46 @@ public class TranslateAlert extends Dialog {
         while (it.hasNext()) {
             this.textsView.addBlock(it.next());
         }
-        FrameLayout frameLayout6 = new FrameLayout(context);
-        this.textsContainerView = frameLayout6;
-        frameLayout6.addView(this.textsView, LayoutHelper.createFrame(-1, -2.0f));
+        FrameLayout frameLayout7 = new FrameLayout(context);
+        this.textsContainerView = frameLayout7;
+        frameLayout7.addView(this.textsView, LayoutHelper.createFrame(-1, -2.0f));
         this.scrollView.addView(this.textsContainerView, LayoutHelper.createLinear(-1, -2, 1.0f));
-        FrameLayout frameLayout7 = this.container;
+        FrameLayout frameLayout8 = this.container;
         View view4 = this.scrollView;
         FrameLayout.LayoutParams createFrame4 = LayoutHelper.createFrame(-1, -2.0f, 119, 0.0f, 70.0f, 0.0f, 81.0f);
         this.scrollViewLayout = createFrame4;
-        frameLayout7.addView(view4, createFrame4);
+        frameLayout8.addView(view4, createFrame4);
         fetchNext();
-        FrameLayout frameLayout8 = new FrameLayout(context);
-        this.buttonShadowView = frameLayout8;
-        frameLayout8.setBackgroundColor(Theme.getColor("dialogShadowLine"));
+        FrameLayout frameLayout9 = new FrameLayout(context);
+        this.buttonShadowView = frameLayout9;
+        frameLayout9.setBackgroundColor(Theme.getColor("dialogShadowLine"));
         this.container.addView(this.buttonShadowView, LayoutHelper.createFrame(-1, 1.0f, 87, 0.0f, 0.0f, 0.0f, 80.0f));
-        TextView textView3 = new TextView(context);
-        this.buttonTextView = textView3;
-        textView3.setLines(1);
+        TextView textView4 = new TextView(context);
+        this.buttonTextView = textView4;
+        textView4.setLines(1);
         this.buttonTextView.setSingleLine(true);
         this.buttonTextView.setGravity(1);
         this.buttonTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.buttonTextView.setGravity(17);
         this.buttonTextView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
-        this.buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.buttonTextView.setTextSize(1, 14.0f);
-        this.buttonTextView.setText(LocaleController.getString("CloseTranslation", 2131625185));
-        FrameLayout frameLayout9 = new FrameLayout(context);
-        this.buttonView = frameLayout9;
-        frameLayout9.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor("featuredStickers_addButton"), 4.0f));
+        this.buttonTextView.setText(LocaleController.getString("CloseTranslation", R.string.CloseTranslation));
+        FrameLayout frameLayout10 = new FrameLayout(context);
+        this.buttonView = frameLayout10;
+        frameLayout10.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor("featuredStickers_addButton"), 4.0f));
         this.buttonView.addView(this.buttonTextView);
-        this.buttonView.setOnClickListener(new TranslateAlert$$ExternalSyntheticLambda3(this));
+        this.buttonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view5) {
+                TranslateAlert.this.lambda$new$3(view5);
+            }
+        });
         this.container.addView(this.buttonView, LayoutHelper.createFrame(-1, 48.0f, 80, 16.0f, 16.0f, 16.0f, 16.0f));
         this.contentView.addView(this.container, LayoutHelper.createFrame(-1, -2, 81));
-        FrameLayout frameLayout10 = new FrameLayout(context);
-        this.bulletinContainer = frameLayout10;
-        this.contentView.addView(frameLayout10, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 0.0f, 0.0f, 81.0f));
-    }
-
-    /* renamed from: org.telegram.ui.Components.TranslateAlert$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends FrameLayout {
-        final /* synthetic */ Paint val$containerPaint;
-        private int contentHeight = Integer.MAX_VALUE;
-        private RectF containerRect = new RectF();
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context, Paint paint) {
-            super(context);
-            TranslateAlert.this = r1;
-            this.val$containerPaint = paint;
-            new Path();
-            new RectF();
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            int size = View.MeasureSpec.getSize(i);
-            View.MeasureSpec.getSize(i);
-            int i3 = (int) (AndroidUtilities.displayMetrics.heightPixels * TranslateAlert.this.heightMaxPercent);
-            if (TranslateAlert.this.textsView != null && TranslateAlert.this.textsView.getMeasuredHeight() <= 0) {
-                TranslateAlert.this.textsView.measure(View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i) - TranslateAlert.this.textsView.getPaddingLeft()) - TranslateAlert.this.textsView.getPaddingRight()) - TranslateAlert.this.textsContainerView.getPaddingLeft()) - TranslateAlert.this.textsContainerView.getPaddingRight(), 1073741824), 0);
-            }
-            int min = Math.min(i3, TranslateAlert.this.minHeight());
-            int i4 = (int) (min + ((AndroidUtilities.displayMetrics.heightPixels - min) * TranslateAlert.this.containerOpenAnimationT));
-            TranslateAlert.this.updateCanExpand();
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) Math.max(size * 0.8f, Math.min(AndroidUtilities.dp(480.0f), size)), View.MeasureSpec.getMode(i)), View.MeasureSpec.makeMeasureSpec(i4, 1073741824));
-        }
-
-        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            super.onLayout(z, i, i2, i3, i4);
-            this.contentHeight = Math.min(this.contentHeight, i4 - i2);
-        }
-
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            int width = getWidth();
-            int height = getHeight();
-            int dp = AndroidUtilities.dp((1.0f - TranslateAlert.this.containerOpenAnimationT) * 12.0f);
-            canvas.clipRect(0, 0, width, height);
-            this.containerRect.set(0.0f, 0.0f, width, height + dp);
-            canvas.translate(0.0f, (1.0f - TranslateAlert.this.openingT) * height);
-            float f = dp;
-            canvas.drawRoundRect(this.containerRect, f, f, this.val$containerPaint);
-            super.onDraw(canvas);
-        }
+        FrameLayout frameLayout11 = new FrameLayout(context);
+        this.bulletinContainer = frameLayout11;
+        this.contentView.addView(frameLayout11, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 0.0f, 0.0f, 81.0f));
     }
 
     public /* synthetic */ void lambda$new$1() {
@@ -577,95 +663,8 @@ public class TranslateAlert extends Dialog {
         textView.setPivotX(LocaleController.isRTL ? textView.getWidth() : 0.0f);
     }
 
-    /* renamed from: org.telegram.ui.Components.TranslateAlert$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends InlineLoadingTextView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(Context context, CharSequence charSequence, int i, int i2) {
-            super(context, charSequence, i, i2);
-            TranslateAlert.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.TranslateAlert.InlineLoadingTextView
-        protected void onLoadAnimation(float f) {
-            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) TranslateAlert.this.subtitleFromView.getLayoutParams();
-            if (marginLayoutParams != null) {
-                if (LocaleController.isRTL) {
-                    marginLayoutParams.leftMargin = AndroidUtilities.dp(2.0f - (f * 6.0f));
-                } else {
-                    marginLayoutParams.rightMargin = AndroidUtilities.dp(2.0f - (f * 6.0f));
-                }
-                TranslateAlert.this.subtitleFromView.setLayoutParams(marginLayoutParams);
-            }
-        }
-    }
-
     public /* synthetic */ void lambda$new$2(View view) {
         dismiss();
-    }
-
-    /* renamed from: org.telegram.ui.Components.TranslateAlert$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends NestedScrollView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass4(Context context) {
-            super(context);
-            TranslateAlert.this = r1;
-        }
-
-        @Override // androidx.core.widget.NestedScrollView, android.view.ViewGroup
-        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            return TranslateAlert.this.allowScroll && TranslateAlert.this.containerOpenAnimationT >= 1.0f && TranslateAlert.this.canExpand() && super.onInterceptTouchEvent(motionEvent);
-        }
-
-        @Override // androidx.core.widget.NestedScrollView, android.view.ViewGroup, android.view.ViewParent, androidx.core.view.NestedScrollingParent
-        public void onNestedScroll(View view, int i, int i2, int i3, int i4) {
-            super.onNestedScroll(view, i, i2, i3, i4);
-        }
-
-        @Override // androidx.core.widget.NestedScrollView, android.view.View
-        public void onScrollChanged(int i, int i2, int i3, int i4) {
-            super.onScrollChanged(i, i2, i3, i4);
-            if (TranslateAlert.this.checkForNextLoading()) {
-                TranslateAlert.this.openAnimationTo(1.0f, true);
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TranslateAlert$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends TextView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass5(Context context) {
-            super(context);
-            TranslateAlert.this = r1;
-        }
-
-        @Override // android.widget.TextView, android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(i, TranslateAlert.MOST_SPEC);
-        }
-
-        @Override // android.widget.TextView, android.view.View
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            canvas.translate(getPaddingLeft(), getPaddingTop());
-            if (TranslateAlert.this.links == null || !TranslateAlert.this.links.draw(canvas)) {
-                return;
-            }
-            invalidate();
-        }
-
-        @Override // android.widget.TextView
-        public boolean onTextContextMenuItem(int i) {
-            if (i == 16908321 && isFocused()) {
-                ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", getText().subSequence(Math.max(0, Math.min(getSelectionStart(), getSelectionEnd())), Math.max(0, Math.max(getSelectionStart(), getSelectionEnd())))));
-                BulletinFactory.of(TranslateAlert.this.bulletinContainer, null).createCopyBulletin(LocaleController.getString("TextCopied", 2131628663)).show();
-                clearFocus();
-                return true;
-            }
-            return super.onTextContextMenuItem(i);
-        }
     }
 
     public /* synthetic */ void lambda$new$3(View view) {
@@ -835,7 +834,12 @@ public class TranslateAlert extends Dialog {
                             } else {
                                 f = Math.round(this.fromScrollY);
                             }
-                            scrollYTo(f, new TranslateAlert$$ExternalSyntheticLambda7(this));
+                            scrollYTo(f, new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda7
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    TranslateAlert.this.lambda$dispatchTouchEvent$4();
+                                }
+                            });
                         }
                         return true;
                     }
@@ -867,7 +871,7 @@ public class TranslateAlert extends Dialog {
         this.contentView.setPadding(0, 0, 0, 0);
         setContentView(this.contentView, new ViewGroup.LayoutParams(-1, -1));
         Window window = getWindow();
-        window.setWindowAnimations(2131689478);
+        window.setWindowAnimations(R.style.DialogNoAnimation);
         WindowManager.LayoutParams attributes = window.getAttributes();
         attributes.width = -1;
         attributes.gravity = 51;
@@ -890,22 +894,6 @@ public class TranslateAlert extends Dialog {
         this.container.forceLayout();
     }
 
-    /* renamed from: org.telegram.ui.Components.TranslateAlert$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 extends ColorDrawable {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass6(int i) {
-            super(i);
-            TranslateAlert.this = r1;
-        }
-
-        @Override // android.graphics.drawable.ColorDrawable, android.graphics.drawable.Drawable
-        public void setAlpha(int i) {
-            super.setAlpha(i);
-            TranslateAlert.this.container.invalidate();
-        }
-    }
-
     @Override // android.app.Dialog
     public void show() {
         super.show();
@@ -926,9 +914,9 @@ public class TranslateAlert extends Dialog {
         openTo(f, z, false);
     }
 
-    private void openTo(float f, boolean z, boolean z2) {
+    private void openTo(float f, boolean z, final boolean z2) {
         Runnable runnable;
-        float min = Math.min(Math.max(f, 0.0f), 1.0f);
+        final float min = Math.min(Math.max(f, 0.0f), 1.0f);
         if (!this.openingAnimatorPriority || z) {
             this.openingAnimatorPriority = z;
             ValueAnimator valueAnimator = this.openingAnimator;
@@ -937,11 +925,33 @@ public class TranslateAlert extends Dialog {
             }
             this.openingAnimator = ValueAnimator.ofFloat(this.openingT, min);
             this.backDrawable.setAlpha((int) (this.openingT * 51.0f));
-            this.openingAnimator.addUpdateListener(new TranslateAlert$$ExternalSyntheticLambda1(this));
+            this.openingAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda1
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    TranslateAlert.this.lambda$openTo$5(valueAnimator2);
+                }
+            });
             if (min <= 0.0f && (runnable = this.onDismiss) != null) {
                 runnable.run();
             }
-            this.openingAnimator.addListener(new AnonymousClass7(min, z2));
+            this.openingAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.TranslateAlert.7
+                {
+                    TranslateAlert.this = this;
+                }
+
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    if (min <= 0.0f) {
+                        TranslateAlert.this.dismissInternal();
+                    } else if (z2) {
+                        TranslateAlert.this.allTextsView.setTextIsSelectable(!TranslateAlert.this.noforwards);
+                        TranslateAlert.this.allTextsView.invalidate();
+                        TranslateAlert.this.scrollView.stopNestedScroll();
+                        TranslateAlert.this.openAnimation(min - 1.0f);
+                    }
+                    TranslateAlert.this.openingAnimatorPriority = false;
+                }
+            });
             this.openingAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             this.openingAnimator.setDuration(Math.abs(this.openingT - min) * (this.fastHide ? 200 : 380));
             this.openingAnimator.setStartDelay(z2 ? 60L : 0L);
@@ -954,32 +964,6 @@ public class TranslateAlert extends Dialog {
         this.container.invalidate();
         this.backDrawable.setAlpha((int) (this.openingT * 51.0f));
         this.bulletinContainer.setTranslationY((1.0f - this.openingT) * Math.min(minHeight(), AndroidUtilities.displayMetrics.heightPixels * this.heightMaxPercent));
-    }
-
-    /* renamed from: org.telegram.ui.Components.TranslateAlert$7 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass7 extends AnimatorListenerAdapter {
-        final /* synthetic */ float val$T;
-        final /* synthetic */ boolean val$setAfter;
-
-        AnonymousClass7(float f, boolean z) {
-            TranslateAlert.this = r1;
-            this.val$T = f;
-            this.val$setAfter = z;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (this.val$T <= 0.0f) {
-                TranslateAlert.this.dismissInternal();
-            } else if (this.val$setAfter) {
-                TranslateAlert.this.allTextsView.setTextIsSelectable(!TranslateAlert.this.noforwards);
-                TranslateAlert.this.allTextsView.invalidate();
-                TranslateAlert.this.scrollView.stopNestedScroll();
-                TranslateAlert.this.openAnimation(this.val$T - 1.0f);
-            }
-            TranslateAlert.this.openingAnimatorPriority = false;
-        }
     }
 
     public void dismissInternal() {
@@ -1054,7 +1038,17 @@ public class TranslateAlert extends Dialog {
         if (this.blockIndex >= this.textBlocks.size()) {
             return false;
         }
-        fetchTranslation(this.textBlocks.get(this.blockIndex), Math.min((this.blockIndex + 1) * 1000, 3500), new TranslateAlert$$ExternalSyntheticLambda14(this), new TranslateAlert$$ExternalSyntheticLambda13(this));
+        fetchTranslation(this.textBlocks.get(this.blockIndex), Math.min((this.blockIndex + 1) * 1000, 3500), new OnTranslationSuccess() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda14
+            @Override // org.telegram.ui.Components.TranslateAlert.OnTranslationSuccess
+            public final void run(String str, String str2) {
+                TranslateAlert.this.lambda$fetchNext$7(str, str2);
+            }
+        }, new OnTranslationFail() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda13
+            @Override // org.telegram.ui.Components.TranslateAlert.OnTranslationFail
+            public final void run(boolean z) {
+                TranslateAlert.this.lambda$fetchNext$8(z);
+            }
+        });
         return true;
     }
 
@@ -1066,21 +1060,67 @@ public class TranslateAlert extends Dialog {
         Spannable spannableStringBuilder = new SpannableStringBuilder(str);
         try {
             MessageObject.addUrlsByPattern(false, spannableStringBuilder, false, 0, 0, true);
-            for (URLSpan uRLSpan : (URLSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), URLSpan.class)) {
+            for (final URLSpan uRLSpan : (URLSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), URLSpan.class)) {
                 int spanStart = spannableStringBuilder.getSpanStart(uRLSpan);
                 int spanEnd = spannableStringBuilder.getSpanEnd(uRLSpan);
                 if (spanStart != -1 && spanEnd != -1) {
                     spannableStringBuilder.removeSpan(uRLSpan);
-                    spannableStringBuilder.setSpan(new AnonymousClass8(uRLSpan), spanStart, spanEnd, 33);
+                    spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.TranslateAlert.8
+                        {
+                            TranslateAlert.this = this;
+                        }
+
+                        @Override // android.text.style.ClickableSpan
+                        public void onClick(View view) {
+                            if (TranslateAlert.this.onLinkPress != null) {
+                                if (!TranslateAlert.this.onLinkPress.run(uRLSpan)) {
+                                    return;
+                                }
+                                TranslateAlert.this.fastHide = true;
+                                TranslateAlert.this.dismiss();
+                                return;
+                            }
+                            AlertsCreator.showOpenUrlAlert(TranslateAlert.this.fragment, uRLSpan.getURL(), false, false);
+                        }
+
+                        @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+                        public void updateDrawState(TextPaint textPaint) {
+                            int min = Math.min(textPaint.getAlpha(), (textPaint.getColor() >> 24) & 255);
+                            if (!(uRLSpan instanceof URLSpanNoUnderline)) {
+                                textPaint.setUnderlineText(true);
+                            }
+                            textPaint.setColor(Theme.getColor("dialogTextLink"));
+                            textPaint.setAlpha(min);
+                        }
+                    }, spanStart, spanEnd, 33);
                 }
             }
             AndroidUtilities.addLinks(spannableStringBuilder, 1);
-            for (URLSpan uRLSpan2 : (URLSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), URLSpan.class)) {
+            for (final URLSpan uRLSpan2 : (URLSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), URLSpan.class)) {
                 int spanStart2 = spannableStringBuilder.getSpanStart(uRLSpan2);
                 int spanEnd2 = spannableStringBuilder.getSpanEnd(uRLSpan2);
                 if (spanStart2 != -1 && spanEnd2 != -1) {
                     spannableStringBuilder.removeSpan(uRLSpan2);
-                    spannableStringBuilder.setSpan(new AnonymousClass9(uRLSpan2), spanStart2, spanEnd2, 33);
+                    spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.TranslateAlert.9
+                        {
+                            TranslateAlert.this = this;
+                        }
+
+                        @Override // android.text.style.ClickableSpan
+                        public void onClick(View view) {
+                            AlertsCreator.showOpenUrlAlert(TranslateAlert.this.fragment, uRLSpan2.getURL(), false, false);
+                        }
+
+                        @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+                        public void updateDrawState(TextPaint textPaint) {
+                            int min = Math.min(textPaint.getAlpha(), (textPaint.getColor() >> 24) & 255);
+                            if (!(uRLSpan2 instanceof URLSpanNoUnderline)) {
+                                textPaint.setUnderlineText(true);
+                            }
+                            textPaint.setColor(Theme.getColor("dialogTextLink"));
+                            textPaint.setAlpha(min);
+                        }
+                    }, spanStart2, spanEnd2, 33);
                 }
             }
             spannableStringBuilder = (Spannable) Emoji.replaceEmoji(spannableStringBuilder, this.allTextsView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false);
@@ -1100,7 +1140,12 @@ public class TranslateAlert extends Dialog {
         this.textsView.setWholeText(spannableStringBuilder2);
         LoadingTextView2 blockAt = this.textsView.getBlockAt(this.blockIndex);
         if (blockAt != null) {
-            blockAt.loaded(spannableStringBuilder, new TranslateAlert$$ExternalSyntheticLambda9(this));
+            blockAt.loaded(spannableStringBuilder, new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda9
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TranslateAlert.this.lambda$fetchNext$6();
+                }
+            });
         }
         if (str2 != null) {
             this.fromLanguage = str2;
@@ -1113,75 +1158,15 @@ public class TranslateAlert extends Dialog {
         this.loading = false;
     }
 
-    /* renamed from: org.telegram.ui.Components.TranslateAlert$8 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass8 extends ClickableSpan {
-        final /* synthetic */ URLSpan val$urlSpan;
-
-        AnonymousClass8(URLSpan uRLSpan) {
-            TranslateAlert.this = r1;
-            this.val$urlSpan = uRLSpan;
-        }
-
-        @Override // android.text.style.ClickableSpan
-        public void onClick(View view) {
-            if (TranslateAlert.this.onLinkPress != null) {
-                if (!TranslateAlert.this.onLinkPress.run(this.val$urlSpan)) {
-                    return;
-                }
-                TranslateAlert.this.fastHide = true;
-                TranslateAlert.this.dismiss();
-                return;
-            }
-            AlertsCreator.showOpenUrlAlert(TranslateAlert.this.fragment, this.val$urlSpan.getURL(), false, false);
-        }
-
-        @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
-        public void updateDrawState(TextPaint textPaint) {
-            int min = Math.min(textPaint.getAlpha(), (textPaint.getColor() >> 24) & 255);
-            if (!(this.val$urlSpan instanceof URLSpanNoUnderline)) {
-                textPaint.setUnderlineText(true);
-            }
-            textPaint.setColor(Theme.getColor("dialogTextLink"));
-            textPaint.setAlpha(min);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TranslateAlert$9 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass9 extends ClickableSpan {
-        final /* synthetic */ URLSpan val$urlSpan;
-
-        AnonymousClass9(URLSpan uRLSpan) {
-            TranslateAlert.this = r1;
-            this.val$urlSpan = uRLSpan;
-        }
-
-        @Override // android.text.style.ClickableSpan
-        public void onClick(View view) {
-            AlertsCreator.showOpenUrlAlert(TranslateAlert.this.fragment, this.val$urlSpan.getURL(), false, false);
-        }
-
-        @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
-        public void updateDrawState(TextPaint textPaint) {
-            int min = Math.min(textPaint.getAlpha(), (textPaint.getColor() >> 24) & 255);
-            if (!(this.val$urlSpan instanceof URLSpanNoUnderline)) {
-                textPaint.setUnderlineText(true);
-            }
-            textPaint.setColor(Theme.getColor("dialogTextLink"));
-            textPaint.setAlpha(min);
-        }
-    }
-
     public /* synthetic */ void lambda$fetchNext$6() {
         this.contentView.post(new TranslateAlert$$ExternalSyntheticLambda10(this));
     }
 
     public /* synthetic */ void lambda$fetchNext$8(boolean z) {
         if (z) {
-            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert1", 2131628763), 0).show();
+            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert1", R.string.TranslationFailedAlert1), 0).show();
         } else {
-            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert2", 2131628764), 0).show();
+            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2), 0).show();
         }
         if (this.blockIndex == 0) {
             dismiss();
@@ -1196,20 +1181,25 @@ public class TranslateAlert extends Dialog {
         return false;
     }
 
-    private void fetchTranslation(CharSequence charSequence, long j, OnTranslationSuccess onTranslationSuccess, OnTranslationFail onTranslationFail) {
+    private void fetchTranslation(final CharSequence charSequence, final long j, final OnTranslationSuccess onTranslationSuccess, final OnTranslationFail onTranslationFail) {
         if (!translateQueue.isAlive()) {
             translateQueue.start();
         }
-        translateQueue.postRunnable(new TranslateAlert$$ExternalSyntheticLambda11(this, charSequence, onTranslationSuccess, j, onTranslationFail));
+        translateQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda11
+            @Override // java.lang.Runnable
+            public final void run() {
+                TranslateAlert.this.lambda$fetchTranslation$12(charSequence, onTranslationSuccess, j, onTranslationFail);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$fetchTranslation$12(CharSequence charSequence, OnTranslationSuccess onTranslationSuccess, long j, OnTranslationFail onTranslationFail) {
+    public /* synthetic */ void lambda$fetchTranslation$12(CharSequence charSequence, final OnTranslationSuccess onTranslationSuccess, long j, final OnTranslationFail onTranslationFail) {
         HttpURLConnection httpURLConnection;
         Exception exc;
-        String str;
+        final String str;
         long elapsedRealtime = SystemClock.elapsedRealtime();
         String str2 = null;
-        boolean z = false;
+        final boolean z = false;
         try {
             httpURLConnection = (HttpURLConnection) new URI((((("https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + Uri.encode(this.fromLanguage)) + "&tl=") + Uri.encode(this.toLanguage)) + "&dt=t&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&kc=7&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&q=") + Uri.encode(charSequence.toString())).toURL().openConnection();
             try {
@@ -1246,19 +1236,25 @@ public class TranslateAlert extends Dialog {
                 if (charSequence.length() > 0 && charSequence.charAt(0) == '\n') {
                     sb2.insert(0, "\n");
                 }
-                AndroidUtilities.runOnUIThread(new TranslateAlert$$ExternalSyntheticLambda6(onTranslationSuccess, sb2.toString(), str), Math.max(0L, j - (SystemClock.elapsedRealtime() - elapsedRealtime)));
+                final String sb3 = sb2.toString();
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda6
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        TranslateAlert.lambda$fetchTranslation$9(TranslateAlert.OnTranslationSuccess.this, sb3, str);
+                    }
+                }, Math.max(0L, j - (SystemClock.elapsedRealtime() - elapsedRealtime)));
             } catch (Exception e) {
                 exc = e;
                 try {
-                    StringBuilder sb3 = new StringBuilder();
-                    sb3.append("failed to translate a text ");
-                    sb3.append(httpURLConnection != null ? Integer.valueOf(httpURLConnection.getResponseCode()) : null);
-                    sb3.append(" ");
+                    StringBuilder sb4 = new StringBuilder();
+                    sb4.append("failed to translate a text ");
+                    sb4.append(httpURLConnection != null ? Integer.valueOf(httpURLConnection.getResponseCode()) : null);
+                    sb4.append(" ");
                     if (httpURLConnection != null) {
                         str2 = httpURLConnection.getResponseMessage();
                     }
-                    sb3.append(str2);
-                    Log.e("translate", sb3.toString());
+                    sb4.append(str2);
+                    Log.e("translate", sb4.toString());
                 } catch (IOException e2) {
                     e2.printStackTrace();
                 }
@@ -1272,11 +1268,21 @@ public class TranslateAlert extends Dialog {
                             z = true;
                         }
                     } catch (Exception unused2) {
-                        AndroidUtilities.runOnUIThread(new TranslateAlert$$ExternalSyntheticLambda4(onTranslationFail));
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda4
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                TranslateAlert.OnTranslationFail.this.run(false);
+                            }
+                        });
                         return;
                     }
                 }
-                AndroidUtilities.runOnUIThread(new TranslateAlert$$ExternalSyntheticLambda5(onTranslationFail, z));
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        TranslateAlert.OnTranslationFail.this.run(z);
+                    }
+                });
             }
         } catch (Exception e3) {
             exc = e3;
@@ -1490,62 +1496,51 @@ public class TranslateAlert extends Dialog {
             setPadding(i3, 0, i3, 0);
             setClipChildren(false);
             setWillNotDraw(false);
-            AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
-            this.fromTextView = anonymousClass1;
+            TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Components.TranslateAlert.InlineLoadingTextView.1
+                @Override // android.widget.TextView, android.view.View
+                protected void onMeasure(int i4, int i5) {
+                    super.onMeasure(TranslateAlert.MOST_SPEC, TranslateAlert.MOST_SPEC);
+                }
+            };
+            this.fromTextView = textView;
             float f = i;
-            anonymousClass1.setTextSize(0, f);
-            anonymousClass1.setTextColor(i2);
-            anonymousClass1.setText(charSequence);
-            anonymousClass1.setLines(1);
-            anonymousClass1.setMaxLines(1);
-            anonymousClass1.setSingleLine(true);
-            anonymousClass1.setEllipsize(null);
-            anonymousClass1.setFocusable(false);
-            anonymousClass1.setImportantForAccessibility(2);
-            addView(anonymousClass1);
-            AnonymousClass2 anonymousClass2 = new AnonymousClass2(this, context);
-            this.toTextView = anonymousClass2;
-            anonymousClass2.setTextSize(0, f);
-            anonymousClass2.setTextColor(i2);
-            anonymousClass2.setLines(1);
-            anonymousClass2.setMaxLines(1);
-            anonymousClass2.setSingleLine(true);
-            anonymousClass2.setEllipsize(null);
-            anonymousClass2.setFocusable(true);
-            addView(anonymousClass2);
+            textView.setTextSize(0, f);
+            textView.setTextColor(i2);
+            textView.setText(charSequence);
+            textView.setLines(1);
+            textView.setMaxLines(1);
+            textView.setSingleLine(true);
+            textView.setEllipsize(null);
+            textView.setFocusable(false);
+            textView.setImportantForAccessibility(2);
+            addView(textView);
+            TextView textView2 = new TextView(this, context) { // from class: org.telegram.ui.Components.TranslateAlert.InlineLoadingTextView.2
+                @Override // android.widget.TextView, android.view.View
+                protected void onMeasure(int i4, int i5) {
+                    super.onMeasure(TranslateAlert.MOST_SPEC, TranslateAlert.MOST_SPEC);
+                }
+            };
+            this.toTextView = textView2;
+            textView2.setTextSize(0, f);
+            textView2.setTextColor(i2);
+            textView2.setLines(1);
+            textView2.setMaxLines(1);
+            textView2.setSingleLine(true);
+            textView2.setEllipsize(null);
+            textView2.setFocusable(true);
+            addView(textView2);
             int color = Theme.getColor("dialogBackground");
             paint.setShader(new LinearGradient(0.0f, 0.0f, dp, 0.0f, new int[]{color, Theme.getColor("dialogBackgroundGray"), color}, new float[]{0.0f, 0.67f, 1.0f}, Shader.TileMode.REPEAT));
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.loadingAnimator = ofFloat;
-            ofFloat.addUpdateListener(new TranslateAlert$InlineLoadingTextView$$ExternalSyntheticLambda0(this));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TranslateAlert$InlineLoadingTextView$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    TranslateAlert.InlineLoadingTextView.this.lambda$new$0(valueAnimator);
+                }
+            });
             ofFloat.setDuration(Long.MAX_VALUE);
             ofFloat.start();
-        }
-
-        /* renamed from: org.telegram.ui.Components.TranslateAlert$InlineLoadingTextView$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends TextView {
-            AnonymousClass1(InlineLoadingTextView inlineLoadingTextView, Context context) {
-                super(context);
-            }
-
-            @Override // android.widget.TextView, android.view.View
-            protected void onMeasure(int i, int i2) {
-                super.onMeasure(TranslateAlert.MOST_SPEC, TranslateAlert.MOST_SPEC);
-            }
-        }
-
-        /* renamed from: org.telegram.ui.Components.TranslateAlert$InlineLoadingTextView$2 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends TextView {
-            AnonymousClass2(InlineLoadingTextView inlineLoadingTextView, Context context) {
-                super(context);
-            }
-
-            @Override // android.widget.TextView, android.view.View
-            protected void onMeasure(int i, int i2) {
-                super.onMeasure(TranslateAlert.MOST_SPEC, TranslateAlert.MOST_SPEC);
-            }
         }
 
         public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
@@ -1589,7 +1584,7 @@ public class TranslateAlert extends Dialog {
             loaded(charSequence, 350L, null);
         }
 
-        public void loaded(CharSequence charSequence, long j, Runnable runnable) {
+        public void loaded(CharSequence charSequence, long j, final Runnable runnable) {
             this.loaded = true;
             this.toTextView.setText(charSequence);
             if (this.loadingAnimator.isRunning()) {
@@ -1598,8 +1593,21 @@ public class TranslateAlert extends Dialog {
             if (this.loadedAnimator == null) {
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.loadedAnimator = ofFloat;
-                ofFloat.addUpdateListener(new TranslateAlert$InlineLoadingTextView$$ExternalSyntheticLambda1(this));
-                this.loadedAnimator.addListener(new AnonymousClass3(this, runnable));
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TranslateAlert$InlineLoadingTextView$$ExternalSyntheticLambda1
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        TranslateAlert.InlineLoadingTextView.this.lambda$loaded$1(valueAnimator);
+                    }
+                });
+                this.loadedAnimator.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.TranslateAlert.InlineLoadingTextView.3
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        Runnable runnable2 = runnable;
+                        if (runnable2 != null) {
+                            runnable2.run();
+                        }
+                    }
+                });
                 this.loadedAnimator.setDuration(j);
                 this.loadedAnimator.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
                 this.loadedAnimator.start();
@@ -1611,24 +1619,6 @@ public class TranslateAlert extends Dialog {
             updateWidth();
             invalidate();
             onLoadAnimation(this.loadingT);
-        }
-
-        /* renamed from: org.telegram.ui.Components.TranslateAlert$InlineLoadingTextView$3 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass3 extends AnimatorListenerAdapter {
-            final /* synthetic */ Runnable val$onLoadEnd;
-
-            AnonymousClass3(InlineLoadingTextView inlineLoadingTextView, Runnable runnable) {
-                this.val$onLoadEnd = runnable;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                Runnable runnable = this.val$onLoadEnd;
-                if (runnable != null) {
-                    runnable.run();
-                }
-            }
         }
 
         public void set(CharSequence charSequence) {
@@ -1733,7 +1723,7 @@ public class TranslateAlert extends Dialog {
             return false;
         }
 
-        public LoadingTextView2(Context context, CharSequence charSequence, boolean z, int i, int i2) {
+        public LoadingTextView2(Context context, CharSequence charSequence, final boolean z, int i, int i2) {
             super(context);
             this.scaleT = 1.0f;
             Paint paint = new Paint();
@@ -1746,30 +1736,40 @@ public class TranslateAlert extends Dialog {
             setClipChildren(false);
             setWillNotDraw(false);
             setFocusable(false);
-            AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
-            this.fromTextView = anonymousClass1;
+            TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Components.TranslateAlert.LoadingTextView2.1
+                @Override // android.widget.TextView, android.view.View
+                protected void onMeasure(int i5, int i6) {
+                    super.onMeasure(i5, TranslateAlert.MOST_SPEC);
+                }
+            };
+            this.fromTextView = textView;
             float f = i;
-            anonymousClass1.setTextSize(0, f);
-            anonymousClass1.setTextColor(i2);
-            anonymousClass1.setText(charSequence);
-            anonymousClass1.setLines(0);
-            anonymousClass1.setMaxLines(0);
-            anonymousClass1.setSingleLine(false);
-            anonymousClass1.setEllipsize(null);
-            anonymousClass1.setFocusable(false);
-            anonymousClass1.setImportantForAccessibility(2);
-            addView(anonymousClass1);
-            AnonymousClass2 anonymousClass2 = new AnonymousClass2(this, context);
-            this.toTextView = anonymousClass2;
-            anonymousClass2.setTextSize(0, f);
-            anonymousClass2.setTextColor(i2);
-            anonymousClass2.setLines(0);
-            anonymousClass2.setMaxLines(0);
-            anonymousClass2.setSingleLine(false);
-            anonymousClass2.setEllipsize(null);
-            anonymousClass2.setFocusable(false);
-            anonymousClass2.setImportantForAccessibility(2);
-            addView(anonymousClass2);
+            textView.setTextSize(0, f);
+            textView.setTextColor(i2);
+            textView.setText(charSequence);
+            textView.setLines(0);
+            textView.setMaxLines(0);
+            textView.setSingleLine(false);
+            textView.setEllipsize(null);
+            textView.setFocusable(false);
+            textView.setImportantForAccessibility(2);
+            addView(textView);
+            TextView textView2 = new TextView(this, context) { // from class: org.telegram.ui.Components.TranslateAlert.LoadingTextView2.2
+                @Override // android.widget.TextView, android.view.View
+                protected void onMeasure(int i5, int i6) {
+                    super.onMeasure(i5, TranslateAlert.MOST_SPEC);
+                }
+            };
+            this.toTextView = textView2;
+            textView2.setTextSize(0, f);
+            textView2.setTextColor(i2);
+            textView2.setLines(0);
+            textView2.setMaxLines(0);
+            textView2.setSingleLine(false);
+            textView2.setEllipsize(null);
+            textView2.setFocusable(false);
+            textView2.setImportantForAccessibility(2);
+            addView(textView2);
             int color = Theme.getColor("dialogBackground");
             paint.setShader(new LinearGradient(0.0f, 0.0f, dp, 0.0f, new int[]{color, Theme.getColor("dialogBackgroundGray"), color}, new float[]{0.0f, 0.67f, 1.0f}, Shader.TileMode.REPEAT));
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
@@ -1777,35 +1777,14 @@ public class TranslateAlert extends Dialog {
             if (z) {
                 this.scaleT = 0.0f;
             }
-            ofFloat.addUpdateListener(new TranslateAlert$LoadingTextView2$$ExternalSyntheticLambda1(this, z));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TranslateAlert$LoadingTextView2$$ExternalSyntheticLambda1
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    TranslateAlert.LoadingTextView2.this.lambda$new$0(z, valueAnimator);
+                }
+            });
             ofFloat.setDuration(Long.MAX_VALUE);
             ofFloat.start();
-        }
-
-        /* renamed from: org.telegram.ui.Components.TranslateAlert$LoadingTextView2$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends TextView {
-            AnonymousClass1(LoadingTextView2 loadingTextView2, Context context) {
-                super(context);
-            }
-
-            @Override // android.widget.TextView, android.view.View
-            protected void onMeasure(int i, int i2) {
-                super.onMeasure(i, TranslateAlert.MOST_SPEC);
-            }
-        }
-
-        /* renamed from: org.telegram.ui.Components.TranslateAlert$LoadingTextView2$2 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends TextView {
-            AnonymousClass2(LoadingTextView2 loadingTextView2, Context context) {
-                super(context);
-            }
-
-            @Override // android.widget.TextView, android.view.View
-            protected void onMeasure(int i, int i2) {
-                super.onMeasure(i, TranslateAlert.MOST_SPEC);
-            }
         }
 
         public /* synthetic */ void lambda$new$0(boolean z, ValueAnimator valueAnimator) {
@@ -1835,7 +1814,7 @@ public class TranslateAlert extends Dialog {
             }
         }
 
-        public void loaded(CharSequence charSequence, Runnable runnable) {
+        public void loaded(CharSequence charSequence, final Runnable runnable) {
             this.loaded = true;
             this.toTextView.setText(charSequence);
             layout();
@@ -1845,8 +1824,21 @@ public class TranslateAlert extends Dialog {
             if (this.loadedAnimator == null) {
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.loadedAnimator = ofFloat;
-                ofFloat.addUpdateListener(new TranslateAlert$LoadingTextView2$$ExternalSyntheticLambda0(this));
-                this.loadedAnimator.addListener(new AnonymousClass3(this, runnable));
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TranslateAlert$LoadingTextView2$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        TranslateAlert.LoadingTextView2.this.lambda$loaded$1(valueAnimator);
+                    }
+                });
+                this.loadedAnimator.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.TranslateAlert.LoadingTextView2.3
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        Runnable runnable2 = runnable;
+                        if (runnable2 != null) {
+                            runnable2.run();
+                        }
+                    }
+                });
                 this.loadedAnimator.setDuration(350L);
                 this.loadedAnimator.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
                 this.loadedAnimator.start();
@@ -1857,24 +1849,6 @@ public class TranslateAlert extends Dialog {
             this.loadingT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             updateHeight();
             invalidate();
-        }
-
-        /* renamed from: org.telegram.ui.Components.TranslateAlert$LoadingTextView2$3 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass3 extends AnimatorListenerAdapter {
-            final /* synthetic */ Runnable val$onLoadEnd;
-
-            AnonymousClass3(LoadingTextView2 loadingTextView2, Runnable runnable) {
-                this.val$onLoadEnd = runnable;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                Runnable runnable = this.val$onLoadEnd;
-                if (runnable != null) {
-                    runnable.run();
-                }
-            }
         }
 
         @Override // android.view.View

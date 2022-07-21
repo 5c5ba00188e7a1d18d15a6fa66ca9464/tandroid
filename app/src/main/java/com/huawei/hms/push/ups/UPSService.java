@@ -17,47 +17,6 @@ import com.huawei.hms.push.ups.entity.UPSUnRegisterCallBack;
 import com.huawei.hms.support.log.HMSLog;
 /* loaded from: classes.dex */
 public final class UPSService {
-
-    /* renamed from: com.huawei.hms.push.ups.UPSService$1 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass1 implements OnCompleteListener<Void> {
-        public final /* synthetic */ UPSTurnCallBack a;
-
-        public AnonymousClass1(UPSTurnCallBack uPSTurnCallBack) {
-            this.a = uPSTurnCallBack;
-        }
-
-        @Override // com.huawei.hmf.tasks.OnCompleteListener
-        public void onComplete(Task<Void> task) {
-            if (task.isSuccessful()) {
-                this.a.onResult(new CodeResult());
-                return;
-            }
-            ApiException apiException = (ApiException) task.getException();
-            this.a.onResult(new CodeResult(apiException.getStatusCode(), apiException.getMessage()));
-        }
-    }
-
-    /* renamed from: com.huawei.hms.push.ups.UPSService$2 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass2 implements OnCompleteListener<Void> {
-        public final /* synthetic */ UPSTurnCallBack a;
-
-        public AnonymousClass2(UPSTurnCallBack uPSTurnCallBack) {
-            this.a = uPSTurnCallBack;
-        }
-
-        @Override // com.huawei.hmf.tasks.OnCompleteListener
-        public void onComplete(Task<Void> task) {
-            if (task.isSuccessful()) {
-                this.a.onResult(new CodeResult());
-                return;
-            }
-            ApiException apiException = (ApiException) task.getException();
-            this.a.onResult(new CodeResult(apiException.getStatusCode(), apiException.getMessage()));
-        }
-    }
-
     public static void registerToken(Context context, String str, String str2, String str3, UPSRegisterCallBack uPSRegisterCallBack) {
         HMSLog.i("UPSService", "invoke registerToken");
         Preconditions.checkNotNull(uPSRegisterCallBack);
@@ -72,23 +31,43 @@ public final class UPSService {
         }
     }
 
-    public static void turnOffPush(Context context, UPSTurnCallBack uPSTurnCallBack) {
+    public static void turnOffPush(Context context, final UPSTurnCallBack uPSTurnCallBack) {
         HMSLog.i("UPSService", "invoke turnOffPush");
         Preconditions.checkNotNull(uPSTurnCallBack);
         if (!s.b()) {
             uPSTurnCallBack.onResult(new TokenResult(ErrorEnum.ERROR_OPERATION_NOT_SUPPORTED.getExternalCode()));
         } else {
-            HmsMessaging.getInstance(context).turnOffPush().addOnCompleteListener(new AnonymousClass2(uPSTurnCallBack));
+            HmsMessaging.getInstance(context).turnOffPush().addOnCompleteListener(new OnCompleteListener<Void>() { // from class: com.huawei.hms.push.ups.UPSService.2
+                @Override // com.huawei.hmf.tasks.OnCompleteListener
+                public void onComplete(Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        uPSTurnCallBack.onResult(new CodeResult());
+                        return;
+                    }
+                    ApiException apiException = (ApiException) task.getException();
+                    uPSTurnCallBack.onResult(new CodeResult(apiException.getStatusCode(), apiException.getMessage()));
+                }
+            });
         }
     }
 
-    public static void turnOnPush(Context context, UPSTurnCallBack uPSTurnCallBack) {
+    public static void turnOnPush(Context context, final UPSTurnCallBack uPSTurnCallBack) {
         HMSLog.i("UPSService", "invoke turnOnPush");
         Preconditions.checkNotNull(uPSTurnCallBack);
         if (!s.b()) {
             uPSTurnCallBack.onResult(new TokenResult(ErrorEnum.ERROR_OPERATION_NOT_SUPPORTED.getExternalCode()));
         } else {
-            HmsMessaging.getInstance(context).turnOnPush().addOnCompleteListener(new AnonymousClass1(uPSTurnCallBack));
+            HmsMessaging.getInstance(context).turnOnPush().addOnCompleteListener(new OnCompleteListener<Void>() { // from class: com.huawei.hms.push.ups.UPSService.1
+                @Override // com.huawei.hmf.tasks.OnCompleteListener
+                public void onComplete(Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        uPSTurnCallBack.onResult(new CodeResult());
+                        return;
+                    }
+                    ApiException apiException = (ApiException) task.getException();
+                    uPSTurnCallBack.onResult(new CodeResult(apiException.getStatusCode(), apiException.getMessage()));
+                }
+            });
         }
     }
 

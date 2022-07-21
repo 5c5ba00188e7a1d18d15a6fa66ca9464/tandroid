@@ -37,30 +37,6 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
     public final TextView subtitle;
     public final TextView title;
 
-    /* renamed from: org.telegram.ui.Components.StickerEmptyView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            StickerEmptyView.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            StickerEmptyView stickerEmptyView = StickerEmptyView.this;
-            View view = stickerEmptyView.progressView;
-            if (view == null) {
-                stickerEmptyView.progressBar.animate().alpha(1.0f).scaleY(1.0f).scaleX(1.0f).setDuration(150L).start();
-                return;
-            }
-            if (view.getVisibility() != 0) {
-                StickerEmptyView.this.progressView.setVisibility(0);
-                StickerEmptyView.this.progressView.setAlpha(0.0f);
-            }
-            StickerEmptyView.this.progressView.animate().setListener(null).cancel();
-            StickerEmptyView.this.progressView.animate().alpha(1.0f).setDuration(150L).start();
-        }
-    }
-
     public StickerEmptyView(Context context, View view, int i) {
         this(context, view, i, null);
     }
@@ -68,20 +44,52 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
     public StickerEmptyView(Context context, View view, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.currentAccount = UserConfig.selectedAccount;
-        this.showProgressRunnable = new AnonymousClass1();
+        this.showProgressRunnable = new Runnable() { // from class: org.telegram.ui.Components.StickerEmptyView.1
+            @Override // java.lang.Runnable
+            public void run() {
+                StickerEmptyView stickerEmptyView = StickerEmptyView.this;
+                View view2 = stickerEmptyView.progressView;
+                if (view2 == null) {
+                    stickerEmptyView.progressBar.animate().alpha(1.0f).scaleY(1.0f).scaleX(1.0f).setDuration(150L).start();
+                    return;
+                }
+                if (view2.getVisibility() != 0) {
+                    StickerEmptyView.this.progressView.setVisibility(0);
+                    StickerEmptyView.this.progressView.setAlpha(0.0f);
+                }
+                StickerEmptyView.this.progressView.animate().setListener(null).cancel();
+                StickerEmptyView.this.progressView.animate().alpha(1.0f).setDuration(150L).start();
+            }
+        };
         this.colorKey1 = "emptyListPlaceholder";
         this.resourcesProvider = resourcesProvider;
         this.progressView = view;
         this.stickerType = i;
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-        this.linearLayout = anonymousClass2;
-        anonymousClass2.setOrientation(1);
+        LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.StickerEmptyView.2
+            @Override // android.view.View
+            public void setVisibility(int i2) {
+                if (getVisibility() == 8 && i2 == 0) {
+                    StickerEmptyView.this.setSticker();
+                    StickerEmptyView.this.stickerView.getImageReceiver().startAnimation();
+                } else if (i2 == 8) {
+                    StickerEmptyView.this.stickerView.getImageReceiver().clearImage();
+                }
+                super.setVisibility(i2);
+            }
+        };
+        this.linearLayout = linearLayout;
+        linearLayout.setOrientation(1);
         BackupImageView backupImageView = new BackupImageView(context);
         this.stickerView = backupImageView;
-        backupImageView.setOnClickListener(new StickerEmptyView$$ExternalSyntheticLambda0(this));
+        backupImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickerEmptyView$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                StickerEmptyView.this.lambda$new$0(view2);
+            }
+        });
         TextView textView = new TextView(context);
         this.title = textView;
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView.setTag("windowBackgroundWhiteBlackText");
         textView.setTextColor(getThemedColor("windowBackgroundWhiteBlackText"));
         textView.setTextSize(1, 20.0f);
@@ -103,27 +111,6 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
             this.progressBar.setScaleY(0.5f);
             this.progressBar.setScaleX(0.5f);
             addView(this.progressBar, LayoutHelper.createFrame(-2, -2, 17));
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.StickerEmptyView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends LinearLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            StickerEmptyView.this = r1;
-        }
-
-        @Override // android.view.View
-        public void setVisibility(int i) {
-            if (getVisibility() == 8 && i == 0) {
-                StickerEmptyView.this.setSticker();
-                StickerEmptyView.this.stickerView.getImageReceiver().startAnimation();
-            } else if (i == 8) {
-                StickerEmptyView.this.stickerView.getImageReceiver().clearImage();
-            }
-            super.setVisibility(i);
         }
     }
 
@@ -173,7 +160,12 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
                 View view = this.progressView;
                 if (view != null) {
                     view.animate().setListener(null).cancel();
-                    this.progressView.animate().setListener(new AnonymousClass3()).alpha(0.0f).setDuration(150L).start();
+                    this.progressView.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StickerEmptyView.3
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            StickerEmptyView.this.progressView.setVisibility(8);
+                        }
+                    }).alpha(0.0f).setDuration(150L).start();
                 } else {
                     this.progressBar.animate().alpha(0.0f).scaleY(0.5f).scaleX(0.5f).setDuration(150L).start();
                 }
@@ -192,7 +184,12 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         View view2 = this.progressView;
         if (view2 != null) {
             view2.animate().setListener(null).cancel();
-            this.progressView.animate().setListener(new AnonymousClass4()).alpha(0.0f).setDuration(150L).start();
+            this.progressView.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StickerEmptyView.4
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    StickerEmptyView.this.progressView.setVisibility(8);
+                }
+            }).alpha(0.0f).setDuration(150L).start();
         } else {
             this.progressBar.setAlpha(0.0f);
             this.progressBar.setScaleX(0.5f);
@@ -200,32 +197,6 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         }
         this.stickerView.getImageReceiver().stopAnimation();
         this.stickerView.getImageReceiver().clearImage();
-    }
-
-    /* renamed from: org.telegram.ui.Components.StickerEmptyView$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        AnonymousClass3() {
-            StickerEmptyView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            StickerEmptyView.this.progressView.setVisibility(8);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.StickerEmptyView$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends AnimatorListenerAdapter {
-        AnonymousClass4() {
-            StickerEmptyView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            StickerEmptyView.this.progressView.setVisibility(8);
-        }
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -254,9 +225,9 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
             str = null;
             tLRPC$TL_messages_stickerSet = null;
         } else {
-            TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName("tg_placeholders_android");
+            TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
             if (stickerSetByName == null) {
-                stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName("tg_placeholders_android");
+                stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
             }
             if (stickerSetByName != null && (i = this.stickerType) >= 0 && i < stickerSetByName.documents.size()) {
                 tLRPC$Document2 = stickerSetByName.documents.get(this.stickerType);
@@ -284,13 +255,13 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         if (tLRPC$TL_messages_stickerSet != null) {
             z = false;
         }
-        mediaDataController.loadStickersByEmojiOrName("tg_placeholders_android", false, z);
+        mediaDataController.loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, z);
         this.stickerView.getImageReceiver().clearImage();
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i == NotificationCenter.diceStickersDidLoad && "tg_placeholders_android".equals((String) objArr[0]) && getVisibility() == 0) {
+        if (i == NotificationCenter.diceStickersDidLoad && AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME.equals((String) objArr[0]) && getVisibility() == 0) {
             setSticker();
         }
     }
@@ -347,7 +318,12 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
                 View view = this.progressView;
                 if (view != null) {
                     view.animate().setListener(null).cancel();
-                    this.progressView.animate().setListener(new AnonymousClass5()).alpha(0.0f).setDuration(150L).start();
+                    this.progressView.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StickerEmptyView.5
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            StickerEmptyView.this.progressView.setVisibility(8);
+                        }
+                    }).alpha(0.0f).setDuration(150L).start();
                 } else {
                     this.progressBar.animate().alpha(0.0f).scaleY(0.5f).scaleX(0.5f).setDuration(150L).start();
                 }
@@ -382,19 +358,6 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
                 this.progressBar.setScaleX(0.5f);
                 this.progressBar.setScaleY(0.5f);
             }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.StickerEmptyView$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends AnimatorListenerAdapter {
-        AnonymousClass5() {
-            StickerEmptyView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            StickerEmptyView.this.progressView.setVisibility(8);
         }
     }
 

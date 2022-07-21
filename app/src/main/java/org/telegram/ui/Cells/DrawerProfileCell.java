@@ -30,6 +30,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.ActionBar.Theme;
@@ -63,16 +64,16 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private Rect srcRect = new Rect();
     private Rect destRect = new Rect();
     private Paint paint = new Paint();
-    private RLottieDrawable sunDrawable = new RLottieDrawable(2131558561, "2131558561", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+    private RLottieDrawable sunDrawable = new RLottieDrawable(R.raw.sun, "2131558561", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
 
-    public DrawerProfileCell(Context context, DrawerLayoutContainer drawerLayoutContainer) {
+    public DrawerProfileCell(Context context, final DrawerLayoutContainer drawerLayoutContainer) {
         super(context);
         new Paint(1);
         ImageView imageView = new ImageView(context);
         this.shadowView = imageView;
         imageView.setVisibility(4);
         this.shadowView.setScaleType(ImageView.ScaleType.FIT_XY);
-        this.shadowView.setImageResource(2131165290);
+        this.shadowView.setImageResource(R.drawable.bottom_shadow);
         addView(this.shadowView, LayoutHelper.createFrame(-1, 70, 83));
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarImageView = backupImageView;
@@ -81,7 +82,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         TextView textView = new TextView(context);
         this.nameTextView = textView;
         textView.setTextSize(1, 15.0f);
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.nameTextView.setLines(1);
         this.nameTextView.setMaxLines(1);
         this.nameTextView.setSingleLine(true);
@@ -99,7 +100,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         ImageView imageView2 = new ImageView(context);
         this.arrowView = imageView2;
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
-        this.arrowView.setImageResource(2131165727);
+        this.arrowView.setImageResource(R.drawable.msg_expand);
         addView(this.arrowView, LayoutHelper.createFrame(59, 59, 85));
         setArrowState(false);
         if (Theme.isCurrentThemeDay()) {
@@ -109,9 +110,19 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             this.sunDrawable.setCurrentFrame(36);
         }
         this.sunDrawable.setPlayInDirectionOfCustomEndFrame(true);
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
-        this.darkThemeView = anonymousClass1;
-        anonymousClass1.setFocusable(true);
+        RLottieImageView rLottieImageView = new RLottieImageView(this, context) { // from class: org.telegram.ui.Cells.DrawerProfileCell.1
+            @Override // android.view.View
+            public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+                super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+                if (Theme.isCurrentThemeDark()) {
+                    accessibilityNodeInfo.setText(LocaleController.getString("AccDescrSwitchToDayTheme", R.string.AccDescrSwitchToDayTheme));
+                } else {
+                    accessibilityNodeInfo.setText(LocaleController.getString("AccDescrSwitchToNightTheme", R.string.AccDescrSwitchToNightTheme));
+                }
+            }
+        };
+        this.darkThemeView = rLottieImageView;
+        rLottieImageView.setFocusable(true);
         this.darkThemeView.setBackground(Theme.createCircleSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0, 0));
         this.sunDrawable.beginApplyLayerColors();
         int color = Theme.getColor("chats_menuName");
@@ -126,31 +137,25 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             this.darkThemeView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 1, AndroidUtilities.dp(17.0f)));
             Theme.setRippleDrawableForceSoftware((RippleDrawable) this.darkThemeView.getBackground());
         }
-        this.darkThemeView.setOnClickListener(new DrawerProfileCell$$ExternalSyntheticLambda0(this));
-        this.darkThemeView.setOnLongClickListener(new DrawerProfileCell$$ExternalSyntheticLambda1(drawerLayoutContainer));
+        this.darkThemeView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DrawerProfileCell$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                DrawerProfileCell.this.lambda$new$0(view);
+            }
+        });
+        this.darkThemeView.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Cells.DrawerProfileCell$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnLongClickListener
+            public final boolean onLongClick(View view) {
+                boolean lambda$new$1;
+                lambda$new$1 = DrawerProfileCell.lambda$new$1(DrawerLayoutContainer.this, view);
+                return lambda$new$1;
+            }
+        });
         addView(this.darkThemeView, LayoutHelper.createFrame(48, 48.0f, 85, 0.0f, 0.0f, 6.0f, 90.0f));
         if (Theme.getEventType() == 0) {
             SnowflakesEffect snowflakesEffect = new SnowflakesEffect(0);
             this.snowflakesEffect = snowflakesEffect;
             snowflakesEffect.setColorKey("chats_menuName");
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Cells.DrawerProfileCell$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends RLottieImageView {
-        AnonymousClass1(DrawerProfileCell drawerProfileCell, Context context) {
-            super(context);
-        }
-
-        @Override // android.view.View
-        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-            if (Theme.isCurrentThemeDark()) {
-                accessibilityNodeInfo.setText(LocaleController.getString("AccDescrSwitchToDayTheme", 2131624092));
-            } else {
-                accessibilityNodeInfo.setText(LocaleController.getString("AccDescrSwitchToNightTheme", 2131624093));
-            }
         }
     }
 
@@ -193,7 +198,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             }
             this.darkThemeView.playAnimation();
             if (Theme.selectedAutoNightType != 0) {
-                Toast.makeText(getContext(), LocaleController.getString("AutoNightModeOff", 2131624621), 0).show();
+                Toast.makeText(getContext(), LocaleController.getString("AutoNightModeOff", R.string.AutoNightModeOff), 0).show();
                 Theme.selectedAutoNightType = 0;
                 Theme.saveAutoNightThemeConfig();
                 Theme.cancelAutoNightThemeCallbacks();
@@ -467,10 +472,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
         ImageView imageView = this.arrowView;
         if (this.accountsShown) {
-            i = 2131623990;
+            i = R.string.AccDescrHideAccounts;
             str = "AccDescrHideAccounts";
         } else {
-            i = 2131624085;
+            i = R.string.AccDescrShowAccounts;
             str = "AccDescrShowAccounts";
         }
         imageView.setContentDescription(LocaleController.getString(str, i));

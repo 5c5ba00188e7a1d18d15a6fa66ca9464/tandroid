@@ -73,7 +73,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
             this.active_date = abstractSerializedData.readInt32(z);
         }
         this.source = abstractSerializedData.readInt32(z);
-        if ((this.flags & 128) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             this.volume = abstractSerializedData.readInt32(z);
         }
         if ((this.flags & 2048) != 0) {
@@ -120,7 +120,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
             abstractSerializedData.writeInt32(this.active_date);
         }
         abstractSerializedData.writeInt32(this.source);
-        if ((this.flags & 128) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             abstractSerializedData.writeInt32(this.volume);
         }
         if ((this.flags & 2048) != 0) {

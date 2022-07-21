@@ -16,6 +16,7 @@ import android.view.View;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.beta.R;
 /* loaded from: classes3.dex */
 public class VideoTimelinePlayView extends View {
     public static int TYPE_LEFT = 0;
@@ -72,10 +73,10 @@ public class VideoTimelinePlayView extends View {
         Paint paint2 = new Paint();
         this.paint2 = paint2;
         paint2.setColor(2130706432);
-        Drawable drawable = context.getResources().getDrawable(2131166199);
+        Drawable drawable = context.getResources().getDrawable(R.drawable.video_cropleft);
         this.drawableLeft = drawable;
         drawable.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
-        Drawable drawable2 = context.getResources().getDrawable(2131166200);
+        Drawable drawable2 = context.getResources().getDrawable(R.drawable.video_cropright);
         this.drawableRight = drawable2;
         drawable2.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
         this.exclusionRects.add(this.exclustionRect);
@@ -354,66 +355,58 @@ public class VideoTimelinePlayView extends View {
             this.frameWidth = (int) Math.ceil((getMeasuredWidth() - AndroidUtilities.dp(16.0f)) / this.framesToLoad);
             this.frameTimeOffset = this.videoLength / this.framesToLoad;
         }
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1();
-        this.currentTask = anonymousClass1;
-        anonymousClass1.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.valueOf(i), null, null);
-    }
+        AsyncTask<Integer, Integer, Bitmap> asyncTask = new AsyncTask<Integer, Integer, Bitmap>() { // from class: org.telegram.ui.Components.VideoTimelinePlayView.1
+            private int frameNum = 0;
 
-    /* renamed from: org.telegram.ui.Components.VideoTimelinePlayView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AsyncTask<Integer, Integer, Bitmap> {
-        private int frameNum = 0;
-
-        AnonymousClass1() {
-            VideoTimelinePlayView.this = r1;
-        }
-
-        public Bitmap doInBackground(Integer... numArr) {
-            Exception e;
-            Bitmap frameAtTime;
-            this.frameNum = numArr[0].intValue();
-            Bitmap bitmap = null;
-            if (isCancelled()) {
-                return null;
-            }
-            try {
-                frameAtTime = VideoTimelinePlayView.this.mediaMetadataRetriever.getFrameAtTime(VideoTimelinePlayView.this.frameTimeOffset * this.frameNum * 1000, 2);
-            } catch (Exception e2) {
-                e = e2;
-            }
-            try {
+            public Bitmap doInBackground(Integer... numArr) {
+                Exception e;
+                Bitmap frameAtTime;
+                this.frameNum = numArr[0].intValue();
+                Bitmap bitmap = null;
                 if (isCancelled()) {
                     return null;
                 }
-                if (frameAtTime == null) {
-                    return frameAtTime;
+                try {
+                    frameAtTime = VideoTimelinePlayView.this.mediaMetadataRetriever.getFrameAtTime(VideoTimelinePlayView.this.frameTimeOffset * this.frameNum * 1000, 2);
+                } catch (Exception e2) {
+                    e = e2;
                 }
-                Bitmap createBitmap = Bitmap.createBitmap(VideoTimelinePlayView.this.frameWidth, VideoTimelinePlayView.this.frameHeight, frameAtTime.getConfig());
-                Canvas canvas = new Canvas(createBitmap);
-                float max = Math.max(VideoTimelinePlayView.this.frameWidth / frameAtTime.getWidth(), VideoTimelinePlayView.this.frameHeight / frameAtTime.getHeight());
-                int width = (int) (frameAtTime.getWidth() * max);
-                int height = (int) (frameAtTime.getHeight() * max);
-                canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelinePlayView.this.frameWidth - width) / 2, (VideoTimelinePlayView.this.frameHeight - height) / 2, width, height), (Paint) null);
-                frameAtTime.recycle();
-                return createBitmap;
-            } catch (Exception e3) {
-                e = e3;
-                bitmap = frameAtTime;
-                FileLog.e(e);
-                return bitmap;
+                try {
+                    if (isCancelled()) {
+                        return null;
+                    }
+                    if (frameAtTime == null) {
+                        return frameAtTime;
+                    }
+                    Bitmap createBitmap = Bitmap.createBitmap(VideoTimelinePlayView.this.frameWidth, VideoTimelinePlayView.this.frameHeight, frameAtTime.getConfig());
+                    Canvas canvas = new Canvas(createBitmap);
+                    float max = Math.max(VideoTimelinePlayView.this.frameWidth / frameAtTime.getWidth(), VideoTimelinePlayView.this.frameHeight / frameAtTime.getHeight());
+                    int width = (int) (frameAtTime.getWidth() * max);
+                    int height = (int) (frameAtTime.getHeight() * max);
+                    canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelinePlayView.this.frameWidth - width) / 2, (VideoTimelinePlayView.this.frameHeight - height) / 2, width, height), (Paint) null);
+                    frameAtTime.recycle();
+                    return createBitmap;
+                } catch (Exception e3) {
+                    e = e3;
+                    bitmap = frameAtTime;
+                    FileLog.e(e);
+                    return bitmap;
+                }
             }
-        }
 
-        public void onPostExecute(Bitmap bitmap) {
-            if (!isCancelled()) {
-                VideoTimelinePlayView.this.frames.add(new BitmapFrame(bitmap));
-                VideoTimelinePlayView.this.invalidate();
-                if (this.frameNum >= VideoTimelinePlayView.this.framesToLoad) {
-                    return;
+            public void onPostExecute(Bitmap bitmap) {
+                if (!isCancelled()) {
+                    VideoTimelinePlayView.this.frames.add(new BitmapFrame(bitmap));
+                    VideoTimelinePlayView.this.invalidate();
+                    if (this.frameNum >= VideoTimelinePlayView.this.framesToLoad) {
+                        return;
+                    }
+                    VideoTimelinePlayView.this.reloadFrames(this.frameNum + 1);
                 }
-                VideoTimelinePlayView.this.reloadFrames(this.frameNum + 1);
             }
-        }
+        };
+        this.currentTask = asyncTask;
+        asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.valueOf(i), null, null);
     }
 
     public void destroy() {

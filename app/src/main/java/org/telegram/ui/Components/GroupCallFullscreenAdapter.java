@@ -31,6 +31,7 @@ import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GroupCallUserCell;
+import org.telegram.ui.Components.GroupCallFullscreenAdapter;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.voip.GroupCallMiniTextureView;
 import org.telegram.ui.Components.voip.GroupCallRenderersContainer;
@@ -179,26 +180,16 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             this.selectionPaint.setStyle(Paint.Style.STROKE);
             this.selectionPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
             this.textPaint.setColor(-1);
-            AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, r9);
-            this.muteButton = anonymousClass1;
-            anonymousClass1.setScaleType(ImageView.ScaleType.CENTER);
+            RLottieImageView rLottieImageView = new RLottieImageView(context, r9) { // from class: org.telegram.ui.Components.GroupCallFullscreenAdapter.GroupCallUserCell.1
+                @Override // android.view.View
+                public void invalidate() {
+                    super.invalidate();
+                    GroupCallUserCell.this.invalidate();
+                }
+            };
+            this.muteButton = rLottieImageView;
+            rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
             addView(this.muteButton, LayoutHelper.createFrame(24, 24.0f));
-        }
-
-        /* renamed from: org.telegram.ui.Components.GroupCallFullscreenAdapter$GroupCallUserCell$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends RLottieImageView {
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            AnonymousClass1(Context context, GroupCallFullscreenAdapter groupCallFullscreenAdapter) {
-                super(context);
-                GroupCallUserCell.this = r1;
-            }
-
-            @Override // android.view.View
-            public void invalidate() {
-                super.invalidate();
-                GroupCallUserCell.this.invalidate();
-            }
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -494,8 +485,8 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void updateState(boolean z) {
-            int i;
-            int i2;
+            final int i;
+            final int i2;
             GroupCallStatusIcon groupCallStatusIcon = this.statusIcon;
             if (groupCallStatusIcon == null) {
                 return;
@@ -523,12 +514,33 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
                     invalidate();
                     return;
                 }
-                int i3 = this.lastColor;
-                int i4 = this.lastWavesColor;
+                final int i3 = this.lastColor;
+                final int i4 = this.lastWavesColor;
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.colorAnimator = ofFloat;
-                ofFloat.addUpdateListener(new GroupCallFullscreenAdapter$GroupCallUserCell$$ExternalSyntheticLambda0(this, i3, i2, i4, i));
-                this.colorAnimator.addListener(new AnonymousClass2(i2, i));
+                final int i5 = i2;
+                final int i6 = i;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.GroupCallFullscreenAdapter$GroupCallUserCell$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        GroupCallFullscreenAdapter.GroupCallUserCell.this.lambda$updateState$0(i3, i5, i4, i6, valueAnimator2);
+                    }
+                });
+                this.colorAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.GroupCallFullscreenAdapter.GroupCallUserCell.2
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        GroupCallUserCell groupCallUserCell = GroupCallUserCell.this;
+                        groupCallUserCell.lastColor = i2;
+                        groupCallUserCell.lastWavesColor = i;
+                        groupCallUserCell.muteButton.setColorFilter(new PorterDuffColorFilter(GroupCallUserCell.this.lastColor, PorterDuff.Mode.MULTIPLY));
+                        GroupCallUserCell groupCallUserCell2 = GroupCallUserCell.this;
+                        groupCallUserCell2.textPaint.setColor(groupCallUserCell2.lastColor);
+                        GroupCallUserCell groupCallUserCell3 = GroupCallUserCell.this;
+                        groupCallUserCell3.selectionPaint.setColor(groupCallUserCell3.lastWavesColor);
+                        GroupCallUserCell groupCallUserCell4 = GroupCallUserCell.this;
+                        groupCallUserCell4.avatarWavesDrawable.setColor(ColorUtils.setAlphaComponent(groupCallUserCell4.lastWavesColor, 38));
+                    }
+                });
                 this.colorAnimator.start();
                 return;
             }
@@ -545,33 +557,6 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             this.selectionPaint.setColor(this.lastWavesColor);
             this.avatarWavesDrawable.setColor(ColorUtils.setAlphaComponent(this.lastWavesColor, 38));
             invalidate();
-        }
-
-        /* renamed from: org.telegram.ui.Components.GroupCallFullscreenAdapter$GroupCallUserCell$2 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends AnimatorListenerAdapter {
-            final /* synthetic */ int val$newColor;
-            final /* synthetic */ int val$newWavesColor;
-
-            AnonymousClass2(int i, int i2) {
-                GroupCallUserCell.this = r1;
-                this.val$newColor = i;
-                this.val$newWavesColor = i2;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                GroupCallUserCell groupCallUserCell = GroupCallUserCell.this;
-                groupCallUserCell.lastColor = this.val$newColor;
-                groupCallUserCell.lastWavesColor = this.val$newWavesColor;
-                groupCallUserCell.muteButton.setColorFilter(new PorterDuffColorFilter(GroupCallUserCell.this.lastColor, PorterDuff.Mode.MULTIPLY));
-                GroupCallUserCell groupCallUserCell2 = GroupCallUserCell.this;
-                groupCallUserCell2.textPaint.setColor(groupCallUserCell2.lastColor);
-                GroupCallUserCell groupCallUserCell3 = GroupCallUserCell.this;
-                groupCallUserCell3.selectionPaint.setColor(groupCallUserCell3.lastWavesColor);
-                GroupCallUserCell groupCallUserCell4 = GroupCallUserCell.this;
-                groupCallUserCell4.avatarWavesDrawable.setColor(ColorUtils.setAlphaComponent(groupCallUserCell4.lastWavesColor, 38));
-            }
         }
 
         @Override // android.view.View
@@ -606,8 +591,8 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             return;
         }
         if (z) {
-            ArrayList arrayList = new ArrayList(this.participants);
-            ArrayList arrayList2 = new ArrayList(this.videoParticipants);
+            final ArrayList arrayList = new ArrayList(this.participants);
+            final ArrayList arrayList2 = new ArrayList(this.videoParticipants);
             this.participants.clear();
             ChatObject.Call call = this.groupCall;
             if (!call.call.rtmp_stream) {
@@ -618,7 +603,41 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             if (!call2.call.rtmp_stream) {
                 this.videoParticipants.addAll(call2.visibleVideoParticipants);
             }
-            DiffUtil.calculateDiff(new AnonymousClass1(arrayList2, arrayList)).dispatchUpdatesTo(this);
+            DiffUtil.calculateDiff(new DiffUtil.Callback() { // from class: org.telegram.ui.Components.GroupCallFullscreenAdapter.1
+                @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                public boolean areContentsTheSame(int i, int i2) {
+                    return true;
+                }
+
+                @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                public int getOldListSize() {
+                    return arrayList2.size() + arrayList.size();
+                }
+
+                @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                public int getNewListSize() {
+                    return GroupCallFullscreenAdapter.this.videoParticipants.size() + GroupCallFullscreenAdapter.this.participants.size();
+                }
+
+                @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                public boolean areItemsTheSame(int i, int i2) {
+                    TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
+                    if (i < arrayList2.size() && i2 < GroupCallFullscreenAdapter.this.videoParticipants.size()) {
+                        return ((ChatObject.VideoParticipant) arrayList2.get(i)).equals(GroupCallFullscreenAdapter.this.videoParticipants.get(i2));
+                    }
+                    int size = i - arrayList2.size();
+                    int size2 = i2 - GroupCallFullscreenAdapter.this.videoParticipants.size();
+                    if (size2 >= 0 && size2 < GroupCallFullscreenAdapter.this.participants.size() && size >= 0 && size < arrayList.size()) {
+                        return MessageObject.getPeerId(((TLRPC$TL_groupCallParticipant) arrayList.get(size)).peer) == MessageObject.getPeerId(((TLRPC$TL_groupCallParticipant) GroupCallFullscreenAdapter.this.participants.get(size2)).peer);
+                    }
+                    if (i < arrayList2.size()) {
+                        tLRPC$TL_groupCallParticipant = ((ChatObject.VideoParticipant) arrayList2.get(i)).participant;
+                    } else {
+                        tLRPC$TL_groupCallParticipant = (TLRPC$TL_groupCallParticipant) arrayList.get(size);
+                    }
+                    return MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer) == MessageObject.getPeerId((i2 < GroupCallFullscreenAdapter.this.videoParticipants.size() ? ((ChatObject.VideoParticipant) GroupCallFullscreenAdapter.this.videoParticipants.get(i2)).participant : (TLRPC$TL_groupCallParticipant) GroupCallFullscreenAdapter.this.participants.get(size2)).peer);
+                }
+            }).dispatchUpdatesTo(this);
             AndroidUtilities.updateVisibleRows(recyclerListView);
             return;
         }
@@ -633,52 +652,5 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             this.videoParticipants.addAll(call4.visibleVideoParticipants);
         }
         notifyDataSetChanged();
-    }
-
-    /* renamed from: org.telegram.ui.Components.GroupCallFullscreenAdapter$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends DiffUtil.Callback {
-        final /* synthetic */ ArrayList val$oldParticipants;
-        final /* synthetic */ ArrayList val$oldVideoParticipants;
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public boolean areContentsTheSame(int i, int i2) {
-            return true;
-        }
-
-        AnonymousClass1(ArrayList arrayList, ArrayList arrayList2) {
-            GroupCallFullscreenAdapter.this = r1;
-            this.val$oldVideoParticipants = arrayList;
-            this.val$oldParticipants = arrayList2;
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public int getOldListSize() {
-            return this.val$oldVideoParticipants.size() + this.val$oldParticipants.size();
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public int getNewListSize() {
-            return GroupCallFullscreenAdapter.this.videoParticipants.size() + GroupCallFullscreenAdapter.this.participants.size();
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public boolean areItemsTheSame(int i, int i2) {
-            TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
-            if (i < this.val$oldVideoParticipants.size() && i2 < GroupCallFullscreenAdapter.this.videoParticipants.size()) {
-                return ((ChatObject.VideoParticipant) this.val$oldVideoParticipants.get(i)).equals(GroupCallFullscreenAdapter.this.videoParticipants.get(i2));
-            }
-            int size = i - this.val$oldVideoParticipants.size();
-            int size2 = i2 - GroupCallFullscreenAdapter.this.videoParticipants.size();
-            if (size2 >= 0 && size2 < GroupCallFullscreenAdapter.this.participants.size() && size >= 0 && size < this.val$oldParticipants.size()) {
-                return MessageObject.getPeerId(((TLRPC$TL_groupCallParticipant) this.val$oldParticipants.get(size)).peer) == MessageObject.getPeerId(((TLRPC$TL_groupCallParticipant) GroupCallFullscreenAdapter.this.participants.get(size2)).peer);
-            }
-            if (i < this.val$oldVideoParticipants.size()) {
-                tLRPC$TL_groupCallParticipant = ((ChatObject.VideoParticipant) this.val$oldVideoParticipants.get(i)).participant;
-            } else {
-                tLRPC$TL_groupCallParticipant = (TLRPC$TL_groupCallParticipant) this.val$oldParticipants.get(size);
-            }
-            return MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer) == MessageObject.getPeerId((i2 < GroupCallFullscreenAdapter.this.videoParticipants.size() ? ((ChatObject.VideoParticipant) GroupCallFullscreenAdapter.this.videoParticipants.get(i2)).participant : (TLRPC$TL_groupCallParticipant) GroupCallFullscreenAdapter.this.participants.get(size2)).peer);
-        }
     }
 }

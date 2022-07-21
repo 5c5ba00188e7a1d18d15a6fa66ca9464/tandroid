@@ -62,9 +62,19 @@ public class StickerTabView extends FrameLayout {
             addView(this.imageView, LayoutHelper.createFrame(26, 26, 17));
             this.visibleView = this.imageView;
         }
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
-        this.textView = anonymousClass1;
-        anonymousClass1.addOnLayoutChangeListener(new StickerTabView$$ExternalSyntheticLambda0(this));
+        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Components.StickerTabView.1
+            @Override // android.widget.TextView
+            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                super.setText(charSequence, bufferType);
+            }
+        };
+        this.textView = textView;
+        textView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Components.StickerTabView$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnLayoutChangeListener
+            public final void onLayoutChange(View view, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10) {
+                StickerTabView.this.lambda$new$0(view, i3, i4, i5, i6, i7, i8, i9, i10);
+            }
+        });
         this.textView.setLines(1);
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
         this.textView.setTextSize(1, 11.0f);
@@ -72,19 +82,6 @@ public class StickerTabView extends FrameLayout {
         this.textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 81, 8.0f, 0.0f, 8.0f, 10.0f));
         this.textView.setVisibility(8);
-    }
-
-    /* renamed from: org.telegram.ui.Components.StickerTabView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends TextView {
-        AnonymousClass1(StickerTabView stickerTabView, Context context) {
-            super(context);
-        }
-
-        @Override // android.widget.TextView
-        public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-            super.setText(charSequence, bufferType);
-        }
     }
 
     public /* synthetic */ void lambda$new$0(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
@@ -153,7 +150,7 @@ public class StickerTabView extends FrameLayout {
         invalidate();
     }
 
-    public void animateIfPositionChanged(ViewGroup viewGroup) {
+    public void animateIfPositionChanged(final ViewGroup viewGroup) {
         float f = this.lastLeft;
         if (getLeft() != f && this.hasSavedLeft) {
             this.dragOffset = f - getLeft();
@@ -164,48 +161,26 @@ public class StickerTabView extends FrameLayout {
             }
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.dragOffset, 0.0f);
             this.dragOffsetAnimator = ofFloat;
-            ofFloat.addUpdateListener(new AnonymousClass2(viewGroup));
-            this.dragOffsetAnimator.addListener(new AnonymousClass3(viewGroup));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickerTabView.2
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    StickerTabView.this.dragOffset = ((Float) valueAnimator2.getAnimatedValue()).floatValue();
+                    StickerTabView.this.invalidate();
+                    viewGroup.invalidate();
+                }
+            });
+            this.dragOffsetAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StickerTabView.3
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    StickerTabView stickerTabView = StickerTabView.this;
+                    stickerTabView.dragOffset = 0.0f;
+                    stickerTabView.invalidate();
+                    viewGroup.invalidate();
+                }
+            });
             this.dragOffsetAnimator.start();
         }
         this.hasSavedLeft = false;
-    }
-
-    /* renamed from: org.telegram.ui.Components.StickerTabView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements ValueAnimator.AnimatorUpdateListener {
-        final /* synthetic */ ViewGroup val$parent;
-
-        AnonymousClass2(ViewGroup viewGroup) {
-            StickerTabView.this = r1;
-            this.val$parent = viewGroup;
-        }
-
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            StickerTabView.this.dragOffset = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            StickerTabView.this.invalidate();
-            this.val$parent.invalidate();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.StickerTabView$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        final /* synthetic */ ViewGroup val$parent;
-
-        AnonymousClass3(ViewGroup viewGroup) {
-            StickerTabView.this = r1;
-            this.val$parent = viewGroup;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            StickerTabView stickerTabView = StickerTabView.this;
-            stickerTabView.dragOffset = 0.0f;
-            stickerTabView.invalidate();
-            this.val$parent.invalidate();
-        }
     }
 
     public void setRoundImage() {

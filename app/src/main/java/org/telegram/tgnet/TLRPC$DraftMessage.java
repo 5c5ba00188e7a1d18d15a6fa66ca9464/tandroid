@@ -13,7 +13,14 @@ public abstract class TLRPC$DraftMessage extends TLObject {
     public static TLRPC$DraftMessage TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$DraftMessage tLRPC$DraftMessage;
         if (i == -1169445179) {
-            tLRPC$DraftMessage = new TLRPC$TL_draftMessageEmpty_layer81();
+            tLRPC$DraftMessage = new TLRPC$TL_draftMessageEmpty() { // from class: org.telegram.tgnet.TLRPC$TL_draftMessageEmpty_layer81
+                public static int constructor = -1169445179;
+
+                @Override // org.telegram.tgnet.TLRPC$TL_draftMessageEmpty, org.telegram.tgnet.TLObject
+                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                    abstractSerializedData2.writeInt32(constructor);
+                }
+            };
         } else if (i != -40996577) {
             tLRPC$DraftMessage = i != 453805082 ? null : new TLRPC$TL_draftMessageEmpty();
         } else {

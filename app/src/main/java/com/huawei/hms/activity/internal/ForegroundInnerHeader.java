@@ -18,7 +18,7 @@ public class ForegroundInnerHeader {
             this.action = JsonUtil.getStringValue(jSONObject, "action");
             this.responseCallbackKey = JsonUtil.getStringValue(jSONObject, "responseCallbackKey");
         } catch (JSONException e) {
-            HMSLog.e("ForegroundInnerHeader", "fromJson failed: " + e.getMessage());
+            HMSLog.e(TAG, "fromJson failed: " + e.getMessage());
         }
     }
 
@@ -53,7 +53,7 @@ public class ForegroundInnerHeader {
             jSONObject.put("action", this.action);
             jSONObject.put("responseCallbackKey", this.responseCallbackKey);
         } catch (JSONException e) {
-            HMSLog.e("ForegroundInnerHeader", "ForegroundInnerHeader toJson failed: " + e.getMessage());
+            HMSLog.e(TAG, "ForegroundInnerHeader toJson failed: " + e.getMessage());
         }
         return jSONObject.toString();
     }

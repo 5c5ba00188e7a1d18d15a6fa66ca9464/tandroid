@@ -45,7 +45,7 @@ public class SearchCounterView extends View {
     public SearchCounterView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.resourcesProvider = resourcesProvider;
-        this.textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textPaint.setTextSize(AndroidUtilities.dp(15.0f));
     }
 
@@ -96,8 +96,24 @@ public class SearchCounterView extends View {
                 this.countChangeProgress = 0.0f;
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.countAnimator = ofFloat;
-                ofFloat.addUpdateListener(new SearchCounterView$$ExternalSyntheticLambda0(this));
-                this.countAnimator.addListener(new AnonymousClass1());
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SearchCounterView$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                        SearchCounterView.this.lambda$setCount$0(valueAnimator3);
+                    }
+                });
+                this.countAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SearchCounterView.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        SearchCounterView searchCounterView = SearchCounterView.this;
+                        searchCounterView.animationType = -1;
+                        searchCounterView.countChangeProgress = 1.0f;
+                        SearchCounterView.this.countOldLayout = null;
+                        SearchCounterView.this.countAnimationStableLayout = null;
+                        SearchCounterView.this.countAnimationInLayout = null;
+                        SearchCounterView.this.invalidate();
+                    }
+                });
                 this.countAnimator.setDuration(200L);
                 this.countAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
                 if (this.countLayout != null) {
@@ -176,25 +192,6 @@ public class SearchCounterView extends View {
     public /* synthetic */ void lambda$setCount$0(ValueAnimator valueAnimator) {
         this.countChangeProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
-    }
-
-    /* renamed from: org.telegram.ui.Components.SearchCounterView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            SearchCounterView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            SearchCounterView searchCounterView = SearchCounterView.this;
-            searchCounterView.animationType = -1;
-            searchCounterView.countChangeProgress = 1.0f;
-            SearchCounterView.this.countOldLayout = null;
-            SearchCounterView.this.countAnimationStableLayout = null;
-            SearchCounterView.this.countAnimationInLayout = null;
-            SearchCounterView.this.invalidate();
-        }
     }
 
     @Override // android.view.View

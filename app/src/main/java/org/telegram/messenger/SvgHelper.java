@@ -24,6 +24,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.parsers.SAXParserFactory;
+import org.telegram.messenger.voip.VoIPService;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -31,7 +33,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 /* loaded from: classes.dex */
 public class SvgHelper {
-    private static final double[] pow10 = new double[128];
+    private static final double[] pow10 = new double[ConnectionsManager.RequestFlagNeedQuickAck];
 
     private static void drawArc(Path path, float f, float f2, float f3, float f4, float f5, float f6, float f7, int i, int i2) {
     }
@@ -475,7 +477,7 @@ public class SvgHelper {
                 switch (charAt) {
                     case '\t':
                     case '\n':
-                    case ' ':
+                    case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                     case ',':
                     case '-':
                         if (charAt == '-' && str.charAt(i2 - 1) == 'e') {
@@ -498,7 +500,7 @@ public class SvgHelper {
                             }
                         }
                     case ')':
-                    case 'A':
+                    case VoIPService.CALL_MIN_LAYER /* 65 */:
                     case 'C':
                     case 'H':
                     case 'L':
@@ -670,7 +672,7 @@ public class SvgHelper {
                     }
                     z = true;
                     switch (c2) {
-                        case 'A':
+                        case VoIPService.CALL_MIN_LAYER /* 65 */:
                         case 'a':
                             float nextFloat = parserHelper.nextFloat();
                             float nextFloat2 = parserHelper.nextFloat();
@@ -810,7 +812,7 @@ public class SvgHelper {
                     c2 = (char) (c2 - 1);
                     z = true;
                     switch (c2) {
-                        case 'A':
+                        case VoIPService.CALL_MIN_LAYER /* 65 */:
                         case 'a':
                             break;
                         case 'C':
@@ -861,7 +863,7 @@ public class SvgHelper {
                     c = c2;
                     z = true;
                     switch (c2) {
-                        case 'A':
+                        case VoIPService.CALL_MIN_LAYER /* 65 */:
                         case 'a':
                             break;
                         case 'C':
@@ -1336,7 +1338,7 @@ public class SvgHelper {
                         }
                         break;
                     case 103:
-                        if (str2.equals("g")) {
+                        if (str2.equals(ImageLoader.AUTOPLAY_FILTER)) {
                             c = 3;
                             break;
                         }
@@ -1651,7 +1653,7 @@ public class SvgHelper {
             char c = 65535;
             switch (str2.hashCode()) {
                 case 103:
-                    if (str2.equals("g")) {
+                    if (str2.equals(ImageLoader.AUTOPLAY_FILTER)) {
                         c = 0;
                         break;
                     }

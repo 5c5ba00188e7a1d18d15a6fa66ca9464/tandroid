@@ -218,7 +218,7 @@ public class SharedLinkCell extends FrameLayout {
         linkPath.setUseRoundRect(true);
         TextPaint textPaint = new TextPaint(1);
         this.titleTextPaint = textPaint;
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.titleTextPaint.setColor(Theme.getColor("windowBackgroundWhiteBlackText", resourcesProvider));
         this.descriptionTextPaint = new TextPaint(1);
         this.titleTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
@@ -949,7 +949,12 @@ public class SharedLinkCell extends FrameLayout {
     private void startSpoilerRipples(int i, int i2, int i3) {
         int dp = AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline);
         resetPressedLink();
-        this.spoilerPressed.setOnRippleEndCallback(new SharedLinkCell$$ExternalSyntheticLambda1(this));
+        this.spoilerPressed.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.SharedLinkCell$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                SharedLinkCell.this.lambda$startSpoilerRipples$1();
+            }
+        });
         int i4 = i - dp;
         float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
         float f = 0.0f;
@@ -997,7 +1002,12 @@ public class SharedLinkCell extends FrameLayout {
     }
 
     public /* synthetic */ void lambda$startSpoilerRipples$1() {
-        post(new SharedLinkCell$$ExternalSyntheticLambda0(this));
+        post(new Runnable() { // from class: org.telegram.ui.Cells.SharedLinkCell$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                SharedLinkCell.this.lambda$startSpoilerRipples$0();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$startSpoilerRipples$0() {

@@ -77,8 +77,18 @@ public class SubstringLayoutAnimator {
         this.hintProgress = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.valueAnimator = ofFloat;
-        ofFloat.addUpdateListener(new SubstringLayoutAnimator$$ExternalSyntheticLambda0(this));
-        this.valueAnimator.addListener(new AnonymousClass1());
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SubstringLayoutAnimator$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                SubstringLayoutAnimator.this.lambda$create$0(valueAnimator2);
+            }
+        });
+        this.valueAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SubstringLayoutAnimator.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                SubstringLayoutAnimator.this.animateTextChange = false;
+            }
+        });
         this.valueAnimator.setDuration(150L);
         this.valueAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.valueAnimator.start();
@@ -87,19 +97,6 @@ public class SubstringLayoutAnimator {
     public /* synthetic */ void lambda$create$0(ValueAnimator valueAnimator) {
         this.hintProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.parentView.invalidate();
-    }
-
-    /* renamed from: org.telegram.ui.Components.SubstringLayoutAnimator$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            SubstringLayoutAnimator.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            SubstringLayoutAnimator.this.animateTextChange = false;
-        }
     }
 
     public void draw(Canvas canvas, TextPaint textPaint) {

@@ -11,7 +11,17 @@ import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class IcyHeaders implements Metadata.Entry {
-    public static final Parcelable.Creator<IcyHeaders> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<IcyHeaders> CREATOR = new Parcelable.Creator<IcyHeaders>() { // from class: com.google.android.exoplayer2.metadata.icy.IcyHeaders.1
+        @Override // android.os.Parcelable.Creator
+        public IcyHeaders createFromParcel(Parcel parcel) {
+            return new IcyHeaders(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public IcyHeaders[] newArray(int i) {
+            return new IcyHeaders[i];
+        }
+    };
     public final int bitrate;
     public final String genre;
     public final boolean isPublic;
@@ -218,22 +228,5 @@ public final class IcyHeaders implements Metadata.Entry {
         parcel.writeString(this.url);
         Util.writeBoolean(parcel, this.isPublic);
         parcel.writeInt(this.metadataInterval);
-    }
-
-    /* renamed from: com.google.android.exoplayer2.metadata.icy.IcyHeaders$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<IcyHeaders> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public IcyHeaders createFromParcel(Parcel parcel) {
-            return new IcyHeaders(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public IcyHeaders[] newArray(int i) {
-            return new IcyHeaders[i];
-        }
     }
 }

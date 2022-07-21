@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.ui.EditWidgetActivity;
 /* loaded from: classes3.dex */
 public class ContactsWidgetConfigActivity extends ExternalActionActivity {
     private int creatingAppWidgetId = 0;
@@ -23,7 +24,12 @@ public class ContactsWidgetConfigActivity extends ExternalActionActivity {
             bundle.putInt("dialogsType", 10);
             bundle.putBoolean("allowSwitchAccount", true);
             EditWidgetActivity editWidgetActivity = new EditWidgetActivity(1, this.creatingAppWidgetId);
-            editWidgetActivity.setDelegate(new ContactsWidgetConfigActivity$$ExternalSyntheticLambda0(this));
+            editWidgetActivity.setDelegate(new EditWidgetActivity.EditWidgetActivityDelegate() { // from class: org.telegram.ui.ContactsWidgetConfigActivity$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.EditWidgetActivity.EditWidgetActivityDelegate
+                public final void didSelectDialogs(ArrayList arrayList) {
+                    ContactsWidgetConfigActivity.this.lambda$handleIntent$0(arrayList);
+                }
+            });
             if (AndroidUtilities.isTablet()) {
                 if (this.layersActionBarLayout.fragmentsStack.isEmpty()) {
                     this.layersActionBarLayout.addFragmentToStack(editWidgetActivity);

@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Parcel;
 import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,6 +26,8 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.internal.GmsClientSupervisor;
 import com.google.android.gms.common.internal.IGmsCallbacks;
+import com.huawei.hms.api.HuaweiApiClientImpl;
+import com.huawei.hms.framework.network.grs.GrsBaseInfo;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -371,7 +374,40 @@ public abstract class BaseGmsClient<T extends IInterface> {
                 if (queryLocalInterface != null && (queryLocalInterface instanceof IGmsServiceBroker)) {
                     iGmsServiceBroker = (IGmsServiceBroker) queryLocalInterface;
                 } else {
-                    iGmsServiceBroker = new IGmsServiceBroker$Stub$zza(iBinder);
+                    iGmsServiceBroker = new IGmsServiceBroker(iBinder) { // from class: com.google.android.gms.common.internal.IGmsServiceBroker$Stub$zza
+                        private final IBinder zza;
+
+                        /* JADX INFO: Access modifiers changed from: package-private */
+                        {
+                            this.zza = iBinder;
+                        }
+
+                        @Override // android.os.IInterface
+                        public final IBinder asBinder() {
+                            return this.zza;
+                        }
+
+                        @Override // com.google.android.gms.common.internal.IGmsServiceBroker
+                        public final void getService(IGmsCallbacks iGmsCallbacks, GetServiceRequest getServiceRequest) throws RemoteException {
+                            Parcel obtain = Parcel.obtain();
+                            Parcel obtain2 = Parcel.obtain();
+                            try {
+                                obtain.writeInterfaceToken("com.google.android.gms.common.internal.IGmsServiceBroker");
+                                obtain.writeStrongBinder(iGmsCallbacks != null ? iGmsCallbacks.asBinder() : null);
+                                if (getServiceRequest != null) {
+                                    obtain.writeInt(1);
+                                    getServiceRequest.writeToParcel(obtain, 0);
+                                } else {
+                                    obtain.writeInt(0);
+                                }
+                                this.zza.transact(46, obtain, obtain2, 0);
+                                obtain2.readException();
+                            } finally {
+                                obtain2.recycle();
+                                obtain.recycle();
+                            }
+                        }
+                    };
                 }
                 baseGmsClient.zzr = iGmsServiceBroker;
             }
@@ -784,7 +820,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
         if (requiresSignIn()) {
             Account account = getAccount();
             if (account == null) {
-                account = new Account("<<default account>>", "com.google");
+                account = new Account(HuaweiApiClientImpl.DEFAULT_ACCOUNT, "com.google");
             }
             getServiceRequest.zze = account;
             if (iAccountAccessor != null) {
@@ -860,7 +896,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
         } else if (i == 5) {
             printWriter.print("DISCONNECTING");
         } else {
-            printWriter.print("UNKNOWN");
+            printWriter.print(GrsBaseInfo.CountryCodeSource.UNKNOWN);
         }
         printWriter.append(" mService=");
         if (t == null) {

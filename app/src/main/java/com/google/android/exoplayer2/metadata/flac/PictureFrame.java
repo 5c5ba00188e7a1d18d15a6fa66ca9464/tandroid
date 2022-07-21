@@ -8,7 +8,17 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class PictureFrame implements Metadata.Entry {
-    public static final Parcelable.Creator<PictureFrame> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<PictureFrame> CREATOR = new Parcelable.Creator<PictureFrame>() { // from class: com.google.android.exoplayer2.metadata.flac.PictureFrame.1
+        @Override // android.os.Parcelable.Creator
+        public PictureFrame createFromParcel(Parcel parcel) {
+            return new PictureFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public PictureFrame[] newArray(int i) {
+            return new PictureFrame[i];
+        }
+    };
     public final int colors;
     public final int depth;
     public final String description;
@@ -84,22 +94,5 @@ public final class PictureFrame implements Metadata.Entry {
         parcel.writeInt(this.depth);
         parcel.writeInt(this.colors);
         parcel.writeByteArray(this.pictureData);
-    }
-
-    /* renamed from: com.google.android.exoplayer2.metadata.flac.PictureFrame$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<PictureFrame> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public PictureFrame createFromParcel(Parcel parcel) {
-            return new PictureFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public PictureFrame[] newArray(int i) {
-            return new PictureFrame[i];
-        }
     }
 }

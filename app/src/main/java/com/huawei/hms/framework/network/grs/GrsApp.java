@@ -17,7 +17,7 @@ public class GrsApp {
             str = "";
         } else {
             String[] split = name.split("\\.");
-            Logger.v("GrsApp", "current brand is:" + split[1]);
+            Logger.v(TAG, "current brand is:" + split[1]);
             str = split[1];
         }
         BRAND = str;

@@ -2,11 +2,14 @@ package org.telegram.messenger.audioinfo.mp3;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import com.huawei.hms.adapter.internal.AvailableCode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.telegram.messenger.R;
 import org.telegram.messenger.audioinfo.AudioInfo;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class ID3v2Info extends AudioInfo {
     static final Logger LOGGER = Logger.getLogger(ID3v2Info.class.getName());
@@ -381,7 +384,7 @@ public class ID3v2Info extends AudioInfo {
                 this.album = parseTextFrame(iD3v2FrameBody);
                 return;
             case 3:
-            case 20:
+            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
                 this.composer = parseTextFrame(iD3v2FrameBody);
                 return;
             case 4:
@@ -414,11 +417,11 @@ public class ID3v2Info extends AudioInfo {
                 this.compilation = "1".equals(parseTextFrame(iD3v2FrameBody));
                 return;
             case 6:
-            case 22:
+            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
                 this.copyright = parseTextFrame(iD3v2FrameBody);
                 return;
             case 7:
-            case 26:
+            case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
                 String parseTextFrame2 = parseTextFrame(iD3v2FrameBody);
                 try {
                     this.duration = Long.valueOf(parseTextFrame2).longValue();
@@ -432,15 +435,15 @@ public class ID3v2Info extends AudioInfo {
                     return;
                 }
             case '\b':
-            case 27:
+            case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
                 this.artist = parseTextFrame(iD3v2FrameBody);
                 return;
             case '\t':
-            case 28:
+            case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
                 this.albumArtist = parseTextFrame(iD3v2FrameBody);
                 return;
             case '\n':
-            case 29:
+            case AvailableCode.HMS_IS_SPOOF /* 29 */:
                 String parseTextFrame3 = parseTextFrame(iD3v2FrameBody);
                 if (parseTextFrame3.length() <= 0) {
                     return;
@@ -479,7 +482,7 @@ public class ID3v2Info extends AudioInfo {
                     return;
                 }
             case 11:
-            case 30:
+            case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
                 String parseTextFrame4 = parseTextFrame(iD3v2FrameBody);
                 if (parseTextFrame4.length() <= 0) {
                     return;
@@ -522,11 +525,11 @@ public class ID3v2Info extends AudioInfo {
                 this.grouping = parseTextFrame(iD3v2FrameBody);
                 return;
             case '\r':
-            case 25:
+            case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
                 this.title = parseTextFrame(iD3v2FrameBody);
                 return;
             case 14:
-            case 31:
+            case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
                 String parseTextFrame5 = parseTextFrame(iD3v2FrameBody);
                 if (parseTextFrame5.length() <= 0) {
                     return;
@@ -543,13 +546,13 @@ public class ID3v2Info extends AudioInfo {
                     return;
                 }
             case 15:
-            case ' ':
+            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                 if (this.lyrics != null) {
                     return;
                 }
                 this.lyrics = parseCommentOrUnsynchronizedLyricsFrame(iD3v2FrameBody).text;
                 return;
-            case 23:
+            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
                 String parseTextFrame6 = parseTextFrame(iD3v2FrameBody);
                 if (parseTextFrame6.length() < 4) {
                     return;

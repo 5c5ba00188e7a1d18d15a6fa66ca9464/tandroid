@@ -39,11 +39,13 @@ import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.FloatingActionMode;
 import org.telegram.ui.ActionBar.FloatingToolbar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ArticleViewer;
+import org.telegram.ui.Cells.TextSelectionHelper;
 import org.telegram.ui.Cells.TextSelectionHelper.SelectableView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
@@ -107,114 +109,10 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     protected final Rect textArea = new Rect();
     private RectF startArea = new RectF();
     private RectF endArea = new RectF();
-    protected final LayoutBlock layoutBlock = new LayoutBlock(null);
+    protected final LayoutBlock layoutBlock = new LayoutBlock();
     private Interpolator interpolator = new OvershootInterpolator();
     protected boolean showActionsAsPopupAlways = false;
-    private Runnable scrollRunnable = new AnonymousClass1();
-    final Runnable startSelectionRunnable = new AnonymousClass2();
-    private OnTranslateListener onTranslateListener = null;
-    private final Runnable hideActionsRunnable = new AnonymousClass3();
-    private final ScalablePath tempPath2 = new ScalablePath(null);
-    private int longpressDelay = ViewConfiguration.getLongPressTimeout();
-    private int touchSlop = ViewConfiguration.get(ApplicationLoader.applicationContext).getScaledTouchSlop();
-
-    /* loaded from: classes3.dex */
-    public interface ArticleSelectableView extends SelectableView {
-        void fillTextLayoutBlocks(ArrayList<TextLayoutBlock> arrayList);
-    }
-
-    /* loaded from: classes3.dex */
-    public static class Callback {
-        public void onStateChanged(boolean z) {
-            throw null;
-        }
-
-        public void onTextCopied() {
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public static class IgnoreCopySpannable {
-    }
-
-    /* loaded from: classes3.dex */
-    public interface OnTranslateListener {
-        void run(CharSequence charSequence, String str, String str2, Runnable runnable);
-    }
-
-    /* loaded from: classes3.dex */
-    public interface SelectableView {
-        int getBottom();
-
-        int getMeasuredWidth();
-
-        int getTop();
-
-        float getX();
-
-        float getY();
-
-        void invalidate();
-    }
-
-    /* loaded from: classes3.dex */
-    public interface TextLayoutBlock {
-        StaticLayout getLayout();
-
-        CharSequence getPrefix();
-
-        int getRow();
-
-        int getX();
-
-        int getY();
-    }
-
-    protected abstract void fillLayoutForOffset(int i, LayoutBlock layoutBlock, boolean z);
-
-    protected abstract int getCharOffsetFromCord(int i, int i2, int i3, int i4, Cell cell, boolean z);
-
-    protected abstract int getLineHeight();
-
-    public int getParentBottomPadding() {
-        return 0;
-    }
-
-    public int getParentTopPadding() {
-        return 0;
-    }
-
-    protected Theme.ResourcesProvider getResourcesProvider() {
-        return null;
-    }
-
-    protected abstract CharSequence getText(Cell cell, boolean z);
-
-    protected void onExitSelectionMode(boolean z) {
-    }
-
-    protected void onOffsetChanged() {
-    }
-
-    protected abstract void onTextSelected(Cell cell, Cell cell2);
-
-    protected void pickEndView() {
-    }
-
-    protected void pickStartView() {
-    }
-
-    protected boolean selectLayout(int i, int i2) {
-        return false;
-    }
-
-    /* renamed from: org.telegram.ui.Cells.TextSelectionHelper$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            TextSelectionHelper.this = r1;
-        }
-
+    private Runnable scrollRunnable = new Runnable() { // from class: org.telegram.ui.Cells.TextSelectionHelper.1
         @Override // java.lang.Runnable
         public void run() {
             int i;
@@ -255,15 +153,8 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 AndroidUtilities.runOnUIThread(this);
             }
         }
-    }
-
-    /* renamed from: org.telegram.ui.Cells.TextSelectionHelper$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements Runnable {
-        AnonymousClass2() {
-            TextSelectionHelper.this = r1;
-        }
-
+    };
+    final Runnable startSelectionRunnable = new Runnable() { // from class: org.telegram.ui.Cells.TextSelectionHelper.2
         @Override // java.lang.Runnable
         public void run() {
             TextSelectionHelper textSelectionHelper = TextSelectionHelper.this;
@@ -387,10 +278,118 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
             }
             TextSelectionHelper.this.tryCapture = false;
         }
+    };
+    private OnTranslateListener onTranslateListener = null;
+    private final Runnable hideActionsRunnable = new Runnable() { // from class: org.telegram.ui.Cells.TextSelectionHelper.3
+        @Override // java.lang.Runnable
+        public void run() {
+            if (Build.VERSION.SDK_INT < 23 || TextSelectionHelper.this.actionMode == null) {
+                return;
+            }
+            TextSelectionHelper textSelectionHelper = TextSelectionHelper.this;
+            if (textSelectionHelper.actionsIsShowing) {
+                return;
+            }
+            textSelectionHelper.actionMode.hide(Long.MAX_VALUE);
+            AndroidUtilities.runOnUIThread(TextSelectionHelper.this.hideActionsRunnable, 1000L);
+        }
+    };
+    private final ScalablePath tempPath2 = new ScalablePath();
+    private int longpressDelay = ViewConfiguration.getLongPressTimeout();
+    private int touchSlop = ViewConfiguration.get(ApplicationLoader.applicationContext).getScaledTouchSlop();
+
+    /* loaded from: classes3.dex */
+    public interface ArticleSelectableView extends SelectableView {
+        void fillTextLayoutBlocks(ArrayList<TextLayoutBlock> arrayList);
+    }
+
+    /* loaded from: classes3.dex */
+    public static class Callback {
+        public void onStateChanged(boolean z) {
+            throw null;
+        }
+
+        public void onTextCopied() {
+        }
+    }
+
+    /* loaded from: classes3.dex */
+    public static class IgnoreCopySpannable {
+    }
+
+    /* loaded from: classes3.dex */
+    public interface OnTranslateListener {
+        void run(CharSequence charSequence, String str, String str2, Runnable runnable);
+    }
+
+    /* loaded from: classes3.dex */
+    public interface SelectableView {
+        int getBottom();
+
+        int getMeasuredWidth();
+
+        int getTop();
+
+        float getX();
+
+        float getY();
+
+        void invalidate();
+    }
+
+    /* loaded from: classes3.dex */
+    public interface TextLayoutBlock {
+        StaticLayout getLayout();
+
+        CharSequence getPrefix();
+
+        int getRow();
+
+        int getX();
+
+        int getY();
+    }
+
+    protected abstract void fillLayoutForOffset(int i, LayoutBlock layoutBlock, boolean z);
+
+    protected abstract int getCharOffsetFromCord(int i, int i2, int i3, int i4, Cell cell, boolean z);
+
+    protected abstract int getLineHeight();
+
+    public int getParentBottomPadding() {
+        return 0;
+    }
+
+    public int getParentTopPadding() {
+        return 0;
+    }
+
+    protected Theme.ResourcesProvider getResourcesProvider() {
+        return null;
+    }
+
+    protected abstract CharSequence getText(Cell cell, boolean z);
+
+    protected void onExitSelectionMode(boolean z) {
+    }
+
+    protected void onOffsetChanged() {
+    }
+
+    protected abstract void onTextSelected(Cell cell, Cell cell2);
+
+    protected void pickEndView() {
+    }
+
+    protected void pickStartView() {
+    }
+
+    protected boolean selectLayout(int i, int i2) {
+        return false;
     }
 
     public TextSelectionHelper() {
-        new PathWithSavedBottom(null);
+        new PathWithSavedBottom();
         new PathCopyTo(this.selectionPath);
         Paint paint = this.selectionPaint;
         float dp = AndroidUtilities.dp(6.0f);
@@ -569,7 +568,12 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.handleViewProgress, 1.0f);
         this.handleViewAnimator = ofFloat;
-        ofFloat.addUpdateListener(new TextSelectionHelper$$ExternalSyntheticLambda0(this));
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.TextSelectionHelper$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                TextSelectionHelper.this.lambda$showHandleViews$0(valueAnimator2);
+            }
+        });
         this.handleViewAnimator.setDuration(Math.abs(1.0f - this.handleViewProgress) * 250.0f);
         this.handleViewAnimator.start();
     }
@@ -617,9 +621,16 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.textSelectionOverlay.getContext());
                 this.popupLayout = actionBarPopupWindowLayout;
                 actionBarPopupWindowLayout.setPadding(AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f));
-                this.popupLayout.setBackgroundDrawable(this.textSelectionOverlay.getContext().getResources().getDrawable(2131165612));
+                this.popupLayout.setBackgroundDrawable(this.textSelectionOverlay.getContext().getResources().getDrawable(R.drawable.menu_copy));
                 this.popupLayout.setAnimationEnabled(false);
-                this.popupLayout.setOnTouchListener(new TextSelectionHelper$$ExternalSyntheticLambda2(this));
+                this.popupLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Cells.TextSelectionHelper$$ExternalSyntheticLambda2
+                    @Override // android.view.View.OnTouchListener
+                    public final boolean onTouch(View view, MotionEvent motionEvent) {
+                        boolean lambda$showActions$1;
+                        lambda$showActions$1 = TextSelectionHelper.this.lambda$showActions$1(view, motionEvent);
+                        return lambda$showActions$1;
+                    }
+                });
                 this.popupLayout.setShownFromBottom(false);
                 TextView textView = new TextView(this.textSelectionOverlay.getContext());
                 this.deleteView = textView;
@@ -627,15 +638,20 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 this.deleteView.setGravity(16);
                 this.deleteView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
                 this.deleteView.setTextSize(1, 15.0f);
-                this.deleteView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                this.deleteView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 this.deleteView.setText(this.textSelectionOverlay.getContext().getString(17039361));
                 this.deleteView.setTextColor(getThemedColor("actionBarDefaultSubmenuItem"));
-                this.deleteView.setOnClickListener(new TextSelectionHelper$$ExternalSyntheticLambda1(this));
+                this.deleteView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.TextSelectionHelper$$ExternalSyntheticLambda1
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        TextSelectionHelper.this.lambda$showActions$2(view);
+                    }
+                });
                 this.popupLayout.addView(this.deleteView, LayoutHelper.createFrame(-2, 48.0f));
                 ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.popupLayout, -2, -2);
                 this.popupWindow = actionBarPopupWindow;
                 actionBarPopupWindow.setAnimationEnabled(false);
-                this.popupWindow.setAnimationStyle(2131689481);
+                this.popupWindow.setAnimationStyle(R.style.PopupContextAnimation);
                 this.popupWindow.setOutsideTouchable(true);
                 ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = this.popupLayout;
                 if (actionBarPopupWindowLayout2 != null) {
@@ -665,27 +681,6 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
 
     protected boolean canShowActions() {
         return this.selectedView != null;
-    }
-
-    /* renamed from: org.telegram.ui.Cells.TextSelectionHelper$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 implements Runnable {
-        AnonymousClass3() {
-            TextSelectionHelper.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (Build.VERSION.SDK_INT < 23 || TextSelectionHelper.this.actionMode == null) {
-                return;
-            }
-            TextSelectionHelper textSelectionHelper = TextSelectionHelper.this;
-            if (textSelectionHelper.actionsIsShowing) {
-                return;
-            }
-            textSelectionHelper.actionMode.hide(Long.MAX_VALUE);
-            AndroidUtilities.runOnUIThread(TextSelectionHelper.this.hideActionsRunnable, 1000L);
-        }
     }
 
     public void hideActions() {
@@ -1472,12 +1467,12 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             menu.add(0, 16908321, 0, 17039361);
             menu.add(0, 16908319, 1, 17039373);
-            menu.add(0, 3, 2, LocaleController.getString("TranslateMessage", 2131628759));
+            menu.add(0, 3, 2, LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
             return true;
         }
 
         @Override // android.view.ActionMode.Callback
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        public boolean onPrepareActionMode(ActionMode actionMode, final Menu menu) {
             TextSelectionHelper textSelectionHelper = TextSelectionHelper.this;
             Cell cell = textSelectionHelper.selectedView;
             if (cell != null) {
@@ -1490,7 +1485,17 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 }
             }
             if (TextSelectionHelper.this.onTranslateListener != null && LanguageDetector.hasSupport() && TextSelectionHelper.this.getSelectedText() != null) {
-                LanguageDetector.detectLanguage(TextSelectionHelper.this.getSelectedText().toString(), new TextSelectionHelper$4$$ExternalSyntheticLambda2(this, menu), new TextSelectionHelper$4$$ExternalSyntheticLambda1(this, menu));
+                LanguageDetector.detectLanguage(TextSelectionHelper.this.getSelectedText().toString(), new LanguageDetector.StringCallback() { // from class: org.telegram.ui.Cells.TextSelectionHelper$4$$ExternalSyntheticLambda2
+                    @Override // org.telegram.messenger.LanguageDetector.StringCallback
+                    public final void run(String str) {
+                        TextSelectionHelper.AnonymousClass4.this.lambda$onPrepareActionMode$0(menu, str);
+                    }
+                }, new LanguageDetector.ExceptionCallback() { // from class: org.telegram.ui.Cells.TextSelectionHelper$4$$ExternalSyntheticLambda1
+                    @Override // org.telegram.messenger.LanguageDetector.ExceptionCallback
+                    public final void run(Exception exc) {
+                        TextSelectionHelper.AnonymousClass4.this.lambda$onPrepareActionMode$1(menu, exc);
+                    }
+                });
             } else {
                 this.translateFromLanguage = null;
                 updateTranslateButton(menu);
@@ -1523,7 +1528,12 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
             int itemId = menuItem.getItemId();
             if (itemId == 3) {
                 if (TextSelectionHelper.this.onTranslateListener != null) {
-                    TextSelectionHelper.this.onTranslateListener.run(TextSelectionHelper.this.getSelectedText(), this.translateFromLanguage, LocaleController.getInstance().getCurrentLocale().getLanguage(), new TextSelectionHelper$4$$ExternalSyntheticLambda0(this));
+                    TextSelectionHelper.this.onTranslateListener.run(TextSelectionHelper.this.getSelectedText(), this.translateFromLanguage, LocaleController.getInstance().getCurrentLocale().getLanguage(), new Runnable() { // from class: org.telegram.ui.Cells.TextSelectionHelper$4$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            TextSelectionHelper.AnonymousClass4.this.lambda$onActionItemClicked$2();
+                        }
+                    });
                 }
                 TextSelectionHelper.this.hideActions();
                 return true;
@@ -1563,70 +1573,59 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     }
 
     private ActionMode.Callback createActionCallback() {
-        AnonymousClass4 anonymousClass4 = new AnonymousClass4();
-        return Build.VERSION.SDK_INT >= 23 ? new AnonymousClass5(anonymousClass4) : anonymousClass4;
-    }
-
-    /* renamed from: org.telegram.ui.Cells.TextSelectionHelper$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends ActionMode.Callback2 {
-        final /* synthetic */ ActionMode.Callback val$callback;
-
-        AnonymousClass5(ActionMode.Callback callback) {
-            TextSelectionHelper.this = r1;
-            this.val$callback = callback;
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            return this.val$callback.onCreateActionMode(actionMode, menu);
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            return this.val$callback.onPrepareActionMode(actionMode, menu);
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            return this.val$callback.onActionItemClicked(actionMode, menuItem);
-        }
-
-        @Override // android.view.ActionMode.Callback
-        public void onDestroyActionMode(ActionMode actionMode) {
-            this.val$callback.onDestroyActionMode(actionMode);
-        }
-
-        @Override // android.view.ActionMode.Callback2
-        public void onGetContentRect(ActionMode actionMode, View view, Rect rect) {
-            int i;
-            if (!TextSelectionHelper.this.isSelectionMode()) {
-                return;
+        final AnonymousClass4 anonymousClass4 = new AnonymousClass4();
+        return Build.VERSION.SDK_INT >= 23 ? new ActionMode.Callback2() { // from class: org.telegram.ui.Cells.TextSelectionHelper.5
+            @Override // android.view.ActionMode.Callback
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                return anonymousClass4.onCreateActionMode(actionMode, menu);
             }
-            TextSelectionHelper.this.pickStartView();
-            TextSelectionHelper textSelectionHelper = TextSelectionHelper.this;
-            int i2 = 1;
-            if (textSelectionHelper.selectedView != null) {
-                TextSelectionHelper textSelectionHelper2 = TextSelectionHelper.this;
-                int[] offsetToCord = textSelectionHelper2.offsetToCord(textSelectionHelper2.selectionStart);
-                int i3 = offsetToCord[0];
-                TextSelectionHelper textSelectionHelper3 = TextSelectionHelper.this;
-                i = i3 + textSelectionHelper3.textX;
-                int y = (((int) ((offsetToCord[1] + textSelectionHelper3.textY) + textSelectionHelper3.selectedView.getY())) + ((-textSelectionHelper.getLineHeight()) / 2)) - AndroidUtilities.dp(4.0f);
-                if (y >= 1) {
-                    i2 = y;
+
+            @Override // android.view.ActionMode.Callback
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return anonymousClass4.onPrepareActionMode(actionMode, menu);
+            }
+
+            @Override // android.view.ActionMode.Callback
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                return anonymousClass4.onActionItemClicked(actionMode, menuItem);
+            }
+
+            @Override // android.view.ActionMode.Callback
+            public void onDestroyActionMode(ActionMode actionMode) {
+                anonymousClass4.onDestroyActionMode(actionMode);
+            }
+
+            @Override // android.view.ActionMode.Callback2
+            public void onGetContentRect(ActionMode actionMode, View view, Rect rect) {
+                int i;
+                if (!TextSelectionHelper.this.isSelectionMode()) {
+                    return;
                 }
-            } else {
-                i = 0;
+                TextSelectionHelper.this.pickStartView();
+                TextSelectionHelper textSelectionHelper = TextSelectionHelper.this;
+                int i2 = 1;
+                if (textSelectionHelper.selectedView != null) {
+                    TextSelectionHelper textSelectionHelper2 = TextSelectionHelper.this;
+                    int[] offsetToCord = textSelectionHelper2.offsetToCord(textSelectionHelper2.selectionStart);
+                    int i3 = offsetToCord[0];
+                    TextSelectionHelper textSelectionHelper3 = TextSelectionHelper.this;
+                    i = i3 + textSelectionHelper3.textX;
+                    int y = (((int) ((offsetToCord[1] + textSelectionHelper3.textY) + textSelectionHelper3.selectedView.getY())) + ((-textSelectionHelper.getLineHeight()) / 2)) - AndroidUtilities.dp(4.0f);
+                    if (y >= 1) {
+                        i2 = y;
+                    }
+                } else {
+                    i = 0;
+                }
+                int width = TextSelectionHelper.this.parentView.getWidth();
+                TextSelectionHelper.this.pickEndView();
+                TextSelectionHelper textSelectionHelper4 = TextSelectionHelper.this;
+                if (textSelectionHelper4.selectedView != null) {
+                    width = textSelectionHelper4.offsetToCord(textSelectionHelper4.selectionEnd)[0] + TextSelectionHelper.this.textX;
+                }
+                rect.set(Math.min(i, width), i2, Math.max(i, width), i2 + 1);
             }
-            int width = TextSelectionHelper.this.parentView.getWidth();
-            TextSelectionHelper.this.pickEndView();
-            TextSelectionHelper textSelectionHelper4 = TextSelectionHelper.this;
-            if (textSelectionHelper4.selectedView != null) {
-                width = textSelectionHelper4.offsetToCord(textSelectionHelper4.selectionEnd)[0] + TextSelectionHelper.this.textX;
-            }
-            rect.set(Math.min(i, width), i2, Math.max(i, width), i2 + 1);
-        }
+        } : anonymousClass4;
     }
 
     public void copyText() {
@@ -1803,10 +1802,6 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
 
         private LayoutBlock() {
         }
-
-        /* synthetic */ LayoutBlock(AnonymousClass1 anonymousClass1) {
-            this();
-        }
     }
 
     protected void fillLayoutForOffset(int i, LayoutBlock layoutBlock) {
@@ -1882,7 +1877,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         }
 
         public void onTextSelected(ChatMessageCell chatMessageCell, ChatMessageCell chatMessageCell2) {
-            boolean z = chatMessageCell2 == null || !(chatMessageCell2.getMessageObject() == null || chatMessageCell2.getMessageObject().getId() == chatMessageCell.getMessageObject().getId());
+            final boolean z = chatMessageCell2 == null || !(chatMessageCell2.getMessageObject() == null || chatMessageCell2.getMessageObject().getId() == chatMessageCell.getMessageObject().getId());
             this.selectedCellId = chatMessageCell.getMessageObject().getId();
             try {
                 int i = chatMessageCell.getMessageObject().messageOwner.edit_date;
@@ -1896,7 +1891,12 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 animator.cancel();
             }
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat.addUpdateListener(new TextSelectionHelper$ChatListTextSelectionHelper$$ExternalSyntheticLambda1(this, z));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.TextSelectionHelper$ChatListTextSelectionHelper$$ExternalSyntheticLambda1
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    TextSelectionHelper.ChatListTextSelectionHelper.this.lambda$onTextSelected$0(z, valueAnimator);
+                }
+            });
             ofFloat.setDuration(250L);
             ofFloat.start();
             this.animatorSparseArray.put(this.selectedCellId, ofFloat);
@@ -2104,8 +2104,8 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 return;
             }
             Cell cell2 = this.selectedView;
-            ChatMessageCell chatMessageCell = (ChatMessageCell) cell2;
-            int id = ((ChatMessageCell) cell2).getMessageObject().getId();
+            final ChatMessageCell chatMessageCell = (ChatMessageCell) cell2;
+            final int id = ((ChatMessageCell) cell2).getMessageObject().getId();
             Animator animator = this.animatorSparseArray.get(id);
             if (animator != null) {
                 animator.removeAllListeners();
@@ -2113,8 +2113,18 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
             }
             chatMessageCell.setSelectedBackgroundProgress(0.01f);
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.01f, 1.0f);
-            ofFloat.addUpdateListener(new TextSelectionHelper$ChatListTextSelectionHelper$$ExternalSyntheticLambda0(chatMessageCell, id));
-            ofFloat.addListener(new AnonymousClass1(this, chatMessageCell));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.TextSelectionHelper$ChatListTextSelectionHelper$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    TextSelectionHelper.ChatListTextSelectionHelper.lambda$onExitSelectionMode$1(ChatMessageCell.this, id, valueAnimator);
+                }
+            });
+            ofFloat.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Cells.TextSelectionHelper.ChatListTextSelectionHelper.1
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator2) {
+                    chatMessageCell.setSelectedBackgroundProgress(0.0f);
+                }
+            });
             ofFloat.setDuration(300L);
             ofFloat.start();
             this.animatorSparseArray.put(id, ofFloat);
@@ -2126,21 +2136,6 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 return;
             }
             chatMessageCell.setSelectedBackgroundProgress(floatValue);
-        }
-
-        /* renamed from: org.telegram.ui.Cells.TextSelectionHelper$ChatListTextSelectionHelper$1 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass1 extends AnimatorListenerAdapter {
-            final /* synthetic */ ChatMessageCell val$cell;
-
-            AnonymousClass1(ChatListTextSelectionHelper chatListTextSelectionHelper, ChatMessageCell chatMessageCell) {
-                this.val$cell = chatMessageCell;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                this.val$cell.setSelectedBackgroundProgress(0.0f);
-            }
         }
 
         public void onChatMessageCellAttached(ChatMessageCell chatMessageCell) {
@@ -2966,6 +2961,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class PathCopyTo extends Path {
         private Path destination;
@@ -2985,16 +2981,13 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class PathWithSavedBottom extends Path {
         float lastBottom;
 
         private PathWithSavedBottom() {
             this.lastBottom = 0.0f;
-        }
-
-        /* synthetic */ PathWithSavedBottom(AnonymousClass1 anonymousClass1) {
-            this();
         }
 
         @Override // android.graphics.Path
@@ -3023,10 +3016,6 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
             this.lastBottom = 0.0f;
             this.rects = new ArrayList<>(1);
             this.rectsCount = 0;
-        }
-
-        /* synthetic */ ScalablePath(AnonymousClass1 anonymousClass1) {
-            this();
         }
 
         @Override // android.graphics.Path

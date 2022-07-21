@@ -16,7 +16,12 @@ public class FileVideoCapturer implements VideoCapturer {
     private CapturerObserver capturerObserver;
     private final VideoReader videoReader;
     private final Timer timer = new Timer();
-    private final TimerTask tickTask = new AnonymousClass1();
+    private final TimerTask tickTask = new TimerTask() { // from class: org.webrtc.FileVideoCapturer.1
+        @Override // java.util.TimerTask, java.lang.Runnable
+        public void run() {
+            FileVideoCapturer.this.tick();
+        }
+    };
 
     /* loaded from: classes3.dex */
     public interface VideoReader {
@@ -72,7 +77,7 @@ public class FileVideoCapturer implements VideoCapturer {
                             i = Integer.parseInt(str3.substring(1));
                         }
                     }
-                    Logging.d("VideoReaderY4M", "Color space: " + str2);
+                    Logging.d(TAG, "Color space: " + str2);
                     if (!str2.equals("420") && !str2.equals("420mpeg2")) {
                         throw new IllegalArgumentException("Does not support any other color space than I420 or I420mpeg2");
                     }
@@ -81,7 +86,7 @@ public class FileVideoCapturer implements VideoCapturer {
                     }
                     this.frameWidth = i;
                     this.frameHeight = i2;
-                    Logging.d("VideoReaderY4M", "frame dim: (" + i + ", " + i2 + ")");
+                    Logging.d(TAG, "frame dim: (" + i + ", " + i2 + ")");
                     return;
                 }
             }
@@ -125,21 +130,8 @@ public class FileVideoCapturer implements VideoCapturer {
             try {
                 this.mediaFile.close();
             } catch (IOException e) {
-                Logging.e("VideoReaderY4M", "Problem closing file", e);
+                Logging.e(TAG, "Problem closing file", e);
             }
-        }
-    }
-
-    /* renamed from: org.webrtc.FileVideoCapturer$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends TimerTask {
-        AnonymousClass1() {
-            FileVideoCapturer.this = r1;
-        }
-
-        @Override // java.util.TimerTask, java.lang.Runnable
-        public void run() {
-            FileVideoCapturer.this.tick();
         }
     }
 
@@ -147,7 +139,7 @@ public class FileVideoCapturer implements VideoCapturer {
         try {
             this.videoReader = new VideoReaderY4M(str);
         } catch (IOException e) {
-            Logging.d("FileVideoCapturer", "Could not open video file: " + str);
+            Logging.d(TAG, "Could not open video file: " + str);
             throw e;
         }
     }

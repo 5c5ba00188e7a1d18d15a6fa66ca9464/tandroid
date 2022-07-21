@@ -10,7 +10,12 @@ public enum zzge$zzv$zzb implements zzcj {
     private final int value;
 
     static {
-        new zzgr();
+        new zzck<zzge$zzv$zzb>() { // from class: com.google.android.gms.internal.clearcut.zzgr
+            @Override // com.google.android.gms.internal.clearcut.zzck
+            public final /* synthetic */ zzge$zzv$zzb zzb(int i) {
+                return zzge$zzv$zzb.zzbc(i);
+            }
+        };
     }
 
     zzge$zzv$zzb(int i) {

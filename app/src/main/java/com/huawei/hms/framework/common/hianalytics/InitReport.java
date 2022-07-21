@@ -16,9 +16,9 @@ public class InitReport {
             try {
                 HianalyticsHelper.getInstance().getReportExecutor().execute(runnable);
             } catch (RejectedExecutionException unused) {
-                Logger.e("HaReport", "the thread submit has rejectedExecutionException!");
+                Logger.e(TAG, "the thread submit has rejectedExecutionException!");
             } catch (Throwable unused2) {
-                Logger.e("HaReport", "the thread submit has fatal error!");
+                Logger.e(TAG, "the thread submit has fatal error!");
             }
         } else if (eventsToReport.size() > 10) {
             Logger.e("TAG", "the event to be report when init exceed the limit!");
@@ -30,23 +30,16 @@ public class InitReport {
     public static void enableConnectNet() {
         hasConnectNet = true;
         try {
-            HianalyticsHelper.getInstance().getReportExecutor().submit(new AnonymousClass1());
+            HianalyticsHelper.getInstance().getReportExecutor().submit(new Runnable() { // from class: com.huawei.hms.framework.common.hianalytics.InitReport.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    InitReport.submitAllEvents();
+                }
+            });
         } catch (RejectedExecutionException unused) {
-            Logger.e("HaReport", "the thread submit has rejectedExecutionException!");
+            Logger.e(TAG, "the thread submit has rejectedExecutionException!");
         } catch (Throwable unused2) {
-            Logger.e("HaReport", "the thread submit has fatal error!");
-        }
-    }
-
-    /* renamed from: com.huawei.hms.framework.common.hianalytics.InitReport$1 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            InitReport.submitAllEvents();
+            Logger.e(TAG, "the thread submit has fatal error!");
         }
     }
 
@@ -57,11 +50,11 @@ public class InitReport {
             }
             eventsToReport.clear();
         } catch (NullPointerException unused) {
-            Logger.e("HaReport", "event is null occured");
+            Logger.e(TAG, "event is null occured");
         } catch (RejectedExecutionException unused2) {
-            Logger.e("HaReport", "submit failed of rejected execution exception");
+            Logger.e(TAG, "submit failed of rejected execution exception");
         } catch (Exception unused3) {
-            Logger.e("HaReport", "submit failed because of some exception");
+            Logger.e(TAG, "submit failed because of some exception");
         }
     }
 }

@@ -27,6 +27,7 @@ public enum zzij implements zzet {
     }
 
     static {
-        new zzim();
+        new Object() { // from class: com.google.android.gms.internal.mlkit_language_id.zzim
+        };
     }
 }

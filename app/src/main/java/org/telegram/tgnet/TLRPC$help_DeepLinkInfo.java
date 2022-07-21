@@ -4,7 +4,14 @@ public abstract class TLRPC$help_DeepLinkInfo extends TLObject {
     public static TLRPC$help_DeepLinkInfo TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$help_DeepLinkInfo tLRPC$help_DeepLinkInfo;
         if (i == 1722786150) {
-            tLRPC$help_DeepLinkInfo = new TLRPC$TL_help_deepLinkInfoEmpty();
+            tLRPC$help_DeepLinkInfo = new TLRPC$help_DeepLinkInfo() { // from class: org.telegram.tgnet.TLRPC$TL_help_deepLinkInfoEmpty
+                public static int constructor = 1722786150;
+
+                @Override // org.telegram.tgnet.TLObject
+                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                    abstractSerializedData2.writeInt32(constructor);
+                }
+            };
         } else {
             tLRPC$help_DeepLinkInfo = i != 1783556146 ? null : new TLRPC$TL_help_deepLinkInfo();
         }

@@ -120,20 +120,12 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         }
         long j = cursor.getLong(cursor.getColumnIndexOrThrow("total_size"));
         if (this.mListener.onProgress(cursor.getLong(cursor.getColumnIndexOrThrow("bytes_so_far")), j)) {
-            HandlerUtils.getMainHandler().postAtTime(new AnonymousClass1(), "Distribute.handler_token_check_progress", SystemClock.uptimeMillis() + 500);
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.distribute.download.manager.DownloadManagerReleaseDownloader$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            DownloadManagerReleaseDownloader.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            DownloadManagerReleaseDownloader.this.update();
+            HandlerUtils.getMainHandler().postAtTime(new Runnable() { // from class: com.microsoft.appcenter.distribute.download.manager.DownloadManagerReleaseDownloader.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    DownloadManagerReleaseDownloader.this.update();
+                }
+            }, "Distribute.handler_token_check_progress", SystemClock.uptimeMillis() + 500);
         }
     }
 

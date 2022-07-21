@@ -245,20 +245,13 @@ final class MultiDexExtractor implements Closeable {
         return context.getSharedPreferences("multidex.version", Build.VERSION.SDK_INT < 11 ? 0 : 4);
     }
 
-    /* renamed from: androidx.multidex.MultiDexExtractor$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements FileFilter {
-        AnonymousClass1(MultiDexExtractor multiDexExtractor) {
-        }
-
-        @Override // java.io.FileFilter
-        public boolean accept(File file) {
-            return !file.getName().equals("MultiDex.lock");
-        }
-    }
-
     private void clearDexDir() {
-        File[] listFiles = this.dexDir.listFiles(new AnonymousClass1(this));
+        File[] listFiles = this.dexDir.listFiles(new FileFilter(this) { // from class: androidx.multidex.MultiDexExtractor.1
+            @Override // java.io.FileFilter
+            public boolean accept(File file) {
+                return !file.getName().equals("MultiDex.lock");
+            }
+        });
         if (listFiles == null) {
             Log.w("MultiDex", "Failed to list secondary dex dir content (" + this.dexDir.getPath() + ").");
             return;

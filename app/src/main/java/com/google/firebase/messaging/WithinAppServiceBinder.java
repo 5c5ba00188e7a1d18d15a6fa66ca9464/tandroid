@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Process;
 import android.util.Log;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.WithinAppServiceConnection;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -30,6 +31,18 @@ public class WithinAppServiceBinder extends Binder {
         if (Log.isLoggable("FirebaseMessaging", 3)) {
             Log.d("FirebaseMessaging", "service received new intent via bind strategy");
         }
-        this.intentHandler.handle(bindRequest.intent).addOnCompleteListener(WithinAppServiceBinder$$Lambda$0.$instance, new WithinAppServiceBinder$$Lambda$1(bindRequest));
+        this.intentHandler.handle(bindRequest.intent).addOnCompleteListener(WithinAppServiceBinder$$Lambda$0.$instance, new OnCompleteListener(bindRequest) { // from class: com.google.firebase.messaging.WithinAppServiceBinder$$Lambda$1
+            private final WithinAppServiceConnection.BindRequest arg$1;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.arg$1 = bindRequest;
+            }
+
+            @Override // com.google.android.gms.tasks.OnCompleteListener
+            public void onComplete(Task task) {
+                this.arg$1.finish();
+            }
+        });
     }
 }

@@ -58,6 +58,7 @@ final class AutoValue_ClientInfo extends ClientInfo {
         return hashCode ^ i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class Builder extends ClientInfo.Builder {
         private AndroidClientInfo androidClientInfo;

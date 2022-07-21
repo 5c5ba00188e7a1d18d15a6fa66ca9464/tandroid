@@ -83,7 +83,12 @@ public class ReplaceableIconDrawable extends Drawable implements Animator.Animat
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.animation = ofFloat;
-        ofFloat.addUpdateListener(new ReplaceableIconDrawable$$ExternalSyntheticLambda0(this));
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ReplaceableIconDrawable$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                ReplaceableIconDrawable.this.lambda$setIcon$0(valueAnimator2);
+            }
+        });
         this.animation.addListener(this);
         this.animation.setDuration(150L);
         this.animation.start();

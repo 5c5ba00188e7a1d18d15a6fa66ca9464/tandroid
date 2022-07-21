@@ -24,6 +24,7 @@ import android.widget.FrameLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 /* loaded from: classes3.dex */
 public class VoIPFloatingLayout extends FrameLayout {
@@ -67,26 +68,7 @@ public class VoIPFloatingLayout extends FrameLayout {
     float mutedProgress = 0.0f;
     private float overrideCornerRadius = -1.0f;
     private boolean active = true;
-    private ValueAnimator.AnimatorUpdateListener progressUpdateListener = new AnonymousClass1();
-    private ValueAnimator.AnimatorUpdateListener mutedUpdateListener = new VoIPFloatingLayout$$ExternalSyntheticLambda0(this);
-
-    /* loaded from: classes3.dex */
-    public interface VoIPFloatingLayoutDelegate {
-        void onChange(float f, boolean z);
-    }
-
-    @Override // android.view.ViewGroup
-    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-        return true;
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.VoIPFloatingLayout$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements ValueAnimator.AnimatorUpdateListener {
-        AnonymousClass1() {
-            VoIPFloatingLayout.this = r1;
-        }
-
+    private ValueAnimator.AnimatorUpdateListener progressUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout.1
         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
         public void onAnimationUpdate(ValueAnimator valueAnimator) {
             VoIPFloatingLayout.this.toFloatingModeProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
@@ -97,6 +79,22 @@ public class VoIPFloatingLayout extends FrameLayout {
             }
             VoIPFloatingLayout.this.invalidate();
         }
+    };
+    private ValueAnimator.AnimatorUpdateListener mutedUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout$$ExternalSyntheticLambda0
+        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+            VoIPFloatingLayout.this.lambda$new$0(valueAnimator);
+        }
+    };
+
+    /* loaded from: classes3.dex */
+    public interface VoIPFloatingLayoutDelegate {
+        void onChange(float f, boolean z);
+    }
+
+    @Override // android.view.ViewGroup
+    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+        return true;
     }
 
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
@@ -109,35 +107,27 @@ public class VoIPFloatingLayout extends FrameLayout {
         new Paint(1);
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         if (Build.VERSION.SDK_INT >= 21) {
-            setOutlineProvider(new AnonymousClass2());
+            setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout.2
+                @Override // android.view.ViewOutlineProvider
+                @TargetApi(21)
+                public void getOutline(View view, Outline outline) {
+                    if (VoIPFloatingLayout.this.overrideCornerRadius >= 0.0f) {
+                        if (VoIPFloatingLayout.this.overrideCornerRadius >= 1.0f) {
+                            outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), VoIPFloatingLayout.this.overrideCornerRadius);
+                        } else {
+                            outline.setRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+                        }
+                    } else if (VoIPFloatingLayout.this.floatingMode) {
+                        outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), VoIPFloatingLayout.this.floatingMode ? AndroidUtilities.dp(4.0f) : 0.0f);
+                    } else {
+                        outline.setRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+                    }
+                }
+            });
             setClipToOutline(true);
         }
         this.mutedPaint.setColor(ColorUtils.setAlphaComponent(-16777216, 102));
-        this.mutedDrawable = ContextCompat.getDrawable(context, 2131165315);
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.VoIPFloatingLayout$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends ViewOutlineProvider {
-        AnonymousClass2() {
-            VoIPFloatingLayout.this = r1;
-        }
-
-        @Override // android.view.ViewOutlineProvider
-        @TargetApi(21)
-        public void getOutline(View view, Outline outline) {
-            if (VoIPFloatingLayout.this.overrideCornerRadius >= 0.0f) {
-                if (VoIPFloatingLayout.this.overrideCornerRadius >= 1.0f) {
-                    outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), VoIPFloatingLayout.this.overrideCornerRadius);
-                } else {
-                    outline.setRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-                }
-            } else if (VoIPFloatingLayout.this.floatingMode) {
-                outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), VoIPFloatingLayout.this.floatingMode ? AndroidUtilities.dp(4.0f) : 0.0f);
-            } else {
-                outline.setRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-            }
-        }
+        this.mutedDrawable = ContextCompat.getDrawable(context, R.drawable.calls_mute_mini);
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -401,8 +391,8 @@ public class VoIPFloatingLayout extends FrameLayout {
             }
             this.floatingMode = false;
             this.switchingToFloatingMode = true;
-            float translationX = getTranslationX();
-            float translationY = getTranslationY();
+            final float translationX = getTranslationX();
+            final float translationY = getTranslationY();
             setTranslationX(0.0f);
             setTranslationY(0.0f);
             invalidate();
@@ -418,17 +408,62 @@ public class VoIPFloatingLayout extends FrameLayout {
             animate().setListener(null).cancel();
             ViewPropertyAnimator duration = animate().scaleX(0.23f).scaleY(0.23f).translationX(translationX - ((getMeasuredWidth() - (getMeasuredWidth() * 0.23f)) / 2.0f)).translationY(translationY - ((getMeasuredHeight() - (getMeasuredHeight() * 0.23f)) / 2.0f)).alpha(1.0f).setStartDelay(0L).setDuration(300L);
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
-            duration.setInterpolator(cubicBezierInterpolator).setListener(new AnonymousClass3(translationX, translationY)).setInterpolator(cubicBezierInterpolator).start();
+            duration.setInterpolator(cubicBezierInterpolator).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout.3
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    VoIPFloatingLayout.this.switchingToFloatingMode = false;
+                    VoIPFloatingLayout.this.floatingMode = true;
+                    VoIPFloatingLayout voIPFloatingLayout = VoIPFloatingLayout.this;
+                    voIPFloatingLayout.updatePositionFromX = translationX;
+                    voIPFloatingLayout.updatePositionFromY = translationY;
+                    voIPFloatingLayout.requestLayout();
+                }
+            }).setInterpolator(cubicBezierInterpolator).start();
         } else if (!z && this.floatingMode) {
             this.setedFloatingMode = z;
-            float translationX2 = getTranslationX();
-            float translationY2 = getTranslationY();
+            final float translationX2 = getTranslationX();
+            final float translationY2 = getTranslationY();
             updatePadding();
             this.floatingMode = false;
             this.switchingToFloatingMode = true;
             requestLayout();
             animate().setListener(null).cancel();
-            getViewTreeObserver().addOnPreDrawListener(new AnonymousClass4(translationX2, translationY2));
+            getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout.4
+                @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                public boolean onPreDraw() {
+                    VoIPFloatingLayout voIPFloatingLayout = VoIPFloatingLayout.this;
+                    if (voIPFloatingLayout.measuredAsFloatingMode) {
+                        voIPFloatingLayout.floatingMode = false;
+                        VoIPFloatingLayout.this.requestLayout();
+                    } else {
+                        ValueAnimator valueAnimator2 = voIPFloatingLayout.switchToFloatingModeAnimator;
+                        if (valueAnimator2 != null) {
+                            valueAnimator2.cancel();
+                        }
+                        VoIPFloatingLayout voIPFloatingLayout2 = VoIPFloatingLayout.this;
+                        voIPFloatingLayout2.switchToFloatingModeAnimator = ValueAnimator.ofFloat(voIPFloatingLayout2.toFloatingModeProgress, 0.0f);
+                        VoIPFloatingLayout voIPFloatingLayout3 = VoIPFloatingLayout.this;
+                        voIPFloatingLayout3.switchToFloatingModeAnimator.addUpdateListener(voIPFloatingLayout3.progressUpdateListener);
+                        VoIPFloatingLayout.this.switchToFloatingModeAnimator.setDuration(300L);
+                        VoIPFloatingLayout.this.switchToFloatingModeAnimator.start();
+                        float measuredWidth = translationX2 - ((VoIPFloatingLayout.this.getMeasuredWidth() - (VoIPFloatingLayout.this.getMeasuredWidth() * 0.23f)) / 2.0f);
+                        VoIPFloatingLayout.this.getViewTreeObserver().removeOnPreDrawListener(this);
+                        VoIPFloatingLayout.this.setTranslationX(measuredWidth);
+                        VoIPFloatingLayout.this.setTranslationY(translationY2 - ((VoIPFloatingLayout.this.getMeasuredHeight() - (VoIPFloatingLayout.this.getMeasuredHeight() * 0.23f)) / 2.0f));
+                        VoIPFloatingLayout.this.setScaleX(0.23f);
+                        VoIPFloatingLayout.this.setScaleY(0.23f);
+                        VoIPFloatingLayout.this.animate().setListener(null).cancel();
+                        VoIPFloatingLayout.this.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout.4.1
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                VoIPFloatingLayout.this.switchingToFloatingMode = false;
+                                VoIPFloatingLayout.this.requestLayout();
+                            }
+                        }).scaleX(1.0f).scaleY(1.0f).translationX(0.0f).translationY(0.0f).alpha(1.0f).setDuration(300L).setStartDelay(0L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+                    }
+                    return false;
+                }
+            });
         } else {
             if (!this.floatingMode) {
                 f = 0.0f;
@@ -437,85 +472,6 @@ public class VoIPFloatingLayout extends FrameLayout {
             this.floatingMode = z;
             this.setedFloatingMode = z;
             requestLayout();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.VoIPFloatingLayout$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        final /* synthetic */ float val$toX;
-        final /* synthetic */ float val$toY;
-
-        AnonymousClass3(float f, float f2) {
-            VoIPFloatingLayout.this = r1;
-            this.val$toX = f;
-            this.val$toY = f2;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            VoIPFloatingLayout.this.switchingToFloatingMode = false;
-            VoIPFloatingLayout.this.floatingMode = true;
-            VoIPFloatingLayout voIPFloatingLayout = VoIPFloatingLayout.this;
-            voIPFloatingLayout.updatePositionFromX = this.val$toX;
-            voIPFloatingLayout.updatePositionFromY = this.val$toY;
-            voIPFloatingLayout.requestLayout();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.voip.VoIPFloatingLayout$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 implements ViewTreeObserver.OnPreDrawListener {
-        final /* synthetic */ float val$fromX;
-        final /* synthetic */ float val$fromY;
-
-        AnonymousClass4(float f, float f2) {
-            VoIPFloatingLayout.this = r1;
-            this.val$fromX = f;
-            this.val$fromY = f2;
-        }
-
-        @Override // android.view.ViewTreeObserver.OnPreDrawListener
-        public boolean onPreDraw() {
-            VoIPFloatingLayout voIPFloatingLayout = VoIPFloatingLayout.this;
-            if (voIPFloatingLayout.measuredAsFloatingMode) {
-                voIPFloatingLayout.floatingMode = false;
-                VoIPFloatingLayout.this.requestLayout();
-            } else {
-                ValueAnimator valueAnimator = voIPFloatingLayout.switchToFloatingModeAnimator;
-                if (valueAnimator != null) {
-                    valueAnimator.cancel();
-                }
-                VoIPFloatingLayout voIPFloatingLayout2 = VoIPFloatingLayout.this;
-                voIPFloatingLayout2.switchToFloatingModeAnimator = ValueAnimator.ofFloat(voIPFloatingLayout2.toFloatingModeProgress, 0.0f);
-                VoIPFloatingLayout voIPFloatingLayout3 = VoIPFloatingLayout.this;
-                voIPFloatingLayout3.switchToFloatingModeAnimator.addUpdateListener(voIPFloatingLayout3.progressUpdateListener);
-                VoIPFloatingLayout.this.switchToFloatingModeAnimator.setDuration(300L);
-                VoIPFloatingLayout.this.switchToFloatingModeAnimator.start();
-                float measuredWidth = this.val$fromX - ((VoIPFloatingLayout.this.getMeasuredWidth() - (VoIPFloatingLayout.this.getMeasuredWidth() * 0.23f)) / 2.0f);
-                VoIPFloatingLayout.this.getViewTreeObserver().removeOnPreDrawListener(this);
-                VoIPFloatingLayout.this.setTranslationX(measuredWidth);
-                VoIPFloatingLayout.this.setTranslationY(this.val$fromY - ((VoIPFloatingLayout.this.getMeasuredHeight() - (VoIPFloatingLayout.this.getMeasuredHeight() * 0.23f)) / 2.0f));
-                VoIPFloatingLayout.this.setScaleX(0.23f);
-                VoIPFloatingLayout.this.setScaleY(0.23f);
-                VoIPFloatingLayout.this.animate().setListener(null).cancel();
-                VoIPFloatingLayout.this.animate().setListener(new AnonymousClass1()).scaleX(1.0f).scaleY(1.0f).translationX(0.0f).translationY(0.0f).alpha(1.0f).setDuration(300L).setStartDelay(0L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
-            }
-            return false;
-        }
-
-        /* renamed from: org.telegram.ui.Components.voip.VoIPFloatingLayout$4$1 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass1 extends AnimatorListenerAdapter {
-            AnonymousClass1() {
-                AnonymousClass4.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                VoIPFloatingLayout.this.switchingToFloatingMode = false;
-                VoIPFloatingLayout.this.requestLayout();
-            }
         }
     }
 

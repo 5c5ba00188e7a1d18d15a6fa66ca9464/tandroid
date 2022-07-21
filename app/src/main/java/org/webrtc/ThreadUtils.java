@@ -74,42 +74,22 @@ public class ThreadUtils {
         return !thread.isAlive();
     }
 
-    /* renamed from: org.webrtc.ThreadUtils$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 implements BlockingOperation {
-        final /* synthetic */ Thread val$thread;
-
-        AnonymousClass1(Thread thread) {
-            this.val$thread = thread;
-        }
-
-        @Override // org.webrtc.ThreadUtils.BlockingOperation
-        public void run() throws InterruptedException {
-            this.val$thread.join();
-        }
+    public static void joinUninterruptibly(final Thread thread) {
+        executeUninterruptibly(new BlockingOperation() { // from class: org.webrtc.ThreadUtils.1
+            @Override // org.webrtc.ThreadUtils.BlockingOperation
+            public void run() throws InterruptedException {
+                thread.join();
+            }
+        });
     }
 
-    public static void joinUninterruptibly(Thread thread) {
-        executeUninterruptibly(new AnonymousClass1(thread));
-    }
-
-    /* renamed from: org.webrtc.ThreadUtils$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements BlockingOperation {
-        final /* synthetic */ CountDownLatch val$latch;
-
-        AnonymousClass2(CountDownLatch countDownLatch) {
-            this.val$latch = countDownLatch;
-        }
-
-        @Override // org.webrtc.ThreadUtils.BlockingOperation
-        public void run() throws InterruptedException {
-            this.val$latch.await();
-        }
-    }
-
-    public static void awaitUninterruptibly(CountDownLatch countDownLatch) {
-        executeUninterruptibly(new AnonymousClass2(countDownLatch));
+    public static void awaitUninterruptibly(final CountDownLatch countDownLatch) {
+        executeUninterruptibly(new BlockingOperation() { // from class: org.webrtc.ThreadUtils.2
+            @Override // org.webrtc.ThreadUtils.BlockingOperation
+            public void run() throws InterruptedException {
+                countDownLatch.await();
+            }
+        });
     }
 
     public static boolean awaitUninterruptibly(CountDownLatch countDownLatch, long j) {
@@ -134,7 +114,7 @@ public class ThreadUtils {
         return z;
     }
 
-    public static <V> V invokeAtFrontUninterruptibly(Handler handler, Callable<V> callable) {
+    public static <V> V invokeAtFrontUninterruptibly(Handler handler, final Callable<V> callable) {
         if (handler.getLooper().getThread() == Thread.currentThread()) {
             try {
                 return callable.call();
@@ -142,10 +122,21 @@ public class ThreadUtils {
                 throw new RuntimeException(e);
             }
         }
-        C1Result c1Result = new C1Result();
-        C1CaughtException c1CaughtException = new C1CaughtException();
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        handler.post(new AnonymousClass3(c1Result, callable, c1CaughtException, countDownLatch));
+        final C1Result c1Result = new C1Result();
+        final C1CaughtException c1CaughtException = new C1CaughtException();
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        handler.post(new Runnable() { // from class: org.webrtc.ThreadUtils.3
+            /* JADX WARN: Type inference failed for: r1v2, types: [V, java.lang.Object] */
+            @Override // java.lang.Runnable
+            public void run() {
+                try {
+                    c1Result.value = callable.call();
+                } catch (Exception e2) {
+                    c1CaughtException.e = e2;
+                }
+                countDownLatch.countDown();
+            }
+        });
         awaitUninterruptibly(countDownLatch);
         if (c1CaughtException.e != null) {
             RuntimeException runtimeException = new RuntimeException(c1CaughtException.e);
@@ -173,51 +164,14 @@ public class ThreadUtils {
         }
     }
 
-    /* renamed from: org.webrtc.ThreadUtils$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 implements Runnable {
-        final /* synthetic */ CountDownLatch val$barrier;
-        final /* synthetic */ Callable val$callable;
-        final /* synthetic */ C1CaughtException val$caughtException;
-        final /* synthetic */ C1Result val$result;
-
-        AnonymousClass3(C1Result c1Result, Callable callable, C1CaughtException c1CaughtException, CountDownLatch countDownLatch) {
-            this.val$result = c1Result;
-            this.val$callable = callable;
-            this.val$caughtException = c1CaughtException;
-            this.val$barrier = countDownLatch;
-        }
-
-        /* JADX WARN: Type inference failed for: r1v2, types: [V, java.lang.Object] */
-        @Override // java.lang.Runnable
-        public void run() {
-            try {
-                this.val$result.value = this.val$callable.call();
-            } catch (Exception e) {
-                this.val$caughtException.e = e;
+    public static void invokeAtFrontUninterruptibly(Handler handler, final Runnable runnable) {
+        invokeAtFrontUninterruptibly(handler, new Callable<Void>() { // from class: org.webrtc.ThreadUtils.4
+            @Override // java.util.concurrent.Callable
+            public Void call() {
+                runnable.run();
+                return null;
             }
-            this.val$barrier.countDown();
-        }
-    }
-
-    /* renamed from: org.webrtc.ThreadUtils$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 implements Callable<Void> {
-        final /* synthetic */ Runnable val$runner;
-
-        AnonymousClass4(Runnable runnable) {
-            this.val$runner = runnable;
-        }
-
-        @Override // java.util.concurrent.Callable
-        public Void call() {
-            this.val$runner.run();
-            return null;
-        }
-    }
-
-    public static void invokeAtFrontUninterruptibly(Handler handler, Runnable runnable) {
-        invokeAtFrontUninterruptibly(handler, new AnonymousClass4(runnable));
+        });
     }
 
     static StackTraceElement[] concatStackTraces(StackTraceElement[] stackTraceElementArr, StackTraceElement[] stackTraceElementArr2) {

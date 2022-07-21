@@ -12,7 +12,17 @@ public class TrackSelectionParameters implements Parcelable {
     public final int preferredTextRoleFlags;
     public final boolean selectUndeterminedTextLanguage;
     public static final TrackSelectionParameters DEFAULT_WITHOUT_CONTEXT = new Builder().build();
-    public static final Parcelable.Creator<TrackSelectionParameters> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<TrackSelectionParameters> CREATOR = new Parcelable.Creator<TrackSelectionParameters>() { // from class: com.google.android.exoplayer2.trackselection.TrackSelectionParameters.1
+        @Override // android.os.Parcelable.Creator
+        public TrackSelectionParameters createFromParcel(Parcel parcel) {
+            return new TrackSelectionParameters(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public TrackSelectionParameters[] newArray(int i) {
+            return new TrackSelectionParameters[i];
+        }
+    };
 
     @Override // android.os.Parcelable
     public int describeContents() {
@@ -77,22 +87,5 @@ public class TrackSelectionParameters implements Parcelable {
         parcel.writeInt(this.preferredTextRoleFlags);
         Util.writeBoolean(parcel, this.selectUndeterminedTextLanguage);
         parcel.writeInt(this.disabledTextTrackSelectionFlags);
-    }
-
-    /* renamed from: com.google.android.exoplayer2.trackselection.TrackSelectionParameters$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<TrackSelectionParameters> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public TrackSelectionParameters createFromParcel(Parcel parcel) {
-            return new TrackSelectionParameters(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public TrackSelectionParameters[] newArray(int i) {
-            return new TrackSelectionParameters[i];
-        }
     }
 }

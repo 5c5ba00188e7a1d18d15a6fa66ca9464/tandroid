@@ -6,7 +6,14 @@ public abstract class TLRPC$help_AppUpdate extends TLObject {
         if (i != -1000708810) {
             tLRPC$help_AppUpdate = i != -860107216 ? null : new TLRPC$TL_help_appUpdate();
         } else {
-            tLRPC$help_AppUpdate = new TLRPC$TL_help_noAppUpdate();
+            tLRPC$help_AppUpdate = new TLRPC$help_AppUpdate() { // from class: org.telegram.tgnet.TLRPC$TL_help_noAppUpdate
+                public static int constructor = -1000708810;
+
+                @Override // org.telegram.tgnet.TLObject
+                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                    abstractSerializedData2.writeInt32(constructor);
+                }
+            };
         }
         if (tLRPC$help_AppUpdate != null || !z) {
             if (tLRPC$help_AppUpdate != null) {

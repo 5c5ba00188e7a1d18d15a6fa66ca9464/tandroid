@@ -13,7 +13,7 @@ public class PackageUtils {
         try {
             return context.getPackageManager().getPackageInfo(context.getPackageName(), 16384).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            Logger.w("PackageUtils", "", e);
+            Logger.w(TAG, "", e);
             return "";
         }
     }

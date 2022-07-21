@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import com.huawei.hms.activity.IBridgeActivityDelegate;
 import com.huawei.hms.activity.internal.BusResponseCallback;
 import com.huawei.hms.activity.internal.ForegroundBusResponseMgr;
+import com.huawei.hms.adapter.internal.CommonCode;
 import com.huawei.hms.support.log.HMSLog;
 import java.lang.ref.WeakReference;
 /* loaded from: classes.dex */
@@ -46,7 +47,7 @@ public class ResolutionDelegate implements IBridgeActivityDelegate {
         this.mThisWeakRef = new WeakReference<>(activity);
         Bundle extras = activity.getIntent().getExtras();
         if (extras != null) {
-            activity.startActivityForResult((Intent) extras.getParcelable("resolution"), 1002);
+            activity.startActivityForResult((Intent) extras.getParcelable(CommonCode.MapKey.HAS_RESOLUTION), 1002);
         }
     }
 
@@ -60,10 +61,10 @@ public class ResolutionDelegate implements IBridgeActivityDelegate {
         if (i != getRequestCode()) {
             return false;
         }
-        BusResponseCallback responseCallback = getResponseCallback("CALLBACK_METHOD");
+        BusResponseCallback responseCallback = getResponseCallback(CALLBACK_METHOD);
         int isHuaweiMobileServicesAvailable = HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(this.mThisWeakRef.get(), 30000000);
         if (i2 == -1 && isHuaweiMobileServicesAvailable == 0) {
-            HMSLog.i("ResolutionDelegate", "Make service available success.");
+            HMSLog.i(TAG, "Make service available success.");
         } else {
             responseCallback.innerError(this.mThisWeakRef.get(), i2, "Make service available failed.");
         }

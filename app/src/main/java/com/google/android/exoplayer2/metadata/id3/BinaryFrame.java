@@ -6,7 +6,17 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class BinaryFrame extends Id3Frame {
-    public static final Parcelable.Creator<BinaryFrame> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<BinaryFrame> CREATOR = new Parcelable.Creator<BinaryFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.BinaryFrame.1
+        @Override // android.os.Parcelable.Creator
+        public BinaryFrame createFromParcel(Parcel parcel) {
+            return new BinaryFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public BinaryFrame[] newArray(int i) {
+            return new BinaryFrame[i];
+        }
+    };
     public final byte[] data;
 
     public BinaryFrame(String str, byte[] bArr) {
@@ -38,22 +48,5 @@ public final class BinaryFrame extends Id3Frame {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.id);
         parcel.writeByteArray(this.data);
-    }
-
-    /* renamed from: com.google.android.exoplayer2.metadata.id3.BinaryFrame$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<BinaryFrame> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public BinaryFrame createFromParcel(Parcel parcel) {
-            return new BinaryFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public BinaryFrame[] newArray(int i) {
-            return new BinaryFrame[i];
-        }
     }
 }

@@ -31,9 +31,14 @@ public class LocationSharingService extends Service implements NotificationCente
     public void onCreate() {
         super.onCreate();
         this.handler = new Handler();
-        LocationSharingService$$ExternalSyntheticLambda1 locationSharingService$$ExternalSyntheticLambda1 = new LocationSharingService$$ExternalSyntheticLambda1(this);
-        this.runnable = locationSharingService$$ExternalSyntheticLambda1;
-        this.handler.postDelayed(locationSharingService$$ExternalSyntheticLambda1, 1000L);
+        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.LocationSharingService$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationSharingService.this.lambda$onCreate$1();
+            }
+        };
+        this.runnable = runnable;
+        this.handler.postDelayed(runnable, 1000L);
     }
 
     public /* synthetic */ void lambda$onCreate$1() {
@@ -65,7 +70,12 @@ public class LocationSharingService extends Service implements NotificationCente
         if (i != NotificationCenter.liveLocationsChanged || (handler = this.handler) == null) {
             return;
         }
-        handler.post(new LocationSharingService$$ExternalSyntheticLambda0(this));
+        handler.post(new Runnable() { // from class: org.telegram.messenger.LocationSharingService$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationSharingService.this.lambda$didReceivedNotification$2();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$didReceivedNotification$2() {
@@ -100,17 +110,17 @@ public class LocationSharingService extends Service implements NotificationCente
             int i = sharingLocationInfo.messageObject.currentAccount;
             if (DialogObject.isUserDialog(dialogId)) {
                 str2 = UserObject.getFirstName(MessagesController.getInstance(i).getUser(Long.valueOf(dialogId)));
-                str = LocaleController.getString("AttachLiveLocationIsSharing", 2131624500);
+                str = LocaleController.getString("AttachLiveLocationIsSharing", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharing);
             } else {
                 TLRPC$Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-dialogId));
                 str2 = chat != null ? chat.title : "";
-                str = LocaleController.getString("AttachLiveLocationIsSharingChat", 2131624501);
+                str = LocaleController.getString("AttachLiveLocationIsSharingChat", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharingChat);
             }
         } else {
             str2 = LocaleController.formatPluralString("Chats", infos.size(), new Object[0]);
-            str = LocaleController.getString("AttachLiveLocationIsSharingChats", 2131624502);
+            str = LocaleController.getString("AttachLiveLocationIsSharingChats", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharingChats);
         }
-        String format = String.format(str, LocaleController.getString("AttachLiveLocation", 2131624499), str2);
+        String format = String.format(str, LocaleController.getString("AttachLiveLocation", org.telegram.messenger.beta.R.string.AttachLiveLocation), str2);
         this.builder.setTicker(format);
         this.builder.setContentText(format);
         if (!z) {
@@ -132,12 +142,12 @@ public class LocationSharingService extends Service implements NotificationCente
             NotificationCompat.Builder builder = new NotificationCompat.Builder(ApplicationLoader.applicationContext);
             this.builder = builder;
             builder.setWhen(System.currentTimeMillis());
-            this.builder.setSmallIcon(2131165581);
+            this.builder.setSmallIcon(org.telegram.messenger.beta.R.drawable.live_loc);
             this.builder.setContentIntent(activity);
             NotificationsController.checkOtherNotificationsChannel();
             this.builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
-            this.builder.setContentTitle(LocaleController.getString("AppName", 2131624384));
-            this.builder.addAction(0, LocaleController.getString("StopLiveLocation", 2131628530), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, new Intent(ApplicationLoader.applicationContext, StopLiveLocationReceiver.class), 134217728));
+            this.builder.setContentTitle(LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName));
+            this.builder.addAction(0, LocaleController.getString("StopLiveLocation", org.telegram.messenger.beta.R.string.StopLiveLocation), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, new Intent(ApplicationLoader.applicationContext, StopLiveLocationReceiver.class), 134217728));
         }
         updateNotification(false);
         startForeground(6, this.builder.build());

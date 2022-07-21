@@ -101,7 +101,14 @@ public class DispatchQueue extends Thread {
     @Override // java.lang.Thread, java.lang.Runnable
     public void run() {
         Looper.prepare();
-        this.handler = new Handler(Looper.myLooper(), new DispatchQueue$$ExternalSyntheticLambda0(this));
+        this.handler = new Handler(Looper.myLooper(), new Handler.Callback() { // from class: org.telegram.messenger.DispatchQueue$$ExternalSyntheticLambda0
+            @Override // android.os.Handler.Callback
+            public final boolean handleMessage(Message message) {
+                boolean lambda$run$0;
+                lambda$run$0 = DispatchQueue.this.lambda$run$0(message);
+                return lambda$run$0;
+            }
+        });
         this.syncLatch.countDown();
         Looper.loop();
     }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import com.huawei.hms.activity.BridgeActivity;
+import com.huawei.hms.adapter.internal.CommonCode;
 import com.huawei.hms.adapter.sysobs.SystemManager;
 import com.huawei.hms.adapter.sysobs.SystemObserver;
 import com.huawei.hms.adapter.ui.NotInstalledHmsAdapter;
@@ -126,11 +127,11 @@ public class AvailableAdapter {
             this.b = availableCallBack;
             SystemManager.getSystemNotifier().registerObserver(this.d);
             Intent intentStartBridgeActivity = BridgeActivity.getIntentStartBridgeActivity(activity, UpdateAdapter.class.getName());
-            intentStartBridgeActivity.putExtra("update_version", this.a);
+            intentStartBridgeActivity.putExtra(CommonCode.MapKey.UPDATE_VERSION, this.a);
             if (this.c) {
                 intentStartBridgeActivity.putExtra("installHMS", "installHMS");
             }
-            intentStartBridgeActivity.putExtra("new_update", true);
+            intentStartBridgeActivity.putExtra(CommonCode.MapKey.NEW_UPDATE, true);
             activity.startActivity(intentStartBridgeActivity);
         }
     }

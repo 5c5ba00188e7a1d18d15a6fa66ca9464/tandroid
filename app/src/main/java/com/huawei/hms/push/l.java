@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import com.huawei.hms.android.HwBuildEx;
 import com.huawei.hms.support.log.HMSLog;
+import org.telegram.messenger.R;
 /* compiled from: NotificationIconUtil.java */
 /* loaded from: classes.dex */
 public class l {
@@ -70,7 +71,7 @@ public class l {
         }
     }
 
-    @TargetApi(23)
+    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
     public static void a(Context context, Notification.Builder builder, k kVar) {
         if (context != null && builder != null && kVar != null) {
             builder.setSmallIcon(b(context, kVar));

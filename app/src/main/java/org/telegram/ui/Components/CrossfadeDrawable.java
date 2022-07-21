@@ -19,64 +19,46 @@ public class CrossfadeDrawable extends Drawable {
         this.topDrawable = drawable;
         this.bottomDrawable = drawable2;
         if (drawable != null) {
-            drawable.setCallback(new AnonymousClass1());
+            drawable.setCallback(new Drawable.Callback() { // from class: org.telegram.ui.Components.CrossfadeDrawable.1
+                @Override // android.graphics.drawable.Drawable.Callback
+                public void invalidateDrawable(Drawable drawable3) {
+                    if (CrossfadeDrawable.this.progress < 1.0f) {
+                        CrossfadeDrawable.this.invalidateSelf();
+                    }
+                }
+
+                @Override // android.graphics.drawable.Drawable.Callback
+                public void scheduleDrawable(Drawable drawable3, Runnable runnable, long j) {
+                    if (CrossfadeDrawable.this.progress < 1.0f) {
+                        CrossfadeDrawable.this.scheduleSelf(runnable, j);
+                    }
+                }
+
+                @Override // android.graphics.drawable.Drawable.Callback
+                public void unscheduleDrawable(Drawable drawable3, Runnable runnable) {
+                    if (CrossfadeDrawable.this.progress < 1.0f) {
+                        CrossfadeDrawable.this.unscheduleSelf(runnable);
+                    }
+                }
+            });
         }
         if (drawable2 != null) {
-            drawable2.setCallback(new AnonymousClass2());
-        }
-    }
+            drawable2.setCallback(new Drawable.Callback() { // from class: org.telegram.ui.Components.CrossfadeDrawable.2
+                @Override // android.graphics.drawable.Drawable.Callback
+                public void scheduleDrawable(Drawable drawable3, Runnable runnable, long j) {
+                }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.CrossfadeDrawable$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Drawable.Callback {
-        AnonymousClass1() {
-            CrossfadeDrawable.this = r1;
-        }
+                @Override // android.graphics.drawable.Drawable.Callback
+                public void unscheduleDrawable(Drawable drawable3, Runnable runnable) {
+                }
 
-        @Override // android.graphics.drawable.Drawable.Callback
-        public void invalidateDrawable(Drawable drawable) {
-            if (CrossfadeDrawable.this.progress < 1.0f) {
-                CrossfadeDrawable.this.invalidateSelf();
-            }
-        }
-
-        @Override // android.graphics.drawable.Drawable.Callback
-        public void scheduleDrawable(Drawable drawable, Runnable runnable, long j) {
-            if (CrossfadeDrawable.this.progress < 1.0f) {
-                CrossfadeDrawable.this.scheduleSelf(runnable, j);
-            }
-        }
-
-        @Override // android.graphics.drawable.Drawable.Callback
-        public void unscheduleDrawable(Drawable drawable, Runnable runnable) {
-            if (CrossfadeDrawable.this.progress < 1.0f) {
-                CrossfadeDrawable.this.unscheduleSelf(runnable);
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.CrossfadeDrawable$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements Drawable.Callback {
-        @Override // android.graphics.drawable.Drawable.Callback
-        public void scheduleDrawable(Drawable drawable, Runnable runnable, long j) {
-        }
-
-        @Override // android.graphics.drawable.Drawable.Callback
-        public void unscheduleDrawable(Drawable drawable, Runnable runnable) {
-        }
-
-        AnonymousClass2() {
-            CrossfadeDrawable.this = r1;
-        }
-
-        @Override // android.graphics.drawable.Drawable.Callback
-        public void invalidateDrawable(Drawable drawable) {
-            if (CrossfadeDrawable.this.progress > 0.0f) {
-                CrossfadeDrawable.this.invalidateSelf();
-            }
+                @Override // android.graphics.drawable.Drawable.Callback
+                public void invalidateDrawable(Drawable drawable3) {
+                    if (CrossfadeDrawable.this.progress > 0.0f) {
+                        CrossfadeDrawable.this.invalidateSelf();
+                    }
+                }
+            });
         }
     }
 

@@ -20,7 +20,12 @@ public class VoIPTimerView extends View {
     Paint inactivePaint = new Paint(1);
     TextPaint textPaint = new TextPaint(1);
     private int signalBarCount = 4;
-    Runnable updater = new VoIPTimerView$$ExternalSyntheticLambda0(this);
+    Runnable updater = new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPTimerView$$ExternalSyntheticLambda0
+        @Override // java.lang.Runnable
+        public final void run() {
+            VoIPTimerView.this.lambda$new$0();
+        }
+    };
 
     public /* synthetic */ void lambda$new$0() {
         if (getVisibility() == 0) {

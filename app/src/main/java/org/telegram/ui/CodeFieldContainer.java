@@ -108,20 +108,74 @@ public class CodeFieldContainer extends LinearLayout {
         return super.drawChild(canvas, view, j);
     }
 
-    public void setNumbersCount(int i, int i2) {
+    public void setNumbersCount(final int i, int i2) {
         int i3;
         int i4;
         CodeNumberField[] codeNumberFieldArr = this.codeField;
         int i5 = 0;
         if (codeNumberFieldArr == null || codeNumberFieldArr.length != i) {
             this.codeField = new CodeNumberField[i];
-            int i6 = 0;
+            final int i6 = 0;
             while (i6 < i) {
-                this.codeField[i6] = new AnonymousClass1(getContext(), i6, i);
+                this.codeField[i6] = new CodeNumberField(getContext()) { // from class: org.telegram.ui.CodeFieldContainer.1
+                    @Override // android.view.View
+                    public boolean dispatchKeyEvent(KeyEvent keyEvent) {
+                        int i7;
+                        int i8 = 0;
+                        if (keyEvent.getKeyCode() == 4) {
+                            return false;
+                        }
+                        int keyCode = keyEvent.getKeyCode();
+                        if (keyEvent.getAction() == 1) {
+                            if (keyCode == 67 && CodeFieldContainer.this.codeField[i6].length() == 1) {
+                                CodeFieldContainer.this.codeField[i6].startExitAnimation();
+                                CodeFieldContainer.this.codeField[i6].setText("");
+                                return true;
+                            } else if (keyCode != 67 || CodeFieldContainer.this.codeField[i6].length() != 0 || (i7 = i6) <= 0) {
+                                if (keyCode >= 7 && keyCode <= 16) {
+                                    String num = Integer.toString(keyCode - 7);
+                                    if (CodeFieldContainer.this.codeField[i6].getText() != null && num.equals(CodeFieldContainer.this.codeField[i6].getText().toString())) {
+                                        int i9 = i6;
+                                        if (i9 >= i - 1) {
+                                            CodeFieldContainer.this.processNextPressed();
+                                        } else {
+                                            CodeFieldContainer.this.codeField[i9 + 1].requestFocus();
+                                        }
+                                        return true;
+                                    }
+                                    if (CodeFieldContainer.this.codeField[i6].length() > 0) {
+                                        CodeFieldContainer.this.codeField[i6].startExitAnimation();
+                                    }
+                                    CodeFieldContainer.this.codeField[i6].setText(num);
+                                }
+                                return true;
+                            } else {
+                                CodeNumberField[] codeNumberFieldArr2 = CodeFieldContainer.this.codeField;
+                                codeNumberFieldArr2[i7 - 1].setSelection(codeNumberFieldArr2[i7 - 1].length());
+                                while (true) {
+                                    int i10 = i6;
+                                    if (i8 >= i10) {
+                                        CodeFieldContainer.this.codeField[i10 - 1].startExitAnimation();
+                                        CodeFieldContainer.this.codeField[i6 - 1].setText("");
+                                        return true;
+                                    }
+                                    if (i8 == i10 - 1) {
+                                        CodeFieldContainer.this.codeField[i10 - 1].requestFocus();
+                                    } else {
+                                        CodeFieldContainer.this.codeField[i8].clearFocus();
+                                    }
+                                    i8++;
+                                }
+                            }
+                        } else {
+                            return isFocused();
+                        }
+                    }
+                };
                 this.codeField[i6].setImeOptions(268435461);
                 this.codeField[i6].setTextSize(1, 20.0f);
                 this.codeField[i6].setMaxLines(1);
-                this.codeField[i6].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                this.codeField[i6].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 this.codeField[i6].setPadding(0, 0, 0, 0);
                 this.codeField[i6].setGravity(17);
                 if (i2 == 3) {
@@ -145,8 +199,55 @@ public class CodeFieldContainer extends LinearLayout {
                     i3 = 42;
                 }
                 addView(this.codeField[i6], LayoutHelper.createLinear(i4, i3, 1, 0, 0, i6 != i + (-1) ? i7 : 0, 0));
-                this.codeField[i6].addTextChangedListener(new AnonymousClass2(i6, i));
-                this.codeField[i6].setOnEditorActionListener(new CodeFieldContainer$$ExternalSyntheticLambda0(this));
+                this.codeField[i6].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.CodeFieldContainer.2
+                    @Override // android.text.TextWatcher
+                    public void beforeTextChanged(CharSequence charSequence, int i8, int i9, int i10) {
+                    }
+
+                    @Override // android.text.TextWatcher
+                    public void onTextChanged(CharSequence charSequence, int i8, int i9, int i10) {
+                    }
+
+                    @Override // android.text.TextWatcher
+                    public void afterTextChanged(Editable editable) {
+                        int length;
+                        if (!CodeFieldContainer.this.ignoreOnTextChange && (length = editable.length()) >= 1) {
+                            int i8 = i6;
+                            if (length > 1) {
+                                String obj = editable.toString();
+                                CodeFieldContainer.this.ignoreOnTextChange = true;
+                                for (int i9 = 0; i9 < Math.min(i - i6, length); i9++) {
+                                    if (i9 == 0) {
+                                        editable.replace(0, length, obj.substring(i9, i9 + 1));
+                                    } else {
+                                        i8++;
+                                        CodeFieldContainer.this.codeField[i6 + i9].setText(obj.substring(i9, i9 + 1));
+                                    }
+                                }
+                                CodeFieldContainer.this.ignoreOnTextChange = false;
+                            }
+                            if (i8 != i - 1) {
+                                CodeNumberField[] codeNumberFieldArr2 = CodeFieldContainer.this.codeField;
+                                int i10 = i8 + 1;
+                                codeNumberFieldArr2[i10].setSelection(codeNumberFieldArr2[i10].length());
+                                CodeFieldContainer.this.codeField[i10].requestFocus();
+                            }
+                            int i11 = i;
+                            if ((i8 != i11 - 1 && (i8 != i11 - 2 || length < 2)) || CodeFieldContainer.this.getCode().length() != i) {
+                                return;
+                            }
+                            CodeFieldContainer.this.processNextPressed();
+                        }
+                    }
+                });
+                this.codeField[i6].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.CodeFieldContainer$$ExternalSyntheticLambda0
+                    @Override // android.widget.TextView.OnEditorActionListener
+                    public final boolean onEditorAction(TextView textView, int i8, KeyEvent keyEvent) {
+                        boolean lambda$setNumbersCount$0;
+                        lambda$setNumbersCount$0 = CodeFieldContainer.this.lambda$setNumbersCount$0(textView, i8, keyEvent);
+                        return lambda$setNumbersCount$0;
+                    }
+                });
                 i6++;
             }
             return;
@@ -158,128 +259,6 @@ public class CodeFieldContainer extends LinearLayout {
             }
             codeNumberFieldArr2[i5].setText("");
             i5++;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.CodeFieldContainer$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends CodeNumberField {
-        final /* synthetic */ int val$length;
-        final /* synthetic */ int val$num;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context, int i, int i2) {
-            super(context);
-            CodeFieldContainer.this = r1;
-            this.val$num = i;
-            this.val$length = i2;
-        }
-
-        @Override // android.view.View
-        public boolean dispatchKeyEvent(KeyEvent keyEvent) {
-            int i;
-            int i2 = 0;
-            if (keyEvent.getKeyCode() == 4) {
-                return false;
-            }
-            int keyCode = keyEvent.getKeyCode();
-            if (keyEvent.getAction() == 1) {
-                if (keyCode == 67 && CodeFieldContainer.this.codeField[this.val$num].length() == 1) {
-                    CodeFieldContainer.this.codeField[this.val$num].startExitAnimation();
-                    CodeFieldContainer.this.codeField[this.val$num].setText("");
-                    return true;
-                } else if (keyCode != 67 || CodeFieldContainer.this.codeField[this.val$num].length() != 0 || (i = this.val$num) <= 0) {
-                    if (keyCode >= 7 && keyCode <= 16) {
-                        String num = Integer.toString(keyCode - 7);
-                        if (CodeFieldContainer.this.codeField[this.val$num].getText() != null && num.equals(CodeFieldContainer.this.codeField[this.val$num].getText().toString())) {
-                            int i3 = this.val$num;
-                            if (i3 >= this.val$length - 1) {
-                                CodeFieldContainer.this.processNextPressed();
-                            } else {
-                                CodeFieldContainer.this.codeField[i3 + 1].requestFocus();
-                            }
-                            return true;
-                        }
-                        if (CodeFieldContainer.this.codeField[this.val$num].length() > 0) {
-                            CodeFieldContainer.this.codeField[this.val$num].startExitAnimation();
-                        }
-                        CodeFieldContainer.this.codeField[this.val$num].setText(num);
-                    }
-                    return true;
-                } else {
-                    CodeNumberField[] codeNumberFieldArr = CodeFieldContainer.this.codeField;
-                    codeNumberFieldArr[i - 1].setSelection(codeNumberFieldArr[i - 1].length());
-                    while (true) {
-                        int i4 = this.val$num;
-                        if (i2 >= i4) {
-                            CodeFieldContainer.this.codeField[i4 - 1].startExitAnimation();
-                            CodeFieldContainer.this.codeField[this.val$num - 1].setText("");
-                            return true;
-                        }
-                        if (i2 == i4 - 1) {
-                            CodeFieldContainer.this.codeField[i4 - 1].requestFocus();
-                        } else {
-                            CodeFieldContainer.this.codeField[i2].clearFocus();
-                        }
-                        i2++;
-                    }
-                }
-            } else {
-                return isFocused();
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.CodeFieldContainer$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements TextWatcher {
-        final /* synthetic */ int val$length;
-        final /* synthetic */ int val$num;
-
-        @Override // android.text.TextWatcher
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override // android.text.TextWatcher
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        AnonymousClass2(int i, int i2) {
-            CodeFieldContainer.this = r1;
-            this.val$num = i;
-            this.val$length = i2;
-        }
-
-        @Override // android.text.TextWatcher
-        public void afterTextChanged(Editable editable) {
-            int length;
-            if (!CodeFieldContainer.this.ignoreOnTextChange && (length = editable.length()) >= 1) {
-                int i = this.val$num;
-                if (length > 1) {
-                    String obj = editable.toString();
-                    CodeFieldContainer.this.ignoreOnTextChange = true;
-                    for (int i2 = 0; i2 < Math.min(this.val$length - this.val$num, length); i2++) {
-                        if (i2 == 0) {
-                            editable.replace(0, length, obj.substring(i2, i2 + 1));
-                        } else {
-                            i++;
-                            CodeFieldContainer.this.codeField[this.val$num + i2].setText(obj.substring(i2, i2 + 1));
-                        }
-                    }
-                    CodeFieldContainer.this.ignoreOnTextChange = false;
-                }
-                if (i != this.val$length - 1) {
-                    CodeNumberField[] codeNumberFieldArr = CodeFieldContainer.this.codeField;
-                    int i3 = i + 1;
-                    codeNumberFieldArr[i3].setSelection(codeNumberFieldArr[i3].length());
-                    CodeFieldContainer.this.codeField[i3].requestFocus();
-                }
-                int i4 = this.val$length;
-                if ((i != i4 - 1 && (i != i4 - 2 || length < 2)) || CodeFieldContainer.this.getCode().length() != this.val$length) {
-                    return;
-                }
-                CodeFieldContainer.this.processNextPressed();
-            }
         }
     }
 

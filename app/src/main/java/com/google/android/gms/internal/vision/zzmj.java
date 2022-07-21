@@ -1,4 +1,6 @@
 package com.google.android.gms.internal.vision;
+
+import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzmj extends zzme {
@@ -226,7 +228,7 @@ final class zzmj extends zzme {
                 if (charAt3 < 2048 && j4 <= j5 - 2) {
                     long j6 = j4 + j;
                     zzma.zza(bArr, j4, (byte) ((charAt3 >>> 6) | 960));
-                    zzma.zza(bArr, j6, (byte) ((charAt3 & '?') | 128));
+                    zzma.zza(bArr, j6, (byte) ((charAt3 & '?') | ConnectionsManager.RequestFlagNeedQuickAck));
                     j2 = j6 + j;
                     j3 = j;
                 } else if ((charAt3 >= 55296 && 57343 >= charAt3) || j4 > j5 - 3) {
@@ -239,12 +241,12 @@ final class zzmj extends zzme {
                                 long j7 = j4 + 1;
                                 zzma.zza(bArr, j4, (byte) ((codePoint >>> 18) | 240));
                                 long j8 = j7 + 1;
-                                zzma.zza(bArr, j7, (byte) (((codePoint >>> 12) & 63) | 128));
+                                zzma.zza(bArr, j7, (byte) (((codePoint >>> 12) & 63) | ConnectionsManager.RequestFlagNeedQuickAck));
                                 long j9 = j8 + 1;
-                                zzma.zza(bArr, j8, (byte) (((codePoint >>> 6) & 63) | 128));
+                                zzma.zza(bArr, j8, (byte) (((codePoint >>> 6) & 63) | ConnectionsManager.RequestFlagNeedQuickAck));
                                 j3 = 1;
                                 j2 = j9 + 1;
-                                zzma.zza(bArr, j9, (byte) ((codePoint & 63) | 128));
+                                zzma.zza(bArr, j9, (byte) ((codePoint & 63) | ConnectionsManager.RequestFlagNeedQuickAck));
                                 i4 = i5;
                             } else {
                                 i4 = i5;
@@ -265,8 +267,8 @@ final class zzmj extends zzme {
                     long j10 = j4 + j;
                     zzma.zza(bArr, j4, (byte) ((charAt3 >>> '\f') | 480));
                     long j11 = j10 + j;
-                    zzma.zza(bArr, j10, (byte) (((charAt3 >>> 6) & 63) | 128));
-                    zzma.zza(bArr, j11, (byte) ((charAt3 & '?') | 128));
+                    zzma.zza(bArr, j10, (byte) (((charAt3 >>> 6) & 63) | ConnectionsManager.RequestFlagNeedQuickAck));
+                    zzma.zza(bArr, j11, (byte) ((charAt3 & '?') | ConnectionsManager.RequestFlagNeedQuickAck));
                     j2 = j11 + 1;
                     j3 = 1;
                 }

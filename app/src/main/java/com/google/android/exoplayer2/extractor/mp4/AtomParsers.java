@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.telegram.messenger.MediaController;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class AtomParsers {
     private static final byte[] opusMagic = Util.getUtf8Bytes("OpusHead");
@@ -813,7 +815,7 @@ public final class AtomParsers {
                 if (!z) {
                     f = parse.pixelWidthAspectRatio;
                 }
-                str = "video/avc";
+                str = MediaController.VIDEO_MIME_TYPE;
             } else if (readInt2 == 1752589123) {
                 Assertions.checkState(str == null);
                 parsableByteArray.setPosition(position2 + 8);
@@ -992,7 +994,7 @@ public final class AtomParsers {
                         Pair<String, byte[]> parseEsdsFromParent = parseEsdsFromParent(parsableByteArray, findEsdsPosition);
                         String str4 = (String) parseEsdsFromParent.first;
                         bArr = (byte[]) parseEsdsFromParent.second;
-                        if ("audio/mp4a-latm".equals(str4)) {
+                        if (MediaController.AUIDO_MIME_TYPE.equals(str4)) {
                             Pair<Integer, Integer> parseAacAudioSpecificConfig = CodecSpecificDataUtil.parseAacAudioSpecificConfig(bArr);
                             i16 = ((Integer) parseAacAudioSpecificConfig.first).intValue();
                             i15 = ((Integer) parseAacAudioSpecificConfig.second).intValue();
@@ -1101,7 +1103,7 @@ public final class AtomParsers {
         parseExpandableClassSize(parsableByteArray);
         parsableByteArray.skipBytes(2);
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        if ((readUnsignedByte & 128) != 0) {
+        if ((readUnsignedByte & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             parsableByteArray.skipBytes(2);
         }
         if ((readUnsignedByte & 64) != 0) {
@@ -1229,7 +1231,7 @@ public final class AtomParsers {
     private static int parseExpandableClassSize(ParsableByteArray parsableByteArray) {
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
         int i = readUnsignedByte & 127;
-        while ((readUnsignedByte & 128) == 128) {
+        while ((readUnsignedByte & ConnectionsManager.RequestFlagNeedQuickAck) == 128) {
             readUnsignedByte = parsableByteArray.readUnsignedByte();
             i = (i << 7) | (readUnsignedByte & 127);
         }

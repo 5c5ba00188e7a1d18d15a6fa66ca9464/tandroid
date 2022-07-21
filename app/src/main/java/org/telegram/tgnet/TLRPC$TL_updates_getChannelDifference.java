@@ -21,7 +21,7 @@ public class TLRPC$TL_updates_getChannelDifference extends TLObject {
         this.flags = i;
         abstractSerializedData.writeInt32(i);
         this.channel.serializeToStream(abstractSerializedData);
-        this.filter.serializeToStream(abstractSerializedData);
+        serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.pts);
         abstractSerializedData.writeInt32(this.limit);
     }

@@ -2,6 +2,7 @@ package com.huawei.hms.support.hianalytics;
 
 import android.content.Context;
 import android.text.TextUtils;
+import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import java.util.HashMap;
 import java.util.Map;
 /* compiled from: HiAnalyticsBase.java */
@@ -17,7 +18,7 @@ public class a {
                 hashMap.put("service", str2);
                 hashMap.put("apiName", str3);
                 hashMap.put("package", context.getPackageName());
-                hashMap.put("baseVersion", "6.5.0.300");
+                hashMap.put(HiAnalyticsConstant.HaKey.BI_KEY_BASE_VERSION, "6.5.0.300");
                 hashMap.put("callTime", String.valueOf(System.currentTimeMillis()));
             }
         }

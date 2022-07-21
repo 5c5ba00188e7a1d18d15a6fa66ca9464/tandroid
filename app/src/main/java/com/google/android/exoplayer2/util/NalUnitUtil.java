@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.util;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class NalUnitUtil {
     public static final byte[] NAL_START_CODE = {0, 0, 0, 1};
@@ -126,7 +127,7 @@ public final class NalUnitUtil {
     }
 
     public static boolean isNalUnitSei(String str, byte b) {
-        if (!"video/avc".equals(str) || (b & 31) != 6) {
+        if (!MediaController.VIDEO_MIME_TYPE.equals(str) || (b & 31) != 6) {
             return "video/hevc".equals(str) && ((b & 126) >> 1) == 39;
         }
         return true;

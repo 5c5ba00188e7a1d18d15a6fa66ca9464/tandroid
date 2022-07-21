@@ -13,6 +13,7 @@ import com.huawei.hms.adapter.AvailableAdapter;
 import com.huawei.hms.api.HuaweiApiAvailability;
 import com.huawei.hms.common.internal.RequestHeader;
 import com.huawei.hms.common.internal.ResponseHeader;
+import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import com.huawei.hms.support.hianalytics.HiAnalyticsUtil;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.HMSPackageManager;
@@ -52,68 +53,68 @@ public class ForegroundBusDelegate implements IBridgeActivityDelegate {
                 ForegroundBusDelegate.this.startApkHubActivity();
                 return;
             }
-            HMSLog.i("ForegroundBusDelegate", "version check failed");
+            HMSLog.i(ForegroundBusDelegate.TAG, "version check failed");
             ForegroundBusDelegate.this.errorReturn(0, "apk version is invalid");
         }
     }
 
     private void biReportRequestEntryForegroundBus() {
         Map<String, String> mapFromForegroundRequestHeader = HiAnalyticsUtil.getInstance().getMapFromForegroundRequestHeader(this.foregroundHeader);
-        mapFromForegroundRequestHeader.put("direction", "req");
+        mapFromForegroundRequestHeader.put(HiAnalyticsConstant.HaKey.BI_KEY_DIRECTION, HiAnalyticsConstant.Direction.REQUEST);
         mapFromForegroundRequestHeader.put("version", HiAnalyticsUtil.versionCodeToName(String.valueOf(this.foregroundHeader.getKitSdkVersion())));
         if (getActivity() != null) {
-            HiAnalyticsUtil.getInstance().onNewEvent(getActivity().getApplicationContext(), "HMS_SDK_BASE_ACTIVITY_STARTED", mapFromForegroundRequestHeader);
+            HiAnalyticsUtil.getInstance().onNewEvent(getActivity().getApplicationContext(), HiAnalyticsConstant.HMS_SDK_BASE_ACTIVITY_STARTED, mapFromForegroundRequestHeader);
         }
     }
 
     private void biReportRequestEntryStartCore() {
         Map<String, String> mapFromForegroundRequestHeader = HiAnalyticsUtil.getInstance().getMapFromForegroundRequestHeader(this.foregroundHeader);
-        mapFromForegroundRequestHeader.put("direction", "req");
+        mapFromForegroundRequestHeader.put(HiAnalyticsConstant.HaKey.BI_KEY_DIRECTION, HiAnalyticsConstant.Direction.REQUEST);
         mapFromForegroundRequestHeader.put("version", HiAnalyticsUtil.versionCodeToName(String.valueOf(this.foregroundHeader.getKitSdkVersion())));
         if (getActivity() != null) {
-            HiAnalyticsUtil.getInstance().onNewEvent(getActivity().getApplicationContext(), "HMS_SDK_BASE_START_CORE_ACTIVITY", mapFromForegroundRequestHeader);
+            HiAnalyticsUtil.getInstance().onNewEvent(getActivity().getApplicationContext(), HiAnalyticsConstant.HMS_SDK_BASE_START_CORE_ACTIVITY, mapFromForegroundRequestHeader);
         }
     }
 
     private void biReportRequestReturnForegroundBus() {
         if (this.foregroundHeader != null) {
             Map<String, String> mapFromForegroundRequestHeader = HiAnalyticsUtil.getInstance().getMapFromForegroundRequestHeader(this.foregroundHeader);
-            mapFromForegroundRequestHeader.put("direction", "rsp");
+            mapFromForegroundRequestHeader.put(HiAnalyticsConstant.HaKey.BI_KEY_DIRECTION, HiAnalyticsConstant.Direction.RESPONSE);
             mapFromForegroundRequestHeader.put("version", HiAnalyticsUtil.versionCodeToName(String.valueOf(this.foregroundHeader.getKitSdkVersion())));
             ResponseHeader responseHeader = this.responseHeader;
             if (responseHeader != null) {
-                mapFromForegroundRequestHeader.put("statusCode", String.valueOf(responseHeader.getStatusCode()));
+                mapFromForegroundRequestHeader.put(HiAnalyticsConstant.HaKey.BI_KEY_RESULT, String.valueOf(responseHeader.getStatusCode()));
                 mapFromForegroundRequestHeader.put("result", String.valueOf(this.responseHeader.getErrorCode()));
             }
             if (getActivity() == null) {
                 return;
             }
-            HiAnalyticsUtil.getInstance().onNewEvent(getActivity().getApplicationContext(), "HMS_SDK_BASE_ACTIVITY_STARTED", mapFromForegroundRequestHeader);
+            HiAnalyticsUtil.getInstance().onNewEvent(getActivity().getApplicationContext(), HiAnalyticsConstant.HMS_SDK_BASE_ACTIVITY_STARTED, mapFromForegroundRequestHeader);
         }
     }
 
     private void biReportRequestReturnStartCore() {
         Map<String, String> mapFromForegroundRequestHeader = HiAnalyticsUtil.getInstance().getMapFromForegroundRequestHeader(this.foregroundHeader);
-        mapFromForegroundRequestHeader.put("direction", "rsp");
+        mapFromForegroundRequestHeader.put(HiAnalyticsConstant.HaKey.BI_KEY_DIRECTION, HiAnalyticsConstant.Direction.RESPONSE);
         mapFromForegroundRequestHeader.put("version", HiAnalyticsUtil.versionCodeToName(String.valueOf(this.foregroundHeader.getKitSdkVersion())));
         ResponseHeader responseHeader = this.responseHeader;
         if (responseHeader != null) {
-            mapFromForegroundRequestHeader.put("statusCode", String.valueOf(responseHeader.getStatusCode()));
+            mapFromForegroundRequestHeader.put(HiAnalyticsConstant.HaKey.BI_KEY_RESULT, String.valueOf(responseHeader.getStatusCode()));
             mapFromForegroundRequestHeader.put("result", String.valueOf(this.responseHeader.getErrorCode()));
         }
         if (getActivity() != null) {
-            HiAnalyticsUtil.getInstance().onNewEvent(getActivity().getApplicationContext(), "HMS_SDK_BASE_START_CORE_ACTIVITY", mapFromForegroundRequestHeader);
+            HiAnalyticsUtil.getInstance().onNewEvent(getActivity().getApplicationContext(), HiAnalyticsConstant.HMS_SDK_BASE_START_CORE_ACTIVITY, mapFromForegroundRequestHeader);
         }
     }
 
     private void checkMinVersion() {
         if (getActivity() == null) {
-            HMSLog.e("ForegroundBusDelegate", "checkMinVersion failed, activity must not be null.");
+            HMSLog.e(TAG, "checkMinVersion failed, activity must not be null.");
         } else if (this.isUseInnerHms) {
             startApkHubActivity();
         } else if (!Util.isAvailableLibExist(getActivity().getApplicationContext())) {
             if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(getActivity().getApplicationContext(), this.innerHeader.getApkVersion()) != 0) {
-                HMSLog.e("ForegroundBusDelegate", "checkMinVersion failed, and no available lib exists.");
+                HMSLog.e(TAG, "checkMinVersion failed, and no available lib exists.");
             } else {
                 startApkHubActivity();
             }
@@ -132,7 +133,7 @@ public class ForegroundBusDelegate implements IBridgeActivityDelegate {
     }
 
     public void errorReturn(int i, String str) {
-        HMSLog.e("ForegroundBusDelegate", str);
+        HMSLog.e(TAG, str);
         Activity activity = getActivity();
         if (activity == null) {
             return;
@@ -173,17 +174,17 @@ public class ForegroundBusDelegate implements IBridgeActivityDelegate {
 
     private static void resolution(Activity activity, AvailableAdapter availableAdapter, AvailableAdapter.AvailableCallBack availableCallBack) {
         if (activity == null) {
-            HMSLog.i("ForegroundBusDelegate", "null activity, could not start resolution intent");
+            HMSLog.i(TAG, "null activity, could not start resolution intent");
         }
         availableAdapter.startResolution(activity, availableCallBack);
     }
 
     public void startApkHubActivity() {
         String str;
-        HMSLog.i("ForegroundBusDelegate", "startApkHubActivity");
+        HMSLog.i(TAG, "startApkHubActivity");
         Activity activity = getActivity();
         if (activity == null) {
-            HMSLog.e("ForegroundBusDelegate", "startApkHubActivity but activity is null");
+            HMSLog.e(TAG, "startApkHubActivity but activity is null");
             return;
         }
         if (this.isUseInnerHms) {
@@ -192,27 +193,27 @@ public class ForegroundBusDelegate implements IBridgeActivityDelegate {
             str = HMSPackageManager.getInstance(activity.getApplicationContext()).getHMSPackageNameForMultiService();
         }
         Intent intent = new Intent(this.innerHeader.getAction());
-        intent.putExtra("HMS_FOREGROUND_REQ_BODY", this.foregroundBody);
+        intent.putExtra(HMS_FOREGROUND_REQ_BODY, this.foregroundBody);
         try {
             intent.setPackage(str);
         } catch (IllegalArgumentException unused) {
-            HMSLog.e("ForegroundBusDelegate", "IllegalArgumentException when startApkHubActivity intent.setPackage");
+            HMSLog.e(TAG, "IllegalArgumentException when startApkHubActivity intent.setPackage");
         }
-        intent.putExtra("intent.extra.isfullscreen", UIUtil.isActivityFullscreen(activity));
-        intent.setClassName(str, "com.huawei.hms.core.activity.UiJumpActivity");
-        intent.putExtra("HMS_FOREGROUND_REQ_HEADER", this.foregroundHeader.toJson());
-        intent.putExtra("intent.extra.hms.core.DELEGATE_NAME", "com.huawei.hms.core.activity.ForegroundBus");
+        intent.putExtra(BridgeActivity.EXTRA_IS_FULLSCREEN, UIUtil.isActivityFullscreen(activity));
+        intent.setClassName(str, UI_JUMP_ACTIVITY_NAME);
+        intent.putExtra(HMS_FOREGROUND_REQ_HEADER, this.foregroundHeader.toJson());
+        intent.putExtra(EXTRA_DELEGATE_NAME, EXTRA_DELEGATE_VALUE);
         try {
             biReportRequestEntryStartCore();
-            activity.startActivityForResult(intent, 431057);
+            activity.startActivityForResult(intent, REQUEST_CODE_BUS);
         } catch (ActivityNotFoundException e) {
-            HMSLog.e("ForegroundBusDelegate", "Launch sign in Intent failed. hms is probably being updated：", e);
+            HMSLog.e(TAG, "Launch sign in Intent failed. hms is probably being updated：", e);
             errorReturn(0, "launch bus intent failed");
         }
     }
 
     private void succeedReturn(int i, Intent intent) {
-        HMSLog.i("ForegroundBusDelegate", "succeedReturn");
+        HMSLog.i(TAG, "succeedReturn");
         Activity activity = getActivity();
         if (activity == null) {
             return;
@@ -223,34 +224,34 @@ public class ForegroundBusDelegate implements IBridgeActivityDelegate {
 
     @Override // com.huawei.hms.activity.IBridgeActivityDelegate
     public int getRequestCode() {
-        return 431057;
+        return REQUEST_CODE_BUS;
     }
 
     @Override // com.huawei.hms.activity.IBridgeActivityDelegate
     public void onBridgeActivityCreate(Activity activity) {
         this.mThisWeakRef = new WeakReference<>(activity);
         Intent intent = activity.getIntent();
-        String stringExtra = intent.getStringExtra("HMS_FOREGROUND_REQ_HEADER");
+        String stringExtra = intent.getStringExtra(HMS_FOREGROUND_REQ_HEADER);
         RequestHeader requestHeader = new RequestHeader();
         this.foregroundHeader = requestHeader;
         if (!requestHeader.fromJson(stringExtra)) {
             errorReturn(0, "header is invalid");
             return;
         }
-        this.foregroundBody = intent.getStringExtra("HMS_FOREGROUND_REQ_BODY");
+        this.foregroundBody = intent.getStringExtra(HMS_FOREGROUND_REQ_BODY);
         ForegroundInnerHeader foregroundInnerHeader = this.innerHeader;
         if (foregroundInnerHeader == null) {
             errorReturn(0, "inner header is invalid");
             return;
         }
-        foregroundInnerHeader.fromJson(intent.getStringExtra("HMS_FOREGROUND_REQ_INNER"));
+        foregroundInnerHeader.fromJson(intent.getStringExtra(HMS_FOREGROUND_REQ_INNER));
         if (TextUtils.isEmpty(this.foregroundHeader.getApiName())) {
             errorReturn(0, "action is invalid");
             return;
         }
         biReportRequestEntryForegroundBus();
-        if (!TextUtils.isEmpty(intent.getStringExtra("INNER_PACKAGE_NAME"))) {
-            HMSLog.i("ForegroundBusDelegate", "isUseInnerHms: true");
+        if (!TextUtils.isEmpty(intent.getStringExtra(INNER_PKG_NAME))) {
+            HMSLog.i(TAG, "isUseInnerHms: true");
             this.isUseInnerHms = true;
         }
         checkMinVersion();
@@ -264,9 +265,9 @@ public class ForegroundBusDelegate implements IBridgeActivityDelegate {
 
     @Override // com.huawei.hms.activity.IBridgeActivityDelegate
     public boolean onBridgeActivityResult(int i, int i2, Intent intent) {
-        if (i == 431057) {
-            if (intent != null && intent.hasExtra("HMS_FOREGROUND_RESP_HEADER")) {
-                String stringExtra = intent.getStringExtra("HMS_FOREGROUND_RESP_HEADER");
+        if (i == REQUEST_CODE_BUS) {
+            if (intent != null && intent.hasExtra(HMS_FOREGROUND_RESP_HEADER)) {
+                String stringExtra = intent.getStringExtra(HMS_FOREGROUND_RESP_HEADER);
                 ResponseHeader responseHeader = new ResponseHeader();
                 this.responseHeader = responseHeader;
                 JsonUtil.jsonToEntity(stringExtra, responseHeader);

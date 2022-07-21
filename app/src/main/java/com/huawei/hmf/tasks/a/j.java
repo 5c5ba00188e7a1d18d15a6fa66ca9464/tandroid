@@ -12,28 +12,6 @@ import java.util.concurrent.Executor;
 /* loaded from: classes.dex */
 public final class j {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.huawei.hmf.tasks.a.j$1 */
-    /* loaded from: classes.dex */
-    public final class AnonymousClass1 implements Runnable {
-        final /* synthetic */ TaskCompletionSource a;
-        final /* synthetic */ Callable b;
-
-        AnonymousClass1(j jVar, TaskCompletionSource taskCompletionSource, Callable callable) {
-            this.a = taskCompletionSource;
-            this.b = callable;
-        }
-
-        @Override // java.lang.Runnable
-        public final void run() {
-            try {
-                this.a.setResult(this.b.call());
-            } catch (Exception e) {
-                this.a.setException(e);
-            }
-        }
-    }
-
     /* loaded from: classes.dex */
     public static class a<TResult> implements OnFailureListener, OnSuccessListener<TResult> {
         public final CountDownLatch a = new CountDownLatch(1);
@@ -63,10 +41,19 @@ public final class j {
         throw new IllegalStateException(str);
     }
 
-    public final <TResult> Task<TResult> a(Executor executor, Callable<TResult> callable) {
-        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+    public final <TResult> Task<TResult> a(Executor executor, final Callable<TResult> callable) {
+        final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
         try {
-            executor.execute(new AnonymousClass1(this, taskCompletionSource, callable));
+            executor.execute(new Runnable(this) { // from class: com.huawei.hmf.tasks.a.j.1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    try {
+                        taskCompletionSource.setResult(callable.call());
+                    } catch (Exception e) {
+                        taskCompletionSource.setException(e);
+                    }
+                }
+            });
         } catch (Exception e) {
             taskCompletionSource.setException(e);
         }

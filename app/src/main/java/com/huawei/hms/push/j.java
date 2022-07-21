@@ -2,11 +2,12 @@ package com.huawei.hms.push;
 
 import android.content.Context;
 import android.content.Intent;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.support.log.HMSLog;
 /* compiled from: SelfShowType.java */
 /* loaded from: classes.dex */
 public class j {
-    public static final String[] a = {"url", "app", "cosa", "rp"};
+    public static final String[] a = {RemoteMessageConst.Notification.URL, "app", "cosa", "rp"};
     public Context b;
     public k c;
 
@@ -100,7 +101,7 @@ public class j {
             } else if ("rp".equals(this.c.i())) {
                 HMSLog.w("PushSelfShowLog", this.c.i() + " not support rich message.");
                 return;
-            } else if ("url".equals(this.c.i())) {
+            } else if (RemoteMessageConst.Notification.URL.equals(this.c.i())) {
                 HMSLog.w("PushSelfShowLog", this.c.i() + " not support URL.");
                 return;
             } else {

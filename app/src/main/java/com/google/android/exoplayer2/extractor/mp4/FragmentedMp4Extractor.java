@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class FragmentedMp4Extractor implements Extractor {
     private final TrackOutput additionalEmsgTrackOutput;
@@ -1237,7 +1238,7 @@ public class FragmentedMp4Extractor implements Extractor {
             boolean sampleHasSubsampleEncryptionTable = this.fragment.sampleHasSubsampleEncryptionTable(this.currentSampleIndex);
             boolean z = sampleHasSubsampleEncryptionTable || i2 != 0;
             ParsableByteArray parsableByteArray3 = this.encryptionSignalByte;
-            parsableByteArray3.data[0] = (byte) ((z ? 128 : 0) | i3);
+            parsableByteArray3.data[0] = (byte) ((z ? ConnectionsManager.RequestFlagNeedQuickAck : 0) | i3);
             parsableByteArray3.setPosition(0);
             this.output.sampleData(this.encryptionSignalByte, 1);
             this.output.sampleData(parsableByteArray, i3);

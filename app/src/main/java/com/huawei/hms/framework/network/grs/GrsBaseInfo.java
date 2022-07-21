@@ -2,6 +2,7 @@ package com.huawei.hms.framework.network.grs;
 
 import android.content.Context;
 import android.text.TextUtils;
+import com.huawei.hms.framework.common.ContainerUtils;
 import com.huawei.hms.framework.common.Logger;
 import java.util.Locale;
 /* loaded from: classes.dex */
@@ -39,44 +40,44 @@ public class GrsBaseInfo implements Cloneable {
         String androidVersion = getAndroidVersion();
         if (!TextUtils.isEmpty(androidVersion)) {
             if (!TextUtils.isEmpty(stringBuffer.toString())) {
-                stringBuffer.append("&");
+                stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
             }
             stringBuffer.append("android_version");
-            stringBuffer.append("=");
+            stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
             stringBuffer.append(androidVersion);
         }
         String romVersion = getRomVersion();
         if (!TextUtils.isEmpty(romVersion)) {
             if (!TextUtils.isEmpty(stringBuffer.toString())) {
-                stringBuffer.append("&");
+                stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
             }
             stringBuffer.append("rom_version");
-            stringBuffer.append("=");
+            stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
             stringBuffer.append(romVersion);
         }
         String deviceModel = getDeviceModel();
         if (!TextUtils.isEmpty(deviceModel)) {
             if (!TextUtils.isEmpty(stringBuffer.toString())) {
-                stringBuffer.append("&");
+                stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
             }
             stringBuffer.append("device_model");
-            stringBuffer.append("=");
+            stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
             stringBuffer.append(deviceModel);
         }
         String countrySource = getCountrySource();
         if (!TextUtils.isEmpty(countrySource)) {
             if (!TextUtils.isEmpty(stringBuffer.toString())) {
-                stringBuffer.append("&");
+                stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
             }
             stringBuffer.append("country_source");
-            stringBuffer.append("=");
+            stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
             stringBuffer.append(countrySource);
         }
         if (!TextUtils.isEmpty(stringBuffer.toString())) {
-            stringBuffer.append("&");
+            stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
         }
         stringBuffer.append("package_name");
-        stringBuffer.append("=");
+        stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
         stringBuffer.append(context.getPackageName());
         return stringBuffer;
     }
@@ -144,7 +145,7 @@ public class GrsBaseInfo implements Cloneable {
         String grsReqParamJoint = getGrsReqParamJoint(z, z2, a2 != null ? a2.b() : "", context);
         if (!TextUtils.isEmpty(grsReqParamJoint)) {
             if (!TextUtils.isEmpty(stringBuffer.toString())) {
-                stringBuffer.append("&");
+                stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
             }
             stringBuffer.append(grsReqParamJoint);
         }
@@ -159,10 +160,10 @@ public class GrsBaseInfo implements Cloneable {
         } else {
             if (!TextUtils.isEmpty(str)) {
                 stringBuffer.append("app_name");
-                stringBuffer.append("=");
+                stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
             } else if (!TextUtils.isEmpty(getAppName())) {
                 stringBuffer.append("app_name");
-                stringBuffer.append("=");
+                stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
                 str = getAppName();
             }
             stringBuffer.append(str);
@@ -170,19 +171,19 @@ public class GrsBaseInfo implements Cloneable {
         String versionName = getVersionName();
         if (!TextUtils.isEmpty(versionName)) {
             if (!TextUtils.isEmpty(stringBuffer.toString())) {
-                stringBuffer.append("&");
+                stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
             }
             stringBuffer.append("app_version");
-            stringBuffer.append("=");
+            stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
             stringBuffer.append(versionName);
         }
         String uid = getUid();
         if (!TextUtils.isEmpty(uid)) {
             if (!TextUtils.isEmpty(stringBuffer.toString())) {
-                stringBuffer.append("&");
+                stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
             }
             stringBuffer.append("uid");
-            stringBuffer.append("=");
+            stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
             if (z) {
                 a = com.huawei.hms.framework.network.grs.h.b.b(uid);
             } else if (z2) {
@@ -193,30 +194,30 @@ public class GrsBaseInfo implements Cloneable {
             stringBuffer.append(a);
         }
         String regCountry = getRegCountry();
-        if (!TextUtils.isEmpty(regCountry) && !"UNKNOWN".equals(regCountry)) {
+        if (!TextUtils.isEmpty(regCountry) && !CountryCodeSource.UNKNOWN.equals(regCountry)) {
             if (!TextUtils.isEmpty(stringBuffer.toString())) {
-                stringBuffer.append("&");
+                stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
             }
             stringBuffer.append("reg_country");
-            stringBuffer.append("=");
+            stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
             stringBuffer.append(regCountry);
         }
         String serCountry = getSerCountry();
-        if (!TextUtils.isEmpty(serCountry) && !"UNKNOWN".equals(serCountry)) {
+        if (!TextUtils.isEmpty(serCountry) && !CountryCodeSource.UNKNOWN.equals(serCountry)) {
             if (!TextUtils.isEmpty(stringBuffer.toString())) {
-                stringBuffer.append("&");
+                stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
             }
             stringBuffer.append("ser_country");
-            stringBuffer.append("=");
+            stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
             stringBuffer.append(serCountry);
         }
         String issueCountry = getIssueCountry();
-        if (!TextUtils.isEmpty(issueCountry) && !"UNKNOWN".equals(issueCountry)) {
+        if (!TextUtils.isEmpty(issueCountry) && !CountryCodeSource.UNKNOWN.equals(issueCountry)) {
             if (!TextUtils.isEmpty(stringBuffer.toString())) {
-                stringBuffer.append("&");
+                stringBuffer.append(ContainerUtils.FIELD_DELIMITER);
             }
             stringBuffer.append("issue_country");
-            stringBuffer.append("=");
+            stringBuffer.append(ContainerUtils.KEY_VALUE_DELIMITER);
             stringBuffer.append(issueCountry);
         }
         return getStringBuffer(stringBuffer, z2, context).toString();

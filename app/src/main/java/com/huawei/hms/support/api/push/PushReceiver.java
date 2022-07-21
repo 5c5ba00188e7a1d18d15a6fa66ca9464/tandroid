@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import com.huawei.hms.aaid.constant.ErrorEnum;
+import com.huawei.hms.adapter.internal.CommonCode;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.push.h;
 import com.huawei.hms.push.s;
 import com.huawei.hms.push.utils.JsonUtil;
@@ -38,19 +40,19 @@ public final class PushReceiver extends BroadcastReceiver {
                 }
                 Bundle bundle = new Bundle();
                 if ("Push".equals(string) && i == 1) {
-                    bundle.putString("message_type", "delivery");
-                    bundle.putString("message_id", JsonUtil.getString(b, "msgId", ""));
+                    bundle.putString(RemoteMessageConst.MSGTYPE, "delivery");
+                    bundle.putString("message_id", JsonUtil.getString(b, RemoteMessageConst.MSGID, ""));
                     bundle.putInt("error", i2);
-                    bundle.putString("transaction_id", JsonUtil.getString(b, "transactionId", ""));
+                    bundle.putString(CommonCode.MapKey.TRANSACTION_ID, JsonUtil.getString(b, "transactionId", ""));
                 } else {
                     if (this.b.getExtras() != null) {
                         bundle.putAll(this.b.getExtras());
                     }
-                    bundle.putString("message_type", "received_message");
+                    bundle.putString(RemoteMessageConst.MSGTYPE, "received_message");
                     bundle.putString("message_id", this.b.getStringExtra("msgIdStr"));
-                    bundle.putByteArray("message_body", this.b.getByteArrayExtra("msg_data"));
-                    bundle.putString("device_token", w.a(this.b.getByteArrayExtra("device_token")));
-                    bundle.putInt("inputType", 1);
+                    bundle.putByteArray(RemoteMessageConst.MSGBODY, this.b.getByteArrayExtra("msg_data"));
+                    bundle.putString(RemoteMessageConst.DEVICE_TOKEN, w.a(this.b.getByteArrayExtra(RemoteMessageConst.DEVICE_TOKEN)));
+                    bundle.putInt(RemoteMessageConst.INPUT_TYPE, 1);
                     bundle.putString("message_proxy_type", this.b.getStringExtra("message_proxy_type"));
                 }
                 if (new h().a(this.a, bundle, intent)) {
@@ -85,7 +87,7 @@ public final class PushReceiver extends BroadcastReceiver {
         @Override // java.lang.Runnable
         public void run() {
             try {
-                byte[] byteArrayExtra = this.b.getByteArrayExtra("device_token");
+                byte[] byteArrayExtra = this.b.getByteArrayExtra(RemoteMessageConst.DEVICE_TOKEN);
                 if (byteArrayExtra != null && byteArrayExtra.length != 0) {
                     StringBuilder sb = new StringBuilder();
                     sb.append("receive a push token: ");
@@ -94,9 +96,9 @@ public final class PushReceiver extends BroadcastReceiver {
                     Intent intent = new Intent("com.huawei.push.action.MESSAGING_EVENT");
                     intent.setPackage(this.b.getPackage());
                     Bundle bundle = new Bundle();
-                    bundle.putString("message_type", "new_token");
-                    bundle.putString("device_token", w.a(byteArrayExtra));
-                    bundle.putString("transaction_id", this.b.getStringExtra("transaction_id"));
+                    bundle.putString(RemoteMessageConst.MSGTYPE, "new_token");
+                    bundle.putString(RemoteMessageConst.DEVICE_TOKEN, w.a(byteArrayExtra));
+                    bundle.putString(CommonCode.MapKey.TRANSACTION_ID, this.b.getStringExtra(CommonCode.MapKey.TRANSACTION_ID));
                     bundle.putString("subjectId", this.b.getStringExtra("subjectId"));
                     bundle.putInt("error", this.b.getIntExtra("error", ErrorEnum.SUCCESS.getInternalCode()));
                     bundle.putString("belongId", this.b.getStringExtra("belongId"));
@@ -126,7 +128,7 @@ public final class PushReceiver extends BroadcastReceiver {
 
     public final void b(Context context, Intent intent) {
         try {
-            if (intent.hasExtra("device_token")) {
+            if (intent.hasExtra(RemoteMessageConst.DEVICE_TOKEN)) {
                 v.a().execute(new b(context, intent));
             } else {
                 HMSLog.i("PushReceiver", "This message dose not sent by hwpush.");
@@ -178,7 +180,7 @@ public final class PushReceiver extends BroadcastReceiver {
 
     public static JSONObject b(JSONObject jSONObject) {
         if (jSONObject != null) {
-            return jSONObject.optJSONObject("psContent");
+            return jSONObject.optJSONObject(RemoteMessageConst.MessageBody.PS_CONTENT);
         }
         return null;
     }
@@ -195,7 +197,7 @@ public final class PushReceiver extends BroadcastReceiver {
     public static JSONObject b(Intent intent) throws RuntimeException {
         JSONObject a2 = a(intent.getByteArrayExtra("msg_data"));
         JSONObject a3 = a(a2);
-        String string = JsonUtil.getString(a3, "data", null);
+        String string = JsonUtil.getString(a3, RemoteMessageConst.DATA, null);
         if (s.a(a3, b(a3), string)) {
             return a2;
         }
@@ -211,7 +213,7 @@ public final class PushReceiver extends BroadcastReceiver {
 
     public static JSONObject a(JSONObject jSONObject) {
         if (jSONObject != null) {
-            return jSONObject.optJSONObject("msgContent");
+            return jSONObject.optJSONObject(RemoteMessageConst.MessageBody.MSG_CONTENT);
         }
         return null;
     }

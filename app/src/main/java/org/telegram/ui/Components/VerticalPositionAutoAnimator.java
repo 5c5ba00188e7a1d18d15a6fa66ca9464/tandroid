@@ -47,6 +47,7 @@ public final class VerticalPositionAutoAnimator {
         this.animatorLayoutChangeListener.ignoreNextLayout = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class AnimatorLayoutChangeListener implements View.OnLayoutChangeListener {
         private boolean ignoreNextLayout;

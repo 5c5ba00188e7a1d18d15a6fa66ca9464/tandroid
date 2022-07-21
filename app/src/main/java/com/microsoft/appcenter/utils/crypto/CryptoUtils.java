@@ -16,9 +16,62 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class CryptoUtils {
-    static final ICryptoFactory DEFAULT_CRYPTO_FACTORY = new AnonymousClass1();
+    static final ICryptoFactory DEFAULT_CRYPTO_FACTORY = new ICryptoFactory() { // from class: com.microsoft.appcenter.utils.crypto.CryptoUtils.1
+        @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICryptoFactory
+        public IKeyGenerator getKeyGenerator(String str, String str2) throws Exception {
+            final KeyGenerator keyGenerator = KeyGenerator.getInstance(str, str2);
+            return new IKeyGenerator(this) { // from class: com.microsoft.appcenter.utils.crypto.CryptoUtils.1.1
+                @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.IKeyGenerator
+                public void init(AlgorithmParameterSpec algorithmParameterSpec) throws Exception {
+                    keyGenerator.init(algorithmParameterSpec);
+                }
+
+                @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.IKeyGenerator
+                public void generateKey() {
+                    keyGenerator.generateKey();
+                }
+            };
+        }
+
+        @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICryptoFactory
+        public ICipher getCipher(String str, String str2) throws Exception {
+            final Cipher cipher = Cipher.getInstance(str, str2);
+            return new ICipher(this) { // from class: com.microsoft.appcenter.utils.crypto.CryptoUtils.1.2
+                @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
+                public void init(int i, Key key) throws Exception {
+                    cipher.init(i, key);
+                }
+
+                @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
+                public void init(int i, Key key, AlgorithmParameterSpec algorithmParameterSpec) throws Exception {
+                    cipher.init(i, key, algorithmParameterSpec);
+                }
+
+                @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
+                public byte[] doFinal(byte[] bArr) throws Exception {
+                    return cipher.doFinal(bArr);
+                }
+
+                @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
+                public byte[] doFinal(byte[] bArr, int i, int i2) throws Exception {
+                    return cipher.doFinal(bArr, i, i2);
+                }
+
+                @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
+                public byte[] getIV() {
+                    return cipher.getIV();
+                }
+
+                @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
+                public int getBlockSize() {
+                    return cipher.getBlockSize();
+                }
+            };
+        }
+    };
     @SuppressLint({"StaticFieldLeak"})
     private static CryptoUtils sInstance;
     private final int mApiLevel;
@@ -56,89 +109,12 @@ public class CryptoUtils {
         void init(AlgorithmParameterSpec algorithmParameterSpec) throws Exception;
     }
 
-    /* renamed from: com.microsoft.appcenter.utils.crypto.CryptoUtils$1 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass1 implements ICryptoFactory {
-        AnonymousClass1() {
-        }
-
-        /* renamed from: com.microsoft.appcenter.utils.crypto.CryptoUtils$1$1 */
-        /* loaded from: classes.dex */
-        class C00081 implements IKeyGenerator {
-            final /* synthetic */ KeyGenerator val$keyGenerator;
-
-            C00081(AnonymousClass1 anonymousClass1, KeyGenerator keyGenerator) {
-                this.val$keyGenerator = keyGenerator;
-            }
-
-            @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.IKeyGenerator
-            public void init(AlgorithmParameterSpec algorithmParameterSpec) throws Exception {
-                this.val$keyGenerator.init(algorithmParameterSpec);
-            }
-
-            @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.IKeyGenerator
-            public void generateKey() {
-                this.val$keyGenerator.generateKey();
-            }
-        }
-
-        @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICryptoFactory
-        public IKeyGenerator getKeyGenerator(String str, String str2) throws Exception {
-            return new C00081(this, KeyGenerator.getInstance(str, str2));
-        }
-
-        /* renamed from: com.microsoft.appcenter.utils.crypto.CryptoUtils$1$2 */
-        /* loaded from: classes.dex */
-        class AnonymousClass2 implements ICipher {
-            final /* synthetic */ Cipher val$cipher;
-
-            AnonymousClass2(AnonymousClass1 anonymousClass1, Cipher cipher) {
-                this.val$cipher = cipher;
-            }
-
-            @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
-            public void init(int i, Key key) throws Exception {
-                this.val$cipher.init(i, key);
-            }
-
-            @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
-            public void init(int i, Key key, AlgorithmParameterSpec algorithmParameterSpec) throws Exception {
-                this.val$cipher.init(i, key, algorithmParameterSpec);
-            }
-
-            @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
-            public byte[] doFinal(byte[] bArr) throws Exception {
-                return this.val$cipher.doFinal(bArr);
-            }
-
-            @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
-            public byte[] doFinal(byte[] bArr, int i, int i2) throws Exception {
-                return this.val$cipher.doFinal(bArr, i, i2);
-            }
-
-            @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
-            public byte[] getIV() {
-                return this.val$cipher.getIV();
-            }
-
-            @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
-            public int getBlockSize() {
-                return this.val$cipher.getBlockSize();
-            }
-        }
-
-        @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICryptoFactory
-        public ICipher getCipher(String str, String str2) throws Exception {
-            return new AnonymousClass2(this, Cipher.getInstance(str, str2));
-        }
-    }
-
     private CryptoUtils(Context context) {
         this(context, DEFAULT_CRYPTO_FACTORY, Build.VERSION.SDK_INT);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:21:0x0044 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    @TargetApi(23)
+    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

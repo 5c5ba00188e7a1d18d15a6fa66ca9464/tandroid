@@ -1,6 +1,7 @@
 package com.huawei.agconnect.config.impl;
 
 import android.util.Log;
+import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -49,7 +50,7 @@ class h implements d {
                 Log.d("InputStreamReader", "configuration_version to double error");
             }
             if (bigDecimal.compareTo(new BigDecimal("2.0")) == 0) {
-                this.a.getJSONObject("client").put("app_id", b.getString("app_id"));
+                this.a.getJSONObject("client").put(HiAnalyticsConstant.BI_KEY_APP_ID, b.getString(HiAnalyticsConstant.BI_KEY_APP_ID));
             } else if (bigDecimal.compareTo(new BigDecimal("3.0")) < 0) {
             } else {
                 Iterator<String> keys = b.keys();

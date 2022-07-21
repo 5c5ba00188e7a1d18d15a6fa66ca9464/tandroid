@@ -30,11 +30,75 @@ public class TableLayout extends View {
     private boolean isStriped;
     private int mDefaultGap;
     private TextSelectionHelper.ArticleTextSelectionHelper textSelectionHelper;
-    static final Alignment UNDEFINED_ALIGNMENT = new AnonymousClass1();
-    public static final Alignment BASELINE = new AnonymousClass6();
-    public static final Alignment FILL = new AnonymousClass7();
-    private final Axis mHorizontalAxis = new Axis(this, true, null);
-    private final Axis mVerticalAxis = new Axis(this, false, null);
+    static final Alignment UNDEFINED_ALIGNMENT = new Alignment() { // from class: org.telegram.ui.Components.TableLayout.1
+        @Override // org.telegram.ui.Components.TableLayout.Alignment
+        public int getAlignmentValue(Child child, int i) {
+            return Integer.MIN_VALUE;
+        }
+
+        @Override // org.telegram.ui.Components.TableLayout.Alignment
+        int getGravityOffset(Child child, int i) {
+            return Integer.MIN_VALUE;
+        }
+    };
+    public static final Alignment BASELINE = new Alignment() { // from class: org.telegram.ui.Components.TableLayout.6
+        @Override // org.telegram.ui.Components.TableLayout.Alignment
+        public int getAlignmentValue(Child child, int i) {
+            return Integer.MIN_VALUE;
+        }
+
+        @Override // org.telegram.ui.Components.TableLayout.Alignment
+        int getGravityOffset(Child child, int i) {
+            return 0;
+        }
+
+        @Override // org.telegram.ui.Components.TableLayout.Alignment
+        public Bounds getBounds() {
+            return new Bounds(this) { // from class: org.telegram.ui.Components.TableLayout.6.1
+                private int size;
+
+                @Override // org.telegram.ui.Components.TableLayout.Bounds
+                protected void reset() {
+                    super.reset();
+                    this.size = Integer.MIN_VALUE;
+                }
+
+                @Override // org.telegram.ui.Components.TableLayout.Bounds
+                protected void include(int i, int i2) {
+                    super.include(i, i2);
+                    this.size = Math.max(this.size, i + i2);
+                }
+
+                @Override // org.telegram.ui.Components.TableLayout.Bounds
+                protected int size(boolean z) {
+                    return Math.max(super.size(z), this.size);
+                }
+
+                @Override // org.telegram.ui.Components.TableLayout.Bounds
+                protected int getOffset(TableLayout tableLayout, Child child, Alignment alignment, int i, boolean z) {
+                    return Math.max(0, super.getOffset(tableLayout, child, alignment, i, z));
+                }
+            };
+        }
+    };
+    public static final Alignment FILL = new Alignment() { // from class: org.telegram.ui.Components.TableLayout.7
+        @Override // org.telegram.ui.Components.TableLayout.Alignment
+        public int getAlignmentValue(Child child, int i) {
+            return Integer.MIN_VALUE;
+        }
+
+        @Override // org.telegram.ui.Components.TableLayout.Alignment
+        int getGravityOffset(Child child, int i) {
+            return 0;
+        }
+
+        @Override // org.telegram.ui.Components.TableLayout.Alignment
+        public int getSizeInCell(Child child, int i, int i2) {
+            return i2;
+        }
+    };
+    private final Axis mHorizontalAxis = new Axis(true);
+    private final Axis mVerticalAxis = new Axis(false);
     private int mOrientation = 0;
     private boolean mUseDefaultMargins = false;
     private int mAlignmentMode = 1;
@@ -412,8 +476,8 @@ public class TableLayout extends View {
         LayoutParams layoutParams = new LayoutParams();
         Interval interval = new Interval(i2, i2 + i4);
         Alignment alignment = FILL;
-        layoutParams.rowSpec = new Spec(false, interval, alignment, 0.0f, (AnonymousClass1) null);
-        layoutParams.columnSpec = new Spec(false, new Interval(i, i + i3), alignment, 0.0f, (AnonymousClass1) null);
+        layoutParams.rowSpec = new Spec(false, interval, alignment, 0.0f);
+        layoutParams.columnSpec = new Spec(false, new Interval(i, i + i3), alignment, 0.0f);
         child.layoutParams = layoutParams;
         child.rowspan = i2;
         this.childrens.add(child);
@@ -431,8 +495,8 @@ public class TableLayout extends View {
         }
         Interval interval = new Interval(i2, i5 + i2);
         Alignment alignment = FILL;
-        layoutParams.rowSpec = new Spec(false, interval, alignment, 0.0f, (AnonymousClass1) null);
-        layoutParams.columnSpec = new Spec(false, new Interval(i, i4 + i), alignment, 1.0f, (AnonymousClass1) null);
+        layoutParams.rowSpec = new Spec(false, interval, alignment, 0.0f);
+        layoutParams.columnSpec = new Spec(false, new Interval(i, i4 + i), alignment, 1.0f);
         child.layoutParams = layoutParams;
         child.rowspan = i2;
         this.childrens.add(child);
@@ -1001,10 +1065,6 @@ public class TableLayout extends View {
         public int[] trailingMargins;
         public boolean trailingMarginsValid;
 
-        /* synthetic */ Axis(TableLayout tableLayout, boolean z, AnonymousClass1 anonymousClass1) {
-            this(z);
-        }
-
         private Axis(boolean z) {
             TableLayout.this = r2;
             this.definedCount = Integer.MIN_VALUE;
@@ -1188,53 +1248,50 @@ public class TableLayout extends View {
             return arcArr2;
         }
 
-        /* renamed from: org.telegram.ui.Components.TableLayout$Axis$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 {
-            Arc[][] arcsByVertex;
-            int cursor;
-            Arc[] result;
-            final /* synthetic */ Arc[] val$arcs;
-            int[] visited;
-
-            AnonymousClass1(Arc[] arcArr) {
-                Axis.this = r2;
-                this.val$arcs = arcArr;
-                Arc[] arcArr2 = new Arc[arcArr.length];
-                this.result = arcArr2;
-                this.cursor = arcArr2.length - 1;
-                this.arcsByVertex = r2.groupArcsByFirstVertex(arcArr);
-                this.visited = new int[r2.getCount() + 1];
-            }
-
-            void walk(int i) {
-                Arc[] arcArr;
-                int[] iArr = this.visited;
-                if (iArr[i] != 0) {
-                    return;
-                }
-                iArr[i] = 1;
-                for (Arc arc : this.arcsByVertex[i]) {
-                    walk(arc.span.max);
-                    Arc[] arcArr2 = this.result;
-                    int i2 = this.cursor;
-                    this.cursor = i2 - 1;
-                    arcArr2[i2] = arc;
-                }
-                this.visited[i] = 2;
-            }
-
-            Arc[] sort() {
-                int length = this.arcsByVertex.length;
-                for (int i = 0; i < length; i++) {
-                    walk(i);
-                }
-                return this.result;
-            }
-        }
-
+        /* JADX WARN: Type inference failed for: r0v0, types: [org.telegram.ui.Components.TableLayout$Axis$1] */
         private Arc[] topologicalSort(Arc[] arcArr) {
-            return new AnonymousClass1(arcArr).sort();
+            return new Object(arcArr) { // from class: org.telegram.ui.Components.TableLayout.Axis.1
+                Arc[][] arcsByVertex;
+                int cursor;
+                Arc[] result;
+                final /* synthetic */ Arc[] val$arcs;
+                int[] visited;
+
+                {
+                    Axis.this = this;
+                    this.val$arcs = arcArr;
+                    Arc[] arcArr2 = new Arc[arcArr.length];
+                    this.result = arcArr2;
+                    this.cursor = arcArr2.length - 1;
+                    this.arcsByVertex = this.groupArcsByFirstVertex(arcArr);
+                    this.visited = new int[this.getCount() + 1];
+                }
+
+                void walk(int i) {
+                    Arc[] arcArr2;
+                    int[] iArr = this.visited;
+                    if (iArr[i] != 0) {
+                        return;
+                    }
+                    iArr[i] = 1;
+                    for (Arc arc : this.arcsByVertex[i]) {
+                        walk(arc.span.max);
+                        Arc[] arcArr3 = this.result;
+                        int i2 = this.cursor;
+                        this.cursor = i2 - 1;
+                        arcArr3[i2] = arc;
+                    }
+                    this.visited[i] = 2;
+                }
+
+                Arc[] sort() {
+                    int length = this.arcsByVertex.length;
+                    for (int i = 0; i < length; i++) {
+                        walk(i);
+                    }
+                    return this.result;
+                }
+            }.sort();
         }
 
         private Arc[] topologicalSort(List<Arc> list) {
@@ -1676,7 +1733,7 @@ public class TableLayout extends View {
                 objArr[i] = get(i).first;
                 objArr2[i] = get(i).second;
             }
-            return new PackedMap<>(objArr, objArr2, null);
+            return new PackedMap<>(objArr, objArr2);
         }
     }
 
@@ -1685,10 +1742,6 @@ public class TableLayout extends View {
         public final int[] index;
         public final K[] keys;
         public final V[] values;
-
-        /* synthetic */ PackedMap(Object[] objArr, Object[] objArr2, AnonymousClass1 anonymousClass1) {
-            this(objArr, objArr2);
-        }
 
         private PackedMap(K[] kArr, V[] vArr) {
             int[] createIndex = createIndex(kArr);
@@ -1732,10 +1785,6 @@ public class TableLayout extends View {
         public int after;
         public int before;
         public int flexibility;
-
-        /* synthetic */ Bounds(AnonymousClass1 anonymousClass1) {
-            this();
-        }
 
         private Bounds() {
             reset();
@@ -1812,14 +1861,6 @@ public class TableLayout extends View {
         final boolean startDefined;
         float weight;
 
-        /* synthetic */ Spec(boolean z, int i, int i2, Alignment alignment, float f, AnonymousClass1 anonymousClass1) {
-            this(z, i, i2, alignment, f);
-        }
-
-        /* synthetic */ Spec(boolean z, Interval interval, Alignment alignment, float f, AnonymousClass1 anonymousClass1) {
-            this(z, interval, alignment, f);
-        }
-
         private Spec(boolean z, Interval interval, Alignment alignment, float f) {
             this.startDefined = z;
             this.span = interval;
@@ -1867,7 +1908,7 @@ public class TableLayout extends View {
     }
 
     public static Spec spec(int i, int i2, Alignment alignment, float f) {
-        return new Spec(i != Integer.MIN_VALUE, i, i2, alignment, f, null);
+        return new Spec(i != Integer.MIN_VALUE, i, i2, alignment, f);
     }
 
     public static Spec spec(int i, int i2, Alignment alignment) {
@@ -1896,187 +1937,63 @@ public class TableLayout extends View {
         }
 
         Bounds getBounds() {
-            return new Bounds(null);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TableLayout$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends Alignment {
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        public int getAlignmentValue(Child child, int i) {
-            return Integer.MIN_VALUE;
-        }
-
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        int getGravityOffset(Child child, int i) {
-            return Integer.MIN_VALUE;
-        }
-
-        AnonymousClass1() {
+            return new Bounds();
         }
     }
 
     static {
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2();
-        LEADING = anonymousClass2;
-        AnonymousClass3 anonymousClass3 = new AnonymousClass3();
-        TRAILING = anonymousClass3;
-        START = anonymousClass2;
-        END = anonymousClass3;
-        createSwitchingAlignment(anonymousClass2);
-        createSwitchingAlignment(anonymousClass3);
-        new AnonymousClass5();
-    }
-
-    /* renamed from: org.telegram.ui.Components.TableLayout$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends Alignment {
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        public int getAlignmentValue(Child child, int i) {
-            return 0;
-        }
-
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        int getGravityOffset(Child child, int i) {
-            return 0;
-        }
-
-        AnonymousClass2() {
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TableLayout$3 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass3 extends Alignment {
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        public int getAlignmentValue(Child child, int i) {
-            return i;
-        }
-
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        int getGravityOffset(Child child, int i) {
-            return i;
-        }
-
-        AnonymousClass3() {
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TableLayout$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends Alignment {
-        final /* synthetic */ Alignment val$ltr;
-
-        AnonymousClass4(Alignment alignment) {
-            this.val$ltr = alignment;
-        }
-
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        int getGravityOffset(Child child, int i) {
-            return this.val$ltr.getGravityOffset(child, i);
-        }
-
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        public int getAlignmentValue(Child child, int i) {
-            return this.val$ltr.getAlignmentValue(child, i);
-        }
-    }
-
-    private static Alignment createSwitchingAlignment(Alignment alignment) {
-        return new AnonymousClass4(alignment);
-    }
-
-    /* renamed from: org.telegram.ui.Components.TableLayout$5 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass5 extends Alignment {
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        public int getAlignmentValue(Child child, int i) {
-            return i >> 1;
-        }
-
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        int getGravityOffset(Child child, int i) {
-            return i >> 1;
-        }
-
-        AnonymousClass5() {
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.TableLayout$6 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass6 extends Alignment {
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        public int getAlignmentValue(Child child, int i) {
-            return Integer.MIN_VALUE;
-        }
-
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        int getGravityOffset(Child child, int i) {
-            return 0;
-        }
-
-        AnonymousClass6() {
-        }
-
-        /* renamed from: org.telegram.ui.Components.TableLayout$6$1 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass1 extends Bounds {
-            private int size;
-
-            AnonymousClass1(AnonymousClass6 anonymousClass6) {
-                super(null);
+        Alignment alignment = new Alignment() { // from class: org.telegram.ui.Components.TableLayout.2
+            @Override // org.telegram.ui.Components.TableLayout.Alignment
+            public int getAlignmentValue(Child child, int i) {
+                return 0;
             }
 
-            @Override // org.telegram.ui.Components.TableLayout.Bounds
-            protected void reset() {
-                super.reset();
-                this.size = Integer.MIN_VALUE;
+            @Override // org.telegram.ui.Components.TableLayout.Alignment
+            int getGravityOffset(Child child, int i) {
+                return 0;
+            }
+        };
+        LEADING = alignment;
+        Alignment alignment2 = new Alignment() { // from class: org.telegram.ui.Components.TableLayout.3
+            @Override // org.telegram.ui.Components.TableLayout.Alignment
+            public int getAlignmentValue(Child child, int i) {
+                return i;
             }
 
-            @Override // org.telegram.ui.Components.TableLayout.Bounds
-            protected void include(int i, int i2) {
-                super.include(i, i2);
-                this.size = Math.max(this.size, i + i2);
+            @Override // org.telegram.ui.Components.TableLayout.Alignment
+            int getGravityOffset(Child child, int i) {
+                return i;
+            }
+        };
+        TRAILING = alignment2;
+        START = alignment;
+        END = alignment2;
+        createSwitchingAlignment(alignment);
+        createSwitchingAlignment(alignment2);
+        new Alignment() { // from class: org.telegram.ui.Components.TableLayout.5
+            @Override // org.telegram.ui.Components.TableLayout.Alignment
+            public int getAlignmentValue(Child child, int i) {
+                return i >> 1;
             }
 
-            @Override // org.telegram.ui.Components.TableLayout.Bounds
-            protected int size(boolean z) {
-                return Math.max(super.size(z), this.size);
+            @Override // org.telegram.ui.Components.TableLayout.Alignment
+            int getGravityOffset(Child child, int i) {
+                return i >> 1;
             }
-
-            @Override // org.telegram.ui.Components.TableLayout.Bounds
-            protected int getOffset(TableLayout tableLayout, Child child, Alignment alignment, int i, boolean z) {
-                return Math.max(0, super.getOffset(tableLayout, child, alignment, i, z));
-            }
-        }
-
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        public Bounds getBounds() {
-            return new AnonymousClass1(this);
-        }
+        };
     }
 
-    /* renamed from: org.telegram.ui.Components.TableLayout$7 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass7 extends Alignment {
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        public int getAlignmentValue(Child child, int i) {
-            return Integer.MIN_VALUE;
-        }
+    private static Alignment createSwitchingAlignment(final Alignment alignment) {
+        return new Alignment() { // from class: org.telegram.ui.Components.TableLayout.4
+            @Override // org.telegram.ui.Components.TableLayout.Alignment
+            int getGravityOffset(Child child, int i) {
+                return alignment.getGravityOffset(child, i);
+            }
 
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        int getGravityOffset(Child child, int i) {
-            return 0;
-        }
-
-        @Override // org.telegram.ui.Components.TableLayout.Alignment
-        public int getSizeInCell(Child child, int i, int i2) {
-            return i2;
-        }
-
-        AnonymousClass7() {
-        }
+            @Override // org.telegram.ui.Components.TableLayout.Alignment
+            public int getAlignmentValue(Child child, int i) {
+                return alignment.getAlignmentValue(child, i);
+            }
+        };
     }
 }

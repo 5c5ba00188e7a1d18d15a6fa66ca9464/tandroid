@@ -12,9 +12,12 @@ import android.os.RemoteException;
 import android.util.Log;
 import androidx.collection.SimpleArrayMap;
 import com.google.android.gms.cloudmessaging.zza;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
+import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import java.io.IOException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
@@ -90,7 +93,7 @@ public class Rpc {
                     if (Log.isLoggable("Rpc", 3)) {
                         Log.d("Rpc", stringExtra2.length() != 0 ? "Received InstanceID error ".concat(stringExtra2) : new String("Received InstanceID error "));
                     }
-                    if (stringExtra2.startsWith("|")) {
+                    if (stringExtra2.startsWith(HiAnalyticsConstant.REPORT_VAL_SEPARATOR)) {
                         String[] split = stringExtra2.split("\\|");
                         if (split.length <= 2 || !"ID".equals(split[1])) {
                             Log.w("Rpc", stringExtra2.length() != 0 ? "Unexpected structured response ".concat(stringExtra2) : new String("Unexpected structured response "));
@@ -167,7 +170,21 @@ public class Rpc {
         if (!z) {
             return Tasks.forException(new IOException("MISSING_INSTANCEID_SERVICE"));
         }
-        return zzc(bundle).continueWithTask(zzc, new zzv(this, bundle));
+        return zzc(bundle).continueWithTask(zzc, new Continuation(this, bundle) { // from class: com.google.android.gms.cloudmessaging.zzv
+            private final Rpc zza;
+            private final Bundle zzb;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zza = this;
+                this.zzb = bundle;
+            }
+
+            @Override // com.google.android.gms.tasks.Continuation
+            public final Object then(Task task) {
+                return this.zza.zza(this.zzb, task);
+            }
+        });
     }
 
     private static boolean zzb(Bundle bundle) {
@@ -202,7 +219,7 @@ public class Rpc {
         StringBuilder sb = new StringBuilder(String.valueOf(zza2).length() + 5);
         sb.append("|ID|");
         sb.append(zza2);
-        sb.append("|");
+        sb.append(HiAnalyticsConstant.REPORT_VAL_SEPARATOR);
         intent.putExtra("kid", sb.toString());
         if (Log.isLoggable("Rpc", 3)) {
             String valueOf = String.valueOf(intent.getExtras());
@@ -227,7 +244,35 @@ public class Rpc {
                     Log.d("Rpc", "Messenger failed, fallback to startService");
                 }
             }
-            taskCompletionSource.getTask().addOnCompleteListener(zzc, new zzx(this, zza2, this.zzg.schedule(new zzu(taskCompletionSource), 30L, TimeUnit.SECONDS)));
+            taskCompletionSource.getTask().addOnCompleteListener(zzc, new OnCompleteListener(this, zza2, this.zzg.schedule(new Runnable(taskCompletionSource) { // from class: com.google.android.gms.cloudmessaging.zzu
+                private final TaskCompletionSource zza;
+
+                /* JADX INFO: Access modifiers changed from: package-private */
+                {
+                    this.zza = taskCompletionSource;
+                }
+
+                @Override // java.lang.Runnable
+                public final void run() {
+                    Rpc.zza(this.zza);
+                }
+            }, 30L, TimeUnit.SECONDS)) { // from class: com.google.android.gms.cloudmessaging.zzx
+                private final Rpc zza;
+                private final String zzb;
+                private final ScheduledFuture zzc;
+
+                /* JADX INFO: Access modifiers changed from: package-private */
+                {
+                    this.zza = this;
+                    this.zzb = zza2;
+                    this.zzc = schedule2;
+                }
+
+                @Override // com.google.android.gms.tasks.OnCompleteListener
+                public final void onComplete(Task task) {
+                    this.zza.zza(this.zzb, this.zzc, task);
+                }
+            });
             return taskCompletionSource.getTask();
         }
         if (this.zzf.zza() == 2) {
@@ -235,7 +280,35 @@ public class Rpc {
         } else {
             this.zze.startService(intent);
         }
-        taskCompletionSource.getTask().addOnCompleteListener(zzc, new zzx(this, zza2, this.zzg.schedule(new zzu(taskCompletionSource), 30L, TimeUnit.SECONDS)));
+        taskCompletionSource.getTask().addOnCompleteListener(zzc, new OnCompleteListener(this, zza2, this.zzg.schedule(new Runnable(taskCompletionSource) { // from class: com.google.android.gms.cloudmessaging.zzu
+            private final TaskCompletionSource zza;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zza = taskCompletionSource;
+            }
+
+            @Override // java.lang.Runnable
+            public final void run() {
+                Rpc.zza(this.zza);
+            }
+        }, 30L, TimeUnit.SECONDS)) { // from class: com.google.android.gms.cloudmessaging.zzx
+            private final Rpc zza;
+            private final String zzb;
+            private final ScheduledFuture zzc;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zza = this;
+                this.zzb = zza2;
+                this.zzc = schedule2;
+            }
+
+            @Override // com.google.android.gms.tasks.OnCompleteListener
+            public final void onComplete(Task task) {
+                this.zza.zza(this.zzb, this.zzc, task);
+            }
+        });
         return taskCompletionSource.getTask();
     }
 

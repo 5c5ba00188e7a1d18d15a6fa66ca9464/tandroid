@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.util.NalUnitUtil;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Arrays;
 import java.util.Collections;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class H262Reader implements ElementaryStreamReader {
     private static final double[] FRAME_RATE_VALUES = {23.976023976023978d, 24.0d, 25.0d, 29.97002997002997d, 30.0d, 50.0d, 59.94005994005994d, 60.0d};
@@ -40,9 +41,9 @@ public final class H262Reader implements ElementaryStreamReader {
     public H262Reader(UserDataReader userDataReader) {
         this.userDataReader = userDataReader;
         this.prefixFlags = new boolean[4];
-        this.csdBuffer = new CsdBuffer(128);
+        this.csdBuffer = new CsdBuffer(ConnectionsManager.RequestFlagNeedQuickAck);
         if (userDataReader != null) {
-            this.userData = new NalUnitTargetBuffer(178, 128);
+            this.userData = new NalUnitTargetBuffer(178, ConnectionsManager.RequestFlagNeedQuickAck);
             this.userDataParsable = new ParsableByteArray();
             return;
         }

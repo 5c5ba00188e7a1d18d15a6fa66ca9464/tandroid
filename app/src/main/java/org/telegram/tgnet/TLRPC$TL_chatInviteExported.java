@@ -46,7 +46,7 @@ public class TLRPC$TL_chatInviteExported extends TLRPC$ExportedChatInvite {
         if ((this.flags & 8) != 0) {
             this.usage = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 128) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             this.requested = abstractSerializedData.readInt32(z);
         }
         if ((this.flags & 256) != 0) {
@@ -79,7 +79,7 @@ public class TLRPC$TL_chatInviteExported extends TLRPC$ExportedChatInvite {
         if ((this.flags & 8) != 0) {
             abstractSerializedData.writeInt32(this.usage);
         }
-        if ((this.flags & 128) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             abstractSerializedData.writeInt32(this.requested);
         }
         if ((this.flags & 256) != 0) {

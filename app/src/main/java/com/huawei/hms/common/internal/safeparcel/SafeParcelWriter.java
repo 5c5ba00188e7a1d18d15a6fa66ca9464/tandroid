@@ -23,7 +23,7 @@ public class SafeParcelWriter {
     }
 
     public static int beginObjectHeader(Parcel parcel) {
-        return getStartPosition(parcel, 20293);
+        return getStartPosition(parcel, FIELD_ID_CHECKER);
     }
 
     public static void finishObjectHeader(Parcel parcel, int i) {
@@ -31,7 +31,7 @@ public class SafeParcelWriter {
     }
 
     private static int getStartPosition(Parcel parcel, int i) {
-        parcel.writeInt(i | (-65536));
+        parcel.writeInt(i | NEGATIVE_MARK);
         parcel.writeInt(0);
         return parcel.dataPosition();
     }
@@ -44,8 +44,8 @@ public class SafeParcelWriter {
     }
 
     private static void setHeader(Parcel parcel, int i, int i2) {
-        if (i2 >= 65535) {
-            parcel.writeInt(i | (-65536));
+        if (i2 >= BIT16_MARK) {
+            parcel.writeInt(i | NEGATIVE_MARK);
             parcel.writeInt(i2);
             return;
         }

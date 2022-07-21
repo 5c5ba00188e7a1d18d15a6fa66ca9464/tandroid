@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.Surface;
 import java.nio.ByteBuffer;
 /* loaded from: classes3.dex */
-public interface MediaCodecWrapper {
+interface MediaCodecWrapper {
     void configure(MediaFormat mediaFormat, Surface surface, MediaCrypto mediaCrypto, int i);
 
     Surface createInputSurface();

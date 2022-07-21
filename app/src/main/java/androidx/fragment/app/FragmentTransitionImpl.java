@@ -59,9 +59,9 @@ public abstract class FragmentTransitionImpl {
         return arrayList2;
     }
 
-    public void setNameOverridesReordered(View view, ArrayList<View> arrayList, ArrayList<View> arrayList2, ArrayList<String> arrayList3, Map<String, String> map) {
-        int size = arrayList2.size();
-        ArrayList arrayList4 = new ArrayList();
+    public void setNameOverridesReordered(View view, final ArrayList<View> arrayList, final ArrayList<View> arrayList2, final ArrayList<String> arrayList3, Map<String, String> map) {
+        final int size = arrayList2.size();
+        final ArrayList arrayList4 = new ArrayList();
         for (int i = 0; i < size; i++) {
             View view2 = arrayList.get(i);
             String transitionName = ViewCompat.getTransitionName(view2);
@@ -82,34 +82,15 @@ public abstract class FragmentTransitionImpl {
                 }
             }
         }
-        OneShotPreDrawListener.add(view, new AnonymousClass1(this, size, arrayList2, arrayList3, arrayList, arrayList4));
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: androidx.fragment.app.FragmentTransitionImpl$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Runnable {
-        final /* synthetic */ ArrayList val$inNames;
-        final /* synthetic */ int val$numSharedElements;
-        final /* synthetic */ ArrayList val$outNames;
-        final /* synthetic */ ArrayList val$sharedElementsIn;
-        final /* synthetic */ ArrayList val$sharedElementsOut;
-
-        AnonymousClass1(FragmentTransitionImpl fragmentTransitionImpl, int i, ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, ArrayList arrayList4) {
-            this.val$numSharedElements = i;
-            this.val$sharedElementsIn = arrayList;
-            this.val$inNames = arrayList2;
-            this.val$sharedElementsOut = arrayList3;
-            this.val$outNames = arrayList4;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            for (int i = 0; i < this.val$numSharedElements; i++) {
-                ViewCompat.setTransitionName((View) this.val$sharedElementsIn.get(i), (String) this.val$inNames.get(i));
-                ViewCompat.setTransitionName((View) this.val$sharedElementsOut.get(i), (String) this.val$outNames.get(i));
+        OneShotPreDrawListener.add(view, new Runnable(this) { // from class: androidx.fragment.app.FragmentTransitionImpl.1
+            @Override // java.lang.Runnable
+            public void run() {
+                for (int i3 = 0; i3 < size; i3++) {
+                    ViewCompat.setTransitionName((View) arrayList2.get(i3), (String) arrayList3.get(i3));
+                    ViewCompat.setTransitionName((View) arrayList.get(i3), (String) arrayList4.get(i3));
+                }
             }
-        }
+        });
     }
 
     public void captureTransitioningViews(ArrayList<View> arrayList, View view) {
@@ -147,59 +128,33 @@ public abstract class FragmentTransitionImpl {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: androidx.fragment.app.FragmentTransitionImpl$2 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass2 implements Runnable {
-        final /* synthetic */ Map val$nameOverrides;
-        final /* synthetic */ ArrayList val$sharedElementsIn;
-
-        AnonymousClass2(FragmentTransitionImpl fragmentTransitionImpl, ArrayList arrayList, Map map) {
-            this.val$sharedElementsIn = arrayList;
-            this.val$nameOverrides = map;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            int size = this.val$sharedElementsIn.size();
-            for (int i = 0; i < size; i++) {
-                View view = (View) this.val$sharedElementsIn.get(i);
-                String transitionName = ViewCompat.getTransitionName(view);
-                if (transitionName != null) {
-                    ViewCompat.setTransitionName(view, FragmentTransitionImpl.findKeyForValue(this.val$nameOverrides, transitionName));
+    public void setNameOverridesOrdered(View view, final ArrayList<View> arrayList, final Map<String, String> map) {
+        OneShotPreDrawListener.add(view, new Runnable(this) { // from class: androidx.fragment.app.FragmentTransitionImpl.2
+            @Override // java.lang.Runnable
+            public void run() {
+                int size = arrayList.size();
+                for (int i = 0; i < size; i++) {
+                    View view2 = (View) arrayList.get(i);
+                    String transitionName = ViewCompat.getTransitionName(view2);
+                    if (transitionName != null) {
+                        ViewCompat.setTransitionName(view2, FragmentTransitionImpl.findKeyForValue(map, transitionName));
+                    }
                 }
             }
-        }
+        });
     }
 
-    public void setNameOverridesOrdered(View view, ArrayList<View> arrayList, Map<String, String> map) {
-        OneShotPreDrawListener.add(view, new AnonymousClass2(this, arrayList, map));
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: androidx.fragment.app.FragmentTransitionImpl$3 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass3 implements Runnable {
-        final /* synthetic */ Map val$nameOverrides;
-        final /* synthetic */ ArrayList val$sharedElementsIn;
-
-        AnonymousClass3(FragmentTransitionImpl fragmentTransitionImpl, ArrayList arrayList, Map map) {
-            this.val$sharedElementsIn = arrayList;
-            this.val$nameOverrides = map;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            int size = this.val$sharedElementsIn.size();
-            for (int i = 0; i < size; i++) {
-                View view = (View) this.val$sharedElementsIn.get(i);
-                ViewCompat.setTransitionName(view, (String) this.val$nameOverrides.get(ViewCompat.getTransitionName(view)));
+    public void scheduleNameReset(ViewGroup viewGroup, final ArrayList<View> arrayList, final Map<String, String> map) {
+        OneShotPreDrawListener.add(viewGroup, new Runnable(this) { // from class: androidx.fragment.app.FragmentTransitionImpl.3
+            @Override // java.lang.Runnable
+            public void run() {
+                int size = arrayList.size();
+                for (int i = 0; i < size; i++) {
+                    View view = (View) arrayList.get(i);
+                    ViewCompat.setTransitionName(view, (String) map.get(ViewCompat.getTransitionName(view)));
+                }
             }
-        }
-    }
-
-    public void scheduleNameReset(ViewGroup viewGroup, ArrayList<View> arrayList, Map<String, String> map) {
-        OneShotPreDrawListener.add(viewGroup, new AnonymousClass3(this, arrayList, map));
+        });
     }
 
     public static void bfsAddViewChildren(List<View> list, View view) {

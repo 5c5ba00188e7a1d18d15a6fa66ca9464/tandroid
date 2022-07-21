@@ -31,7 +31,14 @@ public abstract class TLRPC$InputMedia extends TLObject {
         TLRPC$InputMedia tLRPC$InputMedia;
         switch (i) {
             case -1771768449:
-                tLRPC$InputMedia = new TLRPC$TL_inputMediaEmpty();
+                tLRPC$InputMedia = new TLRPC$InputMedia() { // from class: org.telegram.tgnet.TLRPC$TL_inputMediaEmpty
+                    public static int constructor = -1771768449;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                    }
+                };
                 break;
             case -1759532989:
                 tLRPC$InputMedia = new TLRPC$TL_inputMediaGeoLive();
@@ -46,7 +53,29 @@ public abstract class TLRPC$InputMedia extends TLObject {
                 tLRPC$InputMedia = new TLRPC$TL_inputMediaGame();
                 break;
             case -440664550:
-                tLRPC$InputMedia = new TLRPC$TL_inputMediaPhotoExternal();
+                tLRPC$InputMedia = new TLRPC$InputMedia() { // from class: org.telegram.tgnet.TLRPC$TL_inputMediaPhotoExternal
+                    public static int constructor = -440664550;
+                    public String url;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.flags = abstractSerializedData2.readInt32(z2);
+                        this.url = abstractSerializedData2.readString(z2);
+                        if ((this.flags & 1) != 0) {
+                            this.ttl_seconds = abstractSerializedData2.readInt32(z2);
+                        }
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(this.flags);
+                        abstractSerializedData2.writeString(this.url);
+                        if ((this.flags & 1) != 0) {
+                            abstractSerializedData2.writeInt32(this.ttl_seconds);
+                        }
+                    }
+                };
                 break;
             case -428884101:
                 tLRPC$InputMedia = new TLRPC$TL_inputMediaDice();
@@ -58,7 +87,29 @@ public abstract class TLRPC$InputMedia extends TLObject {
                 tLRPC$InputMedia = new TLRPC$TL_inputMediaGeoPoint();
                 break;
             case -78455655:
-                tLRPC$InputMedia = new TLRPC$TL_inputMediaDocumentExternal();
+                tLRPC$InputMedia = new TLRPC$InputMedia() { // from class: org.telegram.tgnet.TLRPC$TL_inputMediaDocumentExternal
+                    public static int constructor = -78455655;
+                    public String url;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.flags = abstractSerializedData2.readInt32(z2);
+                        this.url = abstractSerializedData2.readString(z2);
+                        if ((this.flags & 1) != 0) {
+                            this.ttl_seconds = abstractSerializedData2.readInt32(z2);
+                        }
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(this.flags);
+                        abstractSerializedData2.writeString(this.url);
+                        if ((this.flags & 1) != 0) {
+                            abstractSerializedData2.writeInt32(this.ttl_seconds);
+                        }
+                    }
+                };
                 break;
             case 261416433:
                 tLRPC$InputMedia = new TLRPC$TL_inputMediaPoll();

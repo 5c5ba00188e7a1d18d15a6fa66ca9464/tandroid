@@ -5,7 +5,17 @@ import android.os.Parcelable;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class InternalFrame extends Id3Frame {
-    public static final Parcelable.Creator<InternalFrame> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<InternalFrame> CREATOR = new Parcelable.Creator<InternalFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.InternalFrame.1
+        @Override // android.os.Parcelable.Creator
+        public InternalFrame createFromParcel(Parcel parcel) {
+            return new InternalFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public InternalFrame[] newArray(int i) {
+            return new InternalFrame[i];
+        }
+    };
     public final String description;
     public final String domain;
     public final String text;
@@ -58,22 +68,5 @@ public final class InternalFrame extends Id3Frame {
         parcel.writeString(this.id);
         parcel.writeString(this.domain);
         parcel.writeString(this.text);
-    }
-
-    /* renamed from: com.google.android.exoplayer2.metadata.id3.InternalFrame$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<InternalFrame> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public InternalFrame createFromParcel(Parcel parcel) {
-            return new InternalFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public InternalFrame[] newArray(int i) {
-            return new InternalFrame[i];
-        }
     }
 }

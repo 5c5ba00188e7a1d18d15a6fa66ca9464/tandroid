@@ -44,7 +44,7 @@ public class ForwardingMessagesParams {
         long j3;
         ArrayList arrayList2;
         TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
-        AnonymousClass1 anonymousClass1;
+        MessageObject messageObject;
         this.messages = arrayList;
         boolean z = false;
         this.hasCaption = false;
@@ -54,13 +54,13 @@ public class ForwardingMessagesParams {
         ArrayList arrayList3 = new ArrayList();
         int i = 0;
         while (i < arrayList.size()) {
-            MessageObject messageObject = arrayList.get(i);
-            if (!TextUtils.isEmpty(messageObject.caption)) {
+            MessageObject messageObject2 = arrayList.get(i);
+            if (!TextUtils.isEmpty(messageObject2.caption)) {
                 this.hasCaption = true;
             }
-            this.selectedIds.put(messageObject.getId(), true);
+            this.selectedIds.put(messageObject2.getId(), true);
             TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
-            TLRPC$Message tLRPC$Message = messageObject.messageOwner;
+            TLRPC$Message tLRPC$Message = messageObject2.messageOwner;
             tLRPC$TL_message.id = tLRPC$Message.id;
             tLRPC$TL_message.grouped_id = tLRPC$Message.grouped_id;
             tLRPC$TL_message.peer_id = tLRPC$Message.peer_id;
@@ -88,19 +88,19 @@ public class ForwardingMessagesParams {
             }
             tLRPC$TL_message.out = true;
             tLRPC$TL_message.unread = z;
-            TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
+            TLRPC$Message tLRPC$Message2 = messageObject2.messageOwner;
             tLRPC$TL_message.via_bot_id = tLRPC$Message2.via_bot_id;
             tLRPC$TL_message.reply_markup = tLRPC$Message2.reply_markup;
             tLRPC$TL_message.post = tLRPC$Message2.post;
             tLRPC$TL_message.legacy = tLRPC$Message2.legacy;
             tLRPC$TL_message.restriction_reason = tLRPC$Message2.restriction_reason;
             tLRPC$TL_message.replyMessage = tLRPC$Message2.replyMessage;
-            long j4 = UserConfig.getInstance(messageObject.currentAccount).clientUserId;
+            long j4 = UserConfig.getInstance(messageObject2.currentAccount).clientUserId;
             if (!this.isSecret) {
-                TLRPC$Message tLRPC$Message3 = messageObject.messageOwner;
+                TLRPC$Message tLRPC$Message3 = messageObject2.messageOwner;
                 tLRPC$MessageFwdHeader = tLRPC$Message3.fwd_from;
                 if (tLRPC$MessageFwdHeader != null) {
-                    if (!messageObject.isDice()) {
+                    if (!messageObject2.isDice()) {
                         this.hasSenders = true;
                     } else {
                         this.willSeeSenders = true;
@@ -114,8 +114,8 @@ public class ForwardingMessagesParams {
                     arrayList2 = arrayList3;
                     if (j5 == 0 || tLRPC$Message3.dialog_id != j4 || j5 != j4) {
                         tLRPC$MessageFwdHeader = new TLRPC$TL_messageFwdHeader();
-                        tLRPC$MessageFwdHeader.from_id = messageObject.messageOwner.from_id;
-                        if (!messageObject.isDice()) {
+                        tLRPC$MessageFwdHeader.from_id = messageObject2.messageOwner.from_id;
+                        if (!messageObject2.isDice()) {
                             this.hasSenders = true;
                         } else {
                             this.willSeeSenders = true;
@@ -127,19 +127,27 @@ public class ForwardingMessagesParams {
                     tLRPC$TL_message.flags |= 4;
                 }
                 tLRPC$TL_message.dialog_id = j;
-                anonymousClass1 = new AnonymousClass1(messageObject.currentAccount, tLRPC$TL_message, true, false);
-                anonymousClass1.preview = true;
-                if (anonymousClass1.getGroupId() != 0) {
-                    MessageObject.GroupedMessages groupedMessages = this.groupedMessagesMap.get(anonymousClass1.getGroupId(), null);
+                messageObject = new MessageObject(messageObject2.currentAccount, tLRPC$TL_message, true, false) { // from class: org.telegram.messenger.ForwardingMessagesParams.1
+                    @Override // org.telegram.messenger.MessageObject
+                    public boolean needDrawForwarded() {
+                        if (ForwardingMessagesParams.this.hideForwardSendersName) {
+                            return false;
+                        }
+                        return super.needDrawForwarded();
+                    }
+                };
+                messageObject.preview = true;
+                if (messageObject.getGroupId() != 0) {
+                    MessageObject.GroupedMessages groupedMessages = this.groupedMessagesMap.get(messageObject.getGroupId(), null);
                     if (groupedMessages == null) {
                         groupedMessages = new MessageObject.GroupedMessages();
-                        this.groupedMessagesMap.put(anonymousClass1.getGroupId(), groupedMessages);
+                        this.groupedMessagesMap.put(messageObject.getGroupId(), groupedMessages);
                     }
-                    groupedMessages.messages.add(anonymousClass1);
+                    groupedMessages.messages.add(messageObject);
                 }
-                this.previewMessages.add(0, anonymousClass1);
-                if (!messageObject.isPoll()) {
-                    TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) messageObject.messageOwner.media;
+                this.previewMessages.add(0, messageObject);
+                if (!messageObject2.isPoll()) {
+                    TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) messageObject2.messageOwner.media;
                     PreviewMediaPoll previewMediaPoll = new PreviewMediaPoll();
                     previewMediaPoll.poll = tLRPC$TL_messageMediaPoll.poll;
                     previewMediaPoll.provider = tLRPC$TL_messageMediaPoll.provider;
@@ -148,8 +156,8 @@ public class ForwardingMessagesParams {
                     int i4 = tLRPC$TL_messageMediaPoll.results.total_voters;
                     tLRPC$TL_pollResults.total_voters = i4;
                     previewMediaPoll.totalVotersCached = i4;
-                    anonymousClass1.messageOwner.media = previewMediaPoll;
-                    if (messageObject.canUnvote()) {
+                    messageObject.messageOwner.media = previewMediaPoll;
+                    if (messageObject2.canUnvote()) {
                         int size = tLRPC$TL_messageMediaPoll.results.results.size();
                         for (int i5 = 0; i5 < size; i5++) {
                             TLRPC$TL_pollAnswerVoters tLRPC$TL_pollAnswerVoters = tLRPC$TL_messageMediaPoll.results.results.get(i5);
@@ -178,12 +186,20 @@ public class ForwardingMessagesParams {
             if (tLRPC$MessageFwdHeader != null) {
             }
             tLRPC$TL_message.dialog_id = j;
-            anonymousClass1 = new AnonymousClass1(messageObject.currentAccount, tLRPC$TL_message, true, false);
-            anonymousClass1.preview = true;
-            if (anonymousClass1.getGroupId() != 0) {
+            messageObject = new MessageObject(messageObject2.currentAccount, tLRPC$TL_message, true, false) { // from class: org.telegram.messenger.ForwardingMessagesParams.1
+                @Override // org.telegram.messenger.MessageObject
+                public boolean needDrawForwarded() {
+                    if (ForwardingMessagesParams.this.hideForwardSendersName) {
+                        return false;
+                    }
+                    return super.needDrawForwarded();
+                }
+            };
+            messageObject.preview = true;
+            if (messageObject.getGroupId() != 0) {
             }
-            this.previewMessages.add(0, anonymousClass1);
-            if (!messageObject.isPoll()) {
+            this.previewMessages.add(0, messageObject);
+            if (!messageObject2.isPoll()) {
             }
             i++;
             arrayList3 = arrayList2;
@@ -192,15 +208,15 @@ public class ForwardingMessagesParams {
         ArrayList arrayList5 = arrayList3;
         ArrayList arrayList6 = new ArrayList();
         for (int i6 = 0; i6 < arrayList.size(); i6++) {
-            MessageObject messageObject2 = arrayList.get(i6);
-            if (messageObject2.isFromUser()) {
-                j2 = messageObject2.messageOwner.from_id.user_id;
+            MessageObject messageObject3 = arrayList.get(i6);
+            if (messageObject3.isFromUser()) {
+                j2 = messageObject3.messageOwner.from_id.user_id;
             } else {
-                TLRPC$Chat chat = MessagesController.getInstance(messageObject2.currentAccount).getChat(Long.valueOf(messageObject2.messageOwner.peer_id.channel_id));
-                if (ChatObject.isChannel(chat) && chat.megagroup && messageObject2.isForwardedChannelPost()) {
-                    j3 = messageObject2.messageOwner.fwd_from.from_id.channel_id;
+                TLRPC$Chat chat = MessagesController.getInstance(messageObject3.currentAccount).getChat(Long.valueOf(messageObject3.messageOwner.peer_id.channel_id));
+                if (ChatObject.isChannel(chat) && chat.megagroup && messageObject3.isForwardedChannelPost()) {
+                    j3 = messageObject3.messageOwner.fwd_from.from_id.channel_id;
                 } else {
-                    j3 = messageObject2.messageOwner.peer_id.channel_id;
+                    j3 = messageObject3.messageOwner.peer_id.channel_id;
                 }
                 j2 = -j3;
             }
@@ -213,25 +229,6 @@ public class ForwardingMessagesParams {
         }
         for (int i7 = 0; i7 < this.groupedMessagesMap.size(); i7++) {
             this.groupedMessagesMap.valueAt(i7).calculate();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.ForwardingMessagesParams$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends MessageObject {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(int i, TLRPC$Message tLRPC$Message, boolean z, boolean z2) {
-            super(i, tLRPC$Message, z, z2);
-            ForwardingMessagesParams.this = r1;
-        }
-
-        @Override // org.telegram.messenger.MessageObject
-        public boolean needDrawForwarded() {
-            if (ForwardingMessagesParams.this.hideForwardSendersName) {
-                return false;
-            }
-            return super.needDrawForwarded();
         }
     }
 

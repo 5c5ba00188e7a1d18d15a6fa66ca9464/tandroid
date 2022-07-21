@@ -14,7 +14,7 @@ import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 /* loaded from: classes.dex */
-public final class MediaPeriodHolder {
+final class MediaPeriodHolder {
     public boolean hasEnabledTracks;
     public MediaPeriodInfo info;
     private final boolean[] mayRetainStreamFlags;

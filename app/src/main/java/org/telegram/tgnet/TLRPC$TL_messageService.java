@@ -27,7 +27,7 @@ public class TLRPC$TL_messageService extends TLRPC$Message {
         }
         this.date = abstractSerializedData.readInt32(z);
         this.action = TLRPC$MessageAction.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
-        if ((this.flags & 33554432) != 0) {
+        if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
             this.ttl_period = abstractSerializedData.readInt32(z);
         }
     }
@@ -58,7 +58,7 @@ public class TLRPC$TL_messageService extends TLRPC$Message {
         }
         abstractSerializedData.writeInt32(this.date);
         this.action.serializeToStream(abstractSerializedData);
-        if ((this.flags & 33554432) != 0) {
+        if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
             abstractSerializedData.writeInt32(this.ttl_period);
         }
     }

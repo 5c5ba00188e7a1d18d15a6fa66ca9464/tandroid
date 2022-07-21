@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import com.huawei.hms.android.HwBuildEx;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.support.api.push.TransActivity;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.utils.ResourceLoaderUtil;
@@ -76,7 +77,7 @@ public class o {
                     if (q.e()) {
                         notification = a(context, kVar, iArr);
                     }
-                    NotificationManager notificationManager = (NotificationManager) context.getSystemService("notification");
+                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(RemoteMessageConst.NOTIFICATION);
                     if (notificationManager != null && notification != null) {
                         if (Build.VERSION.SDK_INT >= 26) {
                             notificationManager.createNotificationChannel(new NotificationChannel("HwPushChannelID", context.getString(ResourceLoaderUtil.getStringId("hms_push_channel")), 3));

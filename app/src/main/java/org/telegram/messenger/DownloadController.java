@@ -20,6 +20,7 @@ import org.telegram.SQLite.SQLitePreparedStatement;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.tgnet.NativeByteBuffer;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
@@ -28,7 +29,6 @@ import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_account_autoDownloadSettings;
-import org.telegram.tgnet.TLRPC$TL_account_getAutoDownloadSettings;
 import org.telegram.tgnet.TLRPC$TL_account_saveAutoDownloadSettings;
 import org.telegram.tgnet.TLRPC$TL_autoDownloadSettings;
 import org.telegram.tgnet.TLRPC$TL_error;
@@ -76,7 +76,13 @@ public class DownloadController extends BaseController implements NotificationCe
     public final ArrayList<MessageObject> downloadingFiles = new ArrayList<>();
     public final ArrayList<MessageObject> recentDownloadingFiles = new ArrayList<>();
     public final SparseArray<MessageObject> unviewedDownloads = new SparseArray<>();
-    Runnable clearUnviewedDownloadsRunnale = new AnonymousClass2();
+    Runnable clearUnviewedDownloadsRunnale = new Runnable() { // from class: org.telegram.messenger.DownloadController.2
+        @Override // java.lang.Runnable
+        public void run() {
+            DownloadController.this.clearUnviewedDownloads();
+            DownloadController.this.getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
+        }
+    };
 
     /* loaded from: classes.dex */
     public interface FileDownloadProgressListener {
@@ -344,8 +350,18 @@ public class DownloadController extends BaseController implements NotificationCe
             edit.putInt("currentRoamingPreset", 3);
             edit.commit();
         }
-        AndroidUtilities.runOnUIThread(new DownloadController$$ExternalSyntheticLambda0(this));
-        ApplicationLoader.applicationContext.registerReceiver(new AnonymousClass1(), new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                DownloadController.this.lambda$new$0();
+            }
+        });
+        ApplicationLoader.applicationContext.registerReceiver(new BroadcastReceiver() { // from class: org.telegram.messenger.DownloadController.1
+            @Override // android.content.BroadcastReceiver
+            public void onReceive(Context context, Intent intent) {
+                DownloadController.this.checkAutodownloadSettings();
+            }
+        }, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         if (getUserConfig().isClientActivated()) {
             checkAutodownloadSettings();
         }
@@ -361,31 +377,40 @@ public class DownloadController extends BaseController implements NotificationCe
         loadAutoDownloadConfig(false);
     }
 
-    /* renamed from: org.telegram.messenger.DownloadController$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends BroadcastReceiver {
-        AnonymousClass1() {
-            DownloadController.this = r1;
-        }
-
-        @Override // android.content.BroadcastReceiver
-        public void onReceive(Context context, Intent intent) {
-            DownloadController.this.checkAutodownloadSettings();
-        }
-    }
-
     public void loadAutoDownloadConfig(boolean z) {
         if (!this.loadingAutoDownloadConfig) {
             if (!z && Math.abs(System.currentTimeMillis() - getUserConfig().autoDownloadConfigLoadTime) < 86400000) {
                 return;
             }
             this.loadingAutoDownloadConfig = true;
-            getConnectionsManager().sendRequest(new TLRPC$TL_account_getAutoDownloadSettings(), new DownloadController$$ExternalSyntheticLambda12(this));
+            getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_getAutoDownloadSettings
+                public static int constructor = 1457130303;
+
+                @Override // org.telegram.tgnet.TLObject
+                public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z2) {
+                    return TLRPC$TL_account_autoDownloadSettings.TLdeserialize(abstractSerializedData, i, z2);
+                }
+
+                @Override // org.telegram.tgnet.TLObject
+                public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+                    abstractSerializedData.writeInt32(constructor);
+                }
+            }, new RequestDelegate() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda12
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    DownloadController.this.lambda$loadAutoDownloadConfig$2(tLObject, tLRPC$TL_error);
+                }
+            });
         }
     }
 
-    public /* synthetic */ void lambda$loadAutoDownloadConfig$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new DownloadController$$ExternalSyntheticLambda11(this, tLObject));
+    public /* synthetic */ void lambda$loadAutoDownloadConfig$2(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda11
+            @Override // java.lang.Runnable
+            public final void run() {
+                DownloadController.this.lambda$loadAutoDownloadConfig$1(tLObject);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$loadAutoDownloadConfig$1(TLObject tLObject) {
@@ -1235,14 +1260,19 @@ public class DownloadController extends BaseController implements NotificationCe
         return Math.min(1.0f, ((float) jArr[0]) / ((float) jArr[1]));
     }
 
-    public void startDownloadFile(TLRPC$Document tLRPC$Document, MessageObject messageObject) {
+    public void startDownloadFile(TLRPC$Document tLRPC$Document, final MessageObject messageObject) {
         if (messageObject.getDocument() == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new DownloadController$$ExternalSyntheticLambda9(this, messageObject));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda9
+            @Override // java.lang.Runnable
+            public final void run() {
+                DownloadController.this.lambda$startDownloadFile$5(messageObject);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$startDownloadFile$5(MessageObject messageObject) {
+    public /* synthetic */ void lambda$startDownloadFile$5(final MessageObject messageObject) {
         boolean z;
         boolean z2;
         int i = 0;
@@ -1268,7 +1298,12 @@ public class DownloadController extends BaseController implements NotificationCe
         z = z2;
         if (!z) {
             this.downloadingFiles.add(messageObject);
-            getMessagesStorage().getStorageQueue().postRunnable(new DownloadController$$ExternalSyntheticLambda7(this, messageObject));
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda7
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DownloadController.this.lambda$startDownloadFile$4(messageObject);
+                }
+            });
         }
         getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
     }
@@ -1291,14 +1326,19 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
-    public void onDownloadComplete(MessageObject messageObject) {
+    public void onDownloadComplete(final MessageObject messageObject) {
         if (messageObject == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new DownloadController$$ExternalSyntheticLambda5(this, messageObject));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                DownloadController.this.lambda$onDownloadComplete$7(messageObject);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$onDownloadComplete$7(MessageObject messageObject) {
+    public /* synthetic */ void lambda$onDownloadComplete$7(final MessageObject messageObject) {
         boolean z;
         boolean z2;
         int i = 0;
@@ -1332,7 +1372,12 @@ public class DownloadController extends BaseController implements NotificationCe
                 putToUnviewedDownloads(messageObject);
             }
             getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
-            getMessagesStorage().getStorageQueue().postRunnable(new DownloadController$$ExternalSyntheticLambda6(this, messageObject));
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda6
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DownloadController.this.lambda$onDownloadComplete$6(messageObject);
+                }
+            });
         }
     }
 
@@ -1354,7 +1399,7 @@ public class DownloadController extends BaseController implements NotificationCe
             SQLiteCursor queryFinalized3 = database.queryFinalized("SELECT hash, id FROM downloading_documents WHERE state = 1 ORDER BY date ASC LIMIT " + (100 - intValue), new Object[0]);
             ArrayList arrayList = new ArrayList();
             while (queryFinalized3.next()) {
-                DownloadingDocumentEntry downloadingDocumentEntry = new DownloadingDocumentEntry(this, null);
+                DownloadingDocumentEntry downloadingDocumentEntry = new DownloadingDocumentEntry();
                 downloadingDocumentEntry.hash = queryFinalized3.intValue(0);
                 downloadingDocumentEntry.id = queryFinalized3.longValue(1);
                 arrayList.add(downloadingDocumentEntry);
@@ -1373,12 +1418,22 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
-    public void onDownloadFail(MessageObject messageObject, int i) {
+    public void onDownloadFail(final MessageObject messageObject, final int i) {
         if (messageObject == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new DownloadController$$ExternalSyntheticLambda10(this, messageObject, i));
-        getMessagesStorage().getStorageQueue().postRunnable(new DownloadController$$ExternalSyntheticLambda8(this, messageObject));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda10
+            @Override // java.lang.Runnable
+            public final void run() {
+                DownloadController.this.lambda$onDownloadFail$8(messageObject, i);
+            }
+        });
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                DownloadController.this.lambda$onDownloadFail$9(messageObject);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$onDownloadFail$8(MessageObject messageObject, int i) {
@@ -1401,7 +1456,7 @@ public class DownloadController extends BaseController implements NotificationCe
             if (i != 0) {
                 return;
             }
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("MessageNotFound", 2131626683, new Object[0]));
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("MessageNotFound", org.telegram.messenger.beta.R.string.MessageNotFound, new Object[0]));
         }
     }
 
@@ -1414,20 +1469,6 @@ public class DownloadController extends BaseController implements NotificationCe
             executeFast.dispose();
         } catch (Exception e) {
             FileLog.e(e);
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.DownloadController$2 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass2 implements Runnable {
-        AnonymousClass2() {
-            DownloadController.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            DownloadController.this.clearUnviewedDownloads();
-            DownloadController.this.getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
         }
     }
 
@@ -1465,19 +1506,20 @@ public class DownloadController extends BaseController implements NotificationCe
         private DownloadingDocumentEntry() {
             DownloadController.this = r1;
         }
-
-        /* synthetic */ DownloadingDocumentEntry(DownloadController downloadController, AnonymousClass1 anonymousClass1) {
-            this();
-        }
     }
 
     public void loadDownloadingFiles() {
-        getMessagesStorage().getStorageQueue().postRunnable(new DownloadController$$ExternalSyntheticLambda1(this));
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                DownloadController.this.lambda$loadDownloadingFiles$11();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$loadDownloadingFiles$11() {
-        ArrayList<MessageObject> arrayList = new ArrayList<>();
-        ArrayList<MessageObject> arrayList2 = new ArrayList<>();
+        final ArrayList<MessageObject> arrayList = new ArrayList<>();
+        final ArrayList<MessageObject> arrayList2 = new ArrayList<>();
         ArrayList arrayList3 = new ArrayList();
         try {
             SQLiteCursor queryFinalized = getMessagesStorage().getDatabase().queryFinalized("SELECT data, state FROM downloading_documents ORDER BY date DESC", new Object[0]);
@@ -1505,7 +1547,12 @@ public class DownloadController extends BaseController implements NotificationCe
         }
         getFileLoader().checkMediaExistance(arrayList);
         getFileLoader().checkMediaExistance(arrayList2);
-        AndroidUtilities.runOnUIThread(new DownloadController$$ExternalSyntheticLambda4(this, arrayList, arrayList2));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                DownloadController.this.lambda$loadDownloadingFiles$10(arrayList, arrayList2);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$loadDownloadingFiles$10(ArrayList arrayList, ArrayList arrayList2) {
@@ -1518,7 +1565,12 @@ public class DownloadController extends BaseController implements NotificationCe
     public void clearRecentDownloadedFiles() {
         this.recentDownloadingFiles.clear();
         getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
-        getMessagesStorage().getStorageQueue().postRunnable(new DownloadController$$ExternalSyntheticLambda2(this));
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                DownloadController.this.lambda$clearRecentDownloadedFiles$12();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$clearRecentDownloadedFiles$12() {
@@ -1529,7 +1581,7 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
-    public void deleteRecentFiles(ArrayList<MessageObject> arrayList) {
+    public void deleteRecentFiles(final ArrayList<MessageObject> arrayList) {
         boolean z;
         for (int i = 0; i < arrayList.size(); i++) {
             int i2 = 0;
@@ -1563,7 +1615,12 @@ public class DownloadController extends BaseController implements NotificationCe
             FileLoader.getInstance(this.currentAccount).cancelLoadFile(arrayList.get(i).getDocument(), true);
         }
         getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
-        getMessagesStorage().getStorageQueue().postRunnable(new DownloadController$$ExternalSyntheticLambda3(this, arrayList));
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                DownloadController.this.lambda$deleteRecentFiles$13(arrayList);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$deleteRecentFiles$13(ArrayList arrayList) {

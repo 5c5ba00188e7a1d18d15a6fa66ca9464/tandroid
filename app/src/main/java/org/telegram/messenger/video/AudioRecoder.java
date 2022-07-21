@@ -8,7 +8,9 @@ import android.os.Build;
 import android.view.Surface;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public class AudioRecoder {
     private final MediaCodec decoder;
@@ -37,11 +39,11 @@ public class AudioRecoder {
         this.decoder = createDecoderByType;
         createDecoderByType.configure(mediaFormat, (Surface) null, (MediaCrypto) null, 0);
         createDecoderByType.start();
-        MediaCodec createEncoderByType = MediaCodec.createEncoderByType("audio/mp4a-latm");
+        MediaCodec createEncoderByType = MediaCodec.createEncoderByType(MediaController.AUIDO_MIME_TYPE);
         this.encoder = createEncoderByType;
-        MediaFormat createAudioFormat = MediaFormat.createAudioFormat("audio/mp4a-latm", mediaFormat.getInteger("sample-rate"), mediaFormat.getInteger("channel-count"));
+        MediaFormat createAudioFormat = MediaFormat.createAudioFormat(MediaController.AUIDO_MIME_TYPE, mediaFormat.getInteger("sample-rate"), mediaFormat.getInteger("channel-count"));
         this.format = createAudioFormat;
-        createAudioFormat.setInteger("bitrate", 65536);
+        createAudioFormat.setInteger("bitrate", CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
         createEncoderByType.configure(createAudioFormat, (Surface) null, (MediaCrypto) null, 1);
         createEncoderByType.start();
         this.decoderInputBuffers = createDecoderByType.getInputBuffers();

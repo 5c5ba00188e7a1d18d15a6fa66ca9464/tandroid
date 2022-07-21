@@ -24,6 +24,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Dialog;
 import org.telegram.ui.ActionBar.Theme;
@@ -93,7 +94,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         TextPaint textPaint = this.textPaint;
         counterDrawable3.textPaint = textPaint;
         textPaint.setTextSize(AndroidUtilities.dp(13.0f));
-        this.textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textPaint2.setTextSize(AndroidUtilities.dp(14.0f));
         this.xRefPaint.setColor(-16777216);
         this.xRefPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
@@ -134,21 +135,21 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             this.circleRadius = AndroidUtilities.dp(56.0f) / 2.0f;
             this.lastWidth = i;
             TLRPC$Chat tLRPC$Chat = this.nextChat;
-            String string = tLRPC$Chat != null ? tLRPC$Chat.title : LocaleController.getString("SwipeToGoNextChannelEnd", 2131628585);
+            String string = tLRPC$Chat != null ? tLRPC$Chat.title : LocaleController.getString("SwipeToGoNextChannelEnd", R.string.SwipeToGoNextChannelEnd);
             int measureText = (int) this.textPaint.measureText(string);
             this.chatNameWidth = measureText;
             this.chatNameWidth = Math.min(measureText, this.lastWidth - AndroidUtilities.dp(60.0f));
             this.chatNameLayout = new StaticLayout(string, this.textPaint, this.chatNameWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             boolean z = this.drawFolderBackground;
             if (z && (i2 = this.dialogFolderId) != this.folderId && i2 != 0) {
-                str2 = LocaleController.getString("SwipeToGoNextArchive", 2131628583);
-                str = LocaleController.getString("ReleaseToGoNextArchive", 2131627944);
+                str2 = LocaleController.getString("SwipeToGoNextArchive", R.string.SwipeToGoNextArchive);
+                str = LocaleController.getString("ReleaseToGoNextArchive", R.string.ReleaseToGoNextArchive);
             } else if (z) {
-                str2 = LocaleController.getString("SwipeToGoNextFolder", 2131628586);
-                str = LocaleController.getString("ReleaseToGoNextFolder", 2131627946);
+                str2 = LocaleController.getString("SwipeToGoNextFolder", R.string.SwipeToGoNextFolder);
+                str = LocaleController.getString("ReleaseToGoNextFolder", R.string.ReleaseToGoNextFolder);
             } else {
-                str2 = LocaleController.getString("SwipeToGoNextChannel", 2131628584);
-                str = LocaleController.getString("ReleaseToGoNextChannel", 2131627945);
+                str2 = LocaleController.getString("SwipeToGoNextChannel", R.string.SwipeToGoNextChannel);
+                str = LocaleController.getString("ReleaseToGoNextChannel", R.string.ReleaseToGoNextChannel);
             }
             String str3 = str2;
             String str4 = str;
@@ -392,7 +393,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         canvas.drawRoundRect(rectF2, f10, f10, Theme.chat_actionBackgroundGradientDarkenPaint);
     }
 
-    private void showReleaseState(boolean z, View view) {
+    private void showReleaseState(boolean z, final View view) {
         AnimatorSet animatorSet = this.showReleaseAnimator;
         if (animatorSet != null) {
             animatorSet.removeAllListeners();
@@ -400,26 +401,60 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         }
         if (z) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.swipeToReleaseProgress, 1.0f);
-            ofFloat.addUpdateListener(new ChatPullingDownDrawable$$ExternalSyntheticLambda5(this, view));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda5
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    ChatPullingDownDrawable.this.lambda$showReleaseState$0(view, valueAnimator);
+                }
+            });
             ofFloat.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             ofFloat.setDuration(250L);
             this.bounceProgress = 0.0f;
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat2.addUpdateListener(new ChatPullingDownDrawable$$ExternalSyntheticLambda4(this, view));
+            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda4
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    ChatPullingDownDrawable.this.lambda$showReleaseState$1(view, valueAnimator);
+                }
+            });
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_BOTH;
             ofFloat2.setInterpolator(cubicBezierInterpolator);
             ofFloat2.setDuration(180L);
             ValueAnimator ofFloat3 = ValueAnimator.ofFloat(1.0f, -0.5f);
-            ofFloat3.addUpdateListener(new ChatPullingDownDrawable$$ExternalSyntheticLambda3(this, view));
+            ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda3
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    ChatPullingDownDrawable.this.lambda$showReleaseState$2(view, valueAnimator);
+                }
+            });
             ofFloat3.setInterpolator(cubicBezierInterpolator);
             ofFloat3.setDuration(120L);
             ValueAnimator ofFloat4 = ValueAnimator.ofFloat(-0.5f, 0.0f);
-            ofFloat4.addUpdateListener(new ChatPullingDownDrawable$$ExternalSyntheticLambda6(this, view));
+            ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda6
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    ChatPullingDownDrawable.this.lambda$showReleaseState$3(view, valueAnimator);
+                }
+            });
             ofFloat4.setInterpolator(cubicBezierInterpolator);
             ofFloat4.setDuration(100L);
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.showReleaseAnimator = animatorSet2;
-            animatorSet2.addListener(new AnonymousClass1(view));
+            animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatPullingDownDrawable.1
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    ChatPullingDownDrawable chatPullingDownDrawable = ChatPullingDownDrawable.this;
+                    chatPullingDownDrawable.bounceProgress = 0.0f;
+                    chatPullingDownDrawable.swipeToReleaseProgress = 1.0f;
+                    view.invalidate();
+                    ChatPullingDownDrawable.this.fragmentView.invalidate();
+                    Runnable runnable = ChatPullingDownDrawable.this.onAnimationFinishRunnable;
+                    if (runnable != null) {
+                        runnable.run();
+                        ChatPullingDownDrawable.this.onAnimationFinishRunnable = null;
+                    }
+                }
+            });
             AnimatorSet animatorSet3 = new AnimatorSet();
             animatorSet3.playSequentially(ofFloat2, ofFloat3, ofFloat4);
             this.showReleaseAnimator.playTogether(ofFloat, animatorSet3);
@@ -427,7 +462,12 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             return;
         }
         ValueAnimator ofFloat5 = ValueAnimator.ofFloat(this.swipeToReleaseProgress, 0.0f);
-        ofFloat5.addUpdateListener(new ChatPullingDownDrawable$$ExternalSyntheticLambda2(this, view));
+        ofFloat5.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda2
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                ChatPullingDownDrawable.this.lambda$showReleaseState$4(view, valueAnimator);
+            }
+        });
         ofFloat5.setInterpolator(CubicBezierInterpolator.DEFAULT);
         ofFloat5.setDuration(220L);
         AnimatorSet animatorSet4 = new AnimatorSet();
@@ -455,31 +495,6 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
     public /* synthetic */ void lambda$showReleaseState$3(View view, ValueAnimator valueAnimator) {
         this.bounceProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         view.invalidate();
-    }
-
-    /* renamed from: org.telegram.ui.ChatPullingDownDrawable$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        final /* synthetic */ View val$parent;
-
-        AnonymousClass1(View view) {
-            ChatPullingDownDrawable.this = r1;
-            this.val$parent = view;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ChatPullingDownDrawable chatPullingDownDrawable = ChatPullingDownDrawable.this;
-            chatPullingDownDrawable.bounceProgress = 0.0f;
-            chatPullingDownDrawable.swipeToReleaseProgress = 1.0f;
-            this.val$parent.invalidate();
-            ChatPullingDownDrawable.this.fragmentView.invalidate();
-            Runnable runnable = ChatPullingDownDrawable.this.onAnimationFinishRunnable;
-            if (runnable != null) {
-                runnable.run();
-                ChatPullingDownDrawable.this.onAnimationFinishRunnable = null;
-            }
-        }
     }
 
     public /* synthetic */ void lambda$showReleaseState$4(View view, ValueAnimator valueAnimator) {
@@ -682,10 +697,37 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         this.onAnimationFinishRunnable = runnable;
         this.showReleaseAnimator = new AnimatorSet();
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.swipeToReleaseProgress, 1.0f);
-        ofFloat.addUpdateListener(new ChatPullingDownDrawable$$ExternalSyntheticLambda1(this));
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda1
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                ChatPullingDownDrawable.this.lambda$runOnAnimationFinish$5(valueAnimator);
+            }
+        });
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.bounceProgress, 0.0f);
-        ofFloat2.addUpdateListener(new ChatPullingDownDrawable$$ExternalSyntheticLambda0(this));
-        this.showReleaseAnimator.addListener(new AnonymousClass2());
+        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                ChatPullingDownDrawable.this.lambda$runOnAnimationFinish$6(valueAnimator);
+            }
+        });
+        this.showReleaseAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatPullingDownDrawable.2
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                ChatPullingDownDrawable chatPullingDownDrawable = ChatPullingDownDrawable.this;
+                chatPullingDownDrawable.bounceProgress = 0.0f;
+                chatPullingDownDrawable.swipeToReleaseProgress = 1.0f;
+                View view = chatPullingDownDrawable.parentView;
+                if (view != null) {
+                    view.invalidate();
+                }
+                ChatPullingDownDrawable.this.fragmentView.invalidate();
+                Runnable runnable2 = ChatPullingDownDrawable.this.onAnimationFinishRunnable;
+                if (runnable2 != null) {
+                    runnable2.run();
+                    ChatPullingDownDrawable.this.onAnimationFinishRunnable = null;
+                }
+            }
+        });
         this.showReleaseAnimator.playTogether(ofFloat, ofFloat2);
         this.showReleaseAnimator.setDuration(120L);
         this.showReleaseAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
@@ -706,31 +748,6 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         View view = this.parentView;
         if (view != null) {
             view.invalidate();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.ChatPullingDownDrawable$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
-            ChatPullingDownDrawable.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ChatPullingDownDrawable chatPullingDownDrawable = ChatPullingDownDrawable.this;
-            chatPullingDownDrawable.bounceProgress = 0.0f;
-            chatPullingDownDrawable.swipeToReleaseProgress = 1.0f;
-            View view = chatPullingDownDrawable.parentView;
-            if (view != null) {
-                view.invalidate();
-            }
-            ChatPullingDownDrawable.this.fragmentView.invalidate();
-            Runnable runnable = ChatPullingDownDrawable.this.onAnimationFinishRunnable;
-            if (runnable != null) {
-                runnable.run();
-                ChatPullingDownDrawable.this.onAnimationFinishRunnable = null;
-            }
         }
     }
 

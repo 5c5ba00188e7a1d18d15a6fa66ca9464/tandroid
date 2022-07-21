@@ -38,22 +38,32 @@ public class VoIPOverlayBackground extends ImageView {
         }
     }
 
-    public void setBackground(ImageReceiver.BitmapHolder bitmapHolder) {
-        new Thread(new VoIPOverlayBackground$$ExternalSyntheticLambda2(this, bitmapHolder)).start();
+    public void setBackground(final ImageReceiver.BitmapHolder bitmapHolder) {
+        new Thread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPOverlayBackground$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                VoIPOverlayBackground.this.lambda$setBackground$1(bitmapHolder);
+            }
+        }).start();
     }
 
-    public /* synthetic */ void lambda$setBackground$1(ImageReceiver.BitmapHolder bitmapHolder) {
+    public /* synthetic */ void lambda$setBackground$1(final ImageReceiver.BitmapHolder bitmapHolder) {
         try {
-            Bitmap createBitmap = Bitmap.createBitmap(150, 150, Bitmap.Config.ARGB_8888);
+            final Bitmap createBitmap = Bitmap.createBitmap(ImageReceiver.DEFAULT_CROSSFADE_DURATION, ImageReceiver.DEFAULT_CROSSFADE_DURATION, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(createBitmap);
-            canvas.drawBitmap(bitmapHolder.bitmap, (Rect) null, new Rect(0, 0, 150, 150), new Paint(2));
+            canvas.drawBitmap(bitmapHolder.bitmap, (Rect) null, new Rect(0, 0, ImageReceiver.DEFAULT_CROSSFADE_DURATION, ImageReceiver.DEFAULT_CROSSFADE_DURATION), new Paint(2));
             Utilities.blurBitmap(createBitmap, 3, 0, createBitmap.getWidth(), createBitmap.getHeight(), createBitmap.getRowBytes());
             Palette generate = Palette.from(bitmapHolder.bitmap).generate();
             Paint paint = new Paint();
             paint.setColor((generate.getDarkMutedColor(-11242343) & 16777215) | 1140850688);
             canvas.drawColor(637534208);
             canvas.drawRect(0.0f, 0.0f, canvas.getWidth(), canvas.getHeight(), paint);
-            AndroidUtilities.runOnUIThread(new VoIPOverlayBackground$$ExternalSyntheticLambda1(this, createBitmap, bitmapHolder));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPOverlayBackground$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    VoIPOverlayBackground.this.lambda$setBackground$0(createBitmap, bitmapHolder);
+                }
+            });
         } catch (Throwable unused) {
         }
     }
@@ -83,7 +93,12 @@ public class VoIPOverlayBackground extends ImageView {
         }
         fArr[1] = f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
-        ofFloat.addUpdateListener(new VoIPOverlayBackground$$ExternalSyntheticLambda0(this));
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPOverlayBackground$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                VoIPOverlayBackground.this.lambda$setShowBlackout$2(valueAnimator);
+            }
+        });
         ofFloat.setDuration(150L).start();
     }
 

@@ -15,6 +15,8 @@ import androidx.collection.LongSparseArray;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationRequest;
@@ -28,8 +30,10 @@ import java.util.Locale;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLitePreparedStatement;
+import org.telegram.messenger.LocationController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.NativeByteBuffer;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$GeoPoint;
@@ -192,7 +196,12 @@ public class LocationController extends BaseController implements NotificationCe
         locationRequest.setPriority(100);
         this.locationRequest.setInterval(1000L);
         this.locationRequest.setFastestInterval(1000L);
-        AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda4(this));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$new$0();
+            }
+        });
         loadSharingLocations();
     }
 
@@ -309,7 +318,12 @@ public class LocationController extends BaseController implements NotificationCe
         this.wasConnectedToPlayServices = true;
         try {
             if (Build.VERSION.SDK_INT >= 21) {
-                LocationServices.SettingsApi.checkLocationSettings(this.googleApiClient, new LocationSettingsRequest.Builder().addLocationRequest(this.locationRequest).build()).setResultCallback(new LocationController$$ExternalSyntheticLambda0(this));
+                LocationServices.SettingsApi.checkLocationSettings(this.googleApiClient, new LocationSettingsRequest.Builder().addLocationRequest(this.locationRequest).build()).setResultCallback(new ResultCallback() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda0
+                    @Override // com.google.android.gms.common.api.ResultCallback
+                    public final void onResult(Result result) {
+                        LocationController.this.lambda$onConnected$4((LocationSettingsResult) result);
+                    }
+                });
             } else {
                 startFusedLocationRequest(true);
             }
@@ -319,21 +333,36 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$onConnected$4(LocationSettingsResult locationSettingsResult) {
-        Status status = locationSettingsResult.getStatus();
+        final Status status = locationSettingsResult.getStatus();
         int statusCode = status.getStatusCode();
         if (statusCode == 0) {
             startFusedLocationRequest(true);
         } else if (statusCode == 6) {
-            Utilities.stageQueue.postRunnable(new LocationController$$ExternalSyntheticLambda15(this, status));
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda15
+                @Override // java.lang.Runnable
+                public final void run() {
+                    LocationController.this.lambda$onConnected$2(status);
+                }
+            });
         } else if (statusCode != 8502) {
         } else {
-            Utilities.stageQueue.postRunnable(new LocationController$$ExternalSyntheticLambda7(this));
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda7
+                @Override // java.lang.Runnable
+                public final void run() {
+                    LocationController.this.lambda$onConnected$3();
+                }
+            });
         }
     }
 
-    public /* synthetic */ void lambda$onConnected$2(Status status) {
+    public /* synthetic */ void lambda$onConnected$2(final Status status) {
         if (this.lookingForPeopleNearby || !this.sharingLocations.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda14(this, status));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda14
+                @Override // java.lang.Runnable
+                public final void run() {
+                    LocationController.this.lambda$onConnected$1(status);
+                }
+            });
         }
     }
 
@@ -350,8 +379,13 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
-    public void startFusedLocationRequest(boolean z) {
-        Utilities.stageQueue.postRunnable(new LocationController$$ExternalSyntheticLambda23(this, z));
+    public void startFusedLocationRequest(final boolean z) {
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda23
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$startFusedLocationRequest$5(z);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$startFusedLocationRequest$5(boolean z) {
@@ -411,7 +445,7 @@ public class LocationController extends BaseController implements NotificationCe
             int currentTime = getConnectionsManager().getCurrentTime();
             float[] fArr = new float[1];
             for (int i2 = 0; i2 < this.sharingLocations.size(); i2++) {
-                SharingLocationInfo sharingLocationInfo = this.sharingLocations.get(i2);
+                final SharingLocationInfo sharingLocationInfo = this.sharingLocations.get(i2);
                 TLRPC$Message tLRPC$Message = sharingLocationInfo.messageObject.messageOwner;
                 TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
                 if (tLRPC$MessageMedia != null && (tLRPC$GeoPoint = tLRPC$MessageMedia.geo) != null && sharingLocationInfo.lastSentProximityMeters == sharingLocationInfo.proximityMeters) {
@@ -425,7 +459,7 @@ public class LocationController extends BaseController implements NotificationCe
                         }
                     }
                 }
-                TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage = new TLRPC$TL_messages_editMessage();
+                final TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage = new TLRPC$TL_messages_editMessage();
                 tLRPC$TL_messages_editMessage.peer = getMessagesController().getInputPeer(sharingLocationInfo.did);
                 tLRPC$TL_messages_editMessage.id = sharingLocationInfo.mid;
                 tLRPC$TL_messages_editMessage.flags |= 16384;
@@ -449,7 +483,12 @@ public class LocationController extends BaseController implements NotificationCe
                 }
                 tLRPC$InputMedia.heading = getHeading(this.lastKnownLocation);
                 tLRPC$TL_messages_editMessage.media.flags |= 4;
-                int[] iArr = {getConnectionsManager().sendRequest(tLRPC$TL_messages_editMessage, new LocationController$$ExternalSyntheticLambda30(this, sharingLocationInfo, iArr, tLRPC$TL_messages_editMessage))};
+                final int[] iArr = {getConnectionsManager().sendRequest(tLRPC$TL_messages_editMessage, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda30
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        LocationController.this.lambda$broadcastLastKnownLocation$7(sharingLocationInfo, iArr, tLRPC$TL_messages_editMessage, tLObject, tLRPC$TL_error);
+                    }
+                })};
                 this.requests.put(iArr[0], 0);
             }
         }
@@ -473,7 +512,7 @@ public class LocationController extends BaseController implements NotificationCe
         stop(false);
     }
 
-    public /* synthetic */ void lambda$broadcastLastKnownLocation$7(SharingLocationInfo sharingLocationInfo, int[] iArr, TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$broadcastLastKnownLocation$7(final SharingLocationInfo sharingLocationInfo, int[] iArr, TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
             if (!tLRPC$TL_error.text.equals("MESSAGE_ID_INVALID")) {
                 return;
@@ -482,7 +521,12 @@ public class LocationController extends BaseController implements NotificationCe
             this.sharingLocationsMap.remove(sharingLocationInfo.did);
             saveSharingLocation(sharingLocationInfo, 1);
             this.requests.delete(iArr[0]);
-            AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda19(this, sharingLocationInfo));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda19
+                @Override // java.lang.Runnable
+                public final void run() {
+                    LocationController.this.lambda$broadcastLastKnownLocation$6(sharingLocationInfo);
+                }
+            });
             return;
         }
         if ((tLRPC$TL_messages_editMessage.flags & 8) != 0) {
@@ -535,12 +579,17 @@ public class LocationController extends BaseController implements NotificationCe
         if (!this.sharingLocations.isEmpty()) {
             int i = 0;
             while (i < this.sharingLocations.size()) {
-                SharingLocationInfo sharingLocationInfo = this.sharingLocations.get(i);
+                final SharingLocationInfo sharingLocationInfo = this.sharingLocations.get(i);
                 if (sharingLocationInfo.stopTime <= getConnectionsManager().getCurrentTime()) {
                     this.sharingLocations.remove(i);
                     this.sharingLocationsMap.remove(sharingLocationInfo.did);
                     saveSharingLocation(sharingLocationInfo, 1);
-                    AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda21(this, sharingLocationInfo));
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda21
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            LocationController.this.lambda$update$9(sharingLocationInfo);
+                        }
+                    });
                     i--;
                 }
                 i++;
@@ -591,7 +640,12 @@ public class LocationController extends BaseController implements NotificationCe
         this.cachedNearbyChats.clear();
         this.lastReadLocationTime.clear();
         stopService();
-        Utilities.stageQueue.postRunnable(new LocationController$$ExternalSyntheticLambda9(this));
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda9
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$cleanup$10();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$cleanup$10() {
@@ -631,7 +685,7 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     public void addSharingLocation(TLRPC$Message tLRPC$Message) {
-        SharingLocationInfo sharingLocationInfo = new SharingLocationInfo();
+        final SharingLocationInfo sharingLocationInfo = new SharingLocationInfo();
         sharingLocationInfo.did = tLRPC$Message.dialog_id;
         sharingLocationInfo.mid = tLRPC$Message.id;
         TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
@@ -642,7 +696,7 @@ public class LocationController extends BaseController implements NotificationCe
         sharingLocationInfo.account = this.currentAccount;
         sharingLocationInfo.messageObject = new MessageObject(this.currentAccount, tLRPC$Message, false, false);
         sharingLocationInfo.stopTime = getConnectionsManager().getCurrentTime() + sharingLocationInfo.period;
-        SharingLocationInfo sharingLocationInfo2 = this.sharingLocationsMap.get(sharingLocationInfo.did);
+        final SharingLocationInfo sharingLocationInfo2 = this.sharingLocationsMap.get(sharingLocationInfo.did);
         this.sharingLocationsMap.put(sharingLocationInfo.did, sharingLocationInfo);
         if (sharingLocationInfo2 != null) {
             this.sharingLocations.remove(sharingLocationInfo2);
@@ -650,7 +704,12 @@ public class LocationController extends BaseController implements NotificationCe
         this.sharingLocations.add(sharingLocationInfo);
         saveSharingLocation(sharingLocationInfo, 0);
         this.lastLocationSendTime = (SystemClock.elapsedRealtime() - 30000) + 5000;
-        AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda22(this, sharingLocationInfo2, sharingLocationInfo));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda22
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$addSharingLocation$12(sharingLocationInfo2, sharingLocationInfo);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$addSharingLocation$12(SharingLocationInfo sharingLocationInfo, SharingLocationInfo sharingLocationInfo2) {
@@ -671,14 +730,24 @@ public class LocationController extends BaseController implements NotificationCe
         return this.sharingLocationsMapUI.get(j);
     }
 
-    public boolean setProximityLocation(long j, int i, boolean z) {
+    public boolean setProximityLocation(final long j, final int i, boolean z) {
         SharingLocationInfo sharingLocationInfo = this.sharingLocationsMapUI.get(j);
         if (sharingLocationInfo != null) {
             sharingLocationInfo.proximityMeters = i;
         }
-        getMessagesStorage().getStorageQueue().postRunnable(new LocationController$$ExternalSyntheticLambda10(this, i, j));
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda10
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$setProximityLocation$13(i, j);
+            }
+        });
         if (z) {
-            Utilities.stageQueue.postRunnable(new LocationController$$ExternalSyntheticLambda5(this));
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    LocationController.this.lambda$setProximityLocation$14();
+                }
+            });
         }
         return sharingLocationInfo != null;
     }
@@ -706,13 +775,18 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     private void loadSharingLocations() {
-        getMessagesStorage().getStorageQueue().postRunnable(new LocationController$$ExternalSyntheticLambda3(this));
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$loadSharingLocations$18();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$loadSharingLocations$18() {
-        ArrayList arrayList = new ArrayList();
-        ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
-        ArrayList<TLRPC$Chat> arrayList3 = new ArrayList<>();
+        final ArrayList arrayList = new ArrayList();
+        final ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
+        final ArrayList<TLRPC$Chat> arrayList3 = new ArrayList<>();
         try {
             ArrayList arrayList4 = new ArrayList();
             ArrayList arrayList5 = new ArrayList();
@@ -752,23 +826,38 @@ public class LocationController extends BaseController implements NotificationCe
             FileLog.e(e);
         }
         if (!arrayList.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda18(this, arrayList2, arrayList3, arrayList));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda18
+                @Override // java.lang.Runnable
+                public final void run() {
+                    LocationController.this.lambda$loadSharingLocations$17(arrayList2, arrayList3, arrayList);
+                }
+            });
         }
     }
 
-    public /* synthetic */ void lambda$loadSharingLocations$17(ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3) {
+    public /* synthetic */ void lambda$loadSharingLocations$17(ArrayList arrayList, ArrayList arrayList2, final ArrayList arrayList3) {
         getMessagesController().putUsers(arrayList, true);
         getMessagesController().putChats(arrayList2, true);
-        Utilities.stageQueue.postRunnable(new LocationController$$ExternalSyntheticLambda17(this, arrayList3));
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda17
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$loadSharingLocations$16(arrayList3);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$loadSharingLocations$16(ArrayList arrayList) {
+    public /* synthetic */ void lambda$loadSharingLocations$16(final ArrayList arrayList) {
         this.sharingLocations.addAll(arrayList);
         for (int i = 0; i < this.sharingLocations.size(); i++) {
             SharingLocationInfo sharingLocationInfo = this.sharingLocations.get(i);
             this.sharingLocationsMap.put(sharingLocationInfo.did, sharingLocationInfo);
         }
-        AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda16(this, arrayList));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda16
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$loadSharingLocations$15(arrayList);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$loadSharingLocations$15(ArrayList arrayList) {
@@ -781,8 +870,13 @@ public class LocationController extends BaseController implements NotificationCe
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.liveLocationsChanged, new Object[0]);
     }
 
-    private void saveSharingLocation(SharingLocationInfo sharingLocationInfo, int i) {
-        getMessagesStorage().getStorageQueue().postRunnable(new LocationController$$ExternalSyntheticLambda11(this, i, sharingLocationInfo));
+    private void saveSharingLocation(final SharingLocationInfo sharingLocationInfo, final int i) {
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda11
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$saveSharingLocation$19(i, sharingLocationInfo);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$saveSharingLocation$19(int i, SharingLocationInfo sharingLocationInfo) {
@@ -816,12 +910,17 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
-    public void removeSharingLocation(long j) {
-        Utilities.stageQueue.postRunnable(new LocationController$$ExternalSyntheticLambda12(this, j));
+    public void removeSharingLocation(final long j) {
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda12
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$removeSharingLocation$22(j);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$removeSharingLocation$22(long j) {
-        SharingLocationInfo sharingLocationInfo = this.sharingLocationsMap.get(j);
+        final SharingLocationInfo sharingLocationInfo = this.sharingLocationsMap.get(j);
         this.sharingLocationsMap.remove(j);
         if (sharingLocationInfo != null) {
             TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage = new TLRPC$TL_messages_editMessage();
@@ -832,10 +931,20 @@ public class LocationController extends BaseController implements NotificationCe
             tLRPC$TL_messages_editMessage.media = tLRPC$TL_inputMediaGeoLive;
             tLRPC$TL_inputMediaGeoLive.stopped = true;
             tLRPC$TL_inputMediaGeoLive.geo_point = new TLRPC$TL_inputGeoPointEmpty();
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_editMessage, new LocationController$$ExternalSyntheticLambda27(this));
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_editMessage, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda27
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    LocationController.this.lambda$removeSharingLocation$20(tLObject, tLRPC$TL_error);
+                }
+            });
             this.sharingLocations.remove(sharingLocationInfo);
             saveSharingLocation(sharingLocationInfo, 1);
-            AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda20(this, sharingLocationInfo));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda20
+                @Override // java.lang.Runnable
+                public final void run() {
+                    LocationController.this.lambda$removeSharingLocation$21(sharingLocationInfo);
+                }
+            });
             if (!this.sharingLocations.isEmpty()) {
                 return;
             }
@@ -872,7 +981,12 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     public void removeAllLocationSharings() {
-        Utilities.stageQueue.postRunnable(new LocationController$$ExternalSyntheticLambda8(this));
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$removeAllLocationSharings$25();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$removeAllLocationSharings$25() {
@@ -886,13 +1000,23 @@ public class LocationController extends BaseController implements NotificationCe
             tLRPC$TL_messages_editMessage.media = tLRPC$TL_inputMediaGeoLive;
             tLRPC$TL_inputMediaGeoLive.stopped = true;
             tLRPC$TL_inputMediaGeoLive.geo_point = new TLRPC$TL_inputGeoPointEmpty();
-            getConnectionsManager().sendRequest(tLRPC$TL_messages_editMessage, new LocationController$$ExternalSyntheticLambda26(this));
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_editMessage, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda26
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    LocationController.this.lambda$removeAllLocationSharings$23(tLObject, tLRPC$TL_error);
+                }
+            });
         }
         this.sharingLocations.clear();
         this.sharingLocationsMap.clear();
         saveSharingLocation(null, 2);
         stop(true);
-        AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda6(this));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$removeAllLocationSharings$24();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$removeAllLocationSharings$23(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -1002,8 +1126,13 @@ public class LocationController extends BaseController implements NotificationCe
         this.locationManager.removeUpdates(this.passiveLocationListener);
     }
 
-    public void startLocationLookupForPeopleNearby(boolean z) {
-        Utilities.stageQueue.postRunnable(new LocationController$$ExternalSyntheticLambda24(this, z));
+    public void startLocationLookupForPeopleNearby(final boolean z) {
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda24
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$startLocationLookupForPeopleNearby$26(z);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$startLocationLookupForPeopleNearby$26(boolean z) {
@@ -1021,7 +1150,7 @@ public class LocationController extends BaseController implements NotificationCe
         return this.lastKnownLocation;
     }
 
-    public void loadLiveLocations(long j) {
+    public void loadLiveLocations(final long j) {
         if (this.cacheRequests.indexOfKey(j) >= 0) {
             return;
         }
@@ -1029,14 +1158,24 @@ public class LocationController extends BaseController implements NotificationCe
         TLRPC$TL_messages_getRecentLocations tLRPC$TL_messages_getRecentLocations = new TLRPC$TL_messages_getRecentLocations();
         tLRPC$TL_messages_getRecentLocations.peer = getMessagesController().getInputPeer(j);
         tLRPC$TL_messages_getRecentLocations.limit = 100;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getRecentLocations, new LocationController$$ExternalSyntheticLambda29(this, j));
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getRecentLocations, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda29
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                LocationController.this.lambda$loadLiveLocations$28(j, tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$loadLiveLocations$28(long j, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadLiveLocations$28(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda13(this, j, tLObject));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.this.lambda$loadLiveLocations$27(j, tLObject);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$loadLiveLocations$27(long j, TLObject tLObject) {
@@ -1082,7 +1221,12 @@ public class LocationController extends BaseController implements NotificationCe
                         i++;
                     }
                     r1.channel = getMessagesController().getInputChannel(j2);
-                    getConnectionsManager().sendRequest(r1, new LocationController$$ExternalSyntheticLambda28(this));
+                    getConnectionsManager().sendRequest(r1, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda28
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                            LocationController.this.lambda$markLiveLoactionsAsRead$29(tLObject, tLRPC$TL_error);
+                        }
+                    });
                 }
             }
             r1 = new TLRPC$TL_messages_readMessageContents();
@@ -1091,7 +1235,12 @@ public class LocationController extends BaseController implements NotificationCe
                 r1.id.add(Integer.valueOf(arrayList.get(i).id));
                 i++;
             }
-            getConnectionsManager().sendRequest(r1, new LocationController$$ExternalSyntheticLambda28(this));
+            getConnectionsManager().sendRequest(r1, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda28
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    LocationController.this.lambda$markLiveLoactionsAsRead$29(tLObject, tLRPC$TL_error);
+                }
+            });
         }
     }
 
@@ -1110,7 +1259,7 @@ public class LocationController extends BaseController implements NotificationCe
         return i;
     }
 
-    public static void fetchLocationAddress(Location location, LocationFetchCallback locationFetchCallback) {
+    public static void fetchLocationAddress(final Location location, final LocationFetchCallback locationFetchCallback) {
         if (locationFetchCallback == null) {
             return;
         }
@@ -1124,14 +1273,19 @@ public class LocationController extends BaseController implements NotificationCe
             return;
         }
         DispatchQueue dispatchQueue = Utilities.globalQueue;
-        LocationController$$ExternalSyntheticLambda1 locationController$$ExternalSyntheticLambda1 = new LocationController$$ExternalSyntheticLambda1(location, locationFetchCallback);
-        dispatchQueue.postRunnable(locationController$$ExternalSyntheticLambda1, 300L);
-        callbacks.put(locationFetchCallback, locationController$$ExternalSyntheticLambda1);
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.lambda$fetchLocationAddress$31(location, locationFetchCallback);
+            }
+        };
+        dispatchQueue.postRunnable(runnable2, 300L);
+        callbacks.put(locationFetchCallback, runnable2);
     }
 
-    public static /* synthetic */ void lambda$fetchLocationAddress$31(Location location, LocationFetchCallback locationFetchCallback) {
-        String str;
-        String str2;
+    public static /* synthetic */ void lambda$fetchLocationAddress$31(final Location location, final LocationFetchCallback locationFetchCallback) {
+        final String str;
+        final String str2;
         boolean z;
         try {
             List<Address> fromLocation = new Geocoder(ApplicationLoader.applicationContext, LocaleController.getInstance().getSystemDefaultLocale()).getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -1224,7 +1378,12 @@ public class LocationController extends BaseController implements NotificationCe
             str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
             str = str2;
         }
-        AndroidUtilities.runOnUIThread(new LocationController$$ExternalSyntheticLambda2(locationFetchCallback, str, str2, location));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str, str2, location);
+            }
+        });
     }
 
     public static /* synthetic */ void lambda$fetchLocationAddress$30(LocationFetchCallback locationFetchCallback, String str, String str2, Location location) {

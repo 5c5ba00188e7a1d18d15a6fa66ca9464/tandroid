@@ -2,6 +2,9 @@ package com.google.android.exoplayer2.util;
 
 import android.text.TextUtils;
 import java.util.ArrayList;
+import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.MediaController;
+import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
 public final class MimeTypes {
     private static final ArrayList<CustomMimeType> customMimeTypes = new ArrayList<>();
@@ -16,13 +19,13 @@ public final class MimeTypes {
     public static String getMimeTypeFromMp4ObjectType(int i) {
         if (i != 32) {
             if (i == 33) {
-                return "video/avc";
+                return MediaController.VIDEO_MIME_TYPE;
             }
             if (i == 35) {
                 return "video/hevc";
             }
             if (i == 64) {
-                return "audio/mp4a-latm";
+                return MediaController.AUIDO_MIME_TYPE;
             }
             if (i == 163) {
                 return "video/wvc1";
@@ -41,13 +44,13 @@ public final class MimeTypes {
                 case 97:
                 case 98:
                 case 99:
-                case 100:
-                case 101:
+                case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
+                case FileLoader.MEDIA_DIR_VIDEO_PUBLIC /* 101 */:
                     return "video/mpeg2";
                 case 102:
                 case 103:
                 case 104:
-                    return "audio/mp4a-latm";
+                    return MediaController.AUIDO_MIME_TYPE;
                 case 105:
                 case 107:
                     return "audio/mpeg";
@@ -74,11 +77,11 @@ public final class MimeTypes {
     }
 
     public static boolean isAudio(String str) {
-        return "audio".equals(getTopLevelType(str));
+        return MediaStreamTrack.AUDIO_TRACK_KIND.equals(getTopLevelType(str));
     }
 
     public static boolean isVideo(String str) {
-        return "video".equals(getTopLevelType(str));
+        return MediaStreamTrack.VIDEO_TRACK_KIND.equals(getTopLevelType(str));
     }
 
     public static boolean isText(String str) {
@@ -209,7 +212,7 @@ public final class MimeTypes {
         }
         String lowerInvariant = Util.toLowerInvariant(str.trim());
         if (lowerInvariant.startsWith("avc1") || lowerInvariant.startsWith("avc3")) {
-            return "video/avc";
+            return MediaController.VIDEO_MIME_TYPE;
         }
         if (lowerInvariant.startsWith("hev1") || lowerInvariant.startsWith("hvc1")) {
             return "video/hevc";
@@ -238,7 +241,7 @@ public final class MimeTypes {
                 }
             }
         }
-        return str2 == null ? "audio/mp4a-latm" : str2;
+        return str2 == null ? MediaController.AUIDO_MIME_TYPE : str2;
     }
 
     public static int getTrackType(String str) {

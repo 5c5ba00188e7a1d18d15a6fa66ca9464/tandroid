@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.SparseArray;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Clock;
 import com.google.android.exoplayer2.util.EventDispatcher;
@@ -205,12 +206,17 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
         }
     }
 
-    private void maybeNotifyBandwidthSample(int i, long j, long j2) {
+    private void maybeNotifyBandwidthSample(final int i, final long j, final long j2) {
         if (i == 0 && j == 0 && j2 == this.lastReportedBitrateEstimate) {
             return;
         }
         this.lastReportedBitrateEstimate = j2;
-        this.eventDispatcher.dispatch(new DefaultBandwidthMeter$$ExternalSyntheticLambda0(i, j, j2));
+        this.eventDispatcher.dispatch(new EventDispatcher.Event() { // from class: com.google.android.exoplayer2.upstream.DefaultBandwidthMeter$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.util.EventDispatcher.Event
+            public final void sendTo(Object obj) {
+                ((BandwidthMeter.EventListener) obj).onBandwidthSample(i, j, j2);
+            }
+        });
     }
 
     private long getInitialBitrateEstimateForNetworkType(int i) {
@@ -247,10 +253,15 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
         private ConnectivityActionReceiver() {
         }
 
-        public synchronized void register(DefaultBandwidthMeter defaultBandwidthMeter) {
+        public synchronized void register(final DefaultBandwidthMeter defaultBandwidthMeter) {
             removeClearedReferences();
             this.bandwidthMeters.add(new WeakReference<>(defaultBandwidthMeter));
-            this.mainHandler.post(new DefaultBandwidthMeter$ConnectivityActionReceiver$$ExternalSyntheticLambda0(this, defaultBandwidthMeter));
+            this.mainHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.upstream.DefaultBandwidthMeter$ConnectivityActionReceiver$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DefaultBandwidthMeter.ConnectivityActionReceiver.this.lambda$register$0(defaultBandwidthMeter);
+                }
+            });
         }
 
         @Override // android.content.BroadcastReceiver

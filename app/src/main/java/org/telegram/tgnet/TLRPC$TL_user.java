@@ -1,4 +1,6 @@
 package org.telegram.tgnet;
+
+import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public class TLRPC$TL_user extends TLRPC$User {
     public static int constructor = 1073147056;
@@ -89,7 +91,7 @@ public class TLRPC$TL_user extends TLRPC$User {
         this.flags = i5;
         int i6 = this.bot_chat_history ? i5 | 32768 : i5 & (-32769);
         this.flags = i6;
-        int i7 = this.bot_nochats ? i6 | 65536 : i6 & (-65537);
+        int i7 = this.bot_nochats ? i6 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i6 & (-65537);
         this.flags = i7;
         int i8 = this.verified ? i7 | 131072 : i7 & (-131073);
         this.flags = i8;
@@ -101,11 +103,11 @@ public class TLRPC$TL_user extends TLRPC$User {
         this.flags = i11;
         int i12 = this.support ? i11 | 8388608 : i11 & (-8388609);
         this.flags = i12;
-        int i13 = this.scam ? i12 | 16777216 : i12 & (-16777217);
+        int i13 = this.scam ? i12 | ConnectionsManager.FileTypePhoto : i12 & (-16777217);
         this.flags = i13;
-        int i14 = this.apply_min_photo ? i13 | 33554432 : i13 & (-33554433);
+        int i14 = this.apply_min_photo ? i13 | ConnectionsManager.FileTypeVideo : i13 & (-33554433);
         this.flags = i14;
-        int i15 = this.fake ? i14 | 67108864 : i14 & (-67108865);
+        int i15 = this.fake ? i14 | ConnectionsManager.FileTypeFile : i14 & (-67108865);
         this.flags = i15;
         int i16 = this.bot_attach_menu ? i15 | 134217728 : i15 & (-134217729);
         this.flags = i16;

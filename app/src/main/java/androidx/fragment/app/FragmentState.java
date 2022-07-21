@@ -8,7 +8,17 @@ import android.util.Log;
 import androidx.lifecycle.ViewModelStore;
 /* loaded from: classes.dex */
 public final class FragmentState implements Parcelable {
-    public static final Parcelable.Creator<FragmentState> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<FragmentState> CREATOR = new Parcelable.Creator<FragmentState>() { // from class: androidx.fragment.app.FragmentState.1
+        @Override // android.os.Parcelable.Creator
+        public FragmentState createFromParcel(Parcel parcel) {
+            return new FragmentState(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public FragmentState[] newArray(int i) {
+            return new FragmentState[i];
+        }
+    };
     final Bundle mArguments;
     final String mClassName;
     final int mContainerId;
@@ -106,22 +116,5 @@ public final class FragmentState implements Parcelable {
         parcel.writeBundle(this.mArguments);
         parcel.writeInt(this.mHidden ? 1 : 0);
         parcel.writeBundle(this.mSavedFragmentState);
-    }
-
-    /* renamed from: androidx.fragment.app.FragmentState$1 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass1 implements Parcelable.Creator<FragmentState> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public FragmentState createFromParcel(Parcel parcel) {
-            return new FragmentState(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public FragmentState[] newArray(int i) {
-            return new FragmentState[i];
-        }
     }
 }

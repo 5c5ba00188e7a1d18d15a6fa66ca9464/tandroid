@@ -87,8 +87,25 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         this.animator = ofFloat;
         ofFloat.setDuration(250L);
         ofFloat.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
-        ofFloat.addUpdateListener(new AvatarPreviewPagerIndicator$$ExternalSyntheticLambda0(this));
-        ofFloat.addListener(new AnonymousClass1());
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewPagerIndicator$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                AvatarPreviewPagerIndicator.this.lambda$new$0(valueAnimator);
+            }
+        });
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.AvatarPreviewPagerIndicator.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (!AvatarPreviewPagerIndicator.this.isOverlaysVisible) {
+                    AvatarPreviewPagerIndicator.this.setVisibility(8);
+                }
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationStart(Animator animator) {
+                AvatarPreviewPagerIndicator.this.setVisibility(0);
+            }
+        });
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
         textPaint.setColor(-1);
@@ -99,26 +116,6 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
 
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
         setAlphaValue(AndroidUtilities.lerp(this.animatorValues, valueAnimator.getAnimatedFraction()), true);
-    }
-
-    /* renamed from: org.telegram.ui.AvatarPreviewPagerIndicator$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            AvatarPreviewPagerIndicator.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (!AvatarPreviewPagerIndicator.this.isOverlaysVisible) {
-                AvatarPreviewPagerIndicator.this.setVisibility(8);
-            }
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationStart(Animator animator) {
-            AvatarPreviewPagerIndicator.this.setVisibility(0);
-        }
     }
 
     public void saveCurrentPageProgress() {

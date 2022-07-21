@@ -14,6 +14,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.MediaActionDrawable;
 /* loaded from: classes3.dex */
 public class RadialProgress2 {
     private int backgroundStroke;
@@ -53,7 +54,7 @@ public class RadialProgress2 {
         this(view, null);
     }
 
-    public RadialProgress2(View view, Theme.ResourcesProvider resourcesProvider) {
+    public RadialProgress2(final View view, Theme.ResourcesProvider resourcesProvider) {
         this.progressRect = new RectF();
         this.progressColor = -1;
         this.overlayPaint = new Paint(1);
@@ -72,10 +73,20 @@ public class RadialProgress2 {
         MediaActionDrawable mediaActionDrawable = new MediaActionDrawable();
         this.mediaActionDrawable = mediaActionDrawable;
         view.getClass();
-        mediaActionDrawable.setDelegate(new RadialProgress2$$ExternalSyntheticLambda0(view));
+        mediaActionDrawable.setDelegate(new MediaActionDrawable.MediaActionDrawableDelegate() { // from class: org.telegram.ui.Components.RadialProgress2$$ExternalSyntheticLambda0
+            @Override // org.telegram.ui.Components.MediaActionDrawable.MediaActionDrawableDelegate
+            public final void invalidate() {
+                view.invalidate();
+            }
+        });
         MediaActionDrawable mediaActionDrawable2 = new MediaActionDrawable();
         this.miniMediaActionDrawable = mediaActionDrawable2;
-        mediaActionDrawable2.setDelegate(new RadialProgress2$$ExternalSyntheticLambda0(view));
+        mediaActionDrawable2.setDelegate(new MediaActionDrawable.MediaActionDrawableDelegate() { // from class: org.telegram.ui.Components.RadialProgress2$$ExternalSyntheticLambda0
+            @Override // org.telegram.ui.Components.MediaActionDrawable.MediaActionDrawableDelegate
+            public final void invalidate() {
+                view.invalidate();
+            }
+        });
         this.miniMediaActionDrawable.setMini(true);
         this.miniMediaActionDrawable.setIcon(4, false);
         int dp = AndroidUtilities.dp(22.0f);

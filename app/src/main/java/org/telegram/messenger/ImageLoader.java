@@ -24,7 +24,11 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import androidx.exifinterface.media.ExifInterface;
+import com.huawei.hms.adapter.internal.AvailableCode;
+import com.huawei.hms.opendevice.i;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import j$.util.concurrent.ConcurrentHashMap;
+import j$.util.function.Consumer;
 import j$.util.stream.Stream;
 import j$.wrappers.C$r8$wrapper$java$util$stream$Stream$VWRP;
 import java.io.BufferedReader;
@@ -60,6 +64,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.secretmedia.EncryptedFileInputStream;
 import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.tgnet.ConnectionsManager;
@@ -139,7 +144,7 @@ public class ImageLoader {
             return false;
         }
         for (String str2 : str.split("_")) {
-            if ("g".equals(str2)) {
+            if (AUTOPLAY_FILTER.equals(str2)) {
                 return true;
             }
         }
@@ -177,10 +182,6 @@ public class ImageLoader {
             this.imageReceiverArray = new ArrayList<>();
             this.imageReceiverGuidsArray = new ArrayList<>();
         }
-
-        /* synthetic */ ThumbGenerateInfo(AnonymousClass1 anonymousClass1) {
-            this();
-        }
     }
 
     /* loaded from: classes.dex */
@@ -202,7 +203,7 @@ public class ImageLoader {
             this.currentAccount = i;
         }
 
-        private void reportProgress(long j, long j2) {
+        private void reportProgress(final long j, final long j2) {
             long elapsedRealtime = SystemClock.elapsedRealtime();
             if (j != j2) {
                 long j3 = this.lastProgressTime;
@@ -211,12 +212,22 @@ public class ImageLoader {
                 }
             }
             this.lastProgressTime = elapsedRealtime;
-            Utilities.stageQueue.postRunnable(new ImageLoader$HttpFileTask$$ExternalSyntheticLambda0(this, j, j2));
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpFileTask$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.HttpFileTask.this.lambda$reportProgress$1(j, j2);
+                }
+            });
         }
 
-        public /* synthetic */ void lambda$reportProgress$1(long j, long j2) {
+        public /* synthetic */ void lambda$reportProgress$1(final long j, final long j2) {
             ImageLoader.this.fileProgresses.put(this.url, new long[]{j, j2});
-            AndroidUtilities.runOnUIThread(new ImageLoader$HttpFileTask$$ExternalSyntheticLambda1(this, j, j2));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpFileTask$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.HttpFileTask.this.lambda$reportProgress$0(j, j2);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$reportProgress$0(long j, long j2) {
@@ -576,13 +587,23 @@ public class ImageLoader {
             }
         }
 
-        public void onPostExecute(String str) {
+        public void onPostExecute(final String str) {
             if (str != null) {
-                ImageLoader.this.imageLoadQueue.postRunnable(new ImageLoader$ArtworkLoadTask$$ExternalSyntheticLambda2(this, str));
+                ImageLoader.this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$ArtworkLoadTask$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ImageLoader.ArtworkLoadTask.this.lambda$onPostExecute$0(str);
+                    }
+                });
             } else if (this.canRetry) {
                 ImageLoader.this.artworkLoadError(this.cacheImage.url);
             }
-            ImageLoader.this.imageLoadQueue.postRunnable(new ImageLoader$ArtworkLoadTask$$ExternalSyntheticLambda0(this));
+            ImageLoader.this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$ArtworkLoadTask$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.ArtworkLoadTask.this.lambda$onPostExecute$1();
+                }
+            });
         }
 
         public /* synthetic */ void lambda$onPostExecute$0(String str) {
@@ -602,7 +623,12 @@ public class ImageLoader {
 
         @Override // android.os.AsyncTask
         protected void onCancelled() {
-            ImageLoader.this.imageLoadQueue.postRunnable(new ImageLoader$ArtworkLoadTask$$ExternalSyntheticLambda1(this));
+            ImageLoader.this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$ArtworkLoadTask$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.ArtworkLoadTask.this.lambda$onCancelled$2();
+                }
+            });
         }
     }
 
@@ -632,7 +658,7 @@ public class ImageLoader {
             this.overrideUrl = str;
         }
 
-        private void reportProgress(long j, long j2) {
+        private void reportProgress(final long j, final long j2) {
             long elapsedRealtime = SystemClock.elapsedRealtime();
             if (j != j2) {
                 long j3 = this.lastProgressTime;
@@ -641,12 +667,22 @@ public class ImageLoader {
                 }
             }
             this.lastProgressTime = elapsedRealtime;
-            Utilities.stageQueue.postRunnable(new ImageLoader$HttpImageTask$$ExternalSyntheticLambda4(this, j, j2));
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpImageTask$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.HttpImageTask.this.lambda$reportProgress$1(j, j2);
+                }
+            });
         }
 
-        public /* synthetic */ void lambda$reportProgress$1(long j, long j2) {
+        public /* synthetic */ void lambda$reportProgress$1(final long j, final long j2) {
             ImageLoader.this.fileProgresses.put(this.cacheImage.url, new long[]{j, j2});
-            AndroidUtilities.runOnUIThread(new ImageLoader$HttpImageTask$$ExternalSyntheticLambda5(this, j, j2));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpImageTask$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.HttpImageTask.this.lambda$reportProgress$0(j, j2);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$reportProgress$0(long j, long j2) {
@@ -889,7 +925,7 @@ public class ImageLoader {
             return Boolean.valueOf(z3);
         }
 
-        public void onPostExecute(Boolean bool) {
+        public void onPostExecute(final Boolean bool) {
             if (!bool.booleanValue() && this.canRetry) {
                 ImageLoader.this.httpFileLoadError(this.cacheImage.url);
             } else {
@@ -897,13 +933,28 @@ public class ImageLoader {
                 CacheImage cacheImage = this.cacheImage;
                 imageLoader.fileDidLoaded(cacheImage.url, cacheImage.finalFilePath, 0);
             }
-            Utilities.stageQueue.postRunnable(new ImageLoader$HttpImageTask$$ExternalSyntheticLambda6(this, bool));
-            ImageLoader.this.imageLoadQueue.postRunnable(new ImageLoader$HttpImageTask$$ExternalSyntheticLambda0(this));
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpImageTask$$ExternalSyntheticLambda6
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.HttpImageTask.this.lambda$onPostExecute$4(bool);
+                }
+            });
+            ImageLoader.this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpImageTask$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.HttpImageTask.this.lambda$onPostExecute$5();
+                }
+            });
         }
 
-        public /* synthetic */ void lambda$onPostExecute$4(Boolean bool) {
+        public /* synthetic */ void lambda$onPostExecute$4(final Boolean bool) {
             ImageLoader.this.fileProgresses.remove(this.cacheImage.url);
-            AndroidUtilities.runOnUIThread(new ImageLoader$HttpImageTask$$ExternalSyntheticLambda7(this, bool));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpImageTask$$ExternalSyntheticLambda7
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.HttpImageTask.this.lambda$onPostExecute$3(bool);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$onPostExecute$3(Boolean bool) {
@@ -927,13 +978,28 @@ public class ImageLoader {
 
         @Override // android.os.AsyncTask
         protected void onCancelled() {
-            ImageLoader.this.imageLoadQueue.postRunnable(new ImageLoader$HttpImageTask$$ExternalSyntheticLambda2(this));
-            Utilities.stageQueue.postRunnable(new ImageLoader$HttpImageTask$$ExternalSyntheticLambda3(this));
+            ImageLoader.this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpImageTask$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.HttpImageTask.this.lambda$onCancelled$6();
+                }
+            });
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpImageTask$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.HttpImageTask.this.lambda$onCancelled$8();
+                }
+            });
         }
 
         public /* synthetic */ void lambda$onCancelled$8() {
             ImageLoader.this.fileProgresses.remove(this.cacheImage.url);
-            AndroidUtilities.runOnUIThread(new ImageLoader$HttpImageTask$$ExternalSyntheticLambda1(this));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpImageTask$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.HttpImageTask.this.lambda$onCancelled$7();
+                }
+            });
         }
 
         public /* synthetic */ void lambda$onCancelled$7() {
@@ -959,7 +1025,13 @@ public class ImageLoader {
             if (thumbGenerateInfo == null) {
                 return;
             }
-            ImageLoader.this.imageLoadQueue.postRunnable(new ImageLoader$ThumbGenerateTask$$ExternalSyntheticLambda0(this, FileLoader.getAttachFileName(thumbGenerateInfo.parentDocument)));
+            final String attachFileName = FileLoader.getAttachFileName(thumbGenerateInfo.parentDocument);
+            ImageLoader.this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$ThumbGenerateTask$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.ThumbGenerateTask.this.lambda$removeTask$0(attachFileName);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$removeTask$0(String str) {
@@ -975,7 +1047,7 @@ public class ImageLoader {
                     removeTask();
                     return;
                 }
-                String str = "q_" + this.info.parentDocument.dc_id + "_" + this.info.parentDocument.id;
+                final String str = "q_" + this.info.parentDocument.dc_id + "_" + this.info.parentDocument.id;
                 File file = new File(FileLoader.getDirectory(4), str + ".jpg");
                 if (!file.exists() && this.originalPath.exists()) {
                     if (this.info.big) {
@@ -1034,7 +1106,15 @@ public class ImageLoader {
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
-                        AndroidUtilities.runOnUIThread(new ImageLoader$ThumbGenerateTask$$ExternalSyntheticLambda1(this, str, new ArrayList(this.info.imageReceiverArray), new BitmapDrawable(bitmap), new ArrayList(this.info.imageReceiverGuidsArray)));
+                        final BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+                        final ArrayList arrayList = new ArrayList(this.info.imageReceiverArray);
+                        final ArrayList arrayList2 = new ArrayList(this.info.imageReceiverGuidsArray);
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$ThumbGenerateTask$$ExternalSyntheticLambda1
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                ImageLoader.ThumbGenerateTask.this.lambda$run$1(str, arrayList, bitmapDrawable, arrayList2);
+                            }
+                        });
                         return;
                     }
                     removeTask();
@@ -1511,7 +1591,7 @@ public class ImageLoader {
                         z16 = false;
                         z15 = false;
                     }
-                    if (ImageLoader.this.isAnimatedAvatar(this.cacheImage.filter) || "g".equals(this.cacheImage.filter)) {
+                    if (ImageLoader.this.isAnimatedAvatar(this.cacheImage.filter) || ImageLoader.AUTOPLAY_FILTER.equals(this.cacheImage.filter)) {
                         CacheImage cacheImage4 = this.cacheImage;
                         ImageLocation imageLocation2 = cacheImage4.imageLocation;
                         TLRPC$Document tLRPC$Document = imageLocation2.document;
@@ -1766,7 +1846,7 @@ public class ImageLoader {
                                                 c = this.cacheImage.filter.contains("b") ? (char) 1 : (char) 0;
                                             }
                                             try {
-                                                z22 = this.cacheImage.filter.contains("i");
+                                                z22 = this.cacheImage.filter.contains(i.TAG);
                                                 try {
                                                     if (this.cacheImage.filter.contains("f")) {
                                                         z242 = true;
@@ -2597,15 +2677,25 @@ public class ImageLoader {
             }
         }
 
-        private void loadLastFrame(RLottieDrawable rLottieDrawable, int i, int i2) {
-            Bitmap createBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(createBitmap);
+        private void loadLastFrame(final RLottieDrawable rLottieDrawable, int i, int i2) {
+            final Bitmap createBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.ARGB_8888);
+            final Canvas canvas = new Canvas(createBitmap);
             canvas.scale(2.0f, 2.0f, i / 2.0f, i2 / 2.0f);
-            AndroidUtilities.runOnUIThread(new ImageLoader$CacheOutTask$$ExternalSyntheticLambda3(this, rLottieDrawable, canvas, createBitmap));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$CacheOutTask$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.CacheOutTask.this.lambda$loadLastFrame$1(rLottieDrawable, canvas, createBitmap);
+                }
+            });
         }
 
-        public /* synthetic */ void lambda$loadLastFrame$1(RLottieDrawable rLottieDrawable, Canvas canvas, Bitmap bitmap) {
-            rLottieDrawable.setOnFrameReadyRunnable(new ImageLoader$CacheOutTask$$ExternalSyntheticLambda2(this, rLottieDrawable, canvas, bitmap));
+        public /* synthetic */ void lambda$loadLastFrame$1(final RLottieDrawable rLottieDrawable, final Canvas canvas, final Bitmap bitmap) {
+            rLottieDrawable.setOnFrameReadyRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$CacheOutTask$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.CacheOutTask.this.lambda$loadLastFrame$0(rLottieDrawable, canvas, bitmap);
+                }
+            });
             rLottieDrawable.setCurrentFrame(rLottieDrawable.getFramesCount() - 1, true, true);
         }
 
@@ -2620,13 +2710,18 @@ public class ImageLoader {
             rLottieDrawable.recycle();
         }
 
-        private void onPostExecute(Drawable drawable) {
-            AndroidUtilities.runOnUIThread(new ImageLoader$CacheOutTask$$ExternalSyntheticLambda0(this, drawable));
+        private void onPostExecute(final Drawable drawable) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$CacheOutTask$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.CacheOutTask.this.lambda$onPostExecute$3(drawable);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$onPostExecute$3(Drawable drawable) {
-            String str;
-            Drawable drawable2 = null;
+            final String str;
+            final Drawable drawable2 = null;
             r1 = null;
             r1 = null;
             r1 = null;
@@ -2661,7 +2756,12 @@ public class ImageLoader {
                 }
             } else if (!(drawable instanceof BitmapDrawable)) {
                 str = null;
-                ImageLoader.this.imageLoadQueue.postRunnable(new ImageLoader$CacheOutTask$$ExternalSyntheticLambda1(this, drawable2, str));
+                ImageLoader.this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$CacheOutTask$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ImageLoader.CacheOutTask.this.lambda$onPostExecute$2(drawable2, str);
+                    }
+                });
             } else {
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
                 BitmapDrawable fromMemCache = ImageLoader.this.getFromMemCache(this.cacheImage.key);
@@ -2690,7 +2790,12 @@ public class ImageLoader {
             String str3 = str2;
             drawable2 = drawable;
             str = str3;
-            ImageLoader.this.imageLoadQueue.postRunnable(new ImageLoader$CacheOutTask$$ExternalSyntheticLambda1(this, drawable2, str));
+            ImageLoader.this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$CacheOutTask$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.CacheOutTask.this.lambda$onPostExecute$2(drawable2, str);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$onPostExecute$2(Drawable drawable, String str) {
@@ -2781,10 +2886,6 @@ public class ImageLoader {
             this.keys = new ArrayList<>();
             this.filters = new ArrayList<>();
             this.types = new ArrayList<>();
-        }
-
-        /* synthetic */ CacheImage(ImageLoader imageLoader, AnonymousClass1 anonymousClass1) {
-            this();
         }
 
         public void addImageReceiver(ImageReceiver imageReceiver, String str, String str2, int i, int i2) {
@@ -2886,9 +2987,16 @@ public class ImageLoader {
             }
         }
 
-        public void setImageAndClear(Drawable drawable, String str) {
+        public void setImageAndClear(final Drawable drawable, final String str) {
             if (drawable != null) {
-                AndroidUtilities.runOnUIThread(new ImageLoader$CacheImage$$ExternalSyntheticLambda0(this, drawable, new ArrayList(this.imageReceiverArray), new ArrayList(this.imageReceiverGuidsArray), str));
+                final ArrayList arrayList = new ArrayList(this.imageReceiverArray);
+                final ArrayList arrayList2 = new ArrayList(this.imageReceiverGuidsArray);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$CacheImage$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ImageLoader.CacheImage.this.lambda$setImageAndClear$0(drawable, arrayList, arrayList2, str);
+                    }
+                });
             }
             for (int i = 0; i < this.imageReceiverArray.size(); i++) {
                 ImageLoader.this.imageLoadingByTag.remove(this.imageReceiverArray.get(i).getTag(this.type));
@@ -2967,10 +3075,82 @@ public class ImageLoader {
         this.canForce8888 = z;
         int min = Math.min(z ? 30 : 15, memoryClass / 7) * 1024 * 1024;
         float f = min;
-        this.memCache = new AnonymousClass1((int) (0.8f * f));
-        this.smallImagesMemCache = new AnonymousClass2((int) (f * 0.2f));
-        this.wallpaperMemCache = new AnonymousClass3(min / 4);
-        this.lottieMemCache = new AnonymousClass4(10485760);
+        this.memCache = new LruCache<BitmapDrawable>((int) (0.8f * f)) { // from class: org.telegram.messenger.ImageLoader.1
+            public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
+                return bitmapDrawable.getBitmap().getByteCount();
+            }
+
+            public void entryRemoved(boolean z2, String str, BitmapDrawable bitmapDrawable, BitmapDrawable bitmapDrawable2) {
+                if (ImageLoader.this.ignoreRemoval == null || !ImageLoader.this.ignoreRemoval.equals(str)) {
+                    Integer num = (Integer) ImageLoader.this.bitmapUseCounts.get(str);
+                    if (num != null && num.intValue() != 0) {
+                        return;
+                    }
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    if (bitmap.isRecycled()) {
+                        return;
+                    }
+                    ArrayList arrayList = new ArrayList();
+                    arrayList.add(bitmap);
+                    AndroidUtilities.recycleBitmaps(arrayList);
+                }
+            }
+        };
+        this.smallImagesMemCache = new LruCache<BitmapDrawable>((int) (f * 0.2f)) { // from class: org.telegram.messenger.ImageLoader.2
+            public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
+                return bitmapDrawable.getBitmap().getByteCount();
+            }
+
+            public void entryRemoved(boolean z2, String str, BitmapDrawable bitmapDrawable, BitmapDrawable bitmapDrawable2) {
+                if (ImageLoader.this.ignoreRemoval == null || !ImageLoader.this.ignoreRemoval.equals(str)) {
+                    Integer num = (Integer) ImageLoader.this.bitmapUseCounts.get(str);
+                    if (num != null && num.intValue() != 0) {
+                        return;
+                    }
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    if (bitmap.isRecycled()) {
+                        return;
+                    }
+                    ArrayList arrayList = new ArrayList();
+                    arrayList.add(bitmap);
+                    AndroidUtilities.recycleBitmaps(arrayList);
+                }
+            }
+        };
+        this.wallpaperMemCache = new LruCache<BitmapDrawable>(min / 4) { // from class: org.telegram.messenger.ImageLoader.3
+            public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
+                return bitmapDrawable.getBitmap().getByteCount();
+            }
+        };
+        this.lottieMemCache = new LruCache<BitmapDrawable>(10485760) { // from class: org.telegram.messenger.ImageLoader.4
+            public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
+                return bitmapDrawable.getIntrinsicWidth() * bitmapDrawable.getIntrinsicHeight() * 4 * 2;
+            }
+
+            public BitmapDrawable put(String str, BitmapDrawable bitmapDrawable) {
+                if (bitmapDrawable instanceof AnimatedFileDrawable) {
+                    ImageLoader.this.cachedAnimatedFileDrawables.add((AnimatedFileDrawable) bitmapDrawable);
+                }
+                return (BitmapDrawable) super.put(str, (String) bitmapDrawable);
+            }
+
+            public void entryRemoved(boolean z2, String str, BitmapDrawable bitmapDrawable, BitmapDrawable bitmapDrawable2) {
+                Integer num = (Integer) ImageLoader.this.bitmapUseCounts.get(str);
+                boolean z3 = bitmapDrawable instanceof AnimatedFileDrawable;
+                if (z3) {
+                    ImageLoader.this.cachedAnimatedFileDrawables.remove((AnimatedFileDrawable) bitmapDrawable);
+                }
+                if (num == null || num.intValue() == 0) {
+                    if (z3) {
+                        ((AnimatedFileDrawable) bitmapDrawable).recycle();
+                    }
+                    if (!(bitmapDrawable instanceof RLottieDrawable)) {
+                        return;
+                    }
+                    ((RLottieDrawable) bitmapDrawable).recycle();
+                }
+            }
+        };
         SparseArray sparseArray = new SparseArray();
         File cacheDir = AndroidUtilities.getCacheDir();
         if (!cacheDir.isDirectory()) {
@@ -3005,118 +3185,6 @@ public class ImageLoader {
         checkMediaPaths();
     }
 
-    /* renamed from: org.telegram.messenger.ImageLoader$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends LruCache<BitmapDrawable> {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(int i) {
-            super(i);
-            ImageLoader.this = r1;
-        }
-
-        public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
-            return bitmapDrawable.getBitmap().getByteCount();
-        }
-
-        public void entryRemoved(boolean z, String str, BitmapDrawable bitmapDrawable, BitmapDrawable bitmapDrawable2) {
-            if (ImageLoader.this.ignoreRemoval == null || !ImageLoader.this.ignoreRemoval.equals(str)) {
-                Integer num = (Integer) ImageLoader.this.bitmapUseCounts.get(str);
-                if (num != null && num.intValue() != 0) {
-                    return;
-                }
-                Bitmap bitmap = bitmapDrawable.getBitmap();
-                if (bitmap.isRecycled()) {
-                    return;
-                }
-                ArrayList arrayList = new ArrayList();
-                arrayList.add(bitmap);
-                AndroidUtilities.recycleBitmaps(arrayList);
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.ImageLoader$2 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass2 extends LruCache<BitmapDrawable> {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(int i) {
-            super(i);
-            ImageLoader.this = r1;
-        }
-
-        public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
-            return bitmapDrawable.getBitmap().getByteCount();
-        }
-
-        public void entryRemoved(boolean z, String str, BitmapDrawable bitmapDrawable, BitmapDrawable bitmapDrawable2) {
-            if (ImageLoader.this.ignoreRemoval == null || !ImageLoader.this.ignoreRemoval.equals(str)) {
-                Integer num = (Integer) ImageLoader.this.bitmapUseCounts.get(str);
-                if (num != null && num.intValue() != 0) {
-                    return;
-                }
-                Bitmap bitmap = bitmapDrawable.getBitmap();
-                if (bitmap.isRecycled()) {
-                    return;
-                }
-                ArrayList arrayList = new ArrayList();
-                arrayList.add(bitmap);
-                AndroidUtilities.recycleBitmaps(arrayList);
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.ImageLoader$3 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass3 extends LruCache<BitmapDrawable> {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(int i) {
-            super(i);
-            ImageLoader.this = r1;
-        }
-
-        public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
-            return bitmapDrawable.getBitmap().getByteCount();
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.ImageLoader$4 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass4 extends LruCache<BitmapDrawable> {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass4(int i) {
-            super(i);
-            ImageLoader.this = r1;
-        }
-
-        public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
-            return bitmapDrawable.getIntrinsicWidth() * bitmapDrawable.getIntrinsicHeight() * 4 * 2;
-        }
-
-        public BitmapDrawable put(String str, BitmapDrawable bitmapDrawable) {
-            if (bitmapDrawable instanceof AnimatedFileDrawable) {
-                ImageLoader.this.cachedAnimatedFileDrawables.add((AnimatedFileDrawable) bitmapDrawable);
-            }
-            return (BitmapDrawable) super.put(str, (String) bitmapDrawable);
-        }
-
-        public void entryRemoved(boolean z, String str, BitmapDrawable bitmapDrawable, BitmapDrawable bitmapDrawable2) {
-            Integer num = (Integer) ImageLoader.this.bitmapUseCounts.get(str);
-            boolean z2 = bitmapDrawable instanceof AnimatedFileDrawable;
-            if (z2) {
-                ImageLoader.this.cachedAnimatedFileDrawables.remove((AnimatedFileDrawable) bitmapDrawable);
-            }
-            if (num == null || num.intValue() == 0) {
-                if (z2) {
-                    ((AnimatedFileDrawable) bitmapDrawable).recycle();
-                }
-                if (!(bitmapDrawable instanceof RLottieDrawable)) {
-                    return;
-                }
-                ((RLottieDrawable) bitmapDrawable).recycle();
-            }
-        }
-    }
-
     /* renamed from: org.telegram.messenger.ImageLoader$5 */
     /* loaded from: classes.dex */
     public class AnonymousClass5 implements FileLoader.FileLoaderDelegate {
@@ -3128,13 +3196,19 @@ public class ImageLoader {
         }
 
         @Override // org.telegram.messenger.FileLoader.FileLoaderDelegate
-        public void fileUploadProgressChanged(FileUploadOperation fileUploadOperation, String str, long j, long j2, boolean z) {
+        public void fileUploadProgressChanged(FileUploadOperation fileUploadOperation, final String str, final long j, final long j2, final boolean z) {
             ImageLoader.this.fileProgresses.put(str, new long[]{j, j2});
             long elapsedRealtime = SystemClock.elapsedRealtime();
             long j3 = fileUploadOperation.lastProgressUpdateTime;
             if (j3 == 0 || j3 < elapsedRealtime - 100 || j == j2) {
                 fileUploadOperation.lastProgressUpdateTime = elapsedRealtime;
-                AndroidUtilities.runOnUIThread(new ImageLoader$5$$ExternalSyntheticLambda1(this.val$currentAccount, str, j, j2, z));
+                final int i = this.val$currentAccount;
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ImageLoader.AnonymousClass5.lambda$fileUploadProgressChanged$0(i, str, j, j2, z);
+                    }
+                });
             }
         }
 
@@ -3143,37 +3217,67 @@ public class ImageLoader {
         }
 
         @Override // org.telegram.messenger.FileLoader.FileLoaderDelegate
-        public void fileDidUploaded(String str, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile, byte[] bArr, byte[] bArr2, long j) {
-            Utilities.stageQueue.postRunnable(new ImageLoader$5$$ExternalSyntheticLambda4(this, this.val$currentAccount, str, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, j));
+        public void fileDidUploaded(final String str, final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile, final byte[] bArr, final byte[] bArr2, final long j) {
+            DispatchQueue dispatchQueue = Utilities.stageQueue;
+            final int i = this.val$currentAccount;
+            dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.AnonymousClass5.this.lambda$fileDidUploaded$2(i, str, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, j);
+                }
+            });
         }
 
         public static /* synthetic */ void lambda$fileDidUploaded$1(int i, String str, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile, byte[] bArr, byte[] bArr2, long j) {
             NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.fileUploaded, str, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, Long.valueOf(j));
         }
 
-        public /* synthetic */ void lambda$fileDidUploaded$2(int i, String str, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile, byte[] bArr, byte[] bArr2, long j) {
-            AndroidUtilities.runOnUIThread(new ImageLoader$5$$ExternalSyntheticLambda2(i, str, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, j));
+        public /* synthetic */ void lambda$fileDidUploaded$2(final int i, final String str, final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile, final byte[] bArr, final byte[] bArr2, final long j) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.AnonymousClass5.lambda$fileDidUploaded$1(i, str, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, j);
+                }
+            });
             ImageLoader.this.fileProgresses.remove(str);
         }
 
         @Override // org.telegram.messenger.FileLoader.FileLoaderDelegate
-        public void fileDidFailedUpload(String str, boolean z) {
-            Utilities.stageQueue.postRunnable(new ImageLoader$5$$ExternalSyntheticLambda5(this, this.val$currentAccount, str, z));
+        public void fileDidFailedUpload(final String str, final boolean z) {
+            DispatchQueue dispatchQueue = Utilities.stageQueue;
+            final int i = this.val$currentAccount;
+            dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.AnonymousClass5.this.lambda$fileDidFailedUpload$4(i, str, z);
+                }
+            });
         }
 
         public static /* synthetic */ void lambda$fileDidFailedUpload$3(int i, String str, boolean z) {
             NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.fileUploadFailed, str, Boolean.valueOf(z));
         }
 
-        public /* synthetic */ void lambda$fileDidFailedUpload$4(int i, String str, boolean z) {
-            AndroidUtilities.runOnUIThread(new ImageLoader$5$$ExternalSyntheticLambda3(i, str, z));
+        public /* synthetic */ void lambda$fileDidFailedUpload$4(final int i, final String str, final boolean z) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.AnonymousClass5.lambda$fileDidFailedUpload$3(i, str, z);
+                }
+            });
             ImageLoader.this.fileProgresses.remove(str);
         }
 
         @Override // org.telegram.messenger.FileLoader.FileLoaderDelegate
-        public void fileDidLoaded(String str, File file, Object obj, int i) {
+        public void fileDidLoaded(final String str, final File file, final Object obj, final int i) {
             ImageLoader.this.fileProgresses.remove(str);
-            AndroidUtilities.runOnUIThread(new ImageLoader$5$$ExternalSyntheticLambda6(this, file, str, obj, this.val$currentAccount, i));
+            final int i2 = this.val$currentAccount;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda6
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.AnonymousClass5.this.lambda$fileDidLoaded$5(file, str, obj, i2, i);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$fileDidLoaded$5(File file, String str, Object obj, int i, int i2) {
@@ -3194,9 +3298,15 @@ public class ImageLoader {
         }
 
         @Override // org.telegram.messenger.FileLoader.FileLoaderDelegate
-        public void fileDidFailedLoad(String str, int i) {
+        public void fileDidFailedLoad(final String str, final int i) {
             ImageLoader.this.fileProgresses.remove(str);
-            AndroidUtilities.runOnUIThread(new ImageLoader$5$$ExternalSyntheticLambda7(this, str, i, this.val$currentAccount));
+            final int i2 = this.val$currentAccount;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda7
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.AnonymousClass5.this.lambda$fileDidFailedLoad$6(str, i, i2);
+                }
+            });
         }
 
         public /* synthetic */ void lambda$fileDidFailedLoad$6(String str, int i, int i2) {
@@ -3205,13 +3315,19 @@ public class ImageLoader {
         }
 
         @Override // org.telegram.messenger.FileLoader.FileLoaderDelegate
-        public void fileLoadProgressChanged(FileLoadOperation fileLoadOperation, String str, long j, long j2) {
+        public void fileLoadProgressChanged(FileLoadOperation fileLoadOperation, final String str, final long j, final long j2) {
             ImageLoader.this.fileProgresses.put(str, new long[]{j, j2});
             long elapsedRealtime = SystemClock.elapsedRealtime();
             long j3 = fileLoadOperation.lastProgressUpdateTime;
             if (j3 == 0 || j3 < elapsedRealtime - 500 || j == 0) {
                 fileLoadOperation.lastProgressUpdateTime = elapsedRealtime;
-                AndroidUtilities.runOnUIThread(new ImageLoader$5$$ExternalSyntheticLambda0(this.val$currentAccount, str, j, j2));
+                final int i = this.val$currentAccount;
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ImageLoader.AnonymousClass5.lambda$fileLoadProgressChanged$7(i, str, j, j2);
+                    }
+                });
             }
         }
 
@@ -3232,11 +3348,16 @@ public class ImageLoader {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("file system changed");
             }
-            ImageLoader$6$$ExternalSyntheticLambda0 imageLoader$6$$ExternalSyntheticLambda0 = new ImageLoader$6$$ExternalSyntheticLambda0(this);
+            Runnable runnable = new Runnable() { // from class: org.telegram.messenger.ImageLoader$6$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.AnonymousClass6.this.lambda$onReceive$0();
+                }
+            };
             if ("android.intent.action.MEDIA_UNMOUNTED".equals(intent.getAction())) {
-                AndroidUtilities.runOnUIThread(imageLoader$6$$ExternalSyntheticLambda0, 1000L);
+                AndroidUtilities.runOnUIThread(runnable, 1000L);
             } else {
-                imageLoader$6$$ExternalSyntheticLambda0.run();
+                runnable.run();
             }
         }
 
@@ -3246,11 +3367,22 @@ public class ImageLoader {
     }
 
     public void checkMediaPaths() {
-        this.cacheOutQueue.postRunnable(new ImageLoader$$ExternalSyntheticLambda1(this));
+        this.cacheOutQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                ImageLoader.this.lambda$checkMediaPaths$1();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$checkMediaPaths$1() {
-        AndroidUtilities.runOnUIThread(new ImageLoader$$ExternalSyntheticLambda0(createMediaPaths()));
+        final SparseArray<File> createMediaPaths = createMediaPaths();
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLoader.setMediaDirs(createMediaPaths);
+            }
+        });
     }
 
     public void addTestWebFile(String str, WebFile webFile) {
@@ -3267,15 +3399,25 @@ public class ImageLoader {
         this.testWebFile.remove(str);
     }
 
-    @TargetApi(26)
-    private static void moveDirectory(File file, File file2) {
+    @TargetApi(AvailableCode.ERROR_NO_ACTIVITY)
+    private static void moveDirectory(File file, final File file2) {
         if (file.exists()) {
             if (!file2.exists() && !file2.mkdir()) {
                 return;
             }
             try {
                 Stream convert = C$r8$wrapper$java$util$stream$Stream$VWRP.convert(Files.list(file.toPath()));
-                convert.forEach(new ImageLoader$$ExternalSyntheticLambda13(file2));
+                convert.forEach(new Consumer() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda13
+                    @Override // j$.util.function.Consumer
+                    public final void accept(Object obj) {
+                        ImageLoader.lambda$moveDirectory$2(file2, (Path) obj);
+                    }
+
+                    @Override // j$.util.function.Consumer
+                    public /* synthetic */ Consumer andThen(Consumer consumer) {
+                        return consumer.getClass();
+                    }
+                });
                 convert.close();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -3391,7 +3533,7 @@ public class ImageLoader {
                                         file2 = new File(file5, "Telegram Video");
                                         file2.mkdir();
                                         if (file2.isDirectory()) {
-                                            sparseArray.put(101, file2);
+                                            sparseArray.put(FileLoader.MEDIA_DIR_VIDEO_PUBLIC, file2);
                                             if (BuildVars.LOGS_ENABLED) {
                                             }
                                         }
@@ -3510,7 +3652,7 @@ public class ImageLoader {
                     file2 = new File(file5, "Telegram Video");
                     file2.mkdir();
                     if (file2.isDirectory() && canMoveFiles(cacheDir, file2, 2)) {
-                        sparseArray.put(101, file2);
+                        sparseArray.put(FileLoader.MEDIA_DIR_VIDEO_PUBLIC, file2);
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d("video path = " + file2);
                         }
@@ -3714,7 +3856,7 @@ public class ImageLoader {
         }
     }
 
-    public void cancelLoadingForImageReceiver(ImageReceiver imageReceiver, boolean z) {
+    public void cancelLoadingForImageReceiver(final ImageReceiver imageReceiver, final boolean z) {
         if (imageReceiver == null) {
             return;
         }
@@ -3726,7 +3868,12 @@ public class ImageLoader {
             loadingOperations.clear();
         }
         imageReceiver.addLoadingImageRunnable(null);
-        this.imageLoadQueue.postRunnable(new ImageLoader$$ExternalSyntheticLambda12(this, z, imageReceiver));
+        this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda12
+            @Override // java.lang.Runnable
+            public final void run() {
+                ImageLoader.this.lambda$cancelLoadingForImageReceiver$3(z, imageReceiver);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$cancelLoadingForImageReceiver$3(boolean z, ImageReceiver imageReceiver) {
@@ -3808,9 +3955,14 @@ public class ImageLoader {
         }
     }
 
-    public void replaceImageInCache(String str, String str2, ImageLocation imageLocation, boolean z) {
+    public void replaceImageInCache(final String str, final String str2, final ImageLocation imageLocation, boolean z) {
         if (z) {
-            AndroidUtilities.runOnUIThread(new ImageLoader$$ExternalSyntheticLambda9(this, str, str2, imageLocation));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda9
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageLoader.this.lambda$replaceImageInCache$4(str, str2, imageLocation);
+                }
+            });
         } else {
             lambda$replaceImageInCache$4(str, str2, imageLocation);
         }
@@ -3835,18 +3987,23 @@ public class ImageLoader {
     }
 
     public void cancelForceLoadingForImageReceiver(ImageReceiver imageReceiver) {
-        String imageKey;
+        final String imageKey;
         if (imageReceiver == null || (imageKey = imageReceiver.getImageKey()) == null) {
             return;
         }
-        this.imageLoadQueue.postRunnable(new ImageLoader$$ExternalSyntheticLambda4(this, imageKey));
+        this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                ImageLoader.this.lambda$cancelForceLoadingForImageReceiver$5(imageKey);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$cancelForceLoadingForImageReceiver$5(String str) {
         this.forceLoadingImages.remove(str);
     }
 
-    private void createLoadOperationForImageReceiver(ImageReceiver imageReceiver, String str, String str2, String str3, ImageLocation imageLocation, String str4, long j, int i, int i2, int i3, int i4) {
+    private void createLoadOperationForImageReceiver(final ImageReceiver imageReceiver, final String str, final String str2, final String str3, final ImageLocation imageLocation, final String str4, final long j, final int i, final int i2, final int i3, final int i4) {
         if (imageReceiver == null || str2 == null || str == null || imageLocation == null) {
             return;
         }
@@ -3860,14 +4017,21 @@ public class ImageLoader {
                 this.lastImageNum = 0;
             }
         }
-        int i6 = tag;
-        boolean isNeedsQualityThumb = imageReceiver.isNeedsQualityThumb();
-        Object parentObject = imageReceiver.getParentObject();
-        TLRPC$Document qualityThumbDocument = imageReceiver.getQualityThumbDocument();
-        boolean isShouldGenerateQualityThumb = imageReceiver.isShouldGenerateQualityThumb();
-        ImageLoader$$ExternalSyntheticLambda2 imageLoader$$ExternalSyntheticLambda2 = new ImageLoader$$ExternalSyntheticLambda2(this, i3, str2, str, i6, imageReceiver, i4, str4, i2, imageLocation, i2 == 0 && imageReceiver.isCurrentKeyQuality(), parentObject, imageReceiver.getCurrentAccount(), qualityThumbDocument, isNeedsQualityThumb, isShouldGenerateQualityThumb, str3, i, j);
-        this.imageLoadQueue.postRunnable(imageLoader$$ExternalSyntheticLambda2);
-        imageReceiver.addLoadingImageRunnable(imageLoader$$ExternalSyntheticLambda2);
+        final int i6 = tag;
+        final boolean isNeedsQualityThumb = imageReceiver.isNeedsQualityThumb();
+        final Object parentObject = imageReceiver.getParentObject();
+        final TLRPC$Document qualityThumbDocument = imageReceiver.getQualityThumbDocument();
+        final boolean isShouldGenerateQualityThumb = imageReceiver.isShouldGenerateQualityThumb();
+        final int currentAccount = imageReceiver.getCurrentAccount();
+        final boolean z = i2 == 0 && imageReceiver.isCurrentKeyQuality();
+        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                ImageLoader.this.lambda$createLoadOperationForImageReceiver$6(i3, str2, str, i6, imageReceiver, i4, str4, i2, imageLocation, z, parentObject, currentAccount, qualityThumbDocument, isNeedsQualityThumb, isShouldGenerateQualityThumb, str3, i, j);
+            }
+        };
+        this.imageLoadQueue.postRunnable(runnable);
+        imageReceiver.addLoadingImageRunnable(runnable);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:70:0x01a9, code lost:
@@ -4055,7 +4219,7 @@ public class ImageLoader {
                                     String attachFileName = FileLoader.getAttachFileName(tLRPC$Document2);
                                     ThumbGenerateInfo thumbGenerateInfo = this.waitingForQualityThumb.get(attachFileName);
                                     if (thumbGenerateInfo == null) {
-                                        thumbGenerateInfo = new ThumbGenerateInfo(null);
+                                        thumbGenerateInfo = new ThumbGenerateInfo();
                                         thumbGenerateInfo.parentDocument = tLRPC$Document2;
                                         thumbGenerateInfo.filter = str3;
                                         thumbGenerateInfo.big = z13;
@@ -4104,7 +4268,7 @@ public class ImageLoader {
             }
             if (i != i8) {
                 boolean isEncrypted = imageLocation.isEncrypted();
-                CacheImage cacheImage6 = new CacheImage(this, null);
+                CacheImage cacheImage6 = new CacheImage();
                 if (!z) {
                     if (imageLocation.imageType != i8) {
                         if (MessageObject.isGifDocument(imageLocation.webFile) || MessageObject.isGifDocument(imageLocation.document) || MessageObject.isRoundVideoDocument(imageLocation.document) || MessageObject.isVideoSticker(imageLocation.document)) {
@@ -4427,8 +4591,13 @@ public class ImageLoader {
         }
     }
 
-    public void preloadArtwork(String str) {
-        this.imageLoadQueue.postRunnable(new ImageLoader$$ExternalSyntheticLambda7(this, str));
+    public void preloadArtwork(final String str) {
+        this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                ImageLoader.this.lambda$preloadArtwork$7(str);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$preloadArtwork$7(String str) {
@@ -4439,7 +4608,7 @@ public class ImageLoader {
             return;
         }
         ImageLocation forPath = ImageLocation.getForPath(str);
-        CacheImage cacheImage = new CacheImage(this, null);
+        CacheImage cacheImage = new CacheImage();
         cacheImage.type = 1;
         cacheImage.key = Utilities.MD5(str);
         cacheImage.filter = null;
@@ -5313,8 +5482,13 @@ public class ImageLoader {
         return lruCache != null && lruCache.contains(str);
     }
 
-    public void httpFileLoadError(String str) {
-        this.imageLoadQueue.postRunnable(new ImageLoader$$ExternalSyntheticLambda6(this, str));
+    public void httpFileLoadError(final String str) {
+        this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                ImageLoader.this.lambda$httpFileLoadError$8(str);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$httpFileLoadError$8(String str) {
@@ -5331,8 +5505,13 @@ public class ImageLoader {
         runHttpTasks(false);
     }
 
-    public void artworkLoadError(String str) {
-        this.imageLoadQueue.postRunnable(new ImageLoader$$ExternalSyntheticLambda5(this, str));
+    public void artworkLoadError(final String str) {
+        this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                ImageLoader.this.lambda$artworkLoadError$9(str);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$artworkLoadError$9(String str) {
@@ -5349,8 +5528,13 @@ public class ImageLoader {
         runArtworkTasks(false);
     }
 
-    public void fileDidLoaded(String str, File file, int i) {
-        this.imageLoadQueue.postRunnable(new ImageLoader$$ExternalSyntheticLambda8(this, str, i, file));
+    public void fileDidLoaded(final String str, final File file, final int i) {
+        this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                ImageLoader.this.lambda$fileDidLoaded$10(str, i, file);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$fileDidLoaded$10(String str, int i, File file) {
@@ -5373,7 +5557,7 @@ public class ImageLoader {
             int intValue2 = cacheImage.imageReceiverGuidsArray.get(i2).intValue();
             CacheImage cacheImage2 = this.imageLoadingByKeys.get(str2);
             if (cacheImage2 == null) {
-                cacheImage2 = new CacheImage(this, null);
+                cacheImage2 = new CacheImage();
                 cacheImage2.secureDocument = cacheImage.secureDocument;
                 cacheImage2.currentAccount = cacheImage.currentAccount;
                 cacheImage2.finalFilePath = file;
@@ -5401,11 +5585,16 @@ public class ImageLoader {
         }
     }
 
-    public void fileDidFailedLoad(String str, int i) {
+    public void fileDidFailedLoad(final String str, int i) {
         if (i == 1) {
             return;
         }
-        this.imageLoadQueue.postRunnable(new ImageLoader$$ExternalSyntheticLambda3(this, str));
+        this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                ImageLoader.this.lambda$fileDidFailedLoad$11(str);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$fileDidFailedLoad$11(String str) {
@@ -5484,8 +5673,13 @@ public class ImageLoader {
         runHttpFileLoadTasks(null, 0);
     }
 
-    public void runHttpFileLoadTasks(HttpFileTask httpFileTask, int i) {
-        AndroidUtilities.runOnUIThread(new ImageLoader$$ExternalSyntheticLambda11(this, httpFileTask, i));
+    public void runHttpFileLoadTasks(final HttpFileTask httpFileTask, final int i) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda11
+            @Override // java.lang.Runnable
+            public final void run() {
+                ImageLoader.this.lambda$runHttpFileLoadTasks$13(httpFileTask, i);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$runHttpFileLoadTasks$13(HttpFileTask httpFileTask, int i) {
@@ -5498,9 +5692,15 @@ public class ImageLoader {
                     this.httpFileLoadTasksByKeys.remove(httpFileTask.url);
                     NotificationCenter.getInstance(httpFileTask.currentAccount).postNotificationName(NotificationCenter.httpFileDidFailedLoad, httpFileTask.url, 0);
                 } else {
-                    ImageLoader$$ExternalSyntheticLambda10 imageLoader$$ExternalSyntheticLambda10 = new ImageLoader$$ExternalSyntheticLambda10(this, new HttpFileTask(httpFileTask.url, httpFileTask.tempFile, httpFileTask.ext, httpFileTask.currentAccount));
-                    this.retryHttpsTasks.put(httpFileTask.url, imageLoader$$ExternalSyntheticLambda10);
-                    AndroidUtilities.runOnUIThread(imageLoader$$ExternalSyntheticLambda10, 1000L);
+                    final HttpFileTask httpFileTask2 = new HttpFileTask(httpFileTask.url, httpFileTask.tempFile, httpFileTask.ext, httpFileTask.currentAccount);
+                    Runnable runnable = new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda10
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ImageLoader.this.lambda$runHttpFileLoadTasks$12(httpFileTask2);
+                        }
+                    };
+                    this.retryHttpsTasks.put(httpFileTask.url, runnable);
+                    AndroidUtilities.runOnUIThread(runnable, 1000L);
                 }
             } else if (i == 2) {
                 this.httpFileLoadTasksByKeys.remove(httpFileTask.url);
@@ -5590,7 +5790,7 @@ public class ImageLoader {
         if (str == null && uri != null && uri.getScheme() != null) {
             if (uri.getScheme().contains("file")) {
                 str = uri.getPath();
-            } else if (Build.VERSION.SDK_INT < 30 || !"content".equals(uri.getScheme())) {
+            } else if (Build.VERSION.SDK_INT < 30 || !RemoteMessageConst.Notification.CONTENT.equals(uri.getScheme())) {
                 try {
                     str = AndroidUtilities.getPath(uri);
                 } catch (Throwable th2) {

@@ -21,18 +21,81 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>> implements
     private final ArrayList<OnAnimationUpdateListener> mUpdateListeners;
     float mValue;
     float mVelocity;
-    public static final ViewProperty TRANSLATION_X = new AnonymousClass1("translationX");
-    public static final ViewProperty TRANSLATION_Y = new AnonymousClass2("translationY");
-    public static final ViewProperty SCALE_X = new AnonymousClass4("scaleX");
-    public static final ViewProperty SCALE_Y = new AnonymousClass5("scaleY");
-    public static final ViewProperty ROTATION = new AnonymousClass6("rotation");
-    public static final ViewProperty ROTATION_X = new AnonymousClass7("rotationX");
-    public static final ViewProperty ROTATION_Y = new AnonymousClass8("rotationY");
-    public static final ViewProperty ALPHA = new AnonymousClass12("alpha");
+    public static final ViewProperty TRANSLATION_X = new ViewProperty("translationX") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.1
+        public void setValue(View view, float f) {
+            view.setTranslationX(f);
+        }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
+        public float getValue(View view) {
+            return view.getTranslationX();
+        }
+    };
+    public static final ViewProperty TRANSLATION_Y = new ViewProperty("translationY") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.2
+        public void setValue(View view, float f) {
+            view.setTranslationY(f);
+        }
+
+        public float getValue(View view) {
+            return view.getTranslationY();
+        }
+    };
+    public static final ViewProperty SCALE_X = new ViewProperty("scaleX") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.4
+        public void setValue(View view, float f) {
+            view.setScaleX(f);
+        }
+
+        public float getValue(View view) {
+            return view.getScaleX();
+        }
+    };
+    public static final ViewProperty SCALE_Y = new ViewProperty("scaleY") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.5
+        public void setValue(View view, float f) {
+            view.setScaleY(f);
+        }
+
+        public float getValue(View view) {
+            return view.getScaleY();
+        }
+    };
+    public static final ViewProperty ROTATION = new ViewProperty("rotation") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.6
+        public void setValue(View view, float f) {
+            view.setRotation(f);
+        }
+
+        public float getValue(View view) {
+            return view.getRotation();
+        }
+    };
+    public static final ViewProperty ROTATION_X = new ViewProperty("rotationX") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.7
+        public void setValue(View view, float f) {
+            view.setRotationX(f);
+        }
+
+        public float getValue(View view) {
+            return view.getRotationX();
+        }
+    };
+    public static final ViewProperty ROTATION_Y = new ViewProperty("rotationY") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.8
+        public void setValue(View view, float f) {
+            view.setRotationY(f);
+        }
+
+        public float getValue(View view) {
+            return view.getRotationY();
+        }
+    };
+    public static final ViewProperty ALPHA = new ViewProperty("alpha") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.12
+        public void setValue(View view, float f) {
+            view.setAlpha(f);
+        }
+
+        public float getValue(View view) {
+            return view.getAlpha();
+        }
+    };
+
     /* loaded from: classes.dex */
-    public static class MassState {
+    static class MassState {
         float mValue;
         float mVelocity;
     }
@@ -53,250 +116,69 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>> implements
 
     /* loaded from: classes.dex */
     public static abstract class ViewProperty extends FloatPropertyCompat<View> {
-        /* synthetic */ ViewProperty(String str, AnonymousClass1 anonymousClass1) {
-            this(str);
-        }
-
         private ViewProperty(String str) {
             super(str);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$1 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass1 extends ViewProperty {
-        AnonymousClass1(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setTranslationX(f);
-        }
-
-        public float getValue(View view) {
-            return view.getTranslationX();
-        }
-    }
-
     static {
-        new AnonymousClass3("translationZ");
-        new AnonymousClass9("x");
-        new AnonymousClass10("y");
-        new AnonymousClass11("z");
-        new AnonymousClass13("scrollX");
-        new AnonymousClass14("scrollY");
+        new ViewProperty("translationZ") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.3
+            public void setValue(View view, float f) {
+                ViewCompat.setTranslationZ(view, f);
+            }
+
+            public float getValue(View view) {
+                return ViewCompat.getTranslationZ(view);
+            }
+        };
+        new ViewProperty("x") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.9
+            public void setValue(View view, float f) {
+                view.setX(f);
+            }
+
+            public float getValue(View view) {
+                return view.getX();
+            }
+        };
+        new ViewProperty("y") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.10
+            public void setValue(View view, float f) {
+                view.setY(f);
+            }
+
+            public float getValue(View view) {
+                return view.getY();
+            }
+        };
+        new ViewProperty("z") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.11
+            public void setValue(View view, float f) {
+                ViewCompat.setZ(view, f);
+            }
+
+            public float getValue(View view) {
+                return ViewCompat.getZ(view);
+            }
+        };
+        new ViewProperty("scrollX") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.13
+            public void setValue(View view, float f) {
+                view.setScrollX((int) f);
+            }
+
+            public float getValue(View view) {
+                return view.getScrollX();
+            }
+        };
+        new ViewProperty("scrollY") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.14
+            public void setValue(View view, float f) {
+                view.setScrollY((int) f);
+            }
+
+            public float getValue(View view) {
+                return view.getScrollY();
+            }
+        };
     }
 
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$2 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass2 extends ViewProperty {
-        AnonymousClass2(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setTranslationY(f);
-        }
-
-        public float getValue(View view) {
-            return view.getTranslationY();
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$3 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass3 extends ViewProperty {
-        AnonymousClass3(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            ViewCompat.setTranslationZ(view, f);
-        }
-
-        public float getValue(View view) {
-            return ViewCompat.getTranslationZ(view);
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$4 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass4 extends ViewProperty {
-        AnonymousClass4(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setScaleX(f);
-        }
-
-        public float getValue(View view) {
-            return view.getScaleX();
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$5 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass5 extends ViewProperty {
-        AnonymousClass5(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setScaleY(f);
-        }
-
-        public float getValue(View view) {
-            return view.getScaleY();
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$6 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass6 extends ViewProperty {
-        AnonymousClass6(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setRotation(f);
-        }
-
-        public float getValue(View view) {
-            return view.getRotation();
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$7 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass7 extends ViewProperty {
-        AnonymousClass7(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setRotationX(f);
-        }
-
-        public float getValue(View view) {
-            return view.getRotationX();
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$8 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass8 extends ViewProperty {
-        AnonymousClass8(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setRotationY(f);
-        }
-
-        public float getValue(View view) {
-            return view.getRotationY();
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$9 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass9 extends ViewProperty {
-        AnonymousClass9(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setX(f);
-        }
-
-        public float getValue(View view) {
-            return view.getX();
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$10 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass10 extends ViewProperty {
-        AnonymousClass10(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setY(f);
-        }
-
-        public float getValue(View view) {
-            return view.getY();
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$11 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass11 extends ViewProperty {
-        AnonymousClass11(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            ViewCompat.setZ(view, f);
-        }
-
-        public float getValue(View view) {
-            return ViewCompat.getZ(view);
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$12 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass12 extends ViewProperty {
-        AnonymousClass12(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setAlpha(f);
-        }
-
-        public float getValue(View view) {
-            return view.getAlpha();
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$13 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass13 extends ViewProperty {
-        AnonymousClass13(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setScrollX((int) f);
-        }
-
-        public float getValue(View view) {
-            return view.getScrollX();
-        }
-    }
-
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$14 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass14 extends ViewProperty {
-        AnonymousClass14(String str) {
-            super(str, null);
-        }
-
-        public void setValue(View view, float f) {
-            view.setScrollY((int) f);
-        }
-
-        public float getValue(View view) {
-            return view.getScrollY();
-        }
-    }
-
-    public DynamicAnimation(FloatValueHolder floatValueHolder) {
+    public DynamicAnimation(final FloatValueHolder floatValueHolder) {
         this.mVelocity = 0.0f;
         this.mValue = Float.MAX_VALUE;
         this.mStartValueIsSet = false;
@@ -307,31 +189,18 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>> implements
         this.mEndListeners = new ArrayList<>();
         this.mUpdateListeners = new ArrayList<>();
         this.mTarget = null;
-        this.mProperty = new AnonymousClass15(this, "FloatValueHolder", floatValueHolder);
+        this.mProperty = new FloatPropertyCompat(this, "FloatValueHolder") { // from class: androidx.dynamicanimation.animation.DynamicAnimation.15
+            @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
+            public float getValue(Object obj) {
+                return floatValueHolder.getValue();
+            }
+
+            @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
+            public void setValue(Object obj, float f) {
+                floatValueHolder.setValue(f);
+            }
+        };
         this.mMinVisibleChange = 1.0f;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: androidx.dynamicanimation.animation.DynamicAnimation$15 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass15 extends FloatPropertyCompat {
-        final /* synthetic */ FloatValueHolder val$floatValueHolder;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass15(DynamicAnimation dynamicAnimation, String str, FloatValueHolder floatValueHolder) {
-            super(str);
-            this.val$floatValueHolder = floatValueHolder;
-        }
-
-        @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
-        public float getValue(Object obj) {
-            return this.val$floatValueHolder.getValue();
-        }
-
-        @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
-        public void setValue(Object obj, float f) {
-            this.val$floatValueHolder.setValue(f);
-        }
     }
 
     public <K> DynamicAnimation(K k, FloatPropertyCompat<K> floatPropertyCompat) {

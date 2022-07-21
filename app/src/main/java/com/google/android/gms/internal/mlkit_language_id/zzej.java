@@ -285,7 +285,7 @@ public final class zzej<T extends zzel<T>> {
 
     static int zza(zzhv zzhvVar, int i, Object obj) {
         int zze = zzea.zze(i);
-        if (zzhvVar == zzhv.zzj) {
+        if (zzhvVar == zzhv.GROUP) {
             zzeq.zza((zzfz) obj);
             zze <<= 1;
         }

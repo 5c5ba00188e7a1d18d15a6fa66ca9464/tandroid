@@ -53,19 +53,36 @@ public class Uploader {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void upload(TransportContext transportContext, int i, Runnable runnable) {
-        this.executor.execute(new Uploader$$ExternalSyntheticLambda9(this, transportContext, i, runnable));
+    public void upload(final TransportContext transportContext, final int i, final Runnable runnable) {
+        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda9
+            @Override // java.lang.Runnable
+            public final void run() {
+                Uploader.this.lambda$upload$1(transportContext, i, runnable);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$upload$1(TransportContext transportContext, int i, Runnable runnable) {
+    public /* synthetic */ void lambda$upload$1(final TransportContext transportContext, final int i, Runnable runnable) {
         try {
             try {
                 SynchronizationGuard synchronizationGuard = this.guard;
-                EventStore eventStore = this.eventStore;
+                final EventStore eventStore = this.eventStore;
                 eventStore.getClass();
-                synchronizationGuard.runCriticalSection(new Uploader$$ExternalSyntheticLambda8(eventStore));
+                synchronizationGuard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda8
+                    @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
+                    public final Object execute() {
+                        return Integer.valueOf(EventStore.this.cleanUp());
+                    }
+                });
                 if (!isNetworkAvailable()) {
-                    this.guard.runCriticalSection(new Uploader$$ExternalSyntheticLambda2(this, transportContext, i));
+                    this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda2
+                        @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
+                        public final Object execute() {
+                            Object lambda$upload$0;
+                            lambda$upload$0 = Uploader.this.lambda$upload$0(transportContext, i);
+                            return lambda$upload$0;
+                        }
+                    });
                 } else {
                     logAndUpdateState(transportContext, i);
                 }
@@ -82,14 +99,28 @@ public class Uploader {
         return null;
     }
 
-    void logAndUpdateState(TransportContext transportContext, int i) {
+    void logAndUpdateState(final TransportContext transportContext, int i) {
         BackendResponse backendResponse;
         TransportBackend transportBackend = this.backendRegistry.get(transportContext.getBackendName());
         long j = 0;
         while (true) {
-            long j2 = j;
-            while (((Boolean) this.guard.runCriticalSection(new Uploader$$ExternalSyntheticLambda0(this, transportContext))).booleanValue()) {
-                Iterable<PersistedEvent> iterable = (Iterable) this.guard.runCriticalSection(new Uploader$$ExternalSyntheticLambda1(this, transportContext));
+            final long j2 = j;
+            while (((Boolean) this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda0
+                @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
+                public final Object execute() {
+                    Boolean lambda$logAndUpdateState$2;
+                    lambda$logAndUpdateState$2 = Uploader.this.lambda$logAndUpdateState$2(transportContext);
+                    return lambda$logAndUpdateState$2;
+                }
+            })).booleanValue()) {
+                final Iterable<PersistedEvent> iterable = (Iterable) this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda1
+                    @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
+                    public final Object execute() {
+                        Iterable lambda$logAndUpdateState$3;
+                        lambda$logAndUpdateState$3 = Uploader.this.lambda$logAndUpdateState$3(transportContext);
+                        return lambda$logAndUpdateState$3;
+                    }
+                });
                 if (!iterable.iterator().hasNext()) {
                     return;
                 }
@@ -103,22 +134,41 @@ public class Uploader {
                     }
                     if (transportContext.shouldUploadClientHealthMetrics()) {
                         SynchronizationGuard synchronizationGuard = this.guard;
-                        ClientHealthMetricsStore clientHealthMetricsStore = this.clientHealthMetricsStore;
+                        final ClientHealthMetricsStore clientHealthMetricsStore = this.clientHealthMetricsStore;
                         clientHealthMetricsStore.getClass();
-                        arrayList.add(transportBackend.decorate(EventInternal.builder().setEventMillis(this.clock.getTime()).setUptimeMillis(this.uptimeClock.getTime()).setTransportName("GDT_CLIENT_METRICS").setEncodedPayload(new EncodedPayload(Encoding.of("proto"), ((ClientMetrics) synchronizationGuard.runCriticalSection(new Uploader$$ExternalSyntheticLambda7(clientHealthMetricsStore))).toByteArray())).build()));
+                        arrayList.add(transportBackend.decorate(EventInternal.builder().setEventMillis(this.clock.getTime()).setUptimeMillis(this.uptimeClock.getTime()).setTransportName("GDT_CLIENT_METRICS").setEncodedPayload(new EncodedPayload(Encoding.of("proto"), ((ClientMetrics) synchronizationGuard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda7
+                            @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
+                            public final Object execute() {
+                                return ClientHealthMetricsStore.this.loadClientMetrics();
+                            }
+                        })).toByteArray())).build()));
                     }
                     backendResponse = transportBackend.send(BackendRequest.builder().setEvents(arrayList).setExtras(transportContext.getExtras()).build());
                 }
                 if (backendResponse.getStatus() == BackendResponse.Status.TRANSIENT_ERROR) {
-                    this.guard.runCriticalSection(new Uploader$$ExternalSyntheticLambda5(this, iterable, transportContext, j2));
+                    this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda5
+                        @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
+                        public final Object execute() {
+                            Object lambda$logAndUpdateState$4;
+                            lambda$logAndUpdateState$4 = Uploader.this.lambda$logAndUpdateState$4(iterable, transportContext, j2);
+                            return lambda$logAndUpdateState$4;
+                        }
+                    });
                     this.workScheduler.schedule(transportContext, i + 1, true);
                     return;
                 }
-                this.guard.runCriticalSection(new Uploader$$ExternalSyntheticLambda4(this, iterable));
+                this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda4
+                    @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
+                    public final Object execute() {
+                        Object lambda$logAndUpdateState$5;
+                        lambda$logAndUpdateState$5 = Uploader.this.lambda$logAndUpdateState$5(iterable);
+                        return lambda$logAndUpdateState$5;
+                    }
+                });
                 if (backendResponse.getStatus() == BackendResponse.Status.OK) {
                     break;
                 } else if (backendResponse.getStatus() == BackendResponse.Status.INVALID_PAYLOAD) {
-                    HashMap hashMap = new HashMap();
+                    final HashMap hashMap = new HashMap();
                     for (PersistedEvent persistedEvent2 : iterable) {
                         String transportName = persistedEvent2.getEvent().getTransportName();
                         if (!hashMap.containsKey(transportName)) {
@@ -127,10 +177,24 @@ public class Uploader {
                             hashMap.put(transportName, Integer.valueOf(((Integer) hashMap.get(transportName)).intValue() + 1));
                         }
                     }
-                    this.guard.runCriticalSection(new Uploader$$ExternalSyntheticLambda6(this, hashMap));
+                    this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda6
+                        @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
+                        public final Object execute() {
+                            Object lambda$logAndUpdateState$6;
+                            lambda$logAndUpdateState$6 = Uploader.this.lambda$logAndUpdateState$6(hashMap);
+                            return lambda$logAndUpdateState$6;
+                        }
+                    });
                 }
             }
-            this.guard.runCriticalSection(new Uploader$$ExternalSyntheticLambda3(this, transportContext, j2));
+            this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda3
+                @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
+                public final Object execute() {
+                    Object lambda$logAndUpdateState$7;
+                    lambda$logAndUpdateState$7 = Uploader.this.lambda$logAndUpdateState$7(transportContext, j2);
+                    return lambda$logAndUpdateState$7;
+                }
+            });
             return;
             j = Math.max(j2, backendResponse.getNextRequestWaitMillis());
         }

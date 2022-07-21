@@ -23,6 +23,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DownloadController;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
@@ -39,6 +40,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SlideChooseView;
+import org.telegram.ui.DataAutoDownloadActivity;
 /* loaded from: classes3.dex */
 public class DataAutoDownloadActivity extends BaseFragment {
     private boolean animateChecked;
@@ -102,20 +104,27 @@ public class DataAutoDownloadActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        this.actionBar.setBackButtonImage(2131165449);
+        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         int i = this.currentType;
         if (i == 0) {
-            this.actionBar.setTitle(LocaleController.getString("AutoDownloadOnMobileData", 2131624591));
+            this.actionBar.setTitle(LocaleController.getString("AutoDownloadOnMobileData", R.string.AutoDownloadOnMobileData));
         } else if (i == 1) {
-            this.actionBar.setTitle(LocaleController.getString("AutoDownloadOnWiFiData", 2131624596));
+            this.actionBar.setTitle(LocaleController.getString("AutoDownloadOnWiFiData", R.string.AutoDownloadOnWiFiData));
         } else if (i == 2) {
-            this.actionBar.setTitle(LocaleController.getString("AutoDownloadOnRoamingData", 2131624593));
+            this.actionBar.setTitle(LocaleController.getString("AutoDownloadOnRoamingData", R.string.AutoDownloadOnRoamingData));
         }
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
         }
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.DataAutoDownloadActivity.1
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i2) {
+                if (i2 == -1) {
+                    DataAutoDownloadActivity.this.finishFragment();
+                }
+            }
+        });
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
@@ -127,23 +136,23 @@ public class DataAutoDownloadActivity extends BaseFragment {
         this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
         ((FrameLayout) this.fragmentView).addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new DataAutoDownloadActivity$$ExternalSyntheticLambda5(this));
-        return this.fragmentView;
-    }
-
-    /* renamed from: org.telegram.ui.DataAutoDownloadActivity$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass1() {
-            DataAutoDownloadActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                DataAutoDownloadActivity.this.finishFragment();
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.DataAutoDownloadActivity$$ExternalSyntheticLambda5
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public /* synthetic */ boolean hasDoubleTap(View view, int i2) {
+                return RecyclerListView.OnItemClickListenerExtended.CC.$default$hasDoubleTap(this, view, i2);
             }
-        }
+
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public /* synthetic */ void onDoubleTap(View view, int i2, float f, float f2) {
+                RecyclerListView.OnItemClickListenerExtended.CC.$default$onDoubleTap(this, view, i2, f, f2);
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public final void onItemClick(View view, int i2, float f, float f2) {
+                DataAutoDownloadActivity.this.lambda$createView$4(view, i2, f, f2);
+            }
+        });
+        return this.fragmentView;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:20:0x005c  */
@@ -156,13 +165,13 @@ public class DataAutoDownloadActivity extends BaseFragment {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$createView$4(View view, int i, float f, float f2) {
+    public /* synthetic */ void lambda$createView$4(final View view, final int i, float f, float f2) {
         int i2;
         DownloadController.Preset currentRoamingPreset;
         String str;
         String str2;
         boolean z;
-        TextCheckCell[] textCheckCellArr;
+        final TextCheckCell[] textCheckCellArr;
         DownloadController.Preset preset;
         boolean z2;
         boolean z3;
@@ -252,7 +261,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
             } else {
                 i2 = i == this.videosRow ? 4 : 8;
             }
-            int typeToIndex = DownloadController.typeToIndex(i2);
+            final int typeToIndex = DownloadController.typeToIndex(i2);
             int i7 = this.currentType;
             if (i7 == 0) {
                 currentRoamingPreset = DownloadController.getInstance(this.currentAccount).getCurrentMobilePreset();
@@ -338,39 +347,44 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 builder.setCustomView(linearLayout);
                 HeaderCell headerCell = new HeaderCell(getParentActivity(), "dialogTextBlue2", 21, 15, false);
                 if (i == this.photosRow) {
-                    headerCell.setText(LocaleController.getString("AutoDownloadPhotosTitle", 2131624600));
+                    headerCell.setText(LocaleController.getString("AutoDownloadPhotosTitle", R.string.AutoDownloadPhotosTitle));
                 } else if (i == this.videosRow) {
-                    headerCell.setText(LocaleController.getString("AutoDownloadVideosTitle", 2131624610));
+                    headerCell.setText(LocaleController.getString("AutoDownloadVideosTitle", R.string.AutoDownloadVideosTitle));
                 } else {
-                    headerCell.setText(LocaleController.getString("AutoDownloadFilesTitle", 2131624580));
+                    headerCell.setText(LocaleController.getString("AutoDownloadFilesTitle", R.string.AutoDownloadFilesTitle));
                 }
                 linearLayout.addView(headerCell, LayoutHelper.createFrame(-1, -2.0f));
                 MaxFileSizeCell[] maxFileSizeCellArr2 = new MaxFileSizeCell[1];
                 TextCheckCell[] textCheckCellArr2 = new TextCheckCell[1];
-                AnimatorSet[] animatorSetArr = new AnimatorSet[1];
-                TextCheckBoxCell[] textCheckBoxCellArr = new TextCheckBoxCell[4];
+                final AnimatorSet[] animatorSetArr = new AnimatorSet[1];
+                final TextCheckBoxCell[] textCheckBoxCellArr = new TextCheckBoxCell[4];
                 int i11 = 0;
                 while (i11 < i4) {
-                    TextCheckCell[] textCheckCellArr3 = textCheckCellArr2;
-                    TextCheckBoxCell textCheckBoxCell = new TextCheckBoxCell(getParentActivity(), true, z4);
+                    final TextCheckCell[] textCheckCellArr3 = textCheckCellArr2;
+                    final TextCheckBoxCell textCheckBoxCell = new TextCheckBoxCell(getParentActivity(), true, z4);
                     textCheckBoxCellArr[i11] = textCheckBoxCell;
                     if (i11 == 0) {
                         maxFileSizeCellArr = maxFileSizeCellArr2;
-                        textCheckBoxCellArr[i11].setTextAndCheck(LocaleController.getString("AutodownloadContacts", 2131624632), (preset4.mask[0] & i2) != 0, true);
+                        textCheckBoxCellArr[i11].setTextAndCheck(LocaleController.getString("AutodownloadContacts", R.string.AutodownloadContacts), (preset4.mask[0] & i2) != 0, true);
                     } else {
                         maxFileSizeCellArr = maxFileSizeCellArr2;
                         if (i11 == 1) {
-                            textCheckBoxCellArr[i11].setTextAndCheck(LocaleController.getString("AutodownloadPrivateChats", 2131624634), (preset4.mask[1] & i2) != 0, true);
+                            textCheckBoxCellArr[i11].setTextAndCheck(LocaleController.getString("AutodownloadPrivateChats", R.string.AutodownloadPrivateChats), (preset4.mask[1] & i2) != 0, true);
                         } else if (i11 == 2) {
-                            textCheckBoxCellArr[i11].setTextAndCheck(LocaleController.getString("AutodownloadGroupChats", 2131624633), (preset4.mask[2] & i2) != 0, true);
+                            textCheckBoxCellArr[i11].setTextAndCheck(LocaleController.getString("AutodownloadGroupChats", R.string.AutodownloadGroupChats), (preset4.mask[2] & i2) != 0, true);
                         } else {
-                            textCheckBoxCellArr[i11].setTextAndCheck(LocaleController.getString("AutodownloadChannels", 2131624631), (preset4.mask[3] & i2) != 0, i != this.photosRow);
+                            textCheckBoxCellArr[i11].setTextAndCheck(LocaleController.getString("AutodownloadChannels", R.string.AutodownloadChannels), (preset4.mask[3] & i2) != 0, i != this.photosRow);
                         }
                     }
                     textCheckBoxCellArr[i11].setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                    MaxFileSizeCell[] maxFileSizeCellArr3 = maxFileSizeCellArr;
+                    final MaxFileSizeCell[] maxFileSizeCellArr3 = maxFileSizeCellArr;
                     LinearLayout linearLayout2 = linearLayout;
-                    textCheckBoxCellArr[i11].setOnClickListener(new DataAutoDownloadActivity$$ExternalSyntheticLambda1(this, textCheckBoxCell, textCheckBoxCellArr, i, maxFileSizeCellArr3, textCheckCellArr3, animatorSetArr));
+                    textCheckBoxCellArr[i11].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DataAutoDownloadActivity$$ExternalSyntheticLambda1
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view2) {
+                            DataAutoDownloadActivity.this.lambda$createView$0(textCheckBoxCell, textCheckBoxCellArr, i, maxFileSizeCellArr3, textCheckCellArr3, animatorSetArr, view2);
+                        }
+                    });
                     linearLayout2.addView(textCheckBoxCellArr[i11], LayoutHelper.createFrame(-1, 50.0f));
                     i11++;
                     linearLayout = linearLayout2;
@@ -383,35 +397,73 @@ public class DataAutoDownloadActivity extends BaseFragment {
                     i4 = 4;
                     z4 = false;
                 }
-                TextCheckCell[] textCheckCellArr4 = textCheckCellArr2;
-                MaxFileSizeCell[] maxFileSizeCellArr4 = maxFileSizeCellArr2;
-                BottomSheet.Builder builder2 = builder;
-                String str7 = str6;
-                String str8 = str5;
+                final TextCheckCell[] textCheckCellArr4 = textCheckCellArr2;
+                final MaxFileSizeCell[] maxFileSizeCellArr4 = maxFileSizeCellArr2;
+                final BottomSheet.Builder builder2 = builder;
+                final String str7 = str6;
+                final String str8 = str5;
                 DownloadController.Preset preset5 = preset4;
                 LinearLayout linearLayout3 = linearLayout;
                 if (i != this.photosRow) {
-                    TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(getParentActivity());
-                    maxFileSizeCellArr4[0] = new AnonymousClass3(getParentActivity(), i, textInfoPrivacyCell, textCheckCellArr4, animatorSetArr);
+                    final TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(getParentActivity());
+                    maxFileSizeCellArr4[0] = new MaxFileSizeCell(getParentActivity()) { // from class: org.telegram.ui.DataAutoDownloadActivity.3
+                        @Override // org.telegram.ui.Cells.MaxFileSizeCell
+                        protected void didChangedSizeValue(int i12) {
+                            if (i == DataAutoDownloadActivity.this.videosRow) {
+                                boolean z6 = true;
+                                textInfoPrivacyCell.setText(LocaleController.formatString("AutoDownloadPreloadVideoInfo", R.string.AutoDownloadPreloadVideoInfo, AndroidUtilities.formatFileSize(i12)));
+                                if (i12 <= 2097152) {
+                                    z6 = false;
+                                }
+                                if (z6 == textCheckCellArr4[0].isEnabled()) {
+                                    return;
+                                }
+                                ArrayList<Animator> arrayList = new ArrayList<>();
+                                textCheckCellArr4[0].setEnabled(z6, arrayList);
+                                AnimatorSet[] animatorSetArr2 = animatorSetArr;
+                                if (animatorSetArr2[0] != null) {
+                                    animatorSetArr2[0].cancel();
+                                    animatorSetArr[0] = null;
+                                }
+                                animatorSetArr[0] = new AnimatorSet();
+                                animatorSetArr[0].playTogether(arrayList);
+                                animatorSetArr[0].addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DataAutoDownloadActivity.3.1
+                                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                    public void onAnimationEnd(Animator animator) {
+                                        if (animator.equals(animatorSetArr[0])) {
+                                            animatorSetArr[0] = null;
+                                        }
+                                    }
+                                });
+                                animatorSetArr[0].setDuration(150L);
+                                animatorSetArr[0].start();
+                            }
+                        }
+                    };
                     preset = preset5;
                     maxFileSizeCellArr4[0].setSize(preset.sizes[typeToIndex]);
                     linearLayout3.addView(maxFileSizeCellArr4[0], LayoutHelper.createLinear(-1, 50));
                     textCheckCellArr = textCheckCellArr4;
                     textCheckCellArr[0] = new TextCheckCell(getParentActivity(), 21, true);
                     linearLayout3.addView(textCheckCellArr[0], LayoutHelper.createLinear(-1, 48));
-                    textCheckCellArr[0].setOnClickListener(new DataAutoDownloadActivity$$ExternalSyntheticLambda3(textCheckCellArr));
-                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(getParentActivity(), 2131165435, "windowBackgroundGrayShadow"));
+                    textCheckCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DataAutoDownloadActivity$$ExternalSyntheticLambda3
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view2) {
+                            DataAutoDownloadActivity.lambda$createView$1(textCheckCellArr, view2);
+                        }
+                    });
+                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(getParentActivity(), (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
                     combinedDrawable.setFullsize(true);
                     textInfoPrivacyCell.setBackgroundDrawable(combinedDrawable);
                     linearLayout3.addView(textInfoPrivacyCell, LayoutHelper.createLinear(-1, -2));
                     if (i == this.videosRow) {
-                        maxFileSizeCellArr4[0].setText(LocaleController.getString("AutoDownloadMaxVideoSize", 2131624585));
-                        textCheckCellArr[0].setTextAndCheck(LocaleController.getString("AutoDownloadPreloadVideo", 2131624604), preset.preloadVideo, false);
-                        textInfoPrivacyCell.setText(LocaleController.formatString("AutoDownloadPreloadVideoInfo", 2131624605, AndroidUtilities.formatFileSize(preset.sizes[typeToIndex])));
+                        maxFileSizeCellArr4[0].setText(LocaleController.getString("AutoDownloadMaxVideoSize", R.string.AutoDownloadMaxVideoSize));
+                        textCheckCellArr[0].setTextAndCheck(LocaleController.getString("AutoDownloadPreloadVideo", R.string.AutoDownloadPreloadVideo), preset.preloadVideo, false);
+                        textInfoPrivacyCell.setText(LocaleController.formatString("AutoDownloadPreloadVideoInfo", R.string.AutoDownloadPreloadVideoInfo, AndroidUtilities.formatFileSize(preset.sizes[typeToIndex])));
                     } else {
-                        maxFileSizeCellArr4[0].setText(LocaleController.getString("AutoDownloadMaxFileSize", 2131624584));
-                        textCheckCellArr[0].setTextAndCheck(LocaleController.getString("AutoDownloadPreloadMusic", 2131624602), preset.preloadMusic, false);
-                        textInfoPrivacyCell.setText(LocaleController.getString("AutoDownloadPreloadMusicInfo", 2131624603));
+                        maxFileSizeCellArr4[0].setText(LocaleController.getString("AutoDownloadMaxFileSize", R.string.AutoDownloadMaxFileSize));
+                        textCheckCellArr[0].setTextAndCheck(LocaleController.getString("AutoDownloadPreloadMusic", R.string.AutoDownloadPreloadMusic), preset.preloadMusic, false);
+                        textInfoPrivacyCell.setText(LocaleController.getString("AutoDownloadPreloadMusicInfo", R.string.AutoDownloadPreloadMusicInfo));
                     }
                 } else {
                     textCheckCellArr = textCheckCellArr4;
@@ -455,26 +507,37 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 textView.setTextSize(1, 14.0f);
                 textView.setTextColor(Theme.getColor("dialogTextBlue2"));
                 textView.setGravity(17);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-                textView.setText(LocaleController.getString("Cancel", 2131624832).toUpperCase());
+                textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textView.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
                 textView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
                 frameLayout.addView(textView, LayoutHelper.createFrame(-2, 36, 51));
-                textView.setOnClickListener(new DataAutoDownloadActivity$$ExternalSyntheticLambda0(builder2));
+                textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DataAutoDownloadActivity$$ExternalSyntheticLambda0
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view3) {
+                        DataAutoDownloadActivity.lambda$createView$2(BottomSheet.Builder.this, view3);
+                    }
+                });
                 TextView textView2 = new TextView(getParentActivity());
                 textView2.setTextSize(1, 14.0f);
                 textView2.setTextColor(Theme.getColor("dialogTextBlue2"));
                 textView2.setGravity(17);
-                textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-                textView2.setText(LocaleController.getString("Save", 2131628123).toUpperCase());
+                textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textView2.setText(LocaleController.getString("Save", R.string.Save).toUpperCase());
                 textView2.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
                 frameLayout.addView(textView2, LayoutHelper.createFrame(-2, 36, 53));
-                textView2.setOnClickListener(new DataAutoDownloadActivity$$ExternalSyntheticLambda2(this, textCheckBoxCellArr, i2, maxFileSizeCellArr4, typeToIndex, textCheckCellArr, i, str8, str7, builder2, view));
+                final int i13 = i2;
+                textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DataAutoDownloadActivity$$ExternalSyntheticLambda2
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view3) {
+                        DataAutoDownloadActivity.this.lambda$createView$3(textCheckBoxCellArr, i13, maxFileSizeCellArr4, typeToIndex, textCheckCellArr, i, str8, str7, builder2, view, view3);
+                    }
+                });
                 showDialog(builder2.create());
             }
         }
     }
 
-    public /* synthetic */ void lambda$createView$0(TextCheckBoxCell textCheckBoxCell, TextCheckBoxCell[] textCheckBoxCellArr, int i, MaxFileSizeCell[] maxFileSizeCellArr, TextCheckCell[] textCheckCellArr, AnimatorSet[] animatorSetArr, View view) {
+    public /* synthetic */ void lambda$createView$0(TextCheckBoxCell textCheckBoxCell, TextCheckBoxCell[] textCheckBoxCellArr, int i, MaxFileSizeCell[] maxFileSizeCellArr, TextCheckCell[] textCheckCellArr, final AnimatorSet[] animatorSetArr, View view) {
         if (!view.isEnabled()) {
             return;
         }
@@ -505,86 +568,16 @@ public class DataAutoDownloadActivity extends BaseFragment {
         }
         animatorSetArr[0] = new AnimatorSet();
         animatorSetArr[0].playTogether(arrayList);
-        animatorSetArr[0].addListener(new AnonymousClass2(this, animatorSetArr));
-        animatorSetArr[0].setDuration(150L);
-        animatorSetArr[0].start();
-    }
-
-    /* renamed from: org.telegram.ui.DataAutoDownloadActivity$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        final /* synthetic */ AnimatorSet[] val$animatorSet;
-
-        AnonymousClass2(DataAutoDownloadActivity dataAutoDownloadActivity, AnimatorSet[] animatorSetArr) {
-            this.val$animatorSet = animatorSetArr;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (animator.equals(this.val$animatorSet[0])) {
-                this.val$animatorSet[0] = null;
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.DataAutoDownloadActivity$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends MaxFileSizeCell {
-        final /* synthetic */ AnimatorSet[] val$animatorSet;
-        final /* synthetic */ TextCheckCell[] val$checkCell;
-        final /* synthetic */ TextInfoPrivacyCell val$infoCell;
-        final /* synthetic */ int val$position;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(Context context, int i, TextInfoPrivacyCell textInfoPrivacyCell, TextCheckCell[] textCheckCellArr, AnimatorSet[] animatorSetArr) {
-            super(context);
-            DataAutoDownloadActivity.this = r1;
-            this.val$position = i;
-            this.val$infoCell = textInfoPrivacyCell;
-            this.val$checkCell = textCheckCellArr;
-            this.val$animatorSet = animatorSetArr;
-        }
-
-        @Override // org.telegram.ui.Cells.MaxFileSizeCell
-        protected void didChangedSizeValue(int i) {
-            if (this.val$position == DataAutoDownloadActivity.this.videosRow) {
-                boolean z = true;
-                this.val$infoCell.setText(LocaleController.formatString("AutoDownloadPreloadVideoInfo", 2131624605, AndroidUtilities.formatFileSize(i)));
-                if (i <= 2097152) {
-                    z = false;
-                }
-                if (z == this.val$checkCell[0].isEnabled()) {
-                    return;
-                }
-                ArrayList<Animator> arrayList = new ArrayList<>();
-                this.val$checkCell[0].setEnabled(z, arrayList);
-                AnimatorSet[] animatorSetArr = this.val$animatorSet;
-                if (animatorSetArr[0] != null) {
-                    animatorSetArr[0].cancel();
-                    this.val$animatorSet[0] = null;
-                }
-                this.val$animatorSet[0] = new AnimatorSet();
-                this.val$animatorSet[0].playTogether(arrayList);
-                this.val$animatorSet[0].addListener(new AnonymousClass1());
-                this.val$animatorSet[0].setDuration(150L);
-                this.val$animatorSet[0].start();
-            }
-        }
-
-        /* renamed from: org.telegram.ui.DataAutoDownloadActivity$3$1 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass1 extends AnimatorListenerAdapter {
-            AnonymousClass1() {
-                AnonymousClass3.this = r1;
-            }
-
+        animatorSetArr[0].addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.DataAutoDownloadActivity.2
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
-                if (animator.equals(AnonymousClass3.this.val$animatorSet[0])) {
-                    AnonymousClass3.this.val$animatorSet[0] = null;
+                if (animator.equals(animatorSetArr[0])) {
+                    animatorSetArr[0] = null;
                 }
             }
-        }
+        });
+        animatorSetArr[0].setDuration(150L);
+        animatorSetArr[0].start();
     }
 
     public static /* synthetic */ void lambda$createView$1(TextCheckCell[] textCheckCellArr, View view) {
@@ -834,7 +827,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
                     return;
                 }
                 textCheckCell.setDrawCheckRipple(true);
-                textCheckCell.setTextAndCheck(LocaleController.getString("AutoDownloadMedia", 2131624586), DataAutoDownloadActivity.this.typePreset.enabled, false);
+                textCheckCell.setTextAndCheck(LocaleController.getString("AutoDownloadMedia", R.string.AutoDownloadMedia), DataAutoDownloadActivity.this.typePreset.enabled, false);
                 String str2 = "windowBackgroundChecked";
                 textCheckCell.setTag(DataAutoDownloadActivity.this.typePreset.enabled ? str2 : "windowBackgroundUnchecked");
                 if (!DataAutoDownloadActivity.this.typePreset.enabled) {
@@ -847,10 +840,10 @@ public class DataAutoDownloadActivity extends BaseFragment {
                     if (i != DataAutoDownloadActivity.this.typeHeaderRow) {
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("AutoDownloadTypes", 2131624606));
+                    headerCell.setText(LocaleController.getString("AutoDownloadTypes", R.string.AutoDownloadTypes));
                     return;
                 }
-                headerCell.setText(LocaleController.getString("AutoDownloadDataUsage", 2131624577));
+                headerCell.setText(LocaleController.getString("AutoDownloadDataUsage", R.string.AutoDownloadDataUsage));
             } else if (itemViewType == 3) {
                 DataAutoDownloadActivity.this.updatePresetChoseView((SlideChooseView) viewHolder.itemView);
             } else if (itemViewType != 4) {
@@ -863,22 +856,22 @@ public class DataAutoDownloadActivity extends BaseFragment {
                         return;
                     }
                     if (DataAutoDownloadActivity.this.usageHeaderRow == -1) {
-                        textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
+                        textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                         if (DataAutoDownloadActivity.this.currentType != 0) {
                             if (DataAutoDownloadActivity.this.currentType != 1) {
                                 if (DataAutoDownloadActivity.this.currentType == 2) {
-                                    textInfoPrivacyCell.setText(LocaleController.getString("AutoDownloadOnRoamingDataInfo", 2131624594));
+                                    textInfoPrivacyCell.setText(LocaleController.getString("AutoDownloadOnRoamingDataInfo", R.string.AutoDownloadOnRoamingDataInfo));
                                 }
                             } else {
-                                textInfoPrivacyCell.setText(LocaleController.getString("AutoDownloadOnWiFiDataInfo", 2131624597));
+                                textInfoPrivacyCell.setText(LocaleController.getString("AutoDownloadOnWiFiDataInfo", R.string.AutoDownloadOnWiFiDataInfo));
                             }
                         } else {
-                            textInfoPrivacyCell.setText(LocaleController.getString("AutoDownloadOnMobileDataInfo", 2131624592));
+                            textInfoPrivacyCell.setText(LocaleController.getString("AutoDownloadOnMobileDataInfo", R.string.AutoDownloadOnMobileDataInfo));
                         }
                         textInfoPrivacyCell.setImportantForAccessibility(1);
                         return;
                     }
-                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165435, "windowBackgroundGrayShadow"));
+                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
                     textInfoPrivacyCell.setText(null);
                     textInfoPrivacyCell.setFixedSize(12);
                     if (Build.VERSION.SDK_INT >= 19) {
@@ -889,22 +882,22 @@ public class DataAutoDownloadActivity extends BaseFragment {
                         return;
                     }
                 }
-                textInfoPrivacyCell.setText(LocaleController.getString("AutoDownloadAudioInfo", 2131624573));
-                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165435, "windowBackgroundGrayShadow"));
+                textInfoPrivacyCell.setText(LocaleController.getString("AutoDownloadAudioInfo", R.string.AutoDownloadAudioInfo));
+                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
                 textInfoPrivacyCell.setFixedSize(0);
                 textInfoPrivacyCell.setImportantForAccessibility(1);
             } else {
                 NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) viewHolder.itemView;
                 if (i != DataAutoDownloadActivity.this.photosRow) {
                     if (i == DataAutoDownloadActivity.this.videosRow) {
-                        str = LocaleController.getString("AutoDownloadVideos", 2131624608);
+                        str = LocaleController.getString("AutoDownloadVideos", R.string.AutoDownloadVideos);
                         i2 = 4;
                     } else {
                         i2 = 8;
-                        str = LocaleController.getString("AutoDownloadFiles", 2131624578);
+                        str = LocaleController.getString("AutoDownloadFiles", R.string.AutoDownloadFiles);
                     }
                 } else {
-                    str = LocaleController.getString("AutoDownloadPhotos", 2131624598);
+                    str = LocaleController.getString("AutoDownloadPhotos", R.string.AutoDownloadPhotos);
                     i2 = 1;
                 }
                 DownloadController.Preset currentMobilePreset = DataAutoDownloadActivity.this.currentType == 0 ? DownloadController.getInstance(((BaseFragment) DataAutoDownloadActivity.this).currentAccount).getCurrentMobilePreset() : DataAutoDownloadActivity.this.currentType == 1 ? DownloadController.getInstance(((BaseFragment) DataAutoDownloadActivity.this).currentAccount).getCurrentWiFiPreset() : DownloadController.getInstance(((BaseFragment) DataAutoDownloadActivity.this).currentAccount).getCurrentRoamingPreset();
@@ -922,13 +915,13 @@ public class DataAutoDownloadActivity extends BaseFragment {
                             sb2.append(", ");
                         }
                         if (i3 == 0) {
-                            sb2.append(LocaleController.getString("AutoDownloadContacts", 2131624575));
+                            sb2.append(LocaleController.getString("AutoDownloadContacts", R.string.AutoDownloadContacts));
                         } else if (i3 == 1) {
-                            sb2.append(LocaleController.getString("AutoDownloadPm", 2131624601));
+                            sb2.append(LocaleController.getString("AutoDownloadPm", R.string.AutoDownloadPm));
                         } else if (i3 == 2) {
-                            sb2.append(LocaleController.getString("AutoDownloadGroups", 2131624581));
+                            sb2.append(LocaleController.getString("AutoDownloadGroups", R.string.AutoDownloadGroups));
                         } else if (i3 == 3) {
-                            sb2.append(LocaleController.getString("AutoDownloadChannels", 2131624574));
+                            sb2.append(LocaleController.getString("AutoDownloadChannels", R.string.AutoDownloadChannels));
                         }
                         i4++;
                     }
@@ -937,19 +930,19 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 if (i4 == 4) {
                     sb2.setLength(0);
                     if (i == DataAutoDownloadActivity.this.photosRow) {
-                        sb2.append(LocaleController.getString("AutoDownloadOnAllChats", 2131624589));
+                        sb2.append(LocaleController.getString("AutoDownloadOnAllChats", R.string.AutoDownloadOnAllChats));
                     } else {
-                        sb2.append(LocaleController.formatString("AutoDownloadUpToOnAllChats", 2131624607, AndroidUtilities.formatFileSize(j)));
+                        sb2.append(LocaleController.formatString("AutoDownloadUpToOnAllChats", R.string.AutoDownloadUpToOnAllChats, AndroidUtilities.formatFileSize(j)));
                     }
                 } else if (i4 != 0) {
                     if (i == DataAutoDownloadActivity.this.photosRow) {
-                        sb = new StringBuilder(LocaleController.formatString("AutoDownloadOnFor", 2131624590, sb2.toString()));
+                        sb = new StringBuilder(LocaleController.formatString("AutoDownloadOnFor", R.string.AutoDownloadOnFor, sb2.toString()));
                     } else {
-                        sb = new StringBuilder(LocaleController.formatString("AutoDownloadOnUpToFor", 2131624595, AndroidUtilities.formatFileSize(j), sb2.toString()));
+                        sb = new StringBuilder(LocaleController.formatString("AutoDownloadOnUpToFor", R.string.AutoDownloadOnUpToFor, AndroidUtilities.formatFileSize(j), sb2.toString()));
                     }
                     sb2 = sb;
                 } else {
-                    sb2.append(LocaleController.getString("AutoDownloadOff", 2131624588));
+                    sb2.append(LocaleController.getString("AutoDownloadOff", R.string.AutoDownloadOff));
                 }
                 if (DataAutoDownloadActivity.this.animateChecked) {
                     notificationsCheckCell.setChecked(i4 != 0);
@@ -1001,7 +994,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
             if (i == 0) {
                 TextCheckCell textCheckCell = new TextCheckCell(this.mContext);
                 textCheckCell.setColors("windowBackgroundCheckText", "switchTrackBlue", "switchTrackBlueChecked", "switchTrackBlueThumb", "switchTrackBlueThumbChecked");
-                textCheckCell.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                textCheckCell.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 textCheckCell.setHeight(56);
                 textInfoPrivacyCell = textCheckCell;
             } else if (i == 1) {
@@ -1012,7 +1005,17 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 textInfoPrivacyCell = headerCell;
             } else if (i == 3) {
                 SlideChooseView slideChooseView = new SlideChooseView(this.mContext);
-                slideChooseView.setCallback(new DataAutoDownloadActivity$ListAdapter$$ExternalSyntheticLambda0(this));
+                slideChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.DataAutoDownloadActivity$ListAdapter$$ExternalSyntheticLambda0
+                    @Override // org.telegram.ui.Components.SlideChooseView.Callback
+                    public final void onOptionSelected(int i2) {
+                        DataAutoDownloadActivity.ListAdapter.this.lambda$onCreateViewHolder$0(i2);
+                    }
+
+                    @Override // org.telegram.ui.Components.SlideChooseView.Callback
+                    public /* synthetic */ void onTouchEnd() {
+                        SlideChooseView.Callback.CC.$default$onTouchEnd(this);
+                    }
+                });
                 slideChooseView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                 textInfoPrivacyCell = slideChooseView;
             } else if (i == 4) {
@@ -1021,7 +1024,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 textInfoPrivacyCell = notificationsCheckCell;
             } else {
                 TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(this.mContext);
-                textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
+                textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                 textInfoPrivacyCell = textInfoPrivacyCell2;
             }
             textInfoPrivacyCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
@@ -1051,13 +1054,13 @@ public class DataAutoDownloadActivity extends BaseFragment {
         for (int i = 0; i < this.presets.size(); i++) {
             DownloadController.Preset preset = this.presets.get(i);
             if (preset == this.lowPreset) {
-                strArr[i] = LocaleController.getString("AutoDownloadLow", 2131624583);
+                strArr[i] = LocaleController.getString("AutoDownloadLow", R.string.AutoDownloadLow);
             } else if (preset == this.mediumPreset) {
-                strArr[i] = LocaleController.getString("AutoDownloadMedium", 2131624587);
+                strArr[i] = LocaleController.getString("AutoDownloadMedium", R.string.AutoDownloadMedium);
             } else if (preset == this.highPreset) {
-                strArr[i] = LocaleController.getString("AutoDownloadHigh", 2131624582);
+                strArr[i] = LocaleController.getString("AutoDownloadHigh", R.string.AutoDownloadHigh);
             } else {
-                strArr[i] = LocaleController.getString("AutoDownloadCustom", 2131624576);
+                strArr[i] = LocaleController.getString("AutoDownloadCustom", R.string.AutoDownloadCustom);
             }
         }
         slideChooseView.setOptions(this.selectedPreset, strArr);

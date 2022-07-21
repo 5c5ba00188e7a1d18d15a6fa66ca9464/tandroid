@@ -81,10 +81,6 @@ public final class DefaultAudioSink implements AudioSink {
 
     /* loaded from: classes.dex */
     public static final class InvalidAudioTrackTimestampException extends RuntimeException {
-        /* synthetic */ InvalidAudioTrackTimestampException(String str, AnonymousClass1 anonymousClass1) {
-            this(str);
-        }
-
         private InvalidAudioTrackTimestampException(String str) {
             super(str);
         }
@@ -145,7 +141,7 @@ public final class DefaultAudioSink implements AudioSink {
         this.audioProcessorChain = (AudioProcessorChain) Assertions.checkNotNull(audioProcessorChain);
         this.enableFloatOutput = z;
         this.releasingConditionVariable = new ConditionVariable(true);
-        this.audioTrackPositionTracker = new AudioTrackPositionTracker(new PositionTrackerListener(this, null));
+        this.audioTrackPositionTracker = new AudioTrackPositionTracker(new PositionTrackerListener());
         ChannelMappingAudioProcessor channelMappingAudioProcessor = new ChannelMappingAudioProcessor();
         this.channelMappingAudioProcessor = channelMappingAudioProcessor;
         TrimmingAudioProcessor trimmingAudioProcessor = new TrimmingAudioProcessor();
@@ -715,7 +711,7 @@ public final class DefaultAudioSink implements AudioSink {
             if (this.audioTrackPositionTracker.isPlaying()) {
                 this.audioTrack.pause();
             }
-            AudioTrack audioTrack = this.audioTrack;
+            final AudioTrack audioTrack = this.audioTrack;
             this.audioTrack = null;
             Configuration configuration = this.pendingConfiguration;
             if (configuration != null) {
@@ -724,28 +720,17 @@ public final class DefaultAudioSink implements AudioSink {
             }
             this.audioTrackPositionTracker.reset();
             this.releasingConditionVariable.close();
-            new AnonymousClass1(audioTrack).start();
-        }
-    }
-
-    /* renamed from: com.google.android.exoplayer2.audio.DefaultAudioSink$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends Thread {
-        final /* synthetic */ AudioTrack val$toRelease;
-
-        AnonymousClass1(AudioTrack audioTrack) {
-            DefaultAudioSink.this = r1;
-            this.val$toRelease = audioTrack;
-        }
-
-        @Override // java.lang.Thread, java.lang.Runnable
-        public void run() {
-            try {
-                this.val$toRelease.flush();
-                this.val$toRelease.release();
-            } finally {
-                DefaultAudioSink.this.releasingConditionVariable.open();
-            }
+            new Thread() { // from class: com.google.android.exoplayer2.audio.DefaultAudioSink.1
+                @Override // java.lang.Thread, java.lang.Runnable
+                public void run() {
+                    try {
+                        audioTrack.flush();
+                        audioTrack.release();
+                    } finally {
+                        DefaultAudioSink.this.releasingConditionVariable.open();
+                    }
+                }
+            }.start();
         }
     }
 
@@ -764,27 +749,17 @@ public final class DefaultAudioSink implements AudioSink {
     }
 
     private void releaseKeepSessionIdAudioTrack() {
-        AudioTrack audioTrack = this.keepSessionIdAudioTrack;
+        final AudioTrack audioTrack = this.keepSessionIdAudioTrack;
         if (audioTrack == null) {
             return;
         }
         this.keepSessionIdAudioTrack = null;
-        new AnonymousClass2(this, audioTrack).start();
-    }
-
-    /* renamed from: com.google.android.exoplayer2.audio.DefaultAudioSink$2 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass2 extends Thread {
-        final /* synthetic */ AudioTrack val$toRelease;
-
-        AnonymousClass2(DefaultAudioSink defaultAudioSink, AudioTrack audioTrack) {
-            this.val$toRelease = audioTrack;
-        }
-
-        @Override // java.lang.Thread, java.lang.Runnable
-        public void run() {
-            this.val$toRelease.release();
-        }
+        new Thread(this) { // from class: com.google.android.exoplayer2.audio.DefaultAudioSink.2
+            @Override // java.lang.Thread, java.lang.Runnable
+            public void run() {
+                audioTrack.release();
+            }
+        }.start();
     }
 
     private void applyPlaybackParameters(PlaybackParameters playbackParameters, long j) {
@@ -794,7 +769,7 @@ public final class DefaultAudioSink implements AudioSink {
         } else {
             playbackParameters2 = PlaybackParameters.DEFAULT;
         }
-        this.playbackParametersCheckpoints.add(new PlaybackParametersCheckpoint(playbackParameters2, Math.max(0L, j), this.configuration.framesToDurationUs(getWrittenFrames()), null));
+        this.playbackParametersCheckpoints.add(new PlaybackParametersCheckpoint(playbackParameters2, Math.max(0L, j), this.configuration.framesToDurationUs(getWrittenFrames())));
         setupAudioProcessors();
     }
 
@@ -984,10 +959,6 @@ public final class DefaultAudioSink implements AudioSink {
         private final PlaybackParameters playbackParameters;
         private final long positionUs;
 
-        /* synthetic */ PlaybackParametersCheckpoint(PlaybackParameters playbackParameters, long j, long j2, AnonymousClass1 anonymousClass1) {
-            this(playbackParameters, j, j2);
-        }
-
         private PlaybackParametersCheckpoint(PlaybackParameters playbackParameters, long j, long j2) {
             this.playbackParameters = playbackParameters;
             this.mediaTimeUs = j;
@@ -1002,15 +973,11 @@ public final class DefaultAudioSink implements AudioSink {
             DefaultAudioSink.this = r1;
         }
 
-        /* synthetic */ PositionTrackerListener(DefaultAudioSink defaultAudioSink, AnonymousClass1 anonymousClass1) {
-            this();
-        }
-
         @Override // com.google.android.exoplayer2.audio.AudioTrackPositionTracker.Listener
         public void onPositionFramesMismatch(long j, long j2, long j3, long j4) {
             String str = "Spurious audio timestamp (frame position mismatch): " + j + ", " + j2 + ", " + j3 + ", " + j4 + ", " + DefaultAudioSink.this.getSubmittedFrames() + ", " + DefaultAudioSink.this.getWrittenFrames();
             if (DefaultAudioSink.failOnSpuriousAudioTimestamp) {
-                throw new InvalidAudioTrackTimestampException(str, null);
+                throw new InvalidAudioTrackTimestampException(str);
             }
             Log.w("AudioTrack", str);
         }
@@ -1019,7 +986,7 @@ public final class DefaultAudioSink implements AudioSink {
         public void onSystemTimeUsMismatch(long j, long j2, long j3, long j4) {
             String str = "Spurious audio timestamp (system clock mismatch): " + j + ", " + j2 + ", " + j3 + ", " + j4 + ", " + DefaultAudioSink.this.getSubmittedFrames() + ", " + DefaultAudioSink.this.getWrittenFrames();
             if (DefaultAudioSink.failOnSpuriousAudioTimestamp) {
-                throw new InvalidAudioTrackTimestampException(str, null);
+                throw new InvalidAudioTrackTimestampException(str);
             }
             Log.w("AudioTrack", str);
         }

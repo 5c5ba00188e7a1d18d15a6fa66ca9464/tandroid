@@ -20,78 +20,6 @@ public class b extends AGConnectInstance {
     private final AGConnectOptions e;
     private final d g;
 
-    /* renamed from: com.huawei.agconnect.core.a.b$1 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass1 implements JsonProcessingFactory.JsonProcessor {
-        AnonymousClass1() {
-        }
-
-        @Override // com.huawei.agconnect.JsonProcessingFactory.JsonProcessor
-        public String processOption(AGConnectOptions aGConnectOptions) {
-            String str;
-            if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.CHINA)) {
-                str = "/agcgw_all/CN";
-            } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.RUSSIA)) {
-                str = "/agcgw_all/RU";
-            } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.GERMANY)) {
-                str = "/agcgw_all/DE";
-            } else if (!aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.SINGAPORE)) {
-                return null;
-            } else {
-                str = "/agcgw_all/SG";
-            }
-            return aGConnectOptions.getString(str);
-        }
-    }
-
-    /* renamed from: com.huawei.agconnect.core.a.b$2 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass2 implements JsonProcessingFactory.JsonProcessor {
-        AnonymousClass2() {
-        }
-
-        @Override // com.huawei.agconnect.JsonProcessingFactory.JsonProcessor
-        public String processOption(AGConnectOptions aGConnectOptions) {
-            String str;
-            if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.CHINA)) {
-                str = "/agcgw_all/CN_back";
-            } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.RUSSIA)) {
-                str = "/agcgw_all/RU_back";
-            } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.GERMANY)) {
-                str = "/agcgw_all/DE_back";
-            } else if (!aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.SINGAPORE)) {
-                return null;
-            } else {
-                str = "/agcgw_all/SG_back";
-            }
-            return aGConnectOptions.getString(str);
-        }
-    }
-
-    /* renamed from: com.huawei.agconnect.core.a.b$3 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass3 implements JsonProcessingFactory.JsonProcessor {
-        AnonymousClass3() {
-        }
-
-        @Override // com.huawei.agconnect.JsonProcessingFactory.JsonProcessor
-        public String processOption(AGConnectOptions aGConnectOptions) {
-            String str;
-            if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.CHINA)) {
-                str = "/service/analytics/collector_url_cn";
-            } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.RUSSIA)) {
-                str = "/service/analytics/collector_url_ru";
-            } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.GERMANY)) {
-                str = "/service/analytics/collector_url_de";
-            } else if (!aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.SINGAPORE)) {
-                return null;
-            } else {
-                str = "/service/analytics/collector_url_sg";
-            }
-            return aGConnectOptions.getString(str);
-        }
-    }
-
     public b(AGConnectOptions aGConnectOptions) {
         this.e = aGConnectOptions;
         if (a == null) {
@@ -177,12 +105,63 @@ public class b extends AGConnectInstance {
     }
 
     private static void b() {
-        JsonProcessingFactory.registerProcessor("/agcgw/url", new AnonymousClass1());
-        JsonProcessingFactory.registerProcessor("/agcgw/backurl", new AnonymousClass2());
+        JsonProcessingFactory.registerProcessor("/agcgw/url", new JsonProcessingFactory.JsonProcessor() { // from class: com.huawei.agconnect.core.a.b.1
+            @Override // com.huawei.agconnect.JsonProcessingFactory.JsonProcessor
+            public String processOption(AGConnectOptions aGConnectOptions) {
+                String str;
+                if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.CHINA)) {
+                    str = "/agcgw_all/CN";
+                } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.RUSSIA)) {
+                    str = "/agcgw_all/RU";
+                } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.GERMANY)) {
+                    str = "/agcgw_all/DE";
+                } else if (!aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.SINGAPORE)) {
+                    return null;
+                } else {
+                    str = "/agcgw_all/SG";
+                }
+                return aGConnectOptions.getString(str);
+            }
+        });
+        JsonProcessingFactory.registerProcessor("/agcgw/backurl", new JsonProcessingFactory.JsonProcessor() { // from class: com.huawei.agconnect.core.a.b.2
+            @Override // com.huawei.agconnect.JsonProcessingFactory.JsonProcessor
+            public String processOption(AGConnectOptions aGConnectOptions) {
+                String str;
+                if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.CHINA)) {
+                    str = "/agcgw_all/CN_back";
+                } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.RUSSIA)) {
+                    str = "/agcgw_all/RU_back";
+                } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.GERMANY)) {
+                    str = "/agcgw_all/DE_back";
+                } else if (!aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.SINGAPORE)) {
+                    return null;
+                } else {
+                    str = "/agcgw_all/SG_back";
+                }
+                return aGConnectOptions.getString(str);
+            }
+        });
     }
 
     private static void c() {
-        JsonProcessingFactory.registerProcessor("/service/analytics/collector_url", new AnonymousClass3());
+        JsonProcessingFactory.registerProcessor("/service/analytics/collector_url", new JsonProcessingFactory.JsonProcessor() { // from class: com.huawei.agconnect.core.a.b.3
+            @Override // com.huawei.agconnect.JsonProcessingFactory.JsonProcessor
+            public String processOption(AGConnectOptions aGConnectOptions) {
+                String str;
+                if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.CHINA)) {
+                    str = "/service/analytics/collector_url_cn";
+                } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.RUSSIA)) {
+                    str = "/service/analytics/collector_url_ru";
+                } else if (aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.GERMANY)) {
+                    str = "/service/analytics/collector_url_de";
+                } else if (!aGConnectOptions.getRoutePolicy().equals(AGCRoutePolicy.SINGAPORE)) {
+                    return null;
+                } else {
+                    str = "/service/analytics/collector_url_sg";
+                }
+                return aGConnectOptions.getString(str);
+            }
+        });
     }
 
     @Override // com.huawei.agconnect.AGConnectInstance

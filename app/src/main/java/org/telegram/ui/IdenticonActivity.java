@@ -30,6 +30,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -59,10 +60,6 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
     /* loaded from: classes3.dex */
     private static class LinkMovementMethodMy extends LinkMovementMethod {
         private LinkMovementMethodMy() {
-        }
-
-        /* synthetic */ LinkMovementMethodMy(AnonymousClass1 anonymousClass1) {
-            this();
         }
 
         @Override // android.text.method.LinkMovementMethod, android.text.method.ScrollingMovementMethod, android.text.method.BaseMovementMethod, android.text.method.MovementMethod
@@ -95,10 +92,17 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        this.actionBar.setBackButtonImage(2131165449);
+        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("EncryptionKey", 2131625674));
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.actionBar.setTitle(LocaleController.getString("EncryptionKey", R.string.EncryptionKey));
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.IdenticonActivity.1
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i) {
+                if (i == -1) {
+                    IdenticonActivity.this.finishFragment();
+                }
+            }
+        });
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
         FrameLayout frameLayout2 = frameLayout;
@@ -115,9 +119,19 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
         ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         frameLayout3.addView(imageView, LayoutHelper.createFrame(-1, -1.0f));
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-        this.container = anonymousClass2;
-        anonymousClass2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.IdenticonActivity.2
+            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+                super.onLayout(z, i, i2, i3, i4);
+                if (IdenticonActivity.this.codeTextView != null) {
+                    int left = (IdenticonActivity.this.codeTextView.getLeft() + (IdenticonActivity.this.codeTextView.getMeasuredWidth() / 2)) - (IdenticonActivity.this.emojiTextView.getMeasuredWidth() / 2);
+                    int measuredHeight = (((IdenticonActivity.this.codeTextView.getMeasuredHeight() - IdenticonActivity.this.emojiTextView.getMeasuredHeight()) / 2) + IdenticonActivity.this.linearLayout1.getTop()) - AndroidUtilities.dp(16.0f);
+                    IdenticonActivity.this.emojiTextView.layout(left, measuredHeight, IdenticonActivity.this.emojiTextView.getMeasuredWidth() + left, IdenticonActivity.this.emojiTextView.getMeasuredHeight() + measuredHeight);
+                }
+            }
+        };
+        this.container = frameLayout4;
+        frameLayout4.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         this.linearLayout.addView(this.container, LayoutHelper.createLinear(-1, -1, 50.0f));
         LinearLayout linearLayout2 = new LinearLayout(context);
         this.linearLayout1 = linearLayout2;
@@ -139,7 +153,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
         this.textView.setLinksClickable(true);
         this.textView.setClickable(true);
         this.textView.setGravity(17);
-        this.textView.setMovementMethod(new LinkMovementMethodMy(null));
+        this.textView.setMovementMethod(new LinkMovementMethodMy());
         this.linearLayout1.addView(this.textView, LayoutHelper.createFrame(-2, -2, 1));
         TextView textView3 = new TextView(context);
         this.emojiTextView = textView3;
@@ -186,50 +200,15 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
             this.codeTextView.setText(spannableStringBuilder.toString());
             spannableStringBuilder.clear();
             String str = user.first_name;
-            spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.formatString("EncryptionKeyDescription", 2131625675, str, str)));
+            spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.formatString("EncryptionKeyDescription", R.string.EncryptionKeyDescription, str, str)));
             int indexOf = spannableStringBuilder.toString().indexOf("telegram.org");
             if (indexOf != -1) {
-                spannableStringBuilder.setSpan(new URLSpanReplacement(LocaleController.getString("EncryptionKeyLink", 2131625676)), indexOf, indexOf + 12, 33);
+                spannableStringBuilder.setSpan(new URLSpanReplacement(LocaleController.getString("EncryptionKeyLink", R.string.EncryptionKeyLink)), indexOf, indexOf + 12, 33);
             }
             this.textView.setText(spannableStringBuilder);
         }
         updateEmojiButton(false);
         return this.fragmentView;
-    }
-
-    /* renamed from: org.telegram.ui.IdenticonActivity$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass1() {
-            IdenticonActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                IdenticonActivity.this.finishFragment();
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.IdenticonActivity$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends FrameLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            IdenticonActivity.this = r1;
-        }
-
-        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            super.onLayout(z, i, i2, i3, i4);
-            if (IdenticonActivity.this.codeTextView != null) {
-                int left = (IdenticonActivity.this.codeTextView.getLeft() + (IdenticonActivity.this.codeTextView.getMeasuredWidth() / 2)) - (IdenticonActivity.this.emojiTextView.getMeasuredWidth() / 2);
-                int measuredHeight = (((IdenticonActivity.this.codeTextView.getMeasuredHeight() - IdenticonActivity.this.emojiTextView.getMeasuredHeight()) / 2) + IdenticonActivity.this.linearLayout1.getTop()) - AndroidUtilities.dp(16.0f);
-                IdenticonActivity.this.emojiTextView.layout(left, measuredHeight, IdenticonActivity.this.emojiTextView.getMeasuredWidth() + left, IdenticonActivity.this.emojiTextView.getMeasuredHeight() + measuredHeight);
-            }
-        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -292,7 +271,14 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
             fArr6[0] = f;
             animatorArr[5] = ObjectAnimator.ofFloat(textView6, "scaleY", fArr6);
             animatorSet2.playTogether(animatorArr);
-            this.animatorSet.addListener(new AnonymousClass3());
+            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.IdenticonActivity.3
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    if (animator.equals(IdenticonActivity.this.animatorSet)) {
+                        IdenticonActivity.this.animatorSet = null;
+                    }
+                }
+            });
             this.animatorSet.setInterpolator(new DecelerateInterpolator());
             this.animatorSet.setDuration(150L);
             this.animatorSet.start();
@@ -311,47 +297,24 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
         this.emojiTextView.setTag(!this.emojiSelected ? "chat_emojiPanelIcon" : "chat_emojiPanelIconSelected");
     }
 
-    /* renamed from: org.telegram.ui.IdenticonActivity$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        AnonymousClass3() {
-            IdenticonActivity.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (animator.equals(IdenticonActivity.this.animatorSet)) {
-                IdenticonActivity.this.animatorSet = null;
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.IdenticonActivity$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 implements ViewTreeObserver.OnPreDrawListener {
-        AnonymousClass4() {
-            IdenticonActivity.this = r1;
-        }
-
-        @Override // android.view.ViewTreeObserver.OnPreDrawListener
-        public boolean onPreDraw() {
-            if (((BaseFragment) IdenticonActivity.this).fragmentView == null) {
+    private void fixLayout() {
+        this.fragmentView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.IdenticonActivity.4
+            @Override // android.view.ViewTreeObserver.OnPreDrawListener
+            public boolean onPreDraw() {
+                if (((BaseFragment) IdenticonActivity.this).fragmentView == null) {
+                    return true;
+                }
+                ((BaseFragment) IdenticonActivity.this).fragmentView.getViewTreeObserver().removeOnPreDrawListener(this);
+                int rotation = ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getRotation();
+                if (rotation == 3 || rotation == 1) {
+                    IdenticonActivity.this.linearLayout.setOrientation(0);
+                } else {
+                    IdenticonActivity.this.linearLayout.setOrientation(1);
+                }
+                ((BaseFragment) IdenticonActivity.this).fragmentView.setPadding(((BaseFragment) IdenticonActivity.this).fragmentView.getPaddingLeft(), 0, ((BaseFragment) IdenticonActivity.this).fragmentView.getPaddingRight(), ((BaseFragment) IdenticonActivity.this).fragmentView.getPaddingBottom());
                 return true;
             }
-            ((BaseFragment) IdenticonActivity.this).fragmentView.getViewTreeObserver().removeOnPreDrawListener(this);
-            int rotation = ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getRotation();
-            if (rotation == 3 || rotation == 1) {
-                IdenticonActivity.this.linearLayout.setOrientation(0);
-            } else {
-                IdenticonActivity.this.linearLayout.setOrientation(1);
-            }
-            ((BaseFragment) IdenticonActivity.this).fragmentView.setPadding(((BaseFragment) IdenticonActivity.this).fragmentView.getPaddingLeft(), 0, ((BaseFragment) IdenticonActivity.this).fragmentView.getPaddingRight(), ((BaseFragment) IdenticonActivity.this).fragmentView.getPaddingBottom());
-            return true;
-        }
-    }
-
-    private void fixLayout() {
-        this.fragmentView.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass4());
+        });
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

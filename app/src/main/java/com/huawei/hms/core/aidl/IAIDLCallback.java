@@ -30,14 +30,14 @@ public interface IAIDLCallback extends IInterface {
         }
 
         public Stub() {
-            attachInterface(this, "com.huawei.hms.core.aidl.IAIDLCallback");
+            attachInterface(this, DESCRIPTOR);
         }
 
         public static IAIDLCallback asInterface(IBinder iBinder) {
             if (iBinder == null) {
                 return null;
             }
-            IInterface queryLocalInterface = iBinder.queryLocalInterface("com.huawei.hms.core.aidl.IAIDLCallback");
+            IInterface queryLocalInterface = iBinder.queryLocalInterface(DESCRIPTOR);
             if (queryLocalInterface != null && (queryLocalInterface instanceof IAIDLCallback)) {
                 return (IAIDLCallback) queryLocalInterface;
             }
@@ -64,13 +64,13 @@ public interface IAIDLCallback extends IInterface {
         @Override // android.os.Binder
         public boolean onTransact(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
             if (i == 1) {
-                parcel.enforceInterface("com.huawei.hms.core.aidl.IAIDLCallback");
+                parcel.enforceInterface(DESCRIPTOR);
                 call(parcel.readInt() != 0 ? DataBuffer.CREATOR.createFromParcel(parcel) : null);
                 return true;
             } else if (i != 1598968902) {
                 return super.onTransact(i, parcel, parcel2, i2);
             } else {
-                parcel2.writeString("com.huawei.hms.core.aidl.IAIDLCallback");
+                parcel2.writeString(DESCRIPTOR);
                 return true;
             }
         }

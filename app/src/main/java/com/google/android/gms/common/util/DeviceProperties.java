@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import androidx.annotation.RecentlyNonNull;
+import com.huawei.hms.adapter.internal.AvailableCode;
+import org.telegram.messenger.R;
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
 public final class DeviceProperties {
@@ -13,12 +15,12 @@ public final class DeviceProperties {
     private static Boolean zzf;
     private static Boolean zzg;
 
-    @TargetApi(20)
+    @TargetApi(R.styleable.MapAttrs_uiZoomControls)
     public static boolean isWearable(@RecentlyNonNull Context context) {
         return isWearable(context.getPackageManager());
     }
 
-    @TargetApi(20)
+    @TargetApi(R.styleable.MapAttrs_uiZoomControls)
     public static boolean isWearable(@RecentlyNonNull PackageManager packageManager) {
         if (zzc == null) {
             zzc = Boolean.valueOf(PlatformVersion.isAtLeastKitKatWatch() && packageManager.hasSystemFeature("android.hardware.type.watch"));
@@ -26,7 +28,7 @@ public final class DeviceProperties {
         return zzc.booleanValue();
     }
 
-    @TargetApi(26)
+    @TargetApi(AvailableCode.ERROR_NO_ACTIVITY)
     public static boolean isWearableWithoutPlayStore(@RecentlyNonNull Context context) {
         if (isWearable(context)) {
             if (!PlatformVersion.isAtLeastN()) {

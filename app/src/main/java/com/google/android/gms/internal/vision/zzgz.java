@@ -80,6 +80,7 @@ public enum zzgz implements zzje {
     }
 
     static {
-        new zzgy();
+        new Object() { // from class: com.google.android.gms.internal.vision.zzgy
+        };
     }
 }

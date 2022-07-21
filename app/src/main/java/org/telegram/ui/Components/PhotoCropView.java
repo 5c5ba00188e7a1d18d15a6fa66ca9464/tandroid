@@ -41,8 +41,26 @@ public class PhotoCropView extends FrameLayout {
     private float thumbAnimationProgress = 1.0f;
     private float flashAlpha = 0.0f;
     private Paint circlePaint = new Paint(1);
-    public final Property<PhotoCropView, Float> ANIMATION_VALUE = new AnonymousClass1("thumbAnimationProgress");
-    public final Property<PhotoCropView, Float> PROGRESS_VALUE = new AnonymousClass2("thumbImageVisibleProgress");
+    public final Property<PhotoCropView, Float> ANIMATION_VALUE = new AnimationProperties.FloatProperty<PhotoCropView>("thumbAnimationProgress") { // from class: org.telegram.ui.Components.PhotoCropView.1
+        public void setValue(PhotoCropView photoCropView, float f) {
+            PhotoCropView.this.thumbAnimationProgress = f;
+            photoCropView.invalidate();
+        }
+
+        public Float get(PhotoCropView photoCropView) {
+            return Float.valueOf(PhotoCropView.this.thumbAnimationProgress);
+        }
+    };
+    public final Property<PhotoCropView, Float> PROGRESS_VALUE = new AnimationProperties.FloatProperty<PhotoCropView>("thumbImageVisibleProgress") { // from class: org.telegram.ui.Components.PhotoCropView.2
+        public void setValue(PhotoCropView photoCropView, float f) {
+            PhotoCropView.this.thumbImageVisibleProgress = f;
+            photoCropView.invalidate();
+        }
+
+        public Float get(PhotoCropView photoCropView) {
+            return Float.valueOf(PhotoCropView.this.thumbImageVisibleProgress);
+        }
+    };
     private ImageReceiver thumbImageView = new ImageReceiver(this);
 
     /* loaded from: classes3.dex */
@@ -62,146 +80,88 @@ public class PhotoCropView extends FrameLayout {
         boolean rotate();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.PhotoCropView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimationProperties.FloatProperty<PhotoCropView> {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(String str) {
-            super(str);
-            PhotoCropView.this = r1;
-        }
-
-        public void setValue(PhotoCropView photoCropView, float f) {
-            PhotoCropView.this.thumbAnimationProgress = f;
-            photoCropView.invalidate();
-        }
-
-        public Float get(PhotoCropView photoCropView) {
-            return Float.valueOf(PhotoCropView.this.thumbAnimationProgress);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.PhotoCropView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimationProperties.FloatProperty<PhotoCropView> {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(String str) {
-            super(str);
-            PhotoCropView.this = r1;
-        }
-
-        public void setValue(PhotoCropView photoCropView, float f) {
-            PhotoCropView.this.thumbImageVisibleProgress = f;
-            photoCropView.invalidate();
-        }
-
-        public Float get(PhotoCropView photoCropView) {
-            return Float.valueOf(PhotoCropView.this.thumbImageVisibleProgress);
-        }
-    }
-
     public PhotoCropView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.resourcesProvider = resourcesProvider;
         this.inBubbleMode = context instanceof BubbleActivity;
         CropView cropView = new CropView(context);
         this.cropView = cropView;
-        cropView.setListener(new AnonymousClass3());
+        cropView.setListener(new CropView.CropViewListener() { // from class: org.telegram.ui.Components.PhotoCropView.3
+            @Override // org.telegram.ui.Components.Crop.CropView.CropViewListener
+            public void onChange(boolean z) {
+                PhotoCropView photoCropView = PhotoCropView.this;
+                photoCropView.isReset = z;
+                if (photoCropView.delegate != null) {
+                    PhotoCropView.this.delegate.onChange(z);
+                }
+            }
+
+            @Override // org.telegram.ui.Components.Crop.CropView.CropViewListener
+            public void onUpdate() {
+                if (PhotoCropView.this.delegate != null) {
+                    PhotoCropView.this.delegate.onUpdate();
+                }
+            }
+
+            @Override // org.telegram.ui.Components.Crop.CropView.CropViewListener
+            public void onAspectLock(boolean z) {
+                PhotoCropView.this.wheelView.setAspectLock(z);
+            }
+
+            @Override // org.telegram.ui.Components.Crop.CropView.CropViewListener
+            public void onTapUp() {
+                if (PhotoCropView.this.delegate != null) {
+                    PhotoCropView.this.delegate.onTapUp();
+                }
+            }
+        });
         this.cropView.setBottomPadding(AndroidUtilities.dp(64.0f));
         addView(this.cropView);
         CropRotationWheel cropRotationWheel = new CropRotationWheel(context);
         this.wheelView = cropRotationWheel;
-        cropRotationWheel.setListener(new AnonymousClass4());
+        cropRotationWheel.setListener(new CropRotationWheel.RotationWheelListener() { // from class: org.telegram.ui.Components.PhotoCropView.4
+            @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
+            public void onStart() {
+                PhotoCropView.this.cropView.onRotationBegan();
+            }
+
+            @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
+            public void onChange(float f) {
+                PhotoCropView.this.cropView.setRotation(f);
+                PhotoCropView photoCropView = PhotoCropView.this;
+                photoCropView.isReset = false;
+                if (photoCropView.delegate != null) {
+                    PhotoCropView.this.delegate.onChange(false);
+                }
+            }
+
+            @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
+            public void onEnd(float f) {
+                PhotoCropView.this.cropView.onRotationEnded();
+            }
+
+            @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
+            public void aspectRatioPressed() {
+                PhotoCropView.this.cropView.showAspectRatioDialog();
+            }
+
+            @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
+            public boolean rotate90Pressed() {
+                if (PhotoCropView.this.delegate != null) {
+                    return PhotoCropView.this.delegate.rotate();
+                }
+                return false;
+            }
+
+            @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
+            public boolean mirror() {
+                if (PhotoCropView.this.delegate != null) {
+                    return PhotoCropView.this.delegate.mirror();
+                }
+                return false;
+            }
+        });
         addView(this.wheelView, LayoutHelper.createFrame(-1, -2.0f, 81, 0.0f, 0.0f, 0.0f, 0.0f));
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.PhotoCropView$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 implements CropView.CropViewListener {
-        AnonymousClass3() {
-            PhotoCropView.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.Crop.CropView.CropViewListener
-        public void onChange(boolean z) {
-            PhotoCropView photoCropView = PhotoCropView.this;
-            photoCropView.isReset = z;
-            if (photoCropView.delegate != null) {
-                PhotoCropView.this.delegate.onChange(z);
-            }
-        }
-
-        @Override // org.telegram.ui.Components.Crop.CropView.CropViewListener
-        public void onUpdate() {
-            if (PhotoCropView.this.delegate != null) {
-                PhotoCropView.this.delegate.onUpdate();
-            }
-        }
-
-        @Override // org.telegram.ui.Components.Crop.CropView.CropViewListener
-        public void onAspectLock(boolean z) {
-            PhotoCropView.this.wheelView.setAspectLock(z);
-        }
-
-        @Override // org.telegram.ui.Components.Crop.CropView.CropViewListener
-        public void onTapUp() {
-            if (PhotoCropView.this.delegate != null) {
-                PhotoCropView.this.delegate.onTapUp();
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.PhotoCropView$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 implements CropRotationWheel.RotationWheelListener {
-        AnonymousClass4() {
-            PhotoCropView.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
-        public void onStart() {
-            PhotoCropView.this.cropView.onRotationBegan();
-        }
-
-        @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
-        public void onChange(float f) {
-            PhotoCropView.this.cropView.setRotation(f);
-            PhotoCropView photoCropView = PhotoCropView.this;
-            photoCropView.isReset = false;
-            if (photoCropView.delegate != null) {
-                PhotoCropView.this.delegate.onChange(false);
-            }
-        }
-
-        @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
-        public void onEnd(float f) {
-            PhotoCropView.this.cropView.onRotationEnded();
-        }
-
-        @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
-        public void aspectRatioPressed() {
-            PhotoCropView.this.cropView.showAspectRatioDialog();
-        }
-
-        @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
-        public boolean rotate90Pressed() {
-            if (PhotoCropView.this.delegate != null) {
-                return PhotoCropView.this.delegate.rotate();
-            }
-            return false;
-        }
-
-        @Override // org.telegram.ui.Components.Crop.CropRotationWheel.RotationWheelListener
-        public boolean mirror() {
-            if (PhotoCropView.this.delegate != null) {
-                return PhotoCropView.this.delegate.mirror();
-            }
-            return false;
-        }
     }
 
     @Override // android.view.ViewGroup
@@ -329,21 +289,13 @@ public class PhotoCropView extends FrameLayout {
         animatorSet3.playTogether(ObjectAnimator.ofFloat(this, this.ANIMATION_VALUE, 0.0f, 1.0f));
         this.thumbAnimation.setDuration(250L);
         this.thumbAnimation.setInterpolator(new OvershootInterpolator(1.01f));
-        this.thumbAnimation.addListener(new AnonymousClass5());
+        this.thumbAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoCropView.5
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                PhotoCropView.this.thumbAnimation = null;
+            }
+        });
         this.thumbAnimation.start();
-    }
-
-    /* renamed from: org.telegram.ui.Components.PhotoCropView$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends AnimatorListenerAdapter {
-        AnonymousClass5() {
-            PhotoCropView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            PhotoCropView.this.thumbAnimation = null;
-        }
     }
 
     public void cancelThumbAnimation() {
@@ -373,21 +325,13 @@ public class PhotoCropView extends FrameLayout {
         animatorArr[0] = ObjectAnimator.ofFloat(this, property, fArr);
         animatorSet2.playTogether(animatorArr);
         this.thumbOverrideAnimation.setDuration(180L);
-        this.thumbOverrideAnimation.addListener(new AnonymousClass6());
+        this.thumbOverrideAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoCropView.6
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                PhotoCropView.this.thumbOverrideAnimation = null;
+            }
+        });
         this.thumbOverrideAnimation.start();
-    }
-
-    /* renamed from: org.telegram.ui.Components.PhotoCropView$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 extends AnimatorListenerAdapter {
-        AnonymousClass6() {
-            PhotoCropView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            PhotoCropView.this.thumbOverrideAnimation = null;
-        }
     }
 
     public boolean isReady() {

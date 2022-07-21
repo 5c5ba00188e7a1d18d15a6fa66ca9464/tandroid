@@ -13,6 +13,7 @@ import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.common.wrappers.Wrappers;
 import java.util.Locale;
 import javax.annotation.concurrent.GuardedBy;
+import org.telegram.messenger.R;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zac {
@@ -69,7 +70,7 @@ public final class zac {
             case 17:
                 Log.e("GoogleApiAvailability", "The specified account could not be signed in.");
                 return zaa(context, "common_google_play_services_sign_in_failed_title");
-            case 20:
+            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
                 Log.e("GoogleApiAvailability", "The current user profile is restricted and could not use authenticated features.");
                 return zaa(context, "common_google_play_services_restricted_profile_title");
         }

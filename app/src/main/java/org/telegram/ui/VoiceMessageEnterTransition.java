@@ -37,7 +37,7 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
     final Paint circlePaint = new Paint(1);
     private final Matrix gradientMatrix = new Matrix();
 
-    public VoiceMessageEnterTransition(ChatMessageCell chatMessageCell, ChatActivityEnterView chatActivityEnterView, RecyclerListView recyclerListView, MessageEnterTransitionContainer messageEnterTransitionContainer, Theme.ResourcesProvider resourcesProvider) {
+    public VoiceMessageEnterTransition(final ChatMessageCell chatMessageCell, ChatActivityEnterView chatActivityEnterView, RecyclerListView recyclerListView, final MessageEnterTransitionContainer messageEnterTransitionContainer, Theme.ResourcesProvider resourcesProvider) {
         this.resourcesProvider = resourcesProvider;
         this.messageView = chatMessageCell;
         this.container = messageEnterTransitionContainer;
@@ -58,10 +58,22 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
         messageEnterTransitionContainer.addTransition(this);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.animator = ofFloat;
-        ofFloat.addUpdateListener(new VoiceMessageEnterTransition$$ExternalSyntheticLambda0(this, messageEnterTransitionContainer));
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.VoiceMessageEnterTransition$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                VoiceMessageEnterTransition.this.lambda$new$0(messageEnterTransitionContainer, valueAnimator);
+            }
+        });
         ofFloat.setInterpolator(new LinearInterpolator());
         ofFloat.setDuration(220L);
-        ofFloat.addListener(new AnonymousClass1(chatMessageCell, messageEnterTransitionContainer));
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.VoiceMessageEnterTransition.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                chatMessageCell.setEnterTransitionInProgress(false);
+                messageEnterTransitionContainer.removeTransition(VoiceMessageEnterTransition.this);
+                VoiceMessageEnterTransition.this.recordCircle.skipDraw = false;
+            }
+        });
         if (chatMessageCell.getSeekBarWaveform() != null) {
             chatMessageCell.getSeekBarWaveform().setSent();
         }
@@ -70,26 +82,6 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
     public /* synthetic */ void lambda$new$0(MessageEnterTransitionContainer messageEnterTransitionContainer, ValueAnimator valueAnimator) {
         this.progress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         messageEnterTransitionContainer.invalidate();
-    }
-
-    /* renamed from: org.telegram.ui.VoiceMessageEnterTransition$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        final /* synthetic */ MessageEnterTransitionContainer val$container;
-        final /* synthetic */ ChatMessageCell val$messageView;
-
-        AnonymousClass1(ChatMessageCell chatMessageCell, MessageEnterTransitionContainer messageEnterTransitionContainer) {
-            VoiceMessageEnterTransition.this = r1;
-            this.val$messageView = chatMessageCell;
-            this.val$container = messageEnterTransitionContainer;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            this.val$messageView.setEnterTransitionInProgress(false);
-            this.val$container.removeTransition(VoiceMessageEnterTransition.this);
-            VoiceMessageEnterTransition.this.recordCircle.skipDraw = false;
-        }
     }
 
     public void start() {

@@ -6,7 +6,37 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public abstract class Timeline {
-    public static final Timeline EMPTY = new AnonymousClass1();
+    public static final Timeline EMPTY = new Timeline() { // from class: com.google.android.exoplayer2.Timeline.1
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getIndexOfPeriod(Object obj) {
+            return -1;
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getPeriodCount() {
+            return 0;
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getWindowCount() {
+            return 0;
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public Window getWindow(int i, Window window, long j) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public Period getPeriod(int i, Period period, boolean z) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public Object getUidOfPeriod(int i) {
+            throw new IndexOutOfBoundsException();
+        }
+    };
 
     public abstract int getIndexOfPeriod(Object obj);
 
@@ -200,43 +230,6 @@ public abstract class Timeline {
                 i = adPlaybackState.hashCode();
             }
             return i2 + i;
-        }
-    }
-
-    /* renamed from: com.google.android.exoplayer2.Timeline$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 extends Timeline {
-        @Override // com.google.android.exoplayer2.Timeline
-        public int getIndexOfPeriod(Object obj) {
-            return -1;
-        }
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public int getPeriodCount() {
-            return 0;
-        }
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public int getWindowCount() {
-            return 0;
-        }
-
-        AnonymousClass1() {
-        }
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public Window getWindow(int i, Window window, long j) {
-            throw new IndexOutOfBoundsException();
-        }
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public Period getPeriod(int i, Period period, boolean z) {
-            throw new IndexOutOfBoundsException();
-        }
-
-        @Override // com.google.android.exoplayer2.Timeline
-        public Object getUidOfPeriod(int i) {
-            throw new IndexOutOfBoundsException();
         }
     }
 

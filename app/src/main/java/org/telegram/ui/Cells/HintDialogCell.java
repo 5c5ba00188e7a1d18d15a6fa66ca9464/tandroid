@@ -21,6 +21,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
+import org.telegram.ui.Components.CheckBoxBase;
 import org.telegram.ui.Components.CounterView;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
@@ -67,7 +68,12 @@ public class HintDialogCell extends FrameLayout {
             checkBox2.setColor("dialogRoundCheckBox", "dialogBackground", "dialogRoundCheckBoxCheck");
             this.checkBox.setDrawUnchecked(false);
             this.checkBox.setDrawBackgroundAsArc(4);
-            this.checkBox.setProgressDelegate(new HintDialogCell$$ExternalSyntheticLambda0(this));
+            this.checkBox.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Cells.HintDialogCell$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.Components.CheckBoxBase.ProgressDelegate
+                public final void setProgress(float f) {
+                    HintDialogCell.this.lambda$new$0(f);
+                }
+            });
             addView(this.checkBox, LayoutHelper.createFrame(24, 24.0f, 49, 19.0f, 42.0f, 0.0f, 0.0f));
             this.checkBox.setChecked(false, false);
             setWillNotDraw(false);

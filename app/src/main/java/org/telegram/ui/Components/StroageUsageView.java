@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
@@ -63,13 +64,50 @@ public class StroageUsageView extends FrameLayout {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
         addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f));
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, context);
-        this.legendLayout = anonymousClass1;
-        linearLayout.addView(anonymousClass1, LayoutHelper.createLinear(-1, -2, 21.0f, 40.0f, 21.0f, 16.0f));
+        FrameLayout frameLayout = new FrameLayout(this, context) { // from class: org.telegram.ui.Components.StroageUsageView.1
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i, int i2) {
+                super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), i2);
+                int childCount = getChildCount();
+                int i3 = 0;
+                int i4 = 0;
+                int i5 = 0;
+                for (int i6 = 0; i6 < childCount; i6++) {
+                    if (getChildAt(i6).getVisibility() != 8) {
+                        if (getChildAt(i6).getMeasuredWidth() + i4 > View.MeasureSpec.getSize(i)) {
+                            i5 += getChildAt(i6).getMeasuredHeight() + AndroidUtilities.dp(8.0f);
+                            i4 = 0;
+                        }
+                        i4 += getChildAt(i6).getMeasuredWidth() + AndroidUtilities.dp(16.0f);
+                        i3 = getChildAt(i6).getMeasuredHeight() + i5;
+                    }
+                }
+                setMeasuredDimension(getMeasuredWidth(), i3);
+            }
+
+            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+                int childCount = getChildCount();
+                int i5 = 0;
+                int i6 = 0;
+                for (int i7 = 0; i7 < childCount; i7++) {
+                    if (getChildAt(i7).getVisibility() != 8) {
+                        if (getChildAt(i7).getMeasuredWidth() + i5 > getMeasuredWidth()) {
+                            i6 += getChildAt(i7).getMeasuredHeight() + AndroidUtilities.dp(8.0f);
+                            i5 = 0;
+                        }
+                        getChildAt(i7).layout(i5, i6, getChildAt(i7).getMeasuredWidth() + i5, getChildAt(i7).getMeasuredHeight() + i6);
+                        i5 += getChildAt(i7).getMeasuredWidth() + AndroidUtilities.dp(16.0f);
+                    }
+                }
+            }
+        };
+        this.legendLayout = frameLayout;
+        linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2, 21.0f, 40.0f, 21.0f, 16.0f));
         TextView textView = new TextView(context);
         this.calculatingTextView = textView;
         textView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
-        String string = LocaleController.getString("CalculatingSize", 2131624783);
+        String string = LocaleController.getString("CalculatingSize", R.string.CalculatingSize);
         int indexOf = string.indexOf("...");
         if (indexOf >= 0) {
             SpannableString spannableString = new SpannableString(string);
@@ -120,56 +158,11 @@ public class StroageUsageView extends FrameLayout {
         linearLayout.addView(textSettingsCell, LayoutHelper.createLinear(-1, -2));
     }
 
-    /* renamed from: org.telegram.ui.Components.StroageUsageView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends FrameLayout {
-        AnonymousClass1(StroageUsageView stroageUsageView, Context context) {
-            super(context);
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), i2);
-            int childCount = getChildCount();
-            int i3 = 0;
-            int i4 = 0;
-            int i5 = 0;
-            for (int i6 = 0; i6 < childCount; i6++) {
-                if (getChildAt(i6).getVisibility() != 8) {
-                    if (getChildAt(i6).getMeasuredWidth() + i4 > View.MeasureSpec.getSize(i)) {
-                        i5 += getChildAt(i6).getMeasuredHeight() + AndroidUtilities.dp(8.0f);
-                        i4 = 0;
-                    }
-                    i4 += getChildAt(i6).getMeasuredWidth() + AndroidUtilities.dp(16.0f);
-                    i3 = getChildAt(i6).getMeasuredHeight() + i5;
-                }
-            }
-            setMeasuredDimension(getMeasuredWidth(), i3);
-        }
-
-        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            int childCount = getChildCount();
-            int i5 = 0;
-            int i6 = 0;
-            for (int i7 = 0; i7 < childCount; i7++) {
-                if (getChildAt(i7).getVisibility() != 8) {
-                    if (getChildAt(i7).getMeasuredWidth() + i5 > getMeasuredWidth()) {
-                        i6 += getChildAt(i7).getMeasuredHeight() + AndroidUtilities.dp(8.0f);
-                        i5 = 0;
-                    }
-                    getChildAt(i7).layout(i5, i6, getChildAt(i7).getMeasuredWidth() + i5, getChildAt(i7).getMeasuredHeight() + i6);
-                    i5 += getChildAt(i7).getMeasuredWidth() + AndroidUtilities.dp(16.0f);
-                }
-            }
-        }
-    }
-
     public void setStorageUsage(boolean z, long j, long j2, long j3, long j4) {
         this.calculating = z;
-        this.freeSizeTextView.setText(LocaleController.formatString("TotalDeviceFreeSize", 2131628756, AndroidUtilities.formatFileSize(j3)));
+        this.freeSizeTextView.setText(LocaleController.formatString("TotalDeviceFreeSize", R.string.TotalDeviceFreeSize, AndroidUtilities.formatFileSize(j3)));
         long j5 = j4 - j3;
-        this.totlaSizeTextView.setText(LocaleController.formatString("TotalDeviceSize", 2131628757, AndroidUtilities.formatFileSize(j5)));
+        this.totlaSizeTextView.setText(LocaleController.formatString("TotalDeviceSize", R.string.TotalDeviceSize, AndroidUtilities.formatFileSize(j5)));
         if (z) {
             this.calculatingTextView.setVisibility(0);
             this.telegramCacheTextView.setVisibility(8);
@@ -195,12 +188,12 @@ public class StroageUsageView extends FrameLayout {
                 this.textSettingsCell.setVisibility(0);
                 this.telegramCacheTextView.setVisibility(0);
                 this.telegramDatabaseTextView.setVisibility(8);
-                this.textSettingsCell.setText(LocaleController.getString("ClearTelegramCache", 2131625182), false);
-                this.telegramCacheTextView.setText(LocaleController.formatString("TelegramCacheSize", 2131628618, AndroidUtilities.formatFileSize(j2 + j)));
+                this.textSettingsCell.setText(LocaleController.getString("ClearTelegramCache", R.string.ClearTelegramCache), false);
+                this.telegramCacheTextView.setText(LocaleController.formatString("TelegramCacheSize", R.string.TelegramCacheSize, AndroidUtilities.formatFileSize(j2 + j)));
             } else {
                 this.telegramCacheTextView.setVisibility(8);
                 this.telegramDatabaseTextView.setVisibility(0);
-                this.telegramDatabaseTextView.setText(LocaleController.formatString("LocalDatabaseSize", 2131626530, AndroidUtilities.formatFileSize(j)));
+                this.telegramDatabaseTextView.setText(LocaleController.formatString("LocalDatabaseSize", R.string.LocalDatabaseSize, AndroidUtilities.formatFileSize(j)));
                 this.divider.setVisibility(8);
                 this.textSettingsCell.setVisibility(8);
             }
@@ -216,7 +209,12 @@ public class StroageUsageView extends FrameLayout {
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(this.progress, f2);
                 this.valueAnimator = ofFloat;
-                ofFloat.addUpdateListener(new StroageUsageView$$ExternalSyntheticLambda0(this));
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StroageUsageView$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        StroageUsageView.this.lambda$setStorageUsage$0(valueAnimator2);
+                    }
+                });
                 this.valueAnimator.start();
             }
             if (this.progress2 != f3) {
@@ -226,7 +224,12 @@ public class StroageUsageView extends FrameLayout {
                 }
                 ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.progress2, f3);
                 this.valueAnimator2 = ofFloat2;
-                ofFloat2.addUpdateListener(new StroageUsageView$$ExternalSyntheticLambda1(this));
+                ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StroageUsageView$$ExternalSyntheticLambda1
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                        StroageUsageView.this.lambda$setStorageUsage$1(valueAnimator3);
+                    }
+                });
                 this.valueAnimator2.start();
             }
         }

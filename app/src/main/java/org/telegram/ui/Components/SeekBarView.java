@@ -96,50 +96,44 @@ public class SeekBarView extends FrameLayout {
             this.hoverDrawable.setVisible(true, false);
         }
         setImportantForAccessibility(1);
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(z);
-        this.seekBarAccessibilityDelegate = anonymousClass1;
-        setAccessibilityDelegate(anonymousClass1);
-    }
-
-    /* renamed from: org.telegram.ui.Components.SeekBarView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends FloatSeekBarAccessibilityDelegate {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(boolean z) {
-            super(z);
-            SeekBarView.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
-        public float getProgress() {
-            return SeekBarView.this.getProgress();
-        }
-
-        @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
-        public void setProgress(float f) {
-            SeekBarView.this.pressed = true;
-            SeekBarView.this.setProgress(f);
-            SeekBarViewDelegate seekBarViewDelegate = SeekBarView.this.delegate;
-            if (seekBarViewDelegate != null) {
-                seekBarViewDelegate.onSeekBarDrag(true, f);
+        FloatSeekBarAccessibilityDelegate floatSeekBarAccessibilityDelegate = new FloatSeekBarAccessibilityDelegate(z) { // from class: org.telegram.ui.Components.SeekBarView.1
+            {
+                SeekBarView.this = this;
             }
-            SeekBarView.this.pressed = false;
-        }
 
-        @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
-        public float getDelta() {
-            int stepsCount = SeekBarView.this.delegate.getStepsCount();
-            return stepsCount > 0 ? 1.0f / stepsCount : super.getDelta();
-        }
-
-        @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-        public CharSequence getContentDescription(View view) {
-            SeekBarViewDelegate seekBarViewDelegate = SeekBarView.this.delegate;
-            if (seekBarViewDelegate != null) {
-                return seekBarViewDelegate.getContentDescription();
+            @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+            public float getProgress() {
+                return SeekBarView.this.getProgress();
             }
-            return null;
-        }
+
+            @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+            public void setProgress(float f) {
+                SeekBarView.this.pressed = true;
+                SeekBarView.this.setProgress(f);
+                SeekBarViewDelegate seekBarViewDelegate = SeekBarView.this.delegate;
+                if (seekBarViewDelegate != null) {
+                    seekBarViewDelegate.onSeekBarDrag(true, f);
+                }
+                SeekBarView.this.pressed = false;
+            }
+
+            @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+            public float getDelta() {
+                int stepsCount = SeekBarView.this.delegate.getStepsCount();
+                return stepsCount > 0 ? 1.0f / stepsCount : super.getDelta();
+            }
+
+            @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
+            public CharSequence getContentDescription(View view) {
+                SeekBarViewDelegate seekBarViewDelegate = SeekBarView.this.delegate;
+                if (seekBarViewDelegate != null) {
+                    return seekBarViewDelegate.getContentDescription();
+                }
+                return null;
+            }
+        };
+        this.seekBarAccessibilityDelegate = floatSeekBarAccessibilityDelegate;
+        setAccessibilityDelegate(floatSeekBarAccessibilityDelegate);
     }
 
     public void setSeparatorsCount(int i) {

@@ -24,8 +24,10 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -37,6 +39,8 @@ import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScrollSlidingTextTabStrip;
+import org.telegram.ui.ContactsActivity;
+import org.telegram.ui.DialogsActivity;
 /* loaded from: classes3.dex */
 public class DialogOrContactPickerActivity extends BaseFragment {
     private static final Interpolator interpolator = DialogOrContactPickerActivity$$ExternalSyntheticLambda1.INSTANCE;
@@ -80,7 +84,12 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         bundle.putInt("dialogsType", 9);
         DialogsActivity dialogsActivity = new DialogsActivity(bundle);
         this.dialogsActivity = dialogsActivity;
-        dialogsActivity.setDelegate(new DialogOrContactPickerActivity$$ExternalSyntheticLambda3(this));
+        dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
+            public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+                DialogOrContactPickerActivity.this.lambda$new$1(dialogsActivity2, arrayList, charSequence, z);
+            }
+        });
         this.dialogsActivity.onFragmentCreate();
         Bundle bundle2 = new Bundle();
         bundle2.putBoolean("onlyUsers", true);
@@ -92,7 +101,12 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         bundle2.putBoolean("allowSelf", false);
         ContactsActivity contactsActivity = new ContactsActivity(bundle2);
         this.contactsActivity = contactsActivity;
-        contactsActivity.setDelegate(new DialogOrContactPickerActivity$$ExternalSyntheticLambda2(this));
+        contactsActivity.setDelegate(new ContactsActivity.ContactsActivityDelegate() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ContactsActivity.ContactsActivityDelegate
+            public final void didSelectContact(TLRPC$User tLRPC$User, String str, ContactsActivity contactsActivity2) {
+                DialogOrContactPickerActivity.this.lambda$new$2(tLRPC$User, str, contactsActivity2);
+            }
+        });
         this.contactsActivity.onFragmentCreate();
     }
 
@@ -113,8 +127,8 @@ public class DialogOrContactPickerActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        this.actionBar.setBackButtonImage(2131165449);
-        this.actionBar.setTitle(LocaleController.getString("BlockUserMultiTitle", 2131624695));
+        this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        this.actionBar.setTitle(LocaleController.getString("BlockUserMultiTitle", R.string.BlockUserMultiTitle));
         boolean z = false;
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
@@ -123,20 +137,355 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         this.actionBar.setAllowOverlayTitle(false);
         this.actionBar.setAddToContainer(false);
         this.actionBar.setClipContent(true);
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.DialogOrContactPickerActivity.1
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i) {
+                if (i == -1) {
+                    DialogOrContactPickerActivity.this.finishFragment();
+                }
+            }
+        });
         this.hasOwnBackground = true;
-        ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
+        ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.DialogOrContactPickerActivity.2
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onSearchExpand() {
+                DialogOrContactPickerActivity.this.dialogsActivity.getActionBar().openSearchField("", false);
+                DialogOrContactPickerActivity.this.contactsActivity.getActionBar().openSearchField("", false);
+                DialogOrContactPickerActivity.this.searchItem.getSearchField().requestFocus();
+            }
+
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onSearchCollapse() {
+                DialogOrContactPickerActivity.this.dialogsActivity.getActionBar().closeSearchField(false);
+                DialogOrContactPickerActivity.this.contactsActivity.getActionBar().closeSearchField(false);
+            }
+
+            @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
+            public void onTextChanged(EditText editText) {
+                DialogOrContactPickerActivity.this.dialogsActivity.getActionBar().setSearchFieldText(editText.getText().toString());
+                DialogOrContactPickerActivity.this.contactsActivity.getActionBar().setSearchFieldText(editText.getText().toString());
+            }
+        });
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
         ScrollSlidingTextTabStrip scrollSlidingTextTabStrip = new ScrollSlidingTextTabStrip(context);
         this.scrollSlidingTextTabStrip = scrollSlidingTextTabStrip;
         scrollSlidingTextTabStrip.setUseSameWidth(true);
         this.actionBar.addView(this.scrollSlidingTextTabStrip, LayoutHelper.createFrame(-1, 44, 83));
-        this.scrollSlidingTextTabStrip.setDelegate(new AnonymousClass3());
+        this.scrollSlidingTextTabStrip.setDelegate(new ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate() { // from class: org.telegram.ui.DialogOrContactPickerActivity.3
+            @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
+            public /* synthetic */ void onSamePageSelected() {
+                ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate.CC.$default$onSamePageSelected(this);
+            }
+
+            @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
+            public void onPageSelected(int i, boolean z2) {
+                if (DialogOrContactPickerActivity.this.viewPages[0].selectedType == i) {
+                    return;
+                }
+                DialogOrContactPickerActivity dialogOrContactPickerActivity = DialogOrContactPickerActivity.this;
+                dialogOrContactPickerActivity.swipeBackEnabled = i == dialogOrContactPickerActivity.scrollSlidingTextTabStrip.getFirstTabId();
+                DialogOrContactPickerActivity.this.viewPages[1].selectedType = i;
+                DialogOrContactPickerActivity.this.viewPages[1].setVisibility(0);
+                DialogOrContactPickerActivity.this.switchToCurrentSelectedMode(true);
+                DialogOrContactPickerActivity.this.animatingForward = z2;
+            }
+
+            @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
+            public void onPageScrolled(float f) {
+                if (f != 1.0f || DialogOrContactPickerActivity.this.viewPages[1].getVisibility() == 0) {
+                    if (DialogOrContactPickerActivity.this.animatingForward) {
+                        DialogOrContactPickerActivity.this.viewPages[0].setTranslationX((-f) * DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
+                        DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() - (DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() * f));
+                    } else {
+                        DialogOrContactPickerActivity.this.viewPages[0].setTranslationX(DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() * f);
+                        DialogOrContactPickerActivity.this.viewPages[1].setTranslationX((DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() * f) - DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
+                    }
+                    if (f != 1.0f) {
+                        return;
+                    }
+                    ViewPage viewPage = DialogOrContactPickerActivity.this.viewPages[0];
+                    DialogOrContactPickerActivity.this.viewPages[0] = DialogOrContactPickerActivity.this.viewPages[1];
+                    DialogOrContactPickerActivity.this.viewPages[1] = viewPage;
+                    DialogOrContactPickerActivity.this.viewPages[1].setVisibility(8);
+                }
+            }
+        });
         this.maximumVelocity = ViewConfiguration.get(context).getScaledMaximumFlingVelocity();
-        AnonymousClass4 anonymousClass4 = new AnonymousClass4(context);
-        this.fragmentView = anonymousClass4;
-        anonymousClass4.setWillNotDraw(false);
+        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.DialogOrContactPickerActivity.4
+            private boolean globalIgnoreLayout;
+            private boolean maybeStartTracking;
+            private boolean startedTracking;
+            private int startedTrackingPointerId;
+            private int startedTrackingX;
+            private int startedTrackingY;
+            private VelocityTracker velocityTracker;
+
+            private boolean prepareForMoving(MotionEvent motionEvent, boolean z2) {
+                int nextPageId = DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.getNextPageId(z2);
+                if (nextPageId < 0) {
+                    return false;
+                }
+                getParent().requestDisallowInterceptTouchEvent(true);
+                this.maybeStartTracking = false;
+                this.startedTracking = true;
+                this.startedTrackingX = (int) motionEvent.getX();
+                ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.setEnabled(false);
+                DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.setEnabled(false);
+                DialogOrContactPickerActivity.this.viewPages[1].selectedType = nextPageId;
+                DialogOrContactPickerActivity.this.viewPages[1].setVisibility(0);
+                DialogOrContactPickerActivity.this.animatingForward = z2;
+                DialogOrContactPickerActivity.this.switchToCurrentSelectedMode(true);
+                if (z2) {
+                    DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
+                } else {
+                    DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(-DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
+                }
+                return true;
+            }
+
+            @Override // android.view.View
+            public void forceHasOverlappingRendering(boolean z2) {
+                super.forceHasOverlappingRendering(z2);
+            }
+
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i, int i2) {
+                setMeasuredDimension(View.MeasureSpec.getSize(i), View.MeasureSpec.getSize(i2));
+                measureChildWithMargins(((BaseFragment) DialogOrContactPickerActivity.this).actionBar, i, 0, i2, 0);
+                int measuredHeight = ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getMeasuredHeight();
+                this.globalIgnoreLayout = true;
+                for (int i3 = 0; i3 < DialogOrContactPickerActivity.this.viewPages.length; i3++) {
+                    if (DialogOrContactPickerActivity.this.viewPages[i3] != null) {
+                        if (DialogOrContactPickerActivity.this.viewPages[i3].listView != null) {
+                            DialogOrContactPickerActivity.this.viewPages[i3].listView.setPadding(0, measuredHeight, 0, 0);
+                        }
+                        if (DialogOrContactPickerActivity.this.viewPages[i3].listView2 != null) {
+                            DialogOrContactPickerActivity.this.viewPages[i3].listView2.setPadding(0, measuredHeight, 0, 0);
+                        }
+                    }
+                }
+                this.globalIgnoreLayout = false;
+                int childCount = getChildCount();
+                for (int i4 = 0; i4 < childCount; i4++) {
+                    View childAt = getChildAt(i4);
+                    if (childAt != null && childAt.getVisibility() != 8 && childAt != ((BaseFragment) DialogOrContactPickerActivity.this).actionBar) {
+                        measureChildWithMargins(childAt, i, 0, i2, 0);
+                    }
+                }
+            }
+
+            @Override // android.view.ViewGroup, android.view.View
+            protected void dispatchDraw(Canvas canvas) {
+                super.dispatchDraw(canvas);
+                if (((BaseFragment) DialogOrContactPickerActivity.this).parentLayout != null) {
+                    ((BaseFragment) DialogOrContactPickerActivity.this).parentLayout.drawHeaderShadow(canvas, ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getMeasuredHeight() + ((int) ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getTranslationY()));
+                }
+            }
+
+            @Override // android.view.View, android.view.ViewParent
+            public void requestLayout() {
+                if (this.globalIgnoreLayout) {
+                    return;
+                }
+                super.requestLayout();
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:20:0x00a0  */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
+            public boolean checkTabsAnimationInProgress() {
+                if (DialogOrContactPickerActivity.this.tabsAnimationInProgress) {
+                    int i = -1;
+                    boolean z2 = true;
+                    if (DialogOrContactPickerActivity.this.backAnimation) {
+                        if (Math.abs(DialogOrContactPickerActivity.this.viewPages[0].getTranslationX()) < 1.0f) {
+                            DialogOrContactPickerActivity.this.viewPages[0].setTranslationX(0.0f);
+                            ViewPage viewPage = DialogOrContactPickerActivity.this.viewPages[1];
+                            int measuredWidth = DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth();
+                            if (DialogOrContactPickerActivity.this.animatingForward) {
+                                i = 1;
+                            }
+                            viewPage.setTranslationX(measuredWidth * i);
+                            if (z2) {
+                                if (DialogOrContactPickerActivity.this.tabsAnimation != null) {
+                                    DialogOrContactPickerActivity.this.tabsAnimation.cancel();
+                                    DialogOrContactPickerActivity.this.tabsAnimation = null;
+                                }
+                                DialogOrContactPickerActivity.this.tabsAnimationInProgress = false;
+                            }
+                            return DialogOrContactPickerActivity.this.tabsAnimationInProgress;
+                        }
+                        z2 = false;
+                        if (z2) {
+                        }
+                        return DialogOrContactPickerActivity.this.tabsAnimationInProgress;
+                    }
+                    if (Math.abs(DialogOrContactPickerActivity.this.viewPages[1].getTranslationX()) < 1.0f) {
+                        ViewPage viewPage2 = DialogOrContactPickerActivity.this.viewPages[0];
+                        int measuredWidth2 = DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth();
+                        if (!DialogOrContactPickerActivity.this.animatingForward) {
+                            i = 1;
+                        }
+                        viewPage2.setTranslationX(measuredWidth2 * i);
+                        DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(0.0f);
+                        if (z2) {
+                        }
+                        return DialogOrContactPickerActivity.this.tabsAnimationInProgress;
+                    }
+                    z2 = false;
+                    if (z2) {
+                    }
+                    return DialogOrContactPickerActivity.this.tabsAnimationInProgress;
+                }
+                return false;
+            }
+
+            @Override // android.view.ViewGroup
+            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                return checkTabsAnimationInProgress() || DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.isAnimatingIndicator() || onTouchEvent(motionEvent);
+            }
+
+            @Override // android.view.View
+            protected void onDraw(Canvas canvas) {
+                DialogOrContactPickerActivity.this.backgroundPaint.setColor(Theme.getColor("windowBackgroundWhite"));
+                canvas.drawRect(0.0f, ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getMeasuredHeight() + ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getTranslationY(), getMeasuredWidth(), getMeasuredHeight(), DialogOrContactPickerActivity.this.backgroundPaint);
+            }
+
+            @Override // android.view.View
+            public boolean onTouchEvent(MotionEvent motionEvent) {
+                float f;
+                float f2;
+                float f3;
+                int i;
+                boolean z2 = false;
+                if (((BaseFragment) DialogOrContactPickerActivity.this).parentLayout.checkTransitionAnimation() || checkTabsAnimationInProgress()) {
+                    return false;
+                }
+                if (motionEvent != null) {
+                    if (this.velocityTracker == null) {
+                        this.velocityTracker = VelocityTracker.obtain();
+                    }
+                    this.velocityTracker.addMovement(motionEvent);
+                }
+                if (motionEvent != null && motionEvent.getAction() == 0 && !this.startedTracking && !this.maybeStartTracking) {
+                    this.startedTrackingPointerId = motionEvent.getPointerId(0);
+                    this.maybeStartTracking = true;
+                    this.startedTrackingX = (int) motionEvent.getX();
+                    this.startedTrackingY = (int) motionEvent.getY();
+                    this.velocityTracker.clear();
+                } else if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
+                    int x = (int) (motionEvent.getX() - this.startedTrackingX);
+                    int abs = Math.abs(((int) motionEvent.getY()) - this.startedTrackingY);
+                    if (this.startedTracking && ((DialogOrContactPickerActivity.this.animatingForward && x > 0) || (!DialogOrContactPickerActivity.this.animatingForward && x < 0))) {
+                        if (!prepareForMoving(motionEvent, x < 0)) {
+                            this.maybeStartTracking = true;
+                            this.startedTracking = false;
+                            DialogOrContactPickerActivity.this.viewPages[0].setTranslationX(0.0f);
+                            DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(DialogOrContactPickerActivity.this.animatingForward ? DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() : -DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
+                            DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DialogOrContactPickerActivity.this.viewPages[1].selectedType, 0.0f);
+                        }
+                    }
+                    if (this.maybeStartTracking && !this.startedTracking) {
+                        if (Math.abs(x) >= AndroidUtilities.getPixelsInCM(0.3f, true) && Math.abs(x) > abs) {
+                            if (x < 0) {
+                                z2 = true;
+                            }
+                            prepareForMoving(motionEvent, z2);
+                        }
+                    } else if (this.startedTracking) {
+                        DialogOrContactPickerActivity.this.viewPages[0].setTranslationX(x);
+                        if (DialogOrContactPickerActivity.this.animatingForward) {
+                            DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() + x);
+                        } else {
+                            DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(x - DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
+                        }
+                        DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DialogOrContactPickerActivity.this.viewPages[1].selectedType, Math.abs(x) / DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
+                    }
+                } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
+                    this.velocityTracker.computeCurrentVelocity(1000, DialogOrContactPickerActivity.this.maximumVelocity);
+                    if (motionEvent == null || motionEvent.getAction() == 3) {
+                        f2 = 0.0f;
+                        f = 0.0f;
+                    } else {
+                        f2 = this.velocityTracker.getXVelocity();
+                        f = this.velocityTracker.getYVelocity();
+                        if (!this.startedTracking && Math.abs(f2) >= 3000.0f && Math.abs(f2) > Math.abs(f)) {
+                            prepareForMoving(motionEvent, f2 < 0.0f);
+                        }
+                    }
+                    if (this.startedTracking) {
+                        float x2 = DialogOrContactPickerActivity.this.viewPages[0].getX();
+                        DialogOrContactPickerActivity.this.tabsAnimation = new AnimatorSet();
+                        DialogOrContactPickerActivity.this.backAnimation = Math.abs(x2) < ((float) DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth()) / 3.0f && (Math.abs(f2) < 3500.0f || Math.abs(f2) < Math.abs(f));
+                        if (!DialogOrContactPickerActivity.this.backAnimation) {
+                            f3 = DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() - Math.abs(x2);
+                            if (DialogOrContactPickerActivity.this.animatingForward) {
+                                DialogOrContactPickerActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[0], View.TRANSLATION_X, -DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[1], View.TRANSLATION_X, 0.0f));
+                            } else {
+                                DialogOrContactPickerActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[0], View.TRANSLATION_X, DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[1], View.TRANSLATION_X, 0.0f));
+                            }
+                        } else {
+                            f3 = Math.abs(x2);
+                            if (DialogOrContactPickerActivity.this.animatingForward) {
+                                DialogOrContactPickerActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[1], View.TRANSLATION_X, DialogOrContactPickerActivity.this.viewPages[1].getMeasuredWidth()));
+                            } else {
+                                DialogOrContactPickerActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[1], View.TRANSLATION_X, -DialogOrContactPickerActivity.this.viewPages[1].getMeasuredWidth()));
+                            }
+                        }
+                        DialogOrContactPickerActivity.this.tabsAnimation.setInterpolator(DialogOrContactPickerActivity.interpolator);
+                        int measuredWidth = getMeasuredWidth();
+                        float f4 = measuredWidth / 2;
+                        float distanceInfluenceForSnapDuration = f4 + (AndroidUtilities.distanceInfluenceForSnapDuration(Math.min(1.0f, (f3 * 1.0f) / measuredWidth)) * f4);
+                        float abs2 = Math.abs(f2);
+                        if (abs2 > 0.0f) {
+                            i = Math.round(Math.abs(distanceInfluenceForSnapDuration / abs2) * 1000.0f) * 4;
+                        } else {
+                            i = (int) (((f3 / getMeasuredWidth()) + 1.0f) * 100.0f);
+                        }
+                        DialogOrContactPickerActivity.this.tabsAnimation.setDuration(Math.max((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, Math.min(i, 600)));
+                        DialogOrContactPickerActivity.this.tabsAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DialogOrContactPickerActivity.4.1
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                DialogOrContactPickerActivity.this.tabsAnimation = null;
+                                if (DialogOrContactPickerActivity.this.backAnimation) {
+                                    DialogOrContactPickerActivity.this.viewPages[1].setVisibility(8);
+                                } else {
+                                    ViewPage viewPage = DialogOrContactPickerActivity.this.viewPages[0];
+                                    DialogOrContactPickerActivity.this.viewPages[0] = DialogOrContactPickerActivity.this.viewPages[1];
+                                    DialogOrContactPickerActivity.this.viewPages[1] = viewPage;
+                                    DialogOrContactPickerActivity.this.viewPages[1].setVisibility(8);
+                                    DialogOrContactPickerActivity dialogOrContactPickerActivity = DialogOrContactPickerActivity.this;
+                                    dialogOrContactPickerActivity.swipeBackEnabled = dialogOrContactPickerActivity.viewPages[0].selectedType == DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.getFirstTabId();
+                                    DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DialogOrContactPickerActivity.this.viewPages[0].selectedType, 1.0f);
+                                }
+                                DialogOrContactPickerActivity.this.tabsAnimationInProgress = false;
+                                AnonymousClass4.this.maybeStartTracking = false;
+                                AnonymousClass4.this.startedTracking = false;
+                                ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.setEnabled(true);
+                                DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
+                            }
+                        });
+                        DialogOrContactPickerActivity.this.tabsAnimation.start();
+                        DialogOrContactPickerActivity.this.tabsAnimationInProgress = true;
+                        this.startedTracking = false;
+                    } else {
+                        this.maybeStartTracking = false;
+                        ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.setEnabled(true);
+                        DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
+                    }
+                    VelocityTracker velocityTracker = this.velocityTracker;
+                    if (velocityTracker != null) {
+                        velocityTracker.recycle();
+                        this.velocityTracker = null;
+                    }
+                }
+                return this.startedTracking;
+            }
+        };
+        this.fragmentView = frameLayout;
+        frameLayout.setWillNotDraw(false);
         this.dialogsActivity.setParentFragment(this);
         this.contactsActivity.setParentFragment(this);
         int i = 0;
@@ -145,8 +494,17 @@ public class DialogOrContactPickerActivity extends BaseFragment {
             if (i >= viewPageArr.length) {
                 break;
             }
-            viewPageArr[i] = new AnonymousClass5(context);
-            anonymousClass4.addView(this.viewPages[i], LayoutHelper.createFrame(-1, -1.0f));
+            viewPageArr[i] = new ViewPage(context) { // from class: org.telegram.ui.DialogOrContactPickerActivity.5
+                @Override // android.view.View
+                public void setTranslationX(float f) {
+                    super.setTranslationX(f);
+                    if (!DialogOrContactPickerActivity.this.tabsAnimationInProgress || DialogOrContactPickerActivity.this.viewPages[0] != this) {
+                        return;
+                    }
+                    DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DialogOrContactPickerActivity.this.viewPages[1].selectedType, Math.abs(DialogOrContactPickerActivity.this.viewPages[0].getTranslationX()) / DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
+                }
+            };
+            frameLayout.addView(this.viewPages[i], LayoutHelper.createFrame(-1, -1.0f));
             if (i == 0) {
                 this.viewPages[i].parentFragment = this.dialogsActivity;
                 this.viewPages[i].listView = this.dialogsActivity.getListView();
@@ -172,13 +530,59 @@ public class DialogOrContactPickerActivity extends BaseFragment {
                 RecyclerListView recyclerListView = i2 == 0 ? viewPageArr6[i].listView : viewPageArr6[i].listView2;
                 if (recyclerListView != null) {
                     recyclerListView.setClipToPadding(false);
-                    recyclerListView.setOnScrollListener(new AnonymousClass6(recyclerListView.getOnScrollListener()));
+                    final RecyclerView.OnScrollListener onScrollListener = recyclerListView.getOnScrollListener();
+                    recyclerListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.DialogOrContactPickerActivity.6
+                        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+                        public void onScrollStateChanged(RecyclerView recyclerView, int i3) {
+                            onScrollListener.onScrollStateChanged(recyclerView, i3);
+                            if (i3 != 1) {
+                                int i4 = (int) (-((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getTranslationY());
+                                int currentActionBarHeight = ActionBar.getCurrentActionBarHeight();
+                                if (i4 == 0 || i4 == currentActionBarHeight) {
+                                    return;
+                                }
+                                if (i4 < currentActionBarHeight / 2) {
+                                    int i5 = -i4;
+                                    DialogOrContactPickerActivity.this.viewPages[0].listView.smoothScrollBy(0, i5);
+                                    if (DialogOrContactPickerActivity.this.viewPages[0].listView2 == null) {
+                                        return;
+                                    }
+                                    DialogOrContactPickerActivity.this.viewPages[0].listView2.smoothScrollBy(0, i5);
+                                    return;
+                                }
+                                int i6 = currentActionBarHeight - i4;
+                                DialogOrContactPickerActivity.this.viewPages[0].listView.smoothScrollBy(0, i6);
+                                if (DialogOrContactPickerActivity.this.viewPages[0].listView2 == null) {
+                                    return;
+                                }
+                                DialogOrContactPickerActivity.this.viewPages[0].listView2.smoothScrollBy(0, i6);
+                            }
+                        }
+
+                        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+                        public void onScrolled(RecyclerView recyclerView, int i3, int i4) {
+                            onScrollListener.onScrolled(recyclerView, i3, i4);
+                            if (recyclerView == DialogOrContactPickerActivity.this.viewPages[0].listView || recyclerView == DialogOrContactPickerActivity.this.viewPages[0].listView2) {
+                                float translationY = ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getTranslationY();
+                                float f = translationY - i4;
+                                if (f < (-ActionBar.getCurrentActionBarHeight())) {
+                                    f = -ActionBar.getCurrentActionBarHeight();
+                                } else if (f > 0.0f) {
+                                    f = 0.0f;
+                                }
+                                if (f == translationY) {
+                                    return;
+                                }
+                                DialogOrContactPickerActivity.this.setScrollY(f);
+                            }
+                        }
+                    });
                 }
                 i2++;
             }
             i++;
         }
-        anonymousClass4.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
+        frameLayout.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
         updateTabs();
         switchToCurrentSelectedMode(false);
         if (this.scrollSlidingTextTabStrip.getCurrentTabId() == this.scrollSlidingTextTabStrip.getFirstTabId()) {
@@ -186,458 +590,6 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         }
         this.swipeBackEnabled = z;
         return this.fragmentView;
-    }
-
-    /* renamed from: org.telegram.ui.DialogOrContactPickerActivity$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass1() {
-            DialogOrContactPickerActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                DialogOrContactPickerActivity.this.finishFragment();
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.DialogOrContactPickerActivity$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
-        AnonymousClass2() {
-            DialogOrContactPickerActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-        public void onSearchExpand() {
-            DialogOrContactPickerActivity.this.dialogsActivity.getActionBar().openSearchField("", false);
-            DialogOrContactPickerActivity.this.contactsActivity.getActionBar().openSearchField("", false);
-            DialogOrContactPickerActivity.this.searchItem.getSearchField().requestFocus();
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-        public void onSearchCollapse() {
-            DialogOrContactPickerActivity.this.dialogsActivity.getActionBar().closeSearchField(false);
-            DialogOrContactPickerActivity.this.contactsActivity.getActionBar().closeSearchField(false);
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
-        public void onTextChanged(EditText editText) {
-            DialogOrContactPickerActivity.this.dialogsActivity.getActionBar().setSearchFieldText(editText.getText().toString());
-            DialogOrContactPickerActivity.this.contactsActivity.getActionBar().setSearchFieldText(editText.getText().toString());
-        }
-    }
-
-    /* renamed from: org.telegram.ui.DialogOrContactPickerActivity$3 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass3 implements ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate {
-        @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
-        public /* synthetic */ void onSamePageSelected() {
-            ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate.CC.$default$onSamePageSelected(this);
-        }
-
-        AnonymousClass3() {
-            DialogOrContactPickerActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
-        public void onPageSelected(int i, boolean z) {
-            if (DialogOrContactPickerActivity.this.viewPages[0].selectedType == i) {
-                return;
-            }
-            DialogOrContactPickerActivity dialogOrContactPickerActivity = DialogOrContactPickerActivity.this;
-            dialogOrContactPickerActivity.swipeBackEnabled = i == dialogOrContactPickerActivity.scrollSlidingTextTabStrip.getFirstTabId();
-            DialogOrContactPickerActivity.this.viewPages[1].selectedType = i;
-            DialogOrContactPickerActivity.this.viewPages[1].setVisibility(0);
-            DialogOrContactPickerActivity.this.switchToCurrentSelectedMode(true);
-            DialogOrContactPickerActivity.this.animatingForward = z;
-        }
-
-        @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
-        public void onPageScrolled(float f) {
-            if (f != 1.0f || DialogOrContactPickerActivity.this.viewPages[1].getVisibility() == 0) {
-                if (DialogOrContactPickerActivity.this.animatingForward) {
-                    DialogOrContactPickerActivity.this.viewPages[0].setTranslationX((-f) * DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
-                    DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() - (DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() * f));
-                } else {
-                    DialogOrContactPickerActivity.this.viewPages[0].setTranslationX(DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() * f);
-                    DialogOrContactPickerActivity.this.viewPages[1].setTranslationX((DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() * f) - DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
-                }
-                if (f != 1.0f) {
-                    return;
-                }
-                ViewPage viewPage = DialogOrContactPickerActivity.this.viewPages[0];
-                DialogOrContactPickerActivity.this.viewPages[0] = DialogOrContactPickerActivity.this.viewPages[1];
-                DialogOrContactPickerActivity.this.viewPages[1] = viewPage;
-                DialogOrContactPickerActivity.this.viewPages[1].setVisibility(8);
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.DialogOrContactPickerActivity$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends FrameLayout {
-        private boolean globalIgnoreLayout;
-        private boolean maybeStartTracking;
-        private boolean startedTracking;
-        private int startedTrackingPointerId;
-        private int startedTrackingX;
-        private int startedTrackingY;
-        private VelocityTracker velocityTracker;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass4(Context context) {
-            super(context);
-            DialogOrContactPickerActivity.this = r1;
-        }
-
-        private boolean prepareForMoving(MotionEvent motionEvent, boolean z) {
-            int nextPageId = DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.getNextPageId(z);
-            if (nextPageId < 0) {
-                return false;
-            }
-            getParent().requestDisallowInterceptTouchEvent(true);
-            this.maybeStartTracking = false;
-            this.startedTracking = true;
-            this.startedTrackingX = (int) motionEvent.getX();
-            ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.setEnabled(false);
-            DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.setEnabled(false);
-            DialogOrContactPickerActivity.this.viewPages[1].selectedType = nextPageId;
-            DialogOrContactPickerActivity.this.viewPages[1].setVisibility(0);
-            DialogOrContactPickerActivity.this.animatingForward = z;
-            DialogOrContactPickerActivity.this.switchToCurrentSelectedMode(true);
-            if (z) {
-                DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
-            } else {
-                DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(-DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
-            }
-            return true;
-        }
-
-        @Override // android.view.View
-        public void forceHasOverlappingRendering(boolean z) {
-            super.forceHasOverlappingRendering(z);
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            setMeasuredDimension(View.MeasureSpec.getSize(i), View.MeasureSpec.getSize(i2));
-            measureChildWithMargins(((BaseFragment) DialogOrContactPickerActivity.this).actionBar, i, 0, i2, 0);
-            int measuredHeight = ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getMeasuredHeight();
-            this.globalIgnoreLayout = true;
-            for (int i3 = 0; i3 < DialogOrContactPickerActivity.this.viewPages.length; i3++) {
-                if (DialogOrContactPickerActivity.this.viewPages[i3] != null) {
-                    if (DialogOrContactPickerActivity.this.viewPages[i3].listView != null) {
-                        DialogOrContactPickerActivity.this.viewPages[i3].listView.setPadding(0, measuredHeight, 0, 0);
-                    }
-                    if (DialogOrContactPickerActivity.this.viewPages[i3].listView2 != null) {
-                        DialogOrContactPickerActivity.this.viewPages[i3].listView2.setPadding(0, measuredHeight, 0, 0);
-                    }
-                }
-            }
-            this.globalIgnoreLayout = false;
-            int childCount = getChildCount();
-            for (int i4 = 0; i4 < childCount; i4++) {
-                View childAt = getChildAt(i4);
-                if (childAt != null && childAt.getVisibility() != 8 && childAt != ((BaseFragment) DialogOrContactPickerActivity.this).actionBar) {
-                    measureChildWithMargins(childAt, i, 0, i2, 0);
-                }
-            }
-        }
-
-        @Override // android.view.ViewGroup, android.view.View
-        protected void dispatchDraw(Canvas canvas) {
-            super.dispatchDraw(canvas);
-            if (((BaseFragment) DialogOrContactPickerActivity.this).parentLayout != null) {
-                ((BaseFragment) DialogOrContactPickerActivity.this).parentLayout.drawHeaderShadow(canvas, ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getMeasuredHeight() + ((int) ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getTranslationY()));
-            }
-        }
-
-        @Override // android.view.View, android.view.ViewParent
-        public void requestLayout() {
-            if (this.globalIgnoreLayout) {
-                return;
-            }
-            super.requestLayout();
-        }
-
-        /* JADX WARN: Removed duplicated region for block: B:20:0x00a0  */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public boolean checkTabsAnimationInProgress() {
-            if (DialogOrContactPickerActivity.this.tabsAnimationInProgress) {
-                int i = -1;
-                boolean z = true;
-                if (DialogOrContactPickerActivity.this.backAnimation) {
-                    if (Math.abs(DialogOrContactPickerActivity.this.viewPages[0].getTranslationX()) < 1.0f) {
-                        DialogOrContactPickerActivity.this.viewPages[0].setTranslationX(0.0f);
-                        ViewPage viewPage = DialogOrContactPickerActivity.this.viewPages[1];
-                        int measuredWidth = DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth();
-                        if (DialogOrContactPickerActivity.this.animatingForward) {
-                            i = 1;
-                        }
-                        viewPage.setTranslationX(measuredWidth * i);
-                        if (z) {
-                            if (DialogOrContactPickerActivity.this.tabsAnimation != null) {
-                                DialogOrContactPickerActivity.this.tabsAnimation.cancel();
-                                DialogOrContactPickerActivity.this.tabsAnimation = null;
-                            }
-                            DialogOrContactPickerActivity.this.tabsAnimationInProgress = false;
-                        }
-                        return DialogOrContactPickerActivity.this.tabsAnimationInProgress;
-                    }
-                    z = false;
-                    if (z) {
-                    }
-                    return DialogOrContactPickerActivity.this.tabsAnimationInProgress;
-                }
-                if (Math.abs(DialogOrContactPickerActivity.this.viewPages[1].getTranslationX()) < 1.0f) {
-                    ViewPage viewPage2 = DialogOrContactPickerActivity.this.viewPages[0];
-                    int measuredWidth2 = DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth();
-                    if (!DialogOrContactPickerActivity.this.animatingForward) {
-                        i = 1;
-                    }
-                    viewPage2.setTranslationX(measuredWidth2 * i);
-                    DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(0.0f);
-                    if (z) {
-                    }
-                    return DialogOrContactPickerActivity.this.tabsAnimationInProgress;
-                }
-                z = false;
-                if (z) {
-                }
-                return DialogOrContactPickerActivity.this.tabsAnimationInProgress;
-            }
-            return false;
-        }
-
-        @Override // android.view.ViewGroup
-        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            return checkTabsAnimationInProgress() || DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.isAnimatingIndicator() || onTouchEvent(motionEvent);
-        }
-
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            DialogOrContactPickerActivity.this.backgroundPaint.setColor(Theme.getColor("windowBackgroundWhite"));
-            canvas.drawRect(0.0f, ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getMeasuredHeight() + ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getTranslationY(), getMeasuredWidth(), getMeasuredHeight(), DialogOrContactPickerActivity.this.backgroundPaint);
-        }
-
-        @Override // android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            float f;
-            float f2;
-            float f3;
-            int i;
-            boolean z = false;
-            if (((BaseFragment) DialogOrContactPickerActivity.this).parentLayout.checkTransitionAnimation() || checkTabsAnimationInProgress()) {
-                return false;
-            }
-            if (motionEvent != null) {
-                if (this.velocityTracker == null) {
-                    this.velocityTracker = VelocityTracker.obtain();
-                }
-                this.velocityTracker.addMovement(motionEvent);
-            }
-            if (motionEvent != null && motionEvent.getAction() == 0 && !this.startedTracking && !this.maybeStartTracking) {
-                this.startedTrackingPointerId = motionEvent.getPointerId(0);
-                this.maybeStartTracking = true;
-                this.startedTrackingX = (int) motionEvent.getX();
-                this.startedTrackingY = (int) motionEvent.getY();
-                this.velocityTracker.clear();
-            } else if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
-                int x = (int) (motionEvent.getX() - this.startedTrackingX);
-                int abs = Math.abs(((int) motionEvent.getY()) - this.startedTrackingY);
-                if (this.startedTracking && ((DialogOrContactPickerActivity.this.animatingForward && x > 0) || (!DialogOrContactPickerActivity.this.animatingForward && x < 0))) {
-                    if (!prepareForMoving(motionEvent, x < 0)) {
-                        this.maybeStartTracking = true;
-                        this.startedTracking = false;
-                        DialogOrContactPickerActivity.this.viewPages[0].setTranslationX(0.0f);
-                        DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(DialogOrContactPickerActivity.this.animatingForward ? DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() : -DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
-                        DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DialogOrContactPickerActivity.this.viewPages[1].selectedType, 0.0f);
-                    }
-                }
-                if (this.maybeStartTracking && !this.startedTracking) {
-                    if (Math.abs(x) >= AndroidUtilities.getPixelsInCM(0.3f, true) && Math.abs(x) > abs) {
-                        if (x < 0) {
-                            z = true;
-                        }
-                        prepareForMoving(motionEvent, z);
-                    }
-                } else if (this.startedTracking) {
-                    DialogOrContactPickerActivity.this.viewPages[0].setTranslationX(x);
-                    if (DialogOrContactPickerActivity.this.animatingForward) {
-                        DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() + x);
-                    } else {
-                        DialogOrContactPickerActivity.this.viewPages[1].setTranslationX(x - DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
-                    }
-                    DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DialogOrContactPickerActivity.this.viewPages[1].selectedType, Math.abs(x) / DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
-                }
-            } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
-                this.velocityTracker.computeCurrentVelocity(1000, DialogOrContactPickerActivity.this.maximumVelocity);
-                if (motionEvent == null || motionEvent.getAction() == 3) {
-                    f2 = 0.0f;
-                    f = 0.0f;
-                } else {
-                    f2 = this.velocityTracker.getXVelocity();
-                    f = this.velocityTracker.getYVelocity();
-                    if (!this.startedTracking && Math.abs(f2) >= 3000.0f && Math.abs(f2) > Math.abs(f)) {
-                        prepareForMoving(motionEvent, f2 < 0.0f);
-                    }
-                }
-                if (this.startedTracking) {
-                    float x2 = DialogOrContactPickerActivity.this.viewPages[0].getX();
-                    DialogOrContactPickerActivity.this.tabsAnimation = new AnimatorSet();
-                    DialogOrContactPickerActivity.this.backAnimation = Math.abs(x2) < ((float) DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth()) / 3.0f && (Math.abs(f2) < 3500.0f || Math.abs(f2) < Math.abs(f));
-                    if (!DialogOrContactPickerActivity.this.backAnimation) {
-                        f3 = DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth() - Math.abs(x2);
-                        if (DialogOrContactPickerActivity.this.animatingForward) {
-                            DialogOrContactPickerActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[0], View.TRANSLATION_X, -DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[1], View.TRANSLATION_X, 0.0f));
-                        } else {
-                            DialogOrContactPickerActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[0], View.TRANSLATION_X, DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[1], View.TRANSLATION_X, 0.0f));
-                        }
-                    } else {
-                        f3 = Math.abs(x2);
-                        if (DialogOrContactPickerActivity.this.animatingForward) {
-                            DialogOrContactPickerActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[1], View.TRANSLATION_X, DialogOrContactPickerActivity.this.viewPages[1].getMeasuredWidth()));
-                        } else {
-                            DialogOrContactPickerActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(DialogOrContactPickerActivity.this.viewPages[1], View.TRANSLATION_X, -DialogOrContactPickerActivity.this.viewPages[1].getMeasuredWidth()));
-                        }
-                    }
-                    DialogOrContactPickerActivity.this.tabsAnimation.setInterpolator(DialogOrContactPickerActivity.interpolator);
-                    int measuredWidth = getMeasuredWidth();
-                    float f4 = measuredWidth / 2;
-                    float distanceInfluenceForSnapDuration = f4 + (AndroidUtilities.distanceInfluenceForSnapDuration(Math.min(1.0f, (f3 * 1.0f) / measuredWidth)) * f4);
-                    float abs2 = Math.abs(f2);
-                    if (abs2 > 0.0f) {
-                        i = Math.round(Math.abs(distanceInfluenceForSnapDuration / abs2) * 1000.0f) * 4;
-                    } else {
-                        i = (int) (((f3 / getMeasuredWidth()) + 1.0f) * 100.0f);
-                    }
-                    DialogOrContactPickerActivity.this.tabsAnimation.setDuration(Math.max(150, Math.min(i, 600)));
-                    DialogOrContactPickerActivity.this.tabsAnimation.addListener(new AnonymousClass1());
-                    DialogOrContactPickerActivity.this.tabsAnimation.start();
-                    DialogOrContactPickerActivity.this.tabsAnimationInProgress = true;
-                    this.startedTracking = false;
-                } else {
-                    this.maybeStartTracking = false;
-                    ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.setEnabled(true);
-                    DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
-                }
-                VelocityTracker velocityTracker = this.velocityTracker;
-                if (velocityTracker != null) {
-                    velocityTracker.recycle();
-                    this.velocityTracker = null;
-                }
-            }
-            return this.startedTracking;
-        }
-
-        /* renamed from: org.telegram.ui.DialogOrContactPickerActivity$4$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends AnimatorListenerAdapter {
-            AnonymousClass1() {
-                AnonymousClass4.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                DialogOrContactPickerActivity.this.tabsAnimation = null;
-                if (DialogOrContactPickerActivity.this.backAnimation) {
-                    DialogOrContactPickerActivity.this.viewPages[1].setVisibility(8);
-                } else {
-                    ViewPage viewPage = DialogOrContactPickerActivity.this.viewPages[0];
-                    DialogOrContactPickerActivity.this.viewPages[0] = DialogOrContactPickerActivity.this.viewPages[1];
-                    DialogOrContactPickerActivity.this.viewPages[1] = viewPage;
-                    DialogOrContactPickerActivity.this.viewPages[1].setVisibility(8);
-                    DialogOrContactPickerActivity dialogOrContactPickerActivity = DialogOrContactPickerActivity.this;
-                    dialogOrContactPickerActivity.swipeBackEnabled = dialogOrContactPickerActivity.viewPages[0].selectedType == DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.getFirstTabId();
-                    DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DialogOrContactPickerActivity.this.viewPages[0].selectedType, 1.0f);
-                }
-                DialogOrContactPickerActivity.this.tabsAnimationInProgress = false;
-                AnonymousClass4.this.maybeStartTracking = false;
-                AnonymousClass4.this.startedTracking = false;
-                ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.setEnabled(true);
-                DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.DialogOrContactPickerActivity$5 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass5 extends ViewPage {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass5(Context context) {
-            super(context);
-            DialogOrContactPickerActivity.this = r1;
-        }
-
-        @Override // android.view.View
-        public void setTranslationX(float f) {
-            super.setTranslationX(f);
-            if (!DialogOrContactPickerActivity.this.tabsAnimationInProgress || DialogOrContactPickerActivity.this.viewPages[0] != this) {
-                return;
-            }
-            DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DialogOrContactPickerActivity.this.viewPages[1].selectedType, Math.abs(DialogOrContactPickerActivity.this.viewPages[0].getTranslationX()) / DialogOrContactPickerActivity.this.viewPages[0].getMeasuredWidth());
-        }
-    }
-
-    /* renamed from: org.telegram.ui.DialogOrContactPickerActivity$6 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass6 extends RecyclerView.OnScrollListener {
-        final /* synthetic */ RecyclerView.OnScrollListener val$onScrollListener;
-
-        AnonymousClass6(RecyclerView.OnScrollListener onScrollListener) {
-            DialogOrContactPickerActivity.this = r1;
-            this.val$onScrollListener = onScrollListener;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-        public void onScrollStateChanged(RecyclerView recyclerView, int i) {
-            this.val$onScrollListener.onScrollStateChanged(recyclerView, i);
-            if (i != 1) {
-                int i2 = (int) (-((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getTranslationY());
-                int currentActionBarHeight = ActionBar.getCurrentActionBarHeight();
-                if (i2 == 0 || i2 == currentActionBarHeight) {
-                    return;
-                }
-                if (i2 < currentActionBarHeight / 2) {
-                    int i3 = -i2;
-                    DialogOrContactPickerActivity.this.viewPages[0].listView.smoothScrollBy(0, i3);
-                    if (DialogOrContactPickerActivity.this.viewPages[0].listView2 == null) {
-                        return;
-                    }
-                    DialogOrContactPickerActivity.this.viewPages[0].listView2.smoothScrollBy(0, i3);
-                    return;
-                }
-                int i4 = currentActionBarHeight - i2;
-                DialogOrContactPickerActivity.this.viewPages[0].listView.smoothScrollBy(0, i4);
-                if (DialogOrContactPickerActivity.this.viewPages[0].listView2 == null) {
-                    return;
-                }
-                DialogOrContactPickerActivity.this.viewPages[0].listView2.smoothScrollBy(0, i4);
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-            this.val$onScrollListener.onScrolled(recyclerView, i, i2);
-            if (recyclerView == DialogOrContactPickerActivity.this.viewPages[0].listView || recyclerView == DialogOrContactPickerActivity.this.viewPages[0].listView2) {
-                float translationY = ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.getTranslationY();
-                float f = translationY - i2;
-                if (f < (-ActionBar.getCurrentActionBarHeight())) {
-                    f = -ActionBar.getCurrentActionBarHeight();
-                } else if (f > 0.0f) {
-                    f = 0.0f;
-                }
-                if (f == translationY) {
-                    return;
-                }
-                DialogOrContactPickerActivity.this.setScrollY(f);
-            }
-        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -703,15 +655,20 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         }
     }
 
-    private void showBlockAlert(TLRPC$User tLRPC$User) {
+    private void showBlockAlert(final TLRPC$User tLRPC$User) {
         if (tLRPC$User == null) {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("BlockUser", 2131624690));
-        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AreYouSureBlockContact2", 2131624433, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name))));
-        builder.setPositiveButton(LocaleController.getString("BlockContact", 2131624689), new DialogOrContactPickerActivity$$ExternalSyntheticLambda0(this, tLRPC$User));
-        builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
+        builder.setTitle(LocaleController.getString("BlockUser", R.string.BlockUser));
+        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AreYouSureBlockContact2", R.string.AreYouSureBlockContact2, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name))));
+        builder.setPositiveButton(LocaleController.getString("BlockContact", R.string.BlockContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                DialogOrContactPickerActivity.this.lambda$showBlockAlert$3(tLRPC$User, dialogInterface, i);
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
         AlertDialog create = builder.create();
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
@@ -723,10 +680,10 @@ public class DialogOrContactPickerActivity extends BaseFragment {
 
     public /* synthetic */ void lambda$showBlockAlert$3(TLRPC$User tLRPC$User, DialogInterface dialogInterface, int i) {
         if (MessagesController.isSupportUser(tLRPC$User)) {
-            AlertsCreator.showSimpleToast(this, LocaleController.getString("ErrorOccurred", 2131625695));
+            AlertsCreator.showSimpleToast(this, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
         } else {
             MessagesController.getInstance(this.currentAccount).blockPeer(tLRPC$User.id);
-            AlertsCreator.showSimpleToast(this, LocaleController.getString("UserBlocked", 2131628879));
+            AlertsCreator.showSimpleToast(this, LocaleController.getString("UserBlocked", R.string.UserBlocked));
         }
         finishFragment();
     }
@@ -736,8 +693,8 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         if (scrollSlidingTextTabStrip == null) {
             return;
         }
-        scrollSlidingTextTabStrip.addTextTab(0, LocaleController.getString("BlockUserChatsTitle", 2131624692));
-        this.scrollSlidingTextTabStrip.addTextTab(1, LocaleController.getString("BlockUserContactsTitle", 2131624693));
+        scrollSlidingTextTabStrip.addTextTab(0, LocaleController.getString("BlockUserChatsTitle", R.string.BlockUserChatsTitle));
+        this.scrollSlidingTextTabStrip.addTextTab(1, LocaleController.getString("BlockUserContactsTitle", R.string.BlockUserContactsTitle));
         this.scrollSlidingTextTabStrip.setVisibility(0);
         this.actionBar.setExtraHeight(AndroidUtilities.dp(44.0f));
         int currentTabId = this.scrollSlidingTextTabStrip.getCurrentTabId();

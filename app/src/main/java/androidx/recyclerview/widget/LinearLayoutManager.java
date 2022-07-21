@@ -1371,7 +1371,17 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
     @SuppressLint({"BanParcelableUsage"})
     /* loaded from: classes.dex */
     public static class SavedState implements Parcelable {
-        public static final Parcelable.Creator<SavedState> CREATOR = new AnonymousClass1();
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() { // from class: androidx.recyclerview.widget.LinearLayoutManager.SavedState.1
+            @Override // android.os.Parcelable.Creator
+            public SavedState createFromParcel(Parcel parcel) {
+                return new SavedState(parcel);
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public SavedState[] newArray(int i) {
+                return new SavedState[i];
+            }
+        };
         boolean mAnchorLayoutFromEnd;
         int mAnchorOffset;
         int mAnchorPosition;
@@ -1409,23 +1419,6 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
             parcel.writeInt(this.mAnchorPosition);
             parcel.writeInt(this.mAnchorOffset);
             parcel.writeInt(this.mAnchorLayoutFromEnd ? 1 : 0);
-        }
-
-        /* renamed from: androidx.recyclerview.widget.LinearLayoutManager$SavedState$1 */
-        /* loaded from: classes.dex */
-        class AnonymousClass1 implements Parcelable.Creator<SavedState> {
-            AnonymousClass1() {
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public SavedState createFromParcel(Parcel parcel) {
-                return new SavedState(parcel);
-            }
-
-            @Override // android.os.Parcelable.Creator
-            public SavedState[] newArray(int i) {
-                return new SavedState[i];
-            }
         }
     }
 

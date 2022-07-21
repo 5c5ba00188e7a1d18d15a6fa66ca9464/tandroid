@@ -27,7 +27,7 @@ public class HianalyticsHelper {
     private static volatile HianalyticsHelper instance;
     private boolean hasHMSBI;
     private boolean hasHianalytics;
-    private String haTag = "hms_hwid";
+    private String haTag = HWID_HA_SERVICE_TAG;
     private HiAnalyticsInstance hInstance = null;
     private HiAnalyticsInstance defaultInstance = null;
     private boolean isEnablePrivacyPolicy = false;
@@ -35,30 +35,30 @@ public class HianalyticsHelper {
 
     private HianalyticsHelper() {
         try {
-            HiAnalyticsManager.getInitFlag("_default_config_tag");
+            HiAnalyticsManager.getInitFlag(DEAULT_HA_SERVICE_TAG);
             this.hasHianalytics = true;
         } catch (Throwable unused) {
-            Logger.i("HianalyticsHelper", "Hianalytics sdk not found");
+            Logger.i(TAG, "Hianalytics sdk not found");
             this.hasHianalytics = false;
         }
         if (!this.hasHianalytics) {
             tryHMSBIInit(ContextHolder.getAppContext());
         }
-        Logger.v("HianalyticsHelper", "this time the ha %s, mini %s", Boolean.valueOf(this.hasHianalytics), Boolean.valueOf(this.hasHMSBI));
+        Logger.v(TAG, "this time the ha %s, mini %s", Boolean.valueOf(this.hasHianalytics), Boolean.valueOf(this.hasHMSBI));
     }
 
     private void tryHMSBIInit(Context context) {
         if (context == null) {
-            Logger.i("HianalyticsHelper", "the appContext hasn't init");
+            Logger.i(TAG, "the appContext hasn't init");
             return;
         }
         try {
             HMSBIInitializer.getInstance(context).initBI();
             this.hasHMSBI = true;
         } catch (NoClassDefFoundError unused) {
-            Logger.w("HianalyticsHelper", "maybe you need add base sdk!");
+            Logger.w(TAG, "maybe you need add base sdk!");
         } catch (Throwable unused2) {
-            Logger.w("HianalyticsHelper", "the hms base has other error!");
+            Logger.w(TAG, "the hms base has other error!");
         }
     }
 
@@ -96,32 +96,32 @@ public class HianalyticsHelper {
             return true;
         }
         if (!this.hasHianalytics) {
-            Logger.i("HianalyticsHelper", "Hianalytics sdk need to be initialized");
+            Logger.i(TAG, "Hianalytics sdk need to be initialized");
             return false;
         } else if (context == null) {
-            Logger.i("HianalyticsHelper", "HianalyticsHelper context can't be null");
+            Logger.i(TAG, "HianalyticsHelper context can't be null");
             return false;
         } else if (this.isEnablePrivacyPolicy) {
             return isHianalyticsOk();
         } else {
             try {
-                if (Settings.Secure.getInt(context.getContentResolver(), "user_experience_involved", -1) == 1) {
+                if (Settings.Secure.getInt(context.getContentResolver(), USER_EXPERIENCE_INVOLVED, -1) == 1) {
                     return isHianalyticsOk();
                 }
             } catch (IllegalStateException unused) {
-                Logger.w("HianalyticsHelper", "the setting has illegalStateException");
+                Logger.w(TAG, "the setting has illegalStateException");
             } catch (Throwable unused2) {
-                Logger.w("HianalyticsHelper", "the setting has other error");
+                Logger.w(TAG, "the setting has other error");
             }
-            Logger.i("HianalyticsHelper", "user experience involved needs to be opened");
+            Logger.i(TAG, "user experience involved needs to be opened");
             return false;
         }
     }
 
     private boolean isHianalyticsOk() {
-        if (HiAnalyticsManager.getInitFlag("_default_config_tag")) {
+        if (HiAnalyticsManager.getInitFlag(DEAULT_HA_SERVICE_TAG)) {
             if (this.defaultInstance == null) {
-                this.defaultInstance = HiAnalyticsManager.getInstanceByTag("_default_config_tag");
+                this.defaultInstance = HiAnalyticsManager.getInstanceByTag(DEAULT_HA_SERVICE_TAG);
             }
             return this.defaultInstance != null;
         }
@@ -140,12 +140,12 @@ public class HianalyticsHelper {
         if (this.hasHMSBI) {
             onNewEvent(ContextHolder.getAppContext(), str, linkedHashMap, i);
         } else if (i == 0) {
-            Logger.v("HianalyticsHelper", "the base sdk isn't exsit, and reportType is %s", Integer.valueOf(i));
+            Logger.v(TAG, "the base sdk isn't exsit, and reportType is %s", Integer.valueOf(i));
             return;
         }
         if (this.hasHianalytics && linkedHashMap != null) {
-            Logger.v("HianalyticsHelper", "data = %s", linkedHashMap);
-            if (HiAnalyticsManager.getInitFlag("_default_config_tag") && (hiAnalyticsInstance = this.defaultInstance) != null) {
+            Logger.v(TAG, "data = %s", linkedHashMap);
+            if (HiAnalyticsManager.getInitFlag(DEAULT_HA_SERVICE_TAG) && (hiAnalyticsInstance = this.defaultInstance) != null) {
                 hiAnalyticsInstance.onEvent(1, str, linkedHashMap);
                 return;
             }
@@ -153,7 +153,7 @@ public class HianalyticsHelper {
             if (hiAnalyticsInstance2 != null) {
                 hiAnalyticsInstance2.onEvent(1, str, linkedHashMap);
             } else {
-                Logger.e("HianalyticsHelper", "the ha has error,has init but is null!");
+                Logger.e(TAG, "the ha has error,has init but is null!");
             }
         }
     }
@@ -162,18 +162,18 @@ public class HianalyticsHelper {
         if (context == null || map == null) {
             return;
         }
-        Logger.v("HianalyticsHelper", "data = %s", map);
+        Logger.v(TAG, "data = %s", map);
         try {
             HiAnalyticsUtils.getInstance().onNewEvent(context, str, map, i);
         } catch (NoSuchMethodError unused) {
-            Logger.w("HianalyticsHelper", "may be you need upgrade stats sdk");
+            Logger.w(TAG, "may be you need upgrade stats sdk");
         } catch (Throwable unused2) {
-            Logger.i("HianalyticsHelper", "the stats has other error,pls check it");
+            Logger.i(TAG, "the stats has other error,pls check it");
         }
     }
 
     public void onEvent(LinkedHashMap<String, String> linkedHashMap) {
-        onEvent(linkedHashMap, "url_request");
+        onEvent(linkedHashMap, HianalyticsBaseData.EVENT_ID);
     }
 
     public ExecutorService getReportExecutor() {
@@ -184,43 +184,29 @@ public class HianalyticsHelper {
         getReportExecutor().execute(new HianalyticsRunnable(hianalyticsBaseData, str));
     }
 
-    public void reportException(Throwable th, String str) {
+    public void reportException(final Throwable th, final String str) {
         if (!getInstance().isEnableReport(ContextHolder.getAppContext())) {
             return;
         }
+        final String name = Thread.currentThread().getName();
         try {
-            this.reportExecutor.submit(new AnonymousClass1(Thread.currentThread().getName(), th, str));
+            this.reportExecutor.submit(new Runnable() { // from class: com.huawei.hms.framework.common.hianalytics.HianalyticsHelper.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    CrashHianalyticsData crashHianalyticsData = new CrashHianalyticsData();
+                    crashHianalyticsData.put(HianalyticsBaseData.SDK_VERSION, "5.0.10.302");
+                    crashHianalyticsData.put(CrashHianalyticsData.CRASH_TYPE, "exception");
+                    crashHianalyticsData.put(CrashHianalyticsData.THREAD_NAME, name);
+                    crashHianalyticsData.put(CrashHianalyticsData.EXCEPTION_NAME, th.getClass().getName());
+                    crashHianalyticsData.put(CrashHianalyticsData.MESSAGE, StringUtils.anonymizeMessage(th.getMessage()));
+                    crashHianalyticsData.put(CrashHianalyticsData.STACK_TRACE, StringUtils.getTraceInfo(th));
+                    HianalyticsHelper.getInstance().onEvent(crashHianalyticsData.get(), str);
+                }
+            });
         } catch (RejectedExecutionException unused) {
-            Logger.i("HianalyticsHelper", "reportException error RejectedExecutionException");
+            Logger.i(TAG, "reportException error RejectedExecutionException");
         } catch (Exception unused2) {
-            Logger.i("HianalyticsHelper", "reportException error!", th);
-        }
-    }
-
-    /* renamed from: com.huawei.hms.framework.common.hianalytics.HianalyticsHelper$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Runnable {
-        final /* synthetic */ Throwable val$e;
-        final /* synthetic */ String val$eventId;
-        final /* synthetic */ String val$threadName;
-
-        AnonymousClass1(String str, Throwable th, String str2) {
-            HianalyticsHelper.this = r1;
-            this.val$threadName = str;
-            this.val$e = th;
-            this.val$eventId = str2;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            CrashHianalyticsData crashHianalyticsData = new CrashHianalyticsData();
-            crashHianalyticsData.put("sdk_version", "5.0.10.302");
-            crashHianalyticsData.put("crash_type", "exception");
-            crashHianalyticsData.put("thread_name", this.val$threadName);
-            crashHianalyticsData.put("exception_name", this.val$e.getClass().getName());
-            crashHianalyticsData.put("message", StringUtils.anonymizeMessage(this.val$e.getMessage()));
-            crashHianalyticsData.put("stack_trace", StringUtils.getTraceInfo(this.val$e));
-            HianalyticsHelper.getInstance().onEvent(crashHianalyticsData.get(), this.val$eventId);
+            Logger.i(TAG, "reportException error!", th);
         }
     }
 

@@ -4,6 +4,6 @@ import com.huawei.hms.framework.common.hianalytics.HianalyticsBaseData;
 /* loaded from: classes.dex */
 public class a extends HianalyticsBaseData {
     public a() {
-        put("sdk_version", "5.0.10.302");
+        put(HianalyticsBaseData.SDK_VERSION, "5.0.10.302");
     }
 }

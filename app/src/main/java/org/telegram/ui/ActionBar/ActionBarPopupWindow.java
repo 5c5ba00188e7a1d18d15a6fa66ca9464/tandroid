@@ -30,8 +30,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
@@ -49,7 +51,7 @@ public class ActionBarPopupWindow extends PopupWindow {
     private boolean scaleOut;
     private AnimatorSet windowAnimatorSet;
     private boolean animationEnabled = allowAnimation;
-    private int dismissAnimationDuration = 150;
+    private int dismissAnimationDuration = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
     private int currentAccount = UserConfig.selectedAccount;
     private long outEmptyTime = -1;
     private int popupAnimationIndex = -1;
@@ -117,7 +119,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
 
         public ActionBarPopupWindowLayout(Context context, Theme.ResourcesProvider resourcesProvider) {
-            this(context, 2131166091, resourcesProvider);
+            this(context, R.drawable.popup_fixed_alert2, resourcesProvider);
         }
 
         public ActionBarPopupWindowLayout(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
@@ -170,9 +172,64 @@ public class ActionBarPopupWindow extends PopupWindow {
             } catch (Throwable th) {
                 FileLog.e(th);
             }
-            AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
-            this.linearLayout = anonymousClass1;
-            anonymousClass1.setOrientation(1);
+            LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout.1
+                @Override // android.widget.LinearLayout, android.view.View
+                protected void onMeasure(int i4, int i5) {
+                    if (ActionBarPopupWindowLayout.this.fitItems) {
+                        ActionBarPopupWindowLayout.this.gapStartY = -1000000;
+                        ActionBarPopupWindowLayout.this.gapEndY = -1000000;
+                        int childCount = getChildCount();
+                        ArrayList arrayList = null;
+                        int i6 = 0;
+                        int i7 = 0;
+                        for (int i8 = 0; i8 < childCount; i8++) {
+                            View childAt = getChildAt(i8);
+                            if (childAt.getVisibility() != 8) {
+                                Object tag = childAt.getTag(R.id.width_tag);
+                                Object tag2 = childAt.getTag(R.id.object_tag);
+                                Object tag3 = childAt.getTag(R.id.fit_width_tag);
+                                if (tag != null) {
+                                    childAt.getLayoutParams().width = -2;
+                                }
+                                measureChildWithMargins(childAt, i4, 0, i5, 0);
+                                if (tag3 == null) {
+                                    boolean z = tag instanceof Integer;
+                                    if (!z && tag2 == null) {
+                                        i6 = Math.max(i6, childAt.getMeasuredWidth());
+                                    } else if (z) {
+                                        int max = Math.max(((Integer) tag).intValue(), childAt.getMeasuredWidth());
+                                        ActionBarPopupWindowLayout.this.gapStartY = childAt.getMeasuredHeight();
+                                        ActionBarPopupWindowLayout actionBarPopupWindowLayout = ActionBarPopupWindowLayout.this;
+                                        actionBarPopupWindowLayout.gapEndY = actionBarPopupWindowLayout.gapStartY + AndroidUtilities.dp(6.0f);
+                                        i7 = max;
+                                    }
+                                }
+                                if (arrayList == null) {
+                                    arrayList = new ArrayList();
+                                }
+                                arrayList.add(childAt);
+                            }
+                        }
+                        if (arrayList != null) {
+                            int size = arrayList.size();
+                            for (int i9 = 0; i9 < size; i9++) {
+                                ((View) arrayList.get(i9)).getLayoutParams().width = Math.max(i6, i7);
+                            }
+                        }
+                    }
+                    super.onMeasure(i4, i5);
+                }
+
+                @Override // android.view.ViewGroup
+                protected boolean drawChild(Canvas canvas, View view, long j) {
+                    if (view instanceof GapView) {
+                        return false;
+                    }
+                    return super.drawChild(canvas, view, j);
+                }
+            };
+            this.linearLayout = linearLayout;
+            linearLayout.setOrientation(1);
             ScrollView scrollView2 = this.scrollView;
             if (scrollView2 != null) {
                 scrollView2.addView(this.linearLayout, new FrameLayout.LayoutParams(-2, -2));
@@ -183,72 +240,6 @@ public class ActionBarPopupWindow extends PopupWindow {
                 popupSwipeBackLayout3.addView(this.linearLayout, LayoutHelper.createFrame(-2, -2, !this.shownFromBottom ? 48 : i3));
             } else {
                 addView(this.linearLayout, LayoutHelper.createFrame(-2, -2.0f));
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends LinearLayout {
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            AnonymousClass1(Context context) {
-                super(context);
-                ActionBarPopupWindowLayout.this = r1;
-            }
-
-            @Override // android.widget.LinearLayout, android.view.View
-            protected void onMeasure(int i, int i2) {
-                if (ActionBarPopupWindowLayout.this.fitItems) {
-                    ActionBarPopupWindowLayout.this.gapStartY = -1000000;
-                    ActionBarPopupWindowLayout.this.gapEndY = -1000000;
-                    int childCount = getChildCount();
-                    ArrayList arrayList = null;
-                    int i3 = 0;
-                    int i4 = 0;
-                    for (int i5 = 0; i5 < childCount; i5++) {
-                        View childAt = getChildAt(i5);
-                        if (childAt.getVisibility() != 8) {
-                            Object tag = childAt.getTag(2131230955);
-                            Object tag2 = childAt.getTag(2131230876);
-                            Object tag3 = childAt.getTag(2131230821);
-                            if (tag != null) {
-                                childAt.getLayoutParams().width = -2;
-                            }
-                            measureChildWithMargins(childAt, i, 0, i2, 0);
-                            if (tag3 == null) {
-                                boolean z = tag instanceof Integer;
-                                if (!z && tag2 == null) {
-                                    i3 = Math.max(i3, childAt.getMeasuredWidth());
-                                } else if (z) {
-                                    int max = Math.max(((Integer) tag).intValue(), childAt.getMeasuredWidth());
-                                    ActionBarPopupWindowLayout.this.gapStartY = childAt.getMeasuredHeight();
-                                    ActionBarPopupWindowLayout actionBarPopupWindowLayout = ActionBarPopupWindowLayout.this;
-                                    actionBarPopupWindowLayout.gapEndY = actionBarPopupWindowLayout.gapStartY + AndroidUtilities.dp(6.0f);
-                                    i4 = max;
-                                }
-                            }
-                            if (arrayList == null) {
-                                arrayList = new ArrayList();
-                            }
-                            arrayList.add(childAt);
-                        }
-                    }
-                    if (arrayList != null) {
-                        int size = arrayList.size();
-                        for (int i6 = 0; i6 < size; i6++) {
-                            ((View) arrayList.get(i6)).getLayoutParams().width = Math.max(i3, i4);
-                        }
-                    }
-                }
-                super.onMeasure(i, i2);
-            }
-
-            @Override // android.view.ViewGroup
-            protected boolean drawChild(Canvas canvas, View view, long j) {
-                if (view instanceof GapView) {
-                    return false;
-                }
-                return super.drawChild(canvas, view, j);
             }
         }
 
@@ -367,7 +358,7 @@ public class ActionBarPopupWindow extends PopupWindow {
 
         private void startChildAnimation(View view) {
             if (this.animationEnabled) {
-                AnimatorSet animatorSet = new AnimatorSet();
+                final AnimatorSet animatorSet = new AnimatorSet();
                 Animator[] animatorArr = new Animator[2];
                 Property property = View.ALPHA;
                 float[] fArr = new float[2];
@@ -381,29 +372,18 @@ public class ActionBarPopupWindow extends PopupWindow {
                 animatorArr[1] = ObjectAnimator.ofFloat(view, property2, fArr2);
                 animatorSet.playTogether(animatorArr);
                 animatorSet.setDuration(180L);
-                animatorSet.addListener(new AnonymousClass2(animatorSet));
+                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout.2
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        ActionBarPopupWindowLayout.this.itemAnimators.remove(animatorSet);
+                    }
+                });
                 animatorSet.setInterpolator(ActionBarPopupWindow.decelerateInterpolator);
                 animatorSet.start();
                 if (this.itemAnimators == null) {
                     this.itemAnimators = new ArrayList<>();
                 }
                 this.itemAnimators.add(animatorSet);
-            }
-        }
-
-        /* renamed from: org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout$2 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends AnimatorListenerAdapter {
-            final /* synthetic */ AnimatorSet val$animatorSet;
-
-            AnonymousClass2(AnimatorSet animatorSet) {
-                ActionBarPopupWindowLayout.this = r1;
-                this.val$animatorSet = animatorSet;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                ActionBarPopupWindowLayout.this.itemAnimators.remove(this.val$animatorSet);
             }
         }
 
@@ -640,7 +620,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             for (int i2 = 0; i2 < childCount; i2++) {
                 View childAt2 = this.linearLayout.getChildAt(i2);
                 if (childAt2.getVisibility() == 0) {
-                    Object tag = childAt2.getTag(2131230876);
+                    Object tag = childAt2.getTag(R.id.object_tag);
                     if (childAt2 instanceof ActionBarMenuSubItem) {
                         ((ActionBarMenuSubItem) childAt2).updateSelectorBackground(childAt2 == view || z, childAt2 == view2);
                     }
@@ -841,44 +821,36 @@ public class ActionBarPopupWindow extends PopupWindow {
         AnimatorSet animatorSet = new AnimatorSet();
         this.windowAnimatorSet = animatorSet;
         animatorSet.playTogether(ObjectAnimator.ofFloat(actionBarPopupWindowLayout, "backScaleY", 0.0f, f), ObjectAnimator.ofInt(actionBarPopupWindowLayout, "backAlpha", 0, 255));
-        this.windowAnimatorSet.setDuration((i2 * 16) + 150);
-        this.windowAnimatorSet.addListener(new AnonymousClass1());
-        this.windowAnimatorSet.start();
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarPopupWindow$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            ActionBarPopupWindow.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ActionBarPopupWindowLayout actionBarPopupWindowLayout;
-            ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = null;
-            ActionBarPopupWindow.this.windowAnimatorSet = null;
-            ViewGroup viewGroup = (ViewGroup) ActionBarPopupWindow.this.getContentView();
-            if (viewGroup instanceof ActionBarPopupWindowLayout) {
-                actionBarPopupWindowLayout = (ActionBarPopupWindowLayout) viewGroup;
-                actionBarPopupWindowLayout.startAnimationPending = false;
-            } else {
-                for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                    if (viewGroup.getChildAt(i) instanceof ActionBarPopupWindowLayout) {
-                        actionBarPopupWindowLayout2 = (ActionBarPopupWindowLayout) viewGroup.getChildAt(i);
-                        actionBarPopupWindowLayout2.startAnimationPending = false;
+        this.windowAnimatorSet.setDuration((i2 * 16) + ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+        this.windowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                ActionBarPopupWindowLayout actionBarPopupWindowLayout3;
+                ActionBarPopupWindowLayout actionBarPopupWindowLayout4 = null;
+                ActionBarPopupWindow.this.windowAnimatorSet = null;
+                ViewGroup viewGroup2 = (ViewGroup) ActionBarPopupWindow.this.getContentView();
+                if (viewGroup2 instanceof ActionBarPopupWindowLayout) {
+                    actionBarPopupWindowLayout3 = (ActionBarPopupWindowLayout) viewGroup2;
+                    actionBarPopupWindowLayout3.startAnimationPending = false;
+                } else {
+                    for (int i4 = 0; i4 < viewGroup2.getChildCount(); i4++) {
+                        if (viewGroup2.getChildAt(i4) instanceof ActionBarPopupWindowLayout) {
+                            actionBarPopupWindowLayout4 = (ActionBarPopupWindowLayout) viewGroup2.getChildAt(i4);
+                            actionBarPopupWindowLayout4.startAnimationPending = false;
+                        }
+                    }
+                    actionBarPopupWindowLayout3 = actionBarPopupWindowLayout4;
+                }
+                int itemsCount2 = actionBarPopupWindowLayout3.getItemsCount();
+                for (int i5 = 0; i5 < itemsCount2; i5++) {
+                    View itemAt2 = actionBarPopupWindowLayout3.getItemAt(i5);
+                    if (!(itemAt2 instanceof GapView)) {
+                        itemAt2.setAlpha(itemAt2.isEnabled() ? 1.0f : 0.5f);
                     }
                 }
-                actionBarPopupWindowLayout = actionBarPopupWindowLayout2;
             }
-            int itemsCount = actionBarPopupWindowLayout.getItemsCount();
-            for (int i2 = 0; i2 < itemsCount; i2++) {
-                View itemAt = actionBarPopupWindowLayout.getItemAt(i2);
-                if (!(itemAt instanceof GapView)) {
-                    itemAt.setAlpha(itemAt.isEnabled() ? 1.0f : 0.5f);
-                }
-            }
-        }
+        });
+        this.windowAnimatorSet.start();
     }
 
     @Override // android.widget.PopupWindow
@@ -956,7 +928,22 @@ public class ActionBarPopupWindow extends PopupWindow {
                 animatorSet3.playTogether(animatorArr);
                 this.windowAnimatorSet.setDuration(this.dismissAnimationDuration);
             }
-            this.windowAnimatorSet.addListener(new AnonymousClass2());
+            this.windowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    ActionBarPopupWindow.this.windowAnimatorSet = null;
+                    ActionBarPopupWindow.this.isClosingAnimated = false;
+                    ActionBarPopupWindow.this.setFocusable(false);
+                    try {
+                        ActionBarPopupWindow.super.dismiss();
+                    } catch (Exception unused) {
+                    }
+                    ActionBarPopupWindow.this.unregisterListener();
+                    if (ActionBarPopupWindow.this.pauseNotifications) {
+                        NotificationCenter.getInstance(ActionBarPopupWindow.this.currentAccount).onAnimationFinish(ActionBarPopupWindow.this.popupAnimationIndex);
+                    }
+                }
+            });
             if (this.pauseNotifications) {
                 this.popupAnimationIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.popupAnimationIndex, null);
             }
@@ -968,29 +955,6 @@ public class ActionBarPopupWindow extends PopupWindow {
         } catch (Exception unused) {
         }
         unregisterListener();
-    }
-
-    /* renamed from: org.telegram.ui.ActionBar.ActionBarPopupWindow$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
-            ActionBarPopupWindow.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ActionBarPopupWindow.this.windowAnimatorSet = null;
-            ActionBarPopupWindow.this.isClosingAnimated = false;
-            ActionBarPopupWindow.this.setFocusable(false);
-            try {
-                ActionBarPopupWindow.super.dismiss();
-            } catch (Exception unused) {
-            }
-            ActionBarPopupWindow.this.unregisterListener();
-            if (ActionBarPopupWindow.this.pauseNotifications) {
-                NotificationCenter.getInstance(ActionBarPopupWindow.this.currentAccount).onAnimationFinish(ActionBarPopupWindow.this.popupAnimationIndex);
-            }
-        }
     }
 
     /* loaded from: classes3.dex */

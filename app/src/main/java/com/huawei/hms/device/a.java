@@ -2,6 +2,7 @@ package com.huawei.hms.device;
 
 import android.content.Context;
 import android.text.TextUtils;
+import com.huawei.hms.framework.common.ContainerUtils;
 import com.huawei.hms.support.log.HMSLog;
 import com.huawei.hms.support.log.common.Base64;
 import com.huawei.hms.utils.IOUtils;
@@ -117,7 +118,7 @@ public class a {
 
     public static String a(String str, String str2) {
         String upperCase = str.toUpperCase(Locale.getDefault());
-        int indexOf = upperCase.indexOf(str2 + "=");
+        int indexOf = upperCase.indexOf(str2 + ContainerUtils.KEY_VALUE_DELIMITER);
         if (indexOf == -1) {
             return null;
         }

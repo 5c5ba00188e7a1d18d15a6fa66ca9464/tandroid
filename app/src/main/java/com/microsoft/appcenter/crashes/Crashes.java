@@ -140,9 +140,23 @@ public class Crashes extends AbstractAppCenterService {
     protected synchronized void applyEnabledState(boolean z) {
         initialize();
         if (z) {
-            AnonymousClass5 anonymousClass5 = new AnonymousClass5(this);
-            this.mMemoryWarningListener = anonymousClass5;
-            this.mContext.registerComponentCallbacks(anonymousClass5);
+            ComponentCallbacks2 componentCallbacks2 = new ComponentCallbacks2(this) { // from class: com.microsoft.appcenter.crashes.Crashes.5
+                @Override // android.content.ComponentCallbacks
+                public void onConfigurationChanged(Configuration configuration) {
+                }
+
+                @Override // android.content.ComponentCallbacks2
+                public void onTrimMemory(int i) {
+                    Crashes.saveMemoryRunningLevel(i);
+                }
+
+                @Override // android.content.ComponentCallbacks
+                public void onLowMemory() {
+                    Crashes.saveMemoryRunningLevel(80);
+                }
+            };
+            this.mMemoryWarningListener = componentCallbacks2;
+            this.mContext.registerComponentCallbacks(componentCallbacks2);
         } else {
             File[] listFiles = ErrorLogHelper.getErrorStorageDirectory().listFiles();
             if (listFiles != null) {
@@ -158,27 +172,6 @@ public class Crashes extends AbstractAppCenterService {
             this.mContext.unregisterComponentCallbacks(this.mMemoryWarningListener);
             this.mMemoryWarningListener = null;
             SharedPreferencesManager.remove("com.microsoft.appcenter.crashes.memory");
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.crashes.Crashes$5 */
-    /* loaded from: classes.dex */
-    class AnonymousClass5 implements ComponentCallbacks2 {
-        @Override // android.content.ComponentCallbacks
-        public void onConfigurationChanged(Configuration configuration) {
-        }
-
-        AnonymousClass5(Crashes crashes) {
-        }
-
-        @Override // android.content.ComponentCallbacks2
-        public void onTrimMemory(int i) {
-            Crashes.saveMemoryRunningLevel(i);
-        }
-
-        @Override // android.content.ComponentCallbacks
-        public void onLowMemory() {
-            Crashes.saveMemoryRunningLevel(80);
         }
     }
 
@@ -200,144 +193,84 @@ public class Crashes extends AbstractAppCenterService {
         return this.mFactories;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.microsoft.appcenter.crashes.Crashes$6 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass6 implements Channel.GroupListener {
-        AnonymousClass6() {
-            Crashes.this = r1;
-        }
-
-        /* renamed from: com.microsoft.appcenter.crashes.Crashes$6$1 */
-        /* loaded from: classes.dex */
-        public class AnonymousClass1 implements Runnable {
-            final /* synthetic */ CallbackProcessor val$callbackProcessor;
-            final /* synthetic */ Log val$log;
-
-            AnonymousClass1(Log log, CallbackProcessor callbackProcessor) {
-                AnonymousClass6.this = r1;
-                this.val$log = log;
-                this.val$callbackProcessor = callbackProcessor;
-            }
-
-            @Override // java.lang.Runnable
-            public void run() {
-                Log log = this.val$log;
-                if (log instanceof ManagedErrorLog) {
-                    ManagedErrorLog managedErrorLog = (ManagedErrorLog) log;
-                    ErrorReport buildErrorReport = Crashes.this.buildErrorReport(managedErrorLog);
-                    UUID id = managedErrorLog.getId();
-                    if (buildErrorReport != null) {
-                        if (this.val$callbackProcessor.shouldDeleteThrowable()) {
-                            Crashes.this.removeStoredThrowable(id);
-                        }
-                        HandlerUtils.runOnUiThread(new RunnableC00071(buildErrorReport));
-                        return;
-                    }
-                    AppCenterLog.warn("AppCenterCrashes", "Cannot find crash report for the error log: " + id);
-                } else if ((log instanceof ErrorAttachmentLog) || (log instanceof HandledErrorLog)) {
-                } else {
-                    AppCenterLog.warn("AppCenterCrashes", "A different type of log comes to crashes: " + this.val$log.getClass().getName());
-                }
-            }
-
-            /* renamed from: com.microsoft.appcenter.crashes.Crashes$6$1$1 */
-            /* loaded from: classes.dex */
-            class RunnableC00071 implements Runnable {
-                final /* synthetic */ ErrorReport val$report;
-
-                RunnableC00071(ErrorReport errorReport) {
-                    AnonymousClass1.this = r1;
-                    this.val$report = errorReport;
-                }
-
-                @Override // java.lang.Runnable
-                public void run() {
-                    AnonymousClass1.this.val$callbackProcessor.onCallBack(this.val$report);
-                }
-            }
-        }
-
-        private void processCallback(Log log, CallbackProcessor callbackProcessor) {
-            Crashes.this.post(new AnonymousClass1(log, callbackProcessor));
-        }
-
-        /* renamed from: com.microsoft.appcenter.crashes.Crashes$6$2 */
-        /* loaded from: classes.dex */
-        class AnonymousClass2 implements CallbackProcessor {
-            @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
-            public boolean shouldDeleteThrowable() {
-                return false;
-            }
-
-            AnonymousClass2() {
-                AnonymousClass6.this = r1;
-            }
-
-            @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
-            public void onCallBack(ErrorReport errorReport) {
-                Crashes.this.mCrashesListener.onBeforeSending(errorReport);
-            }
-        }
-
-        @Override // com.microsoft.appcenter.channel.Channel.GroupListener
-        public void onBeforeSending(Log log) {
-            processCallback(log, new AnonymousClass2());
-        }
-
-        /* renamed from: com.microsoft.appcenter.crashes.Crashes$6$3 */
-        /* loaded from: classes.dex */
-        class AnonymousClass3 implements CallbackProcessor {
-            @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
-            public boolean shouldDeleteThrowable() {
-                return true;
-            }
-
-            AnonymousClass3() {
-                AnonymousClass6.this = r1;
-            }
-
-            @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
-            public void onCallBack(ErrorReport errorReport) {
-                Crashes.this.mCrashesListener.onSendingSucceeded(errorReport);
-            }
-        }
-
-        @Override // com.microsoft.appcenter.channel.Channel.GroupListener
-        public void onSuccess(Log log) {
-            processCallback(log, new AnonymousClass3());
-        }
-
-        /* renamed from: com.microsoft.appcenter.crashes.Crashes$6$4 */
-        /* loaded from: classes.dex */
-        class AnonymousClass4 implements CallbackProcessor {
-            final /* synthetic */ Exception val$e;
-
-            @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
-            public boolean shouldDeleteThrowable() {
-                return true;
-            }
-
-            AnonymousClass4(Exception exc) {
-                AnonymousClass6.this = r1;
-                this.val$e = exc;
-            }
-
-            @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
-            public void onCallBack(ErrorReport errorReport) {
-                Crashes.this.mCrashesListener.onSendingFailed(errorReport, this.val$e);
-            }
-        }
-
-        @Override // com.microsoft.appcenter.channel.Channel.GroupListener
-        public void onFailure(Log log, Exception exc) {
-            processCallback(log, new AnonymousClass4(exc));
-        }
-    }
-
     @Override // com.microsoft.appcenter.AbstractAppCenterService
     protected Channel.GroupListener getChannelListener() {
-        return new AnonymousClass6();
+        return new Channel.GroupListener() { // from class: com.microsoft.appcenter.crashes.Crashes.6
+            private void processCallback(final Log log, final CallbackProcessor callbackProcessor) {
+                Crashes.this.post(new Runnable() { // from class: com.microsoft.appcenter.crashes.Crashes.6.1
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        Log log2 = log;
+                        if (log2 instanceof ManagedErrorLog) {
+                            ManagedErrorLog managedErrorLog = (ManagedErrorLog) log2;
+                            final ErrorReport buildErrorReport = Crashes.this.buildErrorReport(managedErrorLog);
+                            UUID id = managedErrorLog.getId();
+                            if (buildErrorReport != null) {
+                                if (callbackProcessor.shouldDeleteThrowable()) {
+                                    Crashes.this.removeStoredThrowable(id);
+                                }
+                                HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.crashes.Crashes.6.1.1
+                                    @Override // java.lang.Runnable
+                                    public void run() {
+                                        callbackProcessor.onCallBack(buildErrorReport);
+                                    }
+                                });
+                                return;
+                            }
+                            AppCenterLog.warn("AppCenterCrashes", "Cannot find crash report for the error log: " + id);
+                        } else if ((log2 instanceof ErrorAttachmentLog) || (log2 instanceof HandledErrorLog)) {
+                        } else {
+                            AppCenterLog.warn("AppCenterCrashes", "A different type of log comes to crashes: " + log.getClass().getName());
+                        }
+                    }
+                });
+            }
+
+            @Override // com.microsoft.appcenter.channel.Channel.GroupListener
+            public void onBeforeSending(Log log) {
+                processCallback(log, new CallbackProcessor() { // from class: com.microsoft.appcenter.crashes.Crashes.6.2
+                    @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
+                    public boolean shouldDeleteThrowable() {
+                        return false;
+                    }
+
+                    @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
+                    public void onCallBack(ErrorReport errorReport) {
+                        Crashes.this.mCrashesListener.onBeforeSending(errorReport);
+                    }
+                });
+            }
+
+            @Override // com.microsoft.appcenter.channel.Channel.GroupListener
+            public void onSuccess(Log log) {
+                processCallback(log, new CallbackProcessor() { // from class: com.microsoft.appcenter.crashes.Crashes.6.3
+                    @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
+                    public boolean shouldDeleteThrowable() {
+                        return true;
+                    }
+
+                    @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
+                    public void onCallBack(ErrorReport errorReport) {
+                        Crashes.this.mCrashesListener.onSendingSucceeded(errorReport);
+                    }
+                });
+            }
+
+            @Override // com.microsoft.appcenter.channel.Channel.GroupListener
+            public void onFailure(Log log, final Exception exc) {
+                processCallback(log, new CallbackProcessor() { // from class: com.microsoft.appcenter.crashes.Crashes.6.4
+                    @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
+                    public boolean shouldDeleteThrowable() {
+                        return true;
+                    }
+
+                    @Override // com.microsoft.appcenter.crashes.Crashes.CallbackProcessor
+                    public void onCallBack(ErrorReport errorReport) {
+                        Crashes.this.mCrashesListener.onSendingFailed(errorReport, exc);
+                    }
+                });
+            }
+        };
     }
 
     synchronized Device getDeviceInfo(Context context) throws DeviceInfoHelper.DeviceInfoException {
@@ -347,61 +280,33 @@ public class Crashes extends AbstractAppCenterService {
         return this.mDevice;
     }
 
-    /* renamed from: com.microsoft.appcenter.crashes.Crashes$7 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass7 implements ExceptionModelBuilder {
-        final /* synthetic */ Throwable val$throwable;
-
-        AnonymousClass7(Crashes crashes, Throwable th) {
-            this.val$throwable = th;
-        }
-
-        @Override // com.microsoft.appcenter.crashes.Crashes.ExceptionModelBuilder
-        public Exception buildExceptionModel() {
-            return ErrorLogHelper.getModelExceptionFromThrowable(this.val$throwable);
-        }
+    private synchronized void queueException(final Throwable th, Map<String, String> map, Iterable<ErrorAttachmentLog> iterable) {
+        queueException(new ExceptionModelBuilder(this) { // from class: com.microsoft.appcenter.crashes.Crashes.7
+            @Override // com.microsoft.appcenter.crashes.Crashes.ExceptionModelBuilder
+            public Exception buildExceptionModel() {
+                return ErrorLogHelper.getModelExceptionFromThrowable(th);
+            }
+        }, map, iterable);
     }
 
-    private synchronized void queueException(Throwable th, Map<String, String> map, Iterable<ErrorAttachmentLog> iterable) {
-        queueException(new AnonymousClass7(this, th), map, iterable);
-    }
-
-    private synchronized UUID queueException(ExceptionModelBuilder exceptionModelBuilder, Map<String, String> map, Iterable<ErrorAttachmentLog> iterable) {
-        UUID randomUUID;
-        String userId = UserIdContext.getInstance().getUserId();
+    private synchronized UUID queueException(final ExceptionModelBuilder exceptionModelBuilder, Map<String, String> map, final Iterable<ErrorAttachmentLog> iterable) {
+        final UUID randomUUID;
+        final String userId = UserIdContext.getInstance().getUserId();
         randomUUID = UUID.randomUUID();
-        post(new AnonymousClass9(randomUUID, userId, exceptionModelBuilder, ErrorLogHelper.validateProperties(map, "HandledError"), iterable));
+        final Map<String, String> validateProperties = ErrorLogHelper.validateProperties(map, "HandledError");
+        post(new Runnable() { // from class: com.microsoft.appcenter.crashes.Crashes.9
+            @Override // java.lang.Runnable
+            public void run() {
+                HandledErrorLog handledErrorLog = new HandledErrorLog();
+                handledErrorLog.setId(randomUUID);
+                handledErrorLog.setUserId(userId);
+                handledErrorLog.setException(exceptionModelBuilder.buildExceptionModel());
+                handledErrorLog.setProperties(validateProperties);
+                ((AbstractAppCenterService) Crashes.this).mChannel.enqueue(handledErrorLog, "groupErrors", 1);
+                Crashes.this.sendErrorAttachment(randomUUID, iterable);
+            }
+        });
         return randomUUID;
-    }
-
-    /* renamed from: com.microsoft.appcenter.crashes.Crashes$9 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass9 implements Runnable {
-        final /* synthetic */ Iterable val$attachments;
-        final /* synthetic */ UUID val$errorId;
-        final /* synthetic */ ExceptionModelBuilder val$exceptionModelBuilder;
-        final /* synthetic */ String val$userId;
-        final /* synthetic */ Map val$validatedProperties;
-
-        AnonymousClass9(UUID uuid, String str, ExceptionModelBuilder exceptionModelBuilder, Map map, Iterable iterable) {
-            Crashes.this = r1;
-            this.val$errorId = uuid;
-            this.val$userId = str;
-            this.val$exceptionModelBuilder = exceptionModelBuilder;
-            this.val$validatedProperties = map;
-            this.val$attachments = iterable;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            HandledErrorLog handledErrorLog = new HandledErrorLog();
-            handledErrorLog.setId(this.val$errorId);
-            handledErrorLog.setUserId(this.val$userId);
-            handledErrorLog.setException(this.val$exceptionModelBuilder.buildExceptionModel());
-            handledErrorLog.setProperties(this.val$validatedProperties);
-            ((AbstractAppCenterService) Crashes.this).mChannel.enqueue(handledErrorLog, "groupErrors", 1);
-            Crashes.this.sendErrorAttachment(this.val$errorId, this.val$attachments);
-        }
     }
 
     private void initialize() {
@@ -429,7 +334,12 @@ public class Crashes extends AbstractAppCenterService {
                 AppCenterLog.debug("AppCenterCrashes", "Found a minidump from a previous SDK version.");
                 processSingleMinidump(file, file);
             } else {
-                File[] listFiles = file.listFiles(new AnonymousClass10(this));
+                File[] listFiles = file.listFiles(new FilenameFilter(this) { // from class: com.microsoft.appcenter.crashes.Crashes.10
+                    @Override // java.io.FilenameFilter
+                    public boolean accept(File file2, String str) {
+                        return str.endsWith(".dmp");
+                    }
+                });
                 if (listFiles != null && listFiles.length != 0) {
                     for (File file2 : listFiles) {
                         processSingleMinidump(file2, file);
@@ -458,18 +368,6 @@ public class Crashes extends AbstractAppCenterService {
             }
         }
         ErrorLogHelper.removeStaleMinidumpSubfolders();
-    }
-
-    /* renamed from: com.microsoft.appcenter.crashes.Crashes$10 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass10 implements FilenameFilter {
-        AnonymousClass10(Crashes crashes) {
-        }
-
-        @Override // java.io.FilenameFilter
-        public boolean accept(File file, String str) {
-            return str.endsWith(".dmp");
-        }
     }
 
     private void processSingleMinidump(File file, File file2) {
@@ -552,41 +450,30 @@ public class Crashes extends AbstractAppCenterService {
         }
     }
 
-    /* renamed from: com.microsoft.appcenter.crashes.Crashes$11 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass11 implements Runnable {
-        final /* synthetic */ boolean val$alwaysSend;
-
-        AnonymousClass11(boolean z) {
-            Crashes.this = r1;
-            this.val$alwaysSend = z;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            if (Crashes.this.mUnprocessedErrorReports.size() > 0) {
-                if (!this.val$alwaysSend) {
-                    if (Crashes.this.mAutomaticProcessing) {
-                        if (!Crashes.this.mCrashesListener.shouldAwaitUserConfirmation()) {
-                            AppCenterLog.debug("AppCenterCrashes", "CrashesListener.shouldAwaitUserConfirmation returned false, will send logs.");
-                            Crashes.this.handleUserConfirmation(0);
+    private boolean sendCrashReportsOrAwaitUserConfirmation() {
+        final boolean z = SharedPreferencesManager.getBoolean("com.microsoft.appcenter.crashes.always.send", false);
+        HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.crashes.Crashes.11
+            @Override // java.lang.Runnable
+            public void run() {
+                if (Crashes.this.mUnprocessedErrorReports.size() > 0) {
+                    if (!z) {
+                        if (Crashes.this.mAutomaticProcessing) {
+                            if (!Crashes.this.mCrashesListener.shouldAwaitUserConfirmation()) {
+                                AppCenterLog.debug("AppCenterCrashes", "CrashesListener.shouldAwaitUserConfirmation returned false, will send logs.");
+                                Crashes.this.handleUserConfirmation(0);
+                                return;
+                            }
+                            AppCenterLog.debug("AppCenterCrashes", "CrashesListener.shouldAwaitUserConfirmation returned true, wait sending logs.");
                             return;
                         }
-                        AppCenterLog.debug("AppCenterCrashes", "CrashesListener.shouldAwaitUserConfirmation returned true, wait sending logs.");
+                        AppCenterLog.debug("AppCenterCrashes", "Automatic processing disabled, will wait for explicit user confirmation.");
                         return;
                     }
-                    AppCenterLog.debug("AppCenterCrashes", "Automatic processing disabled, will wait for explicit user confirmation.");
-                    return;
+                    AppCenterLog.debug("AppCenterCrashes", "The flag for user confirmation is set to ALWAYS_SEND, will send logs.");
+                    Crashes.this.handleUserConfirmation(0);
                 }
-                AppCenterLog.debug("AppCenterCrashes", "The flag for user confirmation is set to ALWAYS_SEND, will send logs.");
-                Crashes.this.handleUserConfirmation(0);
             }
-        }
-    }
-
-    private boolean sendCrashReportsOrAwaitUserConfirmation() {
-        boolean z = SharedPreferencesManager.getBoolean("com.microsoft.appcenter.crashes.always.send", false);
-        HandlerUtils.runOnUiThread(new AnonymousClass11(z));
+        });
         return z;
     }
 
@@ -617,83 +504,72 @@ public class Crashes extends AbstractAppCenterService {
         return errorReport;
     }
 
-    /* renamed from: com.microsoft.appcenter.crashes.Crashes$12 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass12 implements Runnable {
-        final /* synthetic */ int val$userConfirmation;
-
-        AnonymousClass12(int i) {
-            Crashes.this = r1;
-            this.val$userConfirmation = i;
-        }
-
-        /* JADX WARN: Removed duplicated region for block: B:28:0x00bc  */
-        /* JADX WARN: Removed duplicated region for block: B:31:0x00d8  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x00f3 A[SYNTHETIC] */
-        @Override // java.lang.Runnable
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public void run() {
-            File file;
-            int i = this.val$userConfirmation;
-            if (i == 1) {
-                Iterator it = Crashes.this.mUnprocessedErrorReports.keySet().iterator();
-                while (it.hasNext()) {
-                    it.remove();
-                    Crashes.this.removeAllStoredErrorLogFiles((UUID) it.next());
-                }
-                ErrorLogHelper.cleanPendingMinidumps();
-                return;
-            }
-            if (i == 2) {
-                SharedPreferencesManager.putBoolean("com.microsoft.appcenter.crashes.always.send", true);
-            }
-            Iterator it2 = Crashes.this.mUnprocessedErrorReports.entrySet().iterator();
-            while (it2.hasNext()) {
-                Map.Entry entry = (Map.Entry) it2.next();
-                ErrorLogReport errorLogReport = (ErrorLogReport) entry.getValue();
-                ErrorAttachmentLog errorAttachmentLog = null;
-                if (errorLogReport.report.getDevice() != null && "appcenter.ndk".equals(errorLogReport.report.getDevice().getWrapperSdkName())) {
-                    Exception exception = errorLogReport.log.getException();
-                    String minidumpFilePath = exception.getMinidumpFilePath();
-                    exception.setMinidumpFilePath(null);
-                    if (minidumpFilePath == null) {
-                        minidumpFilePath = exception.getStackTrace();
-                        exception.setStackTrace(null);
+    public synchronized void handleUserConfirmation(final int i) {
+        post(new Runnable() { // from class: com.microsoft.appcenter.crashes.Crashes.12
+            /* JADX WARN: Removed duplicated region for block: B:28:0x00bc  */
+            /* JADX WARN: Removed duplicated region for block: B:31:0x00d8  */
+            /* JADX WARN: Removed duplicated region for block: B:37:0x00f3 A[SYNTHETIC] */
+            @Override // java.lang.Runnable
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
+            public void run() {
+                File file;
+                int i2 = i;
+                if (i2 == 1) {
+                    Iterator it = Crashes.this.mUnprocessedErrorReports.keySet().iterator();
+                    while (it.hasNext()) {
+                        it.remove();
+                        Crashes.this.removeAllStoredErrorLogFiles((UUID) it.next());
                     }
-                    if (minidumpFilePath != null) {
-                        File file2 = new File(minidumpFilePath);
-                        errorAttachmentLog = ErrorAttachmentLog.attachmentWithBinary(FileManager.readBytes(file2), "minidump.dmp", "application/octet-stream");
-                        file = file2;
-                        ((AbstractAppCenterService) Crashes.this).mChannel.enqueue(errorLogReport.log, "groupErrors", 2);
-                        if (errorAttachmentLog != null) {
-                            Crashes.this.sendErrorAttachment(errorLogReport.log.getId(), Collections.singleton(errorAttachmentLog));
-                            file.delete();
+                    ErrorLogHelper.cleanPendingMinidumps();
+                    return;
+                }
+                if (i2 == 2) {
+                    SharedPreferencesManager.putBoolean("com.microsoft.appcenter.crashes.always.send", true);
+                }
+                Iterator it2 = Crashes.this.mUnprocessedErrorReports.entrySet().iterator();
+                while (it2.hasNext()) {
+                    Map.Entry entry = (Map.Entry) it2.next();
+                    ErrorLogReport errorLogReport = (ErrorLogReport) entry.getValue();
+                    ErrorAttachmentLog errorAttachmentLog = null;
+                    if (errorLogReport.report.getDevice() != null && "appcenter.ndk".equals(errorLogReport.report.getDevice().getWrapperSdkName())) {
+                        Exception exception = errorLogReport.log.getException();
+                        String minidumpFilePath = exception.getMinidumpFilePath();
+                        exception.setMinidumpFilePath(null);
+                        if (minidumpFilePath == null) {
+                            minidumpFilePath = exception.getStackTrace();
+                            exception.setStackTrace(null);
                         }
-                        if (!Crashes.this.mAutomaticProcessing) {
-                            Crashes.this.sendErrorAttachment(errorLogReport.log.getId(), Crashes.this.mCrashesListener.getErrorAttachments(errorLogReport.report));
+                        if (minidumpFilePath != null) {
+                            File file2 = new File(minidumpFilePath);
+                            errorAttachmentLog = ErrorAttachmentLog.attachmentWithBinary(FileManager.readBytes(file2), "minidump.dmp", "application/octet-stream");
+                            file = file2;
+                            ((AbstractAppCenterService) Crashes.this).mChannel.enqueue(errorLogReport.log, "groupErrors", 2);
+                            if (errorAttachmentLog != null) {
+                                Crashes.this.sendErrorAttachment(errorLogReport.log.getId(), Collections.singleton(errorAttachmentLog));
+                                file.delete();
+                            }
+                            if (!Crashes.this.mAutomaticProcessing) {
+                                Crashes.this.sendErrorAttachment(errorLogReport.log.getId(), Crashes.this.mCrashesListener.getErrorAttachments(errorLogReport.report));
+                            }
+                            it2.remove();
+                            ErrorLogHelper.removeStoredErrorLogFile((UUID) entry.getKey());
+                        } else {
+                            AppCenterLog.warn("AppCenterCrashes", "NativeException found without minidump.");
                         }
-                        it2.remove();
-                        ErrorLogHelper.removeStoredErrorLogFile((UUID) entry.getKey());
-                    } else {
-                        AppCenterLog.warn("AppCenterCrashes", "NativeException found without minidump.");
                     }
+                    file = null;
+                    ((AbstractAppCenterService) Crashes.this).mChannel.enqueue(errorLogReport.log, "groupErrors", 2);
+                    if (errorAttachmentLog != null) {
+                    }
+                    if (!Crashes.this.mAutomaticProcessing) {
+                    }
+                    it2.remove();
+                    ErrorLogHelper.removeStoredErrorLogFile((UUID) entry.getKey());
                 }
-                file = null;
-                ((AbstractAppCenterService) Crashes.this).mChannel.enqueue(errorLogReport.log, "groupErrors", 2);
-                if (errorAttachmentLog != null) {
-                }
-                if (!Crashes.this.mAutomaticProcessing) {
-                }
-                it2.remove();
-                ErrorLogHelper.removeStoredErrorLogFile((UUID) entry.getKey());
             }
-        }
-    }
-
-    public synchronized void handleUserConfirmation(int i) {
-        post(new AnonymousClass12(i));
+        });
     }
 
     public void sendErrorAttachment(UUID uuid, Iterable<ErrorAttachmentLog> iterable) {

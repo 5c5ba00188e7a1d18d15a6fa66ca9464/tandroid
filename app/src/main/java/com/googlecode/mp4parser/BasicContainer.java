@@ -18,22 +18,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 /* loaded from: classes.dex */
 public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.util.Iterator {
-    private static final Box EOF = new AnonymousClass1("eof ");
-    protected BoxParser boxParser;
-    protected DataSource dataSource;
-    Box lookahead = null;
-    long parsePosition = 0;
-    long endPosition = 0;
-    private List<Box> boxes = new ArrayList();
-
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.CC.$default$forEachRemaining(this, consumer);
-    }
-
-    /* renamed from: com.googlecode.mp4parser.BasicContainer$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 extends AbstractBox {
+    private static final Box EOF = new AbstractBox("eof ") { // from class: com.googlecode.mp4parser.BasicContainer.1
         @Override // com.googlecode.mp4parser.AbstractBox
         protected void _parseDetails(ByteBuffer byteBuffer) {
         }
@@ -46,10 +31,17 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
         protected long getContentSize() {
             return 0L;
         }
+    };
+    protected BoxParser boxParser;
+    protected DataSource dataSource;
+    Box lookahead = null;
+    long parsePosition = 0;
+    long endPosition = 0;
+    private List<Box> boxes = new ArrayList();
 
-        AnonymousClass1(String str) {
-            super(str);
-        }
+    @Override // j$.util.Iterator
+    public /* synthetic */ void forEachRemaining(Consumer consumer) {
+        Iterator.CC.$default$forEachRemaining(this, consumer);
     }
 
     static {

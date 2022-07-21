@@ -23,46 +23,24 @@ public class DefaultHttpClient implements HttpClient, DefaultHttpClientCallTask.
     }
 
     @Override // com.microsoft.appcenter.http.HttpClient
-    public ServiceCall callAsync(String str, String str2, Map<String, String> map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback) {
-        DefaultHttpClientCallTask defaultHttpClientCallTask = new DefaultHttpClientCallTask(str, str2, map, callTemplate, serviceCallback, this, this.mCompressionEnabled);
+    public ServiceCall callAsync(String str, String str2, Map<String, String> map, HttpClient.CallTemplate callTemplate, final ServiceCallback serviceCallback) {
+        final DefaultHttpClientCallTask defaultHttpClientCallTask = new DefaultHttpClientCallTask(str, str2, map, callTemplate, serviceCallback, this, this.mCompressionEnabled);
         try {
             defaultHttpClientCallTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Void[0]);
         } catch (RejectedExecutionException e) {
-            HandlerUtils.runOnUiThread(new AnonymousClass1(this, serviceCallback, e));
+            HandlerUtils.runOnUiThread(new Runnable(this) { // from class: com.microsoft.appcenter.http.DefaultHttpClient.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    serviceCallback.onCallFailed(e);
+                }
+            });
         }
-        return new AnonymousClass2(this, defaultHttpClientCallTask);
-    }
-
-    /* renamed from: com.microsoft.appcenter.http.DefaultHttpClient$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Runnable {
-        final /* synthetic */ RejectedExecutionException val$e;
-        final /* synthetic */ ServiceCallback val$serviceCallback;
-
-        AnonymousClass1(DefaultHttpClient defaultHttpClient, ServiceCallback serviceCallback, RejectedExecutionException rejectedExecutionException) {
-            this.val$serviceCallback = serviceCallback;
-            this.val$e = rejectedExecutionException;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            this.val$serviceCallback.onCallFailed(this.val$e);
-        }
-    }
-
-    /* renamed from: com.microsoft.appcenter.http.DefaultHttpClient$2 */
-    /* loaded from: classes.dex */
-    class AnonymousClass2 implements ServiceCall {
-        final /* synthetic */ DefaultHttpClientCallTask val$task;
-
-        AnonymousClass2(DefaultHttpClient defaultHttpClient, DefaultHttpClientCallTask defaultHttpClientCallTask) {
-            this.val$task = defaultHttpClientCallTask;
-        }
-
-        @Override // com.microsoft.appcenter.http.ServiceCall
-        public void cancel() {
-            this.val$task.cancel(true);
-        }
+        return new ServiceCall(this) { // from class: com.microsoft.appcenter.http.DefaultHttpClient.2
+            @Override // com.microsoft.appcenter.http.ServiceCall
+            public void cancel() {
+                defaultHttpClientCallTask.cancel(true);
+            }
+        };
     }
 
     @Override // com.microsoft.appcenter.http.DefaultHttpClientCallTask.Tracker

@@ -2,6 +2,8 @@ package com.google.firebase.remoteconfig.internal;
 
 import android.text.format.DateUtils;
 import com.google.android.gms.common.util.Clock;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.SuccessContinuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.analytics.connector.AnalyticsConnector;
@@ -12,6 +14,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigClientException;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigException;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigFetchThrottledException;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigServerException;
+import com.google.firebase.remoteconfig.internal.ConfigFetchHandler;
 import com.google.firebase.remoteconfig.internal.ConfigMetadataClient;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +22,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class ConfigFetchHandler {
     private final Provider<AnalyticsConnector> analyticsConnector;
@@ -31,7 +35,7 @@ public class ConfigFetchHandler {
     private final ConfigMetadataClient frcMetadata;
     private final Random randomGenerator;
     public static final long DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS = TimeUnit.HOURS.toSeconds(12);
-    static final int[] BACKOFF_TIME_DURATIONS_IN_MINUTES = {2, 4, 8, 16, 32, 64, 128, 256};
+    static final int[] BACKOFF_TIME_DURATIONS_IN_MINUTES = {2, 4, 8, 16, 32, 64, ConnectionsManager.RequestFlagNeedQuickAck, 256};
 
     private boolean isThrottleableServerError(int i) {
         return i == 429 || i == 502 || i == 503 || i == 504;
@@ -49,14 +53,21 @@ public class ConfigFetchHandler {
         this.customHttpHeaders = map;
     }
 
-    public Task<FetchResponse> fetch(long j) {
-        return this.fetchedConfigsCache.get().continueWithTask(this.executor, new ConfigFetchHandler$$ExternalSyntheticLambda0(this, j));
+    public Task<FetchResponse> fetch(final long j) {
+        return this.fetchedConfigsCache.get().continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda0
+            @Override // com.google.android.gms.tasks.Continuation
+            public final Object then(Task task) {
+                Task lambda$fetch$0;
+                lambda$fetch$0 = ConfigFetchHandler.this.lambda$fetch$0(j, task);
+                return lambda$fetch$0;
+            }
+        });
     }
 
     /* renamed from: fetchIfCacheExpiredAndNotThrottled */
     public Task<FetchResponse> lambda$fetch$0(Task<ConfigContainer> task, long j) {
         Task task2;
-        Date date = new Date(this.clock.currentTimeMillis());
+        final Date date = new Date(this.clock.currentTimeMillis());
         if (task.isSuccessful() && areCachedFetchConfigsValid(j, date)) {
             return Tasks.forResult(FetchResponse.forLocalStorageUsed(date));
         }
@@ -64,11 +75,25 @@ public class ConfigFetchHandler {
         if (backoffEndTimeInMillis != null) {
             task2 = Tasks.forException(new FirebaseRemoteConfigFetchThrottledException(createThrottledMessage(backoffEndTimeInMillis.getTime() - date.getTime()), backoffEndTimeInMillis.getTime()));
         } else {
-            Task<String> id = this.firebaseInstallations.getId();
-            Task<InstallationTokenResult> token = this.firebaseInstallations.getToken(false);
-            task2 = Tasks.whenAllComplete(id, token).continueWithTask(this.executor, new ConfigFetchHandler$$ExternalSyntheticLambda1(this, id, token, date));
+            final Task<String> id = this.firebaseInstallations.getId();
+            final Task<InstallationTokenResult> token = this.firebaseInstallations.getToken(false);
+            task2 = Tasks.whenAllComplete(id, token).continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda1
+                @Override // com.google.android.gms.tasks.Continuation
+                public final Object then(Task task3) {
+                    Task lambda$fetchIfCacheExpiredAndNotThrottled$1;
+                    lambda$fetchIfCacheExpiredAndNotThrottled$1 = ConfigFetchHandler.this.lambda$fetchIfCacheExpiredAndNotThrottled$1(id, token, date, task3);
+                    return lambda$fetchIfCacheExpiredAndNotThrottled$1;
+                }
+            });
         }
-        return task2.continueWithTask(this.executor, new ConfigFetchHandler$$ExternalSyntheticLambda2(this, date));
+        return task2.continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda2
+            @Override // com.google.android.gms.tasks.Continuation
+            public final Object then(Task task3) {
+                Task lambda$fetchIfCacheExpiredAndNotThrottled$2;
+                lambda$fetchIfCacheExpiredAndNotThrottled$2 = ConfigFetchHandler.this.lambda$fetchIfCacheExpiredAndNotThrottled$2(date, task3);
+                return lambda$fetchIfCacheExpiredAndNotThrottled$2;
+            }
+        });
     }
 
     public /* synthetic */ Task lambda$fetchIfCacheExpiredAndNotThrottled$1(Task task, Task task2, Date date, Task task3) throws Exception {
@@ -108,11 +133,19 @@ public class ConfigFetchHandler {
 
     private Task<FetchResponse> fetchFromBackendAndCacheResponse(String str, String str2, Date date) {
         try {
-            FetchResponse fetchFromBackend = fetchFromBackend(str, str2, date);
+            final FetchResponse fetchFromBackend = fetchFromBackend(str, str2, date);
             if (fetchFromBackend.getStatus() != 0) {
                 return Tasks.forResult(fetchFromBackend);
             }
-            return this.fetchedConfigsCache.put(fetchFromBackend.getFetchedConfigs()).onSuccessTask(this.executor, new ConfigFetchHandler$$ExternalSyntheticLambda3(fetchFromBackend));
+            return this.fetchedConfigsCache.put(fetchFromBackend.getFetchedConfigs()).onSuccessTask(this.executor, new SuccessContinuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda3
+                @Override // com.google.android.gms.tasks.SuccessContinuation
+                public final Task then(Object obj) {
+                    Task forResult;
+                    ConfigContainer configContainer = (ConfigContainer) obj;
+                    forResult = Tasks.forResult(ConfigFetchHandler.FetchResponse.this);
+                    return forResult;
+                }
+            });
         } catch (FirebaseRemoteConfigException e) {
             return Tasks.forException(e);
         }

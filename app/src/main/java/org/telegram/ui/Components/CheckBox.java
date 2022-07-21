@@ -63,7 +63,7 @@ public class CheckBox extends View {
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
         textPaint.setTextSize(AndroidUtilities.dp(18.0f));
-        this.textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.checkDrawable = context.getResources().getDrawable(i).mutate();
     }
 
@@ -151,27 +151,19 @@ public class CheckBox extends View {
         fArr[0] = z ? 1.0f : 0.0f;
         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", fArr);
         this.checkAnimator = ofFloat;
-        ofFloat.addListener(new AnonymousClass1());
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.CheckBox.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (animator.equals(CheckBox.this.checkAnimator)) {
+                    CheckBox.this.checkAnimator = null;
+                }
+                if (!CheckBox.this.isChecked) {
+                    CheckBox.this.checkedText = null;
+                }
+            }
+        });
         this.checkAnimator.setDuration(300L);
         this.checkAnimator.start();
-    }
-
-    /* renamed from: org.telegram.ui.Components.CheckBox$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            CheckBox.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (animator.equals(CheckBox.this.checkAnimator)) {
-                CheckBox.this.checkAnimator = null;
-            }
-            if (!CheckBox.this.isChecked) {
-                CheckBox.this.checkedText = null;
-            }
-        }
     }
 
     @Override // android.view.View

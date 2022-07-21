@@ -6,7 +6,17 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ChapterTocFrame extends Id3Frame {
-    public static final Parcelable.Creator<ChapterTocFrame> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<ChapterTocFrame> CREATOR = new Parcelable.Creator<ChapterTocFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.ChapterTocFrame.1
+        @Override // android.os.Parcelable.Creator
+        public ChapterTocFrame createFromParcel(Parcel parcel) {
+            return new ChapterTocFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public ChapterTocFrame[] newArray(int i) {
+            return new ChapterTocFrame[i];
+        }
+    };
     public final String[] children;
     public final String elementId;
     public final boolean isOrdered;
@@ -62,23 +72,6 @@ public final class ChapterTocFrame extends Id3Frame {
         parcel.writeInt(this.subFrames.length);
         for (Id3Frame id3Frame : this.subFrames) {
             parcel.writeParcelable(id3Frame, 0);
-        }
-    }
-
-    /* renamed from: com.google.android.exoplayer2.metadata.id3.ChapterTocFrame$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<ChapterTocFrame> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public ChapterTocFrame createFromParcel(Parcel parcel) {
-            return new ChapterTocFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public ChapterTocFrame[] newArray(int i) {
-            return new ChapterTocFrame[i];
         }
     }
 }

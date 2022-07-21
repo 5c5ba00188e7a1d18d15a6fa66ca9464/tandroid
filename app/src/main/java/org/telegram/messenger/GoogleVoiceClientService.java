@@ -8,11 +8,16 @@ import org.telegram.tgnet.TLRPC$User;
 /* loaded from: classes.dex */
 public class GoogleVoiceClientService extends SearchActionVerificationClientService {
     @Override // com.google.android.search.verification.client.SearchActionVerificationClientService
-    public void performAction(Intent intent, boolean z, Bundle bundle) {
+    public void performAction(final Intent intent, boolean z, Bundle bundle) {
         if (!z) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new GoogleVoiceClientService$$ExternalSyntheticLambda0(intent));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.GoogleVoiceClientService$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                GoogleVoiceClientService.lambda$performAction$0(intent);
+            }
+        });
     }
 
     public static /* synthetic */ void lambda$performAction$0(Intent intent) {

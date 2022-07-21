@@ -18,7 +18,7 @@ public class ActivityUtil {
         try {
             list = activityManager.getRunningAppProcesses();
         } catch (RuntimeException e) {
-            Logger.w("ActivityUtil", "activityManager getRunningAppProcesses occur exception: ", e);
+            Logger.w(TAG, "activityManager getRunningAppProcesses occur exception: ", e);
         }
         if (list == null) {
             return false;
@@ -26,7 +26,7 @@ public class ActivityUtil {
         for (ActivityManager.RunningAppProcessInfo runningAppProcessInfo : list) {
             String str = runningAppProcessInfo.processName;
             if (str != null && str.equals(context.getPackageName()) && runningAppProcessInfo.importance == 100) {
-                Logger.v("ActivityUtil", "isForeground true");
+                Logger.v(TAG, "isForeground true");
                 return true;
             }
         }
@@ -35,13 +35,13 @@ public class ActivityUtil {
 
     public static PendingIntent getActivities(Context context, int i, Intent[] intentArr, int i2) {
         if (context == null) {
-            Logger.w("ActivityUtil", "context is null");
+            Logger.w(TAG, "context is null");
             return null;
         }
         try {
             return PendingIntent.getActivities(context, i, intentArr, i2);
         } catch (RuntimeException e) {
-            Logger.e("ActivityUtil", "dealType rethrowFromSystemServer:", e);
+            Logger.e(TAG, "dealType rethrowFromSystemServer:", e);
             return null;
         }
     }

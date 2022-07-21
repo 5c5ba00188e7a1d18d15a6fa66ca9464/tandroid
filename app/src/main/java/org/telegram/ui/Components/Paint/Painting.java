@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.opengl.GLES20;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -127,8 +128,13 @@ public class Painting {
         this.bitmapTexture = new Texture(bitmap);
     }
 
-    public void paintStroke(Path path, boolean z, Runnable runnable) {
-        this.renderView.performInContext(new Painting$$ExternalSyntheticLambda3(this, path, z, runnable));
+    public void paintStroke(final Path path, final boolean z, final Runnable runnable) {
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                Painting.this.lambda$paintStroke$0(path, z, runnable);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$paintStroke$0(Path path, boolean z, Runnable runnable) {
@@ -181,8 +187,13 @@ public class Painting {
         }
     }
 
-    public void commitStroke(int i) {
-        this.renderView.performInContext(new Painting$$ExternalSyntheticLambda1(this, i));
+    public void commitStroke(final int i) {
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                Painting.this.lambda$commitStroke$1(i);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$commitStroke$1(int i) {
@@ -198,7 +209,7 @@ public class Painting {
         GLES20.glUniformMatrix4fv(shader.getUniform("mvpMatrix"), 1, false, FloatBuffer.wrap(this.projection));
         GLES20.glUniform1i(shader.getUniform("texture"), 0);
         GLES20.glUniform1i(shader.getUniform("mask"), 1);
-        Shader.SetColorUniform(shader.getUniform("color"), i);
+        Shader.SetColorUniform(shader.getUniform(RemoteMessageConst.Notification.COLOR), i);
         GLES20.glActiveTexture(33984);
         GLES20.glBindTexture(3553, getTexture());
         GLES20.glTexParameteri(3553, 10241, 9729);
@@ -223,7 +234,12 @@ public class Painting {
     }
 
     public void clearStroke() {
-        this.renderView.performInContext(new Painting$$ExternalSyntheticLambda0(this));
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                Painting.this.lambda$clearStroke$2();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$clearStroke$2() {
@@ -248,13 +264,24 @@ public class Painting {
 
     private void registerUndo(RectF rectF) {
         if (rectF != null && rectF.setIntersect(rectF, getBounds())) {
-            this.delegate.requestUndoStore().registerUndo(UUID.randomUUID(), new Painting$$ExternalSyntheticLambda4(this, new Slice(getPaintingData(rectF, true).data, rectF, this.delegate.requestDispatchQueue())));
+            final Slice slice = new Slice(getPaintingData(rectF, true).data, rectF, this.delegate.requestDispatchQueue());
+            this.delegate.requestUndoStore().registerUndo(UUID.randomUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    Painting.this.lambda$registerUndo$3(slice);
+                }
+            });
         }
     }
 
     /* renamed from: restoreSlice */
-    public void lambda$registerUndo$3(Slice slice) {
-        this.renderView.performInContext(new Painting$$ExternalSyntheticLambda5(this, slice));
+    public void lambda$registerUndo$3(final Slice slice) {
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                Painting.this.lambda$restoreSlice$4(slice);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$restoreSlice$4(Slice slice) {
@@ -292,7 +319,7 @@ public class Painting {
         GLES20.glUniformMatrix4fv(shader.getUniform("mvpMatrix"), 1, false, FloatBuffer.wrap(this.renderProjection));
         GLES20.glUniform1i(shader.getUniform("texture"), 0);
         GLES20.glUniform1i(shader.getUniform("mask"), 1);
-        Shader.SetColorUniform(shader.getUniform("color"), i2);
+        Shader.SetColorUniform(shader.getUniform(RemoteMessageConst.Notification.COLOR), i2);
         GLES20.glActiveTexture(33984);
         GLES20.glBindTexture(3553, getTexture());
         GLES20.glActiveTexture(33985);
@@ -399,8 +426,13 @@ public class Painting {
         return this.paused;
     }
 
-    public void onPause(Runnable runnable) {
-        this.renderView.performInContext(new Painting$$ExternalSyntheticLambda2(this, runnable));
+    public void onPause(final Runnable runnable) {
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                Painting.this.lambda$onPause$5(runnable);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$onPause$5(Runnable runnable) {

@@ -53,7 +53,7 @@ public class IoUtils {
 
     public static long copy(InputStream inputStream, OutputStream outputStream) throws IOException {
         String packageName = ContextHolder.getAppContext() != null ? ContextHolder.getAppContext().getPackageName() : "";
-        byte[] bArr = new byte[4096];
+        byte[] bArr = new byte[BUFF_SIZE];
         long j = 0;
         while (true) {
             int read = inputStream.read(bArr);

@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import androidx.core.view.NestedScrollingParent;
 import androidx.core.view.NestedScrollingParentHelper;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class BotCommandsMenuContainer extends FrameLayout implements NestedScrollingParent {
@@ -45,50 +46,39 @@ public class BotCommandsMenuContainer extends FrameLayout implements NestedScrol
 
     public BotCommandsMenuContainer(Context context) {
         super(context);
-        this.shadowDrawable = context.getResources().getDrawable(2131166143).mutate();
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
-        this.listView = anonymousClass1;
-        anonymousClass1.setOverScrollMode(2);
+        this.shadowDrawable = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
+        RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.BotCommandsMenuContainer.1
+            @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
+            public void dispatchDraw(Canvas canvas) {
+                if (BotCommandsMenuContainer.this.listView.getLayoutManager() == null || BotCommandsMenuContainer.this.listView.getAdapter() == null || BotCommandsMenuContainer.this.listView.getAdapter().getItemCount() == 0) {
+                    super.dispatchDraw(canvas);
+                    return;
+                }
+                View findViewByPosition = BotCommandsMenuContainer.this.listView.getLayoutManager().findViewByPosition(0);
+                float y = findViewByPosition != null ? findViewByPosition.getY() : 0.0f;
+                if (y < 0.0f) {
+                    y = 0.0f;
+                }
+                BotCommandsMenuContainer.this.scrollYOffset = y;
+                float dp = y - AndroidUtilities.dp(8.0f);
+                if (dp > 0.0f) {
+                    int i = (int) dp;
+                    BotCommandsMenuContainer.this.shadowDrawable.setBounds(-AndroidUtilities.dp(8.0f), i - AndroidUtilities.dp(24.0f), getMeasuredWidth() + AndroidUtilities.dp(8.0f), i);
+                    BotCommandsMenuContainer.this.shadowDrawable.draw(canvas);
+                }
+                canvas.drawRect(0.0f, dp, getMeasuredWidth(), getMeasuredHeight() + AndroidUtilities.dp(16.0f), BotCommandsMenuContainer.this.backgroundPaint);
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set((getMeasuredWidth() / 2.0f) - AndroidUtilities.dp(12.0f), dp - AndroidUtilities.dp(4.0f), (getMeasuredWidth() / 2.0f) + AndroidUtilities.dp(12.0f), dp);
+                canvas.drawRoundRect(rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), BotCommandsMenuContainer.this.topBackground);
+                super.dispatchDraw(canvas);
+            }
+        };
+        this.listView = recyclerListView;
+        recyclerListView.setOverScrollMode(2);
         this.listView.setClipToPadding(false);
         addView(this.listView);
         updateColors();
         setClipChildren(false);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.BotCommandsMenuContainer$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends RecyclerListView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context) {
-            super(context);
-            BotCommandsMenuContainer.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
-            if (BotCommandsMenuContainer.this.listView.getLayoutManager() == null || BotCommandsMenuContainer.this.listView.getAdapter() == null || BotCommandsMenuContainer.this.listView.getAdapter().getItemCount() == 0) {
-                super.dispatchDraw(canvas);
-                return;
-            }
-            View findViewByPosition = BotCommandsMenuContainer.this.listView.getLayoutManager().findViewByPosition(0);
-            float y = findViewByPosition != null ? findViewByPosition.getY() : 0.0f;
-            if (y < 0.0f) {
-                y = 0.0f;
-            }
-            BotCommandsMenuContainer.this.scrollYOffset = y;
-            float dp = y - AndroidUtilities.dp(8.0f);
-            if (dp > 0.0f) {
-                int i = (int) dp;
-                BotCommandsMenuContainer.this.shadowDrawable.setBounds(-AndroidUtilities.dp(8.0f), i - AndroidUtilities.dp(24.0f), getMeasuredWidth() + AndroidUtilities.dp(8.0f), i);
-                BotCommandsMenuContainer.this.shadowDrawable.draw(canvas);
-            }
-            canvas.drawRect(0.0f, dp, getMeasuredWidth(), getMeasuredHeight() + AndroidUtilities.dp(16.0f), BotCommandsMenuContainer.this.backgroundPaint);
-            RectF rectF = AndroidUtilities.rectTmp;
-            rectF.set((getMeasuredWidth() / 2.0f) - AndroidUtilities.dp(12.0f), dp - AndroidUtilities.dp(4.0f), (getMeasuredWidth() / 2.0f) + AndroidUtilities.dp(12.0f), dp);
-            canvas.drawRoundRect(rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), BotCommandsMenuContainer.this.topBackground);
-            super.dispatchDraw(canvas);
-        }
     }
 
     @Override // android.view.ViewGroup, android.view.ViewParent, androidx.core.view.NestedScrollingParent
@@ -226,25 +216,17 @@ public class BotCommandsMenuContainer extends FrameLayout implements NestedScrol
             RecyclerListView recyclerListView = this.listView;
             ObjectAnimator ofFloat = ObjectAnimator.ofFloat(recyclerListView, FrameLayout.TRANSLATION_Y, recyclerListView.getTranslationY(), (getMeasuredHeight() - this.scrollYOffset) + AndroidUtilities.dp(40.0f));
             this.currentAnimation = ofFloat;
-            ofFloat.addListener(new AnonymousClass2());
+            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.BotCommandsMenuContainer.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    BotCommandsMenuContainer.this.setVisibility(8);
+                    BotCommandsMenuContainer.this.currentAnimation = null;
+                }
+            });
             this.currentAnimation.setDuration(150L);
             this.currentAnimation.setInterpolator(CubicBezierInterpolator.DEFAULT);
             this.currentAnimation.start();
             onDismiss();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.BotCommandsMenuContainer$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
-            BotCommandsMenuContainer.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            BotCommandsMenuContainer.this.setVisibility(8);
-            BotCommandsMenuContainer.this.currentAnimation = null;
         }
     }
 

@@ -2,6 +2,7 @@ package com.huawei.hms.utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 /* loaded from: classes.dex */
 public abstract class ResourceLoaderUtil {
     public static Context a;
@@ -12,7 +13,7 @@ public abstract class ResourceLoaderUtil {
     }
 
     public static int getColorId(String str) {
-        return a.getResources().getIdentifier(str, "color", b);
+        return a.getResources().getIdentifier(str, RemoteMessageConst.Notification.COLOR, b);
     }
 
     public static Drawable getDrawable(String str) {

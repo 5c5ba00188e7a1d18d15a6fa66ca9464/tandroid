@@ -21,7 +21,12 @@ public class StatsController extends BaseController {
     private long lastInternalStatsSaveTime;
     private RandomAccessFile statsFile;
     private static DispatchQueue statsSaveQueue = new DispatchQueue("statsSaveQueue");
-    private static final ThreadLocal<Long> lastStatsSaveTime = new AnonymousClass1();
+    private static final ThreadLocal<Long> lastStatsSaveTime = new ThreadLocal<Long>() { // from class: org.telegram.messenger.StatsController.1
+        @Override // java.lang.ThreadLocal
+        public Long initialValue() {
+            return Long.valueOf(System.currentTimeMillis() - 1000);
+        }
+    };
     private static volatile StatsController[] Instance = new StatsController[4];
     private byte[] buffer = new byte[8];
     private long[][] sentBytes = (long[][]) Array.newInstance(long.class, 3, 7);
@@ -30,58 +35,7 @@ public class StatsController extends BaseController {
     private int[][] receivedItems = (int[][]) Array.newInstance(int.class, 3, 7);
     private long[] resetStatsDate = new long[3];
     private int[] callsTotalTime = new int[3];
-    private Runnable saveRunnable = new AnonymousClass2();
-
-    /* renamed from: org.telegram.messenger.StatsController$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 extends ThreadLocal<Long> {
-        AnonymousClass1() {
-        }
-
-        @Override // java.lang.ThreadLocal
-        public Long initialValue() {
-            return Long.valueOf(System.currentTimeMillis() - 1000);
-        }
-    }
-
-    public byte[] intToBytes(int i) {
-        byte[] bArr = this.buffer;
-        bArr[0] = (byte) (i >>> 24);
-        bArr[1] = (byte) (i >>> 16);
-        bArr[2] = (byte) (i >>> 8);
-        bArr[3] = (byte) i;
-        return bArr;
-    }
-
-    private int bytesToInt(byte[] bArr) {
-        return (bArr[3] & 255) | (bArr[0] << 24) | ((bArr[1] & 255) << 16) | ((bArr[2] & 255) << 8);
-    }
-
-    public byte[] longToBytes(long j) {
-        byte[] bArr = this.buffer;
-        bArr[0] = (byte) (j >>> 56);
-        bArr[1] = (byte) (j >>> 48);
-        bArr[2] = (byte) (j >>> 40);
-        bArr[3] = (byte) (j >>> 32);
-        bArr[4] = (byte) (j >>> 24);
-        bArr[5] = (byte) (j >>> 16);
-        bArr[6] = (byte) (j >>> 8);
-        bArr[7] = (byte) j;
-        return bArr;
-    }
-
-    private long bytesToLong(byte[] bArr) {
-        return ((bArr[0] & 255) << 56) | ((bArr[1] & 255) << 48) | ((bArr[2] & 255) << 40) | ((bArr[3] & 255) << 32) | ((bArr[4] & 255) << 24) | ((bArr[5] & 255) << 16) | ((bArr[6] & 255) << 8) | (255 & bArr[7]);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.StatsController$2 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass2 implements Runnable {
-        AnonymousClass2() {
-            StatsController.this = r1;
-        }
-
+    private Runnable saveRunnable = new Runnable() { // from class: org.telegram.messenger.StatsController.2
         @Override // java.lang.Runnable
         public void run() {
             long currentTimeMillis = System.currentTimeMillis();
@@ -117,6 +71,36 @@ public class StatsController extends BaseController {
             } catch (Exception unused) {
             }
         }
+    };
+
+    public byte[] intToBytes(int i) {
+        byte[] bArr = this.buffer;
+        bArr[0] = (byte) (i >>> 24);
+        bArr[1] = (byte) (i >>> 16);
+        bArr[2] = (byte) (i >>> 8);
+        bArr[3] = (byte) i;
+        return bArr;
+    }
+
+    private int bytesToInt(byte[] bArr) {
+        return (bArr[3] & 255) | (bArr[0] << 24) | ((bArr[1] & 255) << 16) | ((bArr[2] & 255) << 8);
+    }
+
+    public byte[] longToBytes(long j) {
+        byte[] bArr = this.buffer;
+        bArr[0] = (byte) (j >>> 56);
+        bArr[1] = (byte) (j >>> 48);
+        bArr[2] = (byte) (j >>> 40);
+        bArr[3] = (byte) (j >>> 32);
+        bArr[4] = (byte) (j >>> 24);
+        bArr[5] = (byte) (j >>> 16);
+        bArr[6] = (byte) (j >>> 8);
+        bArr[7] = (byte) j;
+        return bArr;
+    }
+
+    private long bytesToLong(byte[] bArr) {
+        return ((bArr[0] & 255) << 56) | ((bArr[1] & 255) << 48) | ((bArr[2] & 255) << 40) | ((bArr[3] & 255) << 32) | ((bArr[4] & 255) << 24) | ((bArr[5] & 255) << 16) | ((bArr[6] & 255) << 8) | (255 & bArr[7]);
     }
 
     public static StatsController getInstance(int i) {

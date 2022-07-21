@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.nio.ByteBuffer;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 abstract class zzfg {
     public static void zzc(CharSequence charSequence, ByteBuffer byteBuffer) {
@@ -38,7 +39,7 @@ abstract class zzfg {
                 int i2 = position + 1;
                 try {
                     byteBuffer.put(position, (byte) ((charAt3 >>> 6) | 192));
-                    byteBuffer.put(i2, (byte) ((charAt3 & '?') | 128));
+                    byteBuffer.put(i2, (byte) ((charAt3 & '?') | ConnectionsManager.RequestFlagNeedQuickAck));
                     position = i2;
                 } catch (IndexOutOfBoundsException unused2) {
                     position = i2;
@@ -61,10 +62,10 @@ abstract class zzfg {
                             try {
                                 byteBuffer.put(position, (byte) ((codePoint >>> 18) | 240));
                                 int i5 = i4 + 1;
-                                byteBuffer.put(i4, (byte) (((codePoint >>> 12) & 63) | 128));
+                                byteBuffer.put(i4, (byte) (((codePoint >>> 12) & 63) | ConnectionsManager.RequestFlagNeedQuickAck));
                                 int i6 = i5 + 1;
-                                byteBuffer.put(i5, (byte) (((codePoint >>> 6) & 63) | 128));
-                                byteBuffer.put(i6, (byte) ((codePoint & 63) | 128));
+                                byteBuffer.put(i5, (byte) (((codePoint >>> 6) & 63) | ConnectionsManager.RequestFlagNeedQuickAck));
+                                byteBuffer.put(i6, (byte) ((codePoint & 63) | ConnectionsManager.RequestFlagNeedQuickAck));
                                 position = i6;
                                 i = i3;
                             } catch (IndexOutOfBoundsException unused3) {
@@ -89,8 +90,8 @@ abstract class zzfg {
                 int i7 = position + 1;
                 byteBuffer.put(position, (byte) ((charAt3 >>> '\f') | 224));
                 position = i7 + 1;
-                byteBuffer.put(i7, (byte) (((charAt3 >>> 6) & 63) | 128));
-                byteBuffer.put(position, (byte) ((charAt3 & '?') | 128));
+                byteBuffer.put(i7, (byte) (((charAt3 >>> 6) & 63) | ConnectionsManager.RequestFlagNeedQuickAck));
+                byteBuffer.put(position, (byte) ((charAt3 & '?') | ConnectionsManager.RequestFlagNeedQuickAck));
             }
             i++;
             position++;

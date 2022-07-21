@@ -12,6 +12,7 @@ import com.huawei.hms.utils.HMSPackageManager;
 import com.huawei.hms.utils.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class AGCUtils {
     /* JADX WARN: Removed duplicated region for block: B:12:0x0069 A[RETURN] */
@@ -64,7 +65,7 @@ public class AGCUtils {
             return "";
         }
         try {
-            ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), 128).applicationInfo;
+            ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).applicationInfo;
             if (applicationInfo != null && (bundle = applicationInfo.metaData) != null && (obj = bundle.get("com.huawei.hms.client.cpid")) != null) {
                 String valueOf = String.valueOf(obj);
                 return valueOf.startsWith("cpid=") ? valueOf.substring(5) : valueOf;
@@ -140,7 +141,7 @@ public class AGCUtils {
             return "";
         }
         try {
-            ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), 128).applicationInfo;
+            ApplicationInfo applicationInfo = packageManager.getPackageInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).applicationInfo;
             if (applicationInfo != null && (bundle = applicationInfo.metaData) != null && (obj = bundle.get("com.huawei.hms.client.appid")) != null) {
                 String valueOf = String.valueOf(obj);
                 return valueOf.startsWith("appid=") ? valueOf.substring(6) : valueOf;

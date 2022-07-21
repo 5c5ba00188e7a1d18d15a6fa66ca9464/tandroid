@@ -7,33 +7,19 @@ public class ArchTaskExecutor extends TaskExecutor {
     private TaskExecutor mDefaultTaskExecutor;
     private TaskExecutor mDelegate;
 
-    /* renamed from: androidx.arch.core.executor.ArchTaskExecutor$1 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass1 implements Executor {
-        AnonymousClass1() {
-        }
-
-        @Override // java.util.concurrent.Executor
-        public void execute(Runnable runnable) {
-            ArchTaskExecutor.getInstance().postToMainThread(runnable);
-        }
-    }
-
     static {
-        new AnonymousClass1();
-        new AnonymousClass2();
-    }
-
-    /* renamed from: androidx.arch.core.executor.ArchTaskExecutor$2 */
-    /* loaded from: classes.dex */
-    static class AnonymousClass2 implements Executor {
-        AnonymousClass2() {
-        }
-
-        @Override // java.util.concurrent.Executor
-        public void execute(Runnable runnable) {
-            ArchTaskExecutor.getInstance().executeOnDiskIO(runnable);
-        }
+        new Executor() { // from class: androidx.arch.core.executor.ArchTaskExecutor.1
+            @Override // java.util.concurrent.Executor
+            public void execute(Runnable runnable) {
+                ArchTaskExecutor.getInstance().postToMainThread(runnable);
+            }
+        };
+        new Executor() { // from class: androidx.arch.core.executor.ArchTaskExecutor.2
+            @Override // java.util.concurrent.Executor
+            public void execute(Runnable runnable) {
+                ArchTaskExecutor.getInstance().executeOnDiskIO(runnable);
+            }
+        };
     }
 
     private ArchTaskExecutor() {

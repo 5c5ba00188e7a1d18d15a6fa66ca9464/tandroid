@@ -116,7 +116,12 @@ public class PlayingGameDrawable extends StatusDrawable {
             if (!NotificationCenter.getInstance(this.currentAccount).isAnimationInProgress()) {
                 update();
             } else {
-                AndroidUtilities.runOnUIThread(new PlayingGameDrawable$$ExternalSyntheticLambda0(this), 100L);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PlayingGameDrawable$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PlayingGameDrawable.this.checkUpdate();
+                    }
+                }, 100L);
             }
         }
     }

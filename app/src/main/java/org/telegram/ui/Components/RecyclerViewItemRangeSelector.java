@@ -21,31 +21,7 @@ public class RecyclerViewItemRangeSelector implements RecyclerView.OnItemTouchLi
     private RecyclerView recyclerView;
     private int lastDraggedIndex = -1;
     private int hotspotHeight = AndroidUtilities.dp(80.0f);
-    private Runnable autoScrollRunnable = new AnonymousClass1();
-
-    /* loaded from: classes3.dex */
-    public interface RecyclerViewItemRangeSelectorDelegate {
-        boolean isIndexSelectable(int i);
-
-        boolean isSelected(int i);
-
-        void onStartStopSelection(boolean z);
-
-        void setSelected(View view, int i, boolean z);
-    }
-
-    @Override // androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
-    public void onRequestDisallowInterceptTouchEvent(boolean z) {
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.RecyclerViewItemRangeSelector$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            RecyclerViewItemRangeSelector.this = r1;
-        }
-
+    private Runnable autoScrollRunnable = new Runnable() { // from class: org.telegram.ui.Components.RecyclerViewItemRangeSelector.1
         @Override // java.lang.Runnable
         public void run() {
             if (RecyclerViewItemRangeSelector.this.recyclerView == null) {
@@ -60,6 +36,21 @@ public class RecyclerViewItemRangeSelector implements RecyclerView.OnItemTouchLi
                 AndroidUtilities.runOnUIThread(this);
             }
         }
+    };
+
+    /* loaded from: classes3.dex */
+    public interface RecyclerViewItemRangeSelectorDelegate {
+        boolean isIndexSelectable(int i);
+
+        boolean isSelected(int i);
+
+        void onStartStopSelection(boolean z);
+
+        void setSelected(View view, int i, boolean z);
+    }
+
+    @Override // androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
+    public void onRequestDisallowInterceptTouchEvent(boolean z) {
     }
 
     public RecyclerViewItemRangeSelector(RecyclerViewItemRangeSelectorDelegate recyclerViewItemRangeSelectorDelegate) {

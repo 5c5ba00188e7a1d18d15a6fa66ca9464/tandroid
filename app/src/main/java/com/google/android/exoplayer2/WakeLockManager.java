@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.PowerManager;
 /* loaded from: classes.dex */
-public final class WakeLockManager {
+final class WakeLockManager {
     private boolean enabled;
     private boolean stayAwake;
     private PowerManager.WakeLock wakeLock;

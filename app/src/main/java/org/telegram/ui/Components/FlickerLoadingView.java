@@ -12,7 +12,9 @@ import android.view.View;
 import java.util.Random;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class FlickerLoadingView extends View {
@@ -209,7 +211,7 @@ public class FlickerLoadingView extends View {
             while (i9 <= getMeasuredHeight()) {
                 canvas.drawCircle(checkRtl(this.paddingLeft + AndroidUtilities.dp(9.0f) + dp11), AndroidUtilities.dp(29.0f) + i9, AndroidUtilities.dp(20.0f), paint2);
                 float f3 = 76;
-                this.rectF.set(AndroidUtilities.dp(f3), AndroidUtilities.dp(16.0f) + i9, AndroidUtilities.dp((i2 % 2 == 0 ? 92 : 128) + 76), AndroidUtilities.dp(24.0f) + i9);
+                this.rectF.set(AndroidUtilities.dp(f3), AndroidUtilities.dp(16.0f) + i9, AndroidUtilities.dp((i2 % 2 == 0 ? 92 : ConnectionsManager.RequestFlagNeedQuickAck) + 76), AndroidUtilities.dp(24.0f) + i9);
                 checkRtl(this.rectF);
                 canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), paint2);
                 this.rectF.set(AndroidUtilities.dp(f3), AndroidUtilities.dp(38.0f) + i9, AndroidUtilities.dp(240), AndroidUtilities.dp(46.0f) + i9);
@@ -677,7 +679,7 @@ public class FlickerLoadingView extends View {
             case 13:
             case 14:
             case 17:
-            case 20:
+            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
             default:
                 return 0;
             case 15:
@@ -688,7 +690,7 @@ public class FlickerLoadingView extends View {
                 return AndroidUtilities.dp(58.0f);
             case 21:
                 return AndroidUtilities.dp(58.0f);
-            case 22:
+            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
                 return AndroidUtilities.dp(60.0f);
         }
     }

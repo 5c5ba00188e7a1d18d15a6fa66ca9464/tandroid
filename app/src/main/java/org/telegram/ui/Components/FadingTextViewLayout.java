@@ -49,8 +49,36 @@ public class FadingTextViewLayout extends FrameLayout {
         this.animator = ofFloat;
         ofFloat.setDuration(200L);
         ofFloat.setInterpolator(null);
-        ofFloat.addUpdateListener(new FadingTextViewLayout$$ExternalSyntheticLambda0(this));
-        ofFloat.addListener(new AnonymousClass1());
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.FadingTextViewLayout$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                FadingTextViewLayout.this.lambda$new$0(valueAnimator);
+            }
+        });
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FadingTextViewLayout.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                FadingTextViewLayout.this.currentView.setLayerType(0, null);
+                FadingTextViewLayout.this.nextView.setLayerType(0, null);
+                FadingTextViewLayout.this.nextView.setVisibility(8);
+                if (FadingTextViewLayout.this.foregroundView != null) {
+                    FadingTextViewLayout.this.currentView.setText(FadingTextViewLayout.this.text);
+                    FadingTextViewLayout.this.foregroundView.setVisibility(8);
+                }
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationStart(Animator animator) {
+                FadingTextViewLayout.this.currentView.setLayerType(2, null);
+                FadingTextViewLayout.this.nextView.setLayerType(2, null);
+                if (ViewCompat.isAttachedToWindow(FadingTextViewLayout.this.currentView)) {
+                    FadingTextViewLayout.this.currentView.buildLayer();
+                }
+                if (ViewCompat.isAttachedToWindow(FadingTextViewLayout.this.nextView)) {
+                    FadingTextViewLayout.this.nextView.buildLayer();
+                }
+            }
+        });
     }
 
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
@@ -59,37 +87,6 @@ public class FadingTextViewLayout extends FrameLayout {
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
         textView.setAlpha(cubicBezierInterpolator.getInterpolation(animatedFraction));
         this.nextView.setAlpha(cubicBezierInterpolator.getInterpolation(1.0f - animatedFraction));
-    }
-
-    /* renamed from: org.telegram.ui.Components.FadingTextViewLayout$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            FadingTextViewLayout.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            FadingTextViewLayout.this.currentView.setLayerType(0, null);
-            FadingTextViewLayout.this.nextView.setLayerType(0, null);
-            FadingTextViewLayout.this.nextView.setVisibility(8);
-            if (FadingTextViewLayout.this.foregroundView != null) {
-                FadingTextViewLayout.this.currentView.setText(FadingTextViewLayout.this.text);
-                FadingTextViewLayout.this.foregroundView.setVisibility(8);
-            }
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationStart(Animator animator) {
-            FadingTextViewLayout.this.currentView.setLayerType(2, null);
-            FadingTextViewLayout.this.nextView.setLayerType(2, null);
-            if (ViewCompat.isAttachedToWindow(FadingTextViewLayout.this.currentView)) {
-                FadingTextViewLayout.this.currentView.buildLayer();
-            }
-            if (ViewCompat.isAttachedToWindow(FadingTextViewLayout.this.nextView)) {
-                FadingTextViewLayout.this.nextView.buildLayer();
-            }
-        }
     }
 
     public void setText(CharSequence charSequence) {

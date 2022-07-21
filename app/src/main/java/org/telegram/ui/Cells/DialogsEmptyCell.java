@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 import androidx.core.util.Consumer;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$RecentMeUrl;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
@@ -42,7 +44,7 @@ public class DialogsEmptyCell extends LinearLayout {
         return true;
     }
 
-    public DialogsEmptyCell(Context context) {
+    public DialogsEmptyCell(final Context context) {
         super(context);
         setGravity(17);
         setOrientation(1);
@@ -51,19 +53,31 @@ public class DialogsEmptyCell extends LinearLayout {
         this.imageView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
         addView(this.imageView, LayoutHelper.createFrame(100, 100.0f, 17, 52.0f, 4.0f, 52.0f, 0.0f));
-        this.imageView.setOnClickListener(new DialogsEmptyCell$$ExternalSyntheticLambda2(this));
+        this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                DialogsEmptyCell.this.lambda$new$1(view);
+            }
+        });
         TextView textView = new TextView(context);
         this.titleView = textView;
         textView.setTextColor(Theme.getColor("chats_nameMessage_threeLines"));
         this.titleView.setTextSize(1, 20.0f);
-        this.titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.titleView.setGravity(17);
         addView(this.titleView, LayoutHelper.createFrame(-1, -2.0f, 51, 52.0f, 10.0f, 52.0f, 0.0f));
         TextViewSwitcher textViewSwitcher = new TextViewSwitcher(context);
         this.subtitleView = textViewSwitcher;
-        textViewSwitcher.setFactory(new DialogsEmptyCell$$ExternalSyntheticLambda4(context));
-        this.subtitleView.setInAnimation(context, 2130771968);
-        this.subtitleView.setOutAnimation(context, 2130771969);
+        textViewSwitcher.setFactory(new ViewSwitcher.ViewFactory() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda4
+            @Override // android.widget.ViewSwitcher.ViewFactory
+            public final View makeView() {
+                View lambda$new$2;
+                lambda$new$2 = DialogsEmptyCell.lambda$new$2(context);
+                return lambda$new$2;
+            }
+        });
+        this.subtitleView.setInAnimation(context, R.anim.alpha_in);
+        this.subtitleView.setOutAnimation(context, R.anim.alpha_out);
         addView(this.subtitleView, LayoutHelper.createFrame(-1, -2.0f, 51, 52.0f, 7.0f, 52.0f, 0.0f));
     }
 
@@ -99,26 +113,26 @@ public class DialogsEmptyCell extends LinearLayout {
         }
         this.currentType = i;
         if (i == 0 || i == 1) {
-            i2 = 2131558592;
-            str = LocaleController.getString("NoChatsHelp", 2131626865);
-            this.titleView.setText(LocaleController.getString("NoChats", 2131626863));
+            i2 = R.raw.utyan_newborn;
+            str = LocaleController.getString("NoChatsHelp", R.string.NoChatsHelp);
+            this.titleView.setText(LocaleController.getString("NoChats", R.string.NoChats));
         } else if (i == 2) {
             this.imageView.setAutoRepeat(false);
-            i2 = 2131558447;
-            str = LocaleController.getString("FilterNoChatsToDisplayInfo", 2131625914);
-            this.titleView.setText(LocaleController.getString("FilterNoChatsToDisplay", 2131625913));
+            i2 = R.raw.filter_no_chats;
+            str = LocaleController.getString("FilterNoChatsToDisplayInfo", R.string.FilterNoChatsToDisplayInfo);
+            this.titleView.setText(LocaleController.getString("FilterNoChatsToDisplay", R.string.FilterNoChatsToDisplay));
         } else {
             this.imageView.setAutoRepeat(true);
-            i2 = 2131558446;
-            str = LocaleController.getString("FilterAddingChatsInfo", 2131625869);
-            this.titleView.setText(LocaleController.getString("FilterAddingChats", 2131625868));
+            i2 = R.raw.filter_new;
+            str = LocaleController.getString("FilterAddingChatsInfo", R.string.FilterAddingChatsInfo);
+            this.titleView.setText(LocaleController.getString("FilterAddingChats", R.string.FilterAddingChats));
         }
         if (i2 != 0) {
             this.imageView.setVisibility(0);
             if (this.currentType == 1) {
                 if (isUtyanAnimationTriggered()) {
                     this.utyanCollapseProgress = 1.0f;
-                    String string = LocaleController.getString("NoChatsContactsHelp", 2131626864);
+                    String string = LocaleController.getString("NoChatsContactsHelp", R.string.NoChatsContactsHelp);
                     if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
                         string = string.replace('\n', ' ');
                     }
@@ -155,8 +169,23 @@ public class DialogsEmptyCell extends LinearLayout {
         ValueAnimator duration = ValueAnimator.ofFloat(this.utyanCollapseProgress, 0.0f).setDuration(250L);
         this.utyanAnimator = duration;
         duration.setInterpolator(Easings.easeOutQuad);
-        this.utyanAnimator.addUpdateListener(new DialogsEmptyCell$$ExternalSyntheticLambda0(this));
-        this.utyanAnimator.addListener(new AnonymousClass1());
+        this.utyanAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                DialogsEmptyCell.this.lambda$startUtyanExpandAnimation$3(valueAnimator2);
+            }
+        });
+        this.utyanAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.DialogsEmptyCell.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (DialogsEmptyCell.this.onUtyanAnimationEndListener != null) {
+                    DialogsEmptyCell.this.onUtyanAnimationEndListener.run();
+                }
+                if (animator == DialogsEmptyCell.this.utyanAnimator) {
+                    DialogsEmptyCell.this.utyanAnimator = null;
+                }
+            }
+        });
         this.utyanAnimator.start();
     }
 
@@ -169,24 +198,6 @@ public class DialogsEmptyCell extends LinearLayout {
         }
     }
 
-    /* renamed from: org.telegram.ui.Cells.DialogsEmptyCell$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            DialogsEmptyCell.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (DialogsEmptyCell.this.onUtyanAnimationEndListener != null) {
-                DialogsEmptyCell.this.onUtyanAnimationEndListener.run();
-            }
-            if (animator == DialogsEmptyCell.this.utyanAnimator) {
-                DialogsEmptyCell.this.utyanAnimator = null;
-            }
-        }
-    }
-
     public void startUtyanCollapseAnimation(boolean z) {
         ValueAnimator valueAnimator = this.utyanAnimator;
         if (valueAnimator != null) {
@@ -194,7 +205,7 @@ public class DialogsEmptyCell extends LinearLayout {
         }
         this.utyanAnimationTriggered = true;
         if (z) {
-            String string = LocaleController.getString("NoChatsContactsHelp", 2131626864);
+            String string = LocaleController.getString("NoChatsContactsHelp", R.string.NoChatsContactsHelp);
             if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
                 string = string.replace('\n', ' ');
             }
@@ -203,8 +214,23 @@ public class DialogsEmptyCell extends LinearLayout {
         ValueAnimator duration = ValueAnimator.ofFloat(this.utyanCollapseProgress, 1.0f).setDuration(250L);
         this.utyanAnimator = duration;
         duration.setInterpolator(Easings.easeOutQuad);
-        this.utyanAnimator.addUpdateListener(new DialogsEmptyCell$$ExternalSyntheticLambda1(this));
-        this.utyanAnimator.addListener(new AnonymousClass2());
+        this.utyanAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda1
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                DialogsEmptyCell.this.lambda$startUtyanCollapseAnimation$4(valueAnimator2);
+            }
+        });
+        this.utyanAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.DialogsEmptyCell.2
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (DialogsEmptyCell.this.onUtyanAnimationEndListener != null) {
+                    DialogsEmptyCell.this.onUtyanAnimationEndListener.run();
+                }
+                if (animator == DialogsEmptyCell.this.utyanAnimator) {
+                    DialogsEmptyCell.this.utyanAnimator = null;
+                }
+            }
+        });
         this.utyanAnimator.start();
     }
 
@@ -214,24 +240,6 @@ public class DialogsEmptyCell extends LinearLayout {
         Consumer<Float> consumer = this.onUtyanAnimationUpdateListener;
         if (consumer != null) {
             consumer.accept(Float.valueOf(this.utyanCollapseProgress));
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Cells.DialogsEmptyCell$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
-            DialogsEmptyCell.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (DialogsEmptyCell.this.onUtyanAnimationEndListener != null) {
-                DialogsEmptyCell.this.onUtyanAnimationEndListener.run();
-            }
-            if (animator == DialogsEmptyCell.this.utyanAnimator) {
-                DialogsEmptyCell.this.utyanAnimator = null;
-            }
         }
     }
 

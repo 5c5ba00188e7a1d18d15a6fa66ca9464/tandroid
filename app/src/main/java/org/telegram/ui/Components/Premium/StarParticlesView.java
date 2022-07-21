@@ -21,6 +21,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.GLIconSettingsView;
 /* loaded from: classes3.dex */
@@ -75,12 +76,17 @@ public class StarParticlesView extends View {
     public void flingParticles(float f) {
         float f2 = f < 60.0f ? 5.0f : f < 180.0f ? 9.0f : 15.0f;
         AnimatorSet animatorSet = new AnimatorSet();
-        StarParticlesView$$ExternalSyntheticLambda0 starParticlesView$$ExternalSyntheticLambda0 = new StarParticlesView$$ExternalSyntheticLambda0(this);
+        ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.StarParticlesView$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                StarParticlesView.this.lambda$flingParticles$0(valueAnimator);
+            }
+        };
         ValueAnimator ofFloat = ValueAnimator.ofFloat(1.0f, f2);
-        ofFloat.addUpdateListener(starParticlesView$$ExternalSyntheticLambda0);
+        ofFloat.addUpdateListener(animatorUpdateListener);
         ofFloat.setDuration(600L);
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(f2, 1.0f);
-        ofFloat2.addUpdateListener(starParticlesView$$ExternalSyntheticLambda0);
+        ofFloat2.addUpdateListener(animatorUpdateListener);
         ofFloat2.setDuration(2000L);
         animatorSet.playTogether(ofFloat, ofFloat2);
         animatorSet.start();
@@ -183,41 +189,41 @@ public class StarParticlesView extends View {
                 int i2 = dp;
                 int i3 = this.type;
                 if (i3 == 9) {
-                    this.stars[i] = SvgHelper.getBitmap(i == 0 ? 2131558522 : i == 1 ? 2131558520 : 2131558525, i2, i2, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
+                    this.stars[i] = SvgHelper.getBitmap(i == 0 ? R.raw.premium_object_folder : i == 1 ? R.raw.premium_object_bubble : R.raw.premium_object_settings, i2, i2, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
                     this.svg = true;
                 } else {
-                    int i4 = 2131558523;
+                    int i4 = R.raw.premium_object_like;
                     if (i3 == 11) {
                         if (i == 0) {
-                            i4 = 2131558526;
+                            i4 = R.raw.premium_object_smile1;
                         } else if (i == 1) {
-                            i4 = 2131558527;
+                            i4 = R.raw.premium_object_smile2;
                         }
                         this.stars[i] = SvgHelper.getBitmap(i4, i2, i2, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
                         this.svg = true;
                     } else if (i3 == 3) {
                         if (i == 0) {
-                            i4 = 2131558519;
+                            i4 = R.raw.premium_object_adsbubble;
                         } else if (i != 1) {
-                            i4 = 2131558524;
+                            i4 = R.raw.premium_object_noads;
                         }
                         this.stars[i] = SvgHelper.getBitmap(i4, i2, i2, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
                         this.svg = true;
                     } else if (i3 == 7) {
-                        this.stars[i] = SvgHelper.getBitmap(i == 0 ? 2131558531 : i == 1 ? 2131558530 : 2131558529, i2, i2, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
+                        this.stars[i] = SvgHelper.getBitmap(i == 0 ? R.raw.premium_object_video2 : i == 1 ? R.raw.premium_object_video : R.raw.premium_object_user, i2, i2, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
                         this.svg = true;
                     } else if (i3 == 1001) {
-                        this.stars[i] = SvgHelper.getBitmap(2131558521, i2, i2, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
+                        this.stars[i] = SvgHelper.getBitmap((int) R.raw.premium_object_fire, i2, i2, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
                         this.svg = true;
                     } else if (i3 == 1002) {
-                        this.stars[i] = SvgHelper.getBitmap(2131558528, i2, i2, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
+                        this.stars[i] = SvgHelper.getBitmap((int) R.raw.premium_object_star2, i2, i2, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
                         this.svg = true;
                     } else {
                         Bitmap createBitmap = Bitmap.createBitmap(i2, i2, Bitmap.Config.ARGB_8888);
                         this.stars[i] = createBitmap;
                         Canvas canvas = new Canvas(createBitmap);
                         if (this.type == 6 && (i == 1 || i == 2)) {
-                            android.graphics.drawable.Drawable drawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165877);
+                            android.graphics.drawable.Drawable drawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar);
                             drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(this.colorKey), PorterDuff.Mode.MULTIPLY));
                             drawable.setBounds(0, 0, i2, i2);
                             drawable.draw(canvas);

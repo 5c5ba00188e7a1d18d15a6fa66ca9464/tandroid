@@ -7,7 +7,17 @@ import com.google.android.exoplayer2.util.Assertions;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class TrackGroup implements Parcelable {
-    public static final Parcelable.Creator<TrackGroup> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<TrackGroup> CREATOR = new Parcelable.Creator<TrackGroup>() { // from class: com.google.android.exoplayer2.source.TrackGroup.1
+        @Override // android.os.Parcelable.Creator
+        public TrackGroup createFromParcel(Parcel parcel) {
+            return new TrackGroup(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public TrackGroup[] newArray(int i) {
+            return new TrackGroup[i];
+        }
+    };
     private final Format[] formats;
     private int hashCode;
     public final int length;
@@ -74,23 +84,6 @@ public final class TrackGroup implements Parcelable {
         parcel.writeInt(this.length);
         for (int i2 = 0; i2 < this.length; i2++) {
             parcel.writeParcelable(this.formats[i2], 0);
-        }
-    }
-
-    /* renamed from: com.google.android.exoplayer2.source.TrackGroup$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<TrackGroup> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public TrackGroup createFromParcel(Parcel parcel) {
-            return new TrackGroup(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public TrackGroup[] newArray(int i) {
-            return new TrackGroup[i];
         }
     }
 }

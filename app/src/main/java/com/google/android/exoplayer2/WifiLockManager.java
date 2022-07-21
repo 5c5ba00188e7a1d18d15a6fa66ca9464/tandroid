@@ -3,7 +3,7 @@ package com.google.android.exoplayer2;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 /* loaded from: classes.dex */
-public final class WifiLockManager {
+final class WifiLockManager {
     private boolean enabled;
     private boolean stayAwake;
     private WifiManager.WifiLock wifiLock;

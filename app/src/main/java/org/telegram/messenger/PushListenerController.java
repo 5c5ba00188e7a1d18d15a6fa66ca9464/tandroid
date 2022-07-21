@@ -4,6 +4,9 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Base64;
 import androidx.collection.LongSparseArray;
+import com.huawei.hms.adapter.internal.AvailableCode;
+import com.huawei.hms.framework.common.hianalytics.CrashHianalyticsData;
+import com.huawei.hms.push.HmsMessaging;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.nio.ByteBuffer;
@@ -13,6 +16,7 @@ import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.TLObject;
@@ -43,11 +47,16 @@ public class PushListenerController {
     public @interface PushType {
     }
 
-    public static void sendRegistrationToServer(int i, String str) {
-        Utilities.stageQueue.postRunnable(new PushListenerController$$ExternalSyntheticLambda4(str, i));
+    public static void sendRegistrationToServer(final int i, final String str) {
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                PushListenerController.lambda$sendRegistrationToServer$3(str, i);
+            }
+        });
     }
 
-    public static /* synthetic */ void lambda$sendRegistrationToServer$3(String str, int i) {
+    public static /* synthetic */ void lambda$sendRegistrationToServer$3(final String str, final int i) {
         boolean z;
         ConnectionsManager.setRegId(str, i, SharedConfig.pushStringStatus);
         if (str == null) {
@@ -61,7 +70,7 @@ public class PushListenerController {
         }
         SharedConfig.pushString = str;
         SharedConfig.pushType = i;
-        for (int i2 = 0; i2 < 4; i2++) {
+        for (final int i2 = 0; i2 < 4; i2++) {
             UserConfig userConfig = UserConfig.getInstance(i2);
             userConfig.registeredForPush = false;
             userConfig.saveConfig(false);
@@ -84,13 +93,23 @@ public class PushListenerController {
                     ConnectionsManager.getInstance(i2).sendRequest(tLRPC$TL_help_saveAppLog, PushListenerController$$ExternalSyntheticLambda8.INSTANCE);
                     z = false;
                 }
-                AndroidUtilities.runOnUIThread(new PushListenerController$$ExternalSyntheticLambda2(i2, i, str));
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PushListenerController.lambda$sendRegistrationToServer$2(i2, i, str);
+                    }
+                });
             }
         }
     }
 
-    public static /* synthetic */ void lambda$sendRegistrationToServer$1(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new PushListenerController$$ExternalSyntheticLambda7(tLRPC$TL_error));
+    public static /* synthetic */ void lambda$sendRegistrationToServer$1(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                PushListenerController.lambda$sendRegistrationToServer$0(TLRPC$TL_error.this);
+            }
+        });
     }
 
     public static /* synthetic */ void lambda$sendRegistrationToServer$0(TLRPC$TL_error tLRPC$TL_error) {
@@ -104,13 +123,18 @@ public class PushListenerController {
         MessagesController.getInstance(i).registerForPush(i2, str);
     }
 
-    public static void processRemoteMessage(int i, String str, long j) {
-        String str2 = i == 2 ? "FCM" : "HCM";
+    public static void processRemoteMessage(int i, final String str, final long j) {
+        final String str2 = i == 2 ? "FCM" : HmsMessaging.DEFAULT_TOKEN_SCOPE;
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d(str2 + " PRE START PROCESSING");
         }
         long elapsedRealtime = SystemClock.elapsedRealtime();
-        AndroidUtilities.runOnUIThread(new PushListenerController$$ExternalSyntheticLambda6(str2, str, j));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                PushListenerController.lambda$processRemoteMessage$8(str2, str, j);
+            }
+        });
         try {
             countDownLatch.await();
         } catch (Throwable unused) {
@@ -120,7 +144,7 @@ public class PushListenerController {
         }
     }
 
-    public static /* synthetic */ void lambda$processRemoteMessage$8(String str, String str2, long j) {
+    public static /* synthetic */ void lambda$processRemoteMessage$8(final String str, final String str2, final long j) {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d(str + " PRE INIT APP");
         }
@@ -128,7 +152,12 @@ public class PushListenerController {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d(str + " POST INIT APP");
         }
-        Utilities.stageQueue.postRunnable(new PushListenerController$$ExternalSyntheticLambda5(str, str2, j));
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                PushListenerController.lambda$processRemoteMessage$7(str, str2, j);
+            }
+        });
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
@@ -381,7 +410,7 @@ public class PushListenerController {
     public static /* synthetic */ void lambda$processRemoteMessage$7(String str, String str2, long j) {
         String str3;
         String str4;
-        int i;
+        final int i;
         int i2;
         Throwable th;
         byte[] decode;
@@ -643,23 +672,38 @@ public class PushListenerController {
             tLRPC$TL_updateServiceNotification.popup = false;
             tLRPC$TL_updateServiceNotification.flags = 2;
             tLRPC$TL_updateServiceNotification.inbox_date = (int) (j / 1000);
-            tLRPC$TL_updateServiceNotification.message = jSONObject.getString("message");
+            tLRPC$TL_updateServiceNotification.message = jSONObject.getString(CrashHianalyticsData.MESSAGE);
             tLRPC$TL_updateServiceNotification.type = "announcement";
             tLRPC$TL_updateServiceNotification.media = new TLRPC$TL_messageMediaEmpty();
-            TLRPC$TL_updates tLRPC$TL_updates = new TLRPC$TL_updates();
+            final TLRPC$TL_updates tLRPC$TL_updates = new TLRPC$TL_updates();
             tLRPC$TL_updates.updates.add(tLRPC$TL_updateServiceNotification);
-            Utilities.stageQueue.postRunnable(new PushListenerController$$ExternalSyntheticLambda3(i, tLRPC$TL_updates));
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    PushListenerController.lambda$processRemoteMessage$4(i, tLRPC$TL_updates);
+                }
+            });
             ConnectionsManager.getInstance(i).resumeNetworkMaybe();
             countDownLatch.countDown();
         } else if (str6 == 2) {
-            AndroidUtilities.runOnUIThread(new PushListenerController$$ExternalSyntheticLambda1(i));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    PushListenerController.lambda$processRemoteMessage$5(i);
+                }
+            });
             countDownLatch.countDown();
         } else if (str6 == 3) {
-            int i8 = i;
+            final int i8 = i;
             str7 = str3;
             str6 = str5;
             try {
-                Utilities.stageQueue.postRunnable(new PushListenerController$$ExternalSyntheticLambda0(i8));
+                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PushListenerController.lambda$processRemoteMessage$6(i8);
+                    }
+                });
                 countDownLatch.countDown();
             } catch (Throwable th15) {
                 th5 = th15;
@@ -2226,8 +2270,8 @@ public class PushListenerController {
                                                 case 0:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageRecurringPay", 2131627056, strArr[0], strArr[1]);
-                                                    string = LocaleController.getString("PaymentInvoice", 2131627445);
+                                                    str15 = LocaleController.formatString("NotificationMessageRecurringPay", org.telegram.messenger.beta.R.string.NotificationMessageRecurringPay, strArr[0], strArr[1]);
+                                                    string = LocaleController.getString("PaymentInvoice", org.telegram.messenger.beta.R.string.PaymentInvoice);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
@@ -2235,7 +2279,7 @@ public class PushListenerController {
                                                 case 2:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageText", 2131627064, strArr[0], strArr[1]);
+                                                    str15 = LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, strArr[0], strArr[1]);
                                                     string = strArr[1];
                                                     str14 = string;
                                                     z12 = false;
@@ -2243,63 +2287,63 @@ public class PushListenerController {
                                                 case 3:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageNoText", 2131627052, strArr[0]);
-                                                    string = LocaleController.getString("Message", 2131626669);
+                                                    str15 = LocaleController.formatString("NotificationMessageNoText", org.telegram.messenger.beta.R.string.NotificationMessageNoText, strArr[0]);
+                                                    string = LocaleController.getString("Message", org.telegram.messenger.beta.R.string.Message);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case 4:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessagePhoto", 2131627053, strArr[0]);
-                                                    string = LocaleController.getString("AttachPhoto", 2131624513);
+                                                    str15 = LocaleController.formatString("NotificationMessagePhoto", org.telegram.messenger.beta.R.string.NotificationMessagePhoto, strArr[0]);
+                                                    string = LocaleController.getString("AttachPhoto", org.telegram.messenger.beta.R.string.AttachPhoto);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case 5:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageSDPhoto", 2131627058, strArr[0]);
-                                                    string = LocaleController.getString("AttachDestructingPhoto", 2131624490);
+                                                    str15 = LocaleController.formatString("NotificationMessageSDPhoto", org.telegram.messenger.beta.R.string.NotificationMessageSDPhoto, strArr[0]);
+                                                    string = LocaleController.getString("AttachDestructingPhoto", org.telegram.messenger.beta.R.string.AttachDestructingPhoto);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case 6:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageVideo", 2131627065, strArr[0]);
-                                                    string = LocaleController.getString("AttachVideo", 2131624519);
+                                                    str15 = LocaleController.formatString("NotificationMessageVideo", org.telegram.messenger.beta.R.string.NotificationMessageVideo, strArr[0]);
+                                                    string = LocaleController.getString("AttachVideo", org.telegram.messenger.beta.R.string.AttachVideo);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case 7:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageSDVideo", 2131627059, strArr[0]);
-                                                    string = LocaleController.getString("AttachDestructingVideo", 2131624491);
+                                                    str15 = LocaleController.formatString("NotificationMessageSDVideo", org.telegram.messenger.beta.R.string.NotificationMessageSDVideo, strArr[0]);
+                                                    string = LocaleController.getString("AttachDestructingVideo", org.telegram.messenger.beta.R.string.AttachDestructingVideo);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case '\b':
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.getString("ActionTakeScreenshoot", 2131624221).replace("un1", strArr[0]);
+                                                    str15 = LocaleController.getString("ActionTakeScreenshoot", org.telegram.messenger.beta.R.string.ActionTakeScreenshoot).replace("un1", strArr[0]);
                                                     str14 = null;
                                                     z12 = false;
                                                     break;
                                                 case '\t':
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageRound", 2131627057, strArr[0]);
-                                                    string = LocaleController.getString("AttachRound", 2131624515);
+                                                    str15 = LocaleController.formatString("NotificationMessageRound", org.telegram.messenger.beta.R.string.NotificationMessageRound, strArr[0]);
+                                                    string = LocaleController.getString("AttachRound", org.telegram.messenger.beta.R.string.AttachRound);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case '\n':
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageDocument", 2131627023, strArr[0]);
-                                                    string = LocaleController.getString("AttachDocument", 2131624492);
+                                                    str15 = LocaleController.formatString("NotificationMessageDocument", org.telegram.messenger.beta.R.string.NotificationMessageDocument, strArr[0]);
+                                                    string = LocaleController.getString("AttachDocument", org.telegram.messenger.beta.R.string.AttachDocument);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
@@ -2307,11 +2351,11 @@ public class PushListenerController {
                                                     str16 = str17;
                                                     z13 = z4;
                                                     if (strArr.length > 1 && !TextUtils.isEmpty(strArr[1])) {
-                                                        str15 = LocaleController.formatString("NotificationMessageStickerEmoji", 2131627063, strArr[0], strArr[1]);
-                                                        string = strArr[1] + " " + LocaleController.getString("AttachSticker", 2131624516);
+                                                        str15 = LocaleController.formatString("NotificationMessageStickerEmoji", org.telegram.messenger.beta.R.string.NotificationMessageStickerEmoji, strArr[0], strArr[1]);
+                                                        string = strArr[1] + " " + LocaleController.getString("AttachSticker", org.telegram.messenger.beta.R.string.AttachSticker);
                                                     } else {
-                                                        str15 = LocaleController.formatString("NotificationMessageSticker", 2131627062, strArr[0]);
-                                                        string = LocaleController.getString("AttachSticker", 2131624516);
+                                                        str15 = LocaleController.formatString("NotificationMessageSticker", org.telegram.messenger.beta.R.string.NotificationMessageSticker, strArr[0]);
+                                                        string = LocaleController.getString("AttachSticker", org.telegram.messenger.beta.R.string.AttachSticker);
                                                     }
                                                     str14 = string;
                                                     z12 = false;
@@ -2319,162 +2363,162 @@ public class PushListenerController {
                                                 case '\f':
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageAudio", 2131627021, strArr[0]);
-                                                    string = LocaleController.getString("AttachAudio", 2131624487);
+                                                    str15 = LocaleController.formatString("NotificationMessageAudio", org.telegram.messenger.beta.R.string.NotificationMessageAudio, strArr[0]);
+                                                    string = LocaleController.getString("AttachAudio", org.telegram.messenger.beta.R.string.AttachAudio);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case '\r':
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageContact2", 2131627022, strArr[0], strArr[1]);
-                                                    string = LocaleController.getString("AttachContact", 2131624489);
+                                                    str15 = LocaleController.formatString("NotificationMessageContact2", org.telegram.messenger.beta.R.string.NotificationMessageContact2, strArr[0], strArr[1]);
+                                                    string = LocaleController.getString("AttachContact", org.telegram.messenger.beta.R.string.AttachContact);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case 14:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageQuiz2", 2131627055, strArr[0], strArr[1]);
-                                                    string = LocaleController.getString("QuizPoll", 2131627885);
+                                                    str15 = LocaleController.formatString("NotificationMessageQuiz2", org.telegram.messenger.beta.R.string.NotificationMessageQuiz2, strArr[0], strArr[1]);
+                                                    string = LocaleController.getString("QuizPoll", org.telegram.messenger.beta.R.string.QuizPoll);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case 15:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessagePoll2", 2131627054, strArr[0], strArr[1]);
-                                                    string = LocaleController.getString("Poll", 2131627629);
+                                                    str15 = LocaleController.formatString("NotificationMessagePoll2", org.telegram.messenger.beta.R.string.NotificationMessagePoll2, strArr[0], strArr[1]);
+                                                    string = LocaleController.getString("Poll", org.telegram.messenger.beta.R.string.Poll);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case 16:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageMap", 2131627050, strArr[0]);
-                                                    string = LocaleController.getString("AttachLocation", 2131624503);
+                                                    str15 = LocaleController.formatString("NotificationMessageMap", org.telegram.messenger.beta.R.string.NotificationMessageMap, strArr[0]);
+                                                    string = LocaleController.getString("AttachLocation", org.telegram.messenger.beta.R.string.AttachLocation);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case 17:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageLiveLocation", 2131627049, strArr[0]);
-                                                    string = LocaleController.getString("AttachLiveLocation", 2131624499);
+                                                    str15 = LocaleController.formatString("NotificationMessageLiveLocation", org.telegram.messenger.beta.R.string.NotificationMessageLiveLocation, strArr[0]);
+                                                    string = LocaleController.getString("AttachLiveLocation", org.telegram.messenger.beta.R.string.AttachLiveLocation);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case 18:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageGif", 2131627028, strArr[0]);
-                                                    string = LocaleController.getString("AttachGif", 2131624494);
+                                                    str15 = LocaleController.formatString("NotificationMessageGif", org.telegram.messenger.beta.R.string.NotificationMessageGif, strArr[0]);
+                                                    string = LocaleController.getString("AttachGif", org.telegram.messenger.beta.R.string.AttachGif);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
                                                 case 19:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageGame", 2131627026, strArr[0], strArr[1]);
-                                                    string = LocaleController.getString("AttachGame", 2131624493);
+                                                    str15 = LocaleController.formatString("NotificationMessageGame", org.telegram.messenger.beta.R.string.NotificationMessageGame, strArr[0], strArr[1]);
+                                                    string = LocaleController.getString("AttachGame", org.telegram.messenger.beta.R.string.AttachGame);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
-                                                case 20:
+                                                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
                                                 case 21:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageGameScored", 2131627027, strArr[0], strArr[1], strArr[2]);
+                                                    str15 = LocaleController.formatString("NotificationMessageGameScored", org.telegram.messenger.beta.R.string.NotificationMessageGameScored, strArr[0], strArr[1], strArr[2]);
                                                     str14 = null;
                                                     z12 = false;
                                                     break;
-                                                case 22:
+                                                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageInvoice", 2131627048, strArr[0], strArr[1]);
-                                                    string = LocaleController.getString("PaymentInvoice", 2131627445);
+                                                    str15 = LocaleController.formatString("NotificationMessageInvoice", org.telegram.messenger.beta.R.string.NotificationMessageInvoice, strArr[0], strArr[1]);
+                                                    string = LocaleController.getString("PaymentInvoice", org.telegram.messenger.beta.R.string.PaymentInvoice);
                                                     str14 = string;
                                                     z12 = false;
                                                     break;
-                                                case 23:
+                                                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageForwardFew", 2131627025, strArr[0], LocaleController.formatPluralString(str9, Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
+                                                    str15 = LocaleController.formatString("NotificationMessageForwardFew", org.telegram.messenger.beta.R.string.NotificationMessageForwardFew, strArr[0], LocaleController.formatPluralString(str9, Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
                                                     str14 = null;
                                                     z12 = true;
                                                     break;
                                                 case 24:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageFew", 2131627024, strArr[0], LocaleController.formatPluralString("Photos", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
+                                                    str15 = LocaleController.formatString("NotificationMessageFew", org.telegram.messenger.beta.R.string.NotificationMessageFew, strArr[0], LocaleController.formatPluralString("Photos", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
                                                     str14 = null;
                                                     z12 = true;
                                                     break;
-                                                case 25:
+                                                case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageFew", 2131627024, strArr[0], LocaleController.formatPluralString("Videos", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
+                                                    str15 = LocaleController.formatString("NotificationMessageFew", org.telegram.messenger.beta.R.string.NotificationMessageFew, strArr[0], LocaleController.formatPluralString("Videos", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
                                                     str14 = null;
                                                     z12 = true;
                                                     break;
-                                                case 26:
+                                                case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageFew", 2131627024, strArr[0], LocaleController.formatPluralString("MusicFiles", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
+                                                    str15 = LocaleController.formatString("NotificationMessageFew", org.telegram.messenger.beta.R.string.NotificationMessageFew, strArr[0], LocaleController.formatPluralString("MusicFiles", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
                                                     str14 = null;
                                                     z12 = true;
                                                     break;
-                                                case 27:
+                                                case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
                                                     str16 = str17;
                                                     z13 = z4;
-                                                    str15 = LocaleController.formatString("NotificationMessageFew", 2131627024, strArr[0], LocaleController.formatPluralString("Files", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
+                                                    str15 = LocaleController.formatString("NotificationMessageFew", org.telegram.messenger.beta.R.string.NotificationMessageFew, strArr[0], LocaleController.formatPluralString("Files", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
                                                     str14 = null;
                                                     z12 = true;
                                                     break;
-                                                case 28:
+                                                case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("NotificationMessageAlbum", 2131627020, strArr[0]);
+                                                    str19 = LocaleController.formatString("NotificationMessageAlbum", org.telegram.messenger.beta.R.string.NotificationMessageAlbum, strArr[0]);
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
                                                     z12 = true;
                                                     break;
-                                                case 29:
+                                                case AvailableCode.HMS_IS_SPOOF /* 29 */:
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessageNoText", 2131624941, strArr[0]);
-                                                    str21 = LocaleController.getString("Message", 2131626669);
+                                                    str22 = LocaleController.formatString("ChannelMessageNoText", org.telegram.messenger.beta.R.string.ChannelMessageNoText, strArr[0]);
+                                                    str21 = LocaleController.getString("Message", org.telegram.messenger.beta.R.string.Message);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
                                                     str16 = str20;
                                                     break;
-                                                case 30:
+                                                case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessagePhoto", 2131624942, strArr[0]);
-                                                    str21 = LocaleController.getString("AttachPhoto", 2131624513);
+                                                    str22 = LocaleController.formatString("ChannelMessagePhoto", org.telegram.messenger.beta.R.string.ChannelMessagePhoto, strArr[0]);
+                                                    str21 = LocaleController.getString("AttachPhoto", org.telegram.messenger.beta.R.string.AttachPhoto);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
                                                     str16 = str20;
                                                     break;
-                                                case 31:
+                                                case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessageVideo", 2131624948, strArr[0]);
-                                                    str21 = LocaleController.getString("AttachVideo", 2131624519);
+                                                    str22 = LocaleController.formatString("ChannelMessageVideo", org.telegram.messenger.beta.R.string.ChannelMessageVideo, strArr[0]);
+                                                    str21 = LocaleController.getString("AttachVideo", org.telegram.messenger.beta.R.string.AttachVideo);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
                                                     str16 = str20;
                                                     break;
-                                                case ' ':
+                                                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessageRound", 2131624945, strArr[0]);
-                                                    str21 = LocaleController.getString("AttachRound", 2131624515);
+                                                    str22 = LocaleController.formatString("ChannelMessageRound", org.telegram.messenger.beta.R.string.ChannelMessageRound, strArr[0]);
+                                                    str21 = LocaleController.getString("AttachRound", org.telegram.messenger.beta.R.string.AttachRound);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2483,8 +2527,8 @@ public class PushListenerController {
                                                 case '!':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessageDocument", 2131624935, strArr[0]);
-                                                    str21 = LocaleController.getString("AttachDocument", 2131624492);
+                                                    str22 = LocaleController.formatString("ChannelMessageDocument", org.telegram.messenger.beta.R.string.ChannelMessageDocument, strArr[0]);
+                                                    str21 = LocaleController.getString("AttachDocument", org.telegram.messenger.beta.R.string.AttachDocument);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2494,11 +2538,11 @@ public class PushListenerController {
                                                     str20 = str17;
                                                     z13 = z4;
                                                     if (strArr.length > 1 && !TextUtils.isEmpty(strArr[1])) {
-                                                        str22 = LocaleController.formatString("ChannelMessageStickerEmoji", 2131624947, strArr[0], strArr[1]);
-                                                        str21 = strArr[1] + " " + LocaleController.getString("AttachSticker", 2131624516);
+                                                        str22 = LocaleController.formatString("ChannelMessageStickerEmoji", org.telegram.messenger.beta.R.string.ChannelMessageStickerEmoji, strArr[0], strArr[1]);
+                                                        str21 = strArr[1] + " " + LocaleController.getString("AttachSticker", org.telegram.messenger.beta.R.string.AttachSticker);
                                                     } else {
-                                                        str22 = LocaleController.formatString("ChannelMessageSticker", 2131624946, strArr[0]);
-                                                        str21 = LocaleController.getString("AttachSticker", 2131624516);
+                                                        str22 = LocaleController.formatString("ChannelMessageSticker", org.telegram.messenger.beta.R.string.ChannelMessageSticker, strArr[0]);
+                                                        str21 = LocaleController.getString("AttachSticker", org.telegram.messenger.beta.R.string.AttachSticker);
                                                     }
                                                     str14 = str21;
                                                     z12 = false;
@@ -2508,8 +2552,8 @@ public class PushListenerController {
                                                 case '#':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessageAudio", 2131624933, strArr[0]);
-                                                    str21 = LocaleController.getString("AttachAudio", 2131624487);
+                                                    str22 = LocaleController.formatString("ChannelMessageAudio", org.telegram.messenger.beta.R.string.ChannelMessageAudio, strArr[0]);
+                                                    str21 = LocaleController.getString("AttachAudio", org.telegram.messenger.beta.R.string.AttachAudio);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2518,8 +2562,8 @@ public class PushListenerController {
                                                 case '$':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessageContact2", 2131624934, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("AttachContact", 2131624489);
+                                                    str22 = LocaleController.formatString("ChannelMessageContact2", org.telegram.messenger.beta.R.string.ChannelMessageContact2, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("AttachContact", org.telegram.messenger.beta.R.string.AttachContact);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2528,8 +2572,8 @@ public class PushListenerController {
                                                 case '%':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessageQuiz2", 2131624944, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("QuizPoll", 2131627885);
+                                                    str22 = LocaleController.formatString("ChannelMessageQuiz2", org.telegram.messenger.beta.R.string.ChannelMessageQuiz2, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("QuizPoll", org.telegram.messenger.beta.R.string.QuizPoll);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2538,8 +2582,8 @@ public class PushListenerController {
                                                 case '&':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessagePoll2", 2131624943, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("Poll", 2131627629);
+                                                    str22 = LocaleController.formatString("ChannelMessagePoll2", org.telegram.messenger.beta.R.string.ChannelMessagePoll2, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("Poll", org.telegram.messenger.beta.R.string.Poll);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2548,8 +2592,8 @@ public class PushListenerController {
                                                 case '\'':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessageMap", 2131624939, strArr[0]);
-                                                    str21 = LocaleController.getString("AttachLocation", 2131624503);
+                                                    str22 = LocaleController.formatString("ChannelMessageMap", org.telegram.messenger.beta.R.string.ChannelMessageMap, strArr[0]);
+                                                    str21 = LocaleController.getString("AttachLocation", org.telegram.messenger.beta.R.string.AttachLocation);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2558,8 +2602,8 @@ public class PushListenerController {
                                                 case '(':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessageLiveLocation", 2131624938, strArr[0]);
-                                                    str21 = LocaleController.getString("AttachLiveLocation", 2131624499);
+                                                    str22 = LocaleController.formatString("ChannelMessageLiveLocation", org.telegram.messenger.beta.R.string.ChannelMessageLiveLocation, strArr[0]);
+                                                    str21 = LocaleController.getString("AttachLiveLocation", org.telegram.messenger.beta.R.string.AttachLiveLocation);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2568,8 +2612,8 @@ public class PushListenerController {
                                                 case ')':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("ChannelMessageGIF", 2131624937, strArr[0]);
-                                                    str21 = LocaleController.getString("AttachGif", 2131624494);
+                                                    str22 = LocaleController.formatString("ChannelMessageGIF", org.telegram.messenger.beta.R.string.ChannelMessageGIF, strArr[0]);
+                                                    str21 = LocaleController.getString("AttachGif", org.telegram.messenger.beta.R.string.AttachGif);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2578,8 +2622,8 @@ public class PushListenerController {
                                                 case '*':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGame", 2131627026, strArr[0]);
-                                                    str21 = LocaleController.getString("AttachGame", 2131624493);
+                                                    str22 = LocaleController.formatString("NotificationMessageGame", org.telegram.messenger.beta.R.string.NotificationMessageGame, strArr[0]);
+                                                    str21 = LocaleController.getString("AttachGame", org.telegram.messenger.beta.R.string.AttachGame);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2588,7 +2632,7 @@ public class PushListenerController {
                                                 case '+':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("ChannelMessageFew", 2131624936, strArr[0], LocaleController.formatPluralString("ForwardedMessageCount", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]).toLowerCase());
+                                                    str19 = LocaleController.formatString("ChannelMessageFew", org.telegram.messenger.beta.R.string.ChannelMessageFew, strArr[0], LocaleController.formatPluralString("ForwardedMessageCount", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]).toLowerCase());
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2597,7 +2641,7 @@ public class PushListenerController {
                                                 case ',':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("ChannelMessageFew", 2131624936, strArr[0], LocaleController.formatPluralString("Photos", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
+                                                    str19 = LocaleController.formatString("ChannelMessageFew", org.telegram.messenger.beta.R.string.ChannelMessageFew, strArr[0], LocaleController.formatPluralString("Photos", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2606,7 +2650,7 @@ public class PushListenerController {
                                                 case '-':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("ChannelMessageFew", 2131624936, strArr[0], LocaleController.formatPluralString("Videos", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
+                                                    str19 = LocaleController.formatString("ChannelMessageFew", org.telegram.messenger.beta.R.string.ChannelMessageFew, strArr[0], LocaleController.formatPluralString("Videos", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2615,7 +2659,7 @@ public class PushListenerController {
                                                 case '.':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("ChannelMessageFew", 2131624936, strArr[0], LocaleController.formatPluralString("MusicFiles", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
+                                                    str19 = LocaleController.formatString("ChannelMessageFew", org.telegram.messenger.beta.R.string.ChannelMessageFew, strArr[0], LocaleController.formatPluralString("MusicFiles", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2624,7 +2668,7 @@ public class PushListenerController {
                                                 case '/':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("ChannelMessageFew", 2131624936, strArr[0], LocaleController.formatPluralString("Files", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
+                                                    str19 = LocaleController.formatString("ChannelMessageFew", org.telegram.messenger.beta.R.string.ChannelMessageFew, strArr[0], LocaleController.formatPluralString("Files", Utilities.parseInt((CharSequence) strArr[1]).intValue(), new Object[0]));
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2633,7 +2677,7 @@ public class PushListenerController {
                                                 case '0':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("ChannelMessageAlbum", 2131624932, strArr[0]);
+                                                    str19 = LocaleController.formatString("ChannelMessageAlbum", org.telegram.messenger.beta.R.string.ChannelMessageAlbum, strArr[0]);
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2642,7 +2686,7 @@ public class PushListenerController {
                                                 case '1':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupText", 2131627046, strArr[0], strArr[1], strArr[2]);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.beta.R.string.NotificationMessageGroupText, strArr[0], strArr[1], strArr[2]);
                                                     str21 = strArr[2];
                                                     str14 = str21;
                                                     z12 = false;
@@ -2652,8 +2696,8 @@ public class PushListenerController {
                                                 case '2':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupNoText", 2131627039, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("Message", 2131626669);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupNoText", org.telegram.messenger.beta.R.string.NotificationMessageGroupNoText, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("Message", org.telegram.messenger.beta.R.string.Message);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2662,8 +2706,8 @@ public class PushListenerController {
                                                 case '3':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupPhoto", 2131627040, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("AttachPhoto", 2131624513);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupPhoto", org.telegram.messenger.beta.R.string.NotificationMessageGroupPhoto, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("AttachPhoto", org.telegram.messenger.beta.R.string.AttachPhoto);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2672,8 +2716,8 @@ public class PushListenerController {
                                                 case '4':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupVideo", 2131627047, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("AttachVideo", 2131624519);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupVideo", org.telegram.messenger.beta.R.string.NotificationMessageGroupVideo, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("AttachVideo", org.telegram.messenger.beta.R.string.AttachVideo);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2682,8 +2726,8 @@ public class PushListenerController {
                                                 case '5':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupRound", 2131627043, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("AttachRound", 2131624515);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupRound", org.telegram.messenger.beta.R.string.NotificationMessageGroupRound, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("AttachRound", org.telegram.messenger.beta.R.string.AttachRound);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2692,8 +2736,8 @@ public class PushListenerController {
                                                 case '6':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupDocument", 2131627031, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("AttachDocument", 2131624492);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupDocument", org.telegram.messenger.beta.R.string.NotificationMessageGroupDocument, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("AttachDocument", org.telegram.messenger.beta.R.string.AttachDocument);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2703,11 +2747,11 @@ public class PushListenerController {
                                                     str20 = str17;
                                                     z13 = z4;
                                                     if (strArr.length > 2 && !TextUtils.isEmpty(strArr[2])) {
-                                                        str22 = LocaleController.formatString("NotificationMessageGroupStickerEmoji", 2131627045, strArr[0], strArr[1], strArr[2]);
-                                                        str21 = strArr[2] + " " + LocaleController.getString("AttachSticker", 2131624516);
+                                                        str22 = LocaleController.formatString("NotificationMessageGroupStickerEmoji", org.telegram.messenger.beta.R.string.NotificationMessageGroupStickerEmoji, strArr[0], strArr[1], strArr[2]);
+                                                        str21 = strArr[2] + " " + LocaleController.getString("AttachSticker", org.telegram.messenger.beta.R.string.AttachSticker);
                                                     } else {
-                                                        str22 = LocaleController.formatString("NotificationMessageGroupSticker", 2131627044, strArr[0], strArr[1]);
-                                                        str21 = strArr[1] + " " + LocaleController.getString("AttachSticker", 2131624516);
+                                                        str22 = LocaleController.formatString("NotificationMessageGroupSticker", org.telegram.messenger.beta.R.string.NotificationMessageGroupSticker, strArr[0], strArr[1]);
+                                                        str21 = strArr[1] + " " + LocaleController.getString("AttachSticker", org.telegram.messenger.beta.R.string.AttachSticker);
                                                     }
                                                     str14 = str21;
                                                     z12 = false;
@@ -2717,8 +2761,8 @@ public class PushListenerController {
                                                 case '8':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupAudio", 2131627029, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("AttachAudio", 2131624487);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupAudio", org.telegram.messenger.beta.R.string.NotificationMessageGroupAudio, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("AttachAudio", org.telegram.messenger.beta.R.string.AttachAudio);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2727,8 +2771,8 @@ public class PushListenerController {
                                                 case '9':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupContact2", 2131627030, strArr[0], strArr[1], strArr[2]);
-                                                    str21 = LocaleController.getString("AttachContact", 2131624489);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupContact2", org.telegram.messenger.beta.R.string.NotificationMessageGroupContact2, strArr[0], strArr[1], strArr[2]);
+                                                    str21 = LocaleController.getString("AttachContact", org.telegram.messenger.beta.R.string.AttachContact);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2737,8 +2781,8 @@ public class PushListenerController {
                                                 case ':':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupQuiz2", 2131627042, strArr[0], strArr[1], strArr[2]);
-                                                    str21 = LocaleController.getString("PollQuiz", 2131627636);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupQuiz2", org.telegram.messenger.beta.R.string.NotificationMessageGroupQuiz2, strArr[0], strArr[1], strArr[2]);
+                                                    str21 = LocaleController.getString("PollQuiz", org.telegram.messenger.beta.R.string.PollQuiz);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2747,8 +2791,8 @@ public class PushListenerController {
                                                 case ';':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupPoll2", 2131627041, strArr[0], strArr[1], strArr[2]);
-                                                    str21 = LocaleController.getString("Poll", 2131627629);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupPoll2", org.telegram.messenger.beta.R.string.NotificationMessageGroupPoll2, strArr[0], strArr[1], strArr[2]);
+                                                    str21 = LocaleController.getString("Poll", org.telegram.messenger.beta.R.string.Poll);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2757,8 +2801,8 @@ public class PushListenerController {
                                                 case '<':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupMap", 2131627037, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("AttachLocation", 2131624503);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupMap", org.telegram.messenger.beta.R.string.NotificationMessageGroupMap, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("AttachLocation", org.telegram.messenger.beta.R.string.AttachLocation);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2767,8 +2811,8 @@ public class PushListenerController {
                                                 case '=':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupLiveLocation", 2131627036, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("AttachLiveLocation", 2131624499);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupLiveLocation", org.telegram.messenger.beta.R.string.NotificationMessageGroupLiveLocation, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("AttachLiveLocation", org.telegram.messenger.beta.R.string.AttachLiveLocation);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2777,8 +2821,8 @@ public class PushListenerController {
                                                 case '>':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupGif", 2131627034, strArr[0], strArr[1]);
-                                                    str21 = LocaleController.getString("AttachGif", 2131624494);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupGif", org.telegram.messenger.beta.R.string.NotificationMessageGroupGif, strArr[0], strArr[1]);
+                                                    str21 = LocaleController.getString("AttachGif", org.telegram.messenger.beta.R.string.AttachGif);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2787,8 +2831,8 @@ public class PushListenerController {
                                                 case '?':
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupGame", 2131627032, strArr[0], strArr[1], strArr[2]);
-                                                    str21 = LocaleController.getString("AttachGame", 2131624493);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupGame", org.telegram.messenger.beta.R.string.NotificationMessageGroupGame, strArr[0], strArr[1], strArr[2]);
+                                                    str21 = LocaleController.getString("AttachGame", org.telegram.messenger.beta.R.string.AttachGame);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2797,17 +2841,17 @@ public class PushListenerController {
                                                 case '@':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationMessageGroupGameScored", 2131627033, strArr[0], strArr[1], strArr[2], strArr[3]);
+                                                    formatString = LocaleController.formatString("NotificationMessageGroupGameScored", org.telegram.messenger.beta.R.string.NotificationMessageGroupGameScored, strArr[0], strArr[1], strArr[2], strArr[3]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
                                                     z12 = false;
                                                     break;
-                                                case 'A':
+                                                case VoIPService.CALL_MIN_LAYER /* 65 */:
                                                     str20 = str17;
                                                     z13 = z4;
-                                                    str22 = LocaleController.formatString("NotificationMessageGroupInvoice", 2131627035, strArr[0], strArr[1], strArr[2]);
-                                                    str21 = LocaleController.getString("PaymentInvoice", 2131627445);
+                                                    str22 = LocaleController.formatString("NotificationMessageGroupInvoice", org.telegram.messenger.beta.R.string.NotificationMessageGroupInvoice, strArr[0], strArr[1], strArr[2]);
+                                                    str21 = LocaleController.getString("PaymentInvoice", org.telegram.messenger.beta.R.string.PaymentInvoice);
                                                     str14 = str21;
                                                     z12 = false;
                                                     str15 = str22;
@@ -2817,7 +2861,7 @@ public class PushListenerController {
                                                 case 'C':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationInvitedToGroup", 2131627018, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationInvitedToGroup", org.telegram.messenger.beta.R.string.NotificationInvitedToGroup, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2826,7 +2870,7 @@ public class PushListenerController {
                                                 case 'D':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationEditedGroupName", 2131626998, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationEditedGroupName", org.telegram.messenger.beta.R.string.NotificationEditedGroupName, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2835,7 +2879,7 @@ public class PushListenerController {
                                                 case 'E':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationEditedGroupPhoto", 2131626999, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationEditedGroupPhoto", org.telegram.messenger.beta.R.string.NotificationEditedGroupPhoto, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2844,7 +2888,7 @@ public class PushListenerController {
                                                 case 'F':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationGroupAddMember", 2131627001, strArr[0], strArr[1], strArr[2]);
+                                                    formatString = LocaleController.formatString("NotificationGroupAddMember", org.telegram.messenger.beta.R.string.NotificationGroupAddMember, strArr[0], strArr[1], strArr[2]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2853,7 +2897,7 @@ public class PushListenerController {
                                                 case 'G':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationGroupCreatedCall", 2131627005, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationGroupCreatedCall", org.telegram.messenger.beta.R.string.NotificationGroupCreatedCall, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2862,7 +2906,7 @@ public class PushListenerController {
                                                 case 'H':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationGroupInvitedToCall", 2131627009, strArr[0], strArr[1], strArr[2]);
+                                                    formatString = LocaleController.formatString("NotificationGroupInvitedToCall", org.telegram.messenger.beta.R.string.NotificationGroupInvitedToCall, strArr[0], strArr[1], strArr[2]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2871,7 +2915,7 @@ public class PushListenerController {
                                                 case 'I':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationGroupEndedCall", 2131627006, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationGroupEndedCall", org.telegram.messenger.beta.R.string.NotificationGroupEndedCall, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2880,7 +2924,7 @@ public class PushListenerController {
                                                 case 'J':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationGroupInvitedYouToCall", 2131627010, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationGroupInvitedYouToCall", org.telegram.messenger.beta.R.string.NotificationGroupInvitedYouToCall, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2889,7 +2933,7 @@ public class PushListenerController {
                                                 case 'K':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationGroupKickMember", 2131627011, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationGroupKickMember", org.telegram.messenger.beta.R.string.NotificationGroupKickMember, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2898,7 +2942,7 @@ public class PushListenerController {
                                                 case 'L':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationGroupKickYou", 2131627012, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationGroupKickYou", org.telegram.messenger.beta.R.string.NotificationGroupKickYou, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2907,7 +2951,7 @@ public class PushListenerController {
                                                 case 'M':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationGroupLeftMember", 2131627013, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationGroupLeftMember", org.telegram.messenger.beta.R.string.NotificationGroupLeftMember, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2916,7 +2960,7 @@ public class PushListenerController {
                                                 case 'N':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationGroupAddSelf", 2131627002, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationGroupAddSelf", org.telegram.messenger.beta.R.string.NotificationGroupAddSelf, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2925,7 +2969,7 @@ public class PushListenerController {
                                                 case 'O':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("NotificationGroupAddSelfMega", 2131627003, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("NotificationGroupAddSelfMega", org.telegram.messenger.beta.R.string.NotificationGroupAddSelfMega, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2934,7 +2978,7 @@ public class PushListenerController {
                                                 case 'P':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("UserAcceptedToGroupPushWithGroup", 2131628873, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("UserAcceptedToGroupPushWithGroup", org.telegram.messenger.beta.R.string.UserAcceptedToGroupPushWithGroup, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -2943,7 +2987,7 @@ public class PushListenerController {
                                                 case 'Q':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("NotificationGroupForwardedFew", 2131627008, strArr[0], strArr[1], LocaleController.formatPluralString(str9, Utilities.parseInt((CharSequence) strArr[2]).intValue(), new Object[0]));
+                                                    str19 = LocaleController.formatString("NotificationGroupForwardedFew", org.telegram.messenger.beta.R.string.NotificationGroupForwardedFew, strArr[0], strArr[1], LocaleController.formatPluralString(str9, Utilities.parseInt((CharSequence) strArr[2]).intValue(), new Object[0]));
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2952,7 +2996,7 @@ public class PushListenerController {
                                                 case 'R':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("NotificationGroupFew", 2131627007, strArr[0], strArr[1], LocaleController.formatPluralString("Photos", Utilities.parseInt((CharSequence) strArr[2]).intValue(), new Object[0]));
+                                                    str19 = LocaleController.formatString("NotificationGroupFew", org.telegram.messenger.beta.R.string.NotificationGroupFew, strArr[0], strArr[1], LocaleController.formatPluralString("Photos", Utilities.parseInt((CharSequence) strArr[2]).intValue(), new Object[0]));
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2961,7 +3005,7 @@ public class PushListenerController {
                                                 case 'S':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("NotificationGroupFew", 2131627007, strArr[0], strArr[1], LocaleController.formatPluralString("Videos", Utilities.parseInt((CharSequence) strArr[2]).intValue(), new Object[0]));
+                                                    str19 = LocaleController.formatString("NotificationGroupFew", org.telegram.messenger.beta.R.string.NotificationGroupFew, strArr[0], strArr[1], LocaleController.formatPluralString("Videos", Utilities.parseInt((CharSequence) strArr[2]).intValue(), new Object[0]));
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2970,7 +3014,7 @@ public class PushListenerController {
                                                 case 'T':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("NotificationGroupFew", 2131627007, strArr[0], strArr[1], LocaleController.formatPluralString("MusicFiles", Utilities.parseInt((CharSequence) strArr[2]).intValue(), new Object[0]));
+                                                    str19 = LocaleController.formatString("NotificationGroupFew", org.telegram.messenger.beta.R.string.NotificationGroupFew, strArr[0], strArr[1], LocaleController.formatPluralString("MusicFiles", Utilities.parseInt((CharSequence) strArr[2]).intValue(), new Object[0]));
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2979,7 +3023,7 @@ public class PushListenerController {
                                                 case 'U':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("NotificationGroupFew", 2131627007, strArr[0], strArr[1], LocaleController.formatPluralString("Files", Utilities.parseInt((CharSequence) strArr[2]).intValue(), new Object[0]));
+                                                    str19 = LocaleController.formatString("NotificationGroupFew", org.telegram.messenger.beta.R.string.NotificationGroupFew, strArr[0], strArr[1], LocaleController.formatPluralString("Files", Utilities.parseInt((CharSequence) strArr[2]).intValue(), new Object[0]));
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2988,7 +3032,7 @@ public class PushListenerController {
                                                 case 'V':
                                                     str18 = str17;
                                                     z13 = z4;
-                                                    str19 = LocaleController.formatString("NotificationGroupAlbum", 2131627004, strArr[0], strArr[1]);
+                                                    str19 = LocaleController.formatString("NotificationGroupAlbum", org.telegram.messenger.beta.R.string.NotificationGroupAlbum, strArr[0], strArr[1]);
                                                     str15 = str19;
                                                     str16 = str18;
                                                     str14 = null;
@@ -2997,7 +3041,7 @@ public class PushListenerController {
                                                 case 'W':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedTextUser", 2131626989, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedText", 2131626987, strArr[0], strArr[1], strArr[2]) : LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, strArr[0], strArr[1]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedTextUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, strArr[0], strArr[1], strArr[2]) : LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3006,7 +3050,7 @@ public class PushListenerController {
                                                 case 'X':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedNoTextUser", 2131626968, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedNoText", 2131626966, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedNoTextChannel", 2131626967, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedNoTextUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoTextUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedNoText", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoText, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedNoTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoTextChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3015,7 +3059,7 @@ public class PushListenerController {
                                                 case 'Y':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedPhotoUser", 2131626971, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedPhoto", 2131626969, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedPhotoChannel", 2131626970, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedPhotoUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedPhotoUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedPhoto", org.telegram.messenger.beta.R.string.NotificationActionPinnedPhoto, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedPhotoChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedPhotoChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3024,7 +3068,7 @@ public class PushListenerController {
                                                 case 'Z':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedVideoUser", 2131626992, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedVideo", 2131626990, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedVideoChannel", 2131626991, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedVideoUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedVideoUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedVideo", org.telegram.messenger.beta.R.string.NotificationActionPinnedVideo, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedVideoChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedVideoChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3033,7 +3077,7 @@ public class PushListenerController {
                                                 case '[':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedRoundUser", 2131626980, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedRound", 2131626978, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedRoundChannel", 2131626979, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedRoundUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedRoundUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedRound", org.telegram.messenger.beta.R.string.NotificationActionPinnedRound, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedRoundChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedRoundChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3042,7 +3086,7 @@ public class PushListenerController {
                                                 case '\\':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedFileUser", 2131626944, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedFile", 2131626942, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedFileChannel", 2131626943, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedFileUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedFileUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedFile", org.telegram.messenger.beta.R.string.NotificationActionPinnedFile, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedFileChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedFileChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3052,11 +3096,11 @@ public class PushListenerController {
                                                     str23 = str17;
                                                     z13 = z4;
                                                     if (j4 > 0) {
-                                                        formatString = (strArr.length <= 1 || TextUtils.isEmpty(strArr[1])) ? LocaleController.formatString("NotificationActionPinnedStickerUser", 2131626986, strArr[0]) : LocaleController.formatString("NotificationActionPinnedStickerEmojiUser", 2131626985, strArr[0], strArr[1]);
+                                                        formatString = (strArr.length <= 1 || TextUtils.isEmpty(strArr[1])) ? LocaleController.formatString("NotificationActionPinnedStickerUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerUser, strArr[0]) : LocaleController.formatString("NotificationActionPinnedStickerEmojiUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerEmojiUser, strArr[0], strArr[1]);
                                                     } else if (z6) {
-                                                        formatString = (strArr.length <= 2 || TextUtils.isEmpty(strArr[2])) ? LocaleController.formatString("NotificationActionPinnedSticker", 2131626981, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedStickerEmoji", 2131626983, strArr[0], strArr[2], strArr[1]);
+                                                        formatString = (strArr.length <= 2 || TextUtils.isEmpty(strArr[2])) ? LocaleController.formatString("NotificationActionPinnedSticker", org.telegram.messenger.beta.R.string.NotificationActionPinnedSticker, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedStickerEmoji", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerEmoji, strArr[0], strArr[2], strArr[1]);
                                                     } else {
-                                                        formatString = (strArr.length <= 1 || TextUtils.isEmpty(strArr[1])) ? LocaleController.formatString("NotificationActionPinnedStickerChannel", 2131626982, strArr[0]) : LocaleController.formatString("NotificationActionPinnedStickerEmojiChannel", 2131626984, strArr[0], strArr[1]);
+                                                        formatString = (strArr.length <= 1 || TextUtils.isEmpty(strArr[1])) ? LocaleController.formatString("NotificationActionPinnedStickerChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerChannel, strArr[0]) : LocaleController.formatString("NotificationActionPinnedStickerEmojiChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerEmojiChannel, strArr[0], strArr[1]);
                                                     }
                                                     str15 = formatString;
                                                     str16 = str23;
@@ -3066,7 +3110,7 @@ public class PushListenerController {
                                                 case '^':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedVoiceUser", 2131626995, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedVoice", 2131626993, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedVoiceChannel", 2131626994, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedVoiceUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedVoiceUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedVoice", org.telegram.messenger.beta.R.string.NotificationActionPinnedVoice, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedVoiceChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedVoiceChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3075,7 +3119,7 @@ public class PushListenerController {
                                                 case '_':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedContactUser", 2131626941, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedContact2", 2131626939, strArr[0], strArr[2], strArr[1]) : LocaleController.formatString("NotificationActionPinnedContactChannel2", 2131626940, strArr[0], strArr[1]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedContactUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedContactUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedContact2", org.telegram.messenger.beta.R.string.NotificationActionPinnedContact2, strArr[0], strArr[2], strArr[1]) : LocaleController.formatString("NotificationActionPinnedContactChannel2", org.telegram.messenger.beta.R.string.NotificationActionPinnedContactChannel2, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3084,7 +3128,7 @@ public class PushListenerController {
                                                 case '`':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedQuizUser", 2131626977, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedQuiz2", 2131626975, strArr[0], strArr[2], strArr[1]) : LocaleController.formatString("NotificationActionPinnedQuizChannel2", 2131626976, strArr[0], strArr[1]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedQuizUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedQuizUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedQuiz2", org.telegram.messenger.beta.R.string.NotificationActionPinnedQuiz2, strArr[0], strArr[2], strArr[1]) : LocaleController.formatString("NotificationActionPinnedQuizChannel2", org.telegram.messenger.beta.R.string.NotificationActionPinnedQuizChannel2, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3093,7 +3137,7 @@ public class PushListenerController {
                                                 case 'a':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedPollUser", 2131626974, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedPoll2", 2131626972, strArr[0], strArr[2], strArr[1]) : LocaleController.formatString("NotificationActionPinnedPollChannel2", 2131626973, strArr[0], strArr[1]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedPollUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedPollUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedPoll2", org.telegram.messenger.beta.R.string.NotificationActionPinnedPoll2, strArr[0], strArr[2], strArr[1]) : LocaleController.formatString("NotificationActionPinnedPollChannel2", org.telegram.messenger.beta.R.string.NotificationActionPinnedPollChannel2, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3102,7 +3146,7 @@ public class PushListenerController {
                                                 case 'b':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedGeoUser", 2131626956, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedGeo", 2131626951, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedGeoChannel", 2131626952, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedGeoUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedGeo", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeo, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedGeoChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3111,25 +3155,25 @@ public class PushListenerController {
                                                 case 'c':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedGeoLiveUser", 2131626955, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedGeoLive", 2131626953, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedGeoLiveChannel", 2131626954, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedGeoLiveUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoLiveUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedGeoLive", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoLive, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedGeoLiveChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoLiveChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
                                                     z12 = false;
                                                     break;
-                                                case 'd':
+                                                case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedGameUser", 2131626950, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedGame", 2131626945, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedGameChannel", 2131626946, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedGameUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedGameUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedGame", org.telegram.messenger.beta.R.string.NotificationActionPinnedGame, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedGameChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGameChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
                                                     z12 = false;
                                                     break;
-                                                case 'e':
+                                                case FileLoader.MEDIA_DIR_VIDEO_PUBLIC /* 101 */:
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedGameScoreUser", 2131626949, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedGameScore", 2131626947, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedGameScoreChannel", 2131626948, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedGameScoreUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedGameScoreUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedGameScore", org.telegram.messenger.beta.R.string.NotificationActionPinnedGameScore, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedGameScoreChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGameScoreChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3138,7 +3182,7 @@ public class PushListenerController {
                                                 case 'f':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedInvoiceUser", 2131626962, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedInvoice", 2131626960, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedInvoiceChannel", 2131626961, strArr[0]);
+                                                    formatString = j4 > 0 ? LocaleController.formatString("NotificationActionPinnedInvoiceUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedInvoiceUser, strArr[0], strArr[1]) : z6 ? LocaleController.formatString("NotificationActionPinnedInvoice", org.telegram.messenger.beta.R.string.NotificationActionPinnedInvoice, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedInvoiceChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedInvoiceChannel, strArr[0]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3146,7 +3190,7 @@ public class PushListenerController {
                                                     break;
                                                 case 'g':
                                                     if (j4 > 0) {
-                                                        str15 = LocaleController.formatString("NotificationActionPinnedGifUser", 2131626959, strArr[0], strArr[1]);
+                                                        str15 = LocaleController.formatString("NotificationActionPinnedGifUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedGifUser, strArr[0], strArr[1]);
                                                         str16 = str17;
                                                         z13 = z4;
                                                         str14 = null;
@@ -3155,15 +3199,15 @@ public class PushListenerController {
                                                     } else {
                                                         str23 = str17;
                                                         z13 = z4;
-                                                        formatString = z6 ? LocaleController.formatString("NotificationActionPinnedGif", 2131626957, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedGifChannel", 2131626958, strArr[0]);
+                                                        formatString = z6 ? LocaleController.formatString("NotificationActionPinnedGif", org.telegram.messenger.beta.R.string.NotificationActionPinnedGif, strArr[0], strArr[1]) : LocaleController.formatString("NotificationActionPinnedGifChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGifChannel, strArr[0]);
                                                         str15 = formatString;
                                                         str16 = str23;
                                                         str14 = null;
                                                         z12 = false;
                                                     }
                                                 case 'h':
-                                                    String string2 = LocaleController.getString("YouHaveNewMessage", 2131629344);
-                                                    str11 = LocaleController.getString("SecretChatName", 2131628209);
+                                                    String string2 = LocaleController.getString("YouHaveNewMessage", org.telegram.messenger.beta.R.string.YouHaveNewMessage);
+                                                    str11 = LocaleController.getString("SecretChatName", org.telegram.messenger.beta.R.string.SecretChatName);
                                                     z13 = z4;
                                                     str14 = null;
                                                     z12 = true;
@@ -3646,69 +3690,69 @@ public class PushListenerController {
         }
         switch (c) {
             case 0:
-                return LocaleController.formatString("PushChatReactContact", 2131627841, objArr);
+                return LocaleController.formatString("PushChatReactContact", org.telegram.messenger.beta.R.string.PushChatReactContact, objArr);
             case 1:
-                return LocaleController.formatString("PushReactGeoLocation", 2131627861, objArr);
+                return LocaleController.formatString("PushReactGeoLocation", org.telegram.messenger.beta.R.string.PushReactGeoLocation, objArr);
             case 2:
-                return LocaleController.formatString("PushChatReactNotext", 2131627848, objArr);
+                return LocaleController.formatString("PushChatReactNotext", org.telegram.messenger.beta.R.string.PushChatReactNotext, objArr);
             case 3:
-                return LocaleController.formatString("PushReactNoText", 2131627864, objArr);
+                return LocaleController.formatString("PushReactNoText", org.telegram.messenger.beta.R.string.PushReactNoText, objArr);
             case 4:
-                return LocaleController.formatString("PushChatReactInvoice", 2131627847, objArr);
+                return LocaleController.formatString("PushChatReactInvoice", org.telegram.messenger.beta.R.string.PushChatReactInvoice, objArr);
             case 5:
-                return LocaleController.formatString("PushReactContect", 2131627857, objArr);
+                return LocaleController.formatString("PushReactContect", org.telegram.messenger.beta.R.string.PushReactContect, objArr);
             case 6:
-                return LocaleController.formatString("PushChatReactSticker", 2131627853, objArr);
+                return LocaleController.formatString("PushChatReactSticker", org.telegram.messenger.beta.R.string.PushChatReactSticker, objArr);
             case 7:
-                return LocaleController.formatString("PushReactGame", 2131627859, objArr);
+                return LocaleController.formatString("PushReactGame", org.telegram.messenger.beta.R.string.PushReactGame, objArr);
             case '\b':
-                return LocaleController.formatString("PushReactPoll", 2131627866, objArr);
+                return LocaleController.formatString("PushReactPoll", org.telegram.messenger.beta.R.string.PushReactPoll, objArr);
             case '\t':
-                return LocaleController.formatString("PushReactQuiz", 2131627867, objArr);
+                return LocaleController.formatString("PushReactQuiz", org.telegram.messenger.beta.R.string.PushReactQuiz, objArr);
             case '\n':
-                return LocaleController.formatString("PushReactText", 2131627870, objArr);
+                return LocaleController.formatString("PushReactText", org.telegram.messenger.beta.R.string.PushReactText, objArr);
             case 11:
-                return LocaleController.formatString("PushReactInvoice", 2131627863, objArr);
+                return LocaleController.formatString("PushReactInvoice", org.telegram.messenger.beta.R.string.PushReactInvoice, objArr);
             case '\f':
-                return LocaleController.formatString("PushChatReactDoc", 2131627842, objArr);
+                return LocaleController.formatString("PushChatReactDoc", org.telegram.messenger.beta.R.string.PushChatReactDoc, objArr);
             case '\r':
-                return LocaleController.formatString("PushChatReactGeo", 2131627844, objArr);
+                return LocaleController.formatString("PushChatReactGeo", org.telegram.messenger.beta.R.string.PushChatReactGeo, objArr);
             case 14:
-                return LocaleController.formatString("PushChatReactGif", 2131627846, objArr);
+                return LocaleController.formatString("PushChatReactGif", org.telegram.messenger.beta.R.string.PushChatReactGif, objArr);
             case 15:
-                return LocaleController.formatString("PushReactSticker", 2131627869, objArr);
+                return LocaleController.formatString("PushReactSticker", org.telegram.messenger.beta.R.string.PushReactSticker, objArr);
             case 16:
-                return LocaleController.formatString("PushChatReactAudio", 2131627840, objArr);
+                return LocaleController.formatString("PushChatReactAudio", org.telegram.messenger.beta.R.string.PushChatReactAudio, objArr);
             case 17:
-                return LocaleController.formatString("PushChatReactPhoto", 2131627849, objArr);
+                return LocaleController.formatString("PushChatReactPhoto", org.telegram.messenger.beta.R.string.PushChatReactPhoto, objArr);
             case 18:
-                return LocaleController.formatString("PushChatReactRound", 2131627852, objArr);
+                return LocaleController.formatString("PushChatReactRound", org.telegram.messenger.beta.R.string.PushChatReactRound, objArr);
             case 19:
-                return LocaleController.formatString("PushChatReactVideo", 2131627855, objArr);
-            case 20:
-                return LocaleController.formatString("PushChatReactGeoLive", 2131627845, objArr);
+                return LocaleController.formatString("PushChatReactVideo", org.telegram.messenger.beta.R.string.PushChatReactVideo, objArr);
+            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                return LocaleController.formatString("PushChatReactGeoLive", org.telegram.messenger.beta.R.string.PushChatReactGeoLive, objArr);
             case 21:
-                return LocaleController.formatString("PushReactAudio", 2131627856, objArr);
-            case 22:
-                return LocaleController.formatString("PushReactPhoto", 2131627865, objArr);
-            case 23:
-                return LocaleController.formatString("PushReactRound", 2131627868, objArr);
+                return LocaleController.formatString("PushReactAudio", org.telegram.messenger.beta.R.string.PushReactAudio, objArr);
+            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                return LocaleController.formatString("PushReactPhoto", org.telegram.messenger.beta.R.string.PushReactPhoto, objArr);
+            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                return LocaleController.formatString("PushReactRound", org.telegram.messenger.beta.R.string.PushReactRound, objArr);
             case 24:
-                return LocaleController.formatString("PushReactVideo", 2131627871, objArr);
-            case 25:
-                return LocaleController.formatString("PushReactDoc", 2131627858, objArr);
-            case 26:
-                return LocaleController.formatString("PushReactGeo", 2131627860, objArr);
-            case 27:
-                return LocaleController.formatString("PushReactGif", 2131627862, objArr);
-            case 28:
-                return LocaleController.formatString("PushChatReactGame", 2131627843, objArr);
-            case 29:
-                return LocaleController.formatString("PushChatReactPoll", 2131627850, objArr);
-            case 30:
-                return LocaleController.formatString("PushChatReactQuiz", 2131627851, objArr);
-            case 31:
-                return LocaleController.formatString("PushChatReactText", 2131627854, objArr);
+                return LocaleController.formatString("PushReactVideo", org.telegram.messenger.beta.R.string.PushReactVideo, objArr);
+            case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                return LocaleController.formatString("PushReactDoc", org.telegram.messenger.beta.R.string.PushReactDoc, objArr);
+            case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                return LocaleController.formatString("PushReactGeo", org.telegram.messenger.beta.R.string.PushReactGeo, objArr);
+            case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                return LocaleController.formatString("PushReactGif", org.telegram.messenger.beta.R.string.PushReactGif, objArr);
+            case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                return LocaleController.formatString("PushChatReactGame", org.telegram.messenger.beta.R.string.PushChatReactGame, objArr);
+            case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                return LocaleController.formatString("PushChatReactPoll", org.telegram.messenger.beta.R.string.PushChatReactPoll, objArr);
+            case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                return LocaleController.formatString("PushChatReactQuiz", org.telegram.messenger.beta.R.string.PushChatReactQuiz, objArr);
+            case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                return LocaleController.formatString("PushChatReactText", org.telegram.messenger.beta.R.string.PushChatReactText, objArr);
             default:
                 return null;
         }

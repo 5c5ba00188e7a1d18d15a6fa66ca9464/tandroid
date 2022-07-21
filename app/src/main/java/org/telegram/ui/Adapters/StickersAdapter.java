@@ -94,9 +94,14 @@ public class StickersAdapter extends RecyclerListView.SelectionAdapter implement
             MediaDataController.getInstance(this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
         }
         this.lastSearchKeyboardLanguage = currentKeyboardLanguage;
-        String str = this.lastSearch;
+        final String str = this.lastSearch;
         cancelEmojiSearch();
-        this.searchRunnable = new StickersAdapter$$ExternalSyntheticLambda0(this, str);
+        this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Adapters.StickersAdapter$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                StickersAdapter.this.lambda$searchEmojiByKeyword$1(str);
+            }
+        };
         ArrayList<MediaDataController.KeywordResult> arrayList = this.keywordResults;
         if (arrayList == null || arrayList.isEmpty()) {
             AndroidUtilities.runOnUIThread(this.searchRunnable, 1000L);
@@ -105,8 +110,13 @@ public class StickersAdapter extends RecyclerListView.SelectionAdapter implement
         }
     }
 
-    public /* synthetic */ void lambda$searchEmojiByKeyword$1(String str) {
-        MediaDataController.getInstance(this.currentAccount).getEmojiSuggestions(this.lastSearchKeyboardLanguage, str, true, new StickersAdapter$$ExternalSyntheticLambda1(this, str), true);
+    public /* synthetic */ void lambda$searchEmojiByKeyword$1(final String str) {
+        MediaDataController.getInstance(this.currentAccount).getEmojiSuggestions(this.lastSearchKeyboardLanguage, str, true, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Adapters.StickersAdapter$$ExternalSyntheticLambda1
+            @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
+            public final void run(ArrayList arrayList, String str2) {
+                StickersAdapter.this.lambda$searchEmojiByKeyword$0(str, arrayList, str2);
+            }
+        }, true);
     }
 
     public /* synthetic */ void lambda$searchEmojiByKeyword$0(String str, ArrayList arrayList, String str2) {

@@ -16,6 +16,7 @@ import androidx.loader.content.Loader;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.lang.reflect.Modifier;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class LoaderManagerImpl extends LoaderManager {
     static boolean DEBUG = false;
@@ -220,21 +221,14 @@ public class LoaderManagerImpl extends LoaderManager {
 
     /* loaded from: classes.dex */
     public static class LoaderViewModel extends ViewModel {
-        private static final ViewModelProvider.Factory FACTORY = new AnonymousClass1();
-        private SparseArrayCompat<LoaderInfo> mLoaders = new SparseArrayCompat<>();
-        private boolean mCreatingLoader = false;
-
-        /* renamed from: androidx.loader.app.LoaderManagerImpl$LoaderViewModel$1 */
-        /* loaded from: classes.dex */
-        static class AnonymousClass1 implements ViewModelProvider.Factory {
-            AnonymousClass1() {
-            }
-
+        private static final ViewModelProvider.Factory FACTORY = new ViewModelProvider.Factory() { // from class: androidx.loader.app.LoaderManagerImpl.LoaderViewModel.1
             @Override // androidx.lifecycle.ViewModelProvider.Factory
             public <T extends ViewModel> T create(Class<T> cls) {
                 return new LoaderViewModel();
             }
-        }
+        };
+        private SparseArrayCompat<LoaderInfo> mLoaders = new SparseArrayCompat<>();
+        private boolean mCreatingLoader = false;
 
         LoaderViewModel() {
         }
@@ -353,7 +347,7 @@ public class LoaderManagerImpl extends LoaderManager {
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder(128);
+        StringBuilder sb = new StringBuilder((int) ConnectionsManager.RequestFlagNeedQuickAck);
         sb.append("LoaderManager{");
         sb.append(Integer.toHexString(System.identityHashCode(this)));
         sb.append(" in ");

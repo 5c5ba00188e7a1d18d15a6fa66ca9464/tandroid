@@ -181,7 +181,7 @@ public class EmuDetector {
             PackageManager packageManager = this.mContext.getPackageManager();
             for (String str : this.mListPackageName) {
                 Intent launchIntentForPackage = packageManager.getLaunchIntentForPackage(str);
-                if (launchIntentForPackage != null && !packageManager.queryIntentActivities(launchIntentForPackage, 65536).isEmpty()) {
+                if (launchIntentForPackage != null && !packageManager.queryIntentActivities(launchIntentForPackage, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT).isEmpty()) {
                     return true;
                 }
             }
@@ -309,7 +309,7 @@ public class EmuDetector {
                 return false;
             }
             for (String str : sb2.split("\n")) {
-                if ((str.contains("wlan0") || str.contains("tunl0") || str.contains("eth0")) && str.contains("10.0.2.15")) {
+                if ((str.contains("wlan0") || str.contains("tunl0") || str.contains("eth0")) && str.contains(IP)) {
                     return true;
                 }
             }

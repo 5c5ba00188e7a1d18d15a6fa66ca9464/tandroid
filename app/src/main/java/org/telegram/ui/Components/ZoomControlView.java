@@ -11,10 +11,23 @@ import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.Components.AnimationProperties;
 /* loaded from: classes3.dex */
 public class ZoomControlView extends View {
-    public final Property<ZoomControlView, Float> ZOOM_PROPERTY = new AnonymousClass1("clipProgress");
+    public final Property<ZoomControlView, Float> ZOOM_PROPERTY = new AnimationProperties.FloatProperty<ZoomControlView>("clipProgress") { // from class: org.telegram.ui.Components.ZoomControlView.1
+        public void setValue(ZoomControlView zoomControlView, float f) {
+            ZoomControlView.this.zoom = f;
+            if (ZoomControlView.this.delegate != null) {
+                ZoomControlView.this.delegate.didSetZoom(ZoomControlView.this.zoom);
+            }
+            ZoomControlView.this.invalidate();
+        }
+
+        public Float get(ZoomControlView zoomControlView) {
+            return Float.valueOf(ZoomControlView.this.zoom);
+        }
+    };
     private float animatingToZoom;
     private AnimatorSet animatorSet;
     private ZoomControlViewDelegate delegate;
@@ -43,37 +56,14 @@ public class ZoomControlView extends View {
         void didSetZoom(float f);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.ZoomControlView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimationProperties.FloatProperty<ZoomControlView> {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(String str) {
-            super(str);
-            ZoomControlView.this = r1;
-        }
-
-        public void setValue(ZoomControlView zoomControlView, float f) {
-            ZoomControlView.this.zoom = f;
-            if (ZoomControlView.this.delegate != null) {
-                ZoomControlView.this.delegate.didSetZoom(ZoomControlView.this.zoom);
-            }
-            ZoomControlView.this.invalidate();
-        }
-
-        public Float get(ZoomControlView zoomControlView) {
-            return Float.valueOf(ZoomControlView.this.zoom);
-        }
-    }
-
     public ZoomControlView(Context context) {
         super(context);
-        this.minusDrawable = context.getResources().getDrawable(2131166249);
-        this.plusDrawable = context.getResources().getDrawable(2131166250);
-        this.progressDrawable = context.getResources().getDrawable(2131166253);
-        this.filledProgressDrawable = context.getResources().getDrawable(2131166254);
-        this.knobDrawable = context.getResources().getDrawable(2131166251);
-        this.pressedKnobDrawable = context.getResources().getDrawable(2131166252);
+        this.minusDrawable = context.getResources().getDrawable(R.drawable.zoom_minus);
+        this.plusDrawable = context.getResources().getDrawable(R.drawable.zoom_plus);
+        this.progressDrawable = context.getResources().getDrawable(R.drawable.zoom_slide);
+        this.filledProgressDrawable = context.getResources().getDrawable(R.drawable.zoom_slide_a);
+        this.knobDrawable = context.getResources().getDrawable(R.drawable.zoom_round);
+        this.pressedKnobDrawable = context.getResources().getDrawable(R.drawable.zoom_round_b);
     }
 
     public float getZoom() {
@@ -223,22 +213,14 @@ public class ZoomControlView extends View {
         this.animatorSet = animatorSet2;
         animatorSet2.playTogether(ObjectAnimator.ofFloat(this, this.ZOOM_PROPERTY, f));
         this.animatorSet.setDuration(180L);
-        this.animatorSet.addListener(new AnonymousClass2());
+        this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ZoomControlView.2
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                ZoomControlView.this.animatorSet = null;
+            }
+        });
         this.animatorSet.start();
         return true;
-    }
-
-    /* renamed from: org.telegram.ui.Components.ZoomControlView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
-            ZoomControlView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ZoomControlView.this.animatorSet = null;
-        }
     }
 
     @Override // android.view.View

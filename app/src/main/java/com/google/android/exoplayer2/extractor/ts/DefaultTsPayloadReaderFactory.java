@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Factory {
     private final List<Format> closedCaptionFormats;
@@ -111,7 +112,7 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                     String readString = parsableByteArray.readString(3);
                     int readUnsignedByte3 = parsableByteArray.readUnsignedByte();
                     boolean z = true;
-                    boolean z2 = (readUnsignedByte3 & 128) != 0;
+                    boolean z2 = (readUnsignedByte3 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                     if (z2) {
                         i = readUnsignedByte3 & 63;
                         str = "application/cea-708";

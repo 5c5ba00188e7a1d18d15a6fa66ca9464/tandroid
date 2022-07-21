@@ -29,38 +29,7 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
     private boolean reset;
     int width;
     private Paint paint = new Paint(1);
-    Runnable bitmapCreateTask = new AnonymousClass1();
-    Runnable uiFrameRunnable = new AnonymousClass2();
-
-    public void drawInBackground(Canvas canvas) {
-        throw null;
-    }
-
-    protected void drawInUiThread(Canvas canvas) {
-        throw null;
-    }
-
-    public void onFrameReady() {
-    }
-
-    public void onPaused() {
-    }
-
-    public void onResume() {
-    }
-
-    public void prepareDraw(long j) {
-        throw null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.DrawingInBackgroundThreadDrawable$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            DrawingInBackgroundThreadDrawable.this = r1;
-        }
-
+    Runnable bitmapCreateTask = new Runnable() { // from class: org.telegram.ui.Components.DrawingInBackgroundThreadDrawable.1
         /* JADX WARN: Code restructure failed: missing block: B:7:0x001a, code lost:
             if (r1.backgroundBitmap.getHeight() == org.telegram.ui.Components.DrawingInBackgroundThreadDrawable.this.height) goto L12;
          */
@@ -93,16 +62,8 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
             }
             AndroidUtilities.runOnUIThread(DrawingInBackgroundThreadDrawable.this.uiFrameRunnable);
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.DrawingInBackgroundThreadDrawable$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements Runnable {
-        AnonymousClass2() {
-            DrawingInBackgroundThreadDrawable.this = r1;
-        }
-
+    };
+    Runnable uiFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.DrawingInBackgroundThreadDrawable.2
         @Override // java.lang.Runnable
         public void run() {
             DrawingInBackgroundThreadDrawable.this.bitmapUpdating = false;
@@ -130,6 +91,27 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
             bitmap2.recycle();
             DrawingInBackgroundThreadDrawable.this.backgroundBitmap = null;
         }
+    };
+
+    public void drawInBackground(Canvas canvas) {
+        throw null;
+    }
+
+    protected void drawInUiThread(Canvas canvas) {
+        throw null;
+    }
+
+    public void onFrameReady() {
+    }
+
+    public void onPaused() {
+    }
+
+    public void onResume() {
+    }
+
+    public void prepareDraw(long j) {
+        throw null;
     }
 
     public DrawingInBackgroundThreadDrawable() {

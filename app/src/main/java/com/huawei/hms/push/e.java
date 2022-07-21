@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import com.huawei.hms.aaid.HmsInstanceId;
 import com.huawei.hms.aaid.plugin.ProxyCenter;
 import com.huawei.hms.aaid.plugin.PushProxy;
+import com.huawei.hms.framework.common.hianalytics.HianalyticsBaseData;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.push.utils.ha.PushAnalyticsCenter;
 import com.huawei.hms.push.utils.ha.PushBaseAnalytics;
 import com.huawei.hms.support.log.HMSLog;
@@ -34,9 +36,9 @@ public class e {
         if (proxy != null) {
             bundle.putString("proxyType", proxy.getProxyType());
         }
-        bundle.putString("msgId", str);
+        bundle.putString(RemoteMessageConst.MSGID, str);
         if (!TextUtils.isEmpty(str2)) {
-            bundle.putString("analyticInfo", str2);
+            bundle.putString(RemoteMessageConst.ANALYTIC_INFO, str2);
         }
         return bundle;
     }
@@ -46,7 +48,7 @@ public class e {
         if (bundle == null || (pushAnalytics = PushAnalyticsCenter.getInstance().getPushAnalytics()) == null) {
             return;
         }
-        bundle.putString("sdk_version", String.valueOf(60500300));
+        bundle.putString(HianalyticsBaseData.SDK_VERSION, String.valueOf(60500300));
         String str2 = a;
         HMSLog.i(str2, "eventId:" + str);
         pushAnalytics.report(context, str, bundle);

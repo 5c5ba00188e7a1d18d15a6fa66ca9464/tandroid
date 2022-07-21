@@ -5,7 +5,17 @@ import android.os.Parcelable;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class TextInformationFrame extends Id3Frame {
-    public static final Parcelable.Creator<TextInformationFrame> CREATOR = new AnonymousClass1();
+    public static final Parcelable.Creator<TextInformationFrame> CREATOR = new Parcelable.Creator<TextInformationFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.TextInformationFrame.1
+        @Override // android.os.Parcelable.Creator
+        public TextInformationFrame createFromParcel(Parcel parcel) {
+            return new TextInformationFrame(parcel);
+        }
+
+        @Override // android.os.Parcelable.Creator
+        public TextInformationFrame[] newArray(int i) {
+            return new TextInformationFrame[i];
+        }
+    };
     public final String description;
     public final String value;
 
@@ -54,22 +64,5 @@ public final class TextInformationFrame extends Id3Frame {
         parcel.writeString(this.id);
         parcel.writeString(this.description);
         parcel.writeString(this.value);
-    }
-
-    /* renamed from: com.google.android.exoplayer2.metadata.id3.TextInformationFrame$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements Parcelable.Creator<TextInformationFrame> {
-        AnonymousClass1() {
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public TextInformationFrame createFromParcel(Parcel parcel) {
-            return new TextInformationFrame(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public TextInformationFrame[] newArray(int i) {
-            return new TextInformationFrame[i];
-        }
     }
 }

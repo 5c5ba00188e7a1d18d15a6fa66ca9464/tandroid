@@ -14,7 +14,7 @@ public class GrsApi {
     @Deprecated
     public static void ayncGetGrsUrl(String str, String str2, IQueryUrlCallBack iQueryUrlCallBack) {
         if (iQueryUrlCallBack == null) {
-            Logger.w("GrsApi", "IQueryUrlCallBack is must not null for process continue.");
+            Logger.w(TAG, "IQueryUrlCallBack is must not null for process continue.");
             return;
         }
         GrsClient grsClient2 = grsClient;
@@ -28,7 +28,7 @@ public class GrsApi {
     @Deprecated
     public static void ayncGetGrsUrls(String str, IQueryUrlsCallBack iQueryUrlsCallBack) {
         if (iQueryUrlsCallBack == null) {
-            Logger.w("GrsApi", "IQueryUrlsCallBack is must not null for process continue.");
+            Logger.w(TAG, "IQueryUrlsCallBack is must not null for process continue.");
             return;
         }
         GrsClient grsClient2 = grsClient;
@@ -43,7 +43,7 @@ public class GrsApi {
     public static void clearSp() {
         GrsClient grsClient2 = grsClient;
         if (grsClient2 == null) {
-            Logger.w("GrsApi", "GrsApi.clearSp return because grsClient is null.");
+            Logger.w(TAG, "GrsApi.clearSp return because grsClient is null.");
         } else {
             grsClient2.clearSp();
         }
@@ -53,7 +53,7 @@ public class GrsApi {
     public static boolean forceExpire() {
         GrsClient grsClient2 = grsClient;
         if (grsClient2 == null) {
-            Logger.w("GrsApi", "GrsApi.forceExpire return false because grsClient is null.");
+            Logger.w(TAG, "GrsApi.forceExpire return false because grsClient is null.");
             return false;
         }
         return grsClient2.forceExpire();
@@ -66,7 +66,7 @@ public class GrsApi {
 
     @Deprecated
     public static int grsSdkInit(Context context, GrsBaseInfo grsBaseInfo) {
-        Logger.w("GrsApi", "GrsApi.grsSdkInit is @Deprecated,  And Only Application Can Call Once");
+        Logger.w(TAG, "GrsApi.grsSdkInit is @Deprecated,  And Only Application Can Call Once");
         grsClient = new GrsClient(context, grsBaseInfo);
         return 0;
     }
@@ -75,7 +75,7 @@ public class GrsApi {
     public static String synGetGrsUrl(String str, String str2) {
         GrsClient grsClient2 = grsClient;
         if (grsClient2 == null || str == null || str2 == null) {
-            Logger.w("GrsApi", "GrsApi.synGetGrsUrl method maybe grsSdkInit has not completed and grsClient is null.");
+            Logger.w(TAG, "GrsApi.synGetGrsUrl method maybe grsSdkInit has not completed and grsClient is null.");
             return null;
         }
         return grsClient2.synGetGrsUrl(str, str2);
@@ -85,7 +85,7 @@ public class GrsApi {
     public static Map<String, String> synGetGrsUrls(String str) {
         GrsClient grsClient2 = grsClient;
         if (grsClient2 == null || str == null) {
-            Logger.w("GrsApi", "GrsApi.synGetGrsUrls method maybe grsSdkInit has not completed and grsClient is null.");
+            Logger.w(TAG, "GrsApi.synGetGrsUrls method maybe grsSdkInit has not completed and grsClient is null.");
             return new HashMap();
         }
         return grsClient2.synGetGrsUrls(str);

@@ -116,20 +116,12 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         final Throwable exception;
 
         static {
-            new Failure(new AnonymousClass1("Failure occurred while trying to finish a future."));
-        }
-
-        /* renamed from: androidx.concurrent.futures.AbstractResolvableFuture$Failure$1 */
-        /* loaded from: classes.dex */
-        static class AnonymousClass1 extends Throwable {
-            AnonymousClass1(String str) {
-                super(str);
-            }
-
-            @Override // java.lang.Throwable
-            public synchronized Throwable fillInStackTrace() {
-                return this;
-            }
+            new Failure(new Throwable("Failure occurred while trying to finish a future.") { // from class: androidx.concurrent.futures.AbstractResolvableFuture.Failure.1
+                @Override // java.lang.Throwable
+                public synchronized Throwable fillInStackTrace() {
+                    return this;
+                }
+            });
         }
 
         Failure(Throwable th) {

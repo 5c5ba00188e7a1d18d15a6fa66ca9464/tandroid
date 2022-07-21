@@ -1,4 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
+import org.telegram.messenger.FileLoader;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzai implements zzet {
@@ -13,7 +15,7 @@ public enum zzai implements zzet {
     MEDIAPIPE_ERROR(9),
     TIME_OUT_FETCHING_MODEL_METADATA(5),
     MODEL_NOT_DOWNLOADED(100),
-    URI_EXPIRED(101),
+    URI_EXPIRED(FileLoader.MEDIA_DIR_VIDEO_PUBLIC),
     NO_NETWORK_CONNECTION(102),
     METERED_NETWORK(103),
     DOWNLOAD_FAILED(104),
@@ -52,6 +54,7 @@ public enum zzai implements zzet {
     }
 
     static {
-        new zzah();
+        new Object() { // from class: com.google.android.gms.internal.mlkit_language_id.zzah
+        };
     }
 }

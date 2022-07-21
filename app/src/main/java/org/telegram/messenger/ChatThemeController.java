@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import org.telegram.messenger.NotificationBadge;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
@@ -62,16 +64,21 @@ public class ChatThemeController extends BaseController {
         Emoji.preloadEmoji(str);
     }
 
-    public static void requestAllChatThemes(ResultCallback<List<EmojiThemes>> resultCallback, boolean z) {
+    public static void requestAllChatThemes(final ResultCallback<List<EmojiThemes>> resultCallback, final boolean z) {
         if (themesHash == 0 || lastReloadTimeMs == 0) {
             init();
         }
-        boolean z2 = System.currentTimeMillis() - lastReloadTimeMs > 7200000;
+        boolean z2 = System.currentTimeMillis() - lastReloadTimeMs > reloadTimeoutMs;
         List<EmojiThemes> list = allChatThemes;
         if (list == null || list.isEmpty() || z2) {
             TLRPC$TL_account_getChatThemes tLRPC$TL_account_getChatThemes = new TLRPC$TL_account_getChatThemes();
             tLRPC$TL_account_getChatThemes.hash = themesHash;
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_account_getChatThemes, new ChatThemeController$$ExternalSyntheticLambda6(resultCallback, z));
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_account_getChatThemes, new RequestDelegate() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda6
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    ChatThemeController.lambda$requestAllChatThemes$3(ResultCallback.this, z, tLObject, tLRPC$TL_error);
+                }
+            });
             return;
         }
         ArrayList<EmojiThemes> arrayList = new ArrayList(allChatThemes);
@@ -84,8 +91,13 @@ public class ChatThemeController extends BaseController {
         resultCallback.onComplete(arrayList);
     }
 
-    public static /* synthetic */ void lambda$requestAllChatThemes$3(ResultCallback resultCallback, boolean z, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        chatThemeQueue.postRunnable(new ChatThemeController$$ExternalSyntheticLambda5(tLObject, resultCallback, tLRPC$TL_error, z));
+    public static /* synthetic */ void lambda$requestAllChatThemes$3(final ResultCallback resultCallback, final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        chatThemeQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatThemeController.lambda$requestAllChatThemes$2(TLObject.this, resultCallback, tLRPC$TL_error, z);
+            }
+        });
     }
 
     /* JADX WARN: Removed duplicated region for block: B:15:0x00a6  */
@@ -93,9 +105,9 @@ public class ChatThemeController extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static /* synthetic */ void lambda$requestAllChatThemes$2(TLObject tLObject, ResultCallback resultCallback, TLRPC$TL_error tLRPC$TL_error, boolean z) {
+    public static /* synthetic */ void lambda$requestAllChatThemes$2(TLObject tLObject, final ResultCallback resultCallback, final TLRPC$TL_error tLRPC$TL_error, boolean z) {
         boolean z2;
-        List<EmojiThemes> list;
+        final List<EmojiThemes> list;
         if (tLObject instanceof TLRPC$TL_account_themes) {
             TLRPC$TL_account_themes tLRPC$TL_account_themes = (TLRPC$TL_account_themes) tLObject;
             themesHash = tLRPC$TL_account_themes.hash;
@@ -104,7 +116,7 @@ public class ChatThemeController extends BaseController {
             edit.clear();
             edit.putLong("hash", themesHash);
             edit.putLong("lastReload", lastReloadTimeMs);
-            edit.putInt("count", tLRPC$TL_account_themes.themes.size());
+            edit.putInt(NotificationBadge.NewHtcHomeBadger.COUNT, tLRPC$TL_account_themes.themes.size());
             list = new ArrayList(tLRPC$TL_account_themes.themes.size());
             for (int i = 0; i < tLRPC$TL_account_themes.themes.size(); i++) {
                 TLRPC$TL_theme tLRPC$TL_theme = tLRPC$TL_account_themes.themes.get(i);
@@ -121,7 +133,12 @@ public class ChatThemeController extends BaseController {
             list = getAllChatThemesFromPrefs();
         } else {
             list = null;
-            AndroidUtilities.runOnUIThread(new ChatThemeController$$ExternalSyntheticLambda4(resultCallback, tLRPC$TL_error));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ResultCallback.this.onError(tLRPC$TL_error);
+                }
+            });
             z2 = true;
             if (!z2) {
                 return;
@@ -132,7 +149,12 @@ public class ChatThemeController extends BaseController {
             for (EmojiThemes emojiThemes2 : list) {
                 emojiThemes2.initColors();
             }
-            AndroidUtilities.runOnUIThread(new ChatThemeController$$ExternalSyntheticLambda2(list, resultCallback));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChatThemeController.lambda$requestAllChatThemes$1(list, resultCallback);
+                }
+            });
             return;
         }
         z2 = false;
@@ -155,7 +177,7 @@ public class ChatThemeController extends BaseController {
 
     private static List<EmojiThemes> getAllChatThemesFromPrefs() {
         SharedPreferences sharedPreferences = getSharedPreferences();
-        int i = sharedPreferences.getInt("count", 0);
+        int i = sharedPreferences.getInt(NotificationBadge.NewHtcHomeBadger.COUNT, 0);
         ArrayList arrayList = new ArrayList(i);
         for (int i2 = 0; i2 < i; i2++) {
             SerializedData serializedData = new SerializedData(Utilities.hexToBytes(sharedPreferences.getString("theme_" + i2, "")));
@@ -171,42 +193,30 @@ public class ChatThemeController extends BaseController {
         return arrayList;
     }
 
-    public static void requestChatTheme(String str, ResultCallback<EmojiThemes> resultCallback) {
+    public static void requestChatTheme(final String str, final ResultCallback<EmojiThemes> resultCallback) {
         if (TextUtils.isEmpty(str)) {
             resultCallback.onComplete(null);
         } else {
-            requestAllChatThemes(new AnonymousClass1(str, resultCallback), false);
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.ChatThemeController$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements ResultCallback<List<EmojiThemes>> {
-        final /* synthetic */ ResultCallback val$callback;
-        final /* synthetic */ String val$emoticon;
-
-        public /* bridge */ /* synthetic */ void onError(Throwable th) {
-            ResultCallback.CC.$default$onError(this, th);
-        }
-
-        AnonymousClass1(String str, ResultCallback resultCallback) {
-            this.val$emoticon = str;
-            this.val$callback = resultCallback;
-        }
-
-        public void onComplete(List<EmojiThemes> list) {
-            for (EmojiThemes emojiThemes : list) {
-                if (this.val$emoticon.equals(emojiThemes.getEmoticon())) {
-                    emojiThemes.initColors();
-                    this.val$callback.onComplete(emojiThemes);
-                    return;
+            requestAllChatThemes(new ResultCallback<List<EmojiThemes>>() { // from class: org.telegram.messenger.ChatThemeController.1
+                public /* bridge */ /* synthetic */ void onError(Throwable th) {
+                    ResultCallback.CC.$default$onError(this, th);
                 }
-            }
-        }
 
-        @Override // org.telegram.tgnet.ResultCallback
-        public void onError(TLRPC$TL_error tLRPC$TL_error) {
-            this.val$callback.onComplete(null);
+                public void onComplete(List<EmojiThemes> list) {
+                    for (EmojiThemes emojiThemes : list) {
+                        if (str.equals(emojiThemes.getEmoticon())) {
+                            emojiThemes.initColors();
+                            resultCallback.onComplete(emojiThemes);
+                            return;
+                        }
+                    }
+                }
+
+                @Override // org.telegram.tgnet.ResultCallback
+                public void onError(TLRPC$TL_error tLRPC$TL_error) {
+                    resultCallback.onComplete(null);
+                }
+            }, false);
         }
     }
 
@@ -301,16 +311,22 @@ public class ChatThemeController extends BaseController {
         themeIdWallpaperThumbMap.clear();
     }
 
-    public static void getWallpaperBitmap(long j, ResultCallback<Bitmap> resultCallback) {
+    public static void getWallpaperBitmap(long j, final ResultCallback<Bitmap> resultCallback) {
         if (themesHash == 0) {
             resultCallback.onComplete(null);
             return;
         }
-        chatThemeQueue.postRunnable(new ChatThemeController$$ExternalSyntheticLambda1(getPatternFile(j), resultCallback));
+        final File patternFile = getPatternFile(j);
+        chatThemeQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatThemeController.lambda$getWallpaperBitmap$6(patternFile, resultCallback);
+            }
+        });
     }
 
-    public static /* synthetic */ void lambda$getWallpaperBitmap$6(File file, ResultCallback resultCallback) {
-        Bitmap bitmap = null;
+    public static /* synthetic */ void lambda$getWallpaperBitmap$6(File file, final ResultCallback resultCallback) {
+        final Bitmap bitmap = null;
         try {
             if (file.exists()) {
                 bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
@@ -319,7 +335,12 @@ public class ChatThemeController extends BaseController {
             FileLog.e(e);
         }
         if (resultCallback != null) {
-            AndroidUtilities.runOnUIThread(new ChatThemeController$$ExternalSyntheticLambda3(resultCallback, bitmap));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ResultCallback.this.onComplete(bitmap);
+                }
+            });
         }
     }
 
@@ -327,8 +348,14 @@ public class ChatThemeController extends BaseController {
         return new File(ApplicationLoader.getFilesDirFixed(), String.format(Locale.US, "%d_%d.jpg", Long.valueOf(j), Long.valueOf(themesHash)));
     }
 
-    public static void saveWallpaperBitmap(Bitmap bitmap, long j) {
-        chatThemeQueue.postRunnable(new ChatThemeController$$ExternalSyntheticLambda0(getPatternFile(j), bitmap));
+    public static void saveWallpaperBitmap(final Bitmap bitmap, long j) {
+        final File patternFile = getPatternFile(j);
+        chatThemeQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatThemeController.lambda$saveWallpaperBitmap$7(patternFile, bitmap);
+            }
+        });
     }
 
     public static /* synthetic */ void lambda$saveWallpaperBitmap$7(File file, Bitmap bitmap) {

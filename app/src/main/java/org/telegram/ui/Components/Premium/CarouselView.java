@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
+import org.telegram.ui.Components.Premium.CarouselView;
 /* loaded from: classes3.dex */
 public class CarouselView extends View implements PagerHeaderView {
     static final Interpolator sQuinticInterpolator = CarouselView$$ExternalSyntheticLambda1.INSTANCE;
@@ -36,7 +37,16 @@ public class CarouselView extends View implements PagerHeaderView {
     boolean firstScrollEnabled = true;
     boolean autoPlayEnabled = true;
     Comparator<DrawingObject> comparator = Comparator$CC.comparingInt(CarouselView$$ExternalSyntheticLambda2.INSTANCE);
-    private Runnable autoScrollRunnable = new AnonymousClass1();
+    private Runnable autoScrollRunnable = new Runnable() { // from class: org.telegram.ui.Components.Premium.CarouselView.1
+        @Override // java.lang.Runnable
+        public void run() {
+            CarouselView carouselView = CarouselView.this;
+            if (!carouselView.autoPlayEnabled) {
+                return;
+            }
+            carouselView.scrollToInternal(carouselView.offsetAngle + (360.0f / carouselView.drawingObjects.size()));
+        }
+    };
     OverScroller overScroller = new OverScroller(getContext(), sQuinticInterpolator);
 
     /* loaded from: classes3.dex */
@@ -76,26 +86,103 @@ public class CarouselView extends View implements PagerHeaderView {
         return (int) (drawingObject.yRelative * 100.0f);
     }
 
-    /* renamed from: org.telegram.ui.Components.Premium.CarouselView$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            CarouselView.this = r1;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            CarouselView carouselView = CarouselView.this;
-            if (!carouselView.autoPlayEnabled) {
-                return;
-            }
-            carouselView.scrollToInternal(carouselView.offsetAngle + (360.0f / carouselView.drawingObjects.size()));
-        }
-    }
-
-    public CarouselView(Context context, ArrayList<? extends DrawingObject> arrayList) {
+    public CarouselView(Context context, final ArrayList<? extends DrawingObject> arrayList) {
         super(context);
-        this.gestureDetector = new GestureDetector(context, new AnonymousClass2(arrayList));
+        this.gestureDetector = new GestureDetector(context, new GestureDetector.OnGestureListener() { // from class: org.telegram.ui.Components.Premium.CarouselView.2
+            double lastAngle;
+
+            @Override // android.view.GestureDetector.OnGestureListener
+            public void onLongPress(MotionEvent motionEvent) {
+            }
+
+            @Override // android.view.GestureDetector.OnGestureListener
+            public void onShowPress(MotionEvent motionEvent) {
+            }
+
+            @Override // android.view.GestureDetector.OnGestureListener
+            public boolean onDown(MotionEvent motionEvent) {
+                double measuredHeight = CarouselView.this.getMeasuredHeight();
+                Double.isNaN(measuredHeight);
+                if (motionEvent.getY() > measuredHeight * 0.2d) {
+                    double measuredHeight2 = CarouselView.this.getMeasuredHeight();
+                    Double.isNaN(measuredHeight2);
+                    if (motionEvent.getY() < measuredHeight2 * 0.9d) {
+                        CarouselView.this.getParent().requestDisallowInterceptTouchEvent(true);
+                    }
+                }
+                ValueAnimator valueAnimator = CarouselView.this.autoScrollAnimation;
+                if (valueAnimator != null) {
+                    valueAnimator.removeAllListeners();
+                    CarouselView.this.autoScrollAnimation.cancel();
+                    CarouselView.this.autoScrollAnimation = null;
+                }
+                AndroidUtilities.cancelRunOnUIThread(CarouselView.this.autoScrollRunnable);
+                CarouselView.this.overScroller.abortAnimation();
+                this.lastAngle = Math.atan2(motionEvent.getX() - CarouselView.this.cX, motionEvent.getY() - CarouselView.this.cY);
+                CarouselView carouselView = CarouselView.this;
+                carouselView.lastSelected = (int) (carouselView.offsetAngle / (360.0f / arrayList.size()));
+                for (int i = 0; i < arrayList.size(); i++) {
+                    ((DrawingObject) arrayList.get(i)).hideAnimation();
+                }
+                return true;
+            }
+
+            @Override // android.view.GestureDetector.OnGestureListener
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                float x = motionEvent.getX();
+                float y = motionEvent.getY();
+                for (int size = CarouselView.this.drawingObjectsSorted.size() - 1; size >= 0; size--) {
+                    if (((DrawingObject) CarouselView.this.drawingObjectsSorted.get(size)).checkTap(x, y)) {
+                        if (((DrawingObject) CarouselView.this.drawingObjectsSorted.get(size)).angle % 360.0d != 270.0d) {
+                            double d = ((270.0d - (((DrawingObject) CarouselView.this.drawingObjectsSorted.get(size)).angle % 360.0d)) + 180.0d) % 360.0d;
+                            if (d > 180.0d) {
+                                d = -(360.0d - d);
+                            }
+                            CarouselView carouselView = CarouselView.this;
+                            carouselView.scrollToInternal(carouselView.offsetAngle + ((float) d));
+                            CarouselView.this.performHapticFeedback(3);
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            @Override // android.view.GestureDetector.OnGestureListener
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
+                double atan2 = Math.atan2(motionEvent2.getX() - CarouselView.this.cX, motionEvent2.getY() - CarouselView.this.cY);
+                double d = this.lastAngle - atan2;
+                this.lastAngle = atan2;
+                CarouselView carouselView = CarouselView.this;
+                double d2 = carouselView.offsetAngle;
+                double degrees = Math.toDegrees(d);
+                Double.isNaN(d2);
+                carouselView.offsetAngle = (float) (d2 + degrees);
+                CarouselView.this.checkSelectedHaptic();
+                CarouselView.this.invalidate();
+                return true;
+            }
+
+            @Override // android.view.GestureDetector.OnGestureListener
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
+                double d;
+                double d2;
+                CarouselView carouselView = CarouselView.this;
+                carouselView.lastFlingY = 0.0f;
+                carouselView.lastFlingX = 0.0f;
+                double atan2 = Math.atan2(motionEvent2.getX() - CarouselView.this.cX, motionEvent2.getY() - CarouselView.this.cY);
+                double cos = Math.cos(atan2);
+                Double.isNaN(f);
+                double sin = Math.sin(atan2);
+                Double.isNaN(f2);
+                CarouselView.this.overScroller.fling(0, 0, (int) ((cos * d) - (sin * d2)), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                if (CarouselView.this.overScroller.isFinished()) {
+                    CarouselView.this.scheduleAutoscroll();
+                }
+                CarouselView.this.invalidate();
+                return true;
+            }
+        });
         this.drawingObjects = arrayList;
         this.drawingObjectsSorted = new ArrayList<>(arrayList);
         for (int i = 0; i < arrayList.size() / 2; i++) {
@@ -109,110 +196,6 @@ public class CarouselView extends View implements PagerHeaderView {
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.Premium.CarouselView$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements GestureDetector.OnGestureListener {
-        double lastAngle;
-        final /* synthetic */ ArrayList val$drawingObjects;
-
-        @Override // android.view.GestureDetector.OnGestureListener
-        public void onLongPress(MotionEvent motionEvent) {
-        }
-
-        @Override // android.view.GestureDetector.OnGestureListener
-        public void onShowPress(MotionEvent motionEvent) {
-        }
-
-        AnonymousClass2(ArrayList arrayList) {
-            CarouselView.this = r1;
-            this.val$drawingObjects = arrayList;
-        }
-
-        @Override // android.view.GestureDetector.OnGestureListener
-        public boolean onDown(MotionEvent motionEvent) {
-            double measuredHeight = CarouselView.this.getMeasuredHeight();
-            Double.isNaN(measuredHeight);
-            if (motionEvent.getY() > measuredHeight * 0.2d) {
-                double measuredHeight2 = CarouselView.this.getMeasuredHeight();
-                Double.isNaN(measuredHeight2);
-                if (motionEvent.getY() < measuredHeight2 * 0.9d) {
-                    CarouselView.this.getParent().requestDisallowInterceptTouchEvent(true);
-                }
-            }
-            ValueAnimator valueAnimator = CarouselView.this.autoScrollAnimation;
-            if (valueAnimator != null) {
-                valueAnimator.removeAllListeners();
-                CarouselView.this.autoScrollAnimation.cancel();
-                CarouselView.this.autoScrollAnimation = null;
-            }
-            AndroidUtilities.cancelRunOnUIThread(CarouselView.this.autoScrollRunnable);
-            CarouselView.this.overScroller.abortAnimation();
-            this.lastAngle = Math.atan2(motionEvent.getX() - CarouselView.this.cX, motionEvent.getY() - CarouselView.this.cY);
-            CarouselView carouselView = CarouselView.this;
-            carouselView.lastSelected = (int) (carouselView.offsetAngle / (360.0f / this.val$drawingObjects.size()));
-            for (int i = 0; i < this.val$drawingObjects.size(); i++) {
-                ((DrawingObject) this.val$drawingObjects.get(i)).hideAnimation();
-            }
-            return true;
-        }
-
-        @Override // android.view.GestureDetector.OnGestureListener
-        public boolean onSingleTapUp(MotionEvent motionEvent) {
-            float x = motionEvent.getX();
-            float y = motionEvent.getY();
-            for (int size = CarouselView.this.drawingObjectsSorted.size() - 1; size >= 0; size--) {
-                if (((DrawingObject) CarouselView.this.drawingObjectsSorted.get(size)).checkTap(x, y)) {
-                    if (((DrawingObject) CarouselView.this.drawingObjectsSorted.get(size)).angle % 360.0d != 270.0d) {
-                        double d = ((270.0d - (((DrawingObject) CarouselView.this.drawingObjectsSorted.get(size)).angle % 360.0d)) + 180.0d) % 360.0d;
-                        if (d > 180.0d) {
-                            d = -(360.0d - d);
-                        }
-                        CarouselView carouselView = CarouselView.this;
-                        carouselView.scrollToInternal(carouselView.offsetAngle + ((float) d));
-                        CarouselView.this.performHapticFeedback(3);
-                    }
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        @Override // android.view.GestureDetector.OnGestureListener
-        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-            double atan2 = Math.atan2(motionEvent2.getX() - CarouselView.this.cX, motionEvent2.getY() - CarouselView.this.cY);
-            double d = this.lastAngle - atan2;
-            this.lastAngle = atan2;
-            CarouselView carouselView = CarouselView.this;
-            double d2 = carouselView.offsetAngle;
-            double degrees = Math.toDegrees(d);
-            Double.isNaN(d2);
-            carouselView.offsetAngle = (float) (d2 + degrees);
-            CarouselView.this.checkSelectedHaptic();
-            CarouselView.this.invalidate();
-            return true;
-        }
-
-        @Override // android.view.GestureDetector.OnGestureListener
-        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-            double d;
-            double d2;
-            CarouselView carouselView = CarouselView.this;
-            carouselView.lastFlingY = 0.0f;
-            carouselView.lastFlingX = 0.0f;
-            double atan2 = Math.atan2(motionEvent2.getX() - CarouselView.this.cX, motionEvent2.getY() - CarouselView.this.cY);
-            double cos = Math.cos(atan2);
-            Double.isNaN(f);
-            double sin = Math.sin(atan2);
-            Double.isNaN(f2);
-            CarouselView.this.overScroller.fling(0, 0, (int) ((cos * d) - (sin * d2)), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
-            if (CarouselView.this.overScroller.isFinished()) {
-                CarouselView.this.scheduleAutoscroll();
-            }
-            CarouselView.this.invalidate();
-            return true;
-        }
-    }
-
     public void checkSelectedHaptic() {
         int size = (int) (this.offsetAngle / (360.0f / this.drawingObjects.size()));
         if (this.lastSelected != size) {
@@ -221,7 +204,7 @@ public class CarouselView extends View implements PagerHeaderView {
         }
     }
 
-    public void scrollToInternal(float f) {
+    public void scrollToInternal(final float f) {
         if (Math.abs(f - this.offsetAngle) >= 1.0f || this.autoScrollAnimation != null) {
             AndroidUtilities.cancelRunOnUIThread(this.autoScrollRunnable);
             ValueAnimator valueAnimator = this.autoScrollAnimation;
@@ -230,10 +213,15 @@ public class CarouselView extends View implements PagerHeaderView {
                 this.autoScrollAnimation.cancel();
                 this.autoScrollAnimation = null;
             }
-            float f2 = this.offsetAngle;
+            final float f2 = this.offsetAngle;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.autoScrollAnimation = ofFloat;
-            ofFloat.addUpdateListener(new CarouselView$$ExternalSyntheticLambda0(this, f2, f));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.CarouselView$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    CarouselView.this.lambda$scrollToInternal$2(f2, f, valueAnimator2);
+                }
+            });
             this.autoScrollAnimation.addListener(new AnonymousClass3(f));
             this.autoScrollAnimation.setInterpolator(new OvershootInterpolator());
             this.autoScrollAnimation.setDuration(600L);
@@ -263,7 +251,12 @@ public class CarouselView extends View implements PagerHeaderView {
             carouselView.offsetAngle = this.val$scrollTo;
             carouselView.autoScrollAnimation = null;
             carouselView.invalidate();
-            AndroidUtilities.runOnUIThread(new CarouselView$3$$ExternalSyntheticLambda0(this));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.CarouselView$3$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    CarouselView.AnonymousClass3.this.lambda$onAnimationEnd$0();
+                }
+            });
         }
 
         public /* synthetic */ void lambda$onAnimationEnd$0() {

@@ -45,7 +45,8 @@ public class ViewCompat {
 
     static {
         new AtomicInteger(1);
-        new AnonymousClass1();
+        new Object() { // from class: androidx.core.view.ViewCompat.1
+        };
         new AccessibilityPaneVisibilityManager();
     }
 
@@ -348,13 +349,6 @@ public class ViewCompat {
         return Api21Impl.getRootWindowInsets(view);
     }
 
-    /* renamed from: androidx.core.view.ViewCompat$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 {
-        AnonymousClass1() {
-        }
-    }
-
     public static boolean hasOverlappingRendering(View view) {
         if (Build.VERSION.SDK_INT >= 16) {
             return view.hasOverlappingRendering();
@@ -430,83 +424,59 @@ public class ViewCompat {
         return bool.booleanValue();
     }
 
-    /* renamed from: androidx.core.view.ViewCompat$2 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass2 extends AccessibilityViewProperty<Boolean> {
-        AnonymousClass2(int tagKey, Class type, int frameworkMinimumSdk) {
-            super(tagKey, type, frameworkMinimumSdk);
-        }
-
-        @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-        public Boolean frameworkGet(View view) {
-            return Boolean.valueOf(view.isScreenReaderFocusable());
-        }
-
-        public void frameworkSet(View view, Boolean value) {
-            view.setScreenReaderFocusable(value.booleanValue());
-        }
-
-        public boolean shouldUpdate(Boolean oldValue, Boolean newValue) {
-            return !booleanNullToFalseEquals(oldValue, newValue);
-        }
-    }
-
     private static AccessibilityViewProperty<Boolean> screenReaderFocusableProperty() {
-        return new AnonymousClass2(R$id.tag_screen_reader_focusable, Boolean.class, 28);
+        return new AccessibilityViewProperty<Boolean>(R$id.tag_screen_reader_focusable, Boolean.class, 28) { // from class: androidx.core.view.ViewCompat.2
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
+            public Boolean frameworkGet(View view) {
+                return Boolean.valueOf(view.isScreenReaderFocusable());
+            }
+
+            public void frameworkSet(View view, Boolean value) {
+                view.setScreenReaderFocusable(value.booleanValue());
+            }
+
+            public boolean shouldUpdate(Boolean oldValue, Boolean newValue) {
+                return !booleanNullToFalseEquals(oldValue, newValue);
+            }
+        };
     }
 
     public static CharSequence getAccessibilityPaneTitle(View view) {
         return paneTitleProperty().get(view);
     }
 
-    /* renamed from: androidx.core.view.ViewCompat$3 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass3 extends AccessibilityViewProperty<CharSequence> {
-        AnonymousClass3(int tagKey, Class type, int contentChangeType, int frameworkMinimumSdk) {
-            super(tagKey, type, contentChangeType, frameworkMinimumSdk);
-        }
-
-        @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-        public CharSequence frameworkGet(View view) {
-            return view.getAccessibilityPaneTitle();
-        }
-
-        public void frameworkSet(View view, CharSequence value) {
-            view.setAccessibilityPaneTitle(value);
-        }
-
-        public boolean shouldUpdate(CharSequence oldValue, CharSequence newValue) {
-            return !TextUtils.equals(oldValue, newValue);
-        }
-    }
-
     private static AccessibilityViewProperty<CharSequence> paneTitleProperty() {
-        return new AnonymousClass3(R$id.tag_accessibility_pane_title, CharSequence.class, 8, 28);
-    }
+        return new AccessibilityViewProperty<CharSequence>(R$id.tag_accessibility_pane_title, CharSequence.class, 8, 28) { // from class: androidx.core.view.ViewCompat.3
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
+            public CharSequence frameworkGet(View view) {
+                return view.getAccessibilityPaneTitle();
+            }
 
-    /* renamed from: androidx.core.view.ViewCompat$4 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass4 extends AccessibilityViewProperty<CharSequence> {
-        AnonymousClass4(int tagKey, Class type, int contentChangeType, int frameworkMinimumSdk) {
-            super(tagKey, type, contentChangeType, frameworkMinimumSdk);
-        }
+            public void frameworkSet(View view, CharSequence value) {
+                view.setAccessibilityPaneTitle(value);
+            }
 
-        @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-        public CharSequence frameworkGet(View view) {
-            return view.getStateDescription();
-        }
-
-        public void frameworkSet(View view, CharSequence value) {
-            view.setStateDescription(value);
-        }
-
-        public boolean shouldUpdate(CharSequence oldValue, CharSequence newValue) {
-            return !TextUtils.equals(oldValue, newValue);
-        }
+            public boolean shouldUpdate(CharSequence oldValue, CharSequence newValue) {
+                return !TextUtils.equals(oldValue, newValue);
+            }
+        };
     }
 
     private static AccessibilityViewProperty<CharSequence> stateDescriptionProperty() {
-        return new AnonymousClass4(R$id.tag_state_description, CharSequence.class, 64, 30);
+        return new AccessibilityViewProperty<CharSequence>(R$id.tag_state_description, CharSequence.class, 64, 30) { // from class: androidx.core.view.ViewCompat.4
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
+            public CharSequence frameworkGet(View view) {
+                return view.getStateDescription();
+            }
+
+            public void frameworkSet(View view, CharSequence value) {
+                view.setStateDescription(value);
+            }
+
+            public boolean shouldUpdate(CharSequence oldValue, CharSequence newValue) {
+                return !TextUtils.equals(oldValue, newValue);
+            }
+        };
     }
 
     public static boolean isAccessibilityHeading(View view) {
@@ -521,29 +491,21 @@ public class ViewCompat {
         accessibilityHeadingProperty().set(view, Boolean.valueOf(isHeading));
     }
 
-    /* renamed from: androidx.core.view.ViewCompat$5 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass5 extends AccessibilityViewProperty<Boolean> {
-        AnonymousClass5(int tagKey, Class type, int frameworkMinimumSdk) {
-            super(tagKey, type, frameworkMinimumSdk);
-        }
-
-        @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-        public Boolean frameworkGet(View view) {
-            return Boolean.valueOf(view.isAccessibilityHeading());
-        }
-
-        public void frameworkSet(View view, Boolean value) {
-            view.setAccessibilityHeading(value.booleanValue());
-        }
-
-        public boolean shouldUpdate(Boolean oldValue, Boolean newValue) {
-            return !booleanNullToFalseEquals(oldValue, newValue);
-        }
-    }
-
     private static AccessibilityViewProperty<Boolean> accessibilityHeadingProperty() {
-        return new AnonymousClass5(R$id.tag_accessibility_heading, Boolean.class, 28);
+        return new AccessibilityViewProperty<Boolean>(R$id.tag_accessibility_heading, Boolean.class, 28) { // from class: androidx.core.view.ViewCompat.5
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
+            public Boolean frameworkGet(View view) {
+                return Boolean.valueOf(view.isAccessibilityHeading());
+            }
+
+            public void frameworkSet(View view, Boolean value) {
+                view.setAccessibilityHeading(value.booleanValue());
+            }
+
+            public boolean shouldUpdate(Boolean oldValue, Boolean newValue) {
+                return !booleanNullToFalseEquals(oldValue, newValue);
+            }
+        };
     }
 
     /* loaded from: classes.dex */
@@ -840,39 +802,28 @@ public class ViewCompat {
             if (listener == null) {
                 v.setOnApplyWindowInsetsListener((View.OnApplyWindowInsetsListener) v.getTag(R$id.tag_window_insets_animation_callback));
             } else {
-                v.setOnApplyWindowInsetsListener(new AnonymousClass1(v, listener));
-            }
-        }
+                v.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: androidx.core.view.ViewCompat.Api21Impl.1
+                    WindowInsetsCompat mLastInsets = null;
 
-        /* renamed from: androidx.core.view.ViewCompat$Api21Impl$1 */
-        /* loaded from: classes.dex */
-        public class AnonymousClass1 implements View.OnApplyWindowInsetsListener {
-            WindowInsetsCompat mLastInsets = null;
-            final /* synthetic */ OnApplyWindowInsetsListener val$listener;
-            final /* synthetic */ View val$v;
-
-            AnonymousClass1(final View val$v, final OnApplyWindowInsetsListener val$listener) {
-                this.val$v = val$v;
-                this.val$listener = val$listener;
-            }
-
-            @Override // android.view.View.OnApplyWindowInsetsListener
-            public WindowInsets onApplyWindowInsets(final View view, final WindowInsets insets) {
-                WindowInsetsCompat windowInsetsCompat = WindowInsetsCompat.toWindowInsetsCompat(insets, view);
-                int i = Build.VERSION.SDK_INT;
-                if (i < 30) {
-                    Api21Impl.callCompatInsetAnimationCallback(insets, this.val$v);
-                    if (windowInsetsCompat.equals(this.mLastInsets)) {
-                        return this.val$listener.onApplyWindowInsets(view, windowInsetsCompat).toWindowInsets();
+                    @Override // android.view.View.OnApplyWindowInsetsListener
+                    public WindowInsets onApplyWindowInsets(final View view, final WindowInsets insets) {
+                        WindowInsetsCompat windowInsetsCompat = WindowInsetsCompat.toWindowInsetsCompat(insets, view);
+                        int i = Build.VERSION.SDK_INT;
+                        if (i < 30) {
+                            Api21Impl.callCompatInsetAnimationCallback(insets, v);
+                            if (windowInsetsCompat.equals(this.mLastInsets)) {
+                                return listener.onApplyWindowInsets(view, windowInsetsCompat).toWindowInsets();
+                            }
+                        }
+                        this.mLastInsets = windowInsetsCompat;
+                        WindowInsetsCompat onApplyWindowInsets = listener.onApplyWindowInsets(view, windowInsetsCompat);
+                        if (i >= 30) {
+                            return onApplyWindowInsets.toWindowInsets();
+                        }
+                        ViewCompat.requestApplyInsets(view);
+                        return onApplyWindowInsets.toWindowInsets();
                     }
-                }
-                this.mLastInsets = windowInsetsCompat;
-                WindowInsetsCompat onApplyWindowInsets = this.val$listener.onApplyWindowInsets(view, windowInsetsCompat);
-                if (i >= 30) {
-                    return onApplyWindowInsets.toWindowInsets();
-                }
-                ViewCompat.requestApplyInsets(view);
-                return onApplyWindowInsets.toWindowInsets();
+                });
             }
         }
 

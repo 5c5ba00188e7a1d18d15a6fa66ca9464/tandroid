@@ -18,6 +18,7 @@ public class Frame {
     @Nullable
     private Bitmap zzd;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     public static class zza {

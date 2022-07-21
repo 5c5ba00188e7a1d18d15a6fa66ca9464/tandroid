@@ -12,7 +12,12 @@ public class MessageEnterTransitionContainer extends View {
     private final int currentAccount;
     private final ViewGroup parent;
     private ArrayList<Transition> transitions = new ArrayList<>();
-    Runnable hideRunnable = new MessageEnterTransitionContainer$$ExternalSyntheticLambda0(this);
+    Runnable hideRunnable = new Runnable() { // from class: org.telegram.ui.MessageEnterTransitionContainer$$ExternalSyntheticLambda0
+        @Override // java.lang.Runnable
+        public final void run() {
+            MessageEnterTransitionContainer.this.lambda$new$0();
+        }
+    };
 
     /* loaded from: classes3.dex */
     public interface Transition {

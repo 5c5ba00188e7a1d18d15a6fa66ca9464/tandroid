@@ -14,8 +14,8 @@ public class CrashHianalyticsData extends HianalyticsBaseData {
     public static final String TIME = "time";
 
     public CrashHianalyticsData() {
-        put("time", "" + System.currentTimeMillis());
-        put("process_id", "" + Process.myPid());
-        put("thread_id", "" + Process.myTid());
+        put(TIME, "" + System.currentTimeMillis());
+        put(PROCESS_ID, "" + Process.myPid());
+        put(THREAD_ID, "" + Process.myTid());
     }
 }

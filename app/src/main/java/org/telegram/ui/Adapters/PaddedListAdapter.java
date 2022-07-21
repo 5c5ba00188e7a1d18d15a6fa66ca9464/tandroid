@@ -1,6 +1,5 @@
 package org.telegram.ui.Adapters;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,10 +20,40 @@ public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     public PaddedListAdapter(RecyclerListView.SelectionAdapter selectionAdapter) {
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2();
-        this.mDataObserver = anonymousClass2;
+        RecyclerView.AdapterDataObserver adapterDataObserver = new RecyclerView.AdapterDataObserver() { // from class: org.telegram.ui.Adapters.PaddedListAdapter.2
+            @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+            public void onChanged() {
+                super.onChanged();
+                PaddedListAdapter.this.notifyDataSetChanged();
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+            public void onItemRangeChanged(int i, int i2) {
+                super.onItemRangeChanged(i, i2);
+                PaddedListAdapter.this.notifyItemRangeChanged(i + 1, i2);
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+            public void onItemRangeInserted(int i, int i2) {
+                super.onItemRangeInserted(i, i2);
+                PaddedListAdapter.this.notifyItemRangeInserted(i + 1, i2);
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+            public void onItemRangeRemoved(int i, int i2) {
+                super.onItemRangeRemoved(i, i2);
+                PaddedListAdapter.this.notifyItemRangeRemoved(i + 1, i2);
+            }
+
+            @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+            public void onItemRangeMoved(int i, int i2, int i3) {
+                super.onItemRangeMoved(i, i2, i3);
+                PaddedListAdapter.this.notifyItemRangeChanged(i + 1, i2 + 1 + i3);
+            }
+        };
+        this.mDataObserver = adapterDataObserver;
         this.wrappedAdapter = selectionAdapter;
-        selectionAdapter.registerAdapterDataObserver(anonymousClass2);
+        selectionAdapter.registerAdapterDataObserver(adapterDataObserver);
     }
 
     @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -64,39 +93,29 @@ public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
         return this.lastPadding;
     }
 
-    /* renamed from: org.telegram.ui.Adapters.PaddedListAdapter$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends View {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context) {
-            super(context);
-            PaddedListAdapter.this = r1;
-        }
-
-        @Override // android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(PaddedListAdapter.this.getPadding(((View) getParent()).getMeasuredHeight()), 1073741824));
-        }
-
-        @Override // android.view.View
-        protected void onAttachedToWindow() {
-            super.onAttachedToWindow();
-            PaddedListAdapter.this.paddingViewAttached = true;
-        }
-
-        @Override // android.view.View
-        protected void onDetachedFromWindow() {
-            super.onDetachedFromWindow();
-            PaddedListAdapter.this.paddingViewAttached = false;
-        }
-    }
-
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if (i == -983904) {
-            AnonymousClass1 anonymousClass1 = new AnonymousClass1(viewGroup.getContext());
-            this.paddingView = anonymousClass1;
-            return new RecyclerListView.Holder(anonymousClass1);
+            View view = new View(viewGroup.getContext()) { // from class: org.telegram.ui.Adapters.PaddedListAdapter.1
+                @Override // android.view.View
+                protected void onMeasure(int i2, int i3) {
+                    super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(PaddedListAdapter.this.getPadding(((View) getParent()).getMeasuredHeight()), 1073741824));
+                }
+
+                @Override // android.view.View
+                protected void onAttachedToWindow() {
+                    super.onAttachedToWindow();
+                    PaddedListAdapter.this.paddingViewAttached = true;
+                }
+
+                @Override // android.view.View
+                protected void onDetachedFromWindow() {
+                    super.onDetachedFromWindow();
+                    PaddedListAdapter.this.paddingViewAttached = false;
+                }
+            };
+            this.paddingView = view;
+            return new RecyclerListView.Holder(view);
         }
         return this.wrappedAdapter.onCreateViewHolder(viewGroup, i);
     }
@@ -119,44 +138,5 @@ public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public int getItemCount() {
         return this.wrappedAdapter.getItemCount() + 1;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Adapters.PaddedListAdapter$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends RecyclerView.AdapterDataObserver {
-        AnonymousClass2() {
-            PaddedListAdapter.this = r1;
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-        public void onChanged() {
-            super.onChanged();
-            PaddedListAdapter.this.notifyDataSetChanged();
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-        public void onItemRangeChanged(int i, int i2) {
-            super.onItemRangeChanged(i, i2);
-            PaddedListAdapter.this.notifyItemRangeChanged(i + 1, i2);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-        public void onItemRangeInserted(int i, int i2) {
-            super.onItemRangeInserted(i, i2);
-            PaddedListAdapter.this.notifyItemRangeInserted(i + 1, i2);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-        public void onItemRangeRemoved(int i, int i2) {
-            super.onItemRangeRemoved(i, i2);
-            PaddedListAdapter.this.notifyItemRangeRemoved(i + 1, i2);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-        public void onItemRangeMoved(int i, int i2, int i3) {
-            super.onItemRangeMoved(i, i2, i3);
-            PaddedListAdapter.this.notifyItemRangeChanged(i + 1, i2 + 1 + i3);
-        }
     }
 }

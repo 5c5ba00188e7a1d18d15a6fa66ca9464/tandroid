@@ -10,8 +10,18 @@ public final class ContactsLoadingObserver {
     private final int currentAccount;
     private final NotificationCenter notificationCenter;
     private boolean released;
-    private final NotificationCenter.NotificationCenterDelegate observer = new ContactsLoadingObserver$$ExternalSyntheticLambda1(this);
-    private final Runnable releaseRunnable = new ContactsLoadingObserver$$ExternalSyntheticLambda0(this);
+    private final NotificationCenter.NotificationCenterDelegate observer = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.messenger.ContactsLoadingObserver$$ExternalSyntheticLambda1
+        @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+        public final void didReceivedNotification(int i, int i2, Object[] objArr) {
+            ContactsLoadingObserver.this.lambda$new$0(i, i2, objArr);
+        }
+    };
+    private final Runnable releaseRunnable = new Runnable() { // from class: org.telegram.messenger.ContactsLoadingObserver$$ExternalSyntheticLambda0
+        @Override // java.lang.Runnable
+        public final void run() {
+            ContactsLoadingObserver.this.lambda$new$1();
+        }
+    };
     private final Handler handler = new Handler(Looper.myLooper());
 
     /* loaded from: classes.dex */

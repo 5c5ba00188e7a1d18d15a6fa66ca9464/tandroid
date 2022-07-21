@@ -167,36 +167,28 @@ public class NumberPicker extends LinearLayout {
         this.mAdjustScroller = new Scroller(getContext(), new DecelerateInterpolator(2.5f));
         updateInputTextView();
         setImportantForAccessibility(1);
-        setAccessibilityDelegate(new AnonymousClass1());
-    }
+        setAccessibilityDelegate(new SeekBarAccessibilityDelegate() { // from class: org.telegram.ui.Components.NumberPicker.1
+            @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
+            protected boolean canScrollBackward(View view) {
+                return true;
+            }
 
-    /* renamed from: org.telegram.ui.Components.NumberPicker$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends SeekBarAccessibilityDelegate {
-        @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-        protected boolean canScrollBackward(View view) {
-            return true;
-        }
+            @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
+            protected boolean canScrollForward(View view) {
+                return true;
+            }
 
-        @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-        protected boolean canScrollForward(View view) {
-            return true;
-        }
+            @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
+            protected void doScroll(View view, boolean z) {
+                NumberPicker.this.changeValueByOne(!z);
+            }
 
-        AnonymousClass1() {
-            NumberPicker.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-        protected void doScroll(View view, boolean z) {
-            NumberPicker.this.changeValueByOne(!z);
-        }
-
-        @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-        public CharSequence getContentDescription(View view) {
-            NumberPicker numberPicker = NumberPicker.this;
-            return numberPicker.getContentDescription(numberPicker.mValue);
-        }
+            @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
+            public CharSequence getContentDescription(View view) {
+                NumberPicker numberPicker = NumberPicker.this;
+                return numberPicker.getContentDescription(numberPicker.mValue);
+            }
+        });
     }
 
     protected CharSequence getContentDescription(int i) {

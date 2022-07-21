@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.telegram.messenger.audioinfo.AudioInfo;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class ID3v1Info extends AudioInfo {
     public static boolean isID3v1StartPosition(InputStream inputStream) throws IOException {
@@ -26,7 +27,7 @@ public class ID3v1Info extends AudioInfo {
     public ID3v1Info(InputStream inputStream) throws IOException {
         if (isID3v1StartPosition(inputStream)) {
             this.brand = "ID3";
-            byte[] readBytes = readBytes(inputStream, 128);
+            byte[] readBytes = readBytes(inputStream, ConnectionsManager.RequestFlagNeedQuickAck);
             this.title = extractString(readBytes, 3, 30);
             this.artist = extractString(readBytes, 33, 30);
             this.album = extractString(readBytes, 63, 30);

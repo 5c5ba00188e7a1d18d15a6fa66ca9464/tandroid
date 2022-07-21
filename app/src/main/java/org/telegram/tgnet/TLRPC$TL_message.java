@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import android.text.TextUtils;
+import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public class TLRPC$TL_message extends TLRPC$Message {
     public static int constructor = 940666592;
@@ -18,7 +19,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         this.legacy = (524288 & readInt32) != 0;
         this.edit_hide = (2097152 & readInt32) != 0;
         this.pinned = (16777216 & readInt32) != 0;
-        this.noforwards = (readInt32 & 67108864) != 0;
+        this.noforwards = (readInt32 & ConnectionsManager.FileTypeFile) != 0;
         this.id = abstractSerializedData.readInt32(z);
         if ((this.flags & 256) != 0) {
             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
@@ -48,7 +49,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         if ((this.flags & 64) != 0) {
             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & 128) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             int readInt322 = abstractSerializedData.readInt32(z);
             if (readInt322 != 481674261) {
                 if (z) {
@@ -77,7 +78,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         if ((this.flags & 32768) != 0) {
             this.edit_date = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 65536) != 0) {
+        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
             this.post_author = abstractSerializedData.readString(z);
         }
         if ((this.flags & 131072) != 0) {
@@ -103,7 +104,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
                 this.restriction_reason.add(TLdeserialize3);
             }
         }
-        if ((this.flags & 33554432) != 0) {
+        if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
             this.ttl_period = abstractSerializedData.readInt32(z);
         }
     }
@@ -127,9 +128,9 @@ public class TLRPC$TL_message extends TLRPC$Message {
         this.flags = i7;
         int i8 = this.edit_hide ? i7 | 2097152 : i7 & (-2097153);
         this.flags = i8;
-        int i9 = this.pinned ? i8 | 16777216 : i8 & (-16777217);
+        int i9 = this.pinned ? i8 | ConnectionsManager.FileTypePhoto : i8 & (-16777217);
         this.flags = i9;
-        int i10 = this.noforwards ? i9 | 67108864 : i9 & (-67108865);
+        int i10 = this.noforwards ? i9 | ConnectionsManager.FileTypeFile : i9 & (-67108865);
         this.flags = i10;
         abstractSerializedData.writeInt32(i10);
         abstractSerializedData.writeInt32(this.id);
@@ -154,7 +155,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         if ((this.flags & 64) != 0) {
             this.reply_markup.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & 128) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             abstractSerializedData.writeInt32(481674261);
             int size = this.entities.size();
             abstractSerializedData.writeInt32(size);
@@ -174,7 +175,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         if ((this.flags & 32768) != 0) {
             abstractSerializedData.writeInt32(this.edit_date);
         }
-        if ((this.flags & 65536) != 0) {
+        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
             abstractSerializedData.writeString(this.post_author);
         }
         if ((this.flags & 131072) != 0) {
@@ -191,7 +192,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
                 this.restriction_reason.get(i12).serializeToStream(abstractSerializedData);
             }
         }
-        if ((this.flags & 33554432) != 0) {
+        if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
             abstractSerializedData.writeInt32(this.ttl_period);
         }
         writeAttachPath(abstractSerializedData);

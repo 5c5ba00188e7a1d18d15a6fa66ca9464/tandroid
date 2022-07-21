@@ -25,6 +25,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SvgHelper;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
@@ -73,7 +74,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
                 this.textView[i].setGravity(17);
                 if (this.hasBackground) {
                     this.textView[i].setTextColor(Theme.getColor("featuredStickers_buttonText"));
-                    this.textView[i].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                    this.textView[i].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 } else {
                     this.textView[i].setTextColor(Theme.getColor("featuredStickers_addButton"));
                 }
@@ -102,24 +103,16 @@ public class UpdateAppAlertDialog extends BottomSheet {
             animatorSet.setDuration(180L);
             animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT);
             animatorSet.playTogether(ObjectAnimator.ofFloat(this.textView[0], View.ALPHA, 1.0f, 0.0f), ObjectAnimator.ofFloat(this.textView[0], View.TRANSLATION_Y, 0.0f, -AndroidUtilities.dp(10.0f)), ObjectAnimator.ofFloat(this.textView[1], View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.textView[1], View.TRANSLATION_Y, AndroidUtilities.dp(10.0f), 0.0f));
-            animatorSet.addListener(new AnonymousClass1());
+            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.UpdateAppAlertDialog.BottomSheetCell.1
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    UpdateAppAlertDialog.this.animationInProgress = false;
+                    TextView textView = BottomSheetCell.this.textView[0];
+                    BottomSheetCell.this.textView[0] = BottomSheetCell.this.textView[1];
+                    BottomSheetCell.this.textView[1] = textView;
+                }
+            });
             animatorSet.start();
-        }
-
-        /* renamed from: org.telegram.ui.Components.UpdateAppAlertDialog$BottomSheetCell$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends AnimatorListenerAdapter {
-            AnonymousClass1() {
-                BottomSheetCell.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                UpdateAppAlertDialog.this.animationInProgress = false;
-                TextView textView = BottomSheetCell.this.textView[0];
-                BottomSheetCell.this.textView[0] = BottomSheetCell.this.textView[1];
-                BottomSheetCell.this.textView[1] = textView;
-            }
         }
     }
 
@@ -130,19 +123,87 @@ public class UpdateAppAlertDialog extends BottomSheet {
         setCanceledOnTouchOutside(false);
         setApplyTopPadding(false);
         setApplyBottomPadding(false);
-        Drawable mutate = context.getResources().getDrawable(2131166143).mutate();
+        Drawable mutate = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
-        anonymousClass1.setWillNotDraw(false);
-        this.containerView = anonymousClass1;
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-        this.scrollView = anonymousClass2;
-        anonymousClass2.setFillViewport(true);
+        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.UpdateAppAlertDialog.1
+            @Override // android.view.View
+            public void setTranslationY(float f) {
+                super.setTranslationY(f);
+                UpdateAppAlertDialog.this.updateLayout();
+            }
+
+            @Override // android.view.ViewGroup
+            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                if (motionEvent.getAction() == 0 && UpdateAppAlertDialog.this.scrollOffsetY != 0 && motionEvent.getY() < UpdateAppAlertDialog.this.scrollOffsetY) {
+                    UpdateAppAlertDialog.this.dismiss();
+                    return true;
+                }
+                return super.onInterceptTouchEvent(motionEvent);
+            }
+
+            @Override // android.view.View
+            public boolean onTouchEvent(MotionEvent motionEvent) {
+                return !UpdateAppAlertDialog.this.isDismissed() && super.onTouchEvent(motionEvent);
+            }
+
+            @Override // android.view.View
+            protected void onDraw(Canvas canvas) {
+                UpdateAppAlertDialog.this.shadowDrawable.setBounds(0, (int) ((UpdateAppAlertDialog.this.scrollOffsetY - ((BottomSheet) UpdateAppAlertDialog.this).backgroundPaddingTop) - getTranslationY()), getMeasuredWidth(), getMeasuredHeight());
+                UpdateAppAlertDialog.this.shadowDrawable.draw(canvas);
+            }
+        };
+        frameLayout.setWillNotDraw(false);
+        this.containerView = frameLayout;
+        NestedScrollView nestedScrollView = new NestedScrollView(context) { // from class: org.telegram.ui.Components.UpdateAppAlertDialog.2
+            private boolean ignoreLayout;
+
+            @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.View
+            public void onMeasure(int i2, int i3) {
+                int size = View.MeasureSpec.getSize(i3);
+                measureChildWithMargins(UpdateAppAlertDialog.this.linearLayout, i2, 0, i3, 0);
+                int measuredHeight = UpdateAppAlertDialog.this.linearLayout.getMeasuredHeight();
+                int i4 = (size / 5) * 2;
+                if (measuredHeight - (size - i4) < AndroidUtilities.dp(90.0f) || measuredHeight < (size / 2) + AndroidUtilities.dp(90.0f)) {
+                    i4 = size - measuredHeight;
+                }
+                if (i4 < 0) {
+                    i4 = 0;
+                }
+                if (getPaddingTop() != i4) {
+                    this.ignoreLayout = true;
+                    setPadding(0, i4, 0, 0);
+                    this.ignoreLayout = false;
+                }
+                super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+            }
+
+            @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                super.onLayout(z, i2, i3, i4, i5);
+                UpdateAppAlertDialog.this.updateLayout();
+            }
+
+            @Override // androidx.core.widget.NestedScrollView, android.view.View, android.view.ViewParent
+            public void requestLayout() {
+                if (this.ignoreLayout) {
+                    return;
+                }
+                super.requestLayout();
+            }
+
+            @Override // androidx.core.widget.NestedScrollView, android.view.View
+            public void onScrollChanged(int i2, int i3, int i4, int i5) {
+                super.onScrollChanged(i2, i3, i4, i5);
+                UpdateAppAlertDialog.this.updateLayout();
+            }
+        };
+        this.scrollView = nestedScrollView;
+        nestedScrollView.setFillViewport(true);
         this.scrollView.setWillNotDraw(false);
         this.scrollView.setClipToPadding(false);
         this.scrollView.setVerticalScrollBarEnabled(false);
-        anonymousClass1.addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 130.0f));
+        frameLayout.addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 130.0f));
         LinearLayout linearLayout = new LinearLayout(context);
         this.linearLayout = linearLayout;
         linearLayout.setOrientation(1);
@@ -159,12 +220,12 @@ public class UpdateAppAlertDialog extends BottomSheet {
             this.linearLayout.addView(backupImageView, LayoutHelper.createLinear(160, 160, 49, 17, 8, 17, 0));
         }
         TextView textView = new TextView(context);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView.setTextSize(1, 20.0f);
         textView.setTextColor(Theme.getColor("dialogTextBlack"));
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
-        textView.setText(LocaleController.getString("AppUpdate", 2131624386));
+        textView.setText(LocaleController.getString("AppUpdate", R.string.AppUpdate));
         this.linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 49, 23, 16, 23, 0));
         TextView textView2 = new TextView(getContext());
         textView2.setTextColor(Theme.getColor("dialogTextGray3"));
@@ -172,7 +233,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
         textView2.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
         textView2.setLinkTextColor(Theme.getColor("dialogTextLink"));
         TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate2 = this.appUpdate;
-        textView2.setText(LocaleController.formatString("AppUpdateVersionAndSize", 2131624392, tLRPC$TL_help_appUpdate2.version, AndroidUtilities.formatFileSize(tLRPC$TL_help_appUpdate2.document.size)));
+        textView2.setText(LocaleController.formatString("AppUpdateVersionAndSize", R.string.AppUpdateVersionAndSize, tLRPC$TL_help_appUpdate2.version, AndroidUtilities.formatFileSize(tLRPC$TL_help_appUpdate2.document.size)));
         textView2.setGravity(49);
         this.linearLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 49, 23, 0, 23, 5));
         TextView textView3 = new TextView(getContext());
@@ -181,7 +242,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
         textView3.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
         textView3.setLinkTextColor(Theme.getColor("dialogTextLink"));
         if (TextUtils.isEmpty(this.appUpdate.text)) {
-            textView3.setText(AndroidUtilities.replaceTags(LocaleController.getString("AppUpdateChangelogEmpty", 2131624387)));
+            textView3.setText(AndroidUtilities.replaceTags(LocaleController.getString("AppUpdateChangelogEmpty", R.string.AppUpdateChangelogEmpty)));
         } else {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(this.appUpdate.text);
             MessageObject.addEntitiesToText(spannableStringBuilder, tLRPC$TL_help_appUpdate.entities, false, false, false, false);
@@ -196,103 +257,25 @@ public class UpdateAppAlertDialog extends BottomSheet {
         view.setBackgroundColor(Theme.getColor("dialogShadowLine"));
         this.shadow.setAlpha(0.0f);
         this.shadow.setTag(1);
-        anonymousClass1.addView(this.shadow, layoutParams);
+        frameLayout.addView(this.shadow, layoutParams);
         BottomSheetCell bottomSheetCell = new BottomSheetCell(context, false);
-        bottomSheetCell.setText(LocaleController.formatString("AppUpdateDownloadNow", 2131624388, new Object[0]), false);
-        bottomSheetCell.background.setOnClickListener(new UpdateAppAlertDialog$$ExternalSyntheticLambda0(this));
-        anonymousClass1.addView(bottomSheetCell, LayoutHelper.createFrame(-1, 50.0f, 83, 0.0f, 0.0f, 0.0f, 50.0f));
+        bottomSheetCell.setText(LocaleController.formatString("AppUpdateDownloadNow", R.string.AppUpdateDownloadNow, new Object[0]), false);
+        bottomSheetCell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.UpdateAppAlertDialog$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                UpdateAppAlertDialog.this.lambda$new$0(view2);
+            }
+        });
+        frameLayout.addView(bottomSheetCell, LayoutHelper.createFrame(-1, 50.0f, 83, 0.0f, 0.0f, 0.0f, 50.0f));
         BottomSheetCell bottomSheetCell2 = new BottomSheetCell(context, true);
-        bottomSheetCell2.setText(LocaleController.getString("AppUpdateRemindMeLater", 2131624391), false);
-        bottomSheetCell2.background.setOnClickListener(new UpdateAppAlertDialog$$ExternalSyntheticLambda1(this));
-        anonymousClass1.addView(bottomSheetCell2, LayoutHelper.createFrame(-1, 50.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
-    }
-
-    /* renamed from: org.telegram.ui.Components.UpdateAppAlertDialog$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends FrameLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context) {
-            super(context);
-            UpdateAppAlertDialog.this = r1;
-        }
-
-        @Override // android.view.View
-        public void setTranslationY(float f) {
-            super.setTranslationY(f);
-            UpdateAppAlertDialog.this.updateLayout();
-        }
-
-        @Override // android.view.ViewGroup
-        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            if (motionEvent.getAction() == 0 && UpdateAppAlertDialog.this.scrollOffsetY != 0 && motionEvent.getY() < UpdateAppAlertDialog.this.scrollOffsetY) {
-                UpdateAppAlertDialog.this.dismiss();
-                return true;
+        bottomSheetCell2.setText(LocaleController.getString("AppUpdateRemindMeLater", R.string.AppUpdateRemindMeLater), false);
+        bottomSheetCell2.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.UpdateAppAlertDialog$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                UpdateAppAlertDialog.this.lambda$new$1(view2);
             }
-            return super.onInterceptTouchEvent(motionEvent);
-        }
-
-        @Override // android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            return !UpdateAppAlertDialog.this.isDismissed() && super.onTouchEvent(motionEvent);
-        }
-
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            UpdateAppAlertDialog.this.shadowDrawable.setBounds(0, (int) ((UpdateAppAlertDialog.this.scrollOffsetY - ((BottomSheet) UpdateAppAlertDialog.this).backgroundPaddingTop) - getTranslationY()), getMeasuredWidth(), getMeasuredHeight());
-            UpdateAppAlertDialog.this.shadowDrawable.draw(canvas);
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.UpdateAppAlertDialog$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends NestedScrollView {
-        private boolean ignoreLayout;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            UpdateAppAlertDialog.this = r1;
-        }
-
-        @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.View
-        public void onMeasure(int i, int i2) {
-            int size = View.MeasureSpec.getSize(i2);
-            measureChildWithMargins(UpdateAppAlertDialog.this.linearLayout, i, 0, i2, 0);
-            int measuredHeight = UpdateAppAlertDialog.this.linearLayout.getMeasuredHeight();
-            int i3 = (size / 5) * 2;
-            if (measuredHeight - (size - i3) < AndroidUtilities.dp(90.0f) || measuredHeight < (size / 2) + AndroidUtilities.dp(90.0f)) {
-                i3 = size - measuredHeight;
-            }
-            if (i3 < 0) {
-                i3 = 0;
-            }
-            if (getPaddingTop() != i3) {
-                this.ignoreLayout = true;
-                setPadding(0, i3, 0, 0);
-                this.ignoreLayout = false;
-            }
-            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
-        }
-
-        @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            super.onLayout(z, i, i2, i3, i4);
-            UpdateAppAlertDialog.this.updateLayout();
-        }
-
-        @Override // androidx.core.widget.NestedScrollView, android.view.View, android.view.ViewParent
-        public void requestLayout() {
-            if (this.ignoreLayout) {
-                return;
-            }
-            super.requestLayout();
-        }
-
-        @Override // androidx.core.widget.NestedScrollView, android.view.View
-        public void onScrollChanged(int i, int i2, int i3, int i4) {
-            super.onScrollChanged(i, i2, i3, i4);
-            UpdateAppAlertDialog.this.updateLayout();
-        }
+        });
+        frameLayout.addView(bottomSheetCell2, LayoutHelper.createFrame(-1, 50.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
     }
 
     public /* synthetic */ void lambda$new$0(View view) {
@@ -304,7 +287,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
         dismiss();
     }
 
-    private void runShadowAnimation(int i, boolean z) {
+    private void runShadowAnimation(int i, final boolean z) {
         if ((!z || this.shadow.getTag() == null) && (z || this.shadow.getTag() != null)) {
             return;
         }
@@ -326,38 +309,27 @@ public class UpdateAppAlertDialog extends BottomSheet {
         animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
         animatorSet2.playTogether(animatorArr);
         this.shadowAnimation.setDuration(150L);
-        this.shadowAnimation.addListener(new AnonymousClass3(z));
+        this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.UpdateAppAlertDialog.3
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (UpdateAppAlertDialog.this.shadowAnimation == null || !UpdateAppAlertDialog.this.shadowAnimation.equals(animator)) {
+                    return;
+                }
+                if (!z) {
+                    UpdateAppAlertDialog.this.shadow.setVisibility(4);
+                }
+                UpdateAppAlertDialog.this.shadowAnimation = null;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationCancel(Animator animator) {
+                if (UpdateAppAlertDialog.this.shadowAnimation == null || !UpdateAppAlertDialog.this.shadowAnimation.equals(animator)) {
+                    return;
+                }
+                UpdateAppAlertDialog.this.shadowAnimation = null;
+            }
+        });
         this.shadowAnimation.start();
-    }
-
-    /* renamed from: org.telegram.ui.Components.UpdateAppAlertDialog$3 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$show;
-
-        AnonymousClass3(boolean z) {
-            UpdateAppAlertDialog.this = r1;
-            this.val$show = z;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (UpdateAppAlertDialog.this.shadowAnimation == null || !UpdateAppAlertDialog.this.shadowAnimation.equals(animator)) {
-                return;
-            }
-            if (!this.val$show) {
-                UpdateAppAlertDialog.this.shadow.setVisibility(4);
-            }
-            UpdateAppAlertDialog.this.shadowAnimation = null;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationCancel(Animator animator) {
-            if (UpdateAppAlertDialog.this.shadowAnimation == null || !UpdateAppAlertDialog.this.shadowAnimation.equals(animator)) {
-                return;
-            }
-            UpdateAppAlertDialog.this.shadowAnimation = null;
-        }
     }
 
     public void updateLayout() {

@@ -27,7 +27,20 @@ public abstract class TLRPC$DecryptedMessageAction extends TLObject {
                 tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionNoop();
                 break;
             case -860719551:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionTyping();
+                tLRPC$DecryptedMessageAction = new TLRPC$DecryptedMessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_decryptedMessageActionTyping
+                    public static int constructor = -860719551;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.action = TLRPC$SendMessageAction.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        this.action.serializeToStream(abstractSerializedData2);
+                    }
+                };
                 break;
             case -586814357:
                 tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionAbortKey();

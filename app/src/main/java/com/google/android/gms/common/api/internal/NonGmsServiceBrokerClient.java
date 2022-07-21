@@ -89,12 +89,38 @@ public final class NonGmsServiceBrokerClient implements ServiceConnection, Api.C
 
     @Override // android.content.ServiceConnection
     public final void onServiceConnected(@RecentlyNonNull ComponentName componentName, @RecentlyNonNull IBinder iBinder) {
-        this.zag.post(new zabs(this, iBinder));
+        this.zag.post(new Runnable(this, iBinder) { // from class: com.google.android.gms.common.api.internal.zabs
+            private final NonGmsServiceBrokerClient zaa;
+            private final IBinder zab;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zaa = this;
+                this.zab = iBinder;
+            }
+
+            @Override // java.lang.Runnable
+            public final void run() {
+                this.zaa.zaa(this.zab);
+            }
+        });
     }
 
     @Override // android.content.ServiceConnection
     public final void onServiceDisconnected(@RecentlyNonNull ComponentName componentName) {
-        this.zag.post(new zabt(this));
+        this.zag.post(new Runnable(this) { // from class: com.google.android.gms.common.api.internal.zabt
+            private final NonGmsServiceBrokerClient zaa;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.zaa = this;
+            }
+
+            @Override // java.lang.Runnable
+            public final void run() {
+                this.zaa.zaa();
+            }
+        });
     }
 
     @Override // com.google.android.gms.common.api.Api.Client

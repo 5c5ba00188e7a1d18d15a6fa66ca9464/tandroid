@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.CounterView;
 /* loaded from: classes3.dex */
 public class CounterView extends View {
     public CounterDrawable counterDrawable;
@@ -102,7 +103,7 @@ public class CounterView extends View {
                 this.circlePaint = paint;
                 paint.setColor(-16777216);
             }
-            this.textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.textPaint.setTextSize(AndroidUtilities.dp(13.0f));
         }
 
@@ -181,8 +182,30 @@ public class CounterView extends View {
                 this.countChangeProgress = 0.0f;
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.countAnimator = ofFloat;
-                ofFloat.addUpdateListener(new CounterView$CounterDrawable$$ExternalSyntheticLambda0(this));
-                this.countAnimator.addListener(new AnonymousClass1());
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.CounterView$CounterDrawable$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                        CounterView.CounterDrawable.this.lambda$setCount$0(valueAnimator3);
+                    }
+                });
+                this.countAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.CounterView.CounterDrawable.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        CounterDrawable counterDrawable = CounterDrawable.this;
+                        counterDrawable.countChangeProgress = 1.0f;
+                        counterDrawable.countOldLayout = null;
+                        CounterDrawable.this.countAnimationStableLayout = null;
+                        CounterDrawable.this.countAnimationInLayout = null;
+                        if (CounterDrawable.this.parent != null) {
+                            CounterDrawable counterDrawable2 = CounterDrawable.this;
+                            if (counterDrawable2.currentCount == 0 && counterDrawable2.updateVisibility) {
+                                counterDrawable2.parent.setVisibility(8);
+                            }
+                            CounterDrawable.this.parent.invalidate();
+                        }
+                        CounterDrawable.this.animationType = -1;
+                    }
+                });
                 if (this.currentCount <= 0) {
                     this.animationType = 0;
                     this.countAnimator.setDuration(220L);
@@ -240,31 +263,6 @@ public class CounterView extends View {
             View view = this.parent;
             if (view != null) {
                 view.invalidate();
-            }
-        }
-
-        /* renamed from: org.telegram.ui.Components.CounterView$CounterDrawable$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends AnimatorListenerAdapter {
-            AnonymousClass1() {
-                CounterDrawable.this = r1;
-            }
-
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                CounterDrawable counterDrawable = CounterDrawable.this;
-                counterDrawable.countChangeProgress = 1.0f;
-                counterDrawable.countOldLayout = null;
-                CounterDrawable.this.countAnimationStableLayout = null;
-                CounterDrawable.this.countAnimationInLayout = null;
-                if (CounterDrawable.this.parent != null) {
-                    CounterDrawable counterDrawable2 = CounterDrawable.this;
-                    if (counterDrawable2.currentCount == 0 && counterDrawable2.updateVisibility) {
-                        counterDrawable2.parent.setVisibility(8);
-                    }
-                    CounterDrawable.this.parent.invalidate();
-                }
-                CounterDrawable.this.animationType = -1;
             }
         }
 

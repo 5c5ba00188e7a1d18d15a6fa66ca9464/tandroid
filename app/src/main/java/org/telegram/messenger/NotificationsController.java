@@ -43,6 +43,8 @@ import androidx.core.content.LocusIdCompat;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
+import com.huawei.hms.adapter.internal.AvailableCode;
+import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -107,6 +109,7 @@ import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.ui.BubbleActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PopupNotificationActivity;
+import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
 public class NotificationsController extends BaseController {
     public static final String EXTRA_VOICE_REPLY = "extra_voice_reply";
@@ -187,10 +190,10 @@ public class NotificationsController extends BaseController {
         systemNotificationManager = null;
         if (Build.VERSION.SDK_INT >= 26 && ApplicationLoader.applicationContext != null) {
             notificationManager = NotificationManagerCompat.from(ApplicationLoader.applicationContext);
-            systemNotificationManager = (NotificationManager) ApplicationLoader.applicationContext.getSystemService("notification");
+            systemNotificationManager = (NotificationManager) ApplicationLoader.applicationContext.getSystemService(RemoteMessageConst.NOTIFICATION);
             checkOtherNotificationsChannel();
         }
-        audioManager = (AudioManager) ApplicationLoader.applicationContext.getSystemService("audio");
+        audioManager = (AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
         Instance = new NotificationsController[4];
         lockObjects = new Object[4];
         for (int i = 0; i < 4; i++) {
@@ -227,9 +230,9 @@ public class NotificationsController extends BaseController {
         this.showBadgeMuted = notificationsSettings.getBoolean("badgeNumberMuted", false);
         this.showBadgeMessages = notificationsSettings.getBoolean("badgeNumberMessages", true);
         notificationManager = NotificationManagerCompat.from(ApplicationLoader.applicationContext);
-        systemNotificationManager = (NotificationManager) ApplicationLoader.applicationContext.getSystemService("notification");
+        systemNotificationManager = (NotificationManager) ApplicationLoader.applicationContext.getSystemService(RemoteMessageConst.NOTIFICATION);
         try {
-            audioManager = (AudioManager) ApplicationLoader.applicationContext.getSystemService("audio");
+            audioManager = (AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -245,7 +248,12 @@ public class NotificationsController extends BaseController {
         } catch (Exception e3) {
             FileLog.e(e3);
         }
-        this.notificationDelayRunnable = new NotificationsController$$ExternalSyntheticLambda8(this);
+        this.notificationDelayRunnable = new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$new$0();
+            }
+        };
     }
 
     public /* synthetic */ void lambda$new$0() {
@@ -338,7 +346,12 @@ public class NotificationsController extends BaseController {
         this.popupMessages.clear();
         this.popupReplyMessages.clear();
         this.channelGroupsCreated = false;
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda11(this));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda11
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$cleanup$1();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$cleanup$1() {
@@ -403,12 +416,22 @@ public class NotificationsController extends BaseController {
         this.openedDialogId = j;
     }
 
-    public void setOpenedDialogId(long j) {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda22(this, j));
+    public void setOpenedDialogId(final long j) {
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda22
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$setOpenedDialogId$2(j);
+            }
+        });
     }
 
-    public void setOpenedInBubble(long j, boolean z) {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda37(this, z, j));
+    public void setOpenedInBubble(final long j, final boolean z) {
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda37
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$setOpenedInBubble$3(z, j);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$setOpenedInBubble$3(boolean z, long j) {
@@ -419,8 +442,13 @@ public class NotificationsController extends BaseController {
         }
     }
 
-    public void setLastOnlineFromOtherDevice(int i) {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda18(this, i));
+    public void setLastOnlineFromOtherDevice(final int i) {
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda18
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$setLastOnlineFromOtherDevice$4(i);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$setLastOnlineFromOtherDevice$4(int i) {
@@ -450,11 +478,16 @@ public class NotificationsController extends BaseController {
     }
 
     public void forceShowPopupForReply() {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda6(this));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$forceShowPopupForReply$6();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$forceShowPopupForReply$6() {
-        ArrayList arrayList = new ArrayList();
+        final ArrayList arrayList = new ArrayList();
         for (int i = 0; i < this.pushMessages.size(); i++) {
             MessageObject messageObject = this.pushMessages.get(i);
             long dialogId = messageObject.getDialogId();
@@ -466,7 +499,12 @@ public class NotificationsController extends BaseController {
         if (arrayList.isEmpty() || AndroidUtilities.needShowPasscode() || SharedConfig.isWaitingForPasscodeEnter) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda29(this, arrayList));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda29
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$forceShowPopupForReply$5(arrayList);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$forceShowPopupForReply$5(ArrayList arrayList) {
@@ -479,11 +517,17 @@ public class NotificationsController extends BaseController {
         ApplicationLoader.applicationContext.sendBroadcast(new Intent("android.intent.action.CLOSE_SYSTEM_DIALOGS"));
     }
 
-    public void removeDeletedMessagesFromNotifications(LongSparseArray<ArrayList<Integer>> longSparseArray) {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda25(this, longSparseArray, new ArrayList(0)));
+    public void removeDeletedMessagesFromNotifications(final LongSparseArray<ArrayList<Integer>> longSparseArray) {
+        final ArrayList arrayList = new ArrayList(0);
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda25
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$removeDeletedMessagesFromNotifications$9(longSparseArray, arrayList);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$removeDeletedMessagesFromNotifications$9(LongSparseArray longSparseArray, ArrayList arrayList) {
+    public /* synthetic */ void lambda$removeDeletedMessagesFromNotifications$9(LongSparseArray longSparseArray, final ArrayList arrayList) {
         Integer num;
         ArrayList arrayList2;
         Integer num2;
@@ -555,7 +599,12 @@ public class NotificationsController extends BaseController {
             num3 = num;
         }
         if (!arrayList.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda27(this, arrayList));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda27
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.this.lambda$removeDeletedMessagesFromNotifications$7(arrayList);
+                }
+            });
         }
         if (i != this.total_unread_count) {
             if (!this.notifyCheck) {
@@ -564,7 +613,13 @@ public class NotificationsController extends BaseController {
             } else {
                 scheduleNotificationDelay(this.lastOnlineFromOtherDevice > getConnectionsManager().getCurrentTime());
             }
-            AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda15(this, this.pushDialogs.size()));
+            final int size2 = this.pushDialogs.size();
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda15
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.this.lambda$removeDeletedMessagesFromNotifications$8(size2);
+                }
+            });
         }
         this.notifyCheck = false;
         if (this.showBadgeNumber) {
@@ -585,11 +640,17 @@ public class NotificationsController extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.dialogsUnreadCounterChanged, Integer.valueOf(i));
     }
 
-    public void removeDeletedHisoryFromNotifications(LongSparseIntArray longSparseIntArray) {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda35(this, longSparseIntArray, new ArrayList(0)));
+    public void removeDeletedHisoryFromNotifications(final LongSparseIntArray longSparseIntArray) {
+        final ArrayList arrayList = new ArrayList(0);
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda35
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$removeDeletedHisoryFromNotifications$12(longSparseIntArray, arrayList);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$removeDeletedHisoryFromNotifications$12(LongSparseIntArray longSparseIntArray, ArrayList arrayList) {
+    public /* synthetic */ void lambda$removeDeletedHisoryFromNotifications$12(LongSparseIntArray longSparseIntArray, final ArrayList arrayList) {
         boolean z;
         Integer num;
         int i = this.total_unread_count;
@@ -656,7 +717,12 @@ public class NotificationsController extends BaseController {
             num2 = num5;
         }
         if (arrayList.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda28(this, arrayList));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda28
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.this.lambda$removeDeletedHisoryFromNotifications$10(arrayList);
+                }
+            });
         }
         if (i != this.total_unread_count) {
             if (!this.notifyCheck) {
@@ -668,7 +734,13 @@ public class NotificationsController extends BaseController {
                 }
                 scheduleNotificationDelay(z);
             }
-            AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda19(this, this.pushDialogs.size()));
+            final int size = this.pushDialogs.size();
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda19
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.this.lambda$removeDeletedHisoryFromNotifications$11(size);
+                }
+            });
         }
         this.notifyCheck = false;
         if (this.showBadgeNumber) {
@@ -689,8 +761,14 @@ public class NotificationsController extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.dialogsUnreadCounterChanged, Integer.valueOf(i));
     }
 
-    public void processReadMessages(LongSparseIntArray longSparseIntArray, long j, int i, int i2, boolean z) {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda36(this, longSparseIntArray, new ArrayList(0), j, i2, i, z));
+    public void processReadMessages(final LongSparseIntArray longSparseIntArray, final long j, final int i, final int i2, final boolean z) {
+        final ArrayList arrayList = new ArrayList(0);
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda36
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$processReadMessages$14(longSparseIntArray, arrayList, j, i2, i, z);
+            }
+        });
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:52:0x00d7, code lost:
@@ -699,7 +777,7 @@ public class NotificationsController extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$processReadMessages$14(LongSparseIntArray longSparseIntArray, ArrayList arrayList, long j, int i, int i2, boolean z) {
+    public /* synthetic */ void lambda$processReadMessages$14(LongSparseIntArray longSparseIntArray, final ArrayList arrayList, long j, int i, int i2, boolean z) {
         int i3;
         int i4 = 1;
         if (longSparseIntArray != null) {
@@ -768,7 +846,12 @@ public class NotificationsController extends BaseController {
             }
         }
         if (!arrayList.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda30(this, arrayList));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda30
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.this.lambda$processReadMessages$13(arrayList);
+                }
+            });
         }
     }
 
@@ -821,12 +904,17 @@ public class NotificationsController extends BaseController {
         return i;
     }
 
-    public void processEditedMessages(LongSparseArray<ArrayList<MessageObject>> longSparseArray) {
+    public void processEditedMessages(final LongSparseArray<ArrayList<MessageObject>> longSparseArray) {
         if (longSparseArray.size() == 0) {
             return;
         }
         new ArrayList(0);
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda24(this, longSparseArray));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda24
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$processEditedMessages$15(longSparseArray);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$processEditedMessages$15(LongSparseArray longSparseArray) {
@@ -871,9 +959,15 @@ public class NotificationsController extends BaseController {
         }
     }
 
-    public void processNewMessages(ArrayList<MessageObject> arrayList, boolean z, boolean z2, CountDownLatch countDownLatch) {
+    public void processNewMessages(final ArrayList<MessageObject> arrayList, final boolean z, final boolean z2, final CountDownLatch countDownLatch) {
         if (!arrayList.isEmpty()) {
-            notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda33(this, arrayList, new ArrayList(0), z2, z, countDownLatch));
+            final ArrayList arrayList2 = new ArrayList(0);
+            notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda33
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.this.lambda$processNewMessages$18(arrayList, arrayList2, z2, z, countDownLatch);
+                }
+            });
         } else if (countDownLatch == null) {
         } else {
             countDownLatch.countDown();
@@ -888,7 +982,7 @@ public class NotificationsController extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$processNewMessages$18(ArrayList arrayList, ArrayList arrayList2, boolean z, boolean z2, CountDownLatch countDownLatch) {
+    public /* synthetic */ void lambda$processNewMessages$18(ArrayList arrayList, final ArrayList arrayList2, boolean z, boolean z2, CountDownLatch countDownLatch) {
         boolean z3;
         boolean z4;
         Integer num;
@@ -1110,12 +1204,17 @@ public class NotificationsController extends BaseController {
             if (messageObject == null) {
             }
         }
-        int i6 = i4;
+        final int i6 = i4;
         if (z9) {
             this.notifyCheck = z2;
         }
         if (!arrayList2.isEmpty() && !AndroidUtilities.needShowPasscode() && !SharedConfig.isWaitingForPasscodeEnter) {
-            AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda31(this, arrayList2, i6));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda31
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.this.lambda$processNewMessages$16(arrayList2, i6);
+                }
+            });
         }
         if (z || z11) {
             if (z10) {
@@ -1150,7 +1249,13 @@ public class NotificationsController extends BaseController {
                 if (i7 != this.total_unread_count) {
                     this.delayedPushMessages.clear();
                     showOrUpdateNotification(this.notifyCheck);
-                    AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda20(this, this.pushDialogs.size()));
+                    final int size = this.pushDialogs.size();
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda20
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            NotificationsController.this.lambda$processNewMessages$17(size);
+                        }
+                    });
                 }
                 this.notifyCheck = false;
                 if (this.showBadgeNumber) {
@@ -1187,11 +1292,17 @@ public class NotificationsController extends BaseController {
         return this.total_unread_count;
     }
 
-    public void processDialogsUpdateRead(LongSparseIntArray longSparseIntArray) {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda34(this, longSparseIntArray, new ArrayList()));
+    public void processDialogsUpdateRead(final LongSparseIntArray longSparseIntArray) {
+        final ArrayList arrayList = new ArrayList();
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda34
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$processDialogsUpdateRead$21(longSparseIntArray, arrayList);
+            }
+        });
     }
 
-    public /* synthetic */ void lambda$processDialogsUpdateRead$21(LongSparseIntArray longSparseIntArray, ArrayList arrayList) {
+    public /* synthetic */ void lambda$processDialogsUpdateRead$21(LongSparseIntArray longSparseIntArray, final ArrayList arrayList) {
         boolean z;
         boolean z2;
         Integer num;
@@ -1269,7 +1380,12 @@ public class NotificationsController extends BaseController {
             i2++;
         }
         if (!arrayList.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda26(this, arrayList));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda26
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.this.lambda$processDialogsUpdateRead$19(arrayList);
+                }
+            });
         }
         if (i != this.total_unread_count) {
             if (!this.notifyCheck) {
@@ -1281,7 +1397,13 @@ public class NotificationsController extends BaseController {
                 }
                 scheduleNotificationDelay(z);
             }
-            AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda17(this, this.pushDialogs.size()));
+            final int size = this.pushDialogs.size();
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda17
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.this.lambda$processDialogsUpdateRead$20(size);
+                }
+            });
         }
         this.notifyCheck = false;
         if (this.showBadgeNumber) {
@@ -1302,11 +1424,16 @@ public class NotificationsController extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.dialogsUnreadCounterChanged, Integer.valueOf(i));
     }
 
-    public void processLoadedUnreadMessages(LongSparseArray<Integer> longSparseArray, ArrayList<TLRPC$Message> arrayList, ArrayList<MessageObject> arrayList2, ArrayList<TLRPC$User> arrayList3, ArrayList<TLRPC$Chat> arrayList4, ArrayList<TLRPC$EncryptedChat> arrayList5) {
+    public void processLoadedUnreadMessages(final LongSparseArray<Integer> longSparseArray, final ArrayList<TLRPC$Message> arrayList, final ArrayList<MessageObject> arrayList2, ArrayList<TLRPC$User> arrayList3, ArrayList<TLRPC$Chat> arrayList4, ArrayList<TLRPC$EncryptedChat> arrayList5) {
         getMessagesController().putUsers(arrayList3, true);
         getMessagesController().putChats(arrayList4, true);
         getMessagesController().putEncryptedChats(arrayList5, true);
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda32(this, arrayList, longSparseArray, arrayList2));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda32
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$processLoadedUnreadMessages$23(arrayList, longSparseArray, arrayList2);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$processLoadedUnreadMessages$23(ArrayList arrayList, LongSparseArray longSparseArray, ArrayList arrayList2) {
@@ -1488,7 +1615,13 @@ public class NotificationsController extends BaseController {
                 longSparseArray3 = longSparseArray2;
             }
         }
-        AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda16(this, this.pushDialogs.size()));
+        final int size = this.pushDialogs.size();
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda16
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$processLoadedUnreadMessages$22(size);
+            }
+        });
         showOrUpdateNotification(SystemClock.elapsedRealtime() / 1000 < 60);
         if (this.showBadgeNumber) {
             setBadge(getTotalAllUnreadCount());
@@ -1556,7 +1689,12 @@ public class NotificationsController extends BaseController {
     }
 
     public void updateBadge() {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda13(this));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$updateBadge$24();
+            }
+        });
     }
 
     private void setBadge(int i) {
@@ -1602,17 +1740,17 @@ public class NotificationsController extends BaseController {
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionUserUpdatedPhoto) == false) goto L171;
      */
     /* JADX WARN: Code restructure failed: missing block: B:170:0x0280, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationContactNewPhoto", 2131626997, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationContactNewPhoto", org.telegram.messenger.beta.R.string.NotificationContactNewPhoto, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:172:0x0284, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionLoginUnknownLocation) == false) goto L175;
      */
     /* JADX WARN: Code restructure failed: missing block: B:173:0x0286, code lost:
-        r1 = org.telegram.messenger.LocaleController.formatString("formatDateAtTime", 2131629424, org.telegram.messenger.LocaleController.getInstance().formatterYear.format(r23.messageOwner.date * 1000), org.telegram.messenger.LocaleController.getInstance().formatterDay.format(r23.messageOwner.date * 1000));
+        r1 = org.telegram.messenger.LocaleController.formatString("formatDateAtTime", org.telegram.messenger.beta.R.string.formatDateAtTime, org.telegram.messenger.LocaleController.getInstance().formatterYear.format(r23.messageOwner.date * 1000), org.telegram.messenger.LocaleController.getInstance().formatterDay.format(r23.messageOwner.date * 1000));
         r0 = r23.messageOwner.action;
      */
     /* JADX WARN: Code restructure failed: missing block: B:174:0x02e4, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationUnrecognizedDevice", 2131627067, getUserConfig().getCurrentUser().first_name, r1, r0.title, r0.address);
+        return org.telegram.messenger.LocaleController.formatString("NotificationUnrecognizedDevice", org.telegram.messenger.beta.R.string.NotificationUnrecognizedDevice, getUserConfig().getCurrentUser().first_name, r1, r0.title, r0.address);
      */
     /* JADX WARN: Code restructure failed: missing block: B:176:0x02e7, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) != false) goto L672;
@@ -1627,10 +1765,10 @@ public class NotificationsController extends BaseController {
         if (r5.video == false) goto L185;
      */
     /* JADX WARN: Code restructure failed: missing block: B:184:0x0300, code lost:
-        return org.telegram.messenger.LocaleController.getString("CallMessageVideoIncomingMissed", 2131624807);
+        return org.telegram.messenger.LocaleController.getString("CallMessageVideoIncomingMissed", org.telegram.messenger.beta.R.string.CallMessageVideoIncomingMissed);
      */
     /* JADX WARN: Code restructure failed: missing block: B:186:0x030a, code lost:
-        return org.telegram.messenger.LocaleController.getString("CallMessageIncomingMissed", 2131624801);
+        return org.telegram.messenger.LocaleController.getString("CallMessageIncomingMissed", org.telegram.messenger.beta.R.string.CallMessageIncomingMissed);
      */
     /* JADX WARN: Code restructure failed: missing block: B:188:0x030d, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatAddUser) == false) goto L231;
@@ -1657,13 +1795,13 @@ public class NotificationsController extends BaseController {
         if (r6.megagroup != false) goto L202;
      */
     /* JADX WARN: Code restructure failed: missing block: B:201:0x0359, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelAddedByNotification", 2131624887, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("ChannelAddedByNotification", org.telegram.messenger.beta.R.string.ChannelAddedByNotification, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:203:0x035c, code lost:
         if (r2 != r17) goto L206;
      */
     /* JADX WARN: Code restructure failed: missing block: B:205:0x0372, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroup", 2131627018, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroup", org.telegram.messenger.beta.R.string.NotificationInvitedToGroup, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:206:0x0373, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r2));
@@ -1681,13 +1819,13 @@ public class NotificationsController extends BaseController {
         if (r6.megagroup == false) goto L215;
      */
     /* JADX WARN: Code restructure failed: missing block: B:214:0x03a1, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelfMega", 2131627003, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelfMega", org.telegram.messenger.beta.R.string.NotificationGroupAddSelfMega, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:216:0x03b6, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelf", 2131627002, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelf", org.telegram.messenger.beta.R.string.NotificationGroupAddSelf, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:218:0x03d1, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", 2131627001, r1, r6.title, org.telegram.messenger.UserObject.getUserName(r0));
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", org.telegram.messenger.beta.R.string.NotificationGroupAddMember, r1, r6.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
     /* JADX WARN: Code restructure failed: missing block: B:219:0x03d2, code lost:
         r2 = new java.lang.StringBuilder();
@@ -1718,13 +1856,13 @@ public class NotificationsController extends BaseController {
         r3 = r3 + 1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:230:0x0429, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", 2131627001, r1, r6.title, r2.toString());
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", org.telegram.messenger.beta.R.string.NotificationGroupAddMember, r1, r6.title, r2.toString());
      */
     /* JADX WARN: Code restructure failed: missing block: B:232:0x042d, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCall) == false) goto L235;
      */
     /* JADX WARN: Code restructure failed: missing block: B:234:0x0442, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupCreatedCall", 2131627005, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupCreatedCall", org.telegram.messenger.beta.R.string.NotificationGroupCreatedCall, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:236:0x0445, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCallScheduled) == false) goto L239;
@@ -1754,7 +1892,7 @@ public class NotificationsController extends BaseController {
         if (r2 != r17) goto L252;
      */
     /* JADX WARN: Code restructure failed: missing block: B:251:0x0492, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedYouToCall", 2131627010, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedYouToCall", org.telegram.messenger.beta.R.string.NotificationGroupInvitedYouToCall, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:252:0x0493, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r2));
@@ -1766,7 +1904,7 @@ public class NotificationsController extends BaseController {
         return null;
      */
     /* JADX WARN: Code restructure failed: missing block: B:256:0x04bd, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", 2131627009, r1, r6.title, org.telegram.messenger.UserObject.getUserName(r0));
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", org.telegram.messenger.beta.R.string.NotificationGroupInvitedToCall, r1, r6.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
     /* JADX WARN: Code restructure failed: missing block: B:257:0x04be, code lost:
         r2 = new java.lang.StringBuilder();
@@ -1797,19 +1935,19 @@ public class NotificationsController extends BaseController {
         r3 = r3 + 1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:268:0x0515, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", 2131627009, r1, r6.title, r2.toString());
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", org.telegram.messenger.beta.R.string.NotificationGroupInvitedToCall, r1, r6.title, r2.toString());
      */
     /* JADX WARN: Code restructure failed: missing block: B:270:0x0519, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByLink) == false) goto L273;
      */
     /* JADX WARN: Code restructure failed: missing block: B:272:0x052f, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroupByLink", 2131627019, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroupByLink", org.telegram.messenger.beta.R.string.NotificationInvitedToGroupByLink, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:274:0x0535, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatEditTitle) == false) goto L277;
      */
     /* JADX WARN: Code restructure failed: missing block: B:276:0x0548, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupName", 2131626998, r1, r5.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupName", org.telegram.messenger.beta.R.string.NotificationEditedGroupName, r1, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:278:0x054b, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatEditPhoto) != false) goto L656;
@@ -1827,13 +1965,13 @@ public class NotificationsController extends BaseController {
         if (r2 != r17) goto L287;
      */
     /* JADX WARN: Code restructure failed: missing block: B:286:0x0571, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickYou", 2131627012, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickYou", org.telegram.messenger.beta.R.string.NotificationGroupKickYou, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:288:0x0577, code lost:
         if (r2 != r8) goto L291;
      */
     /* JADX WARN: Code restructure failed: missing block: B:290:0x058a, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupLeftMember", 2131627013, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupLeftMember", org.telegram.messenger.beta.R.string.NotificationGroupLeftMember, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:291:0x058b, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r23.messageOwner.action.user_id));
@@ -1845,7 +1983,7 @@ public class NotificationsController extends BaseController {
         return null;
      */
     /* JADX WARN: Code restructure failed: missing block: B:295:0x05bc, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickMember", 2131627011, r1, r6.title, org.telegram.messenger.UserObject.getUserName(r0));
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickMember", org.telegram.messenger.beta.R.string.NotificationGroupKickMember, r1, r6.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
     /* JADX WARN: Code restructure failed: missing block: B:297:0x05bf, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatCreate) == false) goto L300;
@@ -1863,13 +2001,13 @@ public class NotificationsController extends BaseController {
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatMigrateTo) == false) goto L308;
      */
     /* JADX WARN: Code restructure failed: missing block: B:307:0x05e8, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", 2131624195, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", org.telegram.messenger.beta.R.string.ActionMigrateFromGroupNotify, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:309:0x05ed, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) == false) goto L312;
      */
     /* JADX WARN: Code restructure failed: missing block: B:311:0x05fe, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", 2131624195, r5.title);
+        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", org.telegram.messenger.beta.R.string.ActionMigrateFromGroupNotify, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:313:0x0601, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionScreenshotTaken) == false) goto L316;
@@ -1896,13 +2034,13 @@ public class NotificationsController extends BaseController {
         if (r0 != null) goto L328;
      */
     /* JADX WARN: Code restructure failed: missing block: B:327:0x0636, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", 2131626966, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoText, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:329:0x063e, code lost:
         if (r0.isMusic() == false) goto L332;
      */
     /* JADX WARN: Code restructure failed: missing block: B:331:0x0651, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusic", 2131626963, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusic", org.telegram.messenger.beta.R.string.NotificationActionPinnedMusic, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:333:0x065b, code lost:
         if (r0.isVideo() == false) goto L342;
@@ -1914,10 +2052,10 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L340;
      */
     /* JADX WARN: Code restructure failed: missing block: B:339:0x0692, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", 2131626987, r1, "📹 " + r0.messageOwner.message, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, r1, "📹 " + r0.messageOwner.message, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:341:0x06a7, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideo", 2131626990, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideo", org.telegram.messenger.beta.R.string.NotificationActionPinnedVideo, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:343:0x06ac, code lost:
         if (r0.isGif() == false) goto L352;
@@ -1929,22 +2067,22 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L350;
      */
     /* JADX WARN: Code restructure failed: missing block: B:349:0x06e3, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", 2131626987, r1, "🎬 " + r0.messageOwner.message, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, r1, "🎬 " + r0.messageOwner.message, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:351:0x06f8, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGif", 2131626957, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGif", org.telegram.messenger.beta.R.string.NotificationActionPinnedGif, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:353:0x0700, code lost:
         if (r0.isVoice() == false) goto L356;
      */
     /* JADX WARN: Code restructure failed: missing block: B:355:0x0713, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoice", 2131626993, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoice", org.telegram.messenger.beta.R.string.NotificationActionPinnedVoice, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:357:0x0718, code lost:
         if (r0.isRoundVideo() == false) goto L360;
      */
     /* JADX WARN: Code restructure failed: missing block: B:359:0x072b, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRound", 2131626978, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRound", org.telegram.messenger.beta.R.string.NotificationActionPinnedRound, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:361:0x0730, code lost:
         if (r0.isSticker() != false) goto L422;
@@ -1966,10 +2104,10 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r4.message) != false) goto L372;
      */
     /* JADX WARN: Code restructure failed: missing block: B:371:0x0775, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", 2131626987, r1, "📎 " + r0.messageOwner.message, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, r1, "📎 " + r0.messageOwner.message, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:373:0x078a, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFile", 2131626942, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFile", org.telegram.messenger.beta.R.string.NotificationActionPinnedFile, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:375:0x078d, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L420;
@@ -1981,7 +2119,7 @@ public class NotificationsController extends BaseController {
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L382;
      */
     /* JADX WARN: Code restructure failed: missing block: B:381:0x07ad, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLive", 2131626953, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLive", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoLive, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:383:0x07b2, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L386;
@@ -1990,7 +2128,7 @@ public class NotificationsController extends BaseController {
         r7 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r7;
      */
     /* JADX WARN: Code restructure failed: missing block: B:385:0x07d3, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContact2", 2131626939, r1, r6.title, org.telegram.messenger.ContactsController.formatName(r7.first_name, r7.last_name));
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContact2", org.telegram.messenger.beta.R.string.NotificationActionPinnedContact2, r1, r6.title, org.telegram.messenger.ContactsController.formatName(r7.first_name, r7.last_name));
      */
     /* JADX WARN: Code restructure failed: missing block: B:387:0x07d6, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L394;
@@ -2002,10 +2140,10 @@ public class NotificationsController extends BaseController {
         if (r0.quiz == false) goto L392;
      */
     /* JADX WARN: Code restructure failed: missing block: B:391:0x07f9, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuiz2", 2131626975, r1, r6.title, r0.question);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuiz2", org.telegram.messenger.beta.R.string.NotificationActionPinnedQuiz2, r1, r6.title, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:393:0x0813, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPoll2", 2131626972, r1, r6.title, r0.question);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPoll2", org.telegram.messenger.beta.R.string.NotificationActionPinnedPoll2, r1, r6.title, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:395:0x0816, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L404;
@@ -2017,16 +2155,16 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r4.message) != false) goto L402;
      */
     /* JADX WARN: Code restructure failed: missing block: B:401:0x084b, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", 2131626987, r1, "🖼 " + r0.messageOwner.message, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, r1, "🖼 " + r0.messageOwner.message, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:403:0x0860, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhoto", 2131626969, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhoto", org.telegram.messenger.beta.R.string.NotificationActionPinnedPhoto, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:405:0x0866, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L408;
      */
     /* JADX WARN: Code restructure failed: missing block: B:407:0x0879, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGame", 2131626945, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGame", org.telegram.messenger.beta.R.string.NotificationActionPinnedGame, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:408:0x087a, code lost:
         r4 = r0.messageText;
@@ -2060,13 +2198,13 @@ public class NotificationsController extends BaseController {
         r2[2] = r6.title;
      */
     /* JADX WARN: Code restructure failed: missing block: B:417:0x08b3, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", 2131626987, r2);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, r2);
      */
     /* JADX WARN: Code restructure failed: missing block: B:419:0x08c8, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", 2131626966, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoText, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:421:0x08dd, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeo", 2131626951, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeo", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeo, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:422:0x08de, code lost:
         r0 = r0.getStickerEmoji();
@@ -2075,10 +2213,10 @@ public class NotificationsController extends BaseController {
         if (r0 == null) goto L426;
      */
     /* JADX WARN: Code restructure failed: missing block: B:425:0x08fb, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmoji", 2131626983, r1, r6.title, r0);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmoji", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerEmoji, r1, r6.title, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:427:0x090e, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedSticker", 2131626981, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedSticker", org.telegram.messenger.beta.R.string.NotificationActionPinnedSticker, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:429:0x0910, code lost:
         if (r6 == null) goto L534;
@@ -2093,13 +2231,13 @@ public class NotificationsController extends BaseController {
         if (r0 != null) goto L434;
      */
     /* JADX WARN: Code restructure failed: missing block: B:433:0x0926, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", 2131626967, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoTextChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:435:0x092c, code lost:
         if (r0.isMusic() == false) goto L438;
      */
     /* JADX WARN: Code restructure failed: missing block: B:437:0x093d, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusicChannel", 2131626964, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusicChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedMusicChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:439:0x0947, code lost:
         if (r0.isVideo() == false) goto L448;
@@ -2111,10 +2249,10 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L446;
      */
     /* JADX WARN: Code restructure failed: missing block: B:445:0x097b, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, r6.title, "📹 " + r0.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, r6.title, "📹 " + r0.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:447:0x098d, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoChannel", 2131626991, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedVideoChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:449:0x0992, code lost:
         if (r0.isGif() == false) goto L458;
@@ -2126,22 +2264,22 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L456;
      */
     /* JADX WARN: Code restructure failed: missing block: B:455:0x09c6, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, r6.title, "🎬 " + r0.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, r6.title, "🎬 " + r0.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:457:0x09d8, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGifChannel", 2131626958, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGifChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGifChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:459:0x09df, code lost:
         if (r0.isVoice() == false) goto L462;
      */
     /* JADX WARN: Code restructure failed: missing block: B:461:0x09f0, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoiceChannel", 2131626994, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoiceChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedVoiceChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:463:0x09f5, code lost:
         if (r0.isRoundVideo() == false) goto L466;
      */
     /* JADX WARN: Code restructure failed: missing block: B:465:0x0a06, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRoundChannel", 2131626979, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRoundChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedRoundChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:467:0x0a0b, code lost:
         if (r0.isSticker() != false) goto L528;
@@ -2163,10 +2301,10 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r1.message) != false) goto L478;
      */
     /* JADX WARN: Code restructure failed: missing block: B:477:0x0a4d, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, r6.title, "📎 " + r0.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, r6.title, "📎 " + r0.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:479:0x0a5f, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFileChannel", 2131626943, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFileChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedFileChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:47:0x00b3, code lost:
         if (r11.getBoolean("EnablePreviewChannel", r3) == false) goto L48;
@@ -2181,7 +2319,7 @@ public class NotificationsController extends BaseController {
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L488;
      */
     /* JADX WARN: Code restructure failed: missing block: B:487:0x0a7f, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLiveChannel", 2131626954, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLiveChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoLiveChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:489:0x0a83, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L492;
@@ -2190,7 +2328,7 @@ public class NotificationsController extends BaseController {
         r7 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r7;
      */
     /* JADX WARN: Code restructure failed: missing block: B:491:0x0aa2, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContactChannel2", 2131626940, r6.title, org.telegram.messenger.ContactsController.formatName(r7.first_name, r7.last_name));
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContactChannel2", org.telegram.messenger.beta.R.string.NotificationActionPinnedContactChannel2, r6.title, org.telegram.messenger.ContactsController.formatName(r7.first_name, r7.last_name));
      */
     /* JADX WARN: Code restructure failed: missing block: B:493:0x0aa5, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L500;
@@ -2202,10 +2340,10 @@ public class NotificationsController extends BaseController {
         if (r0.quiz == false) goto L498;
      */
     /* JADX WARN: Code restructure failed: missing block: B:497:0x0ac5, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuizChannel2", 2131626976, r6.title, r0.question);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuizChannel2", org.telegram.messenger.beta.R.string.NotificationActionPinnedQuizChannel2, r6.title, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:499:0x0adc, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPollChannel2", 2131626973, r6.title, r0.question);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPollChannel2", org.telegram.messenger.beta.R.string.NotificationActionPinnedPollChannel2, r6.title, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:501:0x0adf, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L510;
@@ -2217,16 +2355,16 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r1.message) != false) goto L508;
      */
     /* JADX WARN: Code restructure failed: missing block: B:507:0x0b11, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, r6.title, "🖼 " + r0.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, r6.title, "🖼 " + r0.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:509:0x0b23, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhotoChannel", 2131626970, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhotoChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedPhotoChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:511:0x0b28, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L514;
      */
     /* JADX WARN: Code restructure failed: missing block: B:513:0x0b39, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGameChannel", 2131626946, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGameChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGameChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:514:0x0b3a, code lost:
         r1 = r0.messageText;
@@ -2259,13 +2397,13 @@ public class NotificationsController extends BaseController {
         r1[1] = r0;
      */
     /* JADX WARN: Code restructure failed: missing block: B:523:0x0b70, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:525:0x0b82, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", 2131626967, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoTextChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:527:0x0b94, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoChannel", 2131626952, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:528:0x0b95, code lost:
         r0 = r0.getStickerEmoji();
@@ -2274,10 +2412,10 @@ public class NotificationsController extends BaseController {
         if (r0 == null) goto L532;
      */
     /* JADX WARN: Code restructure failed: missing block: B:531:0x0baf, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmojiChannel", 2131626984, r6.title, r0);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmojiChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerEmojiChannel, r6.title, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:533:0x0bc0, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerChannel", 2131626982, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerChannel, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:534:0x0bc1, code lost:
         r0 = r23.replyMessageObject;
@@ -2286,13 +2424,13 @@ public class NotificationsController extends BaseController {
         if (r0 != null) goto L538;
      */
     /* JADX WARN: Code restructure failed: missing block: B:537:0x0bd3, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextUser", 2131626968, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoTextUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:539:0x0bd8, code lost:
         if (r0.isMusic() == false) goto L542;
      */
     /* JADX WARN: Code restructure failed: missing block: B:541:0x0be7, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusicUser", 2131626965, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusicUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedMusicUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:543:0x0bf1, code lost:
         if (r0.isVideo() == false) goto L552;
@@ -2304,10 +2442,10 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L550;
      */
     /* JADX WARN: Code restructure failed: missing block: B:549:0x0c23, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", 2131626989, r1, "📹 " + r0.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextUser, r1, "📹 " + r0.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:551:0x0c33, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoUser", 2131626992, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedVideoUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:553:0x0c38, code lost:
         if (r0.isGif() == false) goto L562;
@@ -2319,22 +2457,22 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L560;
      */
     /* JADX WARN: Code restructure failed: missing block: B:559:0x0c6a, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", 2131626989, r1, "🎬 " + r0.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextUser, r1, "🎬 " + r0.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:561:0x0c7a, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGifUser", 2131626959, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGifUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedGifUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:563:0x0c81, code lost:
         if (r0.isVoice() == false) goto L566;
      */
     /* JADX WARN: Code restructure failed: missing block: B:565:0x0c90, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoiceUser", 2131626995, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoiceUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedVoiceUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:567:0x0c95, code lost:
         if (r0.isRoundVideo() == false) goto L570;
      */
     /* JADX WARN: Code restructure failed: missing block: B:569:0x0ca4, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRoundUser", 2131626980, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRoundUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedRoundUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:571:0x0ca9, code lost:
         if (r0.isSticker() != false) goto L632;
@@ -2356,10 +2494,10 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r4.message) != false) goto L582;
      */
     /* JADX WARN: Code restructure failed: missing block: B:581:0x0ce9, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", 2131626989, r1, "📎 " + r0.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextUser, r1, "📎 " + r0.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:583:0x0cf9, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFileUser", 2131626944, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFileUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedFileUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:585:0x0cfc, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L630;
@@ -2371,7 +2509,7 @@ public class NotificationsController extends BaseController {
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L592;
      */
     /* JADX WARN: Code restructure failed: missing block: B:591:0x0d17, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLiveUser", 2131626955, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLiveUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoLiveUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:593:0x0d1b, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L596;
@@ -2380,7 +2518,7 @@ public class NotificationsController extends BaseController {
         r7 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r7;
      */
     /* JADX WARN: Code restructure failed: missing block: B:595:0x0d38, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContactUser", 2131626941, r1, org.telegram.messenger.ContactsController.formatName(r7.first_name, r7.last_name));
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContactUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedContactUser, r1, org.telegram.messenger.ContactsController.formatName(r7.first_name, r7.last_name));
      */
     /* JADX WARN: Code restructure failed: missing block: B:597:0x0d3b, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L604;
@@ -2392,10 +2530,10 @@ public class NotificationsController extends BaseController {
         if (r0.quiz == false) goto L602;
      */
     /* JADX WARN: Code restructure failed: missing block: B:601:0x0d59, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuizUser", 2131626977, r1, r0.question);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuizUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedQuizUser, r1, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:603:0x0d6e, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPollUser", 2131626974, r1, r0.question);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPollUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedPollUser, r1, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:605:0x0d71, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L614;
@@ -2407,16 +2545,16 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r4.message) != false) goto L612;
      */
     /* JADX WARN: Code restructure failed: missing block: B:611:0x0da1, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", 2131626989, r1, "🖼 " + r0.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextUser, r1, "🖼 " + r0.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:613:0x0db1, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhotoUser", 2131626971, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhotoUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedPhotoUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:615:0x0db6, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L618;
      */
     /* JADX WARN: Code restructure failed: missing block: B:617:0x0dc5, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGameUser", 2131626950, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGameUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedGameUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:618:0x0dc6, code lost:
         r4 = r0.messageText;
@@ -2449,13 +2587,13 @@ public class NotificationsController extends BaseController {
         r2[1] = r0;
      */
     /* JADX WARN: Code restructure failed: missing block: B:627:0x0dfa, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", 2131626989, r2);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextUser, r2);
      */
     /* JADX WARN: Code restructure failed: missing block: B:629:0x0e0a, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextUser", 2131626968, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoTextUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:631:0x0e1a, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoUser", 2131626956, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:632:0x0e1b, code lost:
         r0 = r0.getStickerEmoji();
@@ -2464,10 +2602,10 @@ public class NotificationsController extends BaseController {
         if (r0 == null) goto L636;
      */
     /* JADX WARN: Code restructure failed: missing block: B:635:0x0e33, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmojiUser", 2131626985, r1, r0);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmojiUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerEmojiUser, r1, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:637:0x0e41, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerUser", 2131626986, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerUser", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerUser, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:639:0x0e44, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme) == false) goto L651;
@@ -2485,7 +2623,7 @@ public class NotificationsController extends BaseController {
         if (r2 != r17) goto L649;
      */
     /* JADX WARN: Code restructure failed: missing block: B:650:0x0e98, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChangedChatThemeTo", 2131625046, r1, r0);
+        return org.telegram.messenger.LocaleController.formatString("ChangedChatThemeTo", org.telegram.messenger.beta.R.string.ChatThemeChangedTo, r1, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:652:0x0e9b, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByRequest) == false) goto L655;
@@ -2506,25 +2644,25 @@ public class NotificationsController extends BaseController {
         if (r23.isVideoAvatar() == false) goto L664;
      */
     /* JADX WARN: Code restructure failed: missing block: B:663:0x0ecb, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelVideoEditNotification", 2131624997, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("ChannelVideoEditNotification", org.telegram.messenger.beta.R.string.ChannelVideoEditNotification, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:665:0x0edd, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelPhotoEditNotification", 2131624957, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("ChannelPhotoEditNotification", org.telegram.messenger.beta.R.string.ChannelPhotoEditNotification, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:667:0x0ee3, code lost:
         if (r23.isVideoAvatar() == false) goto L670;
      */
     /* JADX WARN: Code restructure failed: missing block: B:669:0x0ef8, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupVideo", 2131627000, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupVideo", org.telegram.messenger.beta.R.string.NotificationEditedGroupVideo, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:671:0x0f0c, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupPhoto", 2131626999, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupPhoto", org.telegram.messenger.beta.R.string.NotificationEditedGroupPhoto, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:673:0x0f13, code lost:
         return r23.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:675:0x0f23, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationContactJoined", 2131626996, r1);
+        return org.telegram.messenger.LocaleController.formatString("NotificationContactJoined", org.telegram.messenger.beta.R.string.NotificationContactJoined, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:677:0x0f28, code lost:
         if (r23.isMediaEmpty() == false) goto L684;
@@ -2536,7 +2674,7 @@ public class NotificationsController extends BaseController {
         return replaceSpoilers(r23);
      */
     /* JADX WARN: Code restructure failed: missing block: B:683:0x0f41, code lost:
-        return org.telegram.messenger.LocaleController.getString(r13, 2131626669);
+        return org.telegram.messenger.LocaleController.getString(r13, org.telegram.messenger.beta.R.string.Message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:684:0x0f42, code lost:
         r1 = r13;
@@ -2558,10 +2696,10 @@ public class NotificationsController extends BaseController {
         if (r23.messageOwner.media.ttl_seconds == 0) goto L696;
      */
     /* JADX WARN: Code restructure failed: missing block: B:695:0x0f7e, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachDestructingPhoto", 2131624490);
+        return org.telegram.messenger.LocaleController.getString("AttachDestructingPhoto", org.telegram.messenger.beta.R.string.AttachDestructingPhoto);
      */
     /* JADX WARN: Code restructure failed: missing block: B:697:0x0f88, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachPhoto", 2131624513);
+        return org.telegram.messenger.LocaleController.getString("AttachPhoto", org.telegram.messenger.beta.R.string.AttachPhoto);
      */
     /* JADX WARN: Code restructure failed: missing block: B:699:0x0f8d, code lost:
         if (r23.isVideo() == false) goto L712;
@@ -2579,34 +2717,34 @@ public class NotificationsController extends BaseController {
         if (r23.messageOwner.media.ttl_seconds == 0) goto L710;
      */
     /* JADX WARN: Code restructure failed: missing block: B:709:0x0fc4, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachDestructingVideo", 2131624491);
+        return org.telegram.messenger.LocaleController.getString("AttachDestructingVideo", org.telegram.messenger.beta.R.string.AttachDestructingVideo);
      */
     /* JADX WARN: Code restructure failed: missing block: B:711:0x0fce, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachVideo", 2131624519);
+        return org.telegram.messenger.LocaleController.getString("AttachVideo", org.telegram.messenger.beta.R.string.AttachVideo);
      */
     /* JADX WARN: Code restructure failed: missing block: B:713:0x0fd3, code lost:
         if (r23.isGame() == false) goto L716;
      */
     /* JADX WARN: Code restructure failed: missing block: B:715:0x0fde, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachGame", 2131624493);
+        return org.telegram.messenger.LocaleController.getString("AttachGame", org.telegram.messenger.beta.R.string.AttachGame);
      */
     /* JADX WARN: Code restructure failed: missing block: B:717:0x0fe3, code lost:
         if (r23.isVoice() == false) goto L720;
      */
     /* JADX WARN: Code restructure failed: missing block: B:719:0x0fee, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachAudio", 2131624487);
+        return org.telegram.messenger.LocaleController.getString("AttachAudio", org.telegram.messenger.beta.R.string.AttachAudio);
      */
     /* JADX WARN: Code restructure failed: missing block: B:721:0x0ff3, code lost:
         if (r23.isRoundVideo() == false) goto L724;
      */
     /* JADX WARN: Code restructure failed: missing block: B:723:0x0ffe, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachRound", 2131624515);
+        return org.telegram.messenger.LocaleController.getString("AttachRound", org.telegram.messenger.beta.R.string.AttachRound);
      */
     /* JADX WARN: Code restructure failed: missing block: B:725:0x1003, code lost:
         if (r23.isMusic() == false) goto L728;
      */
     /* JADX WARN: Code restructure failed: missing block: B:727:0x100e, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachMusic", 2131624512);
+        return org.telegram.messenger.LocaleController.getString("AttachMusic", org.telegram.messenger.beta.R.string.AttachMusic);
      */
     /* JADX WARN: Code restructure failed: missing block: B:728:0x100f, code lost:
         r2 = r23.messageOwner.media;
@@ -2615,7 +2753,7 @@ public class NotificationsController extends BaseController {
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L732;
      */
     /* JADX WARN: Code restructure failed: missing block: B:731:0x1020, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachContact", 2131624489);
+        return org.telegram.messenger.LocaleController.getString("AttachContact", org.telegram.messenger.beta.R.string.AttachContact);
      */
     /* JADX WARN: Code restructure failed: missing block: B:733:0x1023, code lost:
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L740;
@@ -2624,10 +2762,10 @@ public class NotificationsController extends BaseController {
         if (((org.telegram.tgnet.TLRPC$TL_messageMediaPoll) r2).poll.quiz == false) goto L738;
      */
     /* JADX WARN: Code restructure failed: missing block: B:737:0x1036, code lost:
-        return org.telegram.messenger.LocaleController.getString("QuizPoll", 2131627885);
+        return org.telegram.messenger.LocaleController.getString("QuizPoll", org.telegram.messenger.beta.R.string.QuizPoll);
      */
     /* JADX WARN: Code restructure failed: missing block: B:739:0x1040, code lost:
-        return org.telegram.messenger.LocaleController.getString("Poll", 2131627629);
+        return org.telegram.messenger.LocaleController.getString("Poll", org.telegram.messenger.beta.R.string.Poll);
      */
     /* JADX WARN: Code restructure failed: missing block: B:741:0x1043, code lost:
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L784;
@@ -2639,7 +2777,7 @@ public class NotificationsController extends BaseController {
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L748;
      */
     /* JADX WARN: Code restructure failed: missing block: B:747:0x1058, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachLiveLocation", 2131624499);
+        return org.telegram.messenger.LocaleController.getString("AttachLiveLocation", org.telegram.messenger.beta.R.string.AttachLiveLocation);
      */
     /* JADX WARN: Code restructure failed: missing block: B:749:0x105b, code lost:
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L778;
@@ -2663,7 +2801,7 @@ public class NotificationsController extends BaseController {
         return "🎬 " + replaceSpoilers(r23);
      */
     /* JADX WARN: Code restructure failed: missing block: B:763:0x109d, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachGif", 2131624494);
+        return org.telegram.messenger.LocaleController.getString("AttachGif", org.telegram.messenger.beta.R.string.AttachGif);
      */
     /* JADX WARN: Code restructure failed: missing block: B:765:0x10a2, code lost:
         if (android.os.Build.VERSION.SDK_INT < 19) goto L770;
@@ -2675,7 +2813,7 @@ public class NotificationsController extends BaseController {
         return "📎 " + replaceSpoilers(r23);
      */
     /* JADX WARN: Code restructure failed: missing block: B:771:0x10cb, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachDocument", 2131624492);
+        return org.telegram.messenger.LocaleController.getString("AttachDocument", org.telegram.messenger.beta.R.string.AttachDocument);
      */
     /* JADX WARN: Code restructure failed: missing block: B:772:0x10cc, code lost:
         r0 = r23.getStickerEmoji();
@@ -2684,10 +2822,10 @@ public class NotificationsController extends BaseController {
         if (r0 == null) goto L776;
      */
     /* JADX WARN: Code restructure failed: missing block: B:775:0x10ef, code lost:
-        return r0 + " " + org.telegram.messenger.LocaleController.getString("AttachSticker", 2131624516);
+        return r0 + " " + org.telegram.messenger.LocaleController.getString("AttachSticker", org.telegram.messenger.beta.R.string.AttachSticker);
      */
     /* JADX WARN: Code restructure failed: missing block: B:777:0x10f9, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachSticker", 2131624516);
+        return org.telegram.messenger.LocaleController.getString("AttachSticker", org.telegram.messenger.beta.R.string.AttachSticker);
      */
     /* JADX WARN: Code restructure failed: missing block: B:779:0x1100, code lost:
         if (android.text.TextUtils.isEmpty(r23.messageText) != false) goto L782;
@@ -2696,19 +2834,19 @@ public class NotificationsController extends BaseController {
         return replaceSpoilers(r23);
      */
     /* JADX WARN: Code restructure failed: missing block: B:783:0x110e, code lost:
-        return org.telegram.messenger.LocaleController.getString(r1, 2131626669);
+        return org.telegram.messenger.LocaleController.getString(r1, org.telegram.messenger.beta.R.string.Message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:785:0x1118, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachLocation", 2131624503);
+        return org.telegram.messenger.LocaleController.getString("AttachLocation", org.telegram.messenger.beta.R.string.AttachLocation);
      */
     /* JADX WARN: Code restructure failed: missing block: B:799:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChatThemeDisabledYou", 2131625050, new java.lang.Object[0]);
+        return org.telegram.messenger.LocaleController.formatString("ChatThemeDisabledYou", org.telegram.messenger.beta.R.string.ChatThemeDisabledYou, new java.lang.Object[0]);
      */
     /* JADX WARN: Code restructure failed: missing block: B:800:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChatThemeDisabled", 2131625049, r1, r0);
+        return org.telegram.messenger.LocaleController.formatString("ChatThemeDisabled", org.telegram.messenger.beta.R.string.ChatThemeDisabled, r1, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:801:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChangedChatThemeYou", 2131625047, r0);
+        return org.telegram.messenger.LocaleController.formatString("ChangedChatThemeYou", org.telegram.messenger.beta.R.string.ChatThemeChangedYou, r0);
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2723,7 +2861,7 @@ public class NotificationsController extends BaseController {
         TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2;
         TLRPC$Peer tLRPC$Peer2;
         if (AndroidUtilities.needShowPasscode() || SharedConfig.isWaitingForPasscodeEnter) {
-            return LocaleController.getString("NotificationHiddenMessage", 2131627016);
+            return LocaleController.getString("NotificationHiddenMessage", org.telegram.messenger.beta.R.string.NotificationHiddenMessage);
         }
         TLRPC$Message tLRPC$Message = messageObject.messageOwner;
         long j = tLRPC$Message.dialog_id;
@@ -2747,7 +2885,7 @@ public class NotificationsController extends BaseController {
                     if (zArr != null) {
                         zArr[0] = false;
                     }
-                    return LocaleController.getString("Message", 2131626669);
+                    return LocaleController.getString("Message", org.telegram.messenger.beta.R.string.Message);
                 }
             } else if (j2 != 0) {
                 if (messageObject.messageOwner.peer_id.channel_id == 0 || messageObject.isSupergroup()) {
@@ -2763,7 +2901,7 @@ public class NotificationsController extends BaseController {
                 if (zArr != null) {
                     zArr[0] = false;
                 }
-                return (messageObject.messageOwner.peer_id.channel_id == 0 || messageObject.isSupergroup()) ? LocaleController.formatString("NotificationMessageGroupNoText", 2131627039, messageObject.localUserName, messageObject.localName) : LocaleController.formatString("ChannelMessageNoText", 2131624941, messageObject.localName);
+                return (messageObject.messageOwner.peer_id.channel_id == 0 || messageObject.isSupergroup()) ? LocaleController.formatString("NotificationMessageGroupNoText", org.telegram.messenger.beta.R.string.NotificationMessageGroupNoText, messageObject.localUserName, messageObject.localName) : LocaleController.formatString("ChannelMessageNoText", org.telegram.messenger.beta.R.string.ChannelMessageNoText, messageObject.localName);
             }
             return replaceSpoilers(messageObject);
         }
@@ -2836,7 +2974,7 @@ public class NotificationsController extends BaseController {
         }
         if (DialogObject.isEncryptedDialog(j)) {
             strArr[0] = null;
-            return LocaleController.getString("NotificationHiddenMessage", 2131627016);
+            return LocaleController.getString("NotificationHiddenMessage", org.telegram.messenger.beta.R.string.NotificationHiddenMessage);
         }
         boolean z3 = ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat.megagroup;
         if (z) {
@@ -2852,7 +2990,7 @@ public class NotificationsController extends BaseController {
         if (zArr != null) {
             zArr[0] = false;
         }
-        return LocaleController.getString(str3, 2131626669);
+        return LocaleController.getString(str3, org.telegram.messenger.beta.R.string.Message);
     }
 
     private String replaceSpoilers(MessageObject messageObject) {
@@ -2914,13 +3052,13 @@ public class NotificationsController extends BaseController {
         if (r4.megagroup != false) goto L269;
      */
     /* JADX WARN: Code restructure failed: missing block: B:268:0x0664, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("ChannelAddedByNotification", 2131624887, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("ChannelAddedByNotification", org.telegram.messenger.beta.R.string.ChannelAddedByNotification, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:270:0x067c, code lost:
         if (r2 != r17) goto L272;
      */
     /* JADX WARN: Code restructure failed: missing block: B:271:0x067e, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroup", 2131627018, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroup", org.telegram.messenger.beta.R.string.NotificationInvitedToGroup, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:272:0x0694, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r2));
@@ -2938,13 +3076,13 @@ public class NotificationsController extends BaseController {
         if (r4.megagroup == false) goto L280;
      */
     /* JADX WARN: Code restructure failed: missing block: B:279:0x06ae, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelfMega", 2131627003, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelfMega", org.telegram.messenger.beta.R.string.NotificationGroupAddSelfMega, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:280:0x06c4, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelf", 2131627002, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelf", org.telegram.messenger.beta.R.string.NotificationGroupAddSelf, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:281:0x06da, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", 2131627001, r1, r4.title, org.telegram.messenger.UserObject.getUserName(r0));
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", org.telegram.messenger.beta.R.string.NotificationGroupAddMember, r1, r4.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
     /* JADX WARN: Code restructure failed: missing block: B:282:0x06f7, code lost:
         r2 = new java.lang.StringBuilder();
@@ -2975,7 +3113,7 @@ public class NotificationsController extends BaseController {
         r3 = r3 + 1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:292:0x0734, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", 2131627001, r1, r4.title, r2.toString());
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", org.telegram.messenger.beta.R.string.NotificationGroupAddMember, r1, r4.title, r2.toString());
      */
     /* JADX WARN: Code restructure failed: missing block: B:294:0x0754, code lost:
         if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCall) == false) goto L296;
@@ -3005,7 +3143,7 @@ public class NotificationsController extends BaseController {
         if (r2 != r17) goto L311;
      */
     /* JADX WARN: Code restructure failed: missing block: B:310:0x07a7, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedYouToCall", 2131627010, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedYouToCall", org.telegram.messenger.beta.R.string.NotificationGroupInvitedYouToCall, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:311:0x07bd, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r2));
@@ -3017,7 +3155,7 @@ public class NotificationsController extends BaseController {
         return null;
      */
     /* JADX WARN: Code restructure failed: missing block: B:314:0x07cd, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", 2131627009, r1, r4.title, org.telegram.messenger.UserObject.getUserName(r0));
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", org.telegram.messenger.beta.R.string.NotificationGroupInvitedToCall, r1, r4.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
     /* JADX WARN: Code restructure failed: missing block: B:315:0x07ea, code lost:
         r2 = new java.lang.StringBuilder();
@@ -3048,7 +3186,7 @@ public class NotificationsController extends BaseController {
         r3 = r3 + 1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:325:0x0827, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", 2131627009, r1, r4.title, r2.toString());
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", org.telegram.messenger.beta.R.string.NotificationGroupInvitedToCall, r1, r4.title, r2.toString());
      */
     /* JADX WARN: Code restructure failed: missing block: B:327:0x0847, code lost:
         if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByLink) == false) goto L329;
@@ -3120,7 +3258,7 @@ public class NotificationsController extends BaseController {
         if (r1.isMusic() == false) goto L375;
      */
     /* JADX WARN: Code restructure failed: missing block: B:374:0x0970, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusicChannel", 2131626964, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusicChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedMusicChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:376:0x098a, code lost:
         if (r1.isVideo() == false) goto L383;
@@ -3132,10 +3270,10 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r1.messageOwner.message) != false) goto L382;
      */
     /* JADX WARN: Code restructure failed: missing block: B:381:0x099c, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, r4.title, "📹 " + r1.messageOwner.message);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, r4.title, "📹 " + r1.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:382:0x09c0, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoChannel", 2131626991, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedVideoChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:384:0x09d7, code lost:
         if (r1.isGif() == false) goto L391;
@@ -3147,22 +3285,22 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r1.messageOwner.message) != false) goto L390;
      */
     /* JADX WARN: Code restructure failed: missing block: B:389:0x09e9, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, r4.title, "🎬 " + r1.messageOwner.message);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, r4.title, "🎬 " + r1.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:390:0x0a0d, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGifChannel", 2131626958, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGifChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGifChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:392:0x0a26, code lost:
         if (r1.isVoice() == false) goto L394;
      */
     /* JADX WARN: Code restructure failed: missing block: B:393:0x0a28, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoiceChannel", 2131626994, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoiceChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedVoiceChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:395:0x0a3d, code lost:
         if (r1.isRoundVideo() == false) goto L397;
      */
     /* JADX WARN: Code restructure failed: missing block: B:396:0x0a3f, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRoundChannel", 2131626979, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRoundChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedRoundChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:398:0x0a54, code lost:
         if (r1.isSticker() != false) goto L447;
@@ -3184,10 +3322,10 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r2.message) != false) goto L408;
      */
     /* JADX WARN: Code restructure failed: missing block: B:407:0x0a74, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, r4.title, "📎 " + r1.messageOwner.message);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, r4.title, "📎 " + r1.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:408:0x0a98, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFileChannel", 2131626943, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFileChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedFileChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:410:0x0aad, code lost:
         if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L446;
@@ -3199,14 +3337,14 @@ public class NotificationsController extends BaseController {
         if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L416;
      */
     /* JADX WARN: Code restructure failed: missing block: B:415:0x0ab9, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLiveChannel", 2131626954, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLiveChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoLiveChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:417:0x0ace, code lost:
         if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L419;
      */
     /* JADX WARN: Code restructure failed: missing block: B:418:0x0ad0, code lost:
         r0 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r27.messageOwner.media;
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContactChannel2", 2131626940, r4.title, org.telegram.messenger.ContactsController.formatName(r0.first_name, r0.last_name));
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContactChannel2", org.telegram.messenger.beta.R.string.NotificationActionPinnedContactChannel2, r4.title, org.telegram.messenger.ContactsController.formatName(r0.first_name, r0.last_name));
      */
     /* JADX WARN: Code restructure failed: missing block: B:420:0x0af6, code lost:
         if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L425;
@@ -3218,10 +3356,10 @@ public class NotificationsController extends BaseController {
         if (r0.quiz == false) goto L424;
      */
     /* JADX WARN: Code restructure failed: missing block: B:423:0x0b00, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuizChannel2", 2131626976, r4.title, r0.question);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuizChannel2", org.telegram.messenger.beta.R.string.NotificationActionPinnedQuizChannel2, r4.title, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:424:0x0b18, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPollChannel2", 2131626973, r4.title, r0.question);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPollChannel2", org.telegram.messenger.beta.R.string.NotificationActionPinnedPollChannel2, r4.title, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:426:0x0b32, code lost:
         if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L433;
@@ -3233,16 +3371,16 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r2.message) != false) goto L432;
      */
     /* JADX WARN: Code restructure failed: missing block: B:431:0x0b42, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, r4.title, "🖼 " + r1.messageOwner.message);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, r4.title, "🖼 " + r1.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:432:0x0b66, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhotoChannel", 2131626970, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhotoChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedPhotoChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:434:0x0b7d, code lost:
         if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L436;
      */
     /* JADX WARN: Code restructure failed: missing block: B:435:0x0b7f, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGameChannel", 2131626946, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGameChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGameChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:436:0x0b90, code lost:
         r0 = r1.messageText;
@@ -3273,13 +3411,13 @@ public class NotificationsController extends BaseController {
         r1 = new java.lang.Object[2];
         r1[r6] = r4.title;
         r1[1] = r0;
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", 2131626988, r1);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedTextChannel, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:445:0x0bce, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", 2131626967, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoTextChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:446:0x0be1, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoChannel", 2131626952, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:447:0x0bf4, code lost:
         r0 = r1.getStickerEmoji();
@@ -3288,10 +3426,10 @@ public class NotificationsController extends BaseController {
         if (r0 == null) goto L450;
      */
     /* JADX WARN: Code restructure failed: missing block: B:449:0x0bfb, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmojiChannel", 2131626984, r4.title, r0);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmojiChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerEmojiChannel, r4.title, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:450:0x0c10, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerChannel", 2131626982, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:451:0x0c22, code lost:
         r2 = r27.replyMessageObject;
@@ -3303,7 +3441,7 @@ public class NotificationsController extends BaseController {
         if (r2.isMusic() == false) goto L457;
      */
     /* JADX WARN: Code restructure failed: missing block: B:456:0x0c44, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusic", 2131626963, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusic", org.telegram.messenger.beta.R.string.NotificationActionPinnedMusic, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:458:0x0c60, code lost:
         if (r2.isVideo() == false) goto L465;
@@ -3315,10 +3453,10 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r2.messageOwner.message) != false) goto L464;
      */
     /* JADX WARN: Code restructure failed: missing block: B:463:0x0c72, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", 2131626987, r1, "📹 " + r2.messageOwner.message, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, r1, "📹 " + r2.messageOwner.message, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:464:0x0c99, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideo", 2131626990, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideo", org.telegram.messenger.beta.R.string.NotificationActionPinnedVideo, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:466:0x0cb3, code lost:
         if (r2.isGif() == false) goto L473;
@@ -3330,22 +3468,22 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r2.messageOwner.message) != false) goto L472;
      */
     /* JADX WARN: Code restructure failed: missing block: B:471:0x0cc5, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", 2131626987, r1, "🎬 " + r2.messageOwner.message, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, r1, "🎬 " + r2.messageOwner.message, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:472:0x0cec, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGif", 2131626957, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGif", org.telegram.messenger.beta.R.string.NotificationActionPinnedGif, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:474:0x0d09, code lost:
         if (r2.isVoice() == false) goto L476;
      */
     /* JADX WARN: Code restructure failed: missing block: B:475:0x0d0b, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoice", 2131626993, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoice", org.telegram.messenger.beta.R.string.NotificationActionPinnedVoice, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:477:0x0d22, code lost:
         if (r2.isRoundVideo() == false) goto L479;
      */
     /* JADX WARN: Code restructure failed: missing block: B:478:0x0d24, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRound", 2131626978, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRound", org.telegram.messenger.beta.R.string.NotificationActionPinnedRound, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:480:0x0d3b, code lost:
         if (r2.isSticker() != false) goto L529;
@@ -3367,10 +3505,10 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r3.message) != false) goto L490;
      */
     /* JADX WARN: Code restructure failed: missing block: B:489:0x0d5b, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", 2131626987, r1, "📎 " + r2.messageOwner.message, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, r1, "📎 " + r2.messageOwner.message, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:490:0x0d82, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFile", 2131626942, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFile", org.telegram.messenger.beta.R.string.NotificationActionPinnedFile, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:492:0x0d9a, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L528;
@@ -3382,14 +3520,14 @@ public class NotificationsController extends BaseController {
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L498;
      */
     /* JADX WARN: Code restructure failed: missing block: B:497:0x0da6, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLive", 2131626953, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLive", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeoLive, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:499:0x0dbe, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L501;
      */
     /* JADX WARN: Code restructure failed: missing block: B:500:0x0dc0, code lost:
         r0 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r27.messageOwner.media;
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContact2", 2131626939, r1, r4.title, org.telegram.messenger.ContactsController.formatName(r0.first_name, r0.last_name));
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContact2", org.telegram.messenger.beta.R.string.NotificationActionPinnedContact2, r1, r4.title, org.telegram.messenger.ContactsController.formatName(r0.first_name, r0.last_name));
      */
     /* JADX WARN: Code restructure failed: missing block: B:502:0x0de9, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L507;
@@ -3401,10 +3539,10 @@ public class NotificationsController extends BaseController {
         if (r0.quiz == false) goto L506;
      */
     /* JADX WARN: Code restructure failed: missing block: B:505:0x0df3, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuiz2", 2131626975, r1, r4.title, r0.question);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuiz2", org.telegram.messenger.beta.R.string.NotificationActionPinnedQuiz2, r1, r4.title, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:506:0x0e0e, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPoll2", 2131626972, r1, r4.title, r0.question);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPoll2", org.telegram.messenger.beta.R.string.NotificationActionPinnedPoll2, r1, r4.title, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:508:0x0e2b, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L515;
@@ -3416,16 +3554,16 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r3.message) != false) goto L514;
      */
     /* JADX WARN: Code restructure failed: missing block: B:513:0x0e3b, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", 2131626987, r1, "🖼 " + r2.messageOwner.message, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, r1, "🖼 " + r2.messageOwner.message, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:514:0x0e62, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhoto", 2131626969, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhoto", org.telegram.messenger.beta.R.string.NotificationActionPinnedPhoto, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:516:0x0e7d, code lost:
         if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L518;
      */
     /* JADX WARN: Code restructure failed: missing block: B:517:0x0e7f, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGame", 2131626945, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGame", org.telegram.messenger.beta.R.string.NotificationActionPinnedGame, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:518:0x0e92, code lost:
         r0 = r2.messageText;
@@ -3457,13 +3595,13 @@ public class NotificationsController extends BaseController {
         r2[r7] = r1;
         r2[1] = r0;
         r2[2] = r4.title;
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", 2131626987, r2);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.beta.R.string.NotificationActionPinnedText, r2);
      */
     /* JADX WARN: Code restructure failed: missing block: B:527:0x0ed3, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", 2131626966, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoText, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:528:0x0ee9, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeo", 2131626951, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeo", org.telegram.messenger.beta.R.string.NotificationActionPinnedGeo, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:529:0x0eff, code lost:
         r0 = r2.getStickerEmoji();
@@ -3472,10 +3610,10 @@ public class NotificationsController extends BaseController {
         if (r0 == null) goto L532;
      */
     /* JADX WARN: Code restructure failed: missing block: B:531:0x0f07, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmoji", 2131626983, r1, r4.title, r0);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmoji", org.telegram.messenger.beta.R.string.NotificationActionPinnedStickerEmoji, r1, r4.title, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:532:0x0f1e, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedSticker", 2131626981, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedSticker", org.telegram.messenger.beta.R.string.NotificationActionPinnedSticker, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:534:0x0f34, code lost:
         if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) == false) goto L536;
@@ -3493,19 +3631,19 @@ public class NotificationsController extends BaseController {
         if (r2 != r17) goto L543;
      */
     /* JADX WARN: Code restructure failed: missing block: B:542:0x0f50, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("ChatThemeDisabledYou", 2131625050, new java.lang.Object[0]);
+        r0 = org.telegram.messenger.LocaleController.formatString("ChatThemeDisabledYou", org.telegram.messenger.beta.R.string.ChatThemeDisabledYou, new java.lang.Object[0]);
      */
     /* JADX WARN: Code restructure failed: missing block: B:543:0x0f5e, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("ChatThemeDisabled", 2131625049, r1, r0);
+        r0 = org.telegram.messenger.LocaleController.formatString("ChatThemeDisabled", org.telegram.messenger.beta.R.string.ChatThemeDisabled, r1, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:545:0x0f76, code lost:
         if (r2 != r17) goto L547;
      */
     /* JADX WARN: Code restructure failed: missing block: B:546:0x0f78, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("ChangedChatThemeYou", 2131625047, r0);
+        r0 = org.telegram.messenger.LocaleController.formatString("ChangedChatThemeYou", org.telegram.messenger.beta.R.string.ChatThemeChangedYou, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:547:0x0f87, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("ChangedChatThemeTo", 2131625046, r1, r0);
+        r0 = org.telegram.messenger.LocaleController.formatString("ChangedChatThemeTo", org.telegram.messenger.beta.R.string.ChatThemeChangedTo, r1, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:549:0x0f9b, code lost:
         if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByRequest) == false) goto L745;
@@ -3538,7 +3676,7 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r27.messageOwner.message) != false) goto L573;
      */
     /* JADX WARN: Code restructure failed: missing block: B:572:0x102c, code lost:
-        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", 2131627064, r1, r27.messageOwner.message);
+        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, r1, r27.messageOwner.message);
         r29[0] = true;
      */
     /* JADX WARN: Code restructure failed: missing block: B:574:0x1055, code lost:
@@ -3557,7 +3695,7 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r2.message) != false) goto L582;
      */
     /* JADX WARN: Code restructure failed: missing block: B:581:0x106d, code lost:
-        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", 2131627064, r1, "🖼 " + r27.messageOwner.message);
+        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, r1, "🖼 " + r27.messageOwner.message);
         r29[0] = true;
      */
     /* JADX WARN: Code restructure failed: missing block: B:584:0x10a9, code lost:
@@ -3573,7 +3711,7 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r27.messageOwner.message) != false) goto L591;
      */
     /* JADX WARN: Code restructure failed: missing block: B:590:0x10bd, code lost:
-        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", 2131627064, r1, "📹 " + r27.messageOwner.message);
+        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, r1, "📹 " + r27.messageOwner.message);
         r29[0] = true;
      */
     /* JADX WARN: Code restructure failed: missing block: B:593:0x10fb, code lost:
@@ -3604,10 +3742,10 @@ public class NotificationsController extends BaseController {
         if (r0.quiz == false) goto L609;
      */
     /* JADX WARN: Code restructure failed: missing block: B:608:0x1167, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessageQuiz2", 2131624944, r1, r0.question);
+        r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessageQuiz2", org.telegram.messenger.beta.R.string.ChannelMessageQuiz2, r1, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:609:0x117d, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessagePoll2", 2131624943, r1, r0.question);
+        r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessagePoll2", org.telegram.messenger.beta.R.string.ChannelMessagePoll2, r1, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:611:0x1195, code lost:
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L649;
@@ -3640,7 +3778,7 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r27.messageOwner.message) != false) goto L631;
      */
     /* JADX WARN: Code restructure failed: missing block: B:630:0x11dc, code lost:
-        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", 2131627064, r1, "🎬 " + r27.messageOwner.message);
+        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, r1, "🎬 " + r27.messageOwner.message);
         r29[0] = true;
      */
     /* JADX WARN: Code restructure failed: missing block: B:632:0x1214, code lost:
@@ -3653,7 +3791,7 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r27.messageOwner.message) != false) goto L638;
      */
     /* JADX WARN: Code restructure failed: missing block: B:637:0x1226, code lost:
-        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", 2131627064, r1, "📎 " + r27.messageOwner.message);
+        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, r1, "📎 " + r27.messageOwner.message);
         r29[0] = true;
      */
     /* JADX WARN: Code restructure failed: missing block: B:639:0x125e, code lost:
@@ -3663,10 +3801,10 @@ public class NotificationsController extends BaseController {
         if (r0 == null) goto L642;
      */
     /* JADX WARN: Code restructure failed: missing block: B:641:0x1266, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessageStickerEmoji", 2131624947, r1, r0);
+        r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessageStickerEmoji", org.telegram.messenger.beta.R.string.ChannelMessageStickerEmoji, r1, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:642:0x1278, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessageSticker", 2131624946, r1);
+        r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessageSticker", org.telegram.messenger.beta.R.string.ChannelMessageSticker, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:644:0x1288, code lost:
         if (r28 != false) goto L648;
@@ -3675,7 +3813,7 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r27.messageText) != false) goto L648;
      */
     /* JADX WARN: Code restructure failed: missing block: B:647:0x1292, code lost:
-        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", 2131627064, r1, r27.messageText);
+        r13 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, r1, r27.messageText);
         r29[0] = true;
      */
     /* JADX WARN: Code restructure failed: missing block: B:651:0x12d1, code lost:
@@ -3742,10 +3880,10 @@ public class NotificationsController extends BaseController {
         if (r0.quiz == false) goto L692;
      */
     /* JADX WARN: Code restructure failed: missing block: B:691:0x143e, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupQuiz2", 2131627042, r1, r4.title, r0.question);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupQuiz2", org.telegram.messenger.beta.R.string.NotificationMessageGroupQuiz2, r1, r4.title, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:692:0x1459, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupPoll2", 2131627041, r1, r4.title, r0.question);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupPoll2", org.telegram.messenger.beta.R.string.NotificationMessageGroupPoll2, r1, r4.title, r0.question);
      */
     /* JADX WARN: Code restructure failed: missing block: B:694:0x1476, code lost:
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L696;
@@ -3796,10 +3934,10 @@ public class NotificationsController extends BaseController {
         if (r0 == null) goto L728;
      */
     /* JADX WARN: Code restructure failed: missing block: B:727:0x1577, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupStickerEmoji", 2131627045, r1, r4.title, r0);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupStickerEmoji", org.telegram.messenger.beta.R.string.NotificationMessageGroupStickerEmoji, r1, r4.title, r0);
      */
     /* JADX WARN: Code restructure failed: missing block: B:728:0x158e, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupSticker", 2131627044, r1, r4.title);
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupSticker", org.telegram.messenger.beta.R.string.NotificationMessageGroupSticker, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:729:0x15a2, code lost:
         if (r28 != false) goto L733;
@@ -3808,25 +3946,25 @@ public class NotificationsController extends BaseController {
         if (android.text.TextUtils.isEmpty(r27.messageText) != false) goto L733;
      */
     /* JADX WARN: Code restructure failed: missing block: B:788:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupCreatedCall", 2131627005, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupCreatedCall", org.telegram.messenger.beta.R.string.NotificationGroupCreatedCall, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:789:?, code lost:
         return r27.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:790:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroupByLink", 2131627019, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroupByLink", org.telegram.messenger.beta.R.string.NotificationInvitedToGroupByLink, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:791:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupName", 2131626998, r1, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupName", org.telegram.messenger.beta.R.string.NotificationEditedGroupName, r1, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:792:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickYou", 2131627012, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickYou", org.telegram.messenger.beta.R.string.NotificationGroupKickYou, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:793:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupLeftMember", 2131627013, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupLeftMember", org.telegram.messenger.beta.R.string.NotificationGroupLeftMember, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:794:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickMember", 2131627011, r1, r4.title, org.telegram.messenger.UserObject.getUserName(r0));
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickMember", org.telegram.messenger.beta.R.string.NotificationGroupKickMember, r1, r4.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
     /* JADX WARN: Code restructure failed: missing block: B:795:?, code lost:
         return r27.messageText.toString();
@@ -3835,19 +3973,19 @@ public class NotificationsController extends BaseController {
         return r27.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:797:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", 2131624195, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", org.telegram.messenger.beta.R.string.ActionMigrateFromGroupNotify, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:798:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", 2131624195, r6.title);
+        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", org.telegram.messenger.beta.R.string.ActionMigrateFromGroupNotify, r6.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:799:?, code lost:
         return r27.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:800:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", 2131626967, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoTextChannel, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:801:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", 2131626966, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", org.telegram.messenger.beta.R.string.NotificationActionPinnedNoText, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:802:?, code lost:
         return r27.messageText.toString();
@@ -3856,127 +3994,127 @@ public class NotificationsController extends BaseController {
         return r27.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:804:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelVideoEditNotification", 2131624997, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("ChannelVideoEditNotification", org.telegram.messenger.beta.R.string.ChannelVideoEditNotification, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:805:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelPhotoEditNotification", 2131624957, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("ChannelPhotoEditNotification", org.telegram.messenger.beta.R.string.ChannelPhotoEditNotification, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:806:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupVideo", 2131627000, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupVideo", org.telegram.messenger.beta.R.string.NotificationEditedGroupVideo, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:807:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupPhoto", 2131626999, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupPhoto", org.telegram.messenger.beta.R.string.NotificationEditedGroupPhoto, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:808:?, code lost:
         return r13;
      */
     /* JADX WARN: Code restructure failed: missing block: B:809:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageNoText", 2131624941, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageNoText", org.telegram.messenger.beta.R.string.ChannelMessageNoText, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:810:?, code lost:
         return r13;
      */
     /* JADX WARN: Code restructure failed: missing block: B:811:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessagePhoto", 2131624942, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessagePhoto", org.telegram.messenger.beta.R.string.ChannelMessagePhoto, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:812:?, code lost:
         return r13;
      */
     /* JADX WARN: Code restructure failed: missing block: B:813:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageVideo", 2131624948, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageVideo", org.telegram.messenger.beta.R.string.ChannelMessageVideo, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:814:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageAudio", 2131624933, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageAudio", org.telegram.messenger.beta.R.string.ChannelMessageAudio, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:815:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageRound", 2131624945, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageRound", org.telegram.messenger.beta.R.string.ChannelMessageRound, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:816:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageMusic", 2131624940, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageMusic", org.telegram.messenger.beta.R.string.ChannelMessageMusic, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:817:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageContact2", 2131624934, r1, org.telegram.messenger.ContactsController.formatName(r2.first_name, r2.last_name));
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageContact2", org.telegram.messenger.beta.R.string.ChannelMessageContact2, r1, org.telegram.messenger.ContactsController.formatName(r2.first_name, r2.last_name));
      */
     /* JADX WARN: Code restructure failed: missing block: B:818:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageLiveLocation", 2131624938, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageLiveLocation", org.telegram.messenger.beta.R.string.ChannelMessageLiveLocation, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:819:?, code lost:
         return r13;
      */
     /* JADX WARN: Code restructure failed: missing block: B:820:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageGIF", 2131624937, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageGIF", org.telegram.messenger.beta.R.string.ChannelMessageGIF, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:821:?, code lost:
         return r13;
      */
     /* JADX WARN: Code restructure failed: missing block: B:822:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageDocument", 2131624935, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageDocument", org.telegram.messenger.beta.R.string.ChannelMessageDocument, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:823:?, code lost:
         return r13;
      */
     /* JADX WARN: Code restructure failed: missing block: B:824:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageNoText", 2131624941, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageNoText", org.telegram.messenger.beta.R.string.ChannelMessageNoText, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:825:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageMap", 2131624939, r1);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageMap", org.telegram.messenger.beta.R.string.ChannelMessageMap, r1);
      */
     /* JADX WARN: Code restructure failed: missing block: B:826:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", 2131627046, r1, r4.title, r27.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.beta.R.string.NotificationMessageGroupText, r1, r4.title, r27.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:827:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupNoText", 2131627039, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupNoText", org.telegram.messenger.beta.R.string.NotificationMessageGroupNoText, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:828:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", 2131627046, r1, r4.title, "🖼 " + r27.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.beta.R.string.NotificationMessageGroupText, r1, r4.title, "🖼 " + r27.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:829:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupPhoto", 2131627040, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupPhoto", org.telegram.messenger.beta.R.string.NotificationMessageGroupPhoto, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:830:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", 2131627046, r1, r4.title, "📹 " + r27.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.beta.R.string.NotificationMessageGroupText, r1, r4.title, "📹 " + r27.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:831:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString(" ", 2131627047, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString(" ", org.telegram.messenger.beta.R.string.NotificationMessageGroupVideo, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:832:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupAudio", 2131627029, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupAudio", org.telegram.messenger.beta.R.string.NotificationMessageGroupAudio, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:833:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupRound", 2131627043, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupRound", org.telegram.messenger.beta.R.string.NotificationMessageGroupRound, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:834:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupMusic", 2131627038, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupMusic", org.telegram.messenger.beta.R.string.NotificationMessageGroupMusic, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:835:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupContact2", 2131627030, r1, r4.title, org.telegram.messenger.ContactsController.formatName(r2.first_name, r2.last_name));
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupContact2", org.telegram.messenger.beta.R.string.NotificationMessageGroupContact2, r1, r4.title, org.telegram.messenger.ContactsController.formatName(r2.first_name, r2.last_name));
      */
     /* JADX WARN: Code restructure failed: missing block: B:836:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupGame", 2131627032, r1, r4.title, r2.game.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupGame", org.telegram.messenger.beta.R.string.NotificationMessageGroupGame, r1, r4.title, r2.game.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:837:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupLiveLocation", 2131627036, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupLiveLocation", org.telegram.messenger.beta.R.string.NotificationMessageGroupLiveLocation, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:838:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", 2131627046, r1, r4.title, "🎬 " + r27.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.beta.R.string.NotificationMessageGroupText, r1, r4.title, "🎬 " + r27.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:839:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupGif", 2131627034, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupGif", org.telegram.messenger.beta.R.string.NotificationMessageGroupGif, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:840:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", 2131627046, r1, r4.title, "📎 " + r27.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.beta.R.string.NotificationMessageGroupText, r1, r4.title, "📎 " + r27.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:841:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupDocument", 2131627031, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupDocument", org.telegram.messenger.beta.R.string.NotificationMessageGroupDocument, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:842:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", 2131627046, r1, r4.title, r27.messageText);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.beta.R.string.NotificationMessageGroupText, r1, r4.title, r27.messageText);
      */
     /* JADX WARN: Code restructure failed: missing block: B:843:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupNoText", 2131627039, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupNoText", org.telegram.messenger.beta.R.string.NotificationMessageGroupNoText, r1, r4.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:844:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupMap", 2131627037, r1, r4.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupMap", org.telegram.messenger.beta.R.string.NotificationMessageGroupMap, r1, r4.title);
      */
     /* JADX WARN: Removed duplicated region for block: B:246:0x060b  */
     /* JADX WARN: Removed duplicated region for block: B:737:0x15ee  */
@@ -3996,7 +4134,7 @@ public class NotificationsController extends BaseController {
         char c;
         String str3;
         if (AndroidUtilities.needShowPasscode() || SharedConfig.isWaitingForPasscodeEnter) {
-            return LocaleController.getString("YouHaveNewMessage", 2131629344);
+            return LocaleController.getString("YouHaveNewMessage", org.telegram.messenger.beta.R.string.YouHaveNewMessage);
         }
         TLRPC$Message tLRPC$Message = messageObject.messageOwner;
         long j = tLRPC$Message.dialog_id;
@@ -4017,13 +4155,13 @@ public class NotificationsController extends BaseController {
                     if (zArr2 != null) {
                         zArr2[0] = false;
                     }
-                    return LocaleController.formatString("NotificationMessageNoText", 2131627052, messageObject.localName);
+                    return LocaleController.formatString("NotificationMessageNoText", org.telegram.messenger.beta.R.string.NotificationMessageNoText, messageObject.localName);
                 }
             } else if (j2 != 0 && (!z4 || ((!messageObject.localChannel && !notificationsSettings.getBoolean("EnablePreviewGroup", true)) || (messageObject.localChannel && !notificationsSettings.getBoolean("EnablePreviewChannel", true))))) {
                 if (zArr2 != null) {
                     zArr2[0] = false;
                 }
-                return (messageObject.messageOwner.peer_id.channel_id == 0 || messageObject.isSupergroup()) ? LocaleController.formatString("NotificationMessageGroupNoText", 2131627039, messageObject.localUserName, messageObject.localName) : LocaleController.formatString("ChannelMessageNoText", 2131624941, messageObject.localName);
+                return (messageObject.messageOwner.peer_id.channel_id == 0 || messageObject.isSupergroup()) ? LocaleController.formatString("NotificationMessageGroupNoText", org.telegram.messenger.beta.R.string.NotificationMessageGroupNoText, messageObject.localUserName, messageObject.localName) : LocaleController.formatString("ChannelMessageNoText", org.telegram.messenger.beta.R.string.ChannelMessageNoText, messageObject.localName);
             }
             zArr[0] = true;
             return (String) messageObject.messageText;
@@ -4052,9 +4190,9 @@ public class NotificationsController extends BaseController {
                 }
                 str = null;
             } else if (j == clientUserId) {
-                str = LocaleController.getString("MessageScheduledReminderNotification", 2131626699);
+                str = LocaleController.getString("MessageScheduledReminderNotification", org.telegram.messenger.beta.R.string.MessageScheduledReminderNotification);
             } else {
-                str = LocaleController.getString("NotificationMessageScheduledName", 2131627061);
+                str = LocaleController.getString("NotificationMessageScheduledName", org.telegram.messenger.beta.R.string.NotificationMessageScheduledName);
             }
             if (str == null) {
                 return null;
@@ -4068,7 +4206,7 @@ public class NotificationsController extends BaseController {
                 tLRPC$Chat = null;
             }
             if (DialogObject.isEncryptedDialog(j)) {
-                return LocaleController.getString("YouHaveNewMessage", 2131629344);
+                return LocaleController.getString("YouHaveNewMessage", org.telegram.messenger.beta.R.string.YouHaveNewMessage);
             }
             TLRPC$Chat tLRPC$Chat3 = tLRPC$Chat;
             if (j2 != 0 || j3 == 0) {
@@ -4085,7 +4223,7 @@ public class NotificationsController extends BaseController {
                             if (zArr2 != null) {
                                 zArr2[0] = false;
                             }
-                            return (ChatObject.isChannel(tLRPC$Chat2) || tLRPC$Chat2.megagroup) ? LocaleController.formatString("NotificationMessageGroupNoText", 2131627039, str, tLRPC$Chat2.title) : LocaleController.formatString("ChannelMessageNoText", 2131624941, str);
+                            return (ChatObject.isChannel(tLRPC$Chat2) || tLRPC$Chat2.megagroup) ? LocaleController.formatString("NotificationMessageGroupNoText", org.telegram.messenger.beta.R.string.NotificationMessageGroupNoText, str, tLRPC$Chat2.title) : LocaleController.formatString("ChannelMessageNoText", org.telegram.messenger.beta.R.string.ChannelMessageNoText, str);
                         }
                     } else {
                         tLRPC$Chat2 = tLRPC$Chat3;
@@ -4107,23 +4245,23 @@ public class NotificationsController extends BaseController {
                         return messageObject.messageText.toString();
                     }
                     if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionUserJoined) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionContactSignUp)) {
-                        return LocaleController.formatString("NotificationContactJoined", 2131626996, str);
+                        return LocaleController.formatString("NotificationContactJoined", org.telegram.messenger.beta.R.string.NotificationContactJoined, str);
                     }
                     if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionUserUpdatedPhoto) {
-                        return LocaleController.formatString("NotificationContactNewPhoto", 2131626997, str);
+                        return LocaleController.formatString("NotificationContactNewPhoto", org.telegram.messenger.beta.R.string.NotificationContactNewPhoto, str);
                     }
                     if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionLoginUnknownLocation) {
-                        String formatString2 = LocaleController.formatString("formatDateAtTime", 2131629424, LocaleController.getInstance().formatterYear.format(messageObject.messageOwner.date * 1000), LocaleController.getInstance().formatterDay.format(messageObject.messageOwner.date * 1000));
+                        String formatString2 = LocaleController.formatString("formatDateAtTime", org.telegram.messenger.beta.R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(messageObject.messageOwner.date * 1000), LocaleController.getInstance().formatterDay.format(messageObject.messageOwner.date * 1000));
                         TLRPC$MessageAction tLRPC$MessageAction2 = messageObject.messageOwner.action;
-                        return LocaleController.formatString("NotificationUnrecognizedDevice", 2131627067, getUserConfig().getCurrentUser().first_name, formatString2, tLRPC$MessageAction2.title, tLRPC$MessageAction2.address);
+                        return LocaleController.formatString("NotificationUnrecognizedDevice", org.telegram.messenger.beta.R.string.NotificationUnrecognizedDevice, getUserConfig().getCurrentUser().first_name, formatString2, tLRPC$MessageAction2.title, tLRPC$MessageAction2.address);
                     } else if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionGameScore) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPaymentSent)) {
                         return messageObject.messageText.toString();
                     } else {
                         if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPhoneCall) {
                             if (tLRPC$MessageAction.video) {
-                                return LocaleController.getString("CallMessageVideoIncomingMissed", 2131624807);
+                                return LocaleController.getString("CallMessageVideoIncomingMissed", org.telegram.messenger.beta.R.string.CallMessageVideoIncomingMissed);
                             }
-                            return LocaleController.getString("CallMessageIncomingMissed", 2131624801);
+                            return LocaleController.getString("CallMessageIncomingMissed", org.telegram.messenger.beta.R.string.CallMessageIncomingMissed);
                         }
                         if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetChatTheme) {
                             String str4 = ((TLRPC$TL_messageActionSetChatTheme) tLRPC$MessageAction).emoticon;
@@ -4131,18 +4269,18 @@ public class NotificationsController extends BaseController {
                                 c = 0;
                                 z3 = true;
                                 if (j == clientUserId) {
-                                    str3 = LocaleController.formatString("ChangedChatThemeYou", 2131625047, str4);
+                                    str3 = LocaleController.formatString("ChangedChatThemeYou", org.telegram.messenger.beta.R.string.ChatThemeChangedYou, str4);
                                 } else {
-                                    str3 = LocaleController.formatString("ChangedChatThemeTo", 2131625046, str, str4);
+                                    str3 = LocaleController.formatString("ChangedChatThemeTo", org.telegram.messenger.beta.R.string.ChatThemeChangedTo, str, str4);
                                 }
                             } else if (j == clientUserId) {
                                 c = 0;
-                                str3 = LocaleController.formatString("ChatThemeDisabledYou", 2131625050, new Object[0]);
+                                str3 = LocaleController.formatString("ChatThemeDisabledYou", org.telegram.messenger.beta.R.string.ChatThemeDisabledYou, new Object[0]);
                                 z3 = true;
                             } else {
                                 c = 0;
                                 z3 = true;
-                                str3 = LocaleController.formatString("ChatThemeDisabled", 2131625049, str, str4);
+                                str3 = LocaleController.formatString("ChatThemeDisabled", org.telegram.messenger.beta.R.string.ChatThemeDisabled, str, str4);
                             }
                             String str5 = str3;
                             zArr[c] = z3;
@@ -4153,89 +4291,89 @@ public class NotificationsController extends BaseController {
                 } else if (messageObject.isMediaEmpty()) {
                     if (!z) {
                         if (!TextUtils.isEmpty(messageObject.messageOwner.message)) {
-                            String formatString3 = LocaleController.formatString("NotificationMessageText", 2131627064, str, messageObject.messageOwner.message);
+                            String formatString3 = LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, str, messageObject.messageOwner.message);
                             zArr[0] = true;
                             return formatString3;
                         }
-                        return LocaleController.formatString("NotificationMessageNoText", 2131627052, str);
+                        return LocaleController.formatString("NotificationMessageNoText", org.telegram.messenger.beta.R.string.NotificationMessageNoText, str);
                     }
-                    return LocaleController.formatString("NotificationMessageNoText", 2131627052, str);
+                    return LocaleController.formatString("NotificationMessageNoText", org.telegram.messenger.beta.R.string.NotificationMessageNoText, str);
                 } else {
                     TLRPC$Message tLRPC$Message3 = messageObject.messageOwner;
                     if (tLRPC$Message3.media instanceof TLRPC$TL_messageMediaPhoto) {
                         if (!z && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(tLRPC$Message3.message)) {
-                            String formatString4 = LocaleController.formatString("NotificationMessageText", 2131627064, str, "🖼 " + messageObject.messageOwner.message);
+                            String formatString4 = LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, str, "🖼 " + messageObject.messageOwner.message);
                             zArr[0] = true;
                             return formatString4;
                         } else if (messageObject.messageOwner.media.ttl_seconds != 0) {
-                            return LocaleController.formatString("NotificationMessageSDPhoto", 2131627058, str);
+                            return LocaleController.formatString("NotificationMessageSDPhoto", org.telegram.messenger.beta.R.string.NotificationMessageSDPhoto, str);
                         } else {
-                            return LocaleController.formatString("NotificationMessagePhoto", 2131627053, str);
+                            return LocaleController.formatString("NotificationMessagePhoto", org.telegram.messenger.beta.R.string.NotificationMessagePhoto, str);
                         }
                     } else if (messageObject.isVideo()) {
                         if (!z && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.message)) {
-                            String formatString5 = LocaleController.formatString("NotificationMessageText", 2131627064, str, "📹 " + messageObject.messageOwner.message);
+                            String formatString5 = LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, str, "📹 " + messageObject.messageOwner.message);
                             zArr[0] = true;
                             return formatString5;
                         } else if (messageObject.messageOwner.media.ttl_seconds != 0) {
-                            return LocaleController.formatString("NotificationMessageSDVideo", 2131627059, str);
+                            return LocaleController.formatString("NotificationMessageSDVideo", org.telegram.messenger.beta.R.string.NotificationMessageSDVideo, str);
                         } else {
-                            return LocaleController.formatString("NotificationMessageVideo", 2131627065, str);
+                            return LocaleController.formatString("NotificationMessageVideo", org.telegram.messenger.beta.R.string.NotificationMessageVideo, str);
                         }
                     } else if (messageObject.isGame()) {
-                        return LocaleController.formatString("NotificationMessageGame", 2131627026, str, messageObject.messageOwner.media.game.title);
+                        return LocaleController.formatString("NotificationMessageGame", org.telegram.messenger.beta.R.string.NotificationMessageGame, str, messageObject.messageOwner.media.game.title);
                     } else {
                         if (messageObject.isVoice()) {
-                            return LocaleController.formatString("NotificationMessageAudio", 2131627021, str);
+                            return LocaleController.formatString("NotificationMessageAudio", org.telegram.messenger.beta.R.string.NotificationMessageAudio, str);
                         }
                         if (messageObject.isRoundVideo()) {
-                            return LocaleController.formatString("NotificationMessageRound", 2131627057, str);
+                            return LocaleController.formatString("NotificationMessageRound", org.telegram.messenger.beta.R.string.NotificationMessageRound, str);
                         }
                         if (messageObject.isMusic()) {
-                            return LocaleController.formatString("NotificationMessageMusic", 2131627051, str);
+                            return LocaleController.formatString("NotificationMessageMusic", org.telegram.messenger.beta.R.string.NotificationMessageMusic, str);
                         }
                         TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
                         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaContact) {
                             TLRPC$TL_messageMediaContact tLRPC$TL_messageMediaContact = (TLRPC$TL_messageMediaContact) tLRPC$MessageMedia;
-                            return LocaleController.formatString("NotificationMessageContact2", 2131627022, str, ContactsController.formatName(tLRPC$TL_messageMediaContact.first_name, tLRPC$TL_messageMediaContact.last_name));
+                            return LocaleController.formatString("NotificationMessageContact2", org.telegram.messenger.beta.R.string.NotificationMessageContact2, str, ContactsController.formatName(tLRPC$TL_messageMediaContact.first_name, tLRPC$TL_messageMediaContact.last_name));
                         }
                         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) {
                             TLRPC$Poll tLRPC$Poll = ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia).poll;
-                            formatString = tLRPC$Poll.quiz ? LocaleController.formatString("NotificationMessageQuiz2", 2131627055, str, tLRPC$Poll.question) : LocaleController.formatString("NotificationMessagePoll2", 2131627054, str, tLRPC$Poll.question);
+                            formatString = tLRPC$Poll.quiz ? LocaleController.formatString("NotificationMessageQuiz2", org.telegram.messenger.beta.R.string.NotificationMessageQuiz2, str, tLRPC$Poll.question) : LocaleController.formatString("NotificationMessagePoll2", org.telegram.messenger.beta.R.string.NotificationMessagePoll2, str, tLRPC$Poll.question);
                         } else if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGeo) || (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaVenue)) {
-                            return LocaleController.formatString("NotificationMessageMap", 2131627050, str);
+                            return LocaleController.formatString("NotificationMessageMap", org.telegram.messenger.beta.R.string.NotificationMessageMap, str);
                         } else {
                             if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGeoLive) {
-                                return LocaleController.formatString("NotificationMessageLiveLocation", 2131627049, str);
+                                return LocaleController.formatString("NotificationMessageLiveLocation", org.telegram.messenger.beta.R.string.NotificationMessageLiveLocation, str);
                             }
                             if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaDocument) {
                                 if (messageObject.isSticker() || messageObject.isAnimatedSticker()) {
                                     String stickerEmoji = messageObject.getStickerEmoji();
                                     if (stickerEmoji != null) {
-                                        formatString = LocaleController.formatString("NotificationMessageStickerEmoji", 2131627063, str, stickerEmoji);
+                                        formatString = LocaleController.formatString("NotificationMessageStickerEmoji", org.telegram.messenger.beta.R.string.NotificationMessageStickerEmoji, str, stickerEmoji);
                                     } else {
-                                        formatString = LocaleController.formatString("NotificationMessageSticker", 2131627062, str);
+                                        formatString = LocaleController.formatString("NotificationMessageSticker", org.telegram.messenger.beta.R.string.NotificationMessageSticker, str);
                                     }
                                 } else if (messageObject.isGif()) {
                                     if (!z && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.message)) {
-                                        String formatString6 = LocaleController.formatString("NotificationMessageText", 2131627064, str, "🎬 " + messageObject.messageOwner.message);
+                                        String formatString6 = LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, str, "🎬 " + messageObject.messageOwner.message);
                                         zArr[0] = true;
                                         return formatString6;
                                     }
-                                    return LocaleController.formatString("NotificationMessageGif", 2131627028, str);
+                                    return LocaleController.formatString("NotificationMessageGif", org.telegram.messenger.beta.R.string.NotificationMessageGif, str);
                                 } else if (!z && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.message)) {
-                                    String formatString7 = LocaleController.formatString("NotificationMessageText", 2131627064, str, "📎 " + messageObject.messageOwner.message);
+                                    String formatString7 = LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, str, "📎 " + messageObject.messageOwner.message);
                                     zArr[0] = true;
                                     return formatString7;
                                 } else {
-                                    return LocaleController.formatString("NotificationMessageDocument", 2131627023, str);
+                                    return LocaleController.formatString("NotificationMessageDocument", org.telegram.messenger.beta.R.string.NotificationMessageDocument, str);
                                 }
                             } else if (!z && !TextUtils.isEmpty(messageObject.messageText)) {
-                                String formatString8 = LocaleController.formatString("NotificationMessageText", 2131627064, str, messageObject.messageText);
+                                String formatString8 = LocaleController.formatString("NotificationMessageText", org.telegram.messenger.beta.R.string.NotificationMessageText, str, messageObject.messageText);
                                 zArr[0] = true;
                                 return formatString8;
                             } else {
-                                return LocaleController.formatString("NotificationMessageNoText", 2131627052, str);
+                                return LocaleController.formatString("NotificationMessageNoText", org.telegram.messenger.beta.R.string.NotificationMessageNoText, str);
                             }
                         }
                         return formatString;
@@ -4245,7 +4383,7 @@ public class NotificationsController extends BaseController {
                 if (zArr2 != null) {
                     zArr2[0] = false;
                 }
-                return LocaleController.formatString("NotificationMessageNoText", 2131627052, str);
+                return LocaleController.formatString("NotificationMessageNoText", org.telegram.messenger.beta.R.string.NotificationMessageNoText, str);
             }
             return str2;
         }
@@ -4299,11 +4437,21 @@ public class NotificationsController extends BaseController {
     }
 
     public void showNotifications() {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda14(this));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda14
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$showNotifications$25();
+            }
+        });
     }
 
     public void hideNotifications() {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda12(this));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda12
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$hideNotifications$26();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$hideNotifications$26() {
@@ -4352,7 +4500,12 @@ public class NotificationsController extends BaseController {
             if (getNotifyOverride(getAccountInstance().getNotificationsSettings(), this.openedDialogId) == 2) {
                 return;
             }
-            notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda5(this));
+            notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsController.this.lambda$playInChatSound$29();
+                }
+            });
         } catch (Exception e2) {
             FileLog.e(e2);
         }
@@ -4370,7 +4523,7 @@ public class NotificationsController extends BaseController {
             }
             if (this.soundIn == 0 && !this.soundInLoaded) {
                 this.soundInLoaded = true;
-                this.soundIn = this.soundPool.load(ApplicationLoader.applicationContext, 2131558551, 1);
+                this.soundIn = this.soundPool.load(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.raw.sound_in, 1);
             }
             int i = this.soundIn;
             if (i == 0) {
@@ -4411,7 +4564,12 @@ public class NotificationsController extends BaseController {
     }
 
     public void repeatNotificationMaybe() {
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda7(this));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$repeatNotificationMaybe$30();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$repeatNotificationMaybe$30() {
@@ -4484,11 +4642,16 @@ public class NotificationsController extends BaseController {
         }
     }
 
-    public void deleteNotificationChannel(long j, int i) {
+    public void deleteNotificationChannel(final long j, final int i) {
         if (Build.VERSION.SDK_INT < 26) {
             return;
         }
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda23(this, j, i));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda23
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$deleteNotificationChannel$31(j, i);
+            }
+        });
     }
 
     public void deleteNotificationChannelGlobal(int i) {
@@ -4542,18 +4705,28 @@ public class NotificationsController extends BaseController {
         }
     }
 
-    public void deleteNotificationChannelGlobal(int i, int i2) {
+    public void deleteNotificationChannelGlobal(final int i, final int i2) {
         if (Build.VERSION.SDK_INT < 26) {
             return;
         }
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda21(this, i, i2));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda21
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$deleteNotificationChannelGlobal$32(i, i2);
+            }
+        });
     }
 
     public void deleteAllNotificationChannels() {
         if (Build.VERSION.SDK_INT < 26) {
             return;
         }
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda10(this));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda10
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$deleteAllNotificationChannels$33();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$deleteAllNotificationChannels$33() {
@@ -4630,9 +4803,9 @@ public class NotificationsController extends BaseController {
                         if (bitmap == null) {
                             iconCompat = IconCompat.createWithAdaptiveBitmap(bitmap);
                         } else if (tLRPC$User != null) {
-                            iconCompat = IconCompat.createWithResource(ApplicationLoader.applicationContext, tLRPC$User.bot ? 2131165277 : 2131165281);
+                            iconCompat = IconCompat.createWithResource(ApplicationLoader.applicationContext, tLRPC$User.bot ? org.telegram.messenger.beta.R.drawable.book_bot : org.telegram.messenger.beta.R.drawable.book_user);
                         } else {
-                            iconCompat = IconCompat.createWithResource(ApplicationLoader.applicationContext, 2131165279);
+                            iconCompat = IconCompat.createWithResource(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.book_group);
                         }
                         NotificationCompat.BubbleMetadata.Builder builder2 = new NotificationCompat.BubbleMetadata.Builder(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 134217728), iconCompat);
                         builder2.setSuppressNotification(this.openedDialogId != j);
@@ -4667,7 +4840,7 @@ public class NotificationsController extends BaseController {
         return null;
     }
 
-    @TargetApi(26)
+    @TargetApi(AvailableCode.ERROR_NO_ACTIVITY)
     protected void ensureGroupsCreated() {
         SharedPreferences notificationsSettings = getAccountInstance().getNotificationsSettings();
         if (this.groupsCreated == null) {
@@ -4753,16 +4926,16 @@ public class NotificationsController extends BaseController {
                 String str6 = user != null ? " (" + ContactsController.formatName(user.first_name, user.last_name) + ")" : "";
                 ArrayList arrayList = new ArrayList();
                 if (str2 != null) {
-                    arrayList.add(new NotificationChannelGroup(str2, LocaleController.getString("NotificationsChannels", 2131627071) + str6));
+                    arrayList.add(new NotificationChannelGroup(str2, LocaleController.getString("NotificationsChannels", org.telegram.messenger.beta.R.string.NotificationsChannels) + str6));
                 }
                 if (str3 != null) {
-                    arrayList.add(new NotificationChannelGroup(str3, LocaleController.getString("NotificationsGroups", 2131627091) + str6));
+                    arrayList.add(new NotificationChannelGroup(str3, LocaleController.getString("NotificationsGroups", org.telegram.messenger.beta.R.string.NotificationsGroups) + str6));
                 }
                 if (str5 != null) {
-                    arrayList.add(new NotificationChannelGroup(str5, LocaleController.getString("NotificationsPrivateChats", 2131627110) + str6));
+                    arrayList.add(new NotificationChannelGroup(str5, LocaleController.getString("NotificationsPrivateChats", org.telegram.messenger.beta.R.string.NotificationsPrivateChats) + str6));
                 }
                 if (str4 != null) {
-                    arrayList.add(new NotificationChannelGroup(str4, LocaleController.getString("NotificationsOther", 2131627104) + str6));
+                    arrayList.add(new NotificationChannelGroup(str4, LocaleController.getString("NotificationsOther", org.telegram.messenger.beta.R.string.NotificationsOther) + str6));
                 }
                 systemNotificationManager.createNotificationChannelGroups(arrayList);
             }
@@ -4773,7 +4946,7 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:189:0x0402 A[LOOP:1: B:187:0x03ff->B:189:0x0402, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:192:0x0417  */
     /* JADX WARN: Removed duplicated region for block: B:212:0x0465  */
-    @TargetApi(26)
+    @TargetApi(AvailableCode.ERROR_NO_ACTIVITY)
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4835,14 +5008,14 @@ public class NotificationsController extends BaseController {
             MD52 = MD52.substring(0, 5);
         }
         if (z3) {
-            str4 = LocaleController.getString("NotificationsSilent", 2131627115);
+            str4 = LocaleController.getString("NotificationsSilent", org.telegram.messenger.beta.R.string.NotificationsSilent);
             str16 = "silent";
         } else if (z) {
             if (z2) {
-                i8 = 2131627093;
+                i8 = org.telegram.messenger.beta.R.string.NotificationsInAppDefault;
                 str14 = "NotificationsInAppDefault";
             } else {
-                i8 = 2131627076;
+                i8 = org.telegram.messenger.beta.R.string.NotificationsDefault;
                 str14 = "NotificationsDefault";
             }
             String string = LocaleController.getString(str14, i8);
@@ -4861,7 +5034,7 @@ public class NotificationsController extends BaseController {
             }
             str4 = string;
         } else {
-            str4 = z2 ? LocaleController.formatString("NotificationsChatInApp", 2131627073, str) : str;
+            str4 = z2 ? LocaleController.formatString("NotificationsChatInApp", org.telegram.messenger.beta.R.string.NotificationsChatInApp, str) : str;
             StringBuilder sb = new StringBuilder();
             sb.append(z2 ? "org.telegram.keyia" : "org.telegram.key");
             sb.append(j);
@@ -5097,7 +5270,7 @@ public class NotificationsController extends BaseController {
                     str10 = str8;
                     if (str10 == null) {
                         str10 = z ? this.currentAccount + "channel_" + str12 + str6 + Utilities.random.nextLong() : this.currentAccount + "channel_" + j2 + str6 + Utilities.random.nextLong();
-                        NotificationChannel notificationChannel2 = new NotificationChannel(str10, z10 ? LocaleController.getString("SecretChatName", 2131628209) : str19, i4);
+                        NotificationChannel notificationChannel2 = new NotificationChannel(str10, z10 ? LocaleController.getString("SecretChatName", org.telegram.messenger.beta.R.string.SecretChatName) : str19, i4);
                         notificationChannel2.setGroup(str20);
                         if (i5 != 0) {
                             z6 = true;
@@ -5199,10 +5372,10 @@ public class NotificationsController extends BaseController {
         if (r11 == 0) goto L79;
      */
     /* JADX WARN: Code restructure failed: missing block: B:78:0x0135, code lost:
-        r1 = org.telegram.messenger.LocaleController.getString("NotificationHiddenChatName", 2131627014);
+        r1 = org.telegram.messenger.LocaleController.getString("NotificationHiddenChatName", org.telegram.messenger.beta.R.string.NotificationHiddenChatName);
      */
     /* JADX WARN: Code restructure failed: missing block: B:79:0x013f, code lost:
-        r1 = org.telegram.messenger.LocaleController.getString("NotificationHiddenName", 2131627017);
+        r1 = org.telegram.messenger.LocaleController.getString("NotificationHiddenName", org.telegram.messenger.beta.R.string.NotificationHiddenName);
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:100:0x01b7 A[Catch: Exception -> 0x0b0c, TRY_ENTER, TryCatch #1 {Exception -> 0x0b0c, blocks: (B:10:0x0022, B:12:0x0046, B:14:0x004a, B:16:0x0054, B:18:0x005a, B:21:0x006a, B:22:0x006c, B:26:0x007a, B:28:0x0086, B:29:0x008c, B:31:0x009e, B:33:0x00ac, B:35:0x00b2, B:36:0x00b5, B:38:0x00bb, B:44:0x00c9, B:46:0x00d9, B:54:0x00f1, B:56:0x00f7, B:58:0x00fc, B:59:0x00ff, B:60:0x0103, B:62:0x010b, B:67:0x0113, B:69:0x0119, B:78:0x0135, B:79:0x013f, B:80:0x0149, B:82:0x0153, B:85:0x0160, B:87:0x0168, B:88:0x0175, B:90:0x0195, B:92:0x01a0, B:97:0x01ac, B:100:0x01b7, B:101:0x01d2, B:102:0x020d, B:105:0x0223, B:110:0x0240, B:111:0x0254, B:113:0x0259, B:114:0x026d, B:116:0x0282, B:117:0x0299, B:119:0x02bd, B:121:0x02d5, B:126:0x02df, B:127:0x02e5, B:131:0x02f2, B:132:0x0306, B:134:0x030b, B:135:0x031f, B:136:0x0332, B:138:0x033a, B:139:0x0343, B:142:0x0357, B:153:0x0372, B:155:0x038c, B:158:0x03c3, B:160:0x03cd, B:161:0x03e7, B:163:0x03fc, B:164:0x0408, B:166:0x040c, B:172:0x042f, B:175:0x0449, B:179:0x0458, B:181:0x046f, B:183:0x04b7, B:184:0x04c3, B:185:0x04da, B:187:0x04f1, B:194:0x0525, B:196:0x0535, B:197:0x0541, B:198:0x0548, B:199:0x0565, B:201:0x0577, B:202:0x0583, B:203:0x058a, B:206:0x05b1, B:208:0x05bb, B:209:0x05c7, B:210:0x05ce, B:217:0x0609, B:219:0x060f, B:231:0x0629, B:233:0x062f, B:241:0x0641, B:244:0x064b, B:247:0x0654, B:263:0x0677, B:267:0x0682, B:269:0x06b8, B:273:0x06c7, B:276:0x06d3, B:277:0x06da, B:279:0x06e0, B:282:0x06e5, B:284:0x06ee, B:287:0x06f6, B:289:0x06fa, B:291:0x06fe, B:293:0x0706, B:297:0x0710, B:299:0x0716, B:301:0x071a, B:303:0x0722, B:307:0x072a, B:309:0x0735, B:311:0x073b, B:313:0x0745, B:316:0x07a6, B:318:0x07aa, B:320:0x07b0, B:321:0x07c6, B:323:0x07eb, B:325:0x07f8, B:343:0x0848, B:353:0x085c, B:357:0x0869, B:360:0x0872, B:363:0x087d, B:370:0x0890, B:372:0x0898, B:374:0x08a0, B:376:0x08c8, B:378:0x08cd, B:380:0x08d5, B:382:0x08d9, B:384:0x08e1, B:388:0x08ec, B:389:0x0902, B:390:0x0907, B:391:0x090a, B:393:0x0912, B:396:0x091c, B:398:0x0924, B:401:0x094f, B:402:0x0957, B:405:0x0961, B:409:0x0972, B:412:0x0983, B:419:0x09a4, B:422:0x09b8, B:424:0x09c1, B:425:0x09d3, B:427:0x09d9, B:429:0x09dd, B:431:0x09e8, B:433:0x09ee, B:435:0x09f8, B:437:0x0a07, B:439:0x0a17, B:441:0x0a36, B:442:0x0a3b, B:444:0x0a67, B:445:0x0a78, B:449:0x0a9b, B:451:0x0aa1, B:453:0x0aa9, B:455:0x0aaf, B:457:0x0ac1, B:458:0x0ada, B:459:0x0af2, B:400:0x092e, B:256:0x0668), top: B:467:0x0022, inners: #0, #3 }] */
@@ -5668,7 +5841,7 @@ public class NotificationsController extends BaseController {
                                                 sb3.append(Math.random());
                                                 sb3.append(Integer.MAX_VALUE);
                                                 intent.setAction(sb3.toString());
-                                                intent.setFlags(67108864);
+                                                intent.setFlags(ConnectionsManager.FileTypeFile);
                                                 if (!DialogObject.isEncryptedDialog(j5)) {
                                                     if (this.pushDialogs.size() == 1) {
                                                         if (j2 != 0) {
@@ -5695,8 +5868,8 @@ public class NotificationsController extends BaseController {
                                                         builder3 = builder2;
                                                         MessageObject messageObject6 = messageObject2;
                                                         int i27 = i8;
-                                                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6.messageOwner.date * 1000).setColor(-15618822);
-                                                        builder3.setCategory("msg");
+                                                        builder3.setContentTitle(charSequence2).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6.messageOwner.date * 1000).setColor(-15618822);
+                                                        builder3.setCategory(RemoteMessageConst.MessageBody.MSG);
                                                         if (tLRPC$Chat == null && tLRPC$User != null && (str11 = tLRPC$User.phone) != null && str11.length() > 0) {
                                                             builder3.addPerson("tel:+" + tLRPC$User.phone);
                                                         }
@@ -5872,7 +6045,7 @@ public class NotificationsController extends BaseController {
                                                                         intent3.putExtra("did", j7);
                                                                         byte[] bArr = tLRPC$KeyboardButton.data;
                                                                         if (bArr != null) {
-                                                                            intent3.putExtra("data", bArr);
+                                                                            intent3.putExtra(RemoteMessageConst.DATA, bArr);
                                                                         }
                                                                         intent3.putExtra("mid", messageObject6.getId());
                                                                         String str22 = tLRPC$KeyboardButton.text;
@@ -5910,9 +6083,9 @@ public class NotificationsController extends BaseController {
                                                             Intent intent4 = new Intent(ApplicationLoader.applicationContext, PopupReplyReceiver.class);
                                                             intent4.putExtra("currentAccount", this.currentAccount);
                                                             if (i13 <= 19) {
-                                                                builder3.addAction(2131165455, LocaleController.getString("Reply", 2131627989), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, intent4, 134217728));
+                                                                builder3.addAction(org.telegram.messenger.beta.R.drawable.ic_ab_reply2, LocaleController.getString("Reply", org.telegram.messenger.beta.R.string.Reply), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, intent4, 134217728));
                                                             } else {
-                                                                builder3.addAction(2131165454, LocaleController.getString("Reply", 2131627989), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, intent4, 134217728));
+                                                                builder3.addAction(org.telegram.messenger.beta.R.drawable.ic_ab_reply, LocaleController.getString("Reply", org.telegram.messenger.beta.R.string.Reply), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, intent4, 134217728));
                                                             }
                                                         }
                                                         showExtraNotifications(builder3, str6, j6, str17, jArr2, i12, uri2, i11, z23, z10, z9, i4);
@@ -5932,8 +6105,8 @@ public class NotificationsController extends BaseController {
                                                 builder3 = builder2;
                                                 MessageObject messageObject62 = messageObject2;
                                                 int i272 = i8;
-                                                builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62.messageOwner.date * 1000).setColor(-15618822);
-                                                builder3.setCategory("msg");
+                                                builder3.setContentTitle(charSequence2).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62.messageOwner.date * 1000).setColor(-15618822);
+                                                builder3.setCategory(RemoteMessageConst.MessageBody.MSG);
                                                 if (tLRPC$Chat == null) {
                                                     builder3.addPerson("tel:+" + tLRPC$User.phone);
                                                 }
@@ -5976,7 +6149,7 @@ public class NotificationsController extends BaseController {
                                         sb32.append(Math.random());
                                         sb32.append(Integer.MAX_VALUE);
                                         intent5.setAction(sb32.toString());
-                                        intent5.setFlags(67108864);
+                                        intent5.setFlags(ConnectionsManager.FileTypeFile);
                                         if (!DialogObject.isEncryptedDialog(j5)) {
                                         }
                                         tLRPC$FileLocation = null;
@@ -5985,8 +6158,8 @@ public class NotificationsController extends BaseController {
                                         builder3 = builder2;
                                         MessageObject messageObject622 = messageObject2;
                                         int i2722 = i8;
-                                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject622.messageOwner.date * 1000).setColor(-15618822);
-                                        builder3.setCategory("msg");
+                                        builder3.setContentTitle(charSequence2).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject622.messageOwner.date * 1000).setColor(-15618822);
+                                        builder3.setCategory(RemoteMessageConst.MessageBody.MSG);
                                         if (tLRPC$Chat == null) {
                                         }
                                         Intent intent222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
@@ -6067,7 +6240,7 @@ public class NotificationsController extends BaseController {
                                 sb322.append(Math.random());
                                 sb322.append(Integer.MAX_VALUE);
                                 intent52.setAction(sb322.toString());
-                                intent52.setFlags(67108864);
+                                intent52.setFlags(ConnectionsManager.FileTypeFile);
                                 if (!DialogObject.isEncryptedDialog(j5)) {
                                 }
                                 tLRPC$FileLocation = null;
@@ -6076,8 +6249,8 @@ public class NotificationsController extends BaseController {
                                 builder3 = builder2;
                                 MessageObject messageObject6222 = messageObject2;
                                 int i27222 = i8;
-                                builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6222.messageOwner.date * 1000).setColor(-15618822);
-                                builder3.setCategory("msg");
+                                builder3.setContentTitle(charSequence2).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6222.messageOwner.date * 1000).setColor(-15618822);
+                                builder3.setCategory(RemoteMessageConst.MessageBody.MSG);
                                 if (tLRPC$Chat == null) {
                                 }
                                 Intent intent2222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
@@ -6138,7 +6311,7 @@ public class NotificationsController extends BaseController {
                         sb3222.append(Math.random());
                         sb3222.append(Integer.MAX_VALUE);
                         intent522.setAction(sb3222.toString());
-                        intent522.setFlags(67108864);
+                        intent522.setFlags(ConnectionsManager.FileTypeFile);
                         if (!DialogObject.isEncryptedDialog(j5)) {
                         }
                         tLRPC$FileLocation = null;
@@ -6147,8 +6320,8 @@ public class NotificationsController extends BaseController {
                         builder3 = builder2;
                         MessageObject messageObject62222 = messageObject2;
                         int i272222 = i8;
-                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62222.messageOwner.date * 1000).setColor(-15618822);
-                        builder3.setCategory("msg");
+                        builder3.setContentTitle(charSequence2).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62222.messageOwner.date * 1000).setColor(-15618822);
+                        builder3.setCategory(RemoteMessageConst.MessageBody.MSG);
                         if (tLRPC$Chat == null) {
                         }
                         Intent intent22222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
@@ -6224,7 +6397,7 @@ public class NotificationsController extends BaseController {
                         sb32222.append(Math.random());
                         sb32222.append(Integer.MAX_VALUE);
                         intent5222.setAction(sb32222.toString());
-                        intent5222.setFlags(67108864);
+                        intent5222.setFlags(ConnectionsManager.FileTypeFile);
                         if (!DialogObject.isEncryptedDialog(j5)) {
                         }
                         tLRPC$FileLocation = null;
@@ -6233,8 +6406,8 @@ public class NotificationsController extends BaseController {
                         builder3 = builder2;
                         MessageObject messageObject622222 = messageObject2;
                         int i2722222 = i8;
-                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject622222.messageOwner.date * 1000).setColor(-15618822);
-                        builder3.setCategory("msg");
+                        builder3.setContentTitle(charSequence2).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject622222.messageOwner.date * 1000).setColor(-15618822);
+                        builder3.setCategory(RemoteMessageConst.MessageBody.MSG);
                         if (tLRPC$Chat == null) {
                         }
                         Intent intent222222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
@@ -6251,7 +6424,7 @@ public class NotificationsController extends BaseController {
                         StringBuilder sb5 = new StringBuilder();
                         sb5.append(str3);
                         j3 = fromChatId;
-                        sb5.append(LocaleController.formatString("NotificationMessagesPeopleDisplayOrder", 2131627066, LocaleController.formatPluralString("NewMessages", this.total_unread_count, new Object[0]), LocaleController.formatPluralString("FromChats", this.pushDialogs.size(), new Object[0])));
+                        sb5.append(LocaleController.formatString("NotificationMessagesPeopleDisplayOrder", org.telegram.messenger.beta.R.string.NotificationMessagesPeopleDisplayOrder, LocaleController.formatPluralString("NewMessages", this.total_unread_count, new Object[0]), LocaleController.formatPluralString("FromChats", this.pushDialogs.size(), new Object[0])));
                         str3 = sb5.toString();
                         NotificationCompat.Builder builder422 = new NotificationCompat.Builder(ApplicationLoader.applicationContext);
                         if (this.pushMessages.size() != 1) {
@@ -6309,7 +6482,7 @@ public class NotificationsController extends BaseController {
                         sb322222.append(Math.random());
                         sb322222.append(Integer.MAX_VALUE);
                         intent52222.setAction(sb322222.toString());
-                        intent52222.setFlags(67108864);
+                        intent52222.setFlags(ConnectionsManager.FileTypeFile);
                         if (!DialogObject.isEncryptedDialog(j5)) {
                         }
                         tLRPC$FileLocation = null;
@@ -6318,8 +6491,8 @@ public class NotificationsController extends BaseController {
                         builder3 = builder2;
                         MessageObject messageObject6222222 = messageObject2;
                         int i27222222 = i8;
-                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6222222.messageOwner.date * 1000).setColor(-15618822);
-                        builder3.setCategory("msg");
+                        builder3.setContentTitle(charSequence2).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6222222.messageOwner.date * 1000).setColor(-15618822);
+                        builder3.setCategory(RemoteMessageConst.MessageBody.MSG);
                         if (tLRPC$Chat == null) {
                         }
                         Intent intent2222222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
@@ -6336,7 +6509,7 @@ public class NotificationsController extends BaseController {
             } else {
                 messageObject2 = messageObject;
             }
-            str2 = LocaleController.getString("AppName", 2131624384);
+            str2 = LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName);
             z5 = false;
             boolean z202 = z2;
             if (UserConfig.getActivatedAccountsCount() <= 1) {
@@ -6401,7 +6574,7 @@ public class NotificationsController extends BaseController {
                 sb3222222.append(Math.random());
                 sb3222222.append(Integer.MAX_VALUE);
                 intent522222.setAction(sb3222222.toString());
-                intent522222.setFlags(67108864);
+                intent522222.setFlags(ConnectionsManager.FileTypeFile);
                 if (!DialogObject.isEncryptedDialog(j5)) {
                 }
                 tLRPC$FileLocation = null;
@@ -6410,8 +6583,8 @@ public class NotificationsController extends BaseController {
                 builder3 = builder2;
                 MessageObject messageObject62222222 = messageObject2;
                 int i272222222 = i8;
-                builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62222222.messageOwner.date * 1000).setColor(-15618822);
-                builder3.setCategory("msg");
+                builder3.setContentTitle(charSequence2).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62222222.messageOwner.date * 1000).setColor(-15618822);
+                builder3.setCategory(RemoteMessageConst.MessageBody.MSG);
                 if (tLRPC$Chat == null) {
                 }
                 Intent intent22222222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
@@ -6430,7 +6603,7 @@ public class NotificationsController extends BaseController {
         z4 = true;
         if (DialogObject.isEncryptedDialog(dialogId)) {
         }
-        str2 = LocaleController.getString("AppName", 2131624384);
+        str2 = LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName);
         z5 = false;
         boolean z2022 = z2;
         if (UserConfig.getActivatedAccountsCount() <= 1) {
@@ -6462,7 +6635,7 @@ public class NotificationsController extends BaseController {
         }
         SharedPreferences.Editor edit = getAccountInstance().getNotificationsSettings().edit();
         String uri3 = uri2.toString();
-        String string = LocaleController.getString("DefaultRingtone", 2131625383);
+        String string = LocaleController.getString("DefaultRingtone", org.telegram.messenger.beta.R.string.DefaultRingtone);
         if (z) {
             if (i3 == 2) {
                 edit.putString("ChannelSound", string);
@@ -6616,7 +6789,7 @@ public class NotificationsController extends BaseController {
         boolean z10;
         List<NotificationCompat.MessagingStyle.Message> messages;
         Uri uri2;
-        Uri uriForFile;
+        final Uri uriForFile;
         String str19;
         TLRPC$User user;
         Throwable th;
@@ -6740,9 +6913,9 @@ public class NotificationsController extends BaseController {
                                 tLRPC$FileLocation6 = tLRPC$FileLocation7;
                                 str22 = userName;
                                 if (!UserObject.isReplyUser(longValue)) {
-                                    str22 = LocaleController.getString("RepliesTitle", 2131627982);
+                                    str22 = LocaleController.getString("RepliesTitle", org.telegram.messenger.beta.R.string.RepliesTitle);
                                 } else if (longValue == clientUserId) {
-                                    str22 = LocaleController.getString("MessageScheduledReminderNotification", 2131626699);
+                                    str22 = LocaleController.getString("MessageScheduledReminderNotification", org.telegram.messenger.beta.R.string.MessageScheduledReminderNotification);
                                 }
                                 arrayList3 = arrayList10;
                                 tLRPC$FileLocation = tLRPC$FileLocation6;
@@ -6756,10 +6929,10 @@ public class NotificationsController extends BaseController {
                                 if (!z12) {
                                     if (DialogObject.isChatDialog(longValue)) {
                                         tLRPC$User2 = tLRPC$User;
-                                        str21 = LocaleController.getString("NotificationHiddenChatName", 2131627014);
+                                        str21 = LocaleController.getString("NotificationHiddenChatName", org.telegram.messenger.beta.R.string.NotificationHiddenChatName);
                                     } else {
                                         tLRPC$User2 = tLRPC$User;
-                                        str21 = LocaleController.getString("NotificationHiddenName", 2131627017);
+                                        str21 = LocaleController.getString("NotificationHiddenName", org.telegram.messenger.beta.R.string.NotificationHiddenName);
                                     }
                                     str4 = str21;
                                     tLRPC$FileLocation2 = null;
@@ -6826,15 +6999,15 @@ public class NotificationsController extends BaseController {
                                     intent.putExtra(str7, notificationsController.currentAccount);
                                     num2 = num;
                                     PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent, 134217728);
-                                    RemoteInput build2 = new RemoteInput.Builder("extra_voice_reply").setLabel(LocaleController.getString("Reply", 2131627989)).build();
+                                    RemoteInput build2 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", org.telegram.messenger.beta.R.string.Reply)).build();
                                     if (!DialogObject.isChatDialog(longValue)) {
                                         i5 = id;
-                                        str20 = LocaleController.formatString("ReplyToGroup", 2131627990, str4);
+                                        str20 = LocaleController.formatString("ReplyToGroup", org.telegram.messenger.beta.R.string.ReplyToGroup, str4);
                                     } else {
                                         i5 = id;
-                                        str20 = LocaleController.formatString("ReplyToUser", 2131627991, str4);
+                                        str20 = LocaleController.formatString("ReplyToUser", org.telegram.messenger.beta.R.string.ReplyToUser, str4);
                                     }
-                                    action = new NotificationCompat.Action.Builder(2131165497, str20, broadcast).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build2).setShowsUserInterface(false).build();
+                                    action = new NotificationCompat.Action.Builder(org.telegram.messenger.beta.R.drawable.ic_reply_icon, str20, broadcast).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build2).setShowsUserInterface(false).build();
                                 } else {
                                     bitmap2 = bitmap;
                                     tLRPC$Chat2 = tLRPC$Chat;
@@ -6867,7 +7040,7 @@ public class NotificationsController extends BaseController {
                                             str8 = "dialog_id";
                                             try {
                                                 if (tLRPC$FileLocation4.volume_id != 0 && tLRPC$FileLocation4.local_id != 0) {
-                                                    Person.Builder name2 = new Person.Builder().setName(LocaleController.getString("FromYou", 2131626077));
+                                                    Person.Builder name2 = new Person.Builder().setName(LocaleController.getString("FromYou", org.telegram.messenger.beta.R.string.FromYou));
                                                     notificationsController.loadRoundAvatar(getFileLoader().getPathToAttach(user.photo.photo_small, true), name2);
                                                     Person build3 = name2.build();
                                                     try {
@@ -6903,7 +7076,7 @@ public class NotificationsController extends BaseController {
                                                         String str25 = str7;
                                                         Intent intent2 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                                                         intent2.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
-                                                        intent2.setFlags(67108864);
+                                                        intent2.setFlags(ConnectionsManager.FileTypeFile);
                                                         intent2.addCategory("android.intent.category.LAUNCHER");
                                                         if (!DialogObject.isEncryptedDialog(longValue)) {
                                                         }
@@ -6920,7 +7093,7 @@ public class NotificationsController extends BaseController {
                                                         int i22 = i5;
                                                         intent3.putExtra(str9, i22);
                                                         intent3.putExtra(str26, notificationsController.currentAccount);
-                                                        NotificationCompat.Action build4 = new NotificationCompat.Action.Builder(2131165795, LocaleController.getString("MarkAsRead", 2131626589), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent3, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
+                                                        NotificationCompat.Action build4 = new NotificationCompat.Action.Builder(org.telegram.messenger.beta.R.drawable.msg_markread, LocaleController.getString("MarkAsRead", org.telegram.messenger.beta.R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent3, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
                                                         if (DialogObject.isEncryptedDialog(longValue)) {
                                                         }
                                                         if (str10 == null) {
@@ -6929,7 +7102,7 @@ public class NotificationsController extends BaseController {
                                                         ArrayList arrayList12 = arrayList3;
                                                         long j6 = ((long) ((MessageObject) arrayList12.get(0)).messageOwner.date) * 1000;
                                                         LongSparseArray longSparseArray9 = longSparseArray7;
-                                                        NotificationCompat.Builder category = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str24).setSmallIcon(2131166010).setContentText(sb3.toString()).setAutoCancel(true).setNumber(arrayList12.size()).setColor(-15618822).setGroupSummary(false).setWhen(j6).setShowWhen(true).setStyle(messagingStyle5).setContentIntent(activity).extend(wearableExtender).setSortKey(String.valueOf(Long.MAX_VALUE - j6)).setCategory("msg");
+                                                        NotificationCompat.Builder category = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str24).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setContentText(sb3.toString()).setAutoCancel(true).setNumber(arrayList12.size()).setColor(-15618822).setGroupSummary(false).setWhen(j6).setShowWhen(true).setStyle(messagingStyle5).setContentIntent(activity).extend(wearableExtender).setSortKey(String.valueOf(Long.MAX_VALUE - j6)).setCategory(RemoteMessageConst.MessageBody.MSG);
                                                         Intent intent4 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                                         intent4.putExtra("messageDate", i4);
                                                         intent4.putExtra("dialogId", longValue);
@@ -7010,7 +7183,7 @@ public class NotificationsController extends BaseController {
                                                 } else if (DialogObject.isChatDialog(longValue)) {
                                                     str12 = str4;
                                                     if (messageObject4.messageOwner.from_scheduled) {
-                                                        strArr2[0] = LocaleController.getString("NotificationMessageScheduledName", 2131627061);
+                                                        strArr2[0] = LocaleController.getString("NotificationMessageScheduledName", org.telegram.messenger.beta.R.string.NotificationMessageScheduledName);
                                                     }
                                                     if (shortStringForMessage != null) {
                                                         if (BuildVars.LOGS_ENABLED) {
@@ -7033,7 +7206,7 @@ public class NotificationsController extends BaseController {
                                                         }
                                                         if (longValue != clientUserId && messageObject4.messageOwner.from_scheduled && DialogObject.isUserDialog(longValue)) {
                                                             messagingStyle4 = messagingStyle6;
-                                                            shortStringForMessage = String.format("%1$s: %2$s", LocaleController.getString("NotificationMessageScheduledName", 2131627061), shortStringForMessage);
+                                                            shortStringForMessage = String.format("%1$s: %2$s", LocaleController.getString("NotificationMessageScheduledName", org.telegram.messenger.beta.R.string.NotificationMessageScheduledName), shortStringForMessage);
                                                             sb22.append(shortStringForMessage);
                                                         } else {
                                                             messagingStyle4 = messagingStyle6;
@@ -7065,7 +7238,7 @@ public class NotificationsController extends BaseController {
                                                                         str15 = str5;
                                                                         if (Build.VERSION.SDK_INT > 27) {
                                                                             str16 = str6;
-                                                                            str19 = LocaleController.getString(str16, 2131627017);
+                                                                            str19 = LocaleController.getString(str16, org.telegram.messenger.beta.R.string.NotificationHiddenName);
                                                                         }
                                                                     } else {
                                                                         if (z8) {
@@ -7073,7 +7246,7 @@ public class NotificationsController extends BaseController {
                                                                             j3 = clientUserId;
                                                                             if (Build.VERSION.SDK_INT > 27) {
                                                                                 str15 = str5;
-                                                                                str17 = LocaleController.getString(str15, 2131627014);
+                                                                                str17 = LocaleController.getString(str15, org.telegram.messenger.beta.R.string.NotificationHiddenChatName);
                                                                             } else {
                                                                                 str15 = str5;
                                                                             }
@@ -7081,7 +7254,7 @@ public class NotificationsController extends BaseController {
                                                                             j3 = clientUserId;
                                                                             sb = sb22;
                                                                             str15 = str5;
-                                                                            str17 = LocaleController.getString("NotificationHiddenChatUserName", 2131627015);
+                                                                            str17 = LocaleController.getString("NotificationHiddenChatUserName", org.telegram.messenger.beta.R.string.NotificationHiddenChatUserName);
                                                                         }
                                                                         str16 = str6;
                                                                         str14 = str16;
@@ -7138,7 +7311,7 @@ public class NotificationsController extends BaseController {
                                                                                     }
                                                                                 } else {
                                                                                     if (getFileLoader().isLoadingFile(pathToMessage.getName())) {
-                                                                                        uriForFile = new Uri.Builder().scheme("content").authority("org.telegram.messenger.beta.notification_image_provider").appendPath("msg_media_raw").appendPath(notificationsController.currentAccount + "").appendPath(pathToMessage.getName()).appendQueryParameter("final_path", pathToMessage.getAbsolutePath()).build();
+                                                                                        uriForFile = new Uri.Builder().scheme(RemoteMessageConst.Notification.CONTENT).authority(NotificationImageProvider.AUTHORITY).appendPath("msg_media_raw").appendPath(notificationsController.currentAccount + "").appendPath(pathToMessage.getName()).appendQueryParameter("final_path", pathToMessage.getAbsolutePath()).build();
                                                                                     }
                                                                                     uriForFile = null;
                                                                                 }
@@ -7147,7 +7320,12 @@ public class NotificationsController extends BaseController {
                                                                                     messagingStyle3 = messagingStyle4;
                                                                                     messagingStyle3.addMessage(message);
                                                                                     ApplicationLoader.applicationContext.grantUriPermission("com.android.systemui", uriForFile, 1);
-                                                                                    AndroidUtilities.runOnUIThread(new NotificationsController$$ExternalSyntheticLambda4(uriForFile), 20000L);
+                                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda4
+                                                                                        @Override // java.lang.Runnable
+                                                                                        public final void run() {
+                                                                                            NotificationsController.lambda$showExtraNotifications$34(uriForFile);
+                                                                                        }
+                                                                                    }, 20000L);
                                                                                     if (!TextUtils.isEmpty(messageObject4.caption)) {
                                                                                         messagingStyle3.addMessage(messageObject4.caption, messageObject4.messageOwner.date * 1000, person3);
                                                                                     }
@@ -7290,7 +7468,7 @@ public class NotificationsController extends BaseController {
                                             String str252 = str7;
                                             Intent intent22 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                                             intent22.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
-                                            intent22.setFlags(67108864);
+                                            intent22.setFlags(ConnectionsManager.FileTypeFile);
                                             intent22.addCategory("android.intent.category.LAUNCHER");
                                             if (!DialogObject.isEncryptedDialog(longValue)) {
                                                 intent22.putExtra("encId", DialogObject.getEncryptedChatId(longValue));
@@ -7313,7 +7491,7 @@ public class NotificationsController extends BaseController {
                                             int i222 = i5;
                                             intent32.putExtra(str9, i222);
                                             intent32.putExtra(str262, notificationsController.currentAccount);
-                                            NotificationCompat.Action build42 = new NotificationCompat.Action.Builder(2131165795, LocaleController.getString("MarkAsRead", 2131626589), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent32, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
+                                            NotificationCompat.Action build42 = new NotificationCompat.Action.Builder(org.telegram.messenger.beta.R.drawable.msg_markread, LocaleController.getString("MarkAsRead", org.telegram.messenger.beta.R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent32, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
                                             if (DialogObject.isEncryptedDialog(longValue)) {
                                                 str10 = DialogObject.isUserDialog(longValue) ? "tguser" + longValue + "_" + i222 : "tgchat" + (-longValue) + "_" + i222;
                                             } else if (longValue != globalSecretChatId) {
@@ -7331,7 +7509,7 @@ public class NotificationsController extends BaseController {
                                             ArrayList arrayList122 = arrayList3;
                                             long j62 = ((long) ((MessageObject) arrayList122.get(0)).messageOwner.date) * 1000;
                                             LongSparseArray longSparseArray92 = longSparseArray7;
-                                            NotificationCompat.Builder category2 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str242).setSmallIcon(2131166010).setContentText(sb32.toString()).setAutoCancel(true).setNumber(arrayList122.size()).setColor(-15618822).setGroupSummary(false).setWhen(j62).setShowWhen(true).setStyle(messagingStyle52).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j62)).setCategory("msg");
+                                            NotificationCompat.Builder category2 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str242).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setContentText(sb32.toString()).setAutoCancel(true).setNumber(arrayList122.size()).setColor(-15618822).setGroupSummary(false).setWhen(j62).setShowWhen(true).setStyle(messagingStyle52).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j62)).setCategory(RemoteMessageConst.MessageBody.MSG);
                                             Intent intent42 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                             intent42.putExtra("messageDate", i4);
                                             intent42.putExtra("dialogId", longValue);
@@ -7373,7 +7551,7 @@ public class NotificationsController extends BaseController {
                                                             intent5.putExtra("did", longValue);
                                                             byte[] bArr = tLRPC$KeyboardButton.data;
                                                             if (bArr != null) {
-                                                                intent5.putExtra("data", bArr);
+                                                                intent5.putExtra(RemoteMessageConst.DATA, bArr);
                                                             }
                                                             int i25 = i212;
                                                             intent5.putExtra("mid", i25);
@@ -7453,7 +7631,7 @@ public class NotificationsController extends BaseController {
                                 String str2522 = str7;
                                 Intent intent222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                                 intent222.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
-                                intent222.setFlags(67108864);
+                                intent222.setFlags(ConnectionsManager.FileTypeFile);
                                 intent222.addCategory("android.intent.category.LAUNCHER");
                                 if (!DialogObject.isEncryptedDialog(longValue)) {
                                 }
@@ -7470,7 +7648,7 @@ public class NotificationsController extends BaseController {
                                 int i2222 = i5;
                                 intent322.putExtra(str9, i2222);
                                 intent322.putExtra(str2622, notificationsController.currentAccount);
-                                NotificationCompat.Action build422 = new NotificationCompat.Action.Builder(2131165795, LocaleController.getString("MarkAsRead", 2131626589), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent322, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
+                                NotificationCompat.Action build422 = new NotificationCompat.Action.Builder(org.telegram.messenger.beta.R.drawable.msg_markread, LocaleController.getString("MarkAsRead", org.telegram.messenger.beta.R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent322, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
                                 if (DialogObject.isEncryptedDialog(longValue)) {
                                 }
                                 if (str10 == null) {
@@ -7479,7 +7657,7 @@ public class NotificationsController extends BaseController {
                                 ArrayList arrayList1222 = arrayList3;
                                 long j622 = ((long) ((MessageObject) arrayList1222.get(0)).messageOwner.date) * 1000;
                                 LongSparseArray longSparseArray922 = longSparseArray7;
-                                NotificationCompat.Builder category22 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2422).setSmallIcon(2131166010).setContentText(sb322.toString()).setAutoCancel(true).setNumber(arrayList1222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j622).setShowWhen(true).setStyle(messagingStyle522).setContentIntent(activity22).extend(wearableExtender22).setSortKey(String.valueOf(Long.MAX_VALUE - j622)).setCategory("msg");
+                                NotificationCompat.Builder category22 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2422).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setContentText(sb322.toString()).setAutoCancel(true).setNumber(arrayList1222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j622).setShowWhen(true).setStyle(messagingStyle522).setContentIntent(activity22).extend(wearableExtender22).setSortKey(String.valueOf(Long.MAX_VALUE - j622)).setCategory(RemoteMessageConst.MessageBody.MSG);
                                 Intent intent422 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                 intent422.putExtra("messageDate", i4);
                                 intent422.putExtra("dialogId", longValue);
@@ -7552,10 +7730,10 @@ public class NotificationsController extends BaseController {
                     intent6.putExtra(str7, notificationsController.currentAccount);
                     num2 = num;
                     PendingIntent broadcast2 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent6, 134217728);
-                    RemoteInput build22 = new RemoteInput.Builder("extra_voice_reply").setLabel(LocaleController.getString("Reply", 2131627989)).build();
+                    RemoteInput build22 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", org.telegram.messenger.beta.R.string.Reply)).build();
                     if (!DialogObject.isChatDialog(longValue)) {
                     }
-                    action = new NotificationCompat.Action.Builder(2131165497, str20, broadcast2).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build22).setShowsUserInterface(false).build();
+                    action = new NotificationCompat.Action.Builder(org.telegram.messenger.beta.R.drawable.ic_reply_icon, str20, broadcast2).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build22).setShowsUserInterface(false).build();
                     num3 = notificationsController.pushDialogs.get(longValue);
                     if (num3 == null) {
                     }
@@ -7598,7 +7776,7 @@ public class NotificationsController extends BaseController {
                     String str25222 = str7;
                     Intent intent2222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                     intent2222.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
-                    intent2222.setFlags(67108864);
+                    intent2222.setFlags(ConnectionsManager.FileTypeFile);
                     intent2222.addCategory("android.intent.category.LAUNCHER");
                     if (!DialogObject.isEncryptedDialog(longValue)) {
                     }
@@ -7615,7 +7793,7 @@ public class NotificationsController extends BaseController {
                     int i22222 = i5;
                     intent3222.putExtra(str9, i22222);
                     intent3222.putExtra(str26222, notificationsController.currentAccount);
-                    NotificationCompat.Action build4222 = new NotificationCompat.Action.Builder(2131165795, LocaleController.getString("MarkAsRead", 2131626589), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent3222, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
+                    NotificationCompat.Action build4222 = new NotificationCompat.Action.Builder(org.telegram.messenger.beta.R.drawable.msg_markread, LocaleController.getString("MarkAsRead", org.telegram.messenger.beta.R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent3222, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
                     if (DialogObject.isEncryptedDialog(longValue)) {
                     }
                     if (str10 == null) {
@@ -7624,7 +7802,7 @@ public class NotificationsController extends BaseController {
                     ArrayList arrayList12222 = arrayList3;
                     long j6222 = ((long) ((MessageObject) arrayList12222.get(0)).messageOwner.date) * 1000;
                     LongSparseArray longSparseArray9222 = longSparseArray7;
-                    NotificationCompat.Builder category222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str24222).setSmallIcon(2131166010).setContentText(sb3222.toString()).setAutoCancel(true).setNumber(arrayList12222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j6222).setShowWhen(true).setStyle(messagingStyle5222).setContentIntent(activity222).extend(wearableExtender222).setSortKey(String.valueOf(Long.MAX_VALUE - j6222)).setCategory("msg");
+                    NotificationCompat.Builder category222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str24222).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setContentText(sb3222.toString()).setAutoCancel(true).setNumber(arrayList12222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j6222).setShowWhen(true).setStyle(messagingStyle5222).setContentIntent(activity222).extend(wearableExtender222).setSortKey(String.valueOf(Long.MAX_VALUE - j6222)).setCategory(RemoteMessageConst.MessageBody.MSG);
                     Intent intent4222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                     intent4222.putExtra("messageDate", i4);
                     intent4222.putExtra("dialogId", longValue);
@@ -7731,10 +7909,10 @@ public class NotificationsController extends BaseController {
                     intent62.putExtra(str7, notificationsController.currentAccount);
                     num2 = num;
                     PendingIntent broadcast22 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent62, 134217728);
-                    RemoteInput build222 = new RemoteInput.Builder("extra_voice_reply").setLabel(LocaleController.getString("Reply", 2131627989)).build();
+                    RemoteInput build222 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", org.telegram.messenger.beta.R.string.Reply)).build();
                     if (!DialogObject.isChatDialog(longValue)) {
                     }
-                    action = new NotificationCompat.Action.Builder(2131165497, str20, broadcast22).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build222).setShowsUserInterface(false).build();
+                    action = new NotificationCompat.Action.Builder(org.telegram.messenger.beta.R.drawable.ic_reply_icon, str20, broadcast22).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build222).setShowsUserInterface(false).build();
                     num3 = notificationsController.pushDialogs.get(longValue);
                     if (num3 == null) {
                     }
@@ -7772,7 +7950,7 @@ public class NotificationsController extends BaseController {
                     String str252222 = str7;
                     Intent intent22222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                     intent22222.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
-                    intent22222.setFlags(67108864);
+                    intent22222.setFlags(ConnectionsManager.FileTypeFile);
                     intent22222.addCategory("android.intent.category.LAUNCHER");
                     if (!DialogObject.isEncryptedDialog(longValue)) {
                     }
@@ -7789,7 +7967,7 @@ public class NotificationsController extends BaseController {
                     int i222222 = i5;
                     intent32222.putExtra(str9, i222222);
                     intent32222.putExtra(str262222, notificationsController.currentAccount);
-                    NotificationCompat.Action build42222 = new NotificationCompat.Action.Builder(2131165795, LocaleController.getString("MarkAsRead", 2131626589), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent32222, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
+                    NotificationCompat.Action build42222 = new NotificationCompat.Action.Builder(org.telegram.messenger.beta.R.drawable.msg_markread, LocaleController.getString("MarkAsRead", org.telegram.messenger.beta.R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent32222, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
                     if (DialogObject.isEncryptedDialog(longValue)) {
                     }
                     if (str10 == null) {
@@ -7798,7 +7976,7 @@ public class NotificationsController extends BaseController {
                     ArrayList arrayList122222 = arrayList3;
                     long j62222 = ((long) ((MessageObject) arrayList122222.get(0)).messageOwner.date) * 1000;
                     LongSparseArray longSparseArray92222 = longSparseArray7;
-                    NotificationCompat.Builder category2222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str242222).setSmallIcon(2131166010).setContentText(sb32222.toString()).setAutoCancel(true).setNumber(arrayList122222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j62222).setShowWhen(true).setStyle(messagingStyle52222).setContentIntent(activity2222).extend(wearableExtender2222).setSortKey(String.valueOf(Long.MAX_VALUE - j62222)).setCategory("msg");
+                    NotificationCompat.Builder category2222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str242222).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setContentText(sb32222.toString()).setAutoCancel(true).setNumber(arrayList122222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j62222).setShowWhen(true).setStyle(messagingStyle52222).setContentIntent(activity2222).extend(wearableExtender2222).setSortKey(String.valueOf(Long.MAX_VALUE - j62222)).setCategory(RemoteMessageConst.MessageBody.MSG);
                     Intent intent42222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                     intent42222.putExtra("messageDate", i4);
                     intent42222.putExtra("dialogId", longValue);
@@ -7862,7 +8040,7 @@ public class NotificationsController extends BaseController {
                 } else {
                     tLRPC$User4 = null;
                 }
-                str22 = LocaleController.getString("SecretChatName", 2131628209);
+                str22 = LocaleController.getString("SecretChatName", org.telegram.messenger.beta.R.string.SecretChatName);
                 z8 = false;
                 tLRPC$Chat = null;
                 z7 = false;
@@ -7890,10 +8068,10 @@ public class NotificationsController extends BaseController {
                 intent622.putExtra(str7, notificationsController.currentAccount);
                 num2 = num;
                 PendingIntent broadcast222 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent622, 134217728);
-                RemoteInput build2222 = new RemoteInput.Builder("extra_voice_reply").setLabel(LocaleController.getString("Reply", 2131627989)).build();
+                RemoteInput build2222 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", org.telegram.messenger.beta.R.string.Reply)).build();
                 if (!DialogObject.isChatDialog(longValue)) {
                 }
-                action = new NotificationCompat.Action.Builder(2131165497, str20, broadcast222).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build2222).setShowsUserInterface(false).build();
+                action = new NotificationCompat.Action.Builder(org.telegram.messenger.beta.R.drawable.ic_reply_icon, str20, broadcast222).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build2222).setShowsUserInterface(false).build();
                 num3 = notificationsController.pushDialogs.get(longValue);
                 if (num3 == null) {
                 }
@@ -7931,7 +8109,7 @@ public class NotificationsController extends BaseController {
                 String str2522222 = str7;
                 Intent intent222222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                 intent222222.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
-                intent222222.setFlags(67108864);
+                intent222222.setFlags(ConnectionsManager.FileTypeFile);
                 intent222222.addCategory("android.intent.category.LAUNCHER");
                 if (!DialogObject.isEncryptedDialog(longValue)) {
                 }
@@ -7948,7 +8126,7 @@ public class NotificationsController extends BaseController {
                 int i2222222 = i5;
                 intent322222.putExtra(str9, i2222222);
                 intent322222.putExtra(str2622222, notificationsController.currentAccount);
-                NotificationCompat.Action build422222 = new NotificationCompat.Action.Builder(2131165795, LocaleController.getString("MarkAsRead", 2131626589), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent322222, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
+                NotificationCompat.Action build422222 = new NotificationCompat.Action.Builder(org.telegram.messenger.beta.R.drawable.msg_markread, LocaleController.getString("MarkAsRead", org.telegram.messenger.beta.R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent322222, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
                 if (DialogObject.isEncryptedDialog(longValue)) {
                 }
                 if (str10 == null) {
@@ -7957,7 +8135,7 @@ public class NotificationsController extends BaseController {
                 ArrayList arrayList1222222 = arrayList3;
                 long j622222 = ((long) ((MessageObject) arrayList1222222.get(0)).messageOwner.date) * 1000;
                 LongSparseArray longSparseArray922222 = longSparseArray7;
-                NotificationCompat.Builder category22222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2422222).setSmallIcon(2131166010).setContentText(sb322222.toString()).setAutoCancel(true).setNumber(arrayList1222222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j622222).setShowWhen(true).setStyle(messagingStyle522222).setContentIntent(activity22222).extend(wearableExtender22222).setSortKey(String.valueOf(Long.MAX_VALUE - j622222)).setCategory("msg");
+                NotificationCompat.Builder category22222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2422222).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setContentText(sb322222.toString()).setAutoCancel(true).setNumber(arrayList1222222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j622222).setShowWhen(true).setStyle(messagingStyle522222).setContentIntent(activity22222).extend(wearableExtender22222).setSortKey(String.valueOf(Long.MAX_VALUE - j622222)).setCategory(RemoteMessageConst.MessageBody.MSG);
                 Intent intent422222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                 intent422222.putExtra("messageDate", i4);
                 intent422222.putExtra("dialogId", longValue);
@@ -8121,7 +8299,7 @@ public class NotificationsController extends BaseController {
         imageDecoder.setPostProcessor(NotificationsController$$ExternalSyntheticLambda1.INSTANCE);
     }
 
-    @TargetApi(28)
+    @TargetApi(AvailableCode.APP_IS_BACKGROUND_OR_LOCKED)
     private void loadRoundAvatar(File file, Person.Builder builder) {
         if (file != null) {
             try {
@@ -8156,7 +8334,12 @@ public class NotificationsController extends BaseController {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        notificationsQueue.postRunnable(new NotificationsController$$ExternalSyntheticLambda9(this));
+        notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda9
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsController.this.lambda$playOutChatSound$38();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$playOutChatSound$38() {
@@ -8172,7 +8355,7 @@ public class NotificationsController extends BaseController {
             }
             if (this.soundOut == 0 && !this.soundOutLoaded) {
                 this.soundOutLoaded = true;
-                this.soundOut = this.soundPool.load(ApplicationLoader.applicationContext, 2131558554, 1);
+                this.soundOut = this.soundPool.load(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.raw.sound_out, 1);
             }
             int i = this.soundOut;
             if (i == 0) {

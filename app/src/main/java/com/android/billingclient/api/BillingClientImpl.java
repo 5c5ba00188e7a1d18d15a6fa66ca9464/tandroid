@@ -66,11 +66,16 @@ public class BillingClientImpl extends BillingClient {
         return Looper.myLooper() == null ? this.zzc : new Handler(Looper.myLooper());
     }
 
-    private final BillingResult zzG(BillingResult billingResult) {
+    private final BillingResult zzG(final BillingResult billingResult) {
         if (Thread.interrupted()) {
             return billingResult;
         }
-        this.zzc.post(new zzag(this, billingResult));
+        this.zzc.post(new Runnable() { // from class: com.android.billingclient.api.zzag
+            @Override // java.lang.Runnable
+            public final void run() {
+                BillingClientImpl.this.zzE(billingResult);
+            }
+        });
         return billingResult;
     }
 
@@ -90,7 +95,7 @@ public class BillingClientImpl extends BillingClient {
         }
     }
 
-    public final Future zzJ(Callable callable, long j, Runnable runnable, Handler handler) {
+    public final Future zzJ(Callable callable, long j, final Runnable runnable, Handler handler) {
         double d = j;
         Double.isNaN(d);
         long j2 = (long) (d * 0.95d);
@@ -98,8 +103,23 @@ public class BillingClientImpl extends BillingClient {
             this.zzv = Executors.newFixedThreadPool(zzb.zza, new zzal(this));
         }
         try {
-            Future submit = this.zzv.submit(callable);
-            handler.postDelayed(new zzaf(submit, runnable), j2);
+            final Future submit = this.zzv.submit(callable);
+            handler.postDelayed(new Runnable() { // from class: com.android.billingclient.api.zzaf
+                @Override // java.lang.Runnable
+                public final void run() {
+                    Future future = submit;
+                    Runnable runnable2 = runnable;
+                    if (future.isDone() || future.isCancelled()) {
+                        return;
+                    }
+                    future.cancel(true);
+                    zzb.zzo("BillingClient", "Async task is taking too long, cancel it!");
+                    if (runnable2 == null) {
+                        return;
+                    }
+                    runnable2.run();
+                }
+            }, j2);
             return submit;
         } catch (Exception e) {
             zzb.zzp("BillingClient", "Async task throws exception!", e);
@@ -107,13 +127,18 @@ public class BillingClientImpl extends BillingClient {
         }
     }
 
-    private final void zzM(String str, PurchasesResponseListener purchasesResponseListener) {
+    private final void zzM(String str, final PurchasesResponseListener purchasesResponseListener) {
         if (!isReady()) {
             purchasesResponseListener.onQueryPurchasesResponse(zzbb.zzm, com.google.android.gms.internal.play_billing.zzu.zzl());
         } else if (TextUtils.isEmpty(str)) {
             zzb.zzo("BillingClient", "Please provide a valid product type.");
             purchasesResponseListener.onQueryPurchasesResponse(zzbb.zzg, com.google.android.gms.internal.play_billing.zzu.zzl());
-        } else if (zzJ(new zzai(this, str, purchasesResponseListener), 30000L, new zzad(purchasesResponseListener), zzF()) != null) {
+        } else if (zzJ(new zzai(this, str, purchasesResponseListener), 30000L, new Runnable() { // from class: com.android.billingclient.api.zzad
+            @Override // java.lang.Runnable
+            public final void run() {
+                PurchasesResponseListener.this.onQueryPurchasesResponse(zzbb.zzn, com.google.android.gms.internal.play_billing.zzu.zzl());
+            }
+        }, zzF()) != null) {
         } else {
             purchasesResponseListener.onQueryPurchasesResponse(zzH(), com.google.android.gms.internal.play_billing.zzu.zzl());
         }
@@ -165,10 +190,21 @@ public class BillingClientImpl extends BillingClient {
     }
 
     @Override // com.android.billingclient.api.BillingClient
-    public final void consumeAsync(ConsumeParams consumeParams, ConsumeResponseListener consumeResponseListener) {
+    public final void consumeAsync(final ConsumeParams consumeParams, final ConsumeResponseListener consumeResponseListener) {
         if (!isReady()) {
             consumeResponseListener.onConsumeResponse(zzbb.zzm, consumeParams.getPurchaseToken());
-        } else if (zzJ(new zzu(this, consumeParams, consumeResponseListener), 30000L, new zzv(consumeResponseListener, consumeParams), zzF()) != null) {
+        } else if (zzJ(new Callable() { // from class: com.android.billingclient.api.zzu
+            @Override // java.util.concurrent.Callable
+            public final Object call() {
+                BillingClientImpl.this.zzl(consumeParams, consumeResponseListener);
+                return null;
+            }
+        }, 30000L, new Runnable() { // from class: com.android.billingclient.api.zzv
+            @Override // java.lang.Runnable
+            public final void run() {
+                ConsumeResponseListener.this.onConsumeResponse(zzbb.zzn, consumeParams.getPurchaseToken());
+            }
+        }, zzF()) != null) {
         } else {
             consumeResponseListener.onConsumeResponse(zzH(), consumeParams.getPurchaseToken());
         }
@@ -192,9 +228,9 @@ public class BillingClientImpl extends BillingClient {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final BillingResult launchBillingFlow(Activity activity, BillingFlowParams billingFlowParams) {
-        String str;
-        String str2;
+    public final BillingResult launchBillingFlow(Activity activity, final BillingFlowParams billingFlowParams) {
+        final String str;
+        final String str2;
         String str3;
         String str4;
         Future future;
@@ -209,7 +245,7 @@ public class BillingClientImpl extends BillingClient {
         boolean z;
         String str9;
         Intent intent;
-        int i;
+        final int i;
         String str10;
         String str11;
         if (!isReady()) {
@@ -234,7 +270,7 @@ public class BillingClientImpl extends BillingClient {
                 if (zze.size() <= 1 || this.zzr) {
                     if (zzf.isEmpty() || this.zzs) {
                         if (this.zzk) {
-                            Bundle zzf2 = zzb.zzf(billingFlowParams, this.zzm, this.zzt, this.zzu, this.zzb);
+                            final Bundle zzf2 = zzb.zzf(billingFlowParams, this.zzm, this.zzt, this.zzu, this.zzb);
                             str3 = "BUY_INTENT";
                             if (!zze.isEmpty()) {
                                 ArrayList<String> arrayList = new ArrayList<>();
@@ -363,7 +399,14 @@ public class BillingClientImpl extends BillingClient {
                                                         }
                                                         if (this.zzq) {
                                                         }
-                                                        future = zzJ(new zzab(this, i, str7, str8, billingFlowParams, zzf2), 5000L, null, this.zzc);
+                                                        final String str13 = str7;
+                                                        final String str14 = str8;
+                                                        future = zzJ(new Callable() { // from class: com.android.billingclient.api.zzab
+                                                            @Override // java.util.concurrent.Callable
+                                                            public final Object call() {
+                                                                return BillingClientImpl.this.zzc(i, str13, str14, billingFlowParams, zzf2);
+                                                            }
+                                                        }, 5000L, null, this.zzc);
                                                         Bundle bundle = (Bundle) future.get(5000L, TimeUnit.MILLISECONDS);
                                                         zzb = zzb.zzb(bundle, str4);
                                                         String zzk = zzb.zzk(bundle, str4);
@@ -380,7 +423,14 @@ public class BillingClientImpl extends BillingClient {
                                         } else {
                                             i = 17;
                                         }
-                                        future = zzJ(new zzab(this, i, str7, str8, billingFlowParams, zzf2), 5000L, null, this.zzc);
+                                        final String str132 = str7;
+                                        final String str142 = str8;
+                                        future = zzJ(new Callable() { // from class: com.android.billingclient.api.zzab
+                                            @Override // java.util.concurrent.Callable
+                                            public final Object call() {
+                                                return BillingClientImpl.this.zzc(i, str132, str142, billingFlowParams, zzf2);
+                                            }
+                                        }, 5000L, null, this.zzc);
                                     }
                                 } else {
                                     zzf2.putString("skuPackageName", skuDetails.zzd());
@@ -396,7 +446,14 @@ public class BillingClientImpl extends BillingClient {
                                 }
                                 if (this.zzq) {
                                 }
-                                future = zzJ(new zzab(this, i, str7, str8, billingFlowParams, zzf2), 5000L, null, this.zzc);
+                                final String str1322 = str7;
+                                final String str1422 = str8;
+                                future = zzJ(new Callable() { // from class: com.android.billingclient.api.zzab
+                                    @Override // java.util.concurrent.Callable
+                                    public final Object call() {
+                                        return BillingClientImpl.this.zzc(i, str1322, str1422, billingFlowParams, zzf2);
+                                    }
+                                }, 5000L, null, this.zzc);
                             } else {
                                 BillingResult billingResult2 = zzbb.zzu;
                                 zzG(billingResult2);
@@ -405,7 +462,12 @@ public class BillingClientImpl extends BillingClient {
                         } else {
                             str3 = "BUY_INTENT";
                             str4 = str12;
-                            future = zzJ(new zzac(this, str2, str), 5000L, null, this.zzc);
+                            future = zzJ(new Callable() { // from class: com.android.billingclient.api.zzac
+                                @Override // java.util.concurrent.Callable
+                                public final Object call() {
+                                    return BillingClientImpl.this.zzd(str2, str);
+                                }
+                            }, 5000L, null, this.zzc);
                         }
                         try {
                             Bundle bundle2 = (Bundle) future.get(5000L, TimeUnit.MILLISECONDS);
@@ -421,8 +483,8 @@ public class BillingClientImpl extends BillingClient {
                                 return build;
                             }
                             Intent intent2 = new Intent(activity, ProxyBillingActivity.class);
-                            String str13 = str3;
-                            intent2.putExtra(str13, (PendingIntent) bundle2.getParcelable(str13));
+                            String str15 = str3;
+                            intent2.putExtra(str15, (PendingIntent) bundle2.getParcelable(str15));
                             activity.startActivity(intent2);
                             return zzbb.zzl;
                         } catch (CancellationException e2) {
@@ -466,13 +528,24 @@ public class BillingClientImpl extends BillingClient {
     }
 
     @Override // com.android.billingclient.api.BillingClient
-    public void queryProductDetailsAsync(QueryProductDetailsParams queryProductDetailsParams, ProductDetailsResponseListener productDetailsResponseListener) {
+    public void queryProductDetailsAsync(final QueryProductDetailsParams queryProductDetailsParams, final ProductDetailsResponseListener productDetailsResponseListener) {
         if (!isReady()) {
             productDetailsResponseListener.onProductDetailsResponse(zzbb.zzm, new ArrayList());
         } else if (!this.zzs) {
             zzb.zzo("BillingClient", "Querying product details is not supported.");
             productDetailsResponseListener.onProductDetailsResponse(zzbb.zzv, new ArrayList());
-        } else if (zzJ(new zzs(this, queryProductDetailsParams, productDetailsResponseListener), 30000L, new zzt(productDetailsResponseListener), zzF()) != null) {
+        } else if (zzJ(new Callable() { // from class: com.android.billingclient.api.zzs
+            @Override // java.util.concurrent.Callable
+            public final Object call() {
+                BillingClientImpl.this.zzm(queryProductDetailsParams, productDetailsResponseListener);
+                return null;
+            }
+        }, 30000L, new Runnable() { // from class: com.android.billingclient.api.zzt
+            @Override // java.lang.Runnable
+            public final void run() {
+                ProductDetailsResponseListener.this.onProductDetailsResponse(zzbb.zzn, new ArrayList());
+            }
+        }, zzF()) != null) {
         } else {
             productDetailsResponseListener.onProductDetailsResponse(zzH(), new ArrayList());
         }

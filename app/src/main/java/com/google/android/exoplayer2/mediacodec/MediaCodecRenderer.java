@@ -28,6 +28,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public abstract class MediaCodecRenderer extends BaseRenderer {
     private static final byte[] ADAPTATION_WORKAROUND_BUFFER = {0, 0, 1, 103, 66, -64, 11, -38, 37, -112, 0, 0, 1, 104, -50, 15, 19, 32, 0, 0, 1, 101, -120, -124, 13, -50, 113, 24, -96, 0, 47, -65, 28, 49, -61, 39, 93, 120};
@@ -1051,7 +1052,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         return false;
     }
 
-    @TargetApi(23)
+    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
     private void updateDrmSessionOrReinitializeCodecV23() throws ExoPlaybackException {
         FrameworkMediaCrypto mediaCrypto = this.sourceDrmSession.getMediaCrypto();
         if (mediaCrypto == null) {

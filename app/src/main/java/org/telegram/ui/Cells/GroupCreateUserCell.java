@@ -18,6 +18,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -85,7 +86,7 @@ public class GroupCreateUserCell extends FrameLayout {
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
         simpleTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_nameText" : "windowBackgroundWhiteBlackText"));
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.nameTextView.setTextSize(16);
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         SimpleTextView simpleTextView2 = this.nameTextView;
@@ -150,8 +151,18 @@ public class GroupCreateUserCell extends FrameLayout {
             if (z2) {
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.animator = ofFloat;
-                ofFloat.addUpdateListener(new GroupCreateUserCell$$ExternalSyntheticLambda0(this));
-                this.animator.addListener(new AnonymousClass1());
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.GroupCreateUserCell$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        GroupCreateUserCell.this.lambda$setChecked$0(valueAnimator2);
+                    }
+                });
+                this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.GroupCreateUserCell.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        GroupCreateUserCell.this.animator = null;
+                    }
+                });
                 this.animator.setDuration(180L);
                 this.animator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
                 this.animator.start();
@@ -183,19 +194,6 @@ public class GroupCreateUserCell extends FrameLayout {
         }
         this.checkProgress = floatValue;
         invalidate();
-    }
-
-    /* renamed from: org.telegram.ui.Cells.GroupCreateUserCell$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
-            GroupCreateUserCell.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            GroupCreateUserCell.this.animator = null;
-        }
     }
 
     public void setCheckBoxEnabled(boolean z) {
@@ -380,7 +378,7 @@ public class GroupCreateUserCell extends FrameLayout {
             if (obj2 instanceof TLRPC$User) {
                 TLRPC$User tLRPC$User = (TLRPC$User) obj2;
                 if (this.showSelfAsSaved && UserObject.isUserSelf(tLRPC$User)) {
-                    this.nameTextView.setText(LocaleController.getString("SavedMessages", 2131628140), true);
+                    this.nameTextView.setText(LocaleController.getString("SavedMessages", R.string.SavedMessages), true);
                     this.statusTextView.setText(null);
                     this.avatarDrawable.setAvatarType(1);
                     this.avatarImageView.setImage((ImageLocation) null, "50_50", this.avatarDrawable, tLRPC$User);
@@ -432,7 +430,7 @@ public class GroupCreateUserCell extends FrameLayout {
                     if (tLRPC$User.bot) {
                         this.statusTextView.setTag("windowBackgroundWhiteGrayText");
                         this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? str4 : "windowBackgroundWhiteGrayText"));
-                        this.statusTextView.setText(LocaleController.getString("Bot", 2131624715));
+                        this.statusTextView.setText(LocaleController.getString("Bot", R.string.Bot));
                     } else if (tLRPC$User.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || (((tLRPC$UserStatus = tLRPC$User.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(tLRPC$User.id)))) {
                         String str6 = "windowBackgroundWhiteBlueText";
                         this.statusTextView.setTag(str6);
@@ -441,7 +439,7 @@ public class GroupCreateUserCell extends FrameLayout {
                             str6 = "voipgroup_listeningText";
                         }
                         simpleTextView.setTextColor(Theme.getColor(str6));
-                        this.statusTextView.setText(LocaleController.getString("Online", 2131627132));
+                        this.statusTextView.setText(LocaleController.getString("Online", R.string.Online));
                     } else {
                         this.statusTextView.setTag("windowBackgroundWhiteGrayText");
                         this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? str4 : "windowBackgroundWhiteGrayText"));
@@ -491,17 +489,17 @@ public class GroupCreateUserCell extends FrameLayout {
                             this.statusTextView.setText(LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]));
                         }
                     } else if (tLRPC$Chat.has_geo) {
-                        this.statusTextView.setText(LocaleController.getString("MegaLocation", 2131626632));
+                        this.statusTextView.setText(LocaleController.getString("MegaLocation", R.string.MegaLocation));
                     } else if (TextUtils.isEmpty(tLRPC$Chat.username)) {
                         if (ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat.megagroup) {
-                            this.statusTextView.setText(LocaleController.getString("ChannelPrivate", 2131624959));
+                            this.statusTextView.setText(LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate));
                         } else {
-                            this.statusTextView.setText(LocaleController.getString("MegaPrivate", 2131626633));
+                            this.statusTextView.setText(LocaleController.getString("MegaPrivate", R.string.MegaPrivate));
                         }
                     } else if (ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat.megagroup) {
-                        this.statusTextView.setText(LocaleController.getString("ChannelPublic", 2131624962));
+                        this.statusTextView.setText(LocaleController.getString("ChannelPublic", R.string.ChannelPublic));
                     } else {
-                        this.statusTextView.setText(LocaleController.getString("MegaPublic", 2131626636));
+                        this.statusTextView.setText(LocaleController.getString("MegaPublic", R.string.MegaPublic));
                     }
                 }
                 this.avatarImageView.setForUserOrChat(tLRPC$Chat, this.avatarDrawable);

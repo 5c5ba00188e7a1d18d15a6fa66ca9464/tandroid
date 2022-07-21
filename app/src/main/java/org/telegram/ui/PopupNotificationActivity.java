@@ -46,6 +46,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.WebFile;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$GeoPoint;
@@ -162,31 +163,305 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         this.statusDrawables[2] = new SendingFileDrawable(false);
         this.statusDrawables[3] = new PlayingGameDrawable(false, null);
         this.statusDrawables[4] = new RoundStatusDrawable(false);
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this);
-        setContentView(anonymousClass1);
-        anonymousClass1.setBackgroundColor(-1728053248);
+        SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(this) { // from class: org.telegram.ui.PopupNotificationActivity.1
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i2, int i3) {
+                View.MeasureSpec.getMode(i2);
+                View.MeasureSpec.getMode(i3);
+                int size = View.MeasureSpec.getSize(i2);
+                int size2 = View.MeasureSpec.getSize(i3);
+                setMeasuredDimension(size, size2);
+                if (measureKeyboardHeight() <= AndroidUtilities.dp(20.0f)) {
+                    size2 -= PopupNotificationActivity.this.chatActivityEnterView.getEmojiPadding();
+                }
+                int childCount = getChildCount();
+                for (int i4 = 0; i4 < childCount; i4++) {
+                    View childAt = getChildAt(i4);
+                    if (childAt.getVisibility() != 8) {
+                        if (!PopupNotificationActivity.this.chatActivityEnterView.isPopupView(childAt)) {
+                            if (PopupNotificationActivity.this.chatActivityEnterView.isRecordCircle(childAt)) {
+                                measureChildWithMargins(childAt, i2, 0, i3, 0);
+                            } else {
+                                childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(2.0f) + size2), 1073741824));
+                            }
+                        } else {
+                            childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(childAt.getLayoutParams().height, 1073741824));
+                        }
+                    }
+                }
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:22:0x0065  */
+            /* JADX WARN: Removed duplicated region for block: B:26:0x0073  */
+            /* JADX WARN: Removed duplicated region for block: B:30:0x008b  */
+            /* JADX WARN: Removed duplicated region for block: B:34:0x0094  */
+            @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
+            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                int i6;
+                int i7;
+                int i8;
+                int i9;
+                int i10;
+                int i11;
+                int childCount = getChildCount();
+                int emojiPadding = measureKeyboardHeight() <= AndroidUtilities.dp(20.0f) ? PopupNotificationActivity.this.chatActivityEnterView.getEmojiPadding() : 0;
+                for (int i12 = 0; i12 < childCount; i12++) {
+                    View childAt = getChildAt(i12);
+                    if (childAt.getVisibility() != 8) {
+                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
+                        int measuredWidth = childAt.getMeasuredWidth();
+                        int measuredHeight = childAt.getMeasuredHeight();
+                        int i13 = layoutParams.gravity;
+                        if (i13 == -1) {
+                            i13 = 51;
+                        }
+                        int i14 = i13 & 7;
+                        int i15 = i13 & 112;
+                        int i16 = i14 & 7;
+                        if (i16 == 1) {
+                            i11 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
+                            i10 = layoutParams.rightMargin;
+                        } else if (i16 == 5) {
+                            i11 = i4 - measuredWidth;
+                            i10 = layoutParams.rightMargin;
+                        } else {
+                            i6 = layoutParams.leftMargin;
+                            if (i15 != 16) {
+                                i9 = ((((i5 - emojiPadding) - i3) - measuredHeight) / 2) + layoutParams.topMargin;
+                                i8 = layoutParams.bottomMargin;
+                            } else if (i15 == 80) {
+                                i9 = ((i5 - emojiPadding) - i3) - measuredHeight;
+                                i8 = layoutParams.bottomMargin;
+                            } else {
+                                i7 = layoutParams.topMargin;
+                                if (!PopupNotificationActivity.this.chatActivityEnterView.isPopupView(childAt)) {
+                                    if (PopupNotificationActivity.this.chatActivityEnterView.isRecordCircle(childAt)) {
+                                        i7 = ((PopupNotificationActivity.this.popupContainer.getTop() + PopupNotificationActivity.this.popupContainer.getMeasuredHeight()) - childAt.getMeasuredHeight()) - layoutParams.bottomMargin;
+                                        i6 = ((PopupNotificationActivity.this.popupContainer.getLeft() + PopupNotificationActivity.this.popupContainer.getMeasuredWidth()) - childAt.getMeasuredWidth()) - layoutParams.rightMargin;
+                                    }
+                                } else {
+                                    int measuredHeight2 = getMeasuredHeight();
+                                    if (emojiPadding != 0) {
+                                        measuredHeight2 -= emojiPadding;
+                                    }
+                                    i7 = measuredHeight2;
+                                }
+                                childAt.layout(i6, i7, measuredWidth + i6, measuredHeight + i7);
+                            }
+                            i7 = i9 - i8;
+                            if (!PopupNotificationActivity.this.chatActivityEnterView.isPopupView(childAt)) {
+                            }
+                            childAt.layout(i6, i7, measuredWidth + i6, measuredHeight + i7);
+                        }
+                        i6 = i11 - i10;
+                        if (i15 != 16) {
+                        }
+                        i7 = i9 - i8;
+                        if (!PopupNotificationActivity.this.chatActivityEnterView.isPopupView(childAt)) {
+                        }
+                        childAt.layout(i6, i7, measuredWidth + i6, measuredHeight + i7);
+                    }
+                }
+                notifyHeightChanged();
+            }
+        };
+        setContentView(sizeNotifierFrameLayout);
+        sizeNotifierFrameLayout.setBackgroundColor(-1728053248);
         RelativeLayout relativeLayout = new RelativeLayout(this);
-        anonymousClass1.addView(relativeLayout, LayoutHelper.createFrame(-1, -1.0f));
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(this);
-        this.popupContainer = anonymousClass2;
-        anonymousClass2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        sizeNotifierFrameLayout.addView(relativeLayout, LayoutHelper.createFrame(-1, -1.0f));
+        RelativeLayout relativeLayout2 = new RelativeLayout(this) { // from class: org.telegram.ui.PopupNotificationActivity.2
+            @Override // android.widget.RelativeLayout, android.view.View
+            protected void onMeasure(int i2, int i3) {
+                super.onMeasure(i2, i3);
+                int measuredWidth = PopupNotificationActivity.this.chatActivityEnterView.getMeasuredWidth();
+                int measuredHeight = PopupNotificationActivity.this.chatActivityEnterView.getMeasuredHeight();
+                for (int i4 = 0; i4 < getChildCount(); i4++) {
+                    View childAt = getChildAt(i4);
+                    if (childAt.getTag() instanceof String) {
+                        childAt.measure(View.MeasureSpec.makeMeasureSpec(measuredWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(measuredHeight - AndroidUtilities.dp(3.0f), 1073741824));
+                    }
+                }
+            }
+
+            @Override // android.widget.RelativeLayout, android.view.ViewGroup, android.view.View
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                super.onLayout(z, i2, i3, i4, i5);
+                for (int i6 = 0; i6 < getChildCount(); i6++) {
+                    View childAt = getChildAt(i6);
+                    if (childAt.getTag() instanceof String) {
+                        childAt.layout(childAt.getLeft(), PopupNotificationActivity.this.chatActivityEnterView.getTop() + AndroidUtilities.dp(3.0f), childAt.getRight(), PopupNotificationActivity.this.chatActivityEnterView.getBottom());
+                    }
+                }
+            }
+        };
+        this.popupContainer = relativeLayout2;
+        relativeLayout2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         relativeLayout.addView(this.popupContainer, LayoutHelper.createRelative(-1, 240, 12, 0, 12, 0, 13));
         ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
         if (chatActivityEnterView != null) {
             chatActivityEnterView.onDestroy();
         }
-        ChatActivityEnterView chatActivityEnterView2 = new ChatActivityEnterView(this, anonymousClass1, null, false);
+        ChatActivityEnterView chatActivityEnterView2 = new ChatActivityEnterView(this, sizeNotifierFrameLayout, null, false);
         this.chatActivityEnterView = chatActivityEnterView2;
         chatActivityEnterView2.setId(1000);
         this.popupContainer.addView(this.chatActivityEnterView, LayoutHelper.createRelative(-1, -2, 12));
-        this.chatActivityEnterView.setDelegate(new AnonymousClass3());
+        this.chatActivityEnterView.setDelegate(new ChatActivityEnterView.ChatActivityEnterViewDelegate() { // from class: org.telegram.ui.PopupNotificationActivity.3
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ void bottomPanelTranslationYChanged(float f) {
+                ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$bottomPanelTranslationYChanged(this, f);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void didPressAttachButton() {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ int getContentViewHeight() {
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$getContentViewHeight(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ TLRPC$TL_channels_sendAsPeers getSendAsPeers() {
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$getSendAsPeers(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ boolean hasForwardingMessages() {
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$hasForwardingMessages(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ boolean hasScheduledMessages() {
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$hasScheduledMessages(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ int measureKeyboardHeight() {
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$measureKeyboardHeight(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void needChangeVideoPreviewState(int i2, float f) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void needShowMediaBanHint() {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void needStartRecordAudio(int i2) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void needStartRecordVideo(int i2, boolean z, int i3) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onAttachButtonHidden() {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onAttachButtonShow() {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onAudioVideoInterfaceUpdated() {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onMessageEditEnd(boolean z) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onPreAudioVideoRecord() {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onSendLongClick() {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onStickersExpandedChange() {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onStickersTab(boolean z) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onSwitchRecordMode(boolean z) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onTextChanged(CharSequence charSequence, boolean z) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onTextSelectionChanged(int i2, int i3) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onTextSpansChanged(CharSequence charSequence) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ void onTrendingStickersShowed(boolean z) {
+                ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$onTrendingStickersShowed(this, z);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onUpdateSlowModeButton(View view, boolean z, CharSequence charSequence) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onWindowSizeChanged(int i2) {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ void openScheduledMessages() {
+                ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$openScheduledMessages(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ void prepareMessageSending() {
+                ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$prepareMessageSending(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ void scrollToSendingMessage() {
+                ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$scrollToSendingMessage(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void onMessageSend(CharSequence charSequence, boolean z, int i2) {
+                if (PopupNotificationActivity.this.currentMessageObject == null) {
+                    return;
+                }
+                if (PopupNotificationActivity.this.currentMessageNum >= 0 && PopupNotificationActivity.this.currentMessageNum < PopupNotificationActivity.this.popupMessages.size()) {
+                    PopupNotificationActivity.this.popupMessages.remove(PopupNotificationActivity.this.currentMessageNum);
+                }
+                MessagesController.getInstance(PopupNotificationActivity.this.currentMessageObject.currentAccount).markDialogAsRead(PopupNotificationActivity.this.currentMessageObject.getDialogId(), PopupNotificationActivity.this.currentMessageObject.getId(), Math.max(0, PopupNotificationActivity.this.currentMessageObject.getId()), PopupNotificationActivity.this.currentMessageObject.messageOwner.date, true, 0, 0, true, 0);
+                PopupNotificationActivity.this.currentMessageObject = null;
+                PopupNotificationActivity.this.getNewMessage();
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void needSendTyping() {
+                if (PopupNotificationActivity.this.currentMessageObject != null) {
+                    MessagesController.getInstance(PopupNotificationActivity.this.currentMessageObject.currentAccount).sendTyping(PopupNotificationActivity.this.currentMessageObject.getDialogId(), 0, 0, PopupNotificationActivity.this.classGuid);
+                }
+            }
+        });
         FrameLayoutTouch frameLayoutTouch = new FrameLayoutTouch(this);
         this.messageContainer = frameLayoutTouch;
         this.popupContainer.addView(frameLayoutTouch, 0);
         ActionBar actionBar = new ActionBar(this);
         this.actionBar = actionBar;
         actionBar.setOccupyStatusBar(false);
-        this.actionBar.setBackButtonImage(2131165473);
+        this.actionBar.setBackButtonImage(R.drawable.ic_close_white);
         this.actionBar.setBackgroundColor(Theme.getColor("actionBarDefault"));
         this.actionBar.setItemsBackgroundColor(Theme.getColor("actionBarDefaultSelector"), false);
         this.popupContainer.addView(this.actionBar);
@@ -229,7 +504,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         this.nameTextView.setSingleLine(true);
         this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.nameTextView.setGravity(3);
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.avatarContainer.addView(this.nameTextView);
         FrameLayout.LayoutParams layoutParams4 = (FrameLayout.LayoutParams) this.nameTextView.getLayoutParams();
         layoutParams4.width = -2;
@@ -255,334 +530,24 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         layoutParams5.bottomMargin = AndroidUtilities.dp(4.0f);
         layoutParams5.gravity = 80;
         this.onlineTextView.setLayoutParams(layoutParams5);
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass4());
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.PopupNotificationActivity.4
+            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
+            public void onItemClick(int i2) {
+                if (i2 == -1) {
+                    PopupNotificationActivity.this.onFinish();
+                    PopupNotificationActivity.this.finish();
+                } else if (i2 == 1) {
+                    PopupNotificationActivity.this.openCurrentMessage();
+                } else if (i2 != 2) {
+                } else {
+                    PopupNotificationActivity.this.switchToNextMessage();
+                }
+            }
+        });
         PowerManager.WakeLock newWakeLock = ((PowerManager) ApplicationLoader.applicationContext.getSystemService("power")).newWakeLock(268435462, "screen");
         this.wakeLock = newWakeLock;
         newWakeLock.setReferenceCounted(false);
         handleIntent(getIntent());
-    }
-
-    /* renamed from: org.telegram.ui.PopupNotificationActivity$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends SizeNotifierFrameLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context) {
-            super(context);
-            PopupNotificationActivity.this = r1;
-        }
-
-        @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            View.MeasureSpec.getMode(i);
-            View.MeasureSpec.getMode(i2);
-            int size = View.MeasureSpec.getSize(i);
-            int size2 = View.MeasureSpec.getSize(i2);
-            setMeasuredDimension(size, size2);
-            if (measureKeyboardHeight() <= AndroidUtilities.dp(20.0f)) {
-                size2 -= PopupNotificationActivity.this.chatActivityEnterView.getEmojiPadding();
-            }
-            int childCount = getChildCount();
-            for (int i3 = 0; i3 < childCount; i3++) {
-                View childAt = getChildAt(i3);
-                if (childAt.getVisibility() != 8) {
-                    if (!PopupNotificationActivity.this.chatActivityEnterView.isPopupView(childAt)) {
-                        if (PopupNotificationActivity.this.chatActivityEnterView.isRecordCircle(childAt)) {
-                            measureChildWithMargins(childAt, i, 0, i2, 0);
-                        } else {
-                            childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(2.0f) + size2), 1073741824));
-                        }
-                    } else {
-                        childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(childAt.getLayoutParams().height, 1073741824));
-                    }
-                }
-            }
-        }
-
-        /* JADX WARN: Removed duplicated region for block: B:22:0x0065  */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x0073  */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x008b  */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x0094  */
-        @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            int i5;
-            int i6;
-            int i7;
-            int i8;
-            int i9;
-            int i10;
-            int childCount = getChildCount();
-            int emojiPadding = measureKeyboardHeight() <= AndroidUtilities.dp(20.0f) ? PopupNotificationActivity.this.chatActivityEnterView.getEmojiPadding() : 0;
-            for (int i11 = 0; i11 < childCount; i11++) {
-                View childAt = getChildAt(i11);
-                if (childAt.getVisibility() != 8) {
-                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
-                    int measuredWidth = childAt.getMeasuredWidth();
-                    int measuredHeight = childAt.getMeasuredHeight();
-                    int i12 = layoutParams.gravity;
-                    if (i12 == -1) {
-                        i12 = 51;
-                    }
-                    int i13 = i12 & 7;
-                    int i14 = i12 & 112;
-                    int i15 = i13 & 7;
-                    if (i15 == 1) {
-                        i10 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;
-                        i9 = layoutParams.rightMargin;
-                    } else if (i15 == 5) {
-                        i10 = i3 - measuredWidth;
-                        i9 = layoutParams.rightMargin;
-                    } else {
-                        i5 = layoutParams.leftMargin;
-                        if (i14 != 16) {
-                            i8 = ((((i4 - emojiPadding) - i2) - measuredHeight) / 2) + layoutParams.topMargin;
-                            i7 = layoutParams.bottomMargin;
-                        } else if (i14 == 80) {
-                            i8 = ((i4 - emojiPadding) - i2) - measuredHeight;
-                            i7 = layoutParams.bottomMargin;
-                        } else {
-                            i6 = layoutParams.topMargin;
-                            if (!PopupNotificationActivity.this.chatActivityEnterView.isPopupView(childAt)) {
-                                if (PopupNotificationActivity.this.chatActivityEnterView.isRecordCircle(childAt)) {
-                                    i6 = ((PopupNotificationActivity.this.popupContainer.getTop() + PopupNotificationActivity.this.popupContainer.getMeasuredHeight()) - childAt.getMeasuredHeight()) - layoutParams.bottomMargin;
-                                    i5 = ((PopupNotificationActivity.this.popupContainer.getLeft() + PopupNotificationActivity.this.popupContainer.getMeasuredWidth()) - childAt.getMeasuredWidth()) - layoutParams.rightMargin;
-                                }
-                            } else {
-                                int measuredHeight2 = getMeasuredHeight();
-                                if (emojiPadding != 0) {
-                                    measuredHeight2 -= emojiPadding;
-                                }
-                                i6 = measuredHeight2;
-                            }
-                            childAt.layout(i5, i6, measuredWidth + i5, measuredHeight + i6);
-                        }
-                        i6 = i8 - i7;
-                        if (!PopupNotificationActivity.this.chatActivityEnterView.isPopupView(childAt)) {
-                        }
-                        childAt.layout(i5, i6, measuredWidth + i5, measuredHeight + i6);
-                    }
-                    i5 = i10 - i9;
-                    if (i14 != 16) {
-                    }
-                    i6 = i8 - i7;
-                    if (!PopupNotificationActivity.this.chatActivityEnterView.isPopupView(childAt)) {
-                    }
-                    childAt.layout(i5, i6, measuredWidth + i5, measuredHeight + i6);
-                }
-            }
-            notifyHeightChanged();
-        }
-    }
-
-    /* renamed from: org.telegram.ui.PopupNotificationActivity$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends RelativeLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            PopupNotificationActivity.this = r1;
-        }
-
-        @Override // android.widget.RelativeLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(i, i2);
-            int measuredWidth = PopupNotificationActivity.this.chatActivityEnterView.getMeasuredWidth();
-            int measuredHeight = PopupNotificationActivity.this.chatActivityEnterView.getMeasuredHeight();
-            for (int i3 = 0; i3 < getChildCount(); i3++) {
-                View childAt = getChildAt(i3);
-                if (childAt.getTag() instanceof String) {
-                    childAt.measure(View.MeasureSpec.makeMeasureSpec(measuredWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(measuredHeight - AndroidUtilities.dp(3.0f), 1073741824));
-                }
-            }
-        }
-
-        @Override // android.widget.RelativeLayout, android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            super.onLayout(z, i, i2, i3, i4);
-            for (int i5 = 0; i5 < getChildCount(); i5++) {
-                View childAt = getChildAt(i5);
-                if (childAt.getTag() instanceof String) {
-                    childAt.layout(childAt.getLeft(), PopupNotificationActivity.this.chatActivityEnterView.getTop() + AndroidUtilities.dp(3.0f), childAt.getRight(), PopupNotificationActivity.this.chatActivityEnterView.getBottom());
-                }
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.PopupNotificationActivity$3 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass3 implements ChatActivityEnterView.ChatActivityEnterViewDelegate {
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public /* synthetic */ void bottomPanelTranslationYChanged(float f) {
-            ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$bottomPanelTranslationYChanged(this, f);
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void didPressAttachButton() {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public /* synthetic */ int getContentViewHeight() {
-            return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$getContentViewHeight(this);
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public /* synthetic */ TLRPC$TL_channels_sendAsPeers getSendAsPeers() {
-            return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$getSendAsPeers(this);
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public /* synthetic */ boolean hasForwardingMessages() {
-            return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$hasForwardingMessages(this);
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public /* synthetic */ boolean hasScheduledMessages() {
-            return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$hasScheduledMessages(this);
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public /* synthetic */ int measureKeyboardHeight() {
-            return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$measureKeyboardHeight(this);
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void needChangeVideoPreviewState(int i, float f) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void needShowMediaBanHint() {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void needStartRecordAudio(int i) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void needStartRecordVideo(int i, boolean z, int i2) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onAttachButtonHidden() {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onAttachButtonShow() {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onAudioVideoInterfaceUpdated() {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onMessageEditEnd(boolean z) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onPreAudioVideoRecord() {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onSendLongClick() {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onStickersExpandedChange() {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onStickersTab(boolean z) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onSwitchRecordMode(boolean z) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onTextChanged(CharSequence charSequence, boolean z) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onTextSelectionChanged(int i, int i2) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onTextSpansChanged(CharSequence charSequence) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public /* synthetic */ void onTrendingStickersShowed(boolean z) {
-            ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$onTrendingStickersShowed(this, z);
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onUpdateSlowModeButton(View view, boolean z, CharSequence charSequence) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onWindowSizeChanged(int i) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public /* synthetic */ void openScheduledMessages() {
-            ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$openScheduledMessages(this);
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public /* synthetic */ void prepareMessageSending() {
-            ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$prepareMessageSending(this);
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public /* synthetic */ void scrollToSendingMessage() {
-            ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$scrollToSendingMessage(this);
-        }
-
-        AnonymousClass3() {
-            PopupNotificationActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void onMessageSend(CharSequence charSequence, boolean z, int i) {
-            if (PopupNotificationActivity.this.currentMessageObject == null) {
-                return;
-            }
-            if (PopupNotificationActivity.this.currentMessageNum >= 0 && PopupNotificationActivity.this.currentMessageNum < PopupNotificationActivity.this.popupMessages.size()) {
-                PopupNotificationActivity.this.popupMessages.remove(PopupNotificationActivity.this.currentMessageNum);
-            }
-            MessagesController.getInstance(PopupNotificationActivity.this.currentMessageObject.currentAccount).markDialogAsRead(PopupNotificationActivity.this.currentMessageObject.getDialogId(), PopupNotificationActivity.this.currentMessageObject.getId(), Math.max(0, PopupNotificationActivity.this.currentMessageObject.getId()), PopupNotificationActivity.this.currentMessageObject.messageOwner.date, true, 0, 0, true, 0);
-            PopupNotificationActivity.this.currentMessageObject = null;
-            PopupNotificationActivity.this.getNewMessage();
-        }
-
-        @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-        public void needSendTyping() {
-            if (PopupNotificationActivity.this.currentMessageObject != null) {
-                MessagesController.getInstance(PopupNotificationActivity.this.currentMessageObject.currentAccount).sendTyping(PopupNotificationActivity.this.currentMessageObject.getDialogId(), 0, 0, PopupNotificationActivity.this.classGuid);
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.PopupNotificationActivity$4 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass4 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass4() {
-            PopupNotificationActivity.this = r1;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                PopupNotificationActivity.this.onFinish();
-                PopupNotificationActivity.this.finish();
-            } else if (i == 1) {
-                PopupNotificationActivity.this.openCurrentMessage();
-            } else if (i != 2) {
-            } else {
-                PopupNotificationActivity.this.switchToNextMessage();
-            }
-        }
     }
 
     @Override // android.app.Activity, android.content.ComponentCallbacks
@@ -605,10 +570,15 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(LocaleController.getString("AppName", 2131624384));
-        builder.setMessage(LocaleController.getString("PermissionNoAudioWithHint", 2131627524));
-        builder.setNegativeButton(LocaleController.getString("PermissionOpenSettings", 2131627535), new PopupNotificationActivity$$ExternalSyntheticLambda0(this));
-        builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
+        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+        builder.setMessage(LocaleController.getString("PermissionNoAudioWithHint", R.string.PermissionNoAudioWithHint));
+        builder.setNegativeButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i2) {
+                PopupNotificationActivity.this.lambda$onRequestPermissionsResult$0(dialogInterface, i2);
+            }
+        });
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
         builder.show();
     }
 
@@ -721,17 +691,32 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                         f = dp - this.centerView.getTranslationX();
                         viewGroup2 = this.leftView;
                         viewGroup = this.leftButtonsView;
-                        this.onAnimationEndRunnable = new PopupNotificationActivity$$ExternalSyntheticLambda8(this);
+                        this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda8
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                PopupNotificationActivity.this.lambda$onTouchEventMy$1();
+                            }
+                        };
                     } else if ((c == 2 || x2 < (-dp) / 3) && this.rightView != null) {
                         f = (-dp) - this.centerView.getTranslationX();
                         viewGroup2 = this.rightView;
                         viewGroup = this.rightButtonsView;
-                        this.onAnimationEndRunnable = new PopupNotificationActivity$$ExternalSyntheticLambda6(this);
+                        this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda6
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                PopupNotificationActivity.this.lambda$onTouchEventMy$2();
+                            }
+                        };
                     } else if (this.centerView.getTranslationX() != 0.0f) {
                         float f3 = -this.centerView.getTranslationX();
                         ViewGroup viewGroup3 = x2 > 0 ? this.leftView : this.rightView;
                         ViewGroup viewGroup4 = x2 > 0 ? this.leftButtonsView : this.rightButtonsView;
-                        this.onAnimationEndRunnable = new PopupNotificationActivity$$ExternalSyntheticLambda7(this);
+                        this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda7
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                PopupNotificationActivity.this.lambda$onTouchEventMy$3();
+                            }
+                        };
                         ViewGroup viewGroup5 = viewGroup3;
                         viewGroup = viewGroup4;
                         f = f3;
@@ -759,7 +744,15 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                         AnimatorSet animatorSet = new AnimatorSet();
                         animatorSet.playTogether(arrayList);
                         animatorSet.setDuration(abs);
-                        animatorSet.addListener(new AnonymousClass5());
+                        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PopupNotificationActivity.5
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                if (PopupNotificationActivity.this.onAnimationEndRunnable != null) {
+                                    PopupNotificationActivity.this.onAnimationEndRunnable.run();
+                                    PopupNotificationActivity.this.onAnimationEndRunnable = null;
+                                }
+                            }
+                        });
                         animatorSet.start();
                         this.animationInProgress = true;
                         this.animationStartTime = System.currentTimeMillis();
@@ -771,7 +764,12 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 f = dp - this.centerView.getTranslationX();
                 viewGroup2 = this.leftView;
                 viewGroup = this.leftButtonsView;
-                this.onAnimationEndRunnable = new PopupNotificationActivity$$ExternalSyntheticLambda8(this);
+                this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda8
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PopupNotificationActivity.this.lambda$onTouchEventMy$1();
+                    }
+                };
                 if (f != 0.0f) {
                 }
             } else {
@@ -804,22 +802,6 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         this.animationInProgress = false;
         applyViewsLayoutParams(0);
         AndroidUtilities.unlockOrientation(this);
-    }
-
-    /* renamed from: org.telegram.ui.PopupNotificationActivity$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends AnimatorListenerAdapter {
-        AnonymousClass5() {
-            PopupNotificationActivity.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (PopupNotificationActivity.this.onAnimationEndRunnable != null) {
-                PopupNotificationActivity.this.onAnimationEndRunnable.run();
-                PopupNotificationActivity.this.onAnimationEndRunnable = null;
-            }
-        }
     }
 
     public void applyViewsLayoutParams(int i) {
@@ -877,7 +859,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             } else if (i3 == this.popupMessages.size()) {
                 i3 = 0;
             }
-            MessageObject messageObject = this.popupMessages.get(i3);
+            final MessageObject messageObject = this.popupMessages.get(i3);
             TLRPC$ReplyMarkup tLRPC$ReplyMarkup = messageObject.messageOwner.reply_markup;
             if (messageObject.getDialogId() != 777000 || tLRPC$ReplyMarkup == null) {
                 i2 = 0;
@@ -895,7 +877,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     }
                 }
             }
-            int i7 = messageObject.currentAccount;
+            final int i7 = messageObject.currentAccount;
             if (i2 > 0) {
                 ArrayList<TLRPC$TL_keyboardButtonRow> arrayList2 = tLRPC$ReplyMarkup.rows;
                 int size3 = arrayList2.size();
@@ -918,13 +900,18 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                             TextView textView = new TextView(this);
                             textView.setTextSize(1, 16.0f);
                             textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText"));
-                            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                             textView.setText(tLRPC$KeyboardButton.text.toUpperCase());
                             textView.setTag(tLRPC$KeyboardButton);
                             textView.setGravity(17);
                             textView.setBackgroundDrawable(Theme.getSelectorDrawable(true));
                             linearLayout.addView(textView, LayoutHelper.createLinear(-1, -1, 100.0f / i2));
-                            textView.setOnClickListener(new PopupNotificationActivity$$ExternalSyntheticLambda1(i7, messageObject));
+                            textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda1
+                                @Override // android.view.View.OnClickListener
+                                public final void onClick(View view) {
+                                    PopupNotificationActivity.lambda$getButtonsViewForMessage$5(i7, messageObject, view);
+                                }
+                            });
                         }
                         i9++;
                         i4 = 0;
@@ -1003,7 +990,12 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     textView.setTag(312);
                     frameLayout.addView(textView, LayoutHelper.createFrame(-1, -2, 17));
                     viewGroup4.setTag(2);
-                    viewGroup4.setOnClickListener(new PopupNotificationActivity$$ExternalSyntheticLambda3(this));
+                    viewGroup4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda3
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            PopupNotificationActivity.this.lambda$getViewForMessage$6(view);
+                        }
+                    });
                 }
                 ViewGroup viewGroup5 = viewGroup4;
                 TextView textView2 = (TextView) viewGroup5.findViewWithTag(312);
@@ -1077,7 +1069,12 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     popupAudioView2.setTag(300);
                     frameLayout4.addView(popupAudioView2);
                     frameLayout2.setTag(3);
-                    frameLayout2.setOnClickListener(new PopupNotificationActivity$$ExternalSyntheticLambda4(this));
+                    frameLayout2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda4
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            PopupNotificationActivity.this.lambda$getViewForMessage$7(view);
+                        }
+                    });
                     popupAudioView = popupAudioView2;
                     viewGroup3 = frameLayout2;
                 }
@@ -1101,7 +1098,12 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     linearLayout.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                     scrollView.addView(linearLayout, LayoutHelper.createScroll(-1, -2, 1));
                     linearLayout.setPadding(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f));
-                    linearLayout.setOnClickListener(new PopupNotificationActivity$$ExternalSyntheticLambda2(this));
+                    linearLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda2
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            PopupNotificationActivity.this.lambda$getViewForMessage$8(view);
+                        }
+                    });
                     TextView textView3 = new TextView(this);
                     textView3.setTextSize(1, 16.0f);
                     textView3.setTag(301);
@@ -1291,56 +1293,40 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         }
     }
 
-    /* renamed from: org.telegram.ui.PopupNotificationActivity$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 implements ViewTreeObserver.OnPreDrawListener {
-        AnonymousClass6() {
-            PopupNotificationActivity.this = r1;
-        }
-
-        @Override // android.view.ViewTreeObserver.OnPreDrawListener
-        public boolean onPreDraw() {
-            if (PopupNotificationActivity.this.avatarContainer != null) {
-                PopupNotificationActivity.this.avatarContainer.getViewTreeObserver().removeOnPreDrawListener(this);
-            }
-            int currentActionBarHeight = (ActionBar.getCurrentActionBarHeight() - AndroidUtilities.dp(48.0f)) / 2;
-            PopupNotificationActivity.this.avatarContainer.setPadding(PopupNotificationActivity.this.avatarContainer.getPaddingLeft(), currentActionBarHeight, PopupNotificationActivity.this.avatarContainer.getPaddingRight(), currentActionBarHeight);
-            return true;
-        }
-    }
-
     private void fixLayout() {
         FrameLayout frameLayout = this.avatarContainer;
         if (frameLayout != null) {
-            frameLayout.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass6());
+            frameLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.PopupNotificationActivity.6
+                @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                public boolean onPreDraw() {
+                    if (PopupNotificationActivity.this.avatarContainer != null) {
+                        PopupNotificationActivity.this.avatarContainer.getViewTreeObserver().removeOnPreDrawListener(this);
+                    }
+                    int currentActionBarHeight = (ActionBar.getCurrentActionBarHeight() - AndroidUtilities.dp(48.0f)) / 2;
+                    PopupNotificationActivity.this.avatarContainer.setPadding(PopupNotificationActivity.this.avatarContainer.getPaddingLeft(), currentActionBarHeight, PopupNotificationActivity.this.avatarContainer.getPaddingRight(), currentActionBarHeight);
+                    return true;
+                }
+            });
         }
         ViewGroup viewGroup = this.messageContainer;
         if (viewGroup != null) {
-            viewGroup.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass7());
-        }
-    }
-
-    /* renamed from: org.telegram.ui.PopupNotificationActivity$7 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass7 implements ViewTreeObserver.OnPreDrawListener {
-        AnonymousClass7() {
-            PopupNotificationActivity.this = r1;
-        }
-
-        @Override // android.view.ViewTreeObserver.OnPreDrawListener
-        public boolean onPreDraw() {
-            PopupNotificationActivity.this.messageContainer.getViewTreeObserver().removeOnPreDrawListener(this);
-            if (PopupNotificationActivity.this.checkTransitionAnimation() || PopupNotificationActivity.this.startedMoving) {
-                return true;
-            }
-            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) PopupNotificationActivity.this.messageContainer.getLayoutParams();
-            marginLayoutParams.topMargin = ActionBar.getCurrentActionBarHeight();
-            marginLayoutParams.bottomMargin = AndroidUtilities.dp(48.0f);
-            marginLayoutParams.width = -1;
-            marginLayoutParams.height = -1;
-            PopupNotificationActivity.this.messageContainer.setLayoutParams(marginLayoutParams);
-            PopupNotificationActivity.this.applyViewsLayoutParams(0);
-            return true;
+            viewGroup.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.PopupNotificationActivity.7
+                @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                public boolean onPreDraw() {
+                    PopupNotificationActivity.this.messageContainer.getViewTreeObserver().removeOnPreDrawListener(this);
+                    if (PopupNotificationActivity.this.checkTransitionAnimation() || PopupNotificationActivity.this.startedMoving) {
+                        return true;
+                    }
+                    ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) PopupNotificationActivity.this.messageContainer.getLayoutParams();
+                    marginLayoutParams.topMargin = ActionBar.getCurrentActionBarHeight();
+                    marginLayoutParams.bottomMargin = AndroidUtilities.dp(48.0f);
+                    marginLayoutParams.width = -1;
+                    marginLayoutParams.height = -1;
+                    PopupNotificationActivity.this.messageContainer.setLayoutParams(marginLayoutParams);
+                    PopupNotificationActivity.this.applyViewsLayoutParams(0);
+                    return true;
+                }
+            });
         }
     }
 
@@ -1469,7 +1455,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             if (tLRPC$User2 != null) {
                 this.nameTextView.setText(UserObject.getUserName(tLRPC$User2));
                 if (DialogObject.isEncryptedDialog(dialogId)) {
-                    this.nameTextView.setCompoundDrawablesWithIntrinsicBounds(2131165482, 0, 0, 0);
+                    this.nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_white, 0, 0, 0);
                     this.nameTextView.setCompoundDrawablePadding(AndroidUtilities.dp(4.0f));
                 } else {
                     this.nameTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -1504,7 +1490,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         }
         TLRPC$User tLRPC$User2 = this.currentUser;
         if (tLRPC$User2 != null && tLRPC$User2.id == 777000) {
-            this.onlineTextView.setText(LocaleController.getString("ServiceNotifications", 2131628292));
+            this.onlineTextView.setText(LocaleController.getString("ServiceNotifications", R.string.ServiceNotifications));
             return;
         }
         CharSequence printingString = MessagesController.getInstance(this.currentMessageObject.currentAccount).getPrintingString(this.currentMessageObject.getDialogId(), 0, false);

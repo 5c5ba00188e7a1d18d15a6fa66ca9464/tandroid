@@ -114,11 +114,11 @@ public class NetworkUtil {
         String str = TAG;
         Logger.v(str, "newWorkType " + networkType);
         if (networkType == 4) {
-            if (!TextUtils.equals("5G_NSA", getNetWorkNSAorSA())) {
+            if (!TextUtils.equals(STR_NSA, getNetWorkNSAorSA())) {
                 return networkType;
             }
             return 7;
-        } else if (networkType == 5 && TextUtils.equals("5G_SA", getNetWorkNSAorSA())) {
+        } else if (networkType == 5 && TextUtils.equals(STR_SA, getNetWorkNSAorSA())) {
             return 8;
         } else {
             return networkType;
@@ -133,7 +133,7 @@ public class NetworkUtil {
             Logger.v(str, "phoneId " + default4GSlotId);
             boolean isNsaState = hwTelephonyManager.isNsaState(default4GSlotId);
             Logger.v(str, "isNsa " + isNsaState);
-            return isNsaState ? "5G_NSA" : "5G_SA";
+            return isNsaState ? STR_NSA : STR_SA;
         } catch (Throwable unused) {
             Logger.v(TAG, "isNsaState error");
             return null;
@@ -151,7 +151,7 @@ public class NetworkUtil {
     private static int getHwNetworkType(Context context) {
         TelephonyManager telephonyManager;
         ServiceState serviceState;
-        if (!ReflectionUtils.checkCompatible("com.huawei.android.os.BuildEx$VERSION") || context == null || (telephonyManager = (TelephonyManager) ContextCompat.getSystemService(context, "phone")) == null) {
+        if (!ReflectionUtils.checkCompatible(EmuiUtil.BUILDEX_VERSION) || context == null || (telephonyManager = (TelephonyManager) ContextCompat.getSystemService(context, "phone")) == null) {
             return 0;
         }
         try {
@@ -387,8 +387,14 @@ public class NetworkUtil {
             if (Build.VERSION.SDK_INT > 28) {
                 return Integer.MAX_VALUE;
             }
-            Method declaredMethod = SignalStrength.class.getDeclaredMethod(str, new Class[0]);
-            AccessController.doPrivileged(new AnonymousClass1(declaredMethod));
+            final Method declaredMethod = SignalStrength.class.getDeclaredMethod(str, new Class[0]);
+            AccessController.doPrivileged(new PrivilegedAction() { // from class: com.huawei.hms.framework.common.NetworkUtil.1
+                @Override // java.security.PrivilegedAction
+                public Object run() {
+                    declaredMethod.setAccessible(true);
+                    return null;
+                }
+            });
             return ((Integer) declaredMethod.invoke(signalStrength, new Object[0])).intValue();
         } catch (IllegalAccessException unused) {
             String str2 = TAG;
@@ -409,22 +415,6 @@ public class NetworkUtil {
         }
     }
 
-    /* renamed from: com.huawei.hms.framework.common.NetworkUtil$1 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass1 implements PrivilegedAction {
-        final /* synthetic */ Method val$method;
-
-        AnonymousClass1(Method method) {
-            this.val$method = method;
-        }
-
-        @Override // java.security.PrivilegedAction
-        public Object run() {
-            this.val$method.setAccessible(true);
-            return null;
-        }
-    }
-
     public static Map<String, Integer> getLteSignalInfo(Context context) {
         HashMap hashMap = new HashMap();
         SignalStrength signalStrength = getSignalStrength(context);
@@ -435,19 +425,19 @@ public class NetworkUtil {
             if (Build.VERSION.SDK_INT > 28) {
                 List cellSignalStrengths = signalStrength.getCellSignalStrengths(CellSignalStrengthLte.class);
                 if (cellSignalStrengths.size() > 0) {
-                    hashMap.put("lteDbm", Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getDbm()));
-                    hashMap.put("lteRsrp", Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getRsrp()));
-                    hashMap.put("lteRsrq", Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getRsrq()));
-                    hashMap.put("lteRssnr", Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getRssnr()));
-                    hashMap.put("lteCqi", Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getCqi()));
-                    hashMap.put("lteRssi", Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getRssi()));
+                    hashMap.put(SignalType.LTE_DBM, Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getDbm()));
+                    hashMap.put(SignalType.LTE_RSRP, Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getRsrp()));
+                    hashMap.put(SignalType.LTE_RSRQ, Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getRsrq()));
+                    hashMap.put(SignalType.LTE_RSSNR, Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getRssnr()));
+                    hashMap.put(SignalType.LTE_CQI, Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getCqi()));
+                    hashMap.put(SignalType.LTE_RSSI, Integer.valueOf(((CellSignalStrengthLte) cellSignalStrengths.get(0)).getRssi()));
                 }
             } else {
-                hashMap.put("lteDbm", Integer.valueOf(getInfoWithReflect(signalStrength, "getDbm")));
-                hashMap.put("lteRsrp", Integer.valueOf(getInfoWithReflect(signalStrength, "getLteRsrp")));
-                hashMap.put("lteRsrq", Integer.valueOf(getInfoWithReflect(signalStrength, "getLteRsrq")));
-                hashMap.put("lteRssnr", Integer.valueOf(getInfoWithReflect(signalStrength, "getLteRssnr")));
-                hashMap.put("lteCqi", Integer.valueOf(getInfoWithReflect(signalStrength, "getLteCqi")));
+                hashMap.put(SignalType.LTE_DBM, Integer.valueOf(getInfoWithReflect(signalStrength, "getDbm")));
+                hashMap.put(SignalType.LTE_RSRP, Integer.valueOf(getInfoWithReflect(signalStrength, "getLteRsrp")));
+                hashMap.put(SignalType.LTE_RSRQ, Integer.valueOf(getInfoWithReflect(signalStrength, "getLteRsrq")));
+                hashMap.put(SignalType.LTE_RSSNR, Integer.valueOf(getInfoWithReflect(signalStrength, "getLteRssnr")));
+                hashMap.put(SignalType.LTE_CQI, Integer.valueOf(getInfoWithReflect(signalStrength, "getLteCqi")));
             }
         } catch (Throwable th) {
             String str = TAG;
@@ -466,13 +456,13 @@ public class NetworkUtil {
             if (Build.VERSION.SDK_INT > 28) {
                 List cellSignalStrengths = signalStrength.getCellSignalStrengths(CellSignalStrengthNr.class);
                 if (cellSignalStrengths.size() > 0) {
-                    hashMap.put("nrDbm", Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getDbm()));
-                    hashMap.put("nrCSIRsrp", Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getCsiRsrp()));
-                    hashMap.put("nrCSIRsrq", Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getCsiRsrq()));
-                    hashMap.put("nrCSISinr", Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getCsiSinr()));
-                    hashMap.put("nrSSRsrp", Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getSsRsrp()));
-                    hashMap.put("nrSSRsrq", Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getSsRsrq()));
-                    hashMap.put("nrSSSinr", Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getSsSinr()));
+                    hashMap.put(SignalType.NR_DBM, Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getDbm()));
+                    hashMap.put(SignalType.NR_CSIRSRP, Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getCsiRsrp()));
+                    hashMap.put(SignalType.NR_CSIRSRQ, Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getCsiRsrq()));
+                    hashMap.put(SignalType.NR_CSISINR, Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getCsiSinr()));
+                    hashMap.put(SignalType.NR_SSRSRP, Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getSsRsrp()));
+                    hashMap.put(SignalType.NR_SSRSRQ, Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getSsRsrq()));
+                    hashMap.put(SignalType.NR_SSSINR, Integer.valueOf(((CellSignalStrengthNr) cellSignalStrengths.get(0)).getSsSinr()));
                 }
             }
         } catch (Throwable th) {
@@ -599,21 +589,18 @@ public class NetworkUtil {
         if (context != null) {
             Object systemService = ContextCompat.getSystemService(context.getApplicationContext(), "wifi");
             if (!(systemService instanceof WifiManager)) {
-                return -127;
+                return INVALID_RSSI;
             }
             try {
                 WifiInfo connectionInfo = ((WifiManager) systemService).getConnectionInfo();
-                if (connectionInfo != null && connectionInfo.getBSSID() != null) {
-                    return connectionInfo.getRssi();
-                }
-                return -127;
+                return (connectionInfo == null || connectionInfo.getBSSID() == null) ? INVALID_RSSI : connectionInfo.getRssi();
             } catch (RuntimeException e) {
                 String str = TAG;
                 Logger.i(str, "getWifiRssiLevel did not has permission!" + e.getClass().getSimpleName() + e.getMessage());
-                return -127;
+                return INVALID_RSSI;
             }
         }
-        return -127;
+        return INVALID_RSSI;
     }
 
     public static int getWifiRssiLevel(Context context) {

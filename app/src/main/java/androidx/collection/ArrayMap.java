@@ -48,62 +48,54 @@ public class ArrayMap<K, V> extends SimpleArrayMap<K, V> implements Map<K, V>, j
         super(i);
     }
 
-    /* renamed from: androidx.collection.ArrayMap$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends MapCollections<K, V> {
-        AnonymousClass1() {
-            ArrayMap.this = r1;
-        }
-
-        @Override // androidx.collection.MapCollections
-        protected int colGetSize() {
-            return ArrayMap.this.mSize;
-        }
-
-        @Override // androidx.collection.MapCollections
-        protected Object colGetEntry(int i, int i2) {
-            return ArrayMap.this.mArray[(i << 1) + i2];
-        }
-
-        @Override // androidx.collection.MapCollections
-        protected int colIndexOfKey(Object obj) {
-            return ArrayMap.this.indexOfKey(obj);
-        }
-
-        @Override // androidx.collection.MapCollections
-        protected int colIndexOfValue(Object obj) {
-            return ArrayMap.this.indexOfValue(obj);
-        }
-
-        @Override // androidx.collection.MapCollections
-        protected java.util.Map<K, V> colGetMap() {
-            return ArrayMap.this;
-        }
-
-        @Override // androidx.collection.MapCollections
-        protected void colPut(K k, V v) {
-            ArrayMap.this.put(k, v);
-        }
-
-        @Override // androidx.collection.MapCollections
-        protected V colSetValue(int i, V v) {
-            return ArrayMap.this.setValueAt(i, v);
-        }
-
-        @Override // androidx.collection.MapCollections
-        protected void colRemoveAt(int i) {
-            ArrayMap.this.removeAt(i);
-        }
-
-        @Override // androidx.collection.MapCollections
-        protected void colClear() {
-            ArrayMap.this.clear();
-        }
-    }
-
     private MapCollections<K, V> getCollection() {
         if (this.mCollections == null) {
-            this.mCollections = new AnonymousClass1();
+            this.mCollections = new MapCollections<K, V>() { // from class: androidx.collection.ArrayMap.1
+                @Override // androidx.collection.MapCollections
+                protected int colGetSize() {
+                    return ArrayMap.this.mSize;
+                }
+
+                @Override // androidx.collection.MapCollections
+                protected Object colGetEntry(int i, int i2) {
+                    return ArrayMap.this.mArray[(i << 1) + i2];
+                }
+
+                @Override // androidx.collection.MapCollections
+                protected int colIndexOfKey(Object obj) {
+                    return ArrayMap.this.indexOfKey(obj);
+                }
+
+                @Override // androidx.collection.MapCollections
+                protected int colIndexOfValue(Object obj) {
+                    return ArrayMap.this.indexOfValue(obj);
+                }
+
+                @Override // androidx.collection.MapCollections
+                protected java.util.Map<K, V> colGetMap() {
+                    return ArrayMap.this;
+                }
+
+                @Override // androidx.collection.MapCollections
+                protected void colPut(K k, V v) {
+                    ArrayMap.this.put(k, v);
+                }
+
+                @Override // androidx.collection.MapCollections
+                protected V colSetValue(int i, V v) {
+                    return ArrayMap.this.setValueAt(i, v);
+                }
+
+                @Override // androidx.collection.MapCollections
+                protected void colRemoveAt(int i) {
+                    ArrayMap.this.removeAt(i);
+                }
+
+                @Override // androidx.collection.MapCollections
+                protected void colClear() {
+                    ArrayMap.this.clear();
+                }
+            };
         }
         return this.mCollections;
     }

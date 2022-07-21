@@ -24,7 +24,12 @@ public class FilePathDatabase {
         this.currentAccount = i;
         DispatchQueue dispatchQueue = new DispatchQueue("files_database_queue_" + i);
         this.dispatchQueue = dispatchQueue;
-        dispatchQueue.postRunnable(new FilePathDatabase$$ExternalSyntheticLambda2(this));
+        dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                FilePathDatabase.this.lambda$new$0();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$new$0() {
@@ -123,15 +128,20 @@ public class FilePathDatabase {
         }
     }
 
-    public String getPath(long j, int i, int i2, boolean z) {
+    public String getPath(final long j, final int i, final int i2, boolean z) {
         if (z) {
             if (BuildVars.DEBUG_VERSION && this.dispatchQueue.getHandler() != null && Thread.currentThread() == this.dispatchQueue.getHandler().getLooper().getThread()) {
                 throw new RuntimeException("Error, lead to infinity loop");
             }
-            CountDownLatch countDownLatch = new CountDownLatch(1);
-            String[] strArr = new String[1];
+            final CountDownLatch countDownLatch = new CountDownLatch(1);
+            final String[] strArr = new String[1];
             System.currentTimeMillis();
-            this.dispatchQueue.postRunnable(new FilePathDatabase$$ExternalSyntheticLambda4(this, j, i, i2, strArr, countDownLatch));
+            this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FilePathDatabase.this.lambda$getPath$1(j, i, i2, strArr, countDownLatch);
+                }
+            });
             try {
                 countDownLatch.await();
             } catch (Exception unused) {
@@ -172,8 +182,13 @@ public class FilePathDatabase {
         countDownLatch.countDown();
     }
 
-    public void putPath(long j, int i, int i2, String str) {
-        this.dispatchQueue.postRunnable(new FilePathDatabase$$ExternalSyntheticLambda3(this, j, i, i2, str));
+    public void putPath(final long j, final int i, final int i2, final String str) {
+        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                FilePathDatabase.this.lambda$putPath$2(j, i, i2, str);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$putPath$2(long j, int i, int i2, String str) {
@@ -204,10 +219,15 @@ public class FilePathDatabase {
         if (arrayList.isEmpty()) {
             return;
         }
-        ArrayList arrayList2 = new ArrayList(arrayList);
-        CountDownLatch countDownLatch = new CountDownLatch(1);
+        final ArrayList arrayList2 = new ArrayList(arrayList);
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
         long currentTimeMillis = System.currentTimeMillis();
-        this.dispatchQueue.postRunnable(new FilePathDatabase$$ExternalSyntheticLambda0(arrayList2, countDownLatch));
+        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                FilePathDatabase.lambda$checkMediaExistance$3(arrayList2, countDownLatch);
+            }
+        });
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
@@ -232,7 +252,12 @@ public class FilePathDatabase {
     }
 
     public void clear() {
-        this.dispatchQueue.postRunnable(new FilePathDatabase$$ExternalSyntheticLambda1(this));
+        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                FilePathDatabase.this.lambda$clear$4();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$clear$4() {
@@ -243,10 +268,15 @@ public class FilePathDatabase {
         }
     }
 
-    public boolean hasAnotherRefOnFile(String str) {
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        boolean[] zArr = {false};
-        this.dispatchQueue.postRunnable(new FilePathDatabase$$ExternalSyntheticLambda5(this, str, zArr, countDownLatch));
+    public boolean hasAnotherRefOnFile(final String str) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final boolean[] zArr = {false};
+        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                FilePathDatabase.this.lambda$hasAnotherRefOnFile$5(str, zArr, countDownLatch);
+            }
+        });
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {

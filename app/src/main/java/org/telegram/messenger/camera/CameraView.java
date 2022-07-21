@@ -55,13 +55,16 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.MediaController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.camera.CameraView;
 import org.telegram.messenger.video.MP4Builder;
 import org.telegram.messenger.video.Mp4Movie;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.InstantCameraView;
 import org.telegram.ui.Components.LayoutHelper;
+import org.webrtc.EglBase;
 @SuppressLint({"NewApi"})
 /* loaded from: classes.dex */
 public class CameraView extends FrameLayout implements TextureView.SurfaceTextureListener {
@@ -119,7 +122,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     private int measurementsCount = 0;
     private int lastWidth = -1;
     private int lastHeight = -1;
-    private final Runnable updateRotationMatrix = new CameraView$$ExternalSyntheticLambda1(this);
+    private final Runnable updateRotationMatrix = new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda1
+        @Override // java.lang.Runnable
+        public final void run() {
+            CameraView.this.lambda$new$1();
+        }
+    };
     private float takePictureProgress = 1.0f;
     private int[] position = new int[2];
     private int[] cameraTexture = new int[1];
@@ -172,70 +180,54 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.flipHalfReached = false;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.flipAnimator = ofFloat;
-        ofFloat.addUpdateListener(new AnonymousClass1());
-        this.flipAnimator.addListener(new AnonymousClass2());
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.camera.CameraView.1
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                boolean z;
+                float floatValue = ((Float) valueAnimator2.getAnimatedValue()).floatValue();
+                if (floatValue < 0.5f) {
+                    z = false;
+                } else {
+                    floatValue -= 1.0f;
+                    z = true;
+                }
+                float f = floatValue * 180.0f;
+                CameraView.this.textureView.setRotationY(f);
+                CameraView.this.blurredStubView.setRotationY(f);
+                if (z) {
+                    CameraView cameraView = CameraView.this;
+                    if (cameraView.flipHalfReached) {
+                        return;
+                    }
+                    cameraView.blurredStubView.setAlpha(1.0f);
+                    CameraView.this.flipHalfReached = true;
+                }
+            }
+        });
+        this.flipAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.camera.CameraView.2
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                super.onAnimationEnd(animator);
+                CameraView cameraView = CameraView.this;
+                cameraView.flipAnimator = null;
+                cameraView.textureView.setTranslationY(0.0f);
+                CameraView.this.textureView.setRotationX(0.0f);
+                CameraView.this.textureView.setRotationY(0.0f);
+                CameraView.this.textureView.setScaleX(1.0f);
+                CameraView.this.textureView.setScaleY(1.0f);
+                CameraView.this.blurredStubView.setRotationY(0.0f);
+                CameraView cameraView2 = CameraView.this;
+                if (!cameraView2.flipHalfReached) {
+                    cameraView2.blurredStubView.setAlpha(1.0f);
+                    CameraView.this.flipHalfReached = true;
+                }
+                CameraView.this.invalidate();
+            }
+        });
         this.flipAnimator.setDuration(400L);
         this.flipAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.flipAnimator.start();
         invalidate();
-    }
-
-    /* renamed from: org.telegram.messenger.camera.CameraView$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 implements ValueAnimator.AnimatorUpdateListener {
-        AnonymousClass1() {
-            CameraView.this = r1;
-        }
-
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            boolean z;
-            float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            if (floatValue < 0.5f) {
-                z = false;
-            } else {
-                floatValue -= 1.0f;
-                z = true;
-            }
-            float f = floatValue * 180.0f;
-            CameraView.this.textureView.setRotationY(f);
-            CameraView.this.blurredStubView.setRotationY(f);
-            if (z) {
-                CameraView cameraView = CameraView.this;
-                if (cameraView.flipHalfReached) {
-                    return;
-                }
-                cameraView.blurredStubView.setAlpha(1.0f);
-                CameraView.this.flipHalfReached = true;
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.messenger.camera.CameraView$2 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
-            CameraView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            super.onAnimationEnd(animator);
-            CameraView cameraView = CameraView.this;
-            cameraView.flipAnimator = null;
-            cameraView.textureView.setTranslationY(0.0f);
-            CameraView.this.textureView.setRotationX(0.0f);
-            CameraView.this.textureView.setRotationY(0.0f);
-            CameraView.this.textureView.setScaleX(1.0f);
-            CameraView.this.textureView.setScaleY(1.0f);
-            CameraView.this.blurredStubView.setRotationY(0.0f);
-            CameraView cameraView2 = CameraView.this;
-            if (!cameraView2.flipHalfReached) {
-                cameraView2.blurredStubView.setAlpha(1.0f);
-                CameraView.this.flipHalfReached = true;
-            }
-            CameraView.this.invalidate();
-        }
     }
 
     public CameraView(Context context, boolean z) {
@@ -449,7 +441,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         CameraGLThread cameraGLThread = this.cameraThread;
         if (cameraGLThread != null) {
             cameraGLThread.shutdown(0);
-            this.cameraThread.postRunnable(new CameraView$$ExternalSyntheticLambda2(this));
+            this.cameraThread.postRunnable(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    CameraView.this.lambda$onSurfaceTextureDestroyed$0();
+                }
+            });
         }
         if (this.cameraSession != null) {
             CameraController.getInstance().close(this.cameraSession, null, null);
@@ -738,7 +735,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 } else if (iArr[0] > 0) {
                     EGLConfig eGLConfig = eGLConfigArr[0];
                     this.eglConfig = eGLConfig;
-                    EGLContext eglCreateContext = this.egl10.eglCreateContext(this.eglDisplay, eGLConfig, EGL10.EGL_NO_CONTEXT, new int[]{12440, 2, 12344});
+                    EGLContext eglCreateContext = this.egl10.eglCreateContext(this.eglDisplay, eGLConfig, EGL10.EGL_NO_CONTEXT, new int[]{EGL_CONTEXT_CLIENT_VERSION, 2, 12344});
                     this.eglContext = eglCreateContext;
                     if (eglCreateContext == null || eglCreateContext == EGL10.EGL_NO_CONTEXT) {
                         this.eglContext = null;
@@ -767,8 +764,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                         } else {
                             this.eglContext.getGL();
                             android.opengl.Matrix.setIdentityM(CameraView.this.mSTMatrix, 0);
-                            int loadShader = CameraView.this.loadShader(35633, "uniform mat4 uMVPMatrix;\nuniform mat4 uSTMatrix;\nattribute vec4 aPosition;\nattribute vec4 aTextureCoord;\nvarying vec2 vTextureCoord;\nvoid main() {\n   gl_Position = uMVPMatrix * aPosition;\n   vTextureCoord = (uSTMatrix * aTextureCoord).xy;\n}\n");
-                            int loadShader2 = CameraView.this.loadShader(35632, "#extension GL_OES_EGL_image_external : require\nprecision lowp float;\nvarying vec2 vTextureCoord;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   gl_FragColor = texture2D(sTexture, vTextureCoord);\n}\n");
+                            int loadShader = CameraView.this.loadShader(35633, CameraView.VERTEX_SHADER);
+                            int loadShader2 = CameraView.this.loadShader(35632, CameraView.FRAGMENT_SCREEN_SHADER);
                             if (loadShader != 0 && loadShader2 != 0) {
                                 int glCreateProgram = GLES20.glCreateProgram();
                                 this.drawProgram = glCreateProgram;
@@ -805,7 +802,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                                 CameraView.this.textureBuffer.put(new float[]{0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f}).position(0);
                                 SurfaceTexture surfaceTexture2 = new SurfaceTexture(CameraView.this.cameraTexture[0]);
                                 this.cameraSurface = surfaceTexture2;
-                                surfaceTexture2.setOnFrameAvailableListener(new CameraView$CameraGLThread$$ExternalSyntheticLambda0(this));
+                                surfaceTexture2.setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener() { // from class: org.telegram.messenger.camera.CameraView$CameraGLThread$$ExternalSyntheticLambda0
+                                    @Override // android.graphics.SurfaceTexture.OnFrameAvailableListener
+                                    public final void onFrameAvailable(SurfaceTexture surfaceTexture3) {
+                                        CameraView.CameraGLThread.this.lambda$initGL$0(surfaceTexture3);
+                                    }
+                                });
                                 CameraView.this.createCamera(this.cameraSurface);
                                 return true;
                             }
@@ -941,7 +943,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 CameraView cameraView3 = CameraView.this;
                 if (!cameraView3.firstFrameRendered) {
                     cameraView3.firstFrameRendered = true;
-                    AndroidUtilities.runOnUIThread(new CameraView$CameraGLThread$$ExternalSyntheticLambda2(this));
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$CameraGLThread$$ExternalSyntheticLambda2
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            CameraView.CameraGLThread.this.lambda$onDraw$1();
+                        }
+                    });
                 }
             }
         }
@@ -996,7 +1003,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 GLES20.glTexParameteri(36197, 10243, 33071);
                 SurfaceTexture surfaceTexture2 = new SurfaceTexture(CameraView.this.cameraTexture[0]);
                 this.cameraSurface = surfaceTexture2;
-                surfaceTexture2.setOnFrameAvailableListener(new CameraView$CameraGLThread$$ExternalSyntheticLambda1(this));
+                surfaceTexture2.setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener() { // from class: org.telegram.messenger.camera.CameraView$CameraGLThread$$ExternalSyntheticLambda1
+                    @Override // android.graphics.SurfaceTexture.OnFrameAvailableListener
+                    public final void onFrameAvailable(SurfaceTexture surfaceTexture3) {
+                        CameraView.CameraGLThread.this.lambda$handleMessage$2(surfaceTexture3);
+                    }
+                });
                 CameraView.this.createCamera(this.cameraSurface);
             } else if (i == 3) {
                 if (BuildVars.LOGS_ENABLED) {
@@ -1027,7 +1039,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             } else {
                 CameraView cameraView = CameraView.this;
                 cameraView.recordFile = (File) message.obj;
-                cameraView.videoEncoder = new VideoRecorder(cameraView, null);
+                cameraView.videoEncoder = new VideoRecorder();
                 this.recording = true;
                 CameraView.this.videoEncoder.startRecording(CameraView.this.recordFile, EGL14.eglGetCurrentContext());
             }
@@ -1068,23 +1080,15 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
-    /* renamed from: org.telegram.messenger.camera.CameraView$3 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
-        AnonymousClass3() {
-            CameraView.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            super.onAnimationEnd(animator);
-            CameraView.this.blurredStubView.setVisibility(8);
-        }
-    }
-
     public void onFirstFrameRendered() {
         if (this.blurredStubView.getVisibility() == 0) {
-            this.blurredStubView.animate().alpha(0.0f).setListener(new AnonymousClass3()).start();
+            this.blurredStubView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.camera.CameraView.3
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    super.onAnimationEnd(animator);
+                    CameraView.this.blurredStubView.setVisibility(8);
+                }
+            }).start();
         }
     }
 
@@ -1104,8 +1108,13 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         return glCreateShader;
     }
 
-    public void createCamera(SurfaceTexture surfaceTexture) {
-        AndroidUtilities.runOnUIThread(new CameraView$$ExternalSyntheticLambda4(this, surfaceTexture));
+    public void createCamera(final SurfaceTexture surfaceTexture) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                CameraView.this.lambda$createCamera$4(surfaceTexture);
+            }
+        });
     }
 
     public /* synthetic */ void lambda$createCamera$4(SurfaceTexture surfaceTexture) {
@@ -1127,7 +1136,17 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.cameraSession = cameraSession;
         this.cameraThread.setCurrentSession(cameraSession);
         requestLayout();
-        CameraController.getInstance().open(this.cameraSession, surfaceTexture, new CameraView$$ExternalSyntheticLambda3(this), new CameraView$$ExternalSyntheticLambda0(this));
+        CameraController.getInstance().open(this.cameraSession, surfaceTexture, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                CameraView.this.lambda$createCamera$2();
+            }
+        }, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                CameraView.this.lambda$createCamera$3();
+            }
+        });
     }
 
     public /* synthetic */ void lambda$createCamera$2() {
@@ -1221,95 +1240,83 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             this.lastCameraId = 0;
             this.buffers = new ArrayBlockingQueue<>(10);
             this.keyframeThumbs = new ArrayList<>();
-            this.recorderRunnable = new AnonymousClass1();
-        }
-
-        /* synthetic */ VideoRecorder(CameraView cameraView, AnonymousClass1 anonymousClass1) {
-            this();
-        }
-
-        /* renamed from: org.telegram.messenger.camera.CameraView$VideoRecorder$1 */
-        /* loaded from: classes.dex */
-        public class AnonymousClass1 implements Runnable {
-            AnonymousClass1() {
-                VideoRecorder.this = r1;
-            }
-
-            /* JADX WARN: Code restructure failed: missing block: B:12:0x002d, code lost:
-                if (org.telegram.messenger.camera.CameraView.VideoRecorder.this.sendWhenDone == 0) goto L48;
-             */
-            @Override // java.lang.Runnable
-            /*
-                Code decompiled incorrectly, please refer to instructions dump.
-            */
-            public void run() {
-                InstantCameraView.AudioBufferInfo audioBufferInfo;
-                long j = -1;
-                boolean z = false;
-                while (true) {
-                    boolean z2 = true;
-                    if (!z) {
-                        if (!VideoRecorder.this.running && VideoRecorder.this.audioRecorder.getRecordingState() != 1) {
-                            try {
-                                VideoRecorder.this.audioRecorder.stop();
-                            } catch (Exception unused) {
-                                z = true;
-                            }
-                        }
-                        if (!VideoRecorder.this.buffers.isEmpty()) {
-                            audioBufferInfo = (InstantCameraView.AudioBufferInfo) VideoRecorder.this.buffers.poll();
-                        } else {
-                            audioBufferInfo = new InstantCameraView.AudioBufferInfo();
-                        }
-                        audioBufferInfo.lastWroteBuffer = 0;
-                        audioBufferInfo.results = 10;
-                        int i = 0;
-                        while (true) {
-                            if (i >= 10) {
-                                break;
-                            }
-                            if (j == -1) {
-                                j = System.nanoTime() / 1000;
-                            }
-                            ByteBuffer byteBuffer = audioBufferInfo.buffer[i];
-                            byteBuffer.rewind();
-                            int read = VideoRecorder.this.audioRecorder.read(byteBuffer, 2048);
-                            if (read <= 0) {
-                                audioBufferInfo.results = i;
-                                if (!VideoRecorder.this.running) {
-                                    audioBufferInfo.last = true;
+            this.recorderRunnable = new Runnable() { // from class: org.telegram.messenger.camera.CameraView.VideoRecorder.1
+                /* JADX WARN: Code restructure failed: missing block: B:12:0x002d, code lost:
+                    if (org.telegram.messenger.camera.CameraView.VideoRecorder.this.sendWhenDone == 0) goto L48;
+                 */
+                @Override // java.lang.Runnable
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                */
+                public void run() {
+                    InstantCameraView.AudioBufferInfo audioBufferInfo;
+                    long j = -1;
+                    boolean z = false;
+                    while (true) {
+                        boolean z2 = true;
+                        if (!z) {
+                            if (!VideoRecorder.this.running && VideoRecorder.this.audioRecorder.getRecordingState() != 1) {
+                                try {
+                                    VideoRecorder.this.audioRecorder.stop();
+                                } catch (Exception unused) {
+                                    z = true;
                                 }
+                            }
+                            if (!VideoRecorder.this.buffers.isEmpty()) {
+                                audioBufferInfo = (InstantCameraView.AudioBufferInfo) VideoRecorder.this.buffers.poll();
                             } else {
-                                audioBufferInfo.offset[i] = j;
-                                audioBufferInfo.read[i] = read;
-                                j += ((read * 1000000) / 44100) / 2;
-                                i++;
+                                audioBufferInfo = new InstantCameraView.AudioBufferInfo();
+                            }
+                            audioBufferInfo.lastWroteBuffer = 0;
+                            audioBufferInfo.results = 10;
+                            int i = 0;
+                            while (true) {
+                                if (i >= 10) {
+                                    break;
+                                }
+                                if (j == -1) {
+                                    j = System.nanoTime() / 1000;
+                                }
+                                ByteBuffer byteBuffer = audioBufferInfo.buffer[i];
+                                byteBuffer.rewind();
+                                int read = VideoRecorder.this.audioRecorder.read(byteBuffer, 2048);
+                                if (read <= 0) {
+                                    audioBufferInfo.results = i;
+                                    if (!VideoRecorder.this.running) {
+                                        audioBufferInfo.last = true;
+                                    }
+                                } else {
+                                    audioBufferInfo.offset[i] = j;
+                                    audioBufferInfo.read[i] = read;
+                                    j += ((read * MediaController.VIDEO_BITRATE_480) / CameraView.audioSampleRate) / 2;
+                                    i++;
+                                }
+                            }
+                            if (audioBufferInfo.results >= 0 || audioBufferInfo.last) {
+                                if (VideoRecorder.this.running || audioBufferInfo.results >= 10) {
+                                    z2 = z;
+                                }
+                                VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(3, audioBufferInfo));
+                                z = z2;
+                            } else if (!VideoRecorder.this.running) {
+                                z = true;
+                            } else {
+                                try {
+                                    VideoRecorder.this.buffers.put(audioBufferInfo);
+                                } catch (Exception unused2) {
+                                }
                             }
                         }
-                        if (audioBufferInfo.results >= 0 || audioBufferInfo.last) {
-                            if (VideoRecorder.this.running || audioBufferInfo.results >= 10) {
-                                z2 = z;
-                            }
-                            VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(3, audioBufferInfo));
-                            z = z2;
-                        } else if (!VideoRecorder.this.running) {
-                            z = true;
-                        } else {
-                            try {
-                                VideoRecorder.this.buffers.put(audioBufferInfo);
-                            } catch (Exception unused2) {
-                            }
+                        try {
+                            VideoRecorder.this.audioRecorder.release();
+                        } catch (Exception e) {
+                            FileLog.e(e);
                         }
+                        VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(1, VideoRecorder.this.sendWhenDone, 0));
+                        return;
                     }
-                    try {
-                        VideoRecorder.this.audioRecorder.release();
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                    VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(1, VideoRecorder.this.sendWhenDone, 0));
-                    return;
                 }
-            }
+            };
         }
 
         public void startRecording(File file, android.opengl.EGLContext eGLContext) {
@@ -1656,7 +1663,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             this.eglContext = EGL14.EGL_NO_CONTEXT;
             this.eglConfig = null;
             this.handler.exit();
-            AndroidUtilities.runOnUIThread(new CameraView$VideoRecorder$$ExternalSyntheticLambda0(this));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$VideoRecorder$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    CameraView.VideoRecorder.this.lambda$handleStopRecording$0();
+                }
+            });
         }
 
         public /* synthetic */ void lambda$handleStopRecording$0() {
@@ -1666,7 +1678,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
 
         public void prepareEncoder() {
             try {
-                int minBufferSize = AudioRecord.getMinBufferSize(44100, 16, 2);
+                int minBufferSize = AudioRecord.getMinBufferSize(CameraView.audioSampleRate, 16, 2);
                 if (minBufferSize <= 0) {
                     minBufferSize = 3584;
                 }
@@ -1677,7 +1689,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 for (int i2 = 0; i2 < 3; i2++) {
                     this.buffers.add(new InstantCameraView.AudioBufferInfo());
                 }
-                AudioRecord audioRecord = new AudioRecord(0, 44100, 16, 2, i);
+                AudioRecord audioRecord = new AudioRecord(0, CameraView.audioSampleRate, 16, 2, i);
                 this.audioRecorder = audioRecord;
                 audioRecord.startRecording();
                 if (BuildVars.LOGS_ENABLED) {
@@ -1690,7 +1702,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 this.videoBufferInfo = new MediaCodec.BufferInfo();
                 MediaFormat mediaFormat = new MediaFormat();
                 mediaFormat.setString("mime", "audio/mp4a-latm");
-                mediaFormat.setInteger("sample-rate", 44100);
+                mediaFormat.setInteger("sample-rate", CameraView.audioSampleRate);
                 mediaFormat.setInteger("channel-count", 1);
                 mediaFormat.setInteger("bitrate", 32000);
                 mediaFormat.setInteger("max-input-size", 20480);
@@ -1728,7 +1740,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 }
                 if (this.eglContext == EGL14.EGL_NO_CONTEXT) {
                     android.opengl.EGLConfig[] eGLConfigArr = new android.opengl.EGLConfig[1];
-                    if (!EGL14.eglChooseConfig(this.eglDisplay, new int[]{12324, 8, 12323, 8, 12322, 8, 12321, 8, 12352, 4, 12610, 1, 12344}, 0, eGLConfigArr, 0, 1, new int[1], 0)) {
+                    if (!EGL14.eglChooseConfig(this.eglDisplay, new int[]{12324, 8, 12323, 8, 12322, 8, 12321, 8, 12352, 4, EglBase.EGL_RECORDABLE_ANDROID, 1, 12344}, 0, eGLConfigArr, 0, 1, new int[1], 0)) {
                         throw new RuntimeException("Unable to find a suitable EGLConfig");
                     }
                     this.eglContext = EGL14.eglCreateContext(this.eglDisplay, eGLConfigArr[0], this.sharedEglContext, new int[]{12440, 2, 12344}, 0);
@@ -1753,8 +1765,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 FloatBuffer asFloatBuffer = ByteBuffer.allocateDirect(32).order(ByteOrder.nativeOrder()).asFloatBuffer();
                 this.textureBuffer = asFloatBuffer;
                 asFloatBuffer.put(new float[]{0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f}).position(0);
-                int loadShader = CameraView.this.loadShader(35633, "uniform mat4 uMVPMatrix;\nuniform mat4 uSTMatrix;\nattribute vec4 aPosition;\nattribute vec4 aTextureCoord;\nvarying vec2 vTextureCoord;\nvoid main() {\n   gl_Position = uMVPMatrix * aPosition;\n   vTextureCoord = (uSTMatrix * aTextureCoord).xy;\n}\n");
-                int loadShader2 = CameraView.this.loadShader(35632, "#extension GL_OES_EGL_image_external : require\nprecision lowp float;\nvarying vec2 vTextureCoord;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   gl_FragColor = texture2D(sTexture, vTextureCoord);\n}\n");
+                int loadShader = CameraView.this.loadShader(35633, CameraView.VERTEX_SHADER);
+                int loadShader2 = CameraView.this.loadShader(35632, CameraView.FRAGMENT_SCREEN_SHADER);
                 if (loadShader == 0 || loadShader2 == 0) {
                     return;
                 }

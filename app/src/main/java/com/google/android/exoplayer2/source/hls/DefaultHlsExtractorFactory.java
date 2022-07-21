@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
     private final boolean exposeCea608WhenMissingDeclarations;
@@ -132,10 +133,10 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
         }
         String str = format.codecs;
         if (!TextUtils.isEmpty(str)) {
-            if (!"audio/mp4a-latm".equals(MimeTypes.getAudioMediaMimeType(str))) {
+            if (!MediaController.AUIDO_MIME_TYPE.equals(MimeTypes.getAudioMediaMimeType(str))) {
                 i2 |= 2;
             }
-            if (!"video/avc".equals(MimeTypes.getVideoMediaMimeType(str))) {
+            if (!MediaController.VIDEO_MIME_TYPE.equals(MimeTypes.getVideoMediaMimeType(str))) {
                 i2 |= 4;
             }
         }

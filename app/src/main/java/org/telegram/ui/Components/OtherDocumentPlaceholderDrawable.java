@@ -17,6 +17,7 @@ import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$Message;
 /* loaded from: classes3.dex */
@@ -70,11 +71,11 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
         buttonPaint.setColor(-10327179);
         percentPaint.setColor(-1);
         openPaint.setColor(-1);
-        docPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        namePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        buttonPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        percentPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        openPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        docPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        namePaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        buttonPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        percentPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        openPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
     }
 
     public OtherDocumentPlaceholderDrawable(Context context, View view, MessageObject messageObject) {
@@ -145,14 +146,14 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
         canvas.drawText(this.fileName, (width - ((int) Math.ceil(namePaint.measureText(this.fileName)))) / 2, AndroidUtilities.dp(96.0f) + dp, namePaint);
         canvas.drawText(this.fileSize, (width - ((int) Math.ceil(sizePaint.measureText(this.fileSize)))) / 2, AndroidUtilities.dp(125.0f) + dp, sizePaint);
         if (this.loaded) {
-            str = LocaleController.getString("OpenFile", 2131627148);
+            str = LocaleController.getString("OpenFile", R.string.OpenFile);
             textPaint = openPaint;
             i = 0;
         } else {
             if (this.loading) {
-                str = LocaleController.getString("Cancel", 2131624832).toUpperCase();
+                str = LocaleController.getString("Cancel", R.string.Cancel).toUpperCase();
             } else {
-                str = LocaleController.getString("TapToDownload", 2131628611);
+                str = LocaleController.getString("TapToDownload", R.string.TapToDownload);
             }
             i = AndroidUtilities.dp(28.0f);
             textPaint = buttonPaint;

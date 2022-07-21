@@ -14,6 +14,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -118,7 +119,7 @@ public class UserCell2 extends FrameLayout {
             addView(checkBoxSquare, LayoutHelper.createFrame(18, 18.0f, (z5 ? 3 : 5) | 16, z5 ? 19.0f : 0.0f, 0.0f, z5 ? 0.0f : 19.0f, 0.0f));
         } else if (i2 != 1) {
         } else {
-            CheckBox checkBox = new CheckBox(context, 2131166118);
+            CheckBox checkBox = new CheckBox(context, R.drawable.round_check2);
             this.checkBox = checkBox;
             checkBox.setVisibility(4);
             this.checkBox.setColor(Theme.getColor("checkbox", resourcesProvider), Theme.getColor("checkboxCheck", resourcesProvider));
@@ -296,13 +297,13 @@ public class UserCell2 extends FrameLayout {
             if (tLRPC$User.bot) {
                 this.statusTextView.setTextColor(this.statusColor);
                 if (tLRPC$User.bot_chat_history) {
-                    this.statusTextView.setText(LocaleController.getString("BotStatusRead", 2131624748));
+                    this.statusTextView.setText(LocaleController.getString("BotStatusRead", R.string.BotStatusRead));
                 } else {
-                    this.statusTextView.setText(LocaleController.getString("BotStatusCantRead", 2131624747));
+                    this.statusTextView.setText(LocaleController.getString("BotStatusCantRead", R.string.BotStatusCantRead));
                 }
             } else if (tLRPC$User.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || (((tLRPC$UserStatus = tLRPC$User.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(tLRPC$User.id)))) {
                 this.statusTextView.setTextColor(this.statusOnlineColor);
-                this.statusTextView.setText(LocaleController.getString("Online", 2131627132));
+                this.statusTextView.setText(LocaleController.getString("Online", R.string.Online));
             } else {
                 this.statusTextView.setTextColor(this.statusColor);
                 this.statusTextView.setText(LocaleController.formatUserStatus(this.currentAccount, tLRPC$User));
@@ -315,20 +316,20 @@ public class UserCell2 extends FrameLayout {
                 if (i3 != 0) {
                     this.statusTextView.setText(LocaleController.formatPluralString("Subscribers", i3, new Object[0]));
                 } else if (TextUtils.isEmpty(tLRPC$Chat.username)) {
-                    this.statusTextView.setText(LocaleController.getString("ChannelPrivate", 2131624959));
+                    this.statusTextView.setText(LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate));
                 } else {
-                    this.statusTextView.setText(LocaleController.getString("ChannelPublic", 2131624962));
+                    this.statusTextView.setText(LocaleController.getString("ChannelPublic", R.string.ChannelPublic));
                 }
             } else {
                 int i4 = tLRPC$Chat.participants_count;
                 if (i4 != 0) {
                     this.statusTextView.setText(LocaleController.formatPluralString("Members", i4, new Object[0]));
                 } else if (tLRPC$Chat.has_geo) {
-                    this.statusTextView.setText(LocaleController.getString("MegaLocation", 2131626632));
+                    this.statusTextView.setText(LocaleController.getString("MegaLocation", R.string.MegaLocation));
                 } else if (TextUtils.isEmpty(tLRPC$Chat.username)) {
-                    this.statusTextView.setText(LocaleController.getString("MegaPrivate", 2131626633));
+                    this.statusTextView.setText(LocaleController.getString("MegaPrivate", R.string.MegaPrivate));
                 } else {
-                    this.statusTextView.setText(LocaleController.getString("MegaPublic", 2131626636));
+                    this.statusTextView.setText(LocaleController.getString("MegaPublic", R.string.MegaPublic));
                 }
             }
             this.avatarImageView.setForUserOrChat(tLRPC$Chat, this.avatarDrawable);

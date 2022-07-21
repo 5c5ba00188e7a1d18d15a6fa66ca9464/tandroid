@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
@@ -28,6 +29,7 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
         void didSelectAlbum(MediaController.AlbumEntry albumEntry);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class AlbumView extends FrameLayout {
         private TextView countTextView;
@@ -44,7 +46,7 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
             addView(backupImageView, LayoutHelper.createFrame(-1, -1.0f));
             LinearLayout linearLayout = new LinearLayout(context);
             linearLayout.setOrientation(0);
-            linearLayout.setBackgroundResource(2131165254);
+            linearLayout.setBackgroundResource(R.drawable.album_shadow);
             addView(linearLayout, LayoutHelper.createFrame(-1, 60, 83));
             TextView textView = new TextView(context);
             this.nameTextView = textView;
@@ -94,7 +96,12 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
             addView(this.albumViews[i]);
             this.albumViews[i].setVisibility(4);
             this.albumViews[i].setTag(Integer.valueOf(i));
-            this.albumViews[i].setOnClickListener(new PhotoPickerAlbumsCell$$ExternalSyntheticLambda0(this));
+            this.albumViews[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.PhotoPickerAlbumsCell$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    PhotoPickerAlbumsCell.this.lambda$new$0(view);
+                }
+            });
         }
     }
 

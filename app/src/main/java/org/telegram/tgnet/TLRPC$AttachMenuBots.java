@@ -4,7 +4,14 @@ public abstract class TLRPC$AttachMenuBots extends TLObject {
     public static TLRPC$AttachMenuBots TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$AttachMenuBots tLRPC$AttachMenuBots;
         if (i == -237467044) {
-            tLRPC$AttachMenuBots = new TLRPC$TL_attachMenuBotsNotModified();
+            tLRPC$AttachMenuBots = new TLRPC$AttachMenuBots() { // from class: org.telegram.tgnet.TLRPC$TL_attachMenuBotsNotModified
+                public static int constructor = -237467044;
+
+                @Override // org.telegram.tgnet.TLObject
+                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                    abstractSerializedData2.writeInt32(constructor);
+                }
+            };
         } else {
             tLRPC$AttachMenuBots = i != 1011024320 ? null : new TLRPC$TL_attachMenuBots();
         }

@@ -33,12 +33,14 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SvgHelper;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.ScrollSlidingTabStrip;
 /* loaded from: classes3.dex */
 public class ScrollSlidingTabStrip extends HorizontalScrollView {
     public static float EXPANDED_WIDTH = 64.0f;
@@ -82,43 +84,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     private int lastScrollX = 0;
     SparseArray<StickerTabView> currentPlayingImages = new SparseArray<>();
     SparseArray<StickerTabView> currentPlayingImagesTmp = new SparseArray<>();
-    Runnable longClickRunnable = new AnonymousClass1();
-    boolean expanded = false;
-    private float stickerTabExpandedWidth = AndroidUtilities.dp(EXPANDED_WIDTH);
-    private float stickerTabWidth = AndroidUtilities.dp(33.0f);
-    private int scrollByOnNextMeasure = -1;
-    private Paint selectorPaint = new Paint();
-    Runnable scrollRunnable = new AnonymousClass6();
-    private LinearLayout.LayoutParams defaultTabLayoutParams = new LinearLayout.LayoutParams(AndroidUtilities.dp(33.0f), -1);
-    private LinearLayout.LayoutParams defaultExpandLayoutParams = new LinearLayout.LayoutParams(0, -1, 1.0f);
-
-    /* loaded from: classes3.dex */
-    public interface ScrollSlidingTabStripDelegate {
-        void onPageSelected(int i);
-    }
-
-    /* loaded from: classes3.dex */
-    public enum Type {
-        LINE,
-        TAB
-    }
-
-    protected void invalidateOverlays() {
-    }
-
-    protected void stickerSetPositionChanged(int i, int i2) {
-    }
-
-    protected void updatePosition() {
-    }
-
-    /* renamed from: org.telegram.ui.Components.ScrollSlidingTabStrip$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
-            ScrollSlidingTabStrip.this = r1;
-        }
-
+    Runnable longClickRunnable = new Runnable() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip.1
         @Override // java.lang.Runnable
         public void run() {
             ScrollSlidingTabStrip scrollSlidingTabStrip = ScrollSlidingTabStrip.this;
@@ -144,6 +110,65 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                 ScrollSlidingTabStrip.this.invalidate();
             }
         }
+    };
+    boolean expanded = false;
+    private float stickerTabExpandedWidth = AndroidUtilities.dp(EXPANDED_WIDTH);
+    private float stickerTabWidth = AndroidUtilities.dp(33.0f);
+    private int scrollByOnNextMeasure = -1;
+    private Paint selectorPaint = new Paint();
+    Runnable scrollRunnable = new Runnable() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip.6
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x0039, code lost:
+            if (org.telegram.ui.Components.ScrollSlidingTabStrip.this.scrollRight != false) goto L6;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:13:0x004a, code lost:
+            if (org.telegram.ui.Components.ScrollSlidingTabStrip.this.scrollRight != false) goto L6;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:5:0x001f, code lost:
+            if (org.telegram.ui.Components.ScrollSlidingTabStrip.this.scrollRight != false) goto L6;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:6:0x0021, code lost:
+            r2 = 1;
+         */
+        @Override // java.lang.Runnable
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public void run() {
+            int max;
+            long currentTimeMillis = System.currentTimeMillis() - ScrollSlidingTabStrip.this.scrollStartTime;
+            int i = -1;
+            if (currentTimeMillis < 3000) {
+                max = Math.max(1, AndroidUtilities.dp(1.0f));
+            } else if (currentTimeMillis < 5000) {
+                max = Math.max(1, AndroidUtilities.dp(2.0f));
+            } else {
+                max = Math.max(1, AndroidUtilities.dp(4.0f));
+            }
+            ScrollSlidingTabStrip.this.scrollBy(max * i, 0);
+            AndroidUtilities.runOnUIThread(ScrollSlidingTabStrip.this.scrollRunnable);
+        }
+    };
+    private LinearLayout.LayoutParams defaultTabLayoutParams = new LinearLayout.LayoutParams(AndroidUtilities.dp(33.0f), -1);
+    private LinearLayout.LayoutParams defaultExpandLayoutParams = new LinearLayout.LayoutParams(0, -1, 1.0f);
+
+    /* loaded from: classes3.dex */
+    public interface ScrollSlidingTabStripDelegate {
+        void onPageSelected(int i);
+    }
+
+    /* loaded from: classes3.dex */
+    public enum Type {
+        LINE,
+        TAB
+    }
+
+    protected void invalidateOverlays() {
+    }
+
+    protected void stickerSetPositionChanged(int i, int i2) {
+    }
+
+    protected void updatePosition() {
     }
 
     public ScrollSlidingTabStrip(Context context, Theme.ResourcesProvider resourcesProvider) {
@@ -157,9 +182,20 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         setFillViewport(true);
         setWillNotDraw(false);
         setHorizontalScrollBarEnabled(false);
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-        this.tabsContainer = anonymousClass2;
-        anonymousClass2.setOrientation(0);
+        LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip.2
+            @Override // android.view.ViewGroup
+            protected boolean drawChild(Canvas canvas, View view, long j) {
+                if (view instanceof StickerTabView) {
+                    ((StickerTabView) view).updateExpandProgress(ScrollSlidingTabStrip.this.expandProgress);
+                }
+                if (view == ScrollSlidingTabStrip.this.draggingView) {
+                    return true;
+                }
+                return super.drawChild(canvas, view, j);
+            }
+        };
+        this.tabsContainer = linearLayout;
+        linearLayout.setOrientation(0);
         this.tabsContainer.setPadding(AndroidUtilities.dp(9.5f), 0, AndroidUtilities.dp(9.5f), 0);
         this.tabsContainer.setLayoutParams(new FrameLayout.LayoutParams(-1, -1));
         addView(this.tabsContainer);
@@ -167,27 +203,6 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         this.rectPaint = paint;
         paint.setAntiAlias(true);
         this.rectPaint.setStyle(Paint.Style.FILL);
-    }
-
-    /* renamed from: org.telegram.ui.Components.ScrollSlidingTabStrip$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends LinearLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass2(Context context) {
-            super(context);
-            ScrollSlidingTabStrip.this = r1;
-        }
-
-        @Override // android.view.ViewGroup
-        protected boolean drawChild(Canvas canvas, View view, long j) {
-            if (view instanceof StickerTabView) {
-                ((StickerTabView) view).updateExpandProgress(ScrollSlidingTabStrip.this.expandProgress);
-            }
-            if (view == ScrollSlidingTabStrip.this.draggingView) {
-                return true;
-            }
-            return super.drawChild(canvas, view, j);
-        }
     }
 
     public void setDelegate(ScrollSlidingTabStripDelegate scrollSlidingTabStripDelegate) {
@@ -265,7 +280,12 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         @Override // android.transition.Transition
         public Animator createAnimator(ViewGroup viewGroup, TransitionValues transitionValues, TransitionValues transitionValues2) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat.addUpdateListener(new ScrollSlidingTabStrip$3$$ExternalSyntheticLambda0(this));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$3$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    ScrollSlidingTabStrip.AnonymousClass3.this.lambda$createAnimator$0(valueAnimator);
+                }
+            });
             return ofFloat;
         }
 
@@ -324,10 +344,15 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             frameLayout.addView(imageView, LayoutHelper.createFrame(24, 24, 17));
             frameLayout.setFocusable(true);
-            frameLayout.setOnClickListener(new ScrollSlidingTabStrip$$ExternalSyntheticLambda3(this));
+            frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda3
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ScrollSlidingTabStrip.this.lambda$addIconTab$1(view);
+                }
+            });
             this.tabsContainer.addView(frameLayout, i2);
         }
-        frameLayout.setTag(2131230837, Integer.valueOf(i2));
+        frameLayout.setTag(R.id.index_tag, Integer.valueOf(i2));
         if (i2 != this.currentPosition) {
             z = false;
         }
@@ -337,7 +362,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     public /* synthetic */ void lambda$addIconTab$1(View view) {
-        this.delegate.onPageSelected(((Integer) view.getTag(2131230837)).intValue());
+        this.delegate.onPageSelected(((Integer) view.getTag(R.id.index_tag)).intValue());
     }
 
     public StickerTabView addStickerIconTab(int i, Drawable drawable) {
@@ -352,13 +377,18 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             stickerTabView = new StickerTabView(getContext(), 1);
             stickerTabView.iconView.setImageDrawable(drawable);
             stickerTabView.setFocusable(true);
-            stickerTabView.setOnClickListener(new ScrollSlidingTabStrip$$ExternalSyntheticLambda2(this));
+            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda2
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ScrollSlidingTabStrip.this.lambda$addStickerIconTab$2(view);
+                }
+            });
             stickerTabView.setExpanded(this.expanded);
             stickerTabView.updateExpandProgress(this.expandProgress);
             this.tabsContainer.addView(stickerTabView, i2);
         }
         stickerTabView.isChatSticker = false;
-        stickerTabView.setTag(2131230837, Integer.valueOf(i2));
+        stickerTabView.setTag(R.id.index_tag, Integer.valueOf(i2));
         if (i2 != this.currentPosition) {
             z = false;
         }
@@ -368,7 +398,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     public /* synthetic */ void lambda$addStickerIconTab$2(View view) {
-        this.delegate.onPageSelected(((Integer) view.getTag(2131230837)).intValue());
+        this.delegate.onPageSelected(((Integer) view.getTag(R.id.index_tag)).intValue());
     }
 
     public void addStickerTab(TLRPC$Chat tLRPC$Chat) {
@@ -382,7 +412,12 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         } else {
             stickerTabView = new StickerTabView(getContext(), 0);
             stickerTabView.setFocusable(true);
-            stickerTabView.setOnClickListener(new ScrollSlidingTabStrip$$ExternalSyntheticLambda6(this));
+            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda6
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ScrollSlidingTabStrip.this.lambda$addStickerTab$3(view);
+                }
+            });
             this.tabsContainer.addView(stickerTabView, i);
             stickerTabView.setRoundImage();
             AvatarDrawable avatarDrawable = new AvatarDrawable();
@@ -397,7 +432,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             stickerTabView.textView.setText(tLRPC$Chat.title);
         }
         stickerTabView.isChatSticker = true;
-        stickerTabView.setTag(2131230837, Integer.valueOf(i));
+        stickerTabView.setTag(R.id.index_tag, Integer.valueOf(i));
         if (i == this.currentPosition) {
             z = true;
         }
@@ -406,7 +441,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     public /* synthetic */ void lambda$addStickerTab$3(View view) {
-        this.delegate.onPageSelected(((Integer) view.getTag(2131230837)).intValue());
+        this.delegate.onPageSelected(((Integer) view.getTag(R.id.index_tag)).intValue());
     }
 
     public View addEmojiTab(int i, Emoji.EmojiDrawable emojiDrawable, TLRPC$Document tLRPC$Document) {
@@ -420,15 +455,20 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         } else {
             stickerTabView = new StickerTabView(getContext(), 2);
             stickerTabView.setFocusable(true);
-            stickerTabView.setOnClickListener(new ScrollSlidingTabStrip$$ExternalSyntheticLambda5(this));
+            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda5
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ScrollSlidingTabStrip.this.lambda$addEmojiTab$4(view);
+                }
+            });
             stickerTabView.setExpanded(this.expanded);
             stickerTabView.updateExpandProgress(this.expandProgress);
             this.tabsContainer.addView(stickerTabView, i2);
         }
         stickerTabView.isChatSticker = false;
-        stickerTabView.setTag(2131230837, Integer.valueOf(i2));
-        stickerTabView.setTag(2131230879, emojiDrawable);
-        stickerTabView.setTag(2131230876, tLRPC$Document);
+        stickerTabView.setTag(R.id.index_tag, Integer.valueOf(i2));
+        stickerTabView.setTag(R.id.parent_tag, emojiDrawable);
+        stickerTabView.setTag(R.id.object_tag, tLRPC$Document);
         if (i2 != this.currentPosition) {
             z = false;
         }
@@ -438,7 +478,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     public /* synthetic */ void lambda$addEmojiTab$4(View view) {
-        this.delegate.onPageSelected(((Integer) view.getTag(2131230837)).intValue());
+        this.delegate.onPageSelected(((Integer) view.getTag(R.id.index_tag)).intValue());
     }
 
     public View addStickerTab(TLObject tLObject, TLRPC$Document tLRPC$Document, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
@@ -455,16 +495,21 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         } else {
             stickerTabView = new StickerTabView(getContext(), 0);
             stickerTabView.setFocusable(true);
-            stickerTabView.setOnClickListener(new ScrollSlidingTabStrip$$ExternalSyntheticLambda4(this));
+            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda4
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ScrollSlidingTabStrip.this.lambda$addStickerTab$5(view);
+                }
+            });
             stickerTabView.setExpanded(this.expanded);
             stickerTabView.updateExpandProgress(this.expandProgress);
             this.tabsContainer.addView(stickerTabView, i);
         }
         stickerTabView.isChatSticker = false;
         stickerTabView.setTag(tLObject);
-        stickerTabView.setTag(2131230837, Integer.valueOf(i));
-        stickerTabView.setTag(2131230879, tLRPC$TL_messages_stickerSet);
-        stickerTabView.setTag(2131230876, tLRPC$Document);
+        stickerTabView.setTag(R.id.index_tag, Integer.valueOf(i));
+        stickerTabView.setTag(R.id.parent_tag, tLRPC$TL_messages_stickerSet);
+        stickerTabView.setTag(R.id.object_tag, tLRPC$Document);
         if (i == this.currentPosition) {
             z = true;
         }
@@ -474,10 +519,10 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     public /* synthetic */ void lambda$addStickerTab$5(View view) {
-        this.delegate.onPageSelected(((Integer) view.getTag(2131230837)).intValue());
+        this.delegate.onPageSelected(((Integer) view.getTag(R.id.index_tag)).intValue());
     }
 
-    public void expandStickers(float f, boolean z) {
+    public void expandStickers(final float f, final boolean z) {
         if (this.expanded != z) {
             this.expanded = z;
             if (!z) {
@@ -493,8 +538,56 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.expandStickerAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ScrollSlidingTabStrip$$ExternalSyntheticLambda1(this, z, f));
-            this.expandStickerAnimator.addListener(new AnonymousClass4(z, f));
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda1
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    ScrollSlidingTabStrip.this.lambda$expandStickers$6(z, f, valueAnimator2);
+                }
+            });
+            this.expandStickerAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip.4
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    ScrollSlidingTabStrip scrollSlidingTabStrip = ScrollSlidingTabStrip.this;
+                    scrollSlidingTabStrip.expandStickerAnimator = null;
+                    scrollSlidingTabStrip.expandProgress = z ? 1.0f : 0.0f;
+                    for (int i = 0; i < ScrollSlidingTabStrip.this.tabsContainer.getChildCount(); i++) {
+                        ScrollSlidingTabStrip.this.tabsContainer.getChildAt(i).invalidate();
+                    }
+                    ScrollSlidingTabStrip.this.tabsContainer.invalidate();
+                    ScrollSlidingTabStrip.this.updatePosition();
+                    if (!z) {
+                        float childCount = ScrollSlidingTabStrip.this.stickerTabWidth * ScrollSlidingTabStrip.this.tabsContainer.getChildCount();
+                        float scrollX = (ScrollSlidingTabStrip.this.getScrollX() + f) / (ScrollSlidingTabStrip.this.stickerTabExpandedWidth * ScrollSlidingTabStrip.this.tabsContainer.getChildCount());
+                        float measuredWidth = (childCount - ScrollSlidingTabStrip.this.getMeasuredWidth()) / childCount;
+                        float f2 = f;
+                        if (scrollX > measuredWidth) {
+                            scrollX = measuredWidth;
+                            f2 = 0.0f;
+                        }
+                        float f3 = childCount * scrollX;
+                        if (f3 - f2 < 0.0f) {
+                            f3 = f2;
+                        }
+                        ScrollSlidingTabStrip scrollSlidingTabStrip2 = ScrollSlidingTabStrip.this;
+                        scrollSlidingTabStrip2.expandOffset = (scrollSlidingTabStrip2.getScrollX() + f2) - f3;
+                        ScrollSlidingTabStrip.this.scrollByOnNextMeasure = (int) (f3 - f2);
+                        if (ScrollSlidingTabStrip.this.scrollByOnNextMeasure < 0) {
+                            ScrollSlidingTabStrip.this.scrollByOnNextMeasure = 0;
+                        }
+                        for (int i2 = 0; i2 < ScrollSlidingTabStrip.this.tabsContainer.getChildCount(); i2++) {
+                            View childAt = ScrollSlidingTabStrip.this.tabsContainer.getChildAt(i2);
+                            if (childAt instanceof StickerTabView) {
+                                ((StickerTabView) childAt).setExpanded(false);
+                            }
+                            childAt.getLayoutParams().width = AndroidUtilities.dp(33.0f);
+                        }
+                        ScrollSlidingTabStrip scrollSlidingTabStrip3 = ScrollSlidingTabStrip.this;
+                        scrollSlidingTabStrip3.animateToExpanded = false;
+                        scrollSlidingTabStrip3.getLayoutParams().height = AndroidUtilities.dp(36.0f);
+                        ScrollSlidingTabStrip.this.tabsContainer.requestLayout();
+                    }
+                }
+            });
             this.expandStickerAnimator.start();
             if (z) {
                 this.animateToExpanded = true;
@@ -538,62 +631,6 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         }
         this.tabsContainer.invalidate();
         updatePosition();
-    }
-
-    /* renamed from: org.telegram.ui.Components.ScrollSlidingTabStrip$4 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$expanded;
-        final /* synthetic */ float val$x;
-
-        AnonymousClass4(boolean z, float f) {
-            ScrollSlidingTabStrip.this = r1;
-            this.val$expanded = z;
-            this.val$x = f;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ScrollSlidingTabStrip scrollSlidingTabStrip = ScrollSlidingTabStrip.this;
-            scrollSlidingTabStrip.expandStickerAnimator = null;
-            scrollSlidingTabStrip.expandProgress = this.val$expanded ? 1.0f : 0.0f;
-            for (int i = 0; i < ScrollSlidingTabStrip.this.tabsContainer.getChildCount(); i++) {
-                ScrollSlidingTabStrip.this.tabsContainer.getChildAt(i).invalidate();
-            }
-            ScrollSlidingTabStrip.this.tabsContainer.invalidate();
-            ScrollSlidingTabStrip.this.updatePosition();
-            if (!this.val$expanded) {
-                float childCount = ScrollSlidingTabStrip.this.stickerTabWidth * ScrollSlidingTabStrip.this.tabsContainer.getChildCount();
-                float scrollX = (ScrollSlidingTabStrip.this.getScrollX() + this.val$x) / (ScrollSlidingTabStrip.this.stickerTabExpandedWidth * ScrollSlidingTabStrip.this.tabsContainer.getChildCount());
-                float measuredWidth = (childCount - ScrollSlidingTabStrip.this.getMeasuredWidth()) / childCount;
-                float f = this.val$x;
-                if (scrollX > measuredWidth) {
-                    scrollX = measuredWidth;
-                    f = 0.0f;
-                }
-                float f2 = childCount * scrollX;
-                if (f2 - f < 0.0f) {
-                    f2 = f;
-                }
-                ScrollSlidingTabStrip scrollSlidingTabStrip2 = ScrollSlidingTabStrip.this;
-                scrollSlidingTabStrip2.expandOffset = (scrollSlidingTabStrip2.getScrollX() + f) - f2;
-                ScrollSlidingTabStrip.this.scrollByOnNextMeasure = (int) (f2 - f);
-                if (ScrollSlidingTabStrip.this.scrollByOnNextMeasure < 0) {
-                    ScrollSlidingTabStrip.this.scrollByOnNextMeasure = 0;
-                }
-                for (int i2 = 0; i2 < ScrollSlidingTabStrip.this.tabsContainer.getChildCount(); i2++) {
-                    View childAt = ScrollSlidingTabStrip.this.tabsContainer.getChildAt(i2);
-                    if (childAt instanceof StickerTabView) {
-                        ((StickerTabView) childAt).setExpanded(false);
-                    }
-                    childAt.getLayoutParams().width = AndroidUtilities.dp(33.0f);
-                }
-                ScrollSlidingTabStrip scrollSlidingTabStrip3 = ScrollSlidingTabStrip.this;
-                scrollSlidingTabStrip3.animateToExpanded = false;
-                scrollSlidingTabStrip3.getLayoutParams().height = AndroidUtilities.dp(36.0f);
-                ScrollSlidingTabStrip.this.tabsContainer.requestLayout();
-            }
-        }
     }
 
     public float getExpandedOffset() {
@@ -676,8 +713,8 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                 if (childAt instanceof StickerTabView) {
                     StickerTabView stickerTabView = (StickerTabView) childAt;
                     if (stickerTabView.type == 2) {
-                        Object tag = stickerTabView.getTag(2131230879);
-                        Object tag2 = stickerTabView.getTag(2131230876);
+                        Object tag = stickerTabView.getTag(R.id.parent_tag);
+                        Object tag2 = stickerTabView.getTag(R.id.object_tag);
                         Drawable drawable = tag instanceof Drawable ? (Drawable) tag : null;
                         if (tag2 instanceof TLRPC$Document) {
                             stickerTabView.imageView.setImage(ImageLocation.getForDocument((TLRPC$Document) tag2), "36_36_nolimit", (Drawable) null, (Object) null);
@@ -686,8 +723,8 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                         }
                     } else {
                         Object tag3 = childAt.getTag();
-                        Object tag4 = childAt.getTag(2131230879);
-                        TLRPC$Document tLRPC$Document = (TLRPC$Document) childAt.getTag(2131230876);
+                        Object tag4 = childAt.getTag(R.id.parent_tag);
+                        TLRPC$Document tLRPC$Document = (TLRPC$Document) childAt.getTag(R.id.object_tag);
                         if (tag3 instanceof TLRPC$Document) {
                             TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
                             if (!stickerTabView.inited) {
@@ -988,8 +1025,25 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                     stickerSetPositionChanged(i3, i4);
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                ofFloat.addUpdateListener(new ScrollSlidingTabStrip$$ExternalSyntheticLambda0(this));
-                ofFloat.addListener(new AnonymousClass5());
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        ScrollSlidingTabStrip.this.lambda$checkLongPress$7(valueAnimator);
+                    }
+                });
+                ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip.5
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        ScrollSlidingTabStrip scrollSlidingTabStrip = ScrollSlidingTabStrip.this;
+                        if (scrollSlidingTabStrip.draggingView != null) {
+                            scrollSlidingTabStrip.invalidateOverlays();
+                            ScrollSlidingTabStrip.this.draggingView.invalidate();
+                            ScrollSlidingTabStrip.this.tabsContainer.invalidate();
+                            ScrollSlidingTabStrip.this.invalidate();
+                            ScrollSlidingTabStrip.this.draggingView = null;
+                        }
+                    }
+                });
                 ofFloat.start();
             }
             this.longClickRunning = false;
@@ -1003,26 +1057,6 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         invalidateOverlays();
     }
 
-    /* renamed from: org.telegram.ui.Components.ScrollSlidingTabStrip$5 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends AnimatorListenerAdapter {
-        AnonymousClass5() {
-            ScrollSlidingTabStrip.this = r1;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            ScrollSlidingTabStrip scrollSlidingTabStrip = ScrollSlidingTabStrip.this;
-            if (scrollSlidingTabStrip.draggingView != null) {
-                scrollSlidingTabStrip.invalidateOverlays();
-                ScrollSlidingTabStrip.this.draggingView.invalidate();
-                ScrollSlidingTabStrip.this.tabsContainer.invalidate();
-                ScrollSlidingTabStrip.this.invalidate();
-                ScrollSlidingTabStrip.this.draggingView = null;
-            }
-        }
-    }
-
     public boolean canSwap(int i) {
         if (this.dragEnabled && i >= 0 && i < this.tabsContainer.getChildCount()) {
             View childAt = this.tabsContainer.getChildAt(i);
@@ -1034,45 +1068,6 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             }
         }
         return false;
-    }
-
-    /* renamed from: org.telegram.ui.Components.ScrollSlidingTabStrip$6 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass6 implements Runnable {
-        AnonymousClass6() {
-            ScrollSlidingTabStrip.this = r1;
-        }
-
-        /* JADX WARN: Code restructure failed: missing block: B:11:0x0039, code lost:
-            if (org.telegram.ui.Components.ScrollSlidingTabStrip.this.scrollRight != false) goto L6;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x004a, code lost:
-            if (org.telegram.ui.Components.ScrollSlidingTabStrip.this.scrollRight != false) goto L6;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:5:0x001f, code lost:
-            if (org.telegram.ui.Components.ScrollSlidingTabStrip.this.scrollRight != false) goto L6;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:6:0x0021, code lost:
-            r2 = 1;
-         */
-        @Override // java.lang.Runnable
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public void run() {
-            int max;
-            long currentTimeMillis = System.currentTimeMillis() - ScrollSlidingTabStrip.this.scrollStartTime;
-            int i = -1;
-            if (currentTimeMillis < 3000) {
-                max = Math.max(1, AndroidUtilities.dp(1.0f));
-            } else if (currentTimeMillis < 5000) {
-                max = Math.max(1, AndroidUtilities.dp(2.0f));
-            } else {
-                max = Math.max(1, AndroidUtilities.dp(4.0f));
-            }
-            ScrollSlidingTabStrip.this.scrollBy(max * i, 0);
-            AndroidUtilities.runOnUIThread(ScrollSlidingTabStrip.this.scrollRunnable);
-        }
     }
 
     private void startScroll(boolean z) {

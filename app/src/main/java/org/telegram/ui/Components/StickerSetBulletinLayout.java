@@ -13,6 +13,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -31,7 +32,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         this(context, tLObject, i, null, null);
     }
 
-    public StickerSetBulletinLayout(Context context, TLObject tLObject, int i, TLRPC$Document tLRPC$Document, Theme.ResourcesProvider resourcesProvider) {
+    public StickerSetBulletinLayout(final Context context, TLObject tLObject, int i, TLRPC$Document tLRPC$Document, Theme.ResourcesProvider resourcesProvider) {
         super(context, resourcesProvider);
         TLRPC$StickerSet tLRPC$StickerSet;
         TLRPC$Document tLRPC$Document2;
@@ -101,70 +102,80 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         switch (i) {
             case 0:
                 if (tLRPC$StickerSet.masks) {
-                    this.titleTextView.setText(LocaleController.getString("MasksRemoved", 2131626601));
-                    this.subtitleTextView.setText(LocaleController.formatString("MasksRemovedInfo", 2131626602, tLRPC$StickerSet.title));
+                    this.titleTextView.setText(LocaleController.getString("MasksRemoved", R.string.MasksRemoved));
+                    this.subtitleTextView.setText(LocaleController.formatString("MasksRemovedInfo", R.string.MasksRemovedInfo, tLRPC$StickerSet.title));
                     return;
                 } else if (tLRPC$StickerSet.emojis) {
-                    this.titleTextView.setText(LocaleController.getString("EmojiRemoved", 2131625646));
-                    this.subtitleTextView.setText(LocaleController.formatString("EmojiRemovedInfo", 2131625647, tLRPC$StickerSet.title));
+                    this.titleTextView.setText(LocaleController.getString("EmojiRemoved", R.string.EmojiRemoved));
+                    this.subtitleTextView.setText(LocaleController.formatString("EmojiRemovedInfo", R.string.EmojiRemovedInfo, tLRPC$StickerSet.title));
                     return;
                 } else {
-                    this.titleTextView.setText(LocaleController.getString("StickersRemoved", 2131628516));
-                    this.subtitleTextView.setText(LocaleController.formatString("StickersRemovedInfo", 2131628517, tLRPC$StickerSet.title));
+                    this.titleTextView.setText(LocaleController.getString("StickersRemoved", R.string.StickersRemoved));
+                    this.subtitleTextView.setText(LocaleController.formatString("StickersRemovedInfo", R.string.StickersRemovedInfo, tLRPC$StickerSet.title));
                     return;
                 }
             case 1:
                 if (tLRPC$StickerSet.masks) {
-                    this.titleTextView.setText(LocaleController.getString("MasksArchived", 2131626592));
-                    this.subtitleTextView.setText(LocaleController.formatString("MasksArchivedInfo", 2131626593, tLRPC$StickerSet.title));
+                    this.titleTextView.setText(LocaleController.getString("MasksArchived", R.string.MasksArchived));
+                    this.subtitleTextView.setText(LocaleController.formatString("MasksArchivedInfo", R.string.MasksArchivedInfo, tLRPC$StickerSet.title));
                     return;
                 }
-                this.titleTextView.setText(LocaleController.getString("StickersArchived", 2131628509));
-                this.subtitleTextView.setText(LocaleController.formatString("StickersArchivedInfo", 2131628510, tLRPC$StickerSet.title));
+                this.titleTextView.setText(LocaleController.getString("StickersArchived", R.string.StickersArchived));
+                this.subtitleTextView.setText(LocaleController.formatString("StickersArchivedInfo", R.string.StickersArchivedInfo, tLRPC$StickerSet.title));
                 return;
             case 2:
                 if (tLRPC$StickerSet.masks) {
-                    this.titleTextView.setText(LocaleController.getString("AddMasksInstalled", 2131624275));
-                    this.subtitleTextView.setText(LocaleController.formatString("AddMasksInstalledInfo", 2131624276, tLRPC$StickerSet.title));
+                    this.titleTextView.setText(LocaleController.getString("AddMasksInstalled", R.string.AddMasksInstalled));
+                    this.subtitleTextView.setText(LocaleController.formatString("AddMasksInstalledInfo", R.string.AddMasksInstalledInfo, tLRPC$StickerSet.title));
                     return;
                 } else if (tLRPC$StickerSet.emojis) {
-                    this.titleTextView.setText(LocaleController.getString("AddEmojiInstalled", 2131624270));
-                    this.subtitleTextView.setText(LocaleController.formatString("AddEmojiInstalledInfo", 2131624271, tLRPC$StickerSet.title));
+                    this.titleTextView.setText(LocaleController.getString("AddEmojiInstalled", R.string.AddEmojiInstalled));
+                    this.subtitleTextView.setText(LocaleController.formatString("AddEmojiInstalledInfo", R.string.AddEmojiInstalledInfo, tLRPC$StickerSet.title));
                     return;
                 } else {
-                    this.titleTextView.setText(LocaleController.getString("AddStickersInstalled", 2131624292));
-                    this.subtitleTextView.setText(LocaleController.formatString("AddStickersInstalledInfo", 2131624293, tLRPC$StickerSet.title));
+                    this.titleTextView.setText(LocaleController.getString("AddStickersInstalled", R.string.AddStickersInstalled));
+                    this.subtitleTextView.setText(LocaleController.formatString("AddStickersInstalledInfo", R.string.AddStickersInstalledInfo, tLRPC$StickerSet.title));
                     return;
                 }
             case 3:
-                this.titleTextView.setText(LocaleController.getString("RemovedFromRecent", 2131627968));
+                this.titleTextView.setText(LocaleController.getString("RemovedFromRecent", R.string.RemovedFromRecent));
                 this.subtitleTextView.setVisibility(8);
                 return;
             case 4:
-                this.titleTextView.setText(LocaleController.getString("RemovedFromFavorites", 2131627967));
+                this.titleTextView.setText(LocaleController.getString("RemovedFromFavorites", R.string.RemovedFromFavorites));
                 this.subtitleTextView.setVisibility(8);
                 return;
             case 5:
-                this.titleTextView.setText(LocaleController.getString("AddedToFavorites", 2131624312));
+                this.titleTextView.setText(LocaleController.getString("AddedToFavorites", R.string.AddedToFavorites));
                 this.subtitleTextView.setVisibility(8);
                 return;
             case 6:
                 if (!UserConfig.getInstance(UserConfig.selectedAccount).isPremium() && !MessagesController.getInstance(UserConfig.selectedAccount).premiumLocked) {
-                    this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteStickers", 2131626461, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).stickersFavedLimitDefault)));
-                    this.subtitleTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString("LimitReachedFavoriteStickersSubtitle", 2131626462, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).stickersFavedLimitPremium)), new StickerSetBulletinLayout$$ExternalSyntheticLambda0(context)));
+                    this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteStickers", R.string.LimitReachedFavoriteStickers, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).stickersFavedLimitDefault)));
+                    this.subtitleTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString("LimitReachedFavoriteStickersSubtitle", R.string.LimitReachedFavoriteStickersSubtitle, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).stickersFavedLimitPremium)), new Runnable() { // from class: org.telegram.ui.Components.StickerSetBulletinLayout$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            StickerSetBulletinLayout.lambda$new$0(context);
+                        }
+                    }));
                     return;
                 }
-                this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteStickers", 2131626461, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).stickersFavedLimitPremium)));
-                this.subtitleTextView.setText(LocaleController.formatString("LimitReachedFavoriteStickersSubtitlePremium", 2131626463, new Object[0]));
+                this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteStickers", R.string.LimitReachedFavoriteStickers, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).stickersFavedLimitPremium)));
+                this.subtitleTextView.setText(LocaleController.formatString("LimitReachedFavoriteStickersSubtitlePremium", R.string.LimitReachedFavoriteStickersSubtitlePremium, new Object[0]));
                 return;
             case 7:
                 if (!UserConfig.getInstance(UserConfig.selectedAccount).isPremium() && !MessagesController.getInstance(UserConfig.selectedAccount).premiumLocked) {
-                    this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifs", 2131626458, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitDefault)));
-                    this.subtitleTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString("LimitReachedFavoriteGifsSubtitle", 2131626459, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium)), new StickerSetBulletinLayout$$ExternalSyntheticLambda1(context)));
+                    this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifs", R.string.LimitReachedFavoriteGifs, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitDefault)));
+                    this.subtitleTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString("LimitReachedFavoriteGifsSubtitle", R.string.LimitReachedFavoriteGifsSubtitle, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium)), new Runnable() { // from class: org.telegram.ui.Components.StickerSetBulletinLayout$$ExternalSyntheticLambda1
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            StickerSetBulletinLayout.lambda$new$1(context);
+                        }
+                    }));
                     return;
                 }
-                this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifs", 2131626458, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium)));
-                this.subtitleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifsSubtitlePremium", 2131626460, new Object[0]));
+                this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifs", R.string.LimitReachedFavoriteGifs, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium)));
+                this.subtitleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifsSubtitlePremium", R.string.LimitReachedFavoriteGifsSubtitlePremium, new Object[0]));
                 return;
             default:
                 return;

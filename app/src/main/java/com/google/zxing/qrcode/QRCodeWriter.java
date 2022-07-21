@@ -16,6 +16,7 @@ import com.google.zxing.qrcode.encoder.Encoder;
 import java.util.Arrays;
 import java.util.Map;
 import org.telegram.messenger.SvgHelper;
+import org.telegram.messenger.beta.R;
 import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes.dex */
 public final class QRCodeWriter {
@@ -299,7 +300,7 @@ public final class QRCodeWriter {
                     i12 = i4;
                     i34 = i38;
                 }
-                String readRes = RLottieDrawable.readRes(null, 2131558535);
+                String readRes = RLottieDrawable.readRes(null, R.raw.qr_logo);
                 int i47 = this.imageSize;
                 Bitmap bitmap3 = SvgHelper.getBitmap(readRes, i47, i47, false);
                 float f7 = i33;

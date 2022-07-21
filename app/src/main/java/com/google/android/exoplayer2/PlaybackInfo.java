@@ -5,7 +5,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectorResult;
 /* loaded from: classes.dex */
-public final class PlaybackInfo {
+final class PlaybackInfo {
     private static final MediaSource.MediaPeriodId DUMMY_MEDIA_PERIOD_ID = new MediaSource.MediaPeriodId(new Object());
     public volatile long bufferedPositionUs;
     public final long contentPositionUs;

@@ -118,21 +118,12 @@ public class AnimationHandler {
     /* loaded from: classes.dex */
     public static class FrameCallbackProvider16 extends AnimationFrameCallbackProvider {
         private final Choreographer mChoreographer = Choreographer.getInstance();
-        private final Choreographer.FrameCallback mChoreographerCallback = new AnonymousClass1();
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: androidx.dynamicanimation.animation.AnimationHandler$FrameCallbackProvider16$1 */
-        /* loaded from: classes.dex */
-        public class AnonymousClass1 implements Choreographer.FrameCallback {
-            AnonymousClass1() {
-                FrameCallbackProvider16.this = r1;
-            }
-
+        private final Choreographer.FrameCallback mChoreographerCallback = new Choreographer.FrameCallback() { // from class: androidx.dynamicanimation.animation.AnimationHandler.FrameCallbackProvider16.1
             @Override // android.view.Choreographer.FrameCallback
             public void doFrame(long j) {
                 FrameCallbackProvider16.this.mDispatcher.dispatchAnimationFrame();
             }
-        }
+        };
 
         FrameCallbackProvider16(AnimationCallbackDispatcher animationCallbackDispatcher) {
             super(animationCallbackDispatcher);
@@ -147,23 +138,14 @@ public class AnimationHandler {
     /* loaded from: classes.dex */
     public static class FrameCallbackProvider14 extends AnimationFrameCallbackProvider {
         long mLastFrameTime = -1;
-        private final Runnable mRunnable = new AnonymousClass1();
-        private final Handler mHandler = new Handler(Looper.myLooper());
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: androidx.dynamicanimation.animation.AnimationHandler$FrameCallbackProvider14$1 */
-        /* loaded from: classes.dex */
-        public class AnonymousClass1 implements Runnable {
-            AnonymousClass1() {
-                FrameCallbackProvider14.this = r1;
-            }
-
+        private final Runnable mRunnable = new Runnable() { // from class: androidx.dynamicanimation.animation.AnimationHandler.FrameCallbackProvider14.1
             @Override // java.lang.Runnable
             public void run() {
                 FrameCallbackProvider14.this.mLastFrameTime = SystemClock.uptimeMillis();
                 FrameCallbackProvider14.this.mDispatcher.dispatchAnimationFrame();
             }
-        }
+        };
+        private final Handler mHandler = new Handler(Looper.myLooper());
 
         FrameCallbackProvider14(AnimationCallbackDispatcher animationCallbackDispatcher) {
             super(animationCallbackDispatcher);

@@ -1,5 +1,6 @@
 package j$.util.concurrent;
 
+import com.huawei.hms.framework.common.ContainerUtils;
 import j$.util.AbstractC0039a;
 import j$.util.AbstractC0040b;
 import j$.util.Iterator;
@@ -632,7 +633,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
 
         public String toString() {
-            return this.a + "=" + this.b;
+            return this.a + ContainerUtils.KEY_VALUE_DELIMITER + this.b;
         }
     }
 
@@ -693,7 +694,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
 
         public final String toString() {
-            return this.b + "=" + this.c;
+            return this.b + ContainerUtils.KEY_VALUE_DELIMITER + this.c;
         }
     }
 

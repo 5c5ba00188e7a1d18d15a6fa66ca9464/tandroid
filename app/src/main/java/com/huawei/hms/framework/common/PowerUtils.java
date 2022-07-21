@@ -26,7 +26,7 @@ public class PowerUtils {
                     try {
                         return powerManager.isInteractive();
                     } catch (RuntimeException e) {
-                        Logger.i("PowerUtils", "getActiveNetworkInfo failed, exception:" + e.getClass().getSimpleName() + e.getMessage());
+                        Logger.i(TAG, "getActiveNetworkInfo failed, exception:" + e.getClass().getSimpleName() + e.getMessage());
                     }
                 }
             }
@@ -58,14 +58,14 @@ public class PowerUtils {
                     }
                     return i;
                 } catch (RuntimeException e) {
-                    Logger.e("PowerUtils", "dealType rethrowFromSystemServer:", e);
+                    Logger.e(TAG, "dealType rethrowFromSystemServer:", e);
                     return systemInt;
                 }
             }
-            Logger.i("PowerUtils", "readPowerSaverMode is control by version!");
+            Logger.i(TAG, "readPowerSaverMode is control by version!");
             return systemInt;
         }
-        Logger.i("PowerUtils", "readPowerSaverMode Context is null!");
+        Logger.i(TAG, "readPowerSaverMode Context is null!");
         return 0;
     }
 
@@ -75,7 +75,7 @@ public class PowerUtils {
             UsageStatsManager usageStatsManager = null;
             int i = Build.VERSION.SDK_INT;
             if (i < 21) {
-                Logger.i("PowerUtils", "isAppIdleMode statsManager is null!");
+                Logger.i(TAG, "isAppIdleMode statsManager is null!");
             } else if (i >= 22) {
                 Object systemService = context.getSystemService("usagestats");
                 if (!(systemService instanceof UsageStatsManager)) {
@@ -84,7 +84,7 @@ public class PowerUtils {
                 usageStatsManager = (UsageStatsManager) systemService;
             }
             if (usageStatsManager == null) {
-                Logger.i("PowerUtils", "isAppIdleMode statsManager is null!");
+                Logger.i(TAG, "isAppIdleMode statsManager is null!");
                 return false;
             } else if (i < 23) {
                 return false;
@@ -92,7 +92,7 @@ public class PowerUtils {
                 return usageStatsManager.isAppInactive(packageName);
             }
         }
-        Logger.i("PowerUtils", "isAppIdleMode Context is null!");
+        Logger.i(TAG, "isAppIdleMode Context is null!");
         return false;
     }
 
@@ -107,7 +107,7 @@ public class PowerUtils {
                     return 0;
                 }
                 if (!connectivityManager.isActiveNetworkMetered()) {
-                    Logger.v("PowerUtils", "ConnectType is not Mobile Network!");
+                    Logger.v(TAG, "ConnectType is not Mobile Network!");
                     return 0;
                 } else if (i < 24) {
                     return 0;
@@ -115,10 +115,10 @@ public class PowerUtils {
                     return connectivityManager.getRestrictBackgroundStatus();
                 }
             }
-            Logger.i("PowerUtils", "readDataSaverMode Context is null!");
+            Logger.i(TAG, "readDataSaverMode Context is null!");
             return 0;
         }
-        Logger.i("PowerUtils", "readDataSaverMode manager is null!");
+        Logger.i(TAG, "readDataSaverMode manager is null!");
         return 0;
     }
 
@@ -131,7 +131,7 @@ public class PowerUtils {
                 try {
                     return powerManager.isIgnoringBatteryOptimizations(packageName);
                 } catch (RuntimeException e) {
-                    Logger.e("PowerUtils", "dealType rethrowFromSystemServer:", e);
+                    Logger.e(TAG, "dealType rethrowFromSystemServer:", e);
                 }
             }
         }
@@ -147,17 +147,17 @@ public class PowerUtils {
                     try {
                         return powerManager.isDeviceIdleMode();
                     } catch (RuntimeException e) {
-                        Logger.e("PowerUtils", "dealType rethrowFromSystemServer:", e);
+                        Logger.e(TAG, "dealType rethrowFromSystemServer:", e);
                         return false;
                     }
                 }
-                Logger.i("PowerUtils", "isDozeIdleMode is version control state!");
+                Logger.i(TAG, "isDozeIdleMode is version control state!");
                 return false;
             }
-            Logger.i("PowerUtils", "isDozeIdleMode powerManager is null!");
+            Logger.i(TAG, "isDozeIdleMode powerManager is null!");
             return false;
         }
-        Logger.i("PowerUtils", "isDozeIdleMode Context is null!");
+        Logger.i(TAG, "isDozeIdleMode Context is null!");
         return false;
     }
 }

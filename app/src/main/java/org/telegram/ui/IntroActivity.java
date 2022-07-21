@@ -43,12 +43,15 @@ import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.EmuDetector;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.GenericProvider;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.Intro;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$LangPackString;
 import org.telegram.tgnet.TLRPC$TL_error;
@@ -66,6 +69,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.SimpleThemeDescription;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
+import org.telegram.ui.IntroActivity;
 /* loaded from: classes3.dex */
 public class IntroActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private BottomPagesView bottomPages;
@@ -101,8 +105,8 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         MessagesController.getGlobalMainSettings().edit().putLong("intro_crashed_time", System.currentTimeMillis()).apply();
-        this.titles = new String[]{LocaleController.getString("Page1Title", 2131627187), LocaleController.getString("Page2Title", 2131627189), LocaleController.getString("Page3Title", 2131627191), LocaleController.getString("Page5Title", 2131627195), LocaleController.getString("Page4Title", 2131627193), LocaleController.getString("Page6Title", 2131627197)};
-        this.messages = new String[]{LocaleController.getString("Page1Message", 2131627186), LocaleController.getString("Page2Message", 2131627188), LocaleController.getString("Page3Message", 2131627190), LocaleController.getString("Page5Message", 2131627194), LocaleController.getString("Page4Message", 2131627192), LocaleController.getString("Page6Message", 2131627196)};
+        this.titles = new String[]{LocaleController.getString("Page1Title", R.string.Page1Title), LocaleController.getString("Page2Title", R.string.Page2Title), LocaleController.getString("Page3Title", R.string.Page3Title), LocaleController.getString("Page5Title", R.string.Page5Title), LocaleController.getString("Page4Title", R.string.Page4Title), LocaleController.getString("Page6Title", R.string.Page6Title)};
+        this.messages = new String[]{LocaleController.getString("Page1Message", R.string.Page1Message), LocaleController.getString("Page2Message", R.string.Page2Message), LocaleController.getString("Page3Message", R.string.Page3Message), LocaleController.getString("Page5Message", R.string.Page5Message), LocaleController.getString("Page4Message", R.string.Page4Message), LocaleController.getString("Page6Message", R.string.Page6Message)};
         return true;
     }
 
@@ -111,13 +115,43 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.actionBar.setAddToContainer(false);
         ScrollView scrollView = new ScrollView(context);
         scrollView.setFillViewport(true);
-        RLottieImageView rLottieImageView = new RLottieImageView(context);
-        FrameLayout frameLayout = new FrameLayout(context);
+        final RLottieImageView rLottieImageView = new RLottieImageView(context);
+        final FrameLayout frameLayout = new FrameLayout(context);
         frameLayout.addView(rLottieImageView, LayoutHelper.createFrame(28, 28, 17));
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, frameLayout, 4);
-        this.frameContainerView = anonymousClass1;
-        scrollView.addView(anonymousClass1, LayoutHelper.createScroll(-1, -2, 51));
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(2131558561, String.valueOf(2131558561), AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+        FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.IntroActivity.1
+            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+                super.onLayout(z, i, i2, i3, i4);
+                int i5 = (i4 - i2) / 4;
+                int i6 = i5 * 3;
+                int dp = (i6 - AndroidUtilities.dp(275.0f)) / 2;
+                int i7 = 0;
+                IntroActivity.this.frameLayout2.layout(0, dp, IntroActivity.this.frameLayout2.getMeasuredWidth(), IntroActivity.this.frameLayout2.getMeasuredHeight() + dp);
+                int dp2 = dp + AndroidUtilities.dp(150.0f) + AndroidUtilities.dp(122.0f);
+                int measuredWidth = (getMeasuredWidth() - IntroActivity.this.bottomPages.getMeasuredWidth()) / 2;
+                IntroActivity.this.bottomPages.layout(measuredWidth, dp2, IntroActivity.this.bottomPages.getMeasuredWidth() + measuredWidth, IntroActivity.this.bottomPages.getMeasuredHeight() + dp2);
+                IntroActivity.this.viewPager.layout(0, 0, IntroActivity.this.viewPager.getMeasuredWidth(), IntroActivity.this.viewPager.getMeasuredHeight());
+                int measuredHeight = i6 + ((i5 - IntroActivity.this.startMessagingButton.getMeasuredHeight()) / 2);
+                int measuredWidth2 = (getMeasuredWidth() - IntroActivity.this.startMessagingButton.getMeasuredWidth()) / 2;
+                IntroActivity.this.startMessagingButton.layout(measuredWidth2, measuredHeight, IntroActivity.this.startMessagingButton.getMeasuredWidth() + measuredWidth2, IntroActivity.this.startMessagingButton.getMeasuredHeight() + measuredHeight);
+                int dp3 = measuredHeight - AndroidUtilities.dp(30.0f);
+                int measuredWidth3 = (getMeasuredWidth() - IntroActivity.this.switchLanguageTextView.getMeasuredWidth()) / 2;
+                IntroActivity.this.switchLanguageTextView.layout(measuredWidth3, dp3 - IntroActivity.this.switchLanguageTextView.getMeasuredHeight(), IntroActivity.this.switchLanguageTextView.getMeasuredWidth() + measuredWidth3, dp3);
+                ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) frameLayout.getLayoutParams();
+                int dp4 = AndroidUtilities.dp(r4);
+                if (!AndroidUtilities.isTablet()) {
+                    i7 = AndroidUtilities.statusBarHeight;
+                }
+                int i8 = dp4 + i7;
+                if (marginLayoutParams.topMargin != i8) {
+                    marginLayoutParams.topMargin = i8;
+                    frameLayout.requestLayout();
+                }
+            }
+        };
+        this.frameContainerView = frameLayout2;
+        scrollView.addView(frameLayout2, LayoutHelper.createScroll(-1, -2, 51));
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.sun, String.valueOf((int) R.raw.sun), AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
         this.darkThemeDrawable = rLottieDrawable;
         rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
         this.darkThemeDrawable.beginApplyLayerColors();
@@ -125,40 +159,117 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.darkThemeDrawable.setCustomEndFrame(Theme.getCurrentTheme().isDark() ? this.darkThemeDrawable.getFramesCount() - 1 : 0);
         this.darkThemeDrawable.setCurrentFrame(Theme.getCurrentTheme().isDark() ? this.darkThemeDrawable.getFramesCount() - 1 : 0, false);
         Theme.getCurrentTheme().isDark();
-        rLottieImageView.setContentDescription(LocaleController.getString(2131624092));
+        rLottieImageView.setContentDescription(LocaleController.getString((int) R.string.AccDescrSwitchToDayTheme));
         rLottieImageView.setAnimation(this.darkThemeDrawable);
-        frameLayout.setOnClickListener(new IntroActivity$$ExternalSyntheticLambda2(this, rLottieImageView));
-        FrameLayout frameLayout2 = new FrameLayout(context);
-        this.frameLayout2 = frameLayout2;
-        this.frameContainerView.addView(frameLayout2, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, 78.0f, 0.0f, 0.0f));
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda2
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                IntroActivity.this.lambda$createView$0(rLottieImageView, view);
+            }
+        });
+        FrameLayout frameLayout3 = new FrameLayout(context);
+        this.frameLayout2 = frameLayout3;
+        this.frameContainerView.addView(frameLayout3, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, 78.0f, 0.0f, 0.0f));
         TextureView textureView = new TextureView(context);
-        this.frameLayout2.addView(textureView, LayoutHelper.createFrame(200, 150, 17));
+        this.frameLayout2.addView(textureView, LayoutHelper.createFrame(200, (int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, 17));
         textureView.setSurfaceTextureListener(new AnonymousClass2());
         ViewPager viewPager = new ViewPager(context);
         this.viewPager = viewPager;
-        viewPager.setAdapter(new IntroAdapter(this, null));
+        viewPager.setAdapter(new IntroAdapter());
         this.viewPager.setPageMargin(0);
         this.viewPager.setOffscreenPageLimit(1);
         this.frameContainerView.addView(this.viewPager, LayoutHelper.createFrame(-1, -1.0f));
-        this.viewPager.addOnPageChangeListener(new AnonymousClass3());
-        AnonymousClass4 anonymousClass4 = new AnonymousClass4(this, context);
-        this.startMessagingButton = anonymousClass4;
-        anonymousClass4.setText(LocaleController.getString("StartMessaging", 2131628481));
+        this.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.IntroActivity.3
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageScrolled(int i, float f, int i2) {
+                IntroActivity.this.bottomPages.setPageOffset(i, f);
+                float measuredWidth = IntroActivity.this.viewPager.getMeasuredWidth();
+                if (measuredWidth == 0.0f) {
+                    return;
+                }
+                Intro.setScrollOffset((((i * measuredWidth) + i2) - (IntroActivity.this.currentViewPagerPage * measuredWidth)) / measuredWidth);
+            }
+
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageSelected(int i) {
+                IntroActivity.this.currentViewPagerPage = i;
+            }
+
+            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            public void onPageScrollStateChanged(int i) {
+                if (i == 1) {
+                    IntroActivity.this.dragging = true;
+                    IntroActivity introActivity = IntroActivity.this;
+                    introActivity.startDragX = introActivity.viewPager.getCurrentItem() * IntroActivity.this.viewPager.getMeasuredWidth();
+                } else if (i != 0 && i != 2) {
+                } else {
+                    if (IntroActivity.this.dragging) {
+                        IntroActivity.this.justEndDragging = true;
+                        IntroActivity.this.dragging = false;
+                    }
+                    if (IntroActivity.this.lastPage == IntroActivity.this.viewPager.getCurrentItem()) {
+                        return;
+                    }
+                    IntroActivity introActivity2 = IntroActivity.this;
+                    introActivity2.lastPage = introActivity2.viewPager.getCurrentItem();
+                }
+            }
+        });
+        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.IntroActivity.4
+            CellFlickerDrawable cellFlickerDrawable;
+
+            @Override // android.widget.TextView, android.view.View
+            protected void onDraw(Canvas canvas) {
+                super.onDraw(canvas);
+                if (this.cellFlickerDrawable == null) {
+                    CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable();
+                    this.cellFlickerDrawable = cellFlickerDrawable;
+                    cellFlickerDrawable.drawFrame = false;
+                    cellFlickerDrawable.repeatProgress = 2.0f;
+                }
+                this.cellFlickerDrawable.setParentWidth(getMeasuredWidth());
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+                this.cellFlickerDrawable.draw(canvas, rectF, AndroidUtilities.dp(4.0f), null);
+                invalidate();
+            }
+
+            @Override // android.widget.TextView, android.view.View
+            protected void onMeasure(int i, int i2) {
+                if (View.MeasureSpec.getSize(i) > AndroidUtilities.dp(260.0f)) {
+                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(320.0f), 1073741824), i2);
+                } else {
+                    super.onMeasure(i, i2);
+                }
+            }
+        };
+        this.startMessagingButton = textView;
+        textView.setText(LocaleController.getString("StartMessaging", R.string.StartMessaging));
         this.startMessagingButton.setGravity(17);
-        this.startMessagingButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.startMessagingButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.startMessagingButton.setTextSize(1, 15.0f);
         this.startMessagingButton.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         this.frameContainerView.addView(this.startMessagingButton, LayoutHelper.createFrame(-1, 50.0f, 81, 16.0f, 0.0f, 16.0f, 76.0f));
-        this.startMessagingButton.setOnClickListener(new IntroActivity$$ExternalSyntheticLambda1(this));
+        this.startMessagingButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                IntroActivity.this.lambda$createView$1(view);
+            }
+        });
         BottomPagesView bottomPagesView = new BottomPagesView(context, this.viewPager, 6);
         this.bottomPages = bottomPagesView;
         this.frameContainerView.addView(bottomPagesView, LayoutHelper.createFrame(66, 5.0f, 49, 0.0f, 350.0f, 0.0f, 0.0f));
-        TextView textView = new TextView(context);
-        this.switchLanguageTextView = textView;
-        textView.setGravity(17);
+        TextView textView2 = new TextView(context);
+        this.switchLanguageTextView = textView2;
+        textView2.setGravity(17);
         this.switchLanguageTextView.setTextSize(1, 16.0f);
         this.frameContainerView.addView(this.switchLanguageTextView, LayoutHelper.createFrame(-2, 30.0f, 81, 0.0f, 0.0f, 0.0f, 20.0f));
-        this.switchLanguageTextView.setOnClickListener(new IntroActivity$$ExternalSyntheticLambda0(this));
+        this.switchLanguageTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                IntroActivity.this.lambda$createView$2(view);
+            }
+        });
         float f = 4;
         this.frameContainerView.addView(frameLayout, LayoutHelper.createFrame(64, 64.0f, 53, 0.0f, f, f, 0.0f));
         this.fragmentView = scrollView;
@@ -170,51 +281,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.justCreated = true;
         updateColors(false);
         return this.fragmentView;
-    }
-
-    /* renamed from: org.telegram.ui.IntroActivity$1 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass1 extends FrameLayout {
-        final /* synthetic */ FrameLayout val$themeFrameLayout;
-        final /* synthetic */ int val$themeMargin;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context, FrameLayout frameLayout, int i) {
-            super(context);
-            IntroActivity.this = r1;
-            this.val$themeFrameLayout = frameLayout;
-            this.val$themeMargin = i;
-        }
-
-        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            super.onLayout(z, i, i2, i3, i4);
-            int i5 = (i4 - i2) / 4;
-            int i6 = i5 * 3;
-            int dp = (i6 - AndroidUtilities.dp(275.0f)) / 2;
-            int i7 = 0;
-            IntroActivity.this.frameLayout2.layout(0, dp, IntroActivity.this.frameLayout2.getMeasuredWidth(), IntroActivity.this.frameLayout2.getMeasuredHeight() + dp);
-            int dp2 = dp + AndroidUtilities.dp(150.0f) + AndroidUtilities.dp(122.0f);
-            int measuredWidth = (getMeasuredWidth() - IntroActivity.this.bottomPages.getMeasuredWidth()) / 2;
-            IntroActivity.this.bottomPages.layout(measuredWidth, dp2, IntroActivity.this.bottomPages.getMeasuredWidth() + measuredWidth, IntroActivity.this.bottomPages.getMeasuredHeight() + dp2);
-            IntroActivity.this.viewPager.layout(0, 0, IntroActivity.this.viewPager.getMeasuredWidth(), IntroActivity.this.viewPager.getMeasuredHeight());
-            int measuredHeight = i6 + ((i5 - IntroActivity.this.startMessagingButton.getMeasuredHeight()) / 2);
-            int measuredWidth2 = (getMeasuredWidth() - IntroActivity.this.startMessagingButton.getMeasuredWidth()) / 2;
-            IntroActivity.this.startMessagingButton.layout(measuredWidth2, measuredHeight, IntroActivity.this.startMessagingButton.getMeasuredWidth() + measuredWidth2, IntroActivity.this.startMessagingButton.getMeasuredHeight() + measuredHeight);
-            int dp3 = measuredHeight - AndroidUtilities.dp(30.0f);
-            int measuredWidth3 = (getMeasuredWidth() - IntroActivity.this.switchLanguageTextView.getMeasuredWidth()) / 2;
-            IntroActivity.this.switchLanguageTextView.layout(measuredWidth3, dp3 - IntroActivity.this.switchLanguageTextView.getMeasuredHeight(), IntroActivity.this.switchLanguageTextView.getMeasuredWidth() + measuredWidth3, dp3);
-            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.val$themeFrameLayout.getLayoutParams();
-            int dp4 = AndroidUtilities.dp(this.val$themeMargin);
-            if (!AndroidUtilities.isTablet()) {
-                i7 = AndroidUtilities.statusBarHeight;
-            }
-            int i8 = dp4 + i7;
-            if (marginLayoutParams.topMargin != i8) {
-                marginLayoutParams.topMargin = i8;
-                this.val$themeFrameLayout.requestLayout();
-            }
-        }
     }
 
     public /* synthetic */ void lambda$createView$0(RLottieImageView rLottieImageView, View view) {
@@ -238,7 +304,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         rLottieImageView.getLocationInWindow(r4);
         int[] iArr = {iArr[0] + (rLottieImageView.getMeasuredWidth() / 2), iArr[1] + (rLottieImageView.getMeasuredHeight() / 2)};
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), rLottieImageView);
-        rLottieImageView.setContentDescription(LocaleController.getString(2131624092));
+        rLottieImageView.setContentDescription(LocaleController.getString((int) R.string.AccDescrSwitchToDayTheme));
     }
 
     /* renamed from: org.telegram.ui.IntroActivity$2 */
@@ -259,7 +325,12 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             }
             IntroActivity.this.eglThread = new EGLThread(surfaceTexture);
             IntroActivity.this.eglThread.setSurfaceTextureSize(i, i2);
-            IntroActivity.this.eglThread.postRunnable(new IntroActivity$2$$ExternalSyntheticLambda0(this));
+            IntroActivity.this.eglThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$2$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    IntroActivity.AnonymousClass2.this.lambda$onSurfaceTextureAvailable$0();
+                }
+            });
             IntroActivity.this.eglThread.postRunnable(IntroActivity.this.eglThread.drawRunnable);
         }
 
@@ -291,84 +362,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                 return true;
             }
             return true;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.IntroActivity$3 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass3 implements ViewPager.OnPageChangeListener {
-        AnonymousClass3() {
-            IntroActivity.this = r1;
-        }
-
-        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-        public void onPageScrolled(int i, float f, int i2) {
-            IntroActivity.this.bottomPages.setPageOffset(i, f);
-            float measuredWidth = IntroActivity.this.viewPager.getMeasuredWidth();
-            if (measuredWidth == 0.0f) {
-                return;
-            }
-            Intro.setScrollOffset((((i * measuredWidth) + i2) - (IntroActivity.this.currentViewPagerPage * measuredWidth)) / measuredWidth);
-        }
-
-        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-        public void onPageSelected(int i) {
-            IntroActivity.this.currentViewPagerPage = i;
-        }
-
-        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-        public void onPageScrollStateChanged(int i) {
-            if (i == 1) {
-                IntroActivity.this.dragging = true;
-                IntroActivity introActivity = IntroActivity.this;
-                introActivity.startDragX = introActivity.viewPager.getCurrentItem() * IntroActivity.this.viewPager.getMeasuredWidth();
-            } else if (i != 0 && i != 2) {
-            } else {
-                if (IntroActivity.this.dragging) {
-                    IntroActivity.this.justEndDragging = true;
-                    IntroActivity.this.dragging = false;
-                }
-                if (IntroActivity.this.lastPage == IntroActivity.this.viewPager.getCurrentItem()) {
-                    return;
-                }
-                IntroActivity introActivity2 = IntroActivity.this;
-                introActivity2.lastPage = introActivity2.viewPager.getCurrentItem();
-            }
-        }
-    }
-
-    /* renamed from: org.telegram.ui.IntroActivity$4 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass4 extends TextView {
-        CellFlickerDrawable cellFlickerDrawable;
-
-        AnonymousClass4(IntroActivity introActivity, Context context) {
-            super(context);
-        }
-
-        @Override // android.widget.TextView, android.view.View
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            if (this.cellFlickerDrawable == null) {
-                CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable();
-                this.cellFlickerDrawable = cellFlickerDrawable;
-                cellFlickerDrawable.drawFrame = false;
-                cellFlickerDrawable.repeatProgress = 2.0f;
-            }
-            this.cellFlickerDrawable.setParentWidth(getMeasuredWidth());
-            RectF rectF = AndroidUtilities.rectTmp;
-            rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-            this.cellFlickerDrawable.draw(canvas, rectF, AndroidUtilities.dp(4.0f), null);
-            invalidate();
-        }
-
-        @Override // android.widget.TextView, android.view.View
-        protected void onMeasure(int i, int i2) {
-            if (View.MeasureSpec.getSize(i) > AndroidUtilities.dp(260.0f)) {
-                super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(320.0f), 1073741824), i2);
-            } else {
-                super.onMeasure(i, i2);
-            }
         }
     }
 
@@ -408,7 +401,12 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             if (i == NotificationCenter.reloadInterface) {
                 this.val$loaderDialog.dismiss();
                 NotificationCenter.getGlobalInstance().removeObserver(this, i);
-                AndroidUtilities.runOnUIThread(new IntroActivity$5$$ExternalSyntheticLambda0(this), 100L);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$5$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        IntroActivity.AnonymousClass5.this.lambda$didReceivedNotification$0();
+                    }
+                }, 100L);
             }
         }
 
@@ -460,7 +458,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
     private void checkContinueText() {
         LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
-        String str = MessagesController.getInstance(this.currentAccount).suggestedLangCode;
+        final String str = MessagesController.getInstance(this.currentAccount).suggestedLangCode;
         if ((str == null || (str.equals("en") && LocaleController.getInstance().getSystemDefaultLocale().getLanguage() != null && !LocaleController.getInstance().getSystemDefaultLocale().getLanguage().equals("en"))) && (str = LocaleController.getInstance().getSystemDefaultLocale().getLanguage()) == null) {
             str = "en";
         }
@@ -492,20 +490,30 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             this.localeInfo = localeInfo;
         }
         tLRPC$TL_langpack_getStrings.keys.add("ContinueOnThisLanguage");
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getStrings, new IntroActivity$$ExternalSyntheticLambda5(this, str), 8);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getStrings, new RequestDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda5
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                IntroActivity.this.lambda$checkContinueText$4(str, tLObject, tLRPC$TL_error);
+            }
+        }, 8);
     }
 
-    public /* synthetic */ void lambda$checkContinueText$4(String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$checkContinueText$4(final String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
             if (tLRPC$Vector.objects.isEmpty()) {
                 return;
             }
-            TLRPC$LangPackString tLRPC$LangPackString = (TLRPC$LangPackString) tLRPC$Vector.objects.get(0);
+            final TLRPC$LangPackString tLRPC$LangPackString = (TLRPC$LangPackString) tLRPC$Vector.objects.get(0);
             if (!(tLRPC$LangPackString instanceof TLRPC$TL_langPackString)) {
                 return;
             }
-            AndroidUtilities.runOnUIThread(new IntroActivity$$ExternalSyntheticLambda4(this, tLRPC$LangPackString, str));
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    IntroActivity.this.lambda$checkContinueText$3(tLRPC$LangPackString, str);
+                }
+            });
         }
     }
 
@@ -553,10 +561,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             IntroActivity.this = r1;
         }
 
-        /* synthetic */ IntroAdapter(IntroActivity introActivity, AnonymousClass1 anonymousClass1) {
-            this();
-        }
-
         @Override // androidx.viewpager.widget.PagerAdapter
         public int getCount() {
             return IntroActivity.this.titles.length;
@@ -564,49 +568,35 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
         @Override // androidx.viewpager.widget.PagerAdapter
         public Object instantiateItem(ViewGroup viewGroup, int i) {
-            TextView textView = new TextView(viewGroup.getContext());
+            final TextView textView = new TextView(viewGroup.getContext());
             textView.setTag(IntroActivity.this.pagerHeaderTag);
-            TextView textView2 = new TextView(viewGroup.getContext());
+            final TextView textView2 = new TextView(viewGroup.getContext());
             textView2.setTag(IntroActivity.this.pagerMessageTag);
-            AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, viewGroup.getContext(), textView, textView2);
+            FrameLayout frameLayout = new FrameLayout(this, viewGroup.getContext()) { // from class: org.telegram.ui.IntroActivity.IntroAdapter.1
+                @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+                protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                    int dp = (((((i5 - i3) / 4) * 3) - AndroidUtilities.dp(275.0f)) / 2) + AndroidUtilities.dp(150.0f) + AndroidUtilities.dp(16.0f);
+                    int dp2 = AndroidUtilities.dp(18.0f);
+                    TextView textView3 = textView;
+                    textView3.layout(dp2, dp, textView3.getMeasuredWidth() + dp2, textView.getMeasuredHeight() + dp);
+                    int textSize = ((int) (dp + textView.getTextSize())) + AndroidUtilities.dp(16.0f);
+                    int dp3 = AndroidUtilities.dp(16.0f);
+                    TextView textView4 = textView2;
+                    textView4.layout(dp3, textSize, textView4.getMeasuredWidth() + dp3, textView2.getMeasuredHeight() + textSize);
+                }
+            };
             textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             textView.setTextSize(1, 26.0f);
             textView.setGravity(17);
-            anonymousClass1.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 51, 18.0f, 244.0f, 18.0f, 0.0f));
+            frameLayout.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 51, 18.0f, 244.0f, 18.0f, 0.0f));
             textView2.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText3"));
             textView2.setTextSize(1, 15.0f);
             textView2.setGravity(17);
-            anonymousClass1.addView(textView2, LayoutHelper.createFrame(-1, -2.0f, 51, 16.0f, 286.0f, 16.0f, 0.0f));
-            viewGroup.addView(anonymousClass1, 0);
+            frameLayout.addView(textView2, LayoutHelper.createFrame(-1, -2.0f, 51, 16.0f, 286.0f, 16.0f, 0.0f));
+            viewGroup.addView(frameLayout, 0);
             textView.setText(IntroActivity.this.titles[i]);
             textView2.setText(AndroidUtilities.replaceTags(IntroActivity.this.messages[i]));
-            return anonymousClass1;
-        }
-
-        /* renamed from: org.telegram.ui.IntroActivity$IntroAdapter$1 */
-        /* loaded from: classes3.dex */
-        class AnonymousClass1 extends FrameLayout {
-            final /* synthetic */ TextView val$headerTextView;
-            final /* synthetic */ TextView val$messageTextView;
-
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            AnonymousClass1(IntroAdapter introAdapter, Context context, TextView textView, TextView textView2) {
-                super(context);
-                this.val$headerTextView = textView;
-                this.val$messageTextView = textView2;
-            }
-
-            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-                int dp = (((((i4 - i2) / 4) * 3) - AndroidUtilities.dp(275.0f)) / 2) + AndroidUtilities.dp(150.0f) + AndroidUtilities.dp(16.0f);
-                int dp2 = AndroidUtilities.dp(18.0f);
-                TextView textView = this.val$headerTextView;
-                textView.layout(dp2, dp, textView.getMeasuredWidth() + dp2, this.val$headerTextView.getMeasuredHeight() + dp);
-                int textSize = ((int) (dp + this.val$headerTextView.getTextSize())) + AndroidUtilities.dp(16.0f);
-                int dp3 = AndroidUtilities.dp(16.0f);
-                TextView textView2 = this.val$messageTextView;
-                textView2.layout(dp3, textSize, textView2.getMeasuredWidth() + dp3, this.val$messageTextView.getMeasuredHeight() + textSize);
-            }
+            return frameLayout;
         }
 
         @Override // androidx.viewpager.widget.PagerAdapter
@@ -640,7 +630,42 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         private SurfaceTexture surfaceTexture;
         private int[] textures = new int[24];
         private GenericProvider<Void, Bitmap> telegramMaskProvider = IntroActivity$EGLThread$$ExternalSyntheticLambda2.INSTANCE;
-        private Runnable drawRunnable = new AnonymousClass1();
+        private Runnable drawRunnable = new Runnable() { // from class: org.telegram.ui.IntroActivity.EGLThread.1
+            @Override // java.lang.Runnable
+            public void run() {
+                float[] supportedRefreshRates;
+                if (!EGLThread.this.initied) {
+                    return;
+                }
+                long currentTimeMillis = System.currentTimeMillis();
+                if ((EGLThread.this.eglContext.equals(EGLThread.this.egl10.eglGetCurrentContext()) && EGLThread.this.eglSurface.equals(EGLThread.this.egl10.eglGetCurrentSurface(12377))) || EGLThread.this.egl10.eglMakeCurrent(EGLThread.this.eglDisplay, EGLThread.this.eglSurface, EGLThread.this.eglSurface, EGLThread.this.eglContext)) {
+                    int min = (int) Math.min(currentTimeMillis - EGLThread.this.lastDrawFrame, 16L);
+                    Intro.setPage(IntroActivity.this.currentViewPagerPage);
+                    Intro.setDate(((float) (currentTimeMillis - IntroActivity.this.currentDate)) / 1000.0f);
+                    Intro.onDrawFrame(min);
+                    EGLThread.this.egl10.eglSwapBuffers(EGLThread.this.eglDisplay, EGLThread.this.eglSurface);
+                    EGLThread.this.lastDrawFrame = currentTimeMillis;
+                    float f = 0.0f;
+                    if (EGLThread.this.maxRefreshRate == 0.0f) {
+                        if (Build.VERSION.SDK_INT < 21) {
+                            EGLThread.this.maxRefreshRate = 60.0f;
+                        } else {
+                            for (float f2 : ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getSupportedRefreshRates()) {
+                                if (f2 > f) {
+                                    f = f2;
+                                }
+                            }
+                            EGLThread.this.maxRefreshRate = f;
+                        }
+                    }
+                    long currentTimeMillis2 = System.currentTimeMillis() - currentTimeMillis;
+                    EGLThread eGLThread = EGLThread.this;
+                    eGLThread.postRunnable(eGLThread.drawRunnable, Math.max((1000.0f / EGLThread.this.maxRefreshRate) - currentTimeMillis2, 0L));
+                } else if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(EGLThread.this.egl10.eglGetError()));
+                }
+            }
+        };
 
         public static /* synthetic */ Bitmap lambda$new$0(Void r6) {
             int dp = AndroidUtilities.dp(150.0f);
@@ -717,28 +742,28 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                         return false;
                     } else {
                         GLES20.glGenTextures(23, this.textures, 0);
-                        loadTexture(2131165549, 0);
-                        loadTexture(2131165548, 1);
-                        loadTexture(2131165550, 2);
-                        loadTexture(2131165551, 3);
-                        loadTexture(2131165553, 4);
-                        loadTexture(2131165552, 5);
-                        loadTexture(2131165555, 6);
-                        loadTexture(2131165554, 7);
-                        loadTexture(2131165556, 8);
-                        loadTexture(2131165557, 9);
-                        loadTexture(2131165559, 10);
-                        loadTexture(2131165558, 11);
-                        loadTexture(2131165560, 12);
-                        loadTexture(2131165561, 13);
-                        loadTexture(2131165562, 14);
-                        loadTexture(2131165564, 15);
-                        loadTexture(2131165563, 16);
-                        loadTexture(2131165565, 17, Theme.getColor("windowBackgroundWhite"), false);
-                        loadTexture(2131165566, 18);
-                        loadTexture(2131165567, 19);
-                        loadTexture(2131165568, 20);
-                        loadTexture(2131165569, 21);
+                        loadTexture(R.drawable.intro_fast_arrow_shadow, 0);
+                        loadTexture(R.drawable.intro_fast_arrow, 1);
+                        loadTexture(R.drawable.intro_fast_body, 2);
+                        loadTexture(R.drawable.intro_fast_spiral, 3);
+                        loadTexture(R.drawable.intro_ic_bubble_dot, 4);
+                        loadTexture(R.drawable.intro_ic_bubble, 5);
+                        loadTexture(R.drawable.intro_ic_cam_lens, 6);
+                        loadTexture(R.drawable.intro_ic_cam, 7);
+                        loadTexture(R.drawable.intro_ic_pencil, 8);
+                        loadTexture(R.drawable.intro_ic_pin, 9);
+                        loadTexture(R.drawable.intro_ic_smile_eye, 10);
+                        loadTexture(R.drawable.intro_ic_smile, 11);
+                        loadTexture(R.drawable.intro_ic_videocam, 12);
+                        loadTexture(R.drawable.intro_knot_down, 13);
+                        loadTexture(R.drawable.intro_knot_up, 14);
+                        loadTexture(R.drawable.intro_powerful_infinity_white, 15);
+                        loadTexture(R.drawable.intro_powerful_infinity, 16);
+                        loadTexture(R.drawable.intro_powerful_mask, 17, Theme.getColor("windowBackgroundWhite"), false);
+                        loadTexture(R.drawable.intro_powerful_star, 18);
+                        loadTexture(R.drawable.intro_private_door, 19);
+                        loadTexture(R.drawable.intro_private_screw, 20);
+                        loadTexture(R.drawable.intro_tg_plane, 21);
                         loadTexture(IntroActivity$EGLThread$$ExternalSyntheticLambda1.INSTANCE, 22);
                         loadTexture(this.telegramMaskProvider, 23);
                         updateTelegramTextures();
@@ -808,49 +833,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             }
         }
 
-        /* renamed from: org.telegram.ui.IntroActivity$EGLThread$1 */
-        /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements Runnable {
-            AnonymousClass1() {
-                EGLThread.this = r1;
-            }
-
-            @Override // java.lang.Runnable
-            public void run() {
-                float[] supportedRefreshRates;
-                if (!EGLThread.this.initied) {
-                    return;
-                }
-                long currentTimeMillis = System.currentTimeMillis();
-                if ((EGLThread.this.eglContext.equals(EGLThread.this.egl10.eglGetCurrentContext()) && EGLThread.this.eglSurface.equals(EGLThread.this.egl10.eglGetCurrentSurface(12377))) || EGLThread.this.egl10.eglMakeCurrent(EGLThread.this.eglDisplay, EGLThread.this.eglSurface, EGLThread.this.eglSurface, EGLThread.this.eglContext)) {
-                    int min = (int) Math.min(currentTimeMillis - EGLThread.this.lastDrawFrame, 16L);
-                    Intro.setPage(IntroActivity.this.currentViewPagerPage);
-                    Intro.setDate(((float) (currentTimeMillis - IntroActivity.this.currentDate)) / 1000.0f);
-                    Intro.onDrawFrame(min);
-                    EGLThread.this.egl10.eglSwapBuffers(EGLThread.this.eglDisplay, EGLThread.this.eglSurface);
-                    EGLThread.this.lastDrawFrame = currentTimeMillis;
-                    float f = 0.0f;
-                    if (EGLThread.this.maxRefreshRate == 0.0f) {
-                        if (Build.VERSION.SDK_INT < 21) {
-                            EGLThread.this.maxRefreshRate = 60.0f;
-                        } else {
-                            for (float f2 : ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getSupportedRefreshRates()) {
-                                if (f2 > f) {
-                                    f = f2;
-                                }
-                            }
-                            EGLThread.this.maxRefreshRate = f;
-                        }
-                    }
-                    long currentTimeMillis2 = System.currentTimeMillis() - currentTimeMillis;
-                    EGLThread eGLThread = EGLThread.this;
-                    eGLThread.postRunnable(eGLThread.drawRunnable, Math.max((1000.0f / EGLThread.this.maxRefreshRate) - currentTimeMillis2, 0L));
-                } else if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(EGLThread.this.egl10.eglGetError()));
-                }
-            }
-        }
-
         private void loadTexture(GenericProvider<Void, Bitmap> genericProvider, int i) {
             loadTexture(genericProvider, i, false);
         }
@@ -902,7 +884,12 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
 
         public void shutdown() {
-            postRunnable(new IntroActivity$EGLThread$$ExternalSyntheticLambda0(this));
+            postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    IntroActivity.EGLThread.this.lambda$shutdown$2();
+                }
+            });
         }
 
         public /* synthetic */ void lambda$shutdown$2() {
@@ -930,7 +917,17 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new IntroActivity$$ExternalSyntheticLambda6(this), "windowBackgroundWhite", "windowBackgroundWhiteBlueText4", "chats_actionBackground", "chats_actionPressedBackground", "featuredStickers_buttonText", "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText3");
+        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda6
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public final void didSetColor() {
+                IntroActivity.this.lambda$getThemeDescriptions$5();
+            }
+
+            @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
+            public /* synthetic */ void onAnimationProgress(float f) {
+                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+            }
+        }, "windowBackgroundWhite", "windowBackgroundWhiteBlueText4", "chats_actionBackground", "chats_actionPressedBackground", "featuredStickers_buttonText", "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText3");
     }
 
     private void updateColors(boolean z) {
@@ -943,7 +940,12 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         if (z) {
             EGLThread eGLThread = this.eglThread;
             if (eGLThread != null) {
-                eGLThread.postRunnable(new IntroActivity$$ExternalSyntheticLambda3(this));
+                eGLThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        IntroActivity.this.lambda$updateColors$6();
+                    }
+                });
             }
             for (int i = 0; i < this.viewPager.getChildCount(); i++) {
                 View childAt = this.viewPager.getChildAt(i);
@@ -956,7 +958,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     }
 
     public /* synthetic */ void lambda$updateColors$6() {
-        this.eglThread.loadTexture(2131165565, 17, Theme.getColor("windowBackgroundWhite"), true);
+        this.eglThread.loadTexture(R.drawable.intro_powerful_mask, 17, Theme.getColor("windowBackgroundWhite"), true);
         this.eglThread.updatePowerfulTextures();
         EGLThread eGLThread = this.eglThread;
         eGLThread.loadTexture(eGLThread.telegramMaskProvider, 23, true);

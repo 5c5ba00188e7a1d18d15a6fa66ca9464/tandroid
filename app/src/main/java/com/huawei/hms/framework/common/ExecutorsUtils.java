@@ -27,26 +27,17 @@ public class ExecutorsUtils {
         return new ThreadPoolExcutorEnhance(i, i, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue(), createThreadFactory(str));
     }
 
-    public static ThreadFactory createThreadFactory(String str) {
+    public static ThreadFactory createThreadFactory(final String str) {
         if (str == null || str.trim().isEmpty()) {
             throw new NullPointerException("ThreadName is empty");
         }
-        return new AnonymousClass1(str);
-    }
+        return new ThreadFactory() { // from class: com.huawei.hms.framework.common.ExecutorsUtils.1
+            private final AtomicInteger threadNumbers = new AtomicInteger(0);
 
-    /* renamed from: com.huawei.hms.framework.common.ExecutorsUtils$1 */
-    /* loaded from: classes.dex */
-    public static class AnonymousClass1 implements ThreadFactory {
-        private final AtomicInteger threadNumbers = new AtomicInteger(0);
-        final /* synthetic */ String val$threadName;
-
-        AnonymousClass1(String str) {
-            this.val$threadName = str;
-        }
-
-        @Override // java.util.concurrent.ThreadFactory
-        public Thread newThread(Runnable runnable) {
-            return new Thread(runnable, "NetworkKit_" + this.val$threadName + "_" + this.threadNumbers.getAndIncrement());
-        }
+            @Override // java.util.concurrent.ThreadFactory
+            public Thread newThread(Runnable runnable) {
+                return new Thread(runnable, ExecutorsUtils.THREADNAME_HEADER + str + "_" + this.threadNumbers.getAndIncrement());
+            }
+        };
     }
 }

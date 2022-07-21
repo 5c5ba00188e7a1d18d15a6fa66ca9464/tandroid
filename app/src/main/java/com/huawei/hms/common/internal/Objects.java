@@ -1,5 +1,6 @@
 package com.huawei.hms.common.internal;
 
+import com.huawei.hms.framework.common.ContainerUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,7 @@ public final class Objects {
             String valueOf = String.valueOf(obj);
             StringBuilder sb = new StringBuilder(str2.length() + valueOf.length() + 1);
             sb.append(str2);
-            sb.append("=");
+            sb.append(ContainerUtils.KEY_VALUE_DELIMITER);
             sb.append(valueOf);
             this.a.add(sb.toString());
             return this;

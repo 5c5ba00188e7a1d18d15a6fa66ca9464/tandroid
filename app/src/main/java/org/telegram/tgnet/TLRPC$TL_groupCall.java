@@ -36,7 +36,7 @@ public class TLRPC$TL_groupCall extends TLRPC$GroupCall {
         if ((this.flags & 32) != 0) {
             this.record_start_date = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 128) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             this.schedule_date = abstractSerializedData.readInt32(z);
         }
         if ((this.flags & 1024) != 0) {
@@ -78,7 +78,7 @@ public class TLRPC$TL_groupCall extends TLRPC$GroupCall {
         if ((this.flags & 32) != 0) {
             abstractSerializedData.writeInt32(this.record_start_date);
         }
-        if ((this.flags & 128) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             abstractSerializedData.writeInt32(this.schedule_date);
         }
         if ((this.flags & 1024) != 0) {

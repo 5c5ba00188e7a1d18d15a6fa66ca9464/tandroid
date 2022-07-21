@@ -20,6 +20,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$StickerSet;
@@ -53,19 +54,16 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     private boolean loadingDrawableBoundsSet = false;
     private int lastWidth = -1;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BoldAndAccent extends CharacterStyle {
         private BoldAndAccent() {
             MessageContainsEmojiButton.this = r1;
         }
 
-        /* synthetic */ BoldAndAccent(MessageContainsEmojiButton messageContainsEmojiButton, AnonymousClass1 anonymousClass1) {
-            this();
-        }
-
         @Override // android.text.style.CharacterStyle
         public void updateDrawState(TextPaint textPaint) {
-            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             int alpha = textPaint.getAlpha();
             textPaint.setColor(Theme.getColor("windowBackgroundWhiteBlueText", MessageContainsEmojiButton.this.resourcesProvider));
             textPaint.setAlpha(alpha);
@@ -101,10 +99,10 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 int spanStart = spannableStringBuilder.getSpanStart(typefaceSpanArr[i2]);
                 int spanEnd = spannableStringBuilder.getSpanEnd(typefaceSpanArr[i2]);
                 spannableStringBuilder.removeSpan(typefaceSpanArr[i2]);
-                spannableStringBuilder.setSpan(new BoldAndAccent(this, null), spanStart, spanEnd, 33);
+                spannableStringBuilder.setSpan(new BoldAndAccent(), spanStart, spanEnd, 33);
             }
         } else if (arrayList.size() == 1) {
-            String string = LocaleController.getString("MessageContainsEmojiPack", 2131626670);
+            String string = LocaleController.getString("MessageContainsEmojiPack", R.string.MessageContainsEmojiPack);
             String[] split = string.split("%s");
             if (split.length <= 1) {
                 this.mainText = string;
@@ -135,12 +133,19 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
             }
             if (str != null && tLRPC$Document != null) {
                 SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document));
-                spannableString.setSpan(new AnonymousClass1(tLRPC$Document, this.textPaint.getFontMetricsInt()), 0, spannableString.length(), 33);
+                spannableString.setSpan(new AnimatedEmojiSpan(tLRPC$Document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.1
+                    @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
+                    public void draw(Canvas canvas, CharSequence charSequence, int i4, int i5, float f, int i6, int i7, int i8, Paint paint) {
+                        int i9 = i8 + i6;
+                        int i10 = this.measuredSize;
+                        MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, (i9 - i10) / 2, (int) (f + i10), (i9 + i10) / 2);
+                    }
+                }, 0, spannableString.length(), 33);
                 AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(i, 0, tLRPC$Document);
                 this.emojiDrawable = make;
                 make.addView(this);
                 SpannableString spannableString2 = new SpannableString(str);
-                spannableString2.setSpan(new BoldAndAccent(this, null), 0, spannableString2.length(), 33);
+                spannableString2.setSpan(new BoldAndAccent(), 0, spannableString2.length(), 33);
                 this.mainText = new SpannableStringBuilder().append((CharSequence) split[0]).append((CharSequence) spannableString).append(' ').append((CharSequence) spannableString2).append((CharSequence) split[1]);
                 this.loadT = 1.0f;
                 this.inputStickerSet = null;
@@ -151,23 +156,6 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
             LoadingDrawable loadingDrawable = new LoadingDrawable(resourcesProvider);
             this.loadingDrawable = loadingDrawable;
             loadingDrawable.paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(4.0f)));
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.MessageContainsEmojiButton$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatedEmojiSpan {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(TLRPC$Document tLRPC$Document, Paint.FontMetricsInt fontMetricsInt) {
-            super(tLRPC$Document, fontMetricsInt);
-            MessageContainsEmojiButton.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
-        public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
-            int i6 = i5 + i3;
-            int i7 = this.measuredSize;
-            MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, (i6 - i7) / 2, (int) (f + i7), (i6 + i7) / 2);
         }
     }
 
@@ -320,11 +308,28 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         make.addView(this);
         invalidate();
         SpannableString spannableString = new SpannableString(" ");
-        spannableString.setSpan(new AnonymousClass2(), 0, 1, 33);
+        spannableString.setSpan(new ReplacementSpan() { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.2
+            @Override // android.text.style.ReplacementSpan
+            public void draw(Canvas canvas, CharSequence charSequence, int i4, int i5, float f, int i6, int i7, int i8, Paint paint) {
+            }
+
+            @Override // android.text.style.ReplacementSpan
+            public int getSize(Paint paint, CharSequence charSequence, int i4, int i5, Paint.FontMetricsInt fontMetricsInt) {
+                return MessageContainsEmojiButton.this.lastLineMargin;
+            }
+        }, 0, 1, 33);
         SpannableString spannableString2 = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document));
-        spannableString2.setSpan(new AnonymousClass3(tLRPC$Document, this.textPaint.getFontMetricsInt()), 0, spannableString2.length(), 33);
+        spannableString2.setSpan(new AnimatedEmojiSpan(tLRPC$Document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.3
+            @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
+            public void draw(Canvas canvas, CharSequence charSequence, int i4, int i5, float f, int i6, int i7, int i8, Paint paint) {
+                int i9 = MessageContainsEmojiButton.this.lastLineTop;
+                int i10 = i8 + i6;
+                int i11 = this.measuredSize;
+                MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, i9 + ((i10 - i11) / 2), (int) (f + i11), MessageContainsEmojiButton.this.lastLineTop + ((i10 + this.measuredSize) / 2));
+            }
+        }, 0, spannableString2.length(), 33);
         SpannableString spannableString3 = new SpannableString(str);
-        spannableString3.setSpan(new BoldAndAccent(this, null), 0, spannableString3.length(), 33);
+        spannableString3.setSpan(new BoldAndAccent(), 0, spannableString3.length(), 33);
         this.secondPartText = new SpannableStringBuilder().append((CharSequence) spannableString).append((CharSequence) spannableString2).append(' ').append((CharSequence) spannableString3).append(this.endText);
         int measuredHeight = (getMeasuredHeight() - getPaddingTop()) - getPaddingBottom();
         int updateLayout = updateLayout((this.lastWidth - getPaddingLeft()) - getPaddingRight(), true);
@@ -343,49 +348,19 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
-        boolean z = Math.abs(measuredHeight - updateLayout) > AndroidUtilities.dp(3.0f);
+        final boolean z = Math.abs(measuredHeight - updateLayout) > AndroidUtilities.dp(3.0f);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.loadT, 1.0f);
         this.loadAnimator = ofFloat;
-        ofFloat.addUpdateListener(new MessageContainsEmojiButton$$ExternalSyntheticLambda0(this, z));
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.MessageContainsEmojiButton$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                MessageContainsEmojiButton.this.lambda$didReceivedNotification$0(z, valueAnimator2);
+            }
+        });
         this.loadAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         this.loadAnimator.setStartDelay(150L);
         this.loadAnimator.setDuration(400L);
         this.loadAnimator.start();
-    }
-
-    /* renamed from: org.telegram.ui.Components.MessageContainsEmojiButton$2 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass2 extends ReplacementSpan {
-        @Override // android.text.style.ReplacementSpan
-        public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
-        }
-
-        AnonymousClass2() {
-            MessageContainsEmojiButton.this = r1;
-        }
-
-        @Override // android.text.style.ReplacementSpan
-        public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
-            return MessageContainsEmojiButton.this.lastLineMargin;
-        }
-    }
-
-    /* renamed from: org.telegram.ui.Components.MessageContainsEmojiButton$3 */
-    /* loaded from: classes3.dex */
-    class AnonymousClass3 extends AnimatedEmojiSpan {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(TLRPC$Document tLRPC$Document, Paint.FontMetricsInt fontMetricsInt) {
-            super(tLRPC$Document, fontMetricsInt);
-            MessageContainsEmojiButton.this = r1;
-        }
-
-        @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
-        public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
-            int i6 = MessageContainsEmojiButton.this.lastLineTop;
-            int i7 = i5 + i3;
-            int i8 = this.measuredSize;
-            MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, i6 + ((i7 - i8) / 2), (int) (f + i8), MessageContainsEmojiButton.this.lastLineTop + ((i7 + this.measuredSize) / 2));
-        }
     }
 
     public /* synthetic */ void lambda$didReceivedNotification$0(boolean z, ValueAnimator valueAnimator) {

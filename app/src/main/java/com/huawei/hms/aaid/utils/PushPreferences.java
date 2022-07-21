@@ -33,7 +33,7 @@ public class PushPreferences {
             if (b != null) {
                 return;
             }
-            HMSLog.w("PushPreferences", "get new sharedPreferences failed,start to get from context. ");
+            HMSLog.w(TAG, "get new sharedPreferences failed,start to get from context. ");
             this.a = context.getSharedPreferences(str, 0);
             return;
         }
@@ -53,7 +53,7 @@ public class PushPreferences {
             }
             return null;
         } catch (Exception e) {
-            HMSLog.e("PushPreferences", "get failed error." + e.getMessage());
+            HMSLog.e(TAG, "get failed error." + e.getMessage());
             return null;
         }
     }
@@ -68,7 +68,7 @@ public class PushPreferences {
             declaredConstructor.setAccessible(true);
             return (SharedPreferences) declaredConstructor.newInstance(a, 0);
         } catch (Exception e) {
-            HMSLog.e("PushPreferences", "get SharedPreferences error." + e.getMessage());
+            HMSLog.e(TAG, "get SharedPreferences error." + e.getMessage());
             return null;
         }
     }

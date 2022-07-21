@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor.mkv;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 final class Sniffer {
     private int peekLength;
@@ -69,7 +70,7 @@ final class Sniffer {
         if (i2 == 0) {
             return Long.MIN_VALUE;
         }
-        int i3 = 128;
+        int i3 = ConnectionsManager.RequestFlagNeedQuickAck;
         int i4 = 0;
         while ((i2 & i3) == 0) {
             i3 >>= 1;

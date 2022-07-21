@@ -114,16 +114,21 @@ public class FileLog {
         }
     }
 
-    public static void e(String str, Throwable th) {
+    public static void e(final String str, final Throwable th) {
         if (!BuildVars.LOGS_ENABLED) {
             return;
         }
         ensureInitied();
-        Log.e("tmessages", str, th);
+        Log.e(tag, str, th);
         if (getInstance().streamWriter == null) {
             return;
         }
-        getInstance().logQueue.postRunnable(new FileLog$$ExternalSyntheticLambda3(str, th));
+        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLog.lambda$e$0(str, th);
+            }
+        });
     }
 
     public static /* synthetic */ void lambda$e$0(String str, Throwable th) {
@@ -137,16 +142,21 @@ public class FileLog {
         }
     }
 
-    public static void e(String str) {
+    public static void e(final String str) {
         if (!BuildVars.LOGS_ENABLED) {
             return;
         }
         ensureInitied();
-        Log.e("tmessages", str);
+        Log.e(tag, str);
         if (getInstance().streamWriter == null) {
             return;
         }
-        getInstance().logQueue.postRunnable(new FileLog$$ExternalSyntheticLambda1(str));
+        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLog.lambda$e$1(str);
+            }
+        });
     }
 
     public static /* synthetic */ void lambda$e$1(String str) {
@@ -163,7 +173,7 @@ public class FileLog {
         e(th, true);
     }
 
-    public static void e(Throwable th, boolean z) {
+    public static void e(final Throwable th, boolean z) {
         if (!BuildVars.LOGS_ENABLED) {
             return;
         }
@@ -173,7 +183,12 @@ public class FileLog {
         ensureInitied();
         th.printStackTrace();
         if (getInstance().streamWriter != null) {
-            getInstance().logQueue.postRunnable(new FileLog$$ExternalSyntheticLambda4(th));
+            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FileLog.lambda$e$2(th);
+                }
+            });
         } else {
             th.printStackTrace();
         }
@@ -198,16 +213,21 @@ public class FileLog {
         return !(th instanceof InterruptedException) && !(th instanceof MediaCodecVideoConvertor.ConversionCanceledException);
     }
 
-    public static void d(String str) {
+    public static void d(final String str) {
         if (!BuildVars.LOGS_ENABLED) {
             return;
         }
         ensureInitied();
-        Log.d("tmessages", str);
+        Log.d(tag, str);
         if (getInstance().streamWriter == null) {
             return;
         }
-        getInstance().logQueue.postRunnable(new FileLog$$ExternalSyntheticLambda0(str));
+        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLog.lambda$d$3(str);
+            }
+        });
     }
 
     public static /* synthetic */ void lambda$d$3(String str) {
@@ -220,16 +240,21 @@ public class FileLog {
         }
     }
 
-    public static void w(String str) {
+    public static void w(final String str) {
         if (!BuildVars.LOGS_ENABLED) {
             return;
         }
         ensureInitied();
-        Log.w("tmessages", str);
+        Log.w(tag, str);
         if (getInstance().streamWriter == null) {
             return;
         }
-        getInstance().logQueue.postRunnable(new FileLog$$ExternalSyntheticLambda2(str));
+        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLog.lambda$w$4(str);
+            }
+        });
     }
 
     public static /* synthetic */ void lambda$w$4(String str) {

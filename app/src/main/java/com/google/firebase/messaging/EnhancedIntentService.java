@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
@@ -20,20 +21,6 @@ public abstract class EnhancedIntentService extends Service {
     final ExecutorService executor = FcmExecutors.newIntentHandleExecutor();
     private final Object lock = new Object();
     private int runningTasks = 0;
-
-    /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
-    /* renamed from: com.google.firebase.messaging.EnhancedIntentService$1 */
-    /* loaded from: classes.dex */
-    class AnonymousClass1 implements WithinAppServiceBinder.IntentHandler {
-        AnonymousClass1() {
-            EnhancedIntentService.this = r1;
-        }
-
-        @Override // com.google.firebase.messaging.WithinAppServiceBinder.IntentHandler
-        public Task<Void> handle(Intent intent) {
-            return EnhancedIntentService.this.processIntent(intent);
-        }
-    }
 
     private void finishTask(Intent intent) {
         if (intent != null) {
@@ -53,7 +40,23 @@ public abstract class EnhancedIntentService extends Service {
             return Tasks.forResult(null);
         }
         TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
-        this.executor.execute(new EnhancedIntentService$$Lambda$0(this, intent, taskCompletionSource));
+        this.executor.execute(new Runnable(this, intent, taskCompletionSource) { // from class: com.google.firebase.messaging.EnhancedIntentService$$Lambda$0
+            private final EnhancedIntentService arg$1;
+            private final Intent arg$2;
+            private final TaskCompletionSource arg$3;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.arg$1 = this;
+                this.arg$2 = intent;
+                this.arg$3 = taskCompletionSource;
+            }
+
+            @Override // java.lang.Runnable
+            public void run() {
+                this.arg$1.lambda$processIntent$0$EnhancedIntentService(this.arg$2, this.arg$3);
+            }
+        });
         return taskCompletionSource.getTask();
     }
 
@@ -83,7 +86,12 @@ public abstract class EnhancedIntentService extends Service {
             Log.d("EnhancedIntentService", "Service received bind request");
         }
         if (this.binder == null) {
-            this.binder = new WithinAppServiceBinder(new AnonymousClass1());
+            this.binder = new WithinAppServiceBinder(new WithinAppServiceBinder.IntentHandler() { // from class: com.google.firebase.messaging.EnhancedIntentService.1
+                @Override // com.google.firebase.messaging.WithinAppServiceBinder.IntentHandler
+                public Task<Void> handle(Intent intent2) {
+                    return EnhancedIntentService.this.processIntent(intent2);
+                }
+            });
         }
         return this.binder;
     }
@@ -110,7 +118,21 @@ public abstract class EnhancedIntentService extends Service {
             finishTask(intent);
             return 2;
         }
-        processIntent.addOnCompleteListener(EnhancedIntentService$$Lambda$1.$instance, new EnhancedIntentService$$Lambda$2(this, intent));
+        processIntent.addOnCompleteListener(EnhancedIntentService$$Lambda$1.$instance, new OnCompleteListener(this, intent) { // from class: com.google.firebase.messaging.EnhancedIntentService$$Lambda$2
+            private final EnhancedIntentService arg$1;
+            private final Intent arg$2;
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                this.arg$1 = this;
+                this.arg$2 = intent;
+            }
+
+            @Override // com.google.android.gms.tasks.OnCompleteListener
+            public void onComplete(Task task) {
+                this.arg$1.lambda$onStartCommand$1$EnhancedIntentService(this.arg$2, task);
+            }
+        });
         return 3;
     }
 

@@ -35,34 +35,21 @@ public class NetworkMonitor {
 
     private native void nativeNotifyOfNetworkPreference(long j, NetworkChangeDetector.ConnectionType connectionType, int i);
 
-    /* synthetic */ NetworkMonitor(AnonymousClass1 anonymousClass1) {
-        this();
-    }
-
     /* loaded from: classes3.dex */
     public static class InstanceHolder {
-        static final NetworkMonitor instance = new NetworkMonitor(null);
+        static final NetworkMonitor instance = new NetworkMonitor();
 
         private InstanceHolder() {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.webrtc.NetworkMonitor$1 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements NetworkChangeDetectorFactory {
-        AnonymousClass1() {
-            NetworkMonitor.this = r1;
-        }
-
-        @Override // org.webrtc.NetworkChangeDetectorFactory
-        public NetworkChangeDetector create(NetworkChangeDetector.Observer observer, Context context) {
-            return new NetworkMonitorAutoDetect(observer, context);
-        }
-    }
-
     private NetworkMonitor() {
-        this.networkChangeDetectorFactory = new AnonymousClass1();
+        this.networkChangeDetectorFactory = new NetworkChangeDetectorFactory() { // from class: org.webrtc.NetworkMonitor.1
+            @Override // org.webrtc.NetworkChangeDetectorFactory
+            public NetworkChangeDetector create(NetworkChangeDetector.Observer observer, Context context) {
+                return new NetworkMonitorAutoDetect(observer, context);
+            }
+        };
         this.networkChangeDetectorLock = new Object();
         this.nativeNetworkObservers = new ArrayList<>();
         this.networkObservers = new ArrayList<>();
@@ -104,7 +91,7 @@ public class NetworkMonitor {
 
     @CalledByNative
     private void startMonitoring(Context context, long j) {
-        Logging.d("NetworkMonitor", "Start monitoring with native observer " + j);
+        Logging.d(TAG, "Start monitoring with native observer " + j);
         if (context == null) {
             context = ContextUtils.getApplicationContext();
         }
@@ -129,7 +116,7 @@ public class NetworkMonitor {
 
     @CalledByNative
     private void stopMonitoring(long j) {
-        Logging.d("NetworkMonitor", "Stop monitoring with native observer " + j);
+        Logging.d(TAG, "Stop monitoring with native observer " + j);
         stopMonitoring();
         synchronized (this.nativeNetworkObservers) {
             this.nativeNetworkObservers.remove(Long.valueOf(j));
@@ -155,36 +142,28 @@ public class NetworkMonitor {
         return this.currentConnectionType;
     }
 
-    /* renamed from: org.webrtc.NetworkMonitor$2 */
-    /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements NetworkChangeDetector.Observer {
-        AnonymousClass2() {
-            NetworkMonitor.this = r1;
-        }
-
-        @Override // org.webrtc.NetworkChangeDetector.Observer
-        public void onConnectionTypeChanged(NetworkChangeDetector.ConnectionType connectionType) {
-            NetworkMonitor.this.updateCurrentConnectionType(connectionType);
-        }
-
-        @Override // org.webrtc.NetworkChangeDetector.Observer
-        public void onNetworkConnect(NetworkChangeDetector.NetworkInformation networkInformation) {
-            NetworkMonitor.this.notifyObserversOfNetworkConnect(networkInformation);
-        }
-
-        @Override // org.webrtc.NetworkChangeDetector.Observer
-        public void onNetworkDisconnect(long j) {
-            NetworkMonitor.this.notifyObserversOfNetworkDisconnect(j);
-        }
-
-        @Override // org.webrtc.NetworkChangeDetector.Observer
-        public void onNetworkPreference(List<NetworkChangeDetector.ConnectionType> list, int i) {
-            NetworkMonitor.this.notifyObserversOfNetworkPreference(list, i);
-        }
-    }
-
     private NetworkChangeDetector createNetworkChangeDetector(Context context) {
-        return this.networkChangeDetectorFactory.create(new AnonymousClass2(), context);
+        return this.networkChangeDetectorFactory.create(new NetworkChangeDetector.Observer() { // from class: org.webrtc.NetworkMonitor.2
+            @Override // org.webrtc.NetworkChangeDetector.Observer
+            public void onConnectionTypeChanged(NetworkChangeDetector.ConnectionType connectionType) {
+                NetworkMonitor.this.updateCurrentConnectionType(connectionType);
+            }
+
+            @Override // org.webrtc.NetworkChangeDetector.Observer
+            public void onNetworkConnect(NetworkChangeDetector.NetworkInformation networkInformation) {
+                NetworkMonitor.this.notifyObserversOfNetworkConnect(networkInformation);
+            }
+
+            @Override // org.webrtc.NetworkChangeDetector.Observer
+            public void onNetworkDisconnect(long j) {
+                NetworkMonitor.this.notifyObserversOfNetworkDisconnect(j);
+            }
+
+            @Override // org.webrtc.NetworkChangeDetector.Observer
+            public void onNetworkPreference(List<NetworkChangeDetector.ConnectionType> list, int i) {
+                NetworkMonitor.this.notifyObserversOfNetworkPreference(list, i);
+            }
+        }, context);
     }
 
     public void updateCurrentConnectionType(NetworkChangeDetector.ConnectionType connectionType) {

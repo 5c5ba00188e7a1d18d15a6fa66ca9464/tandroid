@@ -46,23 +46,14 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
         for (int i2 = 0; i2 < this.availableOutputBufferCount; i2++) {
             this.availableOutputBuffers[i2] = createOutputBuffer();
         }
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1();
-        this.decodeThread = anonymousClass1;
-        anonymousClass1.start();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.google.android.exoplayer2.decoder.SimpleDecoder$1 */
-    /* loaded from: classes.dex */
-    public class AnonymousClass1 extends Thread {
-        AnonymousClass1() {
-            SimpleDecoder.this = r1;
-        }
-
-        @Override // java.lang.Thread, java.lang.Runnable
-        public void run() {
-            SimpleDecoder.this.run();
-        }
+        Thread thread = new Thread() { // from class: com.google.android.exoplayer2.decoder.SimpleDecoder.1
+            @Override // java.lang.Thread, java.lang.Runnable
+            public void run() {
+                SimpleDecoder.this.run();
+            }
+        };
+        this.decodeThread = thread;
+        thread.start();
     }
 
     public final void setInitialInputBufferSize(int i) {

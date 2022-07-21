@@ -38,10 +38,20 @@ public final class VoIPPendingCall {
     }
 
     private VoIPPendingCall(Activity activity, long j, boolean z, long j2, AccountInstance accountInstance) {
-        VoIPPendingCall$$ExternalSyntheticLambda1 voIPPendingCall$$ExternalSyntheticLambda1 = new VoIPPendingCall$$ExternalSyntheticLambda1(this);
-        this.observer = voIPPendingCall$$ExternalSyntheticLambda1;
-        VoIPPendingCall$$ExternalSyntheticLambda0 voIPPendingCall$$ExternalSyntheticLambda0 = new VoIPPendingCall$$ExternalSyntheticLambda0(this);
-        this.releaseRunnable = voIPPendingCall$$ExternalSyntheticLambda0;
+        NotificationCenter.NotificationCenterDelegate notificationCenterDelegate = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.messenger.voip.VoIPPendingCall$$ExternalSyntheticLambda1
+            @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+            public final void didReceivedNotification(int i, int i2, Object[] objArr) {
+                VoIPPendingCall.this.lambda$new$0(i, i2, objArr);
+            }
+        };
+        this.observer = notificationCenterDelegate;
+        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.voip.VoIPPendingCall$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                VoIPPendingCall.this.lambda$new$1();
+            }
+        };
+        this.releaseRunnable = runnable;
         this.activity = activity;
         this.userId = j;
         this.video = z;
@@ -49,10 +59,10 @@ public final class VoIPPendingCall {
         if (!onConnectionStateUpdated(false)) {
             NotificationCenter notificationCenter = NotificationCenter.getInstance(UserConfig.selectedAccount);
             this.notificationCenter = notificationCenter;
-            notificationCenter.addObserver(voIPPendingCall$$ExternalSyntheticLambda1, NotificationCenter.didUpdateConnectionState);
+            notificationCenter.addObserver(notificationCenterDelegate, NotificationCenter.didUpdateConnectionState);
             Handler handler = new Handler(Looper.myLooper());
             this.handler = handler;
-            handler.postDelayed(voIPPendingCall$$ExternalSyntheticLambda0, j2);
+            handler.postDelayed(runnable, j2);
         }
     }
 

@@ -38,7 +38,7 @@ public class IPCCallback extends IAIDLCallback.Stub {
             this.mCallback.a(0, iMessageEntity);
             return;
         }
-        HMSLog.e("IPCCallback", "In call, URI cannot be empty.");
+        HMSLog.e(TAG, "In call, URI cannot be empty.");
         throw new RemoteException();
     }
 
@@ -48,7 +48,7 @@ public class IPCCallback extends IAIDLCallback.Stub {
             try {
                 return cls.newInstance();
             } catch (IllegalAccessException | InstantiationException e) {
-                HMSLog.e("IPCCallback", "In newResponseInstance, instancing exception." + e.getMessage());
+                HMSLog.e(TAG, "In newResponseInstance, instancing exception." + e.getMessage());
                 return null;
             }
         }

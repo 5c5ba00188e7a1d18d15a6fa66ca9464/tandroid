@@ -13,6 +13,7 @@ import com.huawei.hms.support.api.client.Status;
 import com.huawei.hms.support.api.client.SubAppInfo;
 import com.huawei.hms.support.api.entity.auth.PermissionInfo;
 import com.huawei.hms.support.api.entity.auth.Scope;
+import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import com.huawei.hms.support.hianalytics.HiAnalyticsUtil;
 import com.huawei.hms.utils.Checker;
 import com.huawei.hms.utils.HMSBIInitializer;
@@ -128,10 +129,10 @@ public abstract class HuaweiApiClient implements AidlApiClient {
 
         public Builder addApi(Api<? extends Api.ApiOptions.NotRequiredOptions> api) {
             this.d.put(api, null);
-            if ("HuaweiGame.API".equals(api.getApiName())) {
+            if (HuaweiApiAvailability.HMS_API_NAME_GAME.equals(api.getApiName())) {
                 HiAnalyticsUtil hiAnalyticsUtil = HiAnalyticsUtil.getInstance();
                 Context applicationContext = this.a.getApplicationContext();
-                hiAnalyticsUtil.onEvent(applicationContext, "15060106", "|" + System.currentTimeMillis());
+                hiAnalyticsUtil.onEvent(applicationContext, HiAnalyticsConstant.KeyAndValue.GAME_INIT_KEY, HiAnalyticsConstant.REPORT_VAL_SEPARATOR + System.currentTimeMillis());
             }
             return this;
         }
