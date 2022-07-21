@@ -348,7 +348,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         this.premiumFeatures.clear();
         fillPremiumFeaturesList(this.premiumFeatures, this.currentAccount);
         Rect rect = new Rect();
-        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166143).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         this.shadowDrawable.getPadding(rect);
@@ -686,18 +686,18 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     public static void fillPremiumFeaturesList(ArrayList<PremiumFeatureData> arrayList, int i) {
         MessagesController messagesController = MessagesController.getInstance(i);
         int i2 = 0;
-        arrayList.add(new PremiumFeatureData(0, 2131165873, LocaleController.getString("PremiumPreviewLimits", 2131627660), LocaleController.formatString("PremiumPreviewLimitsDescription", 2131627661, Integer.valueOf(messagesController.channelsLimitPremium), Integer.valueOf(messagesController.dialogFiltersLimitPremium), Integer.valueOf(messagesController.dialogFiltersPinnedLimitPremium), Integer.valueOf(messagesController.publicLinksLimitPremium), 4)));
-        arrayList.add(new PremiumFeatureData(1, 2131165883, LocaleController.getString("PremiumPreviewUploads", 2131627671), LocaleController.getString("PremiumPreviewUploadsDescription", 2131627672)));
-        arrayList.add(new PremiumFeatureData(2, 2131165880, LocaleController.getString("PremiumPreviewDownloadSpeed", 2131627655), LocaleController.getString("PremiumPreviewDownloadSpeedDescription", 2131627656)));
-        arrayList.add(new PremiumFeatureData(8, 2131165884, LocaleController.getString("PremiumPreviewVoiceToText", 2131627673), LocaleController.getString("PremiumPreviewVoiceToTextDescription", 2131627674)));
-        arrayList.add(new PremiumFeatureData(3, 2131165868, LocaleController.getString("PremiumPreviewNoAds", 2131627662), LocaleController.getString("PremiumPreviewNoAdsDescription", 2131627663)));
-        arrayList.add(new PremiumFeatureData(4, 2131165879, LocaleController.getString("PremiumPreviewReactions", 2131627667), LocaleController.getString("PremiumPreviewReactionsDescription", 2131627668)));
-        arrayList.add(new PremiumFeatureData(5, 2131165881, LocaleController.getString("PremiumPreviewStickers", 2131627669), LocaleController.getString("PremiumPreviewStickersDescription", 2131627670)));
-        arrayList.add(new PremiumFeatureData(11, 2131165871, LocaleController.getString("PremiumPreviewEmoji", 2131627657), LocaleController.getString("PremiumPreviewEmojiDescription", 2131627658)));
-        arrayList.add(new PremiumFeatureData(9, 2131165882, LocaleController.getString("PremiumPreviewAdvancedChatManagement", 2131627647), LocaleController.getString("PremiumPreviewAdvancedChatManagementDescription", 2131627648)));
-        arrayList.add(new PremiumFeatureData(6, 2131165870, LocaleController.getString("PremiumPreviewProfileBadge", 2131627665), LocaleController.getString("PremiumPreviewProfileBadgeDescription", 2131627666)));
-        arrayList.add(new PremiumFeatureData(7, 2131165869, LocaleController.getString("PremiumPreviewAnimatedProfiles", 2131627649), LocaleController.getString("PremiumPreviewAnimatedProfilesDescription", 2131627650)));
-        arrayList.add(new PremiumFeatureData(10, 2131165872, LocaleController.getString("PremiumPreviewAppIcon", 2131627651), LocaleController.getString("PremiumPreviewAppIconDescription", 2131627653)));
+        arrayList.add(new PremiumFeatureData(0, 2131165876, LocaleController.getString("PremiumPreviewLimits", 2131627660), LocaleController.formatString("PremiumPreviewLimitsDescription", 2131627661, Integer.valueOf(messagesController.channelsLimitPremium), Integer.valueOf(messagesController.dialogFiltersLimitPremium), Integer.valueOf(messagesController.dialogFiltersPinnedLimitPremium), Integer.valueOf(messagesController.publicLinksLimitPremium), 4)));
+        arrayList.add(new PremiumFeatureData(1, 2131165886, LocaleController.getString("PremiumPreviewUploads", 2131627671), LocaleController.getString("PremiumPreviewUploadsDescription", 2131627672)));
+        arrayList.add(new PremiumFeatureData(2, 2131165883, LocaleController.getString("PremiumPreviewDownloadSpeed", 2131627655), LocaleController.getString("PremiumPreviewDownloadSpeedDescription", 2131627656)));
+        arrayList.add(new PremiumFeatureData(8, 2131165887, LocaleController.getString("PremiumPreviewVoiceToText", 2131627673), LocaleController.getString("PremiumPreviewVoiceToTextDescription", 2131627674)));
+        arrayList.add(new PremiumFeatureData(3, 2131165871, LocaleController.getString("PremiumPreviewNoAds", 2131627662), LocaleController.getString("PremiumPreviewNoAdsDescription", 2131627663)));
+        arrayList.add(new PremiumFeatureData(4, 2131165882, LocaleController.getString("PremiumPreviewReactions", 2131627667), LocaleController.getString("PremiumPreviewReactionsDescription", 2131627668)));
+        arrayList.add(new PremiumFeatureData(5, 2131165884, LocaleController.getString("PremiumPreviewStickers", 2131627669), LocaleController.getString("PremiumPreviewStickersDescription", 2131627670)));
+        arrayList.add(new PremiumFeatureData(11, 2131165874, LocaleController.getString("PremiumPreviewEmoji", 2131627657), LocaleController.getString("PremiumPreviewEmojiDescription", 2131627658)));
+        arrayList.add(new PremiumFeatureData(9, 2131165885, LocaleController.getString("PremiumPreviewAdvancedChatManagement", 2131627647), LocaleController.getString("PremiumPreviewAdvancedChatManagementDescription", 2131627648)));
+        arrayList.add(new PremiumFeatureData(6, 2131165873, LocaleController.getString("PremiumPreviewProfileBadge", 2131627665), LocaleController.getString("PremiumPreviewProfileBadgeDescription", 2131627666)));
+        arrayList.add(new PremiumFeatureData(7, 2131165872, LocaleController.getString("PremiumPreviewAnimatedProfiles", 2131627649), LocaleController.getString("PremiumPreviewAnimatedProfilesDescription", 2131627650)));
+        arrayList.add(new PremiumFeatureData(10, 2131165875, LocaleController.getString("PremiumPreviewAppIcon", 2131627651), LocaleController.getString("PremiumPreviewAppIconDescription", 2131627653)));
         if (messagesController.premiumFeaturesTypesToPosition.size() > 0) {
             while (i2 < arrayList.size()) {
                 messagesController.premiumFeaturesTypesToPosition.append(11, 6);
@@ -848,11 +848,11 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     public static String getPremiumButtonText(int i) {
         if (BuildVars.IS_BILLING_UNAVAILABLE) {
-            return LocaleController.getString(2131628550);
+            return LocaleController.getString(2131628551);
         }
         if (BuildVars.useInvoiceBilling()) {
             TLRPC$TL_help_premiumPromo premiumPromo = MediaDataController.getInstance(i).getPremiumPromo();
-            return premiumPromo != null ? LocaleController.formatString(2131628548, BillingController.getInstance().formatCurrency(premiumPromo.monthly_amount, premiumPromo.currency)) : LocaleController.getString(2131628549);
+            return premiumPromo != null ? LocaleController.formatString(2131628549, BillingController.getInstance().formatCurrency(premiumPromo.monthly_amount, premiumPromo.currency)) : LocaleController.getString(2131628550);
         }
         String str = null;
         ProductDetails productDetails = BillingController.PREMIUM_PRODUCT_DETAILS;
@@ -875,7 +875,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         if (str == null) {
             return LocaleController.getString(2131626520);
         }
-        return LocaleController.formatString(2131628548, str);
+        return LocaleController.formatString(2131628549, str);
     }
 
     public void measureGradient(int i, int i2) {
@@ -1255,8 +1255,8 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
 
         public void updateText() {
-            this.titleView.setText(LocaleController.getString(PremiumPreviewFragment.this.forcePremium ? 2131628637 : 2131628635));
-            this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.getString((PremiumPreviewFragment.this.getUserConfig().isPremium() || PremiumPreviewFragment.this.forcePremium) ? 2131628636 : 2131628638)));
+            this.titleView.setText(LocaleController.getString(PremiumPreviewFragment.this.forcePremium ? 2131628638 : 2131628636));
+            this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.getString((PremiumPreviewFragment.this.getUserConfig().isPremium() || PremiumPreviewFragment.this.forcePremium) ? 2131628637 : 2131628639)));
         }
     }
 

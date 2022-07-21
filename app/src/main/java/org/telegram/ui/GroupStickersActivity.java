@@ -114,7 +114,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         ActionBarMenuItem addItem = this.actionBar.createMenu().addItem(0, 2131165456);
         this.searchItem = addItem;
         addItem.setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
-        this.searchItem.setSearchFieldHint(LocaleController.getString(2131628154));
+        this.searchItem.setSearchFieldHint(LocaleController.getString(2131628155));
         this.listAdapter = new ListAdapter(context);
         this.searchAdapter = new SearchAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -283,7 +283,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
 
         @Override // org.telegram.ui.Components.StickersAlert.StickersAlertCustomButtonDelegate
         public String getCustomButtonText() {
-            return LocaleController.getString(this.val$isSelected ? 2131627965 : 2131628301);
+            return LocaleController.getString(this.val$isSelected ? 2131627965 : 2131628302);
         }
 
         @Override // org.telegram.ui.Components.StickersAlert.StickersAlertCustomButtonDelegate

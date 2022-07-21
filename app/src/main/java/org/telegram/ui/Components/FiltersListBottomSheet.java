@@ -481,7 +481,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 bottomSheetCell.setTextColor(Theme.getColor("dialogTextBlack"));
                 int i3 = dialogFilter.flags;
                 if ((MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS & i3) == (MessagesController.DIALOG_FILTER_FLAG_CONTACTS | MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS)) {
-                    i2 = 2131165833;
+                    i2 = 2131165836;
                 } else {
                     if ((MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ & i3) != 0) {
                         int i4 = MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS;
@@ -503,8 +503,8 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 return;
             }
             bottomSheetCell.getImageView().setColorFilter((ColorFilter) null);
-            Drawable drawable = this.context.getResources().getDrawable(2131166080);
-            Drawable drawable2 = this.context.getResources().getDrawable(2131166081);
+            Drawable drawable = this.context.getResources().getDrawable(2131166083);
+            Drawable drawable2 = this.context.getResources().getDrawable(2131166084);
             drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
             drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(drawable, drawable2);

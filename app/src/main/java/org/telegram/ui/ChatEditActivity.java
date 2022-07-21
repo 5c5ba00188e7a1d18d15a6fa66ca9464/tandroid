@@ -1395,7 +1395,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             return true;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", 2131628884));
+        builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", 2131628885));
         if (this.isChannel) {
             builder.setMessage(LocaleController.getString("ChannelSettingsChangedAlert", 2131624971));
         } else {
@@ -1694,37 +1694,37 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             TLRPC$ChatFull tLRPC$ChatFull5 = this.info;
             if (tLRPC$ChatFull5 != null && (tLRPC$ChatFull5.location instanceof TLRPC$TL_channelLocation)) {
                 if (isEmpty) {
-                    str5 = LocaleController.getString("TypeLocationGroupEdit", 2131628777);
+                    str5 = LocaleController.getString("TypeLocationGroupEdit", 2131628778);
                 } else {
                     str5 = String.format("https://" + getMessagesController().linkPrefix + "/%s", this.currentChat.username);
                 }
                 TextDetailCell textDetailCell12 = this.typeCell;
-                String string3 = LocaleController.getString("TypeLocationGroup", 2131628776);
+                String string3 = LocaleController.getString("TypeLocationGroup", 2131628777);
                 TextDetailCell textDetailCell13 = this.historyCell;
                 textDetailCell12.setTextAndValue(string3, str5, (textDetailCell13 != null && textDetailCell13.getVisibility() == 0) || ((textDetailCell3 = this.linkedCell) != null && textDetailCell3.getVisibility() == 0));
             } else {
                 boolean z2 = this.currentChat.noforwards;
                 if (this.isChannel) {
                     if (!isEmpty) {
-                        i4 = 2131628783;
+                        i4 = 2131628784;
                         str4 = "TypePublic";
                     } else if (z2) {
-                        i4 = 2131628782;
+                        i4 = 2131628783;
                         str4 = "TypePrivateRestrictedForwards";
                     } else {
-                        i4 = 2131628779;
+                        i4 = 2131628780;
                         str4 = "TypePrivate";
                     }
                     str2 = LocaleController.getString(str4, i4);
                 } else {
                     if (!isEmpty) {
-                        i3 = 2131628784;
+                        i3 = 2131628785;
                         str3 = "TypePublicGroup";
                     } else if (z2) {
-                        i3 = 2131628781;
+                        i3 = 2131628782;
                         str3 = "TypePrivateGroupRestrictedForwards";
                     } else {
-                        i3 = 2131628780;
+                        i3 = 2131628781;
                         str3 = "TypePrivateGroup";
                     }
                     str2 = LocaleController.getString(str3, i3);
@@ -1769,7 +1769,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     TLRPC$ChatFull tLRPC$ChatFull6 = this.info;
                     String format = String.format("%d", Integer.valueOf(Math.max(tLRPC$ChatFull6.banned_count, tLRPC$ChatFull6.kicked_count)));
                     TextCell textCell5 = this.logCell;
-                    textCell4.setTextAndValueAndIcon(string6, format, 2131165972, textCell5 != null && textCell5.getVisibility() == 0);
+                    textCell4.setTextAndValueAndIcon(string6, format, 2131165975, textCell5 != null && textCell5.getVisibility() == 0);
                 } else {
                     if (ChatObject.isChannel(this.currentChat)) {
                         this.membersCell.setTextAndValueAndIcon(LocaleController.getString("ChannelMembers", 2131624930), String.format("%d", Integer.valueOf(this.info.participants_count)), 2131165750, true);
@@ -1783,7 +1783,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         TLRPC$ChatFull tLRPC$ChatFull7 = this.info;
                         String format2 = String.format("%d", Integer.valueOf(Math.max(tLRPC$ChatFull7.banned_count, tLRPC$ChatFull7.kicked_count)));
                         TextCell textCell7 = this.logCell;
-                        textCell6.setTextAndValueAndIcon(string7, format2, 2131165972, textCell7 != null && textCell7.getVisibility() == 0);
+                        textCell6.setTextAndValueAndIcon(string7, format2, 2131165975, textCell7 != null && textCell7.getVisibility() == 0);
                     } else {
                         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = tLRPC$Chat2.default_banned_rights;
                         if (tLRPC$TL_chatBannedRights != null) {
@@ -1810,14 +1810,14 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         } else {
                             i = 8;
                         }
-                        this.blockCell.setTextAndValueAndIcon(LocaleController.getString("ChannelPermissions", 2131624955), String.format("%d/%d", Integer.valueOf(i), 8), 2131165842, true);
+                        this.blockCell.setTextAndValueAndIcon(LocaleController.getString("ChannelPermissions", 2131624955), String.format("%d/%d", Integer.valueOf(i), 8), 2131165845, true);
                     }
                     TextCell textCell8 = this.memberRequestsCell;
                     if (textCell8 != null) {
                         String string8 = LocaleController.getString("MemberRequests", 2131626639);
                         String format3 = String.format("%d", Integer.valueOf(this.info.requests_pending));
                         TextCell textCell9 = this.logCell;
-                        textCell8.setTextAndValueAndIcon(string8, format3, 2131165907, textCell9 != null && textCell9.getVisibility() == 0);
+                        textCell8.setTextAndValueAndIcon(string8, format3, 2131165910, textCell9 != null && textCell9.getVisibility() == 0);
                     }
                 }
                 TextCell textCell10 = this.adminCell;
@@ -1842,7 +1842,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         TextCell textCell15 = this.logCell;
                         textCell14.setTextAndIcon(string12, 2131165678, textCell15 != null && textCell15.getVisibility() == 0);
                     } else {
-                        this.blockCell.setTextAndIcon(LocaleController.getString("ChannelPermissions", 2131624955), 2131165842, true);
+                        this.blockCell.setTextAndIcon(LocaleController.getString("ChannelPermissions", 2131624955), 2131165845, true);
                     }
                 }
                 this.adminCell.setTextAndIcon(LocaleController.getString("ChannelAdministrators", 2131624890), 2131165635, true);
@@ -1863,7 +1863,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
         String string13 = LocaleController.getString(2131626151);
         TLRPC$StickerSet tLRPC$StickerSet = this.info.stickerset;
-        textCell16.setTextAndValueAndIcon(string13, tLRPC$StickerSet != null ? tLRPC$StickerSet.title : LocaleController.getString(2131624242), 2131165950, false);
+        textCell16.setTextAndValueAndIcon(string13, tLRPC$StickerSet != null ? tLRPC$StickerSet.title : LocaleController.getString(2131624242), 2131165953, false);
     }
 
     private void updateReactionsCell() {
@@ -1875,7 +1875,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
         }
         int min = Math.min(getMediaDataController().getEnabledReactionsList().size(), i);
-        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", 2131627909), min == 0 ? LocaleController.getString("ReactionsOff", 2131627917) : LocaleController.formatString("ReactionsCount", 2131627910, Integer.valueOf(min), Integer.valueOf(getMediaDataController().getEnabledReactionsList().size())), 2131165891, true);
+        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", 2131627909), min == 0 ? LocaleController.getString("ReactionsOff", 2131627917) : LocaleController.formatString("ReactionsCount", 2131627910, Integer.valueOf(min), Integer.valueOf(getMediaDataController().getEnabledReactionsList().size())), 2131165894, true);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

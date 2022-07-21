@@ -299,7 +299,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             FrameLayout frameLayout = new FrameLayout(context);
             addView(frameLayout, LayoutHelper.createFrame(-2, 114.0f));
             LocationActivity.this.lastPressedMarkerView = new FrameLayout(context);
-            LocationActivity.this.lastPressedMarkerView.setBackgroundResource(2131166191);
+            LocationActivity.this.lastPressedMarkerView.setBackgroundResource(2131166194);
             LocationActivity.this.lastPressedMarkerView.getBackground().setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
             frameLayout.addView(LocationActivity.this.lastPressedMarkerView, LayoutHelper.createFrame(-2, 71.0f));
             LocationActivity.this.lastPressedMarkerView.setAlpha(0.0f);
@@ -327,7 +327,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             }
             frameLayout2.addView(textView2, LayoutHelper.createFrame(-2, -2.0f, i | 48, 18.0f, 32.0f, 18.0f, 0.0f));
             textView.setText(venueLocation.venue.title);
-            textView2.setText(LocaleController.getString("TapToSendLocation", 2131628613));
+            textView2.setText(LocaleController.getString("TapToSendLocation", 2131628614));
             FrameLayout frameLayout3 = new FrameLayout(context);
             frameLayout3.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(36.0f), LocationCell.getColorForIndex(venueLocation.num)));
             frameLayout.addView(frameLayout3, LayoutHelper.createFrame(36, 36.0f, 81, 0.0f, 0.0f, 0.0f, 4.0f));
@@ -550,26 +550,26 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 } else {
                     String str4 = this.messageObject.messageOwner.media.title;
                     if (str4 != null && str4.length() > 0) {
-                        this.actionBar.setTitle(LocaleController.getString("SharedPlace", 2131628370));
+                        this.actionBar.setTitle(LocaleController.getString("SharedPlace", 2131628371));
                     } else {
                         this.actionBar.setTitle(LocaleController.getString("ChatLocation", 2131625035));
                     }
                     ActionBarMenuItem addItem = createMenu.addItem(0, 2131165453);
                     this.otherItem = addItem;
-                    addItem.addSubItem(1, 2131165832, LocaleController.getString("OpenInExternalApp", 2131627153));
+                    addItem.addSubItem(1, 2131165835, LocaleController.getString("OpenInExternalApp", 2131627153));
                     if (!getLocationController().isSharingLocation(this.dialogId)) {
-                        this.otherItem.addSubItem(5, 2131165789, LocaleController.getString("SendLiveLocationMenu", 2131628257));
+                        this.otherItem.addSubItem(5, 2131165789, LocaleController.getString("SendLiveLocationMenu", 2131628258));
                     }
                     this.otherItem.setContentDescription(LocaleController.getString("AccDescrMoreOptions", 2131624003));
                 }
             } else {
-                this.actionBar.setTitle(LocaleController.getString("ShareLocation", 2131628338));
+                this.actionBar.setTitle(LocaleController.getString("ShareLocation", 2131628339));
                 if (this.locationType != 4) {
                     this.overlayView = new MapOverlayView(context);
                     ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
                     this.searchItem = actionBarMenuItemSearchListener;
-                    actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
-                    this.searchItem.setContentDescription(LocaleController.getString("Search", 2131628154));
+                    actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
+                    this.searchItem.setContentDescription(LocaleController.getString("Search", 2131628155));
                     EditTextBoldCursor searchField = this.searchItem.getSearchField();
                     searchField.setTextColor(Theme.getColor("dialogTextBlack"));
                     searchField.setCursorColor(Theme.getColor("dialogTextBlack"));
@@ -581,7 +581,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         this.fragmentView = anonymousClass3;
         AnonymousClass3 anonymousClass32 = anonymousClass3;
         anonymousClass3.setBackgroundColor(Theme.getColor("dialogBackground"));
-        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166143).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         Rect rect = new Rect();
@@ -603,7 +603,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             searchButton.setTranslationX(-AndroidUtilities.dp(80.0f));
             Drawable createSimpleSelectorRoundRectDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(40.0f), Theme.getColor("location_actionBackground"), Theme.getColor("location_actionPressedBackground"));
             if (i2 < 21) {
-                Drawable mutate2 = context.getResources().getDrawable(2131166064).mutate();
+                Drawable mutate2 = context.getResources().getDrawable(2131166067).mutate();
                 mutate2.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
                 CombinedDrawable combinedDrawable = new CombinedDrawable(mutate2, createSimpleSelectorRoundRectDrawable, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f));
                 combinedDrawable.setFullsize(true);
@@ -634,7 +634,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         this.mapTypeButton.setAdditionalXOffset(AndroidUtilities.dp(10.0f));
         this.mapTypeButton.setAdditionalYOffset(-AndroidUtilities.dp(10.0f));
         this.mapTypeButton.addSubItem(2, 2131165793, LocaleController.getString("Map", 2131626580));
-        this.mapTypeButton.addSubItem(3, 2131165916, LocaleController.getString("Satellite", 2131628120));
+        this.mapTypeButton.addSubItem(3, 2131165919, LocaleController.getString("Satellite", 2131628121));
         this.mapTypeButton.addSubItem(4, 2131165763, LocaleController.getString("Hybrid", 2131626215));
         this.mapTypeButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", 2131624003));
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(40.0f), Theme.getColor("location_actionBackground"), Theme.getColor("location_actionPressedBackground"));
@@ -1698,9 +1698,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     public /* synthetic */ boolean lambda$openProximityAlert$23(TLRPC$User tLRPC$User, boolean z, int i) {
         if (getLocationController().getSharingLocationInfo(this.dialogId) == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString("ShareLocationAlertTitle", 2131628341));
-            builder.setMessage(LocaleController.getString("ShareLocationAlertText", 2131628340));
-            builder.setPositiveButton(LocaleController.getString("ShareLocationAlertButton", 2131628339), new LocationActivity$$ExternalSyntheticLambda3(this, tLRPC$User, i));
+            builder.setTitle(LocaleController.getString("ShareLocationAlertTitle", 2131628342));
+            builder.setMessage(LocaleController.getString("ShareLocationAlertText", 2131628341));
+            builder.setPositiveButton(LocaleController.getString("ShareLocationAlertButton", 2131628340), new LocationActivity$$ExternalSyntheticLambda3(this, tLRPC$User, i));
             builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             showDialog(builder.create());
             return false;

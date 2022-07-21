@@ -4126,6 +4126,7 @@
     <string name="ResetStatistics">Reset Statistics</string>
     <string name="ResetStatisticsAlert">Do you want to reset your usage statistics?</string>
     <string name="ResetStatisticsAlertTitle">Reset statistics</string>
+    <string name="Restore">Restore</string>
     <string name="RestoreEmailNoAccess">Unable to access %1$s?</string>
     <string name="RestoreEmailSent">We have sent a recovery code to the email address you provided:\n\n%1$s</string>
     <string name="RestoreEmailSentInfo">Please check your email and enter the 6-digit code we sent you.</string>

@@ -492,7 +492,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         if (arrowSpan == null) {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("-");
             arrowSpan = spannableStringBuilder;
-            spannableStringBuilder.setSpan(new ColoredImageSpan(ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131166122).mutate()), 0, 1, 0);
+            spannableStringBuilder.setSpan(new ColoredImageSpan(ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131166125).mutate()), 0, 1, 0);
         }
         ?? r4 = 0;
         TLRPC$User user = messageObject.messageOwner.from_id.user_id != 0 ? MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(messageObject.messageOwner.from_id.user_id)) : null;
@@ -696,9 +696,9 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
         this.isLoading = false;
         if (tLRPC$TL_error != null) {
-            this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628167));
+            this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628168));
             this.emptyView.subtitle.setVisibility(0);
-            this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+            this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628161));
             this.emptyView.showProgress(false, true);
             return;
         }
@@ -739,28 +739,28 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         if (this.messages.isEmpty()) {
             if (mediaFilterData != null) {
                 if (TextUtils.isEmpty(this.currentDataQuery) && j == 0 && j2 == 0) {
-                    this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle", 2131628166));
+                    this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle", 2131628167));
                     int i4 = mediaFilterData.filterType;
                     if (i4 == 1) {
-                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleFiles", 2131628161);
+                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleFiles", 2131628162);
                     } else if (i4 == 0) {
-                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleMedia", 2131628163);
+                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleMedia", 2131628164);
                     } else if (i4 == 2) {
-                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleLinks", 2131628162);
+                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleLinks", 2131628163);
                     } else if (i4 == 3) {
-                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleMusic", 2131628164);
+                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleMusic", 2131628165);
                     } else {
-                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleVoice", 2131628165);
+                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleVoice", 2131628166);
                     }
                     this.emptyView.subtitle.setVisibility(0);
                     this.emptyView.subtitle.setText(str2);
                 } else {
-                    this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628167));
+                    this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628168));
                     this.emptyView.subtitle.setVisibility(0);
-                    this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+                    this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628161));
                 }
             } else {
-                this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628167));
+                this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628168));
                 this.emptyView.subtitle.setVisibility(8);
             }
         }
@@ -794,7 +794,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             if (arrayList2 != null) {
                 this.localTipChats.addAll(arrayList2);
             }
-            if (str.length() >= 3 && (LocaleController.getString("SavedMessages", 2131628139).toLowerCase().startsWith(str) || "saved messages".startsWith(str))) {
+            if (str.length() >= 3 && (LocaleController.getString("SavedMessages", 2131628140).toLowerCase().startsWith(str) || "saved messages".startsWith(str))) {
                 int i6 = 0;
                 while (true) {
                     if (i6 >= this.localTipChats.size()) {
@@ -1738,7 +1738,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 dialogCell = flickerLoadingView;
             } else {
                 GraySectionCell graySectionCell = new GraySectionCell(viewGroup.getContext());
-                graySectionCell.setText(LocaleController.getString("SearchMessages", 2131628181));
+                graySectionCell.setText(LocaleController.getString("SearchMessages", 2131628182));
                 dialogCell = graySectionCell;
             }
             dialogCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));

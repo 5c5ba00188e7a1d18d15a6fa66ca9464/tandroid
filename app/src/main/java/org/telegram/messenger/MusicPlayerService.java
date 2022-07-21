@@ -94,7 +94,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             this.mediaSession = new MediaSession(this, "telegramAudioPlayer");
             this.playbackState = new PlaybackState.Builder();
             this.albumArtPlaceholder = Bitmap.createBitmap(AndroidUtilities.dp(102.0f), AndroidUtilities.dp(102.0f), Bitmap.Config.ARGB_8888);
-            Drawable drawable = getResources().getDrawable(2131166003);
+            Drawable drawable = getResources().getDrawable(2131166006);
             drawable.setBounds(0, 0, this.albumArtPlaceholder.getWidth(), this.albumArtPlaceholder.getHeight());
             drawable.draw(new Canvas(this.albumArtPlaceholder));
             this.mediaSession.setCallback(new AnonymousClass2());
@@ -261,7 +261,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             PendingIntent broadcast3 = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.next").setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
             PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent("org.telegram.android.musicplayer.seek").setComponent(new ComponentName(this, MusicPlayerReceiver.class)), 268435456);
             Notification.Builder builder = new Notification.Builder(this);
-            builder.setSmallIcon(2131166068).setOngoing(z2).setContentTitle(musicTitle).setContentText(musicAuthor).setSubText(audioInfo != null ? audioInfo.getAlbum() : null).setContentIntent(activity).setDeleteIntent(service).setShowWhen(false).setCategory("transport").setPriority(2).setStyle(new Notification.MediaStyle().setMediaSession(this.mediaSession.getSessionToken()).setShowActionsInCompactView(0, 1, 2));
+            builder.setSmallIcon(2131166071).setOngoing(z2).setContentTitle(musicTitle).setContentText(musicAuthor).setSubText(audioInfo != null ? audioInfo.getAlbum() : null).setContentIntent(activity).setDeleteIntent(service).setShowWhen(false).setCategory("transport").setPriority(2).setStyle(new Notification.MediaStyle().setMediaSession(this.mediaSession.getSessionToken()).setShowActionsInCompactView(0, 1, 2));
             if (i3 >= 26) {
                 NotificationsController.checkOtherNotificationsChannel();
                 builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
@@ -310,7 +310,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             f = 1.0f;
             RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(), 2131427350);
             RemoteViews remoteViews2 = supportBigNotifications ? new RemoteViews(getApplicationContext().getPackageName(), 2131427349) : null;
-            Notification build2 = new NotificationCompat.Builder(getApplicationContext()).setSmallIcon(2131166068).setContentIntent(activity).setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(str).build();
+            Notification build2 = new NotificationCompat.Builder(getApplicationContext()).setSmallIcon(2131166071).setContentIntent(activity).setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(str).build();
             build2.contentView = remoteViews;
             if (supportBigNotifications) {
                 build2.bigContentView = remoteViews2;
@@ -325,9 +325,9 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                     build2.bigContentView.setImageViewBitmap(2131230895, bitmap);
                 }
             } else {
-                build2.contentView.setImageViewResource(2131230895, 2131166004);
+                build2.contentView.setImageViewResource(2131230895, 2131166007);
                 if (supportBigNotifications) {
-                    build2.bigContentView.setImageViewResource(2131230895, 2131166003);
+                    build2.bigContentView.setImageViewResource(2131230895, 2131166006);
                 }
             }
             if (MediaController.getInstance().isDownloadingCurrentMessage()) {

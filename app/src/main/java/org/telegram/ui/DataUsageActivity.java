@@ -877,7 +877,7 @@ public class DataUsageActivity extends BaseFragment {
                 }
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i == this.totalSectionRow) {
-                    headerCell.setText(LocaleController.getString("TotalDataUsage", 2131628754));
+                    headerCell.setText(LocaleController.getString("TotalDataUsage", 2131628755));
                     return;
                 } else if (i == this.callsSectionRow) {
                     headerCell.setText(LocaleController.getString("CallsDataUsage", 2131624823));

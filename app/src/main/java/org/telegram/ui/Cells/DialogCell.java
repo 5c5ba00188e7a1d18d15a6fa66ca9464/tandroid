@@ -1135,7 +1135,7 @@ public class DialogCell extends BaseCell {
                                                     charSequence = null;
                                                     i4 = 0;
                                                     z10 = false;
-                                                    str12 = LocaleController.getString("SavedMessagesInfo", 2131628140);
+                                                    str12 = LocaleController.getString("SavedMessagesInfo", 2131628141);
                                                     i3 = -1;
                                                     spannableStringBuilder = str12;
                                                 }
@@ -1184,7 +1184,7 @@ public class DialogCell extends BaseCell {
                                                     }
                                                     this.drawCount2 = false;
                                                 } else if (i25 == 3 && UserObject.isUserSelf(this.user)) {
-                                                    str15 = LocaleController.getString("SavedMessagesInfo", 2131628140);
+                                                    str15 = LocaleController.getString("SavedMessagesInfo", 2131628141);
                                                 } else {
                                                     if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout && this.currentDialogFolderId != 0) {
                                                         str14 = formatArchivedDialogNames();
@@ -1886,7 +1886,7 @@ public class DialogCell extends BaseCell {
                                         this.promoDialog = true;
                                         int i34 = messagesController2.promoDialogType;
                                         if (i34 == MessagesController.PROMO_TYPE_PROXY) {
-                                            string = LocaleController.getString("UseProxySponsor", 2131628863);
+                                            string = LocaleController.getString("UseProxySponsor", 2131628864);
                                         } else if (i34 == MessagesController.PROMO_TYPE_PSA) {
                                             string = LocaleController.getString("PsaType_" + messagesController2.promoPsaType);
                                             if (TextUtils.isEmpty(string)) {
@@ -1915,7 +1915,7 @@ public class DialogCell extends BaseCell {
                                                                     if (this.dialogsType == 3) {
                                                                         this.drawPinBackground = true;
                                                                     }
-                                                                    userName = LocaleController.getString("SavedMessages", 2131628139);
+                                                                    userName = LocaleController.getString("SavedMessages", 2131628140);
                                                                 }
                                                             } else {
                                                                 userName = UserObject.getUserName(this.user);
@@ -3278,9 +3278,9 @@ public class DialogCell extends BaseCell {
                 if (this.archiveHidden) {
                     i9 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
                     i8 = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
-                    str3 = LocaleController.getString("UnhideFromTop", 2131628798);
+                    str3 = LocaleController.getString("UnhideFromTop", 2131628799);
                     this.translationDrawable = Theme.dialogs_unpinArchiveDrawable;
-                    i7 = 2131628798;
+                    i7 = 2131628799;
                 } else {
                     i9 = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
                     i8 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
@@ -3299,38 +3299,38 @@ public class DialogCell extends BaseCell {
                 i8 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
                 if (SharedConfig.getChatSwipeAction(this.currentAccount) == 3) {
                     if (this.dialogMuted) {
-                        str3 = LocaleController.getString("SwipeUnmute", 2131628586);
+                        str3 = LocaleController.getString("SwipeUnmute", 2131628587);
                         this.translationDrawable = Theme.dialogs_swipeUnmuteDrawable;
-                        i7 = 2131628586;
+                        i7 = 2131628587;
                     } else {
-                        str3 = LocaleController.getString("SwipeMute", 2131628574);
+                        str3 = LocaleController.getString("SwipeMute", 2131628575);
                         this.translationDrawable = Theme.dialogs_swipeMuteDrawable;
-                        i7 = 2131628574;
+                        i7 = 2131628575;
                     }
                 } else if (SharedConfig.getChatSwipeAction(this.currentAccount) == 4) {
-                    str3 = LocaleController.getString("SwipeDeleteChat", 2131628571);
+                    str3 = LocaleController.getString("SwipeDeleteChat", 2131628572);
                     i9 = Theme.getColor("dialogSwipeRemove", this.resourcesProvider);
                     this.translationDrawable = Theme.dialogs_swipeDeleteDrawable;
-                    i7 = 2131628571;
+                    i7 = 2131628572;
                 } else if (SharedConfig.getChatSwipeAction(this.currentAccount) == 1) {
                     if (this.unreadCount > 0 || this.markUnread) {
-                        str3 = LocaleController.getString("SwipeMarkAsRead", 2131628572);
+                        str3 = LocaleController.getString("SwipeMarkAsRead", 2131628573);
                         this.translationDrawable = Theme.dialogs_swipeReadDrawable;
-                        i7 = 2131628572;
-                    } else {
-                        str3 = LocaleController.getString("SwipeMarkAsUnread", 2131628573);
-                        this.translationDrawable = Theme.dialogs_swipeUnreadDrawable;
                         i7 = 2131628573;
+                    } else {
+                        str3 = LocaleController.getString("SwipeMarkAsUnread", 2131628574);
+                        this.translationDrawable = Theme.dialogs_swipeUnreadDrawable;
+                        i7 = 2131628574;
                     }
                 } else if (SharedConfig.getChatSwipeAction(this.currentAccount) == 0) {
                     if (this.drawPin) {
-                        str3 = LocaleController.getString("SwipeUnpin", 2131628587);
+                        str3 = LocaleController.getString("SwipeUnpin", 2131628588);
                         this.translationDrawable = Theme.dialogs_swipeUnpinDrawable;
-                        i7 = 2131628587;
+                        i7 = 2131628588;
                     } else {
-                        str3 = LocaleController.getString("SwipePin", 2131628575);
+                        str3 = LocaleController.getString("SwipePin", 2131628576);
                         this.translationDrawable = Theme.dialogs_swipePinDrawable;
-                        i7 = 2131628575;
+                        i7 = 2131628576;
                     }
                 } else {
                     str3 = LocaleController.getString("Archive", 2131624401);
@@ -3340,9 +3340,9 @@ public class DialogCell extends BaseCell {
             } else {
                 i9 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
                 i8 = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
-                str3 = LocaleController.getString("Unarchive", 2131628789);
+                str3 = LocaleController.getString("Unarchive", 2131628790);
                 this.translationDrawable = Theme.dialogs_unarchiveDrawable;
-                i7 = 2131628789;
+                i7 = 2131628790;
             }
             String str6 = str3;
             int i11 = i8;
@@ -4620,7 +4620,7 @@ public class DialogCell extends BaseCell {
                     }
                     TLRPC$User tLRPC$User2 = this.user;
                     if (tLRPC$User2.self) {
-                        sb.append(LocaleController.getString("SavedMessages", 2131628139));
+                        sb.append(LocaleController.getString("SavedMessages", 2131628140));
                     } else {
                         sb.append(ContactsController.formatName(tLRPC$User2.first_name, tLRPC$User2.last_name));
                     }

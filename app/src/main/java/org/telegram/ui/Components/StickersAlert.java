@@ -926,7 +926,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.optionsButton.setIcon(2131165453);
         this.optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor("player_actionBarSelector"), 1));
         this.containerView.addView(this.optionsButton, LayoutHelper.createFrame(40, 40.0f, 53, 0.0f, 5.0f, 5.0f, 0.0f));
-        this.optionsButton.addSubItem(1, 2131165939, LocaleController.getString("StickersShare", 2131628519));
+        this.optionsButton.addSubItem(1, 2131165942, LocaleController.getString("StickersShare", 2131628520));
         this.optionsButton.addSubItem(2, 2131165783, LocaleController.getString("CopyLink", 2131625274));
         this.optionsButton.setOnClickListener(new StickersAlert$$ExternalSyntheticLambda3(this));
         this.optionsButton.setDelegate(new StickersAlert$$ExternalSyntheticLambda34(this));
@@ -1223,7 +1223,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             this.previewSendButton.setVisibility(0);
             this.previewSendButtonShadow.setVisibility(0);
         } else if (this.delegate != null && ((tLRPC$TL_messages_stickerSet = this.stickerSet) == null || !tLRPC$TL_messages_stickerSet.set.masks)) {
-            this.previewSendButton.setText(LocaleController.getString("SendSticker", 2131628269));
+            this.previewSendButton.setText(LocaleController.getString("SendSticker", 2131628270));
             float f2 = min;
             this.stickerImageView.setLayoutParams(LayoutHelper.createFrame(min, f2, 17, 0.0f, 0.0f, 0.0f, 30.0f));
             this.stickerEmojiTextView.setLayoutParams(LayoutHelper.createFrame(min, f2, 17, 0.0f, 0.0f, 0.0f, 30.0f));
@@ -1420,7 +1420,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                     this.premiumButtonView.setVisibility(0);
                     this.pickerBottomLayout.setBackground(null);
                     setButton(null, null, null);
-                    this.premiumButtonView.setButton(LocaleController.getString("UnlockPremiumEmoji", 2131628802), new StickersAlert$$ExternalSyntheticLambda12(this));
+                    this.premiumButtonView.setButton(LocaleController.getString("UnlockPremiumEmoji", 2131628803), new StickersAlert$$ExternalSyntheticLambda12(this));
                     return;
                 }
             } else {

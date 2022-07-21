@@ -12,6 +12,6 @@ public final /* synthetic */ class EmojiTabsStrip$EmojiTabButton$$ExternalSynthe
 
     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-        this.f$0.lambda$updateLock$2(valueAnimator);
+        this.f$0.lambda$updateLock$1(valueAnimator);
     }
 }

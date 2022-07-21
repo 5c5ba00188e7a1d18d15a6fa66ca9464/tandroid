@@ -93,7 +93,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         this.giftTier = giftTier;
         this.dummyCell = new PremiumFeatureCell(getContext());
         PremiumPreviewFragment.fillPremiumFeaturesList(this.premiumFeatures, i);
-        if (this.giftTier != null) {
+        if (this.giftTier != null || UserConfig.getInstance(i).isPremium()) {
             this.buttonContainer.setVisibility(8);
         }
         PremiumGradient.GradientTools gradientTools = new PremiumGradient.GradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
@@ -205,7 +205,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected CharSequence getTitle() {
-        return LocaleController.getString("TelegramPremium", 2131628635);
+        return LocaleController.getString("TelegramPremium", 2131628636);
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
@@ -262,14 +262,14 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
                         TLRPC$User tLRPC$User = premiumPreviewBottomSheet.user;
                         objArr[0] = tLRPC$User != null ? tLRPC$User.first_name : str;
                         objArr[1] = Integer.valueOf(giftTier.getMonths());
-                        textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(2131628644, objArr), null));
+                        textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(2131628645, objArr), null));
                         Object[] objArr2 = new Object[1];
                         TLRPC$User tLRPC$User2 = PremiumPreviewBottomSheet.this.user;
                         if (tLRPC$User2 != null) {
                             str = tLRPC$User2.first_name;
                         }
                         objArr2[0] = str;
-                        textView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(2131628643, objArr2), null));
+                        textView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(2131628644, objArr2), null));
                     } else {
                         Object[] objArr3 = new Object[2];
                         TLRPC$User tLRPC$User3 = premiumPreviewBottomSheet.user;
@@ -278,13 +278,13 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
                         }
                         objArr3[0] = str;
                         objArr3[1] = Integer.valueOf(giftTier.getMonths());
-                        textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(2131628642, objArr3), null));
-                        textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131628641)));
+                        textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(2131628643, objArr3), null));
+                        textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131628642)));
                     }
                 } else {
                     TLRPC$User tLRPC$User4 = premiumPreviewBottomSheet.user;
-                    textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(2131628640, ContactsController.formatName(tLRPC$User4.first_name, tLRPC$User4.last_name)), null));
-                    textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131628639)));
+                    textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(2131628641, ContactsController.formatName(tLRPC$User4.first_name, tLRPC$User4.last_name)), null));
+                    textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131628640)));
                 }
                 PremiumPreviewBottomSheet.this.starParticlesView = new StarParticlesView(context);
                 AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);

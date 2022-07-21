@@ -72,10 +72,10 @@ public class VideoTimelinePlayView extends View {
         Paint paint2 = new Paint();
         this.paint2 = paint2;
         paint2.setColor(2130706432);
-        Drawable drawable = context.getResources().getDrawable(2131166196);
+        Drawable drawable = context.getResources().getDrawable(2131166199);
         this.drawableLeft = drawable;
         drawable.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
-        Drawable drawable2 = context.getResources().getDrawable(2131166197);
+        Drawable drawable2 = context.getResources().getDrawable(2131166200);
         this.drawableRight = drawable2;
         drawable2.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
         this.exclusionRects.add(this.exclustionRect);

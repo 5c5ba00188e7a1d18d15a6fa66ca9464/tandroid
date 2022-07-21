@@ -2531,16 +2531,18 @@ public class AndroidUtilities {
         return Build.VERSION.SDK_INT < 31 || !OneUIUtilities.hasBuiltInClipboardToasts();
     }
 
-    public static void addToClipboard(CharSequence charSequence) {
+    public static boolean addToClipboard(CharSequence charSequence) {
         try {
             ClipboardManager clipboardManager = (ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard");
             if (charSequence instanceof Spanned) {
                 clipboardManager.setPrimaryClip(ClipData.newHtmlText("label", charSequence, CustomHtml.toHtml((Spanned) charSequence)));
-            } else {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText("label", charSequence));
+                return true;
             }
+            clipboardManager.setPrimaryClip(ClipData.newPlainText("label", charSequence));
+            return true;
         } catch (Exception e) {
             FileLog.e(e);
+            return false;
         }
     }
 
@@ -3501,7 +3503,7 @@ public class AndroidUtilities {
         linearLayout.setOrientation(1);
         if (!TextUtils.isEmpty(str5)) {
             TextView textView = new TextView(activity);
-            textView.setText(LocaleController.getString("UseProxyTelegramInfo2", 2131628868));
+            textView.setText(LocaleController.getString("UseProxyTelegramInfo2", 2131628869));
             textView.setTextColor(Theme.getColor("dialogTextGray4"));
             textView.setTextSize(1, 14.0f);
             textView.setGravity(49);
@@ -3513,19 +3515,19 @@ public class AndroidUtilities {
         for (int i = 0; i < 5; i++) {
             String str7 = null;
             if (i == 0) {
-                str6 = LocaleController.getString("UseProxyAddress", 2131628854);
+                str6 = LocaleController.getString("UseProxyAddress", 2131628855);
                 str7 = str;
             } else if (i == 1) {
                 str7 = "" + str2;
-                str6 = LocaleController.getString("UseProxyPort", 2131628859);
+                str6 = LocaleController.getString("UseProxyPort", 2131628860);
             } else if (i == 2) {
-                str6 = LocaleController.getString("UseProxySecret", 2131628860);
+                str6 = LocaleController.getString("UseProxySecret", 2131628861);
                 str7 = str5;
             } else if (i == 3) {
-                str6 = LocaleController.getString("UseProxyUsername", 2131628869);
+                str6 = LocaleController.getString("UseProxyUsername", 2131628870);
                 str7 = str3;
             } else if (i == 4) {
-                str6 = LocaleController.getString("UseProxyPassword", 2131628858);
+                str6 = LocaleController.getString("UseProxyPassword", 2131628859);
                 str7 = str4;
             } else {
                 str6 = null;

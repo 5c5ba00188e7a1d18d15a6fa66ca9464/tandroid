@@ -150,7 +150,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.secretChatTimer = z;
             this.timeItem.setOnClickListener(new ChatAvatarContainer$$ExternalSyntheticLambda2(this, resourcesProvider));
             if (this.secretChatTimer) {
-                this.timeItem.setContentDescription(LocaleController.getString("SetTimer", 2131628312));
+                this.timeItem.setContentDescription(LocaleController.getString("SetTimer", 2131628313));
             } else {
                 this.timeItem.setContentDescription(LocaleController.getString("AccAutoDeleteTimer", 2131623958));
             }
@@ -647,12 +647,12 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             ScamDrawable scamDrawable = new ScamDrawable(11, !z ? 1 : 0);
             scamDrawable.setColor(getThemedColor("actionBarDefaultSubtitle"));
             this.titleTextView.setRightDrawable(scamDrawable);
-            this.rightDrawableContentDescription = LocaleController.getString("ScamMessage", 2131628142);
+            this.rightDrawableContentDescription = LocaleController.getString("ScamMessage", 2131628143);
             this.rightDrawableIsScamOrVerified = true;
         } else if (z3) {
-            Drawable mutate = getResources().getDrawable(2131166192).mutate();
+            Drawable mutate = getResources().getDrawable(2131166195).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedBackground"), PorterDuff.Mode.MULTIPLY));
-            Drawable mutate2 = getResources().getDrawable(2131166193).mutate();
+            Drawable mutate2 = getResources().getDrawable(2131166196).mutate();
             mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedCheck"), PorterDuff.Mode.MULTIPLY));
             this.titleTextView.setRightDrawable(new CombinedDrawable(mutate, mutate2));
             this.rightDrawableIsScamOrVerified = true;
@@ -661,7 +661,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             if (this.premiumIconHiddable) {
                 this.titleTextView.setCanHideRightDrawable(true);
             }
-            Drawable mutate3 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165874).mutate();
+            Drawable mutate3 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165877).mutate();
             mutate3.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedBackground"), PorterDuff.Mode.MULTIPLY));
             this.titleTextView.setRightDrawable(mutate3);
             this.rightDrawableIsScamOrVerified = true;
@@ -831,9 +831,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                         string = LocaleController.getString("ChannelPrivate", 2131624959).toLowerCase();
                     }
                 } else if (ChatObject.isKickedFromChat(currentChat)) {
-                    string = LocaleController.getString("YouWereKicked", 2131629347);
+                    string = LocaleController.getString("YouWereKicked", 2131629348);
                 } else if (ChatObject.isLeftFromChat(currentChat)) {
-                    string = LocaleController.getString("YouLeft", 2131629344);
+                    string = LocaleController.getString("YouLeft", 2131629345);
                 } else {
                     int i2 = currentChat.participants_count;
                     if (currentChatInfo != null && (tLRPC$ChatParticipants = currentChatInfo.participants) != null) {
@@ -852,9 +852,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                     } else {
                         long j = currentUser.id;
                         if (j == 333000 || j == 777000 || j == 42777) {
-                            string = LocaleController.getString("ServiceNotifications", 2131628291);
+                            string = LocaleController.getString("ServiceNotifications", 2131628292);
                         } else if (MessagesController.isSupportUser(currentUser)) {
-                            string = LocaleController.getString("SupportStatus", 2131628570);
+                            string = LocaleController.getString("SupportStatus", 2131628571);
                         } else if (currentUser.bot) {
                             string = LocaleController.getString("Bot", 2131624715);
                         } else {
@@ -1107,11 +1107,11 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         String str;
         int i = this.currentConnectionState;
         if (i == 2) {
-            str = LocaleController.getString("WaitingForNetwork", 2131629295);
+            str = LocaleController.getString("WaitingForNetwork", 2131629296);
         } else if (i == 1) {
             str = LocaleController.getString("Connecting", 2131625241);
         } else if (i == 5) {
-            str = LocaleController.getString("Updating", 2131628841);
+            str = LocaleController.getString("Updating", 2131628842);
         } else {
             str = i == 4 ? LocaleController.getString("ConnectingToProxy", 2131625243) : null;
         }

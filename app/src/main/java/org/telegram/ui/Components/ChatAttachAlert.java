@@ -1233,7 +1233,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.searchItem = actionBarMenuItem3;
         actionBarMenuItem3.setLongClickEnabled(false);
         this.searchItem.setIcon(2131165456);
-        this.searchItem.setContentDescription(LocaleController.getString("Search", 2131628154));
+        this.searchItem.setContentDescription(LocaleController.getString("Search", 2131628155));
         this.searchItem.setVisibility(4);
         this.searchItem.setAlpha(0.0f);
         this.searchItem.setTranslationX(-AndroidUtilities.dp(42.0f));
@@ -3020,12 +3020,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         this.itemCells[i] = new ActionBarMenuSubItem(getContext(), i != 0, i != 1, resourcesProvider);
                         if (i != 0) {
                             if (UserObject.isUserSelf(currentUser)) {
-                                this.itemCells[i].setTextAndIcon(LocaleController.getString("SetReminder", 2131628310), 2131165662);
+                                this.itemCells[i].setTextAndIcon(LocaleController.getString("SetReminder", 2131628311), 2131165662);
                             } else {
-                                this.itemCells[i].setTextAndIcon(LocaleController.getString("ScheduleMessage", 2131628144), 2131165662);
+                                this.itemCells[i].setTextAndIcon(LocaleController.getString("ScheduleMessage", 2131628145), 2131165662);
                             }
                         } else if (i == 1) {
-                            this.itemCells[i].setTextAndIcon(LocaleController.getString("SendWithoutSound", 2131628274), 2131165539);
+                            this.itemCells[i].setTextAndIcon(LocaleController.getString("SendWithoutSound", 2131628275), 2131165539);
                         }
                         this.itemCells[i].setMinimumWidth(AndroidUtilities.dp(196.0f));
                         this.sendPopupLayout.addView((View) this.itemCells[i], LayoutHelper.createLinear(-1, 48));

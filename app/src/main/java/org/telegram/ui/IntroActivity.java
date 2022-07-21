@@ -143,7 +143,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.viewPager.addOnPageChangeListener(new AnonymousClass3());
         AnonymousClass4 anonymousClass4 = new AnonymousClass4(this, context);
         this.startMessagingButton = anonymousClass4;
-        anonymousClass4.setText(LocaleController.getString("StartMessaging", 2131628480));
+        anonymousClass4.setText(LocaleController.getString("StartMessaging", 2131628481));
         this.startMessagingButton.setGravity(17);
         this.startMessagingButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.startMessagingButton.setTextSize(1, 15.0f);

@@ -619,8 +619,8 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 if (!notificationsSettings.getBoolean("inlinegeo_" + this.foundContextBot.id, false) && (chatActivity = this.parentFragment) != null && chatActivity.getParentActivity() != null) {
                     TLRPC$User tLRPC$User2 = this.foundContextBot;
                     AlertDialog.Builder builder = new AlertDialog.Builder(this.parentFragment.getParentActivity());
-                    builder.setTitle(LocaleController.getString("ShareYouLocationTitle", 2131628352));
-                    builder.setMessage(LocaleController.getString("ShareYouLocationInline", 2131628351));
+                    builder.setTitle(LocaleController.getString("ShareYouLocationTitle", 2131628353));
+                    builder.setMessage(LocaleController.getString("ShareYouLocationInline", 2131628352));
                     boolean[] zArr = new boolean[1];
                     builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new MentionsAdapter$$ExternalSyntheticLambda1(this, zArr, tLRPC$User2));
                     builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), new MentionsAdapter$$ExternalSyntheticLambda0(this, zArr));

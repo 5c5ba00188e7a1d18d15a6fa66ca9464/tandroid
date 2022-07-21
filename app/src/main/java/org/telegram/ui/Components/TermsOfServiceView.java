@@ -108,16 +108,16 @@ public class TermsOfServiceView extends FrameLayout {
 
     public /* synthetic */ void lambda$new$4(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setTitle(LocaleController.getString("TermsOfService", 2131628660));
+        builder.setTitle(LocaleController.getString("TermsOfService", 2131628661));
         builder.setPositiveButton(LocaleController.getString("DeclineDeactivate", 2131625381), new TermsOfServiceView$$ExternalSyntheticLambda2(this));
         builder.setNegativeButton(LocaleController.getString("Back", 2131624647), null);
-        builder.setMessage(LocaleController.getString("TosUpdateDecline", 2131628753));
+        builder.setMessage(LocaleController.getString("TosUpdateDecline", 2131628754));
         builder.show();
     }
 
     public /* synthetic */ void lambda$new$3(DialogInterface dialogInterface, int i) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", 2131628752));
+        builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", 2131628753));
         builder.setTitle(LocaleController.getString("AppName", 2131624384));
         builder.setPositiveButton(LocaleController.getString("Deactivate", 2131625350), new TermsOfServiceView$$ExternalSyntheticLambda0(this));
         builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
@@ -162,10 +162,10 @@ public class TermsOfServiceView extends FrameLayout {
     public /* synthetic */ void lambda$new$6(View view) {
         if (this.currentTos.min_age_confirm != 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            builder.setTitle(LocaleController.getString("TosAgeTitle", 2131628750));
+            builder.setTitle(LocaleController.getString("TosAgeTitle", 2131628751));
             builder.setPositiveButton(LocaleController.getString("Agree", 2131624316), new TermsOfServiceView$$ExternalSyntheticLambda1(this));
             builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
-            builder.setMessage(LocaleController.formatString("TosAgeText", 2131628749, LocaleController.formatPluralString("Years", this.currentTos.min_age_confirm, new Object[0])));
+            builder.setMessage(LocaleController.formatString("TosAgeText", 2131628750, LocaleController.formatPluralString("Years", this.currentTos.min_age_confirm, new Object[0])));
             builder.show();
             return;
         }

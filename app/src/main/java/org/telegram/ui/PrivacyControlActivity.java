@@ -1159,7 +1159,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             if (!globalMainSettings.getBoolean("privacyAlertShowed", false)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 if (this.rulesType == 1) {
-                    builder.setMessage(LocaleController.getString("WhoCanAddMeInfo", 2131629311));
+                    builder.setMessage(LocaleController.getString("WhoCanAddMeInfo", 2131629312));
                 } else {
                     builder.setMessage(LocaleController.getString("CustomHelp", 2131625316));
                 }
@@ -1181,7 +1181,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     public boolean checkDiscard() {
         if (this.doneButton.getAlpha() == 1.0f) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", 2131628884));
+            builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", 2131628885));
             builder.setMessage(LocaleController.getString("PrivacySettingsChangedAlert", 2131627793));
             builder.setPositiveButton(LocaleController.getString("ApplyTheme", 2131624396), new PrivacyControlActivity$$ExternalSyntheticLambda1(this));
             builder.setNegativeButton(LocaleController.getString("PassportDiscard", 2131627272), new PrivacyControlActivity$$ExternalSyntheticLambda0(this));
@@ -1355,10 +1355,10 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                                                     return;
                                                 }
                                             }
-                                            headerCell.setText(LocaleController.getString("WhoCanAddMe", 2131629310));
+                                            headerCell.setText(LocaleController.getString("WhoCanAddMe", 2131629311));
                                             return;
                                         }
-                                        headerCell.setText(LocaleController.getString("WhoCanCallMe", 2131629315));
+                                        headerCell.setText(LocaleController.getString("WhoCanCallMe", 2131629316));
                                         return;
                                     }
                                     headerCell.setText(LocaleController.getString("P2PEnabledWith", 2131627181));
@@ -1462,10 +1462,10 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                                                 textInfoPrivacyCell.setText(LocaleController.getString("CustomHelp", 2131625316));
                                             }
                                         } else {
-                                            textInfoPrivacyCell.setText(LocaleController.getString("WhoCanAddMeInfo", 2131629311));
+                                            textInfoPrivacyCell.setText(LocaleController.getString("WhoCanAddMeInfo", 2131629312));
                                         }
                                     } else {
-                                        textInfoPrivacyCell.setText(LocaleController.getString("WhoCanCallMeInfo", 2131629316));
+                                        textInfoPrivacyCell.setText(LocaleController.getString("WhoCanCallMeInfo", 2131629317));
                                     }
                                 } else {
                                     textInfoPrivacyCell.setText(LocaleController.getString("PrivacyCallsP2PHelp", 2131627753));

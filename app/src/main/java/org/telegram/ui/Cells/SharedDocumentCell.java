@@ -533,7 +533,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             this.rightDateTextView.setText(LocaleController.stringForMessageListDate(this.message.messageOwner.date));
             return;
         }
-        this.dateTextView.setText(String.format("%s, %s", str, LocaleController.formatString("formatDateAtTime", 2131629423, LocaleController.getInstance().formatterYear.format(new Date(j)), LocaleController.getInstance().formatterDay.format(new Date(j)))));
+        this.dateTextView.setText(String.format("%s, %s", str, LocaleController.formatString("formatDateAtTime", 2131629424, LocaleController.getInstance().formatterYear.format(new Date(j)), LocaleController.getInstance().formatterDay.format(new Date(j)))));
     }
 
     public void updateFileExistIcon(boolean z) {

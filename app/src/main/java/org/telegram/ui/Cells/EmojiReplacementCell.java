@@ -61,16 +61,16 @@ public class EmojiReplacementCell extends FrameLayout {
             this.imageView.setImageDrawable(null);
         }
         if (i == -1) {
-            setBackgroundResource(2131166166);
+            setBackgroundResource(2131166169);
             setPadding(AndroidUtilities.dp(7.0f), 0, 0, 0);
         } else if (i == 0) {
-            setBackgroundResource(2131166165);
+            setBackgroundResource(2131166168);
             setPadding(0, 0, 0, 0);
         } else if (i == 1) {
-            setBackgroundResource(2131166167);
+            setBackgroundResource(2131166170);
             setPadding(0, 0, AndroidUtilities.dp(7.0f), 0);
         } else if (i == 2) {
-            setBackgroundResource(2131166163);
+            setBackgroundResource(2131166166);
             setPadding(AndroidUtilities.dp(3.0f), 0, AndroidUtilities.dp(3.0f), 0);
         }
         Drawable background = getBackground();

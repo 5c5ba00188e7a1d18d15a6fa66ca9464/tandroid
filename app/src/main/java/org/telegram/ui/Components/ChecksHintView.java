@@ -60,7 +60,7 @@ public class ChecksHintView extends FrameLayout {
         }
         ImageView imageView = new ImageView(context);
         this.arrowImageView = imageView;
-        imageView.setImageResource(2131166186);
+        imageView.setImageResource(2131166189);
         this.arrowImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_gifSaveHintBackground"), PorterDuff.Mode.MULTIPLY));
         addView(this.arrowImageView, LayoutHelper.createFrame(14, 6.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
     }

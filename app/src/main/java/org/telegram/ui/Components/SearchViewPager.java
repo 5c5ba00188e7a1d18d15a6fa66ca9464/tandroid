@@ -920,7 +920,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
         public String getItemTitle(int i) {
             if (this.items.get(i).type == 0) {
-                return LocaleController.getString("SearchAllChatsShort", 2131628155);
+                return LocaleController.getString("SearchAllChatsShort", 2131628156);
             }
             if (this.items.get(i).type == 1) {
                 return LocaleController.getString("DownloadsTabs", 2131625551);

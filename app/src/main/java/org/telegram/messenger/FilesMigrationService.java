@@ -49,7 +49,7 @@ public class FilesMigrationService extends Service {
     @Override // android.app.Service
     public int onStartCommand(Intent intent, int i, int i2) {
         NotificationsController.checkOtherNotificationsChannel();
-        Notification build = new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(getText(2131626753)).setAutoCancel(false).setSmallIcon(2131166007).build();
+        Notification build = new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(getText(2131626753)).setAutoCancel(false).setSmallIcon(2131166010).build();
         isRunning = true;
         new AnonymousClass1().start();
         startForeground(301, build);
@@ -164,7 +164,7 @@ public class FilesMigrationService extends Service {
     }
 
     public /* synthetic */ void lambda$updateProgress$1(int i) {
-        ((NotificationManager) getSystemService("notification")).notify(301, new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(getText(2131626753)).setContentText(String.format("%s/%s", Integer.valueOf(i), Integer.valueOf(this.totalFilesCount))).setSmallIcon(2131166007).setAutoCancel(false).setProgress(this.totalFilesCount, i, false).build());
+        ((NotificationManager) getSystemService("notification")).notify(301, new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(getText(2131626753)).setContentText(String.format("%s/%s", Integer.valueOf(i), Integer.valueOf(this.totalFilesCount))).setSmallIcon(2131166010).setAutoCancel(false).setProgress(this.totalFilesCount, i, false).build());
     }
 
     public static void checkBottomSheet(BaseFragment baseFragment) {

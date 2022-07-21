@@ -129,8 +129,8 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         this.actionBar.setTitle(LocaleController.getString("LimitReached", 2131626449));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass3());
-        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628154));
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628155));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
         RecyclerListView recyclerListView = new RecyclerListView(context);
@@ -528,11 +528,11 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                 TooManyCommunitiesHintCell tooManyCommunitiesHintCell = TooManyCommunitiesActivity.this.hintCell;
                 int i2 = TooManyCommunitiesActivity.this.type;
                 if (i2 == 0) {
-                    str = LocaleController.getString("TooManyCommunitiesHintJoin", 2131628742);
+                    str = LocaleController.getString("TooManyCommunitiesHintJoin", 2131628743);
                 } else if (i2 == 1) {
-                    str = LocaleController.getString("TooManyCommunitiesHintEdit", 2131628741);
+                    str = LocaleController.getString("TooManyCommunitiesHintEdit", 2131628742);
                 } else {
-                    str = LocaleController.getString("TooManyCommunitiesHintCreate", 2131628740);
+                    str = LocaleController.getString("TooManyCommunitiesHintCreate", 2131628741);
                 }
                 TooManyCommunitiesActivity.this.hintCell.setMessageText(str);
                 RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-1, -2);

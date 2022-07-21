@@ -1247,7 +1247,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             } else if (url.startsWith("#")) {
                 str = LocaleController.getString("HashtagCopied", 2131626175);
             } else if (url.startsWith("@")) {
-                str = LocaleController.getString("UsernameCopied", 2131628918);
+                str = LocaleController.getString("UsernameCopied", 2131628919);
             } else {
                 str = LocaleController.getString("LinkCopied", 2131626480);
             }
@@ -1728,7 +1728,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             anonymousClass1.setSupportsChangeAnimations(false);
             setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(6.0f));
             this.paint.setColor(2130706432);
-            this.arrowDrawable = context.getResources().getDrawable(2131166046).mutate();
+            this.arrowDrawable = context.getResources().getDrawable(2131166049).mutate();
         }
 
         /* renamed from: org.telegram.ui.PhotoViewer$SelectedPhotosListView$1 */
@@ -2282,7 +2282,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         i2 = 2131626099;
                         str = "GifCaption";
                     } else {
-                        i2 = 2131628957;
+                        i2 = 2131628958;
                         str = "VideoCaption";
                     }
                     PhotoViewer.this.actionBar.setTitleAnimated(LocaleController.getString(str, i2), true, 220L);
@@ -3921,7 +3921,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } else {
                     intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(file));
                 }
-                this.parentActivity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", 2131628336)), 500);
+                this.parentActivity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", 2131628337)), 500);
                 return;
             }
             showDownloadAlert();
@@ -4044,34 +4044,34 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ActionBarMenuItem addItem3 = createMenu.addItem(3, 2131165741);
         this.sendItem = addItem3;
         addItem3.setContentDescription(LocaleController.getString("Forward", 2131625981));
-        ActionBarMenuItem addItem4 = createMenu.addItem(18, 2131166137);
+        ActionBarMenuItem addItem4 = createMenu.addItem(18, 2131166140);
         this.shareItem = addItem4;
-        addItem4.setContentDescription(LocaleController.getString("ShareFile", 2131628336));
+        addItem4.setContentDescription(LocaleController.getString("ShareFile", 2131628337));
         ActionBarMenuItem addItem5 = createMenu.addItem(0, 2131165453);
         this.menuItem = addItem5;
         addItem5.getPopupLayout().swipeBackGravityRight = true;
         this.chooseSpeedLayout = new ChooseSpeedLayout(this.activityContext, this.menuItem.getPopupLayout().getSwipeBack(), new AnonymousClass13());
-        this.speedItem = this.menuItem.addSwipeBackItem(2131165943, null, LocaleController.getString("Speed", 2131628459), this.chooseSpeedLayout.speedSwipeBackLayout);
+        this.speedItem = this.menuItem.addSwipeBackItem(2131165946, null, LocaleController.getString("Speed", 2131628460), this.chooseSpeedLayout.speedSwipeBackLayout);
         this.menuItem.getPopupLayout().setSwipeBackForegroundColor(-14540254);
-        this.speedItem.setSubtext(LocaleController.getString("SpeedNormal", 2131628461));
+        this.speedItem.setSubtext(LocaleController.getString("SpeedNormal", 2131628462));
         this.speedItem.setColors(-328966, -328966);
         ActionBarPopupWindow.GapView addColoredGap = this.menuItem.addColoredGap();
         this.speedGap = addColoredGap;
         addColoredGap.setColor(-15198184);
         this.menuItem.getPopupLayout().setFitItems(true);
-        this.menuItem.addSubItem(11, 2131165832, LocaleController.getString("OpenInExternalApp", 2131627153)).setColors(-328966, -328966);
+        this.menuItem.addSubItem(11, 2131165835, LocaleController.getString("OpenInExternalApp", 2131627153)).setColors(-328966, -328966);
         this.menuItem.setContentDescription(LocaleController.getString("AccDescrMoreOptions", 2131624003));
-        ActionBarMenuSubItem addSubItem = this.menuItem.addSubItem(2, 2131165799, LocaleController.getString("ShowAllMedia", 2131628394));
+        ActionBarMenuSubItem addSubItem = this.menuItem.addSubItem(2, 2131165799, LocaleController.getString("ShowAllMedia", 2131628395));
         this.allMediaItem = addSubItem;
         addSubItem.setColors(-328966, -328966);
-        this.menuItem.addSubItem(14, 2131165745, LocaleController.getString("SaveToGIFs", 2131628130)).setColors(-328966, -328966);
-        this.menuItem.addSubItem(4, 2131165801, LocaleController.getString("ShowInChat", 2131628400)).setColors(-328966, -328966);
-        this.menuItem.addSubItem(15, 2131165950, LocaleController.getString("ShowStickers", 2131628409)).setColors(-328966, -328966);
-        this.menuItem.addSubItem(10, 2131165941, LocaleController.getString("ShareFile", 2131628336)).setColors(-328966, -328966);
-        this.menuItem.addSubItem(1, 2131165744, LocaleController.getString("SaveToGallery", 2131628131)).setColors(-328966, -328966);
-        this.menuItem.addSubItem(16, 2131165833, LocaleController.getString("SetAsMain", 2131628302)).setColors(-328966, -328966);
+        this.menuItem.addSubItem(14, 2131165745, LocaleController.getString("SaveToGIFs", 2131628131)).setColors(-328966, -328966);
+        this.menuItem.addSubItem(4, 2131165801, LocaleController.getString("ShowInChat", 2131628401)).setColors(-328966, -328966);
+        this.menuItem.addSubItem(15, 2131165953, LocaleController.getString("ShowStickers", 2131628410)).setColors(-328966, -328966);
+        this.menuItem.addSubItem(10, 2131165944, LocaleController.getString("ShareFile", 2131628337)).setColors(-328966, -328966);
+        this.menuItem.addSubItem(1, 2131165744, LocaleController.getString("SaveToGallery", 2131628132)).setColors(-328966, -328966);
+        this.menuItem.addSubItem(16, 2131165836, LocaleController.getString("SetAsMain", 2131628303)).setColors(-328966, -328966);
         this.menuItem.addSubItem(6, 2131165702, LocaleController.getString("Delete", 2131625384)).setColors(-328966, -328966);
-        this.menuItem.addSubItem(7, 2131165672, LocaleController.getString("StopDownload", 2131628528)).setColors(-328966, -328966);
+        this.menuItem.addSubItem(7, 2131165672, LocaleController.getString("StopDownload", 2131628529)).setColors(-328966, -328966);
         this.menuItem.redrawPopup(-115203550);
         setMenuItemIcon();
         this.menuItem.setPopupItemsSelectorColor(268435455);
@@ -4127,7 +4127,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.bottomLayout.addView(this.bottomButtonsLayout, LayoutHelper.createFrame(-2, -1, 53));
         ImageView imageView = new ImageView(this.containerView.getContext());
         this.paintButton = imageView;
-        imageView.setImageResource(2131165852);
+        imageView.setImageResource(2131165855);
         this.paintButton.setScaleType(ImageView.ScaleType.CENTER);
         this.paintButton.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.bottomButtonsLayout.addView(this.paintButton, LayoutHelper.createFrame(50, -1.0f));
@@ -4135,12 +4135,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.paintButton.setContentDescription(LocaleController.getString("AccDescrPhotoEditor", 2131624038));
         ImageView imageView2 = new ImageView(this.containerView.getContext());
         this.shareButton = imageView2;
-        imageView2.setImageResource(2131166137);
+        imageView2.setImageResource(2131166140);
         this.shareButton.setScaleType(ImageView.ScaleType.CENTER);
         this.shareButton.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.bottomButtonsLayout.addView(this.shareButton, LayoutHelper.createFrame(50, -1.0f));
         this.shareButton.setOnClickListener(new PhotoViewer$$ExternalSyntheticLambda29(this));
-        this.shareButton.setContentDescription(LocaleController.getString("ShareFile", 2131628336));
+        this.shareButton.setContentDescription(LocaleController.getString("ShareFile", 2131628337));
         AnonymousClass19 anonymousClass19 = new AnonymousClass19(this, this.containerView.getContext());
         this.nameTextView = anonymousClass19;
         this.bottomLayout.addView(anonymousClass19, LayoutHelper.createFrame(-1, -2.0f, 51, 16.0f, 5.0f, 8.0f, 0.0f));
@@ -4224,7 +4224,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.pickerViewSendButton.setImageResource(2131165264);
         this.pickerViewSendButton.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingIcon"), PorterDuff.Mode.MULTIPLY));
         this.containerView.addView(this.pickerViewSendButton, LayoutHelper.createFrame(56, 56.0f, 85, 0.0f, 0.0f, 14.0f, 14.0f));
-        this.pickerViewSendButton.setContentDescription(LocaleController.getString("Send", 2131628237));
+        this.pickerViewSendButton.setContentDescription(LocaleController.getString("Send", 2131628238));
         this.pickerViewSendButton.setOnClickListener(new PhotoViewer$$ExternalSyntheticLambda31(this));
         this.pickerViewSendButton.setOnLongClickListener(new PhotoViewer$$ExternalSyntheticLambda42(this, resourcesProvider));
         TextView textView4 = new TextView(this.parentActivity);
@@ -4241,7 +4241,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ImageView imageView3 = new ImageView(this.parentActivity);
         this.cropItem = imageView3;
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
-        this.cropItem.setImageResource(2131165849);
+        this.cropItem.setImageResource(2131165852);
         this.cropItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.itemsLayout.addView(this.cropItem, LayoutHelper.createLinear(48, 48));
         this.cropItem.setOnClickListener(new PhotoViewer$$ExternalSyntheticLambda37(this));
@@ -4249,7 +4249,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ImageView imageView4 = new ImageView(this.parentActivity);
         this.rotateItem = imageView4;
         imageView4.setScaleType(ImageView.ScaleType.CENTER);
-        this.rotateItem.setImageResource(2131165854);
+        this.rotateItem.setImageResource(2131165857);
         this.rotateItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.itemsLayout.addView(this.rotateItem, LayoutHelper.createLinear(48, 48));
         this.rotateItem.setOnClickListener(new PhotoViewer$$ExternalSyntheticLambda20(this));
@@ -4257,7 +4257,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ImageView imageView5 = new ImageView(this.parentActivity);
         this.mirrorItem = imageView5;
         imageView5.setScaleType(ImageView.ScaleType.CENTER);
-        this.mirrorItem.setImageResource(2131165853);
+        this.mirrorItem.setImageResource(2131165856);
         this.mirrorItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.itemsLayout.addView(this.mirrorItem, LayoutHelper.createLinear(48, 48));
         this.mirrorItem.setOnClickListener(new PhotoViewer$$ExternalSyntheticLambda18(this));
@@ -4265,7 +4265,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ImageView imageView6 = new ImageView(this.parentActivity);
         this.paintItem = imageView6;
         imageView6.setScaleType(ImageView.ScaleType.CENTER);
-        this.paintItem.setImageResource(2131165852);
+        this.paintItem.setImageResource(2131165855);
         this.paintItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.itemsLayout.addView(this.paintItem, LayoutHelper.createLinear(48, 48));
         this.paintItem.setOnClickListener(new PhotoViewer$$ExternalSyntheticLambda30(this));
@@ -4279,7 +4279,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ImageView imageView8 = new ImageView(this.parentActivity);
         this.cameraItem = imageView8;
         imageView8.setScaleType(ImageView.ScaleType.CENTER);
-        this.cameraItem.setImageResource(2131166042);
+        this.cameraItem.setImageResource(2131166045);
         this.cameraItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.cameraItem.setContentDescription(LocaleController.getString("AccDescrTakeMorePics", 2131624094));
         this.containerView.addView(this.cameraItem, LayoutHelper.createFrame(48, 48.0f, 85, 0.0f, 0.0f, 16.0f, 0.0f));
@@ -4287,7 +4287,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ImageView imageView9 = new ImageView(this.parentActivity);
         this.tuneItem = imageView9;
         imageView9.setScaleType(ImageView.ScaleType.CENTER);
-        this.tuneItem.setImageResource(2131165855);
+        this.tuneItem.setImageResource(2131165858);
         this.tuneItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.itemsLayout.addView(this.tuneItem, LayoutHelper.createLinear(48, 48));
         this.tuneItem.setOnClickListener(new PhotoViewer$$ExternalSyntheticLambda28(this));
@@ -4300,12 +4300,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         int selectCompression = selectCompression();
         this.selectedCompression = selectCompression;
         if (selectCompression <= 1) {
-            this.compressItem.setImageResource(2131166203);
+            this.compressItem.setImageResource(2131166206);
         } else if (selectCompression == 2) {
-            this.compressItem.setImageResource(2131166204);
+            this.compressItem.setImageResource(2131166207);
         } else {
             this.selectedCompression = this.compressionsCount - 1;
-            this.compressItem.setImageResource(2131166205);
+            this.compressItem.setImageResource(2131166208);
         }
         this.compressItem.setContentDescription(LocaleController.getString("AccDescrVideoQuality", 2131624106));
         this.itemsLayout.addView(this.compressItem, LayoutHelper.createLinear(48, 48));
@@ -4315,7 +4315,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         imageView11.setScaleType(ImageView.ScaleType.CENTER);
         this.timeItem.setImageResource(2131165643);
         this.timeItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
-        this.timeItem.setContentDescription(LocaleController.getString("SetTimer", 2131628312));
+        this.timeItem.setContentDescription(LocaleController.getString("SetTimer", 2131628313));
         this.itemsLayout.addView(this.timeItem, LayoutHelper.createLinear(48, 48));
         this.timeItem.setOnClickListener(new PhotoViewer$$ExternalSyntheticLambda40(this, resourcesProvider));
         PickerBottomLayoutViewer pickerBottomLayoutViewer2 = new PickerBottomLayoutViewer(this.activityContext);
@@ -4357,7 +4357,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.rightImage.setInvalidateAll(true);
         this.rightImage.setDelegate(photoViewer$$ExternalSyntheticLambda72);
         int rotation = ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getRotation();
-        AnonymousClass28 anonymousClass28 = new AnonymousClass28(this.containerView.getContext(), 2131166133);
+        AnonymousClass28 anonymousClass28 = new AnonymousClass28(this.containerView.getContext(), 2131166136);
         this.checkImageView = anonymousClass28;
         anonymousClass28.setDrawBackground(true);
         this.checkImageView.setHasBorder(true);
@@ -5041,10 +5041,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             z3 = true;
                             AlertDialog.Builder dialogButtonColorKey = new AlertDialog.Builder(PhotoViewer.this.parentActivity, this.val$resourcesProvider).setTitle(LocaleController.getString("ForwardGroupMedia", 2131625983)).setMessage(LocaleController.getString("ForwardGroupMediaMessage", 2131625984)).setDialogButtonColorKey("voipgroup_listeningText");
                             if (z3) {
-                                i2 = 2131628721;
+                                i2 = 2131628722;
                                 str = "ThisPhoto";
                             } else {
-                                i2 = 2131628720;
+                                i2 = 2131628721;
                                 str = "ThisMedia";
                             }
                             AlertDialog create = dialogButtonColorKey.setNegativeButton(LocaleController.getString(str, i2), new PhotoViewer$12$$ExternalSyntheticLambda0(this)).setPositiveButton(z3 ? LocaleController.formatPluralString("AllNPhotos", arrayList.size(), new Object[0]) : LocaleController.formatPluralString("AllNMedia", arrayList.size(), new Object[0]), new PhotoViewer$12$$ExternalSyntheticLambda1(this, arrayList)).setNeutralButton(LocaleController.getString("Cancel", 2131624832), PhotoViewer$12$$ExternalSyntheticLambda3.INSTANCE).create();
@@ -5677,7 +5677,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
             if (this.lastLocaleInfo != currentLocaleInfo) {
                 this.lastLocaleInfo = currentLocaleInfo;
-                this.staticCharsCount = LocaleController.formatString("formatDateAtTime", 2131629423, LocaleController.getInstance().formatterYear.format(new Date()), LocaleController.getInstance().formatterDay.format(new Date())).length();
+                this.staticCharsCount = LocaleController.formatString("formatDateAtTime", 2131629424, LocaleController.getInstance().formatterYear.format(new Date()), LocaleController.getInstance().formatterDay.format(new Date())).length();
             }
             return this.staticCharsCount;
         }
@@ -6087,34 +6087,34 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (org.telegram.messenger.UserObject.isUserSelf(r2) == false) goto L74;
      */
     /* JADX WARN: Code restructure failed: missing block: B:73:0x0110, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SetReminder", 2131628310), 2131165662);
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SetReminder", 2131628311), 2131165662);
      */
     /* JADX WARN: Code restructure failed: missing block: B:74:0x011d, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ScheduleMessage", 2131628144), 2131165662);
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ScheduleMessage", 2131628145), 2131165662);
      */
     /* JADX WARN: Code restructure failed: missing block: B:75:0x012a, code lost:
         if (r11 != 1) goto L77;
      */
     /* JADX WARN: Code restructure failed: missing block: B:76:0x012c, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendWithoutSound", 2131628274), 2131165539);
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendWithoutSound", 2131628275), 2131165539);
      */
     /* JADX WARN: Code restructure failed: missing block: B:77:0x013c, code lost:
         if (r11 != 2) goto L79;
      */
     /* JADX WARN: Code restructure failed: missing block: B:78:0x013e, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ReplacePhoto", 2131627980), 2131165897);
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ReplacePhoto", 2131627980), 2131165900);
      */
     /* JADX WARN: Code restructure failed: missing block: B:79:0x014e, code lost:
         if (r11 != 3) goto L81;
      */
     /* JADX WARN: Code restructure failed: missing block: B:80:0x0150, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendAsNewPhoto", 2131628241), 2131165931);
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendAsNewPhoto", 2131628242), 2131165934);
      */
     /* JADX WARN: Code restructure failed: missing block: B:81:0x0160, code lost:
         if (r11 != 4) goto L83;
      */
     /* JADX WARN: Code restructure failed: missing block: B:82:0x0162, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendWithoutCompression", 2131628272), 2131165932);
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendWithoutCompression", 2131628273), 2131165935);
      */
     /* JADX WARN: Code restructure failed: missing block: B:83:0x0171, code lost:
         r13.setMinimumWidth(org.telegram.messenger.AndroidUtilities.dp(196.0f));
@@ -6382,7 +6382,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (this.tooltip == null) {
                 this.tooltip = new Tooltip(activity, this.containerView, -871296751, -1);
             }
-            this.tooltip.setText(LocaleController.getString("VideoQualityIsTooLow", 2131628963));
+            this.tooltip.setText(LocaleController.getString("VideoQualityIsTooLow", 2131628964));
             this.tooltip.show(this.compressItem);
             return;
         }
@@ -6486,7 +6486,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     public static /* synthetic */ String lambda$setParentActivity$26(int i) {
         if (i == 0) {
-            return LocaleController.getString("ShortMessageLifetimeForever", 2131628390);
+            return LocaleController.getString("ShortMessageLifetimeForever", 2131628391);
         }
         if (i >= 1 && i < 21) {
             return LocaleController.formatTTLString(i);
@@ -6797,7 +6797,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         i = 2131626099;
                         str = "GifCaption";
                     } else {
-                        i = 2131628957;
+                        i = 2131628958;
                         str = "VideoCaption";
                     }
                     actionBar.setTitleAnimated(LocaleController.getString(str, i), true, 220L);
@@ -7219,20 +7219,20 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         if (Math.abs(this.currentVideoSpeed - 0.25f) < 0.001f) {
-            this.menuItem.setIcon(2131165810);
-            this.speedItem.setSubtext(LocaleController.getString("SpeedVerySlow", 2131628464));
+            this.menuItem.setIcon(2131165813);
+            this.speedItem.setSubtext(LocaleController.getString("SpeedVerySlow", 2131628465));
         } else if (Math.abs(this.currentVideoSpeed - 0.5f) < 0.001f) {
-            this.menuItem.setIcon(2131165811);
-            this.speedItem.setSubtext(LocaleController.getString("SpeedSlow", 2131628462));
+            this.menuItem.setIcon(2131165814);
+            this.speedItem.setSubtext(LocaleController.getString("SpeedSlow", 2131628463));
         } else if (Math.abs(this.currentVideoSpeed - 1.0f) < 0.001f) {
             this.menuItem.setIcon(2131165453);
-            this.speedItem.setSubtext(LocaleController.getString("SpeedNormal", 2131628461));
+            this.speedItem.setSubtext(LocaleController.getString("SpeedNormal", 2131628462));
         } else if (Math.abs(this.currentVideoSpeed - 1.5f) < 0.001f) {
-            this.menuItem.setIcon(2131165812);
-            this.speedItem.setSubtext(LocaleController.getString("SpeedFast", 2131628460));
+            this.menuItem.setIcon(2131165815);
+            this.speedItem.setSubtext(LocaleController.getString("SpeedFast", 2131628461));
         } else {
-            this.menuItem.setIcon(2131165813);
-            this.speedItem.setSubtext(LocaleController.getString("SpeedVeryFast", 2131628463));
+            this.menuItem.setIcon(2131165816);
+            this.speedItem.setSubtext(LocaleController.getString("SpeedVeryFast", 2131628464));
         }
         this.chooseSpeedLayout.update(this.currentVideoSpeed);
     }
@@ -8065,7 +8065,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.videoPlayerControlFrameLayout.addView(this.videoPlayerTime, LayoutHelper.createFrame(-2, -2.0f, 53, 0.0f, 15.0f, 12.0f, 0.0f));
         ImageView imageView = new ImageView(this.containerView.getContext());
         this.exitFullscreenButton = imageView;
-        imageView.setImageResource(2131165809);
+        imageView.setImageResource(2131165812);
         this.exitFullscreenButton.setContentDescription(LocaleController.getString("AccExitFullscreen", 2131624115));
         this.exitFullscreenButton.setScaleType(ImageView.ScaleType.CENTER);
         this.exitFullscreenButton.setBackground(Theme.createSelectorDrawable(1090519039));
@@ -8482,7 +8482,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.captionEditText.setTag(null);
         if (this.isCurrentVideo) {
             this.actionBar.setTitleAnimated(this.lastTitle, false, 220L);
-            this.actionBar.setSubtitle(this.muteVideo ? LocaleController.getString("SoundMuted", 2131628451) : this.currentSubtitle);
+            this.actionBar.setSubtitle(this.muteVideo ? LocaleController.getString("SoundMuted", 2131628452) : this.currentSubtitle);
         }
         updateCaptionTextForCurrentPhoto(obj);
         if (this.captionEditText.isPopupShowing()) {
@@ -8535,7 +8535,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         if (this.videoPlayer.getDuration() == -9223372036854775807L) {
-            Toast.makeText(this.parentActivity, LocaleController.getString("VideoDoesNotSupportStreaming", 2131628958), 1).show();
+            Toast.makeText(this.parentActivity, LocaleController.getString("VideoDoesNotSupportStreaming", 2131628959), 1).show();
         }
         this.streamingAlertShown = true;
     }
@@ -10277,7 +10277,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (!this.allowOrder || (chatActivity = this.parentChatActivity) == null || (currentChat = chatActivity.getCurrentChat()) == null || ChatObject.hasAdminRights(currentChat) || !currentChat.slowmode_enabled) {
                     return;
                 }
-                AlertsCreator.createSimpleAlert(this.parentActivity, LocaleController.getString("Slowmode", 2131628423), LocaleController.getString("SlowmodeSelectSendError", 2131628430)).show();
+                AlertsCreator.createSimpleAlert(this.parentActivity, LocaleController.getString("Slowmode", 2131628424), LocaleController.getString("SlowmodeSelectSendError", 2131628431)).show();
                 return;
             }
             int photoChecked = this.placeProvider.setPhotoChecked(this.currentIndex, getCurrentVideoEditedInfo());
@@ -12388,7 +12388,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.currentThumb = placeProviderObject != null ? placeProviderObject.thumb : null;
         this.isEvent = placeProviderObject != null && placeProviderObject.isEvent;
         this.sharedMediaType = 0;
-        this.allMediaItem.setText(LocaleController.getString("ShowAllMedia", 2131628394));
+        this.allMediaItem.setText(LocaleController.getString("ShowAllMedia", 2131628395));
         setItemVisible(this.sendItem, false, false);
         setItemVisible(this.pipItem, false, true);
         int i4 = 8;
@@ -12465,7 +12465,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         setItemVisible(this.masksItem, false, true);
         this.shareItem.setVisibility(8);
         this.muteVideo = false;
-        this.muteItem.setImageResource(2131166207);
+        this.muteItem.setImageResource(2131166210);
         this.editorDoneLayout.setVisibility(8);
         this.captionTextViewSwitcher.setTag(null);
         this.captionTextViewSwitcher.setVisibility(4);
@@ -12540,10 +12540,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             if (messageObject.canPreviewDocument()) {
                 this.sharedMediaType = 1;
-                this.allMediaItem.setText(LocaleController.getString("ShowAllFiles", 2131628392));
+                this.allMediaItem.setText(LocaleController.getString("ShowAllFiles", 2131628393));
             } else if (messageObject.isGif()) {
                 this.sharedMediaType = 5;
-                this.allMediaItem.setText(LocaleController.getString("ShowAllGIFs", 2131628393));
+                this.allMediaItem.setText(LocaleController.getString("ShowAllGIFs", 2131628394));
             }
             if (this.isEmbedVideo) {
                 this.bottomLayout.setTag(null);
@@ -12640,10 +12640,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 if (messageObject5.canPreviewDocument()) {
                     this.sharedMediaType = 1;
-                    this.allMediaItem.setText(LocaleController.getString("ShowAllFiles", 2131628392));
+                    this.allMediaItem.setText(LocaleController.getString("ShowAllFiles", 2131628393));
                 } else if (messageObject5.isGif()) {
                     this.sharedMediaType = 5;
-                    this.allMediaItem.setText(LocaleController.getString("ShowAllGIFs", 2131628393));
+                    this.allMediaItem.setText(LocaleController.getString("ShowAllGIFs", 2131628394));
                 }
             } else {
                 this.totalImagesCount = this.imagesArr.size();
@@ -13005,7 +13005,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             i13 = messageObject2.messageOwner.date;
                         }
                         long j = i13 * 1000;
-                        String formatString = LocaleController.formatString("formatDateAtTime", 2131629423, LocaleController.getInstance().formatterYear.format(new Date(j)), LocaleController.getInstance().formatterDay.format(new Date(j)));
+                        String formatString = LocaleController.formatString("formatDateAtTime", 2131629424, LocaleController.getInstance().formatterYear.format(new Date(j)), LocaleController.getInstance().formatterDay.format(new Date(j)));
                         if (fileName != null && isVideo) {
                             this.dateTextView.setText(String.format("%s (%s)", formatString, AndroidUtilities.formatFileSize(messageObject2.getDocument().size)), z17);
                         } else {
@@ -13387,7 +13387,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             TLRPC$User currentUser = this.parentChatActivity.getCurrentUser();
                                             if (currentUser != null) {
                                                 if (currentUser.self) {
-                                                    this.actionBar.setTitle(LocaleController.getString("SavedMessages", 2131628139));
+                                                    this.actionBar.setTitle(LocaleController.getString("SavedMessages", 2131628140));
                                                 } else {
                                                     this.actionBar.setTitle(ContactsController.formatName(currentUser.first_name, currentUser.last_name));
                                                 }
@@ -14968,7 +14968,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 drawable = null;
                                 imageReceiver.setImage(str, str3, drawable, null, j);
                             } else {
-                                drawable2 = activity.getResources().getDrawable(2131166005);
+                                drawable2 = activity.getResources().getDrawable(2131166008);
                             }
                             drawable = drawable2;
                             imageReceiver.setImage(str, str3, drawable, null, j);
@@ -14981,7 +14981,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 z3 = z4;
                             } else {
                                 z3 = z4;
-                                bitmapDrawable = (!z3 || (activity2 = this.parentActivity) == null) ? null : activity2.getResources().getDrawable(2131166005);
+                                bitmapDrawable = (!z3 || (activity2 = this.parentActivity) == null) ? null : activity2.getResources().getDrawable(2131166008);
                             }
                             imageReceiver.setImage(forWebFile, str3, bitmapDrawable, null, obj, i2);
                         }
@@ -15042,7 +15042,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             imageReceiver.setImage(null, null, bitmapHolder5 == null ? ImageLocation.getForDocument(fileLocation, (TLRPC$Document) media) : null, "b", bitmapHolder5 != null ? new BitmapDrawable(bitmapHolder5.bitmap) : null, 0L, null, this.pageBlocksAdapter.getParentObject(), 1);
                             return;
                         }
-                        imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(2131166055));
+                        imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(2131166058));
                         return;
                     } else {
                         AnimatedFileDrawable animatedFileDrawable = this.currentAnimation;
@@ -15057,7 +15057,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     imageReceiver.setImageBitmap((Bitmap) null);
                     return;
                 } else {
-                    imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(2131166055));
+                    imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(2131166058));
                     return;
                 }
             }
@@ -15069,7 +15069,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             if (messageObject != null) {
                 if (!TextUtils.isEmpty(MessagesController.getRestrictionReason(messageObject.messageOwner.restriction_reason))) {
-                    imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(2131166055));
+                    imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(2131166058));
                     return;
                 } else if (messageObject.isVideo()) {
                     ArrayList<TLRPC$PhotoSize> arrayList = messageObject.photoThumbs;
@@ -15091,7 +15091,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         imageReceiver.setOrientation(bitmapHolder7.orientation, false);
                         return;
                     }
-                    imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(2131166055));
+                    imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(2131166058));
                     return;
                 } else {
                     AnimatedFileDrawable animatedFileDrawable2 = this.currentAnimation;
@@ -15210,7 +15210,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             } else if (jArr[0] == 0) {
                 imageReceiver.setImageBitmap((Bitmap) null);
             } else {
-                imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(2131166055));
+                imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(2131166058));
             }
         }
     }
@@ -19808,8 +19808,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.muteItem.setClickable(true);
         this.muteItem.animate().alpha(1.0f).setDuration(180L).start();
         if (this.muteVideo) {
-            this.actionBar.setSubtitle(LocaleController.getString("SoundMuted", 2131628451));
-            this.muteItem.setImageResource(2131166206);
+            this.actionBar.setSubtitle(LocaleController.getString("SoundMuted", 2131628452));
+            this.muteItem.setImageResource(2131166209);
             if (this.compressItem.getTag() != null) {
                 this.compressItem.setAlpha(0.5f);
                 this.compressItem.setEnabled(false);
@@ -19826,8 +19826,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         this.actionBar.setSubtitle(this.currentSubtitle);
-        this.muteItem.setImageResource(2131166207);
-        this.muteItem.setContentDescription(LocaleController.getString("Sound", 2131628447));
+        this.muteItem.setImageResource(2131166210);
+        this.muteItem.setContentDescription(LocaleController.getString("Sound", 2131628448));
         if (this.compressItem.getTag() != null) {
             this.compressItem.setAlpha(1.0f);
             this.compressItem.setEnabled(true);
@@ -19861,11 +19861,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
         int i3 = this.selectedCompression;
         if (i3 < 2) {
-            this.compressItem.setImageResource(2131166203);
+            this.compressItem.setImageResource(2131166206);
         } else if (i3 == 2) {
-            this.compressItem.setImageResource(2131166204);
+            this.compressItem.setImageResource(2131166207);
         } else if (i3 == 3) {
-            this.compressItem.setImageResource(2131166205);
+            this.compressItem.setImageResource(2131166208);
         }
         this.itemsLayout.requestLayout();
         long ceil = (long) Math.ceil((this.videoTimelineView.getRightProgress() - this.videoTimelineView.getLeftProgress()) * this.videoDuration);
@@ -19905,7 +19905,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
         this.currentSubtitle = String.format("%s, %s", String.format("%dx%d", Integer.valueOf(i), Integer.valueOf(i2)), String.format("%s, ~%s", AndroidUtilities.formatShortDuration((int) (this.estimatedDuration / 1000)), AndroidUtilities.formatFileSize(this.estimatedSize)));
         this.actionBar.beginDelayedTransition();
-        this.actionBar.setSubtitle(this.muteVideo ? LocaleController.getString("SoundMuted", 2131628451) : this.currentSubtitle);
+        this.actionBar.setSubtitle(this.muteVideo ? LocaleController.getString("SoundMuted", 2131628452) : this.currentSubtitle);
     }
 
     public void requestVideoPreview(int i) {
@@ -20405,18 +20405,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 photoPickerPhotoCell.videoInfoContainer.setVisibility(4);
                 String str = photoEntry.thumbPath;
                 if (str != null) {
-                    backupImageView.setImage(str, null, this.mContext.getResources().getDrawable(2131166005));
+                    backupImageView.setImage(str, null, this.mContext.getResources().getDrawable(2131166008));
                 } else if (photoEntry.path != null) {
                     backupImageView.setOrientation(photoEntry.orientation, true);
                     if (photoEntry.isVideo) {
                         photoPickerPhotoCell.videoInfoContainer.setVisibility(0);
                         photoPickerPhotoCell.videoTextView.setText(AndroidUtilities.formatShortDuration(photoEntry.duration));
-                        backupImageView.setImage("vthumb://" + photoEntry.imageId + ":" + photoEntry.path, null, this.mContext.getResources().getDrawable(2131166005));
+                        backupImageView.setImage("vthumb://" + photoEntry.imageId + ":" + photoEntry.path, null, this.mContext.getResources().getDrawable(2131166008));
                     } else {
-                        backupImageView.setImage("thumb://" + photoEntry.imageId + ":" + photoEntry.path, null, this.mContext.getResources().getDrawable(2131166005));
+                        backupImageView.setImage("thumb://" + photoEntry.imageId + ":" + photoEntry.path, null, this.mContext.getResources().getDrawable(2131166008));
                     }
                 } else {
-                    backupImageView.setImageResource(2131166005);
+                    backupImageView.setImageResource(2131166008);
                 }
                 photoPickerPhotoCell.setChecked(-1, true, false);
                 photoPickerPhotoCell.checkBox.setVisibility(0);

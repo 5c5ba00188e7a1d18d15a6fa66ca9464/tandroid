@@ -8732,21 +8732,21 @@ public class MessagesController extends BaseController implements NotificationCe
                             if (key.longValue() < 0 && !isEncryptedDialog) {
                                 sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingVideo", 2131626354, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingVideoStatus", 2131628282));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingVideoStatus", 2131628283));
                             }
                             sparseArray2.put(key2.intValue(), 4);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadAudioAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
                                 sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingAudio", 2131626350, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingAudio", 2131628275));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingAudio", 2131628276));
                             }
                             sparseArray2.put(key2.intValue(), 2);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadVideoAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
                                 sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingVideo", 2131626354, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingVideoStatus", 2131628282));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingVideoStatus", 2131628283));
                             }
                             sparseArray2.put(key2.intValue(), 2);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageRecordVideoAction) {
@@ -8760,35 +8760,35 @@ public class MessagesController extends BaseController implements NotificationCe
                             if (key.longValue() < 0 && !isEncryptedDialog) {
                                 sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingFile", 2131626351, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingFile", 2131628276));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingFile", 2131628277));
                             }
                             sparseArray2.put(key2.intValue(), 2);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadPhotoAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
                                 sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingPhoto", 2131626353, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingPhoto", 2131628279));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingPhoto", 2131628280));
                             }
                             sparseArray2.put(key2.intValue(), 2);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageGamePlayAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
                                 sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingGame", 2131626352, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingGame", 2131628277));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingGame", 2131628278));
                             }
                             sparseArray2.put(key2.intValue(), 3);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageGeoLocationAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
                                 sparseArray.put(key2.intValue(), LocaleController.formatString("IsSelectingLocation", 2131626349, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SelectingLocation", 2131628236));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SelectingLocation", 2131628237));
                             }
                             sparseArray2.put(key2.intValue(), 0);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageChooseContactAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
                                 sparseArray.put(key2.intValue(), LocaleController.formatString("IsSelectingContact", 2131626348, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SelectingContact", 2131628235));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SelectingContact", 2131628236));
                             }
                             sparseArray2.put(key2.intValue(), 0);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageEmojiInteractionSeen) {
@@ -8806,7 +8806,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             if (key.longValue() < 0 && !isEncryptedDialog) {
                                 sparseArray.put(key2.intValue(), LocaleController.formatString(str2, 2131626356, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("Typing", 2131628786));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("Typing", 2131628787));
                             }
                             sparseArray2.put(key2.intValue(), 0);
                         }

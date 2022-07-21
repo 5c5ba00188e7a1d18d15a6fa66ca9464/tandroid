@@ -134,8 +134,8 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         ActionBarMenuItem addItem = this.parentAlert.actionBar.createMenu().addItem(0, 2131165453);
         this.otherItem = addItem;
         addItem.addSubItem(2131230862, 2131165657, LocaleController.getString(2131624756));
-        this.settingsItem = this.otherItem.addSubItem(2131230865, 2131165933, LocaleController.getString(2131624766));
-        this.otherItem.addSubItem(2131230864, 2131165909, LocaleController.getString(2131624757));
+        this.settingsItem = this.otherItem.addSubItem(2131230865, 2131165936, LocaleController.getString(2131624766));
+        this.otherItem.addSubItem(2131230864, 2131165912, LocaleController.getString(2131624757));
         this.otherItem.addSubItem(2131230857, 2131165702, LocaleController.getString(2131624753));
         this.parentAlert.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         this.webViewContainer = new AnonymousClass2(context, resourcesProvider, getThemedColor("dialogBackground"));

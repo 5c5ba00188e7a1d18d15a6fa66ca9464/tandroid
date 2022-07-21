@@ -50,7 +50,7 @@ public class ChatNotificationsPopupWrapper {
     public ChatNotificationsPopupWrapper(Context context, int i, PopupSwipeBackLayout popupSwipeBackLayout, boolean z, boolean z2, Callback callback, Theme.ResourcesProvider resourcesProvider) {
         this.currentAccount = i;
         this.callback = callback;
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, z ? 2131166087 : 0, resourcesProvider);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, z ? 2131166090 : 0, resourcesProvider);
         this.windowLayout = actionBarPopupWindowLayout;
         actionBarPopupWindowLayout.setFitItems(true);
         if (popupSwipeBackLayout != null) {
@@ -58,16 +58,16 @@ public class ChatNotificationsPopupWrapper {
             this.backItem = addItem;
             addItem.setOnClickListener(new ChatNotificationsPopupWrapper$$ExternalSyntheticLambda6(popupSwipeBackLayout));
         }
-        ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(this.windowLayout, 2131165964, LocaleController.getString("SoundOn", 2131628455), false, resourcesProvider);
+        ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(this.windowLayout, 2131165967, LocaleController.getString("SoundOn", 2131628456), false, resourcesProvider);
         this.soundToggle = addItem2;
         addItem2.setOnClickListener(new ChatNotificationsPopupWrapper$$ExternalSyntheticLambda4(this, callback));
-        ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(this.windowLayout, 2131165818, LocaleController.getString("MuteFor1h", 2131626800), false, resourcesProvider);
+        ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(this.windowLayout, 2131165821, LocaleController.getString("MuteFor1h", 2131626800), false, resourcesProvider);
         this.muteForLastSelected = addItem3;
         addItem3.setOnClickListener(new ChatNotificationsPopupWrapper$$ExternalSyntheticLambda5(this, callback));
-        ActionBarMenuSubItem addItem4 = ActionBarMenuItem.addItem(this.windowLayout, 2131165818, LocaleController.getString("MuteFor1h", 2131626800), false, resourcesProvider);
+        ActionBarMenuSubItem addItem4 = ActionBarMenuItem.addItem(this.windowLayout, 2131165821, LocaleController.getString("MuteFor1h", 2131626800), false, resourcesProvider);
         this.muteForLastSelected2 = addItem4;
         addItem4.setOnClickListener(new ChatNotificationsPopupWrapper$$ExternalSyntheticLambda3(this, callback));
-        ActionBarMenuItem.addItem(this.windowLayout, 2131165820, LocaleController.getString("MuteForPopup", 2131626803), false, resourcesProvider).setOnClickListener(new ChatNotificationsPopupWrapper$$ExternalSyntheticLambda0(this, context, resourcesProvider, i, callback));
+        ActionBarMenuItem.addItem(this.windowLayout, 2131165823, LocaleController.getString("MuteForPopup", 2131626803), false, resourcesProvider).setOnClickListener(new ChatNotificationsPopupWrapper$$ExternalSyntheticLambda0(this, context, resourcesProvider, i, callback));
         ActionBarMenuItem.addItem(this.windowLayout, 2131165700, LocaleController.getString("NotificationsCustomize", 2131627075), false, resourcesProvider).setOnClickListener(new ChatNotificationsPopupWrapper$$ExternalSyntheticLambda2(this, callback));
         ActionBarMenuSubItem addItem5 = ActionBarMenuItem.addItem(this.windowLayout, 0, "", false, resourcesProvider);
         this.muteUnmuteButton = addItem5;
@@ -137,17 +137,17 @@ public class ChatNotificationsPopupWrapper {
         }
         boolean isDialogMuted = MessagesController.getInstance(this.currentAccount).isDialogMuted(j);
         if (isDialogMuted) {
-            this.muteUnmuteButton.setTextAndIcon(LocaleController.getString("UnmuteNotifications", 2131628811), 2131165969);
+            this.muteUnmuteButton.setTextAndIcon(LocaleController.getString("UnmuteNotifications", 2131628812), 2131165972);
             i = Theme.getColor("wallet_greenText");
             this.soundToggle.setVisibility(8);
         } else {
-            this.muteUnmuteButton.setTextAndIcon(LocaleController.getString("MuteNotifications", 2131626805), 2131165817);
+            this.muteUnmuteButton.setTextAndIcon(LocaleController.getString("MuteNotifications", 2131626805), 2131165820);
             int color = Theme.getColor("dialogTextRed");
             this.soundToggle.setVisibility(0);
             if (MessagesController.getInstance(this.currentAccount).isDialogNotificationsSoundEnabled(j)) {
-                this.soundToggle.setTextAndIcon(LocaleController.getString("SoundOff", 2131628453), 2131165963);
+                this.soundToggle.setTextAndIcon(LocaleController.getString("SoundOff", 2131628454), 2131165966);
             } else {
-                this.soundToggle.setTextAndIcon(LocaleController.getString("SoundOn", 2131628455), 2131165964);
+                this.soundToggle.setTextAndIcon(LocaleController.getString("SoundOn", 2131628456), 2131165967);
             }
             i = color;
         }
@@ -184,14 +184,14 @@ public class ChatNotificationsPopupWrapper {
         int i3 = (i - (86400 * i2)) / 3600;
         if (i2 != 0) {
             sb.append(i2);
-            sb.append(LocaleController.getString("SecretChatTimerDays", 2131628209));
+            sb.append(LocaleController.getString("SecretChatTimerDays", 2131628210));
         }
         if (i3 != 0) {
             if (sb.length() > 0) {
                 sb.append(" ");
             }
             sb.append(i3);
-            sb.append(LocaleController.getString("SecretChatTimerHours", 2131628210));
+            sb.append(LocaleController.getString("SecretChatTimerHours", 2131628211));
         }
         return LocaleController.formatString("MuteForButton", 2131626802, sb.toString());
     }

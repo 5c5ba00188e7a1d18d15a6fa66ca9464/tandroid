@@ -190,7 +190,7 @@ public class GroupCreateSpan extends View {
                     this.avatarDrawable.setSmallSize(true);
                     this.avatarDrawable.setAvatarType(12);
                 } else if (UserObject.isUserSelf(tLRPC$User3)) {
-                    str = LocaleController.getString("SavedMessages", 2131628139);
+                    str = LocaleController.getString("SavedMessages", 2131628140);
                     this.avatarDrawable.setSmallSize(true);
                     this.avatarDrawable.setAvatarType(1);
                 } else {

@@ -151,7 +151,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             drawable2.roundEffect = false;
             drawable2.init();
         }
-        if (i2 == 1 || i2 == 3) {
+        if (i2 == 1 || i2 == 3 || i2 == 11) {
             this.fromTop = true;
         }
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);

@@ -11,6 +11,6 @@ public final /* synthetic */ class PaymentFormActivity$$ExternalSyntheticLambda1
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        this.f$0.lambda$createView$9(view);
+        this.f$0.lambda$createView$16(view);
     }
 }

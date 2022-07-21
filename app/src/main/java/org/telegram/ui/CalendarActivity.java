@@ -209,7 +209,7 @@ public class CalendarActivity extends BaseFragment {
             this.selectDaysButton.setTextSize(1, 15.0f);
             this.selectDaysButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             this.selectDaysButton.setOnClickListener(new CalendarActivity$$ExternalSyntheticLambda2(this));
-            this.selectDaysButton.setText(LocaleController.getString("SelectDays", 2131628227));
+            this.selectDaysButton.setText(LocaleController.getString("SelectDays", 2131628228));
             this.selectDaysButton.setAllCaps(true);
             this.bottomBar.addView(this.selectDaysButton, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 0.0f, 0.0f, 0.0f));
             TextView textView2 = new TextView(context);
@@ -357,7 +357,7 @@ public class CalendarActivity extends BaseFragment {
                 this.selectDaysHint = hintView;
                 hintView.setExtraTranslationY(AndroidUtilities.dp(24.0f));
                 this.contentView.addView(this.selectDaysHint, LayoutHelper.createFrame(-2, -2.0f, 51, 19.0f, 0.0f, 19.0f, 0.0f));
-                this.selectDaysHint.setText(LocaleController.getString("SelectDaysTooltip", 2131628228));
+                this.selectDaysHint.setText(LocaleController.getString("SelectDaysTooltip", 2131628229));
             }
             this.selectDaysHint.showForView(this.bottomBar, true);
             return;
@@ -799,7 +799,7 @@ public class CalendarActivity extends BaseFragment {
                     bundle.putInt("start_from_date", dayAtCoord.date);
                     bundle.putBoolean("need_remove_previous_same_chat_activity", false);
                     ChatActivity chatActivity = new ChatActivity(bundle);
-                    ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(CalendarActivity.this.getParentActivity(), 2131166087, CalendarActivity.this.getResourceProvider());
+                    ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(CalendarActivity.this.getParentActivity(), 2131166090, CalendarActivity.this.getResourceProvider());
                     actionBarPopupWindowLayout.setBackgroundColor(CalendarActivity.this.getThemedColor("actionBarDefaultSubmenuBackground"));
                     ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), true, false);
                     actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("JumpToDate", 2131626382), 2131165801);
@@ -808,7 +808,7 @@ public class CalendarActivity extends BaseFragment {
                     actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
                     if (CalendarActivity.this.canClearHistory) {
                         ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), false, false);
-                        actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SelectThisDay", 2131628234), 2131165930);
+                        actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SelectThisDay", 2131628235), 2131165933);
                         actionBarMenuSubItem2.setMinimumWidth(160);
                         actionBarMenuSubItem2.setOnClickListener(new CalendarActivity$MonthView$2$$ExternalSyntheticLambda3(this, dayAtCoord));
                         actionBarPopupWindowLayout.addView(actionBarMenuSubItem2);
@@ -1364,7 +1364,7 @@ public class CalendarActivity extends BaseFragment {
             str = LocaleController.formatPluralString("Days", abs, new Object[0]);
             this.backDrawable.setRotation(1.0f, true);
         } else if (z3) {
-            str = LocaleController.getString("SelectDays", 2131628227);
+            str = LocaleController.getString("SelectDays", 2131628228);
             this.backDrawable.setRotation(1.0f, true);
         } else {
             str = LocaleController.getString("Calendar", 2131624784);

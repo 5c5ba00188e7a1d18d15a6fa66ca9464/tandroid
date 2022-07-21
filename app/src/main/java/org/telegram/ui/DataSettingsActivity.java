@@ -348,19 +348,19 @@ public class DataSettingsActivity extends BaseFragment {
                 } else if (i7 == 3) {
                     i2 = 1;
                 }
-                Dialog createSingleChoiceDialog = AlertsCreator.createSingleChoiceDialog(getParentActivity(), new String[]{LocaleController.getString("UseLessDataNever", 2131628851), LocaleController.getString("UseLessDataOnRoaming", 2131628853), LocaleController.getString("UseLessDataOnMobile", 2131628852), LocaleController.getString("UseLessDataAlways", 2131628850)}, LocaleController.getString("VoipUseLessData", 2131629275), i2, new DataSettingsActivity$$ExternalSyntheticLambda2(this, globalMainSettings, i));
+                Dialog createSingleChoiceDialog = AlertsCreator.createSingleChoiceDialog(getParentActivity(), new String[]{LocaleController.getString("UseLessDataNever", 2131628852), LocaleController.getString("UseLessDataOnRoaming", 2131628854), LocaleController.getString("UseLessDataOnMobile", 2131628853), LocaleController.getString("UseLessDataAlways", 2131628851)}, LocaleController.getString("VoipUseLessData", 2131629276), i2, new DataSettingsActivity$$ExternalSyntheticLambda2(this, globalMainSettings, i));
                 setVisibleDialog(createSingleChoiceDialog);
                 createSingleChoiceDialog.show();
             }
             i2 = 0;
-            Dialog createSingleChoiceDialog2 = AlertsCreator.createSingleChoiceDialog(getParentActivity(), new String[]{LocaleController.getString("UseLessDataNever", 2131628851), LocaleController.getString("UseLessDataOnRoaming", 2131628853), LocaleController.getString("UseLessDataOnMobile", 2131628852), LocaleController.getString("UseLessDataAlways", 2131628850)}, LocaleController.getString("VoipUseLessData", 2131629275), i2, new DataSettingsActivity$$ExternalSyntheticLambda2(this, globalMainSettings, i));
+            Dialog createSingleChoiceDialog2 = AlertsCreator.createSingleChoiceDialog(getParentActivity(), new String[]{LocaleController.getString("UseLessDataNever", 2131628852), LocaleController.getString("UseLessDataOnRoaming", 2131628854), LocaleController.getString("UseLessDataOnMobile", 2131628853), LocaleController.getString("UseLessDataAlways", 2131628851)}, LocaleController.getString("VoipUseLessData", 2131629276), i2, new DataSettingsActivity$$ExternalSyntheticLambda2(this, globalMainSettings, i));
             setVisibleDialog(createSingleChoiceDialog2);
             createSingleChoiceDialog2.show();
         } else if (i == this.dataUsageRow) {
             presentFragment(new DataUsageActivity());
         } else if (i == this.storageNumRow) {
             AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
-            builder2.setTitle(LocaleController.getString("StoragePath", 2131628543));
+            builder2.setTitle(LocaleController.getString("StoragePath", 2131628544));
             LinearLayout linearLayout = new LinearLayout(getParentActivity());
             linearLayout.setOrientation(1);
             builder2.setView(linearLayout);
@@ -580,7 +580,7 @@ public class DataSettingsActivity extends BaseFragment {
                                         i2++;
                                     }
                                 }
-                                textSettingsCell.setTextAndValue(LocaleController.getString("StoragePath", 2131628543), absolutePath, false);
+                                textSettingsCell.setTextAndValue(LocaleController.getString("StoragePath", 2131628544), absolutePath, false);
                                 return;
                             } else if (i != DataSettingsActivity.this.proxyRow) {
                                 if (i != DataSettingsActivity.this.resetDownloadRow) {
@@ -591,7 +591,7 @@ public class DataSettingsActivity extends BaseFragment {
                                         textSettingsCell.setText(LocaleController.getString("PrivacyDeleteCloudDrafts", 2131627756), false);
                                         return;
                                     }
-                                    textSettingsCell.setText(LocaleController.getString("VoipQuickReplies", 2131629250), false);
+                                    textSettingsCell.setText(LocaleController.getString("VoipQuickReplies", 2131629251), false);
                                     return;
                                 }
                                 textSettingsCell.setCanDisable(true);
@@ -613,18 +613,18 @@ public class DataSettingsActivity extends BaseFragment {
                     String str = null;
                     int i3 = MessagesController.getGlobalMainSettings().getInt("VoipDataSaving", VoIPHelper.getDataSavingDefault());
                     if (i3 == 0) {
-                        str = LocaleController.getString("UseLessDataNever", 2131628851);
+                        str = LocaleController.getString("UseLessDataNever", 2131628852);
                     } else if (i3 == 1) {
-                        str = LocaleController.getString("UseLessDataOnMobile", 2131628852);
+                        str = LocaleController.getString("UseLessDataOnMobile", 2131628853);
                     } else if (i3 == 2) {
-                        str = LocaleController.getString("UseLessDataAlways", 2131628850);
+                        str = LocaleController.getString("UseLessDataAlways", 2131628851);
                     } else if (i3 == 3) {
-                        str = LocaleController.getString("UseLessDataOnRoaming", 2131628853);
+                        str = LocaleController.getString("UseLessDataOnRoaming", 2131628854);
                     }
-                    textSettingsCell.setTextAndValue(LocaleController.getString("VoipUseLessData", 2131629275), str, true);
+                    textSettingsCell.setTextAndValue(LocaleController.getString("VoipUseLessData", 2131629276), str, true);
                     return;
                 }
-                textSettingsCell.setText(LocaleController.getString("StorageUsage", 2131628544), true);
+                textSettingsCell.setText(LocaleController.getString("StorageUsage", 2131628545), true);
             } else if (itemViewType == 2) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i != DataSettingsActivity.this.mediaDownloadSectionRow) {
@@ -636,13 +636,13 @@ public class DataSettingsActivity extends BaseFragment {
                                         if (i != DataSettingsActivity.this.saveToGallerySectionRow) {
                                             return;
                                         }
-                                        headerCell.setText(LocaleController.getString("SaveToGallery", 2131628131));
+                                        headerCell.setText(LocaleController.getString("SaveToGallery", 2131628132));
                                         return;
                                     }
                                     headerCell.setText(LocaleController.getString("AutoplayMedia", 2131624640));
                                     return;
                                 }
-                                headerCell.setText(LocaleController.getString("Streaming", 2131628545));
+                                headerCell.setText(LocaleController.getString("Streaming", 2131628546));
                                 return;
                             }
                             headerCell.setText(LocaleController.getString("Proxy", 2131627811));
@@ -670,21 +670,21 @@ public class DataSettingsActivity extends BaseFragment {
                                             if (i != DataSettingsActivity.this.saveToGalleryChannelsRow) {
                                                 return;
                                             }
-                                            String string3 = LocaleController.getString("SaveToGalleryChannels", 2131628132);
+                                            String string3 = LocaleController.getString("SaveToGalleryChannels", 2131628133);
                                             if ((SharedConfig.saveToGalleryFlags & 4) == 0) {
                                                 z3 = false;
                                             }
                                             textCheckCell.setTextAndCheck(string3, z3, false);
                                             return;
                                         }
-                                        String string4 = LocaleController.getString("SaveToGalleryGroups", 2131628133);
+                                        String string4 = LocaleController.getString("SaveToGalleryGroups", 2131628134);
                                         if ((SharedConfig.saveToGalleryFlags & 2) != 0) {
                                             z2 = true;
                                         }
                                         textCheckCell.setTextAndCheck(string4, z2, true);
                                         return;
                                     }
-                                    String string5 = LocaleController.getString("SaveToGalleryPrivate", 2131628134);
+                                    String string5 = LocaleController.getString("SaveToGalleryPrivate", 2131628135);
                                     if ((SharedConfig.saveToGalleryFlags & 1) != 0) {
                                         z2 = true;
                                     }
@@ -721,16 +721,16 @@ public class DataSettingsActivity extends BaseFragment {
                 StringBuilder sb = new StringBuilder();
                 if (i != DataSettingsActivity.this.mobileRow) {
                     if (i == DataSettingsActivity.this.wifiRow) {
-                        string = LocaleController.getString("WhenConnectedOnWiFi", 2131629306);
+                        string = LocaleController.getString("WhenConnectedOnWiFi", 2131629307);
                         z = DownloadController.getInstance(((BaseFragment) DataSettingsActivity.this).currentAccount).wifiPreset.enabled;
                         currentRoamingPreset = DownloadController.getInstance(((BaseFragment) DataSettingsActivity.this).currentAccount).getCurrentWiFiPreset();
                     } else {
-                        string = LocaleController.getString("WhenRoaming", 2131629307);
+                        string = LocaleController.getString("WhenRoaming", 2131629308);
                         z = DownloadController.getInstance(((BaseFragment) DataSettingsActivity.this).currentAccount).roamingPreset.enabled;
                         currentRoamingPreset = DownloadController.getInstance(((BaseFragment) DataSettingsActivity.this).currentAccount).getCurrentRoamingPreset();
                     }
                 } else {
-                    string = LocaleController.getString("WhenUsingMobileData", 2131629308);
+                    string = LocaleController.getString("WhenUsingMobileData", 2131629309);
                     z = DownloadController.getInstance(((BaseFragment) DataSettingsActivity.this).currentAccount).mobilePreset.enabled;
                     currentRoamingPreset = DownloadController.getInstance(((BaseFragment) DataSettingsActivity.this).currentAccount).getCurrentMobilePreset();
                 }

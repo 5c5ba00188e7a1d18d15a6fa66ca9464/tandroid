@@ -218,11 +218,11 @@ public class EditWidgetActivity extends BaseFragment {
             linearLayout.setOrientation(1);
             addView(linearLayout, LayoutHelper.createFrame(-2, -2, 17));
             ChatActionCell chatActionCell = new ChatActionCell(context);
-            chatActionCell.setCustomText(LocaleController.getString("WidgetPreview", 2131629321));
+            chatActionCell.setCustomText(LocaleController.getString("WidgetPreview", 2131629322));
             linearLayout.addView(chatActionCell, LayoutHelper.createLinear(-2, -2, 17, 0, 0, 0, 4));
             LinearLayout linearLayout2 = new LinearLayout(context);
             linearLayout2.setOrientation(1);
-            linearLayout2.setBackgroundResource(2131166231);
+            linearLayout2.setBackgroundResource(2131166234);
             linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-2, -2, 17, 10, 0, 10, 0));
             r19.previewImageView = new ImageView(context);
             if (r19.widgetType == 0) {
@@ -314,7 +314,7 @@ public class EditWidgetActivity extends BaseFragment {
             TLRPC$FileLocation tLRPC$FileLocation5;
             TLRPC$Dialog tLRPC$Dialog4;
             float f = 48.0f;
-            int i2 = 2131628139;
+            int i2 = 2131628140;
             String str7 = "SavedMessages";
             float f2 = 0.0f;
             long j = 0;
@@ -375,7 +375,7 @@ public class EditWidgetActivity extends BaseFragment {
                                     tLRPC$User = EditWidgetActivity.this.getMessagesController().getUser(Long.valueOf(tLRPC$Dialog.id));
                                     if (UserObject.isUserSelf(tLRPC$User)) {
                                         str = str8;
-                                        str2 = LocaleController.getString(str, 2131628139);
+                                        str2 = LocaleController.getString(str, 2131628140);
                                     } else {
                                         str = str8;
                                         if (UserObject.isReplyUser(tLRPC$User)) {
@@ -739,9 +739,9 @@ public class EditWidgetActivity extends BaseFragment {
                                                     ((TextView) this.cells[i9].findViewById(2131230915)).setText(String.format("%d", Integer.valueOf(tLRPC$Dialog3.unread_count)));
                                                     this.cells[i9].findViewById(2131230915).setVisibility(0);
                                                     if (EditWidgetActivity.this.getMessagesController().isDialogMuted(tLRPC$Dialog3.id)) {
-                                                        this.cells[i9].findViewById(2131230915).setBackgroundResource(2131166235);
+                                                        this.cells[i9].findViewById(2131230915).setBackgroundResource(2131166238);
                                                     } else {
-                                                        this.cells[i9].findViewById(2131230915).setBackgroundResource(2131166234);
+                                                        this.cells[i9].findViewById(2131230915).setBackgroundResource(2131166237);
                                                     }
                                                 } else {
                                                     this.cells[i9].findViewById(2131230915).setVisibility(8);
@@ -849,7 +849,7 @@ public class EditWidgetActivity extends BaseFragment {
                             i9++;
                             str7 = str3;
                             f = 48.0f;
-                            i2 = 2131628139;
+                            i2 = 2131628140;
                             f2 = 0.0f;
                             i3 = 8;
                         }
@@ -862,7 +862,7 @@ public class EditWidgetActivity extends BaseFragment {
                     i9++;
                     str7 = str3;
                     f = 48.0f;
-                    i2 = 2131628139;
+                    i2 = 2131628140;
                     f2 = 0.0f;
                     i3 = 8;
                 }
@@ -1022,9 +1022,9 @@ public class EditWidgetActivity extends BaseFragment {
             this.actionBar.setOccupyStatusBar(false);
         }
         if (this.widgetType == 0) {
-            this.actionBar.setTitle(LocaleController.getString("WidgetChats", 2131629317));
+            this.actionBar.setTitle(LocaleController.getString("WidgetChats", 2131629318));
         } else {
-            this.actionBar.setTitle(LocaleController.getString("WidgetShortcuts", 2131629322));
+            this.actionBar.setTitle(LocaleController.getString("WidgetShortcuts", 2131629323));
         }
         this.actionBar.createMenu().addItem(1, LocaleController.getString("Done", 2131625541).toUpperCase());
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
@@ -1227,18 +1227,18 @@ public class EditWidgetActivity extends BaseFragment {
                     spannableStringBuilder.append((CharSequence) LocaleController.getString("EditWidgetChatsInfo", 2131625610));
                 }
                 if (SharedConfig.passcodeHash.length() > 0) {
-                    spannableStringBuilder.append((CharSequence) "\n\n").append((CharSequence) AndroidUtilities.replaceTags(LocaleController.getString("WidgetPasscode2", 2131629319)));
+                    spannableStringBuilder.append((CharSequence) "\n\n").append((CharSequence) AndroidUtilities.replaceTags(LocaleController.getString("WidgetPasscode2", 2131629320)));
                 }
                 textInfoPrivacyCell.setText(spannableStringBuilder);
             } else if (itemViewType == 1) {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(null, "windowBackgroundWhiteBlueText4");
-                Drawable drawable = this.mContext.getResources().getDrawable(2131166080);
-                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166081);
+                Drawable drawable = this.mContext.getResources().getDrawable(2131166083);
+                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166084);
                 drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
                 CombinedDrawable combinedDrawable = new CombinedDrawable(drawable, drawable2);
-                String string = LocaleController.getString("SelectChats", 2131628222);
+                String string = LocaleController.getString("SelectChats", 2131628223);
                 if (EditWidgetActivity.this.chatsStartRow == -1) {
                     z = false;
                 }

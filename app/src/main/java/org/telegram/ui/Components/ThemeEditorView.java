@@ -153,7 +153,7 @@ public class ThemeEditorView {
                 addView(view, LayoutHelper.createFrame(-1, 36.0f, 51, 14.0f, 11.0f, 14.0f, 0.0f));
                 ImageView imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
-                imageView.setImageResource(2131166150);
+                imageView.setImageResource(2131166153);
                 imageView.setColorFilter(new PorterDuffColorFilter(-6182737, PorterDuff.Mode.MULTIPLY));
                 addView(imageView, LayoutHelper.createFrame(36, 36.0f, 51, 16.0f, 11.0f, 0.0f, 0.0f));
                 ImageView imageView2 = new ImageView(context);
@@ -179,7 +179,7 @@ public class ThemeEditorView {
                 this.searchEditText.setLines(1);
                 this.searchEditText.setSingleLine(true);
                 this.searchEditText.setImeOptions(268435459);
-                this.searchEditText.setHint(LocaleController.getString("Search", 2131628154));
+                this.searchEditText.setHint(LocaleController.getString("Search", 2131628155));
                 this.searchEditText.setCursorColor(-11491093);
                 this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
                 this.searchEditText.setCursorWidth(1.5f);
@@ -777,7 +777,7 @@ public class ThemeEditorView {
         public EditorAlert(Context context, ArrayList<ThemeDescription> arrayList) {
             super(context, true);
             ThemeEditorView.this = r17;
-            this.shadowDrawable = context.getResources().getDrawable(2131166140).mutate();
+            this.shadowDrawable = context.getResources().getDrawable(2131166143).mutate();
             AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, r17);
             this.containerView = anonymousClass1;
             anonymousClass1.setWillNotDraw(false);
@@ -856,7 +856,7 @@ public class ThemeEditorView {
             textView2.setGravity(17);
             textView2.setBackgroundDrawable(Theme.createSelectorDrawable(788529152, 0));
             textView2.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-            textView2.setText(LocaleController.getString("SaveTheme", 2131628128).toUpperCase());
+            textView2.setText(LocaleController.getString("SaveTheme", 2131628129).toUpperCase());
             textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             this.bottomSaveLayout.addView(textView2, LayoutHelper.createFrame(-2, -1, 53));
             textView2.setOnClickListener(new ThemeEditorView$EditorAlert$$ExternalSyntheticLambda3(this));
@@ -894,7 +894,7 @@ public class ThemeEditorView {
             textView5.setGravity(17);
             textView5.setBackgroundDrawable(Theme.createSelectorDrawable(788529152, 0));
             textView5.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-            textView5.setText(LocaleController.getString("Save", 2131628122).toUpperCase());
+            textView5.setText(LocaleController.getString("Save", 2131628123).toUpperCase());
             textView5.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(textView5, LayoutHelper.createFrame(-2, -1, 51));
             textView5.setOnClickListener(new ThemeEditorView$EditorAlert$$ExternalSyntheticLambda2(this));
@@ -1800,7 +1800,7 @@ public class ThemeEditorView {
     }
 
     private void showWithAnimation() {
-        this.windowView.setBackgroundResource(2131166183);
+        this.windowView.setBackgroundResource(2131166186);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(ObjectAnimator.ofFloat(this.windowView, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.windowView, View.SCALE_X, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.windowView, View.SCALE_Y, 0.0f, 1.0f));
         animatorSet.setInterpolator(this.decelerateInterpolator);

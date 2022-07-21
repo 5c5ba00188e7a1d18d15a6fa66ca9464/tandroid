@@ -35,7 +35,7 @@ public class BasePermissionsActivity extends Activity {
                     groupCallActivity.enableCamera();
                 }
             } else {
-                showPermissionErrorAlert(2131558506, LocaleController.getString("VoipNeedCameraPermission", 2131629223));
+                showPermissionErrorAlert(2131558506, LocaleController.getString("VoipNeedCameraPermission", 2131629224));
             }
         } else if (i == 4 || i == 151) {
             if (!z) {

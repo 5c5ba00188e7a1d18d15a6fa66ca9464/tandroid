@@ -208,7 +208,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
                 if (UserObject.isReplyUser(user)) {
                     strArr2[2] = LocaleController.getString("RepliesTitle", 2131627982).toLowerCase();
                 } else if (user.self) {
-                    strArr2[2] = LocaleController.getString("SavedMessages", 2131628139).toLowerCase();
+                    strArr2[2] = LocaleController.getString("SavedMessages", 2131628140).toLowerCase();
                 }
                 int i7 = 0;
                 char c3 = 0;
@@ -456,7 +456,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             return;
         }
         ProfileSearchCell profileSearchCell = (ProfileSearchCell) viewHolder.itemView;
-        profileSearchCell.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", 2131628139) : str2, spannableStringBuilder, false, z);
+        profileSearchCell.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", 2131628140) : str2, spannableStringBuilder, false, z);
         if (i != getItemCount() - 1 && i != this.searchResult.size() - 1) {
             z2 = true;
         }

@@ -11,6 +11,6 @@ public final /* synthetic */ class EmojiTabsStrip$EmojiTabButton$$ExternalSynthe
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$updateVisibilityInbounds$1();
+        this.f$0.lambda$updateVisibilityInbounds$0();
     }
 }

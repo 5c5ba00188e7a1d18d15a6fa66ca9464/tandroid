@@ -135,7 +135,7 @@ public class LinkActionView extends LinearLayout {
         this.shareView = textView3;
         textView3.setGravity(1);
         SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
-        spannableStringBuilder2.append((CharSequence) "..").setSpan(new ColoredImageSpan(ContextCompat.getDrawable(context, 2131165940)), 0, 1, 0);
+        spannableStringBuilder2.append((CharSequence) "..").setSpan(new ColoredImageSpan(ContextCompat.getDrawable(context, 2131165943)), 0, 1, 0);
         spannableStringBuilder2.setSpan(new DialogCell.FixedWidthSpan(AndroidUtilities.dp(8.0f)), 1, 2, 0);
         spannableStringBuilder2.append((CharSequence) LocaleController.getString("LinkActionShare", 2131626477));
         spannableStringBuilder2.append((CharSequence) ".").setSpan(new DialogCell.FixedWidthSpan(AndroidUtilities.dp(5.0f)), spannableStringBuilder2.length() - 1, spannableStringBuilder2.length(), 0);
@@ -239,12 +239,12 @@ public class LinkActionView extends LinearLayout {
             actionBarMenuSubItem.setOnClickListener(new LinkActionView$$ExternalSyntheticLambda4(this));
         }
         ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(context, true, false);
-        actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("GetQRCode", 2131626097), 2131165887);
+        actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("GetQRCode", 2131626097), 2131165890);
         actionBarPopupWindowLayout.addView((View) actionBarMenuSubItem2, LayoutHelper.createLinear(-1, 48));
         actionBarMenuSubItem2.setOnClickListener(new LinkActionView$$ExternalSyntheticLambda5(this));
         if (!this.hideRevokeOption) {
             ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(context, false, true);
-            actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("RevokeLink", 2131628105), 2131165702);
+            actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("RevokeLink", 2131628106), 2131165702);
             actionBarMenuSubItem3.setColors(Theme.getColor("windowBackgroundWhiteRedText"), Theme.getColor("windowBackgroundWhiteRedText"));
             actionBarMenuSubItem3.setOnClickListener(new LinkActionView$$ExternalSyntheticLambda2(this));
             actionBarPopupWindowLayout.addView((View) actionBarMenuSubItem3, LayoutHelper.createLinear(-1, 48));
@@ -564,9 +564,9 @@ public class LinkActionView extends LinearLayout {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this.fragment.getParentActivity());
-        builder.setMessage(LocaleController.getString("RevokeAlert", 2131628102));
-        builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
-        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new LinkActionView$$ExternalSyntheticLambda1(this));
+        builder.setMessage(LocaleController.getString("RevokeAlert", 2131628103));
+        builder.setTitle(LocaleController.getString("RevokeLink", 2131628106));
+        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628105), new LinkActionView$$ExternalSyntheticLambda1(this));
         builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         builder.show();
     }

@@ -494,17 +494,17 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         } else {
             int i2 = this.type;
             if (i2 == 0) {
-                this.actionBar.setTitle(LocaleController.getString("SearchImagesTitle", 2131628177));
+                this.actionBar.setTitle(LocaleController.getString("SearchImagesTitle", 2131628178));
             } else if (i2 == 1) {
-                this.actionBar.setTitle(LocaleController.getString("SearchGifsTitle", 2131628174));
+                this.actionBar.setTitle(LocaleController.getString("SearchGifsTitle", 2131628175));
             }
         }
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
         if (this.isDocumentsPicker) {
             ActionBarMenuItem addItem = this.actionBar.createMenu().addItem(0, 2131165453);
             addItem.setSubMenuDelegate(new AnonymousClass3());
-            this.showAsListItem = addItem.addSubItem(1, 2131165787, LocaleController.getString("ShowAsList", 2131628397));
-            addItem.addSubItem(2, 2131165832, LocaleController.getString("OpenInExternalApp", 2131627153));
+            this.showAsListItem = addItem.addSubItem(1, 2131165787, LocaleController.getString("ShowAsList", 2131628398));
+            addItem.addSubItem(2, 2131165835, LocaleController.getString("OpenInExternalApp", 2131627153));
         }
         if (this.selectedAlbum == null) {
             ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass4());
@@ -517,9 +517,9 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         if (this.selectedAlbum == null) {
             int i3 = this.type;
             if (i3 == 0) {
-                this.searchItem.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628177));
+                this.searchItem.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628178));
             } else if (i3 == 1) {
-                this.searchItem.setSearchFieldHint(LocaleController.getString("SearchGifsTitle", 2131628174));
+                this.searchItem.setSearchFieldHint(LocaleController.getString("SearchGifsTitle", 2131628175));
             }
         }
         AnonymousClass5 anonymousClass5 = new AnonymousClass5(context);
@@ -712,10 +712,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             int i;
             ActionBarMenuSubItem actionBarMenuSubItem = PhotoPickerActivity.this.showAsListItem;
             if (PhotoPickerActivity.this.listSort) {
-                i = 2131628396;
+                i = 2131628397;
                 str = "ShowAsGrid";
             } else {
-                i = 2131628397;
+                i = 2131628398;
                 str = "ShowAsList";
             }
             actionBarMenuSubItem.setText(LocaleController.getString(str, i));
@@ -1294,12 +1294,12 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                         this.itemCells[i] = new ActionBarMenuSubItem(getParentActivity(), i == 0, i == 1);
                         if (i == 0) {
                             if (UserObject.isUserSelf(currentUser)) {
-                                this.itemCells[i].setTextAndIcon(LocaleController.getString("SetReminder", 2131628310), 2131165662);
+                                this.itemCells[i].setTextAndIcon(LocaleController.getString("SetReminder", 2131628311), 2131165662);
                             } else {
-                                this.itemCells[i].setTextAndIcon(LocaleController.getString("ScheduleMessage", 2131628144), 2131165662);
+                                this.itemCells[i].setTextAndIcon(LocaleController.getString("ScheduleMessage", 2131628145), 2131165662);
                             }
                         } else {
-                            this.itemCells[i].setTextAndIcon(LocaleController.getString("SendWithoutSound", 2131628274), 2131165539);
+                            this.itemCells[i].setTextAndIcon(LocaleController.getString("SendWithoutSound", 2131628275), 2131165539);
                         }
                         this.itemCells[i].setMinimumWidth(AndroidUtilities.dp(196.0f));
                         this.sendPopupLayout.addView((View) this.itemCells[i], LayoutHelper.createLinear(-1, 48));
@@ -2108,7 +2108,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 if (!PhotoPickerActivity.this.allowOrder || PhotoPickerActivity.this.chatActivity == null || (currentChat = PhotoPickerActivity.this.chatActivity.getCurrentChat()) == null || ChatObject.hasAdminRights(currentChat) || !currentChat.slowmode_enabled || PhotoPickerActivity.this.alertOnlyOnce == 2) {
                     return;
                 }
-                AlertsCreator.showSimpleAlert(PhotoPickerActivity.this, LocaleController.getString("Slowmode", 2131628423), LocaleController.getString("SlowmodeSelectSendError", 2131628430));
+                AlertsCreator.showSimpleAlert(PhotoPickerActivity.this, LocaleController.getString("Slowmode", 2131628424), LocaleController.getString("SlowmodeSelectSendError", 2131628431));
                 if (PhotoPickerActivity.this.alertOnlyOnce != 1) {
                     return;
                 }
@@ -2225,7 +2225,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 } else {
                     TextCell textCell = (TextCell) viewHolder.itemView;
                     if (i < PhotoPickerActivity.this.recentSearches.size()) {
-                        textCell.setTextAndIcon((String) PhotoPickerActivity.this.recentSearches.get(i), 2131165893, false);
+                        textCell.setTextAndIcon((String) PhotoPickerActivity.this.recentSearches.get(i), 2131165896, false);
                         return;
                     } else {
                         textCell.setTextAndIcon(LocaleController.getString("ClearRecentHistory", 2131625166), 2131165684, false);

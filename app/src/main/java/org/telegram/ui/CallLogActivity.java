@@ -353,7 +353,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             super(context);
             CallLogActivity.this = r8;
             setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-            String string = LocaleController.getString("VoipChatJoin", 2131629078);
+            String string = LocaleController.getString("VoipChatJoin", 2131629079);
             ProgressButton progressButton = new ProgressButton(context);
             this.button = progressButton;
             int ceil = (int) Math.ceil(progressButton.getPaint().measureText(string));
@@ -1129,7 +1129,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                 int i2 = i - this.callsStartRow;
                 CallLogRow callLogRow = (CallLogRow) CallLogActivity.this.calls.get(i2);
                 CallCell callCell = (CallCell) viewHolder.itemView;
-                callCell.imageView.setImageResource(callLogRow.video ? 2131166099 : 2131166098);
+                callCell.imageView.setImageResource(callLogRow.video ? 2131166102 : 2131166101);
                 TLRPC$Message tLRPC$Message = callLogRow.calls.get(0);
                 String str2 = LocaleController.isRTL ? "\u202b" : "";
                 if (callLogRow.calls.size() == 1) {
@@ -1156,10 +1156,10 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             } else if (itemViewType == 3) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i == this.activeHeaderRow) {
-                    headerCell.setText(LocaleController.getString("VoipChatActiveChats", 2131629075));
+                    headerCell.setText(LocaleController.getString("VoipChatActiveChats", 2131629076));
                 } else if (i != this.callsHeaderRow) {
                 } else {
-                    headerCell.setText(LocaleController.getString("VoipChatRecentCalls", 2131629080));
+                    headerCell.setText(LocaleController.getString("VoipChatRecentCalls", 2131629081));
                 }
             } else if (itemViewType != 4) {
             } else {

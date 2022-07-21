@@ -79,7 +79,7 @@ public class ReactedHeaderView extends FrameLayout {
         ImageView imageView = new ImageView(context);
         this.iconView = imageView;
         addView(imageView, LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388627, 11.0f, 0.0f, 0.0f, 0.0f));
-        Drawable mutate = ContextCompat.getDrawable(context, 2131165890).mutate();
+        Drawable mutate = ContextCompat.getDrawable(context, 2131165893).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("actionBarDefaultSubmenuItemIcon"), PorterDuff.Mode.MULTIPLY));
         this.iconView.setImageDrawable(mutate);
         this.iconView.setVisibility(8);

@@ -161,11 +161,11 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         ActionBarMenu createMenu = this.actionBar.createMenu();
         if (this.allowSearchImages) {
-            createMenu.addItem(2, 2131165456).setContentDescription(LocaleController.getString("Search", 2131628154));
+            createMenu.addItem(2, 2131165456).setContentDescription(LocaleController.getString("Search", 2131628155));
         }
         ActionBarMenuItem addItem = createMenu.addItem(0, 2131165453);
         addItem.setContentDescription(LocaleController.getString("AccDescrMoreOptions", 2131624003));
-        addItem.addSubItem(1, 2131165832, LocaleController.getString("OpenInExternalApp", 2131627153));
+        addItem.addSubItem(1, 2131165835, LocaleController.getString("OpenInExternalApp", 2131627153));
         AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
         this.sizeNotifierFrameLayout = anonymousClass2;
         anonymousClass2.setBackgroundColor(Theme.getColor("dialogBackground"));
@@ -526,12 +526,12 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                         this.itemCells[i] = new ActionBarMenuSubItem(getParentActivity(), i == 0, i == 1);
                         if (i == 0) {
                             if (UserObject.isUserSelf(currentUser)) {
-                                this.itemCells[i].setTextAndIcon(LocaleController.getString("SetReminder", 2131628310), 2131165662);
+                                this.itemCells[i].setTextAndIcon(LocaleController.getString("SetReminder", 2131628311), 2131165662);
                             } else {
-                                this.itemCells[i].setTextAndIcon(LocaleController.getString("ScheduleMessage", 2131628144), 2131165662);
+                                this.itemCells[i].setTextAndIcon(LocaleController.getString("ScheduleMessage", 2131628145), 2131165662);
                             }
                         } else {
-                            this.itemCells[i].setTextAndIcon(LocaleController.getString("SendWithoutSound", 2131628274), 2131165539);
+                            this.itemCells[i].setTextAndIcon(LocaleController.getString("SendWithoutSound", 2131628275), 2131165539);
                         }
                         this.itemCells[i].setMinimumWidth(AndroidUtilities.dp(196.0f));
                         this.sendPopupLayout.addView((View) this.itemCells[i], LayoutHelper.createLinear(-1, 48));

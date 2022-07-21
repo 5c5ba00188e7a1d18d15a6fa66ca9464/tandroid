@@ -286,7 +286,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         frameLayout.setBackgroundColor(getThemedColor("dialogBackground"));
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, false, resourcesProvider);
         this.searchField = anonymousClass1;
-        anonymousClass1.setHint(LocaleController.getString("SearchFriends", 2131628171));
+        anonymousClass1.setHint(LocaleController.getString("SearchFriends", 2131628172));
         this.frameLayout.addView(this.searchField, LayoutHelper.createFrame(-1, -1, 51));
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context, null, resourcesProvider);
         this.emptyView = emptyTextProgressView;

@@ -25,7 +25,7 @@ public class ReadAllMentionsMenu {
             i2 = 2131627918;
             str = "ReadAllMentions";
         }
-        actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(str, i2), 2131165929);
+        actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(str, i2), 2131165932);
         actionBarMenuSubItem.setOnClickListener(new ReadAllMentionsMenu$$ExternalSyntheticLambda0(runnable));
         actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
         ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);

@@ -80,7 +80,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         this.videoInfoContainer.setPadding(AndroidUtilities.dp(5.0f), 0, AndroidUtilities.dp(5.0f), 0);
         this.container.addView(this.videoInfoContainer, LayoutHelper.createFrame(-2, 17.0f, 83, 4.0f, 0.0f, 0.0f, 4.0f));
         ImageView imageView = new ImageView(context);
-        imageView.setImageResource(2131166066);
+        imageView.setImageResource(2131166069);
         this.videoInfoContainer.addView(imageView, LayoutHelper.createFrame(-2, -2, 19));
         TextView textView = new TextView(context);
         this.videoTextView = textView;
@@ -233,7 +233,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         this.pressed = false;
         this.searchEntry = searchImage;
         this.isLast = z2;
-        Drawable drawable = this.zoomOnSelect ? Theme.chat_attachEmptyDrawable : getResources().getDrawable(2131166005);
+        Drawable drawable = this.zoomOnSelect ? Theme.chat_attachEmptyDrawable : getResources().getDrawable(2131166008);
         TLRPC$PhotoSize tLRPC$PhotoSize = searchImage.thumbPhotoSize;
         if (tLRPC$PhotoSize != null) {
             this.imageView.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo), (String) null, drawable, searchImage);

@@ -449,7 +449,7 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     public void setLineColors(int i, int i2, int i3) {
         this.lineVisible = true;
-        getContext().getResources().getDrawable(2131166124).getPadding(this.padding);
+        getContext().getResources().getDrawable(2131166127).getPadding(this.padding);
         android.graphics.Rect rect = this.padding;
         setPadding(rect.left, rect.top, rect.right, rect.bottom);
         this.lineColor = i;

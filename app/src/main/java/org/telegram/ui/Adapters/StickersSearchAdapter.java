@@ -438,7 +438,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                 ImageView imageView = new ImageView(this.context);
                 this.emptyImageView = imageView;
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
-                this.emptyImageView.setImageResource(2131166168);
+                this.emptyImageView.setImageResource(2131166171);
                 this.emptyImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_emojiPanelEmptyText"), PorterDuff.Mode.MULTIPLY));
                 linearLayout2.addView(this.emptyImageView, LayoutHelper.createLinear(-2, -2));
                 linearLayout2.addView(new Space(this.context), LayoutHelper.createLinear(-1, 15));

@@ -84,7 +84,7 @@ public class MessageSeenView extends FrameLayout {
         ImageView imageView = new ImageView(context);
         this.iconView = imageView;
         addView(imageView, LayoutHelper.createFrame(24, 24.0f, 19, 11.0f, 0.0f, 0.0f, 0.0f));
-        Drawable mutate = ContextCompat.getDrawable(context, this.isVoice ? 2131165865 : 2131165929).mutate();
+        Drawable mutate = ContextCompat.getDrawable(context, this.isVoice ? 2131165868 : 2131165932).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("actionBarDefaultSubmenuItemIcon"), PorterDuff.Mode.MULTIPLY));
         this.iconView.setImageDrawable(mutate);
         this.avatarsImageView.setAlpha(0.0f);

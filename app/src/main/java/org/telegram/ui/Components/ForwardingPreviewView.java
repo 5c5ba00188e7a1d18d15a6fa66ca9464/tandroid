@@ -183,7 +183,7 @@ public class ForwardingPreviewView extends FrameLayout {
         LinearLayout linearLayout2 = new LinearLayout(context);
         this.buttonsLayout = linearLayout2;
         linearLayout2.setOrientation(1);
-        Drawable mutate = getContext().getResources().getDrawable(2131166087).mutate();
+        Drawable mutate = getContext().getResources().getDrawable(2131166090).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         this.buttonsLayout.setBackground(mutate);
         this.menuContainer.addView(this.buttonsLayout, LayoutHelper.createFrame(-1, -2.0f));
@@ -192,10 +192,10 @@ public class ForwardingPreviewView extends FrameLayout {
         this.buttonsLayout.addView(actionBarMenuSubItem, LayoutHelper.createFrame(-1, 48.0f));
         ActionBarMenuSubItem actionBarMenuSubItem2 = this.showSendersNameView;
         if (this.forwardingMessagesParams.multiplyUsers) {
-            i2 = 2131628407;
+            i2 = 2131628408;
             str = "ShowSenderNames";
         } else {
-            i2 = 2131628408;
+            i2 = 2131628409;
             str = "ShowSendersName";
         }
         actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString(str, i2), 0);
@@ -220,7 +220,7 @@ public class ForwardingPreviewView extends FrameLayout {
             ActionBarMenuSubItem actionBarMenuSubItem5 = new ActionBarMenuSubItem(context, true, false, false, resourcesDelegate);
             this.showCaptionView = actionBarMenuSubItem5;
             this.buttonsLayout.addView(actionBarMenuSubItem5, LayoutHelper.createFrame(-1, 48.0f));
-            this.showCaptionView.setTextAndIcon(LocaleController.getString("ShowCaption", 2131628398), 0);
+            this.showCaptionView.setTextAndIcon(LocaleController.getString("ShowCaption", 2131628399), 0);
             this.showCaptionView.setChecked(true);
             ActionBarMenuSubItem actionBarMenuSubItem6 = new ActionBarMenuSubItem(context, true, false, true, resourcesDelegate);
             this.hideCaptionView = actionBarMenuSubItem6;
@@ -231,7 +231,7 @@ public class ForwardingPreviewView extends FrameLayout {
         LinearLayout linearLayout3 = new LinearLayout(context);
         this.buttonsLayout2 = linearLayout3;
         linearLayout3.setOrientation(1);
-        Drawable mutate2 = getContext().getResources().getDrawable(2131166087).mutate();
+        Drawable mutate2 = getContext().getResources().getDrawable(2131166090).mutate();
         mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         this.buttonsLayout2.setBackground(mutate2);
         this.menuContainer.addView(this.buttonsLayout2, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, this.forwardingMessagesParams.hasSenders ? -8.0f : 0.0f, 0.0f, 0.0f));
@@ -242,7 +242,7 @@ public class ForwardingPreviewView extends FrameLayout {
         ActionBarMenuSubItem actionBarMenuSubItem8 = new ActionBarMenuSubItem(context, false, true, (Theme.ResourcesProvider) resourcesDelegate);
         this.sendMessagesView = actionBarMenuSubItem8;
         this.buttonsLayout2.addView(actionBarMenuSubItem8, LayoutHelper.createFrame(-1, 48.0f));
-        this.sendMessagesView.setTextAndIcon(LocaleController.getString("ForwardSendMessages", 2131625991), 2131165931);
+        this.sendMessagesView.setTextAndIcon(LocaleController.getString("ForwardSendMessages", 2131625991), 2131165934);
         if (this.forwardingMessagesParams.hasSenders) {
             this.actionItems.add(this.showSendersNameView);
             this.actionItems.add(this.hideSendersNameView);

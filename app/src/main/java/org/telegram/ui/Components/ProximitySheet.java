@@ -81,7 +81,7 @@ public class ProximitySheet extends FrameLayout {
         this.onDismissCallback = runnable;
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         android.graphics.Rect rect = new android.graphics.Rect();
-        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166143).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         mutate.getPadding(rect);
         this.backgroundPaddingLeft = rect.left;

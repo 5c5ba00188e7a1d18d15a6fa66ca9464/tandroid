@@ -145,7 +145,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         this.undoView = undoView;
         undoView.setEnterOffsetMargin(AndroidUtilities.dp(32.0f));
         addView(this.undoView, LayoutHelper.createFrame(-1, -2.0f, 83, 8.0f, 0.0f, 8.0f, 52.0f));
-        this.videoPlayImage = context.getResources().getDrawable(2131166066);
+        this.videoPlayImage = context.getResources().getDrawable(2131166069);
     }
 
     /* renamed from: org.telegram.ui.Components.ChatAttachAlertPhotoLayoutPreview$1 */

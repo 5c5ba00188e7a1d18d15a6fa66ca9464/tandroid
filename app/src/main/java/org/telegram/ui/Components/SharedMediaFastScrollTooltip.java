@@ -21,7 +21,7 @@ public class SharedMediaFastScrollTooltip extends FrameLayout {
     public SharedMediaFastScrollTooltip(Context context) {
         super(context);
         TextView textView = new TextView(context);
-        textView.setText(LocaleController.getString("SharedMediaFastScrollHint", 2131628365));
+        textView.setText(LocaleController.getString("SharedMediaFastScrollHint", 2131628366));
         textView.setTextSize(1, 14.0f);
         textView.setMaxLines(3);
         textView.setTextColor(Theme.getColor("chat_gifSaveHintText"));

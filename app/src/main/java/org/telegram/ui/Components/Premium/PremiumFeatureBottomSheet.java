@@ -350,7 +350,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         if (this.onlySelectedType) {
             int i = this.startType;
             if (i == 4) {
-                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(2131628806));
+                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(2131628807));
                 this.premiumButtonView.setIcon(2131558588);
                 return;
             } else if (i == 3) {
@@ -359,7 +359,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             } else if (i != 10) {
                 return;
             } else {
-                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(2131628805));
+                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(2131628806));
                 this.premiumButtonView.setIcon(2131558588);
                 return;
             }

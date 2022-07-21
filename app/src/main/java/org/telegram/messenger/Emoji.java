@@ -222,7 +222,7 @@ public class Emoji {
         private static Rect rect = new Rect();
         private DrawableInfo info;
         private boolean fullSize = false;
-        public int placeholderColor = 536870912;
+        public int placeholderColor = 268435456;
 
         @Override // android.graphics.drawable.Drawable
         public int getOpacity() {
@@ -828,7 +828,7 @@ public class Emoji {
         @Override // android.text.style.ReplacementSpan, android.text.style.CharacterStyle
         public void updateDrawState(TextPaint textPaint) {
             if (getDrawable() instanceof EmojiDrawable) {
-                ((EmojiDrawable) getDrawable()).placeholderColor = 553648127 & textPaint.getColor();
+                ((EmojiDrawable) getDrawable()).placeholderColor = 285212671 & textPaint.getColor();
             }
             super.updateDrawState(textPaint);
         }

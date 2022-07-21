@@ -224,7 +224,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         scrollView.addView(linearLayout, new FrameLayout.LayoutParams(-1, -2));
         this.linearLayout.setOrientation(1);
         if (this.isForcePublic) {
-            this.actionBar.setTitle(LocaleController.getString("TypeLocationGroup", 2131628776));
+            this.actionBar.setTitle(LocaleController.getString("TypeLocationGroup", 2131628777));
         } else if (this.isChannel) {
             this.actionBar.setTitle(LocaleController.getString("ChannelSettingsTitle", 2131624977));
         } else {
@@ -368,20 +368,20 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         HeaderCell headerCell3 = new HeaderCell(context, 23);
         this.saveHeaderCell = headerCell3;
         headerCell3.setHeight(46);
-        this.saveHeaderCell.setText(LocaleController.getString("SavingContentTitle", 2131628141));
+        this.saveHeaderCell.setText(LocaleController.getString("SavingContentTitle", 2131628142));
         this.saveHeaderCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
         this.saveContainer.addView(this.saveHeaderCell, LayoutHelper.createLinear(-1, -2));
         TextCheckCell textCheckCell = new TextCheckCell(context);
         this.saveRestrictCell = textCheckCell;
         textCheckCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
-        this.saveRestrictCell.setTextAndCheck(LocaleController.getString("RestrictSavingContent", 2131628088), this.isSaveRestricted, false);
+        this.saveRestrictCell.setTextAndCheck(LocaleController.getString("RestrictSavingContent", 2131628089), this.isSaveRestricted, false);
         this.saveRestrictCell.setOnClickListener(new ChatEditTypeActivity$$ExternalSyntheticLambda5(this));
         this.saveContainer.addView(this.saveRestrictCell, LayoutHelper.createLinear(-1, -2));
         this.saveRestrictInfoCell = new TextInfoPrivacyCell(context);
         if (this.isChannel && !ChatObject.isMegagroup(this.currentChat)) {
-            this.saveRestrictInfoCell.setText(LocaleController.getString("RestrictSavingContentInfoChannel", 2131628089));
+            this.saveRestrictInfoCell.setText(LocaleController.getString("RestrictSavingContentInfoChannel", 2131628090));
         } else {
-            this.saveRestrictInfoCell.setText(LocaleController.getString("RestrictSavingContentInfoGroup", 2131628090));
+            this.saveRestrictInfoCell.setText(LocaleController.getString("RestrictSavingContentInfoGroup", 2131628091));
         }
         this.saveContainer.addView(this.saveRestrictInfoCell, LayoutHelper.createLinear(-1, -2));
         if (!this.isPrivate && (str = this.currentChat.username) != null) {
@@ -733,12 +733,12 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("AppName", 2131624384));
         if (this.isChannel) {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlertChannel", 2131628107, getMessagesController().linkPrefix + "/" + currentChannel.username, currentChannel.title)));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlertChannel", 2131628108, getMessagesController().linkPrefix + "/" + currentChannel.username, currentChannel.title)));
         } else {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlert", 2131628106, getMessagesController().linkPrefix + "/" + currentChannel.username, currentChannel.title)));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlert", 2131628107, getMessagesController().linkPrefix + "/" + currentChannel.username, currentChannel.title)));
         }
         builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
-        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new ChatEditTypeActivity$$ExternalSyntheticLambda0(this, currentChannel));
+        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628105), new ChatEditTypeActivity$$ExternalSyntheticLambda0(this, currentChannel));
         showDialog(builder.create());
     }
 
@@ -1007,8 +1007,8 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", 2131628103));
-                builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
+                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", 2131628104));
+                builder.setTitle(LocaleController.getString("RevokeLink", 2131628106));
                 builder.setNegativeButton(LocaleController.getString("OK", 2131627127), null);
                 showDialog(builder.create());
             }

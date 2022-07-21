@@ -2,6 +2,8 @@ package org.telegram.ui.Cells;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,11 +13,14 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.Interpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,23 +44,44 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.ForegroundColorSpanThemable;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.Premium.PremiumButtonView;
 import org.telegram.ui.Components.RadialProgressView;
 /* loaded from: classes3.dex */
 public class StickerSetCell extends FrameLayout {
+    private TextView addButtonView;
     private CheckBox2 checkBox;
+    private boolean emojis;
     private BackupImageView imageView;
     private boolean needDivider;
     private final int option;
     private ImageView optionsButton;
+    private PremiumButtonView premiumButtonView;
     private RadialProgressView progressView;
-    private Rect rect = new Rect();
+    private Rect rect;
+    private TextView removeButtonView;
     private ImageView reorderButton;
+    private FrameLayout sideButtons;
+    private AnimatorSet stateAnimator;
     private TLRPC$TL_messages_stickerSet stickersSet;
     private TextView textView;
     private TextView valueTextView;
 
+    protected void onAddButtonClick() {
+    }
+
+    protected void onPremiumButtonClick() {
+    }
+
+    protected void onRemoveButtonClick() {
+    }
+
     public StickerSetCell(Context context, int i) {
+        this(context, null, i);
+    }
+
+    public StickerSetCell(Context context, Theme.ResourcesProvider resourcesProvider, int i) {
         super(context);
+        this.rect = new Rect();
         this.option = i;
         TextView textView = new TextView(context);
         this.textView = textView;
@@ -83,7 +109,6 @@ public class StickerSetCell extends FrameLayout {
         this.imageView.setLayerNum(1);
         BackupImageView backupImageView2 = this.imageView;
         boolean z = LocaleController.isRTL;
-        int i2 = 5;
         addView(backupImageView2, LayoutHelper.createFrame(40, 40.0f, (z ? 5 : 3) | 48, z ? 0.0f : 13.0f, 9.0f, z ? 13.0f : 0.0f, 0.0f));
         if (i == 2) {
             RadialProgressView radialProgressView = new RadialProgressView(getContext());
@@ -92,46 +117,107 @@ public class StickerSetCell extends FrameLayout {
             this.progressView.setSize(AndroidUtilities.dp(30.0f));
             RadialProgressView radialProgressView2 = this.progressView;
             boolean z2 = LocaleController.isRTL;
-            addView(radialProgressView2, LayoutHelper.createFrame(48, 48.0f, (!z2 ? 3 : i2) | 48, z2 ? 0.0f : 12.0f, 5.0f, z2 ? 12.0f : 0.0f, 0.0f));
-        } else if (i == 0) {
-        } else {
+            addView(radialProgressView2, LayoutHelper.createFrame(48, 48.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 12.0f, 5.0f, z2 ? 12.0f : 0.0f, 0.0f));
+        } else if (i != 0) {
             ImageView imageView = new ImageView(context);
             this.optionsButton = imageView;
-            int i3 = 0;
             imageView.setFocusable(false);
             this.optionsButton.setScaleType(ImageView.ScaleType.CENTER);
             if (i != 3) {
                 this.optionsButton.setBackground(Theme.createSelectorDrawable(Theme.getColor("stickers_menuSelector")));
             }
-            if (i != 1) {
-                if (i != 3) {
-                    return;
-                }
+            if (i == 1) {
+                this.optionsButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
+                this.optionsButton.setImageResource(2131165624);
+                this.optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", 2131624003));
+                addView(this.optionsButton, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? 3 : 5) | 16));
+                ImageView imageView2 = new ImageView(context);
+                this.reorderButton = imageView2;
+                imageView2.setAlpha(0.0f);
+                this.reorderButton.setVisibility(8);
+                this.reorderButton.setScaleType(ImageView.ScaleType.CENTER);
+                this.reorderButton.setImageResource(2131165577);
+                this.reorderButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
+                addView(this.reorderButton, LayoutHelper.createFrameRelatively(58.0f, 58.0f, 8388613));
+                CheckBox2 checkBox2 = new CheckBox2(context, 21);
+                this.checkBox = checkBox2;
+                checkBox2.setColor(null, "windowBackgroundWhite", "checkboxCheck");
+                this.checkBox.setDrawUnchecked(false);
+                this.checkBox.setDrawBackgroundAsArc(3);
+                addView(this.checkBox, LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388611, 34.0f, 30.0f, 0.0f, 0.0f));
+            } else if (i == 3) {
                 this.optionsButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("featuredStickers_addedIcon"), PorterDuff.Mode.MULTIPLY));
                 this.optionsButton.setImageResource(2131165412);
-                ImageView imageView2 = this.optionsButton;
+                ImageView imageView3 = this.optionsButton;
                 boolean z3 = LocaleController.isRTL;
-                addView(imageView2, LayoutHelper.createFrame(40, 40.0f, (z3 ? 3 : i2) | 48, z3 ? 10 : 0, 9.0f, !z3 ? 10 : i3, 0.0f));
-                return;
+                addView(imageView3, LayoutHelper.createFrame(40, 40.0f, (z3 ? 3 : 5) | 48, z3 ? 10 : 0, 9.0f, z3 ? 0 : 10, 0.0f));
             }
-            this.optionsButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
-            this.optionsButton.setImageResource(2131165624);
-            this.optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", 2131624003));
-            addView(this.optionsButton, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? 3 : i2) | 16));
-            ImageView imageView3 = new ImageView(context);
-            this.reorderButton = imageView3;
-            imageView3.setAlpha(0.0f);
-            this.reorderButton.setVisibility(8);
-            this.reorderButton.setScaleType(ImageView.ScaleType.CENTER);
-            this.reorderButton.setImageResource(2131165577);
-            this.reorderButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
-            addView(this.reorderButton, LayoutHelper.createFrameRelatively(58.0f, 58.0f, 8388613));
-            CheckBox2 checkBox2 = new CheckBox2(context, 21);
-            this.checkBox = checkBox2;
-            checkBox2.setColor(null, "windowBackgroundWhite", "checkboxCheck");
-            this.checkBox.setDrawUnchecked(false);
-            this.checkBox.setDrawBackgroundAsArc(3);
-            addView(this.checkBox, LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388611, 34.0f, 30.0f, 0.0f, 0.0f));
+        }
+        this.sideButtons = new FrameLayout(getContext());
+        TextView textView3 = new TextView(context);
+        this.addButtonView = textView3;
+        textView3.setTextSize(1, 14.0f);
+        this.addButtonView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.addButtonView.setText(LocaleController.getString("Add", 2131624242));
+        this.addButtonView.setTextColor(Theme.getColor("featuredStickers_buttonText", resourcesProvider));
+        this.addButtonView.setBackground(Theme.AdaptiveRipple.createRect(Theme.getColor("featuredStickers_addButton", resourcesProvider), Theme.getColor("featuredStickers_addButtonPressed", resourcesProvider), 4.0f));
+        this.addButtonView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
+        this.addButtonView.setGravity(17);
+        this.addButtonView.setOnClickListener(new StickerSetCell$$ExternalSyntheticLambda4(this));
+        this.sideButtons.addView(this.addButtonView, LayoutHelper.createFrameRelatively(-2.0f, 28.0f, (LocaleController.isRTL ? 3 : 5) | 16));
+        TextView textView4 = new TextView(context);
+        this.removeButtonView = textView4;
+        textView4.setTextSize(1, 14.0f);
+        this.removeButtonView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        this.removeButtonView.setText(LocaleController.getString("StickersRemove", 2131628515));
+        this.removeButtonView.setTextColor(Theme.getColor("featuredStickers_addButton", resourcesProvider));
+        this.removeButtonView.setBackground(Theme.AdaptiveRipple.createRect(0, Theme.getColor("featuredStickers_addButton", resourcesProvider) & 452984831, 4.0f));
+        this.removeButtonView.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
+        this.removeButtonView.setGravity(17);
+        this.removeButtonView.setOnClickListener(new StickerSetCell$$ExternalSyntheticLambda1(this));
+        this.sideButtons.addView(this.removeButtonView, LayoutHelper.createFrameRelatively(-2.0f, 32.0f, (LocaleController.isRTL ? 3 : 5) | 16, 0.0f, -2.0f, 0.0f, 0.0f));
+        PremiumButtonView premiumButtonView = new PremiumButtonView(context, AndroidUtilities.dp(4.0f), false);
+        this.premiumButtonView = premiumButtonView;
+        premiumButtonView.setIcon(2131558588);
+        this.premiumButtonView.setButton(LocaleController.getString("Unlock", 2131628801), new StickerSetCell$$ExternalSyntheticLambda5(this));
+        try {
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.premiumButtonView.getIconView().getLayoutParams();
+            marginLayoutParams.leftMargin = AndroidUtilities.dp(1.0f);
+            marginLayoutParams.topMargin = AndroidUtilities.dp(1.0f);
+            int dp = AndroidUtilities.dp(20.0f);
+            marginLayoutParams.height = dp;
+            marginLayoutParams.width = dp;
+            ((ViewGroup.MarginLayoutParams) this.premiumButtonView.getTextView().getLayoutParams()).leftMargin = AndroidUtilities.dp(3.0f);
+            this.premiumButtonView.getChildAt(0).setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), 0);
+        } catch (Exception unused) {
+        }
+        this.sideButtons.addView(this.premiumButtonView, LayoutHelper.createFrameRelatively(-2.0f, 28.0f, (LocaleController.isRTL ? 3 : 5) | 16));
+        this.sideButtons.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
+        addView(this.sideButtons, LayoutHelper.createFrame(-2, -1.0f, LocaleController.isRTL ? 3 : 5, 0.0f, 0.0f, 0.0f, 0.0f));
+        this.sideButtons.setOnClickListener(new StickerSetCell$$ExternalSyntheticLambda2(this));
+        updateButtonState(0, false);
+    }
+
+    public /* synthetic */ void lambda$new$0(View view) {
+        onAddButtonClick();
+    }
+
+    public /* synthetic */ void lambda$new$1(View view) {
+        onRemoveButtonClick();
+    }
+
+    public /* synthetic */ void lambda$new$2(View view) {
+        onPremiumButtonClick();
+    }
+
+    public /* synthetic */ void lambda$new$3(View view) {
+        if (this.premiumButtonView.getVisibility() == 0) {
+            onPremiumButtonClick();
+        } else if (this.addButtonView.getVisibility() == 0) {
+            onAddButtonClick();
+        } else if (this.removeButtonView.getVisibility() != 0) {
+        } else {
+            onRemoveButtonClick();
         }
     }
 
@@ -189,11 +275,20 @@ public class StickerSetCell extends FrameLayout {
             this.valueTextView.setAlpha(1.0f);
             this.imageView.setAlpha(1.0f);
         }
+        boolean z3 = tLRPC$TL_messages_stickerSet.set.emojis;
+        this.emojis = z3;
+        int i = 8;
+        this.sideButtons.setVisibility(z3 ? 0 : 8);
+        ImageView imageView = this.optionsButton;
+        if (!this.emojis) {
+            i = 0;
+        }
+        imageView.setVisibility(i);
         ArrayList<TLRPC$Document> arrayList = tLRPC$TL_messages_stickerSet.documents;
         String str = "EmojiCount";
         if (arrayList != null && !arrayList.isEmpty()) {
             TextView textView = this.valueTextView;
-            if (!tLRPC$TL_messages_stickerSet.set.emojis) {
+            if (!this.emojis) {
                 str = "Stickers";
             }
             textView.setText(LocaleController.formatPluralString(str, arrayList.size(), new Object[0]));
@@ -203,13 +298,13 @@ public class StickerSetCell extends FrameLayout {
                 closestPhotoSizeWithSize = tLRPC$Document;
             }
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_messages_stickerSet.set.thumbs, "windowBackgroundGray", 1.0f);
-            boolean z3 = closestPhotoSizeWithSize instanceof TLRPC$Document;
-            if (z3) {
+            boolean z4 = closestPhotoSizeWithSize instanceof TLRPC$Document;
+            if (z4) {
                 imageLocation = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
             } else {
                 imageLocation = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$TL_messages_stickerSet.set.thumb_version);
             }
-            if ((!z3 || !MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) && !MessageObject.isVideoSticker(tLRPC$Document)) {
+            if ((!z4 || !MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) && !MessageObject.isVideoSticker(tLRPC$Document)) {
                 if (imageLocation != null && imageLocation.imageType == 1) {
                     this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
                 } else {
@@ -243,26 +338,65 @@ public class StickerSetCell extends FrameLayout {
 
     public boolean isChecked() {
         int i = this.option;
-        return i == 1 ? this.checkBox.isChecked() : i == 3 && this.optionsButton.getVisibility() == 0;
+        if (i == 1) {
+            return this.checkBox.isChecked();
+        }
+        return i == 3 ? this.optionsButton.getVisibility() == 0 : this.emojis && this.sideButtons.getVisibility() == 0;
     }
 
     public void setChecked(boolean z, boolean z2) {
         int i = this.option;
         if (i == 1) {
             this.checkBox.setChecked(z, z2);
-        } else if (i != 3) {
-        } else {
-            float f = 0.1f;
+            return;
+        }
+        float f = 0.0f;
+        int i2 = 0;
+        float f2 = 1.0f;
+        if (this.emojis) {
             if (z2) {
-                this.optionsButton.animate().cancel();
-                ViewPropertyAnimator scaleX = this.optionsButton.animate().setListener(new AnonymousClass1(z)).alpha(z ? 1.0f : 0.0f).scaleX(z ? 1.0f : 0.1f);
+                this.sideButtons.animate().cancel();
+                ViewPropertyAnimator listener = this.sideButtons.animate().setListener(new AnonymousClass1(z));
                 if (z) {
                     f = 1.0f;
                 }
-                scaleX.scaleY(f).setDuration(150L).start();
+                ViewPropertyAnimator scaleX = listener.alpha(f).scaleX(z ? 1.0f : 0.1f);
+                if (!z) {
+                    f2 = 0.1f;
+                }
+                scaleX.scaleY(f2).setDuration(150L).start();
                 return;
             }
-            this.optionsButton.setVisibility(z ? 0 : 4);
+            FrameLayout frameLayout = this.sideButtons;
+            if (!z) {
+                i2 = 4;
+            }
+            frameLayout.setVisibility(i2);
+            if (z) {
+                return;
+            }
+            this.sideButtons.setScaleX(0.1f);
+            this.sideButtons.setScaleY(0.1f);
+        } else if (i != 3) {
+        } else {
+            if (z2) {
+                this.optionsButton.animate().cancel();
+                ViewPropertyAnimator listener2 = this.optionsButton.animate().setListener(new AnonymousClass2(z));
+                if (z) {
+                    f = 1.0f;
+                }
+                ViewPropertyAnimator scaleX2 = listener2.alpha(f).scaleX(z ? 1.0f : 0.1f);
+                if (!z) {
+                    f2 = 0.1f;
+                }
+                scaleX2.scaleY(f2).setDuration(150L).start();
+                return;
+            }
+            ImageView imageView = this.optionsButton;
+            if (!z) {
+                i2 = 4;
+            }
+            imageView.setVisibility(i2);
             if (z) {
                 return;
             }
@@ -277,6 +411,31 @@ public class StickerSetCell extends FrameLayout {
         final /* synthetic */ boolean val$checked;
 
         AnonymousClass1(boolean z) {
+            StickerSetCell.this = r1;
+            this.val$checked = z;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            if (!this.val$checked) {
+                StickerSetCell.this.sideButtons.setVisibility(4);
+            }
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            if (this.val$checked) {
+                StickerSetCell.this.sideButtons.setVisibility(0);
+            }
+        }
+    }
+
+    /* renamed from: org.telegram.ui.Cells.StickerSetCell$2 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass2 extends AnimatorListenerAdapter {
+        final /* synthetic */ boolean val$checked;
+
+        AnonymousClass2(boolean z) {
             StickerSetCell.this = r1;
             this.val$checked = z;
         }
@@ -321,15 +480,31 @@ public class StickerSetCell extends FrameLayout {
                 this.reorderButton.setVisibility(0);
                 ViewPropertyAnimator duration = this.reorderButton.animate().alpha(fArr[0]).scaleX(fArr2[0]).scaleY(fArr2[0]).setDuration(200L);
                 Interpolator interpolator = Easings.easeOutSine;
-                duration.setInterpolator(interpolator).withEndAction(new StickerSetCell$$ExternalSyntheticLambda1(this, z)).start();
+                duration.setInterpolator(interpolator).withEndAction(new StickerSetCell$$ExternalSyntheticLambda7(this, z)).start();
+                if (this.emojis) {
+                    this.sideButtons.setVisibility(0);
+                    this.sideButtons.animate().alpha(fArr[1]).scaleX(fArr2[1]).scaleY(fArr2[1]).setDuration(200L).setInterpolator(interpolator).withEndAction(new StickerSetCell$$ExternalSyntheticLambda8(this, z)).start();
+                    return;
+                }
                 this.optionsButton.setVisibility(0);
-                this.optionsButton.animate().alpha(fArr[1]).scaleX(fArr2[1]).scaleY(fArr2[1]).setDuration(200L).setInterpolator(interpolator).withEndAction(new StickerSetCell$$ExternalSyntheticLambda0(this, z)).start();
+                this.optionsButton.animate().alpha(fArr[1]).scaleX(fArr2[1]).scaleY(fArr2[1]).setDuration(200L).setInterpolator(interpolator).withEndAction(new StickerSetCell$$ExternalSyntheticLambda6(this, z)).start();
                 return;
             }
             this.reorderButton.setVisibility(z ? 0 : 8);
             this.reorderButton.setAlpha(fArr[0]);
             this.reorderButton.setScaleX(fArr2[0]);
             this.reorderButton.setScaleY(fArr2[0]);
+            if (this.emojis) {
+                FrameLayout frameLayout = this.sideButtons;
+                if (z) {
+                    i = 8;
+                }
+                frameLayout.setVisibility(i);
+                this.sideButtons.setAlpha(fArr[1]);
+                this.sideButtons.setScaleX(fArr2[1]);
+                this.sideButtons.setScaleY(fArr2[1]);
+                return;
+            }
             ImageView imageView = this.optionsButton;
             if (z) {
                 i = 8;
@@ -341,13 +516,19 @@ public class StickerSetCell extends FrameLayout {
         }
     }
 
-    public /* synthetic */ void lambda$setReorderable$0(boolean z) {
+    public /* synthetic */ void lambda$setReorderable$4(boolean z) {
         if (!z) {
             this.reorderButton.setVisibility(8);
         }
     }
 
-    public /* synthetic */ void lambda$setReorderable$1(boolean z) {
+    public /* synthetic */ void lambda$setReorderable$5(boolean z) {
+        if (z) {
+            this.sideButtons.setVisibility(8);
+        }
+    }
+
+    public /* synthetic */ void lambda$setReorderable$6(boolean z) {
         if (z) {
             this.optionsButton.setVisibility(8);
         }
@@ -372,9 +553,17 @@ public class StickerSetCell extends FrameLayout {
 
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
+        FrameLayout frameLayout;
         ImageView imageView;
-        if (Build.VERSION.SDK_INT >= 21 && getBackground() != null && (imageView = this.optionsButton) != null) {
+        int i = Build.VERSION.SDK_INT;
+        if (i >= 21 && getBackground() != null && (imageView = this.optionsButton) != null) {
             imageView.getHitRect(this.rect);
+            if (this.rect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
+                return true;
+            }
+        }
+        if (i >= 21 && getBackground() != null && this.emojis && (frameLayout = this.sideButtons) != null) {
+            frameLayout.getHitRect(this.rect);
             if (this.rect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
                 return true;
             }
@@ -386,6 +575,151 @@ public class StickerSetCell extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         if (this.needDivider) {
             canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(71.0f), getHeight() - 1, (getWidth() - getPaddingRight()) - (LocaleController.isRTL ? AndroidUtilities.dp(71.0f) : 0), getHeight() - 1, Theme.dividerPaint);
+        }
+    }
+
+    public void updateButtonState(int i, boolean z) {
+        AnimatorSet animatorSet = this.stateAnimator;
+        if (animatorSet != null) {
+            animatorSet.cancel();
+            this.stateAnimator = null;
+        }
+        if (i == 1) {
+            this.premiumButtonView.setButton(LocaleController.getString("Unlock", 2131628801), new StickerSetCell$$ExternalSyntheticLambda3(this));
+        } else if (i == 2) {
+            this.premiumButtonView.setButton(LocaleController.getString("Restore", 2131628072), new StickerSetCell$$ExternalSyntheticLambda0(this));
+        }
+        int i2 = 0;
+        this.premiumButtonView.setEnabled(i == 1 || i == 2);
+        this.addButtonView.setEnabled(i == 3);
+        this.removeButtonView.setEnabled(i == 4);
+        float f = 0.0f;
+        float f2 = 0.6f;
+        if (z) {
+            AnimatorSet animatorSet2 = new AnimatorSet();
+            this.stateAnimator = animatorSet2;
+            Animator[] animatorArr = new Animator[9];
+            PremiumButtonView premiumButtonView = this.premiumButtonView;
+            Property property = FrameLayout.ALPHA;
+            float[] fArr = new float[1];
+            fArr[0] = (i == 1 || i == 2) ? 1.0f : 0.0f;
+            animatorArr[0] = ObjectAnimator.ofFloat(premiumButtonView, property, fArr);
+            PremiumButtonView premiumButtonView2 = this.premiumButtonView;
+            Property property2 = FrameLayout.SCALE_X;
+            float[] fArr2 = new float[1];
+            fArr2[0] = (i == 1 || i == 2) ? 1.0f : 0.6f;
+            animatorArr[1] = ObjectAnimator.ofFloat(premiumButtonView2, property2, fArr2);
+            PremiumButtonView premiumButtonView3 = this.premiumButtonView;
+            Property property3 = FrameLayout.SCALE_Y;
+            float[] fArr3 = new float[1];
+            fArr3[0] = (i == 1 || i == 2) ? 1.0f : 0.6f;
+            animatorArr[2] = ObjectAnimator.ofFloat(premiumButtonView3, property3, fArr3);
+            TextView textView = this.addButtonView;
+            Property property4 = FrameLayout.ALPHA;
+            float[] fArr4 = new float[1];
+            fArr4[0] = i == 3 ? 1.0f : 0.0f;
+            animatorArr[3] = ObjectAnimator.ofFloat(textView, property4, fArr4);
+            TextView textView2 = this.addButtonView;
+            Property property5 = FrameLayout.SCALE_X;
+            float[] fArr5 = new float[1];
+            fArr5[0] = i == 3 ? 1.0f : 0.6f;
+            animatorArr[4] = ObjectAnimator.ofFloat(textView2, property5, fArr5);
+            TextView textView3 = this.addButtonView;
+            Property property6 = FrameLayout.SCALE_Y;
+            float[] fArr6 = new float[1];
+            fArr6[0] = i == 3 ? 1.0f : 0.6f;
+            animatorArr[5] = ObjectAnimator.ofFloat(textView3, property6, fArr6);
+            TextView textView4 = this.removeButtonView;
+            Property property7 = FrameLayout.ALPHA;
+            float[] fArr7 = new float[1];
+            if (i == 4) {
+                f = 1.0f;
+            }
+            fArr7[0] = f;
+            animatorArr[6] = ObjectAnimator.ofFloat(textView4, property7, fArr7);
+            TextView textView5 = this.removeButtonView;
+            Property property8 = FrameLayout.SCALE_X;
+            float[] fArr8 = new float[1];
+            fArr8[0] = i == 4 ? 1.0f : 0.6f;
+            animatorArr[7] = ObjectAnimator.ofFloat(textView5, property8, fArr8);
+            TextView textView6 = this.removeButtonView;
+            Property property9 = FrameLayout.SCALE_Y;
+            float[] fArr9 = new float[1];
+            if (i == 4) {
+                f2 = 1.0f;
+            }
+            fArr9[0] = f2;
+            animatorArr[8] = ObjectAnimator.ofFloat(textView6, property9, fArr9);
+            animatorSet2.playTogether(animatorArr);
+            this.stateAnimator.addListener(new AnonymousClass3(i));
+            this.stateAnimator.setDuration(250L);
+            this.stateAnimator.setInterpolator(new OvershootInterpolator(1.02f));
+            this.stateAnimator.start();
+            return;
+        }
+        this.premiumButtonView.setAlpha((i == 1 || i == 2) ? 1.0f : 0.0f);
+        this.premiumButtonView.setScaleX((i == 1 || i == 2) ? 1.0f : 0.6f);
+        this.premiumButtonView.setScaleY((i == 1 || i == 2) ? 1.0f : 0.6f);
+        this.premiumButtonView.setVisibility((i == 1 || i == 2) ? 0 : 8);
+        this.addButtonView.setAlpha(i == 3 ? 1.0f : 0.0f);
+        this.addButtonView.setScaleX(i == 3 ? 1.0f : 0.6f);
+        this.addButtonView.setScaleY(i == 3 ? 1.0f : 0.6f);
+        this.addButtonView.setVisibility(i == 3 ? 0 : 8);
+        TextView textView7 = this.removeButtonView;
+        if (i == 4) {
+            f = 1.0f;
+        }
+        textView7.setAlpha(f);
+        this.removeButtonView.setScaleX(i == 4 ? 1.0f : 0.6f);
+        TextView textView8 = this.removeButtonView;
+        if (i == 4) {
+            f2 = 1.0f;
+        }
+        textView8.setScaleY(f2);
+        TextView textView9 = this.removeButtonView;
+        if (i != 4) {
+            i2 = 8;
+        }
+        textView9.setVisibility(i2);
+    }
+
+    public /* synthetic */ void lambda$updateButtonState$7(View view) {
+        onPremiumButtonClick();
+    }
+
+    public /* synthetic */ void lambda$updateButtonState$8(View view) {
+        onPremiumButtonClick();
+    }
+
+    /* renamed from: org.telegram.ui.Cells.StickerSetCell$3 */
+    /* loaded from: classes3.dex */
+    public class AnonymousClass3 extends AnimatorListenerAdapter {
+        final /* synthetic */ int val$state;
+
+        AnonymousClass3(int i) {
+            StickerSetCell.this = r1;
+            this.val$state = i;
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationStart(Animator animator) {
+            StickerSetCell.this.premiumButtonView.setVisibility(0);
+            StickerSetCell.this.addButtonView.setVisibility(0);
+            StickerSetCell.this.removeButtonView.setVisibility(0);
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            PremiumButtonView premiumButtonView = StickerSetCell.this.premiumButtonView;
+            int i = this.val$state;
+            int i2 = 8;
+            premiumButtonView.setVisibility((i == 1 || i == 2) ? 0 : 8);
+            StickerSetCell.this.addButtonView.setVisibility(this.val$state == 3 ? 0 : 8);
+            TextView textView = StickerSetCell.this.removeButtonView;
+            if (this.val$state == 4) {
+                i2 = 0;
+            }
+            textView.setVisibility(i2);
         }
     }
 

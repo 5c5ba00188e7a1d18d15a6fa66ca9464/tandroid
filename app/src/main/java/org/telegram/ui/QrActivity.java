@@ -260,7 +260,7 @@ public class QrActivity extends BaseFragment {
         paint.setColor(-1);
         canvas.drawRoundRect(rectF, AndroidUtilities.dp(5.0f), AndroidUtilities.dp(5.0f), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-        canvas.drawBitmap(BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), 2131165886), (this.emojiThemeIcon.getWidth() - decodeResource.getWidth()) * 0.5f, (this.emojiThemeIcon.getHeight() - decodeResource.getHeight()) * 0.5f, paint);
+        canvas.drawBitmap(BitmapFactory.decodeResource(ApplicationLoader.applicationContext.getResources(), 2131165889), (this.emojiThemeIcon.getWidth() - decodeResource.getWidth()) * 0.5f, (this.emojiThemeIcon.getHeight() - decodeResource.getHeight()) * 0.5f, paint);
         canvas.setBitmap(null);
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(this, getParentActivity().getWindow());
         this.themesViewController = anonymousClass3;
@@ -1002,13 +1002,13 @@ public class QrActivity extends BaseFragment {
                     break;
                 }
                 if (i5 == 0) {
-                    drawable = ContextCompat.getDrawable(getContext(), 2131166103);
+                    drawable = ContextCompat.getDrawable(getContext(), 2131166106);
                     textPaint.setTextSize(AndroidUtilities.dp(30.0f));
                 } else if (i5 == 1) {
-                    drawable = ContextCompat.getDrawable(getContext(), 2131166104);
+                    drawable = ContextCompat.getDrawable(getContext(), 2131166107);
                     textPaint.setTextSize(AndroidUtilities.dp(25.0f));
                 } else {
-                    drawable = ContextCompat.getDrawable(getContext(), 2131166105);
+                    drawable = ContextCompat.getDrawable(getContext(), 2131166108);
                     textPaint.setTextSize(AndroidUtilities.dp(19.0f));
                 }
                 if (drawable != null) {
@@ -1123,7 +1123,7 @@ public class QrActivity extends BaseFragment {
             this.window = window;
             Activity parentActivity = baseFragment.getParentActivity();
             this.scroller = new AnonymousClass1(this, parentActivity, r21);
-            Drawable mutate = parentActivity.getResources().getDrawable(2131166140).mutate();
+            Drawable mutate = parentActivity.getResources().getDrawable(2131166143).mutate();
             this.backgroundDrawable = mutate;
             mutate.setColorFilter(new PorterDuffColorFilter(baseFragment.getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
             AnonymousClass2 anonymousClass2 = new AnonymousClass2(parentActivity, r21, baseFragment);
@@ -1177,12 +1177,12 @@ public class QrActivity extends BaseFragment {
             View view = new View(parentActivity);
             this.topShadow = view;
             view.setAlpha(0.0f);
-            view.setBackground(ContextCompat.getDrawable(parentActivity, 2131166136));
+            view.setBackground(ContextCompat.getDrawable(parentActivity, 2131166139));
             view.setRotation(180.0f);
             anonymousClass2.addView(view);
             View view2 = new View(parentActivity);
             this.bottomShadow = view2;
-            view2.setBackground(ContextCompat.getDrawable(parentActivity, 2131166136));
+            view2.setBackground(ContextCompat.getDrawable(parentActivity, 2131166139));
             anonymousClass2.addView(view2);
             TextView textView2 = new TextView(parentActivity);
             this.shareButton = textView2;
@@ -1191,7 +1191,7 @@ public class QrActivity extends BaseFragment {
             textView2.setGravity(17);
             textView2.setLines(1);
             textView2.setSingleLine(true);
-            textView2.setText(LocaleController.getString("ShareQrCode", 2131628345));
+            textView2.setText(LocaleController.getString("ShareQrCode", 2131628346));
             textView2.setTextColor(baseFragment.getThemedColor("featuredStickers_buttonText"));
             textView2.setTextSize(1, 15.0f);
             textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));

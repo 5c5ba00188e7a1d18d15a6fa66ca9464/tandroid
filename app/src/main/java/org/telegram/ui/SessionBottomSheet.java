@@ -139,7 +139,7 @@ public class SessionBottomSheet extends BottomSheet {
         if (secretChatsEnabled(tLRPC$TL_authorization)) {
             ItemView itemView4 = new ItemView(parentActivity, true);
             itemView4.valueText.setText(LocaleController.getString("AcceptSecretChats", 2131624124));
-            Drawable mutate4 = ContextCompat.getDrawable(parentActivity, 2131165925).mutate();
+            Drawable mutate4 = ContextCompat.getDrawable(parentActivity, 2131165928).mutate();
             mutate4.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
             itemView4.iconView.setImageDrawable(mutate4);
             itemView4.switchView.setChecked(!tLRPC$TL_authorization.encrypted_requests_disabled, false);
@@ -167,7 +167,7 @@ public class SessionBottomSheet extends BottomSheet {
             textView3.setGravity(17);
             textView3.setTextSize(1, 14.0f);
             textView3.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-            textView3.setText(LocaleController.getString("TerminateSession", 2131628651));
+            textView3.setText(LocaleController.getString("TerminateSession", 2131628652));
             textView3.setTextColor(Theme.getColor("featuredStickers_buttonText"));
             textView3.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("chat_attachAudioBackground"), ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhite"), 120)));
             linearLayout.addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 0, 16.0f, 15.0f, 16.0f, 16.0f));
@@ -320,9 +320,9 @@ public class SessionBottomSheet extends BottomSheet {
         @Override // android.view.View.OnClickListener
         public void onClick(View view) {
             AlertDialog.Builder builder = new AlertDialog.Builder(SessionBottomSheet.this.parentFragment.getParentActivity());
-            builder.setMessage(LocaleController.getString("TerminateSessionText", 2131628654));
+            builder.setMessage(LocaleController.getString("TerminateSessionText", 2131628655));
             builder.setTitle(LocaleController.getString("AreYouSureSessionTitle", 2131624474));
-            builder.setPositiveButton(LocaleController.getString("Terminate", 2131628647), new SessionBottomSheet$8$$ExternalSyntheticLambda0(this, this.val$callback, this.val$session));
+            builder.setPositiveButton(LocaleController.getString("Terminate", 2131628648), new SessionBottomSheet$8$$ExternalSyntheticLambda0(this, this.val$callback, this.val$session));
             builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             AlertDialog create = builder.create();
             this.val$fragment.showDialog(create);
@@ -361,7 +361,7 @@ public class SessionBottomSheet extends BottomSheet {
 
     public /* synthetic */ void lambda$copyText$1(String str, DialogInterface dialogInterface, int i) {
         ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", str));
-        BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", 2131628662)).show();
+        BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", 2131628663)).show();
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:41:0x00c4, code lost:

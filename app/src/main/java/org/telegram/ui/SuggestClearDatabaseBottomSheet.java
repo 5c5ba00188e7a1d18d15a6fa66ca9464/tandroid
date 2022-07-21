@@ -44,13 +44,13 @@ public class SuggestClearDatabaseBottomSheet extends BottomSheet {
         textView.setTextColor(Theme.getColor("dialogTextBlack"));
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        textView.setText(LocaleController.getString("SuggestClearDatabaseTitle", 2131628560));
+        textView.setText(LocaleController.getString("SuggestClearDatabaseTitle", 2131628561));
         linearLayout.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 0, 21.0f, 30.0f, 21.0f, 0.0f));
         TextView textView2 = new TextView(parentActivity);
         textView2.setGravity(8388611);
         textView2.setTextSize(1, 15.0f);
         textView2.setTextColor(Theme.getColor("dialogTextBlack"));
-        textView2.setText(AndroidUtilities.replaceTags(LocaleController.formatString("SuggestClearDatabaseMessage", 2131628559, AndroidUtilities.formatFileSize(baseFragment.getMessagesStorage().getDatabaseSize()))));
+        textView2.setText(AndroidUtilities.replaceTags(LocaleController.formatString("SuggestClearDatabaseMessage", 2131628560, AndroidUtilities.formatFileSize(baseFragment.getMessagesStorage().getDatabaseSize()))));
         linearLayout.addView(textView2, LayoutHelper.createFrame(-1, -2.0f, 0, 21.0f, 15.0f, 21.0f, 16.0f));
         TextView textView3 = new TextView(parentActivity);
         textView3.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);

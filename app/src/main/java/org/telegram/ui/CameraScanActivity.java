@@ -390,7 +390,7 @@ public class CameraScanActivity extends BaseFragment {
                 ImageView imageView = new ImageView(context);
                 this.galleryButton = imageView;
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
-                this.galleryButton.setImageResource(2131166107);
+                this.galleryButton.setImageResource(2131166110);
                 this.galleryButton.setBackgroundDrawable(Theme.createSelectorDrawableFromDrawables(Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 587202559), Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 1157627903)));
                 anonymousClass3.addView(this.galleryButton);
                 this.galleryButton.setOnClickListener(new CameraScanActivity$$ExternalSyntheticLambda2(this));
@@ -398,7 +398,7 @@ public class CameraScanActivity extends BaseFragment {
             ImageView imageView2 = new ImageView(context);
             this.flashButton = imageView2;
             imageView2.setScaleType(ImageView.ScaleType.CENTER);
-            this.flashButton.setImageResource(2131166106);
+            this.flashButton.setImageResource(2131166109);
             this.flashButton.setBackgroundDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 587202559));
             anonymousClass3.addView(this.flashButton);
             this.flashButton.setOnClickListener(new CameraScanActivity$$ExternalSyntheticLambda3(this));

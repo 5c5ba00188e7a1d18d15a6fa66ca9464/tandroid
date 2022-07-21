@@ -81,7 +81,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         ApplicationLoader.postInitApplication();
         requestWindowFeature(1);
         setTheme(2131689490);
-        getWindow().setBackgroundDrawableResource(2131166189);
+        getWindow().setBackgroundDrawableResource(2131166192);
         if (SharedConfig.passcodeHash.length() > 0 && !SharedConfig.allowScreenCapture) {
             try {
                 getWindow().setFlags(8192, 8192);
@@ -399,7 +399,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         try {
             alertDialog.dismiss();
             if ("APP_VERSION_OUTDATED".equals(tLRPC$TL_error.text)) {
-                AlertDialog showUpdateAppAlert = AlertsCreator.showUpdateAppAlert(this, LocaleController.getString("UpdateAppAlert", 2131628830), true);
+                AlertDialog showUpdateAppAlert = AlertsCreator.showUpdateAppAlert(this, LocaleController.getString("UpdateAppAlert", 2131628831), true);
                 if (showUpdateAppAlert != null) {
                     showUpdateAppAlert.setOnDismissListener(new ExternalActionActivity$$ExternalSyntheticLambda2(this, tLRPC$TL_error));
                 } else {

@@ -217,7 +217,7 @@ public class StarParticlesView extends View {
                         this.stars[i] = createBitmap;
                         Canvas canvas = new Canvas(createBitmap);
                         if (this.type == 6 && (i == 1 || i == 2)) {
-                            android.graphics.drawable.Drawable drawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165874);
+                            android.graphics.drawable.Drawable drawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165877);
                             drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(this.colorKey), PorterDuff.Mode.MULTIPLY));
                             drawable.setBounds(0, 0, i2, i2);
                             drawable.draw(canvas);

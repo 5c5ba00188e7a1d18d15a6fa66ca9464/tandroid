@@ -59,7 +59,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
-        this.actionBar.setTitle(LocaleController.getString("VoipQuickReplies", 2131629250));
+        this.actionBar.setTitle(LocaleController.getString("VoipQuickReplies", 2131629251));
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
         }
@@ -153,7 +153,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
             if (itemViewType == 0) {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
-                textInfoPrivacyCell.setText(LocaleController.getString("VoipQuickRepliesExplain", 2131629251));
+                textInfoPrivacyCell.setText(LocaleController.getString("VoipQuickRepliesExplain", 2131629252));
                 return;
             }
             boolean z = true;

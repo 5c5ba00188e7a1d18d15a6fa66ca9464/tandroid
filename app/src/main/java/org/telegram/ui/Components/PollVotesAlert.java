@@ -542,7 +542,7 @@ public class PollVotesAlert extends BottomSheet {
         updateButtons();
         Collections.sort(this.voters, new AnonymousClass2());
         updatePlaceholder();
-        Drawable mutate = parentActivity.getResources().getDrawable(2131166140).mutate();
+        Drawable mutate = parentActivity.getResources().getDrawable(2131166143).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(parentActivity);

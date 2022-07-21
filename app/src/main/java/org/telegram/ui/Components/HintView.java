@@ -85,14 +85,14 @@ public class HintView extends FrameLayout {
             this.textView.setText(LocaleController.getString("AutoplayVideoInfo", 2131624642));
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
-            imageView.setImageResource(2131166188);
+            imageView.setImageResource(2131166191);
             this.imageView.setScaleType(ImageView.ScaleType.CENTER);
             this.imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_gifSaveHintText"), PorterDuff.Mode.MULTIPLY));
             addView(this.imageView, LayoutHelper.createFrame(38, 34.0f, 51, 7.0f, 7.0f, 0.0f, 0.0f));
         }
         ImageView imageView2 = new ImageView(context);
         this.arrowImageView = imageView2;
-        imageView2.setImageResource(z ? 2131166187 : 2131166186);
+        imageView2.setImageResource(z ? 2131166190 : 2131166189);
         this.arrowImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_gifSaveHintBackground"), PorterDuff.Mode.MULTIPLY));
         addView(this.arrowImageView, LayoutHelper.createFrame(14, 6.0f, (z ? 48 : 80) | 3, 0.0f, 0.0f, 0.0f, 0.0f));
     }

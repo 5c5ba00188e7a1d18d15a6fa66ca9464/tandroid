@@ -35,6 +35,7 @@ import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -2542,19 +2543,19 @@ public class Theme {
 
         public String getName() {
             if ("Blue".equals(this.name)) {
-                return LocaleController.getString("ThemeClassic", 2131628669);
+                return LocaleController.getString("ThemeClassic", 2131628670);
             }
             if ("Dark Blue".equals(this.name)) {
-                return LocaleController.getString("ThemeDark", 2131628672);
+                return LocaleController.getString("ThemeDark", 2131628673);
             }
             if ("Arctic Blue".equals(this.name)) {
-                return LocaleController.getString("ThemeArcticBlue", 2131628668);
+                return LocaleController.getString("ThemeArcticBlue", 2131628669);
             }
             if ("Day".equals(this.name)) {
-                return LocaleController.getString("ThemeDay", 2131628674);
+                return LocaleController.getString("ThemeDay", 2131628675);
             }
             if ("Night".equals(this.name)) {
-                return LocaleController.getString("ThemeNight", 2131628685);
+                return LocaleController.getString("ThemeNight", 2131628686);
             }
             TLRPC$TL_theme tLRPC$TL_theme = this.info;
             return tLRPC$TL_theme != null ? tLRPC$TL_theme.title : this.name;
@@ -4854,9 +4855,9 @@ public class Theme {
 
     public static Drawable createEditTextDrawable(Context context, int i, int i2) {
         Resources resources = context.getResources();
-        Drawable mutate = resources.getDrawable(2131166124).mutate();
+        Drawable mutate = resources.getDrawable(2131166127).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
-        Drawable mutate2 = resources.getDrawable(2131166125).mutate();
+        Drawable mutate2 = resources.getDrawable(2131166128).mutate();
         mutate2.setColorFilter(new PorterDuffColorFilter(i2, PorterDuff.Mode.MULTIPLY));
         AnonymousClass4 anonymousClass4 = new AnonymousClass4();
         anonymousClass4.addState(new int[]{16842910, 16842908}, mutate2);
@@ -4921,7 +4922,7 @@ public class Theme {
         if (r2 == 1) goto L22;
      */
     /* JADX WARN: Code restructure failed: missing block: B:22:0x005c, code lost:
-        org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawable = org.telegram.messenger.ApplicationLoader.applicationContext.getResources().getDrawable(2131166000);
+        org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawable = org.telegram.messenger.ApplicationLoader.applicationContext.getResources().getDrawable(2131166003);
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawableOffsetX = -org.telegram.messenger.AndroidUtilities.dp(3.0f);
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawableOffsetY = -org.telegram.messenger.AndroidUtilities.dp(1.0f);
      */
@@ -5365,7 +5366,7 @@ public class Theme {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        private static Drawable createRect(int i, int i2, float... fArr) {
+        public static Drawable createRect(int i, int i2, float... fArr) {
             ColorDrawable colorDrawable = null;
             if (i != 0) {
                 if (hasNonzeroRadii(fArr)) {
@@ -5379,27 +5380,28 @@ public class Theme {
             return createRect(colorDrawable, i2, fArr);
         }
 
-        /* JADX WARN: Multi-variable type inference failed */
         private static Drawable createRect(Drawable drawable, int i, float... fArr) {
-            ColorDrawable colorDrawable;
-            ShapeDrawable shapeDrawable = null;
+            ShapeDrawable shapeDrawable;
+            ShapeDrawable shapeDrawable2;
             if (Build.VERSION.SDK_INT >= 21) {
                 if (hasNonzeroRadii(fArr)) {
-                    ShapeDrawable shapeDrawable2 = new ShapeDrawable(new RoundRectShape(calcRadii(fArr), null, null));
+                    shapeDrawable2 = new ShapeDrawable(new RoundRectShape(calcRadii(fArr), null, null));
                     shapeDrawable2.getPaint().setColor(-1);
-                    shapeDrawable = shapeDrawable2;
+                } else {
+                    shapeDrawable2 = new ShapeDrawable(new RectShape());
+                    shapeDrawable2.getPaint().setColor(-1);
                 }
-                return new RippleDrawable(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}), drawable, shapeDrawable);
+                return new RippleDrawable(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}), drawable, shapeDrawable2);
             }
             StateListDrawable stateListDrawable = new StateListDrawable();
             if (hasNonzeroRadii(fArr)) {
-                ShapeDrawable shapeDrawable3 = new ShapeDrawable(new RoundRectShape(calcRadii(fArr), null, null));
-                shapeDrawable3.getPaint().setColor(i);
-                colorDrawable = shapeDrawable3;
+                shapeDrawable = new ShapeDrawable(new RoundRectShape(calcRadii(fArr), null, null));
+                shapeDrawable.getPaint().setColor(i);
             } else {
-                colorDrawable = new ColorDrawable(i);
+                shapeDrawable = new ShapeDrawable(new RectShape());
+                shapeDrawable.getPaint().setColor(i);
             }
-            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{drawable, colorDrawable});
+            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{drawable, shapeDrawable});
             stateListDrawable.addState(new int[]{16842919}, layerDrawable);
             stateListDrawable.addState(new int[]{16842913}, layerDrawable);
             stateListDrawable.addState(StateSet.WILD_CARD, drawable);
@@ -5419,7 +5421,7 @@ public class Theme {
             return false;
         }
 
-        private static int calcRippleColor(int i) {
+        public static int calcRippleColor(int i) {
             if (tempHSV == null) {
                 tempHSV = new float[3];
             }
@@ -7296,14 +7298,14 @@ public class Theme {
                                                                 i15 = i5;
                                                                 int i25 = i7;
                                                                 int i26 = i13;
-                                                                mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166091).mutate();
+                                                                mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
                                                                 int i27 = i;
                                                                 setDrawableColor(mutate, i27);
-                                                                mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166093).mutate();
+                                                                mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166096).mutate();
                                                                 setDrawableColor(mutate2, i27);
-                                                                Drawable mutate3 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166095).mutate();
+                                                                Drawable mutate3 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166098).mutate();
                                                                 setDrawableColor(mutate3, previewColor4);
-                                                                Drawable mutate4 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
+                                                                Drawable mutate4 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166097).mutate();
                                                                 setDrawableColor(mutate4, previewColor4);
                                                                 MessageDrawable[] messageDrawableArr = new MessageDrawable[2];
                                                                 i17 = 0;
@@ -7359,14 +7361,14 @@ public class Theme {
                                                                     i15 = i5;
                                                                     int i252 = i7;
                                                                     int i262 = i13;
-                                                                    mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166091).mutate();
+                                                                    mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
                                                                     int i272 = i;
                                                                     setDrawableColor(mutate, i272);
-                                                                    mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166093).mutate();
+                                                                    mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166096).mutate();
                                                                     setDrawableColor(mutate2, i272);
-                                                                    Drawable mutate32 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166095).mutate();
+                                                                    Drawable mutate32 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166098).mutate();
                                                                     setDrawableColor(mutate32, previewColor4);
-                                                                    Drawable mutate42 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
+                                                                    Drawable mutate42 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166097).mutate();
                                                                     setDrawableColor(mutate42, previewColor4);
                                                                     MessageDrawable[] messageDrawableArr2 = new MessageDrawable[2];
                                                                     i17 = 0;
@@ -7425,14 +7427,14 @@ public class Theme {
                                                     i15 = i5;
                                                     int i2522 = i7;
                                                     int i2622 = i13;
-                                                    mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166091).mutate();
+                                                    mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
                                                     int i2722 = i;
                                                     setDrawableColor(mutate, i2722);
-                                                    mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166093).mutate();
+                                                    mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166096).mutate();
                                                     setDrawableColor(mutate2, i2722);
-                                                    Drawable mutate322 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166095).mutate();
+                                                    Drawable mutate322 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166098).mutate();
                                                     setDrawableColor(mutate322, previewColor4);
-                                                    Drawable mutate422 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
+                                                    Drawable mutate422 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166097).mutate();
                                                     setDrawableColor(mutate422, previewColor4);
                                                     MessageDrawable[] messageDrawableArr22 = new MessageDrawable[2];
                                                     i17 = 0;
@@ -7491,14 +7493,14 @@ public class Theme {
                                     }
                                     int i25222 = i7;
                                     int i26222 = i13;
-                                    mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166091).mutate();
+                                    mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
                                     int i27222 = i;
                                     setDrawableColor(mutate, i27222);
-                                    mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166093).mutate();
+                                    mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166096).mutate();
                                     setDrawableColor(mutate2, i27222);
-                                    Drawable mutate3222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166095).mutate();
+                                    Drawable mutate3222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166098).mutate();
                                     setDrawableColor(mutate3222, previewColor4);
-                                    Drawable mutate4222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
+                                    Drawable mutate4222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166097).mutate();
                                     setDrawableColor(mutate4222, previewColor4);
                                     MessageDrawable[] messageDrawableArr222 = new MessageDrawable[2];
                                     i17 = 0;
@@ -7877,14 +7879,14 @@ public class Theme {
                             }
                             int i252222 = i7;
                             int i262222 = i13;
-                            mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166091).mutate();
+                            mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
                             int i272222 = i;
                             setDrawableColor(mutate, i272222);
-                            mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166093).mutate();
+                            mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166096).mutate();
                             setDrawableColor(mutate2, i272222);
-                            Drawable mutate32222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166095).mutate();
+                            Drawable mutate32222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166098).mutate();
                             setDrawableColor(mutate32222, previewColor4);
-                            Drawable mutate42222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
+                            Drawable mutate42222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166097).mutate();
                             setDrawableColor(mutate42222, previewColor4);
                             MessageDrawable[] messageDrawableArr2222 = new MessageDrawable[2];
                             i17 = 0;
@@ -7945,14 +7947,14 @@ public class Theme {
                     }
                     int i2522222 = i7;
                     int i2622222 = i13;
-                    mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166091).mutate();
+                    mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
                     int i2722222 = i;
                     setDrawableColor(mutate, i2722222);
-                    mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166093).mutate();
+                    mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166096).mutate();
                     setDrawableColor(mutate2, i2722222);
-                    Drawable mutate322222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166095).mutate();
+                    Drawable mutate322222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166098).mutate();
                     setDrawableColor(mutate322222, previewColor4);
-                    Drawable mutate422222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
+                    Drawable mutate422222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166097).mutate();
                     setDrawableColor(mutate422222, previewColor4);
                     MessageDrawable[] messageDrawableArr22222 = new MessageDrawable[2];
                     i17 = 0;
@@ -8030,14 +8032,14 @@ public class Theme {
             }
             int i25222222 = i7;
             int i26222222 = i13;
-            mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166091).mutate();
+            mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
             int i27222222 = i;
             setDrawableColor(mutate, i27222222);
-            mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166093).mutate();
+            mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166096).mutate();
             setDrawableColor(mutate2, i27222222);
-            Drawable mutate3222222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166095).mutate();
+            Drawable mutate3222222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166098).mutate();
             setDrawableColor(mutate3222222, previewColor4);
-            Drawable mutate4222222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
+            Drawable mutate4222222 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166097).mutate();
             setDrawableColor(mutate4222222, previewColor4);
             MessageDrawable[] messageDrawableArr222222 = new MessageDrawable[2];
             i17 = 0;
@@ -8419,14 +8421,14 @@ public class Theme {
             dialogs_errorDrawable = resources.getDrawable(2131165580);
             dialogs_reorderDrawable = resources.getDrawable(2131165577).mutate();
             dialogs_muteDrawable = resources.getDrawable(2131165575).mutate();
-            dialogs_verifiedDrawable = resources.getDrawable(2131166192).mutate();
+            dialogs_verifiedDrawable = resources.getDrawable(2131166195).mutate();
             dialogs_scamDrawable = new ScamDrawable(11, 0);
             dialogs_fakeDrawable = new ScamDrawable(11, 1);
-            dialogs_verifiedCheckDrawable = resources.getDrawable(2131166193).mutate();
+            dialogs_verifiedCheckDrawable = resources.getDrawable(2131166196).mutate();
             dialogs_mentionDrawable = resources.getDrawable(2131165611);
-            dialogs_reactionsMentionDrawable = resources.getDrawable(2131166109);
+            dialogs_reactionsMentionDrawable = resources.getDrawable(2131166112);
             dialogs_pinnedDrawable = resources.getDrawable(2131165576);
-            moveUpDrawable = resources.getDrawable(2131166090);
+            moveUpDrawable = resources.getDrawable(2131166093);
             RectF rectF = new RectF();
             chat_updatePath[0] = new Path();
             chat_updatePath[2] = new Path();
@@ -8664,7 +8666,7 @@ public class Theme {
         createCommonChatResources();
         if (!z && chat_msgInDrawable == null) {
             Resources resources = context.getResources();
-            chat_msgNoSoundDrawable = resources.getDrawable(2131166199);
+            chat_msgNoSoundDrawable = resources.getDrawable(2131166202);
             chat_msgInDrawable = new MessageDrawable(0, false, false);
             chat_msgInSelectedDrawable = new MessageDrawable(0, false, true);
             chat_msgOutDrawable = new MessageDrawable(0, true, false);
@@ -8693,32 +8695,32 @@ public class Theme {
             chat_msgMediaHalfCheckDrawable = resources.getDrawable(2131165756).mutate();
             chat_msgStickerHalfCheckDrawable = resources.getDrawable(2131165756).mutate();
             chat_msgClockDrawable = new MsgClockDrawable();
-            chat_msgInViewsDrawable = resources.getDrawable(2131165978).mutate();
-            chat_msgInViewsSelectedDrawable = resources.getDrawable(2131165978).mutate();
-            chat_msgOutViewsDrawable = resources.getDrawable(2131165978).mutate();
-            chat_msgOutViewsSelectedDrawable = resources.getDrawable(2131165978).mutate();
-            chat_msgInRepliesDrawable = resources.getDrawable(2131165899).mutate();
-            chat_msgInRepliesSelectedDrawable = resources.getDrawable(2131165899).mutate();
-            chat_msgOutRepliesDrawable = resources.getDrawable(2131165899).mutate();
-            chat_msgOutRepliesSelectedDrawable = resources.getDrawable(2131165899).mutate();
-            chat_msgInPinnedDrawable = resources.getDrawable(2131165863).mutate();
-            chat_msgInPinnedSelectedDrawable = resources.getDrawable(2131165863).mutate();
-            chat_msgOutPinnedDrawable = resources.getDrawable(2131165863).mutate();
-            chat_msgOutPinnedSelectedDrawable = resources.getDrawable(2131165863).mutate();
-            chat_msgMediaPinnedDrawable = resources.getDrawable(2131165863).mutate();
-            chat_msgStickerPinnedDrawable = resources.getDrawable(2131165863).mutate();
-            chat_msgMediaViewsDrawable = resources.getDrawable(2131165978).mutate();
-            chat_msgMediaRepliesDrawable = resources.getDrawable(2131165899).mutate();
-            chat_msgStickerViewsDrawable = resources.getDrawable(2131165978).mutate();
-            chat_msgStickerRepliesDrawable = resources.getDrawable(2131165899).mutate();
+            chat_msgInViewsDrawable = resources.getDrawable(2131165981).mutate();
+            chat_msgInViewsSelectedDrawable = resources.getDrawable(2131165981).mutate();
+            chat_msgOutViewsDrawable = resources.getDrawable(2131165981).mutate();
+            chat_msgOutViewsSelectedDrawable = resources.getDrawable(2131165981).mutate();
+            chat_msgInRepliesDrawable = resources.getDrawable(2131165902).mutate();
+            chat_msgInRepliesSelectedDrawable = resources.getDrawable(2131165902).mutate();
+            chat_msgOutRepliesDrawable = resources.getDrawable(2131165902).mutate();
+            chat_msgOutRepliesSelectedDrawable = resources.getDrawable(2131165902).mutate();
+            chat_msgInPinnedDrawable = resources.getDrawable(2131165866).mutate();
+            chat_msgInPinnedSelectedDrawable = resources.getDrawable(2131165866).mutate();
+            chat_msgOutPinnedDrawable = resources.getDrawable(2131165866).mutate();
+            chat_msgOutPinnedSelectedDrawable = resources.getDrawable(2131165866).mutate();
+            chat_msgMediaPinnedDrawable = resources.getDrawable(2131165866).mutate();
+            chat_msgStickerPinnedDrawable = resources.getDrawable(2131165866).mutate();
+            chat_msgMediaViewsDrawable = resources.getDrawable(2131165981).mutate();
+            chat_msgMediaRepliesDrawable = resources.getDrawable(2131165902).mutate();
+            chat_msgStickerViewsDrawable = resources.getDrawable(2131165981).mutate();
+            chat_msgStickerRepliesDrawable = resources.getDrawable(2131165902).mutate();
             chat_msgInMenuDrawable = resources.getDrawable(2131165624).mutate();
             chat_msgInMenuSelectedDrawable = resources.getDrawable(2131165624).mutate();
             chat_msgOutMenuDrawable = resources.getDrawable(2131165624).mutate();
             chat_msgOutMenuSelectedDrawable = resources.getDrawable(2131165624).mutate();
-            chat_msgMediaMenuDrawable = resources.getDrawable(2131166195);
+            chat_msgMediaMenuDrawable = resources.getDrawable(2131166198);
             chat_msgInInstantDrawable = resources.getDrawable(2131165766).mutate();
             chat_msgOutInstantDrawable = resources.getDrawable(2131165766).mutate();
-            chat_msgErrorDrawable = resources.getDrawable(2131165990);
+            chat_msgErrorDrawable = resources.getDrawable(2131165993);
             chat_muteIconDrawable = resources.getDrawable(2131165575).mutate();
             chat_lockIconDrawable = resources.getDrawable(2131165481);
             chat_msgInCallDrawable[0] = resources.getDrawable(2131165330).mutate();
@@ -8733,10 +8735,10 @@ public class Theme {
             chat_msgCallDownRedDrawable = resources.getDrawable(2131165327).mutate();
             chat_msgCallDownGreenDrawable = resources.getDrawable(2131165327).mutate();
             for (int i = 0; i < 2; i++) {
-                chat_pollCheckDrawable[i] = resources.getDrawable(2131166084).mutate();
-                chat_pollCrossDrawable[i] = resources.getDrawable(2131166085).mutate();
+                chat_pollCheckDrawable[i] = resources.getDrawable(2131166087).mutate();
+                chat_pollCrossDrawable[i] = resources.getDrawable(2131166088).mutate();
                 chat_pollHintDrawable[i] = resources.getDrawable(2131165719).mutate();
-                chat_psaHelpDrawable[i] = resources.getDrawable(2131165885).mutate();
+                chat_psaHelpDrawable[i] = resources.getDrawable(2131165888).mutate();
             }
             calllog_msgCallUpRedDrawable = resources.getDrawable(2131165467).mutate();
             calllog_msgCallUpGreenDrawable = resources.getDrawable(2131165467).mutate();
@@ -8752,8 +8754,8 @@ public class Theme {
             chat_botCardDrawable = resources.getDrawable(2131165282);
             chat_botWebViewDrawable = resources.getDrawable(2131165289);
             chat_botInviteDrawable = resources.getDrawable(2131165284);
-            chat_commentDrawable = resources.getDrawable(2131165814);
-            chat_commentStickerDrawable = resources.getDrawable(2131165815);
+            chat_commentDrawable = resources.getDrawable(2131165817);
+            chat_commentStickerDrawable = resources.getDrawable(2131165818);
             chat_commentArrowDrawable = resources.getDrawable(2131165641);
             chat_contextResult_shadowUnderSwitchDrawable = resources.getDrawable(2131165446).mutate();
             chat_attachButtonDrawables[0] = new RLottieDrawable(2131558404, "attach_gallery", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
@@ -8762,8 +8764,8 @@ public class Theme {
             chat_attachButtonDrawables[3] = new RLottieDrawable(2131558402, "attach_contact", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
             chat_attachButtonDrawables[4] = new RLottieDrawable(2131558405, "attach_location", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
             chat_attachButtonDrawables[5] = new RLottieDrawable(2131558407, "attach_poll", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
-            chat_attachEmptyDrawable = resources.getDrawable(2131166006);
-            chat_shareIconDrawable = resources.getDrawable(2131166138).mutate();
+            chat_attachEmptyDrawable = resources.getDrawable(2131166009);
+            chat_shareIconDrawable = resources.getDrawable(2131166141).mutate();
             chat_replyIconDrawable = resources.getDrawable(2131165396);
             chat_goIconDrawable = resources.getDrawable(2131165616);
             int dp = AndroidUtilities.dp(2.0f);
@@ -8789,35 +8791,35 @@ public class Theme {
             chat_filePath[1].lineTo(AndroidUtilities.dp(14.0f), AndroidUtilities.dp(10.0f));
             chat_filePath[1].close();
             chat_flameIcon = resources.getDrawable(2131165293).mutate();
-            chat_gifIcon = resources.getDrawable(2131165912).mutate();
-            chat_fileStatesDrawable[0][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165915);
-            chat_fileStatesDrawable[0][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165915);
-            chat_fileStatesDrawable[1][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165914);
-            chat_fileStatesDrawable[1][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165914);
-            chat_fileStatesDrawable[2][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165913);
-            chat_fileStatesDrawable[2][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165913);
-            chat_fileStatesDrawable[3][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165911);
-            chat_fileStatesDrawable[3][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165911);
-            chat_fileStatesDrawable[4][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165910);
-            chat_fileStatesDrawable[4][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165910);
-            chat_fileStatesDrawable[5][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165915);
-            chat_fileStatesDrawable[5][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165915);
-            chat_fileStatesDrawable[6][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165914);
-            chat_fileStatesDrawable[6][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165914);
-            chat_fileStatesDrawable[7][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165913);
-            chat_fileStatesDrawable[7][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165913);
-            chat_fileStatesDrawable[8][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165911);
-            chat_fileStatesDrawable[8][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165911);
-            chat_fileStatesDrawable[9][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165910);
-            chat_fileStatesDrawable[9][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165910);
-            chat_photoStatesDrawables[0][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
-            chat_photoStatesDrawables[0][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
-            chat_photoStatesDrawables[1][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165910);
-            chat_photoStatesDrawables[1][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165910);
-            chat_photoStatesDrawables[2][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165912);
-            chat_photoStatesDrawables[2][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165912);
-            chat_photoStatesDrawables[3][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165915);
-            chat_photoStatesDrawables[3][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165915);
+            chat_gifIcon = resources.getDrawable(2131165915).mutate();
+            chat_fileStatesDrawable[0][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165918);
+            chat_fileStatesDrawable[0][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165918);
+            chat_fileStatesDrawable[1][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165917);
+            chat_fileStatesDrawable[1][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165917);
+            chat_fileStatesDrawable[2][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165916);
+            chat_fileStatesDrawable[2][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165916);
+            chat_fileStatesDrawable[3][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165914);
+            chat_fileStatesDrawable[3][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165914);
+            chat_fileStatesDrawable[4][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165913);
+            chat_fileStatesDrawable[4][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165913);
+            chat_fileStatesDrawable[5][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165918);
+            chat_fileStatesDrawable[5][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165918);
+            chat_fileStatesDrawable[6][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165917);
+            chat_fileStatesDrawable[6][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165917);
+            chat_fileStatesDrawable[7][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165916);
+            chat_fileStatesDrawable[7][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165916);
+            chat_fileStatesDrawable[8][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165914);
+            chat_fileStatesDrawable[8][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165914);
+            chat_fileStatesDrawable[9][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165913);
+            chat_fileStatesDrawable[9][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165913);
+            chat_photoStatesDrawables[0][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165916);
+            chat_photoStatesDrawables[0][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165916);
+            chat_photoStatesDrawables[1][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
+            chat_photoStatesDrawables[1][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
+            chat_photoStatesDrawables[2][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165915);
+            chat_photoStatesDrawables[2][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165915);
+            chat_photoStatesDrawables[3][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165918);
+            chat_photoStatesDrawables[3][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165918);
             Drawable[][] drawableArr = chat_photoStatesDrawables;
             Drawable[] drawableArr2 = drawableArr[4];
             Drawable[] drawableArr3 = drawableArr[4];
@@ -8833,23 +8835,23 @@ public class Theme {
             Drawable[][] drawableArr7 = chat_photoStatesDrawables;
             Drawable[] drawableArr8 = drawableArr7[6];
             Drawable[] drawableArr9 = drawableArr7[6];
-            Drawable drawable3 = resources.getDrawable(2131166050);
+            Drawable drawable3 = resources.getDrawable(2131166053);
             drawableArr9[1] = drawable3;
             drawableArr8[0] = drawable3;
-            chat_photoStatesDrawables[7][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
-            chat_photoStatesDrawables[7][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
-            chat_photoStatesDrawables[8][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165910);
-            chat_photoStatesDrawables[8][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165910);
-            chat_photoStatesDrawables[10][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
-            chat_photoStatesDrawables[10][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
-            chat_photoStatesDrawables[11][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165910);
-            chat_photoStatesDrawables[11][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165910);
+            chat_photoStatesDrawables[7][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165916);
+            chat_photoStatesDrawables[7][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165916);
+            chat_photoStatesDrawables[8][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
+            chat_photoStatesDrawables[8][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
+            chat_photoStatesDrawables[10][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165916);
+            chat_photoStatesDrawables[10][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165916);
+            chat_photoStatesDrawables[11][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
+            chat_photoStatesDrawables[11][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), 2131165913);
             chat_contactDrawable[0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165689);
             chat_contactDrawable[1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), 2131165689);
             chat_locationDrawable[0] = resources.getDrawable(2131165789).mutate();
             chat_locationDrawable[1] = resources.getDrawable(2131165789).mutate();
             chat_composeShadowDrawable = context.getResources().getDrawable(2131165369).mutate();
-            chat_composeShadowRoundDrawable = context.getResources().getDrawable(2131166140).mutate();
+            chat_composeShadowRoundDrawable = context.getResources().getDrawable(2131166143).mutate();
             try {
                 int dp2 = AndroidUtilities.roundMessageSize + AndroidUtilities.dp(6.0f);
                 Bitmap createBitmap = Bitmap.createBitmap(dp2, dp2, Bitmap.Config.ARGB_8888);
@@ -9331,8 +9333,8 @@ public class Theme {
         if (profile_verifiedDrawable == null) {
             profile_aboutTextPaint = new TextPaint(1);
             Resources resources = context.getResources();
-            profile_verifiedDrawable = resources.getDrawable(2131166192).mutate();
-            profile_verifiedCheckDrawable = resources.getDrawable(2131166193).mutate();
+            profile_verifiedDrawable = resources.getDrawable(2131166195).mutate();
+            profile_verifiedCheckDrawable = resources.getDrawable(2131166196).mutate();
             applyProfileTheme();
         }
         profile_aboutTextPaint.setTextSize(AndroidUtilities.dp(16.0f));

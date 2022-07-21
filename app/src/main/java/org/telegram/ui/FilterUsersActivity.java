@@ -461,7 +461,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         int i2 = 5;
         this.editText.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.spansContainer.addView(this.editText);
-        this.editText.setHintText(LocaleController.getString("SearchForPeopleAndGroups", 2131628170));
+        this.editText.setHintText(LocaleController.getString("SearchForPeopleAndGroups", 2131628171));
         this.editText.setCustomSelectionActionModeCallback(new AnonymousClass5(this));
         this.editText.setOnKeyListener(new AnonymousClass6());
         this.editText.addTextChangedListener(new AnonymousClass7());
@@ -1476,7 +1476,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                     if (UserObject.isReplyUser(tLRPC$User)) {
                         strArr2[2] = LocaleController.getString("RepliesTitle", 2131627982).toLowerCase();
                     } else if (tLRPC$User.self) {
-                        strArr2[2] = LocaleController.getString("SavedMessages", 2131628139).toLowerCase();
+                        strArr2[2] = LocaleController.getString("SavedMessages", 2131628140).toLowerCase();
                     }
                 } else {
                     TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;

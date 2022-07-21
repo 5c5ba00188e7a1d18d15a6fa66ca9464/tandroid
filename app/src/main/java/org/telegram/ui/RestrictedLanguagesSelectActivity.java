@@ -132,7 +132,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setTitle(LocaleController.getString("DoNotTranslate", 2131625539));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
-        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass3()).setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass3()).setSearchFieldHint(LocaleController.getString("Search", 2131628155));
         this.listAdapter = new ListAdapter(context, false);
         this.searchListViewAdapter = new ListAdapter(context, true);
         FrameLayout frameLayout = new FrameLayout(context);

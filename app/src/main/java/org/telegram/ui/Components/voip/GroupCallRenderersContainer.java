@@ -197,7 +197,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         anonymousClass4.setOnClickListener(new GroupCallRenderersContainer$$ExternalSyntheticLambda4(this));
         createSimpleSelectorRoundRectDrawable.setCallback(this.pinContainer);
         addView(this.pinContainer);
-        CrossOutDrawable crossOutDrawable = new CrossOutDrawable(context, 2131165862, null);
+        CrossOutDrawable crossOutDrawable = new CrossOutDrawable(context, 2131165865, null);
         this.pinDrawable = crossOutDrawable;
         crossOutDrawable.setOffsets(-AndroidUtilities.dp(1.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(1.0f));
         anonymousClass3.setImageDrawable(this.pinDrawable);

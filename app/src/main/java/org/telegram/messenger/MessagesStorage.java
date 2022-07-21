@@ -2200,8 +2200,8 @@ public class MessagesStorage extends BaseController {
         getInstance(this.currentAccount).getStorageQueue().postRunnable(new MessagesStorage$$ExternalSyntheticLambda5(this));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0211 A[Catch: all -> 0x0260, Exception -> 0x0262, TryCatch #4 {Exception -> 0x0262, blocks: (B:3:0x0004, B:4:0x0043, B:6:0x0049, B:8:0x0053, B:9:0x005b, B:10:0x006e, B:12:0x0074, B:14:0x0098, B:16:0x009e, B:19:0x00a8, B:21:0x00c5, B:43:0x0144, B:44:0x0147, B:46:0x0211, B:49:0x0220, B:50:0x0223, B:51:0x022a), top: B:61:0x0004, outer: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x021e A[Catch: all -> 0x026d, Exception -> 0x026f, TryCatch #0 {Exception -> 0x026f, blocks: (B:3:0x0004, B:4:0x0050, B:6:0x0056, B:8:0x0060, B:9:0x0068, B:10:0x007b, B:12:0x0081, B:14:0x00a5, B:16:0x00ab, B:19:0x00b5, B:21:0x00d2, B:43:0x0151, B:44:0x0154, B:46:0x021e, B:49:0x022d, B:50:0x0230, B:51:0x0237), top: B:61:0x0004, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0228  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2218,6 +2218,7 @@ public class MessagesStorage extends BaseController {
                 database.executeFast("DELETE FROM reaction_mentions").stepThis().dispose();
                 database.executeFast("DELETE FROM downloading_documents").stepThis().dispose();
                 database.executeFast("DELETE FROM attach_menu_bots").stepThis().dispose();
+                database.executeFast("DELETE FROM animated_emoji").stepThis().dispose();
                 int i2 = 0;
                 SQLiteCursor queryFinalized = database.queryFinalized("SELECT did FROM dialogs WHERE 1", new Object[0]);
                 while (queryFinalized.next()) {
@@ -2353,15 +2354,15 @@ public class MessagesStorage extends BaseController {
                 database.executeFast("VACUUM").stepThis().dispose();
                 database.executeFast("PRAGMA journal_size_limit = -1").stepThis().dispose();
                 messagesStorage$$ExternalSyntheticLambda11 = new MessagesStorage$$ExternalSyntheticLambda11(this);
-            } catch (Throwable th) {
-                AndroidUtilities.runOnUIThread(new MessagesStorage$$ExternalSyntheticLambda11(this));
-                throw th;
+            } catch (Exception e5) {
+                FileLog.e(e5);
+                messagesStorage$$ExternalSyntheticLambda11 = new MessagesStorage$$ExternalSyntheticLambda11(this);
             }
-        } catch (Exception e5) {
-            FileLog.e(e5);
-            messagesStorage$$ExternalSyntheticLambda11 = new MessagesStorage$$ExternalSyntheticLambda11(this);
+            AndroidUtilities.runOnUIThread(messagesStorage$$ExternalSyntheticLambda11);
+        } catch (Throwable th) {
+            AndroidUtilities.runOnUIThread(new MessagesStorage$$ExternalSyntheticLambda11(this));
+            throw th;
         }
-        AndroidUtilities.runOnUIThread(messagesStorage$$ExternalSyntheticLambda11);
     }
 
     public /* synthetic */ void lambda$clearLocalDatabase$36() {
@@ -16829,7 +16830,7 @@ public class MessagesStorage extends BaseController {
             if (TextUtils.isEmpty(lowerCase)) {
                 return;
             }
-            String lowerCase2 = LocaleController.getString("SavedMessages", 2131628139).toLowerCase();
+            String lowerCase2 = LocaleController.getString("SavedMessages", 2131628140).toLowerCase();
             String lowerCase3 = LocaleController.getString("RepliesTitle", 2131627982).toLowerCase();
             String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
             if (lowerCase.equals(translitString) || translitString.length() == 0) {

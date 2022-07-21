@@ -41,7 +41,7 @@ public class PremiumLockIconView extends ImageView {
     public PremiumLockIconView(Context context, int i) {
         super(context);
         this.type = i;
-        setImageResource(i == TYPE_REACTIONS ? 2131165876 : 2131165806);
+        setImageResource(i == TYPE_REACTIONS ? 2131165879 : 2131165809);
         if (i == TYPE_REACTIONS) {
             StarParticlesView.Drawable drawable = new StarParticlesView.Drawable(5);
             this.starParticles = drawable;
@@ -228,7 +228,7 @@ public class PremiumLockIconView extends ImageView {
 
     public void setLocked(boolean z) {
         if (this.type != TYPE_REACTIONS) {
-            setImageResource(z ? 2131165806 : 2131165808);
+            setImageResource(z ? 2131165809 : 2131165811);
         }
     }
 }

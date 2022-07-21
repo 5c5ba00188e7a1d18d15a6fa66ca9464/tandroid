@@ -50,11 +50,11 @@ public class WallpaperUpdater {
         BottomSheet.Builder builder = new BottomSheet.Builder(this.parentActivity);
         builder.setTitle(LocaleController.getString("ChoosePhoto", 2131625124), true);
         if (z) {
-            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", 2131625136), LocaleController.getString("SelectFromGallery", 2131628230), LocaleController.getString("SelectColor", 2131628223), LocaleController.getString("Default", 2131625382)};
+            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", 2131625136), LocaleController.getString("SelectFromGallery", 2131628231), LocaleController.getString("SelectColor", 2131628224), LocaleController.getString("Default", 2131625382)};
             iArr = null;
         } else {
-            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", 2131625136), LocaleController.getString("SelectFromGallery", 2131628230)};
-            iArr = new int[]{2131165671, 2131165859};
+            charSequenceArr = new CharSequence[]{LocaleController.getString("ChooseTakePhoto", 2131625136), LocaleController.getString("SelectFromGallery", 2131628231)};
+            iArr = new int[]{2131165671, 2131165862};
         }
         builder.setItems(charSequenceArr, iArr, new WallpaperUpdater$$ExternalSyntheticLambda0(this, z));
         builder.show();

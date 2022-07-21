@@ -47,8 +47,8 @@ public class PremiumNotAvailableBottomSheet extends BottomSheet {
         frameLayout.addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 16, 16.0f, 0.0f, 16.0f, 0.0f));
         frameLayout.setBackgroundColor(getThemedColor("dialogBackground"));
         linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, 68, 80));
-        textView.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131628551)));
-        textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131628552)));
+        textView.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131628552)));
+        textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(2131628553)));
         ScrollView scrollView = new ScrollView(parentActivity);
         scrollView.addView(linearLayout);
         setCustomView(scrollView);

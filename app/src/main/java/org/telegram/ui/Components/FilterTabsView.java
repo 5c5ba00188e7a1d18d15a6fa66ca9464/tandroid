@@ -611,7 +611,7 @@ public class FilterTabsView extends FrameLayout {
                                 return;
                             }
                             if (FilterTabsView.this.lockDrawable == null) {
-                                FilterTabsView.this.lockDrawable = ContextCompat.getDrawable(getContext(), 2131166026);
+                                FilterTabsView.this.lockDrawable = ContextCompat.getDrawable(getContext(), 2131166029);
                             }
                             z3 = this.currentTab.isLocked;
                             if (z3) {

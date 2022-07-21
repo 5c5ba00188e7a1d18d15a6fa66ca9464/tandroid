@@ -326,7 +326,7 @@ public class FilterCreateActivity extends BaseFragment {
             this.actionBar.setTitle(Emoji.replaceEmoji(this.filter.name, textPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
         }
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
-        this.doneItem = createMenu.addItem(1, LocaleController.getString("Save", 2131628122).toUpperCase());
+        this.doneItem = createMenu.addItem(1, LocaleController.getString("Save", 2131628123).toUpperCase());
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
         FrameLayout frameLayout2 = frameLayout;
@@ -723,7 +723,7 @@ public class FilterCreateActivity extends BaseFragment {
             }
         }
         builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
-        builder.setPositiveButton(LocaleController.getString("StickersRemove", 2131628514), new FilterCreateActivity$$ExternalSyntheticLambda4(this, i, z));
+        builder.setPositiveButton(LocaleController.getString("StickersRemove", 2131628515), new FilterCreateActivity$$ExternalSyntheticLambda4(this, i, z));
         AlertDialog create = builder.create();
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);

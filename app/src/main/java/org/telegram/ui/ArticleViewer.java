@@ -1543,7 +1543,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         if (drawingText != null) {
             AndroidUtilities.addToClipboard(drawingText.getText());
             if (Build.VERSION.SDK_INT < 31) {
-                Toast.makeText(this.parentActivity, LocaleController.getString("TextCopied", 2131628662), 0).show();
+                Toast.makeText(this.parentActivity, LocaleController.getString("TextCopied", 2131628663), 0).show();
             }
         }
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
@@ -3438,8 +3438,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         createPaint(false);
         this.backgroundPaint = new Paint();
         this.layerShadowDrawable = activity.getResources().getDrawable(2131165571);
-        this.slideDotDrawable = activity.getResources().getDrawable(2131166144);
-        this.slideDotBigDrawable = activity.getResources().getDrawable(2131166143);
+        this.slideDotDrawable = activity.getResources().getDrawable(2131166147);
+        this.slideDotBigDrawable = activity.getResources().getDrawable(2131166146);
         this.scrimPaint = new Paint();
         WindowView windowView = new WindowView(activity);
         this.windowView = windowView;
@@ -3539,7 +3539,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.searchField.setTextSize(1, 18.0f);
         this.searchField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
         this.searchField.setSingleLine(true);
-        this.searchField.setHint(LocaleController.getString("Search", 2131628154));
+        this.searchField.setHint(LocaleController.getString("Search", 2131628155));
         this.searchField.setBackgroundResource(0);
         this.searchField.setPadding(0, 0, 0, 0);
         this.searchField.setInputType(this.searchField.getInputType() | 524288);
@@ -3582,10 +3582,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.menuButton.setDuplicateParentStateEnabled(false);
         this.menuButton.setClickable(true);
         this.menuButton.setIcon(2131165453);
-        this.menuButton.addSubItem(1, 2131165924, LocaleController.getString("Search", 2131628154));
-        this.menuButton.addSubItem(2, 2131165939, LocaleController.getString("ShareFile", 2131628336));
-        this.menuButton.addSubItem(3, 2131165832, LocaleController.getString("OpenInExternalApp", 2131627153));
-        this.menuButton.addSubItem(4, 2131165937, LocaleController.getString("Settings", 2131628321));
+        this.menuButton.addSubItem(1, 2131165927, LocaleController.getString("Search", 2131628155));
+        this.menuButton.addSubItem(2, 2131165942, LocaleController.getString("ShareFile", 2131628337));
+        this.menuButton.addSubItem(3, 2131165835, LocaleController.getString("OpenInExternalApp", 2131627153));
+        this.menuButton.addSubItem(4, 2131165940, LocaleController.getString("Settings", 2131628322));
         this.menuButton.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.menuButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", 2131624003));
         this.menuContainer.addView(this.menuButton, LayoutHelper.createFrame(48, 56.0f));
@@ -4280,7 +4280,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @Override // org.telegram.ui.Cells.TextSelectionHelper.Callback
         public void onTextCopied() {
             if (Build.VERSION.SDK_INT < 31) {
-                BulletinFactory.of(ArticleViewer.this.containerView, null).createCopyBulletin(LocaleController.getString("TextCopied", 2131628662)).show();
+                BulletinFactory.of(ArticleViewer.this.containerView, null).createCopyBulletin(LocaleController.getString("TextCopied", 2131628663)).show();
             }
         }
     }

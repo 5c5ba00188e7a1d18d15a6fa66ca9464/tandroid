@@ -115,7 +115,7 @@ public class LinkEditActivity extends BaseFragment {
         if (i2 == 0) {
             this.createTextView.setText(LocaleController.getString("CreateLinkHeader", 2131625289));
         } else if (i2 == 1) {
-            this.createTextView.setText(LocaleController.getString("SaveLinkHeader", 2131628127));
+            this.createTextView.setText(LocaleController.getString("SaveLinkHeader", 2131628128));
         }
         this.createTextView.setTextColor(Theme.getColor("actionBarDefaultTitle"));
         this.createTextView.setTextSize(1, 14.0f);
@@ -141,7 +141,7 @@ public class LinkEditActivity extends BaseFragment {
         if (i3 == 0) {
             this.buttonTextView.setText(LocaleController.getString("CreateLink", 2131625288));
         } else if (i3 == 1) {
-            this.buttonTextView.setText(LocaleController.getString("SaveLink", 2131628126));
+            this.buttonTextView.setText(LocaleController.getString("SaveLink", 2131628127));
         }
         AnonymousClass4 anonymousClass4 = new AnonymousClass4(this, context);
         this.approveCell = anonymousClass4;
@@ -170,14 +170,14 @@ public class LinkEditActivity extends BaseFragment {
         textView3.setPadding(AndroidUtilities.dp(22.0f), 0, AndroidUtilities.dp(22.0f), 0);
         this.timeEditText.setGravity(16);
         this.timeEditText.setTextSize(1, 16.0f);
-        this.timeEditText.setHint(LocaleController.getString("TimeLimitHint", 2131628723));
+        this.timeEditText.setHint(LocaleController.getString("TimeLimitHint", 2131628724));
         this.timeEditText.setOnClickListener(new LinkEditActivity$$ExternalSyntheticLambda4(this, context));
         this.timeChooseView.setCallback(new LinkEditActivity$$ExternalSyntheticLambda11(this));
         resetDates();
         anonymousClass3.addView(this.timeEditText, LayoutHelper.createLinear(-1, 50));
         TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
         this.divider = textInfoPrivacyCell2;
-        textInfoPrivacyCell2.setText(LocaleController.getString("TimeLimitHelp", 2131628722));
+        textInfoPrivacyCell2.setText(LocaleController.getString("TimeLimitHelp", 2131628723));
         anonymousClass3.addView(this.divider);
         HeaderCell headerCell2 = new HeaderCell(context);
         this.usesHeaderCell = headerCell2;
@@ -193,14 +193,14 @@ public class LinkEditActivity extends BaseFragment {
         anonymousClass5.setPadding(AndroidUtilities.dp(22.0f), 0, AndroidUtilities.dp(22.0f), 0);
         this.usesEditText.setGravity(16);
         this.usesEditText.setTextSize(1, 16.0f);
-        this.usesEditText.setHint(LocaleController.getString("UsesLimitHint", 2131628947));
+        this.usesEditText.setHint(LocaleController.getString("UsesLimitHint", 2131628948));
         this.usesEditText.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
         this.usesEditText.setInputType(2);
         this.usesEditText.addTextChangedListener(new AnonymousClass6());
         anonymousClass3.addView(this.usesEditText, LayoutHelper.createLinear(-1, 50));
         TextInfoPrivacyCell textInfoPrivacyCell3 = new TextInfoPrivacyCell(context);
         this.dividerUses = textInfoPrivacyCell3;
-        textInfoPrivacyCell3.setText(LocaleController.getString("UsesLimitHelp", 2131628946));
+        textInfoPrivacyCell3.setText(LocaleController.getString("UsesLimitHelp", 2131628947));
         anonymousClass3.addView(this.dividerUses);
         AnonymousClass7 anonymousClass7 = new AnonymousClass7(this, context);
         this.nameEditText = anonymousClass7;
@@ -225,7 +225,7 @@ public class LinkEditActivity extends BaseFragment {
             TextSettingsCell textSettingsCell = new TextSettingsCell(context);
             this.revokeLink = textSettingsCell;
             textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-            this.revokeLink.setText(LocaleController.getString("RevokeLink", 2131628105), false);
+            this.revokeLink.setText(LocaleController.getString("RevokeLink", 2131628106), false);
             this.revokeLink.setTextColor(Theme.getColor("windowBackgroundWhiteRedText5"));
             this.revokeLink.setOnClickListener(new LinkEditActivity$$ExternalSyntheticLambda3(this));
             anonymousClass3.addView(this.revokeLink);
@@ -589,9 +589,9 @@ public class LinkEditActivity extends BaseFragment {
 
     public /* synthetic */ void lambda$createView$6(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setMessage(LocaleController.getString("RevokeAlert", 2131628102));
-        builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
-        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new LinkEditActivity$$ExternalSyntheticLambda0(this));
+        builder.setMessage(LocaleController.getString("RevokeAlert", 2131628103));
+        builder.setTitle(LocaleController.getString("RevokeLink", 2131628106));
+        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628105), new LinkEditActivity$$ExternalSyntheticLambda0(this));
         builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
         showDialog(builder.create());
     }

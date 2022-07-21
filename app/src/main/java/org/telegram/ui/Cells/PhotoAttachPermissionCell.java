@@ -46,15 +46,15 @@ public class PhotoAttachPermissionCell extends FrameLayout {
 
     public void setType(int i) {
         if (i == 0) {
-            this.imageView.setImageResource(2131166036);
-            this.imageView2.setImageResource(2131166037);
+            this.imageView.setImageResource(2131166039);
+            this.imageView2.setImageResource(2131166040);
             this.textView.setText(LocaleController.getString("CameraPermissionText", 2131624825));
             this.imageView.setLayoutParams(LayoutHelper.createFrame(44, 44.0f, 17, 5.0f, 0.0f, 0.0f, 27.0f));
             this.imageView2.setLayoutParams(LayoutHelper.createFrame(44, 44.0f, 17, 5.0f, 0.0f, 0.0f, 27.0f));
             return;
         }
-        this.imageView.setImageResource(2131166039);
-        this.imageView2.setImageResource(2131166040);
+        this.imageView.setImageResource(2131166042);
+        this.imageView2.setImageResource(2131166043);
         this.textView.setText(LocaleController.getString("GalleryPermissionText", 2131626094));
         this.imageView.setLayoutParams(LayoutHelper.createFrame(44, 44.0f, 17, 0.0f, 0.0f, 2.0f, 27.0f));
         this.imageView2.setLayoutParams(LayoutHelper.createFrame(44, 44.0f, 17, 0.0f, 0.0f, 2.0f, 27.0f));

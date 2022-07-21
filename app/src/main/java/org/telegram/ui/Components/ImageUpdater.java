@@ -150,15 +150,15 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         arrayList3.add(0);
         if (this.canSelectVideo) {
             arrayList.add(LocaleController.getString("ChooseRecordVideo", 2131625126));
-            arrayList2.add(2131165975);
+            arrayList2.add(2131165978);
             arrayList3.add(4);
         }
         arrayList.add(LocaleController.getString("ChooseFromGallery", 2131625120));
-        arrayList2.add(2131165859);
+        arrayList2.add(2131165862);
         arrayList3.add(1);
         if (this.searchAvailable) {
             arrayList.add(LocaleController.getString("ChooseFromSearch", 2131625121));
-            arrayList2.add(2131165924);
+            arrayList2.add(2131165927);
             arrayList3.add(2);
         }
         if (z) {

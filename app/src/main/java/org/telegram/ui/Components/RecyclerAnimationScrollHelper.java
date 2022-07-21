@@ -27,8 +27,14 @@ public class RecyclerAnimationScrollHelper {
 
     /* loaded from: classes3.dex */
     public static class AnimationCallback {
+        public void ignoreView(View view, boolean z) {
+        }
+
         public void onEndAnimation() {
             throw null;
+        }
+
+        public void onPreAnimation() {
         }
 
         public void onStartAnimation() {
@@ -181,6 +187,9 @@ public class RecyclerAnimationScrollHelper {
                 if (view3.getParent() == null) {
                     RecyclerAnimationScrollHelper.this.recyclerView.addView(view3);
                     RecyclerAnimationScrollHelper.this.layoutManager.ignoreView(view3);
+                    if (RecyclerAnimationScrollHelper.this.animationCallback != null) {
+                        RecyclerAnimationScrollHelper.this.animationCallback.ignoreView(view3, true);
+                    }
                 }
                 if (view3 instanceof ChatMessageCell) {
                     ((ChatMessageCell) view3).setAnimationRunning(true, true);
@@ -188,6 +197,9 @@ public class RecyclerAnimationScrollHelper {
             }
             if (i14 != Integer.MAX_VALUE) {
                 i9 = i14;
+            }
+            if (RecyclerAnimationScrollHelper.this.animationCallback != null) {
+                RecyclerAnimationScrollHelper.this.animationCallback.onPreAnimation();
             }
             if (this.val$oldViews.isEmpty()) {
                 height = Math.abs(i12);
@@ -275,6 +287,7 @@ public class RecyclerAnimationScrollHelper {
                     RecyclerAnimationScrollHelper.this.layoutManager.stopIgnoringView(view);
                     RecyclerAnimationScrollHelper.this.recyclerView.removeView(view);
                     if (RecyclerAnimationScrollHelper.this.animationCallback != null) {
+                        RecyclerAnimationScrollHelper.this.animationCallback.ignoreView(view, false);
                         RecyclerAnimationScrollHelper.this.animationCallback.recycleView(view);
                     }
                 }

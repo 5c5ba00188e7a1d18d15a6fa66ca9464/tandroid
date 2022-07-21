@@ -291,7 +291,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
         this.searchAdapter = new SearchAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
@@ -1122,7 +1122,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 if (ChatLinkActivity.this.isChannel) {
                     if (ChatLinkActivity.this.info.linked_chat_id != 0) {
                         manageChatTextCell.setColors("windowBackgroundWhiteRedText5", "windowBackgroundWhiteRedText5");
-                        manageChatTextCell.setText(LocaleController.getString("DiscussionUnlinkGroup", 2131625529), null, 2131165894, false);
+                        manageChatTextCell.setText(LocaleController.getString("DiscussionUnlinkGroup", 2131625529), null, 2131165897, false);
                         return;
                     }
                     manageChatTextCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
@@ -1130,7 +1130,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                     return;
                 }
                 manageChatTextCell.setColors("windowBackgroundWhiteRedText5", "windowBackgroundWhiteRedText5");
-                manageChatTextCell.setText(LocaleController.getString("DiscussionUnlinkChannel", 2131625527), null, 2131165894, false);
+                manageChatTextCell.setText(LocaleController.getString("DiscussionUnlinkChannel", 2131625527), null, 2131165897, false);
             }
         }
 

@@ -61,7 +61,7 @@ public class BubbleActivity extends BasePermissionsActivity implements ActionBar
         ApplicationLoader.postInitApplication();
         requestWindowFeature(1);
         setTheme(2131689490);
-        getWindow().setBackgroundDrawableResource(2131166189);
+        getWindow().setBackgroundDrawableResource(2131166192);
         if (SharedConfig.passcodeHash.length() > 0 && !SharedConfig.allowScreenCapture) {
             try {
                 getWindow().setFlags(8192, 8192);

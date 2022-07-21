@@ -92,7 +92,7 @@ public class FeaturedStickerSetCell extends FrameLayout {
         ImageView imageView = new ImageView(context);
         this.checkImage = imageView;
         imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("featuredStickers_addedIcon"), PorterDuff.Mode.MULTIPLY));
-        this.checkImage.setImageResource(2131166162);
+        this.checkImage.setImageResource(2131166165);
         addView(this.checkImage, LayoutHelper.createFrame(19, 14.0f));
     }
 

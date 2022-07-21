@@ -553,16 +553,16 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
             }
             VoIPService sharedInstance = VoIPService.getSharedInstance();
             if (sharedInstance != null && ChatObject.isChannelOrGiga(sharedInstance.getChat())) {
-                str = LocaleController.getString("VoipChannelVoiceChat", 2131629074);
+                str = LocaleController.getString("VoipChannelVoiceChat", 2131629075);
             } else {
-                str = LocaleController.getString("VoipGroupVoiceChat", 2131629204);
+                str = LocaleController.getString("VoipGroupVoiceChat", 2131629205);
             }
             if (i == 0) {
-                str = str + ", " + LocaleController.getString("VoipTapToMute", 2131629273);
+                str = str + ", " + LocaleController.getString("VoipTapToMute", 2131629274);
             } else if (i == 2) {
                 str = str + ", " + LocaleController.getString("Connecting", 2131625241);
             } else if (i == 3) {
-                str = str + ", " + LocaleController.getString("VoipMutedByAdmin", 2131629217);
+                str = str + ", " + LocaleController.getString("VoipMutedByAdmin", 2131629218);
             }
             setContentDescription(str);
             invalidate();

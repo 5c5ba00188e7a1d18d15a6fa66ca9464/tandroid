@@ -70,7 +70,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         textView2.setGravity(17);
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        textView2.setText(LocaleController.getString("ShareQrCode", 2131628345));
+        textView2.setText(LocaleController.getString("ShareQrCode", 2131628346));
         textView2.setOnClickListener(new QRCodeBottomSheet$$ExternalSyntheticLambda0(this, context));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 80, 16, 15, 16, 16));
         updateColors();

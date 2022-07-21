@@ -359,7 +359,7 @@ public class ActionBarMenuItem extends FrameLayout {
         }
         this.rect = new Rect();
         this.location = new int[2];
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext(), 2131166088, this.resourcesProvider, 1);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext(), 2131166091, this.resourcesProvider, 1);
         this.popupLayout = actionBarPopupWindowLayout;
         actionBarPopupWindowLayout.setOnTouchListener(new ActionBarMenuItem$$ExternalSyntheticLambda8(this));
         this.popupLayout.setDispatchKeyEventListener(new ActionBarMenuItem$$ExternalSyntheticLambda14(this));
@@ -715,7 +715,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 FrameLayout frameLayout = new FrameLayout(getContext());
                 frameLayout.setAlpha(0.0f);
                 frameLayout.animate().alpha(1.0f).setDuration(100L).start();
-                Drawable mutate = ContextCompat.getDrawable(getContext(), 2131166088).mutate();
+                Drawable mutate = ContextCompat.getDrawable(getContext(), 2131166091).mutate();
                 mutate.setColorFilter(new PorterDuffColorFilter(this.popupLayout.getBackgroundColor(), PorterDuff.Mode.MULTIPLY));
                 frameLayout.setBackground(mutate);
                 frameLayout.addView(view);

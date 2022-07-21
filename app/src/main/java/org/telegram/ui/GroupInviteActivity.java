@@ -160,9 +160,9 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
         } else if (i != this.revokeLinkRow) {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setMessage(LocaleController.getString("RevokeAlert", 2131628102));
-            builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
-            builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new GroupInviteActivity$$ExternalSyntheticLambda0(this));
+            builder.setMessage(LocaleController.getString("RevokeAlert", 2131628103));
+            builder.setTitle(LocaleController.getString("RevokeLink", 2131628106));
+            builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628105), new GroupInviteActivity$$ExternalSyntheticLambda0(this));
             builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             showDialog(builder.create());
         }
@@ -226,8 +226,8 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", 2131628103));
-                builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
+                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", 2131628104));
+                builder.setTitle(LocaleController.getString("RevokeLink", 2131628106));
                 builder.setNegativeButton(LocaleController.getString("OK", 2131627127), null);
                 showDialog(builder.create());
             }
@@ -284,10 +284,10 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                         if (i != GroupInviteActivity.this.revokeLinkRow) {
                             return;
                         }
-                        textSettingsCell.setText(LocaleController.getString("RevokeLink", 2131628105), true);
+                        textSettingsCell.setText(LocaleController.getString("RevokeLink", 2131628106), true);
                         return;
                     }
-                    textSettingsCell.setText(LocaleController.getString("ShareLink", 2131628337), false);
+                    textSettingsCell.setText(LocaleController.getString("ShareLink", 2131628338), false);
                     return;
                 }
                 textSettingsCell.setText(LocaleController.getString("CopyLink", 2131625274), true);

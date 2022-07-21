@@ -12,7 +12,7 @@ public class ShareBroadcastReceiver extends BroadcastReceiver {
             Intent intent2 = new Intent("android.intent.action.SEND");
             intent2.setType("text/plain");
             intent2.putExtra("android.intent.extra.TEXT", dataString);
-            Intent createChooser = Intent.createChooser(intent2, LocaleController.getString("ShareLink", 2131628337));
+            Intent createChooser = Intent.createChooser(intent2, LocaleController.getString("ShareLink", 2131628338));
             createChooser.setFlags(268435456);
             context.startActivity(createChooser);
         }

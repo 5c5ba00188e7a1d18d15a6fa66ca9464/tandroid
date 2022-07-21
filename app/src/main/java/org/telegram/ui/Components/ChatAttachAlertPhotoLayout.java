@@ -531,9 +531,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.dropDown.setPadding(0, 0, AndroidUtilities.dp(10.0f), 0);
         this.dropDownContainer.addView(this.dropDown, LayoutHelper.createFrame(-2, -2.0f, 16, 16.0f, 0.0f, 0.0f, 0.0f));
         checkCamera(false);
-        this.parentAlert.selectedMenuItem.addSubItem(0, LocaleController.getString("SendWithoutGrouping", 2131628273));
-        this.parentAlert.selectedMenuItem.addSubItem(1, LocaleController.getString("SendWithoutCompression", 2131628272));
-        this.parentAlert.selectedMenuItem.addSubItem(2, 2131165832, LocaleController.getString("OpenInExternalApp", 2131627153));
+        this.parentAlert.selectedMenuItem.addSubItem(0, LocaleController.getString("SendWithoutGrouping", 2131628274));
+        this.parentAlert.selectedMenuItem.addSubItem(1, LocaleController.getString("SendWithoutCompression", 2131628273));
+        this.parentAlert.selectedMenuItem.addSubItem(2, 2131165835, LocaleController.getString("OpenInExternalApp", 2131627153));
         this.parentAlert.selectedMenuItem.addSubItem(3, LocaleController.getString("AttachMediaPreviewButton", 2131624507));
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(context, resourcesProvider);
         this.gridView = anonymousClass3;
@@ -573,7 +573,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         AnonymousClass8 anonymousClass8 = new AnonymousClass8(this, context, paint);
         this.recordTime = anonymousClass8;
         AndroidUtilities.updateViewVisibilityAnimated(anonymousClass8, false, 1.0f, false);
-        this.recordTime.setBackgroundResource(2131166179);
+        this.recordTime.setBackgroundResource(2131166182);
         this.recordTime.getBackground().setColorFilter(new PorterDuffColorFilter(1711276032, PorterDuff.Mode.MULTIPLY));
         this.recordTime.setTextSize(1, 15.0f);
         this.recordTime.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -588,14 +588,14 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         container.addView(this.cameraPanel, LayoutHelper.createFrame(-1, 126, 83));
         TextView textView2 = new TextView(context);
         this.counterTextView = textView2;
-        textView2.setBackgroundResource(2131166053);
+        textView2.setBackgroundResource(2131166056);
         this.counterTextView.setVisibility(8);
         this.counterTextView.setTextColor(-1);
         this.counterTextView.setGravity(17);
         this.counterTextView.setPivotX(0.0f);
         this.counterTextView.setPivotY(0.0f);
         this.counterTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        this.counterTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 2131166051, 0);
+        this.counterTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 2131166054, 0);
         this.counterTextView.setCompoundDrawablePadding(AndroidUtilities.dp(4.0f));
         this.counterTextView.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
         container.addView(this.counterTextView, LayoutHelper.createFrame(-2, 38.0f, 51, 0.0f, 0.0f, 0.0f, 116.0f));
@@ -631,7 +631,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.tooltipTextView = textView3;
         textView3.setTextSize(1, 15.0f);
         this.tooltipTextView.setTextColor(-1);
-        this.tooltipTextView.setText(LocaleController.getString("TapForVideo", 2131628600));
+        this.tooltipTextView.setText(LocaleController.getString("TapForVideo", 2131628601));
         this.tooltipTextView.setShadowLayer(AndroidUtilities.dp(3.33333f), 0.0f, AndroidUtilities.dp(0.666f), 1275068416);
         this.tooltipTextView.setPadding(AndroidUtilities.dp(6.0f), 0, AndroidUtilities.dp(6.0f), 0);
         this.cameraPanel.addView(this.tooltipTextView, LayoutHelper.createFrame(-2, -2.0f, 81, 0.0f, 0.0f, 0.0f, 16.0f));
@@ -2988,7 +2988,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if ((i == 0 || i == 1) && this.parentAlert.maxSelectedPhotos > 0 && selectedPhotosOrder.size() > 1) {
             BaseFragment baseFragment = this.parentAlert.baseFragment;
             if ((baseFragment instanceof ChatActivity) && (currentChat = ((ChatActivity) baseFragment).getCurrentChat()) != null && !ChatObject.hasAdminRights(currentChat) && currentChat.slowmode_enabled) {
-                AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString("Slowmode", 2131628423), LocaleController.getString("SlowmodeSendError", 2131628431), this.resourcesProvider).show();
+                AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString("Slowmode", 2131628424), LocaleController.getString("SlowmodeSendError", 2131628432), this.resourcesProvider).show();
                 return;
             }
         }
@@ -3941,7 +3941,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     if (!(baseFragment instanceof ChatActivity) || (currentChat = ((ChatActivity) baseFragment).getCurrentChat()) == null || ChatObject.hasAdminRights(currentChat) || !currentChat.slowmode_enabled || ChatAttachAlertPhotoLayout.this.alertOnlyOnce == 2) {
                         return;
                     }
-                    AlertsCreator.createSimpleAlert(ChatAttachAlertPhotoLayout.this.getContext(), LocaleController.getString("Slowmode", 2131628423), LocaleController.getString("SlowmodeSelectSendError", 2131628430), ChatAttachAlertPhotoLayout.this.resourcesProvider).show();
+                    AlertsCreator.createSimpleAlert(ChatAttachAlertPhotoLayout.this.getContext(), LocaleController.getString("Slowmode", 2131628424), LocaleController.getString("SlowmodeSelectSendError", 2131628431), ChatAttachAlertPhotoLayout.this.resourcesProvider).show();
                     if (ChatAttachAlertPhotoLayout.this.alertOnlyOnce != 1) {
                         return;
                     }

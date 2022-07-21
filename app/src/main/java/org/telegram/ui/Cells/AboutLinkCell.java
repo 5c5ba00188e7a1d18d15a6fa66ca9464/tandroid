@@ -454,7 +454,7 @@ public class AboutLinkCell extends FrameLayout {
                     return;
                 }
                 if (str.startsWith("@")) {
-                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("UsernameCopied", 2131628918)).show();
+                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("UsernameCopied", 2131628919)).show();
                 } else if (str.startsWith("#") || str.startsWith("$")) {
                     BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(2131558433, LocaleController.getString("HashtagCopied", 2131626175)).show();
                 } else {

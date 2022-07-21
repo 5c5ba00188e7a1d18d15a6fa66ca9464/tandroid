@@ -9,6 +9,6 @@ public final /* synthetic */ class EmojiView$ImageViewEmoji$$ExternalSyntheticLa
 
     @Override // java.lang.Runnable
     public final void run() {
-        EmojiView.access$4300(this.f$0);
+        EmojiView.access$4400(this.f$0);
     }
 }

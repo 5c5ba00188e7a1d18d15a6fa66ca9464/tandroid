@@ -126,7 +126,7 @@ public class PhotoPickerPhotoCell extends FrameLayout {
     }
 
     public void setImage(MediaController.PhotoEntry photoEntry) {
-        Drawable drawable = getResources().getDrawable(2131166005);
+        Drawable drawable = getResources().getDrawable(2131166008);
         String str = photoEntry.thumbPath;
         if (str != null) {
             this.imageView.setImage(str, null, drawable);
@@ -150,7 +150,7 @@ public class PhotoPickerPhotoCell extends FrameLayout {
     }
 
     public void setImage(MediaController.SearchImage searchImage) {
-        Drawable drawable = getResources().getDrawable(2131166005);
+        Drawable drawable = getResources().getDrawable(2131166008);
         TLRPC$PhotoSize tLRPC$PhotoSize = searchImage.thumbPhotoSize;
         if (tLRPC$PhotoSize != null) {
             this.imageView.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo), (String) null, drawable, searchImage);

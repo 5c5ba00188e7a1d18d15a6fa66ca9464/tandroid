@@ -313,7 +313,7 @@ public class Browser {
                         builder.addMenuItem(LocaleController.getString("CopyLink", 2131625274), broadcast);
                         builder.setToolbarColor(Theme.getColor("actionBarBrowser"));
                         builder.setShowTitle(true);
-                        builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), 2131165729), LocaleController.getString("ShareFile", 2131628336), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent, 0), true);
+                        builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), 2131165729), LocaleController.getString("ShareFile", 2131628337), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent, 0), true);
                         CustomTabsIntent build = builder.build();
                         build.setUseNewTask();
                         build.launchUrl(context, uri2);
@@ -335,7 +335,7 @@ public class Browser {
                 builder2.addMenuItem(LocaleController.getString("CopyLink", 2131625274), broadcast2);
                 builder2.setToolbarColor(Theme.getColor("actionBarBrowser"));
                 builder2.setShowTitle(true);
-                builder2.setActionButton(BitmapFactory.decodeResource(context.getResources(), 2131165729), LocaleController.getString("ShareFile", 2131628336), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent2, 0), true);
+                builder2.setActionButton(BitmapFactory.decodeResource(context.getResources(), 2131165729), LocaleController.getString("ShareFile", 2131628337), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent2, 0), true);
                 CustomTabsIntent build2 = builder2.build();
                 build2.setUseNewTask();
                 build2.launchUrl(context, uri2);

@@ -156,7 +156,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             boolean z8 = LocaleController.isRTL;
             addView(checkBoxSquare, LayoutHelper.createFrame(18, 18.0f, (z8 ? 3 : 5) | 16, z8 ? 19.0f : 0.0f, 0.0f, z8 ? 0.0f : 19.0f, 0.0f));
         } else if (i2 == 1) {
-            CheckBox checkBox = new CheckBox(context, 2131166115);
+            CheckBox checkBox = new CheckBox(context, 2131166118);
             this.checkBox = checkBox;
             checkBox.setVisibility(4);
             this.checkBox.setColor(Theme.getColor("checkbox", resourcesProvider), Theme.getColor("checkboxCheck", resourcesProvider));
@@ -306,7 +306,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         } else {
             int currentTime = i2 - ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
             if (currentTime > 0) {
-                str = currentTime < 3600 ? LocaleController.formatString("WillUnmuteIn", 2131629323, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0])) : currentTime < 86400 ? LocaleController.formatString("WillUnmuteIn", 2131629323, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0])) : currentTime < 31536000 ? LocaleController.formatString("WillUnmuteIn", 2131629323, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0])) : null;
+                str = currentTime < 3600 ? LocaleController.formatString("WillUnmuteIn", 2131629324, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0])) : currentTime < 86400 ? LocaleController.formatString("WillUnmuteIn", 2131629324, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0])) : currentTime < 31536000 ? LocaleController.formatString("WillUnmuteIn", 2131629324, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0])) : null;
             } else if (z2) {
                 str = LocaleController.getString("NotificationsCustom", 2131627074);
             } else {
@@ -557,7 +557,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             ((FrameLayout.LayoutParams) this.nameTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(10.0f);
             if (tLRPC$User != null) {
                 if (this.selfAsSavedMessages && UserObject.isUserSelf(tLRPC$User)) {
-                    this.nameTextView.setText(LocaleController.getString("SavedMessages", 2131628139), true);
+                    this.nameTextView.setText(LocaleController.getString("SavedMessages", 2131628140), true);
                     this.statusTextView.setText(null);
                     this.avatarDrawable.setAvatarType(1);
                     this.avatarImageView.setImage((ImageLocation) null, "50_50", this.avatarDrawable, tLRPC$User);

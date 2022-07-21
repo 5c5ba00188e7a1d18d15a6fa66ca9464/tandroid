@@ -443,10 +443,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             this.actionBar.setOccupyStatusBar(false);
         }
         this.page1 = new FrameLayout(context);
-        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass1(this)).setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass1(this)).setSearchFieldHint(LocaleController.getString("Search", 2131628155));
         this.actionBar.setBackButtonDrawable(new MenuDrawable());
         this.actionBar.setAddToContainer(false);
-        this.actionBar.setTitle(LocaleController.getString("ThemePreview", 2131628688));
+        this.actionBar.setTitle(LocaleController.getString("ThemePreview", 2131628689));
         AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
         this.page1 = anonymousClass2;
         anonymousClass2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
@@ -520,10 +520,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     if (obj instanceof WallpapersListActivity.ColorWallpaper) {
                     }
                 }
-                this.actionBar2.createMenu().addItem(5, 2131165940);
+                this.actionBar2.createMenu().addItem(5, 2131165943);
             } else if (i9 == 1) {
                 ActionBarMenu createMenu = this.actionBar2.createMenu();
-                this.saveItem = createMenu.addItem(4, LocaleController.getString("Save", 2131628122).toUpperCase());
+                this.saveItem = createMenu.addItem(4, LocaleController.getString("Save", 2131628123).toUpperCase());
                 AnonymousClass7 anonymousClass7 = new AnonymousClass7(context, createMenu, 0, 0);
                 this.dropDownContainer = anonymousClass7;
                 anonymousClass7.setSubMenuOpenSide(1);
@@ -616,11 +616,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 textView2.setTextSize(1, 15.0f);
                 this.bottomOverlayChatText.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 this.bottomOverlayChatText.setTextColor(Theme.getColor(str2));
-                this.bottomOverlayChatText.setText(LocaleController.getString("SetBackground", 2131628303));
+                this.bottomOverlayChatText.setText(LocaleController.getString("SetBackground", 2131628304));
                 this.bottomOverlayChat.addView(this.bottomOverlayChatText, LayoutHelper.createFrame(-2, -2, 17));
             }
             Rect rect = new Rect();
-            Drawable mutate3 = context.getResources().getDrawable(2131166140).mutate();
+            Drawable mutate3 = context.getResources().getDrawable(2131166143).mutate();
             this.sheetDrawable = mutate3;
             mutate3.getPadding(rect);
             this.sheetDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhite"), PorterDuff.Mode.MULTIPLY));
@@ -3033,9 +3033,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString("SaveChangesAlertTitle", 2131628124));
-            builder.setMessage(LocaleController.getString("SaveChangesAlertText", 2131628123));
-            builder.setPositiveButton(LocaleController.getString("Save", 2131628122), new ThemePreviewActivity$$ExternalSyntheticLambda1(this));
+            builder.setTitle(LocaleController.getString("SaveChangesAlertTitle", 2131628125));
+            builder.setMessage(LocaleController.getString("SaveChangesAlertText", 2131628124));
+            builder.setPositiveButton(LocaleController.getString("Save", 2131628123), new ThemePreviewActivity$$ExternalSyntheticLambda1(this));
             builder.setNegativeButton(LocaleController.getString("PassportDiscard", 2131627272), new ThemePreviewActivity$$ExternalSyntheticLambda2(this));
             showDialog(builder.create());
             return false;
@@ -4751,8 +4751,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             this.mContext = context;
             int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
             DialogCell.CustomDialog customDialog = new DialogCell.CustomDialog();
-            customDialog.name = LocaleController.getString("ThemePreviewDialog1", 2131628689);
-            customDialog.message = LocaleController.getString("ThemePreviewDialogMessage1", 2131628697);
+            customDialog.name = LocaleController.getString("ThemePreviewDialog1", 2131628690);
+            customDialog.message = LocaleController.getString("ThemePreviewDialogMessage1", 2131628698);
             customDialog.id = 0;
             customDialog.unread_count = 0;
             customDialog.pinned = true;
@@ -4764,8 +4764,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             customDialog.sent = true;
             this.dialogs.add(customDialog);
             DialogCell.CustomDialog customDialog2 = new DialogCell.CustomDialog();
-            customDialog2.name = LocaleController.getString("ThemePreviewDialog2", 2131628690);
-            customDialog2.message = LocaleController.getString("ThemePreviewDialogMessage2", 2131628698);
+            customDialog2.name = LocaleController.getString("ThemePreviewDialog2", 2131628691);
+            customDialog2.message = LocaleController.getString("ThemePreviewDialogMessage2", 2131628699);
             customDialog2.id = 1;
             customDialog2.unread_count = 2;
             customDialog2.pinned = false;
@@ -4777,8 +4777,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             customDialog2.sent = false;
             this.dialogs.add(customDialog2);
             DialogCell.CustomDialog customDialog3 = new DialogCell.CustomDialog();
-            customDialog3.name = LocaleController.getString("ThemePreviewDialog3", 2131628691);
-            customDialog3.message = LocaleController.getString("ThemePreviewDialogMessage3", 2131628699);
+            customDialog3.name = LocaleController.getString("ThemePreviewDialog3", 2131628692);
+            customDialog3.message = LocaleController.getString("ThemePreviewDialogMessage3", 2131628700);
             customDialog3.id = 2;
             customDialog3.unread_count = 3;
             customDialog3.pinned = false;
@@ -4790,8 +4790,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             customDialog3.sent = false;
             this.dialogs.add(customDialog3);
             DialogCell.CustomDialog customDialog4 = new DialogCell.CustomDialog();
-            customDialog4.name = LocaleController.getString("ThemePreviewDialog4", 2131628692);
-            customDialog4.message = LocaleController.getString("ThemePreviewDialogMessage4", 2131628700);
+            customDialog4.name = LocaleController.getString("ThemePreviewDialog4", 2131628693);
+            customDialog4.message = LocaleController.getString("ThemePreviewDialogMessage4", 2131628701);
             customDialog4.id = 3;
             customDialog4.unread_count = 0;
             customDialog4.pinned = false;
@@ -4803,8 +4803,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             customDialog4.sent = false;
             this.dialogs.add(customDialog4);
             DialogCell.CustomDialog customDialog5 = new DialogCell.CustomDialog();
-            customDialog5.name = LocaleController.getString("ThemePreviewDialog5", 2131628693);
-            customDialog5.message = LocaleController.getString("ThemePreviewDialogMessage5", 2131628701);
+            customDialog5.name = LocaleController.getString("ThemePreviewDialog5", 2131628694);
+            customDialog5.message = LocaleController.getString("ThemePreviewDialogMessage5", 2131628702);
             customDialog5.id = 4;
             customDialog5.unread_count = 0;
             customDialog5.pinned = false;
@@ -4816,8 +4816,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             customDialog5.sent = true;
             this.dialogs.add(customDialog5);
             DialogCell.CustomDialog customDialog6 = new DialogCell.CustomDialog();
-            customDialog6.name = LocaleController.getString("ThemePreviewDialog6", 2131628694);
-            customDialog6.message = LocaleController.getString("ThemePreviewDialogMessage6", 2131628702);
+            customDialog6.name = LocaleController.getString("ThemePreviewDialog6", 2131628695);
+            customDialog6.message = LocaleController.getString("ThemePreviewDialogMessage6", 2131628703);
             customDialog6.id = 5;
             customDialog6.unread_count = 0;
             customDialog6.pinned = false;
@@ -4829,8 +4829,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             customDialog6.sent = false;
             this.dialogs.add(customDialog6);
             DialogCell.CustomDialog customDialog7 = new DialogCell.CustomDialog();
-            customDialog7.name = LocaleController.getString("ThemePreviewDialog7", 2131628695);
-            customDialog7.message = LocaleController.getString("ThemePreviewDialogMessage7", 2131628703);
+            customDialog7.name = LocaleController.getString("ThemePreviewDialog7", 2131628696);
+            customDialog7.message = LocaleController.getString("ThemePreviewDialogMessage7", 2131628704);
             customDialog7.id = 6;
             customDialog7.unread_count = 0;
             customDialog7.pinned = false;
@@ -4842,8 +4842,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             customDialog7.sent = false;
             this.dialogs.add(customDialog7);
             DialogCell.CustomDialog customDialog8 = new DialogCell.CustomDialog();
-            customDialog8.name = LocaleController.getString("ThemePreviewDialog8", 2131628696);
-            customDialog8.message = LocaleController.getString("ThemePreviewDialogMessage8", 2131628704);
+            customDialog8.name = LocaleController.getString("ThemePreviewDialog8", 2131628697);
+            customDialog8.message = LocaleController.getString("ThemePreviewDialogMessage8", 2131628705);
             customDialog8.id = 0;
             customDialog8.unread_count = 0;
             customDialog8.pinned = false;
@@ -5107,7 +5107,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     return;
                 } else {
                     TLRPC$TL_message tLRPC$TL_message9 = new TLRPC$TL_message();
-                    tLRPC$TL_message9.message = LocaleController.getString("ThemePreviewLine1", 2131628705);
+                    tLRPC$TL_message9.message = LocaleController.getString("ThemePreviewLine1", 2131628706);
                     int i3 = currentTimeMillis + 60;
                     tLRPC$TL_message9.date = i3;
                     tLRPC$TL_message9.dialog_id = 1L;
@@ -5123,7 +5123,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     tLRPC$TL_peerUser13.user_id = 0L;
                     MessageObject messageObject6 = new MessageObject(((BaseFragment) r17).currentAccount, tLRPC$TL_message9, true, false);
                     TLRPC$TL_message tLRPC$TL_message10 = new TLRPC$TL_message();
-                    tLRPC$TL_message10.message = LocaleController.getString("ThemePreviewLine2", 2131628706);
+                    tLRPC$TL_message10.message = LocaleController.getString("ThemePreviewLine2", 2131628707);
                     tLRPC$TL_message10.date = currentTimeMillis + 960;
                     tLRPC$TL_message10.dialog_id = 1L;
                     tLRPC$TL_message10.flags = 259;
@@ -5152,8 +5152,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     tLRPC$Document3.file_reference = new byte[0];
                     TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio2 = new TLRPC$TL_documentAttributeAudio();
                     tLRPC$TL_documentAttributeAudio2.duration = 243;
-                    tLRPC$TL_documentAttributeAudio2.performer = LocaleController.getString("ThemePreviewSongPerformer", 2131628710);
-                    tLRPC$TL_documentAttributeAudio2.title = LocaleController.getString("ThemePreviewSongTitle", 2131628711);
+                    tLRPC$TL_documentAttributeAudio2.performer = LocaleController.getString("ThemePreviewSongPerformer", 2131628711);
+                    tLRPC$TL_documentAttributeAudio2.title = LocaleController.getString("ThemePreviewSongTitle", 2131628712);
                     tLRPC$TL_message11.media.document.attributes.add(tLRPC$TL_documentAttributeAudio2);
                     tLRPC$TL_message11.out = false;
                     TLRPC$TL_peerUser tLRPC$TL_peerUser16 = new TLRPC$TL_peerUser();
@@ -5161,7 +5161,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     tLRPC$TL_peerUser16.user_id = UserConfig.getInstance(((BaseFragment) r17).currentAccount).getClientUserId();
                     this.messages.add(new MessageObject(((BaseFragment) r17).currentAccount, tLRPC$TL_message11, true, false));
                     TLRPC$TL_message tLRPC$TL_message12 = new TLRPC$TL_message();
-                    tLRPC$TL_message12.message = LocaleController.getString("ThemePreviewLine3", 2131628707);
+                    tLRPC$TL_message12.message = LocaleController.getString("ThemePreviewLine3", 2131628708);
                     tLRPC$TL_message12.date = i3;
                     tLRPC$TL_message12.dialog_id = 1L;
                     tLRPC$TL_message12.flags = 265;
@@ -5176,7 +5176,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     tLRPC$TL_message12.peer_id = tLRPC$TL_peerUser17;
                     tLRPC$TL_peerUser17.user_id = UserConfig.getInstance(((BaseFragment) r17).currentAccount).getClientUserId();
                     MessageObject messageObject7 = new MessageObject(((BaseFragment) r17).currentAccount, tLRPC$TL_message12, true, false);
-                    messageObject7.customReplyName = LocaleController.getString("ThemePreviewLine3Reply", 2131628708);
+                    messageObject7.customReplyName = LocaleController.getString("ThemePreviewLine3Reply", 2131628709);
                     messageObject7.replyMessageObject = messageObject6;
                     this.messages.add(messageObject7);
                     TLRPC$TL_message tLRPC$TL_message13 = new TLRPC$TL_message();
@@ -5233,7 +5233,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     tLRPC$TL_photoSize.type = "s";
                     tLRPC$TL_photoSize.location = new TLRPC$TL_fileLocationUnavailable();
                     tLRPC$TL_message14.media.photo.sizes.add(tLRPC$TL_photoSize);
-                    tLRPC$TL_message14.message = LocaleController.getString("ThemePreviewLine4", 2131628709);
+                    tLRPC$TL_message14.message = LocaleController.getString("ThemePreviewLine4", 2131628710);
                     tLRPC$TL_message14.out = false;
                     TLRPC$TL_peerUser tLRPC$TL_peerUser20 = new TLRPC$TL_peerUser();
                     tLRPC$TL_message14.peer_id = tLRPC$TL_peerUser20;

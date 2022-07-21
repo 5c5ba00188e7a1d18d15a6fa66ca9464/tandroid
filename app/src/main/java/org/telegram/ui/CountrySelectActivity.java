@@ -98,7 +98,7 @@ public class CountrySelectActivity extends BaseFragment {
         this.actionBar.setTitleColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         int i = 1;
-        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2()).setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2()).setSearchFieldHint(LocaleController.getString("Search", 2131628155));
         this.actionBar.setSearchTextColor(Theme.getColor("windowBackgroundWhiteGrayText"), true);
         this.actionBar.setSearchTextColor(Theme.getColor("windowBackgroundWhiteBlackText"), false);
         this.actionBar.setSearchCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));

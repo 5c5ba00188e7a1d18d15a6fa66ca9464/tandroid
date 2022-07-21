@@ -1,16 +1,17 @@
 package org.telegram.ui;
 
-import org.telegram.ui.CountrySelectActivity;
+import org.telegram.tgnet.RequestDelegate;
+import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$TL_error;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class PaymentFormActivity$$ExternalSyntheticLambda62 implements CountrySelectActivity.CountrySelectActivityDelegate {
-    public final /* synthetic */ PaymentFormActivity f$0;
+public final /* synthetic */ class PaymentFormActivity$$ExternalSyntheticLambda62 implements RequestDelegate {
+    public static final /* synthetic */ PaymentFormActivity$$ExternalSyntheticLambda62 INSTANCE = new PaymentFormActivity$$ExternalSyntheticLambda62();
 
-    public /* synthetic */ PaymentFormActivity$$ExternalSyntheticLambda62(PaymentFormActivity paymentFormActivity) {
-        this.f$0 = paymentFormActivity;
+    private /* synthetic */ PaymentFormActivity$$ExternalSyntheticLambda62() {
     }
 
-    @Override // org.telegram.ui.CountrySelectActivity.CountrySelectActivityDelegate
-    public final void didSelectCountry(CountrySelectActivity.Country country) {
-        this.f$0.lambda$createView$0(country);
+    @Override // org.telegram.tgnet.RequestDelegate
+    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        PaymentFormActivity.lambda$createView$26(tLObject, tLRPC$TL_error);
     }
 }

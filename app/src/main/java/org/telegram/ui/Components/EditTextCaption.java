@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -163,7 +164,7 @@ public class EditTextCaption extends EditTextBoldCursor {
         anonymousClass2.setTextSize(1, 18.0f);
         anonymousClass2.setText("http://");
         anonymousClass2.setTextColor(getThemedColor("dialogTextBlack"));
-        anonymousClass2.setHintText(LocaleController.getString("URL", 2131628787));
+        anonymousClass2.setHintText(LocaleController.getString("URL", 2131628788));
         anonymousClass2.setHeaderHintColor(getThemedColor("windowBackgroundWhiteBlueHeader"));
         anonymousClass2.setSingleLine(true);
         anonymousClass2.setFocusable(true);
@@ -217,14 +218,16 @@ public class EditTextCaption extends EditTextBoldCursor {
         CharacterStyle[] characterStyleArr = (CharacterStyle[]) text.getSpans(i, i2, CharacterStyle.class);
         if (characterStyleArr != null && characterStyleArr.length > 0) {
             for (CharacterStyle characterStyle : characterStyleArr) {
-                int spanStart = text.getSpanStart(characterStyle);
-                int spanEnd = text.getSpanEnd(characterStyle);
-                text.removeSpan(characterStyle);
-                if (spanStart < i) {
-                    text.setSpan(characterStyle, spanStart, i, 33);
-                }
-                if (spanEnd > i2) {
-                    text.setSpan(characterStyle, i2, spanEnd, 33);
+                if (!(characterStyle instanceof AnimatedEmojiSpan)) {
+                    int spanStart = text.getSpanStart(characterStyle);
+                    int spanEnd = text.getSpanEnd(characterStyle);
+                    text.removeSpan(characterStyle);
+                    if (spanStart < i) {
+                        text.setSpan(characterStyle, spanStart, i, 33);
+                    }
+                    if (spanEnd > i2) {
+                        text.setSpan(characterStyle, i2, spanEnd, 33);
+                    }
                 }
             }
         }
@@ -516,12 +519,12 @@ public class EditTextCaption extends EditTextBoldCursor {
             i++;
         }
         if (hasSelection()) {
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230866, LocaleController.getString("Spoiler", 2131628465)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230866, LocaleController.getString("Spoiler", 2131628466)));
             wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230856, LocaleController.getString("Bold", 2131624714)));
             wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230859, LocaleController.getString("Italic", 2131626357)));
             wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230861, LocaleController.getString("Mono", 2131626782)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230867, LocaleController.getString("Strike", 2131628546)));
-            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230868, LocaleController.getString("Underline", 2131628795)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230867, LocaleController.getString("Strike", 2131628547)));
+            wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230868, LocaleController.getString("Underline", 2131628796)));
             wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230860, LocaleController.getString("CreateLink", 2131625288)));
             wrap.addAction(new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2131230863, LocaleController.getString("Regular", 2131627943)));
         }
@@ -540,26 +543,46 @@ public class EditTextCaption extends EditTextBoldCursor {
 
     @Override // android.widget.TextView
     public boolean onTextContextMenuItem(int i) {
-        ClipData primaryClip = ((ClipboardManager) getContext().getSystemService("clipboard")).getPrimaryClip();
-        if (primaryClip.getItemCount() == 1 && i == 16908322 && primaryClip.getDescription().hasMimeType("text/html")) {
-            int selectionEnd = getSelectionEnd();
-            if (selectionEnd < 0) {
-                selectionEnd = 0;
-            }
-            try {
-                Spannable fromHTML = CopyUtilities.fromHTML(primaryClip.getItemAt(0).getHtmlText());
-                Emoji.replaceEmoji(fromHTML, getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
-                AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) fromHTML.getSpans(0, fromHTML.length(), AnimatedEmojiSpan.class);
-                if (animatedEmojiSpanArr != null) {
-                    for (int i2 = 0; i2 < animatedEmojiSpanArr.length; i2++) {
-                        animatedEmojiSpanArr[selectionEnd].applyFontMetrics(getPaint().getFontMetricsInt(), 1);
+        if (i == 16908322) {
+            ClipData primaryClip = ((ClipboardManager) getContext().getSystemService("clipboard")).getPrimaryClip();
+            if (primaryClip != null && primaryClip.getItemCount() == 1 && primaryClip.getDescription().hasMimeType("text/html")) {
+                try {
+                    Spannable fromHTML = CopyUtilities.fromHTML(primaryClip.getItemAt(0).getHtmlText());
+                    Emoji.replaceEmoji(fromHTML, getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                    AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) fromHTML.getSpans(0, fromHTML.length(), AnimatedEmojiSpan.class);
+                    if (animatedEmojiSpanArr != null) {
+                        for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
+                            animatedEmojiSpan.applyFontMetrics(getPaint().getFontMetricsInt(), AnimatedEmojiDrawable.getCacheTypeForEnterView());
+                        }
                     }
+                    int max = Math.max(0, getSelectionStart());
+                    setText(getText().replace(max, Math.min(getText().length(), getSelectionEnd()), fromHTML));
+                    setSelection(fromHTML.length() + max, max + fromHTML.length());
+                    return true;
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
-                setText(getText().insert(selectionEnd, fromHTML));
-                setSelection(fromHTML.length() + selectionEnd, selectionEnd + fromHTML.length());
-                return true;
-            } catch (Exception e) {
-                FileLog.e(e);
+            }
+        } else {
+            try {
+                if (i == 16908321) {
+                    AndroidUtilities.addToClipboard(getText().subSequence(Math.max(0, getSelectionStart()), Math.min(getText().length(), getSelectionEnd())));
+                    return true;
+                } else if (i == 16908320) {
+                    int max2 = Math.max(0, getSelectionStart());
+                    int min = Math.min(getText().length(), getSelectionEnd());
+                    AndroidUtilities.addToClipboard(getText().subSequence(max2, min));
+                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                    if (max2 != 0) {
+                        spannableStringBuilder.append(getText().subSequence(0, max2));
+                    }
+                    if (min != getText().length()) {
+                        spannableStringBuilder.append(getText().subSequence(min, getText().length()));
+                    }
+                    setText(spannableStringBuilder);
+                    return true;
+                }
+            } catch (Exception unused) {
             }
         }
         return super.onTextContextMenuItem(i);

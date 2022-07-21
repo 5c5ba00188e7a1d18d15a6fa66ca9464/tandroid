@@ -126,7 +126,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         ActionBarMenuItem addItem = actionBar.createMenu().addItem(1000, 2131165453);
         this.botMenuItem = addItem;
         addItem.setVisibility(8);
-        this.botMenuItem.addSubItem(2131230864, 2131165909, LocaleController.getString(2131624757));
+        this.botMenuItem.addSubItem(2131230864, 2131165912, LocaleController.getString(2131624757));
         this.actionBarOnItemClick = actionBar.getActionBarMenuOnItemClick();
         BotWebViewContainer botWebViewContainer = new BotWebViewContainer(context, chatActivityEnterView.getParentFragment().getResourceProvider(), getColor("windowBackgroundWhite"));
         this.webViewContainer = botWebViewContainer;

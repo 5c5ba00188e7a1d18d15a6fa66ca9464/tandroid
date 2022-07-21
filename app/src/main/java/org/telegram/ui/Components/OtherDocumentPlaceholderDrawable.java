@@ -152,7 +152,7 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
             if (this.loading) {
                 str = LocaleController.getString("Cancel", 2131624832).toUpperCase();
             } else {
-                str = LocaleController.getString("TapToDownload", 2131628610);
+                str = LocaleController.getString("TapToDownload", 2131628611);
             }
             i = AndroidUtilities.dp(28.0f);
             textPaint = buttonPaint;

@@ -401,7 +401,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 if (!this.isImport) {
                     this.actionBar.setTitle(LocaleController.getString("AddContactPhonebookTitle", 2131624268));
                 } else {
-                    this.actionBar.setTitle(LocaleController.getString("ShareContactTitle", 2131628335));
+                    this.actionBar.setTitle(LocaleController.getString("ShareContactTitle", 2131628336));
                 }
                 this.containerView.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
                 this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass4());
@@ -424,7 +424,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 if (!this.isImport) {
                     this.buttonTextView.setText(LocaleController.getString("AddContactPhonebookTitle", 2131624268));
                 } else {
-                    this.buttonTextView.setText(LocaleController.getString("ShareContactTitle", 2131628335));
+                    this.buttonTextView.setText(LocaleController.getString("ShareContactTitle", 2131628336));
                 }
                 this.buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor("featuredStickers_addButton"), getThemedColor("featuredStickers_addButtonPressed")));
@@ -701,7 +701,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 if (Build.VERSION.SDK_INT >= 31) {
                     return;
                 }
-                Toast.makeText(this.parentFragment.getParentActivity(), LocaleController.getString("TextCopied", 2131628662), 0).show();
+                Toast.makeText(this.parentFragment.getParentActivity(), LocaleController.getString("TextCopied", 2131628663), 0).show();
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -734,7 +734,7 @@ public class PhonebookShareAlert extends BottomSheet {
                     simpleLayout.textView.setText(LocaleController.getString("EmailCopied", 2131625613));
                     simpleLayout.imageView.setImageResource(2131165800);
                 } else {
-                    simpleLayout.textView.setText(LocaleController.getString("TextCopied", 2131628662));
+                    simpleLayout.textView.setText(LocaleController.getString("TextCopied", 2131628663));
                     simpleLayout.imageView.setImageResource(2131165764);
                 }
                 if (Build.VERSION.SDK_INT < 31) {
@@ -1317,7 +1317,7 @@ public class PhonebookShareAlert extends BottomSheet {
                         if (i4 == 5) {
                             i3 = 2131165662;
                         } else if (i4 == 6) {
-                            i3 = "ORG".equalsIgnoreCase(vcardItem.getRawType(true)) ? 2131165991 : 2131165773;
+                            i3 = "ORG".equalsIgnoreCase(vcardItem.getRawType(true)) ? 2131165994 : 2131165773;
                         }
                     }
                 } else {

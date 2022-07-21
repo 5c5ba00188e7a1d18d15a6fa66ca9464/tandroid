@@ -94,10 +94,10 @@ public class SettingsSuggestionCell extends LinearLayout {
             if (i != 1) {
                 return;
             }
-            this.textView.setText(LocaleController.getString("YourPasswordHeader", 2131629369));
-            this.detailTextView.setText(LocaleController.getString("YourPasswordRemember", 2131629370));
-            this.yesButton.setText(LocaleController.getString("YourPasswordRememberYes", 2131629372));
-            this.noButton.setText(LocaleController.getString("YourPasswordRememberNo", 2131629371));
+            this.textView.setText(LocaleController.getString("YourPasswordHeader", 2131629370));
+            this.detailTextView.setText(LocaleController.getString("YourPasswordRemember", 2131629371));
+            this.yesButton.setText(LocaleController.getString("YourPasswordRememberYes", 2131629373));
+            this.noButton.setText(LocaleController.getString("YourPasswordRememberNo", 2131629372));
             return;
         }
         TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).clientUserId));

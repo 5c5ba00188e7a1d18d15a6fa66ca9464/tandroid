@@ -276,9 +276,9 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("AppName", 2131624384));
-        builder.setMessage(LocaleController.getString("StopLoading", 2131628534));
-        builder.setPositiveButton(LocaleController.getString("WaitMore", 2131629294), null);
-        builder.setNegativeButton(LocaleController.getString("Stop", 2131628526), new ChannelCreateActivity$$ExternalSyntheticLambda1(this));
+        builder.setMessage(LocaleController.getString("StopLoading", 2131628535));
+        builder.setPositiveButton(LocaleController.getString("WaitMore", 2131629295), null);
+        builder.setNegativeButton(LocaleController.getString("Stop", 2131628527), new ChannelCreateActivity$$ExternalSyntheticLambda1(this));
         this.cancelDialog = builder.show();
     }
 
@@ -1311,12 +1311,12 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("AppName", 2131624384));
         if (currentChannel.megagroup) {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlert", 2131628106, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + currentChannel.username, currentChannel.title)));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlert", 2131628107, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + currentChannel.username, currentChannel.title)));
         } else {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlertChannel", 2131628107, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + currentChannel.username, currentChannel.title)));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlertChannel", 2131628108, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + currentChannel.username, currentChannel.title)));
         }
         builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
-        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new ChannelCreateActivity$$ExternalSyntheticLambda2(this, currentChannel));
+        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628105), new ChannelCreateActivity$$ExternalSyntheticLambda2(this, currentChannel));
         showDialog(builder.create());
     }
 

@@ -11,6 +11,6 @@ public final /* synthetic */ class GiftPremiumBottomSheet$$ExternalSyntheticLamb
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        this.f$0.lambda$updateButtonText$4(view);
+        this.f$0.lambda$updateButtonText$5(view);
     }
 }

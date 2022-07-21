@@ -45,7 +45,7 @@ public class BotCommandsMenuContainer extends FrameLayout implements NestedScrol
 
     public BotCommandsMenuContainer(Context context) {
         super(context);
-        this.shadowDrawable = context.getResources().getDrawable(2131166140).mutate();
+        this.shadowDrawable = context.getResources().getDrawable(2131166143).mutate();
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
         this.listView = anonymousClass1;
         anonymousClass1.setOverScrollMode(2);

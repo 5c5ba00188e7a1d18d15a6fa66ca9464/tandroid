@@ -180,14 +180,14 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 if (this.locationType == 4) {
                     this.sendLocationCell.setText(LocaleController.getString("ChatSetThisLocation", 2131625044), str);
                 } else {
-                    this.sendLocationCell.setText(LocaleController.getString("SendSelectedLocation", 2131628268), str);
+                    this.sendLocationCell.setText(LocaleController.getString("SendSelectedLocation", 2131628269), str);
                 }
                 this.sendLocationCell.setHasLocation(true);
             } else if (this.gpsLocation != null) {
-                sendLocationCell.setText(LocaleController.getString("SendLocation", 2131628258), LocaleController.formatString("AccurateTo", 2131624131, LocaleController.formatPluralString("Meters", (int) this.gpsLocation.getAccuracy(), new Object[0])));
+                sendLocationCell.setText(LocaleController.getString("SendLocation", 2131628259), LocaleController.formatString("AccurateTo", 2131624131, LocaleController.formatPluralString("Meters", (int) this.gpsLocation.getAccuracy(), new Object[0])));
                 this.sendLocationCell.setHasLocation(true);
             } else {
-                String string = LocaleController.getString("SendLocation", 2131628258);
+                String string = LocaleController.getString("SendLocation", 2131628259);
                 if (!this.myLocationDenied) {
                     str = LocaleController.getString("Loading", 2131626520);
                 }

@@ -240,13 +240,13 @@ public class LogoutActivity extends BaseFragment {
                                 textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ContactSupport", 2131625256), LocaleController.getString("ContactSupportInfo", 2131625257), 2131165758, false);
                                 return;
                             }
-                            textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ChangePhoneNumber", 2131624872), LocaleController.getString("ChangePhoneNumberInfo", 2131624873), 2131165827, true);
+                            textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ChangePhoneNumber", 2131624872), LocaleController.getString("ChangePhoneNumberInfo", 2131624873), 2131165830, true);
                             return;
                         }
                         textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ClearCache", 2131625147), LocaleController.getString("ClearCacheInfo", 2131625149), 2131165685, true);
                         return;
                     }
-                    textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("SetPasscode", 2131628306), LocaleController.getString("SetPasscodeInfo", 2131628307), 2131165842, true);
+                    textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("SetPasscode", 2131628307), LocaleController.getString("SetPasscodeInfo", 2131628308), 2131165845, true);
                     return;
                 }
                 textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("AddAnotherAccount", 2131624251), LocaleController.getString("AddAnotherAccountInfo", 2131624252), 2131165690, true);

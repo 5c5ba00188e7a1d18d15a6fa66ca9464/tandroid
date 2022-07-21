@@ -167,9 +167,9 @@ public class StroageUsageView extends FrameLayout {
 
     public void setStorageUsage(boolean z, long j, long j2, long j3, long j4) {
         this.calculating = z;
-        this.freeSizeTextView.setText(LocaleController.formatString("TotalDeviceFreeSize", 2131628755, AndroidUtilities.formatFileSize(j3)));
+        this.freeSizeTextView.setText(LocaleController.formatString("TotalDeviceFreeSize", 2131628756, AndroidUtilities.formatFileSize(j3)));
         long j5 = j4 - j3;
-        this.totlaSizeTextView.setText(LocaleController.formatString("TotalDeviceSize", 2131628756, AndroidUtilities.formatFileSize(j5)));
+        this.totlaSizeTextView.setText(LocaleController.formatString("TotalDeviceSize", 2131628757, AndroidUtilities.formatFileSize(j5)));
         if (z) {
             this.calculatingTextView.setVisibility(0);
             this.telegramCacheTextView.setVisibility(8);
@@ -196,7 +196,7 @@ public class StroageUsageView extends FrameLayout {
                 this.telegramCacheTextView.setVisibility(0);
                 this.telegramDatabaseTextView.setVisibility(8);
                 this.textSettingsCell.setText(LocaleController.getString("ClearTelegramCache", 2131625182), false);
-                this.telegramCacheTextView.setText(LocaleController.formatString("TelegramCacheSize", 2131628617, AndroidUtilities.formatFileSize(j2 + j)));
+                this.telegramCacheTextView.setText(LocaleController.formatString("TelegramCacheSize", 2131628618, AndroidUtilities.formatFileSize(j2 + j)));
             } else {
                 this.telegramCacheTextView.setVisibility(8);
                 this.telegramDatabaseTextView.setVisibility(0);

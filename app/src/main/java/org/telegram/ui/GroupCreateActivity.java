@@ -886,7 +886,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 if (this.chatType == 0 && this.selectedContacts.size() == getMessagesController().maxGroupCount) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     builder.setTitle(LocaleController.getString("AppName", 2131624384));
-                    builder.setMessage(LocaleController.getString("SoftUserLimitAlert", 2131628440));
+                    builder.setMessage(LocaleController.getString("SoftUserLimitAlert", 2131628441));
                     builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
                     showDialog(builder.create());
                     return;
@@ -989,11 +989,11 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         if (this.chatType == 2) {
             editTextBoldCursor.setHintText(LocaleController.getString("AddMutual", 2131624282));
         } else if (this.addToGroup || ((groupCreateAdapter = this.adapter) != null && groupCreateAdapter.noContactsStubRow == 0)) {
-            this.editText.setHintText(LocaleController.getString("SearchForPeople", 2131628169));
+            this.editText.setHintText(LocaleController.getString("SearchForPeople", 2131628170));
         } else if (this.isAlwaysShare || this.isNeverShare) {
-            this.editText.setHintText(LocaleController.getString("SearchForPeopleAndGroups", 2131628170));
+            this.editText.setHintText(LocaleController.getString("SearchForPeopleAndGroups", 2131628171));
         } else {
-            this.editText.setHintText(LocaleController.getString("SendMessageTo", 2131628265));
+            this.editText.setHintText(LocaleController.getString("SendMessageTo", 2131628266));
         }
     }
 

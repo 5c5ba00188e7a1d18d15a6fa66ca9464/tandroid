@@ -618,7 +618,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
 
     private void openGroupCreate() {
         if (!this.canCreateGroup) {
-            AlertsCreator.showSimpleAlert(this, LocaleController.getString("YourLocatedChannelsTooMuch", 2131629363));
+            AlertsCreator.showSimpleAlert(this, LocaleController.getString("YourLocatedChannelsTooMuch", 2131629364));
             return;
         }
         ActionIntroActivity actionIntroActivity = new ActionIntroActivity(2);
@@ -1245,11 +1245,11 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
                     }
                     PeopleNearbyActivity peopleNearbyActivity = PeopleNearbyActivity.this;
                     if (peopleNearbyActivity.showingMe = peopleNearbyActivity.getUserConfig().sharingMyLocationUntil > PeopleNearbyActivity.this.getConnectionsManager().getCurrentTime()) {
-                        String string = LocaleController.getString("StopShowingMe", 2131628541);
+                        String string = LocaleController.getString("StopShowingMe", 2131628542);
                         if (PeopleNearbyActivity.this.usersStartRow != -1) {
                             z = true;
                         }
-                        manageChatTextCell.setText(string, null, 2131165825, z);
+                        manageChatTextCell.setText(string, null, 2131165828, z);
                         manageChatTextCell.setColors("windowBackgroundWhiteRedText5", "windowBackgroundWhiteRedText5");
                         return;
                     }
@@ -1257,7 +1257,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
                     if (PeopleNearbyActivity.this.usersStartRow != -1) {
                         z = true;
                     }
-                    manageChatTextCell.setText(string2, null, 2131165821, z);
+                    manageChatTextCell.setText(string2, null, 2131165824, z);
                     return;
                 }
                 String string3 = LocaleController.getString("NearbyCreateGroup", 2131626808);

@@ -256,17 +256,17 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             int i = 0;
             while (i < 7) {
                 if (i == 0) {
-                    str = LocaleController.getString("SlowmodeOff", 2131628428);
+                    str = LocaleController.getString("SlowmodeOff", 2131628429);
                 } else if (i == 1) {
-                    str = LocaleController.formatString("SlowmodeSeconds", 2131628429, 10);
+                    str = LocaleController.formatString("SlowmodeSeconds", 2131628430, 10);
                 } else if (i == 2) {
-                    str = LocaleController.formatString("SlowmodeSeconds", 2131628429, 30);
+                    str = LocaleController.formatString("SlowmodeSeconds", 2131628430, 30);
                 } else if (i == 3) {
-                    str = LocaleController.formatString("SlowmodeMinutes", 2131628427, 1);
+                    str = LocaleController.formatString("SlowmodeMinutes", 2131628428, 1);
                 } else if (i != 4) {
-                    str = i != 5 ? LocaleController.formatString("SlowmodeHours", 2131628424, 1) : LocaleController.formatString("SlowmodeMinutes", 2131628427, 15);
+                    str = i != 5 ? LocaleController.formatString("SlowmodeHours", 2131628425, 1) : LocaleController.formatString("SlowmodeMinutes", 2131628428, 15);
                 } else {
-                    str = LocaleController.formatString("SlowmodeMinutes", 2131628427, 5);
+                    str = LocaleController.formatString("SlowmodeMinutes", 2131628428, 5);
                 }
                 this.strings.add(str);
                 this.sizes.add(Integer.valueOf((int) Math.ceil(this.textPaint.measureText(str))));
@@ -300,7 +300,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
             protected CharSequence getContentDescription(View view) {
                 if (ChatUsersActivity.this.selectedSlowmode == 0) {
-                    return LocaleController.getString("SlowmodeOff", 2131628428);
+                    return LocaleController.getString("SlowmodeOff", 2131628429);
                 }
                 ChatUsersActivity chatUsersActivity = ChatUsersActivity.this;
                 return chatUsersActivity.formatSeconds(chatUsersActivity.getSecondsForIndex(chatUsersActivity.selectedSlowmode));
@@ -903,7 +903,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             if (this.type == 3) {
                 this.searchItem.setSearchFieldHint(LocaleController.getString("ChannelSearchException", 2131624969));
             } else {
-                this.searchItem.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+                this.searchItem.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
             }
             if (!ChatObject.isChannel(this.currentChat) && !this.currentChat.creator) {
                 this.searchItem.setVisibility(8);
@@ -930,7 +930,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         StickerEmptyView stickerEmptyView = new StickerEmptyView(context, frameLayout, 1);
         this.emptyView = stickerEmptyView;
         stickerEmptyView.title.setText(LocaleController.getString("NoResult", 2131626910));
-        this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+        this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628161));
         this.emptyView.setVisibility(8);
         this.emptyView.setAnimateLayoutChange(true);
         this.emptyView.showProgress(true, false);
@@ -2413,7 +2413,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             } else if (z) {
                 return true;
             } else {
-                arrayList3.add(z8 ? LocaleController.getString("EditAdminRights", 2131625573) : LocaleController.getString("SetAsAdmin", 2131628300));
+                arrayList3.add(z8 ? LocaleController.getString("EditAdminRights", 2131625573) : LocaleController.getString("SetAsAdmin", 2131628301));
                 arrayList4 = arrayList;
                 arrayList4.add(2131165635);
                 arrayList2.add(0);
@@ -2426,14 +2426,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 if (!this.isChannel) {
                     if (ChatObject.isChannel(this.currentChat) && !this.currentChat.gigagroup) {
                         arrayList3.add(LocaleController.getString("ChangePermissions", 2131624869));
-                        arrayList4.add(2131165842);
+                        arrayList4.add(2131165845);
                         arrayList2.add(1);
                     }
                     arrayList3.add(LocaleController.getString("KickFromGroup", 2131626391));
                 } else {
                     arrayList3.add(LocaleController.getString("ChannelRemoveUser", 2131624966));
                 }
-                arrayList4.add(2131165894);
+                arrayList4.add(2131165897);
                 arrayList2.add(2);
                 z4 = true;
             }
@@ -2463,10 +2463,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     if (this.currentChat.creator || (!(tLObject instanceof TLRPC$TL_channelParticipantCreator) && z2)) {
                         z3 = false;
                         charSequenceArr = new CharSequence[]{LocaleController.getString("EditAdminRights", 2131625573), LocaleController.getString("ChannelRemoveUserAdmin", 2131624967)};
-                        iArr = new int[]{2131165635, 2131165894};
+                        iArr = new int[]{2131165635, 2131165897};
                     } else {
                         z3 = false;
-                        iArr = new int[]{2131165894};
+                        iArr = new int[]{2131165897};
                         charSequenceArr = new CharSequence[]{LocaleController.getString("ChannelRemoveUserAdmin", 2131624967)};
                     }
                 }
@@ -2508,7 +2508,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         } else if (z) {
             return true;
         } else {
-            iArr = new int[]{2131165842, 2131165702};
+            iArr = new int[]{2131165845, 2131165702};
             charSequenceArr = new CharSequence[]{LocaleController.getString("ChannelEditPermissions", 2131624917), LocaleController.getString("ChannelDeleteFromList", 2131624910)};
         }
         z3 = false;
@@ -2733,7 +2733,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     public boolean checkDiscard() {
         if (!ChatObject.getBannedRightsString(this.defaultBannedRights).equals(this.initialBannedRights) || this.initialSlowmode != this.selectedSlowmode) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", 2131628884));
+            builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", 2131628885));
             if (this.isChannel) {
                 builder.setMessage(LocaleController.getString("ChannelSettingsChangedAlert", 2131624971));
             } else {
@@ -2766,63 +2766,63 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         StringBuilder sb = new StringBuilder();
         boolean z = tLRPC$TL_chatBannedRights.view_messages;
         if (z && this.defaultBannedRights.view_messages != z) {
-            sb.append(LocaleController.getString("UserRestrictionsNoRead", 2131628901));
+            sb.append(LocaleController.getString("UserRestrictionsNoRead", 2131628902));
         }
         boolean z2 = tLRPC$TL_chatBannedRights.send_messages;
         if (z2 && this.defaultBannedRights.send_messages != z2) {
             if (sb.length() != 0) {
                 sb.append(", ");
             }
-            sb.append(LocaleController.getString("UserRestrictionsNoSend", 2131628902));
+            sb.append(LocaleController.getString("UserRestrictionsNoSend", 2131628903));
         }
         boolean z3 = tLRPC$TL_chatBannedRights.send_media;
         if (z3 && this.defaultBannedRights.send_media != z3) {
             if (sb.length() != 0) {
                 sb.append(", ");
             }
-            sb.append(LocaleController.getString("UserRestrictionsNoSendMedia", 2131628903));
+            sb.append(LocaleController.getString("UserRestrictionsNoSendMedia", 2131628904));
         }
         boolean z4 = tLRPC$TL_chatBannedRights.send_stickers;
         if (z4 && this.defaultBannedRights.send_stickers != z4) {
             if (sb.length() != 0) {
                 sb.append(", ");
             }
-            sb.append(LocaleController.getString("UserRestrictionsNoSendStickers", 2131628905));
+            sb.append(LocaleController.getString("UserRestrictionsNoSendStickers", 2131628906));
         }
         boolean z5 = tLRPC$TL_chatBannedRights.send_polls;
         if (z5 && this.defaultBannedRights.send_polls != z5) {
             if (sb.length() != 0) {
                 sb.append(", ");
             }
-            sb.append(LocaleController.getString("UserRestrictionsNoSendPolls", 2131628904));
+            sb.append(LocaleController.getString("UserRestrictionsNoSendPolls", 2131628905));
         }
         boolean z6 = tLRPC$TL_chatBannedRights.embed_links;
         if (z6 && this.defaultBannedRights.embed_links != z6) {
             if (sb.length() != 0) {
                 sb.append(", ");
             }
-            sb.append(LocaleController.getString("UserRestrictionsNoEmbedLinks", 2131628898));
+            sb.append(LocaleController.getString("UserRestrictionsNoEmbedLinks", 2131628899));
         }
         boolean z7 = tLRPC$TL_chatBannedRights.invite_users;
         if (z7 && this.defaultBannedRights.invite_users != z7) {
             if (sb.length() != 0) {
                 sb.append(", ");
             }
-            sb.append(LocaleController.getString("UserRestrictionsNoInviteUsers", 2131628899));
+            sb.append(LocaleController.getString("UserRestrictionsNoInviteUsers", 2131628900));
         }
         boolean z8 = tLRPC$TL_chatBannedRights.pin_messages;
         if (z8 && this.defaultBannedRights.pin_messages != z8) {
             if (sb.length() != 0) {
                 sb.append(", ");
             }
-            sb.append(LocaleController.getString("UserRestrictionsNoPinMessages", 2131628900));
+            sb.append(LocaleController.getString("UserRestrictionsNoPinMessages", 2131628901));
         }
         boolean z9 = tLRPC$TL_chatBannedRights.change_info;
         if (z9 && this.defaultBannedRights.change_info != z9) {
             if (sb.length() != 0) {
                 sb.append(", ");
             }
-            sb.append(LocaleController.getString("UserRestrictionsNoChangeInfo", 2131628897));
+            sb.append(LocaleController.getString("UserRestrictionsNoChangeInfo", 2131628898));
         }
         if (sb.length() != 0) {
             sb.replace(0, 1, sb.substring(0, 1).toUpperCase());
@@ -4237,7 +4237,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     }
                     manageChatUserCell.setData(obj, charSequence2, str, z6);
                 } else {
-                    String formatString = (!z4 || (user2 = ChatUsersActivity.this.getMessagesController().getUser(Long.valueOf(j2))) == null) ? null : LocaleController.formatString("UserRemovedBy", 2131628880, UserObject.getUserName(user2));
+                    String formatString = (!z4 || (user2 = ChatUsersActivity.this.getMessagesController().getUser(Long.valueOf(j2))) == null) ? null : LocaleController.formatString("UserRemovedBy", 2131628881, UserObject.getUserName(user2));
                     if (i != i3 - 1) {
                         charSequence3 = null;
                         z7 = true;
@@ -4287,9 +4287,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     ChatUsersActivity chatUsersActivity = ChatUsersActivity.this;
                     int secondsForIndex = chatUsersActivity.getSecondsForIndex(chatUsersActivity.selectedSlowmode);
                     if (ChatUsersActivity.this.info == null || secondsForIndex == 0) {
-                        textInfoPrivacyCell.setText(LocaleController.getString("SlowmodeInfoOff", 2131628425));
+                        textInfoPrivacyCell.setText(LocaleController.getString("SlowmodeInfoOff", 2131628426));
                     } else {
-                        textInfoPrivacyCell.setText(LocaleController.formatString("SlowmodeInfoSelected", 2131628426, ChatUsersActivity.this.formatSeconds(secondsForIndex)));
+                        textInfoPrivacyCell.setText(LocaleController.formatString("SlowmodeInfoSelected", 2131628427, ChatUsersActivity.this.formatSeconds(secondsForIndex)));
                     }
                 }
             } else if (itemViewType == 2) {
@@ -4321,7 +4321,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             manageChatTextCell.setText(LocaleController.getString("ChannelAddAdmin", 2131624880), null, 2131165634, z9);
                             return;
                         }
-                        manageChatTextCell.setText(LocaleController.getString("ChannelBlockUser", 2131624896), null, 2131165972, false);
+                        manageChatTextCell.setText(LocaleController.getString("ChannelBlockUser", 2131624896), null, 2131165975, false);
                         return;
                     }
                     manageChatTextCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
@@ -4375,7 +4375,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         headerCell.setText(LocaleController.getString("BroadcastGroup", 2131624768));
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("Slowmode", 2131628423));
+                    headerCell.setText(LocaleController.getString("Slowmode", 2131628424));
                 } else {
                     headerCell.setText(LocaleController.getString("ChannelPermissionsHeader", 2131624956));
                 }
@@ -4425,21 +4425,21 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             } else {
                 TextCheckCell2 textCheckCell2 = (TextCheckCell2) viewHolder.itemView;
                 if (i == ChatUsersActivity.this.changeInfoRow) {
-                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsChangeInfo", 2131628891), !ChatUsersActivity.this.defaultBannedRights.change_info && TextUtils.isEmpty(ChatUsersActivity.this.currentChat.username), false);
+                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsChangeInfo", 2131628892), !ChatUsersActivity.this.defaultBannedRights.change_info && TextUtils.isEmpty(ChatUsersActivity.this.currentChat.username), false);
                 } else if (i == ChatUsersActivity.this.addUsersRow) {
-                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsInviteUsers", 2131628896), !ChatUsersActivity.this.defaultBannedRights.invite_users, true);
+                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsInviteUsers", 2131628897), !ChatUsersActivity.this.defaultBannedRights.invite_users, true);
                 } else if (i == ChatUsersActivity.this.pinMessagesRow) {
-                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsPinMessages", 2131628906), !ChatUsersActivity.this.defaultBannedRights.pin_messages && TextUtils.isEmpty(ChatUsersActivity.this.currentChat.username), true);
+                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsPinMessages", 2131628907), !ChatUsersActivity.this.defaultBannedRights.pin_messages && TextUtils.isEmpty(ChatUsersActivity.this.currentChat.username), true);
                 } else if (i == ChatUsersActivity.this.sendMessagesRow) {
-                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSend", 2131628908), !ChatUsersActivity.this.defaultBannedRights.send_messages, true);
+                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSend", 2131628909), !ChatUsersActivity.this.defaultBannedRights.send_messages, true);
                 } else if (i == ChatUsersActivity.this.sendMediaRow) {
-                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendMedia", 2131628909), !ChatUsersActivity.this.defaultBannedRights.send_media, true);
+                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendMedia", 2131628910), !ChatUsersActivity.this.defaultBannedRights.send_media, true);
                 } else if (i == ChatUsersActivity.this.sendStickersRow) {
-                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendStickers", 2131628911), !ChatUsersActivity.this.defaultBannedRights.send_stickers, true);
+                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendStickers", 2131628912), !ChatUsersActivity.this.defaultBannedRights.send_stickers, true);
                 } else if (i == ChatUsersActivity.this.embedLinksRow) {
-                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsEmbedLinks", 2131628895), !ChatUsersActivity.this.defaultBannedRights.embed_links, true);
+                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsEmbedLinks", 2131628896), !ChatUsersActivity.this.defaultBannedRights.embed_links, true);
                 } else if (i == ChatUsersActivity.this.sendPollsRow) {
-                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendPolls", 2131628910), !ChatUsersActivity.this.defaultBannedRights.send_polls, true);
+                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendPolls", 2131628911), !ChatUsersActivity.this.defaultBannedRights.send_polls, true);
                 }
                 if (i == ChatUsersActivity.this.sendMediaRow || i == ChatUsersActivity.this.sendStickersRow || i == ChatUsersActivity.this.embedLinksRow || i == ChatUsersActivity.this.sendPollsRow) {
                     textCheckCell2.setEnabled(!ChatUsersActivity.this.defaultBannedRights.send_messages && !ChatUsersActivity.this.defaultBannedRights.view_messages);
@@ -4448,7 +4448,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 }
                 if (ChatObject.canBlockUsers(ChatUsersActivity.this.currentChat)) {
                     if ((i == ChatUsersActivity.this.addUsersRow && !ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 3)) || ((i == ChatUsersActivity.this.pinMessagesRow && !ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 0)) || ((i == ChatUsersActivity.this.changeInfoRow && !ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 1)) || (!TextUtils.isEmpty(ChatUsersActivity.this.currentChat.username) && (i == ChatUsersActivity.this.pinMessagesRow || i == ChatUsersActivity.this.changeInfoRow))))) {
-                        textCheckCell2.setIcon(2131166035);
+                        textCheckCell2.setIcon(2131166038);
                         return;
                     } else {
                         textCheckCell2.setIcon(0);

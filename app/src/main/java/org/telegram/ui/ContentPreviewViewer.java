@@ -222,22 +222,22 @@ public class ContentPreviewViewer {
                     ContentPreviewViewer.this.containerView.invalidate();
                     if (ContentPreviewViewer.this.delegate != null) {
                         if (ContentPreviewViewer.this.delegate.needSend() && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
-                            arrayList.add(LocaleController.getString("SendStickerPreview", 2131628270));
-                            arrayList3.add(2131165931);
+                            arrayList.add(LocaleController.getString("SendStickerPreview", 2131628271));
+                            arrayList3.add(2131165934);
                             arrayList2.add(0);
                         }
                         if (ContentPreviewViewer.this.delegate.needSend() && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
-                            arrayList.add(LocaleController.getString("SendWithoutSound", 2131628274));
+                            arrayList.add(LocaleController.getString("SendWithoutSound", 2131628275));
                             arrayList3.add(2131165539);
                             arrayList2.add(6);
                         }
                         if (ContentPreviewViewer.this.delegate.canSchedule()) {
-                            arrayList.add(LocaleController.getString("Schedule", 2131628143));
+                            arrayList.add(LocaleController.getString("Schedule", 2131628144));
                             arrayList3.add(2131165643);
                             arrayList2.add(3);
                         }
                         if (ContentPreviewViewer.this.currentStickerSet != null && ContentPreviewViewer.this.delegate.needOpen()) {
-                            arrayList.add(LocaleController.formatString("ViewPackPreview", 2131628992, new Object[0]));
+                            arrayList.add(LocaleController.formatString("ViewPackPreview", 2131628993, new Object[0]));
                             arrayList3.add(2131165799);
                             arrayList2.add(1);
                         }
@@ -256,7 +256,7 @@ public class ContentPreviewViewer {
                             str = "AddToFavorites";
                         }
                         arrayList.add(LocaleController.getString(str, i6));
-                        arrayList3.add(Integer.valueOf(isStickerInFavorites ? 2131165968 : 2131165728));
+                        arrayList3.add(Integer.valueOf(isStickerInFavorites ? 2131165971 : 2131165728));
                         arrayList2.add(2);
                     }
                     if (ContentPreviewViewer.this.isRecentSticker) {
@@ -272,7 +272,7 @@ public class ContentPreviewViewer {
                         iArr[i7] = ((Integer) arrayList3.get(i7)).intValue();
                     }
                     View$OnClickListenerC00361 view$OnClickListenerC00361 = new View$OnClickListenerC00361(arrayList2, isStickerInFavorites);
-                    ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), 2131166088, ContentPreviewViewer.this.resourcesProvider);
+                    ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), 2131166091, ContentPreviewViewer.this.resourcesProvider);
                     for (int i8 = 0; i8 < arrayList.size(); i8++) {
                         ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, ((Integer) arrayList3.get(i8)).intValue(), (CharSequence) arrayList.get(i8), false, ContentPreviewViewer.this.resourcesProvider);
                         addItem.setTag(Integer.valueOf(i8));
@@ -315,12 +315,12 @@ public class ContentPreviewViewer {
                 ArrayList arrayList5 = new ArrayList();
                 ArrayList arrayList6 = new ArrayList();
                 if (ContentPreviewViewer.this.delegate.needSend() && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
-                    arrayList4.add(LocaleController.getString("SendGifPreview", 2131628250));
-                    arrayList6.add(2131165931);
+                    arrayList4.add(LocaleController.getString("SendGifPreview", 2131628251));
+                    arrayList6.add(2131165934);
                     arrayList5.add(0);
                 }
                 if (ContentPreviewViewer.this.delegate.canSchedule()) {
-                    arrayList4.add(LocaleController.getString("Schedule", 2131628143));
+                    arrayList4.add(LocaleController.getString("Schedule", 2131628144));
                     arrayList6.add(2131165643);
                     arrayList5.add(3);
                 }
@@ -331,7 +331,7 @@ public class ContentPreviewViewer {
                         arrayList6.add(2131165702);
                         arrayList5.add(1);
                     } else {
-                        arrayList4.add(LocaleController.formatString("SaveToGIFs", 2131628130, new Object[0]));
+                        arrayList4.add(LocaleController.formatString("SaveToGIFs", 2131628131, new Object[0]));
                         arrayList6.add(2131165746);
                         arrayList5.add(2);
                     }
@@ -342,7 +342,7 @@ public class ContentPreviewViewer {
                 for (int i9 = 0; i9 < arrayList6.size(); i9++) {
                     iArr2[i9] = ((Integer) arrayList6.get(i9)).intValue();
                 }
-                ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), 2131166088, ContentPreviewViewer.this.resourcesProvider);
+                ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), 2131166091, ContentPreviewViewer.this.resourcesProvider);
                 ContentPreviewViewer$1$$ExternalSyntheticLambda1 contentPreviewViewer$1$$ExternalSyntheticLambda1 = new ContentPreviewViewer$1$$ExternalSyntheticLambda1(this, arrayList5);
                 for (int i10 = 0; i10 < arrayList4.size(); i10++) {
                     ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout2, ((Integer) arrayList6.get(i10)).intValue(), (CharSequence) arrayList4.get(i10), false, ContentPreviewViewer.this.resourcesProvider);
@@ -911,7 +911,7 @@ public class ContentPreviewViewer {
             return;
         }
         this.parentActivity = activity;
-        this.slideUpDrawable = activity.getResources().getDrawable(2131166090);
+        this.slideUpDrawable = activity.getResources().getDrawable(2131166093);
         FrameLayout frameLayout = new FrameLayout(activity);
         this.windowView = frameLayout;
         frameLayout.setFocusable(true);

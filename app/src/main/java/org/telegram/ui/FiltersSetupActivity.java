@@ -279,7 +279,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             this.textView.setTextSize(16);
             this.textView.setMaxLines(1);
             this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-            Drawable drawable = ContextCompat.getDrawable(getContext(), 2131166027);
+            Drawable drawable = ContextCompat.getDrawable(getContext(), 2131166030);
             drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
             this.textView.setRightDrawable(drawable);
             SimpleTextView simpleTextView2 = this.textView;
@@ -959,8 +959,8 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 if (i != FiltersSetupActivity.this.createFilterRow) {
                     return;
                 }
-                Drawable drawable = this.mContext.getResources().getDrawable(2131166080);
-                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166081);
+                Drawable drawable = this.mContext.getResources().getDrawable(2131166083);
+                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166084);
                 drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
                 textCell.setTextAndIcon(LocaleController.getString("CreateNewFilter", 2131625291), new CombinedDrawable(drawable, drawable2), false);

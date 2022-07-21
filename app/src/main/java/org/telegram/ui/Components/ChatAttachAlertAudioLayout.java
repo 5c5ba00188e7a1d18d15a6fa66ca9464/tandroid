@@ -98,7 +98,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         frameLayout.setBackgroundColor(getThemedColor("dialogBackground"));
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context, false, resourcesProvider);
         this.searchField = anonymousClass1;
-        anonymousClass1.setHint(LocaleController.getString("SearchMusic", 2131628182));
+        anonymousClass1.setHint(LocaleController.getString("SearchMusic", 2131628183));
         this.frameLayout.addView(this.searchField, LayoutHelper.createFrame(-1, -1, 51));
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context, null, resourcesProvider);
         this.progressView = emptyTextProgressView;
@@ -113,7 +113,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         this.emptyView.setOnTouchListener(ChatAttachAlertAudioLayout$$ExternalSyntheticLambda0.INSTANCE);
         ImageView imageView = new ImageView(context);
         this.emptyImageView = imageView;
-        imageView.setImageResource(2131165995);
+        imageView.setImageResource(2131165998);
         this.emptyImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogEmptyImage"), PorterDuff.Mode.MULTIPLY));
         this.emptyView.addView(this.emptyImageView, LayoutHelper.createLinear(-2, -2));
         TextView textView = new TextView(context);

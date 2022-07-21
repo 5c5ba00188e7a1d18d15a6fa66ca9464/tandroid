@@ -109,8 +109,8 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                     this.subtitleTextView.setText(LocaleController.formatString("EmojiRemovedInfo", 2131625647, tLRPC$StickerSet.title));
                     return;
                 } else {
-                    this.titleTextView.setText(LocaleController.getString("StickersRemoved", 2131628515));
-                    this.subtitleTextView.setText(LocaleController.formatString("StickersRemovedInfo", 2131628516, tLRPC$StickerSet.title));
+                    this.titleTextView.setText(LocaleController.getString("StickersRemoved", 2131628516));
+                    this.subtitleTextView.setText(LocaleController.formatString("StickersRemovedInfo", 2131628517, tLRPC$StickerSet.title));
                     return;
                 }
             case 1:
@@ -119,8 +119,8 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                     this.subtitleTextView.setText(LocaleController.formatString("MasksArchivedInfo", 2131626593, tLRPC$StickerSet.title));
                     return;
                 }
-                this.titleTextView.setText(LocaleController.getString("StickersArchived", 2131628508));
-                this.subtitleTextView.setText(LocaleController.formatString("StickersArchivedInfo", 2131628509, tLRPC$StickerSet.title));
+                this.titleTextView.setText(LocaleController.getString("StickersArchived", 2131628509));
+                this.subtitleTextView.setText(LocaleController.formatString("StickersArchivedInfo", 2131628510, tLRPC$StickerSet.title));
                 return;
             case 2:
                 if (tLRPC$StickerSet.masks) {

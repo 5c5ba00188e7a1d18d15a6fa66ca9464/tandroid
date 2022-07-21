@@ -58,7 +58,7 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         linearLayout.addView(recyclerListView, LayoutHelper.createLinear(-1, -2, 0.0f, 10.0f, 0.0f, 0.0f));
         setNegativeButton(LocaleController.getString("Close", 2131625183), StickersArchiveAlert$$ExternalSyntheticLambda1.INSTANCE);
         if (this.parentFragment != null) {
-            setPositiveButton(LocaleController.getString("Settings", 2131628321), new StickersArchiveAlert$$ExternalSyntheticLambda0(this));
+            setPositiveButton(LocaleController.getString("Settings", 2131628322), new StickersArchiveAlert$$ExternalSyntheticLambda0(this));
         }
     }
 

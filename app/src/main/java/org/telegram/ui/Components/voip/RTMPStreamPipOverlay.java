@@ -310,7 +310,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         this.controlsView.addView(view, LayoutHelper.createFrame(-1, -1.0f));
         int dp = AndroidUtilities.dp(8.0f);
         ImageView imageView = new ImageView(context);
-        imageView.setImageResource(2131166062);
+        imageView.setImageResource(2131166065);
         imageView.setColorFilter(Theme.getColor("voipgroup_actionBarItems"));
         imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21")));
         imageView.setPadding(dp, dp, dp, dp);
@@ -319,7 +319,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         float f2 = 4;
         this.controlsView.addView(imageView, LayoutHelper.createFrame(38, f, 5, 0.0f, f2, f2, 0.0f));
         ImageView imageView2 = new ImageView(context);
-        imageView2.setImageResource(2131166063);
+        imageView2.setImageResource(2131166066);
         imageView2.setColorFilter(Theme.getColor("voipgroup_actionBarItems"));
         imageView2.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21")));
         imageView2.setPadding(dp, dp, dp, dp);

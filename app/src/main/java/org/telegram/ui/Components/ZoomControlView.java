@@ -68,12 +68,12 @@ public class ZoomControlView extends View {
 
     public ZoomControlView(Context context) {
         super(context);
-        this.minusDrawable = context.getResources().getDrawable(2131166246);
-        this.plusDrawable = context.getResources().getDrawable(2131166247);
-        this.progressDrawable = context.getResources().getDrawable(2131166250);
-        this.filledProgressDrawable = context.getResources().getDrawable(2131166251);
-        this.knobDrawable = context.getResources().getDrawable(2131166248);
-        this.pressedKnobDrawable = context.getResources().getDrawable(2131166249);
+        this.minusDrawable = context.getResources().getDrawable(2131166249);
+        this.plusDrawable = context.getResources().getDrawable(2131166250);
+        this.progressDrawable = context.getResources().getDrawable(2131166253);
+        this.filledProgressDrawable = context.getResources().getDrawable(2131166254);
+        this.knobDrawable = context.getResources().getDrawable(2131166251);
+        this.pressedKnobDrawable = context.getResources().getDrawable(2131166252);
     }
 
     public float getZoom() {

@@ -218,7 +218,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         ImageView imageView2 = new ImageView(context);
         this.muteImageView = imageView2;
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
-        this.muteImageView.setImageResource(2131166198);
+        this.muteImageView.setImageResource(2131166201);
         this.muteImageView.setAlpha(0.0f);
         addView(this.muteImageView, LayoutHelper.createFrame(48, 48, 17));
         Paint paint2 = new Paint(1);
@@ -592,7 +592,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             this.switchCameraDrawable = animatedVectorDrawable;
             this.switchCameraButton.setImageDrawable(animatedVectorDrawable);
         } else {
-            this.switchCameraButton.setImageResource(2131166190);
+            this.switchCameraButton.setImageResource(2131166193);
         }
         this.textureOverlayView.setAlpha(1.0f);
         this.textureOverlayView.invalidate();

@@ -371,7 +371,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         ImageView imageView = new ImageView(context);
         this.tuneItem = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.tuneItem.setImageResource(2131165855);
+        this.tuneItem.setImageResource(2131165858);
         this.tuneItem.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY));
         this.tuneItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         linearLayout.addView(this.tuneItem, LayoutHelper.createLinear(56, 48));
@@ -379,7 +379,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         ImageView imageView2 = new ImageView(context);
         this.blurItem = imageView2;
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
-        this.blurItem.setImageResource(2131165844);
+        this.blurItem.setImageResource(2131165847);
         this.blurItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         linearLayout.addView(this.blurItem, LayoutHelper.createLinear(56, 48));
         this.blurItem.setOnClickListener(new PhotoFilterView$$ExternalSyntheticLambda3(this));
@@ -389,7 +389,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         ImageView imageView3 = new ImageView(context);
         this.curveItem = imageView3;
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
-        this.curveItem.setImageResource(2131165851);
+        this.curveItem.setImageResource(2131165854);
         this.curveItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         linearLayout.addView(this.curveItem, LayoutHelper.createLinear(56, 48));
         this.curveItem.setOnClickListener(new PhotoFilterView$$ExternalSyntheticLambda4(this));
@@ -1139,12 +1139,12 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
                 PhotoEditRadioCell photoEditRadioCell = (PhotoEditRadioCell) viewHolder.itemView;
                 photoEditRadioCell.setTag(Integer.valueOf(i));
                 if (i == PhotoFilterView.this.tintShadowsTool) {
-                    photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintShadows", 2131628733), 0, PhotoFilterView.this.tintShadowsColor);
+                    photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintShadows", 2131628734), 0, PhotoFilterView.this.tintShadowsColor);
                     return;
                 } else if (i != PhotoFilterView.this.tintHighlightsTool) {
                     return;
                 } else {
-                    photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintHighlights", 2131628732), 0, PhotoFilterView.this.tintHighlightsColor);
+                    photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintHighlights", 2131628733), 0, PhotoFilterView.this.tintHighlightsColor);
                     return;
                 }
             }
@@ -1159,22 +1159,22 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             } else if (i == PhotoFilterView.this.exposureTool) {
                 photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Exposure", 2131625831), PhotoFilterView.this.exposureValue, -100, 100);
             } else if (i == PhotoFilterView.this.warmthTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Warmth", 2131629297), PhotoFilterView.this.warmthValue, -100, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Warmth", 2131629298), PhotoFilterView.this.warmthValue, -100, 100);
             } else if (i == PhotoFilterView.this.saturationTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Saturation", 2131628121), PhotoFilterView.this.saturationValue, -100, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Saturation", 2131628122), PhotoFilterView.this.saturationValue, -100, 100);
             } else if (i == PhotoFilterView.this.vignetteTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Vignette", 2131629017), PhotoFilterView.this.vignetteValue, 0, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Vignette", 2131629018), PhotoFilterView.this.vignetteValue, 0, 100);
             } else if (i == PhotoFilterView.this.shadowsTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Shadows", 2131628332), PhotoFilterView.this.shadowsValue, -100, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Shadows", 2131628333), PhotoFilterView.this.shadowsValue, -100, 100);
             } else if (i == PhotoFilterView.this.grainTool) {
                 photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Grain", 2131626132), PhotoFilterView.this.grainValue, 0, 100);
             } else if (i == PhotoFilterView.this.sharpenTool) {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Sharpen", 2131628388), PhotoFilterView.this.sharpenValue, 0, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Sharpen", 2131628389), PhotoFilterView.this.sharpenValue, 0, 100);
             } else if (i == PhotoFilterView.this.fadeTool) {
                 photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Fade", 2131625834), PhotoFilterView.this.fadeValue, 0, 100);
             } else if (i != PhotoFilterView.this.softenSkinTool) {
             } else {
-                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("SoftenSkin", 2131628441), PhotoFilterView.this.softenSkinValue, 0, 100);
+                photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("SoftenSkin", 2131628442), PhotoFilterView.this.softenSkinValue, 0, 100);
             }
         }
 

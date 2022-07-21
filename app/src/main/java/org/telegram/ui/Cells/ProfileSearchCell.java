@@ -308,7 +308,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 if (tLRPC$User5 == null) {
                     str = null;
                 } else if (MessagesController.isSupportUser(tLRPC$User5)) {
-                    str = LocaleController.getString("SupportStatus", 2131628570);
+                    str = LocaleController.getString("SupportStatus", 2131628571);
                 } else {
                     TLRPC$User tLRPC$User6 = this.user;
                     if (tLRPC$User6.bot) {
@@ -316,7 +316,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                     } else {
                         long j = tLRPC$User6.id;
                         if (j == 333000 || j == 777000) {
-                            str = LocaleController.getString("ServiceNotifications", 2131628291);
+                            str = LocaleController.getString("ServiceNotifications", 2131628292);
                         } else {
                             if (this.isOnline == null) {
                                 this.isOnline = new boolean[1];

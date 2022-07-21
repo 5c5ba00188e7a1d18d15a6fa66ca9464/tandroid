@@ -209,36 +209,36 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             i8 = 2131165754;
             i7 = 2131165695;
             i6 = 2131165668;
-            i5 = 2131165920;
-            i4 = 2131165936;
+            i5 = 2131165923;
+            i4 = 2131165939;
             i3 = 2131165771;
             i2 = 2131165761;
-            i = 2131165824;
+            i = 2131165827;
         } else {
             if (eventType == 1) {
                 i8 = 2131165751;
-                i = 2131165926;
+                i = 2131165929;
                 i7 = 2131165692;
                 i6 = 2131165665;
-                i5 = 2131165918;
-                i4 = 2131165934;
-                i3 = 2131165928;
+                i5 = 2131165921;
+                i4 = 2131165937;
+                i3 = 2131165931;
             } else if (eventType == 2) {
                 i8 = 2131165753;
                 i7 = 2131165693;
                 i6 = 2131165666;
-                i5 = 2131165919;
-                i4 = 2131165935;
+                i5 = 2131165922;
+                i4 = 2131165938;
                 i3 = 2131165770;
                 i2 = 2131165760;
-                i = 2131165927;
+                i = 2131165930;
             } else {
                 i8 = 2131165750;
-                i = 2131165821;
+                i = 2131165824;
                 i7 = 2131165691;
                 i6 = 2131165664;
-                i5 = 2131165917;
-                i4 = 2131165937;
+                i5 = 2131165920;
+                i4 = 2131165940;
                 i3 = 2131165768;
             }
             i2 = 2131165758;
@@ -249,11 +249,11 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         if (this.hasGps) {
             this.items.add(new Item(12, LocaleController.getString("PeopleNearby", 2131627505), i));
         }
-        this.items.add(new Item(11, LocaleController.getString("SavedMessages", 2131628139), i5));
-        this.items.add(new Item(8, LocaleController.getString("Settings", 2131628321), i4));
+        this.items.add(new Item(11, LocaleController.getString("SavedMessages", 2131628140), i5));
+        this.items.add(new Item(8, LocaleController.getString("Settings", 2131628322), i4));
         this.items.add(null);
         this.items.add(new Item(7, LocaleController.getString("InviteFriends", 2131626308), i3));
-        this.items.add(new Item(13, LocaleController.getString("TelegramFeatures", 2131628627), i2));
+        this.items.add(new Item(13, LocaleController.getString("TelegramFeatures", 2131628628), i2));
     }
 
     public static /* synthetic */ int lambda$resetItems$0(Integer num, Integer num2) {

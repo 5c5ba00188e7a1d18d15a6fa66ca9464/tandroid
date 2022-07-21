@@ -93,7 +93,7 @@ public class ShareDialogCell extends FrameLayout {
                 this.avatarDrawable.setAvatarType(12);
                 this.imageView.setImage((ImageLocation) null, (String) null, this.avatarDrawable, this.user);
             } else if (this.currentType != 2 && UserObject.isUserSelf(this.user)) {
-                this.nameTextView.setText(LocaleController.getString("SavedMessages", 2131628139));
+                this.nameTextView.setText(LocaleController.getString("SavedMessages", 2131628140));
                 this.avatarDrawable.setAvatarType(1);
                 this.imageView.setImage((ImageLocation) null, (String) null, this.avatarDrawable, this.user);
             } else {

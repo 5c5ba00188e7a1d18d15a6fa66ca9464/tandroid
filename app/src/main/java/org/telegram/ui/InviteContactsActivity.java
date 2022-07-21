@@ -378,7 +378,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.editText.setImeOptions(268435462);
         this.editText.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.spansContainer.addView(this.editText);
-        this.editText.setHintText(LocaleController.getString("SearchFriends", 2131628171));
+        this.editText.setHintText(LocaleController.getString("SearchFriends", 2131628172));
         this.editText.setCustomSelectionActionModeCallback(new AnonymousClass5(this));
         this.editText.setOnKeyListener(new AnonymousClass6());
         this.editText.addTextChangedListener(new AnonymousClass7());
@@ -844,7 +844,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             InviteUserCell inviteUserCell;
             if (i == 1) {
                 InviteTextCell inviteTextCell = new InviteTextCell(this.context);
-                inviteTextCell.setTextAndIcon(LocaleController.getString("ShareTelegram", 2131628347), 2131166137);
+                inviteTextCell.setTextAndIcon(LocaleController.getString("ShareTelegram", 2131628348), 2131166140);
                 inviteUserCell = inviteTextCell;
             } else {
                 inviteUserCell = new InviteUserCell(this.context, true);

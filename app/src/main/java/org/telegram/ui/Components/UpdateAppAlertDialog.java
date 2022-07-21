@@ -130,7 +130,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
         setCanceledOnTouchOutside(false);
         setApplyTopPadding(false);
         setApplyBottomPadding(false);
-        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166143).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);

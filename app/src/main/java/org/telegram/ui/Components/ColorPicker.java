@@ -310,7 +310,7 @@ public class ColorPicker extends FrameLayout {
             this.menuItem.setIcon(2131165453);
             this.menuItem.setContentDescription(LocaleController.getString("AccDescrMoreOptions", 2131624003));
             this.menuItem.addSubItem(1, 2131165714, LocaleController.getString("OpenInEditor", 2131627152));
-            this.menuItem.addSubItem(2, 2131165939, LocaleController.getString("ShareTheme", 2131628348));
+            this.menuItem.addSubItem(2, 2131165942, LocaleController.getString("ShareTheme", 2131628349));
             this.menuItem.addSubItem(3, 2131165702, LocaleController.getString("DeleteTheme", 2131625450));
             this.menuItem.setMenuYOffset(-AndroidUtilities.dp(80.0f));
             this.menuItem.setSubMenuOpenSide(2);

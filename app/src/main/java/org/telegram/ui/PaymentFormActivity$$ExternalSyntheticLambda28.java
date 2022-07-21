@@ -12,8 +12,8 @@ public final /* synthetic */ class PaymentFormActivity$$ExternalSyntheticLambda2
 
     @Override // android.widget.TextView.OnEditorActionListener
     public final boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-        boolean lambda$createView$26;
-        lambda$createView$26 = this.f$0.lambda$createView$26(textView, i, keyEvent);
-        return lambda$createView$26;
+        boolean lambda$createView$7;
+        lambda$createView$7 = this.f$0.lambda$createView$7(textView, i, keyEvent);
+        return lambda$createView$7;
     }
 }

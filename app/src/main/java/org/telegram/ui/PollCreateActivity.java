@@ -690,7 +690,7 @@ public class PollCreateActivity extends BaseFragment {
                     } else if (i != PollCreateActivity.this.settingsHeaderRow) {
                         return;
                     } else {
-                        headerCell.setText(LocaleController.getString("Settings", 2131628321));
+                        headerCell.setText(LocaleController.getString("Settings", 2131628322));
                         return;
                     }
                 }
@@ -734,8 +734,8 @@ public class PollCreateActivity extends BaseFragment {
                 }
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(null, "windowBackgroundWhiteBlueText4");
-                Drawable drawable = this.mContext.getResources().getDrawable(2131166080);
-                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166081);
+                Drawable drawable = this.mContext.getResources().getDrawable(2131166083);
+                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166084);
                 drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
                 textCell.setTextAndIcon(LocaleController.getString("AddAnOption", 2131624248), (Drawable) new CombinedDrawable(drawable, drawable2), false);

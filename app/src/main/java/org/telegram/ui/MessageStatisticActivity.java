@@ -535,7 +535,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
         ActionBarMenu createMenu = this.actionBar.createMenu();
         createMenu.clearItems();
-        createMenu.addItem(0, 2131165453).addSubItem(1, 2131165949, LocaleController.getString("ViewChannelStats", 2131628985));
+        createMenu.addItem(0, 2131165453).addSubItem(1, 2131165952, LocaleController.getString("ViewChannelStats", 2131628986));
     }
 
     public void loadChats(int i) {
@@ -859,7 +859,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                         headerCell.setText(LocaleController.formatPluralString("PublicSharesCount", MessageStatisticActivity.this.publicChats, new Object[0]));
                         return;
                     } else {
-                        headerCell.setText(LocaleController.formatString("StatisticOverview", 2131628497, new Object[0]));
+                        headerCell.setText(LocaleController.formatString("StatisticOverview", 2131628498, new Object[0]));
                         return;
                     }
                 } else if (itemViewType != 4) {
@@ -974,7 +974,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
         public void setData() {
             this.primary[0].setText(AndroidUtilities.formatWholeNumber(MessageStatisticActivity.this.messageObject.messageOwner.views, 0));
-            this.title[0].setText(LocaleController.getString("StatisticViews", 2131628499));
+            this.title[0].setText(LocaleController.getString("StatisticViews", 2131628500));
             if (MessageStatisticActivity.this.publicChats > 0) {
                 this.cell[1].setVisibility(0);
                 this.primary[1].setText(AndroidUtilities.formatWholeNumber(MessageStatisticActivity.this.publicChats, 0));

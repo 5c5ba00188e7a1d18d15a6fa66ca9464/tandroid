@@ -157,7 +157,7 @@ public class SharingLiveLocationCell extends FrameLayout {
         String str2 = !TextUtils.isEmpty(messageObject.messageOwner.media.address) ? messageObject.messageOwner.media.address : null;
         if (!TextUtils.isEmpty(messageObject.messageOwner.media.title)) {
             str = messageObject.messageOwner.media.title;
-            Drawable drawable = getResources().getDrawable(2131166056);
+            Drawable drawable = getResources().getDrawable(2131166059);
             drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor("location_sendLocationIcon"), PorterDuff.Mode.MULTIPLY));
             int themedColor = getThemedColor("location_placeLocationBackground");
             CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(42.0f), themedColor, themedColor), drawable);

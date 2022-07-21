@@ -90,7 +90,7 @@ public class PollEditTextCell extends FrameLayout {
             this.moveImageView = imageView;
             imageView.setFocusable(false);
             this.moveImageView.setScaleType(ImageView.ScaleType.CENTER);
-            this.moveImageView.setImageResource(2131166083);
+            this.moveImageView.setImageResource(2131166086);
             this.moveImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.MULTIPLY));
             addView(this.moveImageView, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 5 : 3) | 48, 6.0f, 2.0f, 6.0f, 0.0f));
             ImageView imageView2 = new ImageView(context);
@@ -98,7 +98,7 @@ public class PollEditTextCell extends FrameLayout {
             imageView2.setFocusable(false);
             this.deleteImageView.setScaleType(ImageView.ScaleType.CENTER);
             this.deleteImageView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("stickers_menuSelector")));
-            this.deleteImageView.setImageResource(2131166082);
+            this.deleteImageView.setImageResource(2131166085);
             this.deleteImageView.setOnClickListener(onClickListener);
             this.deleteImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.MULTIPLY));
             this.deleteImageView.setContentDescription(LocaleController.getString("Delete", 2131625384));

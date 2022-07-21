@@ -238,7 +238,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.actionBar.setAllowOverlayTitle(true);
         if (this.destroyAfterSelect) {
             if (this.returnAsResult) {
-                this.actionBar.setTitle(LocaleController.getString("SelectContact", 2131628225));
+                this.actionBar.setTitle(LocaleController.getString("SelectContact", 2131628226));
             } else if (this.createSecretChat) {
                 this.actionBar.setTitle(LocaleController.getString("NewSecretChat", 2131626845));
             } else {
@@ -250,8 +250,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         ActionBarMenu createMenu = this.actionBar.createMenu();
         ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
-        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628154));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
+        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", 2131628155));
         if (!this.createSecretChat && !this.returnAsResult) {
             ActionBarMenuItem addItem = createMenu.addItem(1, this.sortByName ? 2131165696 : 2131165694);
             this.sortItem = addItem;
@@ -283,7 +283,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             this.emptyView.setAnimateLayoutChange(true);
             this.emptyView.showProgress(true, false);
             this.emptyView.title.setText(LocaleController.getString("NoResult", 2131626910));
-            this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+            this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628161));
             anonymousClass5.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
             AnonymousClass6 anonymousClass6 = new AnonymousClass6(context);
             this.listView = anonymousClass6;
@@ -363,7 +363,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.emptyView.setAnimateLayoutChange(true);
         this.emptyView.showProgress(true, false);
         this.emptyView.title.setText(LocaleController.getString("NoResult", 2131626910));
-        this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+        this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628161));
         anonymousClass5.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         AnonymousClass6 anonymousClass62 = new AnonymousClass6(context);
         this.listView = anonymousClass62;

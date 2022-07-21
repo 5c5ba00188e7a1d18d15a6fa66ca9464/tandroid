@@ -26,21 +26,21 @@ public class ShareLocationDrawable extends Drawable {
     public ShareLocationDrawable(Context context, int i) {
         this.currentType = i;
         if (i == 4) {
-            this.drawable = context.getResources().getDrawable(2131166056);
-            this.drawableLeft = context.getResources().getDrawable(2131166147);
-            this.drawableRight = context.getResources().getDrawable(2131166148);
+            this.drawable = context.getResources().getDrawable(2131166059);
+            this.drawableLeft = context.getResources().getDrawable(2131166150);
+            this.drawableRight = context.getResources().getDrawable(2131166151);
         } else if (i == 3) {
-            this.drawable = context.getResources().getDrawable(2131165997);
+            this.drawable = context.getResources().getDrawable(2131166000);
             this.drawableLeft = context.getResources().getDrawable(2131165256);
             this.drawableRight = context.getResources().getDrawable(2131165257);
         } else if (i == 2) {
-            this.drawable = context.getResources().getDrawable(2131165998);
+            this.drawable = context.getResources().getDrawable(2131166001);
             this.drawableLeft = context.getResources().getDrawable(2131165256);
             this.drawableRight = context.getResources().getDrawable(2131165257);
         } else if (i == 1) {
-            this.drawable = context.getResources().getDrawable(2131166146);
-            this.drawableLeft = context.getResources().getDrawable(2131166147);
-            this.drawableRight = context.getResources().getDrawable(2131166148);
+            this.drawable = context.getResources().getDrawable(2131166149);
+            this.drawableLeft = context.getResources().getDrawable(2131166150);
+            this.drawableRight = context.getResources().getDrawable(2131166151);
         } else {
             this.drawable = context.getResources().getDrawable(2131165255);
             this.drawableLeft = context.getResources().getDrawable(2131165256);

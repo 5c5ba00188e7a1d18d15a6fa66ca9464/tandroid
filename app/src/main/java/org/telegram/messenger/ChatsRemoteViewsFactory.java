@@ -137,11 +137,11 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         if (this.deleted) {
             RemoteViews remoteViews = new RemoteViews(this.mContext.getPackageName(), 2131427358);
-            remoteViews.setTextViewText(2131230952, LocaleController.getString("WidgetLoggedOff", 2131629318));
+            remoteViews.setTextViewText(2131230952, LocaleController.getString("WidgetLoggedOff", 2131629319));
             return remoteViews;
         } else if (i >= this.dids.size()) {
             RemoteViews remoteViews2 = new RemoteViews(this.mContext.getPackageName(), 2131427359);
-            remoteViews2.setTextViewText(2131230954, LocaleController.getString("TapToEditWidget", 2131628611));
+            remoteViews2.setTextViewText(2131230954, LocaleController.getString("TapToEditWidget", 2131628612));
             Bundle bundle = new Bundle();
             bundle.putInt("appWidgetId", this.appWidgetId);
             bundle.putInt("appWidgetType", 0);
@@ -157,7 +157,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 tLRPC$User = this.accountInstance.getMessagesController().getUser(l);
                 if (tLRPC$User != null) {
                     if (UserObject.isUserSelf(tLRPC$User)) {
-                        charSequence = LocaleController.getString("SavedMessages", 2131628139);
+                        charSequence = LocaleController.getString("SavedMessages", 2131628140);
                     } else if (UserObject.isReplyUser(tLRPC$User)) {
                         charSequence = LocaleController.getString("RepliesTitle", 2131627982);
                     } else if (UserObject.isDeleted(tLRPC$User)) {
@@ -421,10 +421,10 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 remoteViews3.setViewVisibility(2131230915, 0);
                 if (this.accountInstance.getMessagesController().isDialogMuted(tLRPC$Dialog.id)) {
                     remoteViews3.setBoolean(2131230915, "setEnabled", false);
-                    remoteViews3.setInt(2131230915, "setBackgroundResource", 2131166230);
+                    remoteViews3.setInt(2131230915, "setBackgroundResource", 2131166233);
                 } else {
                     remoteViews3.setBoolean(2131230915, "setEnabled", true);
-                    remoteViews3.setInt(2131230915, "setBackgroundResource", 2131166229);
+                    remoteViews3.setInt(2131230915, "setBackgroundResource", 2131166232);
                 }
             } else {
                 remoteViews3.setViewVisibility(2131230915, 8);

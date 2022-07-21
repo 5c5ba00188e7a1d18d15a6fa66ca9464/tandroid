@@ -202,7 +202,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             addView(view3, LayoutHelper.createFrame(-1, 36.0f, 51, 14.0f, 14.0f, 14.0f, 0.0f));
             ImageView imageView = new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.CENTER);
-            imageView.setImageResource(2131166150);
+            imageView.setImageResource(2131166153);
             imageView.setColorFilter(new PorterDuffColorFilter(-8947849, PorterDuff.Mode.MULTIPLY));
             addView(imageView, LayoutHelper.createFrame(36, 36.0f, 51, 16.0f, 14.0f, 0.0f, 0.0f));
             ImageView imageView2 = new ImageView(context);
@@ -230,11 +230,11 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             this.searchEditText.setSingleLine(true);
             this.searchEditText.setImeOptions(268435459);
             if (i == 0) {
-                this.searchEditText.setHint(LocaleController.getString("SearchStickersHint", 2131628184));
+                this.searchEditText.setHint(LocaleController.getString("SearchStickersHint", 2131628185));
             } else if (i == 1) {
-                this.searchEditText.setHint(LocaleController.getString("SearchEmojiHint", 2131628158));
+                this.searchEditText.setHint(LocaleController.getString("SearchEmojiHint", 2131628159));
             } else if (i == 2) {
-                this.searchEditText.setHint(LocaleController.getString("SearchGifsTitle", 2131628174));
+                this.searchEditText.setHint(LocaleController.getString("SearchGifsTitle", 2131628175));
             }
             this.searchEditText.setCursorColor(-1);
             this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
@@ -392,7 +392,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         MediaDataController.getInstance(this.currentAccount).loadRecents(0, false, true, false);
         MediaDataController.getInstance(this.currentAccount).loadRecents(1, false, true, false);
         MediaDataController.getInstance(this.currentAccount).loadRecents(2, false, true, false);
-        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166143).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(-14342875, PorterDuff.Mode.MULTIPLY));
         AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
@@ -401,7 +401,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         ViewGroup viewGroup = this.containerView;
         int i = this.backgroundPaddingLeft;
         viewGroup.setPadding(i, 0, i, 0);
-        this.stickerIcons = new Drawable[]{Theme.createEmojiIconSelectorDrawable(context, 2131166171, -11842741, -9520403), Theme.createEmojiIconSelectorDrawable(context, 2131166169, -11842741, -9520403)};
+        this.stickerIcons = new Drawable[]{Theme.createEmojiIconSelectorDrawable(context, 2131166174, -11842741, -9520403), Theme.createEmojiIconSelectorDrawable(context, 2131166172, -11842741, -9520403)};
         MediaDataController.getInstance(this.currentAccount).checkStickers(0);
         MediaDataController.getInstance(this.currentAccount).checkStickers(1);
         MediaDataController.getInstance(this.currentAccount).checkFeaturedStickers();
@@ -457,7 +457,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             AnonymousClass9 anonymousClass9 = new AnonymousClass9(this, context);
             this.stickersButton = anonymousClass9;
             anonymousClass9.setScaleType(ImageView.ScaleType.CENTER);
-            this.stickersButton.setImageDrawable(Theme.createEmojiIconSelectorDrawable(context, 2131166157, -1, -9520403));
+            this.stickersButton.setImageDrawable(Theme.createEmojiIconSelectorDrawable(context, 2131166160, -1, -9520403));
             int i2 = Build.VERSION.SDK_INT;
             if (i2 >= 21) {
                 RippleDrawable rippleDrawable = (RippleDrawable) Theme.createSelectorDrawable(520093695);
@@ -1744,7 +1744,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                     AnonymousClass3 anonymousClass32 = new AnonymousClass3(this.context);
                     ImageView imageView = new ImageView(this.context);
                     imageView.setScaleType(ImageView.ScaleType.CENTER);
-                    imageView.setImageResource(2131166168);
+                    imageView.setImageResource(2131166171);
                     imageView.setColorFilter(new PorterDuffColorFilter(-7038047, PorterDuff.Mode.MULTIPLY));
                     anonymousClass32.addView(imageView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 50.0f));
                     TextView textView = new TextView(this.context);

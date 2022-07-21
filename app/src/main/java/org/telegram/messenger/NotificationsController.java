@@ -1608,7 +1608,7 @@ public class NotificationsController extends BaseController {
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionLoginUnknownLocation) == false) goto L175;
      */
     /* JADX WARN: Code restructure failed: missing block: B:173:0x0286, code lost:
-        r1 = org.telegram.messenger.LocaleController.formatString("formatDateAtTime", 2131629423, org.telegram.messenger.LocaleController.getInstance().formatterYear.format(r23.messageOwner.date * 1000), org.telegram.messenger.LocaleController.getInstance().formatterDay.format(r23.messageOwner.date * 1000));
+        r1 = org.telegram.messenger.LocaleController.formatString("formatDateAtTime", 2131629424, org.telegram.messenger.LocaleController.getInstance().formatterYear.format(r23.messageOwner.date * 1000), org.telegram.messenger.LocaleController.getInstance().formatterDay.format(r23.messageOwner.date * 1000));
         r0 = r23.messageOwner.action;
      */
     /* JADX WARN: Code restructure failed: missing block: B:174:0x02e4, code lost:
@@ -3996,7 +3996,7 @@ public class NotificationsController extends BaseController {
         char c;
         String str3;
         if (AndroidUtilities.needShowPasscode() || SharedConfig.isWaitingForPasscodeEnter) {
-            return LocaleController.getString("YouHaveNewMessage", 2131629343);
+            return LocaleController.getString("YouHaveNewMessage", 2131629344);
         }
         TLRPC$Message tLRPC$Message = messageObject.messageOwner;
         long j = tLRPC$Message.dialog_id;
@@ -4068,7 +4068,7 @@ public class NotificationsController extends BaseController {
                 tLRPC$Chat = null;
             }
             if (DialogObject.isEncryptedDialog(j)) {
-                return LocaleController.getString("YouHaveNewMessage", 2131629343);
+                return LocaleController.getString("YouHaveNewMessage", 2131629344);
             }
             TLRPC$Chat tLRPC$Chat3 = tLRPC$Chat;
             if (j2 != 0 || j3 == 0) {
@@ -4113,7 +4113,7 @@ public class NotificationsController extends BaseController {
                         return LocaleController.formatString("NotificationContactNewPhoto", 2131626997, str);
                     }
                     if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionLoginUnknownLocation) {
-                        String formatString2 = LocaleController.formatString("formatDateAtTime", 2131629423, LocaleController.getInstance().formatterYear.format(messageObject.messageOwner.date * 1000), LocaleController.getInstance().formatterDay.format(messageObject.messageOwner.date * 1000));
+                        String formatString2 = LocaleController.formatString("formatDateAtTime", 2131629424, LocaleController.getInstance().formatterYear.format(messageObject.messageOwner.date * 1000), LocaleController.getInstance().formatterDay.format(messageObject.messageOwner.date * 1000));
                         TLRPC$MessageAction tLRPC$MessageAction2 = messageObject.messageOwner.action;
                         return LocaleController.formatString("NotificationUnrecognizedDevice", 2131627067, getUserConfig().getCurrentUser().first_name, formatString2, tLRPC$MessageAction2.title, tLRPC$MessageAction2.address);
                     } else if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionGameScore) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPaymentSent)) {
@@ -5097,7 +5097,7 @@ public class NotificationsController extends BaseController {
                     str10 = str8;
                     if (str10 == null) {
                         str10 = z ? this.currentAccount + "channel_" + str12 + str6 + Utilities.random.nextLong() : this.currentAccount + "channel_" + j2 + str6 + Utilities.random.nextLong();
-                        NotificationChannel notificationChannel2 = new NotificationChannel(str10, z10 ? LocaleController.getString("SecretChatName", 2131628208) : str19, i4);
+                        NotificationChannel notificationChannel2 = new NotificationChannel(str10, z10 ? LocaleController.getString("SecretChatName", 2131628209) : str19, i4);
                         notificationChannel2.setGroup(str20);
                         if (i5 != 0) {
                             z6 = true;
@@ -5695,7 +5695,7 @@ public class NotificationsController extends BaseController {
                                                         builder3 = builder2;
                                                         MessageObject messageObject6 = messageObject2;
                                                         int i27 = i8;
-                                                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166007).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6.messageOwner.date * 1000).setColor(-15618822);
+                                                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6.messageOwner.date * 1000).setColor(-15618822);
                                                         builder3.setCategory("msg");
                                                         if (tLRPC$Chat == null && tLRPC$User != null && (str11 = tLRPC$User.phone) != null && str11.length() > 0) {
                                                             builder3.addPerson("tel:+" + tLRPC$User.phone);
@@ -5932,7 +5932,7 @@ public class NotificationsController extends BaseController {
                                                 builder3 = builder2;
                                                 MessageObject messageObject62 = messageObject2;
                                                 int i272 = i8;
-                                                builder3.setContentTitle(charSequence2).setSmallIcon(2131166007).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62.messageOwner.date * 1000).setColor(-15618822);
+                                                builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62.messageOwner.date * 1000).setColor(-15618822);
                                                 builder3.setCategory("msg");
                                                 if (tLRPC$Chat == null) {
                                                     builder3.addPerson("tel:+" + tLRPC$User.phone);
@@ -5985,7 +5985,7 @@ public class NotificationsController extends BaseController {
                                         builder3 = builder2;
                                         MessageObject messageObject622 = messageObject2;
                                         int i2722 = i8;
-                                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166007).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject622.messageOwner.date * 1000).setColor(-15618822);
+                                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject622.messageOwner.date * 1000).setColor(-15618822);
                                         builder3.setCategory("msg");
                                         if (tLRPC$Chat == null) {
                                         }
@@ -6076,7 +6076,7 @@ public class NotificationsController extends BaseController {
                                 builder3 = builder2;
                                 MessageObject messageObject6222 = messageObject2;
                                 int i27222 = i8;
-                                builder3.setContentTitle(charSequence2).setSmallIcon(2131166007).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6222.messageOwner.date * 1000).setColor(-15618822);
+                                builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6222.messageOwner.date * 1000).setColor(-15618822);
                                 builder3.setCategory("msg");
                                 if (tLRPC$Chat == null) {
                                 }
@@ -6147,7 +6147,7 @@ public class NotificationsController extends BaseController {
                         builder3 = builder2;
                         MessageObject messageObject62222 = messageObject2;
                         int i272222 = i8;
-                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166007).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62222.messageOwner.date * 1000).setColor(-15618822);
+                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62222.messageOwner.date * 1000).setColor(-15618822);
                         builder3.setCategory("msg");
                         if (tLRPC$Chat == null) {
                         }
@@ -6233,7 +6233,7 @@ public class NotificationsController extends BaseController {
                         builder3 = builder2;
                         MessageObject messageObject622222 = messageObject2;
                         int i2722222 = i8;
-                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166007).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject622222.messageOwner.date * 1000).setColor(-15618822);
+                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject622222.messageOwner.date * 1000).setColor(-15618822);
                         builder3.setCategory("msg");
                         if (tLRPC$Chat == null) {
                         }
@@ -6318,7 +6318,7 @@ public class NotificationsController extends BaseController {
                         builder3 = builder2;
                         MessageObject messageObject6222222 = messageObject2;
                         int i27222222 = i8;
-                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166007).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6222222.messageOwner.date * 1000).setColor(-15618822);
+                        builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject6222222.messageOwner.date * 1000).setColor(-15618822);
                         builder3.setCategory("msg");
                         if (tLRPC$Chat == null) {
                         }
@@ -6410,7 +6410,7 @@ public class NotificationsController extends BaseController {
                 builder3 = builder2;
                 MessageObject messageObject62222222 = messageObject2;
                 int i272222222 = i8;
-                builder3.setContentTitle(charSequence2).setSmallIcon(2131166007).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62222222.messageOwner.date * 1000).setColor(-15618822);
+                builder3.setContentTitle(charSequence2).setSmallIcon(2131166010).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject62222222.messageOwner.date * 1000).setColor(-15618822);
                 builder3.setCategory("msg");
                 if (tLRPC$Chat == null) {
                 }
@@ -6929,7 +6929,7 @@ public class NotificationsController extends BaseController {
                                                         ArrayList arrayList12 = arrayList3;
                                                         long j6 = ((long) ((MessageObject) arrayList12.get(0)).messageOwner.date) * 1000;
                                                         LongSparseArray longSparseArray9 = longSparseArray7;
-                                                        NotificationCompat.Builder category = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str24).setSmallIcon(2131166007).setContentText(sb3.toString()).setAutoCancel(true).setNumber(arrayList12.size()).setColor(-15618822).setGroupSummary(false).setWhen(j6).setShowWhen(true).setStyle(messagingStyle5).setContentIntent(activity).extend(wearableExtender).setSortKey(String.valueOf(Long.MAX_VALUE - j6)).setCategory("msg");
+                                                        NotificationCompat.Builder category = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str24).setSmallIcon(2131166010).setContentText(sb3.toString()).setAutoCancel(true).setNumber(arrayList12.size()).setColor(-15618822).setGroupSummary(false).setWhen(j6).setShowWhen(true).setStyle(messagingStyle5).setContentIntent(activity).extend(wearableExtender).setSortKey(String.valueOf(Long.MAX_VALUE - j6)).setCategory("msg");
                                                         Intent intent4 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                                         intent4.putExtra("messageDate", i4);
                                                         intent4.putExtra("dialogId", longValue);
@@ -7331,7 +7331,7 @@ public class NotificationsController extends BaseController {
                                             ArrayList arrayList122 = arrayList3;
                                             long j62 = ((long) ((MessageObject) arrayList122.get(0)).messageOwner.date) * 1000;
                                             LongSparseArray longSparseArray92 = longSparseArray7;
-                                            NotificationCompat.Builder category2 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str242).setSmallIcon(2131166007).setContentText(sb32.toString()).setAutoCancel(true).setNumber(arrayList122.size()).setColor(-15618822).setGroupSummary(false).setWhen(j62).setShowWhen(true).setStyle(messagingStyle52).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j62)).setCategory("msg");
+                                            NotificationCompat.Builder category2 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str242).setSmallIcon(2131166010).setContentText(sb32.toString()).setAutoCancel(true).setNumber(arrayList122.size()).setColor(-15618822).setGroupSummary(false).setWhen(j62).setShowWhen(true).setStyle(messagingStyle52).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j62)).setCategory("msg");
                                             Intent intent42 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                             intent42.putExtra("messageDate", i4);
                                             intent42.putExtra("dialogId", longValue);
@@ -7479,7 +7479,7 @@ public class NotificationsController extends BaseController {
                                 ArrayList arrayList1222 = arrayList3;
                                 long j622 = ((long) ((MessageObject) arrayList1222.get(0)).messageOwner.date) * 1000;
                                 LongSparseArray longSparseArray922 = longSparseArray7;
-                                NotificationCompat.Builder category22 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2422).setSmallIcon(2131166007).setContentText(sb322.toString()).setAutoCancel(true).setNumber(arrayList1222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j622).setShowWhen(true).setStyle(messagingStyle522).setContentIntent(activity22).extend(wearableExtender22).setSortKey(String.valueOf(Long.MAX_VALUE - j622)).setCategory("msg");
+                                NotificationCompat.Builder category22 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2422).setSmallIcon(2131166010).setContentText(sb322.toString()).setAutoCancel(true).setNumber(arrayList1222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j622).setShowWhen(true).setStyle(messagingStyle522).setContentIntent(activity22).extend(wearableExtender22).setSortKey(String.valueOf(Long.MAX_VALUE - j622)).setCategory("msg");
                                 Intent intent422 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                 intent422.putExtra("messageDate", i4);
                                 intent422.putExtra("dialogId", longValue);
@@ -7624,7 +7624,7 @@ public class NotificationsController extends BaseController {
                     ArrayList arrayList12222 = arrayList3;
                     long j6222 = ((long) ((MessageObject) arrayList12222.get(0)).messageOwner.date) * 1000;
                     LongSparseArray longSparseArray9222 = longSparseArray7;
-                    NotificationCompat.Builder category222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str24222).setSmallIcon(2131166007).setContentText(sb3222.toString()).setAutoCancel(true).setNumber(arrayList12222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j6222).setShowWhen(true).setStyle(messagingStyle5222).setContentIntent(activity222).extend(wearableExtender222).setSortKey(String.valueOf(Long.MAX_VALUE - j6222)).setCategory("msg");
+                    NotificationCompat.Builder category222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str24222).setSmallIcon(2131166010).setContentText(sb3222.toString()).setAutoCancel(true).setNumber(arrayList12222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j6222).setShowWhen(true).setStyle(messagingStyle5222).setContentIntent(activity222).extend(wearableExtender222).setSortKey(String.valueOf(Long.MAX_VALUE - j6222)).setCategory("msg");
                     Intent intent4222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                     intent4222.putExtra("messageDate", i4);
                     intent4222.putExtra("dialogId", longValue);
@@ -7798,7 +7798,7 @@ public class NotificationsController extends BaseController {
                     ArrayList arrayList122222 = arrayList3;
                     long j62222 = ((long) ((MessageObject) arrayList122222.get(0)).messageOwner.date) * 1000;
                     LongSparseArray longSparseArray92222 = longSparseArray7;
-                    NotificationCompat.Builder category2222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str242222).setSmallIcon(2131166007).setContentText(sb32222.toString()).setAutoCancel(true).setNumber(arrayList122222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j62222).setShowWhen(true).setStyle(messagingStyle52222).setContentIntent(activity2222).extend(wearableExtender2222).setSortKey(String.valueOf(Long.MAX_VALUE - j62222)).setCategory("msg");
+                    NotificationCompat.Builder category2222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str242222).setSmallIcon(2131166010).setContentText(sb32222.toString()).setAutoCancel(true).setNumber(arrayList122222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j62222).setShowWhen(true).setStyle(messagingStyle52222).setContentIntent(activity2222).extend(wearableExtender2222).setSortKey(String.valueOf(Long.MAX_VALUE - j62222)).setCategory("msg");
                     Intent intent42222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                     intent42222.putExtra("messageDate", i4);
                     intent42222.putExtra("dialogId", longValue);
@@ -7862,7 +7862,7 @@ public class NotificationsController extends BaseController {
                 } else {
                     tLRPC$User4 = null;
                 }
-                str22 = LocaleController.getString("SecretChatName", 2131628208);
+                str22 = LocaleController.getString("SecretChatName", 2131628209);
                 z8 = false;
                 tLRPC$Chat = null;
                 z7 = false;
@@ -7957,7 +7957,7 @@ public class NotificationsController extends BaseController {
                 ArrayList arrayList1222222 = arrayList3;
                 long j622222 = ((long) ((MessageObject) arrayList1222222.get(0)).messageOwner.date) * 1000;
                 LongSparseArray longSparseArray922222 = longSparseArray7;
-                NotificationCompat.Builder category22222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2422222).setSmallIcon(2131166007).setContentText(sb322222.toString()).setAutoCancel(true).setNumber(arrayList1222222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j622222).setShowWhen(true).setStyle(messagingStyle522222).setContentIntent(activity22222).extend(wearableExtender22222).setSortKey(String.valueOf(Long.MAX_VALUE - j622222)).setCategory("msg");
+                NotificationCompat.Builder category22222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2422222).setSmallIcon(2131166010).setContentText(sb322222.toString()).setAutoCancel(true).setNumber(arrayList1222222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j622222).setShowWhen(true).setStyle(messagingStyle522222).setContentIntent(activity22222).extend(wearableExtender22222).setSortKey(String.valueOf(Long.MAX_VALUE - j622222)).setCategory("msg");
                 Intent intent422222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                 intent422222.putExtra("messageDate", i4);
                 intent422222.putExtra("dialogId", longValue);

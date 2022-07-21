@@ -142,7 +142,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         this.parentFragment = baseFragment;
         this.chatId = j;
         fixNavigationBar();
-        this.searchView.searchEditText.setHint(LocaleController.getString("SearchForChats", 2131628168));
+        this.searchView.searchEditText.setHint(LocaleController.getString("SearchForChats", 2131628169));
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         SearchAdapter searchAdapter = new SearchAdapter();
         this.searchAdapter = searchAdapter;
@@ -648,7 +648,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 manageChatTextCell = new View(context);
             } else if (i != 5) {
                 ManageChatTextCell manageChatTextCell2 = new ManageChatTextCell(context);
-                manageChatTextCell2.setText(LocaleController.getString("VoipGroupCopyInviteLink", 2131629116), null, 2131165783, 7, true);
+                manageChatTextCell2.setText(LocaleController.getString("VoipGroupCopyInviteLink", 2131629117), null, 2131165783, 7, true);
                 manageChatTextCell2.setColors("dialogTextBlue2", "dialogTextBlue2");
                 manageChatTextCell = manageChatTextCell2;
             } else {

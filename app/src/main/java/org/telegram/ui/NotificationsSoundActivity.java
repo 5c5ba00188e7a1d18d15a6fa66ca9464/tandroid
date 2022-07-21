@@ -203,7 +203,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         this.selectedTonesCountTextView.setTextColor(Theme.getColor("actionBarActionModeDefaultIcon", this.resourcesProvider));
         createActionMode.addView(this.selectedTonesCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
         this.selectedTonesCountTextView.setOnTouchListener(NotificationsSoundActivity$$ExternalSyntheticLambda0.INSTANCE);
-        createActionMode.addItemWithWidth(2, 2131165741, AndroidUtilities.dp(54.0f), LocaleController.getString("ShareFile", 2131628336));
+        createActionMode.addItemWithWidth(2, 2131165741, AndroidUtilities.dp(54.0f), LocaleController.getString("ShareFile", 2131628337));
         createActionMode.addItemWithWidth(1, 2131165702, AndroidUtilities.dp(54.0f), LocaleController.getString("Delete", 2131625384));
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
@@ -665,22 +665,22 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                         return;
                     }
                     CreationTextCell creationTextCell = (CreationTextCell) viewHolder.itemView;
-                    Drawable drawable = creationTextCell.getContext().getResources().getDrawable(2131166080);
-                    Drawable drawable2 = creationTextCell.getContext().getResources().getDrawable(2131166081);
+                    Drawable drawable = creationTextCell.getContext().getResources().getDrawable(2131166083);
+                    Drawable drawable2 = creationTextCell.getContext().getResources().getDrawable(2131166084);
                     drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked", NotificationsSoundActivity.this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
                     drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck", NotificationsSoundActivity.this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
-                    creationTextCell.setTextAndIcon(LocaleController.getString("UploadSound", 2131628845), new CombinedDrawable(drawable, drawable2), false);
+                    creationTextCell.setTextAndIcon(LocaleController.getString("UploadSound", 2131628846), new CombinedDrawable(drawable, drawable2), false);
                     return;
                 }
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 NotificationsSoundActivity notificationsSoundActivity = NotificationsSoundActivity.this;
                 if (i == notificationsSoundActivity.serverTonesHeaderRow) {
-                    headerCell.setText(LocaleController.getString("TelegramTones", 2131628645));
+                    headerCell.setText(LocaleController.getString("TelegramTones", 2131628646));
                     return;
                 } else if (i != notificationsSoundActivity.systemTonesHeaderRow) {
                     return;
                 } else {
-                    headerCell.setText(LocaleController.getString("SystemTones", 2131628598));
+                    headerCell.setText(LocaleController.getString("SystemTones", 2131628599));
                     return;
                 }
             }
@@ -889,7 +889,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         if (str != null && (lastIndexOf = str.lastIndexOf(46)) != -1) {
             str = str.substring(0, lastIndexOf);
         }
-        return (!TextUtils.isEmpty(str) || tLRPC$Document == null) ? str : LocaleController.formatString("SoundNameEmpty", 2131628452, LocaleController.formatDateChat(tLRPC$Document.date, true));
+        return (!TextUtils.isEmpty(str) || tLRPC$Document == null) ? str : LocaleController.formatString("SoundNameEmpty", 2131628453, LocaleController.formatDateChat(tLRPC$Document.date, true));
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

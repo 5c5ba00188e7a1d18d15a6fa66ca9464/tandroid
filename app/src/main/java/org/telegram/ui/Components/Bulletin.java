@@ -1330,7 +1330,7 @@ public class Bulletin {
                 this.undoTextView.setTextSize(1, 14.0f);
                 this.undoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 this.undoTextView.setTextColor(themedColor);
-                this.undoTextView.setText(LocaleController.getString("Undo", 2131628796));
+                this.undoTextView.setText(LocaleController.getString("Undo", 2131628797));
                 this.undoTextView.setGravity(16);
                 ViewHelper.setPaddingRelative(this.undoTextView, 16.0f, 0.0f, 16.0f, 0.0f);
                 addView(this.undoTextView, LayoutHelper.createFrameRelatively(-2.0f, 48.0f, 16, 8.0f, 0.0f, 0.0f, 0.0f));

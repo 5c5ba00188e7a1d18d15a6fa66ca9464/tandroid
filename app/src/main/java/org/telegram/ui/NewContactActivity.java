@@ -556,12 +556,12 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
                         hintEditText.setHintText(str2);
                         NewContactActivity.this.countryState = 0;
                     } else {
-                        NewContactActivity.this.countryButton.setText(LocaleController.getString("WrongCountry", 2131629328));
+                        NewContactActivity.this.countryButton.setText(LocaleController.getString("WrongCountry", 2131629329));
                         NewContactActivity.this.phoneField.setHintText((String) null);
                         NewContactActivity.this.countryState = 2;
                     }
                 } else {
-                    NewContactActivity.this.countryButton.setText(LocaleController.getString("WrongCountry", 2131629328));
+                    NewContactActivity.this.countryButton.setText(LocaleController.getString("WrongCountry", 2131629329));
                     NewContactActivity.this.phoneField.setHintText((String) null);
                     NewContactActivity.this.countryState = 2;
                 }

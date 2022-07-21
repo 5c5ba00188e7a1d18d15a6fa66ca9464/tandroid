@@ -2934,7 +2934,7 @@ public class PushListenerController {
                                                 case 'P':
                                                     str23 = str17;
                                                     z13 = z4;
-                                                    formatString = LocaleController.formatString("UserAcceptedToGroupPushWithGroup", 2131628872, strArr[0], strArr[1]);
+                                                    formatString = LocaleController.formatString("UserAcceptedToGroupPushWithGroup", 2131628873, strArr[0], strArr[1]);
                                                     str15 = formatString;
                                                     str16 = str23;
                                                     str14 = null;
@@ -3162,8 +3162,8 @@ public class PushListenerController {
                                                         z12 = false;
                                                     }
                                                 case 'h':
-                                                    String string2 = LocaleController.getString("YouHaveNewMessage", 2131629343);
-                                                    str11 = LocaleController.getString("SecretChatName", 2131628208);
+                                                    String string2 = LocaleController.getString("YouHaveNewMessage", 2131629344);
+                                                    str11 = LocaleController.getString("SecretChatName", 2131628209);
                                                     z13 = z4;
                                                     str14 = null;
                                                     z12 = true;

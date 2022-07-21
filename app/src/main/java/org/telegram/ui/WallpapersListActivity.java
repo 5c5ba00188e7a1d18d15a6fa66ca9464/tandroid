@@ -129,7 +129,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     private static final int[][] defaultColorsDark = {new int[]{-14797481, -15394250, -14924974, -14006975}, new int[]{-14867905, -14870478, -14997181, -15460815}, new int[]{-14666695, -15720408, -14861254, -15260107}, new int[]{-14932175, -15066075, -14208965, -15000799}, new int[]{-12968902, -14411460, -13029826, -15067598}, new int[]{-13885157, -12307670, -14542561, -12899018}, new int[]{-14797481, -15196106, -14924974, -15325638}, new int[]{-15658442, -15449521, -16047308, -12897955}, new int[]{-13809610, -15258855, -13221071, -15715791}, new int[]{-14865092}, new int[]{-15656154}, new int[]{-16051170}, new int[]{-14731745}, new int[]{-15524075}, new int[]{-15853808}, new int[]{-13685209}, new int[]{-14014945}, new int[]{-15132649}, new int[]{-12374480}, new int[]{-13755362}, new int[]{-14740716}, new int[]{-12374468}, new int[]{-13755352}, new int[]{-14740709}, new int[]{-12833213}, new int[]{-14083026}, new int[]{-14872031}, new int[]{-13554109}, new int[]{-14803922}, new int[]{-15461855}, new int[]{-13680833}, new int[]{-14602960}, new int[]{-15458784}, new int[]{-14211804}, new int[]{-15132906}, new int[]{-16777216}};
     private static final int[] searchColors = {-16746753, -65536, -30208, -13824, -16718798, -14702165, -9240406, -409915, -9224159, -16777216, -10725281, -1};
     private static final String[] searchColorsNames = {"Blue", "Red", "Orange", "Yellow", "Green", "Teal", "Purple", "Pink", "Brown", "Black", "Gray", "White"};
-    private static final int[] searchColorsNamesR = {2131624709, 2131627940, 2131627171, 2131629337, 2131626134, 2131628616, 2131627839, 2131627592, 2131624773, 2131624686, 2131626133, 2131629309};
+    private static final int[] searchColorsNamesR = {2131624709, 2131627940, 2131627171, 2131629338, 2131626134, 2131628617, 2131627839, 2131627592, 2131624773, 2131624686, 2131626133, 2131629310};
     private ArrayList<View> actionModeViews = new ArrayList<>();
     private int columnsCount = 3;
     private String selectedBackgroundSlug = "";
@@ -329,13 +329,13 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         if (i == 0) {
             this.actionBar.setTitle(LocaleController.getString("ChatBackground", 2131625015));
         } else if (i == 1) {
-            this.actionBar.setTitle(LocaleController.getString("SelectColorTitle", 2131628224));
+            this.actionBar.setTitle(LocaleController.getString("SelectColorTitle", 2131628225));
         }
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
         if (this.currentType == 0) {
             ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass3());
             this.searchItem = actionBarMenuItemSearchListener;
-            actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("SearchBackgrounds", 2131628156));
+            actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("SearchBackgrounds", 2131628157));
             ActionBarMenu createActionMode = this.actionBar.createActionMode(false, null);
             createActionMode.setBackgroundColor(Theme.getColor("actionBarDefault"));
             this.actionBar.setItemsColor(Theme.getColor("actionBarDefaultIcon"), true);
@@ -595,7 +595,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
         public void onCaptionCleared() {
             WallpapersListActivity.this.searchAdapter.clearColor();
-            WallpapersListActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchBackgrounds", 2131628156));
+            WallpapersListActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchBackgrounds", 2131628157));
         }
     }
 
@@ -1774,7 +1774,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                 if (itemViewType != 2) {
                     return;
                 }
-                ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("SearchByColor", 2131628157));
+                ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("SearchByColor", 2131628158));
                 return;
             }
             WallpaperCell wallpaperCell = (WallpaperCell) viewHolder.itemView;
@@ -1886,10 +1886,10 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                         textCell.setText(LocaleController.getString("ResetChatBackgrounds", 2131628052), false);
                         return;
                     }
-                    textCell.setTextAndIcon(LocaleController.getString("SetColor", 2131628304), 2131165834, true);
+                    textCell.setTextAndIcon(LocaleController.getString("SetColor", 2131628305), 2131165837, true);
                     return;
                 }
-                textCell.setTextAndIcon(LocaleController.getString("SelectFromGallery", 2131628230), 2131165859, true);
+                textCell.setTextAndIcon(LocaleController.getString("SelectFromGallery", 2131628231), 2131165862, true);
             } else if (itemViewType != 2) {
                 if (itemViewType != 3) {
                     return;

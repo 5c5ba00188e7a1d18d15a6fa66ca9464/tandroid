@@ -139,7 +139,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         ArrayList<NotificationsSettingsActivity.NotificationException> arrayList = this.exceptions;
         if (arrayList != null && !arrayList.isEmpty()) {
-            this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2()).setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+            this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2()).setSearchFieldHint(LocaleController.getString("Search", 2131628155));
         }
         this.searchAdapter = new SearchAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -1079,7 +1079,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             String str = null;
             if (uri != null && (ringtone = RingtoneManager.getRingtone(getParentActivity(), uri)) != null) {
                 if (uri.equals(Settings.System.DEFAULT_NOTIFICATION_URI)) {
-                    str = LocaleController.getString("SoundDefault", 2131628450);
+                    str = LocaleController.getString("SoundDefault", 2131628451);
                 } else {
                     str = ringtone.getTitle(getParentActivity());
                 }
@@ -1555,7 +1555,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                     if (i != NotificationsCustomSettingsActivity.this.messageSectionRow) {
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("SETTINGS", 2131628119));
+                    headerCell.setText(LocaleController.getString("SETTINGS", 2131628120));
                     return;
                 case 1:
                     TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
@@ -1619,14 +1619,14 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                     if (i == NotificationsCustomSettingsActivity.this.messageSoundRow) {
                         if (NotificationsCustomSettingsActivity.this.currentType != 1) {
                             if (NotificationsCustomSettingsActivity.this.currentType == 0) {
-                                str = notificationsSettings3.getString("GroupSound", LocaleController.getString("SoundDefault", 2131628450));
+                                str = notificationsSettings3.getString("GroupSound", LocaleController.getString("SoundDefault", 2131628451));
                                 j = notificationsSettings3.getLong("GroupSoundDocId", 0L);
                             } else {
-                                str = notificationsSettings3.getString("ChannelSound", LocaleController.getString("SoundDefault", 2131628450));
+                                str = notificationsSettings3.getString("ChannelSound", LocaleController.getString("SoundDefault", 2131628451));
                                 j = notificationsSettings3.getLong("ChannelDocId", 0L);
                             }
                         } else {
-                            str = notificationsSettings3.getString("GlobalSound", LocaleController.getString("SoundDefault", 2131628450));
+                            str = notificationsSettings3.getString("GlobalSound", LocaleController.getString("SoundDefault", 2131628451));
                             j = notificationsSettings3.getLong("GlobalSoundDocId", 0L);
                         }
                         if (j != 0) {
@@ -1639,9 +1639,9 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                         } else if (str.equals("NoSound")) {
                             str = LocaleController.getString("NoSound", 2131626924);
                         } else if (str.equals("Default")) {
-                            str = LocaleController.getString("SoundDefault", 2131628450);
+                            str = LocaleController.getString("SoundDefault", 2131628451);
                         }
-                        textSettingsCell.setTextAndValue(LocaleController.getString("Sound", 2131628447), str, true);
+                        textSettingsCell.setTextAndValue(LocaleController.getString("Sound", 2131628448), str, true);
                         return;
                     } else if (i == NotificationsCustomSettingsActivity.this.messageVibrateRow) {
                         if (NotificationsCustomSettingsActivity.this.currentType != 1) {
@@ -1654,21 +1654,21 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                             i5 = notificationsSettings3.getInt("vibrate_messages", 0);
                         }
                         if (i5 == 0) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628950), LocaleController.getString("VibrationDefault", 2131628951), true);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628951), LocaleController.getString("VibrationDefault", 2131628952), true);
                             return;
                         } else if (i5 == 1) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628950), LocaleController.getString("Short", 2131628389), true);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628951), LocaleController.getString("Short", 2131628390), true);
                             return;
                         } else if (i5 == 2) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628950), LocaleController.getString("VibrationDisabled", 2131628952), true);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628951), LocaleController.getString("VibrationDisabled", 2131628953), true);
                             return;
                         } else if (i5 == 3) {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628950), LocaleController.getString("Long", 2131626554), true);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628951), LocaleController.getString("Long", 2131626554), true);
                             return;
                         } else if (i5 != 4) {
                             return;
                         } else {
-                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628950), LocaleController.getString("OnlyIfSilent", 2131627139), true);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("Vibrate", 2131628951), LocaleController.getString("OnlyIfSilent", 2131627139), true);
                             return;
                         }
                     } else if (i == NotificationsCustomSettingsActivity.this.messagePriorityRow) {

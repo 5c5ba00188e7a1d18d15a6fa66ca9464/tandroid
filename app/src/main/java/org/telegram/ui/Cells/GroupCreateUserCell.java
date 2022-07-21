@@ -380,7 +380,7 @@ public class GroupCreateUserCell extends FrameLayout {
             if (obj2 instanceof TLRPC$User) {
                 TLRPC$User tLRPC$User = (TLRPC$User) obj2;
                 if (this.showSelfAsSaved && UserObject.isUserSelf(tLRPC$User)) {
-                    this.nameTextView.setText(LocaleController.getString("SavedMessages", 2131628139), true);
+                    this.nameTextView.setText(LocaleController.getString("SavedMessages", 2131628140), true);
                     this.statusTextView.setText(null);
                     this.avatarDrawable.setAvatarType(1);
                     this.avatarImageView.setImage((ImageLocation) null, "50_50", this.avatarDrawable, tLRPC$User);

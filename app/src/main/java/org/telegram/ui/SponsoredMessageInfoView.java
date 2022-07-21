@@ -22,22 +22,22 @@ public class SponsoredMessageInfoView extends FrameLayout {
         LinearLayout linearLayout = new LinearLayout(activity);
         linearLayout.setOrientation(1);
         TextView textView = new TextView(activity);
-        textView.setText(LocaleController.getString("SponsoredMessageInfo", 2131628471));
+        textView.setText(LocaleController.getString("SponsoredMessageInfo", 2131628472));
         textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", resourcesProvider));
         textView.setTextSize(1, 20.0f);
         TextView textView2 = new TextView(activity);
-        textView2.setText(LocaleController.getString("SponsoredMessageInfoDescription1", 2131628472));
+        textView2.setText(LocaleController.getString("SponsoredMessageInfoDescription1", 2131628473));
         textView2.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", resourcesProvider));
         textView2.setTextSize(1, 14.0f);
         textView2.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
         TextView textView3 = new TextView(activity);
-        textView3.setText(LocaleController.getString("SponsoredMessageInfoDescription2", 2131628473));
+        textView3.setText(LocaleController.getString("SponsoredMessageInfoDescription2", 2131628474));
         textView3.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", resourcesProvider));
         textView3.setTextSize(1, 14.0f);
         textView3.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
         TextView textView4 = new TextView(activity);
-        textView4.setText(LocaleController.getString("SponsoredMessageInfoDescription3", 2131628474));
+        textView4.setText(LocaleController.getString("SponsoredMessageInfoDescription3", 2131628475));
         textView4.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", resourcesProvider));
         textView4.setTextSize(1, 14.0f);
         textView4.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -48,13 +48,13 @@ public class SponsoredMessageInfoView extends FrameLayout {
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, activity, paint);
         anonymousClass1.setOnClickListener(new AnonymousClass2(this, activity));
         anonymousClass1.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
-        anonymousClass1.setText(LocaleController.getString("SponsoredMessageAlertLearnMoreUrl", 2131628468));
+        anonymousClass1.setText(LocaleController.getString("SponsoredMessageAlertLearnMoreUrl", 2131628469));
         anonymousClass1.setTextColor(Theme.getColor("featuredStickers_addButton", resourcesProvider));
         anonymousClass1.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor("dialogBackground", resourcesProvider), 4.0f));
         anonymousClass1.setTextSize(1, 14.0f);
         anonymousClass1.setGravity(16);
         TextView textView5 = new TextView(activity);
-        textView5.setText(LocaleController.getString("SponsoredMessageInfoDescription4", 2131628475));
+        textView5.setText(LocaleController.getString("SponsoredMessageInfoDescription4", 2131628476));
         textView5.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
         textView5.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", resourcesProvider));
         textView5.setTextSize(1, 14.0f);
@@ -102,7 +102,7 @@ public class SponsoredMessageInfoView extends FrameLayout {
 
         @Override // android.view.View.OnClickListener
         public void onClick(View view) {
-            Browser.openUrl(this.val$context, LocaleController.getString("SponsoredMessageAlertLearnMoreUrl", 2131628468));
+            Browser.openUrl(this.val$context, LocaleController.getString("SponsoredMessageAlertLearnMoreUrl", 2131628469));
         }
     }
 }

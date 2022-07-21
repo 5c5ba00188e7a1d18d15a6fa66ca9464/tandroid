@@ -960,7 +960,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         private float wavesEnterAnimation = 0.0f;
         private boolean showWaves = true;
         private Paint p = new Paint(1);
-        private String tooltipMessage = LocaleController.getString("SlideUpToLock", 2131628421);
+        private String tooltipMessage = LocaleController.getString("SlideUpToLock", 2131628422);
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public RecordCircle(Context context) {
@@ -992,7 +992,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             r6.lockShadowDrawable.setColorFilter(new PorterDuffColorFilter(r6.getThemedColor("key_chat_messagePanelVoiceLockShadow"), PorterDuff.Mode.MULTIPLY));
             this.tooltipBackground = Theme.createRoundRectDrawable(AndroidUtilities.dp(5.0f), r6.getThemedColor("chat_gifSaveHintBackground"));
             this.tooltipPaint.setTextSize(AndroidUtilities.dp(14.0f));
-            this.tooltipBackgroundArrow = ContextCompat.getDrawable(context, 2131166186);
+            this.tooltipBackgroundArrow = ContextCompat.getDrawable(context, 2131166189);
             float scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
             this.touchSlop = scaledTouchSlop;
             this.touchSlop = scaledTouchSlop * scaledTouchSlop;
@@ -2052,11 +2052,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             protected void onPopulateNodeForVirtualView(int i, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
                 if (i == 1) {
                     accessibilityNodeInfoCompat.setBoundsInParent(ChatActivityEnterView.this.sendRect);
-                    accessibilityNodeInfoCompat.setText(LocaleController.getString("Send", 2131628237));
+                    accessibilityNodeInfoCompat.setText(LocaleController.getString("Send", 2131628238));
                 } else if (i == 2) {
                     ChatActivityEnterView.this.rect.set((int) ChatActivityEnterView.this.pauseRect.left, (int) ChatActivityEnterView.this.pauseRect.top, (int) ChatActivityEnterView.this.pauseRect.right, (int) ChatActivityEnterView.this.pauseRect.bottom);
                     accessibilityNodeInfoCompat.setBoundsInParent(ChatActivityEnterView.this.rect);
-                    accessibilityNodeInfoCompat.setText(LocaleController.getString("Stop", 2131628526));
+                    accessibilityNodeInfoCompat.setText(LocaleController.getString("Stop", 2131628527));
                 } else if (i != 3) {
                 } else {
                     if (ChatActivityEnterView.this.slideText != null && ChatActivityEnterView.this.slideText.cancelRect != null) {
@@ -2231,7 +2231,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 this.scheduledButton = imageView;
                 imageView.setImageDrawable(combinedDrawable);
                 this.scheduledButton.setVisibility(8);
-                this.scheduledButton.setContentDescription(LocaleController.getString("ScheduledMessages", 2131628146));
+                this.scheduledButton.setContentDescription(LocaleController.getString("ScheduledMessages", 2131628147));
                 this.scheduledButton.setScaleType(ImageView.ScaleType.CENTER);
                 if (i3 >= 21) {
                     str = "listSelectorSDK21";
@@ -2461,7 +2461,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         this.sendButton = anonymousClass30;
         anonymousClass30.setVisibility(4);
         int themedColor = getThemedColor("chat_messagePanelSend");
-        this.sendButton.setContentDescription(LocaleController.getString("Send", 2131628237));
+        this.sendButton.setContentDescription(LocaleController.getString("Send", 2131628238));
         this.sendButton.setSoundEffectsEnabled(false);
         this.sendButton.setScaleX(0.1f);
         this.sendButton.setScaleY(0.1f);
@@ -4450,9 +4450,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (z2) {
                 ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(getContext(), true, !z3, this.resourcesProvider);
                 if (z) {
-                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("SetReminder", 2131628310), 2131165662);
+                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("SetReminder", 2131628311), 2131165662);
                 } else {
-                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("ScheduleMessage", 2131628144), 2131165662);
+                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("ScheduleMessage", 2131628145), 2131165662);
                 }
                 actionBarMenuSubItem.setMinimumWidth(AndroidUtilities.dp(196.0f));
                 actionBarMenuSubItem.setOnClickListener(new ChatActivityEnterView$$ExternalSyntheticLambda17(this));
@@ -4460,7 +4460,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
             if (z3) {
                 ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(getContext(), !z2, true, this.resourcesProvider);
-                actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SendWithoutSound", 2131628274), 2131165539);
+                actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SendWithoutSound", 2131628275), 2131165539);
                 actionBarMenuSubItem2.setMinimumWidth(AndroidUtilities.dp(196.0f));
                 actionBarMenuSubItem2.setOnClickListener(new ChatActivityEnterView$$ExternalSyntheticLambda21(this));
                 this.sendPopupLayout.addView((View) actionBarMenuSubItem2, LayoutHelper.createLinear(-1, 48));
@@ -5366,7 +5366,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (messageObject2 != null && (tLRPC$ReplyMarkup2 = messageObject2.messageOwner.reply_markup) != null && !TextUtils.isEmpty(tLRPC$ReplyMarkup2.placeholder)) {
             this.messageEditText.setHintText(this.replyingMessageObject.messageOwner.reply_markup.placeholder, z);
         } else if (this.editingMessageObject != null) {
-            this.messageEditText.setHintText(this.editingCaption ? LocaleController.getString("Caption", 2131624856) : LocaleController.getString("TypeMessage", 2131628778));
+            this.messageEditText.setHintText(this.editingCaption ? LocaleController.getString("Caption", 2131624856) : LocaleController.getString("TypeMessage", 2131628779));
         } else if (this.botKeyboardViewVisible && (messageObject = this.botButtonsMessageObject) != null && (tLRPC$ReplyMarkup = messageObject.messageOwner.reply_markup) != null && !TextUtils.isEmpty(tLRPC$ReplyMarkup.placeholder)) {
             this.messageEditText.setHintText(this.botButtonsMessageObject.messageOwner.reply_markup.placeholder, z);
         } else {
@@ -5382,7 +5382,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 z2 = false;
             }
             if (z3) {
-                this.messageEditText.setHintText(LocaleController.getString("SendAnonymously", 2131628238));
+                this.messageEditText.setHintText(LocaleController.getString("SendAnonymously", 2131628239));
                 return;
             }
             ChatActivity chatActivity = this.parentFragment;
@@ -5399,7 +5399,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     this.messageEditText.setHintText(LocaleController.getString("ChannelBroadcast", 2131624899), z);
                 }
             } else {
-                this.messageEditText.setHintText(LocaleController.getString("TypeMessage", 2131628778));
+                this.messageEditText.setHintText(LocaleController.getString("TypeMessage", 2131628779));
             }
         }
     }
@@ -5609,10 +5609,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             ChatActivity chatActivity2 = this.parentFragment;
             if (chatActivity2 != null && (currentChat = chatActivity2.getCurrentChat()) != null && currentChat.slowmode_enabled && !ChatObject.hasAdminRights(currentChat)) {
                 if (text.length() > this.accountInstance.getMessagesController().maxMessageLength) {
-                    AlertsCreator.showSimpleAlert(this.parentFragment, LocaleController.getString("Slowmode", 2131628423), LocaleController.getString("SlowmodeSendErrorTooLong", 2131628432), this.resourcesProvider);
+                    AlertsCreator.showSimpleAlert(this.parentFragment, LocaleController.getString("Slowmode", 2131628424), LocaleController.getString("SlowmodeSendErrorTooLong", 2131628433), this.resourcesProvider);
                     return;
                 } else if (this.forceShowSendButton && text.length() > 0) {
-                    AlertsCreator.showSimpleAlert(this.parentFragment, LocaleController.getString("Slowmode", 2131628423), LocaleController.getString("SlowmodeSendError", 2131628431), this.resourcesProvider);
+                    AlertsCreator.showSimpleAlert(this.parentFragment, LocaleController.getString("Slowmode", 2131628424), LocaleController.getString("SlowmodeSendError", 2131628432), this.resourcesProvider);
                     return;
                 }
             }
@@ -8240,8 +8240,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 }
             } else if (tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonRequestGeoLocation) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this.parentActivity);
-                builder.setTitle(LocaleController.getString("ShareYouLocationTitle", 2131628352));
-                builder.setMessage(LocaleController.getString("ShareYouLocationInfo", 2131628350));
+                builder.setTitle(LocaleController.getString("ShareYouLocationTitle", 2131628353));
+                builder.setMessage(LocaleController.getString("ShareYouLocationInfo", 2131628351));
                 builder.setPositiveButton(LocaleController.getString("OK", 2131627127), new ChatActivityEnterView$$ExternalSyntheticLambda10(this, messageObject2, tLRPC$KeyboardButton));
                 builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 this.parentFragment.showDialog(builder.create());
@@ -8478,7 +8478,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     }
                     SpannableString spannableString = new SpannableString(str);
                     AnimatedEmojiSpan animatedEmojiSpan = new AnimatedEmojiSpan(j, ChatActivityEnterView.this.messageEditText.getPaint().getFontMetricsInt());
-                    animatedEmojiSpan.cacheType = 1;
+                    animatedEmojiSpan.cacheType = AnimatedEmojiDrawable.getCacheTypeForEnterView();
                     spannableString.setSpan(animatedEmojiSpan, 0, spannableString.length(), 33);
                     EditTextCaption editTextCaption = ChatActivityEnterView.this.messageEditText;
                     editTextCaption.setText(editTextCaption.getText().insert(selectionEnd, spannableString));
@@ -10188,7 +10188,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             this.arrowPaint.setStrokeWidth(AndroidUtilities.dpf2(this.smallSize ? 1.0f : 1.6f));
             this.arrowPaint.setStrokeCap(Paint.Cap.ROUND);
             this.arrowPaint.setStrokeJoin(Paint.Join.ROUND);
-            this.slideToCancelString = LocaleController.getString("SlideToCancel", 2131628420);
+            this.slideToCancelString = LocaleController.getString("SlideToCancel", 2131628421);
             this.slideToCancelString = this.slideToCancelString.charAt(0) + this.slideToCancelString.substring(1).toLowerCase();
             String upperCase = LocaleController.getString("Cancel", 2131624832).toUpperCase();
             this.cancelString = upperCase;

@@ -155,7 +155,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     }
                     str = "windowBackgroundWhiteGreenText";
                 } else {
-                    this.valueTextView.setText(LocaleController.getString("Unavailable", 2131628790));
+                    this.valueTextView.setText(LocaleController.getString("Unavailable", 2131628791));
                     str = "windowBackgroundWhiteRedText4";
                 }
             }
@@ -171,7 +171,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         public void setChecked(boolean z) {
             if (z) {
                 if (this.checkDrawable == null) {
-                    this.checkDrawable = getResources().getDrawable(2131166100).mutate();
+                    this.checkDrawable = getResources().getDrawable(2131166103).mutate();
                 }
                 Drawable drawable = this.checkDrawable;
                 if (drawable != null) {
@@ -571,17 +571,17 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             } else if (itemViewType == 3) {
                 TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
                 if (i == ProxyListActivity.this.useProxyRow) {
-                    textCheckCell.setTextAndCheck(LocaleController.getString("UseProxySettings", 2131628861), ProxyListActivity.this.useProxySettings, false);
+                    textCheckCell.setTextAndCheck(LocaleController.getString("UseProxySettings", 2131628862), ProxyListActivity.this.useProxySettings, false);
                 } else if (i != ProxyListActivity.this.callsRow) {
                 } else {
-                    textCheckCell.setTextAndCheck(LocaleController.getString("UseProxyForCalls", 2131628855), ProxyListActivity.this.useProxyForCalls, false);
+                    textCheckCell.setTextAndCheck(LocaleController.getString("UseProxyForCalls", 2131628856), ProxyListActivity.this.useProxyForCalls, false);
                 }
             } else if (itemViewType == 4) {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 if (i != ProxyListActivity.this.callsDetailRow) {
                     return;
                 }
-                textInfoPrivacyCell.setText(LocaleController.getString("UseProxyForCallsInfo", 2131628856));
+                textInfoPrivacyCell.setText(LocaleController.getString("UseProxyForCallsInfo", 2131628857));
                 textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
             } else if (itemViewType != 5) {
             } else {

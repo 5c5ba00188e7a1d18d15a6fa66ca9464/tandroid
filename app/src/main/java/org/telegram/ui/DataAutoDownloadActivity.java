@@ -465,7 +465,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 textView2.setTextColor(Theme.getColor("dialogTextBlue2"));
                 textView2.setGravity(17);
                 textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-                textView2.setText(LocaleController.getString("Save", 2131628122).toUpperCase());
+                textView2.setText(LocaleController.getString("Save", 2131628123).toUpperCase());
                 textView2.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
                 frameLayout.addView(textView2, LayoutHelper.createFrame(-2, 36, 53));
                 textView2.setOnClickListener(new DataAutoDownloadActivity$$ExternalSyntheticLambda2(this, textCheckBoxCellArr, i2, maxFileSizeCellArr4, typeToIndex, textCheckCellArr, i, str8, str7, builder2, view));

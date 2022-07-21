@@ -1472,7 +1472,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             menu.add(0, 16908321, 0, 17039361);
             menu.add(0, 16908319, 1, 17039373);
-            menu.add(0, 3, 2, LocaleController.getString("TranslateMessage", 2131628758));
+            menu.add(0, 3, 2, LocaleController.getString("TranslateMessage", 2131628759));
             return true;
         }
 

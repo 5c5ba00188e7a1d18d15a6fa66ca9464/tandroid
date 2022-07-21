@@ -206,7 +206,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
                 stickerEmptyView.setBackgroundColor(Theme.getColor("windowBackgroundWhite", this.fragment.getResourceProvider()));
             }
             this.searchEmptyView.title.setText(LocaleController.getString("NoResult", 2131626910));
-            this.searchEmptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+            this.searchEmptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628161));
             this.searchEmptyView.setAnimateLayoutChange(true);
             this.searchEmptyView.setVisibility(8);
         }
@@ -770,7 +770,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             int i;
             String str;
             MemberRequestsDelegate.this = r9;
-            Drawable mutate = getContext().getResources().getDrawable(2131166088).mutate();
+            Drawable mutate = getContext().getResources().getDrawable(2131166091).mutate();
             this.pagerShadowDrawable = mutate;
             TextView textView = new TextView(getContext());
             this.nameText = textView;
@@ -817,19 +817,19 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
                 i = 2131624301;
                 str = "AddToGroup";
             }
-            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(str, i), 2131165907);
+            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(str, i), 2131165910);
             actionBarMenuSubItem.setOnClickListener(new MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda2(this));
             actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
             ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(context, false, false);
             actionBarMenuSubItem2.setColors(Theme.getColor("actionBarDefaultSubmenuItem", resourcesProvider), Theme.getColor("actionBarDefaultSubmenuItemIcon", resourcesProvider));
             actionBarMenuSubItem2.setSelectorColor(Theme.getColor("dialogButtonSelector", resourcesProvider));
-            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SendMessage", 2131628259), 2131165816);
+            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SendMessage", 2131628260), 2131165819);
             actionBarMenuSubItem2.setOnClickListener(new MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda3(this));
             actionBarPopupWindowLayout.addView(actionBarMenuSubItem2);
             ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(context, false, true);
             actionBarMenuSubItem3.setColors(Theme.getColor("dialogTextRed2", resourcesProvider), Theme.getColor("dialogRedIcon", resourcesProvider));
             actionBarMenuSubItem3.setSelectorColor(Theme.getColor("dialogButtonSelector", resourcesProvider));
-            actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("DismissRequest", 2131625532), 2131165894);
+            actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("DismissRequest", 2131625532), 2131165897);
             actionBarMenuSubItem3.setOnClickListener(new MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda1(this));
             actionBarPopupWindowLayout.addView(actionBarMenuSubItem3);
         }

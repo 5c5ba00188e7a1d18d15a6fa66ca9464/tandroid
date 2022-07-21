@@ -86,7 +86,7 @@ public class AvailableReactionCell extends FrameLayout {
         }
         this.locked = z2;
         if (z2) {
-            Drawable drawable = ContextCompat.getDrawable(getContext(), 2131166027);
+            Drawable drawable = ContextCompat.getDrawable(getContext(), 2131166030);
             drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
             this.textView.setRightDrawable(drawable);
         } else {

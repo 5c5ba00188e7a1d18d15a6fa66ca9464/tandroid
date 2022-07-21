@@ -53,7 +53,7 @@ public class SearchField extends FrameLayout {
         ImageView imageView = new ImageView(context);
         this.searchIconImageView = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.searchIconImageView.setImageResource(2131166150);
+        this.searchIconImageView.setImageResource(2131166153);
         this.searchIconImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogSearchIcon"), PorterDuff.Mode.MULTIPLY));
         if (z) {
             layoutParams2 = LayoutHelper.createFrameRelatively(36.0f, 36.0f, 8388659, 16.0f, 11.0f, 0.0f, 0.0f);

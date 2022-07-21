@@ -4,15 +4,13 @@ import org.telegram.ui.Components.EmojiPacksAlert;
 /* loaded from: classes3.dex */
 public final /* synthetic */ class EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda1 implements Runnable {
     public final /* synthetic */ EmojiPacksAlert.EmojiPacksLoader f$0;
-    public final /* synthetic */ boolean[] f$1;
 
-    public /* synthetic */ EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda1(EmojiPacksAlert.EmojiPacksLoader emojiPacksLoader, boolean[] zArr) {
+    public /* synthetic */ EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda1(EmojiPacksAlert.EmojiPacksLoader emojiPacksLoader) {
         this.f$0 = emojiPacksLoader;
-        this.f$1 = zArr;
     }
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.lambda$init$1(this.f$1);
+        this.f$0.lambda$init$2();
     }
 }

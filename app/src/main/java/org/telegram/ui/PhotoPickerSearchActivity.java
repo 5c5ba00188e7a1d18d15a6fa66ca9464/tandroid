@@ -98,7 +98,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
         this.hasOwnBackground = true;
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628177));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628178));
         EditTextBoldCursor searchField = this.searchItem.getSearchField();
         searchField.setTextColor(Theme.getColor("dialogTextBlack"));
         searchField.setCursorColor(Theme.getColor("dialogTextBlack"));
@@ -253,9 +253,9 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             PhotoPickerSearchActivity.this.switchToCurrentSelectedMode(true);
             PhotoPickerSearchActivity.this.animatingForward = z;
             if (i == 0) {
-                PhotoPickerSearchActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628177));
+                PhotoPickerSearchActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", 2131628178));
             } else {
-                PhotoPickerSearchActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchGifsTitle", 2131628174));
+                PhotoPickerSearchActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchGifsTitle", 2131628175));
             }
         }
 

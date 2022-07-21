@@ -393,7 +393,7 @@ public class TranslateAlert extends Dialog {
         anonymousClass3.showLoadingText = false;
         ImageView imageView = new ImageView(context);
         this.subtitleArrowView = imageView;
-        imageView.setImageResource(2131166122);
+        imageView.setImageResource(2131166125);
         this.subtitleArrowView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("player_actionBarSubtitle"), PorterDuff.Mode.MULTIPLY));
         if (LocaleController.isRTL) {
             this.subtitleArrowView.setScaleX(-1.0f);
@@ -660,7 +660,7 @@ public class TranslateAlert extends Dialog {
         public boolean onTextContextMenuItem(int i) {
             if (i == 16908321 && isFocused()) {
                 ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", getText().subSequence(Math.max(0, Math.min(getSelectionStart(), getSelectionEnd())), Math.max(0, Math.max(getSelectionStart(), getSelectionEnd())))));
-                BulletinFactory.of(TranslateAlert.this.bulletinContainer, null).createCopyBulletin(LocaleController.getString("TextCopied", 2131628662)).show();
+                BulletinFactory.of(TranslateAlert.this.bulletinContainer, null).createCopyBulletin(LocaleController.getString("TextCopied", 2131628663)).show();
                 clearFocus();
                 return true;
             }
@@ -1179,9 +1179,9 @@ public class TranslateAlert extends Dialog {
 
     public /* synthetic */ void lambda$fetchNext$8(boolean z) {
         if (z) {
-            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert1", 2131628762), 0).show();
+            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert1", 2131628763), 0).show();
         } else {
-            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert2", 2131628763), 0).show();
+            Toast.makeText(getContext(), LocaleController.getString("TranslationFailedAlert2", 2131628764), 0).show();
         }
         if (this.blockIndex == 0) {
             dismiss();

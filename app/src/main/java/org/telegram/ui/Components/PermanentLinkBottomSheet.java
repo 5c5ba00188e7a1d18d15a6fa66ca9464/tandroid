@@ -143,8 +143,8 @@ public class PermanentLinkBottomSheet extends BottomSheet {
             this.linkActionView.setLink(this.invite.link);
             if (z && this.fragment != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", 2131628103));
-                builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
+                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", 2131628104));
+                builder.setTitle(LocaleController.getString("RevokeLink", 2131628106));
                 builder.setNegativeButton(LocaleController.getString("OK", 2131627127), null);
                 this.fragment.showDialog(builder.create());
             }

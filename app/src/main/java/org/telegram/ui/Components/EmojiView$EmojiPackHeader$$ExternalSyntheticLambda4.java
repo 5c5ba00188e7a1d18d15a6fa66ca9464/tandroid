@@ -1,16 +1,17 @@
 package org.telegram.ui.Components;
 
+import android.view.View;
 import org.telegram.ui.Components.EmojiView;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class EmojiView$EmojiPackHeader$$ExternalSyntheticLambda4 implements Runnable {
+public final /* synthetic */ class EmojiView$EmojiPackHeader$$ExternalSyntheticLambda4 implements View.OnClickListener {
     public final /* synthetic */ EmojiView.EmojiPackHeader f$0;
 
     public /* synthetic */ EmojiView$EmojiPackHeader$$ExternalSyntheticLambda4(EmojiView.EmojiPackHeader emojiPackHeader) {
         this.f$0 = emojiPackHeader;
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        this.f$0.lambda$setStickerSet$1();
+    @Override // android.view.View.OnClickListener
+    public final void onClick(View view) {
+        this.f$0.lambda$new$0(view);
     }
 }

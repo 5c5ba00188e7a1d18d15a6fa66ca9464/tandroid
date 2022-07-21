@@ -11364,7 +11364,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     public static /* synthetic */ void lambda$handleError$78(int i, AccountInstance accountInstance) {
         try {
             if (i == 1) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.getString("UnsupportedAttachment", 2131628825));
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.getString("UnsupportedAttachment", 2131628826));
             } else if (i != 2) {
             } else {
                 NotificationCenter.getInstance(accountInstance.getCurrentAccount()).postNotificationName(NotificationCenter.currentUserShowLimitReachedDialog, 6);

@@ -118,7 +118,7 @@ public class UserCell2 extends FrameLayout {
             addView(checkBoxSquare, LayoutHelper.createFrame(18, 18.0f, (z5 ? 3 : 5) | 16, z5 ? 19.0f : 0.0f, 0.0f, z5 ? 0.0f : 19.0f, 0.0f));
         } else if (i2 != 1) {
         } else {
-            CheckBox checkBox = new CheckBox(context, 2131166115);
+            CheckBox checkBox = new CheckBox(context, 2131166118);
             this.checkBox = checkBox;
             checkBox.setVisibility(4);
             this.checkBox.setColor(Theme.getColor("checkbox", resourcesProvider), Theme.getColor("checkboxCheck", resourcesProvider));

@@ -1504,7 +1504,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         }
         TLRPC$User tLRPC$User2 = this.currentUser;
         if (tLRPC$User2 != null && tLRPC$User2.id == 777000) {
-            this.onlineTextView.setText(LocaleController.getString("ServiceNotifications", 2131628291));
+            this.onlineTextView.setText(LocaleController.getString("ServiceNotifications", 2131628292));
             return;
         }
         CharSequence printingString = MessagesController.getInstance(this.currentMessageObject.currentAccount).getPrintingString(this.currentMessageObject.getDialogId(), 0, false);

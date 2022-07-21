@@ -53,13 +53,13 @@ public class ThemePreviewDrawable extends BitmapDrawable {
         if (num5 == null) {
             num5 = 45;
         }
-        Drawable mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166091).mutate();
+        Drawable mutate = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
         Theme.setDrawableColor(mutate, previewColor2);
-        Drawable mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166093).mutate();
+        Drawable mutate2 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166096).mutate();
         Theme.setDrawableColor(mutate2, previewColor2);
-        Drawable mutate3 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166095).mutate();
+        Drawable mutate3 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166098).mutate();
         Theme.setDrawableColor(mutate3, previewColor4);
-        Drawable mutate4 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166094).mutate();
+        Drawable mutate4 = ApplicationLoader.applicationContext.getResources().getDrawable(2131166097).mutate();
         Theme.setDrawableColor(mutate4, previewColor4);
         Theme.MessageDrawable[] messageDrawableArr = new Theme.MessageDrawable[2];
         int i2 = 0;

@@ -1286,7 +1286,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                         return;
                     }
                 } else if (i4 == getRecentItemsCount()) {
-                    graySectionCell.setText(LocaleController.getString("SearchAllChatsShort", 2131628155));
+                    graySectionCell.setText(LocaleController.getString("SearchAllChatsShort", 2131628156));
                     return;
                 } else {
                     i2 = i4 - getRecentItemsCount();
@@ -1319,7 +1319,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     }
                     str7 = string;
                 } else {
-                    str7 = LocaleController.getString("SearchMessages", 2131628181);
+                    str7 = LocaleController.getString("SearchMessages", 2131628182);
                 }
             } else {
                 str7 = LocaleController.getString("PhoneNumberSearch", 2131627552);
@@ -1333,10 +1333,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 return;
             }
             if (z4) {
-                i3 = 2131628402;
+                i3 = 2131628403;
                 str8 = "ShowMore";
             } else {
-                i3 = 2131628401;
+                i3 = 2131628402;
                 str8 = "ShowLess";
             }
             graySectionCell.setText(str7, LocaleController.getString(str8, i3), new DialogsSearchAdapter$$ExternalSyntheticLambda0(runnable));
@@ -1451,7 +1451,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             str = r2;
             profileSearchCell.setChecked(false, false);
             if (tLRPC$User == null && tLRPC$User.id == this.selfUserId) {
-                str2 = LocaleController.getString("SavedMessages", 2131628139);
+                str2 = LocaleController.getString("SavedMessages", 2131628140);
                 z2 = true;
                 str3 = null;
             } else {
@@ -1531,10 +1531,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         boolean z = !this.phoneCollapsed;
         this.phoneCollapsed = z;
         if (z) {
-            i = 2131628402;
+            i = 2131628403;
             str = "ShowMore";
         } else {
-            i = 2131628401;
+            i = 2131628402;
             str = "ShowLess";
         }
         graySectionCell.setRightText(LocaleController.getString(str, i));
@@ -1565,10 +1565,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         boolean z2 = !this.globalSearchCollapsed;
         this.globalSearchCollapsed = z2;
         if (z2) {
-            i2 = 2131628402;
+            i2 = 2131628403;
             str = "ShowMore";
         } else {
-            i2 = 2131628401;
+            i2 = 2131628402;
             str = "ShowLess";
         }
         graySectionCell.setRightText(LocaleController.getString(str, i2), this.globalSearchCollapsed);

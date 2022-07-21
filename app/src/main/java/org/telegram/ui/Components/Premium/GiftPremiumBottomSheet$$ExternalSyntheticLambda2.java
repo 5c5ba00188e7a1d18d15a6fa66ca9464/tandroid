@@ -1,20 +1,17 @@
 package org.telegram.ui.Components.Premium;
 
-import android.graphics.Canvas;
-import android.graphics.Path;
 import androidx.core.util.Consumer;
+import com.android.billingclient.api.BillingResult;
 /* loaded from: classes3.dex */
 public final /* synthetic */ class GiftPremiumBottomSheet$$ExternalSyntheticLambda2 implements Consumer {
     public final /* synthetic */ GiftPremiumBottomSheet f$0;
-    public final /* synthetic */ Path f$1;
 
-    public /* synthetic */ GiftPremiumBottomSheet$$ExternalSyntheticLambda2(GiftPremiumBottomSheet giftPremiumBottomSheet, Path path) {
+    public /* synthetic */ GiftPremiumBottomSheet$$ExternalSyntheticLambda2(GiftPremiumBottomSheet giftPremiumBottomSheet) {
         this.f$0 = giftPremiumBottomSheet;
-        this.f$1 = path;
     }
 
     @Override // androidx.core.util.Consumer
     public final void accept(Object obj) {
-        this.f$0.lambda$new$3(this.f$1, (Canvas) obj);
+        this.f$0.lambda$onGiftPremium$7((BillingResult) obj);
     }
 }

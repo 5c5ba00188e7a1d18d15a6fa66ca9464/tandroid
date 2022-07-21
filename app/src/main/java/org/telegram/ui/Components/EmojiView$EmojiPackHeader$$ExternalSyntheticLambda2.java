@@ -12,6 +12,6 @@ public final /* synthetic */ class EmojiView$EmojiPackHeader$$ExternalSyntheticL
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        this.f$0.lambda$new$0(view);
+        this.f$0.lambda$setStickerSet$4(view);
     }
 }

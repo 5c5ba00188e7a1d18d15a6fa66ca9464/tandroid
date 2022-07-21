@@ -127,7 +127,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         this.hasOwnBackground = true;
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
         ScrollSlidingTextTabStrip scrollSlidingTextTabStrip = new ScrollSlidingTextTabStrip(context);
         this.scrollSlidingTextTabStrip = scrollSlidingTextTabStrip;
         scrollSlidingTextTabStrip.setUseSameWidth(true);
@@ -726,7 +726,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
             AlertsCreator.showSimpleToast(this, LocaleController.getString("ErrorOccurred", 2131625695));
         } else {
             MessagesController.getInstance(this.currentAccount).blockPeer(tLRPC$User.id);
-            AlertsCreator.showSimpleToast(this, LocaleController.getString("UserBlocked", 2131628878));
+            AlertsCreator.showSimpleToast(this, LocaleController.getString("UserBlocked", 2131628879));
         }
         finishFragment();
     }

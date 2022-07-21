@@ -794,7 +794,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         boolean z2 = false;
         ActionBarMenuItem addItem = createMenu.addItem(0, 2131165453);
         addItem.addSubItem(2131230862, 2131165657, LocaleController.getString(2131624756));
-        addItem.addSubItem(2131230864, 2131165909, LocaleController.getString(2131624757));
+        addItem.addSubItem(2131230864, 2131165912, LocaleController.getString(2131624757));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass10(j2, i));
         try {
             JSONObject jSONObject = new JSONObject();

@@ -741,7 +741,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
             HeaderCell headerCell2 = (HeaderCell) viewHolder.itemView;
             int i9 = this.dialogsType;
             if (i9 != 11 && i9 != 12 && i9 != 13) {
-                headerCell2.setText(LocaleController.getString((this.dialogsCount != 0 || !this.forceUpdatingContacts) ? 2131629350 : 2131625245));
+                headerCell2.setText(LocaleController.getString((this.dialogsCount != 0 || !this.forceUpdatingContacts) ? 2131629351 : 2131625245));
             } else if (i == 0) {
                 headerCell2.setText(LocaleController.getString("ImportHeader", 2131626238));
             } else {
@@ -749,7 +749,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
             }
         } else if (itemViewType == 11) {
             TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-            textInfoPrivacyCell.setText(LocaleController.getString("TapOnThePencil", 2131628602));
+            textInfoPrivacyCell.setText(LocaleController.getString("TapOnThePencil", 2131628603));
             if (this.arrowDrawable == null) {
                 Drawable drawable = this.mContext.getResources().getDrawable(2131165260);
                 this.arrowDrawable = drawable;

@@ -55,7 +55,7 @@ public class VideoSeekPreviewImage extends View {
     public VideoSeekPreviewImage(Context context, VideoSeekPreviewImageDelegate videoSeekPreviewImageDelegate) {
         super(context);
         setVisibility(4);
-        this.frameDrawable = context.getResources().getDrawable(2131166208);
+        this.frameDrawable = context.getResources().getDrawable(2131166211);
         this.textPaint.setTextSize(AndroidUtilities.dp(13.0f));
         this.textPaint.setColor(-1);
         this.delegate = videoSeekPreviewImageDelegate;

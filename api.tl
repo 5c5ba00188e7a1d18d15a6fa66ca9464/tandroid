@@ -644,10 +644,11 @@ pageTableCell#34566b6a flags:# header:flags.0?true align_center:flags.3?true ali
 pageTableRow#e0c0c5e5 cells:Vector<PageTableCell> = PageTableRow;
 passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow#3a912d4a salt1:bytes salt2:bytes g:int p:bytes = PasswordKdfAlgo;
 passwordKdfAlgoUnknown#d45ab096 = PasswordKdfAlgo;
+paymentFormMethod#88f8f21b url:string title:string = PaymentFormMethod;
 paymentRequestedInfo#909c3f94 flags:# name:flags.0?string phone:flags.1?string email:flags.2?string shipping_address:flags.3?PostAddress = PaymentRequestedInfo;
 paymentSavedCredentialsCard#cdc27a1f id:string title:string = PaymentSavedCredentialsCard;
 payments.bankCardData#3e24e573 title:string open_urls:Vector<BankCardOpenUrl> = payments.BankCardData;
-payments.paymentForm#b0133b37 flags:# can_save_credentials:flags.2?true password_missing:flags.3?true test:flags.6?true form_id:long bot_id:long title:string description:string photo:flags.5?WebDocument invoice:Invoice provider_id:long url:string native_provider:flags.4?string native_params:flags.4?DataJSON saved_info:flags.0?PaymentRequestedInfo saved_credentials:flags.1?PaymentSavedCredentialsCard users:Vector<User> = payments.PaymentForm;
+payments.paymentForm#4cc5563f flags:# can_save_credentials:flags.2?true password_missing:flags.3?true form_id:long bot_id:long title:string description:string photo:flags.5?WebDocument invoice:Invoice provider_id:long url:string native_provider:flags.4?string native_params:flags.4?DataJSON additional_methods:flags.6?Vector<PaymentFormMethod> saved_info:flags.0?PaymentRequestedInfo saved_credentials:flags.1?PaymentSavedCredentialsCard users:Vector<User> = payments.PaymentForm;
 payments.paymentReceipt#70c4fe03 flags:# date:int bot_id:long provider_id:long title:string description:string photo:flags.2?WebDocument invoice:Invoice info:flags.0?PaymentRequestedInfo shipping:flags.1?ShippingOption tip_amount:flags.3?long currency:string total_amount:long credentials_title:string users:Vector<User> = payments.PaymentReceipt;
 payments.paymentResult#4e5f810d updates:Updates = payments.PaymentResult;
 payments.paymentVerificationNeeded#d8411139 url:string = payments.PaymentResult;

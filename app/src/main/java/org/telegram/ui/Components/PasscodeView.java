@@ -521,7 +521,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         this.passwordEditText.setCustomSelectionActionModeCallback(new AnonymousClass3(this));
         ImageView imageView = new ImageView(context);
         this.checkImage = imageView;
-        imageView.setImageResource(2131166033);
+        imageView.setImageResource(2131166036);
         this.checkImage.setScaleType(ImageView.ScaleType.CENTER);
         this.checkImage.setBackgroundResource(2131165269);
         this.passwordFrameLayout.addView(this.checkImage, LayoutHelper.createFrame(60, 60.0f, 85, 0.0f, 0.0f, 10.0f, 4.0f));
@@ -599,7 +599,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         ImageView imageView3 = new ImageView(context);
         this.eraseView = imageView3;
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
-        this.eraseView.setImageResource(2131166034);
+        this.eraseView.setImageResource(2131166037);
         this.numbersFrameLayout.addView(this.eraseView, LayoutHelper.createFrame(50, 50, 51));
         ImageView imageView4 = new ImageView(context);
         this.fingerprintView = imageView4;
@@ -1001,7 +1001,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             Double.isNaN(d);
             int max = Math.max(1, (int) Math.ceil(d / 1000.0d));
             if (max != this.lastValue) {
-                this.retryTextView.setText(LocaleController.formatString("TooManyTries", 2131628743, LocaleController.formatPluralString("Seconds", max, new Object[0])));
+                this.retryTextView.setText(LocaleController.formatString("TooManyTries", 2131628744, LocaleController.formatPluralString("Seconds", max, new Object[0])));
                 this.lastValue = max;
             }
             if (this.retryTextView.getVisibility() != 0) {

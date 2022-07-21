@@ -1019,7 +1019,7 @@ public class ManageLinksActivity extends BaseFragment {
                     }
                     headerCell.setText(LocaleController.getString("LinksCreatedByThisAdmin", 2131626507));
                 } else {
-                    headerCell.setText(LocaleController.getString("RevokedLinks", 2131628118));
+                    headerCell.setText(LocaleController.getString("RevokedLinks", 2131628119));
                 }
             } else if (itemViewType == 2) {
                 LinkActionView linkActionView = (LinkActionView) viewHolder.itemView;
@@ -1041,8 +1041,8 @@ public class ManageLinksActivity extends BaseFragment {
                     linkActionView.hideRevokeOption(true);
                 }
             } else if (itemViewType == 3) {
-                Drawable drawable = this.mContext.getResources().getDrawable(2131166080);
-                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166081);
+                Drawable drawable = this.mContext.getResources().getDrawable(2131166083);
+                Drawable drawable2 = this.mContext.getResources().getDrawable(2131166084);
                 drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
                 ((CreationTextCell) viewHolder.itemView).setTextAndIcon(LocaleController.getString("CreateNewLink", 2131625293), new CombinedDrawable(drawable, drawable2), !ManageLinksActivity.this.invites.isEmpty());
@@ -1244,8 +1244,8 @@ public class ManageLinksActivity extends BaseFragment {
                 arrayList.add(LocaleController.getString("CopyLink", 2131625274));
                 arrayList2.add(2131165697);
                 arrayList3.add(0);
-                arrayList.add(LocaleController.getString("ShareLink", 2131628337));
-                arrayList2.add(2131165939);
+                arrayList.add(LocaleController.getString("ShareLink", 2131628338));
+                arrayList2.add(2131165942);
                 arrayList3.add(1);
                 if (!this.invite.permanent && ManageLinksActivity.this.canEdit) {
                     arrayList.add(LocaleController.getString("EditLink", 2131625592));
@@ -1253,7 +1253,7 @@ public class ManageLinksActivity extends BaseFragment {
                     arrayList3.add(2);
                 }
                 if (ManageLinksActivity.this.canEdit) {
-                    arrayList.add(LocaleController.getString("RevokeLink", 2131628105));
+                    arrayList.add(LocaleController.getString("RevokeLink", 2131628106));
                     arrayList2.add(2131165702);
                     arrayList3.add(3);
                 } else {
@@ -1309,9 +1309,9 @@ public class ManageLinksActivity extends BaseFragment {
             } else if (intValue == 3) {
                 TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
                 AlertDialog.Builder builder = new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity());
-                builder.setMessage(LocaleController.getString("RevokeAlert", 2131628102));
-                builder.setTitle(LocaleController.getString("RevokeLink", 2131628105));
-                builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda1(this, tLRPC$TL_chatInviteExported));
+                builder.setMessage(LocaleController.getString("RevokeAlert", 2131628103));
+                builder.setTitle(LocaleController.getString("RevokeLink", 2131628106));
+                builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628105), new ManageLinksActivity$LinkCell$$ExternalSyntheticLambda1(this, tLRPC$TL_chatInviteExported));
                 builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                 ManageLinksActivity.this.showDialog(builder.create());
             } else if (intValue != 4) {
@@ -1566,7 +1566,7 @@ public class ManageLinksActivity extends BaseFragment {
                     spannableStringBuilder3.append((CharSequence) LocaleController.getString("LinkLimitReached", 2131626500));
                 } else {
                     if (z) {
-                        i2 = 2131628116;
+                        i2 = 2131628117;
                         str2 = "Revoked";
                     } else {
                         i2 = 2131625828;

@@ -636,7 +636,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         Bulletin.UndoButton undoButton = new Bulletin.UndoButton(this.chatActivity.getParentActivity(), true, this.chatActivity.getResourceProvider());
         stickerSetBulletinLayout.setButton(undoButton);
         undoButton.setUndoAction(new EmojiAnimationsOverlay$$ExternalSyntheticLambda1(this, messageObject));
-        undoButton.setText(LocaleController.getString("ViewAction", 2131628984));
+        undoButton.setText(LocaleController.getString("ViewAction", 2131628985));
         Bulletin make = Bulletin.make(this.chatActivity, stickerSetBulletinLayout, 2750);
         make.hash = messageObject.getId();
         make.show();

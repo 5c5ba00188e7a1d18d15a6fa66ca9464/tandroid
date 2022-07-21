@@ -4461,49 +4461,51 @@ public class ImageLoader {
         runArtworkTasks(false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:146:0x0258, code lost:
-        if (r6.local_id < 0) goto L148;
+    /* JADX WARN: Code restructure failed: missing block: B:158:0x0286, code lost:
+        if (r6.local_id < 0) goto L160;
      */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x019a  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x019d  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x01a0  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x01a4  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x01b9  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x0377  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x03e2  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x03ea A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x0405 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x0420 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0441 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x045f A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0479  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x04b7  */
-    /* JADX WARN: Removed duplicated region for block: B:247:0x04bc  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x0524  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x007f  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0087  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00ba  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00d9  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0156  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0166  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0173  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0181  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x018b  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x01a1  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x01af  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x01b9  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x01c8  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x01cb  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x01ce  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x01d2  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x01e7  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x03a5  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x0410  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x0418 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x0433 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x044e A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x046f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x048d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x04a7  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x04e5  */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x04ea  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x0554  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x009f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00ab  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00b3  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0184  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0194  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void loadImageForImageReceiver(ImageReceiver imageReceiver) {
         boolean z;
-        String imageKey;
         boolean z2;
-        String thumbKey;
+        String imageKey;
         boolean z3;
+        String thumbKey;
+        boolean z4;
         Object parentObject;
         ImageLocation thumbLocation;
         ImageLocation mediaLocation;
         ImageLocation imageLocation;
-        boolean z4;
+        boolean z5;
         ImageLocation imageLocation2;
         String str;
         String ext;
@@ -4532,12 +4534,13 @@ public class ImageLoader {
         String str18;
         String str19;
         String str20;
-        boolean z5;
+        boolean z6;
         Object obj;
         Object obj2;
         BitmapDrawable bitmapDrawable;
         BitmapDrawable fromLottieCache;
         BitmapDrawable bitmapDrawable2;
+        boolean z7;
         if (imageReceiver == null) {
             return;
         }
@@ -4559,15 +4562,103 @@ public class ImageLoader {
                 }
             }
             BitmapDrawable bitmapDrawable3 = bitmapDrawable2;
-            if (bitmapDrawable3 != null) {
+            if (bitmapDrawable3 instanceof RLottieDrawable) {
+                z7 = ((RLottieDrawable) bitmapDrawable3).hasBitmap();
+            } else {
+                z7 = bitmapDrawable3 instanceof AnimatedFileDrawable ? ((AnimatedFileDrawable) bitmapDrawable3).hasBitmap() : true;
+            }
+            if (z7 && bitmapDrawable3 != null) {
                 cancelLoadingForImageReceiver(imageReceiver, true);
                 imageReceiver.setImageBitmapByKey(bitmapDrawable3, mediaKey, 3, true, newGuid);
                 if (!imageReceiver.isForcePreview()) {
                     return;
                 }
+                z2 = true;
+                z = false;
+                imageKey = imageReceiver.getImageKey();
+                if (!z2) {
+                    if (!useLottieMemCache(imageReceiver.getImageLocation(), imageKey)) {
+                    }
+                    if (fromLottieCache == null) {
+                    }
+                    if (fromLottieCache != null) {
+                    }
+                }
+                z3 = z2;
+                thumbKey = imageReceiver.getThumbKey();
+                if (thumbKey != null) {
+                }
+                z4 = false;
+                parentObject = imageReceiver.getParentObject();
+                TLRPC$Document qualityThumbDocument = imageReceiver.getQualityThumbDocument();
+                thumbLocation = imageReceiver.getThumbLocation();
+                String thumbFilter = imageReceiver.getThumbFilter();
+                mediaLocation = imageReceiver.getMediaLocation();
+                String mediaFilter = imageReceiver.getMediaFilter();
+                imageLocation = imageReceiver.getImageLocation();
+                String imageFilter = imageReceiver.getImageFilter();
+                if (imageLocation == null) {
+                }
+                imageLocation2 = imageLocation;
+                z5 = false;
+                str = "mp4";
+                if (imageLocation2 == null) {
+                }
+                if (mediaLocation != null) {
+                }
+                str = null;
+                ext = imageReceiver.getExt();
+                if (ext == null) {
+                }
+                if (r8 == null) {
+                }
+                if (str == null) {
+                }
+                ImageLocation imageLocation7 = imageLocation2;
+                imageLocation3 = mediaLocation;
+                ImageLocation imageLocation8 = imageLocation;
+                i = 0;
+                str2 = null;
+                str3 = null;
+                String str21 = null;
+                String str22 = null;
+                boolean z8 = false;
+                while (i < 2) {
+                }
+                boolean z9 = z4;
+                str4 = thumbFilter;
+                imageLocation4 = imageLocation7;
+                str5 = imageFilter;
+                str6 = mediaFilter;
+                int i3 = newGuid;
+                if (thumbLocation != null) {
+                }
+                if (str2 != null) {
+                }
+                str9 = str6;
+                if (str3 != null) {
+                }
+                str10 = str5;
+                if (str8 != null) {
+                }
+                str11 = str4;
+                str12 = str8;
+                if (imageReceiver.getUniqKeyPrefix() != null) {
+                }
+                str13 = str3;
+                if (imageReceiver.getUniqKeyPrefix() != null) {
+                }
+                str14 = str2;
+                if (imageLocation4 == null) {
+                }
+                if (imageLocation3 != null) {
+                }
+            } else if (bitmapDrawable3 != null) {
+                imageReceiver.setImageBitmapByKey(bitmapDrawable3, mediaKey, 3, true, newGuid);
+                z2 = false;
                 z = true;
                 imageKey = imageReceiver.getImageKey();
-                if (!z && imageKey != null) {
+                if (!z2 && imageKey != null) {
                     fromLottieCache = !useLottieMemCache(imageReceiver.getImageLocation(), imageKey) ? getFromLottieCache(imageKey) : null;
                     if (fromLottieCache == null) {
                         fromLottieCache = this.memCache.get(imageKey);
@@ -4584,10 +4675,10 @@ public class ImageLoader {
                     if (fromLottieCache != null) {
                         cancelLoadingForImageReceiver(imageReceiver, true);
                         imageReceiver.setImageBitmapByKey(fromLottieCache, imageKey, 0, true, newGuid);
-                        if (!imageReceiver.isForcePreview() && mediaKey == null) {
+                        if (!imageReceiver.isForcePreview() && (mediaKey == null || z)) {
                             return;
                         }
-                        z2 = true;
+                        z3 = true;
                         thumbKey = imageReceiver.getThumbKey();
                         if (thumbKey != null) {
                             if (useLottieMemCache(imageReceiver.getThumbLocation(), thumbKey)) {
@@ -4608,27 +4699,27 @@ public class ImageLoader {
                             if (bitmapDrawable4 != null) {
                                 imageReceiver.setImageBitmapByKey(bitmapDrawable4, thumbKey, 1, true, newGuid);
                                 cancelLoadingForImageReceiver(imageReceiver, false);
-                                if (z2 && imageReceiver.isForcePreview()) {
+                                if (z3 && imageReceiver.isForcePreview()) {
                                     return;
                                 }
-                                z3 = true;
+                                z4 = true;
                                 parentObject = imageReceiver.getParentObject();
-                                TLRPC$Document qualityThumbDocument = imageReceiver.getQualityThumbDocument();
+                                TLRPC$Document qualityThumbDocument2 = imageReceiver.getQualityThumbDocument();
                                 thumbLocation = imageReceiver.getThumbLocation();
-                                String thumbFilter = imageReceiver.getThumbFilter();
+                                String thumbFilter2 = imageReceiver.getThumbFilter();
                                 mediaLocation = imageReceiver.getMediaLocation();
-                                String mediaFilter = imageReceiver.getMediaFilter();
+                                String mediaFilter2 = imageReceiver.getMediaFilter();
                                 imageLocation = imageReceiver.getImageLocation();
-                                String imageFilter = imageReceiver.getImageFilter();
+                                String imageFilter2 = imageReceiver.getImageFilter();
                                 if (imageLocation == null && imageReceiver.isNeedsQualityThumb() && imageReceiver.isCurrentKeyQuality()) {
                                     if (!(parentObject instanceof MessageObject)) {
                                         imageLocation2 = ImageLocation.getForDocument(((MessageObject) parentObject).getDocument());
-                                    } else if (qualityThumbDocument != null) {
-                                        imageLocation2 = ImageLocation.getForDocument(qualityThumbDocument);
+                                    } else if (qualityThumbDocument2 != null) {
+                                        imageLocation2 = ImageLocation.getForDocument(qualityThumbDocument2);
                                     }
-                                    z4 = true;
+                                    z5 = true;
                                     str = "mp4";
-                                    String str21 = (imageLocation2 == null && imageLocation2.imageType == 2) ? str : null;
+                                    String str23 = (imageLocation2 == null && imageLocation2.imageType == 2) ? str : null;
                                     if (mediaLocation != null || mediaLocation.imageType != 2) {
                                         str = null;
                                     }
@@ -4636,69 +4727,69 @@ public class ImageLoader {
                                     if (ext == null) {
                                         ext = "jpg";
                                     }
-                                    String str22 = str21 != null ? ext : str21;
+                                    String str24 = str23 == null ? ext : str23;
                                     if (str == null) {
                                         str = ext;
                                     }
-                                    ImageLocation imageLocation7 = imageLocation2;
+                                    ImageLocation imageLocation72 = imageLocation2;
                                     imageLocation3 = mediaLocation;
-                                    ImageLocation imageLocation8 = imageLocation;
+                                    ImageLocation imageLocation82 = imageLocation;
                                     i = 0;
                                     str2 = null;
                                     str3 = null;
-                                    String str23 = null;
-                                    String str24 = null;
-                                    boolean z6 = false;
+                                    String str212 = null;
+                                    String str222 = null;
+                                    boolean z82 = false;
                                     while (i < 2) {
                                         if (i == 0) {
-                                            imageLocation6 = imageLocation7;
+                                            imageLocation6 = imageLocation72;
                                             i2 = newGuid;
-                                            str17 = str22;
+                                            str17 = str24;
                                         } else {
                                             i2 = newGuid;
                                             str17 = str;
                                             imageLocation6 = imageLocation3;
                                         }
                                         if (imageLocation6 == null) {
-                                            z5 = z3;
-                                            obj = imageLocation7;
+                                            z6 = z4;
+                                            obj = imageLocation72;
                                         } else {
-                                            z5 = z3;
+                                            z6 = z4;
                                             if (imageLocation3 != null) {
-                                                obj = imageLocation7;
+                                                obj = imageLocation72;
                                                 obj2 = imageLocation3;
                                             } else {
-                                                obj2 = imageLocation7;
+                                                obj2 = imageLocation72;
                                                 obj = obj2;
                                             }
                                             String key = imageLocation6.getKey(parentObject, obj2, false);
                                             if (key != null) {
-                                                str20 = thumbFilter;
+                                                str20 = thumbFilter2;
                                                 String key2 = imageLocation6.getKey(parentObject, imageLocation3 != null ? imageLocation3 : obj, true);
                                                 if (imageLocation6.path != null) {
                                                     key2 = key2 + "." + getHttpUrlExtension(imageLocation6.path, "jpg");
-                                                    str19 = imageFilter;
-                                                    str18 = mediaFilter;
+                                                    str19 = imageFilter2;
+                                                    str18 = mediaFilter2;
                                                 } else {
                                                     TLRPC$PhotoSize tLRPC$PhotoSize = imageLocation6.photoSize;
-                                                    str19 = imageFilter;
+                                                    str19 = imageFilter2;
                                                     if ((tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) || (tLRPC$PhotoSize instanceof TLRPC$TL_photoPathSize)) {
-                                                        str18 = mediaFilter;
+                                                        str18 = mediaFilter2;
                                                         key2 = key2 + "." + str17;
                                                     } else if (imageLocation6.location != null) {
                                                         key2 = key2 + "." + str17;
                                                         if (imageReceiver.getExt() == null) {
                                                             TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated = imageLocation6.location;
                                                             if (tLRPC$TL_fileLocationToBeDeprecated.key == null) {
-                                                                str18 = mediaFilter;
+                                                                str18 = mediaFilter2;
                                                                 if (tLRPC$TL_fileLocationToBeDeprecated.volume_id == -2147483648L) {
                                                                 }
                                                             }
                                                         }
-                                                        str18 = mediaFilter;
-                                                        z6 = true;
+                                                        str18 = mediaFilter2;
+                                                        z82 = true;
                                                     } else {
-                                                        str18 = mediaFilter;
+                                                        str18 = mediaFilter2;
                                                         WebFile webFile = imageLocation6.webFile;
                                                         if (webFile != null) {
                                                             String mimeTypePart = FileLoader.getMimeTypePart(webFile.mime_type);
@@ -4706,7 +4797,7 @@ public class ImageLoader {
                                                         } else if (imageLocation6.secureDocument != null) {
                                                             key2 = key2 + "." + str17;
                                                         } else if (imageLocation6.document != null) {
-                                                            if (i == 0 && z4) {
+                                                            if (i == 0 && z5) {
                                                                 key = "q_" + key;
                                                             }
                                                             String documentFileName = FileLoader.getDocumentFileName(imageLocation6.document);
@@ -4721,68 +4812,68 @@ public class ImageLoader {
                                                                 str25 = ".mkv";
                                                             }
                                                             key2 = key2 + str25;
-                                                            z6 = !MessageObject.isVideoDocument(imageLocation6.document) && !MessageObject.isGifDocument(imageLocation6.document) && !MessageObject.isRoundVideoDocument(imageLocation6.document) && !MessageObject.canPreviewDocument(imageLocation6.document);
+                                                            z82 = !MessageObject.isVideoDocument(imageLocation6.document) && !MessageObject.isGifDocument(imageLocation6.document) && !MessageObject.isRoundVideoDocument(imageLocation6.document) && !MessageObject.canPreviewDocument(imageLocation6.document);
                                                         }
                                                     }
                                                 }
                                                 if (i == 0) {
                                                     str3 = key;
-                                                    str23 = key2;
+                                                    str212 = key2;
                                                 } else {
                                                     str2 = key;
-                                                    str24 = key2;
+                                                    str222 = key2;
                                                 }
                                                 if (imageLocation6 == thumbLocation) {
                                                     if (i == 0) {
                                                         str3 = null;
-                                                        imageLocation7 = null;
-                                                        str23 = null;
+                                                        imageLocation72 = null;
+                                                        str212 = null;
                                                     } else {
-                                                        imageLocation7 = obj;
+                                                        imageLocation72 = obj;
                                                         str2 = null;
-                                                        str24 = null;
+                                                        str222 = null;
                                                         imageLocation3 = null;
                                                     }
                                                     i++;
                                                     newGuid = i2;
-                                                    z3 = z5;
-                                                    thumbFilter = str20;
-                                                    imageFilter = str19;
-                                                    mediaFilter = str18;
+                                                    z4 = z6;
+                                                    thumbFilter2 = str20;
+                                                    imageFilter2 = str19;
+                                                    mediaFilter2 = str18;
                                                 }
-                                                imageLocation7 = obj;
+                                                imageLocation72 = obj;
                                                 i++;
                                                 newGuid = i2;
-                                                z3 = z5;
-                                                thumbFilter = str20;
-                                                imageFilter = str19;
-                                                mediaFilter = str18;
+                                                z4 = z6;
+                                                thumbFilter2 = str20;
+                                                imageFilter2 = str19;
+                                                mediaFilter2 = str18;
                                             }
                                         }
-                                        str20 = thumbFilter;
-                                        str19 = imageFilter;
-                                        str18 = mediaFilter;
-                                        imageLocation7 = obj;
+                                        str20 = thumbFilter2;
+                                        str19 = imageFilter2;
+                                        str18 = mediaFilter2;
+                                        imageLocation72 = obj;
                                         i++;
                                         newGuid = i2;
-                                        z3 = z5;
-                                        thumbFilter = str20;
-                                        imageFilter = str19;
-                                        mediaFilter = str18;
+                                        z4 = z6;
+                                        thumbFilter2 = str20;
+                                        imageFilter2 = str19;
+                                        mediaFilter2 = str18;
                                     }
-                                    boolean z7 = z3;
-                                    str4 = thumbFilter;
-                                    imageLocation4 = imageLocation7;
-                                    str5 = imageFilter;
-                                    str6 = mediaFilter;
-                                    int i3 = newGuid;
-                                    if (thumbLocation == null) {
+                                    boolean z92 = z4;
+                                    str4 = thumbFilter2;
+                                    imageLocation4 = imageLocation72;
+                                    str5 = imageFilter2;
+                                    str6 = mediaFilter2;
+                                    int i32 = newGuid;
+                                    if (thumbLocation != null) {
                                         ImageLocation strippedLocation = imageReceiver.getStrippedLocation();
                                         if (strippedLocation == null) {
                                             if (imageLocation3 != null) {
-                                                imageLocation8 = imageLocation3;
+                                                imageLocation82 = imageLocation3;
                                             }
-                                            strippedLocation = imageLocation8;
+                                            strippedLocation = imageLocation82;
                                         }
                                         String key3 = thumbLocation.getKey(parentObject, strippedLocation, false);
                                         String key4 = thumbLocation.getKey(parentObject, strippedLocation, true);
@@ -4843,41 +4934,44 @@ public class ImageLoader {
                                     } else {
                                         str14 = imageReceiver.getUniqKeyPrefix() + str2;
                                     }
-                                    if (imageLocation4 != null) {
+                                    if (imageLocation4 == null) {
                                         str15 = str10;
                                         imageLocation5 = imageLocation4;
                                     } else if (imageLocation4.path != null) {
-                                        createLoadOperationForImageReceiver(imageReceiver, str12, str7, ext, thumbLocation, str11, 0L, 1, 1, z7 ? 2 : 1, i3);
-                                        createLoadOperationForImageReceiver(imageReceiver, str13, str23, str22, imageLocation4, str10, imageReceiver.getSize(), 1, 0, 0, i3);
+                                        createLoadOperationForImageReceiver(imageReceiver, str12, str7, ext, thumbLocation, str11, 0L, 1, 1, z92 ? 2 : 1, i32);
+                                        createLoadOperationForImageReceiver(imageReceiver, str13, str212, str24, imageLocation4, str10, imageReceiver.getSize(), 1, 0, 0, i32);
                                         return;
                                     } else {
                                         imageLocation5 = imageLocation4;
                                         str15 = str10;
                                     }
-                                    if (imageLocation3 == null) {
+                                    if (imageLocation3 != null) {
                                         int cacheType = imageReceiver.getCacheType();
-                                        int i4 = (cacheType != 0 || !z6) ? cacheType : 1;
+                                        int i4 = (cacheType != 0 || !z82) ? cacheType : 1;
                                         int i5 = i4 == 0 ? 1 : i4;
-                                        if (!z7) {
+                                        if (!z92) {
                                             str16 = str9;
-                                            createLoadOperationForImageReceiver(imageReceiver, str12, str7, ext, thumbLocation, str11, 0L, i5, 1, 1, i3);
+                                            createLoadOperationForImageReceiver(imageReceiver, str12, str7, ext, thumbLocation, str11, 0L, i5, 1, 1, i32);
                                         } else {
                                             str16 = str9;
                                         }
-                                        if (!z2) {
-                                            createLoadOperationForImageReceiver(imageReceiver, str13, str23, str22, imageLocation5, str15, 0L, 1, 0, 0, i3);
+                                        if (!z3) {
+                                            createLoadOperationForImageReceiver(imageReceiver, str13, str212, str24, imageLocation5, str15, 0L, 1, 0, 0, i32);
                                         }
-                                        createLoadOperationForImageReceiver(imageReceiver, str14, str24, str, imageLocation3, str16, imageReceiver.getSize(), i4, 3, 0, i3);
+                                        if (z) {
+                                            return;
+                                        }
+                                        createLoadOperationForImageReceiver(imageReceiver, str14, str222, str, imageLocation3, str16, imageReceiver.getSize(), i4, 3, 0, i32);
                                         return;
                                     }
                                     int cacheType2 = imageReceiver.getCacheType();
-                                    int i6 = (cacheType2 != 0 || !z6) ? cacheType2 : 1;
-                                    createLoadOperationForImageReceiver(imageReceiver, str12, str7, ext, thumbLocation, str11, 0L, i6 == 0 ? 1 : i6, 1, z7 ? 2 : 1, i3);
-                                    createLoadOperationForImageReceiver(imageReceiver, str13, str23, str22, imageLocation5, str15, imageReceiver.getSize(), i6, 0, 0, i3);
+                                    int i6 = (cacheType2 != 0 || !z82) ? cacheType2 : 1;
+                                    createLoadOperationForImageReceiver(imageReceiver, str12, str7, ext, thumbLocation, str11, 0L, i6 == 0 ? 1 : i6, 1, z92 ? 2 : 1, i32);
+                                    createLoadOperationForImageReceiver(imageReceiver, str13, str212, str24, imageLocation5, str15, imageReceiver.getSize(), i6, 0, 0, i32);
                                     return;
                                 }
                                 imageLocation2 = imageLocation;
-                                z4 = false;
+                                z5 = false;
                                 str = "mp4";
                                 if (imageLocation2 == null) {
                                 }
@@ -4887,28 +4981,28 @@ public class ImageLoader {
                                 ext = imageReceiver.getExt();
                                 if (ext == null) {
                                 }
-                                if (str21 != null) {
+                                if (str23 == null) {
                                 }
                                 if (str == null) {
                                 }
-                                ImageLocation imageLocation72 = imageLocation2;
+                                ImageLocation imageLocation722 = imageLocation2;
                                 imageLocation3 = mediaLocation;
-                                ImageLocation imageLocation82 = imageLocation;
+                                ImageLocation imageLocation822 = imageLocation;
                                 i = 0;
                                 str2 = null;
                                 str3 = null;
-                                String str232 = null;
-                                String str242 = null;
-                                boolean z62 = false;
+                                String str2122 = null;
+                                String str2222 = null;
+                                boolean z822 = false;
                                 while (i < 2) {
                                 }
-                                boolean z72 = z3;
-                                str4 = thumbFilter;
-                                imageLocation4 = imageLocation72;
-                                str5 = imageFilter;
-                                str6 = mediaFilter;
-                                int i32 = newGuid;
-                                if (thumbLocation == null) {
+                                boolean z922 = z4;
+                                str4 = thumbFilter2;
+                                imageLocation4 = imageLocation722;
+                                str5 = imageFilter2;
+                                str6 = mediaFilter2;
+                                int i322 = newGuid;
+                                if (thumbLocation != null) {
                                 }
                                 if (str2 != null) {
                                 }
@@ -4926,25 +5020,25 @@ public class ImageLoader {
                                 if (imageReceiver.getUniqKeyPrefix() != null) {
                                 }
                                 str14 = str2;
-                                if (imageLocation4 != null) {
+                                if (imageLocation4 == null) {
                                 }
-                                if (imageLocation3 == null) {
+                                if (imageLocation3 != null) {
                                 }
                             }
                         }
-                        z3 = false;
+                        z4 = false;
                         parentObject = imageReceiver.getParentObject();
-                        TLRPC$Document qualityThumbDocument2 = imageReceiver.getQualityThumbDocument();
+                        TLRPC$Document qualityThumbDocument22 = imageReceiver.getQualityThumbDocument();
                         thumbLocation = imageReceiver.getThumbLocation();
-                        String thumbFilter2 = imageReceiver.getThumbFilter();
+                        String thumbFilter22 = imageReceiver.getThumbFilter();
                         mediaLocation = imageReceiver.getMediaLocation();
-                        String mediaFilter2 = imageReceiver.getMediaFilter();
+                        String mediaFilter22 = imageReceiver.getMediaFilter();
                         imageLocation = imageReceiver.getImageLocation();
-                        String imageFilter2 = imageReceiver.getImageFilter();
+                        String imageFilter22 = imageReceiver.getImageFilter();
                         if (imageLocation == null) {
                             if (!(parentObject instanceof MessageObject)) {
                             }
-                            z4 = true;
+                            z5 = true;
                             str = "mp4";
                             if (imageLocation2 == null) {
                             }
@@ -4954,28 +5048,28 @@ public class ImageLoader {
                             ext = imageReceiver.getExt();
                             if (ext == null) {
                             }
-                            if (str21 != null) {
+                            if (str23 == null) {
                             }
                             if (str == null) {
                             }
-                            ImageLocation imageLocation722 = imageLocation2;
+                            ImageLocation imageLocation7222 = imageLocation2;
                             imageLocation3 = mediaLocation;
-                            ImageLocation imageLocation822 = imageLocation;
+                            ImageLocation imageLocation8222 = imageLocation;
                             i = 0;
                             str2 = null;
                             str3 = null;
-                            String str2322 = null;
-                            String str2422 = null;
-                            boolean z622 = false;
+                            String str21222 = null;
+                            String str22222 = null;
+                            boolean z8222 = false;
                             while (i < 2) {
                             }
-                            boolean z722 = z3;
-                            str4 = thumbFilter2;
-                            imageLocation4 = imageLocation722;
-                            str5 = imageFilter2;
-                            str6 = mediaFilter2;
-                            int i322 = newGuid;
-                            if (thumbLocation == null) {
+                            boolean z9222 = z4;
+                            str4 = thumbFilter22;
+                            imageLocation4 = imageLocation7222;
+                            str5 = imageFilter22;
+                            str6 = mediaFilter22;
+                            int i3222 = newGuid;
+                            if (thumbLocation != null) {
                             }
                             if (str2 != null) {
                             }
@@ -4993,13 +5087,13 @@ public class ImageLoader {
                             if (imageReceiver.getUniqKeyPrefix() != null) {
                             }
                             str14 = str2;
-                            if (imageLocation4 != null) {
+                            if (imageLocation4 == null) {
                             }
-                            if (imageLocation3 == null) {
+                            if (imageLocation3 != null) {
                             }
                         }
                         imageLocation2 = imageLocation;
-                        z4 = false;
+                        z5 = false;
                         str = "mp4";
                         if (imageLocation2 == null) {
                         }
@@ -5009,28 +5103,28 @@ public class ImageLoader {
                         ext = imageReceiver.getExt();
                         if (ext == null) {
                         }
-                        if (str21 != null) {
+                        if (str23 == null) {
                         }
                         if (str == null) {
                         }
-                        ImageLocation imageLocation7222 = imageLocation2;
+                        ImageLocation imageLocation72222 = imageLocation2;
                         imageLocation3 = mediaLocation;
-                        ImageLocation imageLocation8222 = imageLocation;
+                        ImageLocation imageLocation82222 = imageLocation;
                         i = 0;
                         str2 = null;
                         str3 = null;
-                        String str23222 = null;
-                        String str24222 = null;
-                        boolean z6222 = false;
+                        String str212222 = null;
+                        String str222222 = null;
+                        boolean z82222 = false;
                         while (i < 2) {
                         }
-                        boolean z7222 = z3;
-                        str4 = thumbFilter2;
-                        imageLocation4 = imageLocation7222;
-                        str5 = imageFilter2;
-                        str6 = mediaFilter2;
-                        int i3222 = newGuid;
-                        if (thumbLocation == null) {
+                        boolean z92222 = z4;
+                        str4 = thumbFilter22;
+                        imageLocation4 = imageLocation72222;
+                        str5 = imageFilter22;
+                        str6 = mediaFilter22;
+                        int i32222 = newGuid;
+                        if (thumbLocation != null) {
                         }
                         if (str2 != null) {
                         }
@@ -5048,29 +5142,29 @@ public class ImageLoader {
                         if (imageReceiver.getUniqKeyPrefix() != null) {
                         }
                         str14 = str2;
-                        if (imageLocation4 != null) {
+                        if (imageLocation4 == null) {
                         }
-                        if (imageLocation3 == null) {
+                        if (imageLocation3 != null) {
                         }
                     }
                 }
-                z2 = z;
+                z3 = z2;
                 thumbKey = imageReceiver.getThumbKey();
                 if (thumbKey != null) {
                 }
-                z3 = false;
+                z4 = false;
                 parentObject = imageReceiver.getParentObject();
-                TLRPC$Document qualityThumbDocument22 = imageReceiver.getQualityThumbDocument();
+                TLRPC$Document qualityThumbDocument222 = imageReceiver.getQualityThumbDocument();
                 thumbLocation = imageReceiver.getThumbLocation();
-                String thumbFilter22 = imageReceiver.getThumbFilter();
+                String thumbFilter222 = imageReceiver.getThumbFilter();
                 mediaLocation = imageReceiver.getMediaLocation();
-                String mediaFilter22 = imageReceiver.getMediaFilter();
+                String mediaFilter222 = imageReceiver.getMediaFilter();
                 imageLocation = imageReceiver.getImageLocation();
-                String imageFilter22 = imageReceiver.getImageFilter();
+                String imageFilter222 = imageReceiver.getImageFilter();
                 if (imageLocation == null) {
                 }
                 imageLocation2 = imageLocation;
-                z4 = false;
+                z5 = false;
                 str = "mp4";
                 if (imageLocation2 == null) {
                 }
@@ -5080,28 +5174,28 @@ public class ImageLoader {
                 ext = imageReceiver.getExt();
                 if (ext == null) {
                 }
-                if (str21 != null) {
+                if (str23 == null) {
                 }
                 if (str == null) {
                 }
-                ImageLocation imageLocation72222 = imageLocation2;
+                ImageLocation imageLocation722222 = imageLocation2;
                 imageLocation3 = mediaLocation;
-                ImageLocation imageLocation82222 = imageLocation;
+                ImageLocation imageLocation822222 = imageLocation;
                 i = 0;
                 str2 = null;
                 str3 = null;
-                String str232222 = null;
-                String str242222 = null;
-                boolean z62222 = false;
+                String str2122222 = null;
+                String str2222222 = null;
+                boolean z822222 = false;
                 while (i < 2) {
                 }
-                boolean z72222 = z3;
-                str4 = thumbFilter22;
-                imageLocation4 = imageLocation72222;
-                str5 = imageFilter22;
-                str6 = mediaFilter22;
-                int i32222 = newGuid;
-                if (thumbLocation == null) {
+                boolean z922222 = z4;
+                str4 = thumbFilter222;
+                imageLocation4 = imageLocation722222;
+                str5 = imageFilter222;
+                str6 = mediaFilter222;
+                int i322222 = newGuid;
+                if (thumbLocation != null) {
                 }
                 if (str2 != null) {
                 }
@@ -5119,39 +5213,34 @@ public class ImageLoader {
                 if (imageReceiver.getUniqKeyPrefix() != null) {
                 }
                 str14 = str2;
-                if (imageLocation4 != null) {
+                if (imageLocation4 == null) {
                 }
-                if (imageLocation3 == null) {
+                if (imageLocation3 != null) {
                 }
             }
         }
+        z2 = false;
         z = false;
         imageKey = imageReceiver.getImageKey();
-        if (!z) {
-            if (!useLottieMemCache(imageReceiver.getImageLocation(), imageKey)) {
-            }
-            if (fromLottieCache == null) {
-            }
-            if (fromLottieCache != null) {
-            }
+        if (!z2) {
         }
-        z2 = z;
+        z3 = z2;
         thumbKey = imageReceiver.getThumbKey();
         if (thumbKey != null) {
         }
-        z3 = false;
+        z4 = false;
         parentObject = imageReceiver.getParentObject();
-        TLRPC$Document qualityThumbDocument222 = imageReceiver.getQualityThumbDocument();
+        TLRPC$Document qualityThumbDocument2222 = imageReceiver.getQualityThumbDocument();
         thumbLocation = imageReceiver.getThumbLocation();
-        String thumbFilter222 = imageReceiver.getThumbFilter();
+        String thumbFilter2222 = imageReceiver.getThumbFilter();
         mediaLocation = imageReceiver.getMediaLocation();
-        String mediaFilter222 = imageReceiver.getMediaFilter();
+        String mediaFilter2222 = imageReceiver.getMediaFilter();
         imageLocation = imageReceiver.getImageLocation();
-        String imageFilter222 = imageReceiver.getImageFilter();
+        String imageFilter2222 = imageReceiver.getImageFilter();
         if (imageLocation == null) {
         }
         imageLocation2 = imageLocation;
-        z4 = false;
+        z5 = false;
         str = "mp4";
         if (imageLocation2 == null) {
         }
@@ -5161,28 +5250,28 @@ public class ImageLoader {
         ext = imageReceiver.getExt();
         if (ext == null) {
         }
-        if (str21 != null) {
+        if (str23 == null) {
         }
         if (str == null) {
         }
-        ImageLocation imageLocation722222 = imageLocation2;
+        ImageLocation imageLocation7222222 = imageLocation2;
         imageLocation3 = mediaLocation;
-        ImageLocation imageLocation822222 = imageLocation;
+        ImageLocation imageLocation8222222 = imageLocation;
         i = 0;
         str2 = null;
         str3 = null;
-        String str2322222 = null;
-        String str2422222 = null;
-        boolean z622222 = false;
+        String str21222222 = null;
+        String str22222222 = null;
+        boolean z8222222 = false;
         while (i < 2) {
         }
-        boolean z722222 = z3;
-        str4 = thumbFilter222;
-        imageLocation4 = imageLocation722222;
-        str5 = imageFilter222;
-        str6 = mediaFilter222;
-        int i322222 = newGuid;
-        if (thumbLocation == null) {
+        boolean z9222222 = z4;
+        str4 = thumbFilter2222;
+        imageLocation4 = imageLocation7222222;
+        str5 = imageFilter2222;
+        str6 = mediaFilter2222;
+        int i3222222 = newGuid;
+        if (thumbLocation != null) {
         }
         if (str2 != null) {
         }
@@ -5200,9 +5289,9 @@ public class ImageLoader {
         if (imageReceiver.getUniqKeyPrefix() != null) {
         }
         str14 = str2;
-        if (imageLocation4 != null) {
+        if (imageLocation4 == null) {
         }
-        if (imageLocation3 == null) {
+        if (imageLocation3 != null) {
         }
     }
 

@@ -281,7 +281,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.titleView.getLayoutParams();
             if (launcherIcon.premium && !UserConfig.hasPremiumOnAccounts()) {
                 SpannableString spannableString = new SpannableString("d " + LocaleController.getString(launcherIcon.title));
-                ColoredImageSpan coloredImageSpan = new ColoredImageSpan(2131165806);
+                ColoredImageSpan coloredImageSpan = new ColoredImageSpan(2131165809);
                 coloredImageSpan.setTopOffset(1);
                 coloredImageSpan.setSize(AndroidUtilities.dp(13.0f));
                 spannableString.setSpan(coloredImageSpan, 0, 1, 33);

@@ -247,7 +247,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
             builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("ChatsLeaveAlert", 2131625077, new Object[0])));
         }
         builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
-        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new LimitReachedBottomSheet$$ExternalSyntheticLambda1(this, arrayList, user));
+        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628105), new LimitReachedBottomSheet$$ExternalSyntheticLambda1(this, arrayList, user));
         AlertDialog create = builder.create();
         create.show();
         TextView textView = (TextView) create.getButton(-1);
@@ -363,7 +363,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
             } else {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (LimitReachedBottomSheet.this.type == 2) {
-                    headerCell.setText(LocaleController.getString("YourPublicCommunities", 2131629377));
+                    headerCell.setText(LocaleController.getString("YourPublicCommunities", 2131629378));
                 } else {
                     headerCell.setText(LocaleController.getString("LastActiveCommunities", 2131626414));
                 }
@@ -642,17 +642,17 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         if (arrayList.size() == 1) {
             TLRPC$Chat tLRPC$Chat = arrayList.get(0);
             if (this.parentIsChannel) {
-                builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlertChannel", 2131628107, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + tLRPC$Chat.username, tLRPC$Chat.title)));
+                builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlertChannel", 2131628108, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + tLRPC$Chat.username, tLRPC$Chat.title)));
             } else {
-                builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlert", 2131628106, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + tLRPC$Chat.username, tLRPC$Chat.title)));
+                builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlert", 2131628107, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + tLRPC$Chat.username, tLRPC$Chat.title)));
             }
         } else if (this.parentIsChannel) {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinksAlertChannel", 2131628109, new Object[0])));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinksAlertChannel", 2131628110, new Object[0])));
         } else {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinksAlert", 2131628108, new Object[0])));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinksAlert", 2131628109, new Object[0])));
         }
         builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
-        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628104), new LimitReachedBottomSheet$$ExternalSyntheticLambda0(this, arrayList));
+        builder.setPositiveButton(LocaleController.getString("RevokeButton", 2131628105), new LimitReachedBottomSheet$$ExternalSyntheticLambda0(this, arrayList));
         AlertDialog create = builder.create();
         create.show();
         TextView textView = (TextView) create.getButton(-1);

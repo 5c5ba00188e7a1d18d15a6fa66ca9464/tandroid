@@ -442,9 +442,9 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             if (i3 == 0) {
                 graySectionCell.setText(LocaleController.getString("Contacts", 2131625258));
             } else if (i3 == 1) {
-                graySectionCell.setText(LocaleController.getString("SortedByName", 2131628446));
+                graySectionCell.setText(LocaleController.getString("SortedByName", 2131628447));
             } else {
-                graySectionCell.setText(LocaleController.getString("SortedByLastSeen", 2131628445));
+                graySectionCell.setText(LocaleController.getString("SortedByLastSeen", 2131628446));
             }
         } else {
             TextCell textCell = (TextCell) viewHolder.itemView;
@@ -471,7 +471,7 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                     textCell.setTextAndIcon(LocaleController.getString("NewGroup", 2131626832), 2131165750, false);
                     return;
                 } else if (i2 == 1) {
-                    textCell.setTextAndIcon(LocaleController.getString("NewSecretChat", 2131626845), 2131165925, false);
+                    textCell.setTextAndIcon(LocaleController.getString("NewSecretChat", 2131626845), 2131165928, false);
                     return;
                 } else if (i2 != 2) {
                     return;

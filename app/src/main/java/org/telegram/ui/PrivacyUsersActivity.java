@@ -269,7 +269,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setItems(this.currentType == 1 ? new CharSequence[]{LocaleController.getString("Unblock", 2131628793)} : new CharSequence[]{LocaleController.getString("Delete", 2131625384)}, new PrivacyUsersActivity$$ExternalSyntheticLambda0(this, l));
+        builder.setItems(this.currentType == 1 ? new CharSequence[]{LocaleController.getString("Unblock", 2131628794)} : new CharSequence[]{LocaleController.getString("Delete", 2131625384)}, new PrivacyUsersActivity$$ExternalSyntheticLambda0(this, l));
         showDialog(builder.create());
     }
 

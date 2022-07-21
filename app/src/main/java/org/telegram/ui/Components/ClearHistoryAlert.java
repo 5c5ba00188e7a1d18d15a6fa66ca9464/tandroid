@@ -149,7 +149,7 @@ public class ClearHistoryAlert extends BottomSheet {
             this.currentTimer = 3;
             this.newTimer = 3;
         }
-        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166143).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         AnonymousClass1 anonymousClass12 = new AnonymousClass1(context);

@@ -66,7 +66,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         arrayList.add(new Limit(LocaleController.getString("GroupsAndChannelsLimitTitle", 2131626163), LocaleController.formatString("GroupsAndChannelsLimitSubtitle", 2131626162, Integer.valueOf(messagesController.channelsLimitPremium)), messagesController.channelsLimitDefault, messagesController.channelsLimitPremium, null));
         arrayList.add(new Limit(LocaleController.getString("PinChatsLimitTitle", 2131627579), LocaleController.formatString("PinChatsLimitSubtitle", 2131627578, Integer.valueOf(messagesController.dialogFiltersPinnedLimitPremium)), messagesController.dialogFiltersPinnedLimitDefault, messagesController.dialogFiltersPinnedLimitPremium, null));
         arrayList.add(new Limit(LocaleController.getString("PublicLinksLimitTitle", 2131627829), LocaleController.formatString("PublicLinksLimitSubtitle", 2131627828, Integer.valueOf(messagesController.publicLinksLimitPremium)), messagesController.publicLinksLimitDefault, messagesController.publicLinksLimitPremium, null));
-        arrayList.add(new Limit(LocaleController.getString("SavedGifsLimitTitle", 2131628138), LocaleController.formatString("SavedGifsLimitSubtitle", 2131628137, Integer.valueOf(messagesController.savedGifsLimitPremium)), messagesController.savedGifsLimitDefault, messagesController.savedGifsLimitPremium, null));
+        arrayList.add(new Limit(LocaleController.getString("SavedGifsLimitTitle", 2131628139), LocaleController.formatString("SavedGifsLimitSubtitle", 2131628138, Integer.valueOf(messagesController.savedGifsLimitPremium)), messagesController.savedGifsLimitDefault, messagesController.savedGifsLimitPremium, null));
         arrayList.add(new Limit(LocaleController.getString("FavoriteStickersLimitTitle", 2131625838), LocaleController.formatString("FavoriteStickersLimitSubtitle", 2131625837, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.stickersFavedLimitDefault, messagesController.stickersFavedLimitPremium, null));
         arrayList.add(new Limit(LocaleController.getString("BioLimitTitle", 2131624685), LocaleController.formatString("BioLimitSubtitle", 2131624684, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.aboutLengthLimitDefault, messagesController.aboutLengthLimitPremium, null));
         arrayList.add(new Limit(LocaleController.getString("CaptionsLimitTitle", 2131624858), LocaleController.formatString("CaptionsLimitSubtitle", 2131624857, Integer.valueOf(messagesController.stickersFavedLimitPremium)), messagesController.captionLengthLimitDefault, messagesController.captionLengthLimitPremium, null));
@@ -88,7 +88,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         this.titleLayout.addView(this.titleView, LayoutHelper.createFrame(-2, -2, 16));
         ImageView imageView = new ImageView(getContext());
         this.titleImage = imageView;
-        imageView.setImageDrawable(PremiumGradient.getInstance().createGradientDrawable(ContextCompat.getDrawable(getContext(), 2131166025)));
+        imageView.setImageDrawable(PremiumGradient.getInstance().createGradientDrawable(ContextCompat.getDrawable(getContext(), 2131166028)));
         this.titleLayout.addView(this.titleImage, LayoutHelper.createFrame(40, 28, 16));
         this.containerView.addView(this.titleLayout, LayoutHelper.createFrame(-1, 40.0f));
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, getContext());

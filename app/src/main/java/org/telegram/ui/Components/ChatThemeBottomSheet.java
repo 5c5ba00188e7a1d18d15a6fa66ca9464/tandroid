@@ -116,7 +116,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         textView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
         textView.setLines(1);
         textView.setSingleLine(true);
-        textView.setText(LocaleController.getString("SelectTheme", 2131628233));
+        textView.setText(LocaleController.getString("SelectTheme", 2131628234));
         textView.setTextColor(getThemedColor("dialogTextBlack"));
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -765,9 +765,9 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                 StickerSetBulletinLayout stickerSetBulletinLayout = new StickerSetBulletinLayout(getContext(), null, -1, emoticon != null ? MediaDataController.getInstance(this.currentAccount).getEmojiAnimatedSticker(emoticon) : null, this.chatActivity.getResourceProvider());
                 stickerSetBulletinLayout.subtitleTextView.setVisibility(8);
                 if (z) {
-                    stickerSetBulletinLayout.titleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ThemeAlsoDisabledForHint", 2131628667, currentUser.first_name)));
+                    stickerSetBulletinLayout.titleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ThemeAlsoDisabledForHint", 2131628668, currentUser.first_name)));
                 } else {
-                    stickerSetBulletinLayout.titleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ThemeAlsoAppliedForHint", 2131628666, currentUser.first_name)));
+                    stickerSetBulletinLayout.titleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ThemeAlsoAppliedForHint", 2131628667, currentUser.first_name)));
                 }
                 stickerSetBulletinLayout.titleTextView.setTypeface(null);
                 bulletin = Bulletin.make(this.chatActivity, stickerSetBulletinLayout, 2750);

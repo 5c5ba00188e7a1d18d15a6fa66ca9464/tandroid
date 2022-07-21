@@ -26,7 +26,7 @@ public class AutoDeletePopupWrapper {
     }
 
     public AutoDeletePopupWrapper(Context context, PopupSwipeBackLayout popupSwipeBackLayout, Callback callback, boolean z, Theme.ResourcesProvider resourcesProvider) {
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, z ? 2131166087 : 0, resourcesProvider);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, z ? 2131166090 : 0, resourcesProvider);
         this.windowLayout = actionBarPopupWindowLayout;
         actionBarPopupWindowLayout.setFitItems(true);
         this.callback = callback;

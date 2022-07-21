@@ -242,8 +242,8 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         ActionBarMenu createMenu = this.parentAlert.actionBar.createMenu();
         ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass2());
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
-        this.searchItem.setContentDescription(LocaleController.getString("Search", 2131628154));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
+        this.searchItem.setContentDescription(LocaleController.getString("Search", 2131628155));
         EditTextBoldCursor searchField = this.searchItem.getSearchField();
         searchField.setTextColor(getThemedColor("dialogTextBlack"));
         searchField.setCursorColor(getThemedColor("dialogTextBlack"));
@@ -965,7 +965,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             BulletinFactory.of(this.parentAlert.getContainer(), null).createErrorBulletinSubtitle(LocaleController.formatString("InvalidFormatError", 2131626295, new Object[0]), LocaleController.formatString("ErrorInvalidRingtone", 2131625697, new Object[0]), null).show();
             return false;
         } else if (file.length() > MessagesController.getInstance(UserConfig.selectedAccount).ringtoneSizeMax) {
-            BulletinFactory.of(this.parentAlert.getContainer(), null).createErrorBulletinSubtitle(LocaleController.formatString("TooLargeError", 2131628737, new Object[0]), LocaleController.formatString("ErrorRingtoneSizeTooBig", 2131625698, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneSizeMax / 1024)), null).show();
+            BulletinFactory.of(this.parentAlert.getContainer(), null).createErrorBulletinSubtitle(LocaleController.formatString("TooLargeError", 2131628738, new Object[0]), LocaleController.formatString("ErrorRingtoneSizeTooBig", 2131625698, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneSizeMax / 1024)), null).show();
             return false;
         } else {
             try {
@@ -978,7 +978,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             if (i <= MessagesController.getInstance(UserConfig.selectedAccount).ringtoneDurationMax * 1000) {
                 return true;
             }
-            BulletinFactory.of(this.parentAlert.getContainer(), null).createErrorBulletinSubtitle(LocaleController.formatString("TooLongError", 2131628738, new Object[0]), LocaleController.formatString("ErrorRingtoneDurationTooLong", 2131625696, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneDurationMax)), null).show();
+            BulletinFactory.of(this.parentAlert.getContainer(), null).createErrorBulletinSubtitle(LocaleController.formatString("TooLongError", 2131628739, new Object[0]), LocaleController.formatString("ErrorRingtoneDurationTooLong", 2131625696, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneDurationMax)), null).show();
             return false;
         }
     }
@@ -1153,7 +1153,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         listRoots();
         updateSearchButton();
         updateEmptyView();
-        this.parentAlert.actionBar.setTitle(LocaleController.getString("SelectFile", 2131628229));
+        this.parentAlert.actionBar.setTitle(LocaleController.getString("SelectFile", 2131628230));
         this.sortItem.setVisibility(0);
         this.layoutManager.scrollToPositionWithOffset(0, 0);
     }
@@ -1259,7 +1259,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         try {
             File[] listFiles = file.listFiles();
             if (listFiles == null) {
-                showErrorBox(LocaleController.getString("UnknownError", 2131628799));
+                showErrorBox(LocaleController.getString("UnknownError", 2131628800));
                 return false;
             }
             this.currentDir = file;
@@ -1347,7 +1347,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         if (externalStorageState.equals("mounted") || externalStorageState.equals("mounted_ro")) {
             ListItem listItem = new ListItem(null);
             if (Environment.isExternalStorageRemovable()) {
-                listItem.title = LocaleController.getString("SdCard", 2131628153);
+                listItem.title = LocaleController.getString("SdCard", 2131628154);
                 listItem.icon = 2131165402;
                 listItem.subtitle = LocaleController.getString("ExternalFolderInfo", 2131625832);
             } else {
@@ -1386,7 +1386,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                                     try {
                                         ListItem listItem2 = new ListItem(null);
                                         if (nextToken.toLowerCase().contains("sd")) {
-                                            listItem2.title = LocaleController.getString("SdCard", 2131628153);
+                                            listItem2.title = LocaleController.getString("SdCard", 2131628154);
                                         } else {
                                             listItem2.title = LocaleController.getString("ExternalStorage", 2131625833);
                                         }
@@ -2055,9 +2055,9 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             }
             this.isLoading = false;
             if (tLRPC$TL_error != null) {
-                ChatAttachAlertDocumentLayout.this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628167));
+                ChatAttachAlertDocumentLayout.this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628168));
                 ChatAttachAlertDocumentLayout.this.emptyView.subtitle.setVisibility(0);
-                ChatAttachAlertDocumentLayout.this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+                ChatAttachAlertDocumentLayout.this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628161));
                 ChatAttachAlertDocumentLayout.this.emptyView.showProgress(false, true);
                 return;
             }
@@ -2094,13 +2094,13 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             this.endReached = this.messages.size() >= i2;
             if (this.messages.isEmpty()) {
                 if (!TextUtils.isEmpty(this.currentDataQuery) || j != 0 || j2 != 0) {
-                    ChatAttachAlertDocumentLayout.this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628167));
+                    ChatAttachAlertDocumentLayout.this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628168));
                     ChatAttachAlertDocumentLayout.this.emptyView.subtitle.setVisibility(0);
-                    ChatAttachAlertDocumentLayout.this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+                    ChatAttachAlertDocumentLayout.this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628161));
                 } else {
-                    ChatAttachAlertDocumentLayout.this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle", 2131628166));
+                    ChatAttachAlertDocumentLayout.this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle", 2131628167));
                     ChatAttachAlertDocumentLayout.this.emptyView.subtitle.setVisibility(0);
-                    ChatAttachAlertDocumentLayout.this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitleFiles", 2131628161));
+                    ChatAttachAlertDocumentLayout.this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitleFiles", 2131628162));
                 }
             }
             if (!z) {
@@ -2108,7 +2108,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 if (arrayList2 != null) {
                     this.localTipChats.addAll(arrayList2);
                 }
-                if (str.length() >= 3 && (LocaleController.getString("SavedMessages", 2131628139).toLowerCase().startsWith(str) || "saved messages".startsWith(str))) {
+                if (str.length() >= 3 && (LocaleController.getString("SavedMessages", 2131628140).toLowerCase().startsWith(str) || "saved messages".startsWith(str))) {
                     int i4 = 0;
                     while (true) {
                         if (i4 >= this.localTipChats.size()) {

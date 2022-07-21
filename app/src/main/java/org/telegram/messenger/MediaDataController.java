@@ -1479,7 +1479,7 @@ public class MediaDataController extends BaseController {
         }
         this.stickerSetsById.put(tLRPC$StickerSet.id, tLRPC$TL_messages_stickerSet);
         this.stickerSetsByName.put(tLRPC$TL_messages_stickerSet.set.short_name.toLowerCase(), tLRPC$TL_messages_stickerSet);
-        getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, Long.valueOf(tLRPC$TL_messages_stickerSet.set.id));
+        getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, Long.valueOf(tLRPC$TL_messages_stickerSet.set.id), tLRPC$TL_messages_stickerSet);
     }
 
     private void loadGroupStickerSet(TLRPC$StickerSet tLRPC$StickerSet, boolean z) {
@@ -1521,7 +1521,7 @@ public class MediaDataController extends BaseController {
 
     public /* synthetic */ void lambda$loadGroupStickerSet$28(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
         this.groupStickerSets.put(tLRPC$TL_messages_stickerSet.set.id, tLRPC$TL_messages_stickerSet);
-        getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, Long.valueOf(tLRPC$TL_messages_stickerSet.set.id));
+        getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, Long.valueOf(tLRPC$TL_messages_stickerSet.set.id), tLRPC$TL_messages_stickerSet);
     }
 
     public /* synthetic */ void lambda$loadGroupStickerSet$31(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -1532,7 +1532,7 @@ public class MediaDataController extends BaseController {
 
     public /* synthetic */ void lambda$loadGroupStickerSet$30(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
         this.groupStickerSets.put(tLRPC$TL_messages_stickerSet.set.id, tLRPC$TL_messages_stickerSet);
-        getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, Long.valueOf(tLRPC$TL_messages_stickerSet.set.id));
+        getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, Long.valueOf(tLRPC$TL_messages_stickerSet.set.id), tLRPC$TL_messages_stickerSet);
     }
 
     private void putSetToCache(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
@@ -4770,7 +4770,7 @@ public class MediaDataController extends BaseController {
             Intent intent = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
             intent.setAction("new_dialog");
             ArrayList arrayList6 = new ArrayList();
-            arrayList6.add(new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, "compose").setShortLabel(LocaleController.getString("NewConversationShortcut", 2131626830)).setLongLabel(LocaleController.getString("NewConversationShortcut", 2131626830)).setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, 2131166141)).setIntent(intent).build());
+            arrayList6.add(new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, "compose").setShortLabel(LocaleController.getString("NewConversationShortcut", 2131626830)).setLongLabel(LocaleController.getString("NewConversationShortcut", 2131626830)).setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, 2131166144)).setIntent(intent).build());
             if (arrayList3.contains("compose")) {
                 ShortcutManagerCompat.updateShortcuts(ApplicationLoader.applicationContext, arrayList6);
             } else {
@@ -4879,7 +4879,7 @@ public class MediaDataController extends BaseController {
                             if (bitmap != null) {
                                 intent32.setIcon(IconCompat.createWithBitmap(bitmap));
                             } else {
-                                intent32.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, 2131166142));
+                                intent32.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, 2131166145));
                             }
                             arrayList6.add(intent32.build());
                             if (arrayList3.contains(str2)) {
@@ -5396,7 +5396,7 @@ public class MediaDataController extends BaseController {
                     if (UserObject.isReplyUser(tLRPC$User)) {
                         str = LocaleController.getString("RepliesTitle", 2131627982);
                     } else if (UserObject.isUserSelf(tLRPC$User)) {
-                        str = LocaleController.getString("SavedMessages", 2131628139);
+                        str = LocaleController.getString("SavedMessages", 2131628140);
                     } else {
                         str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
@@ -7700,13 +7700,13 @@ public class MediaDataController extends BaseController {
             return true;
         }
         if (tLRPC$Document.size > MessagesController.getInstance(this.currentAccount).ringtoneSizeMax) {
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 4, LocaleController.formatString("TooLargeError", 2131628737, new Object[0]), LocaleController.formatString("ErrorRingtoneSizeTooBig", 2131625698, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneSizeMax / 1024)));
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 4, LocaleController.formatString("TooLargeError", 2131628738, new Object[0]), LocaleController.formatString("ErrorRingtoneSizeTooBig", 2131625698, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneSizeMax / 1024)));
             return false;
         }
         for (int i = 0; i < tLRPC$Document.attributes.size(); i++) {
             TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i);
             if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeAudio) && tLRPC$DocumentAttribute.duration > MessagesController.getInstance(this.currentAccount).ringtoneDurationMax) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 4, LocaleController.formatString("TooLongError", 2131628738, new Object[0]), LocaleController.formatString("ErrorRingtoneDurationTooLong", 2131625696, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneDurationMax)));
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 4, LocaleController.formatString("TooLongError", 2131628739, new Object[0]), LocaleController.formatString("ErrorRingtoneDurationTooLong", 2131625696, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneDurationMax)));
                 return false;
             }
         }

@@ -979,7 +979,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                     if (i != GroupVoipInviteAlert.this.addNewRow) {
                         return;
                     }
-                    manageChatTextCell.setText(LocaleController.getString("VoipGroupCopyInviteLink", 2131629116), null, 2131165783, 7, (!GroupVoipInviteAlert.this.loadingUsers || GroupVoipInviteAlert.this.firstLoaded) && GroupVoipInviteAlert.this.membersHeaderRow == -1 && !GroupVoipInviteAlert.this.participants.isEmpty());
+                    manageChatTextCell.setText(LocaleController.getString("VoipGroupCopyInviteLink", 2131629117), null, 2131165783, 7, (!GroupVoipInviteAlert.this.loadingUsers || GroupVoipInviteAlert.this.firstLoaded) && GroupVoipInviteAlert.this.membersHeaderRow == -1 && !GroupVoipInviteAlert.this.participants.isEmpty());
                     return;
                 } else if (itemViewType != 2) {
                     return;
@@ -990,7 +990,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                             return;
                         }
                         if (GroupVoipInviteAlert.this.showContacts) {
-                            graySectionCell.setText(LocaleController.getString("YourContactsToInvite", 2131629351));
+                            graySectionCell.setText(LocaleController.getString("YourContactsToInvite", 2131629352));
                             return;
                         } else {
                             graySectionCell.setText(LocaleController.getString("GroupContacts", 2131626136));

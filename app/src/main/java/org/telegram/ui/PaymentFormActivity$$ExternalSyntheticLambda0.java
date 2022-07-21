@@ -11,6 +11,6 @@ public final /* synthetic */ class PaymentFormActivity$$ExternalSyntheticLambda0
 
     @Override // android.content.DialogInterface.OnClickListener
     public final void onClick(DialogInterface dialogInterface, int i) {
-        this.f$0.lambda$createView$23(dialogInterface, i);
+        this.f$0.lambda$createView$22(dialogInterface, i);
     }
 }

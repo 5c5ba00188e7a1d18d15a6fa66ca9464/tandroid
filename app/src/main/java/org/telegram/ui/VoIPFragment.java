@@ -622,7 +622,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         anonymousClass2.addView(this.backIcon, LayoutHelper.createFrame(56, 56, 51));
         AnonymousClass8 anonymousClass8 = new AnonymousClass8(this, context);
         this.speakerPhoneIcon = anonymousClass8;
-        anonymousClass8.setContentDescription(LocaleController.getString("VoipSpeaker", 2131629267));
+        anonymousClass8.setContentDescription(LocaleController.getString("VoipSpeaker", 2131629268));
         this.speakerPhoneIcon.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(-1, 76)));
         this.speakerPhoneIcon.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f));
         anonymousClass2.addView(this.speakerPhoneIcon, LayoutHelper.createFrame(56, 56, 53));
@@ -638,7 +638,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         anonymousClass2.addView(this.notificationsLayout, LayoutHelper.createFrame(-1, 200.0f, 80, 16.0f, 0.0f, 16.0f, 0.0f));
         HintView hintView = new HintView(context, 4);
         this.tapToVideoTooltip = hintView;
-        hintView.setText(LocaleController.getString("TapToTurnCamera", 2131628614));
+        hintView.setText(LocaleController.getString("TapToTurnCamera", 2131628615));
         anonymousClass2.addView(this.tapToVideoTooltip, LayoutHelper.createFrame(-2, -2.0f, 51, 19.0f, 0.0f, 19.0f, 8.0f));
         this.tapToVideoTooltip.setBottomOffset(AndroidUtilities.dp(4.0f));
         this.tapToVideoTooltip.setVisibility(8);
@@ -941,9 +941,9 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             sb.append(", ");
             TLRPC$PhoneCall tLRPC$PhoneCall = sharedInstance.privateCall;
             if (tLRPC$PhoneCall != null && tLRPC$PhoneCall.video) {
-                sb.append(LocaleController.getString("VoipInVideoCallBranding", 2131629212));
+                sb.append(LocaleController.getString("VoipInVideoCallBranding", 2131629213));
             } else {
-                sb.append(LocaleController.getString("VoipInCallBranding", 2131629210));
+                sb.append(LocaleController.getString("VoipInCallBranding", 2131629211));
             }
             long callDuration = sharedInstance.getCallDuration();
             if (callDuration > 0) {
@@ -1489,25 +1489,25 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         int i3 = this.currentState;
         if (i3 == 1 || i3 == 2) {
-            this.statusTextView.setText(LocaleController.getString("VoipConnecting", 2131629087), true, z6);
+            this.statusTextView.setText(LocaleController.getString("VoipConnecting", 2131629088), true, z6);
         } else {
             if (i3 != 3) {
                 if (i3 == 4) {
-                    this.statusTextView.setText(LocaleController.getString("VoipFailed", 2131629097), false, z6);
+                    this.statusTextView.setText(LocaleController.getString("VoipFailed", 2131629098), false, z6);
                     VoIPService sharedInstance2 = VoIPService.getSharedInstance();
                     String lastError = sharedInstance2 != null ? sharedInstance2.getLastError() : "ERROR_UNKNOWN";
                     if (!TextUtils.equals(lastError, "ERROR_UNKNOWN")) {
                         if (TextUtils.equals(lastError, "ERROR_INCOMPATIBLE")) {
                             TLRPC$User tLRPC$User = this.callingUser;
-                            showErrorDialog(AndroidUtilities.replaceTags(LocaleController.formatString("VoipPeerIncompatible", 2131629245, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name))));
+                            showErrorDialog(AndroidUtilities.replaceTags(LocaleController.formatString("VoipPeerIncompatible", 2131629246, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name))));
                         } else if (TextUtils.equals(lastError, "ERROR_PEER_OUTDATED")) {
                             if (this.isVideoCall) {
                                 boolean[] zArr = new boolean[1];
-                                AlertDialog show = new DarkAlertDialog.Builder(this.activity).setTitle(LocaleController.getString("VoipFailed", 2131629097)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("VoipPeerVideoOutdated", 2131629247, UserObject.getFirstName(this.callingUser)))).setNegativeButton(LocaleController.getString("Cancel", 2131624832), new VoIPFragment$$ExternalSyntheticLambda5(this)).setPositiveButton(LocaleController.getString("VoipPeerVideoOutdatedMakeVoice", 2131629248), new VoIPFragment$$ExternalSyntheticLambda7(this, zArr)).show();
+                                AlertDialog show = new DarkAlertDialog.Builder(this.activity).setTitle(LocaleController.getString("VoipFailed", 2131629098)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("VoipPeerVideoOutdated", 2131629248, UserObject.getFirstName(this.callingUser)))).setNegativeButton(LocaleController.getString("Cancel", 2131624832), new VoIPFragment$$ExternalSyntheticLambda5(this)).setPositiveButton(LocaleController.getString("VoipPeerVideoOutdatedMakeVoice", 2131629249), new VoIPFragment$$ExternalSyntheticLambda7(this, zArr)).show();
                                 show.setCanceledOnTouchOutside(true);
                                 show.setOnDismissListener(new VoIPFragment$$ExternalSyntheticLambda9(this, zArr));
                             } else {
-                                showErrorDialog(AndroidUtilities.replaceTags(LocaleController.formatString("VoipPeerOutdated", 2131629246, UserObject.getFirstName(this.callingUser))));
+                                showErrorDialog(AndroidUtilities.replaceTags(LocaleController.formatString("VoipPeerOutdated", 2131629247, UserObject.getFirstName(this.callingUser))));
                             }
                         } else if (TextUtils.equals(lastError, "ERROR_PRIVACY")) {
                             TLRPC$User tLRPC$User2 = this.callingUser;
@@ -1517,7 +1517,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                         } else if (TextUtils.equals(lastError, "ERROR_LOCALIZED")) {
                             this.windowView.finish();
                         } else if (TextUtils.equals(lastError, "ERROR_CONNECTION_SERVICE")) {
-                            showErrorDialog(LocaleController.getString("VoipErrorUnknown", 2131629095));
+                            showErrorDialog(LocaleController.getString("VoipErrorUnknown", 2131629096));
                         } else {
                             AndroidUtilities.runOnUIThread(new VoIPFragment$$ExternalSyntheticLambda21(this), 1000L);
                         }
@@ -1531,13 +1531,13 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                             AndroidUtilities.runOnUIThread(new VoIPFragment$$ExternalSyntheticLambda24(this), 200L);
                             break;
                         case 12:
-                            this.statusTextView.setText(LocaleController.getString("VoipExchangingKeys", 2131629096), true, z6);
+                            this.statusTextView.setText(LocaleController.getString("VoipExchangingKeys", 2131629097), true, z6);
                             break;
                         case 13:
-                            this.statusTextView.setText(LocaleController.getString("VoipWaiting", 2131629287), true, z6);
+                            this.statusTextView.setText(LocaleController.getString("VoipWaiting", 2131629288), true, z6);
                             break;
                         case 14:
-                            this.statusTextView.setText(LocaleController.getString("VoipRequesting", 2131629260), true, z6);
+                            this.statusTextView.setText(LocaleController.getString("VoipRequesting", 2131629261), true, z6);
                             break;
                         case 15:
                             this.lockOnScreen = true;
@@ -1545,11 +1545,11 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                             this.acceptDeclineView.setRetryMod(false);
                             if (sharedInstance != null && sharedInstance.privateCall.video) {
                                 z4 = this.currentUserIsVideo && this.callingUser.photo != null;
-                                this.statusTextView.setText(LocaleController.getString("VoipInVideoCallBranding", 2131629212), true, z6);
+                                this.statusTextView.setText(LocaleController.getString("VoipInVideoCallBranding", 2131629213), true, z6);
                                 this.acceptDeclineView.setTranslationY(-AndroidUtilities.dp(60.0f));
                                 z3 = true;
                             } else {
-                                this.statusTextView.setText(LocaleController.getString("VoipInCallBranding", 2131629210), true, z6);
+                                this.statusTextView.setText(LocaleController.getString("VoipInCallBranding", 2131629211), true, z6);
                                 this.acceptDeclineView.setTranslationY(0.0f);
                                 z4 = false;
                                 z3 = true;
@@ -1557,10 +1557,10 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                             }
                             break;
                         case 16:
-                            this.statusTextView.setText(LocaleController.getString("VoipRinging", 2131629261), true, z6);
+                            this.statusTextView.setText(LocaleController.getString("VoipRinging", 2131629262), true, z6);
                             break;
                         case 17:
-                            this.statusTextView.setText(LocaleController.getString("VoipBusy", 2131629036), false, z6);
+                            this.statusTextView.setText(LocaleController.getString("VoipBusy", 2131629037), false, z6);
                             this.acceptDeclineView.setRetryMod(true);
                             this.currentUserIsVideo = false;
                             this.callingUserIsVideo = false;
@@ -1686,18 +1686,18 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                         }
                         if ((this.currentUserIsVideo || this.callingUserIsVideo) && (((i2 = this.currentState) == 3 || i2 == 5) && sharedInstance.getCallDuration() > 500)) {
                             if (sharedInstance.getRemoteAudioState() == 0) {
-                                this.notificationsLayout.addNotification(2131165315, LocaleController.formatString("VoipUserMicrophoneIsOff", 2131629277, UserObject.getFirstName(this.callingUser)), "muted", z6);
+                                this.notificationsLayout.addNotification(2131165315, LocaleController.formatString("VoipUserMicrophoneIsOff", 2131629278, UserObject.getFirstName(this.callingUser)), "muted", z6);
                             } else {
                                 this.notificationsLayout.removeNotification("muted");
                             }
                             if (sharedInstance.getRemoteVideoState() == 0) {
-                                this.notificationsLayout.addNotification(2131165306, LocaleController.formatString("VoipUserCameraIsOff", 2131629276, UserObject.getFirstName(this.callingUser)), "video", z6);
+                                this.notificationsLayout.addNotification(2131165306, LocaleController.formatString("VoipUserCameraIsOff", 2131629277, UserObject.getFirstName(this.callingUser)), "video", z6);
                             } else {
                                 this.notificationsLayout.removeNotification("video");
                             }
                         } else {
                             if (sharedInstance.getRemoteAudioState() == 0) {
-                                this.notificationsLayout.addNotification(2131165315, LocaleController.formatString("VoipUserMicrophoneIsOff", 2131629277, UserObject.getFirstName(this.callingUser)), "muted", z6);
+                                this.notificationsLayout.addNotification(2131165315, LocaleController.formatString("VoipUserMicrophoneIsOff", 2131629278, UserObject.getFirstName(this.callingUser)), "muted", z6);
                             } else {
                                 this.notificationsLayout.removeNotification("muted");
                             }
@@ -2217,7 +2217,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             }
             setVideoAction(this.bottomButtons[1], sharedInstance, z);
             setMicrohoneAction(this.bottomButtons[2], sharedInstance, z);
-            this.bottomButtons[3].setData(2131165307, -1, -1041108, LocaleController.getString("VoipEndCall", 2131629094), false, z);
+            this.bottomButtons[3].setData(2131165307, -1, -1041108, LocaleController.getString("VoipEndCall", 2131629095), false, z);
             this.bottomButtons[3].setOnClickListener(VoIPFragment$$ExternalSyntheticLambda20.INSTANCE);
         }
         int i2 = 0;
@@ -2260,9 +2260,9 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     private void setMicrohoneAction(VoIPToggleButton voIPToggleButton, VoIPService voIPService, boolean z) {
         if (voIPService.isMicMute()) {
-            voIPToggleButton.setData(2131165320, -16777216, -1, LocaleController.getString("VoipUnmute", 2131629274), true, z);
+            voIPToggleButton.setData(2131165320, -16777216, -1, LocaleController.getString("VoipUnmute", 2131629275), true, z);
         } else {
-            voIPToggleButton.setData(2131165320, -1, ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipMute", 2131629216), false, z);
+            voIPToggleButton.setData(2131165320, -1, ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipMute", 2131629217), false, z);
         }
         this.currentUserCameraFloatingLayout.setMuted(voIPService.isMicMute(), z);
         voIPToggleButton.setOnClickListener(new VoIPFragment$$ExternalSyntheticLambda15(this));
@@ -2290,9 +2290,9 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     private void setVideoAction(VoIPToggleButton voIPToggleButton, VoIPService voIPService, boolean z) {
         if ((this.currentUserIsVideo || this.callingUserIsVideo) ? true : voIPService.isVideoAvailable()) {
             if (this.currentUserIsVideo) {
-                voIPToggleButton.setData(voIPService.isScreencast() ? 2131165317 : 2131165321, -1, ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipStopVideo", 2131629269), false, z);
+                voIPToggleButton.setData(voIPService.isScreencast() ? 2131165317 : 2131165321, -1, ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipStopVideo", 2131629270), false, z);
             } else {
-                voIPToggleButton.setData(2131165321, -16777216, -1, LocaleController.getString("VoipStartVideo", 2131629268), true, z);
+                voIPToggleButton.setData(2131165321, -16777216, -1, LocaleController.getString("VoipStartVideo", 2131629269), true, z);
             }
             voIPToggleButton.setCrossOffset(-AndroidUtilities.dpf2(3.5f));
             voIPToggleButton.setOnClickListener(new VoIPFragment$$ExternalSyntheticLambda19(this, voIPService));
@@ -2311,8 +2311,8 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             this.activity.requestPermissions(new String[]{"android.permission.CAMERA"}, 102);
         } else if (i < 21 && (tLRPC$PhoneCall = voIPService.privateCall) != null && !tLRPC$PhoneCall.video && !this.callingUserIsVideo && !voIPService.sharedUIParams.cameraAlertWasShowed) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this.activity);
-            builder.setMessage(LocaleController.getString("VoipSwitchToVideoCall", 2131629271));
-            builder.setPositiveButton(LocaleController.getString("VoipSwitch", 2131629270), new VoIPFragment$$ExternalSyntheticLambda6(this, voIPService));
+            builder.setMessage(LocaleController.getString("VoipSwitchToVideoCall", 2131629272));
+            builder.setPositiveButton(LocaleController.getString("VoipSwitch", 2131629271), new VoIPFragment$$ExternalSyntheticLambda6(this, voIPService));
             builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             builder.create().show();
         } else {
@@ -2343,13 +2343,13 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     private void setSpeakerPhoneAction(VoIPToggleButton voIPToggleButton, VoIPService voIPService, boolean z) {
         if (voIPService.isBluetoothOn()) {
-            voIPToggleButton.setData(2131165304, -1, ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipAudioRoutingBluetooth", 2131629030), false, z);
+            voIPToggleButton.setData(2131165304, -1, ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipAudioRoutingBluetooth", 2131629031), false, z);
             voIPToggleButton.setChecked(false, z);
         } else if (voIPService.isSpeakerphoneOn()) {
-            voIPToggleButton.setData(2131165318, -16777216, -1, LocaleController.getString("VoipSpeaker", 2131629267), false, z);
+            voIPToggleButton.setData(2131165318, -16777216, -1, LocaleController.getString("VoipSpeaker", 2131629268), false, z);
             voIPToggleButton.setChecked(true, z);
         } else {
-            voIPToggleButton.setData(2131165318, -1, ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipSpeaker", 2131629267), false, z);
+            voIPToggleButton.setData(2131165318, -1, ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipSpeaker", 2131629268), false, z);
             voIPToggleButton.setChecked(false, z);
         }
         voIPToggleButton.setCheckableForAccessibility(true);
@@ -2365,16 +2365,16 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     private void setFrontalCameraAction(VoIPToggleButton voIPToggleButton, VoIPService voIPService, boolean z) {
         if (!this.currentUserIsVideo) {
-            voIPToggleButton.setData(2131165308, ColorUtils.setAlphaComponent(-1, 127), ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipFlip", 2131629099), false, z);
+            voIPToggleButton.setData(2131165308, ColorUtils.setAlphaComponent(-1, 127), ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipFlip", 2131629100), false, z);
             voIPToggleButton.setOnClickListener(null);
             voIPToggleButton.setEnabled(false);
             return;
         }
         voIPToggleButton.setEnabled(true);
         if (!voIPService.isFrontFaceCamera()) {
-            voIPToggleButton.setData(2131165308, -16777216, -1, LocaleController.getString("VoipFlip", 2131629099), false, z);
+            voIPToggleButton.setData(2131165308, -16777216, -1, LocaleController.getString("VoipFlip", 2131629100), false, z);
         } else {
-            voIPToggleButton.setData(2131165308, -1, ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipFlip", 2131629099), false, z);
+            voIPToggleButton.setData(2131165308, -1, ColorUtils.setAlphaComponent(-1, 30), LocaleController.getString("VoipFlip", 2131629100), false, z);
         }
         voIPToggleButton.setOnClickListener(new VoIPFragment$$ExternalSyntheticLambda18(this, voIPService));
     }
@@ -2598,7 +2598,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         if (this.activity.isFinishing()) {
             return;
         }
-        AlertDialog show = new DarkAlertDialog.Builder(this.activity).setTitle(LocaleController.getString("VoipFailed", 2131629097)).setMessage(charSequence).setPositiveButton(LocaleController.getString("OK", 2131627127), null).show();
+        AlertDialog show = new DarkAlertDialog.Builder(this.activity).setTitle(LocaleController.getString("VoipFailed", 2131629098)).setMessage(charSequence).setPositiveButton(LocaleController.getString("OK", 2131627127), null).show();
         show.setCanceledOnTouchOutside(true);
         show.setOnDismissListener(new VoIPFragment$$ExternalSyntheticLambda8(this));
     }

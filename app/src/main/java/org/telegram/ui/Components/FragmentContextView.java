@@ -316,7 +316,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         this.joinButtonFlicker.repeatEnabled = false;
         AnonymousClass6 anonymousClass6 = new AnonymousClass6(context);
         this.joinButton = anonymousClass6;
-        anonymousClass6.setText(LocaleController.getString("VoipChatJoin", 2131629078));
+        anonymousClass6.setText(LocaleController.getString("VoipChatJoin", 2131629079));
         this.joinButton.setTextColor(getThemedColor("featuredStickers_buttonText"));
         this.joinButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(16.0f), getThemedColor("featuredStickers_addButton"), getThemedColor("featuredStickers_addButtonPressed")));
         this.joinButton.setTextSize(1, 14.0f);
@@ -334,10 +334,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             this.playbackSpeedButton.setShowSubmenuByMove(false);
             this.playbackSpeedButton.setContentDescription(LocaleController.getString("AccDescrPlayerSpeed", 2131624043));
             this.playbackSpeedButton.setDelegate(new FragmentContextView$$ExternalSyntheticLambda11(this));
-            this.speedItems[0] = this.playbackSpeedButton.addSubItem(1, 2131165945, LocaleController.getString("SpeedSlow", 2131628462));
-            this.speedItems[1] = this.playbackSpeedButton.addSubItem(2, 2131165946, LocaleController.getString("SpeedNormal", 2131628461));
-            this.speedItems[2] = this.playbackSpeedButton.addSubItem(3, 2131165947, LocaleController.getString("SpeedFast", 2131628460));
-            this.speedItems[3] = this.playbackSpeedButton.addSubItem(4, 2131165948, LocaleController.getString("SpeedVeryFast", 2131628463));
+            this.speedItems[0] = this.playbackSpeedButton.addSubItem(1, 2131165948, LocaleController.getString("SpeedSlow", 2131628463));
+            this.speedItems[1] = this.playbackSpeedButton.addSubItem(2, 2131165949, LocaleController.getString("SpeedNormal", 2131628462));
+            this.speedItems[2] = this.playbackSpeedButton.addSubItem(3, 2131165950, LocaleController.getString("SpeedFast", 2131628461));
+            this.speedItems[3] = this.playbackSpeedButton.addSubItem(4, 2131165951, LocaleController.getString("SpeedVeryFast", 2131628464));
             if (AndroidUtilities.density >= 3.0f) {
                 this.playbackSpeedButton.setPadding(0, 1, 0, 0);
             }
@@ -688,10 +688,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
             accessibilityNodeInfo.setClassName(Button.class.getName());
             if (FragmentContextView.this.isMuted) {
-                i = 2131629274;
+                i = 2131629275;
                 str = "VoipUnmute";
             } else {
-                i = 2131629216;
+                i = 2131629217;
                 str = "VoipMute";
             }
             accessibilityNodeInfo.setText(LocaleController.getString(str, i));
@@ -730,23 +730,23 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     public /* synthetic */ void lambda$new$8(Theme.ResourcesProvider resourcesProvider, View view) {
         if (this.currentStyle == 2) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this.fragment.getParentActivity(), resourcesProvider);
-            builder.setTitle(LocaleController.getString("StopLiveLocationAlertToTitle", 2131628532));
+            builder.setTitle(LocaleController.getString("StopLiveLocationAlertToTitle", 2131628533));
             BaseFragment baseFragment = this.fragment;
             if (baseFragment instanceof DialogsActivity) {
-                builder.setMessage(LocaleController.getString("StopLiveLocationAlertAllText", 2131628530));
+                builder.setMessage(LocaleController.getString("StopLiveLocationAlertAllText", 2131628531));
             } else {
                 ChatActivity chatActivity = (ChatActivity) baseFragment;
                 TLRPC$Chat currentChat = chatActivity.getCurrentChat();
                 TLRPC$User currentUser = chatActivity.getCurrentUser();
                 if (currentChat != null) {
-                    builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("StopLiveLocationAlertToGroupText", 2131628531, currentChat.title)));
+                    builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("StopLiveLocationAlertToGroupText", 2131628532, currentChat.title)));
                 } else if (currentUser != null) {
-                    builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("StopLiveLocationAlertToUserText", 2131628533, UserObject.getFirstName(currentUser))));
+                    builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("StopLiveLocationAlertToUserText", 2131628534, UserObject.getFirstName(currentUser))));
                 } else {
                     builder.setMessage(LocaleController.getString("AreYouSure", 2131624432));
                 }
             }
-            builder.setPositiveButton(LocaleController.getString("Stop", 2131628526), new FragmentContextView$$ExternalSyntheticLambda0(this));
+            builder.setPositiveButton(LocaleController.getString("Stop", 2131628527), new FragmentContextView$$ExternalSyntheticLambda0(this));
             builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             AlertDialog create = builder.create();
             builder.show();
@@ -882,11 +882,11 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         float playbackSpeed = MediaController.getInstance().getPlaybackSpeed(this.isMusic);
         float fastPlaybackSpeed = MediaController.getInstance().getFastPlaybackSpeed(this.isMusic);
         if (Math.abs(fastPlaybackSpeed - 1.8f) < 0.001f) {
-            this.playbackSpeedButton.setIcon(2131166212);
+            this.playbackSpeedButton.setIcon(2131166215);
         } else if (Math.abs(fastPlaybackSpeed - 1.5f) < 0.001f) {
-            this.playbackSpeedButton.setIcon(2131166211);
+            this.playbackSpeedButton.setIcon(2131166214);
         } else {
-            this.playbackSpeedButton.setIcon(2131166210);
+            this.playbackSpeedButton.setIcon(2131166213);
         }
         updateColors();
         for (int i = 0; i < this.speedItems.length; i++) {
@@ -1372,7 +1372,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                         TLRPC$GroupCall tLRPC$GroupCall = groupCall.call;
                         int i5 = tLRPC$GroupCall.participants_count;
                         if (i5 == 0) {
-                            this.subtitleTextView.setText(LocaleController.getString(tLRPC$GroupCall.rtmp_stream ? 2131629001 : 2131626655), false);
+                            this.subtitleTextView.setText(LocaleController.getString(tLRPC$GroupCall.rtmp_stream ? 2131629002 : 2131626655), false);
                         } else {
                             this.subtitleTextView.setText(LocaleController.formatPluralString(tLRPC$GroupCall.rtmp_stream ? "ViewersWatching" : "Participants", i5, new Object[0]), false);
                         }
@@ -1600,7 +1600,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             str = string;
         } else {
             int i3 = i - 1;
-            str = LocationController.getInstance(currentAccount).isSharingLocation(dialogId) ? i3 != 0 ? (i3 != 1 || tLRPC$User == null) ? String.format("%1$s - %2$s %3$s", string, LocaleController.getString("ChatYourSelfName", 2131625067), LocaleController.formatPluralString("AndOther", i3, new Object[0])) : String.format("%1$s - %2$s", string, LocaleController.formatString("SharingYouAndOtherName", 2131628387, UserObject.getFirstName(tLRPC$User))) : String.format("%1$s - %2$s", string, LocaleController.getString("ChatYourSelfName", 2131625067)) : i3 != 0 ? String.format("%1$s - %2$s %3$s", string, UserObject.getFirstName(tLRPC$User), LocaleController.formatPluralString("AndOther", i3, new Object[0])) : String.format("%1$s - %2$s", string, UserObject.getFirstName(tLRPC$User));
+            str = LocationController.getInstance(currentAccount).isSharingLocation(dialogId) ? i3 != 0 ? (i3 != 1 || tLRPC$User == null) ? String.format("%1$s - %2$s %3$s", string, LocaleController.getString("ChatYourSelfName", 2131625067), LocaleController.formatPluralString("AndOther", i3, new Object[0])) : String.format("%1$s - %2$s", string, LocaleController.formatString("SharingYouAndOtherName", 2131628388, UserObject.getFirstName(tLRPC$User))) : String.format("%1$s - %2$s", string, LocaleController.getString("ChatYourSelfName", 2131625067)) : i3 != 0 ? String.format("%1$s - %2$s %3$s", string, UserObject.getFirstName(tLRPC$User), LocaleController.formatPluralString("AndOther", i3, new Object[0])) : String.format("%1$s - %2$s", string, UserObject.getFirstName(tLRPC$User));
         }
         if (str.equals(this.lastString)) {
             return;
@@ -2143,9 +2143,9 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                                     if (!TextUtils.isEmpty(groupCall2.call.title)) {
                                         this.titleTextView.setText(groupCall2.call.title, false);
                                     } else if (ChatObject.isChannelOrGiga(currentChat)) {
-                                        this.titleTextView.setText(LocaleController.getString("VoipChannelScheduledVoiceChat", 2131629060), false);
+                                        this.titleTextView.setText(LocaleController.getString("VoipChannelScheduledVoiceChat", 2131629061), false);
                                     } else {
-                                        this.titleTextView.setText(LocaleController.getString("VoipGroupScheduledVoiceChat", 2131629170), false);
+                                        this.titleTextView.setText(LocaleController.getString("VoipGroupScheduledVoiceChat", 2131629171), false);
                                     }
                                     this.subtitleTextView.setText(LocaleController.formatStartsTime(groupCall2.call.schedule_date, 4), false);
                                     if (!this.scheduleRunnableScheduled) {
@@ -2156,16 +2156,16 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                                     this.timeLayout = null;
                                     this.joinButton.setVisibility(0);
                                     if (groupCall2.call.rtmp_stream) {
-                                        this.titleTextView.setText(LocaleController.getString(2131629074), false);
+                                        this.titleTextView.setText(LocaleController.getString(2131629075), false);
                                     } else if (ChatObject.isChannelOrGiga(currentChat)) {
-                                        this.titleTextView.setText(LocaleController.getString("VoipChannelVoiceChat", 2131629074), false);
+                                        this.titleTextView.setText(LocaleController.getString("VoipChannelVoiceChat", 2131629075), false);
                                     } else {
-                                        this.titleTextView.setText(LocaleController.getString("VoipGroupVoiceChat", 2131629204), false);
+                                        this.titleTextView.setText(LocaleController.getString("VoipGroupVoiceChat", 2131629205), false);
                                     }
                                     TLRPC$GroupCall tLRPC$GroupCall = groupCall2.call;
                                     int i7 = tLRPC$GroupCall.participants_count;
                                     if (i7 == 0) {
-                                        this.subtitleTextView.setText(LocaleController.getString(tLRPC$GroupCall.rtmp_stream ? 2131629001 : 2131626655), false);
+                                        this.subtitleTextView.setText(LocaleController.getString(tLRPC$GroupCall.rtmp_stream ? 2131629002 : 2131626655), false);
                                     } else {
                                         this.subtitleTextView.setText(LocaleController.formatPluralString(tLRPC$GroupCall.rtmp_stream ? "ViewersWatching" : "Participants", i7, new Object[0]), false);
                                     }
@@ -2507,7 +2507,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
             int callState = sharedInstance.getCallState();
             if (!sharedInstance.isSwitchingStream() && (callState == 1 || callState == 2 || callState == 6 || callState == 5)) {
-                this.titleTextView.setText(LocaleController.getString("VoipGroupConnecting", 2131629114), false);
+                this.titleTextView.setText(LocaleController.getString("VoipGroupConnecting", 2131629115), false);
             } else if (sharedInstance.getChat() != null) {
                 if (!TextUtils.isEmpty(sharedInstance.groupCall.call.title)) {
                     this.titleTextView.setText(sharedInstance.groupCall.call.title, false);
@@ -2517,13 +2517,13 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).getCurrentChat() != null && ((ChatActivity) this.fragment).getCurrentChat().id == sharedInstance.getChat().id) {
                     TLRPC$Chat currentChat = ((ChatActivity) this.fragment).getCurrentChat();
                     if (VoIPService.hasRtmpStream()) {
-                        this.titleTextView.setText(LocaleController.getString(2131629073), false);
+                        this.titleTextView.setText(LocaleController.getString(2131629074), false);
                         return;
                     } else if (ChatObject.isChannelOrGiga(currentChat)) {
-                        this.titleTextView.setText(LocaleController.getString("VoipChannelViewVoiceChat", 2131629073), false);
+                        this.titleTextView.setText(LocaleController.getString("VoipChannelViewVoiceChat", 2131629074), false);
                         return;
                     } else {
-                        this.titleTextView.setText(LocaleController.getString("VoipGroupViewVoiceChat", 2131629203), false);
+                        this.titleTextView.setText(LocaleController.getString("VoipGroupViewVoiceChat", 2131629204), false);
                         return;
                     }
                 }
@@ -2533,7 +2533,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 TLRPC$User user = sharedInstance.getUser();
                 BaseFragment baseFragment2 = this.fragment;
                 if ((baseFragment2 instanceof ChatActivity) && ((ChatActivity) baseFragment2).getCurrentUser() != null && ((ChatActivity) this.fragment).getCurrentUser().id == user.id) {
-                    this.titleTextView.setText(LocaleController.getString("ReturnToCall", 2131628100));
+                    this.titleTextView.setText(LocaleController.getString("ReturnToCall", 2131628101));
                 } else {
                     this.titleTextView.setText(ContactsController.formatName(user.first_name, user.last_name));
                 }

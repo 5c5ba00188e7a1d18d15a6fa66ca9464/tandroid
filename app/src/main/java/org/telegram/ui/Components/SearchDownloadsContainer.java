@@ -249,7 +249,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
             updateListInternal(z, this.currentLoadingFilesTmp, this.recentLoadingFilesTmp);
             if (this.rowCount == 0) {
                 this.emptyView.showProgress(false, false);
-                this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewDownloads", 2131628159));
+                this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewDownloads", 2131628160));
                 this.emptyView.subtitle.setVisibility(8);
             }
             this.emptyView.setStickerType(9);
@@ -309,9 +309,9 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                 return;
             }
             this.emptyView.showProgress(false, true);
-            this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628167));
+            this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", 2131628168));
             this.emptyView.subtitle.setVisibility(0);
-            this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+            this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628161));
         }
     }
 
@@ -524,16 +524,16 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                 if (i == searchDownloadsContainer.downloadingFilesHeader) {
                     String string = LocaleController.getString("Downloading", 2131625550);
                     if (graySectionCell.getText().equals(string)) {
-                        graySectionCell.setRightText(SearchDownloadsContainer.this.hasCurrentDownload ? LocaleController.getString("PauseAll", 2131627418) : LocaleController.getString("ResumeAll", 2131628097), SearchDownloadsContainer.this.hasCurrentDownload);
+                        graySectionCell.setRightText(SearchDownloadsContainer.this.hasCurrentDownload ? LocaleController.getString("PauseAll", 2131627418) : LocaleController.getString("ResumeAll", 2131628098), SearchDownloadsContainer.this.hasCurrentDownload);
                         return;
                     } else {
-                        graySectionCell.setText(string, SearchDownloadsContainer.this.hasCurrentDownload ? LocaleController.getString("PauseAll", 2131627418) : LocaleController.getString("ResumeAll", 2131628097), new AnonymousClass2());
+                        graySectionCell.setText(string, SearchDownloadsContainer.this.hasCurrentDownload ? LocaleController.getString("PauseAll", 2131627418) : LocaleController.getString("ResumeAll", 2131628098), new AnonymousClass2());
                         return;
                     }
                 } else if (i != searchDownloadsContainer.recentFilesHeader) {
                     return;
                 } else {
-                    graySectionCell.setText(LocaleController.getString("RecentlyDownloaded", 2131627926), LocaleController.getString("Settings", 2131628321), new AnonymousClass3());
+                    graySectionCell.setText(LocaleController.getString("RecentlyDownloaded", 2131627926), LocaleController.getString("Settings", 2131628322), new AnonymousClass3());
                     return;
                 }
             }

@@ -335,7 +335,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             } catch (Throwable unused2) {
             }
         }
-        getWindow().setBackgroundDrawableResource(2131166189);
+        getWindow().setBackgroundDrawableResource(2131166192);
         if (SharedConfig.passcodeHash.length() > 0 && !SharedConfig.allowScreenCapture) {
             try {
                 getWindow().setFlags(8192, 8192);
@@ -901,7 +901,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             } else if (id == 8) {
                 openSettings(false);
             } else if (id == 9) {
-                Browser.openUrl(this, LocaleController.getString("TelegramFaqUrl", 2131628626));
+                Browser.openUrl(this, LocaleController.getString("TelegramFaqUrl", 2131628627));
                 this.drawerLayoutContainer.closeDrawer(false);
             } else if (id == 10) {
                 lambda$runLinkRequest$59(new CallLogActivity());
@@ -939,7 +939,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 if (id != 13) {
                     return;
                 }
-                Browser.openUrl(this, LocaleController.getString("TelegramFeaturesUrl", 2131628628));
+                Browser.openUrl(this, LocaleController.getString("TelegramFeaturesUrl", 2131628629));
                 this.drawerLayoutContainer.closeDrawer(false);
             }
         }
@@ -6389,12 +6389,12 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         ArrayList<TLRPC$User> arrayList = this.contactsToSend;
         if (arrayList != null) {
             if (arrayList.size() != 1) {
-                bundle.putString("selectAlertString", LocaleController.getString("SendContactToText", 2131628267));
-                bundle.putString("selectAlertStringGroup", LocaleController.getString("SendContactToGroupText", 2131628243));
+                bundle.putString("selectAlertString", LocaleController.getString("SendContactToText", 2131628268));
+                bundle.putString("selectAlertStringGroup", LocaleController.getString("SendContactToGroupText", 2131628244));
             }
         } else {
-            bundle.putString("selectAlertString", LocaleController.getString("SendMessagesToText", 2131628267));
-            bundle.putString("selectAlertStringGroup", LocaleController.getString("SendMessagesToGroupText", 2131628266));
+            bundle.putString("selectAlertString", LocaleController.getString("SendMessagesToText", 2131628268));
+            bundle.putString("selectAlertStringGroup", LocaleController.getString("SendMessagesToGroupText", 2131628267));
         }
         AnonymousClass12 anonymousClass12 = new AnonymousClass12(bundle);
         anonymousClass12.setDelegate(this);
@@ -7047,8 +7047,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     bundle.putBoolean("onlySelect", true);
                     bundle.putBoolean("cantSendToChannels", true);
                     bundle.putInt("dialogsType", 1);
-                    bundle.putString("selectAlertString", LocaleController.getString("SendGameToText", 2131628249));
-                    bundle.putString("selectAlertStringGroup", LocaleController.getString("SendGameToGroupText", 2131628248));
+                    bundle.putString("selectAlertString", LocaleController.getString("SendGameToText", 2131628250));
+                    bundle.putString("selectAlertStringGroup", LocaleController.getString("SendGameToGroupText", 2131628249));
                     DialogsActivity dialogsActivity = new DialogsActivity(bundle);
                     dialogsActivity.setDelegate(new LaunchActivity$$ExternalSyntheticLambda99(this, str, i, tLRPC$TL_contacts_resolvedPeer));
                     if (AndroidUtilities.isTablet()) {
@@ -7884,7 +7884,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         try {
             alertDialog.dismiss();
             if ("APP_VERSION_OUTDATED".equals(tLRPC$TL_error.text)) {
-                AlertsCreator.showUpdateAppAlert(this, LocaleController.getString("UpdateAppAlert", 2131628830), true);
+                AlertsCreator.showUpdateAppAlert(this, LocaleController.getString("UpdateAppAlert", 2131628831), true);
             } else {
                 showAlertDialog(AlertsCreator.createSimpleAlert(this, LocaleController.getString("ErrorOccurred", 2131625695) + "\n" + tLRPC$TL_error.text));
             }
@@ -8023,10 +8023,10 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                         FileLog.e(e2);
                     }
                     if (c == 1) {
-                        showAlertDialog(AlertsCreator.createSimpleAlert(this, LocaleController.getString("Theme", 2131628665), LocaleController.getString("ThemeNotSupported", 2131628687)));
+                        showAlertDialog(AlertsCreator.createSimpleAlert(this, LocaleController.getString("Theme", 2131628666), LocaleController.getString("ThemeNotSupported", 2131628688)));
                         return;
                     } else {
-                        showAlertDialog(AlertsCreator.createSimpleAlert(this, LocaleController.getString("Theme", 2131628665), LocaleController.getString("ThemeNotFound", 2131628686)));
+                        showAlertDialog(AlertsCreator.createSimpleAlert(this, LocaleController.getString("Theme", 2131628666), LocaleController.getString("ThemeNotFound", 2131628687)));
                         return;
                     }
                 }
@@ -8188,7 +8188,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                     if (UserObject.isReplyUser(user)) {
                                         strArr2[i2] = LocaleController.getString("RepliesTitle", 2131627982).toLowerCase();
                                     } else if (user.self) {
-                                        strArr2[i2] = LocaleController.getString("SavedMessages", 2131628139).toLowerCase();
+                                        strArr2[i2] = LocaleController.getString("SavedMessages", 2131628140).toLowerCase();
                                     }
                                     int i4 = 0;
                                     boolean z2 = false;
@@ -9252,7 +9252,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 }
             } else if (num.intValue() == 3) {
                 builder.setTitle(LocaleController.getString("Proxy", 2131627811));
-                builder.setMessage(LocaleController.getString("UseProxyTelegramError", 2131628866));
+                builder.setMessage(LocaleController.getString("UseProxyTelegramError", 2131628867));
                 builder.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
                 this.proxyErrorDialog = showAlertDialog(builder);
                 return;
@@ -9266,8 +9266,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
             builder2.setTitle(LocaleController.getString("AppName", 2131624384));
             builder2.setPositiveButton(LocaleController.getString("OK", 2131627127), null);
-            builder2.setNegativeButton(LocaleController.getString("ShareYouLocationUnableManually", 2131628354), new LaunchActivity$$ExternalSyntheticLambda12(this, (HashMap) objArr[0], i2));
-            builder2.setMessage(LocaleController.getString("ShareYouLocationUnable", 2131628353));
+            builder2.setNegativeButton(LocaleController.getString("ShareYouLocationUnableManually", 2131628355), new LaunchActivity$$ExternalSyntheticLambda12(this, (HashMap) objArr[0], i2));
+            builder2.setMessage(LocaleController.getString("ShareYouLocationUnable", 2131628354));
             if (mainFragmentsStack.isEmpty()) {
                 return;
             }
@@ -9336,8 +9336,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             ArrayList<BaseFragment> arrayList6 = this.actionBarLayout.fragmentsStack;
             AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
             builder3.setTopAnimation(2131558507, 72, false, Theme.getColor("dialogTopBackground"));
-            builder3.setTitle(LocaleController.getString("UpdateContactsTitle", 2131628832));
-            builder3.setMessage(LocaleController.getString("UpdateContactsMessage", 2131628831));
+            builder3.setTitle(LocaleController.getString("UpdateContactsTitle", 2131628833));
+            builder3.setMessage(LocaleController.getString("UpdateContactsMessage", 2131628832));
             builder3.setPositiveButton(LocaleController.getString("OK", 2131627127), new LaunchActivity$$ExternalSyntheticLambda7(i2, hashMap, booleanValue, booleanValue2));
             builder3.setNegativeButton(LocaleController.getString("Cancel", 2131624832), new LaunchActivity$$ExternalSyntheticLambda6(i2, hashMap, booleanValue, booleanValue2));
             builder3.setOnBackButtonListener(new LaunchActivity$$ExternalSyntheticLambda5(i2, hashMap, booleanValue, booleanValue2));
@@ -9595,7 +9595,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 }
             } else if (intValue3 == 2) {
                 if (((Long) objArr[1]).longValue() > 0) {
-                    i3 = 2131629348;
+                    i3 = 2131629349;
                     str = "YourBioChanged";
                 } else {
                     i3 = 2131624914;
@@ -9604,7 +9604,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str, i3)).show();
             } else if (intValue3 == 3) {
                 if (((Long) objArr[1]).longValue() > 0) {
-                    i4 = 2131629365;
+                    i4 = 2131629366;
                     str2 = "YourNameChanged";
                 } else {
                     i4 = 2131624982;
@@ -10237,10 +10237,10 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         this.currentConnectionState = connectionState;
         LaunchActivity$$ExternalSyntheticLambda34 launchActivity$$ExternalSyntheticLambda34 = null;
         if (connectionState == 2) {
-            i2 = 2131629295;
+            i2 = 2131629296;
             str = "WaitingForNetwork";
         } else if (connectionState == 5) {
-            i2 = 2131628841;
+            i2 = 2131628842;
             str = "Updating";
         } else if (connectionState == 4) {
             i2 = 2131625243;

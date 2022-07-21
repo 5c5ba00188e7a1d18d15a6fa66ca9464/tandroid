@@ -53,11 +53,11 @@ public final class BulletinFactory {
     public enum FileType {
         PHOTO("PhotoSavedHint", 2131627557, r7),
         PHOTOS("PhotosSavedHint", r7),
-        VIDEO("VideoSavedHint", 2131628964, r7),
+        VIDEO("VideoSavedHint", 2131628965, r7),
         VIDEOS("VideosSavedHint", r7),
         MEDIA("MediaSavedHint", r7),
         PHOTO_TO_DOWNLOADS("PhotoSavedToDownloadsHint", 2131627558, r5),
-        VIDEO_TO_DOWNLOADS("VideoSavedToDownloadsHint", 2131628965, r5),
+        VIDEO_TO_DOWNLOADS("VideoSavedToDownloadsHint", 2131628966, r5),
         GIF("GifSavedHint", 2131626100, Icon.SAVED_TO_GIFS),
         GIF_TO_DOWNLOADS("GifSavedToDownloadsHint", 2131626101, r5),
         AUDIO("AudioSavedHint", 2131624522, r11),
@@ -397,14 +397,14 @@ public final class BulletinFactory {
     public static Bulletin createPromoteToAdminBulletin(BaseFragment baseFragment, String str) {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
         lottieLayout.setAnimation(2131558462, "Shield");
-        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserSetAsAdminHint", 2131628913, str)));
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserSetAsAdminHint", 2131628914, str)));
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
     public static Bulletin createAddedAsAdminBulletin(BaseFragment baseFragment, String str) {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
         lottieLayout.setAnimation(2131558462, "Shield");
-        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserAddedAsAdminHint", 2131628873, str)));
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserAddedAsAdminHint", 2131628874, str)));
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
@@ -495,7 +495,7 @@ public final class BulletinFactory {
         } else {
             str2 = tLRPC$User.first_name;
         }
-        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserRemovedFromChatHint", 2131628881, str2, str)));
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserRemovedFromChatHint", 2131628882, str2, str)));
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
@@ -504,10 +504,10 @@ public final class BulletinFactory {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
         if (z) {
             lottieLayout.setAnimation(2131558463, "Hand");
-            str = LocaleController.getString("UserBlocked", 2131628878);
+            str = LocaleController.getString("UserBlocked", 2131628879);
         } else {
             lottieLayout.setAnimation(2131558471, "Main", "Finger 1", "Finger 2", "Finger 3", "Finger 4");
-            str = LocaleController.getString("UserUnblocked", 2131628914);
+            str = LocaleController.getString("UserUnblocked", 2131628915);
         }
         lottieLayout.textView.setText(AndroidUtilities.replaceTags(str));
         return Bulletin.make(baseFragment, lottieLayout, 1500);
@@ -544,9 +544,9 @@ public final class BulletinFactory {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
         boolean z = true;
         if (i == 0) {
-            str = LocaleController.getString("SoundOnHint", 2131628456);
+            str = LocaleController.getString("SoundOnHint", 2131628457);
         } else if (i == 1) {
-            str = LocaleController.getString("SoundOffHint", 2131628454);
+            str = LocaleController.getString("SoundOffHint", 2131628455);
             z = false;
         } else {
             throw new IllegalArgumentException();

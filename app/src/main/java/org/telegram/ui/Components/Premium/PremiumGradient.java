@@ -24,10 +24,10 @@ public class PremiumGradient {
     Paint lockedPremiumPaint;
     private final GradientTools mainGradient;
     private final Paint mainGradientPaint;
-    public Drawable premiumStarDrawableMini = ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165874).mutate();
-    public InternalDrawable premiumStarMenuDrawable = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165938));
-    public InternalDrawable premiumStarMenuDrawable2 = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165877));
-    public Drawable premiumStarColoredDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165874).mutate();
+    public Drawable premiumStarDrawableMini = ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165877).mutate();
+    public InternalDrawable premiumStarMenuDrawable = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165941));
+    public InternalDrawable premiumStarMenuDrawable2 = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165880));
+    public Drawable premiumStarColoredDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, 2131165877).mutate();
 
     public static PremiumGradient getInstance() {
         if (instance == null) {

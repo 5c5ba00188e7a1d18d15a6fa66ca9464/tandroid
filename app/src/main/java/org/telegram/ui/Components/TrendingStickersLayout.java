@@ -142,7 +142,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         frameLayout.setBackgroundColor(getThemedColor("dialogBackground"));
         AnonymousClass2 anonymousClass2 = new AnonymousClass2(context, true, resourcesProvider);
         this.searchView = anonymousClass2;
-        anonymousClass2.setHint(LocaleController.getString("SearchTrendingStickersHint", 2131628187));
+        anonymousClass2.setHint(LocaleController.getString("SearchTrendingStickersHint", 2131628188));
         frameLayout.addView(anonymousClass2, LayoutHelper.createFrame(-1, -1, 48));
         AnonymousClass3 anonymousClass3 = new AnonymousClass3(context, delegate);
         this.listView = anonymousClass3;

@@ -100,7 +100,7 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
             this.delButton.setTextColor(getThemedColor("featuredStickers_removeButtonText"));
             this.delButton.setTextSize(1, 14.0f);
             this.delButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-            this.delButton.setText(LocaleController.getString("StickersRemove", 2131628514));
+            this.delButton.setText(LocaleController.getString("StickersRemove", 2131628515));
             if (z) {
                 layoutParams4 = LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 14.0f, 0.0f);
             } else {

@@ -1450,40 +1450,38 @@ public class MessageObject {
     private void checkEmojiOnly(int[] iArr) {
         TextPaint textPaint;
         int i;
-        if (iArr != null) {
-            if (iArr[0] < 1 || iArr[0] > 3) {
-                return;
+        if (iArr == null || iArr[0] < 1 || iArr[0] > 3) {
+            return;
+        }
+        int i2 = iArr[0];
+        if (i2 == 1) {
+            textPaint = Theme.chat_msgTextPaintOneEmoji;
+            i = AndroidUtilities.dp(32.0f);
+            this.emojiOnlyCount = 1;
+        } else if (i2 == 2) {
+            textPaint = Theme.chat_msgTextPaintTwoEmoji;
+            int dp = AndroidUtilities.dp(28.0f);
+            this.emojiOnlyCount = 2;
+            i = dp;
+        } else {
+            textPaint = Theme.chat_msgTextPaintThreeEmoji;
+            i = AndroidUtilities.dp(24.0f);
+            this.emojiOnlyCount = 3;
+        }
+        CharSequence charSequence = this.messageText;
+        Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) ((Spannable) charSequence).getSpans(0, charSequence.length(), Emoji.EmojiSpan.class);
+        if (emojiSpanArr != null && emojiSpanArr.length > 0) {
+            for (Emoji.EmojiSpan emojiSpan : emojiSpanArr) {
+                emojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), i);
             }
-            int i2 = iArr[0];
-            if (i2 == 1) {
-                textPaint = Theme.chat_msgTextPaintOneEmoji;
-                i = AndroidUtilities.dp(32.0f);
-                this.emojiOnlyCount = 1;
-            } else if (i2 == 2) {
-                textPaint = Theme.chat_msgTextPaintTwoEmoji;
-                int dp = AndroidUtilities.dp(28.0f);
-                this.emojiOnlyCount = 2;
-                i = dp;
-            } else {
-                textPaint = Theme.chat_msgTextPaintThreeEmoji;
-                i = AndroidUtilities.dp(24.0f);
-                this.emojiOnlyCount = 3;
-            }
-            CharSequence charSequence = this.messageText;
-            Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) ((Spannable) charSequence).getSpans(0, charSequence.length(), Emoji.EmojiSpan.class);
-            if (emojiSpanArr != null && emojiSpanArr.length > 0) {
-                for (Emoji.EmojiSpan emojiSpan : emojiSpanArr) {
-                    emojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), i);
-                }
-            }
-            CharSequence charSequence2 = this.messageText;
-            AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spannable) charSequence2).getSpans(0, charSequence2.length(), AnimatedEmojiSpan.class);
-            if (animatedEmojiSpanArr == null || animatedEmojiSpanArr.length <= 0) {
-                return;
-            }
-            for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
-                animatedEmojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), i, 1);
-            }
+        }
+        CharSequence charSequence2 = this.messageText;
+        AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spannable) charSequence2).getSpans(0, charSequence2.length(), AnimatedEmojiSpan.class);
+        if (animatedEmojiSpanArr == null || animatedEmojiSpanArr.length <= 0) {
+            return;
+        }
+        for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
+            animatedEmojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), i, 0);
         }
     }
 
@@ -1933,7 +1931,7 @@ public class MessageObject {
                             }
                         } else {
                             str4 = "";
-                            sb2 = new StringBuilder(LocaleController.getString("UserRestrictionsUntilForever", 2131628912));
+                            sb2 = new StringBuilder(LocaleController.getString("UserRestrictionsUntilForever", 2131628913));
                         }
                         String string2 = LocaleController.getString("EventLogRestrictedUntil", 2131625800);
                         StringBuilder sb5 = new StringBuilder(String.format(string2, messageObject.getUserName(tLObject4, messageObject.messageOwner.entities, string2.indexOf("%1$s")), sb2.toString()));
@@ -3848,7 +3846,7 @@ public class MessageObject {
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionLoginUnknownLocation) {
                         long j8 = tLRPC$Message.date * 1000;
-                        String formatString = (LocaleController.getInstance().formatterDay == null || LocaleController.getInstance().formatterYear == null) ? "" + this.messageOwner.date : LocaleController.formatString("formatDateAtTime", 2131629423, LocaleController.getInstance().formatterYear.format(j8), LocaleController.getInstance().formatterDay.format(j8));
+                        String formatString = (LocaleController.getInstance().formatterDay == null || LocaleController.getInstance().formatterYear == null) ? "" + this.messageOwner.date : LocaleController.formatString("formatDateAtTime", 2131629424, LocaleController.getInstance().formatterYear.format(j8), LocaleController.getInstance().formatterDay.format(j8));
                         TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
                         if (currentUser == null) {
                             currentUser = getUser(abstractMap, longSparseArray, this.messageOwner.peer_id.user_id);
@@ -3889,7 +3887,7 @@ public class MessageObject {
                             this.messageText = replaceWithLink(LocaleController.getString("ActionTakeScreenshoot", 2131624221), "un1", tLRPC$User3);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionCreatedBroadcastList) {
-                        this.messageText = LocaleController.formatString("YouCreatedBroadcastList", 2131629342, new Object[0]);
+                        this.messageText = LocaleController.formatString("YouCreatedBroadcastList", 2131629343, new Object[0]);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChannelCreate) {
                         TLRPC$Peer tLRPC$Peer7 = tLRPC$Message.peer_id;
                         if (tLRPC$Peer7 != null) {
@@ -4049,7 +4047,7 @@ public class MessageObject {
                             }
                             this.messageText = str;
                         } else {
-                            this.messageText = replaceWithLink(LocaleController.getString("UserAcceptedToGroupAction", 2131628870), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("UserAcceptedToGroupAction", 2131628871), "un1", tLRPC$User3);
                         }
                     }
                 }
@@ -4104,7 +4102,7 @@ public class MessageObject {
                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaInvoice) {
                             this.messageText = tLRPC$MessageMedia2.description;
                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaUnsupported) {
-                            this.messageText = LocaleController.getString("UnsupportedMedia", 2131628826);
+                            this.messageText = LocaleController.getString("UnsupportedMedia", 2131628827);
                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument) {
                             if (isSticker() || isAnimatedStickerDocument(getDocument(), true)) {
                                 String stickerChar = getStickerChar();

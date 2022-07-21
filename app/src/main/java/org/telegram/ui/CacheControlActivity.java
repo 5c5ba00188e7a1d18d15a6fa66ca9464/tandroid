@@ -431,7 +431,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(2131165449);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("StorageUsage", 2131628544));
+        this.actionBar.setTitle(LocaleController.getString("StorageUsage", 2131628545));
         this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);

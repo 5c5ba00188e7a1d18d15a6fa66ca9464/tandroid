@@ -61,7 +61,7 @@ public class MemberRequestsActivity extends BaseFragment {
         this.actionBar.setBackButtonImage(2131165449);
         ActionBar actionBar = this.actionBar;
         if (this.delegate.isChannel) {
-            i = 2131628547;
+            i = 2131628548;
             str = "SubscribeRequests";
         } else {
             i = 2131626639;
@@ -69,7 +69,7 @@ public class MemberRequestsActivity extends BaseFragment {
         }
         actionBar.setTitle(LocaleController.getString(str, i));
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass3());
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
         actionBarMenuItemSearchListener.setVisibility(8);
         FrameLayout rootLayout = this.delegate.getRootLayout();
         this.delegate.loadMembers();

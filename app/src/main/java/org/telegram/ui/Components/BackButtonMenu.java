@@ -66,7 +66,7 @@ public class BackButtonMenu {
         }
         ?? actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(parentActivity, resourcesProvider);
         android.graphics.Rect rect2 = new android.graphics.Rect();
-        baseFragment.getParentActivity().getResources().getDrawable(2131166087).mutate().getPadding(rect2);
+        baseFragment.getParentActivity().getResources().getDrawable(2131166090).mutate().getPadding(rect2);
         actionBarPopupWindowLayout.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuBackground", resourcesProvider));
         AtomicReference atomicReference = new AtomicReference();
         int i = 0;
@@ -105,7 +105,7 @@ public class BackButtonMenu {
                 view3 = fragmentView;
                 rect = rect2;
                 if (pulledDialog.activity == ChatActivity.class && UserObject.isUserSelf(tLRPC$User)) {
-                    str = LocaleController.getString("SavedMessages", 2131628139);
+                    str = LocaleController.getString("SavedMessages", 2131628140);
                     avatarDrawable.setAvatarType(1);
                     backupImageView.setImageDrawable(avatarDrawable);
                 } else if (UserObject.isReplyUser(tLRPC$User)) {

@@ -120,7 +120,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         this.leavingRow = i7;
         this.callsRow = i8;
         this.allAdminsRow = i8 + 1 + 1;
-        Drawable mutate = context.getResources().getDrawable(2131166140).mutate();
+        Drawable mutate = context.getResources().getDrawable(2131166143).mutate();
         this.shadowDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         AnonymousClass1 anonymousClass1 = new AnonymousClass1(context);
@@ -149,7 +149,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         BottomSheet.BottomSheetCell bottomSheetCell = new BottomSheet.BottomSheetCell(context, 1);
         this.saveButton = bottomSheetCell;
         bottomSheetCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-        this.saveButton.setTextAndIcon(LocaleController.getString("Save", 2131628122).toUpperCase(), 0);
+        this.saveButton.setTextAndIcon(LocaleController.getString("Save", 2131628123).toUpperCase(), 0);
         this.saveButton.setTextColor(Theme.getColor("dialogTextBlue2"));
         this.saveButton.setOnClickListener(new AdminLogFilterAlert$$ExternalSyntheticLambda0(this));
         this.containerView.addView(this.saveButton, LayoutHelper.createFrame(-1, 48, 83));

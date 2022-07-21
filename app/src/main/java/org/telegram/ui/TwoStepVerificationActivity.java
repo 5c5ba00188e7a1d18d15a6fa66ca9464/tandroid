@@ -299,7 +299,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 textView3.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
                 this.bottomTextView.setTextSize(1, 14.0f);
                 this.bottomTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
-                this.bottomTextView.setText(LocaleController.getString("YourEmailInfo", 2131629357));
+                this.bottomTextView.setText(LocaleController.getString("YourEmailInfo", 2131629358));
                 linearLayout.addView(this.bottomTextView, LayoutHelper.createLinear(-2, -2, (!LocaleController.isRTL ? 5 : 3) | 48, 40, 30, 40, 0));
                 TextView textView4 = new TextView(context);
                 this.resetWaitView = textView4;
@@ -386,14 +386,14 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 this.actionBar.addView(this.radialProgressView, LayoutHelper.createFrame(32, 32.0f, 21, 0.0f, 0.0f, 12.0f, 0.0f));
                 updateRows();
                 if (!this.passwordEntered) {
-                    this.actionBar.setTitle(LocaleController.getString("TwoStepVerificationTitle", 2131628775));
+                    this.actionBar.setTitle(LocaleController.getString("TwoStepVerificationTitle", 2131628776));
                 } else {
                     this.actionBar.setTitle(null);
                 }
                 if (this.delegate == null) {
                     this.titleTextView.setText(LocaleController.getString("PleaseEnterCurrentPasswordTransfer", 2131627613));
                 } else {
-                    this.titleTextView.setText(LocaleController.getString(2131629367));
+                    this.titleTextView.setText(LocaleController.getString(2131629368));
                     this.subtitleTextView.setVisibility(0);
                     this.subtitleTextView.setText(LocaleController.getString(2131626553));
                 }
@@ -454,7 +454,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         textView32.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
         this.bottomTextView.setTextSize(1, 14.0f);
         this.bottomTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
-        this.bottomTextView.setText(LocaleController.getString("YourEmailInfo", 2131629357));
+        this.bottomTextView.setText(LocaleController.getString("YourEmailInfo", 2131629358));
         linearLayout.addView(this.bottomTextView, LayoutHelper.createLinear(-2, -2, (!LocaleController.isRTL ? 5 : 3) | 48, 40, 30, 40, 0));
         TextView textView42 = new TextView(context);
         this.resetWaitView = textView42;
@@ -634,11 +634,11 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         } else if (i != this.turnPasswordOffRow) {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            String string = LocaleController.getString("TurnPasswordOffQuestion", 2131628766);
+            String string = LocaleController.getString("TurnPasswordOffQuestion", 2131628767);
             if (this.currentPassword.has_secure_values) {
-                string = string + "\n\n" + LocaleController.getString("TurnPasswordOffPassport", 2131628765);
+                string = string + "\n\n" + LocaleController.getString("TurnPasswordOffPassport", 2131628766);
             }
-            String string2 = LocaleController.getString("TurnPasswordOffQuestionTitle", 2131628767);
+            String string2 = LocaleController.getString("TurnPasswordOffQuestionTitle", 2131628768);
             String string3 = LocaleController.getString("Disable", 2131625495);
             builder.setMessage(string);
             builder.setTitle(string2);
@@ -735,7 +735,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setNegativeButton(LocaleController.getString("OK", 2131627127), null);
             builder.setTitle(LocaleController.getString("ResetPassword", 2131628067));
-            builder.setMessage(LocaleController.getString("RestorePasswordResetPasswordOk", 2131628086));
+            builder.setMessage(LocaleController.getString("RestorePasswordResetPasswordOk", 2131628087));
             showDialog(builder.create(), new TwoStepVerificationActivity$$ExternalSyntheticLambda5(this));
         } else if (tLObject instanceof TLRPC$TL_account_resetPasswordRequestedWait) {
             this.currentPassword.pending_reset_date = ((TLRPC$TL_account_resetPasswordRequestedWait) tLObject).until_date;
@@ -784,7 +784,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 } else {
                     str = String.format(Locale.US, "%02d:%02d", Integer.valueOf(max / 60), Integer.valueOf(max % 60));
                 }
-                this.resetWaitView.setText(LocaleController.formatString("RestorePasswordResetIn", 2131628084, str));
+                this.resetWaitView.setText(LocaleController.formatString("RestorePasswordResetIn", 2131628085, str));
                 this.resetWaitView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
                 if (this.bottomButton.getVisibility() != 8) {
                     this.bottomButton.setVisibility(8);
@@ -842,7 +842,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                     builder.setPositiveButton(LocaleController.getString("Reset", 2131628042), new TwoStepVerificationActivity$$ExternalSyntheticLambda2(this));
                     builder.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
                     builder.setTitle(LocaleController.getString("ResetPassword", 2131628067));
-                    builder.setMessage(LocaleController.getString("RestorePasswordResetPasswordText", 2131628087));
+                    builder.setMessage(LocaleController.getString("RestorePasswordResetPasswordText", 2131628088));
                     AlertDialog create = builder.create();
                     showDialog(create);
                     TextView textView = (TextView) create.getButton(-1);
@@ -859,7 +859,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             builder2.setPositiveButton(LocaleController.getString("Reset", 2131628042), new TwoStepVerificationActivity$$ExternalSyntheticLambda4(this));
             builder2.setNegativeButton(LocaleController.getString("Cancel", 2131624832), null);
             builder2.setTitle(LocaleController.getString("ResetPassword", 2131628067));
-            builder2.setMessage(LocaleController.getString("RestorePasswordNoEmailText2", 2131628081));
+            builder2.setMessage(LocaleController.getString("RestorePasswordNoEmailText2", 2131628082));
             showDialog(builder2.create());
         }
     }
@@ -993,7 +993,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             TLRPC$TL_account_password tLRPC$TL_account_password = (TLRPC$TL_account_password) tLObject;
             this.currentPassword = tLRPC$TL_account_password;
             if (!canHandleCurrentPassword(tLRPC$TL_account_password, false)) {
-                AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", 2131628830), true);
+                AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", 2131628831), true);
                 return;
             }
             if (!z || z2) {
@@ -1413,7 +1413,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 return;
             }
         }
-        AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", 2131628830), true);
+        AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", 2131628831), true);
     }
 
     public /* synthetic */ void lambda$processDone$33(TLRPC$TL_error tLRPC$TL_error) {
@@ -1523,7 +1523,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                     textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
                     return;
                 }
-                textInfoPrivacyCell.setText(LocaleController.getString("SetAdditionalPasswordInfo", 2131628298));
+                textInfoPrivacyCell.setText(LocaleController.getString("SetAdditionalPasswordInfo", 2131628299));
                 textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, 2131165436, "windowBackgroundGrayShadow"));
                 return;
             }
@@ -1537,16 +1537,16 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                             if (i != TwoStepVerificationActivity.this.setRecoveryEmailRow) {
                                 return;
                             }
-                            textSettingsCell.setText(LocaleController.getString("SetRecoveryEmail", 2131628309), false);
+                            textSettingsCell.setText(LocaleController.getString("SetRecoveryEmail", 2131628310), false);
                             return;
                         }
                         textSettingsCell.setText(LocaleController.getString("ChangeRecoveryEmail", 2131624878), false);
                         return;
                     }
-                    textSettingsCell.setText(LocaleController.getString("TurnPasswordOff", 2131628764), true);
+                    textSettingsCell.setText(LocaleController.getString("TurnPasswordOff", 2131628765), true);
                     return;
                 }
-                textSettingsCell.setText(LocaleController.getString("SetAdditionalPassword", 2131628297), true);
+                textSettingsCell.setText(LocaleController.getString("SetAdditionalPassword", 2131628298), true);
                 return;
             }
             textSettingsCell.setText(LocaleController.getString("ChangePassword", 2131624868), true);
@@ -1599,9 +1599,9 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
 
     public void showSetForcePasswordAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("Warning", 2131629298));
+        builder.setTitle(LocaleController.getString("Warning", 2131629299));
         builder.setMessage(LocaleController.formatPluralString("ForceSetPasswordAlertMessageShort", this.otherwiseReloginDays, new Object[0]));
-        builder.setPositiveButton(LocaleController.getString("TwoStepVerificationSetPassword", 2131628773), null);
+        builder.setPositiveButton(LocaleController.getString("TwoStepVerificationSetPassword", 2131628774), null);
         builder.setNegativeButton(LocaleController.getString("ForceSetPasswordCancel", 2131625976), new TwoStepVerificationActivity$$ExternalSyntheticLambda1(this));
         ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor("dialogTextRed2"));
     }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import java.util.ArrayList;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
@@ -30,6 +31,7 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$StickerSetCovered;
+import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.BackupImageView;
@@ -94,7 +96,7 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         textView3.setTextColor(Theme.getColor("featuredStickers_removeButtonText"));
         textView3.setTextSize(1, 14.0f);
         textView3.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        textView3.setText(LocaleController.getString("StickersRemove", 2131628514));
+        textView3.setText(LocaleController.getString("StickersRemove", 2131628515));
         addView(textView3, LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 14.0f, 0.0f));
         updateColors();
     }
@@ -117,6 +119,13 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         measureChildWithMargins(this.textView, i, measuredWidth, i2, 0);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:106:0x026d  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00d2  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x017f  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x01ab  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void setStickersSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, boolean z, boolean z2, boolean z3, boolean z4) {
         ImageLocation imageLocation;
         AnimatorSet animatorSet = this.currentAnimation;
@@ -145,120 +154,156 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         TLRPC$StickerSet tLRPC$StickerSet = tLRPC$StickerSetCovered.set;
         textView2.setText(LocaleController.formatPluralString(tLRPC$StickerSet.emojis ? "EmojiCount" : "Stickers", tLRPC$StickerSet.count, new Object[0]));
         TLRPC$Document tLRPC$Document2 = tLRPC$StickerSetCovered.cover;
-        if (tLRPC$Document2 != null) {
-            tLRPC$Document = tLRPC$Document2;
-        } else if (!tLRPC$StickerSetCovered.covers.isEmpty()) {
-            tLRPC$Document = tLRPC$StickerSetCovered.covers.get(0);
-        }
-        float f = 1.0f;
-        if (tLRPC$Document != null) {
-            if (MessageObject.canAutoplayAnimatedSticker(tLRPC$Document)) {
-                TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StickerSetCovered.set.thumbs, 90);
-                if (closestPhotoSizeWithSize == null) {
-                    closestPhotoSizeWithSize = tLRPC$Document;
-                }
-                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, "windowBackgroundGray", 1.0f);
-                boolean z6 = closestPhotoSizeWithSize instanceof TLRPC$Document;
-                if (z6) {
-                    imageLocation = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
-                } else {
-                    imageLocation = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
-                }
-                ImageLocation imageLocation2 = imageLocation;
-                if (!z6 || !MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) {
-                    if (imageLocation2 != null && imageLocation2.imageType == 1) {
-                        this.imageView.setImage(imageLocation2, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
+        if (tLRPC$Document2 == null) {
+            if (!tLRPC$StickerSetCovered.covers.isEmpty()) {
+                tLRPC$Document2 = tLRPC$StickerSetCovered.covers.get(0);
+                int i = 0;
+                while (true) {
+                    if (i >= tLRPC$StickerSetCovered.covers.size()) {
+                        break;
+                    } else if (tLRPC$StickerSetCovered.covers.get(i).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
+                        tLRPC$Document2 = tLRPC$StickerSetCovered.covers.get(i);
+                        break;
                     } else {
-                        this.imageView.setImage(imageLocation2, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
+                        i++;
                     }
-                } else if (svgThumb != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$StickerSetCovered);
-                } else {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation2, (String) null, 0, tLRPC$StickerSetCovered);
                 }
             } else {
-                TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
-                if (closestPhotoSizeWithSize2 != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document), "50_50", "webp", (Drawable) null, tLRPC$StickerSetCovered);
-                } else {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", "webp", (Drawable) null, tLRPC$StickerSetCovered);
+                if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
+                    TLRPC$TL_stickerSetFullCovered tLRPC$TL_stickerSetFullCovered = (TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered;
+                    if (!tLRPC$TL_stickerSetFullCovered.documents.isEmpty()) {
+                        ArrayList<TLRPC$Document> arrayList = tLRPC$TL_stickerSetFullCovered.documents;
+                        TLRPC$Document tLRPC$Document3 = arrayList.get(0);
+                        for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                            if (arrayList.get(i2).id == tLRPC$StickerSetCovered.set.thumb_document_id) {
+                                tLRPC$Document2 = arrayList.get(i2);
+                            }
+                        }
+                        tLRPC$Document = tLRPC$Document3;
+                    }
                 }
-            }
-        } else {
-            this.imageView.setImage((ImageLocation) null, (String) null, "webp", (Drawable) null, tLRPC$StickerSetCovered);
-        }
-        this.addButton.setVisibility(0);
-        boolean z7 = z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
-        this.isInstalled = z7;
-        if (!z4) {
-            if (z7) {
-                this.delButton.setVisibility(0);
-                this.delButton.setAlpha(1.0f);
-                this.delButton.setScaleX(1.0f);
-                this.delButton.setScaleY(1.0f);
-                this.addButton.setVisibility(4);
-                this.addButton.setAlpha(0.0f);
-                this.addButton.setScaleX(0.0f);
-                this.addButton.setScaleY(0.0f);
+                float f = 1.0f;
+                if (tLRPC$Document == null) {
+                    if (MessageObject.canAutoplayAnimatedSticker(tLRPC$Document)) {
+                        TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StickerSetCovered.set.thumbs, 90);
+                        if (closestPhotoSizeWithSize == null) {
+                            closestPhotoSizeWithSize = tLRPC$Document;
+                        }
+                        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, "windowBackgroundGray", 1.0f);
+                        boolean z6 = closestPhotoSizeWithSize instanceof TLRPC$Document;
+                        if (z6) {
+                            imageLocation = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
+                        } else {
+                            imageLocation = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
+                        }
+                        ImageLocation imageLocation2 = imageLocation;
+                        if (!z6 || !MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) {
+                            if (imageLocation2 != null && imageLocation2.imageType == 1) {
+                                this.imageView.setImage(imageLocation2, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
+                            } else {
+                                this.imageView.setImage(imageLocation2, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
+                            }
+                        } else if (svgThumb != null) {
+                            this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$StickerSetCovered);
+                        } else {
+                            this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation2, (String) null, 0, tLRPC$StickerSetCovered);
+                        }
+                    } else {
+                        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
+                        if (closestPhotoSizeWithSize2 != null) {
+                            this.imageView.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document), "50_50", "webp", (Drawable) null, tLRPC$StickerSetCovered);
+                        } else {
+                            this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", "webp", (Drawable) null, tLRPC$StickerSetCovered);
+                        }
+                    }
+                } else {
+                    this.imageView.setImage((ImageLocation) null, (String) null, "webp", (Drawable) null, tLRPC$StickerSetCovered);
+                }
+                this.addButton.setVisibility(0);
+                boolean z7 = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+                this.isInstalled = z7;
+                if (z4) {
+                    if (z7) {
+                        this.delButton.setVisibility(0);
+                        this.delButton.setAlpha(1.0f);
+                        this.delButton.setScaleX(1.0f);
+                        this.delButton.setScaleY(1.0f);
+                        this.addButton.setVisibility(4);
+                        this.addButton.setAlpha(0.0f);
+                        this.addButton.setScaleX(0.0f);
+                        this.addButton.setScaleY(0.0f);
+                        return;
+                    }
+                    this.addButton.setVisibility(0);
+                    this.addButton.setAlpha(1.0f);
+                    this.addButton.setScaleX(1.0f);
+                    this.addButton.setScaleY(1.0f);
+                    this.delButton.setVisibility(4);
+                    this.delButton.setAlpha(0.0f);
+                    this.delButton.setScaleX(0.0f);
+                    this.delButton.setScaleY(0.0f);
+                    return;
+                }
+                if (z7) {
+                    this.delButton.setVisibility(0);
+                } else {
+                    this.addButton.setVisibility(0);
+                }
+                AnimatorSet animatorSet2 = new AnimatorSet();
+                this.currentAnimation = animatorSet2;
+                animatorSet2.setDuration(250L);
+                AnimatorSet animatorSet3 = this.currentAnimation;
+                Animator[] animatorArr = new Animator[6];
+                TextView textView3 = this.delButton;
+                Property property = View.ALPHA;
+                float[] fArr = new float[1];
+                fArr[0] = this.isInstalled ? 1.0f : 0.0f;
+                animatorArr[0] = ObjectAnimator.ofFloat(textView3, property, fArr);
+                TextView textView4 = this.delButton;
+                Property property2 = View.SCALE_X;
+                float[] fArr2 = new float[1];
+                fArr2[0] = this.isInstalled ? 1.0f : 0.0f;
+                animatorArr[1] = ObjectAnimator.ofFloat(textView4, property2, fArr2);
+                TextView textView5 = this.delButton;
+                Property property3 = View.SCALE_Y;
+                float[] fArr3 = new float[1];
+                fArr3[0] = this.isInstalled ? 1.0f : 0.0f;
+                animatorArr[2] = ObjectAnimator.ofFloat(textView5, property3, fArr3);
+                ProgressButton progressButton = this.addButton;
+                Property property4 = View.ALPHA;
+                float[] fArr4 = new float[1];
+                fArr4[0] = this.isInstalled ? 0.0f : 1.0f;
+                animatorArr[3] = ObjectAnimator.ofFloat(progressButton, property4, fArr4);
+                ProgressButton progressButton2 = this.addButton;
+                Property property5 = View.SCALE_X;
+                float[] fArr5 = new float[1];
+                fArr5[0] = this.isInstalled ? 0.0f : 1.0f;
+                animatorArr[4] = ObjectAnimator.ofFloat(progressButton2, property5, fArr5);
+                ProgressButton progressButton3 = this.addButton;
+                Property property6 = View.SCALE_Y;
+                float[] fArr6 = new float[1];
+                if (this.isInstalled) {
+                    f = 0.0f;
+                }
+                fArr6[0] = f;
+                animatorArr[5] = ObjectAnimator.ofFloat(progressButton3, property6, fArr6);
+                animatorSet3.playTogether(animatorArr);
+                this.currentAnimation.addListener(new AnonymousClass2());
+                this.currentAnimation.setInterpolator(new OvershootInterpolator(1.02f));
+                this.currentAnimation.start();
                 return;
             }
-            this.addButton.setVisibility(0);
-            this.addButton.setAlpha(1.0f);
-            this.addButton.setScaleX(1.0f);
-            this.addButton.setScaleY(1.0f);
-            this.delButton.setVisibility(4);
-            this.delButton.setAlpha(0.0f);
-            this.delButton.setScaleX(0.0f);
-            this.delButton.setScaleY(0.0f);
-            return;
         }
-        if (z7) {
-            this.delButton.setVisibility(0);
-        } else {
-            this.addButton.setVisibility(0);
+        tLRPC$Document = tLRPC$Document2;
+        float f2 = 1.0f;
+        if (tLRPC$Document == null) {
         }
-        AnimatorSet animatorSet2 = new AnimatorSet();
-        this.currentAnimation = animatorSet2;
-        animatorSet2.setDuration(250L);
-        AnimatorSet animatorSet3 = this.currentAnimation;
-        Animator[] animatorArr = new Animator[6];
-        TextView textView3 = this.delButton;
-        Property property = View.ALPHA;
-        float[] fArr = new float[1];
-        fArr[0] = this.isInstalled ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(textView3, property, fArr);
-        TextView textView4 = this.delButton;
-        Property property2 = View.SCALE_X;
-        float[] fArr2 = new float[1];
-        fArr2[0] = this.isInstalled ? 1.0f : 0.0f;
-        animatorArr[1] = ObjectAnimator.ofFloat(textView4, property2, fArr2);
-        TextView textView5 = this.delButton;
-        Property property3 = View.SCALE_Y;
-        float[] fArr3 = new float[1];
-        fArr3[0] = this.isInstalled ? 1.0f : 0.0f;
-        animatorArr[2] = ObjectAnimator.ofFloat(textView5, property3, fArr3);
-        ProgressButton progressButton = this.addButton;
-        Property property4 = View.ALPHA;
-        float[] fArr4 = new float[1];
-        fArr4[0] = this.isInstalled ? 0.0f : 1.0f;
-        animatorArr[3] = ObjectAnimator.ofFloat(progressButton, property4, fArr4);
-        ProgressButton progressButton2 = this.addButton;
-        Property property5 = View.SCALE_X;
-        float[] fArr5 = new float[1];
-        fArr5[0] = this.isInstalled ? 0.0f : 1.0f;
-        animatorArr[4] = ObjectAnimator.ofFloat(progressButton2, property5, fArr5);
-        ProgressButton progressButton3 = this.addButton;
-        Property property6 = View.SCALE_Y;
-        float[] fArr6 = new float[1];
-        if (this.isInstalled) {
-            f = 0.0f;
+        this.addButton.setVisibility(0);
+        if (!z3) {
         }
-        fArr6[0] = f;
-        animatorArr[5] = ObjectAnimator.ofFloat(progressButton3, property6, fArr6);
-        animatorSet3.playTogether(animatorArr);
-        this.currentAnimation.addListener(new AnonymousClass2());
-        this.currentAnimation.setInterpolator(new OvershootInterpolator(1.02f));
-        this.currentAnimation.start();
+        this.isInstalled = z7;
+        if (z4) {
+        }
     }
 
     /* renamed from: org.telegram.ui.Cells.FeaturedStickerSetCell2$1 */

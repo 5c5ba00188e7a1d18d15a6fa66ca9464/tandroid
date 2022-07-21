@@ -178,7 +178,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
             if (tLRPC$TL_chatInviteExported.expired) {
                 this.titleTextView.setText(LocaleController.getString("ExpiredLink", 2131625829));
             } else if (tLRPC$TL_chatInviteExported.revoked) {
-                this.titleTextView.setText(LocaleController.getString("RevokedLink", 2131628117));
+                this.titleTextView.setText(LocaleController.getString("RevokedLink", 2131628118));
             } else {
                 this.titleTextView.setText(LocaleController.getString("InviteLink", 2131626310));
             }

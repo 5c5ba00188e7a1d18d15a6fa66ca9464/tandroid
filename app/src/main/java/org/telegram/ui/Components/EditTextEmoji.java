@@ -165,7 +165,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         imageView2.setImageDrawable(replaceableIconDrawable);
         this.emojiIconDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_messagePanelIcons"), PorterDuff.Mode.MULTIPLY));
         if (i == 0) {
-            this.emojiIconDrawable.setIcon(2131166156, false);
+            this.emojiIconDrawable.setIcon(2131166159, false);
             addView(this.emojiButton, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 3 : i2) | 16, 0.0f, 0.0f, 0.0f, 7.0f));
         } else {
             this.emojiIconDrawable.setIcon(2131165543, false);
@@ -491,7 +491,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         }
         if (this.emojiButton != null) {
             if (this.currentStyle == 0) {
-                this.emojiIconDrawable.setIcon(2131166156, true);
+                this.emojiIconDrawable.setIcon(2131166159, true);
             } else {
                 this.emojiIconDrawable.setIcon(2131165543, true);
             }

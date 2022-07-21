@@ -551,7 +551,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, 56.0f, 0.0f, 40.0f, 0.0f));
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass3());
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
         this.avatarContainer.setEnabled(false);
         this.avatarContainer.setTitle(this.currentChat.title);
         this.avatarContainer.setSubtitle(LocaleController.getString("EventLogAllEvents", 2131625710));
@@ -634,7 +634,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         textView2.setTextSize(1, 15.0f);
         this.bottomOverlayChatText.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         this.bottomOverlayChatText.setTextColor(Theme.getColor("chat_fieldOverlayText"));
-        this.bottomOverlayChatText.setText(LocaleController.getString("SETTINGS", 2131628119).toUpperCase());
+        this.bottomOverlayChatText.setText(LocaleController.getString("SETTINGS", 2131628120).toUpperCase());
         this.bottomOverlayChat.addView(this.bottomOverlayChatText, LayoutHelper.createFrame(-2, -2, 17));
         ImageView imageView = new ImageView(context);
         this.bottomOverlayImage = imageView;
@@ -1223,53 +1223,53 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         } else if (messageType == 3) {
             TLRPC$MessageMedia tLRPC$MessageMedia = this.selectedObject.messageOwner.media;
             if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && MessageObject.isNewGifDocument(tLRPC$MessageMedia.webpage.document)) {
-                arrayList.add(LocaleController.getString("SaveToGIFs", 2131628130));
+                arrayList.add(LocaleController.getString("SaveToGIFs", 2131628131));
                 arrayList2.add(11);
             }
         } else if (messageType == 4) {
             if (this.selectedObject.isVideo()) {
-                arrayList.add(LocaleController.getString("SaveToGallery", 2131628131));
+                arrayList.add(LocaleController.getString("SaveToGallery", 2131628132));
                 arrayList2.add(4);
-                arrayList.add(LocaleController.getString("ShareFile", 2131628336));
+                arrayList.add(LocaleController.getString("ShareFile", 2131628337));
                 arrayList2.add(6);
             } else if (this.selectedObject.isMusic()) {
-                arrayList.add(LocaleController.getString("SaveToMusic", 2131628136));
+                arrayList.add(LocaleController.getString("SaveToMusic", 2131628137));
                 arrayList2.add(10);
-                arrayList.add(LocaleController.getString("ShareFile", 2131628336));
+                arrayList.add(LocaleController.getString("ShareFile", 2131628337));
                 arrayList2.add(6);
             } else if (this.selectedObject.getDocument() != null) {
                 if (MessageObject.isNewGifDocument(this.selectedObject.getDocument())) {
-                    arrayList.add(LocaleController.getString("SaveToGIFs", 2131628130));
+                    arrayList.add(LocaleController.getString("SaveToGIFs", 2131628131));
                     arrayList2.add(11);
                 }
-                arrayList.add(LocaleController.getString("SaveToDownloads", 2131628129));
+                arrayList.add(LocaleController.getString("SaveToDownloads", 2131628130));
                 arrayList2.add(10);
-                arrayList.add(LocaleController.getString("ShareFile", 2131628336));
+                arrayList.add(LocaleController.getString("ShareFile", 2131628337));
                 arrayList2.add(6);
             } else {
-                arrayList.add(LocaleController.getString("SaveToGallery", 2131628131));
+                arrayList.add(LocaleController.getString("SaveToGallery", 2131628132));
                 arrayList2.add(4);
             }
         } else if (messageType == 5) {
             arrayList.add(LocaleController.getString("ApplyLocalizationFile", 2131624395));
             arrayList2.add(5);
-            arrayList.add(LocaleController.getString("SaveToDownloads", 2131628129));
+            arrayList.add(LocaleController.getString("SaveToDownloads", 2131628130));
             arrayList2.add(10);
-            arrayList.add(LocaleController.getString("ShareFile", 2131628336));
+            arrayList.add(LocaleController.getString("ShareFile", 2131628337));
             arrayList2.add(6);
         } else if (messageType == 10) {
             arrayList.add(LocaleController.getString("ApplyThemeFile", 2131624397));
             arrayList2.add(5);
-            arrayList.add(LocaleController.getString("SaveToDownloads", 2131628129));
+            arrayList.add(LocaleController.getString("SaveToDownloads", 2131628130));
             arrayList2.add(10);
-            arrayList.add(LocaleController.getString("ShareFile", 2131628336));
+            arrayList.add(LocaleController.getString("ShareFile", 2131628337));
             arrayList2.add(6);
         } else if (messageType == 6) {
-            arrayList.add(LocaleController.getString("SaveToGallery", 2131628131));
+            arrayList.add(LocaleController.getString("SaveToGallery", 2131628132));
             arrayList2.add(7);
-            arrayList.add(LocaleController.getString("SaveToDownloads", 2131628129));
+            arrayList.add(LocaleController.getString("SaveToDownloads", 2131628130));
             arrayList2.add(10);
-            arrayList.add(LocaleController.getString("ShareFile", 2131628336));
+            arrayList.add(LocaleController.getString("ShareFile", 2131628337));
             arrayList2.add(6);
         } else if (messageType == 7) {
             if (this.selectedObject.isMask()) {
@@ -1592,7 +1592,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 } else {
                     intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(new File(str3)));
                 }
-                getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", 2131628336)), 500);
+                getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", 2131628337)), 500);
                 break;
             case 7:
                 String str4 = messageObject.messageOwner.attachPath;
@@ -2463,7 +2463,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     if (Build.VERSION.SDK_INT >= 31) {
                         return;
                     }
-                    Toast.makeText(ChannelAdminLogActivity.this.getParentActivity(), LocaleController.getString("TextCopied", 2131628662), 0).show();
+                    Toast.makeText(ChannelAdminLogActivity.this.getParentActivity(), LocaleController.getString("TextCopied", 2131628663), 0).show();
                 } else if (characterStyle instanceof URLSpanUserMention) {
                     long longValue = Utilities.parseLong(((URLSpanUserMention) characterStyle).getURL()).longValue();
                     if (longValue > 0) {

@@ -1436,7 +1436,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.maximumVelocity = ViewConfiguration.get(context).getScaledMaximumFlingVelocity();
         this.searching = false;
         this.searchWas = false;
-        Drawable drawable = context.getResources().getDrawable(2131166052);
+        Drawable drawable = context.getResources().getDrawable(2131166055);
         this.pinnedHeaderShadowDrawable = drawable;
         drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor("windowBackgroundGrayShadow"), PorterDuff.Mode.MULTIPLY));
         ScrollSlidingTextTabStripInner scrollSlidingTextTabStripInner = this.scrollSlidingTextTabStrip;
@@ -1454,8 +1454,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, 2131165456).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass4());
         this.searchItem = actionBarMenuItemSearchListener;
         actionBarMenuItemSearchListener.setTranslationY(AndroidUtilities.dp(10.0f));
-        this.searchItem.setSearchFieldHint(LocaleController.getString("Search", 2131628154));
-        this.searchItem.setContentDescription(LocaleController.getString("Search", 2131628154));
+        this.searchItem.setSearchFieldHint(LocaleController.getString("Search", 2131628155));
+        this.searchItem.setContentDescription(LocaleController.getString("Search", 2131628155));
         this.searchItem.setVisibility(4);
         ImageView imageView = new ImageView(context);
         this.photoVideoOptionsItem = imageView;
@@ -1611,7 +1611,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             this.mediaPages[i7].emptyView.setOnTouchListener(SharedMediaLayout$$ExternalSyntheticLambda4.INSTANCE);
             this.mediaPages[i7].emptyView.showProgress(true, false);
             this.mediaPages[i7].emptyView.title.setText(LocaleController.getString("NoResult", 2131626910));
-            this.mediaPages[i7].emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628160));
+            this.mediaPages[i7].emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", 2131628161));
             this.mediaPages[i7].emptyView.addView(this.mediaPages[i7].progressView, LayoutHelper.createFrame(-1, -1.0f));
             this.mediaPages[i7].listView.setEmptyView(this.mediaPages[i7].emptyView);
             this.mediaPages[i7].listView.setAnimateEmptyView(true, 0);
@@ -1791,10 +1791,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             boolean z = true;
             ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(this.val$context, true, false);
             ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(this.val$context, false, false);
-            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("MediaZoomIn", 2131626618), 2131165992);
+            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("MediaZoomIn", 2131626618), 2131165995);
             actionBarMenuSubItem.setOnClickListener(new SharedMediaLayout$5$$ExternalSyntheticLambda0(this, actionBarMenuSubItem, actionBarMenuSubItem2));
             anonymousClass1.addView(actionBarMenuSubItem);
-            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("MediaZoomOut", 2131626619), 2131165993);
+            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("MediaZoomOut", 2131626619), 2131165996);
             actionBarMenuSubItem2.setOnClickListener(new AnonymousClass2(actionBarMenuSubItem2, actionBarMenuSubItem));
             if (SharedMediaLayout.this.mediaColumnsCount != 2) {
                 if (SharedMediaLayout.this.mediaColumnsCount == 9) {
@@ -5111,10 +5111,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.chatUsersAdapter.chatInfo != null) goto L105;
      */
     /* JADX WARN: Code restructure failed: missing block: B:104:0x0157, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(0, org.telegram.messenger.LocaleController.getString("SharedMediaTabFull2", 2131628367), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(0, org.telegram.messenger.LocaleController.getString("SharedMediaTabFull2", 2131628368), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:105:0x0166, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(0, org.telegram.messenger.LocaleController.getString("SharedMediaTab2", 2131628366), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(0, org.telegram.messenger.LocaleController.getString("SharedMediaTab2", 2131628367), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:107:0x0178, code lost:
         if (r12.hasMedia[1] <= 0) goto L111;
@@ -5123,7 +5123,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(1) != false) goto L111;
      */
     /* JADX WARN: Code restructure failed: missing block: B:110:0x0182, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(1, org.telegram.messenger.LocaleController.getString("SharedFilesTab2", 2131628359), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(1, org.telegram.messenger.LocaleController.getString("SharedFilesTab2", 2131628360), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:112:0x019b, code lost:
         if (org.telegram.messenger.DialogObject.isEncryptedDialog(r12.dialog_id) != false) goto L123;
@@ -5135,7 +5135,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(3) != false) goto L118;
      */
     /* JADX WARN: Code restructure failed: missing block: B:117:0x01ab, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(3, org.telegram.messenger.LocaleController.getString("SharedLinksTab2", 2131628363), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(3, org.telegram.messenger.LocaleController.getString("SharedLinksTab2", 2131628364), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:119:0x01bd, code lost:
         if (r12.hasMedia[4] <= 0) goto L128;
@@ -5144,7 +5144,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(4) != false) goto L128;
      */
     /* JADX WARN: Code restructure failed: missing block: B:122:0x01c7, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(4, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", 2131628368), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(4, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", 2131628369), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:124:0x01d5, code lost:
         if (r12.hasMedia[4] <= 0) goto L128;
@@ -5153,7 +5153,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(4) != false) goto L128;
      */
     /* JADX WARN: Code restructure failed: missing block: B:127:0x01df, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(4, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", 2131628368), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(4, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", 2131628369), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:129:0x01ec, code lost:
         if (r12.hasMedia[2] <= 0) goto L133;
@@ -5162,7 +5162,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(2) != false) goto L133;
      */
     /* JADX WARN: Code restructure failed: missing block: B:132:0x01f6, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(2, org.telegram.messenger.LocaleController.getString("SharedVoiceTab2", 2131628372), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(2, org.telegram.messenger.LocaleController.getString("SharedVoiceTab2", 2131628373), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:134:0x0208, code lost:
         if (r12.hasMedia[5] <= 0) goto L138;
@@ -5171,7 +5171,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(5) != false) goto L138;
      */
     /* JADX WARN: Code restructure failed: missing block: B:137:0x0212, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(5, org.telegram.messenger.LocaleController.getString("SharedGIFsTab2", 2131628360), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(5, org.telegram.messenger.LocaleController.getString("SharedGIFsTab2", 2131628361), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:139:0x0224, code lost:
         if (r12.hasMedia[6] <= 0) goto L143;
@@ -5180,7 +5180,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (r12.scrollSlidingTextTabStrip.hasTab(6) != false) goto L143;
      */
     /* JADX WARN: Code restructure failed: missing block: B:142:0x022e, code lost:
-        r12.scrollSlidingTextTabStrip.addTextTab(6, org.telegram.messenger.LocaleController.getString("SharedGroupsTab2", 2131628361), r13);
+        r12.scrollSlidingTextTabStrip.addTextTab(6, org.telegram.messenger.LocaleController.getString("SharedGroupsTab2", 2131628362), r13);
      */
     /* JADX WARN: Code restructure failed: missing block: B:143:0x023c, code lost:
         r13 = r12.scrollSlidingTextTabStrip.getCurrentTabId();
