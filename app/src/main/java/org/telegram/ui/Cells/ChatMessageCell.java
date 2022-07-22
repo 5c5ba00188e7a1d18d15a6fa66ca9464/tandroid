@@ -13094,10 +13094,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:387:0x08a3  */
-    /* JADX WARN: Removed duplicated region for block: B:392:0x08eb  */
-    /* JADX WARN: Removed duplicated region for block: B:395:0x08f2  */
-    /* JADX WARN: Removed duplicated region for block: B:405:0x0985  */
+    /* JADX WARN: Removed duplicated region for block: B:391:0x08ac  */
+    /* JADX WARN: Removed duplicated region for block: B:396:0x08f4  */
+    /* JADX WARN: Removed duplicated region for block: B:399:0x08fb  */
+    /* JADX WARN: Removed duplicated region for block: B:409:0x098e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -13332,8 +13332,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     ChatMessageCellDelegate chatMessageCellDelegate = this.delegate;
                     if (chatMessageCellDelegate == null || chatMessageCellDelegate.getPinchToZoomHelper() == null || !this.delegate.getPinchToZoomHelper().isInOverlayModeFor(this)) {
                         float y = getY() + this.photoImage.getImageY();
+                        float imageHeight = this.photoImage.getImageHeight() + y;
                         this.photoImageOutOfBounds = false;
-                        if (this.photoImage.getImageHeight() + y < this.parentBoundsTop || y > this.parentBoundsBottom) {
+                        float f14 = this.parentBoundsTop;
+                        if ((f14 != 0.0f || this.parentBoundsBottom != 0) && (imageHeight < f14 || y > this.parentBoundsBottom)) {
                             this.photoImageOutOfBounds = true;
                         }
                         if (!this.photoImageOutOfBounds || this.drawForBlur) {
@@ -13423,9 +13425,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (isPlayingMessage) {
                     this.roundProgressAlpha = 1.0f;
                 } else {
-                    float f14 = this.roundProgressAlpha - 0.10666667f;
-                    this.roundProgressAlpha = f14;
-                    if (f14 < 0.0f) {
+                    float f15 = this.roundProgressAlpha - 0.10666667f;
+                    this.roundProgressAlpha = f15;
+                    if (f15 < 0.0f) {
                         this.roundProgressAlpha = 0.0f;
                     } else {
                         invalidate();
@@ -13453,11 +13455,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             canvas.restore();
             boolean isPlayingMessage2 = MediaController.getInstance().isPlayingMessage(this.currentMessageObject);
             if (isPlayingMessage2) {
-                float f15 = this.toSeekBarProgress;
-                if (f15 != 1.0f) {
-                    float f16 = f15 + 0.16f;
-                    this.toSeekBarProgress = f16;
-                    if (f16 > 1.0f) {
+                float f16 = this.toSeekBarProgress;
+                if (f16 != 1.0f) {
+                    float f17 = f16 + 0.16f;
+                    this.toSeekBarProgress = f17;
+                    if (f17 > 1.0f) {
                         this.toSeekBarProgress = 1.0f;
                     }
                     invalidate();
@@ -13474,21 +13476,21 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         canvas.restore();
                     }
                     if (this.toSeekBarProgress < 1.0f) {
-                        float f17 = this.timeAudioX + this.performerX;
+                        float f18 = this.timeAudioX + this.performerX;
                         float dp7 = AndroidUtilities.dp(35.0f) + this.namesOffset + this.mediaOffsetY;
                         if (this.toSeekBarProgress != 0.0f) {
                             f3 = dp7;
-                            canvas.saveLayerAlpha(f17, dp7, f17 + this.performerLayout.getWidth(), dp7 + this.performerLayout.getHeight(), (int) ((1.0f - this.toSeekBarProgress) * 255.0f), 31);
+                            canvas.saveLayerAlpha(f18, dp7, f18 + this.performerLayout.getWidth(), dp7 + this.performerLayout.getHeight(), (int) ((1.0f - this.toSeekBarProgress) * 255.0f), 31);
                         } else {
                             f3 = dp7;
                             canvas.save();
                         }
-                        float f18 = this.toSeekBarProgress;
-                        if (f18 != 0.0f) {
-                            float f19 = ((1.0f - f18) * 0.3f) + 0.7f;
-                            canvas.scale(f19, f19, f17, f3 + (this.performerLayout.getHeight() / 2.0f));
+                        float f19 = this.toSeekBarProgress;
+                        if (f19 != 0.0f) {
+                            float f20 = ((1.0f - f19) * 0.3f) + 0.7f;
+                            canvas.scale(f20, f20, f18, f3 + (this.performerLayout.getHeight() / 2.0f));
                         }
-                        canvas.translate(f17, f3);
+                        canvas.translate(f18, f3);
                         this.performerLayout.draw(canvas);
                         canvas.restore();
                     }
@@ -13520,12 +13522,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
             }
             if (!isPlayingMessage2) {
-                float f20 = this.toSeekBarProgress;
+                float f21 = this.toSeekBarProgress;
                 f = 0.0f;
-                if (f20 != 0.0f) {
-                    float f21 = f20 - 0.16f;
-                    this.toSeekBarProgress = f21;
-                    if (f21 < 0.0f) {
+                if (f21 != 0.0f) {
+                    float f22 = f21 - 0.16f;
+                    this.toSeekBarProgress = f22;
+                    if (f22 < 0.0f) {
                         this.toSeekBarProgress = 0.0f;
                     }
                     invalidate();
@@ -13579,9 +13581,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             int i20 = this.timeAudioX;
             if (this.transitionParams.animateButton) {
                 int i21 = this.buttonX;
-                float f22 = this.transitionParams.animateFromButtonX;
-                float f23 = this.transitionParams.animateChangeProgress;
-                int i22 = i21 - ((int) ((f22 * (1.0f - f23)) + (this.buttonX * f23)));
+                float f23 = this.transitionParams.animateFromButtonX;
+                float f24 = this.transitionParams.animateChangeProgress;
+                int i22 = i21 - ((int) ((f23 * (1.0f - f24)) + (this.buttonX * f24)));
                 i19 -= i22;
                 i20 -= i22;
             }
@@ -13603,9 +13605,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
                 float dp10 = i19 + AndroidUtilities.dp(21.0f) + (i23 - AndroidUtilities.dp(((this.hasLinkPreview ? 10 : 0) + 92) + 36));
                 this.transcribeX = dp10;
-                float f24 = this.seekBarY;
-                this.transcribeY = f24;
-                canvas.translate(dp10, f24);
+                float f25 = this.seekBarY;
+                this.transcribeY = f25;
+                canvas.translate(dp10, f25);
                 if (this.transcribeButton == null) {
                     TranscribeButton transcribeButton = new TranscribeButton(this, this.seekBarWaveform);
                     this.transcribeButton = transcribeButton;
@@ -13773,7 +13775,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
             }
             int i30 = dp2;
-            float f25 = dp;
+            float f26 = dp;
             if (shouldDrawMenuDrawable()) {
                 TransitionParams transitionParams6 = this.transitionParams;
                 if (transitionParams6.animateChangeProgress != 1.0f && transitionParams6.animateShouldDrawMenuDrawable) {
@@ -13788,7 +13790,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             try {
                 if (this.docTitleLayout != null) {
                     canvas.save();
-                    canvas.translate(this.docTitleOffsetX + f25, i30);
+                    canvas.translate(this.docTitleOffsetX + f26, i30);
                     this.docTitleLayout.draw(canvas);
                     canvas.restore();
                 }
@@ -13798,7 +13800,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             try {
                 if (this.infoLayout != null) {
                     canvas.save();
-                    canvas.translate(f25, dp3);
+                    canvas.translate(f26, dp3);
                     if (this.buttonState == 1 && (staticLayout = this.loadingProgressLayout) != null) {
                         staticLayout.draw(canvas);
                     } else {

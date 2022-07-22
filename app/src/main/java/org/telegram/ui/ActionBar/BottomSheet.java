@@ -131,6 +131,11 @@ public class BottomSheet extends Dialog {
     /* loaded from: classes3.dex */
     public static class BottomSheetDelegate implements BottomSheetDelegateInterface {
         @Override // org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegateInterface
+        public boolean canDismiss() {
+            return true;
+        }
+
+        @Override // org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegateInterface
         public void onOpenAnimationEnd() {
         }
     }

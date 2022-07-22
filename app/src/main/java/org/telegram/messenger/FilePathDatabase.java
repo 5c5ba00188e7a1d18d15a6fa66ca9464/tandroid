@@ -129,6 +129,10 @@ public class FilePathDatabase {
     }
 
     public String getPath(final long j, final int i, final int i2, boolean z) {
+        Throwable th;
+        SQLiteException sQLiteException;
+        String str;
+        SQLiteCursor queryFinalized;
         if (z) {
             if (BuildVars.DEBUG_VERSION && this.dispatchQueue.getHandler() != null && Thread.currentThread() == this.dispatchQueue.getHandler().getLooper().getThread()) {
                 throw new RuntimeException("Error, lead to infinity loop");
@@ -148,38 +152,77 @@ public class FilePathDatabase {
             }
             return strArr[0];
         }
-        String str = null;
+        SQLiteCursor sQLiteCursor = null;
+        r1 = null;
+        String str2 = null;
+        sQLiteCursor = null;
         try {
-            SQLiteDatabase sQLiteDatabase = this.database;
-            SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
+            try {
+                queryFinalized = this.database.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
+            } catch (SQLiteException e) {
+                sQLiteException = e;
+                str = null;
+            }
+        } catch (Throwable th2) {
+            th = th2;
+        }
+        try {
             if (queryFinalized.next()) {
-                str = queryFinalized.stringValue(0);
+                str2 = queryFinalized.stringValue(0);
                 if (BuildVars.DEBUG_VERSION) {
-                    FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + str);
+                    FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + str2);
                 }
             }
             queryFinalized.dispose();
-        } catch (SQLiteException e) {
-            FileLog.e(e);
+            return str2;
+        } catch (SQLiteException e2) {
+            sQLiteException = e2;
+            str = str2;
+            sQLiteCursor = queryFinalized;
+            FileLog.e(sQLiteException);
+            if (sQLiteCursor != null) {
+                sQLiteCursor.dispose();
+            }
+            return str;
+        } catch (Throwable th3) {
+            th = th3;
+            sQLiteCursor = queryFinalized;
+            if (sQLiteCursor != null) {
+                sQLiteCursor.dispose();
+            }
+            throw th;
         }
-        return str;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x0070, code lost:
+        if (r0 == null) goto L13;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$getPath$1(long j, int i, int i2, String[] strArr, CountDownLatch countDownLatch) {
+        SQLiteCursor sQLiteCursor = null;
         try {
-            SQLiteDatabase sQLiteDatabase = this.database;
-            SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
-            if (queryFinalized.next()) {
-                strArr[0] = queryFinalized.stringValue(0);
-                if (BuildVars.DEBUG_VERSION) {
-                    FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + strArr[0]);
+            try {
+                SQLiteDatabase sQLiteDatabase = this.database;
+                sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
+                if (sQLiteCursor.next()) {
+                    strArr[0] = sQLiteCursor.stringValue(0);
+                    if (BuildVars.DEBUG_VERSION) {
+                        FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + strArr[0]);
+                    }
                 }
+            } catch (SQLiteException e) {
+                FileLog.e(e);
             }
-            queryFinalized.dispose();
-        } catch (SQLiteException e) {
-            FileLog.e(e);
+            sQLiteCursor.dispose();
+            countDownLatch.countDown();
+        } catch (Throwable th) {
+            if (sQLiteCursor != null) {
+                sQLiteCursor.dispose();
+            }
+            throw th;
         }
-        countDownLatch.countDown();
     }
 
     public void putPath(final long j, final int i, final int i2, final String str) {
@@ -191,27 +234,86 @@ public class FilePathDatabase {
         });
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00bd  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00c2  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$putPath$2(long j, int i, int i2, String str) {
+        SQLitePreparedStatement sQLitePreparedStatement;
+        SQLiteException e;
+        SQLitePreparedStatement sQLitePreparedStatement2;
         if (BuildVars.DEBUG_VERSION) {
             FileLog.d("put file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + str);
         }
+        SQLitePreparedStatement sQLitePreparedStatement3 = null;
         try {
             if (str != null) {
-                SQLiteDatabase sQLiteDatabase = this.database;
-                sQLiteDatabase.executeFast("DELETE FROM paths WHERE path = '" + str + "'");
-                SQLitePreparedStatement executeFast = this.database.executeFast("REPLACE INTO paths VALUES(?, ?, ?, ?)");
-                executeFast.requery();
-                executeFast.bindLong(1, j);
-                executeFast.bindInteger(2, i);
-                executeFast.bindInteger(3, i2);
-                executeFast.bindString(4, str);
-                executeFast.step();
+                SQLitePreparedStatement executeFast = this.database.executeFast("DELETE FROM paths WHERE path = ?");
+                try {
+                    executeFast.bindString(1, str);
+                    executeFast.step();
+                    sQLitePreparedStatement3 = this.database.executeFast("REPLACE INTO paths VALUES(?, ?, ?, ?)");
+                    sQLitePreparedStatement3.requery();
+                    sQLitePreparedStatement3.bindLong(1, j);
+                    sQLitePreparedStatement3.bindInteger(2, i);
+                    sQLitePreparedStatement3.bindInteger(3, i2);
+                    sQLitePreparedStatement3.bindString(4, str);
+                    sQLitePreparedStatement3.step();
+                    sQLitePreparedStatement3.dispose();
+                    sQLitePreparedStatement2 = sQLitePreparedStatement3;
+                    sQLitePreparedStatement3 = executeFast;
+                } catch (SQLiteException e2) {
+                    e = e2;
+                    sQLitePreparedStatement = sQLitePreparedStatement3;
+                    sQLitePreparedStatement3 = executeFast;
+                    try {
+                        FileLog.e(e);
+                        if (sQLitePreparedStatement3 != null) {
+                            sQLitePreparedStatement3.dispose();
+                        }
+                        if (sQLitePreparedStatement == null) {
+                            return;
+                        }
+                        sQLitePreparedStatement.dispose();
+                        return;
+                    } catch (Throwable th) {
+                        th = th;
+                        if (sQLitePreparedStatement3 != null) {
+                            sQLitePreparedStatement3.dispose();
+                        }
+                        if (sQLitePreparedStatement != null) {
+                            sQLitePreparedStatement.dispose();
+                        }
+                        throw th;
+                    }
+                } catch (Throwable th2) {
+                    th = th2;
+                    sQLitePreparedStatement = sQLitePreparedStatement3;
+                    sQLitePreparedStatement3 = executeFast;
+                    if (sQLitePreparedStatement3 != null) {
+                    }
+                    if (sQLitePreparedStatement != null) {
+                    }
+                    throw th;
+                }
             } else {
-                SQLiteDatabase sQLiteDatabase2 = this.database;
-                sQLiteDatabase2.executeFast("DELETE FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2).stepThis().dispose();
+                this.database.executeFast("DELETE FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2).stepThis().dispose();
+                sQLitePreparedStatement2 = null;
             }
-        } catch (SQLiteException e) {
-            FileLog.e(e);
+            if (sQLitePreparedStatement3 != null) {
+                sQLitePreparedStatement3.dispose();
+            }
+            if (sQLitePreparedStatement2 == null) {
+                return;
+            }
+            sQLitePreparedStatement2.dispose();
+        } catch (SQLiteException e3) {
+            e = e3;
+            sQLitePreparedStatement = sQLitePreparedStatement3;
+        } catch (Throwable th3) {
+            th = th3;
+            sQLitePreparedStatement = sQLitePreparedStatement3;
         }
     }
 

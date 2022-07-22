@@ -50,6 +50,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
     private Theme.ResourcesProvider resourcesProvider;
     private ValueAnimator selectAnimator;
     private EmojiTabButton settingsTab;
+    private boolean wasDrawn;
     private static int[] emojiTabsDrawableIds = {R.drawable.msg_emoji_smiles, R.drawable.msg_emoji_cat, R.drawable.msg_emoji_food, R.drawable.msg_emoji_activities, R.drawable.msg_emoji_travel, R.drawable.msg_emoji_objects, R.drawable.msg_emoji_other, R.drawable.msg_emoji_flags};
     private static int[] emojiTabsAnimatedDrawableIds = {R.raw.msg_emoji_smiles, R.raw.msg_emoji_cat, R.raw.msg_emoji_food, R.raw.msg_emoji_activities, R.raw.msg_emoji_travel, R.raw.msg_emoji_objects, R.raw.msg_emoji_other, R.raw.msg_emoji_flags};
     private int recentDrawableId = R.drawable.msg_emoji_recent;
@@ -153,7 +154,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 }
                 float f2 = EmojiTabsStrip.this.selectAnimationT * 4.0f * (1.0f - EmojiTabsStrip.this.selectAnimationT);
                 float width = (this.rect.width() / 2.0f) * ((0.3f * f2) + 1.0f);
-                float height = (this.rect.height() / 2.0f) * (1.0f - (f2 * 0.15f));
+                float height = (this.rect.height() / 2.0f) * (1.0f - (f2 * 0.05f));
                 RectF rectF = this.rect;
                 rectF.set(rectF.centerX() - width, this.rect.centerY() - height, this.rect.centerX() + width, this.rect.centerY() + height);
                 float dp = AndroidUtilities.dp(AndroidUtilities.lerp(8.0f, 16.0f, f));
@@ -165,6 +166,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                     this.path.addCircle(EmojiTabsStrip.this.emojiTabs.getLeft() + AndroidUtilities.dp(15.0f), (EmojiTabsStrip.this.emojiTabs.getTop() + EmojiTabsStrip.this.emojiTabs.getBottom()) / 2.0f, AndroidUtilities.dp(15.0f), Path.Direction.CW);
                 }
                 super.dispatchDraw(canvas);
+                EmojiTabsStrip.this.wasDrawn = true;
             }
 
             @Override // android.view.ViewGroup
@@ -248,12 +250,12 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         return null;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x00df, code lost:
-        if (r1.getDocumentId() != r2.id) goto L51;
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x00e3, code lost:
+        if (r1.getDocumentId() != r2.id) goto L53;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x017c  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0188  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0180  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x018c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -277,7 +279,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             this.emojipackTabs = new ArrayList<>();
         }
         this.contentView.removeView(this.settingsTab);
-        boolean z2 = this.emojipackTabs.size() == 0 && emojipacks.size() > 0 && this.appearCount != emojipacks.size();
+        boolean z2 = this.emojipackTabs.size() == 0 && emojipacks.size() > 0 && this.appearCount != emojipacks.size() && this.wasDrawn;
         EmojiTabButton emojiTabButton2 = null;
         if (this.appearAnimation != null && this.appearCount != emojipacks.size()) {
             this.appearAnimation.cancel();
@@ -658,8 +660,6 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             this.lockView.setScaleX(0.0f);
             this.lockView.setScaleY(0.0f);
             updateLockImageReceiver();
-            this.lockView.setPadding(AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f));
-            updateLockImageReceiver();
             addView(this.lockView);
         }
 
@@ -677,22 +677,13 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             return super.performClick();
         }
 
-        public void updateVisibilityInbounds(boolean z) {
+        public void updateVisibilityInbounds(boolean z, boolean z2) {
             RLottieDrawable rLottieDrawable;
-            if (!this.wasVisible && z && (rLottieDrawable = this.lottieDrawable) != null && !rLottieDrawable.isRunning()) {
+            if (!this.wasVisible && z && (rLottieDrawable = this.lottieDrawable) != null && !rLottieDrawable.isRunning() && !z2) {
                 this.lottieDrawable.setProgress(0.0f);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiTabsStrip$EmojiTabButton$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        EmojiTabsStrip.EmojiTabButton.this.lambda$updateVisibilityInbounds$0();
-                    }
-                }, 75L);
+                this.lottieDrawable.start();
             }
             this.wasVisible = z;
-        }
-
-        public /* synthetic */ void lambda$updateVisibilityInbounds$0() {
-            this.lottieDrawable.start();
         }
 
         public void setLock(Boolean bool) {
@@ -734,7 +725,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.EmojiTabsStrip$EmojiTabButton$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    EmojiTabsStrip.EmojiTabButton.this.lambda$updateLock$1(valueAnimator2);
+                    EmojiTabsStrip.EmojiTabButton.this.lambda$updateLock$0(valueAnimator2);
                 }
             });
             this.lockAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.EmojiTabsStrip.EmojiTabButton.2
@@ -750,7 +741,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             this.lockAnimator.start();
         }
 
-        public /* synthetic */ void lambda$updateLock$1(ValueAnimator valueAnimator) {
+        public /* synthetic */ void lambda$updateLock$0(ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             this.lockT = floatValue;
             this.lockView.setScaleX(floatValue);
@@ -793,7 +784,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             if (premiumLockIconView != null) {
                 int i7 = i3 - i;
                 int i8 = i4 - i2;
-                premiumLockIconView.layout(i7 - AndroidUtilities.dp(12.0f), i8 - AndroidUtilities.dp(12.0f), i7, i8);
+                premiumLockIconView.layout(i7 - premiumLockIconView.getMeasuredWidth(), i8 - this.lockView.getMeasuredHeight(), i7, i8);
             }
         }
 
@@ -838,7 +829,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                     ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.EmojiTabsStrip$EmojiTabButton$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                            EmojiTabsStrip.EmojiTabButton.this.lambda$updateSelect$2(valueAnimator2);
+                            EmojiTabsStrip.EmojiTabButton.this.lambda$updateSelect$1(valueAnimator2);
                         }
                     });
                     this.selectAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.EmojiTabsStrip.EmojiTabButton.3
@@ -870,7 +861,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             }
         }
 
-        public /* synthetic */ void lambda$updateSelect$2(ValueAnimator valueAnimator) {
+        public /* synthetic */ void lambda$updateSelect$1(ValueAnimator valueAnimator) {
             this.selectT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             setColor(ColorUtils.blendARGB(Theme.getColor("chat_emojiPanelIcon", EmojiTabsStrip.this.resourcesProvider), Theme.getColor("chat_emojiPanelIconSelected", EmojiTabsStrip.this.resourcesProvider), this.selectT));
         }
@@ -900,7 +891,6 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         private LinearLayout contentView;
         private ValueAnimator showAnimator;
         private boolean touching = false;
-        private boolean scrollingAnimation = false;
         private boolean shown = false;
         private float showT = 0.0f;
 
@@ -971,11 +961,18 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
 
         private void updateButtonsVisibility() {
+            ValueAnimator valueAnimator;
             int childCount = this.contentView.getChildCount();
             for (int i = 0; i < childCount; i++) {
                 View childAt = this.contentView.getChildAt(i);
                 if (childAt instanceof EmojiTabButton) {
-                    ((EmojiTabButton) childAt).updateVisibilityInbounds(childAt.getRight() - getScrollX() > 0 && childAt.getLeft() - getScrollX() < getMeasuredWidth());
+                    EmojiTabButton emojiTabButton = (EmojiTabButton) childAt;
+                    boolean z = true;
+                    boolean z2 = childAt.getRight() - getScrollX() > 0 && childAt.getLeft() - getScrollX() < getMeasuredWidth();
+                    if (!this.scrollingAnimation || ((valueAnimator = this.showAnimator) != null && valueAnimator.isRunning())) {
+                        z = false;
+                    }
+                    emojiTabButton.updateVisibilityInbounds(z2, z);
                 }
             }
         }

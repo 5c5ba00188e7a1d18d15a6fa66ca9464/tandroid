@@ -7316,8 +7316,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* loaded from: classes3.dex */
     public class AnonymousClass38 extends SpoilersTextView {
         private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiDrawables;
-        private LinkSpanDrawable.LinkCollector links = new LinkSpanDrawable.LinkCollector(this);
         private LinkSpanDrawable<ClickableSpan> pressedLink;
+        private LinkSpanDrawable.LinkCollector links = new LinkSpanDrawable.LinkCollector(this);
+        private Layout lastLayout = null;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass38(Context context) {
@@ -7431,12 +7432,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             super.onDraw(canvas);
         }
 
-        @Override // org.telegram.ui.Components.spoilers.SpoilersTextView, android.widget.TextView
-        public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-            super.setText(charSequence, bufferType);
-            this.animatedEmojiDrawables = AnimatedEmojiSpan.update(0, this, this.animatedEmojiDrawables, getLayout());
-        }
-
         @Override // android.view.View
         protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
@@ -7449,6 +7444,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             canvas.save();
             canvas.translate(getPaddingLeft(), getPaddingTop());
             canvas.clipRect(0.0f, getScrollY(), getWidth() - getPaddingRight(), (getHeight() + getScrollY()) - (getPaddingBottom() * 0.75f));
+            if (this.lastLayout != getLayout()) {
+                this.animatedEmojiDrawables = AnimatedEmojiSpan.update(0, this, this.animatedEmojiDrawables, getLayout());
+                this.lastLayout = getLayout();
+            }
             AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.animatedEmojiDrawables, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
             canvas.restore();
         }
