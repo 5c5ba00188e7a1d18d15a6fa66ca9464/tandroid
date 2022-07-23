@@ -1,6 +1,5 @@
 package j$.wrappers;
 
-import j$.util.AbstractC0038a;
 import j$.util.Optional;
 import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
@@ -8,10 +7,9 @@ import j$.util.function.Consumer;
 import j$.util.function.Function;
 import j$.util.function.Predicate;
 import j$.util.function.ToIntFunction;
-import j$.util.stream.AbstractC0079e1;
-import j$.util.stream.AbstractC0089g;
 import j$.util.stream.IntStream;
 import j$.util.stream.Stream;
+import j$.util.stream.e1;
 import java.util.Comparator;
 import java.util.Iterator;
 /* renamed from: j$.wrappers.$r8$wrapper$java$util$stream$Stream$-V-WRP */
@@ -32,7 +30,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Object B(Object obj, BiFunction biFunction, j$.util.function.b bVar) {
-        return this.a.reduce(obj, C0233t.a(biFunction), C0235v.a(bVar));
+        return this.a.reduce(obj, t.a(biFunction), v.a(bVar));
     }
 
     @Override // j$.util.stream.Stream
@@ -47,7 +45,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Stream V(Consumer consumer) {
-        return convert(this.a.peek(C0237x.a(consumer)));
+        return convert(this.a.peek(x.a(consumer)));
     }
 
     @Override // j$.util.stream.Stream
@@ -56,7 +54,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
     }
 
     @Override // j$.util.stream.Stream
-    public /* synthetic */ AbstractC0079e1 X(Function function) {
+    public /* synthetic */ e1 X(Function function) {
         return N0.n0(this.a.flatMapToLong(N.a(function)));
     }
 
@@ -75,7 +73,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
         return C$r8$wrapper$java$util$stream$IntStream$VWRP.convert(this.a.flatMapToInt(N.a(function)));
     }
 
-    @Override // j$.util.stream.Stream, j$.util.stream.AbstractC0089g, java.lang.AutoCloseable
+    @Override // j$.util.stream.Stream, j$.util.stream.g, java.lang.AutoCloseable
     public /* synthetic */ void close() {
         this.a.close();
     }
@@ -97,26 +95,26 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ void e(Consumer consumer) {
-        this.a.forEachOrdered(C0237x.a(consumer));
+        this.a.forEachOrdered(x.a(consumer));
     }
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Optional findAny() {
-        return AbstractC0038a.p(this.a.findAny());
+        return j$.util.a.p(this.a.findAny());
     }
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Optional findFirst() {
-        return AbstractC0038a.p(this.a.findFirst());
+        return j$.util.a.p(this.a.findFirst());
     }
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ void forEach(Consumer consumer) {
-        this.a.forEach(C0237x.a(consumer));
+        this.a.forEach(x.a(consumer));
     }
 
     @Override // j$.util.stream.Stream
-    public /* synthetic */ AbstractC0079e1 g0(j$.util.function.A a) {
+    public /* synthetic */ e1 g0(j$.util.function.A a) {
         return N0.n0(this.a.mapToLong(G0.a(a)));
     }
 
@@ -125,12 +123,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
         return this.a.collect(A0.a(yVar), r.a(biConsumer), r.a(biConsumer2));
     }
 
-    @Override // j$.util.stream.AbstractC0089g
+    @Override // j$.util.stream.g
     public /* synthetic */ boolean isParallel() {
         return this.a.isParallel();
     }
 
-    @Override // j$.util.stream.AbstractC0089g
+    @Override // j$.util.stream.g
     /* renamed from: iterator */
     public /* synthetic */ Iterator mo66iterator() {
         return this.a.iterator();
@@ -158,17 +156,17 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Object m0(Object obj, j$.util.function.b bVar) {
-        return this.a.reduce(obj, C0235v.a(bVar));
+        return this.a.reduce(obj, v.a(bVar));
     }
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Optional max(Comparator comparator) {
-        return AbstractC0038a.p(this.a.max(comparator));
+        return j$.util.a.p(this.a.max(comparator));
     }
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Optional min(Comparator comparator) {
-        return AbstractC0038a.p(this.a.min(comparator));
+        return j$.util.a.p(this.a.min(comparator));
     }
 
     @Override // j$.util.stream.Stream
@@ -181,18 +179,18 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
         return convert(this.a.flatMap(N.a(function)));
     }
 
-    @Override // j$.util.stream.AbstractC0089g
-    public /* synthetic */ AbstractC0089g onClose(Runnable runnable) {
+    @Override // j$.util.stream.g
+    public /* synthetic */ j$.util.stream.g onClose(Runnable runnable) {
         return H0.n0(this.a.onClose(runnable));
     }
 
-    @Override // j$.util.stream.AbstractC0089g, j$.util.stream.IntStream
-    public /* synthetic */ AbstractC0089g parallel() {
+    @Override // j$.util.stream.g, j$.util.stream.IntStream
+    public /* synthetic */ j$.util.stream.g parallel() {
         return H0.n0(this.a.parallel());
     }
 
-    @Override // j$.util.stream.AbstractC0089g, j$.util.stream.IntStream
-    public /* synthetic */ AbstractC0089g sequential() {
+    @Override // j$.util.stream.g, j$.util.stream.IntStream
+    public /* synthetic */ j$.util.stream.g sequential() {
         return H0.n0(this.a.sequential());
     }
 
@@ -211,14 +209,14 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
         return convert(this.a.sorted(comparator));
     }
 
-    @Override // j$.util.stream.AbstractC0089g
+    @Override // j$.util.stream.g
     public /* synthetic */ j$.util.u spliterator() {
-        return C0211g.a(this.a.spliterator());
+        return g.a(this.a.spliterator());
     }
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Optional t(j$.util.function.b bVar) {
-        return AbstractC0038a.p(this.a.reduce(C0235v.a(bVar)));
+        return j$.util.a.p(this.a.reduce(v.a(bVar)));
     }
 
     @Override // j$.util.stream.Stream
@@ -226,8 +224,8 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
         return this.a.toArray();
     }
 
-    @Override // j$.util.stream.AbstractC0089g
-    public /* synthetic */ AbstractC0089g unordered() {
+    @Override // j$.util.stream.g
+    public /* synthetic */ j$.util.stream.g unordered() {
         return H0.n0(this.a.unordered());
     }
 }

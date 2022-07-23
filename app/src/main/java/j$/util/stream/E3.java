@@ -1,13 +1,13 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-abstract class E3 extends AbstractC0099h3 {
+abstract class E3 extends h3 {
     protected boolean b;
 
-    public E3(AbstractC0129m3 abstractC0129m3) {
-        super(abstractC0129m3);
+    public E3(m3 m3Var) {
+        super(m3Var);
     }
 
-    @Override // j$.util.stream.AbstractC0099h3, j$.util.stream.AbstractC0129m3
+    @Override // j$.util.stream.h3, j$.util.stream.m3
     public final boolean o() {
         this.b = true;
         return false;

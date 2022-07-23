@@ -1,6 +1,5 @@
 package j$.util.stream;
 
-import j$.util.AbstractC0038a;
 import j$.util.function.Consumer;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
@@ -20,7 +19,7 @@ public final class u4 extends z4 implements j$.util.t {
 
     @Override // j$.util.u
     public /* synthetic */ boolean b(Consumer consumer) {
-        return AbstractC0038a.j(this, consumer);
+        return j$.util.a.j(this, consumer);
     }
 
     @Override // j$.util.stream.z4
@@ -30,6 +29,6 @@ public final class u4 extends z4 implements j$.util.t {
 
     @Override // j$.util.u
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        AbstractC0038a.b(this, consumer);
+        j$.util.a.b(this, consumer);
     }
 }

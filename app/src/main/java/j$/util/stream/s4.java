@@ -1,21 +1,20 @@
 package j$.util.stream;
 
-import j$.util.AbstractC0038a;
 import j$.util.function.Consumer;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class s4 extends AbstractC0088f4 implements j$.util.v {
-    public s4(AbstractC0192y2 abstractC0192y2, j$.util.function.y yVar, boolean z) {
-        super(abstractC0192y2, yVar, z);
+public final class s4 extends f4 implements j$.util.v {
+    public s4(y2 y2Var, j$.util.function.y yVar, boolean z) {
+        super(y2Var, yVar, z);
     }
 
-    s4(AbstractC0192y2 abstractC0192y2, j$.util.u uVar, boolean z) {
-        super(abstractC0192y2, uVar, z);
+    s4(y2 y2Var, j$.util.u uVar, boolean z) {
+        super(y2Var, uVar, z);
     }
 
     @Override // j$.util.u
     public /* synthetic */ boolean b(Consumer consumer) {
-        return AbstractC0038a.l(this, consumer);
+        return j$.util.a.l(this, consumer);
     }
 
     @Override // j$.util.v
@@ -34,7 +33,7 @@ public final class s4 extends AbstractC0088f4 implements j$.util.v {
 
     @Override // j$.util.u
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        AbstractC0038a.d(this, consumer);
+        j$.util.a.d(this, consumer);
     }
 
     @Override // j$.util.v
@@ -51,20 +50,20 @@ public final class s4 extends AbstractC0088f4 implements j$.util.v {
         return a;
     }
 
-    @Override // j$.util.stream.AbstractC0088f4
+    @Override // j$.util.stream.f4
     void j() {
         Y3 y3 = new Y3();
         this.h = y3;
         this.e = this.b.v0(new r4(y3));
-        this.f = new C0059b(this);
+        this.f = new b(this);
     }
 
-    @Override // j$.util.stream.AbstractC0088f4
-    AbstractC0088f4 l(j$.util.u uVar) {
+    @Override // j$.util.stream.f4
+    f4 l(j$.util.u uVar) {
         return new s4(this.b, uVar, this.a);
     }
 
-    @Override // j$.util.stream.AbstractC0088f4, j$.util.u
+    @Override // j$.util.stream.f4, j$.util.u
     public j$.util.v trySplit() {
         return (j$.util.v) super.trySplit();
     }

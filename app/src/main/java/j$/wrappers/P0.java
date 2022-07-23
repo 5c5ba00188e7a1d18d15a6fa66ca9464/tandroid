@@ -1,6 +1,5 @@
 package j$.wrappers;
 
-import j$.util.AbstractC0038a;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Optional;
@@ -54,7 +53,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Object collect(Supplier supplier, BiConsumer biConsumer, BiConsumer biConsumer2) {
-        return this.a.i(z0.a(supplier), C0231q.a(biConsumer), C0231q.a(biConsumer2));
+        return this.a.i(z0.a(supplier), q.a(biConsumer), q.a(biConsumer2));
     }
 
     @Override // java.util.stream.Stream
@@ -79,12 +78,12 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Optional findAny() {
-        return AbstractC0038a.t(this.a.findAny());
+        return j$.util.a.t(this.a.findAny());
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Optional findFirst() {
-        return AbstractC0038a.t(this.a.findFirst());
+        return j$.util.a.t(this.a.findFirst());
     }
 
     @Override // java.util.stream.Stream
@@ -109,12 +108,12 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ void forEach(Consumer consumer) {
-        this.a.forEach(C0236w.b(consumer));
+        this.a.forEach(w.b(consumer));
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ void forEachOrdered(Consumer consumer) {
-        this.a.e(C0236w.b(consumer));
+        this.a.e(w.b(consumer));
     }
 
     @Override // java.util.stream.BaseStream
@@ -154,12 +153,12 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Optional max(Comparator comparator) {
-        return AbstractC0038a.t(this.a.max(comparator));
+        return j$.util.a.t(this.a.max(comparator));
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Optional min(Comparator comparator) {
-        return AbstractC0038a.t(this.a.min(comparator));
+        return j$.util.a.t(this.a.min(comparator));
     }
 
     @Override // java.util.stream.Stream
@@ -179,22 +178,22 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Stream peek(Consumer consumer) {
-        return n0(this.a.V(C0236w.b(consumer)));
+        return n0(this.a.V(w.b(consumer)));
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Object reduce(Object obj, BiFunction biFunction, BinaryOperator binaryOperator) {
-        return this.a.B(obj, C0232s.a(biFunction), C0234u.a(binaryOperator));
+        return this.a.B(obj, s.a(biFunction), u.a(binaryOperator));
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Object reduce(Object obj, BinaryOperator binaryOperator) {
-        return this.a.m0(obj, C0234u.a(binaryOperator));
+        return this.a.m0(obj, u.a(binaryOperator));
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Optional reduce(BinaryOperator binaryOperator) {
-        return AbstractC0038a.t(this.a.t(C0234u.a(binaryOperator)));
+        return j$.util.a.t(this.a.t(u.a(binaryOperator)));
     }
 
     @Override // java.util.stream.BaseStream
@@ -219,7 +218,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ Spliterator spliterator() {
-        return C0213h.a(this.a.spliterator());
+        return h.a(this.a.spliterator());
     }
 
     @Override // java.util.stream.Stream

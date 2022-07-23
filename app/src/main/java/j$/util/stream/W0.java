@@ -8,7 +8,7 @@ public final /* synthetic */ class W0 implements j$.util.function.q {
     public final void accept(long j) {
         switch (this.a) {
             case 0:
-                ((AbstractC0129m3) this.b).accept(j);
+                ((m3) this.b).accept(j);
                 return;
             default:
                 ((Z0) this.b).a.accept(j);

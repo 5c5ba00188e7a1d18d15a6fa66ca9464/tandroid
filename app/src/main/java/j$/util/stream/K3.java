@@ -3,23 +3,23 @@ package j$.util.stream;
 import java.util.Arrays;
 /* loaded from: classes2.dex */
 final class K3 extends J0 {
-    public K3(AbstractC0065c abstractC0065c) {
-        super(abstractC0065c, EnumC0082e4.INT_VALUE, EnumC0076d4.q | EnumC0076d4.o);
+    public K3(c cVar) {
+        super(cVar, e4.INT_VALUE, d4.q | d4.o);
     }
 
-    @Override // j$.util.stream.AbstractC0065c
-    public A1 E0(AbstractC0192y2 abstractC0192y2, j$.util.u uVar, j$.util.function.m mVar) {
-        if (EnumC0076d4.SORTED.d(abstractC0192y2.s0())) {
-            return abstractC0192y2.p0(uVar, false, mVar);
+    @Override // j$.util.stream.c
+    public A1 E0(y2 y2Var, j$.util.u uVar, j$.util.function.m mVar) {
+        if (d4.SORTED.d(y2Var.s0())) {
+            return y2Var.p0(uVar, false, mVar);
         }
-        int[] iArr = (int[]) ((AbstractC0181w1) abstractC0192y2.p0(uVar, true, mVar)).e();
+        int[] iArr = (int[]) ((w1) y2Var.p0(uVar, true, mVar)).e();
         Arrays.sort(iArr);
-        return new C0068c2(iArr);
+        return new c2(iArr);
     }
 
-    @Override // j$.util.stream.AbstractC0065c
-    public AbstractC0129m3 H0(int i, AbstractC0129m3 abstractC0129m3) {
-        abstractC0129m3.getClass();
-        return EnumC0076d4.SORTED.d(i) ? abstractC0129m3 : EnumC0076d4.SIZED.d(i) ? new P3(abstractC0129m3) : new H3(abstractC0129m3);
+    @Override // j$.util.stream.c
+    public m3 H0(int i, m3 m3Var) {
+        m3Var.getClass();
+        return d4.SORTED.d(i) ? m3Var : d4.SIZED.d(i) ? new P3(m3Var) : new H3(m3Var);
     }
 }

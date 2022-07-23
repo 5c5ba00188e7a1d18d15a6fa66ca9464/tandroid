@@ -1,17 +1,13 @@
 package j$.util.stream;
 
-import j$.util.C0046h;
-import j$.util.C0048j;
-import j$.util.C0049k;
 import j$.util.function.BiConsumer;
 import j$.util.p;
 import j$.util.u;
-import j$.wrappers.C0202b0;
 import java.util.Iterator;
 /* loaded from: classes2.dex */
-public abstract class L0 extends AbstractC0065c implements IntStream {
-    public L0(AbstractC0065c abstractC0065c, int i) {
-        super(abstractC0065c, i);
+public abstract class L0 extends c implements IntStream {
+    public L0(c cVar, int i) {
+        super(cVar, i);
     }
 
     public L0(j$.util.u uVar, int i, boolean z) {
@@ -29,106 +25,106 @@ public abstract class L0 extends AbstractC0065c implements IntStream {
         if (!Q4.a) {
             throw new UnsupportedOperationException("IntStream.adapt(Spliterator<Integer> s)");
         }
-        Q4.a(AbstractC0065c.class, "using IntStream.adapt(Spliterator<Integer> s)");
+        Q4.a(c.class, "using IntStream.adapt(Spliterator<Integer> s)");
         throw null;
     }
 
     @Override // j$.util.stream.IntStream
     public final U A(j$.wrappers.X x) {
         x.getClass();
-        return new K(this, this, EnumC0082e4.INT_VALUE, EnumC0076d4.p | EnumC0076d4.n, x);
+        return new K(this, this, e4.INT_VALUE, d4.p | d4.n, x);
     }
 
-    @Override // j$.util.stream.AbstractC0065c
-    final void A0(j$.util.u uVar, AbstractC0129m3 abstractC0129m3) {
+    @Override // j$.util.stream.c
+    final void A0(j$.util.u uVar, m3 m3Var) {
         j$.util.function.l lVar;
         u.a M0 = M0(uVar);
-        if (abstractC0129m3 instanceof j$.util.function.l) {
-            lVar = (j$.util.function.l) abstractC0129m3;
+        if (m3Var instanceof j$.util.function.l) {
+            lVar = (j$.util.function.l) m3Var;
         } else if (Q4.a) {
-            Q4.a(AbstractC0065c.class, "using IntStream.adapt(Sink<Integer> s)");
+            Q4.a(c.class, "using IntStream.adapt(Sink<Integer> s)");
             throw null;
         } else {
-            lVar = new B0(abstractC0129m3);
+            lVar = new B0(m3Var);
         }
-        while (!abstractC0129m3.o() && M0.g(lVar)) {
+        while (!m3Var.o() && M0.g(lVar)) {
         }
     }
 
-    @Override // j$.util.stream.AbstractC0065c
-    public final EnumC0082e4 B0() {
-        return EnumC0082e4.INT_VALUE;
+    @Override // j$.util.stream.c
+    public final e4 B0() {
+        return e4.INT_VALUE;
     }
 
     @Override // j$.util.stream.IntStream
     public final boolean C(j$.wrappers.V v) {
-        return ((Boolean) x0(AbstractC0139o1.v(v, EnumC0115k1.ALL))).booleanValue();
+        return ((Boolean) x0(o1.v(v, k1.ALL))).booleanValue();
     }
 
     @Override // j$.util.stream.IntStream
     public final boolean F(j$.wrappers.V v) {
-        return ((Boolean) x0(AbstractC0139o1.v(v, EnumC0115k1.ANY))).booleanValue();
+        return ((Boolean) x0(o1.v(v, k1.ANY))).booleanValue();
     }
 
     public void I(j$.util.function.l lVar) {
         lVar.getClass();
-        x0(new C0120l0(lVar, true));
+        x0(new l0(lVar, true));
     }
 
     @Override // j$.util.stream.IntStream
     public final Stream J(j$.util.function.m mVar) {
         mVar.getClass();
-        return new L(this, this, EnumC0082e4.INT_VALUE, EnumC0076d4.p | EnumC0076d4.n, mVar);
+        return new L(this, this, e4.INT_VALUE, d4.p | d4.n, mVar);
     }
 
-    @Override // j$.util.stream.AbstractC0065c
-    final j$.util.u K0(AbstractC0192y2 abstractC0192y2, j$.util.function.y yVar, boolean z) {
-        return new C0154q4(abstractC0192y2, yVar, z);
+    @Override // j$.util.stream.c
+    final j$.util.u K0(y2 y2Var, j$.util.function.y yVar, boolean z) {
+        return new q4(y2Var, yVar, z);
     }
 
     @Override // j$.util.stream.IntStream
     public final int N(int i, j$.util.function.j jVar) {
         jVar.getClass();
-        return ((Integer) x0(new L2(EnumC0082e4.INT_VALUE, jVar, i))).intValue();
+        return ((Integer) x0(new L2(e4.INT_VALUE, jVar, i))).intValue();
     }
 
     @Override // j$.util.stream.IntStream
     public final IntStream P(j$.util.function.m mVar) {
-        return new M(this, this, EnumC0082e4.INT_VALUE, EnumC0076d4.p | EnumC0076d4.n | EnumC0076d4.t, mVar);
+        return new M(this, this, e4.INT_VALUE, d4.p | d4.n | d4.t, mVar);
     }
 
     public void U(j$.util.function.l lVar) {
         lVar.getClass();
-        x0(new C0120l0(lVar, false));
+        x0(new l0(lVar, false));
     }
 
     @Override // j$.util.stream.IntStream
-    public final C0049k a0(j$.util.function.j jVar) {
+    public final j$.util.k a0(j$.util.function.j jVar) {
         jVar.getClass();
-        return (C0049k) x0(new D2(EnumC0082e4.INT_VALUE, jVar));
+        return (j$.util.k) x0(new D2(e4.INT_VALUE, jVar));
     }
 
     @Override // j$.util.stream.IntStream
     public final U asDoubleStream() {
-        return new O(this, this, EnumC0082e4.INT_VALUE, EnumC0076d4.p | EnumC0076d4.n);
+        return new O(this, this, e4.INT_VALUE, d4.p | d4.n);
     }
 
     @Override // j$.util.stream.IntStream
-    public final AbstractC0079e1 asLongStream() {
-        return new G0(this, this, EnumC0082e4.INT_VALUE, EnumC0076d4.p | EnumC0076d4.n);
+    public final e1 asLongStream() {
+        return new G0(this, this, e4.INT_VALUE, d4.p | d4.n);
     }
 
     @Override // j$.util.stream.IntStream
-    public final C0048j average() {
-        long[] jArr = (long[]) k0(C0175v0.a, C0170u0.a, C0185x0.a);
+    public final j$.util.j average() {
+        long[] jArr = (long[]) k0(v0.a, u0.a, x0.a);
         if (jArr[0] > 0) {
             double d = jArr[1];
             double d2 = jArr[0];
             Double.isNaN(d);
             Double.isNaN(d2);
-            return C0048j.d(d / d2);
+            return j$.util.j.d(d / d2);
         }
-        return C0048j.a();
+        return j$.util.j.a();
     }
 
     @Override // j$.util.stream.IntStream
@@ -139,48 +135,48 @@ public abstract class L0 extends AbstractC0065c implements IntStream {
     @Override // j$.util.stream.IntStream
     public final IntStream c0(j$.util.function.l lVar) {
         lVar.getClass();
-        return new M(this, this, EnumC0082e4.INT_VALUE, 0, lVar);
+        return new M(this, this, e4.INT_VALUE, 0, lVar);
     }
 
     @Override // j$.util.stream.IntStream
     public final long count() {
-        return ((AbstractC0073d1) f(E0.a)).sum();
+        return ((d1) f(E0.a)).sum();
     }
 
     @Override // j$.util.stream.IntStream
     public final IntStream distinct() {
-        return ((AbstractC0081e3) J(C0.a)).distinct().m(C0180w0.a);
+        return ((e3) J(C0.a)).distinct().m(w0.a);
     }
 
     @Override // j$.util.stream.IntStream
-    public final AbstractC0079e1 f(j$.util.function.n nVar) {
+    public final e1 f(j$.util.function.n nVar) {
         nVar.getClass();
-        return new N(this, this, EnumC0082e4.INT_VALUE, EnumC0076d4.p | EnumC0076d4.n, nVar);
+        return new N(this, this, e4.INT_VALUE, d4.p | d4.n, nVar);
     }
 
     @Override // j$.util.stream.IntStream
-    public final C0049k findAny() {
-        return (C0049k) x0(new C0072d0(false, EnumC0082e4.INT_VALUE, C0049k.a(), X.a, C0054a0.a));
+    public final j$.util.k findAny() {
+        return (j$.util.k) x0(new d0(false, e4.INT_VALUE, j$.util.k.a(), X.a, a0.a));
     }
 
     @Override // j$.util.stream.IntStream
-    public final C0049k findFirst() {
-        return (C0049k) x0(new C0072d0(true, EnumC0082e4.INT_VALUE, C0049k.a(), X.a, C0054a0.a));
+    public final j$.util.k findFirst() {
+        return (j$.util.k) x0(new d0(true, e4.INT_VALUE, j$.util.k.a(), X.a, a0.a));
     }
 
     @Override // j$.util.stream.IntStream
     public final IntStream h(j$.wrappers.V v) {
         v.getClass();
-        return new M(this, this, EnumC0082e4.INT_VALUE, EnumC0076d4.t, v);
+        return new M(this, this, e4.INT_VALUE, d4.t, v);
     }
 
-    @Override // j$.util.stream.AbstractC0089g
+    @Override // j$.util.stream.g
     /* renamed from: iterator */
     public final p.a mo66iterator() {
         return j$.util.L.g(spliterator());
     }
 
-    @Override // j$.util.stream.AbstractC0089g
+    @Override // j$.util.stream.g
     /* renamed from: iterator */
     public Iterator mo66iterator() {
         return j$.util.L.g(spliterator());
@@ -191,7 +187,7 @@ public abstract class L0 extends AbstractC0065c implements IntStream {
         C c = new C(biConsumer, 1);
         yVar.getClass();
         vVar.getClass();
-        return x0(new C0197z2(EnumC0082e4.INT_VALUE, c, vVar, yVar));
+        return x0(new z2(e4.INT_VALUE, c, vVar, yVar));
     }
 
     @Override // j$.util.stream.IntStream
@@ -203,19 +199,19 @@ public abstract class L0 extends AbstractC0065c implements IntStream {
     }
 
     @Override // j$.util.stream.IntStream
-    public final C0049k max() {
-        return a0(C0195z0.a);
+    public final j$.util.k max() {
+        return a0(z0.a);
     }
 
     @Override // j$.util.stream.IntStream
-    public final C0049k min() {
+    public final j$.util.k min() {
         return a0(A0.a);
     }
 
     @Override // j$.util.stream.IntStream
-    public final IntStream q(C0202b0 c0202b0) {
-        c0202b0.getClass();
-        return new M(this, this, EnumC0082e4.INT_VALUE, EnumC0076d4.p | EnumC0076d4.n, c0202b0);
+    public final IntStream q(j$.wrappers.b0 b0Var) {
+        b0Var.getClass();
+        return new M(this, this, e4.INT_VALUE, d4.p | d4.n, b0Var);
     }
 
     @Override // j$.util.stream.IntStream
@@ -232,43 +228,43 @@ public abstract class L0 extends AbstractC0065c implements IntStream {
         return new K3(this);
     }
 
-    @Override // j$.util.stream.AbstractC0065c, j$.util.stream.AbstractC0089g
+    @Override // j$.util.stream.c, j$.util.stream.g
     public final u.a spliterator() {
         return M0(super.spliterator());
     }
 
     @Override // j$.util.stream.IntStream
     public final int sum() {
-        return ((Integer) x0(new L2(EnumC0082e4.INT_VALUE, C0190y0.a, 0))).intValue();
+        return ((Integer) x0(new L2(e4.INT_VALUE, y0.a, 0))).intValue();
     }
 
     @Override // j$.util.stream.IntStream
-    public final C0046h summaryStatistics() {
-        return (C0046h) k0(C0107j.a, C0165t0.a, C0160s0.a);
+    public final j$.util.h summaryStatistics() {
+        return (j$.util.h) k0(j.a, t0.a, s0.a);
     }
 
-    @Override // j$.util.stream.AbstractC0192y2
-    public final AbstractC0161s1 t0(long j, j$.util.function.m mVar) {
-        return AbstractC0187x2.p(j);
+    @Override // j$.util.stream.y2
+    public final s1 t0(long j, j$.util.function.m mVar) {
+        return x2.p(j);
     }
 
     @Override // j$.util.stream.IntStream
     public final int[] toArray() {
-        return (int[]) AbstractC0187x2.n((AbstractC0181w1) y0(D0.a)).e();
+        return (int[]) x2.n((w1) y0(D0.a)).e();
     }
 
-    @Override // j$.util.stream.AbstractC0089g
-    public AbstractC0089g unordered() {
-        return !C0() ? this : new H0(this, this, EnumC0082e4.INT_VALUE, EnumC0076d4.r);
+    @Override // j$.util.stream.g
+    public g unordered() {
+        return !C0() ? this : new H0(this, this, e4.INT_VALUE, d4.r);
     }
 
     @Override // j$.util.stream.IntStream
     public final boolean v(j$.wrappers.V v) {
-        return ((Boolean) x0(AbstractC0139o1.v(v, EnumC0115k1.NONE))).booleanValue();
+        return ((Boolean) x0(o1.v(v, k1.NONE))).booleanValue();
     }
 
-    @Override // j$.util.stream.AbstractC0065c
-    final A1 z0(AbstractC0192y2 abstractC0192y2, j$.util.u uVar, boolean z, j$.util.function.m mVar) {
-        return AbstractC0187x2.g(abstractC0192y2, uVar, z);
+    @Override // j$.util.stream.c
+    final A1 z0(y2 y2Var, j$.util.u uVar, boolean z, j$.util.function.m mVar) {
+        return x2.g(y2Var, uVar, z);
     }
 }

@@ -1,6 +1,5 @@
 package j$.util.concurrent;
 
-import j$.util.AbstractC0038a;
 import j$.util.function.Consumer;
 import j$.util.t;
 import java.util.Comparator;
@@ -31,7 +30,7 @@ final class f implements t {
 
     @Override // j$.util.t, j$.util.u
     public /* synthetic */ boolean b(Consumer consumer) {
-        return AbstractC0038a.j(this, consumer);
+        return j$.util.a.j(this, consumer);
     }
 
     @Override // j$.util.u
@@ -64,7 +63,7 @@ final class f implements t {
 
     @Override // j$.util.t, j$.util.u
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        AbstractC0038a.b(this, consumer);
+        j$.util.a.b(this, consumer);
     }
 
     @Override // j$.util.u
@@ -74,12 +73,12 @@ final class f implements t {
 
     @Override // j$.util.u
     public /* synthetic */ long getExactSizeIfKnown() {
-        return AbstractC0038a.e(this);
+        return j$.util.a.e(this);
     }
 
     @Override // j$.util.u
     public /* synthetic */ boolean hasCharacteristics(int i) {
-        return AbstractC0038a.f(this, i);
+        return j$.util.a.f(this, i);
     }
 
     @Override // j$.util.t

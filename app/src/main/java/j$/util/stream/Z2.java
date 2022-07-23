@@ -1,12 +1,12 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-class Z2 extends AbstractC0075d3 {
-    public Z2(AbstractC0081e3 abstractC0081e3, AbstractC0065c abstractC0065c, EnumC0082e4 enumC0082e4, int i) {
-        super(abstractC0065c, enumC0082e4, i);
+class Z2 extends d3 {
+    public Z2(e3 e3Var, c cVar, e4 e4Var, int i) {
+        super(cVar, e4Var, i);
     }
 
-    @Override // j$.util.stream.AbstractC0065c
-    public AbstractC0129m3 H0(int i, AbstractC0129m3 abstractC0129m3) {
-        return abstractC0129m3;
+    @Override // j$.util.stream.c
+    public m3 H0(int i, m3 m3Var) {
+        return m3Var;
     }
 }

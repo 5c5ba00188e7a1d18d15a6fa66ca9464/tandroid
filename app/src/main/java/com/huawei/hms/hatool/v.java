@@ -34,14 +34,14 @@ public class v {
         return g1Var;
     }
 
-    public static C0037r b(String str, String str2) {
+    public static r b(String str, String str2) {
         y.c("hmsSdk", "generate UploadData EventModelHandlerBase");
         x.d().a(str, str2);
         if (TextUtils.isEmpty(x.d().a())) {
             y.f("hmsSdk", "event chifer is empty");
             return null;
         }
-        return new C0037r(x.d().c());
+        return new r(x.d().c());
     }
 
     public static Map<String, String> c(String str, String str2) {

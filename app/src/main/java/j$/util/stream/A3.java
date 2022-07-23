@@ -2,8 +2,8 @@ package j$.util.stream;
 
 import java.util.concurrent.CountedCompleter;
 /* loaded from: classes2.dex */
-final class A3 extends AbstractC0071d {
-    private final AbstractC0065c j;
+final class A3 extends d {
+    private final c j;
     private final j$.util.function.m k;
     private final long l;
     private final long m;
@@ -18,9 +18,9 @@ final class A3 extends AbstractC0071d {
         this.m = a3.m;
     }
 
-    public A3(AbstractC0065c abstractC0065c, AbstractC0192y2 abstractC0192y2, j$.util.u uVar, j$.util.function.m mVar, long j, long j2) {
-        super(abstractC0192y2, uVar);
-        this.j = abstractC0065c;
+    public A3(c cVar, y2 y2Var, j$.util.u uVar, j$.util.function.m mVar, long j, long j2) {
+        super(y2Var, uVar);
+        this.j = cVar;
         this.k = mVar;
         this.l = j;
         this.m = j2;
@@ -39,22 +39,22 @@ final class A3 extends AbstractC0071d {
         return m >= j ? m : m + a32.m(j);
     }
 
-    @Override // j$.util.stream.AbstractC0083f
+    @Override // j$.util.stream.f
     public Object a() {
         long j = -1;
         if (e()) {
-            if (EnumC0076d4.SIZED.e(this.j.c)) {
+            if (d4.SIZED.e(this.j.c)) {
                 j = this.j.q0(this.b);
             }
-            AbstractC0161s1 t0 = this.j.t0(j, this.k);
-            AbstractC0129m3 H0 = this.j.H0(this.a.s0(), t0);
-            AbstractC0192y2 abstractC0192y2 = this.a;
-            abstractC0192y2.o0(abstractC0192y2.v0(H0), this.b);
+            s1 t0 = this.j.t0(j, this.k);
+            m3 H0 = this.j.H0(this.a.s0(), t0);
+            y2 y2Var = this.a;
+            y2Var.o0(y2Var.v0(H0), this.b);
             return t0.mo70a();
         }
-        AbstractC0192y2 abstractC0192y22 = this.a;
-        AbstractC0161s1 t02 = abstractC0192y22.t0(-1L, this.k);
-        abstractC0192y22.u0(t02, this.b);
+        y2 y2Var2 = this.a;
+        s1 t02 = y2Var2.t0(-1L, this.k);
+        y2Var2.u0(t02, this.b);
         A1 mo70a = t02.mo70a();
         this.n = mo70a.count();
         this.o = true;
@@ -62,12 +62,12 @@ final class A3 extends AbstractC0071d {
         return mo70a;
     }
 
-    @Override // j$.util.stream.AbstractC0083f
-    public AbstractC0083f f(j$.util.u uVar) {
+    @Override // j$.util.stream.f
+    public f f(j$.util.u uVar) {
         return new A3(this, uVar);
     }
 
-    @Override // j$.util.stream.AbstractC0071d
+    @Override // j$.util.stream.d
     protected void i() {
         this.i = true;
         if (this.o) {
@@ -77,11 +77,11 @@ final class A3 extends AbstractC0071d {
 
     /* renamed from: n */
     public final A1 k() {
-        return AbstractC0187x2.k(this.j.B0());
+        return x2.k(this.j.B0());
     }
 
     /* JADX WARN: Removed duplicated region for block: B:17:0x0065  */
-    @Override // j$.util.stream.AbstractC0083f, java.util.concurrent.CountedCompleter
+    @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -94,7 +94,7 @@ final class A3 extends AbstractC0071d {
             if (this.i) {
                 this.n = 0L;
             } else if (this.n != 0) {
-                i = ((A3) this.d).n == 0 ? (A1) ((A3) this.e).b() : AbstractC0187x2.i(this.j.B0(), (A1) ((A3) this.d).b(), (A1) ((A3) this.e).b());
+                i = ((A3) this.d).n == 0 ? (A1) ((A3) this.e).b() : x2.i(this.j.B0(), (A1) ((A3) this.d).b(), (A1) ((A3) this.e).b());
                 A1 a1 = i;
                 if (e()) {
                     a1 = a1.r(this.l, this.m >= 0 ? Math.min(a1.count(), this.l + this.m) : this.n, this.k);

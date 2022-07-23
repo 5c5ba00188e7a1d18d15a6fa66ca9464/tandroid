@@ -50,7 +50,7 @@ public class u {
             if (!"_hms_config_tag".equals(this.a) && !"_openness_config_tag".equals(this.a)) {
                 b();
             }
-            C0037r d = d();
+            r d = d();
             if (d != null) {
                 byte[] a2 = a(d);
                 if (a2.length == 0) {
@@ -70,10 +70,10 @@ public class u {
         y.e("hmsSdk", str);
     }
 
-    public final byte[] a(C0037r c0037r) {
+    public final byte[] a(r rVar) {
         String str;
         try {
-            JSONObject a = c0037r.a();
+            JSONObject a = rVar.a();
             if (a != null) {
                 return t0.a(a.toString().getBytes("UTF-8"));
             }
@@ -113,7 +113,7 @@ public class u {
         return jSONArray;
     }
 
-    public final C0037r d() {
+    public final r d() {
         return d1.a(this.d, this.a, this.b, this.e, this.c);
     }
 }

@@ -1,6 +1,5 @@
 package j$.wrappers;
 
-import j$.util.AbstractC0038a;
 import java.util.DoubleSummaryStatistics;
 import java.util.OptionalDouble;
 import java.util.function.BiConsumer;
@@ -44,7 +43,7 @@ public final /* synthetic */ class M0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble average() {
-        return AbstractC0038a.u(this.a.average());
+        return j$.util.a.u(this.a.average());
     }
 
     @Override // java.util.stream.DoubleStream
@@ -59,7 +58,7 @@ public final /* synthetic */ class M0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ Object collect(Supplier supplier, ObjDoubleConsumer objDoubleConsumer, BiConsumer biConsumer) {
-        return this.a.H(z0.a(supplier), r0.a(objDoubleConsumer), C0231q.a(biConsumer));
+        return this.a.H(z0.a(supplier), r0.a(objDoubleConsumer), q.a(biConsumer));
     }
 
     @Override // java.util.stream.DoubleStream
@@ -79,12 +78,12 @@ public final /* synthetic */ class M0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble findAny() {
-        return AbstractC0038a.u(this.a.findAny());
+        return j$.util.a.u(this.a.findAny());
     }
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble findFirst() {
-        return AbstractC0038a.u(this.a.findFirst());
+        return j$.util.a.u(this.a.findFirst());
     }
 
     @Override // java.util.stream.DoubleStream
@@ -134,12 +133,12 @@ public final /* synthetic */ class M0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble max() {
-        return AbstractC0038a.u(this.a.max());
+        return j$.util.a.u(this.a.max());
     }
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble min() {
-        return AbstractC0038a.u(this.a.min());
+        return j$.util.a.u(this.a.min());
     }
 
     @Override // java.util.stream.DoubleStream
@@ -160,12 +159,12 @@ public final /* synthetic */ class M0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ double reduce(double d, DoubleBinaryOperator doubleBinaryOperator) {
-        return this.a.K(d, C0238y.a(doubleBinaryOperator));
+        return this.a.K(d, y.a(doubleBinaryOperator));
     }
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble reduce(DoubleBinaryOperator doubleBinaryOperator) {
-        return AbstractC0038a.u(this.a.G(C0238y.a(doubleBinaryOperator)));
+        return j$.util.a.u(this.a.G(y.a(doubleBinaryOperator)));
     }
 
     @Override // java.util.stream.DoubleStream

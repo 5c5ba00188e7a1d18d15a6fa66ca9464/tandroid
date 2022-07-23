@@ -1,20 +1,16 @@
 package j$.util.stream;
-
-import j$.wrappers.C0218j0;
-import j$.wrappers.C0222l0;
-import j$.wrappers.C0226n0;
 /* loaded from: classes2.dex */
-class Z0 extends AbstractC0099h3 {
+class Z0 extends h3 {
     public final /* synthetic */ int b = 4;
     final /* synthetic */ Object c;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Z0(K k, AbstractC0129m3 abstractC0129m3) {
-        super(abstractC0129m3);
+    public Z0(K k, m3 m3Var) {
+        super(m3Var);
         this.c = k;
     }
 
-    @Override // j$.util.stream.AbstractC0123l3, j$.util.function.q
+    @Override // j$.util.stream.l3, j$.util.function.q
     public void accept(long j) {
         switch (this.b) {
             case 0:
@@ -24,32 +20,32 @@ class Z0 extends AbstractC0099h3 {
                 this.a.accept(((j$.util.function.t) ((N) this.c).m).applyAsLong(j));
                 return;
             case 2:
-                this.a.accept((AbstractC0129m3) ((j$.util.function.r) ((L) this.c).m).apply(j));
+                this.a.accept((m3) ((j$.util.function.r) ((L) this.c).m).apply(j));
                 return;
             case 3:
-                this.a.accept(((C0226n0) ((M) this.c).m).a(j));
+                this.a.accept(((j$.wrappers.n0) ((M) this.c).m).a(j));
                 return;
             case 4:
-                this.a.accept(((C0222l0) ((K) this.c).m).a(j));
+                this.a.accept(((j$.wrappers.l0) ((K) this.c).m).a(j));
                 return;
             case 5:
-                AbstractC0079e1 abstractC0079e1 = (AbstractC0079e1) ((j$.util.function.r) ((N) this.c).m).apply(j);
-                if (abstractC0079e1 != null) {
+                e1 e1Var = (e1) ((j$.util.function.r) ((N) this.c).m).apply(j);
+                if (e1Var != null) {
                     try {
-                        abstractC0079e1.sequential().d(new W0(this));
+                        e1Var.sequential().d(new W0(this));
                     } finally {
                         try {
-                            abstractC0079e1.close();
+                            e1Var.close();
                         } catch (Throwable unused) {
                         }
                     }
                 }
-                if (abstractC0079e1 == null) {
+                if (e1Var == null) {
                     return;
                 }
                 return;
             case 6:
-                if (!((C0218j0) ((N) this.c).m).b(j)) {
+                if (!((j$.wrappers.j0) ((N) this.c).m).b(j)) {
                     return;
                 }
                 this.a.accept(j);
@@ -61,7 +57,7 @@ class Z0 extends AbstractC0099h3 {
         }
     }
 
-    @Override // j$.util.stream.AbstractC0129m3
+    @Override // j$.util.stream.m3
     public void n(long j) {
         switch (this.b) {
             case 5:
@@ -77,44 +73,44 @@ class Z0 extends AbstractC0099h3 {
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Z0(L l, AbstractC0129m3 abstractC0129m3) {
-        super(abstractC0129m3);
+    public Z0(L l, m3 m3Var) {
+        super(m3Var);
         this.c = l;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Z0(M m, AbstractC0129m3 abstractC0129m3) {
-        super(abstractC0129m3);
+    public Z0(M m, m3 m3Var) {
+        super(m3Var);
         this.c = m;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Z0(N n, AbstractC0129m3 abstractC0129m3) {
-        super(abstractC0129m3);
+    public Z0(N n, m3 m3Var) {
+        super(m3Var);
         this.c = n;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Z0(N n, AbstractC0129m3 abstractC0129m3, j$.lang.a aVar) {
-        super(abstractC0129m3);
+    public Z0(N n, m3 m3Var, j$.lang.a aVar) {
+        super(m3Var);
         this.c = n;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Z0(N n, AbstractC0129m3 abstractC0129m3, j$.lang.b bVar) {
-        super(abstractC0129m3);
+    public Z0(N n, m3 m3Var, j$.lang.b bVar) {
+        super(m3Var);
         this.c = n;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Z0(N n, AbstractC0129m3 abstractC0129m3, j$.lang.c cVar) {
-        super(abstractC0129m3);
+    public Z0(N n, m3 m3Var, j$.lang.c cVar) {
+        super(m3Var);
         this.c = n;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Z0(O o, AbstractC0129m3 abstractC0129m3) {
-        super(abstractC0129m3);
+    public Z0(O o, m3 m3Var) {
+        super(m3Var);
         this.c = o;
     }
 }

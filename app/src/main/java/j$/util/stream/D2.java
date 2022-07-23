@@ -5,8 +5,8 @@ class D2 extends U2 {
     final /* synthetic */ Object c;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public D2(EnumC0082e4 enumC0082e4, j$.util.function.b bVar) {
-        super(enumC0082e4);
+    public D2(e4 e4Var, j$.util.function.b bVar) {
+        super(e4Var);
         this.c = bVar;
     }
 
@@ -25,20 +25,20 @@ class D2 extends U2 {
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public D2(EnumC0082e4 enumC0082e4, j$.util.function.d dVar) {
-        super(enumC0082e4);
+    public D2(e4 e4Var, j$.util.function.d dVar) {
+        super(e4Var);
         this.c = dVar;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public D2(EnumC0082e4 enumC0082e4, j$.util.function.j jVar) {
-        super(enumC0082e4);
+    public D2(e4 e4Var, j$.util.function.j jVar) {
+        super(e4Var);
         this.c = jVar;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public D2(EnumC0082e4 enumC0082e4, j$.util.function.o oVar) {
-        super(enumC0082e4);
+    public D2(e4 e4Var, j$.util.function.o oVar) {
+        super(e4Var);
         this.c = oVar;
     }
 }

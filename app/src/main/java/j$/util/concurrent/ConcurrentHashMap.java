@@ -1,19 +1,15 @@
 package j$.util.concurrent;
 
 import com.huawei.hms.framework.common.ContainerUtils;
-import j$.util.AbstractC0038a;
-import j$.util.AbstractC0039b;
 import j$.util.Iterator;
 import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
 import j$.util.function.Consumer;
 import j$.util.function.Function;
 import j$.util.function.Predicate;
-import j$.wrappers.C0231q;
-import j$.wrappers.C0232s;
-import j$.wrappers.C0236w;
 import j$.wrappers.M;
 import j$.wrappers.P0;
+import j$.wrappers.w;
 import j$.wrappers.x0;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -112,7 +108,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Iterator
         public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-            Iterator.CC.$default$forEachRemaining(this, C0236w.b(consumer));
+            Iterator.CC.$default$forEachRemaining(this, w.b(consumer));
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
@@ -130,7 +126,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     /* loaded from: classes2.dex */
-    public static final class e extends b implements Set, AbstractC0039b {
+    public static final class e extends b implements Set, j$.util.b {
         e(ConcurrentHashMap concurrentHashMap) {
             super(concurrentHashMap);
         }
@@ -167,7 +163,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return (obj instanceof Set) && ((set = (Set) obj) == this || (containsAll(set) && set.containsAll(this)));
         }
 
-        @Override // j$.util.AbstractC0039b, j$.lang.e
+        @Override // j$.util.b, j$.lang.e
         public void forEach(Consumer consumer) {
             consumer.getClass();
             l[] lVarArr = this.a.a;
@@ -185,7 +181,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.lang.Iterable
         public /* synthetic */ void forEach(java.util.function.Consumer consumer) {
-            forEach(C0236w.b(consumer));
+            forEach(w.b(consumer));
         }
 
         @Override // java.util.Collection, java.util.Set
@@ -213,14 +209,14 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return new d(lVarArr, length, 0, length, concurrentHashMap);
         }
 
-        @Override // j$.util.AbstractC0039b
+        @Override // j$.util.b
         public /* synthetic */ boolean k(Predicate predicate) {
-            return AbstractC0038a.h(this, predicate);
+            return j$.util.a.h(this, predicate);
         }
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return P0.n0(AbstractC0038a.g(this));
+            return P0.n0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection, java.util.Set
@@ -233,10 +229,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ boolean removeIf(java.util.function.Predicate predicate) {
-            return AbstractC0038a.h(this, x0.a(predicate));
+            return j$.util.a.h(this, x0.a(predicate));
         }
 
-        @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.AbstractC0039b, j$.lang.e
+        @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
         /* renamed from: spliterator */
         public j$.util.u mo71spliterator() {
             ConcurrentHashMap concurrentHashMap = this.a;
@@ -303,12 +299,12 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.u
         public /* synthetic */ long getExactSizeIfKnown() {
-            return AbstractC0038a.e(this);
+            return j$.util.a.e(this);
         }
 
         @Override // j$.util.u
         public /* synthetic */ boolean hasCharacteristics(int i) {
-            return AbstractC0038a.f(this, i);
+            return j$.util.a.f(this, i);
         }
 
         @Override // j$.util.u
@@ -388,7 +384,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Iterator
         public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-            Iterator.CC.$default$forEachRemaining(this, C0236w.b(consumer));
+            Iterator.CC.$default$forEachRemaining(this, w.b(consumer));
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
@@ -410,7 +406,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     /* loaded from: classes2.dex */
-    public static class i extends b implements Set, AbstractC0039b {
+    public static class i extends b implements Set, j$.util.b {
         i(ConcurrentHashMap concurrentHashMap, Object obj) {
             super(concurrentHashMap);
         }
@@ -436,7 +432,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return (obj instanceof Set) && ((set = (Set) obj) == this || (containsAll(set) && set.containsAll(this)));
         }
 
-        @Override // j$.util.AbstractC0039b, j$.lang.e
+        @Override // j$.util.b, j$.lang.e
         public void forEach(Consumer consumer) {
             consumer.getClass();
             l[] lVarArr = this.a.a;
@@ -454,7 +450,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.lang.Iterable
         public /* synthetic */ void forEach(java.util.function.Consumer consumer) {
-            forEach(C0236w.b(consumer));
+            forEach(w.b(consumer));
         }
 
         @Override // java.util.Collection, java.util.Set
@@ -475,14 +471,14 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return new h(lVarArr, length, 0, length, concurrentHashMap);
         }
 
-        @Override // j$.util.AbstractC0039b
+        @Override // j$.util.b
         public /* synthetic */ boolean k(Predicate predicate) {
-            return AbstractC0038a.h(this, predicate);
+            return j$.util.a.h(this, predicate);
         }
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return P0.n0(AbstractC0038a.g(this));
+            return P0.n0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection, java.util.Set
@@ -492,10 +488,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ boolean removeIf(java.util.function.Predicate predicate) {
-            return AbstractC0038a.h(this, x0.a(predicate));
+            return j$.util.a.h(this, x0.a(predicate));
         }
 
-        @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.AbstractC0039b, j$.lang.e
+        @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
         /* renamed from: spliterator */
         public j$.util.u mo71spliterator() {
             ConcurrentHashMap concurrentHashMap = this.a;
@@ -560,12 +556,12 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.u
         public /* synthetic */ long getExactSizeIfKnown() {
-            return AbstractC0038a.e(this);
+            return j$.util.a.e(this);
         }
 
         @Override // j$.util.u
         public /* synthetic */ boolean hasCharacteristics(int i) {
-            return AbstractC0038a.f(this, i);
+            return j$.util.a.f(this, i);
         }
 
         @Override // j$.util.u
@@ -1462,7 +1458,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Iterator
         public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-            Iterator.CC.$default$forEachRemaining(this, C0236w.b(consumer));
+            Iterator.CC.$default$forEachRemaining(this, w.b(consumer));
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
@@ -1533,12 +1529,12 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.u
         public /* synthetic */ long getExactSizeIfKnown() {
-            return AbstractC0038a.e(this);
+            return j$.util.a.e(this);
         }
 
         @Override // j$.util.u
         public /* synthetic */ boolean hasCharacteristics(int i) {
-            return AbstractC0038a.f(this, i);
+            return j$.util.a.f(this, i);
         }
 
         @Override // j$.util.u
@@ -1559,7 +1555,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     /* loaded from: classes2.dex */
-    static final class u extends b implements AbstractC0039b {
+    static final class u extends b implements j$.util.b {
         u(ConcurrentHashMap concurrentHashMap) {
             super(concurrentHashMap);
         }
@@ -1579,7 +1575,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return this.a.containsValue(obj);
         }
 
-        @Override // j$.util.AbstractC0039b, j$.lang.e
+        @Override // j$.util.b, j$.lang.e
         public void forEach(Consumer consumer) {
             consumer.getClass();
             l[] lVarArr = this.a.a;
@@ -1597,7 +1593,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.lang.Iterable
         public /* synthetic */ void forEach(java.util.function.Consumer consumer) {
-            forEach(C0236w.b(consumer));
+            forEach(w.b(consumer));
         }
 
         @Override // j$.util.concurrent.ConcurrentHashMap.b, java.util.Collection, java.lang.Iterable
@@ -1608,14 +1604,14 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return new s(lVarArr, length, 0, length, concurrentHashMap);
         }
 
-        @Override // j$.util.AbstractC0039b
+        @Override // j$.util.b
         public /* synthetic */ boolean k(Predicate predicate) {
-            return AbstractC0038a.h(this, predicate);
+            return j$.util.a.h(this, predicate);
         }
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return P0.n0(AbstractC0038a.g(this));
+            return P0.n0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection
@@ -1637,10 +1633,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ boolean removeIf(java.util.function.Predicate predicate) {
-            return AbstractC0038a.h(this, x0.a(predicate));
+            return j$.util.a.h(this, x0.a(predicate));
         }
 
-        @Override // java.util.Collection, java.lang.Iterable, j$.util.AbstractC0039b, j$.lang.e
+        @Override // java.util.Collection, java.lang.Iterable, j$.util.b, j$.lang.e
         /* renamed from: spliterator */
         public j$.util.u mo71spliterator() {
             ConcurrentHashMap concurrentHashMap = this.a;
@@ -2585,7 +2581,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
     public /* synthetic */ Object compute(Object obj, java.util.function.BiFunction biFunction) {
-        return compute(obj, C0232s.a(biFunction));
+        return compute(obj, j$.wrappers.s.a(biFunction));
     }
 
     @Override // j$.util.Map
@@ -2791,7 +2787,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
     public /* synthetic */ Object computeIfPresent(Object obj, java.util.function.BiFunction biFunction) {
-        return computeIfPresent(obj, C0232s.a(biFunction));
+        return computeIfPresent(obj, j$.wrappers.s.a(biFunction));
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
@@ -2903,7 +2899,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
     public /* synthetic */ void forEach(java.util.function.BiConsumer biConsumer) {
-        forEach(C0231q.a(biConsumer));
+        forEach(j$.wrappers.q.a(biConsumer));
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:32:0x004d, code lost:
@@ -3263,7 +3259,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
     public /* synthetic */ Object merge(Object obj, Object obj2, java.util.function.BiFunction biFunction) {
-        return merge(obj, obj2, C0232s.a(biFunction));
+        return merge(obj, obj2, j$.wrappers.s.a(biFunction));
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
@@ -3337,7 +3333,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
     public /* synthetic */ void replaceAll(java.util.function.BiFunction biFunction) {
-        replaceAll(C0232s.a(biFunction));
+        replaceAll(j$.wrappers.s.a(biFunction));
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map

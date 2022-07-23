@@ -1,6 +1,5 @@
 package j$.util.stream;
 
-import j$.util.AbstractC0038a;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 import org.telegram.tgnet.ConnectionsManager;
@@ -43,18 +42,18 @@ public final class I4 extends J4 implements j$.util.u, Consumer {
     @Override // j$.util.u
     public void forEachRemaining(Consumer consumer) {
         consumer.getClass();
-        C0118k4 c0118k4 = null;
+        k4 k4Var = null;
         while (true) {
             int r = r();
             if (r != 1) {
                 if (r == 2) {
-                    if (c0118k4 == null) {
-                        c0118k4 = new C0118k4(ConnectionsManager.RequestFlagNeedQuickAck);
+                    if (k4Var == null) {
+                        k4Var = new k4(ConnectionsManager.RequestFlagNeedQuickAck);
                     } else {
-                        c0118k4.a = 0;
+                        k4Var.a = 0;
                     }
                     long j = 0;
-                    while (this.a.b(c0118k4)) {
+                    while (this.a.b(k4Var)) {
                         j++;
                         if (j >= 128) {
                             break;
@@ -65,7 +64,7 @@ public final class I4 extends J4 implements j$.util.u, Consumer {
                     }
                     long p = p(j);
                     for (int i = 0; i < p; i++) {
-                        consumer.accept(c0118k4.b[i]);
+                        consumer.accept(k4Var.b[i]);
                     }
                 } else {
                     this.a.forEachRemaining(consumer);
@@ -84,12 +83,12 @@ public final class I4 extends J4 implements j$.util.u, Consumer {
 
     @Override // j$.util.u
     public /* synthetic */ long getExactSizeIfKnown() {
-        return AbstractC0038a.e(this);
+        return j$.util.a.e(this);
     }
 
     @Override // j$.util.u
     public /* synthetic */ boolean hasCharacteristics(int i) {
-        return AbstractC0038a.f(this, i);
+        return j$.util.a.f(this, i);
     }
 
     @Override // j$.util.stream.J4

@@ -38,7 +38,7 @@ public abstract class L {
         return a;
     }
 
-    public static AbstractC0052n f(t tVar) {
+    public static n f(t tVar) {
         tVar.getClass();
         return new A(tVar);
     }

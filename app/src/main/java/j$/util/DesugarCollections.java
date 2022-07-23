@@ -4,8 +4,6 @@ import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
 import j$.util.function.Function;
 import j$.util.function.Predicate;
-import j$.wrappers.C0231q;
-import j$.wrappers.C0232s;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -62,7 +60,7 @@ public class DesugarCollections {
         public Object compute(Object obj, BiFunction biFunction) {
             Object m;
             synchronized (this.b) {
-                m = AbstractC0038a.m(this.a, obj, biFunction);
+                m = j$.util.a.m(this.a, obj, biFunction);
             }
             return m;
         }
@@ -70,9 +68,9 @@ public class DesugarCollections {
         @Override // java.util.Map
         public Object compute(Object obj, java.util.function.BiFunction biFunction) {
             Object m;
-            BiFunction a = C0232s.a(biFunction);
+            BiFunction a = j$.wrappers.s.a(biFunction);
             synchronized (this.b) {
-                m = AbstractC0038a.m(this.a, obj, a);
+                m = j$.util.a.m(this.a, obj, a);
             }
             return m;
         }
@@ -81,7 +79,7 @@ public class DesugarCollections {
         public Object computeIfAbsent(Object obj, Function function) {
             Object n;
             synchronized (this.b) {
-                n = AbstractC0038a.n(this.a, obj, function);
+                n = j$.util.a.n(this.a, obj, function);
             }
             return n;
         }
@@ -91,7 +89,7 @@ public class DesugarCollections {
             Object n;
             Function a = j$.wrappers.M.a(function);
             synchronized (this.b) {
-                n = AbstractC0038a.n(this.a, obj, a);
+                n = j$.util.a.n(this.a, obj, a);
             }
             return n;
         }
@@ -100,7 +98,7 @@ public class DesugarCollections {
         public Object computeIfPresent(Object obj, BiFunction biFunction) {
             Object o;
             synchronized (this.b) {
-                o = AbstractC0038a.o(this.a, obj, biFunction);
+                o = j$.util.a.o(this.a, obj, biFunction);
             }
             return o;
         }
@@ -108,9 +106,9 @@ public class DesugarCollections {
         @Override // java.util.Map
         public Object computeIfPresent(Object obj, java.util.function.BiFunction biFunction) {
             Object o;
-            BiFunction a = C0232s.a(biFunction);
+            BiFunction a = j$.wrappers.s.a(biFunction);
             synchronized (this.b) {
-                o = AbstractC0038a.o(this.a, obj, a);
+                o = j$.util.a.o(this.a, obj, a);
             }
             return o;
         }
@@ -160,15 +158,15 @@ public class DesugarCollections {
         @Override // j$.util.Map
         public void forEach(BiConsumer biConsumer) {
             synchronized (this.b) {
-                AbstractC0038a.y(this.a, biConsumer);
+                j$.util.a.y(this.a, biConsumer);
             }
         }
 
         @Override // java.util.Map
         public void forEach(java.util.function.BiConsumer biConsumer) {
-            BiConsumer a = C0231q.a(biConsumer);
+            BiConsumer a = j$.wrappers.q.a(biConsumer);
             synchronized (this.b) {
-                AbstractC0038a.y(this.a, a);
+                j$.util.a.y(this.a, a);
             }
         }
 
@@ -185,7 +183,7 @@ public class DesugarCollections {
         public Object getOrDefault(Object obj, Object obj2) {
             Object z;
             synchronized (this.b) {
-                z = AbstractC0038a.z(this.a, obj, obj2);
+                z = j$.util.a.z(this.a, obj, obj2);
             }
             return z;
         }
@@ -224,7 +222,7 @@ public class DesugarCollections {
         public Object merge(Object obj, Object obj2, BiFunction biFunction) {
             Object A;
             synchronized (this.b) {
-                A = AbstractC0038a.A(this.a, obj, obj2, biFunction);
+                A = j$.util.a.A(this.a, obj, obj2, biFunction);
             }
             return A;
         }
@@ -232,9 +230,9 @@ public class DesugarCollections {
         @Override // java.util.Map
         public Object merge(Object obj, Object obj2, java.util.function.BiFunction biFunction) {
             Object A;
-            BiFunction a = C0232s.a(biFunction);
+            BiFunction a = j$.wrappers.s.a(biFunction);
             synchronized (this.b) {
-                A = AbstractC0038a.A(this.a, obj, obj2, a);
+                A = j$.util.a.A(this.a, obj, obj2, a);
             }
             return A;
         }
@@ -259,7 +257,7 @@ public class DesugarCollections {
         public Object putIfAbsent(Object obj, Object obj2) {
             Object B;
             synchronized (this.b) {
-                B = AbstractC0038a.B(this.a, obj, obj2);
+                B = j$.util.a.B(this.a, obj, obj2);
             }
             return B;
         }
@@ -277,7 +275,7 @@ public class DesugarCollections {
         public boolean remove(Object obj, Object obj2) {
             boolean C;
             synchronized (this.b) {
-                C = AbstractC0038a.C(this.a, obj, obj2);
+                C = j$.util.a.C(this.a, obj, obj2);
             }
             return C;
         }
@@ -286,7 +284,7 @@ public class DesugarCollections {
         public Object replace(Object obj, Object obj2) {
             Object D;
             synchronized (this.b) {
-                D = AbstractC0038a.D(this.a, obj, obj2);
+                D = j$.util.a.D(this.a, obj, obj2);
             }
             return D;
         }
@@ -295,7 +293,7 @@ public class DesugarCollections {
         public boolean replace(Object obj, Object obj2, Object obj3) {
             boolean E;
             synchronized (this.b) {
-                E = AbstractC0038a.E(this.a, obj, obj2, obj3);
+                E = j$.util.a.E(this.a, obj, obj2, obj3);
             }
             return E;
         }
@@ -303,15 +301,15 @@ public class DesugarCollections {
         @Override // j$.util.Map
         public void replaceAll(BiFunction biFunction) {
             synchronized (this.b) {
-                AbstractC0038a.F(this.a, biFunction);
+                j$.util.a.F(this.a, biFunction);
             }
         }
 
         @Override // java.util.Map
         public void replaceAll(java.util.function.BiFunction biFunction) {
-            BiFunction a = C0232s.a(biFunction);
+            BiFunction a = j$.wrappers.s.a(biFunction);
             synchronized (this.b) {
-                AbstractC0038a.F(this.a, a);
+                j$.util.a.F(this.a, a);
             }
         }
 
@@ -436,7 +434,7 @@ public class DesugarCollections {
         Field field = c;
         if (field == null) {
             try {
-                AbstractC0038a.G((List) d.get(list), comparator);
+                j$.util.a.G((List) d.get(list), comparator);
                 return;
             } catch (IllegalAccessException e2) {
                 throw new Error("Runtime illegal access in synchronized collection sort fall-back.", e2);
@@ -444,7 +442,7 @@ public class DesugarCollections {
         }
         try {
             synchronized (field.get(list)) {
-                AbstractC0038a.G((List) d.get(list), comparator);
+                j$.util.a.G((List) d.get(list), comparator);
             }
         } catch (IllegalAccessException e3) {
             throw new Error("Runtime illegal access in synchronized list sort.", e3);

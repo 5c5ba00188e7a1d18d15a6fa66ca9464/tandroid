@@ -1,6 +1,5 @@
 package j$.util.stream;
 
-import j$.util.AbstractC0038a;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 /* loaded from: classes2.dex */
@@ -10,16 +9,16 @@ public class S3 implements j$.util.u {
     int c;
     final int d;
     Object[] e;
-    final /* synthetic */ C0058a4 f;
+    final /* synthetic */ a4 f;
 
-    public S3(C0058a4 c0058a4, int i, int i2, int i3, int i4) {
-        this.f = c0058a4;
+    public S3(a4 a4Var, int i, int i2, int i3, int i4) {
+        this.f = a4Var;
         this.a = i;
         this.b = i2;
         this.c = i3;
         this.d = i4;
-        Object[][] objArr = c0058a4.f;
-        this.e = objArr == null ? c0058a4.e : objArr[i];
+        Object[][] objArr = a4Var.f;
+        this.e = objArr == null ? a4Var.e : objArr[i];
     }
 
     @Override // j$.util.u
@@ -101,12 +100,12 @@ public class S3 implements j$.util.u {
 
     @Override // j$.util.u
     public /* synthetic */ long getExactSizeIfKnown() {
-        return AbstractC0038a.e(this);
+        return j$.util.a.e(this);
     }
 
     @Override // j$.util.u
     public /* synthetic */ boolean hasCharacteristics(int i) {
-        return AbstractC0038a.f(this, i);
+        return j$.util.a.f(this, i);
     }
 
     @Override // j$.util.u
@@ -114,9 +113,9 @@ public class S3 implements j$.util.u {
         int i = this.a;
         int i2 = this.b;
         if (i < i2) {
-            C0058a4 c0058a4 = this.f;
+            a4 a4Var = this.f;
             int i3 = i2 - 1;
-            S3 s3 = new S3(c0058a4, i, i3, this.c, c0058a4.f[i3].length);
+            S3 s3 = new S3(a4Var, i, i3, this.c, a4Var.f[i3].length);
             int i4 = this.b;
             this.a = i4;
             this.c = 0;

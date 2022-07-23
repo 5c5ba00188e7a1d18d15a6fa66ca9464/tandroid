@@ -6,11 +6,11 @@ final class P3 extends D3 {
     private int[] c;
     private int d;
 
-    public P3(AbstractC0129m3 abstractC0129m3) {
-        super(abstractC0129m3);
+    public P3(m3 m3Var) {
+        super(m3Var);
     }
 
-    @Override // j$.util.stream.AbstractC0117k3, j$.util.stream.AbstractC0129m3
+    @Override // j$.util.stream.k3, j$.util.stream.m3
     public void accept(int i) {
         int[] iArr = this.c;
         int i2 = this.d;
@@ -18,7 +18,7 @@ final class P3 extends D3 {
         iArr[i2] = i;
     }
 
-    @Override // j$.util.stream.AbstractC0093g3, j$.util.stream.AbstractC0129m3
+    @Override // j$.util.stream.g3, j$.util.stream.m3
     public void m() {
         int i = 0;
         Arrays.sort(this.c, 0, this.d);
@@ -38,7 +38,7 @@ final class P3 extends D3 {
         this.c = null;
     }
 
-    @Override // j$.util.stream.AbstractC0129m3
+    @Override // j$.util.stream.m3
     public void n(long j) {
         if (j < 2147483639) {
             this.c = new int[(int) j];

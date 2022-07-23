@@ -1,6 +1,5 @@
 package j$.util.stream;
 
-import j$.util.AbstractC0038a;
 import java.util.Comparator;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes2.dex */
@@ -17,7 +16,7 @@ public abstract class H4 extends J4 implements j$.util.w {
     /* renamed from: forEachRemaining */
     public void e(Object obj) {
         obj.getClass();
-        AbstractC0112j4 abstractC0112j4 = null;
+        j4 j4Var = null;
         while (true) {
             int r = r();
             if (r != 1) {
@@ -25,13 +24,13 @@ public abstract class H4 extends J4 implements j$.util.w {
                     ((j$.util.w) this.a).forEachRemaining(obj);
                     return;
                 }
-                if (abstractC0112j4 == null) {
-                    abstractC0112j4 = t(ConnectionsManager.RequestFlagNeedQuickAck);
+                if (j4Var == null) {
+                    j4Var = t(ConnectionsManager.RequestFlagNeedQuickAck);
                 } else {
-                    abstractC0112j4.b = 0;
+                    j4Var.b = 0;
                 }
                 long j = 0;
-                while (((j$.util.w) this.a).tryAdvance(abstractC0112j4)) {
+                while (((j$.util.w) this.a).tryAdvance(j4Var)) {
                     j++;
                     if (j >= 128) {
                         break;
@@ -40,7 +39,7 @@ public abstract class H4 extends J4 implements j$.util.w {
                 if (j == 0) {
                     return;
                 }
-                abstractC0112j4.b(obj, p(j));
+                j4Var.b(obj, p(j));
             } else {
                 return;
             }
@@ -54,17 +53,17 @@ public abstract class H4 extends J4 implements j$.util.w {
 
     @Override // j$.util.u
     public /* synthetic */ long getExactSizeIfKnown() {
-        return AbstractC0038a.e(this);
+        return j$.util.a.e(this);
     }
 
     @Override // j$.util.u
     public /* synthetic */ boolean hasCharacteristics(int i) {
-        return AbstractC0038a.f(this, i);
+        return j$.util.a.f(this, i);
     }
 
     protected abstract void s(Object obj);
 
-    protected abstract AbstractC0112j4 t(int i);
+    protected abstract j4 t(int i);
 
     @Override // j$.util.w
     /* renamed from: tryAdvance */

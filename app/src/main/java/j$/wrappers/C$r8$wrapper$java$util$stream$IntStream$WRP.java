@@ -1,6 +1,5 @@
 package j$.wrappers;
 
-import j$.util.AbstractC0038a;
 import java.util.IntSummaryStatistics;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -56,7 +55,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalDouble average() {
-        return AbstractC0038a.u(this.a.average());
+        return j$.util.a.u(this.a.average());
     }
 
     @Override // java.util.stream.IntStream
@@ -71,7 +70,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ Object collect(Supplier supplier, ObjIntConsumer objIntConsumer, BiConsumer biConsumer) {
-        return this.a.k0(z0.a(supplier), t0.a(objIntConsumer), C0231q.a(biConsumer));
+        return this.a.k0(z0.a(supplier), t0.a(objIntConsumer), q.a(biConsumer));
     }
 
     @Override // java.util.stream.IntStream
@@ -91,12 +90,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt findAny() {
-        return AbstractC0038a.v(this.a.findAny());
+        return j$.util.a.v(this.a.findAny());
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt findFirst() {
-        return AbstractC0038a.v(this.a.findFirst());
+        return j$.util.a.v(this.a.findFirst());
     }
 
     @Override // java.util.stream.IntStream
@@ -126,7 +125,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ IntStream map(IntUnaryOperator intUnaryOperator) {
-        return convert(this.a.q(C0202b0.b(intUnaryOperator)));
+        return convert(this.a.q(b0.b(intUnaryOperator)));
     }
 
     @Override // java.util.stream.IntStream
@@ -146,12 +145,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt max() {
-        return AbstractC0038a.v(this.a.max());
+        return j$.util.a.v(this.a.max());
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt min() {
-        return AbstractC0038a.v(this.a.min());
+        return j$.util.a.v(this.a.min());
     }
 
     @Override // java.util.stream.IntStream
@@ -177,7 +176,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt reduce(IntBinaryOperator intBinaryOperator) {
-        return AbstractC0038a.v(this.a.a0(O.a(intBinaryOperator)));
+        return j$.util.a.v(this.a.a0(O.a(intBinaryOperator)));
     }
 
     @Override // java.util.stream.IntStream

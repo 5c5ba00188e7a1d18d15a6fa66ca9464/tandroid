@@ -19,7 +19,7 @@ public final class K implements v {
 
     @Override // j$.util.v, j$.util.u
     public /* synthetic */ boolean b(Consumer consumer) {
-        return AbstractC0038a.l(this, consumer);
+        return a.l(this, consumer);
     }
 
     @Override // j$.util.u
@@ -55,12 +55,12 @@ public final class K implements v {
 
     @Override // j$.util.v, j$.util.u
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        AbstractC0038a.d(this, consumer);
+        a.d(this, consumer);
     }
 
     @Override // j$.util.u
     public Comparator getComparator() {
-        if (AbstractC0038a.f(this, 4)) {
+        if (a.f(this, 4)) {
             return null;
         }
         throw new IllegalStateException();
@@ -68,12 +68,12 @@ public final class K implements v {
 
     @Override // j$.util.u
     public /* synthetic */ long getExactSizeIfKnown() {
-        return AbstractC0038a.e(this);
+        return a.e(this);
     }
 
     @Override // j$.util.u
     public /* synthetic */ boolean hasCharacteristics(int i) {
-        return AbstractC0038a.f(this, i);
+        return a.f(this, i);
     }
 
     @Override // j$.util.v

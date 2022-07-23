@@ -1,7 +1,5 @@
 package j$.util.stream;
 
-import j$.util.AbstractC0038a;
-import j$.util.AbstractC0039b;
 import j$.util.Collection$EL;
 import j$.util.function.Consumer;
 import java.util.Collection;
@@ -50,14 +48,14 @@ public final class E1 implements A1 {
 
     @Override // j$.util.stream.A1
     public /* synthetic */ A1 r(long j, long j2, j$.util.function.m mVar) {
-        return AbstractC0139o1.q(this, j, j2, mVar);
+        return o1.q(this, j, j2, mVar);
     }
 
     @Override // j$.util.stream.A1
     /* renamed from: spliterator */
     public j$.util.u mo69spliterator() {
         Collection collection = this.a;
-        return (collection instanceof AbstractC0039b ? ((AbstractC0039b) collection).stream() : AbstractC0038a.i(collection)).spliterator();
+        return (collection instanceof j$.util.b ? ((j$.util.b) collection).stream() : j$.util.a.i(collection)).spliterator();
     }
 
     public String toString() {

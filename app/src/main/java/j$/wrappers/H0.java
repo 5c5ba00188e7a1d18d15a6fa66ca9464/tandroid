@@ -1,61 +1,60 @@
 package j$.wrappers;
 
-import j$.util.stream.AbstractC0089g;
 import java.util.Iterator;
 import java.util.stream.BaseStream;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class H0 implements AbstractC0089g {
+public final /* synthetic */ class H0 implements j$.util.stream.g {
     final /* synthetic */ BaseStream a;
 
     private /* synthetic */ H0(BaseStream baseStream) {
         this.a = baseStream;
     }
 
-    public static /* synthetic */ AbstractC0089g n0(BaseStream baseStream) {
+    public static /* synthetic */ j$.util.stream.g n0(BaseStream baseStream) {
         if (baseStream == null) {
             return null;
         }
         return baseStream instanceof I0 ? ((I0) baseStream).a : new H0(baseStream);
     }
 
-    @Override // j$.util.stream.AbstractC0089g, java.lang.AutoCloseable
+    @Override // j$.util.stream.g, java.lang.AutoCloseable
     public /* synthetic */ void close() {
         this.a.close();
     }
 
-    @Override // j$.util.stream.AbstractC0089g
+    @Override // j$.util.stream.g
     public /* synthetic */ boolean isParallel() {
         return this.a.isParallel();
     }
 
-    @Override // j$.util.stream.AbstractC0089g
+    @Override // j$.util.stream.g
     /* renamed from: iterator */
     public /* synthetic */ Iterator mo66iterator() {
         return this.a.iterator();
     }
 
-    @Override // j$.util.stream.AbstractC0089g
-    public /* synthetic */ AbstractC0089g onClose(Runnable runnable) {
+    @Override // j$.util.stream.g
+    public /* synthetic */ j$.util.stream.g onClose(Runnable runnable) {
         return n0(this.a.onClose(runnable));
     }
 
-    @Override // j$.util.stream.AbstractC0089g, j$.util.stream.IntStream
-    public /* synthetic */ AbstractC0089g parallel() {
+    @Override // j$.util.stream.g, j$.util.stream.IntStream
+    public /* synthetic */ j$.util.stream.g parallel() {
         return n0(this.a.parallel());
     }
 
-    @Override // j$.util.stream.AbstractC0089g, j$.util.stream.IntStream
-    public /* synthetic */ AbstractC0089g sequential() {
+    @Override // j$.util.stream.g, j$.util.stream.IntStream
+    public /* synthetic */ j$.util.stream.g sequential() {
         return n0(this.a.sequential());
     }
 
-    @Override // j$.util.stream.AbstractC0089g
+    @Override // j$.util.stream.g
     public /* synthetic */ j$.util.u spliterator() {
-        return C0211g.a(this.a.spliterator());
+        return g.a(this.a.spliterator());
     }
 
-    @Override // j$.util.stream.AbstractC0089g
-    public /* synthetic */ AbstractC0089g unordered() {
+    @Override // j$.util.stream.g
+    public /* synthetic */ j$.util.stream.g unordered() {
         return n0(this.a.unordered());
     }
 }

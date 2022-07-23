@@ -3,7 +3,7 @@ package j$.util.stream;
 interface N4 {
     int b();
 
-    Object c(AbstractC0192y2 abstractC0192y2, j$.util.u uVar);
+    Object c(y2 y2Var, j$.util.u uVar);
 
-    Object d(AbstractC0192y2 abstractC0192y2, j$.util.u uVar);
+    Object d(y2 y2Var, j$.util.u uVar);
 }
