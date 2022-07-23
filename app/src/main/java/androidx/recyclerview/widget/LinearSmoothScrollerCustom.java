@@ -12,11 +12,12 @@ import org.telegram.messenger.AndroidUtilities;
 /* loaded from: classes.dex */
 public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
     private final float MILLISECONDS_PER_PX;
+    private float durationMultiplier;
+    protected final DecelerateInterpolator mDecelerateInterpolator;
+    protected int mInterimTargetDx;
+    protected int mInterimTargetDy;
+    protected final LinearInterpolator mLinearInterpolator;
     private int scrollPosition;
-    protected final LinearInterpolator mLinearInterpolator = new LinearInterpolator();
-    protected final DecelerateInterpolator mDecelerateInterpolator = new DecelerateInterpolator(1.5f);
-    protected int mInterimTargetDx = 0;
-    protected int mInterimTargetDy = 0;
 
     private int clampApplyScroll(int i, int i2) {
         int i3 = i - i2;
@@ -34,7 +35,23 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
     }
 
     public LinearSmoothScrollerCustom(Context context, int i) {
+        this.mLinearInterpolator = new LinearInterpolator();
+        this.mDecelerateInterpolator = new DecelerateInterpolator(1.5f);
+        this.mInterimTargetDx = 0;
+        this.mInterimTargetDy = 0;
+        this.durationMultiplier = 1.0f;
         this.MILLISECONDS_PER_PX = 25.0f / context.getResources().getDisplayMetrics().densityDpi;
+        this.scrollPosition = i;
+    }
+
+    public LinearSmoothScrollerCustom(Context context, int i, float f) {
+        this.mLinearInterpolator = new LinearInterpolator();
+        this.mDecelerateInterpolator = new DecelerateInterpolator(1.5f);
+        this.mInterimTargetDx = 0;
+        this.mInterimTargetDy = 0;
+        this.durationMultiplier = 1.0f;
+        this.durationMultiplier = f;
+        this.MILLISECONDS_PER_PX = (25.0f / context.getResources().getDisplayMetrics().densityDpi) * f;
         this.scrollPosition = i;
     }
 
@@ -43,7 +60,7 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
         int calculateDyToMakeVisible = calculateDyToMakeVisible(view);
         int calculateTimeForDeceleration = calculateTimeForDeceleration(calculateDyToMakeVisible);
         if (calculateTimeForDeceleration > 0) {
-            action.update(0, -calculateDyToMakeVisible, Math.max(400, calculateTimeForDeceleration), this.mDecelerateInterpolator);
+            action.update(0, -calculateDyToMakeVisible, Math.max((int) (this.durationMultiplier * 400.0f), calculateTimeForDeceleration), this.mDecelerateInterpolator);
         } else {
             onEnd();
         }

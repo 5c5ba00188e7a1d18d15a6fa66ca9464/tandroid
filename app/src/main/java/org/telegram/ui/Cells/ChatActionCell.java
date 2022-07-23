@@ -91,6 +91,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     private int customDate;
     private CharSequence customText;
     private ChatActionCellDelegate delegate;
+    private boolean forceWasUnread;
     private boolean giftButtonPressed;
     private RectF giftButtonRect;
     private TLRPC$VideoSize giftEffectAnimation;
@@ -215,9 +216,15 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             setSpoilersSuppressed(false);
         } else if (i == NotificationCenter.stopSpoilers) {
             setSpoilersSuppressed(true);
-        } else if (i != NotificationCenter.didUpdatePremiumGiftStickers || (messageObject = this.currentMessageObject) == null) {
+        } else if (i == NotificationCenter.didUpdatePremiumGiftStickers) {
+            MessageObject messageObject2 = this.currentMessageObject;
+            if (messageObject2 == null) {
+                return;
+            }
+            setMessageObject(messageObject2, true);
+        } else if (i != NotificationCenter.diceStickersDidLoad || !ObjectsCompat$$ExternalSyntheticBackport0.m(objArr[0], UserConfig.getInstance(this.currentAccount).premiumGiftsStickerPack) || (messageObject = this.currentMessageObject) == null) {
         } else {
-            setMessageObject(messageObject);
+            setMessageObject(messageObject, true);
         }
     }
 
@@ -234,8 +241,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             return;
         }
         MessageObject messageObject = this.currentMessageObject;
-        if (messageObject != null && messageObject.wasUnread) {
+        if ((messageObject != null && messageObject.wasUnread) || this.forceWasUnread) {
             messageObject.wasUnread = false;
+            this.forceWasUnread = false;
             try {
                 performHapticFeedback(3, 2);
             } catch (Exception unused) {
@@ -374,23 +382,28 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.overrideText = str2;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0225  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0244  */
+    public void setMessageObject(MessageObject messageObject) {
+        setMessageObject(messageObject, false);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:104:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x026e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void setMessageObject(MessageObject messageObject) {
+    public void setMessageObject(MessageObject messageObject, boolean z) {
         TLRPC$PhotoSize tLRPC$PhotoSize;
         TLRPC$VideoSize tLRPC$VideoSize;
-        TLRPC$Document tLRPC$Document;
         String str;
+        TLRPC$Document tLRPC$Document;
         StaticLayout staticLayout;
-        if (this.currentMessageObject != messageObject || (((staticLayout = this.textLayout) != null && !TextUtils.equals(staticLayout.getText(), messageObject.messageText)) || (!this.hasReplyMessage && messageObject.replyMessageObject != null))) {
+        if (this.currentMessageObject != messageObject || (((staticLayout = this.textLayout) != null && !TextUtils.equals(staticLayout.getText(), messageObject.messageText)) || ((!this.hasReplyMessage && messageObject.replyMessageObject != null) || z))) {
             if (BuildVars.DEBUG_PRIVATE_VERSION && Thread.currentThread() != ApplicationLoader.applicationHandler.getLooper().getThread()) {
                 FileLog.e(new IllegalStateException("Wrong thread!!!"));
             }
             this.accessibilityText = null;
             this.currentMessageObject = messageObject;
+            boolean z2 = true;
             int i = 0;
             this.hasReplyMessage = messageObject.replyMessageObject != null;
             DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
@@ -399,6 +412,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             if (i2 == 18) {
                 this.imageReceiver.setRoundRadius(0);
                 String str2 = UserConfig.getInstance(this.currentAccount).premiumGiftsStickerPack;
+                if (str2 == null) {
+                    MediaDataController.getInstance(this.currentAccount).checkPremiumGiftStickers();
+                    return;
+                }
                 TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(str2);
                 if (stickerSetByName == null) {
                     stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(str2);
@@ -408,7 +425,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     String str3 = monthsToEmoticon.get(Integer.valueOf(messageObject.messageOwner.action.months));
                     Iterator<TLRPC$TL_stickerPack> it = tLRPC$TL_messages_stickerSet.packs.iterator();
                     TLRPC$Document tLRPC$Document2 = null;
-                    while (it.hasNext()) {
+                    while (true) {
+                        if (!it.hasNext()) {
+                            str = str2;
+                            break;
+                        }
                         TLRPC$TL_stickerPack next = it.next();
                         if (ObjectsCompat$$ExternalSyntheticBackport0.m(next.emoticon, str3)) {
                             Iterator<Long> it2 = next.documents.iterator();
@@ -417,33 +438,35 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                                 Iterator<TLRPC$Document> it3 = tLRPC$TL_messages_stickerSet.documents.iterator();
                                 while (true) {
                                     if (!it3.hasNext()) {
-                                        str = str3;
+                                        str = str2;
                                         break;
                                     }
                                     TLRPC$Document next2 = it3.next();
-                                    str = str3;
+                                    str = str2;
                                     if (next2.id == longValue) {
                                         tLRPC$Document2 = next2;
                                         break;
                                     }
-                                    str3 = str;
+                                    str2 = str;
                                 }
                                 if (tLRPC$Document2 != null) {
                                     break;
                                 }
-                                str3 = str;
+                                str2 = str;
                             }
                         }
-                        str = str3;
+                        str = str2;
                         if (tLRPC$Document2 != null) {
                             break;
                         }
-                        str3 = str;
+                        str2 = str;
                     }
                     tLRPC$Document = (tLRPC$Document2 != null || tLRPC$TL_messages_stickerSet.documents.isEmpty()) ? tLRPC$Document2 : tLRPC$TL_messages_stickerSet.documents.get(0);
                 } else {
+                    str = str2;
                     tLRPC$Document = null;
                 }
+                this.forceWasUnread = messageObject.wasUnread;
                 this.giftSticker = tLRPC$Document;
                 if (tLRPC$Document != null) {
                     this.imageReceiver.setAllowStartLottieAnimation(false);
@@ -466,6 +489,13 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     }
                     this.imageReceiver.setAutoRepeat(0);
                     this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), messageObject.getId() + "_130_130", svgThumb, "tgs", tLRPC$TL_messages_stickerSet, 1);
+                } else {
+                    MediaDataController mediaDataController = MediaDataController.getInstance(this.currentAccount);
+                    String str4 = str;
+                    if (tLRPC$TL_messages_stickerSet != null) {
+                        z2 = false;
+                    }
+                    mediaDataController.loadStickersByEmojiOrName(str4, false, z2);
                 }
             } else if (i2 == 11) {
                 this.imageReceiver.setAllowStartLottieAnimation(true);
@@ -493,17 +523,15 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     if (closestPhotoSizeWithSize != null) {
                         TLRPC$Photo tLRPC$Photo = messageObject.messageOwner.action.photo;
                         if (!tLRPC$Photo.video_sizes.isEmpty() && SharedConfig.autoplayGifs) {
-                            TLRPC$VideoSize tLRPC$VideoSize2 = tLRPC$Photo.video_sizes.get(0);
-                            if (messageObject.mediaExists || DownloadController.getInstance(this.currentAccount).canDownloadMedia(4, tLRPC$VideoSize2.size)) {
-                                tLRPC$VideoSize = tLRPC$VideoSize2;
-                                if (tLRPC$VideoSize == null) {
-                                    this.imageReceiver.setImage(ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$Photo), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
-                                } else {
-                                    this.imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize, messageObject.photoThumbsObject), "150_150", ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
-                                }
+                            tLRPC$VideoSize = tLRPC$Photo.video_sizes.get(0);
+                            if (!messageObject.mediaExists && !DownloadController.getInstance(this.currentAccount).canDownloadMedia(4, tLRPC$VideoSize.size)) {
+                                this.currentVideoLocation = ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$Photo);
+                                DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(FileLoader.getAttachFileName(tLRPC$VideoSize), messageObject, this);
+                            }
+                            if (tLRPC$VideoSize == null) {
+                                this.imageReceiver.setImage(ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$Photo), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
                             } else {
-                                this.currentVideoLocation = ImageLocation.getForPhoto(tLRPC$VideoSize2, tLRPC$Photo);
-                                DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(FileLoader.getAttachFileName(tLRPC$VideoSize2), messageObject, this);
+                                this.imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize, messageObject.photoThumbsObject), "150_150", ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
                             }
                         }
                         tLRPC$VideoSize = null;
@@ -567,6 +595,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.wasLayout = false;
         AnimatedEmojiSpan.release(this, this.animatedEmojiStack);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.didUpdatePremiumGiftStickers);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.diceStickersDidLoad);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -576,6 +605,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         setStarsPaused(false);
         this.animatedEmojiStack = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStack, this.textLayout);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.didUpdatePremiumGiftStickers);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.diceStickersDidLoad);
     }
 
     private void setStarsPaused(boolean z) {

@@ -99,6 +99,7 @@ public class SvgHelper {
         private Paint backgroundPaint;
         private float colorAlpha;
         private String currentColorKey;
+        private Theme.ResourcesProvider currentResourcesProvider;
         protected int height;
         private Paint overridePaint;
         private ImageReceiver parentImageReceiver;
@@ -151,7 +152,7 @@ public class SvgHelper {
             int i;
             String str = this.currentColorKey;
             if (str != null) {
-                setupGradient(str, this.colorAlpha, z);
+                setupGradient(str, this.currentResourcesProvider, this.colorAlpha, z);
             }
             float scale = getScale((int) f3, (int) f4);
             if (this.placeholderGradient != null) {
@@ -300,8 +301,13 @@ public class SvgHelper {
         }
 
         public void setupGradient(String str, float f, boolean z) {
+            setupGradient(str, null, f, z);
+        }
+
+        public void setupGradient(String str, Theme.ResourcesProvider resourcesProvider, float f, boolean z) {
             Shader shader;
-            int color = Theme.getColor(str);
+            int color = Theme.getColor(str, resourcesProvider);
+            this.currentResourcesProvider = resourcesProvider;
             int[] iArr = this.currentColor;
             if (iArr[z ? 1 : 0] != color) {
                 this.colorAlpha = f;

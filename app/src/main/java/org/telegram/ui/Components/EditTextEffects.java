@@ -259,6 +259,7 @@ public class EditTextEffects extends EditText {
     @Override // android.widget.TextView, android.view.View
     public void onDraw(Canvas canvas) {
         canvas.save();
+        canvas.clipRect(0, getScrollY(), getMeasuredWidth(), getMeasuredHeight() + getScrollY());
         this.path.rewind();
         for (SpoilerEffect spoilerEffect : this.spoilers) {
             android.graphics.Rect bounds = spoilerEffect.getBounds();

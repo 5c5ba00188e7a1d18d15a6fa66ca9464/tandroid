@@ -17,6 +17,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 /* loaded from: classes3.dex */
 public class AnimatedEmojiSpan extends ReplacementSpan {
@@ -59,7 +60,8 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     }
 
     public long getDocumentId() {
-        return this.documentId;
+        TLRPC$Document tLRPC$Document = this.document;
+        return tLRPC$Document != null ? tLRPC$Document.id : this.documentId;
     }
 
     public void replaceFontMetrics(Paint.FontMetricsInt fontMetricsInt, int i, int i2) {
@@ -188,11 +190,15 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
             if (animatedEmojiDrawable == null) {
                 return;
             }
-            ImageReceiver imageReceiver = animatedEmojiDrawable.getImageReceiver();
+            AnimatedEmojiDrawable.EmojiImageReceiver imageReceiver = animatedEmojiDrawable.getImageReceiver();
             this.drawable.update(j);
             this.drawable.setBounds(this.drawableBounds);
             if (imageReceiver == null) {
                 return;
+            }
+            AnimatedEmojiSpan animatedEmojiSpan = this.span;
+            if (animatedEmojiSpan != null && animatedEmojiSpan.document == null && this.drawable.getDocument() != null) {
+                this.span.document = this.drawable.getDocument();
             }
             imageReceiver.setAlpha(this.alpha);
             imageReceiver.setImageCoords(this.drawableBounds);
@@ -579,11 +585,12 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                         this.backgroundHolders.addAll(SpansChunk.this.holders);
                         int i = 0;
                         while (i < this.backgroundHolders.size()) {
-                            if (!this.backgroundHolders.get(i).span.spanDrawn) {
+                            AnimatedEmojiHolder animatedEmojiHolder = this.backgroundHolders.get(i);
+                            if (!animatedEmojiHolder.span.spanDrawn) {
                                 this.backgroundHolders.remove(i);
                                 i--;
-                            } else if (this.backgroundHolders.get(i) != null) {
-                                this.backgroundHolders.get(i).prepareForBackgroundDraw(j);
+                            } else {
+                                animatedEmojiHolder.prepareForBackgroundDraw(j);
                             }
                             i++;
                         }

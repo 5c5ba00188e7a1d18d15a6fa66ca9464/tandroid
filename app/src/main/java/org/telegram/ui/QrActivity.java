@@ -773,7 +773,11 @@ public class QrActivity extends BaseFragment {
     }
 
     public /* synthetic */ void lambda$performShare$10() {
-        this.themesViewController.shareButton.setClickable(true);
+        ThemeListViewController themeListViewController = this.themesViewController;
+        if (themeListViewController == null) {
+            return;
+        }
+        themeListViewController.shareButton.setClickable(true);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

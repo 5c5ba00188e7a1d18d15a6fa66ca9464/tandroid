@@ -1713,7 +1713,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (!(getContext() instanceof LaunchActivity)) {
         } else {
-            ((LaunchActivity) getContext()).lambda$runLinkRequest$59(new PremiumPreviewFragment(null));
+            ((LaunchActivity) getContext()).lambda$runLinkRequest$60(new PremiumPreviewFragment(null));
         }
     }
 

@@ -8716,7 +8716,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
         public void dispatchDraw(Canvas canvas) {
             ChatActivity.this.drawLaterRoundProgressCell = null;
-            boolean z = false;
             this.invalidated = false;
             canvas.save();
             if (ChatActivity.this.fragmentTransition == null || (ChatActivity.this.fromPullingDownTransition && !ChatActivity.this.toPullingDownTransition)) {
@@ -8732,12 +8731,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 canvas.translate(0.0f, f);
                 drawChatBackgroundElements(canvas);
                 super.dispatchDraw(canvas);
+                drawChatForegroundElements(canvas);
                 canvas.restore();
             } else {
                 drawChatBackgroundElements(canvas);
                 super.dispatchDraw(canvas);
+                drawChatForegroundElements(canvas);
             }
+            canvas.restore();
+        }
+
+        private void drawChatForegroundElements(Canvas canvas) {
             int size = this.drawTimeAfter.size();
+            boolean z = false;
             if (size > 0) {
                 for (int i = 0; i < size; i++) {
                     ChatMessageCell chatMessageCell = this.drawTimeAfter.get(i);
@@ -8766,7 +8772,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             int size3 = this.drawCaptionAfter.size();
             if (size3 > 0) {
-                for (int i3 = 0; i3 < size3; i3++) {
+                int i3 = 0;
+                while (i3 < size3) {
                     ChatMessageCell chatMessageCell3 = this.drawCaptionAfter.get(i3);
                     boolean z2 = chatMessageCell3.getCurrentPosition() != null && (chatMessageCell3.getCurrentPosition().flags & 1) == 0;
                     float alpha2 = chatMessageCell3.shouldDrawAlphaLayer() ? chatMessageCell3.getAlpha() : 1.0f;
@@ -8777,30 +8784,28 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if (currentMessagesGroup != null && currentMessagesGroup.transitionParams.backgroundChangeBounds) {
                         float nonAnimationTranslationX = chatMessageCell3.getNonAnimationTranslationX(true);
                         MessageObject.GroupedMessages.TransitionParams transitionParams = currentMessagesGroup.transitionParams;
-                        float f2 = transitionParams.left + nonAnimationTranslationX + transitionParams.offsetLeft;
-                        float f3 = transitionParams.top + transitionParams.offsetTop;
-                        float f4 = transitionParams.right + nonAnimationTranslationX + transitionParams.offsetRight;
-                        float f5 = transitionParams.bottom + transitionParams.offsetBottom;
+                        float f = transitionParams.left + nonAnimationTranslationX + transitionParams.offsetLeft;
+                        float f2 = transitionParams.top + transitionParams.offsetTop;
+                        float f3 = transitionParams.right + nonAnimationTranslationX + transitionParams.offsetRight;
+                        float f4 = transitionParams.bottom + transitionParams.offsetBottom;
                         if (!transitionParams.backgroundChangeBounds) {
-                            f3 += chatMessageCell3.getTranslationY();
-                            f5 += chatMessageCell3.getTranslationY();
+                            f2 += chatMessageCell3.getTranslationY();
+                            f4 += chatMessageCell3.getTranslationY();
                         }
-                        canvas.clipRect(f2 + AndroidUtilities.dp(8.0f), f3 + AndroidUtilities.dp(8.0f), f4 - AndroidUtilities.dp(8.0f), f5 - AndroidUtilities.dp(8.0f));
+                        canvas.clipRect(f + AndroidUtilities.dp(8.0f), f2 + AndroidUtilities.dp(8.0f), f3 - AndroidUtilities.dp(8.0f), f4 - AndroidUtilities.dp(8.0f));
                     }
                     if (chatMessageCell3.getTransitionParams().wasDraw) {
                         canvas.translate(left2, y2);
                         chatMessageCell3.setInvalidatesParent(true);
                         chatMessageCell3.drawCaptionLayout(canvas, z2, alpha2);
-                        z = false;
                         chatMessageCell3.setInvalidatesParent(false);
                         canvas.restore();
-                    } else {
-                        z = false;
                     }
+                    i3++;
+                    z = false;
                 }
                 this.drawCaptionAfter.clear();
             }
-            canvas.restore();
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:122:0x0360, code lost:
@@ -23537,6 +23542,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         ?? r15;
         long j;
         Paint.FontMetricsInt fontMetricsInt;
+        AnimatedEmojiSpan animatedEmojiSpan;
         if (this.chatActivityEnterView == null || this.chatMode != 0) {
             return;
         }
@@ -23610,7 +23616,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 FileLog.e(e);
                                 fontMetricsInt = null;
                             }
-                            AnimatedEmojiSpan animatedEmojiSpan = new AnimatedEmojiSpan(((TLRPC$TL_messageEntityCustomEmoji) tLRPC$MessageEntity).document_id, fontMetricsInt);
+                            TLRPC$TL_messageEntityCustomEmoji tLRPC$TL_messageEntityCustomEmoji = (TLRPC$TL_messageEntityCustomEmoji) tLRPC$MessageEntity;
+                            if (tLRPC$TL_messageEntityCustomEmoji.document != null) {
+                                animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document, fontMetricsInt);
+                            } else {
+                                animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document_id, fontMetricsInt);
+                            }
                             int i10 = tLRPC$MessageEntity.offset;
                             r15.setSpan(animatedEmojiSpan, i10, tLRPC$MessageEntity.length + i10, 33);
                         }
@@ -30206,8 +30217,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 ChatActivity.this.invalidateMessagesVisiblePart();
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:94:0x022e, code lost:
-                if (r11.exists() != false) goto L96;
+            /* JADX WARN: Code restructure failed: missing block: B:97:0x0259, code lost:
+                if (r11.exists() != false) goto L99;
              */
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             /*
@@ -30234,7 +30245,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         return;
                     }
                     int i2 = 0;
-                    if (messageObject.isAnimatedEmoji() || messageObject.isPremiumSticker()) {
+                    if ((messageObject.isAnimatedEmoji() && MessageObject.isAnimatedEmoji(messageObject.getDocument())) || messageObject.isPremiumSticker()) {
                         ChatActivity.this.restartSticker(chatMessageCell);
                         ChatActivity.this.emojiAnimationsOverlay.onTapItem(chatMessageCell, ChatActivity.this, true);
                         ChatActivity.this.chatListView.cancelClickRunnables(false);

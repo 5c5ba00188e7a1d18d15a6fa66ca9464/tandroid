@@ -13755,16 +13755,27 @@ public class MessagesStorage extends BaseController {
         return zArr[0];
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x0028, code lost:
+        if (r0 == null) goto L9;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$hasAuthMessage$140(int i, boolean[] zArr, CountDownLatch countDownLatch) {
+        SQLiteCursor sQLiteCursor = null;
         try {
             try {
-                this.database.queryFinalized(String.format(Locale.US, "SELECT mid FROM messages_v2 WHERE uid = 777000 AND date = %d AND mid < 0 LIMIT 1", Integer.valueOf(i)), new Object[0]);
-                throw null;
+                sQLiteCursor = this.database.queryFinalized(String.format(Locale.US, "SELECT mid FROM messages_v2 WHERE uid = 777000 AND date = %d AND mid < 0 LIMIT 1", Integer.valueOf(i)), new Object[0]);
+                zArr[0] = sQLiteCursor.next();
             } catch (Exception e) {
                 FileLog.e(e);
-                countDownLatch.countDown();
             }
+            sQLiteCursor.dispose();
+            countDownLatch.countDown();
         } catch (Throwable th) {
+            if (sQLiteCursor != null) {
+                sQLiteCursor.dispose();
+            }
             countDownLatch.countDown();
             throw th;
         }
@@ -15487,45 +15498,63 @@ public class MessagesStorage extends BaseController {
     }
 
     public /* synthetic */ void lambda$updateMessageVerifyFlags$157(ArrayList arrayList) {
+        Throwable th;
         Exception e;
         SQLitePreparedStatement executeFast;
         SQLitePreparedStatement sQLitePreparedStatement = null;
         boolean z = false;
         try {
-            this.database.beginTransaction();
             try {
-                executeFast = this.database.executeFast("UPDATE messages_v2 SET imp = ? WHERE mid = ? AND uid = ?");
-            } catch (Exception e2) {
-                e = e2;
-            }
-            try {
-                int size = arrayList.size();
-                for (int i = 0; i < size; i++) {
-                    TLRPC$Message tLRPC$Message = (TLRPC$Message) arrayList.get(i);
-                    executeFast.requery();
-                    int i2 = tLRPC$Message.stickerVerified;
-                    executeFast.bindInteger(1, i2 == 0 ? 1 : i2 == 2 ? 2 : 0);
-                    executeFast.bindInteger(2, tLRPC$Message.id);
-                    executeFast.bindLong(3, MessageObject.getDialogId(tLRPC$Message));
-                    executeFast.step();
+                this.database.beginTransaction();
+                try {
+                    executeFast = this.database.executeFast("UPDATE messages_v2 SET imp = ? WHERE mid = ? AND uid = ?");
+                } catch (Exception e2) {
+                    e = e2;
+                } catch (Throwable th2) {
+                    th = th2;
                 }
-                executeFast.dispose();
-                this.database.commitTransaction();
             } catch (Exception e3) {
                 e = e3;
-                sQLitePreparedStatement = executeFast;
-                z = true;
-                FileLog.e(e);
-                if (z) {
-                    this.database.commitTransaction();
-                }
-                if (sQLitePreparedStatement == null) {
-                    return;
-                }
-                sQLitePreparedStatement.dispose();
             }
+        } catch (Throwable th3) {
+            th = th3;
+        }
+        try {
+            int size = arrayList.size();
+            for (int i = 0; i < size; i++) {
+                TLRPC$Message tLRPC$Message = (TLRPC$Message) arrayList.get(i);
+                executeFast.requery();
+                int i2 = tLRPC$Message.stickerVerified;
+                executeFast.bindInteger(1, i2 == 0 ? 1 : i2 == 2 ? 2 : 0);
+                executeFast.bindInteger(2, tLRPC$Message.id);
+                executeFast.bindLong(3, MessageObject.getDialogId(tLRPC$Message));
+                executeFast.step();
+            }
+            executeFast.dispose();
+            this.database.commitTransaction();
         } catch (Exception e4) {
             e = e4;
+            sQLitePreparedStatement = executeFast;
+            z = true;
+            FileLog.e(e);
+            if (z) {
+                this.database.commitTransaction();
+            }
+            if (sQLitePreparedStatement == null) {
+                return;
+            }
+            sQLitePreparedStatement.dispose();
+        } catch (Throwable th4) {
+            th = th4;
+            sQLitePreparedStatement = executeFast;
+            z = true;
+            if (z) {
+                this.database.commitTransaction();
+            }
+            if (sQLitePreparedStatement != null) {
+                sQLitePreparedStatement.dispose();
+            }
+            throw th;
         }
     }
 

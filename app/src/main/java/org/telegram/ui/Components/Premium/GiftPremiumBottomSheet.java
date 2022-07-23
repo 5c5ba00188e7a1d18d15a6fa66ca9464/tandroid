@@ -7,6 +7,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
@@ -46,8 +47,10 @@ import org.telegram.tgnet.TLRPC$TL_payments_canPurchasePremium;
 import org.telegram.tgnet.TLRPC$TL_premiumGiftOption;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
+import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
+import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.BottomSheetWithRecyclerListView;
 import org.telegram.ui.Components.CheckBoxBase;
@@ -57,6 +60,7 @@ import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
+import org.telegram.ui.ProfileActivity;
 /* loaded from: classes3.dex */
 public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     private int buttonRow;
@@ -133,7 +137,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         this.footerRow = size;
         this.rowsCount = i3 + 1;
         this.buttonRow = i3;
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda9
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda10
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i4) {
                 GiftPremiumBottomSheet.this.lambda$new$2(view, i4);
@@ -165,7 +169,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
                 }
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 GiftPremiumBottomSheet.this.lambda$new$0(j);
@@ -251,6 +255,34 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         onGiftPremium();
     }
 
+    private void onGiftSuccess(boolean z) {
+        if (getBaseFragment() != null) {
+            ArrayList<BaseFragment> arrayList = new ArrayList(((LaunchActivity) getBaseFragment().getParentActivity()).getActionBarLayout().fragmentsStack);
+            ActionBarLayout parentLayout = getBaseFragment().getParentLayout();
+            ChatActivity chatActivity = null;
+            for (BaseFragment baseFragment : arrayList) {
+                if (baseFragment instanceof ChatActivity) {
+                    chatActivity = (ChatActivity) baseFragment;
+                    if (chatActivity.getDialogId() != this.user.id) {
+                        baseFragment.removeSelfFromStack();
+                    }
+                } else if (baseFragment instanceof ProfileActivity) {
+                    if (z && parentLayout.getLastFragment() == baseFragment) {
+                        baseFragment.finishFragment();
+                    } else {
+                        baseFragment.removeSelfFromStack();
+                    }
+                }
+            }
+            if (chatActivity != null && chatActivity.getDialogId() == this.user.id) {
+                return;
+            }
+            Bundle bundle = new Bundle();
+            bundle.putLong("user_id", this.user.id);
+            parentLayout.presentFragment(new ChatActivity(bundle), true);
+        }
+    }
+
     private void onGiftPremium() {
         final GiftTier giftTier = this.giftTiers.get(this.selectedTierIndex);
         if (BuildVars.useInvoiceBilling()) {
@@ -258,8 +290,17 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
                 return;
             }
             Uri parse = Uri.parse(giftTier.giftOption.bot_url);
-            if (parse.getHost().equals("t.me") && !parse.getPath().startsWith("/$") && !parse.getPath().startsWith("/invoice/")) {
-                ((LaunchActivity) getBaseFragment().getParentActivity()).setNavigateToPremiumBot(true);
+            if (parse.getHost().equals("t.me")) {
+                if (!parse.getPath().startsWith("/$") && !parse.getPath().startsWith("/invoice/")) {
+                    ((LaunchActivity) getBaseFragment().getParentActivity()).setNavigateToPremiumBot(true);
+                } else {
+                    ((LaunchActivity) getBaseFragment().getParentActivity()).setNavigateToPremiumGiftCallback(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda5
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            GiftPremiumBottomSheet.this.lambda$onGiftPremium$6();
+                        }
+                    });
+                }
             }
             Browser.openUrl(getBaseFragment().getParentActivity(), giftTier.giftOption.bot_url);
         } else if (!BillingController.getInstance().isReady() || giftTier.googlePlayProductDetails == null) {
@@ -275,47 +316,49 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
             BillingController.getInstance().addResultListener(giftTier.giftOption.store_product, new Consumer() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda2
                 @Override // androidx.core.util.Consumer
                 public final void accept(Object obj) {
-                    GiftPremiumBottomSheet.this.lambda$onGiftPremium$7((BillingResult) obj);
+                    GiftPremiumBottomSheet.this.lambda$onGiftPremium$8((BillingResult) obj);
                 }
             });
             final TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium = new TLRPC$TL_payments_canPurchasePremium();
             tLRPC$TL_payments_canPurchasePremium.purpose = tLRPC$TL_inputStorePaymentGiftPremium;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_canPurchasePremium, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda8
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_canPurchasePremium, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda9
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    GiftPremiumBottomSheet.this.lambda$onGiftPremium$9(tLRPC$TL_inputStorePaymentGiftPremium, giftTier, tLRPC$TL_payments_canPurchasePremium, tLObject, tLRPC$TL_error);
-                }
-            });
-        }
-    }
-
-    public /* synthetic */ void lambda$onGiftPremium$7(BillingResult billingResult) {
-        if (billingResult.getResponseCode() == 0) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda5
-                @Override // java.lang.Runnable
-                public final void run() {
-                    GiftPremiumBottomSheet.this.lambda$onGiftPremium$6();
+                    GiftPremiumBottomSheet.this.lambda$onGiftPremium$10(tLRPC$TL_inputStorePaymentGiftPremium, giftTier, tLRPC$TL_payments_canPurchasePremium, tLObject, tLRPC$TL_error);
                 }
             });
         }
     }
 
     public /* synthetic */ void lambda$onGiftPremium$6() {
-        if (getBaseFragment() != null) {
-            getBaseFragment().finishFragment();
+        onGiftSuccess(false);
+    }
+
+    public /* synthetic */ void lambda$onGiftPremium$8(BillingResult billingResult) {
+        if (billingResult.getResponseCode() == 0) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda6
+                @Override // java.lang.Runnable
+                public final void run() {
+                    GiftPremiumBottomSheet.this.lambda$onGiftPremium$7();
+                }
+            });
         }
     }
 
-    public /* synthetic */ void lambda$onGiftPremium$9(final TLRPC$TL_inputStorePaymentGiftPremium tLRPC$TL_inputStorePaymentGiftPremium, final GiftTier giftTier, final TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda7
+    public /* synthetic */ void lambda$onGiftPremium$7() {
+        onGiftSuccess(true);
+    }
+
+    public /* synthetic */ void lambda$onGiftPremium$10(final TLRPC$TL_inputStorePaymentGiftPremium tLRPC$TL_inputStorePaymentGiftPremium, final GiftTier giftTier, final TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                GiftPremiumBottomSheet.this.lambda$onGiftPremium$8(tLObject, tLRPC$TL_inputStorePaymentGiftPremium, giftTier, tLRPC$TL_error, tLRPC$TL_payments_canPurchasePremium);
+                GiftPremiumBottomSheet.this.lambda$onGiftPremium$9(tLObject, tLRPC$TL_inputStorePaymentGiftPremium, giftTier, tLRPC$TL_error, tLRPC$TL_payments_canPurchasePremium);
             }
         });
     }
 
-    public /* synthetic */ void lambda$onGiftPremium$8(TLObject tLObject, TLRPC$TL_inputStorePaymentGiftPremium tLRPC$TL_inputStorePaymentGiftPremium, GiftTier giftTier, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium) {
+    public /* synthetic */ void lambda$onGiftPremium$9(TLObject tLObject, TLRPC$TL_inputStorePaymentGiftPremium tLRPC$TL_inputStorePaymentGiftPremium, GiftTier giftTier, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium) {
         if (tLObject instanceof TLRPC$TL_boolTrue) {
             BillingController.getInstance().launchBillingFlow(getBaseFragment().getParentActivity(), AccountInstance.getInstance(this.currentAccount), tLRPC$TL_inputStorePaymentGiftPremium, Collections.singletonList(BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(giftTier.googlePlayProductDetails).build()));
         } else if (tLRPC$TL_error == null) {
@@ -535,27 +578,27 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         }
 
         public int getDiscount() {
+            long j;
             if (this.discount == 0) {
                 if (getPricePerMonth() == 0) {
                     return 0;
                 }
-                long j = BuildVars.useInvoiceBilling() ? MediaDataController.getInstance(UserConfig.selectedAccount).getPremiumPromo().monthly_amount : 0L;
-                ProductDetails productDetails = BillingController.PREMIUM_PRODUCT_DETAILS;
-                if (productDetails != null) {
-                    List<ProductDetails.SubscriptionOfferDetails> subscriptionOfferDetails = productDetails.getSubscriptionOfferDetails();
-                    if (!subscriptionOfferDetails.isEmpty()) {
-                        Iterator<ProductDetails.PricingPhase> it = subscriptionOfferDetails.get(0).getPricingPhases().getPricingPhaseList().iterator();
-                        while (true) {
-                            if (!it.hasNext()) {
-                                break;
-                            }
-                            ProductDetails.PricingPhase next = it.next();
-                            if (next.getBillingPeriod().equals("P1M")) {
-                                j = next.getPriceAmountMicros();
-                                break;
+                if (BuildVars.useInvoiceBilling()) {
+                    j = MediaDataController.getInstance(UserConfig.selectedAccount).getPremiumPromo().monthly_amount;
+                } else {
+                    ProductDetails productDetails = BillingController.PREMIUM_PRODUCT_DETAILS;
+                    if (productDetails != null) {
+                        List<ProductDetails.SubscriptionOfferDetails> subscriptionOfferDetails = productDetails.getSubscriptionOfferDetails();
+                        if (!subscriptionOfferDetails.isEmpty()) {
+                            for (ProductDetails.PricingPhase pricingPhase : subscriptionOfferDetails.get(0).getPricingPhases().getPricingPhaseList()) {
+                                if (pricingPhase.getBillingPeriod().equals("P1M")) {
+                                    j = pricingPhase.getPriceAmountMicros();
+                                    break;
+                                }
                             }
                         }
                     }
+                    j = 0;
                 }
                 if (j != 0) {
                     double pricePerMonth = getPricePerMonth();

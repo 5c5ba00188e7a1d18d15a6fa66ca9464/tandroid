@@ -29,6 +29,7 @@ import androidx.collection.LongSparseArray;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
+import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -2973,7 +2974,17 @@ public class MediaDataController extends BaseController {
     }
 
     public void checkPremiumGiftStickers() {
-        if (this.loadingPremiumGiftStickers || getUserConfig().premiumGiftsStickerPack != null || System.currentTimeMillis() - getUserConfig().lastUpdatedPremiumGiftsStickerPack < 86400000) {
+        if (getUserConfig().premiumGiftsStickerPack != null) {
+            String str = getUserConfig().premiumGiftsStickerPack;
+            TLRPC$TL_messages_stickerSet stickerSetByName = getStickerSetByName(str);
+            if (stickerSetByName == null) {
+                stickerSetByName = getStickerSetByEmojiOrName(str);
+            }
+            if (stickerSetByName == null) {
+                getInstance(this.currentAccount).loadStickersByEmojiOrName(str, false, true);
+            }
+        }
+        if (this.loadingPremiumGiftStickers || System.currentTimeMillis() - getUserConfig().lastUpdatedPremiumGiftsStickerPack < 86400000) {
             return;
         }
         this.loadingPremiumGiftStickers = true;
@@ -2998,9 +3009,11 @@ public class MediaDataController extends BaseController {
 
     public /* synthetic */ void lambda$checkPremiumGiftStickers$59(TLObject tLObject) {
         if (tLObject instanceof TLRPC$TL_messages_stickerSet) {
-            getUserConfig().premiumGiftsStickerPack = ((TLRPC$TL_messages_stickerSet) tLObject).set.short_name;
+            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) tLObject;
+            getUserConfig().premiumGiftsStickerPack = tLRPC$TL_messages_stickerSet.set.short_name;
             getUserConfig().lastUpdatedPremiumGiftsStickerPack = System.currentTimeMillis();
             getUserConfig().saveConfig(false);
+            processLoadedDiceStickers(getUserConfig().premiumGiftsStickerPack, false, tLRPC$TL_messages_stickerSet, false, (int) (System.currentTimeMillis() / 1000));
             getNotificationCenter().postNotificationName(NotificationCenter.didUpdatePremiumGiftStickers, new Object[0]);
         }
     }
@@ -3021,7 +3034,9 @@ public class MediaDataController extends BaseController {
                 return;
             }
             TLRPC$TL_messages_getStickerSet tLRPC$TL_messages_getStickerSet = new TLRPC$TL_messages_getStickerSet();
-            if (z) {
+            if (ObjectsCompat$$ExternalSyntheticBackport0.m(getUserConfig().premiumGiftsStickerPack, str)) {
+                tLRPC$TL_messages_getStickerSet.stickerset = new TLRPC$TL_inputStickerSetPremiumGifts();
+            } else if (z) {
                 TLRPC$TL_inputStickerSetDice tLRPC$TL_inputStickerSetDice = new TLRPC$TL_inputStickerSetDice();
                 tLRPC$TL_inputStickerSetDice.emoticon = str;
                 tLRPC$TL_messages_getStickerSet.stickerset = tLRPC$TL_inputStickerSetDice;
@@ -7408,13 +7423,14 @@ public class MediaDataController extends BaseController {
 
     public static void addAnimatedEmojiSpans(ArrayList<TLRPC$MessageEntity> arrayList, CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt) {
         AnimatedEmojiSpan[] animatedEmojiSpanArr;
+        AnimatedEmojiSpan animatedEmojiSpan;
         if (!(charSequence instanceof Spannable) || arrayList == null) {
             return;
         }
         Spannable spannable = (Spannable) charSequence;
-        for (AnimatedEmojiSpan animatedEmojiSpan : (AnimatedEmojiSpan[]) spannable.getSpans(0, spannable.length(), AnimatedEmojiSpan.class)) {
-            if (animatedEmojiSpan != null) {
-                spannable.removeSpan(animatedEmojiSpan);
+        for (AnimatedEmojiSpan animatedEmojiSpan2 : (AnimatedEmojiSpan[]) spannable.getSpans(0, spannable.length(), AnimatedEmojiSpan.class)) {
+            if (animatedEmojiSpan2 != null) {
+                spannable.removeSpan(animatedEmojiSpan2);
             }
         }
         for (int i = 0; i < arrayList.size(); i++) {
@@ -7424,7 +7440,12 @@ public class MediaDataController extends BaseController {
                 int i2 = tLRPC$MessageEntity.offset;
                 int i3 = tLRPC$MessageEntity.length + i2;
                 if (i2 < i3 && i3 <= spannable.length()) {
-                    spannable.setSpan(new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document_id, fontMetricsInt), i2, i3, 33);
+                    if (tLRPC$TL_messageEntityCustomEmoji.document != null) {
+                        animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document, fontMetricsInt);
+                    } else {
+                        animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document_id, fontMetricsInt);
+                    }
+                    spannable.setSpan(animatedEmojiSpan, i2, i3, 33);
                 }
             }
         }
@@ -7827,6 +7848,7 @@ public class MediaDataController extends BaseController {
                                 tLRPC$TL_messageEntityCustomEmoji.offset = spanned.getSpanStart(animatedEmojiSpan);
                                 tLRPC$TL_messageEntityCustomEmoji.length = Math.min(spanned.getSpanEnd(animatedEmojiSpan), charSequenceArr[0].length()) - tLRPC$TL_messageEntityCustomEmoji.offset;
                                 tLRPC$TL_messageEntityCustomEmoji.document_id = animatedEmojiSpan.getDocumentId();
+                                tLRPC$TL_messageEntityCustomEmoji.document = animatedEmojiSpan.document;
                                 arrayList2.add(tLRPC$TL_messageEntityCustomEmoji);
                             } catch (Exception e) {
                                 FileLog.e(e);

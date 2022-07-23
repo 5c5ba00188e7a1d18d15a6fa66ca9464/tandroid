@@ -67,7 +67,7 @@ public class ExceptionCode {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0039, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x003a, code lost:
         if (r8.equals(com.huawei.hms.framework.common.ExceptionCode.READ) == false) goto L4;
      */
     /*
