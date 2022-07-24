@@ -7316,9 +7316,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* loaded from: classes3.dex */
     public class AnonymousClass38 extends SpoilersTextView {
         private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiDrawables;
-        private LinkSpanDrawable<ClickableSpan> pressedLink;
+        private Layout lastLayout;
         private LinkSpanDrawable.LinkCollector links = new LinkSpanDrawable.LinkCollector(this);
-        private Layout lastLayout = null;
+        private LinkSpanDrawable<ClickableSpan> pressedLink;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass38(Context context) {
@@ -7430,6 +7430,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             canvas.restore();
             super.onDraw(canvas);
+            if (this.lastLayout != getLayout()) {
+                this.animatedEmojiDrawables = AnimatedEmojiSpan.update(0, this, this.animatedEmojiDrawables, getLayout());
+                this.lastLayout = getLayout();
+            }
         }
 
         @Override // android.view.View
@@ -7438,16 +7442,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // org.telegram.ui.Components.spoilers.SpoilersTextView, android.widget.TextView
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            super.onTextChanged(charSequence, i, i2, i3);
+            this.animatedEmojiDrawables = AnimatedEmojiSpan.update(0, this, this.animatedEmojiDrawables, getLayout());
+        }
+
         @Override // android.view.View
         protected void dispatchDraw(Canvas canvas) {
             super.dispatchDraw(canvas);
             canvas.save();
             canvas.translate(getPaddingLeft(), getPaddingTop());
             canvas.clipRect(0.0f, getScrollY(), getWidth() - getPaddingRight(), (getHeight() + getScrollY()) - (getPaddingBottom() * 0.75f));
-            if (this.lastLayout != getLayout()) {
-                this.animatedEmojiDrawables = AnimatedEmojiSpan.update(0, this, this.animatedEmojiDrawables, getLayout());
-                this.lastLayout = getLayout();
-            }
             AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.animatedEmojiDrawables, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
             canvas.restore();
         }
@@ -8151,6 +8158,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.selectedPhotosListView.setEnabled(false);
         this.photosCounterView.setRotationX(0.0f);
         this.isPhotosListViewVisible = false;
+        if (this.captionEditText.getMessageEditText() != null) {
+            this.captionEditText.getMessageEditText().invalidateEffects();
+            this.captionEditText.getMessageEditText().setText(this.captionEditText.getMessageEditText().getText());
+        }
         this.captionEditText.setTag(1);
         this.captionEditText.openKeyboard();
         this.captionEditText.setImportantForAccessibility(0);
@@ -13936,6 +13947,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         CharSequence charSequence2;
         int i;
         int i2;
+        CharSequence cloneSpans = AnimatedEmojiSpan.cloneSpans(charSequence);
         boolean z3 = true;
         int i3 = 0;
         if (this.needCaptionLayout) {
@@ -13963,7 +13975,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 this.videoPreviewFrame.bringToFront();
             }
         }
-        boolean isEmpty = TextUtils.isEmpty(charSequence);
+        boolean isEmpty = TextUtils.isEmpty(cloneSpans);
         boolean isEmpty2 = TextUtils.isEmpty(this.captionTextViewSwitcher.getCurrentView().getText());
         CaptionTextViewSwitcher captionTextViewSwitcher = this.captionTextViewSwitcher;
         TextView nextView = z ? captionTextViewSwitcher.getNextView() : captionTextViewSwitcher.getCurrentView();
@@ -14036,14 +14048,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (!isEmpty) {
             Theme.createChatResources(null, true);
             if (messageObject != null && !messageObject.messageOwner.entities.isEmpty()) {
-                SpannableString spannableString = new SpannableString(charSequence);
+                SpannableString spannableString = new SpannableString(cloneSpans);
                 messageObject.addEntitiesToText(spannableString, true, false);
                 if (messageObject.isVideo()) {
                     MessageObject.addUrlsByPattern(messageObject.isOutOwner(), spannableString, false, 3, messageObject.getDuration(), false);
                 }
                 charSequence2 = Emoji.replaceEmoji(spannableString, nextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
             } else {
-                charSequence2 = Emoji.replaceEmoji(new SpannableStringBuilder(charSequence), nextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                charSequence2 = Emoji.replaceEmoji(new SpannableStringBuilder(cloneSpans), nextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
             }
             this.captionTextViewSwitcher.setTag(charSequence2);
             try {

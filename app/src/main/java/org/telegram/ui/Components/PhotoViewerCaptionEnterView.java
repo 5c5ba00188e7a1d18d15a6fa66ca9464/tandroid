@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
@@ -197,6 +198,12 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             public boolean requestRectangleOnScreen(android.graphics.Rect rect) {
                 rect.bottom += AndroidUtilities.dp(1000.0f);
                 return super.requestRectangleOnScreen(rect);
+            }
+
+            @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.EditText, android.widget.TextView
+            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                super.setText(charSequence, bufferType);
+                invalidateForce();
             }
         };
         this.messageEditText = editTextCaption;

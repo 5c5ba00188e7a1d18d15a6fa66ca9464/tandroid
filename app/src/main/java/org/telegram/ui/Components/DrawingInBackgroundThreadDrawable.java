@@ -8,6 +8,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.SharedConfig;
 /* loaded from: classes3.dex */
 public class DrawingInBackgroundThreadDrawable implements NotificationCenter.NotificationCenterDelegate {
     private static DispatchQueue backgroundQueue;
@@ -17,7 +18,6 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
     Bitmap bitmap;
     Canvas bitmapCanvas;
     private boolean bitmapUpdating;
-    private int currentLayerNum;
     private int currentOpenedLayerFlags;
     boolean error;
     int frameGuid;
@@ -28,6 +28,7 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
     protected boolean paused;
     private boolean reset;
     int width;
+    public int currentLayerNum = 1;
     private Paint paint = new Paint(1);
     Runnable bitmapCreateTask = new Runnable() { // from class: org.telegram.ui.Components.DrawingInBackgroundThreadDrawable.1
         /* JADX WARN: Code restructure failed: missing block: B:7:0x001a, code lost:
@@ -163,6 +164,14 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
 
     public void onAttachToWindow() {
         this.attachedToWindow = true;
+        int currentHeavyOperationFlags = NotificationCenter.getGlobalInstance().getCurrentHeavyOperationFlags();
+        this.currentOpenedLayerFlags = currentHeavyOperationFlags;
+        int i = currentHeavyOperationFlags & (this.currentLayerNum ^ (-1));
+        this.currentOpenedLayerFlags = i;
+        if (i == 0 && this.paused) {
+            this.paused = false;
+            onResume();
+        }
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.stopAllHeavyOperations);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.startAllHeavyOperations);
     }
@@ -191,6 +200,9 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
         if (i == NotificationCenter.stopAllHeavyOperations) {
             Integer num = (Integer) objArr[0];
             if (this.currentLayerNum >= num.intValue()) {
+                return;
+            }
+            if (num.intValue() == 512 && SharedConfig.getDevicePerformanceClass() >= 2) {
                 return;
             }
             int intValue = num.intValue() | this.currentOpenedLayerFlags;

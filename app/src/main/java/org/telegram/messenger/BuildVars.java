@@ -22,10 +22,14 @@ public class BuildVars {
     private static Boolean betaApp;
     private static Boolean standaloneApp;
 
+    public static boolean isHuaweiStoreApp() {
+        return false;
+    }
+
     static {
         boolean z = true;
         NO_SCOPED_STORAGE = Build.VERSION.SDK_INT <= 29;
-        BUILD_VERSION = 2734;
+        BUILD_VERSION = 2736;
         BUILD_VERSION_STRING = BuildConfig.VERSION_NAME;
         APP_ID = 4;
         APP_HASH = "014b35b6184100b085b0d0572f9b5103";

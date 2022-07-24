@@ -21,6 +21,7 @@ import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 /* loaded from: classes3.dex */
 public class EditTextEffects extends EditText {
     private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiDrawables;
+    private boolean clipToPadding;
     private boolean isSpoilersRevealed;
     private float lastRippleX;
     private float lastRippleY;
@@ -163,6 +164,12 @@ public class EditTextEffects extends EditText {
         AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
     }
 
+    @Override // android.widget.TextView, android.view.View
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        updateAnimatedEmoji();
+    }
+
     @Override // android.view.View
     public void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
@@ -195,7 +202,8 @@ public class EditTextEffects extends EditText {
                 }
             }
         }
-        this.animatedEmojiDrawables = AnimatedEmojiSpan.update(AnimatedEmojiDrawable.getCacheTypeForEnterView(), this, this.animatedEmojiDrawables, getLayout());
+        updateAnimatedEmoji();
+        invalidate();
     }
 
     @Override // android.widget.EditText, android.widget.TextView
@@ -213,7 +221,7 @@ public class EditTextEffects extends EditText {
     @Override // android.widget.TextView, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
-        this.animatedEmojiDrawables = AnimatedEmojiSpan.update(AnimatedEmojiDrawable.getCacheTypeForEnterView(), this, this.animatedEmojiDrawables, getLayout());
+        updateAnimatedEmoji();
     }
 
     public void setShouldRevealSpoilersByTouch(boolean z) {
@@ -259,7 +267,9 @@ public class EditTextEffects extends EditText {
     @Override // android.widget.TextView, android.view.View
     public void onDraw(Canvas canvas) {
         canvas.save();
-        canvas.clipRect(0, getScrollY(), getMeasuredWidth(), getMeasuredHeight() + getScrollY());
+        if (this.clipToPadding && getScrollY() != 0) {
+            canvas.clipRect(0, getScrollY(), getMeasuredWidth(), getMeasuredHeight() + getScrollY());
+        }
         this.path.rewind();
         for (SpoilerEffect spoilerEffect : this.spoilers) {
             android.graphics.Rect bounds = spoilerEffect.getBounds();
@@ -269,9 +279,7 @@ public class EditTextEffects extends EditText {
         int length = (getLayout() == null || getLayout().getText() == null) ? 0 : getLayout().getText().length();
         Layout layout = this.lastLayout;
         if (layout == null || layout != getLayout() || this.lastTextLength != length) {
-            this.animatedEmojiDrawables = AnimatedEmojiSpan.update(AnimatedEmojiDrawable.getCacheTypeForEnterView(), this, this.animatedEmojiDrawables, getLayout());
-            this.lastLayout = getLayout();
-            this.lastTextLength = length;
+            updateAnimatedEmoji();
         }
         super.onDraw(canvas);
         if (this.animatedEmojiDrawables != null) {
@@ -302,6 +310,19 @@ public class EditTextEffects extends EditText {
             }
         }
         canvas.restore();
+    }
+
+    public void updateAnimatedEmoji() {
+        int i = 0;
+        this.animatedEmojiDrawables = AnimatedEmojiSpan.update(AnimatedEmojiDrawable.getCacheTypeForEnterView(), this, this.animatedEmojiDrawables, getLayout());
+        if (getLayout() != null && getLayout().getText() != null) {
+            i = getLayout().getText().length();
+        }
+        if (this.lastLayout == getLayout() && this.lastTextLength == i) {
+            return;
+        }
+        this.lastLayout = getLayout();
+        this.lastTextLength = i;
     }
 
     public void invalidateEffects() {
@@ -341,5 +362,9 @@ public class EditTextEffects extends EditText {
             }
         }
         invalidate();
+    }
+
+    public void setClipToPadding(boolean z) {
+        this.clipToPadding = z;
     }
 }

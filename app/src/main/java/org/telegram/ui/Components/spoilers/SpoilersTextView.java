@@ -79,7 +79,7 @@ public class SpoilersTextView extends TextView {
     }
 
     @Override // android.widget.TextView
-    protected void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
         invalidateSpoilers();
     }

@@ -232,13 +232,13 @@ public class StickerSetCell extends FrameLayout {
     }
 
     public /* synthetic */ void lambda$new$3(View view) {
-        if (this.premiumButtonView.getVisibility() == 0) {
-            onPremiumButtonClick();
-        } else if (this.addButtonView.getVisibility() == 0) {
-            onAddButtonClick();
-        } else if (this.removeButtonView.getVisibility() != 0) {
+        if (this.premiumButtonView.getVisibility() == 0 && this.premiumButtonView.isEnabled()) {
+            this.premiumButtonView.performClick();
+        } else if (this.addButtonView.getVisibility() == 0 && this.addButtonView.isEnabled()) {
+            this.addButtonView.performClick();
+        } else if (this.removeButtonView.getVisibility() != 0 || !this.removeButtonView.isEnabled()) {
         } else {
-            onRemoveButtonClick();
+            this.removeButtonView.performClick();
         }
     }
 

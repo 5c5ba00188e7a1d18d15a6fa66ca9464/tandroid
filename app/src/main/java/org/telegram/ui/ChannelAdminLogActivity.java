@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.URLSpan;
@@ -80,7 +81,6 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$FileLocation;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$KeyboardButton;
-import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEvent;
@@ -1297,30 +1297,28 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         processSelectedOption(((Integer) arrayList.get(i)).intValue());
     }
 
-    private String getMessageContent(MessageObject messageObject, int i, boolean z) {
+    private CharSequence getMessageContent(MessageObject messageObject, int i, boolean z) {
         TLRPC$Chat chat;
-        TLRPC$User user;
-        String str = "";
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         if (z) {
             long fromChatId = messageObject.getFromChatId();
             if (i != fromChatId) {
                 if (fromChatId > 0) {
-                    if (MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId)) != null) {
-                        str = ContactsController.formatName(user.first_name, user.last_name) + ":\n";
+                    TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId));
+                    if (user != null) {
+                        spannableStringBuilder.append((CharSequence) ContactsController.formatName(user.first_name, user.last_name)).append((CharSequence) ":\n");
                     }
                 } else if (fromChatId < 0 && (chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-fromChatId))) != null) {
-                    str = chat.title + ":\n";
+                    spannableStringBuilder.append((CharSequence) chat.title).append((CharSequence) ":\n");
                 }
             }
         }
-        if (messageObject.type == 0 && messageObject.messageOwner.message != null) {
-            return str + messageObject.messageOwner.message;
+        if (TextUtils.isEmpty(messageObject.messageText)) {
+            spannableStringBuilder.append((CharSequence) messageObject.messageOwner.message);
+        } else {
+            spannableStringBuilder.append(messageObject.messageText);
         }
-        TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-        if (tLRPC$Message.media != null && tLRPC$Message.message != null) {
-            return str + messageObject.messageOwner.message;
-        }
-        return str + ((Object) messageObject.messageText);
+        return spannableStringBuilder;
     }
 
     public TextureView createTextureView(boolean z) {
@@ -2144,8 +2142,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         /* loaded from: classes3.dex */
         public class AnonymousClass1 implements ChatMessageCell.ChatMessageCellDelegate {
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ boolean canDrawOutboundsContent() {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$canDrawOutboundsContent(this);
+            public boolean canDrawOutboundsContent() {
+                return true;
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

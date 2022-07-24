@@ -86,6 +86,7 @@ public class EditTextCaption extends EditTextBoldCursor {
                 }
             }
         });
+        setClipToPadding(true);
     }
 
     public void setCaption(String str) {

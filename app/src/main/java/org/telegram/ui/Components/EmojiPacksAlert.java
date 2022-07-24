@@ -234,6 +234,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                                     drawingInBackgroundLine = arrayList4.remove(arrayList4.size() - 1);
                                 } else {
                                     drawingInBackgroundLine = new DrawingInBackgroundLine();
+                                    drawingInBackgroundLine.currentLayerNum = 7;
                                 }
                                 drawingInBackgroundLine.position = childAdapterPosition;
                                 drawingInBackgroundLine.onAttachToWindow();
@@ -371,7 +372,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 android.graphics.Point point = AndroidUtilities.displaySize;
                 int i3 = point.x;
                 int i4 = point.y;
-                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((int) (i4 * (i3 < i4 ? 0.55f : 0.3f)), 1073741824));
+                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((int) (i4 * (i3 < i4 ? 0.56f : 0.3f)), 1073741824));
             }
         };
         this.listView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.EmojiPacksAlert.4
@@ -450,14 +451,21 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.containerView.addView(this.buttonsView, LayoutHelper.createFrame(-1, 68, 87));
         TextView textView = new TextView(context);
         this.addButtonView = textView;
-        textView.setBackground(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 6.0f));
+        textView.setVisibility(8);
+        this.addButtonView.setBackground(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 6.0f));
         this.addButtonView.setTextColor(getThemedColor("featuredStickers_buttonText"));
         this.addButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.addButtonView.setGravity(17);
         this.buttonsView.addView(this.addButtonView, LayoutHelper.createFrame(-1, 48.0f, 80, 12.0f, 10.0f, 12.0f, 10.0f));
-        TextView textView2 = new TextView(context);
+        TextView textView2 = new TextView(this, context) { // from class: org.telegram.ui.Components.EmojiPacksAlert.7
+            @Override // android.view.View
+            public void setVisibility(int i2) {
+                super.setVisibility(i2);
+            }
+        };
         this.removeButtonView = textView2;
-        textView2.setBackground(Theme.createRadSelectorDrawable(268435455 & getThemedColor("dialogTextRed"), 0, 0));
+        textView2.setVisibility(8);
+        this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(268435455 & getThemedColor("dialogTextRed"), 0, 0));
         this.removeButtonView.setTextColor(getThemedColor("dialogTextRed"));
         this.removeButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.removeButtonView.setGravity(17);
@@ -593,6 +601,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 }
             }
         }
+        updateButton();
     }
 
     public static void installSet(BaseFragment baseFragment, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, boolean z) {
@@ -666,7 +675,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         if (baseFragment == null || tLRPC$TL_messages_stickerSet == null || baseFragment.getFragmentView() == null) {
             return;
         }
-        MediaDataController.getInstance(baseFragment.getCurrentAccount()).toggleStickerSet(baseFragment.getFragmentView().getContext(), tLRPC$TL_messages_stickerSet, tLRPC$TL_messages_stickerSet.set.official ? 1 : 0, baseFragment, true, z, null, runnable);
+        MediaDataController.getInstance(baseFragment.getCurrentAccount()).toggleStickerSet(baseFragment.getFragmentView().getContext(), tLRPC$TL_messages_stickerSet, 0, baseFragment, true, z, null, runnable);
     }
 
     private void loadAnimation() {
@@ -743,7 +752,6 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             this.listView.setAlpha(0.0f);
         }
         if (arrayList4.size() <= 0 && arrayList3.size() > 0 && !isPremium) {
-            updateShowButton(true, !this.first);
             this.premiumButtonView.setVisibility(0);
             this.addButtonView.setVisibility(8);
             this.removeButtonView.setVisibility(8);
@@ -753,6 +761,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                     EmojiPacksAlert.this.lambda$updateButton$5(view);
                 }
             });
+            updateShowButton(true, !this.first);
         } else {
             this.premiumButtonView.setVisibility(4);
             if (arrayList4.size() > 0) {
@@ -819,13 +828,13 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     public /* synthetic */ void lambda$updateButton$7(ArrayList arrayList, View view) {
+        dismiss();
         int i = 0;
         while (i < arrayList.size()) {
             uninstallSet(this.fragment, (TLRPC$TL_messages_stickerSet) arrayList.get(i), i == 0, null);
             i++;
         }
         onButtonClicked(false);
-        dismiss();
     }
 
     public int getListTop() {

@@ -548,6 +548,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         boolean z;
         DiffUtil.DiffResult diffResult;
         int i;
+        int i2;
         MediaDataController mediaDataController = MediaDataController.getInstance(this.currentAccount);
         final ArrayList arrayList = new ArrayList(MessagesController.getInstance(this.currentAccount).filterPremiumStickers(mediaDataController.getStickerSets(this.currentType)));
         List featuredEmojiSets = this.currentType == 5 ? mediaDataController.getFeaturedEmojiSets() : mediaDataController.getFeaturedStickerSets();
@@ -559,11 +560,11 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         }
         final ArrayList arrayList2 = new ArrayList(featuredEmojiSets);
         if (this.currentType == 5) {
-            for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                checkPack((TLRPC$TL_messages_stickerSet) arrayList.get(i2));
+            for (int i3 = 0; i3 < arrayList.size(); i3++) {
+                checkPack((TLRPC$TL_messages_stickerSet) arrayList.get(i3));
             }
-            for (int i3 = 0; i3 < arrayList2.size(); i3++) {
-                checkPack((TLRPC$StickerSetCovered) arrayList2.get(i3));
+            for (int i4 = 0; i4 < arrayList2.size(); i4++) {
+                checkPack((TLRPC$StickerSetCovered) arrayList2.get(i4));
             }
             arrayList2.clear();
             arrayList.clear();
@@ -594,14 +595,14 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     }
 
                     @Override // androidx.recyclerview.widget.DiffUtil.Callback
-                    public boolean areItemsTheSame(int i4, int i5) {
-                        return this.oldList.get(i4).set.id == ((TLRPC$TL_messages_stickerSet) arrayList.get(i5)).set.id;
+                    public boolean areItemsTheSame(int i5, int i6) {
+                        return this.oldList.get(i5).set.id == ((TLRPC$TL_messages_stickerSet) arrayList.get(i6)).set.id;
                     }
 
                     @Override // androidx.recyclerview.widget.DiffUtil.Callback
-                    public boolean areContentsTheSame(int i4, int i5) {
-                        TLRPC$StickerSet tLRPC$StickerSet = this.oldList.get(i4).set;
-                        TLRPC$StickerSet tLRPC$StickerSet2 = ((TLRPC$TL_messages_stickerSet) arrayList.get(i5)).set;
+                    public boolean areContentsTheSame(int i5, int i6) {
+                        TLRPC$StickerSet tLRPC$StickerSet = this.oldList.get(i5).set;
+                        TLRPC$StickerSet tLRPC$StickerSet2 = ((TLRPC$TL_messages_stickerSet) arrayList.get(i6)).set;
                         return TextUtils.equals(tLRPC$StickerSet.title, tLRPC$StickerSet2.title) && tLRPC$StickerSet.count == tLRPC$StickerSet2.count;
                     }
                 });
@@ -624,14 +625,14 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     }
 
                     @Override // androidx.recyclerview.widget.DiffUtil.Callback
-                    public boolean areItemsTheSame(int i4, int i5) {
-                        return this.oldList.get(i4).set.id == ((TLRPC$StickerSetCovered) arrayList2.get(i5)).set.id;
+                    public boolean areItemsTheSame(int i5, int i6) {
+                        return this.oldList.get(i5).set.id == ((TLRPC$StickerSetCovered) arrayList2.get(i6)).set.id;
                     }
 
                     @Override // androidx.recyclerview.widget.DiffUtil.Callback
-                    public boolean areContentsTheSame(int i4, int i5) {
-                        TLRPC$StickerSet tLRPC$StickerSet = this.oldList.get(i4).set;
-                        TLRPC$StickerSet tLRPC$StickerSet2 = ((TLRPC$StickerSetCovered) arrayList2.get(i5)).set;
+                    public boolean areContentsTheSame(int i5, int i6) {
+                        TLRPC$StickerSet tLRPC$StickerSet = this.oldList.get(i5).set;
+                        TLRPC$StickerSet tLRPC$StickerSet2 = ((TLRPC$StickerSetCovered) arrayList2.get(i6)).set;
                         return TextUtils.equals(tLRPC$StickerSet.title, tLRPC$StickerSet2.title) && tLRPC$StickerSet.count == tLRPC$StickerSet2.count && tLRPC$StickerSet.installed == tLRPC$StickerSet2.installed;
                     }
                 });
@@ -644,88 +645,88 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             diffResult = null;
         }
         this.rowCount = 0;
-        int i4 = this.currentType;
-        if (i4 == 0) {
-            int i5 = 0 + 1;
-            this.rowCount = i5;
-            this.suggestRow = 0;
-            int i6 = i5 + 1;
+        int i5 = this.currentType;
+        if (i5 == 0) {
+            int i6 = 0 + 1;
             this.rowCount = i6;
-            this.largeEmojiRow = i5;
+            this.suggestRow = 0;
             int i7 = i6 + 1;
             this.rowCount = i7;
-            this.loopRow = i6;
-            this.rowCount = i7 + 1;
-            this.loopInfoRow = i7;
+            this.largeEmojiRow = i6;
+            int i8 = i7 + 1;
+            this.rowCount = i8;
+            this.loopRow = i7;
+            this.rowCount = i8 + 1;
+            this.loopInfoRow = i8;
         } else {
             this.suggestRow = -1;
             this.largeEmojiRow = -1;
             this.loopRow = -1;
             this.loopInfoRow = -1;
         }
-        if (i4 == 0) {
-            int i8 = this.rowCount;
-            int i9 = i8 + 1;
-            this.rowCount = i9;
-            this.masksRow = i8;
-            this.rowCount = i9 + 1;
-            this.emojiPacksRow = i9;
+        if (i5 == 0) {
+            int i9 = this.rowCount;
+            int i10 = i9 + 1;
+            this.rowCount = i10;
+            this.masksRow = i9;
+            this.rowCount = i10 + 1;
+            this.emojiPacksRow = i10;
         } else {
             this.masksRow = -1;
             this.emojiPacksRow = -1;
         }
-        int archivedStickersCount = mediaDataController.getArchivedStickersCount(i4);
-        int i10 = 2;
-        if (archivedStickersCount != 0) {
+        int archivedStickersCount = mediaDataController.getArchivedStickersCount(i5);
+        int i11 = 2;
+        if (archivedStickersCount != 0 && (i2 = this.currentType) != 5) {
             boolean z2 = this.archivedRow == -1;
-            int i11 = this.rowCount;
-            int i12 = i11 + 1;
-            this.rowCount = i12;
-            this.archivedRow = i11;
-            if (this.currentType == 1) {
-                this.rowCount = i12 + 1;
+            int i12 = this.rowCount;
+            int i13 = i12 + 1;
+            this.rowCount = i13;
+            this.archivedRow = i12;
+            if (i2 == 1) {
+                this.rowCount = i13 + 1;
             } else {
-                i12 = -1;
+                i13 = -1;
             }
-            this.archivedInfoRow = i12;
+            this.archivedInfoRow = i13;
             ListAdapter listAdapter = this.listAdapter;
             if (listAdapter != null && z2) {
-                if (i12 == -1) {
-                    i10 = 1;
+                if (i13 == -1) {
+                    i11 = 1;
                 }
-                listAdapter.notifyItemRangeInserted(i11, i10);
+                listAdapter.notifyItemRangeInserted(i12, i11);
             }
         } else {
-            int i13 = this.archivedRow;
-            int i14 = this.archivedInfoRow;
+            int i14 = this.archivedRow;
+            int i15 = this.archivedInfoRow;
             this.archivedRow = -1;
             this.archivedInfoRow = -1;
             ListAdapter listAdapter2 = this.listAdapter;
-            if (listAdapter2 != null && i13 != -1) {
-                if (i14 == -1) {
-                    i10 = 1;
+            if (listAdapter2 != null && i14 != -1) {
+                if (i15 == -1) {
+                    i11 = 1;
                 }
-                listAdapter2.notifyItemRangeRemoved(i13, i10);
+                listAdapter2.notifyItemRangeRemoved(i14, i11);
             }
         }
         if (this.currentType == 0) {
-            int i15 = this.rowCount;
-            int i16 = i15 + 1;
-            this.rowCount = i16;
-            this.reactionsDoubleTapRow = i15;
-            this.rowCount = i16 + 1;
-            this.stickersBotInfo = i16;
+            int i16 = this.rowCount;
+            int i17 = i16 + 1;
+            this.rowCount = i17;
+            this.reactionsDoubleTapRow = i16;
+            this.rowCount = i17 + 1;
+            this.stickersBotInfo = i17;
         } else {
             this.reactionsDoubleTapRow = -1;
             this.stickersBotInfo = -1;
         }
         if (!arrayList2.isEmpty() && ((i = this.currentType) == 0 || i == 5)) {
-            int i17 = this.rowCount;
-            int i18 = i17 + 1;
-            this.rowCount = i18;
-            this.featuredStickersHeaderRow = i17;
-            this.featuredStickersStartRow = i18;
-            int size = i18 + arrayList2.size();
+            int i18 = this.rowCount;
+            int i19 = i18 + 1;
+            this.rowCount = i19;
+            this.featuredStickersHeaderRow = i18;
+            this.featuredStickersStartRow = i19;
+            int size = i19 + arrayList2.size();
             this.rowCount = size;
             this.featuredStickersEndRow = size;
             if (z) {
@@ -734,9 +735,9 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             } else {
                 this.featuredStickersShowMoreRow = -1;
             }
-            int i19 = this.rowCount;
-            this.rowCount = i19 + 1;
-            this.featuredStickersShadowRow = i19;
+            int i20 = this.rowCount;
+            this.rowCount = i20 + 1;
+            this.featuredStickersShadowRow = i20;
         } else {
             this.featuredStickersHeaderRow = -1;
             this.featuredStickersStartRow = -1;
@@ -747,24 +748,24 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         int size2 = arrayList.size();
         if (size2 > 0) {
             if (this.featuredStickersHeaderRow != -1) {
-                int i20 = this.rowCount;
-                this.rowCount = i20 + 1;
-                this.stickersHeaderRow = i20;
+                int i21 = this.rowCount;
+                this.rowCount = i21 + 1;
+                this.stickersHeaderRow = i21;
             } else {
                 this.stickersHeaderRow = -1;
             }
-            int i21 = this.rowCount;
-            this.stickersStartRow = i21;
-            int i22 = i21 + size2;
-            this.rowCount = i22;
-            this.stickersEndRow = i22;
+            int i22 = this.rowCount;
+            this.stickersStartRow = i22;
+            int i23 = i22 + size2;
+            this.rowCount = i23;
+            this.stickersEndRow = i23;
             if (this.currentType != 1) {
-                this.rowCount = i22 + 1;
-                this.stickersShadowRow = i22;
+                this.rowCount = i23 + 1;
+                this.stickersShadowRow = i23;
                 this.masksInfoRow = -1;
             } else {
-                this.rowCount = i22 + 1;
-                this.masksInfoRow = i22;
+                this.rowCount = i23 + 1;
+                this.masksInfoRow = i23;
                 this.stickersShadowRow = -1;
             }
         } else {
@@ -777,63 +778,63 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         ListAdapter listAdapter3 = this.listAdapter;
         if (listAdapter3 != null) {
             if (diffResult2 != null) {
-                final int i23 = this.stickersStartRow;
-                if (i23 < 0) {
-                    i23 = this.rowCount;
+                final int i24 = this.stickersStartRow;
+                if (i24 < 0) {
+                    i24 = this.rowCount;
                 }
-                listAdapter3.notifyItemRangeChanged(0, i23);
+                listAdapter3.notifyItemRangeChanged(0, i24);
                 diffResult2.dispatchUpdatesTo(new ListUpdateCallback() { // from class: org.telegram.ui.StickersActivity.6
                     @Override // androidx.recyclerview.widget.ListUpdateCallback
-                    public void onInserted(int i24, int i25) {
-                        StickersActivity.this.listAdapter.notifyItemRangeInserted(i23 + i24, i25);
+                    public void onInserted(int i25, int i26) {
+                        StickersActivity.this.listAdapter.notifyItemRangeInserted(i24 + i25, i26);
                     }
 
                     @Override // androidx.recyclerview.widget.ListUpdateCallback
-                    public void onRemoved(int i24, int i25) {
-                        StickersActivity.this.listAdapter.notifyItemRangeRemoved(i23 + i24, i25);
+                    public void onRemoved(int i25, int i26) {
+                        StickersActivity.this.listAdapter.notifyItemRangeRemoved(i24 + i25, i26);
                     }
 
                     @Override // androidx.recyclerview.widget.ListUpdateCallback
-                    public void onMoved(int i24, int i25) {
+                    public void onMoved(int i25, int i26) {
                         if (StickersActivity.this.currentType == 5) {
                             ListAdapter listAdapter4 = StickersActivity.this.listAdapter;
-                            int i26 = i23;
-                            listAdapter4.notifyItemMoved(i24 + i26, i26 + i25);
+                            int i27 = i24;
+                            listAdapter4.notifyItemMoved(i25 + i27, i27 + i26);
                         }
                     }
 
                     @Override // androidx.recyclerview.widget.ListUpdateCallback
-                    public void onChanged(int i24, int i25, Object obj) {
-                        StickersActivity.this.listAdapter.notifyItemRangeChanged(i23 + i24, i25);
+                    public void onChanged(int i25, int i26, Object obj) {
+                        StickersActivity.this.listAdapter.notifyItemRangeChanged(i24 + i25, i26);
                     }
                 });
             }
             if (diffResult == null) {
                 return;
             }
-            final int i24 = this.featuredStickersStartRow;
-            if (i24 < 0) {
-                i24 = this.rowCount;
+            final int i25 = this.featuredStickersStartRow;
+            if (i25 < 0) {
+                i25 = this.rowCount;
             }
-            this.listAdapter.notifyItemRangeChanged(0, i24);
+            this.listAdapter.notifyItemRangeChanged(0, i25);
             diffResult.dispatchUpdatesTo(new ListUpdateCallback() { // from class: org.telegram.ui.StickersActivity.7
                 @Override // androidx.recyclerview.widget.ListUpdateCallback
-                public void onMoved(int i25, int i26) {
+                public void onMoved(int i26, int i27) {
                 }
 
                 @Override // androidx.recyclerview.widget.ListUpdateCallback
-                public void onInserted(int i25, int i26) {
-                    StickersActivity.this.listAdapter.notifyItemRangeInserted(i24 + i25, i26);
+                public void onInserted(int i26, int i27) {
+                    StickersActivity.this.listAdapter.notifyItemRangeInserted(i25 + i26, i27);
                 }
 
                 @Override // androidx.recyclerview.widget.ListUpdateCallback
-                public void onRemoved(int i25, int i26) {
-                    StickersActivity.this.listAdapter.notifyItemRangeRemoved(i24 + i25, i26);
+                public void onRemoved(int i26, int i27) {
+                    StickersActivity.this.listAdapter.notifyItemRangeRemoved(i25 + i26, i27);
                 }
 
                 @Override // androidx.recyclerview.widget.ListUpdateCallback
-                public void onChanged(int i25, int i26, Object obj) {
-                    StickersActivity.this.listAdapter.notifyItemRangeChanged(i24 + i25, i26);
+                public void onChanged(int i26, int i27, Object obj) {
+                    StickersActivity.this.listAdapter.notifyItemRangeChanged(i25 + i26, i27);
                 }
             });
         }
@@ -1029,8 +1030,8 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:118:0x03ae, code lost:
-            if (r5 == false) goto L120;
+        /* JADX WARN: Code restructure failed: missing block: B:124:0x03c8, code lost:
+            if (r5 == false) goto L126;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
@@ -1038,17 +1039,17 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             TLRPC$StickerSet tLRPC$StickerSet;
-            int i2;
             boolean z;
             String str;
             TLRPC$TL_availableReaction tLRPC$TL_availableReaction;
             boolean z2 = false;
+            int i2 = 1;
             switch (viewHolder.getItemViewType()) {
                 case 0:
                     StickerSetCell stickerSetCell = (StickerSetCell) viewHolder.itemView;
                     int i3 = i - StickersActivity.this.stickersStartRow;
                     TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = this.stickerSets.get(i3);
-                    boolean z3 = stickerSetCell.getStickersSet() != tLRPC$TL_messages_stickerSet;
+                    boolean z3 = (stickerSetCell.getStickersSet() == null && tLRPC$TL_messages_stickerSet == null) || !(stickerSetCell.getStickersSet() == null || tLRPC$TL_messages_stickerSet == null || stickerSetCell.getStickersSet().set.id != tLRPC$TL_messages_stickerSet.set.id);
                     stickerSetCell.setStickersSet(tLRPC$TL_messages_stickerSet, i3 != this.stickerSets.size() - 1);
                     stickerSetCell.setChecked(this.selectedItems.get(getItemId(i), Boolean.FALSE).booleanValue(), false);
                     stickerSetCell.setReorderable(hasSelected(), false);
@@ -1072,12 +1073,12 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         }
                     }
                     z2 = z4;
-                    if (z2) {
-                        i2 = (!isStickerPackInstalled || tLRPC$TL_messages_stickerSet.set.official) ? 1 : 2;
-                    } else {
+                    if (!z2) {
                         i2 = isStickerPackInstalled ? 4 : 3;
+                    } else if (isStickerPackInstalled && !tLRPC$TL_messages_stickerSet.set.official) {
+                        i2 = 2;
                     }
-                    stickerSetCell.updateButtonState(i2, !z3);
+                    stickerSetCell.updateButtonState(i2, z3);
                     return;
                 case 1:
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;

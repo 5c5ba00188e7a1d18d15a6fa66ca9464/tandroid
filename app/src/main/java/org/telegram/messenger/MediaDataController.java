@@ -2906,45 +2906,49 @@ public class MediaDataController extends BaseController {
         final ArrayList<TLRPC$TL_messages_stickerSet> arrayList = new ArrayList<>();
         long j = 1000;
         if (tLRPC$TL_messages_allStickers.sets.isEmpty()) {
-            processLoadedStickers(i, arrayList, false, (int) (System.currentTimeMillis() / 1000), tLRPC$TL_messages_allStickers.hash);
-        } else {
-            final LongSparseArray longSparseArray = new LongSparseArray();
-            int i2 = 0;
-            while (i2 < tLRPC$TL_messages_allStickers.sets.size()) {
-                final TLRPC$StickerSet tLRPC$StickerSet = tLRPC$TL_messages_allStickers.sets.get(i2);
-                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = this.stickerSetsById.get(tLRPC$StickerSet.id);
-                if (tLRPC$TL_messages_stickerSet != null) {
-                    TLRPC$StickerSet tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet.set;
-                    if (tLRPC$StickerSet2.hash == tLRPC$StickerSet.hash) {
-                        tLRPC$StickerSet2.archived = tLRPC$StickerSet.archived;
-                        tLRPC$StickerSet2.installed = tLRPC$StickerSet.installed;
-                        tLRPC$StickerSet2.official = tLRPC$StickerSet.official;
-                        longSparseArray.put(tLRPC$StickerSet2.id, tLRPC$TL_messages_stickerSet);
-                        arrayList.add(tLRPC$TL_messages_stickerSet);
-                        if (longSparseArray.size() == tLRPC$TL_messages_allStickers.sets.size()) {
-                            processLoadedStickers(i, arrayList, false, (int) (System.currentTimeMillis() / j), tLRPC$TL_messages_allStickers.hash);
-                        }
-                        i2++;
-                        j = 1000;
-                    }
-                }
-                arrayList.add(null);
-                TLRPC$TL_messages_getStickerSet tLRPC$TL_messages_getStickerSet = new TLRPC$TL_messages_getStickerSet();
-                TLRPC$TL_inputStickerSetID tLRPC$TL_inputStickerSetID = new TLRPC$TL_inputStickerSetID();
-                tLRPC$TL_messages_getStickerSet.stickerset = tLRPC$TL_inputStickerSetID;
-                tLRPC$TL_inputStickerSetID.id = tLRPC$StickerSet.id;
-                tLRPC$TL_inputStickerSetID.access_hash = tLRPC$StickerSet.access_hash;
-                final int i3 = i2;
-                getConnectionsManager().sendRequest(tLRPC$TL_messages_getStickerSet, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda182
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        MediaDataController.this.lambda$processLoadStickersResponse$58(arrayList, i3, longSparseArray, tLRPC$StickerSet, tLRPC$TL_messages_allStickers, i, tLObject, tLRPC$TL_error);
-                    }
-                });
-                i2++;
-                j = 1000;
-            }
+            processLoadedStickers(i, arrayList, false, (int) (System.currentTimeMillis() / 1000), tLRPC$TL_messages_allStickers.hash, runnable);
+            return;
         }
+        final LongSparseArray longSparseArray = new LongSparseArray();
+        int i2 = 0;
+        while (i2 < tLRPC$TL_messages_allStickers.sets.size()) {
+            final TLRPC$StickerSet tLRPC$StickerSet = tLRPC$TL_messages_allStickers.sets.get(i2);
+            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = this.stickerSetsById.get(tLRPC$StickerSet.id);
+            if (tLRPC$TL_messages_stickerSet != null) {
+                TLRPC$StickerSet tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet.set;
+                if (tLRPC$StickerSet2.hash == tLRPC$StickerSet.hash) {
+                    tLRPC$StickerSet2.archived = tLRPC$StickerSet.archived;
+                    tLRPC$StickerSet2.installed = tLRPC$StickerSet.installed;
+                    tLRPC$StickerSet2.official = tLRPC$StickerSet.official;
+                    longSparseArray.put(tLRPC$StickerSet2.id, tLRPC$TL_messages_stickerSet);
+                    arrayList.add(tLRPC$TL_messages_stickerSet);
+                    if (longSparseArray.size() == tLRPC$TL_messages_allStickers.sets.size()) {
+                        processLoadedStickers(i, arrayList, false, (int) (System.currentTimeMillis() / j), tLRPC$TL_messages_allStickers.hash);
+                    }
+                    i2++;
+                    j = 1000;
+                }
+            }
+            arrayList.add(null);
+            TLRPC$TL_messages_getStickerSet tLRPC$TL_messages_getStickerSet = new TLRPC$TL_messages_getStickerSet();
+            TLRPC$TL_inputStickerSetID tLRPC$TL_inputStickerSetID = new TLRPC$TL_inputStickerSetID();
+            tLRPC$TL_messages_getStickerSet.stickerset = tLRPC$TL_inputStickerSetID;
+            tLRPC$TL_inputStickerSetID.id = tLRPC$StickerSet.id;
+            tLRPC$TL_inputStickerSetID.access_hash = tLRPC$StickerSet.access_hash;
+            final int i3 = i2;
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_getStickerSet, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda182
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    MediaDataController.this.lambda$processLoadStickersResponse$58(arrayList, i3, longSparseArray, tLRPC$StickerSet, tLRPC$TL_messages_allStickers, i, tLObject, tLRPC$TL_error);
+                }
+            });
+            i2++;
+            j = 1000;
+        }
+        if (runnable == null) {
+            return;
+        }
+        runnable.run();
     }
 
     public /* synthetic */ void lambda$processLoadStickersResponse$58(final ArrayList arrayList, final int i, final LongSparseArray longSparseArray, final TLRPC$StickerSet tLRPC$StickerSet, final TLRPC$TL_messages_allStickers tLRPC$TL_messages_allStickers, final int i2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -3248,24 +3252,36 @@ public class MediaDataController extends BaseController {
     public void loadStickers(final int i, boolean z, final boolean z2, boolean z3, final Utilities.Callback<ArrayList<TLRPC$TL_messages_stickerSet>> callback) {
         TLRPC$TL_messages_getMaskStickers tLRPC$TL_messages_getMaskStickers;
         if (this.loadingStickers[i]) {
-            if (!z3) {
+            if (z3) {
+                this.scheduledLoadStickers[i] = new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda26
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        MediaDataController.this.lambda$loadStickers$69(i, z2, callback);
+                    }
+                };
+                return;
+            } else if (callback == null) {
+                return;
+            } else {
+                callback.run(null);
                 return;
             }
-            this.scheduledLoadStickers[i] = new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda26
-                @Override // java.lang.Runnable
-                public final void run() {
-                    MediaDataController.this.lambda$loadStickers$69(i, z2, callback);
-                }
-            };
-            return;
         }
         char c = 1;
         if (i == 3) {
             if (this.featuredStickerSets[0].isEmpty() || !getMessagesController().preloadFeaturedStickers) {
+                if (callback == null) {
+                    return;
+                }
+                callback.run(null);
                 return;
             }
         } else if (i == 6) {
             if (this.featuredStickerSets[1].isEmpty() || !getMessagesController().preloadFeaturedStickers) {
+                if (callback == null) {
+                    return;
+                }
+                callback.run(null);
                 return;
             }
         } else if (i != 4) {
@@ -3564,7 +3580,7 @@ public class MediaDataController extends BaseController {
         processLoadedStickers(i, arrayList, z, i2, j, null);
     }
 
-    private void processLoadedStickers(final int i, final ArrayList<TLRPC$TL_messages_stickerSet> arrayList, final boolean z, final int i2, final long j, Runnable runnable) {
+    private void processLoadedStickers(final int i, final ArrayList<TLRPC$TL_messages_stickerSet> arrayList, final boolean z, final int i2, final long j, final Runnable runnable) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
@@ -3574,7 +3590,7 @@ public class MediaDataController extends BaseController {
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda118
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$processLoadedStickers$85(z, arrayList, i2, j, i);
+                MediaDataController.this.lambda$processLoadedStickers$85(z, arrayList, i2, j, i, runnable);
             }
         });
     }
@@ -3589,7 +3605,7 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    public /* synthetic */ void lambda$processLoadedStickers$85(boolean z, final ArrayList arrayList, final int i, final long j, final int i2) {
+    public /* synthetic */ void lambda$processLoadedStickers$85(boolean z, final ArrayList arrayList, final int i, final long j, final int i2, final Runnable runnable) {
         int i3;
         String str;
         int i4;
@@ -3597,7 +3613,7 @@ public class MediaDataController extends BaseController {
         ArrayList arrayList2 = arrayList;
         long j2 = 1000;
         if ((z && (arrayList2 == null || BuildVars.DEBUG_PRIVATE_VERSION || Math.abs((System.currentTimeMillis() / 1000) - i) >= 3600)) || (!z && arrayList2 == null && j == 0)) {
-            Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda68
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda68
                 @Override // java.lang.Runnable
                 public final void run() {
                     MediaDataController.this.lambda$processLoadedStickers$82(arrayList, j, i2);
@@ -3606,96 +3622,23 @@ public class MediaDataController extends BaseController {
             if (arrayList2 != null || z) {
                 j2 = 0;
             }
-            AndroidUtilities.runOnUIThread(runnable, j2);
+            AndroidUtilities.runOnUIThread(runnable2, j2);
             if (arrayList2 == null) {
+                if (runnable == null) {
+                    return;
+                }
+                runnable.run();
                 return;
             }
         }
-        if (arrayList2 != null) {
-            try {
-                final ArrayList<TLRPC$TL_messages_stickerSet> arrayList3 = new ArrayList<>();
-                final LongSparseArray longSparseArray = new LongSparseArray();
-                final HashMap hashMap = new HashMap();
-                final LongSparseArray longSparseArray2 = new LongSparseArray();
-                final LongSparseArray longSparseArray3 = new LongSparseArray();
-                HashMap hashMap2 = new HashMap();
-                int i5 = 0;
-                while (i5 < arrayList.size()) {
-                    TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) arrayList2.get(i5);
-                    if (tLRPC$TL_messages_stickerSet != null && mediaDataController.removingStickerSetsUndos.indexOfKey(tLRPC$TL_messages_stickerSet.set.id) < 0) {
-                        arrayList3.add(tLRPC$TL_messages_stickerSet);
-                        longSparseArray.put(tLRPC$TL_messages_stickerSet.set.id, tLRPC$TL_messages_stickerSet);
-                        hashMap.put(tLRPC$TL_messages_stickerSet.set.short_name, tLRPC$TL_messages_stickerSet);
-                        int i6 = 0;
-                        while (i6 < tLRPC$TL_messages_stickerSet.documents.size()) {
-                            TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(i6);
-                            if (tLRPC$Document != null && !(tLRPC$Document instanceof TLRPC$TL_documentEmpty)) {
-                                i4 = i5;
-                                longSparseArray3.put(tLRPC$Document.id, tLRPC$Document);
-                                i6++;
-                                i5 = i4;
-                            }
-                            i4 = i5;
-                            i6++;
-                            i5 = i4;
-                        }
-                        i3 = i5;
-                        if (!tLRPC$TL_messages_stickerSet.set.archived) {
-                            int i7 = 0;
-                            while (i7 < tLRPC$TL_messages_stickerSet.packs.size()) {
-                                TLRPC$TL_stickerPack tLRPC$TL_stickerPack = tLRPC$TL_messages_stickerSet.packs.get(i7);
-                                if (tLRPC$TL_stickerPack != null && (str = tLRPC$TL_stickerPack.emoticon) != null) {
-                                    String replace = str.replace("️", "");
-                                    tLRPC$TL_stickerPack.emoticon = replace;
-                                    ArrayList arrayList4 = (ArrayList) hashMap2.get(replace);
-                                    if (arrayList4 == null) {
-                                        arrayList4 = new ArrayList();
-                                        hashMap2.put(tLRPC$TL_stickerPack.emoticon, arrayList4);
-                                    }
-                                    int i8 = 0;
-                                    while (i8 < tLRPC$TL_stickerPack.documents.size()) {
-                                        Long l = tLRPC$TL_stickerPack.documents.get(i8);
-                                        HashMap hashMap3 = hashMap2;
-                                        if (longSparseArray2.indexOfKey(l.longValue()) < 0) {
-                                            longSparseArray2.put(l.longValue(), tLRPC$TL_stickerPack.emoticon);
-                                        }
-                                        TLRPC$Document tLRPC$Document2 = (TLRPC$Document) longSparseArray3.get(l.longValue());
-                                        if (tLRPC$Document2 != null) {
-                                            arrayList4.add(tLRPC$Document2);
-                                        }
-                                        i8++;
-                                        hashMap2 = hashMap3;
-                                    }
-                                }
-                                i7++;
-                                hashMap2 = hashMap2;
-                            }
-                        }
-                        i5 = i3 + 1;
-                        mediaDataController = this;
-                        arrayList2 = arrayList;
-                        hashMap2 = hashMap2;
-                    }
-                    i3 = i5;
-                    i5 = i3 + 1;
-                    mediaDataController = this;
-                    arrayList2 = arrayList;
-                    hashMap2 = hashMap2;
+        if (arrayList2 == null) {
+            if (z) {
+                if (runnable == null) {
+                    return;
                 }
-                final HashMap hashMap4 = hashMap2;
-                if (!z) {
-                    putStickersToCache(i2, arrayList3, i, j);
-                }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda21
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        MediaDataController.this.lambda$processLoadedStickers$83(i2, longSparseArray, hashMap, arrayList3, j, i, longSparseArray3, hashMap4, longSparseArray2);
-                    }
-                });
-            } catch (Throwable th) {
-                FileLog.e(th);
+                runnable.run();
+                return;
             }
-        } else if (!z) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda19
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -3703,6 +3646,97 @@ public class MediaDataController extends BaseController {
                 }
             });
             putStickersToCache(i2, null, i, 0L);
+            if (runnable == null) {
+                return;
+            }
+            runnable.run();
+            return;
+        }
+        try {
+            final ArrayList<TLRPC$TL_messages_stickerSet> arrayList3 = new ArrayList<>();
+            final LongSparseArray longSparseArray = new LongSparseArray();
+            final HashMap hashMap = new HashMap();
+            final LongSparseArray longSparseArray2 = new LongSparseArray();
+            final LongSparseArray longSparseArray3 = new LongSparseArray();
+            HashMap hashMap2 = new HashMap();
+            int i5 = 0;
+            while (i5 < arrayList.size()) {
+                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) arrayList2.get(i5);
+                if (tLRPC$TL_messages_stickerSet != null && mediaDataController.removingStickerSetsUndos.indexOfKey(tLRPC$TL_messages_stickerSet.set.id) < 0) {
+                    arrayList3.add(tLRPC$TL_messages_stickerSet);
+                    longSparseArray.put(tLRPC$TL_messages_stickerSet.set.id, tLRPC$TL_messages_stickerSet);
+                    hashMap.put(tLRPC$TL_messages_stickerSet.set.short_name, tLRPC$TL_messages_stickerSet);
+                    int i6 = 0;
+                    while (i6 < tLRPC$TL_messages_stickerSet.documents.size()) {
+                        TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(i6);
+                        if (tLRPC$Document != null && !(tLRPC$Document instanceof TLRPC$TL_documentEmpty)) {
+                            i4 = i5;
+                            longSparseArray3.put(tLRPC$Document.id, tLRPC$Document);
+                            i6++;
+                            i5 = i4;
+                        }
+                        i4 = i5;
+                        i6++;
+                        i5 = i4;
+                    }
+                    i3 = i5;
+                    if (!tLRPC$TL_messages_stickerSet.set.archived) {
+                        int i7 = 0;
+                        while (i7 < tLRPC$TL_messages_stickerSet.packs.size()) {
+                            TLRPC$TL_stickerPack tLRPC$TL_stickerPack = tLRPC$TL_messages_stickerSet.packs.get(i7);
+                            if (tLRPC$TL_stickerPack != null && (str = tLRPC$TL_stickerPack.emoticon) != null) {
+                                String replace = str.replace("️", "");
+                                tLRPC$TL_stickerPack.emoticon = replace;
+                                ArrayList arrayList4 = (ArrayList) hashMap2.get(replace);
+                                if (arrayList4 == null) {
+                                    arrayList4 = new ArrayList();
+                                    hashMap2.put(tLRPC$TL_stickerPack.emoticon, arrayList4);
+                                }
+                                int i8 = 0;
+                                while (i8 < tLRPC$TL_stickerPack.documents.size()) {
+                                    Long l = tLRPC$TL_stickerPack.documents.get(i8);
+                                    HashMap hashMap3 = hashMap2;
+                                    if (longSparseArray2.indexOfKey(l.longValue()) < 0) {
+                                        longSparseArray2.put(l.longValue(), tLRPC$TL_stickerPack.emoticon);
+                                    }
+                                    TLRPC$Document tLRPC$Document2 = (TLRPC$Document) longSparseArray3.get(l.longValue());
+                                    if (tLRPC$Document2 != null) {
+                                        arrayList4.add(tLRPC$Document2);
+                                    }
+                                    i8++;
+                                    hashMap2 = hashMap3;
+                                }
+                            }
+                            i7++;
+                            hashMap2 = hashMap2;
+                        }
+                    }
+                    i5 = i3 + 1;
+                    mediaDataController = this;
+                    arrayList2 = arrayList;
+                    hashMap2 = hashMap2;
+                }
+                i3 = i5;
+                i5 = i3 + 1;
+                mediaDataController = this;
+                arrayList2 = arrayList;
+                hashMap2 = hashMap2;
+            }
+            final HashMap hashMap4 = hashMap2;
+            if (!z) {
+                putStickersToCache(i2, arrayList3, i, j);
+            }
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda21
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MediaDataController.this.lambda$processLoadedStickers$83(i2, longSparseArray, hashMap, arrayList3, j, i, longSparseArray3, hashMap4, longSparseArray2, runnable);
+                }
+            });
+        } catch (Throwable th) {
+            FileLog.e(th);
+            if (runnable != null) {
+                runnable.run();
+            }
         }
     }
 
@@ -3714,7 +3748,7 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    public /* synthetic */ void lambda$processLoadedStickers$83(int i, LongSparseArray longSparseArray, HashMap hashMap, ArrayList arrayList, long j, int i2, LongSparseArray longSparseArray2, HashMap hashMap2, LongSparseArray longSparseArray3) {
+    public /* synthetic */ void lambda$processLoadedStickers$83(int i, LongSparseArray longSparseArray, HashMap hashMap, ArrayList arrayList, long j, int i2, LongSparseArray longSparseArray2, HashMap hashMap2, LongSparseArray longSparseArray3, Runnable runnable) {
         for (int i3 = 0; i3 < this.stickerSets[i].size(); i3++) {
             TLRPC$StickerSet tLRPC$StickerSet = this.stickerSets[i].get(i3).set;
             this.stickerSetsById.remove(tLRPC$StickerSet.id);
@@ -3739,6 +3773,9 @@ public class MediaDataController extends BaseController {
             this.stickersByEmoji = longSparseArray3;
         } else if (i == 3) {
             this.allStickersFeatured = hashMap2;
+        }
+        if (runnable != null) {
+            runnable.run();
         }
         getNotificationCenter().postNotificationName(NotificationCenter.stickersDidLoad, Integer.valueOf(i));
     }

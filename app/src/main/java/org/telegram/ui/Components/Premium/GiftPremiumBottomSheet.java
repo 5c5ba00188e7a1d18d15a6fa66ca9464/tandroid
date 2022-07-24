@@ -32,9 +32,7 @@ import org.telegram.messenger.BillingController;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
@@ -102,15 +100,24 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
         if (userFull != null) {
             ArrayList arrayList = new ArrayList();
+            long j = 0;
             Iterator<TLRPC$TL_premiumGiftOption> it = userFull.premium_gifts.iterator();
             while (it.hasNext()) {
                 GiftTier giftTier = new GiftTier(it.next());
                 this.giftTiers.add(giftTier);
-                if (!BuildVars.useInvoiceBilling() && giftTier.giftOption.store_product != null) {
+                if (BuildVars.useInvoiceBilling()) {
+                    if (giftTier.getPricePerMonth() > j) {
+                        j = giftTier.getPricePerMonth();
+                    }
+                } else if (giftTier.giftOption.store_product != null) {
                     arrayList.add(QueryProductDetailsParams.Product.newBuilder().setProductType("inapp").setProductId(giftTier.giftOption.store_product).build());
                 }
             }
-            if (!arrayList.isEmpty()) {
+            if (BuildVars.useInvoiceBilling()) {
+                for (GiftTier giftTier2 : this.giftTiers) {
+                    giftTier2.setPricePerMonthRegular(j);
+                }
+            } else if (!arrayList.isEmpty()) {
                 final long currentTimeMillis = System.currentTimeMillis();
                 BillingController.getInstance().queryProductDetails(arrayList, new ProductDetailsResponseListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda4
                     @Override // com.android.billingclient.api.ProductDetailsResponseListener
@@ -421,16 +428,19 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
                 final PremiumGiftTierCell premiumGiftTierCell2 = new PremiumGiftTierCell(GiftPremiumBottomSheet.this.getContext()) { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet.1.1
                     @Override // org.telegram.ui.Components.Premium.PremiumGiftTierCell, android.view.ViewGroup, android.view.View
                     public void dispatchDraw(Canvas canvas) {
-                        RectF rectF = AndroidUtilities.rectTmp;
-                        rectF.set(this.discountView.getLeft(), this.discountView.getTop(), this.discountView.getRight(), this.discountView.getBottom());
-                        GiftPremiumBottomSheet.this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), GiftPremiumBottomSheet.this.totalGradientHeight, 0.0f, -this.tier.yOffset);
-                        canvas.drawRoundRect(rectF, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), GiftPremiumBottomSheet.this.gradientTools.paint);
+                        if (this.discountView.getVisibility() == 0) {
+                            RectF rectF = AndroidUtilities.rectTmp;
+                            rectF.set(this.discountView.getLeft(), this.discountView.getTop(), this.discountView.getRight(), this.discountView.getBottom());
+                            GiftPremiumBottomSheet.this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), GiftPremiumBottomSheet.this.totalGradientHeight, 0.0f, -this.tier.yOffset);
+                            canvas.drawRoundRect(rectF, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), GiftPremiumBottomSheet.this.gradientTools.paint);
+                        }
                         float floatValue = ((Float) atomicReference.get()).floatValue();
                         int alpha = GiftPremiumBottomSheet.this.outlineGradient.paint.getAlpha();
                         GiftPremiumBottomSheet.this.outlineGradient.paint.setAlpha((int) (floatValue * alpha));
-                        rectF.set(AndroidUtilities.dp(20.0f), AndroidUtilities.dp(3.0f), getWidth() - AndroidUtilities.dp(20.0f), getHeight() - AndroidUtilities.dp(3.0f));
+                        RectF rectF2 = AndroidUtilities.rectTmp;
+                        rectF2.set(AndroidUtilities.dp(20.0f), AndroidUtilities.dp(3.0f), getWidth() - AndroidUtilities.dp(20.0f), getHeight() - AndroidUtilities.dp(3.0f));
                         GiftPremiumBottomSheet.this.outlineGradient.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), 0.0f, 0.0f);
-                        canvas.drawRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), GiftPremiumBottomSheet.this.outlineGradient.paint);
+                        canvas.drawRoundRect(rectF2, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), GiftPremiumBottomSheet.this.outlineGradient.paint);
                         GiftPremiumBottomSheet.this.outlineGradient.paint.setAlpha(alpha);
                         super.dispatchDraw(canvas);
                     }
@@ -559,6 +569,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         public final TLRPC$TL_premiumGiftOption giftOption;
         private ProductDetails googlePlayProductDetails;
         private long pricePerMonth;
+        private long pricePerMonthRegular;
         public int yOffset;
 
         public GiftTier(TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption) {
@@ -573,6 +584,10 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
             this.googlePlayProductDetails = productDetails;
         }
 
+        public void setPricePerMonthRegular(long j) {
+            this.pricePerMonthRegular = j;
+        }
+
         public int getMonths() {
             return this.giftOption.months;
         }
@@ -584,7 +599,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
                     return 0;
                 }
                 if (BuildVars.useInvoiceBilling()) {
-                    j = MediaDataController.getInstance(UserConfig.selectedAccount).getPremiumPromo().monthly_amount;
+                    j = this.pricePerMonthRegular;
                 } else {
                     ProductDetails productDetails = BillingController.PREMIUM_PRODUCT_DETAILS;
                     if (productDetails != null) {
@@ -605,7 +620,11 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
                     double d = j;
                     Double.isNaN(pricePerMonth);
                     Double.isNaN(d);
-                    this.discount = (int) ((1.0d - (pricePerMonth / d)) * 100.0d);
+                    int i = (int) ((1.0d - (pricePerMonth / d)) * 100.0d);
+                    this.discount = i;
+                    if (i == 0) {
+                        this.discount = -1;
+                    }
                 }
             }
             return this.discount;
